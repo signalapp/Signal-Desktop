@@ -21,18 +21,16 @@ const KnownConfigKeys = [
   'desktop.chatFolders.beta',
   'desktop.chatFolders.prod',
   'desktop.clientExpiration',
-  'desktop.backup.credentialFetch',
+  'desktop.backups.beta',
+  'desktop.backups.prod',
   'desktop.donations',
+  'desktop.donations.prod',
   'desktop.internalUser',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
   'desktop.retryRespondMaxAge',
   'desktop.senderKey.retry',
   'desktop.senderKeyMaxAge',
-  'desktop.experimentalTransport.enableAuth',
-  'desktop.experimentalTransportEnabled.alpha',
-  'desktop.experimentalTransportEnabled.beta',
-  'desktop.experimentalTransportEnabled.prod.2',
   'desktop.libsignalNet.enforceMinimumTls',
   'desktop.libsignalNet.shadowUnauthChatWithNoise',
   'desktop.libsignalNet.shadowAuthChatWithNoise',
@@ -131,7 +129,7 @@ export const _refreshRemoteConfig = async (
   const oldConfig = config;
   config = Array.from(newConfigValues.entries()).reduce(
     (acc, [name, value]) => {
-      const enabled = value !== undefined;
+      const enabled = value !== undefined && value.toLowerCase() !== 'false';
       const previouslyEnabled: boolean = get(
         oldConfig,
         [name, 'enabled'],

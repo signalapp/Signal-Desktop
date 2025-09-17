@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "이 폴더에 표시하려는 대화를 선택하세요"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 대화"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "그룹 채팅"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "대화 추가"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "다운로드 실패"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "메시지 수정은 발송 시간으로부터 24시간 이내에 해야 합니다."
@@ -5283,7 +5292,7 @@
     "messageformat": "차단함"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal 백업"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal의 안전한 엔드투엔드 암호화 저장소 서비스를 사용하는 자동 백업. 휴대폰으로 시작해 보세요. <learnMoreLink>자세히 알아보기</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "텍스트 + 모든 미디어 백업"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "구독을 찾지 못했습니다. Signal 백업을 계속 사용하려면 갱신하세요."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {텍스트 + {mediaDayCount,number}일간의 미디어 백업}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "구독을 취소했습니다."
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "휴대폰에서 Signal 백업 구독을 관리하거나 취소할 수 있습니다."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "휴대폰에서 Signal 백업을 관리하거나 업그레이드할 수 있습니다."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "휴대폰에서 Signal 백업 구독을 관리하거나 갱신할 수 있습니다."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "마지막 백업"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal은 기부할 때 사용자의 개인 정보를 수집하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 기부를 받을 때 Stripe를 결제 처리자로 사용합니다. Signal은 사용자가 Stripe에 제공하는 어떠한 정보에도 액세스하지 않으며, 이를 보관하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 사용자의 기부를 Signal 계정에 연결하거나 연결을 시도하지 않습니다.</paragraph><paragraph>Signal을 지지해 주셔서 감사합니다!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "확인"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "영수증"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "영수증 세부 정보 보기"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "기부자 FAQ"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "만료일"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal에 {formattedCurrencyAmount} 기부"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30일 동안 Signal 부스트 배지를 획득하세요."
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "최소 기부 금액은 {formattedCurrencyAmount}입니다."
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "기부할 수 있는 최소 금액은 {formattedCurrencyAmount}입니다."
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "최대 기부 금액은 {formattedCurrencyAmount}입니다."
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "이 페이지에서 나가면 신용카드 정보가 삭제됩니다. 계속하시겠습니까?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "정보 제거"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "계속"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "기부 영수증"
@@ -6790,7 +6820,13 @@
     "messageformat": "현재 진행 중인 기부금이 있으며, 확인이 필요합니다."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "기부에 성공했지만, 배지 설정을 업데이트하지 못했습니다."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "기부가 중단됨"
@@ -6865,7 +6901,7 @@
     "messageformat": "프로필에 표시"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "모바일 장치의 설정 → Signal에 기부 → 배지에서 조정할 수 있습니다."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -6895,16 +6931,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "멀티태스킹 중 메시지 읽음/읽지 않음 환경을 개선했습니다."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "이모지 검색창의 버그를 수정했습니다."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "몇 가지 사소한 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "일부 사용자에게 기부 배지가 제대로 표시되지 않는 버그를 수정했습니다."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "가끔씩 제목 표시줄에 잘못된 색을 표시하던 Microsoft Windows 버그를 수정했습니다."
   }
 }

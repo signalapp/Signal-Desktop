@@ -43,7 +43,6 @@ import {
   isValidDigest,
   isValidPlaintextHash,
 } from './Crypto';
-import { redactGenericText } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
 
 const logging = createLogger('Attachment');
@@ -89,6 +88,7 @@ export type EphemeralAttachmentFields = {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url?: string;
+  incrementalUrl?: string;
   screenshotData?: Uint8Array;
   /** @deprecated Legacy field */
   screenshotPath?: string;
@@ -1218,7 +1218,7 @@ export function doAttachmentsOnSameMessageMatch(
 export function getUndownloadedAttachmentSignature(
   attachment: AttachmentType
 ): string {
-  return `${attachment.digest}.${attachment.plaintextHash}`;
+  return `${attachment.digest ?? ''}.${attachment.plaintextHash ?? ''}`;
 }
 
 export function cacheAttachmentBySignature(
@@ -1369,14 +1369,6 @@ export function isAttachmentLocallySaved(
   attachment: AttachmentType
 ): attachment is LocallySavedAttachment {
   return Boolean(attachment.path);
-}
-
-export function getAttachmentIdForLogging(attachment: AttachmentType): string {
-  const { digest } = attachment;
-  if (typeof digest === 'string') {
-    return redactGenericText(digest);
-  }
-  return '[MissingDigest]';
 }
 
 // We now partition out the bodyAttachment on receipt, but older

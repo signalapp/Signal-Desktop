@@ -22,7 +22,6 @@ import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 import { MediaPermissionsModal } from './MediaPermissionsModal';
 import type { StartCallData } from './ConfirmLeaveCallModal';
-import type { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
 import {
   TapToViewNotAvailableModal,
   type DataPropsType as TapToViewNotAvailablePropsType,
@@ -43,9 +42,6 @@ export type PropsType = {
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
   renderAddUserToAnotherGroup: () => JSX.Element;
-  // AttachmentNotAvailableModal
-  attachmentNotAvailableModalType: AttachmentNotAvailableModalType | undefined;
-  renderAttachmentNotAvailableModal: () => JSX.Element;
   // CallLinkAddNameModal
   callLinkAddNameModalRoomId: string | null;
   renderCallLinkAddNameModal: () => JSX.Element;
@@ -163,9 +159,6 @@ export type PropsType = {
 
 export function GlobalModalContainer({
   i18n,
-  // AttachmentNotAvailableModal
-  attachmentNotAvailableModalType,
-  renderAttachmentNotAvailableModal,
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId,
   renderAddUserToAnotherGroup,
@@ -418,10 +411,6 @@ export function GlobalModalContainer({
         {content}
       </ConfirmationDialog>
     );
-  }
-
-  if (attachmentNotAvailableModalType) {
-    return renderAttachmentNotAvailableModal();
   }
 
   if (tapToViewNotAvailableModalProps) {

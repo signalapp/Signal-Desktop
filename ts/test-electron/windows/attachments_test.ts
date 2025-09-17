@@ -55,24 +55,32 @@ describe('Attachments', () => {
 
     it('throws if passed a non-string', () => {
       assert.throws(() => {
-        Attachments.copyIntoAttachmentsDirectory(1234 as unknown as string);
+        Attachments.copyIntoAttachmentsDirectory({
+          targetDir: 1234 as unknown as string,
+          sourceDir: 1234 as unknown as string,
+        });
       }, TypeError);
       assert.throws(() => {
-        Attachments.copyIntoAttachmentsDirectory(null as unknown as string);
+        Attachments.copyIntoAttachmentsDirectory({
+          targetDir: null as unknown as string,
+          sourceDir: null as unknown as string,
+        });
       }, TypeError);
     });
 
     it('returns a function that rejects if the source path is not a string', async () => {
-      const copier = Attachments.copyIntoAttachmentsDirectory(
-        await getFakeAttachmentsDirectory()
-      );
+      const copier = Attachments.copyIntoAttachmentsDirectory({
+        sourceDir: await getFakeAttachmentsDirectory(),
+        targetDir: await getFakeAttachmentsDirectory(),
+      });
       await assert.isRejected(copier(123 as unknown as string));
     });
 
     it('returns a function that rejects if the source path is not in the user config directory', async () => {
-      const copier = Attachments.copyIntoAttachmentsDirectory(
-        await getFakeAttachmentsDirectory()
-      );
+      const copier = Attachments.copyIntoAttachmentsDirectory({
+        sourceDir: await getFakeAttachmentsDirectory(),
+        targetDir: await getFakeAttachmentsDirectory(),
+      });
       await assert.isRejected(
         copier(path.join(tempRootDirectory, 'hello.txt')),
         "'sourcePath' must be relative to the user config directory"
@@ -85,7 +93,10 @@ describe('Attachments', () => {
       await fse.outputFile(someOtherPath, 'hello world');
       filesToRemove.push(someOtherPath);
 
-      const copier = Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
+      const copier = Attachments.copyIntoAttachmentsDirectory({
+        sourceDir: USER_DATA,
+        targetDir: attachmentsPath,
+      });
       const { path: relativePath, size } = await copier(someOtherPath);
 
       const absolutePath = path.join(attachmentsPath, relativePath);

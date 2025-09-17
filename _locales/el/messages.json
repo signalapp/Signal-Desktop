@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Επίλεξε τις συνομιλίες που θέλεις να εμφανίζονται σε αυτόν τον φάκελο"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 συνομιλίες"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Ομαδικές συνομιλίες"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Προσθήκη συνομιλιών"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Η λήψη απέτυχε"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -5283,7 +5292,7 @@
     "messageformat": "Λίστα αποκλεισμού"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Αντίγραφα ασφαλείας Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Τα αυτόματα αντίγραφα ασφαλείας του Signal διασφαλίζουν υπηρεσία κρυπτογραφημένης αποθήκευσης από άκρο σε άκρο. Ξεκίνησε στο τηλέφωνό σου. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Αντίγραφα ασφαλείας κειμένου + όλων των πολυμέσων"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Η συνδρομή σου δεν βρέθηκε. Ανανέωσε για να συνεχίσεις να χρησιμοποιείς τα Αντίγραφα ασφαλείας Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Αντίγραφα ασφαλείας κειμένου + των πολυμέσων {mediaDayCount,number} ημέρας} other {Αντίγραφα ασφαλείας κειμένου + των πολυμέσων {mediaDayCount,number} ημερών}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Η συνδρομή ακυρώθηκε"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Μπορείς να διαχειριστείς ή να ακυρώσεις τη συνδρομή σου στα Αντίγραφα ασφαλείας Signal στο τηλέφωνό σου."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Μπορείς να διαχειριστείς ή να αναβαθμίσεις τα Αντίγραφα ασφαλείας Signal στο τηλέφωνό σου."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Μπορείς να διαχειριστείς ή να ανανεώσεις τη συνδρομή σου στα Αντίγραφα ασφαλείας Signal στο τηλέφωνό σου."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Τελευταίο αντίγραφο ασφαλείας"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Το Signal δεν συλλέγει ούτε αποθηκεύει τα προσωπικά στοιχεία σου όταν κάνεις δωρεά.</paragraph><paragraph>Χρησιμοποιούμε τη Stripe για την επεξεργασία πληρωμών, ώστε να λαμβάνουμε τις δωρεές μας. Δεν επεξεργαζόμαστε ούτε αποθηκεύουμε κανένα από τα στοιχεία που της παρέχεις.</paragraph><paragraph>Το Signal δεν μπορεί να συνδέσει τη δωρεά με τον λογαριασμό σου στο Signal.</paragraph><paragraph>Ευχαριστούμε για την υποστήριξή σου!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Αποδείξεις"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Προβολή λεπτομερειών παραλήπτη"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Συχνές ερωτήσεις για δωρεές"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Ημερομηνία λήξης"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "ΜΜ/ΕΕ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Κάνε μια δωρεά {formattedCurrencyAmount} στο Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Πάρε το σήμα Signal Boost για 30 ημέρες"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Το ελάχιστο ποσό δωρεάς είναι {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Το ελάχιστο ποσό που μπορείς να κάνεις δωρεά είναι {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Το μέγιστο ποσό δωρεάς είναι {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Αν αποχωρήσεις από αυτήν τη σελίδα, θα διαγραφούν τα στοιχεία της πιστωτικής σου κάρτας. Θέλεις να συνεχίσεις;"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Κατάργηση πληροφοριών"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Συνέχεια"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Απόδειξη δωρεάς"
@@ -6790,7 +6820,13 @@
     "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Η δωρεά ήταν επιτυχής, αλλά δεν μπορέσαμε να ενημερώσουμε τις ρυθμίσεις του σήματος σου"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Η δωρεά διακόπηκε"
@@ -6865,7 +6901,7 @@
     "messageformat": "Εμφάνιση στο προφίλ"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Μπορείτε να το προσαρμόσεις στο κινητό σου στις Ρυθμίσεις → Δωρεά στο Signal → Σήματα"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Βελτιώσαμε την εμπειρία αναγνωσμένων/μη αναγνωσμένων μηνυμάτων κατά το multitasking."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Διορθώσαμε ένα σφάλμα στο πλαίσιο αναζήτησης emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Λίγες επιδιορθώσεις μικρών σφαλμάτων."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε τη σωστή εμφάνιση των σημάτων δωρεάς για ορισμένους χρήστες. Το Signal είναι ένας μη κερδοσκοπικός οργανισμός 501c3 και εκτιμούμε την υποστήριξή σου!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Διορθώσαμε ένα σφάλμα στα Microsoft Windows που μερικές φορές εμφάνιζε λάθος χρώμα στη γραμμή τίτλου."
   }
 }

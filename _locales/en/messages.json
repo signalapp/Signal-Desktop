@@ -1568,43 +1568,43 @@
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "File not available",
-    "description": "Title for info dialog for messages with old file attachments which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Title for info dialog for messages with old file attachments which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
     "messageformat": "Complete message not available",
-    "description": "Title for info dialog for long messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Title for info dialog for long messages which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__title--media": {
     "messageformat": "Media not available",
-    "description": "Title for info dialog for messages with old visual media which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Title for info dialog for messages with old visual media which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
     "messageformat": "Sticker not available",
-    "description": "Title for info dialog for old sticker messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Title for info dialog for old sticker messages which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
     "messageformat": "Voice message not available",
-    "description": "Title for info dialog for messages with old voice messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Title for info dialog for messages with old voice messages which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__body--file": {
     "messageformat": "This file was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced.",
-    "description": "Body text for info dialog for messages with old file attachments which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Body text for info dialog for messages with old file attachments which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
     "messageformat": "The complete text in this message was not transferred from your phone when this device was linked. Long text messages older than 45 days at the time of device linking can not be synced.",
-    "description": "Body text for info dialog for long messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Body text for info dialog for long messages which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
     "messageformat": "This media was not transferred from your phone when this device was linked. Media older than 45 days at the time of device linking can not be synced.",
-    "description": "Body text for info dialog for messages with old visual media which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Body text for info dialog for messages with old visual media which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
     "messageformat": "This sticker was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced.",
-    "description": "Body text for info dialog for old sticker messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Body text for info dialog for old sticker messages which are no longer available for download."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "This voice message was not transferred from your phone when this device was linked. Media and files older than 45 days at the time of device linking can not be synced.",
-    "description": "Body text for info dialog for messages with old voice messages which are no longer available for download."
+    "description": "(Deleted 2025/09/10) Body text for info dialog for messages with old voice messages which are no longer available for download."
   },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "This view once media is no longer available to download. Ask {name} to send it again.",
@@ -2751,6 +2751,10 @@
   "icu:Toast--download-failed": {
     "messageformat": "Download failed",
     "description": "Shown if user's manual request to download attachment fails"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed",
+    "description": "Shown for internal users for debugging backup attachments."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
@@ -5914,11 +5918,15 @@
   },
   "icu:ConversationDetailsMediaList--shared-media": {
     "messageformat": "Shared media",
-    "description": "Title for the media thumbnails in the conversation details screen"
+    "description": "(Deleted 2025/07/01) Title for the media thumbnails in the conversation details screen"
   },
   "icu:ConversationDetailsMediaList--show-all": {
     "messageformat": "See all",
-    "description": "This is a button on the conversation details to show all media"
+    "description": "(Deleted 2025/07/01) This is a button on the conversation details to show all media"
+  },
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files",
+    "description": "Title for the show all media button in the conversation details screen"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {# member} other {# members}}",
@@ -7033,7 +7041,7 @@
     "description": "Label for blocked contacts setting"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups",
+    "messageformat": "Signal Secure Backups",
     "description": "Feature name for message backups using the Signal service."
   },
   "icu:Preferences--signal-backups-off-description": {
@@ -7053,7 +7061,7 @@
     "description": "Description of a backup plan that backups all of their messages (text) and media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups.",
     "description": "Description when a backup subscription used to exist but is not active"
   },
   "icu:Preferences--backup-messages-plan__description": {
@@ -7077,15 +7085,15 @@
     "description": "Description of plan when it has been canceled (i.e. not going to renew but still active)"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone.",
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone.",
     "description": "Note next to backups plan summary"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone.",
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone.",
     "description": "Note next to backups plan summary"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone.",
     "description": "Note next to backups plan summary if we could not find their subscription"
   },
   "icu:Preferences--backup-created-at__label": {
@@ -8882,6 +8890,10 @@
     "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
     "description": "Content for the modal that explains donation privacy information"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK",
+    "description": "Button text in the modal that explains donation privacy information. Clicking the button will dismiss the modal."
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts",
     "description": "Menu item to view donation receipts"
@@ -8904,7 +8916,7 @@
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
     "messageformat": "Details",
-    "description": "Title of the donation receipt details modal"
+    "description": "(Deleted 2025/09/03) Title of the donation receipt details modal"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Download receipt",
@@ -8950,6 +8962,10 @@
     "messageformat": "Expiration Date",
     "description": "When entering payment card details for a donation, this label is for the credit card expiration date input box."
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY",
+    "description": "When entering payment card expiration date, this is the placeholder value in the date input box when it is empty. Please specify a value which would be reasonable to see in a payment or checkout form. The format is Month/Year to match the global credit card expiration date format. The localized value is suggested to contain 2 characters for month and 2 characters for year. In CJK languages single characters are acceptable for month and year e.g. 月 and 年. Month and year should be separated by a forward slash (/) because after the user begins typing the date, the app will automatically separate them with a slash."
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donate {formattedCurrencyAmount} to Signal",
     "description": "Title above the payment card entry form after selecting a donation amount. Amount includes the currency symbol and is formatted in the locale's standard format. Examples: Donate $10; Donate ¥1000; Donate €10"
@@ -8978,9 +8994,29 @@
     "messageformat": "Get the Signal Boost badge for 30 days",
     "description": "Info text above the payment card entry form when making a one time donation. Explains the in-app badge which you can receive after donating."
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}",
+    "description": "Error text next to input box when selecting a donation amount and the user has entered a custom amount below the minimum allowed amount. Minimum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $3; ¥300; €3"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}",
     "description": "Tooltip for a disabled continue button when selecting a donation amount, when the user has entered a custom amount below the minimum allowed donation amount. Minimum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $3; ¥300; €3"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}",
+    "description": "Error text next to input box when selecting a donation amount and the user has entered a custom amount greater than the maximum allowed amount. Maximum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $999999.99; ¥99999999; €999999.99"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?",
+    "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows with this body text."
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info",
+    "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue",
+    "description": "While making a donation and selecting the donation amount, this is the primary button to move to the next step."
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
@@ -9040,7 +9076,15 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",
-    "description": "Toast shown when donation completes successfully but badge application fails"
+    "description": "(Deleted 2025/09/10) Toast shown when donation completes successfully but badge application fails"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings",
+    "description": "Modal title shown when donation completes successfully but badge application fails"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges.",
+    "description": "Modal body text shown when badge application fails after successful donation"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donation interrupted",
@@ -9177,14 +9221,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough.",
-    "description": "(Deleted 2025/07/30) Release notes for version 7.64"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box.",
-    "description": "(Deleted 2025/08/06) Release notes for version 7.65"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases.",
     "description": "(Deleted 2025/08/13) Release notes for version 7.65"
@@ -9192,5 +9228,9 @@
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!",
     "description": "(Deleted 2025/08/20) Release notes for version 7.67"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings.",
+    "description": "(Deleted 2025/09/10) Release notes for version 7.70"
   }
 }

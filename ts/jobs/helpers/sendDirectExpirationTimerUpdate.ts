@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import { getSendOptions } from '../../util/getSendOptions';
 import { isDirectConversation, isMe } from '../../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../../protobuf';
@@ -70,8 +72,7 @@ export async function sendDirectExpirationTimerUpdate(
     profileKey = await ourProfileKeyService.get();
   }
 
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
 
   const sendType = 'expirationTimerUpdate';
   const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;

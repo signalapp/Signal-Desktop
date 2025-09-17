@@ -59,14 +59,19 @@ export const createPlaintextReader = (
   };
 };
 
-export const copyIntoAttachmentsDirectory = (
-  root: string
-): ((sourcePath: string) => Promise<{ path: string; size: number }>) => {
-  if (!isString(root)) {
-    throw new TypeError("'root' must be a path");
+export const copyIntoAttachmentsDirectory = ({
+  sourceDir,
+  targetDir,
+}: {
+  sourceDir: string;
+  targetDir: string;
+}): ((sourcePath: string) => Promise<{ path: string; size: number }>) => {
+  if (!isString(sourceDir)) {
+    throw new TypeError("'sourceDir' must be a path");
   }
-
-  const userDataPath = window.SignalContext.getPath('userData');
+  if (!isString(targetDir)) {
+    throw new TypeError("'targetDir' must be a path");
+  }
 
   return async (
     sourcePath: string
@@ -75,7 +80,7 @@ export const copyIntoAttachmentsDirectory = (
       throw new TypeError('sourcePath must be a string');
     }
 
-    if (!isPathInside(sourcePath, userDataPath)) {
+    if (!isPathInside(sourcePath, sourceDir)) {
       throw new Error(
         "'sourcePath' must be relative to the user config directory"
       );
@@ -83,9 +88,9 @@ export const copyIntoAttachmentsDirectory = (
 
     const name = createName();
     const relativePath = getRelativePath(name);
-    const absolutePath = join(root, relativePath);
+    const absolutePath = join(targetDir, relativePath);
     const normalized = normalize(absolutePath);
-    if (!isPathInside(normalized, root)) {
+    if (!isPathInside(normalized, targetDir)) {
       throw new Error('Invalid relative path');
     }
 

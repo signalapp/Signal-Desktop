@@ -4,6 +4,8 @@
 @use '../mixins';
 @use '../variables';
 
+$custom-amount-width: 320px;
+
 .DonationForm {
   max-width: 439px;
   align-self: center;
@@ -13,6 +15,11 @@
 .DonationForm__CurrencySelect {
   width: 78px;
   margin-inline: auto;
+}
+
+// Dropdown caret
+.DonationForm__CurrencySelect.module-select::after {
+  top: 7px;
 }
 
 .DonationForm__CurrencySelect.module-select select {
@@ -51,7 +58,7 @@ a.DonationFormHelpFooter__ContactSupportLink {
 .DonationAmountPicker__AmountOptions {
   display: flex;
   flex-wrap: wrap;
-  max-width: 340px;
+  max-width: $custom-amount-width + 20px;
   justify-content: center;
 }
 
@@ -95,7 +102,6 @@ a.DonationFormHelpFooter__ContactSupportLink {
 
 .DonationAmountPicker__PresetButton--selected,
 .DonationForm .DonationAmountPicker__CustomInput--selected,
-.DonationForm .DonationAmountPicker__CustomInput--with-error:focus,
 .DonationForm .DonationAmountPicker__CustomInput:focus {
   border-color: variables.$color-ultramarine;
   outline: 2.5px solid variables.$color-ultramarine;
@@ -105,12 +111,12 @@ a.DonationFormHelpFooter__ContactSupportLink {
 .DonationForm .DonationAmountPicker__CustomInput,
 .DonationForm .DonationAmountPicker__CustomInput--selected,
 .DonationForm .DonationAmountPicker__CustomInput--with-error {
-  width: 320px;
+  width: $custom-amount-width;
   padding-block: 0;
   border-width: 0.5px;
 }
 
-.DonationForm .DonationAmountPicker__CustomInput--with-error:not(:focus) {
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
   border-color: variables.$color-deep-red;
   outline: 2.5px solid variables.$color-deep-red;
   outline-offset: -2.5px;
@@ -137,6 +143,15 @@ a.DonationFormHelpFooter__ContactSupportLink {
 .DonationAmountPicker__CustomInput--selected:focus::placeholder,
 .DonationAmountPicker__CustomInput--with-error:focus::placeholder {
   color: transparent;
+}
+
+.DonationAmountPicker__CustomAmountError {
+  @include mixins.font-caption;
+  width: $custom-amount-width;
+  margin-block: 0 -7px;
+  margin-inline-start: 12px;
+  text-align: start;
+  color: variables.$color-deep-red;
 }
 
 .DonationAmountPicker__PrimaryButtonContainer {
@@ -195,6 +210,13 @@ a.DonationFormHelpFooter__ContactSupportLink {
   border: 0.5px solid rgba(0, 0, 0, 0.16);
   box-shadow: 0 1px 1px 0 variables.$color-black-alpha-08;
   outline-offset: -2.5px;
+
+  // Payment card inputs should render LTR
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  direction: ltr;
+  &:dir(rtl) {
+    text-align: right;
+  }
 }
 
 .DonationCardForm_Field input:focus {

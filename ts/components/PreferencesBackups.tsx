@@ -398,7 +398,7 @@ export function renderBackupsSubscriptionDetails({
     case 'expired':
       return (
         <>
-          <div className="Preferences--backups-summary__status-container ">
+          <div className="Preferences--backups-summary__status-container">
             <div className="Preferences--backups-summary__content">
               {i18n('icu:Preferences--backup-plan-not-found__description')}
             </div>
@@ -466,7 +466,7 @@ export function renderBackupsSubscriptionSummary({
     case 'not-found':
     case 'expired':
       return (
-        <div className="Preferences--backups-summary__status-container ">
+        <div className="Preferences--backups-summary__status-container">
           <div className="Preferences--backups-summary__content">
             {i18n('icu:Preferences--backup-plan-not-found__description')}
           </div>

@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Vali vestlused, mida tahaksid selles kaustas näha"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Üks-ühele vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Grupivestlused"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Lisa vestlusi"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Allalaadimine nurjus"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muutmine on võimalik vaid 24 tunni jooksul alates sõnumi saatmisest."
@@ -5283,7 +5292,7 @@
     "messageformat": "Blokeeritud"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signali varukoopiad"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automaatsed varukoopiad Signali turvalise otspunktkrüptitud salvestusteenuse abil. Seadista telefonis. <learnMoreLink>Rohkem teavet</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Sõnumite + kogu meedia varukoopia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Sinu tellimust ei leitud. Uuenda, et jätkata Signali varukoopiate kasutamist."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Sõnumite + {mediaDayCount,number} päeva meedia varukoopia} other {Sõnumite + {mediaDayCount,number} päeva meedia varukoopia}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Tellimus tühistatud"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Nüüd saad oma Signali varukoopiate tellimust oma telefonis hallata või uuendada."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Nüüd saad Signali varukoopiaid oma telefonis hallata või uuendada."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Nüüd saad oma Signali varukoopiate tellimust oma telefonis hallata või uuendada."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Viimane varukoopia"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal ei kogu ega salvesta annetuse tegemisel sinu isikuandmeid.</paragraph><paragraph>Kasutame sinu annetuse vastuvõtmisel makse töötlemiseks Stripe'i. Meil ei ole ligipääsu andmetele, mida sa nendega jagad; me ei kogu ega salvesta neid andmeid.</paragraph><paragraph>Signal ei saa ega soovi seostada sinu annetust sinu Signali kontoga.</paragraph><paragraph>Täname sind toetuse eest!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Sobib"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kviitungid"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Kuva kviitungi üksikasjad"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Annetaja KKK"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Aegumiskuupäev"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "KK/AA"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Anneta Signalile {formattedCurrencyAmount}"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Saa 30 päevaks Signali toetaja märk"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Minimaalne summa annetamiseks on {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Miinimumsumma annetamiseks on {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Maksimaalne summa annetamiseks on {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Kui sellelt lehelt lahkud, eemaldatakse sinu krediitkaardi andmed. Kas soovid jätkata?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Eemalda info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Jätka"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Annetuse kviitung"
@@ -6790,7 +6820,13 @@
     "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Annetamine õnnestus, aga me ei saanud sinu märgi sätteid uuendada"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Annetus on katkestatud"
@@ -6865,7 +6901,7 @@
     "messageformat": "Kuva profiilil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Seda saad oma mobiilseadmes muuta menüüs Sätted → Anneta Signalile → Märgid"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Lihtsustasime sõnumi loetuks/mitteloetuks muutmise märkimise võimalust mitut asja samal ajal tehes."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Parandasime emoji otsingukasti vea."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Selle värskendusega parandatakse mõned väikesed vead."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Parandasime vea, mis takistas mõnede kasutajate profiilidel annetuse märkide korrektset kuvamist. Signal on 501c3-tüüpi mittetulundusühing ja me hindame sinu toetust!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Parandasime Microsoft Windowsis vea, mille tõttu kuvati Signal Desktopi tiitliriba mõnikord vale värvi."
   }
 }

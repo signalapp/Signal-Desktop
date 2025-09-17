@@ -42,6 +42,9 @@ import {
 } from '../types/DonationsCardForm';
 import {
   brandHumanDonationAmount,
+  type CurrencyFormatResult,
+  getCurrencyFormat,
+  getMaximumStripeAmount,
   parseCurrencyString,
   toHumanCurrencyString,
   toStripeDonationAmount,
@@ -122,6 +125,8 @@ export function PreferencesDonateFlow({
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
+    bodyText: i18n('icu:DonateFlow__discard-dialog-body'),
+    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
     name: 'PreferencesDonateFlow',
     tryClose,
   });
@@ -313,9 +318,19 @@ function AmountPicker({
   const [presetAmount, setPresetAmount] = useState<
     HumanDonationAmount | undefined
   >();
+
+  // Use localized group and decimal separators, but no symbol
+  // Symbol will be added by DonateInputAmount
   const [customAmount, setCustomAmount] = useState<string>(
-    initialAmount?.toString() ?? ''
+    toHumanCurrencyString({
+      amount: initialAmount,
+      currency,
+      symbol: 'none',
+    })
   );
+
+  const [isCustomAmountErrorVisible, setIsCustomAmountErrorVisible] =
+    useState<boolean>(false);
 
   // Reset amount selections when API donation config or selected currency changes
   // Memo here so preset options instantly load when component mounts.
@@ -354,17 +369,38 @@ function AmountPicker({
     return toHumanCurrencyString({ amount: minimumAmount, currency });
   }, [minimumAmount, currency]);
 
+  const maximumAmount = useMemo<HumanDonationAmount>(() => {
+    return getMaximumStripeAmount(currency);
+  }, [currency]);
+
+  const formattedMaximumAmount = useMemo<string>(() => {
+    return toHumanCurrencyString({ amount: maximumAmount, currency });
+  }, [maximumAmount, currency]);
+
   const currencyOptionsForSelect = useMemo(() => {
     return validCurrencies.toSorted().map((currencyString: string) => {
       return { text: currencyString.toUpperCase(), value: currencyString };
     });
   }, [validCurrencies]);
 
+  const currencyFormat = useMemo<CurrencyFormatResult | undefined>(
+    () => getCurrencyFormat(currency),
+    [currency]
+  );
+
   const { error, parsedCustomAmount } = useMemo<{
-    error: 'invalid' | 'amount-below-minimum' | undefined;
+    error:
+      | 'invalid'
+      | 'amount-below-minimum'
+      | 'amount-above-maximum'
+      | undefined;
     parsedCustomAmount: HumanDonationAmount | undefined;
   }>(() => {
-    if (customAmount === '' || customAmount == null) {
+    if (
+      customAmount === '' ||
+      customAmount == null ||
+      (currencyFormat?.symbol && customAmount === currencyFormat?.symbol)
+    ) {
       return {
         error: undefined,
         parsedCustomAmount: undefined,
@@ -377,6 +413,13 @@ function AmountPicker({
     });
 
     if (parseResult != null) {
+      if (parseResult > maximumAmount) {
+        return {
+          error: 'amount-above-maximum',
+          parsedCustomAmount: undefined,
+        };
+      }
+
       if (parseResult >= minimumAmount) {
         // Valid input
         return {
@@ -395,7 +438,7 @@ function AmountPicker({
       error: 'invalid',
       parsedCustomAmount: undefined,
     };
-  }, [currency, customAmount, minimumAmount]);
+  }, [currency, currencyFormat, customAmount, minimumAmount, maximumAmount]);
 
   const handleCurrencyChanged = useCallback(
     (value: string) => {
@@ -409,6 +452,14 @@ function AmountPicker({
   const handleCustomAmountFocus = useCallback(() => {
     setPresetAmount(undefined);
   }, []);
+
+  const handleCustomAmountBlur = useCallback(() => {
+    // Only show parse errors on blur to avoid interrupting entry.
+    // For example if you enter $1000 then it shouldn't show an error after '$1'.
+    if (error) {
+      setIsCustomAmountErrorVisible(true);
+    }
+  }, [error]);
 
   const handleCustomAmountChanged = useCallback((value: string) => {
     // Custom amount overrides any selected preset amount
@@ -427,13 +478,41 @@ function AmountPicker({
     onSubmit({ amount, currency });
   }, [amount, currency, isContinueEnabled, onSubmit]);
 
+  useEffect(() => {
+    // While entering custom amount, clear error as soon as we see a valid value.
+    if (error == null) {
+      setIsCustomAmountErrorVisible(false);
+    }
+  }, [error]);
+
   let customInputClassName;
-  if (error) {
+  if (error && isCustomAmountErrorVisible) {
     customInputClassName = 'DonationAmountPicker__CustomInput--with-error';
   } else if (parsedCustomAmount) {
     customInputClassName = 'DonationAmountPicker__CustomInput--selected';
   } else {
     customInputClassName = 'DonationAmountPicker__CustomInput';
+  }
+
+  let customInputError: JSX.Element | undefined;
+  if (isCustomAmountErrorVisible) {
+    if (error === 'amount-below-minimum') {
+      customInputError = (
+        <div className="DonationAmountPicker__CustomAmountError">
+          {i18n('icu:DonateFlow__custom-amount-below-minimum-error', {
+            formattedCurrencyAmount: formattedMinimumAmount,
+          })}
+        </div>
+      );
+    } else if (error === 'amount-above-maximum') {
+      customInputError = (
+        <div className="DonationAmountPicker__CustomAmountError">
+          {i18n('icu:DonateFlow__custom-amount-above-maximum-error', {
+            formattedCurrencyAmount: formattedMaximumAmount,
+          })}
+        </div>
+      );
+    }
   }
 
   const continueButton = (
@@ -443,7 +522,7 @@ function AmountPicker({
       onClick={handleContinueClicked}
       variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
     >
-      Continue
+      {i18n('icu:DonateFlow__continue')}
     </Button>
   );
 
@@ -496,7 +575,11 @@ function AmountPicker({
             }}
             type="button"
           >
-            {toHumanCurrencyString({ amount: value, currency })}
+            {toHumanCurrencyString({
+              amount: value,
+              currency,
+              symbol: 'narrowSymbol',
+            })}
           </button>
         ))}
         <DonateInputAmount
@@ -505,11 +588,13 @@ function AmountPicker({
           id="customAmount"
           onValueChange={handleCustomAmountChanged}
           onFocus={handleCustomAmountFocus}
+          onBlur={handleCustomAmountBlur}
           placeholder={i18n(
             'icu:DonateFlow__amount-picker-custom-amount-placeholder'
           )}
           value={customAmount}
         />
+        {customInputError}
       </div>
       <div className="DonationAmountPicker__PrimaryButtonContainer">
         {continueButtonWithTooltip ?? continueButton}
@@ -736,6 +821,7 @@ function CardForm({
           })}
         >
           <DonateInputCardExp
+            i18n={i18n}
             id="cardExpiration"
             value={cardExpiration}
             onValueChange={handleCardExpirationChange}

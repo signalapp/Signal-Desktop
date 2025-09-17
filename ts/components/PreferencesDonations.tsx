@@ -413,18 +413,6 @@ function PreferencesReceiptList({
     year: 'numeric',
   });
 
-  const preferredSystemLocales =
-    window.SignalContext.getPreferredSystemLocales();
-  const localeOverride = window.SignalContext.getLocaleOverride();
-  const locales =
-    localeOverride != null ? [localeOverride] : preferredSystemLocales;
-
-  const getCurrencyFormatter = (currencyType: string) =>
-    new Intl.NumberFormat(locales, {
-      style: 'currency',
-      currency: currencyType,
-    });
-
   return (
     <div className="PreferencesDonations PreferencesDonations--receiptList">
       {hasReceipts ? (
@@ -464,9 +452,10 @@ function PreferencesReceiptList({
                       </div>
                     </div>
                     <div className="PreferencesDonations--receiptList__receipt-item__amount">
-                      {getCurrencyFormatter(receipt.currencyType).format(
-                        getHumanDonationAmount(receipt)
-                      )}
+                      {toHumanCurrencyString({
+                        amount: getHumanDonationAmount(receipt),
+                        currency: receipt.currencyType,
+                      })}
                     </div>
                   </button>
                 ))}
@@ -491,11 +480,12 @@ function PreferencesReceiptList({
           modalName="ReceiptDetailsModal"
           moduleClassName="PreferencesDonations__ReceiptModal"
           hasXButton
-          title={i18n('icu:PreferencesDonations__ReceiptModal--title')}
+          padded={false}
           onClose={() => setSelectedReceipt(null)}
           modalFooter={
             <Button
               variant={ButtonVariant.Primary}
+              size={ButtonSize.Small}
               onClick={handleDownloadReceipt}
               disabled={isDownloading}
             >
@@ -512,9 +502,10 @@ function PreferencesReceiptList({
               <div className="PreferencesDonations__ReceiptModal__logo" />
             </div>
             <div className="PreferencesDonations__ReceiptModal__amount">
-              {getCurrencyFormatter(selectedReceipt.currencyType).format(
-                getHumanDonationAmount(selectedReceipt)
-              )}
+              {toHumanCurrencyString({
+                amount: getHumanDonationAmount(selectedReceipt),
+                currency: selectedReceipt.currencyType,
+              })}
             </div>
             <hr className="PreferencesDonations__ReceiptModal__separator" />
             <div className="PreferencesDonations__ReceiptModal__details">
@@ -637,6 +628,12 @@ export function PreferencesDonations({
         i18n={i18n}
         onClose={() => {
           setIsSubmitted(false);
+          if (
+            workflow?.type === 'DONE' &&
+            lastError === donationErrorTypeSchema.Enum.BadgeApplicationFailed
+          ) {
+            clearWorkflow();
+          }
           updateLastError(undefined);
         }}
       />
@@ -684,16 +681,13 @@ export function PreferencesDonations({
         badge={donationBadge}
         applyDonationBadge={applyDonationBadge}
         onClose={(error?: Error) => {
-          clearWorkflow();
           if (error) {
             log.error('Badge application failed:', error.message);
-            showToast({
-              toastType: ToastType.DonationCompletedAndBadgeApplicationFailed,
-            });
+            updateLastError(
+              donationErrorTypeSchema.Enum.BadgeApplicationFailed
+            );
           } else {
-            showToast({
-              toastType: ToastType.DonationCompleted,
-            });
+            clearWorkflow();
           }
         }}
       />

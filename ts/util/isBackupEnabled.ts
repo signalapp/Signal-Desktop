@@ -4,7 +4,7 @@
 import * as RemoteConfig from '../RemoteConfig';
 import { isTestOrMockEnvironment } from '../environment';
 import { isStagingServer } from './isStagingServer';
-import { isNightly } from './version';
+import { isBeta, isNightly } from './version';
 
 export function areRemoteBackupsTurnedOn(): boolean {
   return isBackupFeatureEnabled() && window.storage.get('backupTier') != null;
@@ -26,7 +26,9 @@ export function isBackupFeatureEnabled(
     return true;
   }
 
-  return Boolean(
-    RemoteConfig.isEnabled('desktop.backup.credentialFetch', reduxConfig)
-  );
+  if (isBeta(window.getVersion())) {
+    return RemoteConfig.isEnabled('desktop.backups.beta', reduxConfig);
+  }
+
+  return Boolean(RemoteConfig.isEnabled('desktop.backups.prod', reduxConfig));
 }

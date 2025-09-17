@@ -139,6 +139,20 @@ describe('RemoteConfig', () => {
       assert.equal(isEnabled('desktop.internalUser'), true);
     });
 
+    it('is true for true string flag', async () => {
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'true' },
+      ]);
+      assert.equal(isEnabled('desktop.internalUser'), true);
+    });
+
+    it('is false for false string flag', async () => {
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'false' },
+      ]);
+      assert.equal(isEnabled('desktop.internalUser'), false);
+    });
+
     it('reflects the value of an unknown flag in the config', async () => {
       assert.equal(
         isEnabled('desktop.unknownFlagName' as ConfigKeyType),

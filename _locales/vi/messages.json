@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Chọn cuộc trò chuyện bạn muốn xuất hiện trong thư mục này"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Cuộc trò chuyện 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Nhóm chat"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Thêm cuộc trò chuyện"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Tải xuống không thành công"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -5283,7 +5292,7 @@
     "messageformat": "Đã chặn"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Bản sao lưu Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Sao lưu tự động với dịch vụ lưu trữ bảo mật, được mã hóa đầu cuối của Signal. Bắt đầu trên điện thoại. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Bản sao lưu tin nhắn + tất cả tập tin đa phương tiện"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Không tìm thấy gói đăng ký của bạn. Gia hạn gói đăng ký Sao lưu Signal để tiếp tục sử dụng."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Bản sao lưu tin nhắn văn bản + tập tin đa phương tiện {mediaDayCount,number} ngày qua}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Gói đăng ký đã được hủy"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Bạn có thể quản lý hoặc hủy gói đăng ký Sao lưu Signal trên điện thoại của bạn."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Bạn có thể quản lý hoặc nâng cấp gói đăng ký Sao lưu Signal trên điện thoại của bạn."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Bạn có thể quản lý hoặc gia hạn gói đăng ký Sao lưu Signal trên điện thoại của bạn."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Bản sao lưu gần nhất"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal không thu thập hay lưu trữ thông tin cá nhân của bạn khi bạn gửi khoản ủng hộ.</paragraph><paragraph>Chúng tôi sử dụng Stripe làm hệ thống xử lý thanh toán để nhận các khoản ủng hộ. Chúng tôi không truy cập, lưu trữ, hoặc lưu bất kỳ thông tin nào bạn cung cấp cho phía hệ thống.</paragraph><paragraph>Signal không và không thể liên kết thông tin thanh toán với tài khoản Signal của bạn.</paragraph><paragraph>Cảm ơn sự đóng góp của bạn!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Biên lai"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Xem thông tin biên lai"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Câu hỏi thường gặp về Nhà Ủng hộ"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Ngày hết hạn"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Ủng hộ {formattedCurrencyAmount} cho Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Sở hữu huy hiệu Nhà Ủng hộ trong 30 ngày"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Lượng ủng hộ tối thiểu là {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Khoản ủng hộ tối thiểu là {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Lượng ủng hộ tối đa là {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Khi rời khỏi trang, thông tin thẻ tín dụng của bạn sẽ được xóa. Bạn có muốn tiếp tục?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Xóa thông tin"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Tiếp tục"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Biên lai ủng hộ"
@@ -6790,7 +6820,13 @@
     "messageformat": "Bạn có một khoản ủng hộ đang tiến hành cần được xác nhận."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Bạn đã ủng hộ thành công, nhưng chúng tôi không thể cập nhật cài đặt huy hiệu của bạn"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Quá trình bị gián đoạn"
@@ -6865,7 +6901,7 @@
     "messageformat": "Hiển thị trên thông tin cá nhân"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Bạn có thể điều chỉnh cài đặt này trên thiết bị di động ở mục Cài đặt → Ủng hộ Signal → Huy hiệu"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Chúng tôi đã cải thiện trải nghiệm đọc/chưa đọc tin nhắn khi người dùng đang cùng lúc thực hiện nhiều tác vụ."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi liên quan đến hộp tìm kiếm emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Sửa một số lỗi nhỏ."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Chúng tôi đã sửa lỗi huy hiệu ủng hộ không hiển thị chính xác đối với một số người dùng."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Chúng tôi đã sửa lỗi thanh tiêu đề đôi khi hiển thị sai màu trên Microsoft Windows."
   }
 }

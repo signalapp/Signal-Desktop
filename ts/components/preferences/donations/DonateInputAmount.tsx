@@ -5,7 +5,10 @@ import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { Formatter, FormatterToken } from '@signalapp/minimask';
 import { useInputMask } from '../../../hooks/useInputMask';
 import type { CurrencyFormatResult } from '../../../util/currency';
-import { getCurrencyFormat } from '../../../util/currency';
+import {
+  getCurrencyFormat,
+  ZERO_DECIMAL_CURRENCIES,
+} from '../../../util/currency';
 
 export type DonateInputAmountProps = Readonly<{
   className: string;
@@ -18,14 +21,21 @@ export type DonateInputAmountProps = Readonly<{
   onFocus?: () => void;
 }>;
 
+const AMOUNT_MAX_DIGITS_STRIPE = 8;
+
 const getAmountFormatter = (
   currencyFormat: CurrencyFormatResult | undefined
 ): Formatter => {
   return (input: string) => {
-    const { symbolPrefix, symbolSuffix, decimal, group } = currencyFormat ?? {};
+    const { currency, decimal, group, symbolPrefix, symbolSuffix } =
+      currencyFormat ?? {};
+    const isZeroDecimal = Boolean(
+      currency && ZERO_DECIMAL_CURRENCIES.has(currency)
+    );
     const tokens: Array<FormatterToken> = [];
     let isDecimalPresent = false;
-    let isDigitPresent = false;
+    let firstDigitWasZero = false;
+    let digitCount = 0;
     let decimalLength = 0;
 
     if (symbolPrefix) {
@@ -35,22 +45,34 @@ const getAmountFormatter = (
     }
 
     for (const [index, char] of input.split('').entries()) {
-      if (/[\d., ']/.test(char) || (group && char === group)) {
-        if (decimal && char === decimal) {
-          // Prevent multiple decimal separators
-          if (isDecimalPresent) {
+      const isCharDigit = /\d/.test(char);
+      const isCharGroup = group && char === group;
+      const isCharDecimal = decimal && char === decimal;
+      if (isCharDigit || isCharGroup || isCharDecimal) {
+        if (isCharDecimal) {
+          // Prevent multiple decimal separators and decimals for zero decimal currencies
+          if (isDecimalPresent || isZeroDecimal) {
             continue;
           } else {
             isDecimalPresent = true;
             // Force leading 0 for decimal-only values (for parseCurrencyString)
-            if (!isDigitPresent) {
+            if (digitCount === 0) {
               tokens.push({ char: '0', index, mask: false });
             }
           }
         }
 
-        if (!isDigitPresent && /\d/.test(char)) {
-          isDigitPresent = true;
+        if (/\d/.test(char)) {
+          // Prevent starting a number with multiple 0's
+          if (char === '0') {
+            if (digitCount === 0) {
+              firstDigitWasZero = true;
+            } else if (firstDigitWasZero) {
+              continue;
+            }
+          }
+
+          digitCount += 1;
         }
 
         // Prevent over 2 decimal digits due to issues with parsing
@@ -95,14 +117,31 @@ export const DonateInputAmount = memo(function DonateInputAmount(
   );
   useInputMask(inputRef, amountFormatter);
 
-  const handleInput = useCallback(
-    (event: FormEvent<HTMLInputElement>) => {
-      onValueChange(event.currentTarget.value);
-    },
-    [onValueChange]
-  );
+  const inputMaxLength = useMemo<number | undefined>(() => {
+    if (!currencyFormat) {
+      return;
+    }
 
-  useEffect(() => {
+    const {
+      currency: normalizedCurrency,
+      symbolPrefix,
+      symbolSuffix,
+    } = currencyFormat;
+
+    const isZeroDecimal = ZERO_DECIMAL_CURRENCIES.has(normalizedCurrency);
+    const maxNonDecimalDigits = isZeroDecimal
+      ? AMOUNT_MAX_DIGITS_STRIPE
+      : AMOUNT_MAX_DIGITS_STRIPE - 2;
+    const lengthForDecimal = isZeroDecimal ? 0 : 3;
+    return (
+      symbolPrefix.length +
+      maxNonDecimalDigits +
+      lengthForDecimal +
+      symbolSuffix.length
+    );
+  }, [currencyFormat]);
+
+  const ensureInputCaretPosition = useCallback(() => {
     const input = inputRef.current;
     if (!input) {
       return;
@@ -110,12 +149,13 @@ export const DonateInputAmount = memo(function DonateInputAmount(
 
     // If the only value is the prefilled currency symbol, then set the input caret
     // position to the correct position it should be in based on locale-currency config.
+    const inputValue = input.value;
+    const lastIndex = inputValue.length;
     const { symbolPrefix, symbolSuffix } = currencyFormat ?? {};
-    const lastIndex = value.length;
-    if (symbolPrefix && value === symbolPrefix) {
+    if (symbolPrefix && inputValue === symbolPrefix) {
       // Prefix, set selection to the end
       input.setSelectionRange(lastIndex, lastIndex);
-    } else if (symbolSuffix && value.includes(symbolSuffix)) {
+    } else if (symbolSuffix && inputValue.includes(symbolSuffix)) {
       // Suffix, set selection to before symbol
       if (
         input.selectionStart === input.selectionEnd &&
@@ -125,11 +165,27 @@ export const DonateInputAmount = memo(function DonateInputAmount(
         input.setSelectionRange(indexBeforeSymbol, indexBeforeSymbol);
       }
     }
+  }, [currencyFormat]);
+
+  const handleInput = useCallback(
+    (event: FormEvent<HTMLInputElement>) => {
+      onValueChange(event.currentTarget.value);
+      ensureInputCaretPosition();
+    },
+    [ensureInputCaretPosition, onValueChange]
+  );
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) {
+      return;
+    }
 
     // If we're missing the currency symbol then add it. This can happen if the user
     // tries to delete it, or goes forward to the payment card form then goes back,
     // prefilling the last custom amount
     if (value || document.activeElement === input) {
+      const { symbolPrefix, symbolSuffix } = currencyFormat ?? {};
       if (symbolPrefix && !value.includes(symbolPrefix)) {
         onValueChange(`${symbolPrefix}${value}`);
       }
@@ -137,7 +193,9 @@ export const DonateInputAmount = memo(function DonateInputAmount(
         onValueChange(`${value}${symbolSuffix}`);
       }
     }
-  }, [currencyFormat, onValueChange, value]);
+
+    ensureInputCaretPosition();
+  }, [currencyFormat, ensureInputCaretPosition, onValueChange, value]);
 
   useEffect(() => {
     const input = inputRef.current;
@@ -198,6 +256,8 @@ export const DonateInputAmount = memo(function DonateInputAmount(
       type="text"
       inputMode="decimal"
       autoComplete="transaction-amount"
+      spellCheck={false}
+      maxLength={inputMaxLength}
       value={value}
       onInput={handleInput}
       onFocus={onFocusWithCurrencyHandler}

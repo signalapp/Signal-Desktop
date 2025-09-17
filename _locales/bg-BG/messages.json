@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Изберете чатовете, които искате да се показват в тази папка"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Чатове 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Групови чатове"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Добавяне на чатове"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Неуспешно изтегляне"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редакциите могат да се прилагат само в рамките на 24 часа от момента на изпращане на това съобщение."
@@ -5283,7 +5292,7 @@
     "messageformat": "Блокирани"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Резервни копия в Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматични резервни копия, криптирани от край до край със защитената услуга за съхранение на Signal. Започнете на телефона си. <learnMoreLink>Научете повече</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Резервно копиране на текстови съобщения + всичката мултимедия"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Абонаментът ви не беше открит. Подновете го сега, за да продължите да използвате „Резервни копия на Signal“."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервно копиране на текстови съобщения + {mediaDayCount,number} ден мултимедия} other {Резервно копиране на текстови съобщения + {mediaDayCount,number} дни мултимедия}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Абонаментът е отменен"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Можете да управлявате или да отмените своя абонамент за „Резервни копия на Signal“ на телефона си."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Можете да управлявате или да надградите „Резервни копия на Signal“ на телефона си."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Можете да управлявате или да подновите своя абонамент за „Резервни копия на Signal“ на телефона си."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последно резервно копиране"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal не събира и не съхранява никаква лична информация, когато правите дарение.</paragraph><paragraph>Използваме Stripe за обработване на плащанията и за да получим вашите дарения. Ние не упражняваме достъп до, не съхраняваме и не запазваме никаква информация, която им предоставите.</paragraph><paragraph>Signal не свързва и не може да свърже вашето дарение с акаунта ви в Signal.</paragraph><paragraph>Благодарим Ви за подкрепата!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Добре"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Разписки"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Преглед на подробности за разписката"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ЧЗВ за дарители"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Дата на изтичане"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "ММ/ГГ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Дарете {formattedCurrencyAmount} на Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Получете Супер значката на Signal за 30 дни"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Минималната сума за дарение е {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Минималната сума, която можете да дарите, е {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Максималната сума за дарение е {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Напускането на тази страница ще премахне информацията за вашата кредитна карта. Желаете ли да продължите?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Премахване на информацията"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Продължаване"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Разписка за дарение"
@@ -6790,7 +6820,13 @@
     "messageformat": "Имате дарение, което изисква допълнително потвърждение."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Дарението е успешно, но не успяхме да актуализираме настройките ви за значки"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Дарението е прекъснато"
@@ -6859,13 +6895,13 @@
     "messageformat": "Благодарим ви за подкрепата!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Спечелихте значка за дарител от Signal! Покажете в профила си, за да демонстрирате своята подкрепа."
+    "messageformat": "Спечелихте значка за дарител от Signal! Покажете я в профила си, за да демонстрирате своята подкрепа."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Показване на профила"
+    "messageformat": "Показване в профила"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Можете да ги регулирате на мобилното си устройство в Настройки → Дарение за Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Тази версия съдържа редица дребни модификации и корекции на бъгове, за да поддържа гладката работа на Signal.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Подобрихме изживяването, свързано с четените/непрочетените съобщения, когато работите по няколко задачи."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Отстранихме бъг в полето за търсене на емоджи."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Отстраняване няколко малки бъга."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Коригирахме бъг, който пречеше значките за дарения да се появяват правилно при някои потребители."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Отстранихме бъг в Microsoft Windows, който понякога показваше заглавната лента в грешен цвят."
   }
 }

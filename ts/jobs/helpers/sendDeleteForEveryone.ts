@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
 import { isNumber } from 'lodash';
 
 import * as Errors from '../../types/errors';
@@ -82,8 +83,7 @@ export async function sendDeleteForEveryone(
   }
 
   const sendType = 'deleteForEveryone';
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const messageIds = [messageId];
 
   const deletedForEveryoneSendStatus = message.get(

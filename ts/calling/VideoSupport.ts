@@ -23,10 +23,6 @@ export class GumVideoCaptureOptions {
   onEnded?: () => void;
 }
 
-interface GumConstraints extends MediaStreamConstraints {
-  video?: boolean | GumTrackConstraints;
-}
-
 interface GumTrackConstraints extends MediaTrackConstraints {
   mandatory?: GumTrackConstraintSet;
 }
@@ -135,26 +131,8 @@ export class GumVideoCapturer {
       return options.mediaStream;
     }
 
-    const constraints: GumConstraints = {
-      audio: false,
-      video: {
-        deviceId: options.preferredDeviceId ?? this.preferredDeviceId,
-        width: {
-          max: options.maxWidth,
-          ideal: options.maxWidth,
-        },
-        height: {
-          max: options.maxHeight,
-          ideal: options.maxHeight,
-        },
-        frameRate: {
-          max: options.maxFramerate,
-          ideal: options.maxFramerate,
-        },
-      },
-    };
     if (options.screenShareSourceId !== undefined) {
-      constraints.video = {
+      const screenshareConstraints: GumTrackConstraints = {
         mandatory: {
           chromeMediaSource: 'desktop',
           chromeMediaSourceId: options.screenShareSourceId,
@@ -164,8 +142,53 @@ export class GumVideoCapturer {
           maxFrameRate: options.maxFramerate,
         },
       };
+      return navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: screenshareConstraints,
+      });
     }
-    return window.navigator.mediaDevices.getUserMedia(constraints);
+
+    const preferredDeviceId =
+      options.preferredDeviceId ?? this.preferredDeviceId;
+    const videoConstraints: GumTrackConstraints = {
+      deviceId: {
+        exact: preferredDeviceId,
+      },
+      width: {
+        max: options.maxWidth,
+        ideal: options.maxWidth,
+      },
+      height: {
+        max: options.maxHeight,
+        ideal: options.maxHeight,
+      },
+      frameRate: {
+        max: options.maxFramerate,
+        ideal: options.maxFramerate,
+      },
+    };
+
+    try {
+      const exactStream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: videoConstraints,
+      });
+      if (exactStream) {
+        return exactStream;
+      }
+    } catch (e) {
+      log.warn(
+        `getUserMedia(): Failed with exact constraints: ${e}. Falling back to loose constraints.`
+      );
+    }
+
+    return navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: {
+        ...videoConstraints,
+        deviceId: preferredDeviceId,
+      },
+    });
   }
 
   private async startCapturing(options: GumVideoCaptureOptions): Promise<void> {

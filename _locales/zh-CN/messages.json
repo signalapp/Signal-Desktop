@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "选择您希望显示在此文件夹中的聊天"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "私聊"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "群组聊天"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "添加聊天"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "下载失败"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "您只能在发送此消息后的 24 小时以内进行编辑。"
@@ -5283,7 +5292,7 @@
     "messageformat": "已屏蔽"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal 备份"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "通过 Signal 的安全端对端加密存储服务自动备份。您可以在手机上开始备份。<learnMoreLink>了解更多</learnMoreLink>。"
@@ -5298,7 +5307,7 @@
     "messageformat": "文本 + 所有媒体备份"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "未找到您的套餐。请续订以继续使用 Signal 备份。"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {文本 + {mediaDayCount,number} 天媒体备份}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "备份套餐已取消"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "您可以在手机上管理或取消您的 Signal 备份套餐。"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "您可以在手机上管理或升级您的 Signal 备份。"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "您可以在手机上管理或续订您的 Signal 备份套餐。"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "上次备份"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>当您捐款时，Signal 不会收集或储存您的任何个人信息。</paragraph><paragraph>我们使用 Stripe 作为接收捐款的付款处理方。我们不会访问、储存或保存您向 Stripe 提供的任何信息。</paragraph><paragraph>Signal 不会也无法关联您的捐款至您的 Signal 账户。</paragraph><paragraph>感谢您的赞助！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "好"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "收据"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "查看收据详情"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "捐款人常见问题解答"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "有效期"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "给 Signal 捐款 {formattedCurrencyAmount}"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "获得 30 天的 Signal 随手捐徽章"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "捐款的最小金额为 {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "捐款的最小金额是 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "捐款的最大金额为 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "离开此页面会导致您的信用卡信息被删除。您要继续操作吗？"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "删除信息"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "继续"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收据"
@@ -6790,7 +6820,13 @@
     "messageformat": "您正在进行的捐款需要确认。"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "捐款成功，但我们无法更新您的徽章设置"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中断"
@@ -6865,7 +6901,7 @@
     "messageformat": "在个人资料中显示"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "您可以在您的移动设备中前往“设置→给 Signal 捐款→ 徽章”调整此设置"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
@@ -6895,16 +6931,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "我们优化了多任务处理时的消息已读/未读体验。"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "我们修复了表情符号搜索框中的一个漏洞。"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "此次更新修复了一些小漏洞。"
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "我们修复了一个漏洞，该漏洞会导致部分用户的捐款徽章无法正确显示。"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "我们修复了 Microsoft Windows 上的一个漏洞，该漏洞有时会在标题栏中显示错误的颜色。"
   }
 }

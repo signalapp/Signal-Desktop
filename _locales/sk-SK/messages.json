@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Vyberte čety, ktoré sa majú zobrazovať v tomto priečinku"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Čety 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Skupinové čety"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Pridať čety"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Sťahovanie zlyhalo"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy je možné vykonať len do 24 hodín od odoslania tejto správy."
@@ -5283,7 +5292,7 @@
     "messageformat": "Blokované"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Zálohy Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatické zálohovanie pomocou zabezpečeného úložiska Signal chráneného end-to-end šifrovaním. Začnite na svojom telefóne. <learnMoreLink>Zistiť viac</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Zálohovanie všetkých správ a médií"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Predplatné sa nenašlo. Obnovte ho, aby ste mohli Zálohy Signal používať aj naďalej."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Zálohovanie všetkých správ + médiá za posledný{mediaDayCount,number} deň} few {Zálohovanie všetkých správ + médiá za posledné {mediaDayCount,number} dni} many {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní} other {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Predplatné bolo zrušené"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Predplatné Záloh Signal môžete spravovať alebo zrušiť vo svojom telefóne."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Zálohy Signal môžete spravovať alebo upgradovať vo svojom telefóne."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Predplatné Záloh Signal môžete spravovať alebo obnoviť vo svojom telefóne."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Posledná záloha"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Počas vášho prispievania na Signal nezhromažďujeme ani neukladáme žiadne vaše osobné údaje.</paragraph><paragraph>Na prijímanie vašich príspevkov a spracovanie platieb používame službu Stripe. K údajom, ktoré v rámci tejto platobnej brány poskytnete, nemáme prístup ani ich neukladáme.</paragraph><paragraph>Signal si nespája a ani si nemôže spojiť váš príspevok s vaším Signal účtom.</paragraph><paragraph>Ďakujeme za vašu podporu!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Potvrdenia"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Zobraziť podrobnosti o potvrdení"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Často kladené otázky prispievateľov"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Dátum exspirácie"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/RR"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Prispieť {formattedCurrencyAmount} na Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Získajte odznak Signal Boost na 30 dní"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Minimálna výška príspevku je {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimálna suma, ktorú môžete darovať, je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Maximálna výška príspevku je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Opustením tejto stránky sa odstránia informácie o vašej kreditnej karte. Chcete pokračovať?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Odstrániť informácie"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Pokračovať"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrdenie o príspevku"
@@ -6790,7 +6820,13 @@
     "messageformat": "Prebieha spracovanie príspevku, ktoré si vyžaduje potvrdenie."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Prispenie bolo úspešné, nepodarilo sa nám však aktualizovať nastavenia vášho odznaku"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Prispenie bolo prerušené"
@@ -6865,7 +6901,7 @@
     "messageformat": "Zobraziť v profile"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Túto možnosť si môžete upraviť na svojom mobilnom zariadení v časti Nastavenia → Prispieť na Signal → Odznaky"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Vylepšili sme proces prečítania/neprečítania správ počas vykonávania viacerých úloh naraz."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Opravili sme chybu vo vyhľadávacom poli pre emotikony."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Táto aktualizácia opravuje niekoľko malých chýb."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Opravili sme chybu, ktorá spôsobovala, že odznaky za príspevok sa niektorým používateľom nezobrazovali správne."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Opravili sme chybu v systéme Microsoft Windows, ktorá niekedy zobrazovala nesprávnu farbu v záhlaví okna."
   }
 }

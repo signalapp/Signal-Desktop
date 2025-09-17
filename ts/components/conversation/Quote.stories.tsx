@@ -138,7 +138,6 @@ const defaultMessageProps: TimelineMessagesProps = {
   showAttachmentDownloadStillInProgressToast: action(
     'showAttachmentDownloadStillInProgressToast'
   ),
-  showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),

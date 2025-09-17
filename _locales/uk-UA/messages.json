@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Виберіть чати, які ви хочете бачити в цій папці"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Особисті чати"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Групові чати"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Додати чати"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Помилка завантаження"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редагувати повідомлення можна лише протягом 24 годин з моменту надсилання."
@@ -5283,7 +5292,7 @@
     "messageformat": "Заблоковані"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Резервне копіювання від Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматичне створення резервних копій у надійному сховищі даних Signal, захищеному наскрізним шифруванням. Налаштуйте з телефона. <learnMoreLink>Докладніше</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Текстові повідомлення + всі медіафайли"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Передплату не знайдено. Поновіть її, щоб знову користуватися резервним копіюванням від Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Текст + медіафайли за {mediaDayCount,number} минулий день} few {Текст + медіафайли за {mediaDayCount,number} минулі дні} many {Текст + медіафайли за {mediaDayCount,number} минулих днів} other {Текст + медіафайли за {mediaDayCount,number} минулого дня}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Передплату скасовано"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Щоб змінити або скасувати передплату від Signal, зайдіть у налаштування з телефона."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Щоб налаштувати або змінити передплату від Signal, зайдіть у налаштування з телефона."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Щоб змінити або поновити передплату від Signal, зайдіть у налаштування з телефона."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Найновіша резервна копія"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal не збирає і не зберігає вашу особисту інформацію, коли ви робите донати.</paragraph><paragraph>Ми користуємося послугами компанії Stripe для опрацювання ваших донатів. Ми не зберігаємо інформацію, яку ви надаєте Stripe, і не маємо до неї доступу.</paragraph><paragraph>Signal не знає і не може дізнатися, що донат надійшов саме з вашого акаунту.</paragraph><paragraph>Дякуємо за підтримку!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Зрозуміло"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Підтвердження"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Переглянути інформацію в підтвердженні"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Відповіді на запитання про донати"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Термін дії"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "ММ/РР"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Задонатити Signal {formattedCurrencyAmount}"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Отримайте значок за підтримку Signal на 30 днів"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Мінімальна сума донату: {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Мінімальна сума донату: {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Максимальна сума донату: {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Якщо покинути цю сторінку, інформацію про кредитну картку буде видалено. Продовжити й видалити дані?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Так, видалити"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Продовжити"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Підтвердження донату"
@@ -6790,7 +6820,13 @@
     "messageformat": "Ваш донат очікує на підтвердження."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Донат надіслано, але нам не вдалось оновити налаштування значка"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Донат перервано"
@@ -6865,7 +6901,7 @@
     "messageformat": "Показувати в профілі"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Змінити це можна на мобільному пристрої в налаштуваннях: Підтримати Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Ми покращили функціонування відміток про читання повідомлень під час одночасного виконання кількох дій. А ще виправили помилку, через яку відкривався перегляд зображення, якщо ви натискали пробіл під час пошуку реакції. Збільшити зображення все ще можна, якщо на нього натиснути (або якщо вводити текст достатньо швидко)."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Якщо ви помітили, що після натискання клавіші Escape у полі пошуку емоджі з'являлася помилка, не хвилюйтеся. Це була не агресивна агітація за використання емоджі, а просто помилка, яку ми вже виправили."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "У цьому оновленні ми виправили кілька незначних помилок, як-от некоректне групування емоджі-реакцій."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Ми виправили помилку, через яку значки за донат іноді не показувались у профілі. Signal — це некомерційна організація, і ми дуже цінуємо вашу підтримку!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Ми виправили помилку, що траплялася на Microsoft Windows і через яку рядок заголовка Signal Desktop був помаранчевий, а не синій. Та якщо вам сподобалося, як ця барва вписалася в початок осіннього сезону, ви можете змінити колірну тему в налаштуваннях Windows."
   }
 }

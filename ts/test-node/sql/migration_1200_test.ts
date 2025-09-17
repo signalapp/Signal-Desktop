@@ -105,7 +105,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
           source:
             i < NUM_STANDARD_JOBS
               ? AttachmentDownloadSource.STANDARD
-              : AttachmentDownloadSource.BACKUP_IMPORT,
+              : AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         });
       }
     })();

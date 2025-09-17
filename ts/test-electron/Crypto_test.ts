@@ -856,7 +856,7 @@ describe('Crypto', () => {
               plaintextHash,
               modifyIncrementalMac: true,
             }),
-            /Corrupted/
+            /^Corrupted input data/
           );
         } finally {
           unlinkSync(sourcePath);

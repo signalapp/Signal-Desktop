@@ -29,7 +29,6 @@ import { SmartStickerManager } from './StickerManager';
 import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
 import { getIntl } from '../selectors/user';
 import {
-  getIsPanelAnimating,
   getPanelInformation,
   getWasPanelAnimated,
 } from '../selectors/conversations';
@@ -111,7 +110,6 @@ export const ConversationPanel = memo(function ConversationPanel({
   const i18n = useSelector(getIntl);
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
-  const isAnimating = useSelector(getIsPanelAnimating);
   const wasAnimated = useSelector(getWasPanelAnimated);
 
   const [lastPanelDoneAnimating, setLastPanelDoneAnimating] =
@@ -217,16 +215,22 @@ export const ConversationPanel = memo(function ConversationPanel({
       <>
         {activePanel && (
           <PanelContainer
+            key={getPanelKey(activePanel)}
             conversationId={conversationId}
             isActive
             panel={activePanel}
           />
         )}
         {lastPanelDoneAnimating !== prevPanel && (
-          <div className="ConversationPanel__overlay" ref={overlayRef} />
+          <div
+            key="overlay"
+            className="ConversationPanel__overlay"
+            ref={overlayRef}
+          />
         )}
         {prevPanel && lastPanelDoneAnimating !== prevPanel && (
           <PanelContainer
+            key={getPanelKey(prevPanel)}
             conversationId={conversationId}
             panel={prevPanel}
             ref={animateRef}
@@ -239,11 +243,20 @@ export const ConversationPanel = memo(function ConversationPanel({
   if (direction === 'push' && activePanel) {
     return (
       <>
-        {isAnimating && prevPanel && (
-          <PanelContainer conversationId={conversationId} panel={prevPanel} />
+        {lastPanelDoneAnimating !== prevPanel && prevPanel && (
+          <PanelContainer
+            conversationId={conversationId}
+            panel={prevPanel}
+            key={getPanelKey(prevPanel)}
+          />
         )}
-        <div className="ConversationPanel__overlay" ref={overlayRef} />
+        <div
+          key="overlay"
+          className="ConversationPanel__overlay"
+          ref={overlayRef}
+        />
         <PanelContainer
+          key={getPanelKey(activePanel)}
           conversationId={conversationId}
           isActive
           panel={activePanel}
@@ -373,4 +386,26 @@ function PanelElement({
 
   log.warn(toLogFormat(missingCaseError(panel)));
   return null;
+}
+
+function getPanelKey(panel: PanelRenderType): string {
+  switch (panel.type) {
+    case PanelType.AllMedia:
+    case PanelType.ChatColorEditor:
+    case PanelType.ConversationDetails:
+    case PanelType.GroupInvites:
+    case PanelType.GroupLinkManagement:
+    case PanelType.GroupPermissions:
+    case PanelType.GroupV1Members:
+    case PanelType.NotificationSettings:
+    case PanelType.StickerManager:
+      return panel.type;
+    case PanelType.MessageDetails:
+      return `${panel.type}:${panel.args.message.id}`;
+    case PanelType.ContactDetails:
+      return `${panel.type}:${panel.args.messageId}`;
+    default:
+      log.warn(toLogFormat(missingCaseError(panel)));
+      return 'unknown';
+  }
 }

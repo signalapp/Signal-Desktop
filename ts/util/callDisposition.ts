@@ -11,6 +11,7 @@ import {
   callIdFromRingId,
   RingUpdate,
 } from '@signalapp/ringrtc';
+import { ContentHint } from '@signalapp/libsignal-client';
 import { isEqual } from 'lodash';
 import { strictAssert } from './assert';
 import { DataReader, DataWriter } from '../sql/Client';
@@ -1305,10 +1306,8 @@ async function updateRemoteCallHistory(
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1468,11 +1467,9 @@ export async function markAllCallHistoryReadAndSync(
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     log.info('markAllCallHistoryReadAndSync: Queueing sync message');
     await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(

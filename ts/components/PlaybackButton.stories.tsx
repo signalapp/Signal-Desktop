@@ -9,6 +9,7 @@ import type { ButtonProps } from './PlaybackButton';
 import { PlaybackButton } from './PlaybackButton';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { ThemeType } from '../types/Util';
+import { AUDIO_MP3 } from '../types/MIME';
 
 export default {
   title: 'components/PlaybackButton',
@@ -50,6 +51,16 @@ export function Default(): JSX.Element {
                   key={`${variant}_${context}_${mod}`}
                   variant={variant}
                   label="playback"
+                  attachment={
+                    mod === 'downloading'
+                      ? undefined
+                      : {
+                          contentType: AUDIO_MP3,
+                          size: 3000,
+                          totalDownloaded: 1000,
+                          isPermanentlyUndownloadable: false,
+                        }
+                  }
                   onClick={action('click')}
                   context={context}
                   mod={mod}

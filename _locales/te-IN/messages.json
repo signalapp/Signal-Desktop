@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ఈ ఫోల్డర్‌లో మీరు కనిపించాలనుకుంటున్న చాట్‌లను ఎంచుకోండి"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 చాట్స్"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "సమూహాల మాటామంతి "
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "చాట్‌లను జోడించండి"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "డౌన్‌లోడ్ విఫలమైంది"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
@@ -5283,7 +5292,7 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal బ్యాకప్‌లు"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal యొక్క సురక్షితమైన, ఎండ్-టు-ఎండ్ గుప్తీకరించబడిన నిల్వ సేవతో ఆటోమేటిక్ బ్యాకప్‌లు. మీ ఫోన్‌లో ప్రారంభించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "టెక్స్ట్ + మొత్తం మీడియా బ్యాకప్"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "సబ్స్క్రిప్షన్ రద్దు చేయబడింది"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా రద్దు చేయవచ్చు."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో Signal బ్యాకప్‌లను నిర్వహించవచ్చు లేదా అప్‌గ్రేడ్ చేయవచ్చు."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా పునరుద్ధరించవచ్చు."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "చివరి బ్యాకప్"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>మీరు విరాళం ఇచ్చినప్పుడు Signal మీ వ్యక్తిగత సమాచారంలో దేనినీ సేకరించదు లేదా నిల్వ చేయదు.</paragraph><paragraph>మీ విరాళాలను అందుకోవడానికి మేము Stripe ను మా చెల్లింపు ప్రాసెసర్‌గా ఉపయోగిస్తాము. మీరు వారికి అందించే ఏ సమాచారాన్ని మేము యాక్సెస్ చేయము, నిల్వ చేయము లేదా సేవ్ చేయము.</paragraph><paragraph>Signal మీ విరాళాన్ని మీ Signal ఖాతాకు కనెక్ట్ చేయదు మరియు చేయలేదు.</paragraph><paragraph>మీ మద్దతుకు ధన్యవాదాలు!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "అలాగే"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "రసీదులు"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "రసీదు వివరాలను వీక్షించండి"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "దాత తరచుగా అడిగే ప్రశ్నలు"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "గడువు తేదీ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal కు {formattedCurrencyAmount} విరాళం ఇవ్వండి"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 రోజులపాటు Signal బూస్ట్ బ్యాడ్జ్‌ను పొందండి"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "కనీస విరాళం మొత్తం {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "మీరు విరాళం ఇవ్వగల కనీస మొత్తం {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "గరిష్ఠ విరాళం మొత్తం {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "ఈ పేజీని విడిచి వెళ్ళడం వలన మీ క్రెడిట్ కార్డ్ సమాచారం తొలగించబడుతుంది. మీరు కొనసాగాలని అనుకుంటున్నారా?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "సమాచారాన్ని తొలగించండి"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "కొనసాగించండి"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "విరాళం రసీదు"
@@ -6790,7 +6820,13 @@
     "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "విరాళానికి అంతరాయం కలిగింది"
@@ -6865,7 +6901,7 @@
     "messageformat": "ప్రొఫైల్‌పై ప్రదర్శించు"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "మీరు దీనిని మీ మొబైల్ పరికరంలో సెట్టింగ్‌లు → Signal కు విరాళం ఇవ్వండి → బ్యాడ్జ్‌లు కింద సర్దుబాటు చేయవచ్చు"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
@@ -6895,16 +6931,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "మల్టీ టాస్కింగ్ చేస్తున్నప్పుడు సందేశం చదివిన/చదవని అనుభవాన్ని మేము మెరుగుపరిచాము."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "మేము ఎమోజీ శోధన బాక్స్‌లో ఒక బగ్‌ను పరిష్కరించాము."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "కొన్ని చిన్న బగ్ పరిష్కారాలు."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "కొంతమంది యూజర్‌లకు విరాళం బ్యాడ్జ్‌లు సరిగ్గా కనిపించకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "శీర్షిక బార్‌లో కొన్నిసార్లు తప్పు రంగును ప్రదర్శించే బగ్‌ను మేము Microsoft Windows లో పరిష్కరించాము."
   }
 }

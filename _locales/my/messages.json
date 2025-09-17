@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ဤဖိုင်တွဲတွင် သင်ပေါ်စေလိုသော ချက်(တ်)များကိုရွေးပါ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 ချက်(တ်)များ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "အဖွဲ့ချက်(တ်)များ"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ချက်(တ်)ထည့်သွင်းရန်"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ဒေါင်းလုဒ် မအောင်မြင်ပါ"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 24 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။"
@@ -5283,7 +5292,7 @@
     "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal ဘက်ခ်အပ်"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal ၏ လုံခြုံသော ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသည့် သိုလှောင်ရေးဝန်ဆောင်မှုဖြင့် ဆောင်ရွက်သော အလိုအလျောက် ဘက်ခ်အပ်လုပ်ခြင်းများ။ သင့်ဖုန်းတွင် စတင်လိုက်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>။"
@@ -5298,7 +5307,7 @@
     "messageformat": "စာတို + မီဒီယာအားလုံးဘက်ခ်အပ်"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal ဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {စာတို + {mediaDayCount,number} ရက် မီဒီယာဘက်ခ်အပ်}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "ပုံမှန်လှူဒါန်းငွေကို ပယ်ဖျက်လိုက်ပါပြီ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် ပယ်ဖျက်နိုင်ပါသည်။"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် အဆင့်မြှင့်နိုင်ပါသည်။"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် သက်တမ်းတိုးနိုင်ပါသည်။"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "နောက်ဆုံး ဘက်ခ်အပ်"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal သည် သင်လှူဒါန်းသည့်အခါတွင် သင့်ကိုယ်ရေးကိုယ်တာအချက်အလက်များကို စုဆောင်းခြင်း သို့မဟုတ် သိမ်းဆည်းထားခြင်းမရှိပါ။</paragraph><paragraph>သင်၏လှူဒါန်းမှုများကို လက်ခံရရှိရန် ကျွန်ုပ်တို့၏ ငွေပေးချေမှု စီမံဆောင်ရွက်သူအဖြစ် Stripe ကို အသုံးပြုပါသည်။ ကျွန်ုပ်တို့သည် ၎င်းတို့အား သင်ပေးထားသော အချက်အလက်များကို အသုံးပြုခြင်း၊ ထားသိုခြင်း သို့မဟုတ် သိမ်းဆည်းခြင်းမပြုပါ။</paragraph><paragraph>Signal သည် သင်၏လှူဒါန်းမှုကို သင်၏ Signal အကောင့်နှင့် ချိတ်ဆက်၍မရပါ။</paragraph><paragraph>သင်၏ပံ့ပိုးမှုအတွက် ကျေးဇူးတင်ပါသည်။</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "အိုကေ"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ပြေစာများ"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ပြေစာအသေးစိတ်ကို ကြည့်ပါ"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "လှူဒါန်းသူ မေးဖြေများ"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "သက်တမ်းကုန်ဆုံးရက်"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal သို့ {formattedCurrencyAmount} လှူဒါန်းရန်"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "ရက် 30 Signal Boost ဘဲ့ဂျ်ကို ရယူပါ။"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "အနည်းဆုံး လှူဒါန်းမှုပမာဏမှာ {formattedCurrencyAmount} ဖြစ်သည်"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "သင်လှူဒါန်းနိုင်သည့် အနည်းဆုံးပမာဏမှာ {formattedCurrencyAmount} ဖြစ်ပါသည်"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "အများဆုံး လှူဒါန်းမှုပမာဏမှာ {formattedCurrencyAmount} ဖြစ်သည်"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "ဤစာမျက်နှာမှထွက်လိုက်လျှင် သင့်ခရက်ဒစ်ကတ်အချက်အလက်ကို ဖယ်ရှားပါမည်။ ရှေ့ဆက်လိုပါသလား။"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "အချက်အလက်ကို ဖယ်ရှားပါ"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "လှူဒါန်းမှု ပြေစာ"
@@ -6790,7 +6820,13 @@
     "messageformat": "အတည်ပြုရန် လိုအပ်သော လှူဒါန်းမှုတစ်ခုရှိနေသည်။"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "လှူဒါန်းမှုအောင်မြင်သော်လည်း သင့်ဘဲ့ဂျ်ဆက်တင်ကို ကျွန်ုပ်တို့အပ်ဒိတ်မလုပ်နိုင်ခဲ့ပါ"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "လှူဒါန်းမှု ပြတ်တောက်ခဲ့သည်"
@@ -6865,7 +6901,7 @@
     "messageformat": "ပရိုဖိုင်တွင် ပြသရန်"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "၎င်းကို ဆက်တင် → Signal သို့ လှူဒါန်းမှု → ဘဲ့ဂျ်များထဲမှ သင့်မိုဘိုင်းစက်တွင် ၎င်းကို ချိန်ညှိနိုင်သည်။"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -6895,16 +6931,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "အလုပ်များစွာ တစ်ပြိုင်နက် လုပ်ဆောင်နေစဉ်တွင် မက်ဆေ့ဂျ်ဖတ်ခြင်း/မဖတ်ခြင်း အတွေ့အကြုံကို ကျွန်ုပ်တို့ မြှင့်တင်ပေးထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "အီမိုဂျီရှာဖွေမှုအကွက်တွင် ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "ချို့ယွင်းချက် အသေးစားအချို့ကို ပြင်ဆင်ပေးထားသည်။"
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "အချို့သောအသုံးပြုသူများအတွက် လှူဒါန်းမှုဘဲ့ဂျ်များ မှန်ကန်စွာမပေါ်စေရန် တားဆီးထားသော ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Microsoft Window ရှိ ခေါင်းစဉ်ဘားတွင် အရောင်မှား၍ဖော်ပြသည့် ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ခဲ့သည်။"
   }
 }

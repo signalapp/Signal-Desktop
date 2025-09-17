@@ -5,6 +5,10 @@ import Long from 'long';
 import type { Backups, SignalService } from '../protobuf';
 import * as Bytes from '../Bytes';
 import { drop } from './drop';
+import { createLogger } from '../logging/log';
+import { resetBackupMediaDownloadStats } from './backupMediaDownload';
+
+const log = createLogger('BackupSubscriptionData');
 
 // These two proto messages (Backups.AccountData.IIAPSubscriberData &&
 // SignalService.AccountRecord.IIAPSubscriberData) should remain in sync. If they drift,
@@ -60,7 +64,9 @@ export async function saveBackupTier(
   const previousBackupTier = window.storage.get('backupTier');
   await window.storage.put('backupTier', backupTier);
   if (backupTier !== previousBackupTier) {
-    drop(window.Signal.Services.backups.refreshBackupAndSubscriptionStatus());
+    log.info('backup tier has changed', { previousBackupTier, backupTier });
+    await resetBackupMediaDownloadStats();
+    drop(window.Signal.Services.backups.resetCachedData());
   }
 }
 

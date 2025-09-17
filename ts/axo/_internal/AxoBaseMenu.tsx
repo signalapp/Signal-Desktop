@@ -9,13 +9,16 @@ import { AxoSymbol, type AxoSymbolName } from '../AxoSymbol';
 export namespace AxoBaseMenu {
   // <Content/SubContent>
   const baseContentStyles = tw(
-    'max-w-[300px] min-w-[200px] p-1.5',
+    'max-w-[300px] min-w-[200px]',
     'select-none',
     'rounded-xl bg-elevated-background-tertiary shadow-elevation-3',
-    'data-[state=closed]:animate-fade-out'
+    'data-[state=closed]:animate-fade-out',
+    'forced-colors:border',
+    'forced-colors:bg-[Canvas]',
+    'forced-colors:text-[CanvasText]'
   );
 
-  const baseContentGridStyles = tw('grid grid-cols-[min-content_auto]');
+  const baseContentGridStyles = tw('grid grid-cols-[min-content_auto] p-1.5');
 
   // <Group/RadioGroup>
   const baseGroupStyles = tw('col-span-full grid grid-cols-subgrid');
@@ -34,7 +37,12 @@ export namespace AxoBaseMenu {
     'rounded-md type-body-medium',
     'outline-0 data-[highlighted]:bg-fill-secondary-pressed',
     'data-[disabled]:text-label-disabled',
-    'outline-0 outline-border-focused focused:outline-[2.5px]'
+    'outline-0 outline-border-focused focused:outline-[2.5px]',
+    'forced-colors:text-[CanvasText]',
+    'forced-colors:data-[highlighted]:bg-[Highlight]',
+    'forced-colors:data-[highlighted]:text-[HighlightText]',
+    'forced-colors:data-[disabled]:text-[GrayText]',
+    'forced-color-adjust-none'
   );
 
   /**
@@ -143,7 +151,10 @@ export namespace AxoBaseMenu {
   ): JSX.Element {
     return (
       <span
-        className={tw('ml-auto px-1 type-body-medium text-label-secondary')}
+        dir="auto"
+        className={tw(
+          'ms-auto px-1 type-body-medium text-label-secondary forced-colors:text-[inherit]'
+        )}
       >
         {props.keyboardShortcut}
       </span>
@@ -332,7 +343,9 @@ export namespace AxoBaseMenu {
 
   export const menuSubTriggerStyles = tw(
     navigableItemStyles,
-    'data-[state=open]:not-data-[highlighted]:bg-fill-secondary'
+    'data-[state=open]:not-data-[highlighted]:bg-fill-secondary',
+    'forced-colors:data-[state=open]:not-data-[highlighted]:bg-[Highlight]',
+    'forced-colors:data-[state=open]:not-data-[highlighted]:text-[HighlightText]'
   );
 
   /**

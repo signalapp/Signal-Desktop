@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Bu klasörde görünmesini istediğin sohbetleri seç"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Bireysel sohbetler"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Grup sohbetleri"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Sohbet ekle"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "İndirme başarısız oldu"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Düzenlemeler yalnızca bu mesajı gönderdikten sonraki 24 saat içinde uygulanabilir."
@@ -5283,7 +5292,7 @@
     "messageformat": "Engellendi"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Yedeklemeleri"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal'ın uçtan uca şifrelenmiş güvenli depolama hizmeti ile otomatik yedeklemeler. Telefonunla başla. <learnMoreLink>Dahasını öğren</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Metin + tüm medya yedeklemesi"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Aboneliğin bulunamadı. Signal Yedeklemelerini kullanmaya devam etmek için yenile."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Metin + {mediaDayCount,number} günlük medya yedeklemesi} other {Metin + {mediaDayCount,number} günlük medya yedeklemesi}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Abonelik iptal edildi"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signal Yedeklemeleri aboneliğini telefonunda yönetebilir veya iptal edebilirsin."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal Yedeklemelerini telefonunda yönetebilir veya yükseltebilirsin."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signal Yedeklemeleri aboneliğini telefonunda yönetebilir veya yenileyebilirsin."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Son yedekleme"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal, bağış yaptığında kişisel bilgilerini toplamaz veya saklamaz.</paragraph><paragraph>Bağışlarını almak için, ödeme işlemcimiz olarak Stripe'ı kullanıyoruz. Onlara sağladığın bilgilerin hiçbirine erişmiyoruz. Bilgilerini saklamıyor veya kaydetmiyoruz.</paragraph><paragraph>Signal, yaptığın bağışı ve buna dair bilgileri Signal hesabın ile bağlamaz, bağlayamaz.</paragraph><paragraph>Desteğin için teşekkürler!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "TAMAM"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Makbuzlar"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Makbuz detaylarını görüntüle"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Bağışçılar için SSS"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Son Kullanma Tarihi"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "AA/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal'e {formattedCurrencyAmount} bağış yap"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 gün boyunca Signal Öne Çıkarma Rozetini kazan"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Minimum bağış tutarı {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "En az {formattedCurrencyAmount} miktarında bağış yapabilirsin"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Maksimum bağış tutarı {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Bu sayfayı terk ettiğinde kredi kartı bilgilerin silinecektir. Devam etmek istiyor musun?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Bilgileri kaldır"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Devam"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Bağış makbuzu"
@@ -6790,7 +6820,13 @@
     "messageformat": "Onaylanması gereken bir bağış işlemin var."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Bağış başarılı oldu ancak rozet ayarlarını güncelleyemedik"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Bağış kesildi"
@@ -6859,13 +6895,13 @@
     "messageformat": "Desteğin için teşekkürler!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Signal'den bir bağışçı rozeti kazandın! Desteğini göstermek için rozeti profilinde sergile."
+    "messageformat": "Signal'dan bir bağışçı rozeti kazandın! Desteğini göstermek için rozeti profilinde sergile."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Profilde Göster"
+    "messageformat": "Profilde göster"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Bunu mobil cihazında Ayarlar → Signal'a Bağış Yap → Rozetler bölümünden ayarlayabilirsin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Çoklu görev sırasında okunmuş/okunmamış mesaj deneyimini iyileştirdik. Resmin üzerine tıklayarak veya yeterince hızlı yazarak halen yakınlaştırma yapabilirsin."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Emoji arama kutusundaki bir hatayı düzelttik. Böylece sıkılmadan istediğin emojiyi hemen bulabileceksin."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Birkaç küçük hata düzeltmesi."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Bağış rozetlerinin bazı kullanıcılar için doğru şekilde görünmesini engelleyen bir hatayı düzelttik. Signal, 501c3 kar amacı gütmeyen bir kuruluştur ve desteğin için minnettarız!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Microsoft Windows'ta başlık çubuğunun bazen yanlış renkte görünmesine neden olan bir hatayı düzelttik. Tabii bu renk sana uymuyorsa ve eskisine alıştıysan, Windows ayarlarından sistem vurgu rengini ayarlayabilirsin."
   }
 }

@@ -74,7 +74,6 @@ const MESSAGE_DEFAULT_PROPS = {
   scrollToQuotedMessage: shouldNeverBeCalled,
   showConversation: noop,
   showAttachmentDownloadStillInProgressToast: shouldNeverBeCalled,
-  showAttachmentNotAvailableModal: shouldNeverBeCalled,
   showExpiredIncomingTapToViewToast: shouldNeverBeCalled,
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightbox: shouldNeverBeCalled,

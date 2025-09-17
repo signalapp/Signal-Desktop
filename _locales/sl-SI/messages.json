@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Izberite klepete, ki jih želite prikazati v tej mapi"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Klepeti 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Skupinski pogovori"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj klepete"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Prenos ni uspel"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Urejanje je mogoče uporabiti samo v 24 urah od trenutka, ko ste poslali to sporočilo."
@@ -5283,7 +5292,7 @@
     "messageformat": "Blokirani"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Varnostne kopije Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Samodejno varnostno kopiranje s Signalovo varno storitvijo šifriranega shranjevanja od konca do konca. Začnite v telefonu. <learnMoreLink>Preberite več.</learnMoreLink>"
@@ -5298,7 +5307,7 @@
     "messageformat": "Varnostno kopiranje sporočil in vseh medijev"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Vaša naročnina ni bila najdena. Obnovite, če želite še naprej uporabljati Varnostne kopije Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dne} two {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} few {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} other {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Naročnina je prekinjena"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Naročnino na Varnostne kopije Signal lahko upravljate ali prekličete v telefonu."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Varnostne kopije Signal lahko upravljate ali nadgradite v telefonu."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Naročnino na Varnostne kopije Signal lahko upravljate ali obnovite v telefonu."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Zadnja varnostna kopija"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal ne zbira ali shranjuje nobenih vaših osebnih podatkov, ko naredite donacijo.</paragraph><paragraph>Za prejemanje vaših donacij uporabljamo plačilni sistem Stripe. Ne dostopamo do nobenih podatkov, ki jih posredujete temu sistemu, niti jih ne shranjujemo ali hranimo.</paragraph><paragraph>Signal ne povezuje in ne more povezati vaše donacije z vašim Signal računom.</paragraph><paragraph>Hvala za vašo podporo!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Računi"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Oglejte si podrobnosti potrdila"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Pogosta vprašanja za podpornike"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Datum poteka veljavnosti"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/LL"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donirajte {formattedCurrencyAmount} Signalu"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Pridobite Značko podpore za 30 dni"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Najmanjši znesek donacije je {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Najmanjši znesek, ki ga lahko donirate, je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Najvišji znesek donacije je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Če zapustite to stran, bodo podatki o vaši kreditni kartici odstranjeni. Želite nadaljevati?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Odstrani informacije"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Nadaljuj"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Račun za donacijo"
@@ -6790,7 +6820,13 @@
     "messageformat": "V teku imate donacijo, ki zahteva potrditev."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donacija je uspela, vendar nismo mogli posodobiti nastavitev vaše značke"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinjena"
@@ -6859,13 +6895,13 @@
     "messageformat": "Hvala za vašo podporo!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Prislužili ste si značko podpornika Signala! Prikažite jo na svojem profilu, da izrazite svojo podporo."
+    "messageformat": "Prislužili ste si značko podpornika Signala! Prikažite jo v svojem profilu, da izrazite svojo podporo."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Prikazuj na profilu"
+    "messageformat": "Prikaži v profilu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "To lahko prilagodite v svoji mobilni napravi v razdelku Nastavitve → Podpri Signal → Značke"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta različica vsebuje majhne spremembe in popravke, ki omogočajo, da Signal teče brez težav.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Izboljšali smo izkušnjo prebranih/neprebranih sporočil med večopravilnostjo. Še vedno lahko povečate sliko, če kliknete nanjo ali če tipkate dovolj hitro."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Odpravili smo napako v iskalnem polju za emojije."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Ta posodobitev odpravlja nekaj manjših napak, med drugim tudi napako, zaradi katere se v nekaterih primerih odzivi z emojiji niso pravilno združevali."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Odpravili smo napako, zaradi katere se pri nekaterih uporabnikih značke za donacije niso pravilno prikazovale. Signal je neprofitna organizacija 501c3. Cenimo vašo podporo!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "V sistemu Microsoft Windows smo odpravili napako, zaradi katere je bila naslovna vrstica včasih oranžna namesto modra. Če ste v preteklih dneh vzljubili barvo citrusov in vas ta popravek napake navdaja z žalostjo, lahko barvo sistemskega poudarka prilagodite v nastavitvah operacijskega sistema Windows."
   }
 }

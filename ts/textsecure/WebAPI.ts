@@ -700,7 +700,6 @@ const CHAT_CALLS = {
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
   challenge: 'v1/challenge',
-  config: 'v1/config',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
   deliveryCert: 'v1/certificate/delivery',
@@ -1351,7 +1350,7 @@ export type GetBackupCredentialsResponseType = z.infer<
 
 export type GetBackupCDNCredentialsOptionsType = Readonly<{
   headers: BackupPresentationHeadersType;
-  cdn: number;
+  cdnNumber: number;
 }>;
 
 export const getBackupCDNCredentialsResponseSchema = z.object({
@@ -3646,7 +3645,7 @@ export function initialize({
 
     async function getBackupCDNCredentials({
       headers,
-      cdn,
+      cdnNumber,
     }: GetBackupCDNCredentialsOptionsType) {
       return _ajax({
         host: 'chatService',
@@ -3656,7 +3655,7 @@ export function initialize({
         accessKey: undefined,
         groupSendToken: undefined,
         headers,
-        urlParameters: `?cdn=${cdn}`,
+        urlParameters: `?cdn=${cdnNumber}`,
         responseType: 'json',
         zodSchema: getBackupCDNCredentialsResponseSchema,
       });

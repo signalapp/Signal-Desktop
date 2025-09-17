@@ -246,7 +246,7 @@ export namespace AxoSymbol {
    */
 
   export type IconProps = Readonly<{
-    size: 14 | 16 | 20;
+    size: 14 | 16 | 20 | 24;
     symbol: AxoSymbolName;
     label: string | null;
   }>;

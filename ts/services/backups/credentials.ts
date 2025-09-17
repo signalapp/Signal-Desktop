@@ -10,13 +10,14 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
+import { throttle } from 'lodash/fp';
 
 import * as Bytes from '../../Bytes';
 import { createLogger } from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { isMoreRecentThan, toDayMillis } from '../../util/timestamp';
-import { DAY, DurationInSeconds, HOUR } from '../../util/durations';
+import { DAY, DurationInSeconds, HOUR, MINUTE } from '../../util/durations';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff';
 import { missingCaseError } from '../../util/missingCaseError';
 import {
@@ -54,9 +55,21 @@ const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
 export class BackupCredentials {
   #activeFetch: Promise<ReadonlyArray<BackupCredentialWrapperType>> | undefined;
 
-  #cachedCdnReadCredentials: Record<number, BackupCdnReadCredentialType> = {};
+  #cachedCdnReadCredentials: Record<
+    BackupCredentialType,
+    Record<number, BackupCdnReadCredentialType>
+  > = {
+    [BackupCredentialType.Media]: {},
+    [BackupCredentialType.Messages]: {},
+  };
 
   readonly #fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
+
+  // Throttle credential clearing to avoid loops
+  public readonly onCdnCredentialError = throttle(5 * MINUTE, () => {
+    log.warn('onCdnCredentialError: clearing cache');
+    this.#clearCdnReadCredentials();
+  });
 
   public start(): void {
     this.#scheduleFetch();
@@ -140,7 +153,7 @@ export class BackupCredentials {
   }
 
   public async getCDNReadCredentials(
-    cdn: number,
+    cdnNumber: number,
     credentialType: BackupCredentialType
   ): Promise<GetBackupCDNCredentialsResponseType> {
     const { server } = window.textsecure;
@@ -148,16 +161,19 @@ export class BackupCredentials {
 
     // Backup CDN read credentials are short-lived; we'll just cache them in memory so
     // that they get invalidated for any reason, we'll fetch new ones on app restart
-    const cachedCredentialsForThisCdn = this.#cachedCdnReadCredentials[cdn];
+    const cachedCredentialsForThisCredentialType =
+      this.#cachedCdnReadCredentials[credentialType];
+
+    const cachedCredentials = cachedCredentialsForThisCredentialType[cdnNumber];
 
     if (
-      cachedCredentialsForThisCdn &&
+      cachedCredentials &&
       isMoreRecentThan(
-        cachedCredentialsForThisCdn.retrievedAtMs,
+        cachedCredentials.retrievedAtMs,
         BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION
       )
     ) {
-      return cachedCredentialsForThisCdn.credentials;
+      return cachedCredentials.credentials;
     }
 
     const headers = await this.getHeadersForToday(credentialType);
@@ -165,12 +181,12 @@ export class BackupCredentials {
     const retrievedAtMs = Date.now();
     const newCredentials = await server.getBackupCDNCredentials({
       headers,
-      cdn,
+      cdnNumber,
     });
 
-    this.#cachedCdnReadCredentials[cdn] = {
+    cachedCredentialsForThisCredentialType[cdnNumber] = {
       credentials: newCredentials,
-      cdnNumber: cdn,
+      cdnNumber,
       retrievedAtMs,
     };
 
@@ -410,7 +426,15 @@ export class BackupCredentials {
 
   // Called when backup tier changes or when userChanged event
   public async clearCache(): Promise<void> {
-    this.#cachedCdnReadCredentials = {};
+    log.info('Clearing cache');
+    this.#clearCdnReadCredentials();
     await this.#updateCache([]);
+  }
+
+  #clearCdnReadCredentials(): void {
+    this.#cachedCdnReadCredentials = {
+      [BackupCredentialType.Media]: {},
+      [BackupCredentialType.Messages]: {},
+    };
   }
 }

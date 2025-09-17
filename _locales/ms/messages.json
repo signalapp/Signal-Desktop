@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Pilih sembang yang anda mahu dipaparkan dalam folder ini"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Sembang 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Sembang kumpulan"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Tambah sembang"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Muat turun gagal"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edit hanya boleh digunakan dalam masa 24 jam dari masa anda menghantar mesej ini."
@@ -5283,7 +5292,7 @@
     "messageformat": "Disekat"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Sandaran Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Sandaran automatik dengan perkhidmatan storan Signal yang selamat dan disulitkan hujung ke hujung. Mula di telefon anda. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
@@ -5298,7 +5307,7 @@
     "messageformat": "Teks + semua sandaran media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Langganan anda tidak ditemui. Perbaharui untuk terus menggunakan Sandaran Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Teks + {mediaDayCount,number} hari sandaran media}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Langganan dibatalkan"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Anda boleh mengurus atau membatalkan langganan Sandaran Signal di telefon anda."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Anda boleh mengurus atau menaik taraf Sandaran Signal di telefon anda."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Anda boleh mengurus atau memperbaharui langganan Sandaran Signal di telefon anda."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Sandaran terakhir"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal tidak mengumpul atau menyimpan sebarang maklumat peribadi anda semasa anda menderma.</paragraph><paragraph>Kami menggunakan Stripe sebagai pemproses pembayaran untuk menerima derma anda. Kami tidak mengakses atau menyimpan sebarang maklumat yang anda berikan kepada mereka.</paragraph><paragraph>Signal tidak akan dan tidak boleh menyambung derma anda kepada akaun Signal anda.</paragraph><paragraph>Terima kasih atas sokongan anda!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Resit"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Lihat butiran resit"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Soalan Lazim Penderma"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Tarikh Tamat Tempoh"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "BB/TT"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Derma {formattedCurrencyAmount} kepada Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Dapatkan lencana Signal Boost selama 30 hari"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Jumlah derma minimum ialah {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Jumlah minimum yang anda boleh dermakan ialah {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Jumlah derma maksimum ialah {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Meninggalkan halaman ini akan mengalih keluar maklumat kad kredit anda. Adakah anda mahu meneruskan?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Alih keluar maklumat"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Teruskan"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Resit derma"
@@ -6790,7 +6820,13 @@
     "messageformat": "Anda mempunyai derma yang sedang diproses dan memerlukan pengesahan."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Derma berjaya, tetapi kami tidak dapat mengemas kini tetapan lencana anda"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Derma terganggu"
@@ -6859,13 +6895,13 @@
     "messageformat": "Terima kasih atas sokongan anda!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Anda telah memperoleh lencana penderma daripada Signal! Paparkan pada profil anda untuk menunjukkan sokongan anda."
+    "messageformat": "Anda telah memperoleh lencana penderma daripada Signal! Paparkan di profil untuk menunjukkan sokongan anda."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Pamerkan di Profil"
+    "messageformat": "Paparkan di profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Anda boleh melaraskan ini pada peranti mudah alih anda di Tetapan → Derma kepada Signal → Lencana"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Kami telah menambah baik pengalaman baca/belum baca mesej semasa anda melakukan berbilang tugas."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Kami telah membetulkan pepijat dalam kotak carian emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Beberapa pembetulan pepijat kecil."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Kami telah membetulkan pepijat yang menghalang lencana derma dipaparkan dengan betul bagi sesetengah pengguna."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Kami telah membetulkan pepijat pada Microsoft Windows yang kadangkala memaparkan warna yang salah pada bar tajuk."
   }
 }

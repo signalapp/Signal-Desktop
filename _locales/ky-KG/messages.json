@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Бул папкада көрүнө турган маектерди тандайсыз"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Жекеме-жеке маектешүү"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Топтошуп маектешүү"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Маектерди кошуу"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Жүктөлүп алынган жок"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Оңдоолор бул билдирүү жөнөтүлгөндөн кийин 3 сааттын ичинде күчүнө кирет."
@@ -5283,7 +5292,7 @@
     "messageformat": "Бөгөттөлдү"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрү"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal'дын баштан аяк шифрленген сактоо кызматы менен камдык көчүрмөлөр автоматтык түрдө сакталат. Телефонуңузда баштаңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
@@ -5298,7 +5307,7 @@
     "messageformat": "Тексттик ж.б. медиа файлдардын камдык көчүрмөсү"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Жазылууңуз табылган жок. Signal'дын камдык көчүрмөлөрүн колдоно берүү үчүн жазылууну жаңыртыңыз."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Тексттик жана соңку {mediaDayCount,number} күндөгү медиа файлдардын камдык көчүрмөсү}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Жазылуу токтотулду"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүнө жазылууну телефонуңуздан өзгөртүп же токтото аласыз."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүн телефонуңуздан өзгөртүп же жазылууну узарта аласыз."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүнө телефонуңуздан жазылып же жазылууңузду узарта аласыз."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Акыркы жолу качан сакталган"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Салым кошкондо, Signal сизге байланыштуу эч кандай жеке маалымат чогултпайт же сактабайт.</paragraph><paragraph>Салым түрүндөгү төлөмдөрүңүздү Stripe кызматы аркылуу алабыз. Аларга берген бир дагы маалыматыңызды албайбыз, сактабайбыз же жазып албайбыз.</paragraph><paragraph>Signal салымыңызды Signal аккаунтуңузга байланыштыра албайт жана байланыштырбайт.</paragraph><paragraph>Колдоо көрсөткөнүңүз үчүн чоң рахмат!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Дүмүрчөктөр"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Дүмүрчөктүн чоо-жайын карап көрүү"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Салым тууралуу КБС"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Качан бүтөт"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal'га {formattedCurrencyAmount} салым кошуу"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 күн Signal Boost төшбелгисин колдонуңуз"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Кеминде {formattedCurrencyAmount} салым кошо аласыз"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Бул беттен чыксаңыз, насыя картаңыздын маалыматы өчүп калат. Улантасызбы?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Ооба"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Улантуу"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
@@ -6790,7 +6820,13 @@
     "messageformat": "Ырастоону талап кылган салымыңыз ишке ашууда."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Салымыңыз кошулду, бирок төшбелгиңиздин параметрлерин өзгөртө алган жокпуз"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Салым үзгүлтүккө учурады"
@@ -6865,7 +6901,7 @@
     "messageformat": "Профильде көрсөтүү"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Аны мобилдик түзмөгүңүздө Параметрлер → Signal'га колдоо көрсөтүү → Төшбелгилер деген жерде тууралай аласыз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бул версия бир нече майда өзгөртүүлөрдү жана мүчүлүштүктөрдү оңдоолорду камтыйт.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Бир нече колдонмо ачылып турганда, окулган/окула элек билдирүүлөрдүн көрүнүшүн жакшыртып, сезимиңизди билдирүү үчүн быйтыкча издеп жатканда кокус боштукту басып алып, быйтыкча толук көрүнгөн мүчүлүштүктү оңдоп койдук. Азыр деле быйтыкчаны басып, чоңойтуп көрө аласыз же терип деле көрсөңүз болот."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Кээде керектүү быйтыкчаны таба албай калабыз. Издөө сабында Esc баскычын басканда ката деп чыккан билдирүүнү оңдоп койдук."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Бул жаңы версияда бир нече мүчүлүштүктөр оңдолду. Мисалы, сезимдерди билдирген быйтыкчалар туура эмес топтоштурулган мүчүлүштүк."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Айрым колдонуучулар үчүн кайрымдуулук бейжиктери туура эмес көрүнүп жаткан мүчүлүштүктү оңдодук. Signal - АКШнын Салык кодексинин 501c3-бөлүмүнө ылайык иштеген коммерциялык эмес уюм. Колдооңуз үчүн терең ыраазычылык!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Signal Desktop терезесинин аталышын көк эмес, кызгылт сары кылып көрсөткөн Microsoft Windows'тогу катаны оңдоп койдук. Кызгылт сары түскө көнүп калып, мындай жаңылыктан маанайың чөксө, Windows'тун параметрлеринен түстүн акцентин өзгөртүп алыңыз."
   }
 }

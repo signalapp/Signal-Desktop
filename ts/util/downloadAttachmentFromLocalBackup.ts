@@ -3,10 +3,7 @@
 
 import { existsSync } from 'node:fs';
 import { isNumber } from 'lodash';
-import {
-  type BackupableAttachmentType,
-  getAttachmentIdForLogging,
-} from '../types/Attachment';
+import { type BackupableAttachmentType } from '../types/Attachment';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
@@ -16,13 +13,12 @@ import { strictAssert } from './assert';
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachmentFromLocalBackup(
-  attachment: BackupableAttachmentType
+  attachment: BackupableAttachmentType,
+  { logId }: { logId: string }
 ): Promise<ReencryptedAttachmentV2> {
-  const attachmentId = getAttachmentIdForLogging(attachment);
-  const dataId = `${attachmentId}`;
-  const logId = `downloadAttachmentFromLocalBackup(${dataId})`;
-
-  return doDownloadFromLocalBackup(attachment, { logId });
+  return doDownloadFromLocalBackup(attachment, {
+    logId: `downloadAttachmentFromLocalBackup(${logId})`,
+  });
 }
 
 async function doDownloadFromLocalBackup(

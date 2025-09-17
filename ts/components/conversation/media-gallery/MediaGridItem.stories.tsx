@@ -4,9 +4,15 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
 import type { MediaItemType } from '../../../types/MediaItem';
-import type { AttachmentType } from '../../../types/Attachment';
-import { stringToMIMEType } from '../../../types/MIME';
+import { SignalService } from '../../../protobuf';
+import {
+  IMAGE_JPEG,
+  VIDEO_MP4,
+  APPLICATION_OCTET_STREAM,
+  type MIMEType,
+} from '../../../types/MIME';
 import type { Props } from './MediaGridItem';
 import { MediaGridItem } from './MediaGridItem';
 
@@ -18,21 +24,37 @@ export default {
 
 const createProps = (
   overrideProps: Partial<Props> & { mediaItem: MediaItemType }
-): Props => ({
-  i18n,
-  mediaItem: overrideProps.mediaItem,
-  onClick: action('onClick'),
-});
+): Props => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const theme = React.useContext(StorybookThemeContext);
+
+  return {
+    i18n,
+    theme,
+    mediaItem: overrideProps.mediaItem,
+    onClick: action('onClick'),
+  };
+};
+
+type OverridePropsMediaItemType = Partial<MediaItemType> & {
+  objectURL?: string;
+  contentType?: MIMEType;
+};
 
 const createMediaItem = (
-  overrideProps: Partial<MediaItemType> = {}
+  overrideProps: OverridePropsMediaItemType
 ): MediaItemType => ({
-  thumbnailObjectUrl: overrideProps.thumbnailObjectUrl || '',
-  contentType: overrideProps.contentType || stringToMIMEType(''),
   index: 0,
-  attachment: {} as AttachmentType, // attachment not useful in the component
+  attachment: overrideProps.attachment || {
+    path: '123',
+    contentType: overrideProps.contentType ?? IMAGE_JPEG,
+    size: 123,
+    url: overrideProps.objectURL,
+    blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    isPermanentlyUndownloadable: false,
+  },
   message: {
-    attachments: [],
+    type: 'incoming',
     conversationId: '1234',
     id: 'id',
     receivedAt: Date.now(),
@@ -43,8 +65,34 @@ const createMediaItem = (
 
 export function Image(): JSX.Element {
   const mediaItem = createMediaItem({
-    thumbnailObjectUrl: '/fixtures/kitten-1-64-64.jpg',
-    contentType: stringToMIMEType('image/jpeg'),
+    objectURL: '/fixtures/kitten-1-64-64.jpg',
+    contentType: IMAGE_JPEG,
+  });
+
+  const props = createProps({
+    mediaItem,
+  });
+
+  return <MediaGridItem {...props} />;
+}
+
+export function WideImage(): JSX.Element {
+  const mediaItem = createMediaItem({
+    objectURL: '/fixtures/wide.jpg',
+    contentType: IMAGE_JPEG,
+  });
+
+  const props = createProps({
+    mediaItem,
+  });
+
+  return <MediaGridItem {...props} />;
+}
+
+export function TallImage(): JSX.Element {
+  const mediaItem = createMediaItem({
+    objectURL: '/fixtures/snow.jpg',
+    contentType: IMAGE_JPEG,
   });
 
   const props = createProps({
@@ -56,8 +104,42 @@ export function Image(): JSX.Element {
 
 export function Video(): JSX.Element {
   const mediaItem = createMediaItem({
-    thumbnailObjectUrl: '/fixtures/kitten-2-64-64.jpg',
-    contentType: stringToMIMEType('video/mp4'),
+    attachment: {
+      incrementalUrl: 'abc',
+      screenshot: {
+        url: '/fixtures/kitten-2-64-64.jpg',
+        contentType: IMAGE_JPEG,
+      },
+      contentType: VIDEO_MP4,
+      size: 1024,
+      isPermanentlyUndownloadable: false,
+      path: 'abcd',
+    },
+    contentType: VIDEO_MP4,
+  });
+
+  const props = createProps({
+    mediaItem,
+  });
+
+  return <MediaGridItem {...props} />;
+}
+
+export function GIF(): JSX.Element {
+  const mediaItem = createMediaItem({
+    attachment: {
+      url: 'abc',
+      screenshot: {
+        url: '/fixtures/kitten-2-64-64.jpg',
+        contentType: IMAGE_JPEG,
+      },
+      contentType: VIDEO_MP4,
+      size: 1024,
+      isPermanentlyUndownloadable: false,
+      path: 'abcd',
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+    },
+    contentType: VIDEO_MP4,
   });
 
   const props = createProps({
@@ -69,7 +151,53 @@ export function Video(): JSX.Element {
 
 export function MissingImage(): JSX.Element {
   const mediaItem = createMediaItem({
-    contentType: stringToMIMEType('image/jpeg'),
+    contentType: IMAGE_JPEG,
+    attachment: {
+      contentType: IMAGE_JPEG,
+      size: 123,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      isPermanentlyUndownloadable: false,
+    },
+  });
+
+  const props = createProps({
+    mediaItem,
+  });
+
+  return <MediaGridItem {...props} />;
+}
+
+export function PendingImage(): JSX.Element {
+  const mediaItem = createMediaItem({
+    contentType: IMAGE_JPEG,
+    attachment: {
+      contentType: IMAGE_JPEG,
+      size: 123000,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      isPermanentlyUndownloadable: false,
+      totalDownloaded: 0,
+      pending: true,
+    },
+  });
+
+  const props = createProps({
+    mediaItem,
+  });
+
+  return <MediaGridItem {...props} />;
+}
+
+export function DownloadingImage(): JSX.Element {
+  const mediaItem = createMediaItem({
+    contentType: IMAGE_JPEG,
+    attachment: {
+      contentType: IMAGE_JPEG,
+      size: 123000,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      isPermanentlyUndownloadable: false,
+      totalDownloaded: 20300,
+      pending: true,
+    },
   });
 
   const props = createProps({
@@ -81,7 +209,7 @@ export function MissingImage(): JSX.Element {
 
 export function MissingVideo(): JSX.Element {
   const mediaItem = createMediaItem({
-    contentType: stringToMIMEType('video/mp4'),
+    contentType: VIDEO_MP4,
   });
 
   const props = createProps({
@@ -93,8 +221,8 @@ export function MissingVideo(): JSX.Element {
 
 export function BrokenImage(): JSX.Element {
   const mediaItem = createMediaItem({
-    thumbnailObjectUrl: '/missing-fixtures/nope.jpg',
-    contentType: stringToMIMEType('image/jpeg'),
+    objectURL: '/missing-fixtures/nope.jpg',
+    contentType: IMAGE_JPEG,
   });
 
   const props = createProps({
@@ -106,8 +234,8 @@ export function BrokenImage(): JSX.Element {
 
 export function BrokenVideo(): JSX.Element {
   const mediaItem = createMediaItem({
-    thumbnailObjectUrl: '/missing-fixtures/nope.mp4',
-    contentType: stringToMIMEType('video/mp4'),
+    objectURL: '/missing-fixtures/nope.mp4',
+    contentType: VIDEO_MP4,
   });
 
   const props = createProps({
@@ -119,7 +247,7 @@ export function BrokenVideo(): JSX.Element {
 
 export function OtherContentType(): JSX.Element {
   const mediaItem = createMediaItem({
-    contentType: stringToMIMEType('application/text'),
+    contentType: APPLICATION_OCTET_STREAM,
   });
 
   const props = createProps({

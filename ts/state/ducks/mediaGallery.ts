@@ -6,22 +6,17 @@ import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
 import { DataReader } from '../../sql/Client';
+import type { MediaItemDBType } from '../../sql/Interface';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
 } from './conversations';
-import { VERSION_NEEDED_FOR_DISPLAY } from '../../types/Message2';
-import { isDownloading, hasFailed } from '../../types/Attachment';
 import { isNotNil } from '../../util/isNotNil';
-import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
-import { getMessageIdForLogging } from '../../util/idForLogging';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
-import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
   ConversationUnloadedActionType,
@@ -29,32 +24,21 @@ import type {
   MessageDeletedActionType,
   MessageExpiredActionType,
 } from './conversations';
-import type { MIMEType } from '../../types/MIME';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType as RootStateType } from '../reducer';
-import type { MessageAttributesType } from '../../model-types';
-import { MessageModel } from '../../models/messages';
-import { isTapToView } from '../selectors/message';
+import type { MessageAttributesType, MessageType } from '../../model-types';
+import { isTapToView, getPropsForAttachment } from '../selectors/message';
 
 const log = createLogger('mediaGallery');
 
 type MediaItemMessage = ReadonlyDeep<{
-  attachments: Array<AttachmentType>;
   // Note that this reflects the sender, and not the parent conversation
   conversationId: string;
+  type: MessageType;
   id: string;
   receivedAt: number;
   receivedAtMs: number;
   sentAt: number;
-}>;
-type MediaType = ReadonlyDeep<{
-  path: string;
-  objectURL: string;
-  thumbnailObjectUrl?: string;
-  contentType: MIMEType;
-  index: number;
-  attachment: AttachmentType;
-  message: MediaItemMessage;
 }>;
 
 export type MediaGalleryStateType = ReadonlyDeep<{
@@ -63,7 +47,7 @@ export type MediaGalleryStateType = ReadonlyDeep<{
   haveOldestDocument: boolean;
   haveOldestMedia: boolean;
   loading: boolean;
-  media: ReadonlyArray<MediaType>;
+  media: ReadonlyArray<MediaItemType>;
 }>;
 
 const FETCH_CHUNK_COUNT = 50;
@@ -78,14 +62,14 @@ type InitialLoadActionType = ReadonlyDeep<{
   payload: {
     conversationId: string;
     documents: ReadonlyArray<MediaItemType>;
-    media: ReadonlyArray<MediaType>;
+    media: ReadonlyArray<MediaItemType>;
   };
 }>;
 type LoadMoreMediaActionType = ReadonlyDeep<{
   type: typeof LOAD_MORE_MEDIA;
   payload: {
     conversationId: string;
-    media: ReadonlyArray<MediaType>;
+    media: ReadonlyArray<MediaItemType>;
   };
 }>;
 type LoadMoreDocumentsActionType = ReadonlyDeep<{
@@ -113,7 +97,9 @@ type MediaGalleryActionType = ReadonlyDeep<
   | SetLoadingActionType
 >;
 
-function _sortMedia(media: ReadonlyArray<MediaType>): ReadonlyArray<MediaType> {
+function _sortMedia(
+  media: ReadonlyArray<MediaItemType>
+): ReadonlyArray<MediaItemType> {
   return orderBy(media, [
     'message.receivedAt',
     'message.sentAt',
@@ -130,13 +116,13 @@ function _getMediaItemMessage(
   message: ReadonlyDeep<MessageAttributesType>
 ): MediaItemMessage {
   return {
-    attachments: message.attachments || [],
     conversationId:
       window.ConversationController.lookupOrCreate({
         serviceId: message.sourceServiceId,
         e164: message.source,
         reason: 'conversation_view.showAllMedia',
       })?.id || message.conversationId,
+    type: message.type,
     id: message.id,
     receivedAt: message.received_at,
     receivedAtMs: Number(message.received_at_ms),
@@ -145,97 +131,39 @@ function _getMediaItemMessage(
 }
 
 function _cleanVisualAttachments(
-  rawMedia: ReadonlyDeep<ReadonlyArray<MessageModel>>
-): ReadonlyArray<MediaType> {
-  return rawMedia
-    .flatMap(message => {
-      let index = 0;
-
-      // Also checked via the DB query
-      if (isTapToView(message.attributes)) {
-        return [];
-      }
-
-      return (message.get('attachments') || []).map(
-        (attachment: AttachmentType): MediaType | undefined => {
-          if (
-            !attachment.path ||
-            !attachment.thumbnail ||
-            isDownloading(attachment) ||
-            hasFailed(attachment)
-          ) {
-            return;
-          }
-
-          const { thumbnail } = attachment;
-          const result = {
-            path: attachment.path,
-            objectURL: getLocalAttachmentUrl(attachment),
-            thumbnailObjectUrl: thumbnail?.path
-              ? getLocalAttachmentUrl(thumbnail)
-              : undefined,
-            contentType: attachment.contentType,
-            index,
-            attachment,
-            message: _getMediaItemMessage(message.attributes),
-          };
-
-          index += 1;
-
-          return result;
-        }
-      );
-    })
-    .filter(isNotNil);
+  rawMedia: ReadonlyArray<MediaItemDBType>
+): ReadonlyArray<MediaItemType> {
+  return rawMedia.map(({ message, index, attachment }) => {
+    return {
+      index,
+      attachment: getPropsForAttachment(attachment, 'attachment', message),
+      message,
+    };
+  });
 }
 
 function _cleanFileAttachments(
-  rawDocuments: ReadonlyDeep<ReadonlyArray<MessageModel>>
+  rawDocuments: ReadonlyDeep<ReadonlyArray<MessageAttributesType>>
 ): ReadonlyArray<MediaItemType> {
   return rawDocuments
     .map(message => {
-      if (isTapToView(message.attributes)) {
+      if (isTapToView(message)) {
         return;
       }
-      const attachments = message.get('attachments') || [];
+
+      const attachments = message.attachments || [];
       const attachment = attachments[0];
       if (!attachment) {
         return;
       }
 
       return {
-        contentType: attachment.contentType,
         index: 0,
-        attachment,
-        message: {
-          ..._getMediaItemMessage(message.attributes),
-          attachments: [attachment],
-        },
+        attachment: getPropsForAttachment(attachment, 'attachment', message),
+        message: _getMediaItemMessage(message),
       };
     })
     .filter(isNotNil);
-}
-
-async function _upgradeMessages(
-  messages: ReadonlyArray<MessageModel>
-): Promise<void> {
-  // We upgrade these messages so they are sure to have thumbnails
-  await Promise.all(
-    messages.map(async message => {
-      try {
-        await window.MessageCache.upgradeSchema(
-          message,
-          VERSION_NEEDED_FOR_DISPLAY
-        );
-      } catch (error) {
-        log.warn(
-          '_upgradeMessages: Failed to upgrade message ' +
-            `${getMessageIdForLogging(message.attributes)}: ${Errors.toLogFormat(error)}`
-        );
-        return undefined;
-      }
-    })
-  );
 }
 
 function initialLoad(
@@ -252,26 +180,17 @@ function initialLoad(
       payload: { loading: true },
     });
 
-    const rawMedia = (
-      await DataReader.getOlderMessagesByConversation({
-        conversationId,
-        includeStoryReplies: false,
-        limit: FETCH_CHUNK_COUNT,
-        requireVisualMediaAttachments: true,
-        storyId: undefined,
-      })
-    ).map(item => window.MessageCache.register(new MessageModel(item)));
-    const rawDocuments = (
-      await DataReader.getOlderMessagesByConversation({
-        conversationId,
-        includeStoryReplies: false,
-        limit: FETCH_CHUNK_COUNT,
-        requireFileAttachments: true,
-        storyId: undefined,
-      })
-    ).map(item => window.MessageCache.register(new MessageModel(item)));
-
-    await _upgradeMessages(rawMedia);
+    const rawMedia = await DataReader.getOlderMedia({
+      conversationId,
+      limit: FETCH_CHUNK_COUNT,
+    });
+    const rawDocuments = await DataReader.getOlderMessagesByConversation({
+      conversationId,
+      includeStoryReplies: false,
+      limit: FETCH_CHUNK_COUNT,
+      requireFileAttachments: true,
+      storyId: undefined,
+    });
 
     const media = _cleanVisualAttachments(rawMedia);
     const documents = _cleanFileAttachments(rawDocuments);
@@ -319,20 +238,13 @@ function loadMoreMedia(
 
     const { sentAt, receivedAt, id: messageId } = oldestLoadedMedia.message;
 
-    const rawMedia = (
-      await DataReader.getOlderMessagesByConversation({
-        conversationId,
-        includeStoryReplies: false,
-        limit: FETCH_CHUNK_COUNT,
-        messageId,
-        receivedAt,
-        requireVisualMediaAttachments: true,
-        sentAt,
-        storyId: undefined,
-      })
-    ).map(item => window.MessageCache.register(new MessageModel(item)));
-
-    await _upgradeMessages(rawMedia);
+    const rawMedia = await DataReader.getOlderMedia({
+      conversationId,
+      limit: FETCH_CHUNK_COUNT,
+      messageId,
+      receivedAt,
+      sentAt,
+    });
 
     const media = _cleanVisualAttachments(rawMedia);
 
@@ -384,18 +296,16 @@ function loadMoreDocuments(
 
     const { sentAt, receivedAt, id: messageId } = oldestLoadedDocument.message;
 
-    const rawDocuments = (
-      await DataReader.getOlderMessagesByConversation({
-        conversationId,
-        includeStoryReplies: false,
-        limit: FETCH_CHUNK_COUNT,
-        messageId,
-        receivedAt,
-        requireFileAttachments: true,
-        sentAt,
-        storyId: undefined,
-      })
-    ).map(item => window.MessageCache.register(new MessageModel(item)));
+    const rawDocuments = await DataReader.getOlderMessagesByConversation({
+      conversationId,
+      includeStoryReplies: false,
+      limit: FETCH_CHUNK_COUNT,
+      messageId,
+      receivedAt,
+      requireFileAttachments: true,
+      sentAt,
+      storyId: undefined,
+    });
 
     const documents = _cleanFileAttachments(rawDocuments);
 
@@ -519,12 +429,23 @@ export function reducer(
     const oldestLoadedMedia = state.media[0];
     const oldestLoadedDocument = state.documents[0];
 
-    const newMedia = _cleanVisualAttachments([
-      window.MessageCache.register(new MessageModel(message)),
-    ]);
-    const newDocuments = _cleanFileAttachments([
-      window.MessageCache.register(new MessageModel(message)),
-    ]);
+    const newMedia = _cleanVisualAttachments(
+      (message.attachments ?? []).map((attachment, index) => {
+        return {
+          index,
+          attachment,
+          message: {
+            id: message.id,
+            type: message.type,
+            conversationId: message.conversationId,
+            receivedAt: message.received_at,
+            receivedAtMs: message.received_at_ms,
+            sentAt: message.sent_at,
+          },
+        };
+      })
+    );
+    const newDocuments = _cleanFileAttachments([message]);
 
     let { documents, haveOldestDocument, haveOldestMedia, media } = state;
 

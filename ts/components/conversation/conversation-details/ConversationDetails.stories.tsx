@@ -65,7 +65,7 @@ const createProps = (
   isGroup: true,
   isSignalConversation: false,
   leaveGroup: action('leaveGroup'),
-  loadRecentMediaItems: action('loadRecentMediaItems'),
+  hasMedia: true,
   memberships: times(32, i => ({
     isAdmin: i === 1,
     member: getDefaultConversation({
@@ -86,7 +86,6 @@ const createProps = (
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showConversation: action('showConversation'),
-  showLightbox: action('showLightbox'),
   startAvatarDownload: action('startAvatarDownload'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();

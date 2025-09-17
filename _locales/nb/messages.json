@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Velg hvilke samtaler du ønsker å legge til i mappen."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "En-til-en-samtaler"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Gruppesamtaler"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Legg til samtaler"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Nedlasting mislyktes"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Meldinger kan kun redigeres de første 24 timene etter at de ble sendt."
@@ -5283,7 +5292,7 @@
     "messageformat": "Blokkert"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Sikkerhetskopiering av Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatisk sikkerhetskopiering med Signals sikre, ende-til-ende-krypterte lagringstjeneste. Kom i gang på mobilen din. <learnMoreLink>Les mer</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Sikkerhetskopiering av alle mediefiler og tekst"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonnementet ble ikke funnet. Forny abonnementet for å fortsette å bruke sikkerhetskopiering på Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Sikkerhetskopiering av tekst og mediefiler fra det siste døgnet} other {Sikkerhetskopiering av tekst og mediefiler fra de siste {mediaDayCount,number} dagene}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Abonnementet er sagt opp"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Du kan administrere eller si opp abonnementet ditt på telefonen din."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Du kan administrere eller oppgradere sikkerhetskopiering av Signal på telefonen din."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Du kan administrere eller fornye abonnementet ditt på telefonen din."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Siste sikkerhetskopi"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal lagrer ikke personopplysningene dine når du gir en pengegave.</paragraph><paragraph>Betalingstjenesten Stripe behandler pengebeløpet du gir oss. Vi har ikke tilgang til og verken lagrer eller oppbevarer opplysningene du gir til Stripe.</paragraph><paragraph>Signal vil ikke, og kan ikke, knytte pengegaven til Signal-kontoen din.</paragraph><paragraph>Takk for støtten!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitteringer"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Se kvitteringsdetaljer"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Vanlige spørsmål om pengegaver"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Utløpsdato"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/ÅÅ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Gi {formattedCurrencyAmount} til Signal"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Maksimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Kortopplysningene dine slettes dersom du forlater denne siden. Vil du gå videre?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Forlat siden"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Fortsett"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6790,7 +6820,13 @@
     "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Gaven ble gitt, men vi kunne ikke endre innstillingene dine for merker."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6865,7 +6901,7 @@
     "messageformat": "Vis på profilen"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Du kan justere dette på mobilen din under Innstillinger → Gi penger til Signal → Merker"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Vi har gjort melding lest/ulest-funksjonen bedre."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Vi har rettet opp i en feil i søkefeltet for emojier."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Et par små feilrettinger."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Vi rettet opp i en feil som førte til at pengegavemerker ikke var synlige for enkelte brukere."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Vi rettet opp i en feil i Microsoft Windows som noen ganger førte til at feil farge ble vist i tittelfeltet."
   }
 }

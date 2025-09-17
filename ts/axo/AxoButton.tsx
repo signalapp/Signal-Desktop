@@ -11,7 +11,8 @@ const Namespace = 'AxoButton';
 
 const baseAxoButtonStyles = tw(
   'flex items-center-safe justify-center-safe gap-1 truncate rounded-full select-none',
-  'outline-0 outline-border-focused focused:outline-[2.5px]'
+  'outline-0 outline-border-focused focused:outline-[2.5px]',
+  'forced-colors:border'
 );
 
 const AxoButtonTypes = {

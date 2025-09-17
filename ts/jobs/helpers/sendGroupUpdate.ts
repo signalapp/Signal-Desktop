@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import { getSendOptionsForRecipients } from '../../util/getSendOptions';
 import { isGroupV2 } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -70,8 +71,7 @@ export async function sendGroupUpdate(
 
   const sendOptions = await getSendOptionsForRecipients(recipients);
 
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const sendType = 'groupChange';
 
   const groupChange = groupChangeBase64

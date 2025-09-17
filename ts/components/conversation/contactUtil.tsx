@@ -28,31 +28,24 @@ export function renderAvatar({
 
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const title = getName(contact) || '';
-  const isAttachmentNotAvailable = Boolean(
-    avatar?.avatar?.isPermanentlyUndownloadable
-  );
-
-  const renderAttachmentDownloaded = () => (
-    <Avatar
-      avatarUrl={avatarUrl}
-      badge={undefined}
-      blur={AvatarBlur.NoBlur}
-      color={AvatarColors[0]}
-      conversationType="direct"
-      i18n={i18n}
-      title={title}
-      sharedGroupNames={[]}
-      size={size}
-    />
-  );
 
   return (
     <AttachmentStatusIcon
       attachment={avatar?.avatar}
-      isAttachmentNotAvailable={isAttachmentNotAvailable}
       isIncoming={direction === 'incoming'}
-      renderAttachmentDownloaded={renderAttachmentDownloaded}
-    />
+    >
+      <Avatar
+        avatarUrl={avatarUrl}
+        badge={undefined}
+        blur={AvatarBlur.NoBlur}
+        color={AvatarColors[0]}
+        conversationType="direct"
+        i18n={i18n}
+        title={title}
+        sharedGroupNames={[]}
+        size={size}
+      />
+    </AttachmentStatusIcon>
   );
 }
 

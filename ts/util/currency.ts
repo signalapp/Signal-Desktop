@@ -12,6 +12,7 @@ import {
   stripeDonationAmountSchema,
 } from '../types/Donations';
 import { parseStrict, safeParseStrict } from './schemas';
+import { missingCaseError } from './missingCaseError';
 
 // See: https://docs.stripe.com/currencies?presentment-currency=US
 export const ZERO_DECIMAL_CURRENCIES = new Set([
@@ -72,10 +73,12 @@ function getLocales(): Intl.LocalesArgument {
 export function toHumanCurrencyString({
   amount,
   currency,
+  symbol = 'symbol',
   showInsignificantFractionDigits = false,
 }: {
   amount: HumanDonationAmount | undefined;
   currency: string | undefined;
+  symbol?: 'symbol' | 'narrowSymbol' | 'none';
   showInsignificantFractionDigits?: boolean;
 }): string {
   if (amount == null || currency == null) {
@@ -87,18 +90,38 @@ export function toHumanCurrencyString({
       showInsignificantFractionDigits || amount % 1 !== 0
         ? {}
         : { minimumFractionDigits: 0 };
+
+    let currencyDisplay: 'code' | 'symbol' | 'narrowSymbol';
+    if (symbol === 'symbol' || symbol === 'narrowSymbol') {
+      currencyDisplay = symbol;
+    } else if (symbol === 'none') {
+      // we will filter it out later
+      currencyDisplay = 'code';
+    } else {
+      throw missingCaseError(symbol);
+    }
+
     const formatter = new Intl.NumberFormat(getLocales(), {
       style: 'currency',
       currency,
+      currencyDisplay,
       ...fractionOptions,
     });
-    return formatter.format(amount);
+    // replace &nbsp; with space
+    const rawResult = formatter.format(amount).replace(/\u00a0/g, ' ');
+
+    if (symbol === 'none') {
+      return rawResult.replace(currency.toUpperCase(), '').trim();
+    }
+
+    return rawResult;
   } catch {
     return '';
   }
 }
 
 export type CurrencyFormatResult = {
+  currency: string;
   decimal: string | undefined;
   group: string | undefined;
   symbol: string;
@@ -114,12 +137,14 @@ export function getCurrencyFormat(
   }
 
   try {
+    const currencyLowercase = currency.toLowerCase();
     const formatter = new Intl.NumberFormat(getLocales(), {
       style: 'currency',
       currency,
       currencyDisplay: 'narrowSymbol',
     });
 
+    let isDigitPresent = false;
     let symbol = '';
     let symbolPrefix = '';
     let symbolSuffix = '';
@@ -132,18 +157,36 @@ export function getCurrencyFormat(
       if (type === 'currency') {
         symbol += value;
         if (index === 0) {
-          symbolPrefix = part.value;
+          symbolPrefix += part.value;
         } else {
-          symbolSuffix = part.value;
+          symbolSuffix += part.value;
+        }
+      } else if (type === 'literal') {
+        symbol += value;
+        if (!isDigitPresent) {
+          symbolPrefix += part.value;
+        } else {
+          symbolSuffix += part.value;
         }
       } else if (type === 'group') {
         group = value;
       } else if (type === 'decimal') {
         decimal = value;
+      } else if (type === 'integer' || type === 'fraction') {
+        if (!isDigitPresent) {
+          isDigitPresent = true;
+        }
       }
     }
 
-    return { decimal, group, symbol, symbolPrefix, symbolSuffix };
+    return {
+      currency: currencyLowercase,
+      decimal,
+      group,
+      symbol,
+      symbolPrefix,
+      symbolSuffix,
+    };
   } catch {
     return undefined;
   }
@@ -208,4 +251,13 @@ export function getHumanDonationAmount(
   const { currencyType: currency, paymentAmount } = receipt;
   const amount = brandStripeDonationAmount(paymentAmount);
   return toHumanDonationAmount({ amount, currency });
+}
+
+export function getMaximumStripeAmount(currency: string): HumanDonationAmount {
+  // 8 digits in the minimum currency unit
+  const amount = brandStripeDonationAmount(99999999);
+  return toHumanDonationAmount({
+    amount,
+    currency,
+  });
 }

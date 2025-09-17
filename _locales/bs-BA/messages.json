@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Odaberite razgovore koje želite da se pojave u ovom folderu."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Chatovi 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Grupni chatovi"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj chatove"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Preuzimanje nije uspjelo"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Izmjene se mogu primijeniti samo u roku od 24 sata od trenutka kada ste poslali ovu poruku."
@@ -5283,7 +5292,7 @@
     "messageformat": "Blokirani"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Sigurnosne kopije Signala"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatsko kreiranje rezervnih kopija sa Signalovom sigurnom sveobuhvatnom uslugom pohranjivanja. Započnite na svom telefonu. <learnMoreLink>Saznajte više.</learnMoreLink>"
@@ -5298,7 +5307,7 @@
     "messageformat": "Tekst + sigurnosna kopija svih medijskih sadržaja"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Vaša pretplata nije pronađena. Obnovite da nastavite koristiti sigurnosne kopije Signala."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekst + sigurnosna kopija medija od{mediaDayCount,number} dan} few {Tekst + sigurnosna kopija medija od{mediaDayCount,number} dana} many {Tekst + sigurnosna kopija medija od{mediaDayCount,number} dana} other {Tekst + sigurnosna kopija medija od{mediaDayCount,number} dana}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Pretplata je otkazana"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Možete upravljati ili otkazati pretplatu na Sigurnosne kopije Signala na svom telefonu."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Možete upravljati ili nadograditi sigurnosne kopije Signala na svom telefonu."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Možete upravljati ili obnoviti Sigurnosne kopije Signala na svom telefonu."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Posljednja rezervna kopija"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal ne prikuplja niti pohranjuje vaše lične podatke kada izvršite donaciju.</paragraph><paragraph>Koristimo Stripe kao našeg obrađivača plaćanja za primanje vaših donacija. Ne pristupamo, ne pohranjujemo niti čuvamo bilo koju informaciju koju im dostavite.</paragraph><paragraph>Signal ne povezuje i ne može povezati vašu donaciju s vašim Signal računom.</paragraph><paragraph>Hvala vam na podršci!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Potvrde"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Pogledajte detalje računa"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Često postavljena pitanja donatora"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Datum isteka"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/GG"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donirajte {formattedCurrencyAmount} Signalu"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Primite značku Signal Boost na 30 dana"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Minimalni iznos donacije je {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimalni iznos koji možete donirati je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Maksimalni iznos donacije je {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Napuštanjem ove stranice uklonit ćete podatke o svojoj kreditnoj kartici. Želite li nastaviti?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Ukloni informacije"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Nastavi"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Priznanica za donaciju"
@@ -6790,7 +6820,13 @@
     "messageformat": "Imate donaciju u toku za koju je potrebna potvrda."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donacija je uspjela, ali nismo mogli ažurirati postavke vaše značke"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinuta"
@@ -6865,7 +6901,7 @@
     "messageformat": "Prikaži na profilu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Ovo možete podesiti na svom mobilnom uređaju u Postavkama → Doniraj Signalu → Značke"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija sadrži brojna mala poboljšanja i ispravke grešaka kako bi Signal nesmetano funkcionirao.",
@@ -6895,16 +6931,13 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Poboljšali smo prikaz pročitanih/nepročitanih poruka tokom rada u više zadataka istovremeno i ispravili grešku koja je povremeno pogrešno otvarala prošireni pregled slika kada ste pritisnuli razmaknicu dok ste tražili savršenu emoji reakciju. I dalje možete zumirati ako kliknete na sliku ili ako dovoljno brzo kucate."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Ispravili smo grešku u okviru za pretraživanje emojija."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Ispravljanja nekoliko manjih grešaka."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Ispravili smo grešku koja je sprječavala ispravno prikazivanje znački za donacije kod nekih korisnika. Signal je neprofitna organizacija 501c3 i cijenimo vašu podršku!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Ispravili smo grešku u Microsoft Windowsu zbog koje je naslovna traka Signal Desktopa bila narandžasta umjesto plave. Ako ste u proteklih nekoliko dana zavoljeli shemu boja s citrusnom tematikom i ova ispravka greške vas čini tužnim, možete prilagoditi boju sistemskog akcenta u postavkama Windowsa."
   }
 }

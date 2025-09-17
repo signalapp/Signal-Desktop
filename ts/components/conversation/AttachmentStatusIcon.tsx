@@ -1,22 +1,21 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, type ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { ProgressCircle } from '../ProgressCircle';
+import { SpinnerV2 } from '../SpinnerV2';
 import { usePrevious } from '../../hooks/usePrevious';
 
 import type { AttachmentForUIType } from '../../types/Attachment';
-import { roundFractionForProgressBar } from '../../util/numbers';
 
 const TRANSITION_DELAY = 200;
 
 export type PropsType = {
   attachment: AttachmentForUIType | undefined;
-  isAttachmentNotAvailable: boolean;
+  isExpired?: boolean;
   isIncoming: boolean;
-  renderAttachmentDownloaded: () => JSX.Element;
+  children?: ReactNode;
 };
 
 enum IconState {
@@ -27,11 +26,17 @@ enum IconState {
 
 export function AttachmentStatusIcon({
   attachment,
-  isAttachmentNotAvailable,
+  isExpired,
   isIncoming,
-  renderAttachmentDownloaded,
+  children,
 }: PropsType): JSX.Element | null {
   const [isWaiting, setIsWaiting] = useState<boolean>(false);
+
+  const isAttachmentNotAvailable =
+    isExpired ||
+    (attachment != null &&
+      attachment.isPermanentlyUndownloadable &&
+      !attachment.wasTooBig);
 
   let state: IconState = IconState.Downloaded;
   if (attachment && isAttachmentNotAvailable) {
@@ -110,15 +115,12 @@ export function AttachmentStatusIcon({
       (state === IconState.Downloaded && isWaiting))
   ) {
     const { size, totalDownloaded } = attachment;
-    let downloadFraction =
-      size && totalDownloaded
-        ? roundFractionForProgressBar(totalDownloaded / size)
-        : undefined;
+    let spinnerValue = (size && totalDownloaded) || undefined;
     if (state === IconState.Downloading && isWaiting) {
-      downloadFraction = undefined;
+      spinnerValue = undefined;
     }
     if (state === IconState.Downloaded && isWaiting) {
-      downloadFraction = 1;
+      spinnerValue = size;
     }
 
     return (
@@ -131,22 +133,24 @@ export function AttachmentStatusIcon({
               : undefined
           )}
         >
-          {downloadFraction ? (
-            <div
-              className={classNames(
-                'AttachmentStatusIcon__progress-container',
-                isIncoming
-                  ? 'AttachmentStatusIcon__progress-container--incoming'
-                  : undefined
-              )}
-            >
-              <ProgressCircle
-                fractionComplete={downloadFraction}
-                width={36}
-                strokeWidth={2}
-              />
-            </div>
-          ) : undefined}
+          <div
+            className={classNames(
+              'AttachmentStatusIcon__progress-container',
+              isIncoming
+                ? 'AttachmentStatusIcon__progress-container--incoming'
+                : undefined
+            )}
+          >
+            <SpinnerV2
+              min={0}
+              max={size}
+              value={spinnerValue}
+              variant={isIncoming ? 'no-background-incoming' : 'no-background'}
+              size={36}
+              strokeWidth={2}
+              marginRatio={1}
+            />
+          </div>
           <div
             className={classNames(
               'AttachmentStatusIcon__circle-icon',
@@ -161,9 +165,5 @@ export function AttachmentStatusIcon({
     );
   }
 
-  return (
-    <div className="AttachmentStatusIcon__container">
-      {renderAttachmentDownloaded()}
-    </div>
-  );
+  return <div className="AttachmentStatusIcon__container">{children}</div>;
 }

@@ -10,6 +10,7 @@ import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { parseEnvironment, setEnvironment } from '../../environment';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { AxoProvider } from '../../axo/AxoProvider';
 
 const { ScreenShareWindowProps } = window.Signal;
 
@@ -33,17 +34,19 @@ function render() {
 
   createRoot(app).render(
     <StrictMode>
-      <FunDefaultEnglishEmojiLocalizationProvider>
-        <div className="App dark-theme">
-          <CallingScreenSharingController
-            i18n={i18n}
-            onCloseController={onCloseController}
-            onStopSharing={ScreenShareWindowProps.onStopSharing}
-            status={ScreenShareWindowProps.getStatus()}
-            presentedSourceName={ScreenShareWindowProps.presentedSourceName}
-          />
-        </div>
-      </FunDefaultEnglishEmojiLocalizationProvider>
+      <AxoProvider dir={i18n.getLocaleDirection()}>
+        <FunDefaultEnglishEmojiLocalizationProvider>
+          <div className="App dark-theme">
+            <CallingScreenSharingController
+              i18n={i18n}
+              onCloseController={onCloseController}
+              onStopSharing={ScreenShareWindowProps.onStopSharing}
+              status={ScreenShareWindowProps.getStatus()}
+              presentedSourceName={ScreenShareWindowProps.presentedSourceName}
+            />
+          </div>
+        </FunDefaultEnglishEmojiLocalizationProvider>
+      </AxoProvider>
     </StrictMode>
   );
 }

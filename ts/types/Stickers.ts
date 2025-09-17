@@ -1087,7 +1087,9 @@ export async function copyStickerToAttachments(
   const absolutePath =
     window.Signal.Migrations.getAbsoluteStickerPath(stickerPath);
   const { path, size } =
-    await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
+    await window.Signal.Migrations.copyStickerIntoAttachmentsDirectory(
+      absolutePath
+    );
 
   const newSticker: AttachmentType = {
     ...sticker,

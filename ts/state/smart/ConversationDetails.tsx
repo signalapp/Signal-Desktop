@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { sortBy } from 'lodash';
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
@@ -40,8 +40,9 @@ import { useConversationsActions } from '../ducks/conversations';
 import { useCallingActions } from '../ducks/calling';
 import { useSearchActions } from '../ducks/search';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { useLightboxActions } from '../ducks/lightbox';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { drop } from '../../util/drop';
+import { DataReader } from '../../sql/Client';
 
 export type SmartConversationDetailsProps = {
   conversationId: string;
@@ -109,7 +110,6 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     deleteAvatarFromDisk,
     getProfilesForConversation,
     leaveGroup,
-    loadRecentMediaItems,
     pushPanelForConversation,
     replaceAvatar,
     saveAvatarToDisk,
@@ -132,7 +132,6 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     toggleEditNicknameAndNoteModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
-  const { showLightbox } = useLightboxActions();
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -177,6 +176,26 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     toggleEditNicknameAndNoteModal({ conversationId });
   }, [conversationId, toggleEditNicknameAndNoteModal]);
 
+  const [hasMedia, setHasMedia] = useState(false);
+
+  useEffect(() => {
+    let isCanceled = false;
+
+    drop(
+      (async () => {
+        const result = await DataReader.hasMedia(conversationId);
+        if (isCanceled) {
+          return;
+        }
+        setHasMedia(result);
+      })()
+    );
+
+    return () => {
+      isCanceled = true;
+    };
+  }, [conversationId]);
+
   return (
     <ConversationDetails
       acceptConversation={acceptConversation}
@@ -199,7 +218,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       isGroup={isGroup}
       isSignalConversation={isSignalConversation(conversation)}
       leaveGroup={leaveGroup}
-      loadRecentMediaItems={loadRecentMediaItems}
+      hasMedia={hasMedia}
       maxGroupSize={maxGroupSize}
       maxRecommendedGroupSize={maxRecommendedGroupSize}
       memberships={memberships}
@@ -221,7 +240,6 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       setMuteExpiration={setMuteExpiration}
       showContactModal={showContactModal}
       showConversation={showConversation}
-      showLightbox={showLightbox}
       startAvatarDownload={() => startAvatarDownload(conversationId)}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}

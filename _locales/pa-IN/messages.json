@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 ਚੈਟ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "ਗਰੁੱਪ ਚੈਟਾਂ"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ਡਾਊਨਲੋਡ ਅਸਫਲ ਰਿਹਾ"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 24 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਇਸਨੂੰ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।"
@@ -5283,7 +5292,7 @@
     "messageformat": "ਪਾਬੰਦੀ ਲਗਾਈ ਗਈ"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal ਬੈਕਅੱਪ"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal ਦੀ ਸੁਰੱਖਿਅਤ, ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਸਟੋਰੇਜ ਸੇਵਾ ਦੇ ਨਾਲ ਆਟੋਮੈਟਿਕ ਬੈਕਅੱਪ। ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਸ਼ੁਰੂਆਤ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
@@ -5298,7 +5307,7 @@
     "messageformat": "ਟੈਕਸਟ + ਸਾਰੇ ਮੀਡੀਏ ਦਾ ਬੈਕਅੱਪ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ਤੁਹਾਡੀ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਨਹੀਂ ਲੱਭੀ। Signal ਬੈਕਅੱਪ ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਰੀਨਿਊ ਕਰੋ।"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ਟੈਕਸਟ + {mediaDayCount,number} ਦਿਨ ਦਾ ਮੀਡੀਆ ਬੈਕਅੱਪ} other {ਟੈਕਸਟ + {mediaDayCount,number} ਦਿਨਾਂ ਦਾ ਮੀਡੀਆ ਬੈਕਅੱਪ}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਰੱਦ ਕੀਤੀ ਗਈ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਆਪਣੀ Signal ਬੈਕਅੱਪ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਦਾ ਪ੍ਰਬੰਧਨ ਜਾਂ ਉਸਨੂੰ ਰੱਦ ਕਰ ਸਕਦੇ ਹੋ।"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਬੈਕਅੱਪ ਦਾ ਪ੍ਰਬੰਧਨ ਜਾਂ ਉਸਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰ ਸਕਦੇ ਹੋ।"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਆਪਣੀ Signal ਬੈਕਅੱਪ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਦਾ ਪ੍ਰਬੰਧਨ ਜਾਂ ਉਸਨੂੰ ਰੀਨਿਊ ਕਰ ਸਕਦੇ ਹੋ।"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ਆਖਰੀ ਬੈਕਅੱਪ"
@@ -6672,14 +6681,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>ਜਦੋਂ ਤੁਸੀਂ ਦਾਨ ਦਿੰਦੇ ਹੋ ਤਾਂ Signal ਤੁਹਾਡੀ ਕੋਈ ਵੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਜਾਂ ਸਟੋਰ ਨਹੀਂ ਕਰਦਾ ਹੈ।</paragraph><paragraph>ਤੁਹਾਡਾ ਦਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸੀਂ Stripe ਨੂੰ ਆਪਣੇ ਪੇਮੈਂਟ ਪ੍ਰੋਸੈਸਰ ਦੇ ਤੌਰ 'ਤੇ ਵਰਤਦੇ ਹਾਂ। ਅਸੀਂ ਤੁਹਾਡੇ ਦੁਆਰਾ ਉਹਨਾਂ ਨੂੰ ਪ੍ਰਦਾਨ ਕੀਤੀ ਕਿਸੇ ਵੀ ਜਾਣਕਾਰੀ ਦੀ ਵਰਤੋਂ, ਉਸ ਨੂੰ ਸਟੋਰ ਜਾਂ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕਰਦੇ ਹਾਂ।</paragraph><paragraph>Signal ਤੁਹਾਡੇ ਦਾਨ ਨੂੰ ਤੁਹਾਡੇ Signal ਖਾਤੇ ਨਾਲ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰਦਾ ਹੈ ਅਤੇ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰ ਸਕਦਾ ਹੈ।</paragraph><paragraph>ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ! </paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "ਠੀਕ ਹੈ"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ਰਸੀਦਾਂ"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ਰਸੀਦ ਦੇ ਵੇਰਵੇ ਵੇਖੋ"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "ਦਾਨੀਆਂ ਵੱਲੋਂ ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ"
+    "messageformat": "ਦਾਨੀਆਂ ਵੱਲੋਂ ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "ਰਸੀਦਾਂ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੀਆਂ ਹਨ। ਜੇਕਰ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਪਿਛਲੇ ਦਾਨ ਦੀਆਂ ਰਸੀਦਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੋਣਗੀਆਂ।"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "ਮਿਆਦ ਪੁੱਗਣ ਦੀ ਮਿਤੀ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal ਨੂੰ {formattedCurrencyAmount} ਦਾਨ ਦਿਓ"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 ਦਿਨਾਂ ਲਈ Signal ਬੂਸਟ ਬੈਜ ਪ੍ਰਾਪਤ ਕਰੋ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "ਘੱਟ ਤੋਂ ਘੱਟ {formattedCurrencyAmount} ਦਾ ਦਾਨ ਦਿੱਤਾ ਜਾ ਸਕਦਾ ਹੈ"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ਤੁਸੀਂ ਘੱਟ ਤੋਂ ਘੱਟ {formattedCurrencyAmount} ਦਾ ਦਾਨ ਦੇ ਸਕਦੇ ਹੋ"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "ਵੱਧ ਤੋਂ ਵੱਧ {formattedCurrencyAmount} ਦਾ ਦਾਨ ਦਿੱਤਾ ਜਾ ਸਕਦਾ ਹੈ"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਇਸ ਪੇਜ ਨੂੰ ਛੱਡ ਕੇ ਜਾਂਦੇ ਹੋ ਤਾਂ ਤੁਹਾਡੇ ਕ੍ਰੈਡਿਟ ਕਾਰਡ ਦੀ ਜਾਣਕਾਰੀ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ। ਕੀ ਤੁਸੀਂ ਅੱਗੇ ਵਧਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "ਜਾਣਕਾਰੀ ਹਟਾਓ"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
@@ -6790,7 +6820,13 @@
     "messageformat": "ਤੁਹਾਡਾ ਇੱਕ ਦਾਨ ਪ੍ਰਗਤੀ ਅਧੀਨ ਹੈ ਜਿਸਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "ਦਾਨ ਸਫਲ ਰਿਹਾ, ਪਰ ਅਸੀਂ ਤੁਹਾਡੀਆਂ ਬੈਜ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਅੱਪਡੇਟ ਨਹੀਂ ਕਰ ਸਕੇ"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ਦਾਨ ਦੀ ਪ੍ਰਕਿਰਿਆ ਵਿੱਚ ਕੋਈ ਰੁਕਾਵਟ ਆ ਗਈ ਹੈ"
@@ -6865,7 +6901,7 @@
     "messageformat": "ਪ੍ਰੋਫ਼ਾਈਲ ਉੱਤੇ ਦਿਖਾਓ"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ਤੁਸੀਂ ਇਸਨੂੰ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਵਿੱਚ ਸੈਟਿੰਗਾਂ → Signal ਨੂੰ ਦਾਨ ਕਰੋ → ਬੈਜ 'ਤੇ ਜਾ ਕੇ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -6895,16 +6931,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "ਅਸੀਂ ਮਲਟੀਟਾਸਕਿੰਗ ਕਰਨ ਦੌਰਾਨ ਸੁਨੇਹੇ ਨੂੰ ਪੜ੍ਹਨ/ਨਾ-ਪੜ੍ਹਨ ਦੇ ਅਨੁਭਵ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "ਅਸੀਂ ਇਮੋਜੀ ਖੋਜ ਬਾਕਸ ਨਾਲ ਜੁੜੀ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ।"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "ਕੁਝ ਛੋਟੀਆਂ-ਮੋਟੀਆਂ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ।"
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "ਅਸੀਂ ਇੱਕ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਕਾਰਨ ਕੁਝ ਵਰਤੋਂਕਾਰਾਂ ਨੂੰ ਦਾਨ ਬੈਜ ਸਹੀ ਢੰਗ ਨਾਲ ਦਿਖਾਈ ਨਹੀਂ ਦੇ ਰਿਹਾ ਸੀ।"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "ਅਸੀਂ Microsoft Windows ਦੀ ਇੱਕ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਵਿੱਚ ਟਾਈਟਲ ਬਾਰ ਵਿੱਚ ਕਈ ਵਾਰ ਗਲਤ ਰੰਗ ਦਿਖਾਈ ਦਿੰਦਾ ਸੀ।"
   }
 }

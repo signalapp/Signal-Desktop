@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "このフォルダに表示したいチャットを選択してください"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1対1のチャット"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "グループチャット"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "チャットを追加する"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ダウンロードできませんでした"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
@@ -5283,7 +5292,7 @@
     "messageformat": "ブロック中のユーザー"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signalバックアップ"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalによる、安全なエンドツーエンドの暗号化ストレージサービスによる自動バックアップです。ご利用中のスマートフォンからバックアップが可能です。<learnMoreLink>詳しく見る</learnMoreLink>。"
@@ -5298,7 +5307,7 @@
     "messageformat": "テキストとすべてのメディアのバックアップ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalバックアップを引き続き使用するには、更新手続きをしてください。"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {テキストと{mediaDayCount,number} 日間のメディアのバックアップ}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "サブスクリプションが解除されました"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signalバックアップのサブスクリプションは、お使いのスマートフォンで管理またはキャンセル手続きが行えます。"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "お使いのスマートフォンからSignalバックアップを管理またはアップグレードできます。"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signalバックアップのサブスクリプションは、お使いのスマートフォンから管理または更新手続きが行えます。"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "最終バックアップ"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signalは、寄付を受ける際に、お客様のいかなる個人情報も収集したり保存したりすることはありません。</paragraph><paragraph>Signalでは寄付を受け取る決済処理にStripeを使用しています。Signalは、お客様から提供されたいかなる情報にもアクセスすることはありません。また保管・保存したりすることもありません。</paragraph><paragraph>Signalは、寄付からお客様のSignalアカウントを特定することはありません。特定はできない仕組みになっています。</paragraph><paragraph>ご支援ありがとうございます！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "領収書"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "領収書の詳細を表示する"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "寄付についてのよくある質問"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "有効期限"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "月／年"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signalに {formattedCurrencyAmount}を寄付する"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30日間のSignalブーストバッジを獲得しましょう"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "寄付の最小金額は{formattedCurrencyAmount}です"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "最小の寄付金額は{formattedCurrencyAmount}です"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "寄付の上限金額は{formattedCurrencyAmount}です"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "このページを離れると、クレジットカード情報は削除されます。ページを離れますか？"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "情報を削除する"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "続ける"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "寄付の領収書"
@@ -6790,7 +6820,13 @@
     "messageformat": "確認が必要な寄付のお手続き中です。"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "寄付が中断されました"
@@ -6865,7 +6901,7 @@
     "messageformat": "プロフィールに表示する"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ご利用のモバイル端末の「設定」→「Signalへの寄付」→「バッジ」から、ご自身で変更ができます"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -6895,16 +6931,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "マルチタスク中でもメッセージの既読/未読がより分かりやすくなりました。"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "絵文字検索ボックスに関する不具合を解消しました。"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "いくつかの小規模なバグの修正。"
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "一部ユーザーの方に、寄付バッジが正しく表示されないバグを修正しました。"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Microsoft Windowsで、タイトルバーに誤った色が表示されることがある不具合を修正しました。"
   }
 }

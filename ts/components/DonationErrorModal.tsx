@@ -45,6 +45,11 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
       body = i18n('icu:Donations__TimedOut__Description');
       break;
     }
+    case donationErrorTypeSchema.Enum.BadgeApplicationFailed: {
+      title = i18n('icu:Donations__BadgeApplicationFailed__Title');
+      body = i18n('icu:Donations__BadgeApplicationFailed__Description');
+      break;
+    }
 
     default:
       throw missingCaseError(props.errorType);

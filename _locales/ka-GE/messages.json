@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "აირჩიე ჩატები, რომელთა გამოჩენაც ამ საქაღალდეში გსურს"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "ერთი ერთზე ჩატები"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "ჯგუფური ჩეთები"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "დაამატე ჩატები"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ჩამოტვირთვა ვერ მოხერხდა"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი."
@@ -5283,7 +5292,7 @@
     "messageformat": "დაბლოკილია"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-ის სარეზერვო კოპიები"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "შექმენი სათადარიგო ასლები Signal-ის დაშიფრული შენახვის სერვისით. დაიწყე შენს ტელეფონზე. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "ტექსტისა და ყველა მედია ფაილის სათადარიგო ასლი"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "შენი გამოწერა ვერ მოიძებნა. განაახლე Signal-ის სათადარიგო ასლების გამოყენების გასაგრძელებლად."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი} other {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "გამოწერა გაუქმებულია"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "ახლა უკვე შეგიძლია, Signal-ის სათადარიგო ასლების გამოწერა შენს მობილურში მართო ან განაახლო."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "შეგიძლია, Signal-ის სათადარიგო ასლების გამოწერა შენს მობილურში მართო ან განაახლო."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "შეგიძლია, Signal-ის სათადარიგო ასლების გამოწერა შენს მობილურში მართო ან განაახლო."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ბოლოს შექმნილი სარეზერვო კოპია"
@@ -6672,11 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal-ი არ აგროვებს და არ ინახავს შენს პირად ინფორმაციას, როცა დონაციას აკეთებ.</paragraph><paragraph>შენი დონაციების მისაღებად Stripe-ს ვიყენებთ, როგორც გადახდის დამმუშავებელს. ჩვენ არ გვაქვს წვდომა შენ მიერ მათთვის მიწოდებულ ინფორმაციაზე და მას არ ვინახავთ.</paragraph><paragraph>Signal-ი არ და ვერ აკავშირებს შენს დონაციას შენს Signal-ის ანგარიშთან.</paragraph><paragraph>მადლობა მხარდაჭერისთვის!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ქვითრები"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ქვითრის დეტალების ნახვა"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "დონორის FAQ"
@@ -6723,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "ვადის გასვლის თარიღი"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "თვე/წელი"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "გააკეთე დონაცია {formattedCurrencyAmount} Signal-ისთვის"
   },
@@ -6744,8 +6759,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "მიიღე Signal-ის ბუსტის ემბლემა 30 დღით"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "დონაციის მინიმალური ოდენობაა {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "დონაციის მინიმალური ოდენობა არის {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "დონაციის მაქსიმალური ოდენობაა {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "ამ გვერდის დატოვების შემთხვევაში, შენი საკრედიტო ბარათის ინფორმაცია წაიშლება. გსურს, გააგრძელო?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "ინფორმაციის წაშლა"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "გაგრძელება"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "დონაციის ქვითარი"
@@ -6790,7 +6820,13 @@
     "messageformat": "თქვენ გაქვთ განუხორციელებელი დონაცია, რომელიც საჭიროებს დადასტურებას."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "დონაცია წარმატებით განხორციელდა, მაგრამ შენი ემბლემის პარამეტრების განახლება ვერ მოხერხდა"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "დინაცია შეწყდა"
@@ -6865,7 +6901,7 @@
     "messageformat": "პროფილზე ჩვენება"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ამის დარეგულირება შენს მობილურ მოწყობილობაზე შეგიძლია. აირჩიე პარამეტრები → Signal-ისთვის დონაციის გაკეთება → ემბლემები"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -6895,16 +6931,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "მულტითასქინგისას წაკითხული/წაუკითხავი შეტყობინებების გამოცდილება გავაუმჯობესეთ. ასევე გამოვასწორეთ შეცდომა, რომელიც ზოგჯერ არასწორად ხსნიდა სურათების გაფართოებულ ხედს, თუ იდეალური ემოჯის ძიებისას Space ღილაკს დააჭერდი. სურათზე დაჭერით ან სწრაფად აკრეფით კვლავ შეგიძლია მისი გადიდება."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "სწორი ემოჯის პოვნა ზოგჯერ ძალიან რთულია, მაგრამ გამოვასწორეთ ბაგი, რომელიც ემოჯის საძიებო ველში Escape ღილაკის დაჭერის შემდეგ შეცდომას იწვევდა."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "ეს განახლება ასწორებს რამდენიმე მცირე შეცდომას, მათ შორის იმ პრობლემასაც, რომლის გამოც, ზოგიერთ შემთხვევაში ემოჯის რეაქციები სწორად არ იყო დაჯგუფებული."
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "ჩვენ გამოვასწორეთ ბაგი, რომელიც ზოგიერთი მომხმარებლისთვის დონაციის ემბლემების სწორად გამოჩენას ხელს უშლიდა. Signal 501c3 არაკომერციული ორგანიზაციაა და შენს მხარდაჭერას ვაფასებთ!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Microsoft Windows-ზე ბაგი გამოვასწორეთ, რომელიც ზოგჯერ Signal Desktop-ის სათაურის ზოლში არასწორ ფერს აჩვენებდა. თუ ბოლო დღეებში ციტრუსის ტონებზე აგებული აპის ფონი მოგეწონა და ეს ბაგფიქსი გასევდიანებს, სისტემის აქცენტის ფერის შეცვლა Windows-ის პარამეტრებიდან შეგიძლია."
   }
 }
