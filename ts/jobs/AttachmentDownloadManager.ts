@@ -834,6 +834,9 @@ export async function runDownloadAttachmentJobInner({
     );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
+    if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
     if (mightHaveBackupThumbnailToDownload && !attemptBackupThumbnailFirst) {
       log.error(
         `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
