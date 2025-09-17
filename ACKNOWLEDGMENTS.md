@@ -12885,7 +12885,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
-## data-encoding 2.8.0
+## data-encoding-macro-internal 0.1.16, data-encoding-macro 0.1.18, data-encoding 2.9.0
 
 ```
 The MIT License (MIT)
