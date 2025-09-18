@@ -58,6 +58,12 @@ import { updateIdentityKey } from './services/profiles.js';
 import { RoutineProfileRefresher } from './routineProfileRefresh.js';
 import { isOlderThan } from './util/timestamp.js';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.js';
+import { safeParsePartial } from './util/schemas.js';
+import {
+  PollVoteSchema,
+  PollTerminateSchema,
+  isPollReceiveEnabled,
+} from './types/Polls.js';
 import type { ConversationModel } from './models/conversations.js';
 import { getAuthor, isIncoming } from './messages/helpers.js';
 import { migrateBatchOfMessages } from './messages/migrateMessageData.js';
@@ -117,11 +123,16 @@ import * as Deletes from './messageModifiers/Deletes.js';
 import * as Edits from './messageModifiers/Edits.js';
 import * as MessageReceipts from './messageModifiers/MessageReceipts.js';
 import * as MessageRequests from './messageModifiers/MessageRequests.js';
+import * as Polls from './messageModifiers/Polls.js';
 import * as Reactions from './messageModifiers/Reactions.js';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.js';
 import type { DeleteAttributesType } from './messageModifiers/Deletes.js';
 import type { EditAttributesType } from './messageModifiers/Edits.js';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.js';
+import type {
+  PollVoteAttributesType,
+  PollTerminateAttributesType,
+} from './messageModifiers/Polls.js';
 import type { ReactionAttributesType } from './messageModifiers/Reactions.js';
 import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs.js';
 import { ReadStatus } from './messages/MessageReadStatus.js';
@@ -2490,6 +2501,100 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.pollVote) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollVote because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollVote, timestamp } = data.message;
+
+      const parsed = safeParsePartial(PollVoteSchema, pollVote);
+      if (!parsed.success) {
+        log.warn(
+          'Dropping PollVote due to validation error:',
+          parsed.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const validatedVote = parsed.data;
+      const targetAuthorAci = normalizeAci(
+        validatedVote.targetAuthorAci,
+        'DataMessage.PollVote.targetAuthorAci'
+      );
+
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:pollVote',
+        });
+      strictAssert(fromConversation, 'PollVote without fromConversation');
+
+      log.info('Queuing incoming poll vote for', pollVote.targetTimestamp);
+      const attributes: PollVoteAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: fromConversation.id,
+        source: Polls.PollSource.FromSomeoneElse,
+        targetAuthorAci,
+        targetTimestamp: validatedVote.targetTimestamp,
+        optionIndexes: validatedVote.optionIndexes,
+        voteCount: validatedVote.voteCount,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollVote(attributes));
+      return;
+    }
+
+    if (data.message.pollTerminate) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollTerminate because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollTerminate, timestamp } = data.message;
+
+      const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
+      if (!parsedTerm.success) {
+        log.warn(
+          'Dropping PollTerminate due to validation error:',
+          parsedTerm.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:pollTerminate',
+        });
+      strictAssert(fromConversation, 'PollTerminate without fromConversation');
+
+      log.info(
+        'Queuing incoming poll termination for',
+        pollTerminate.targetTimestamp
+      );
+      const attributes: PollTerminateAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: fromConversation.id,
+        source: Polls.PollSource.FromSomeoneElse,
+        targetTimestamp: parsedTerm.data.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollTerminate(attributes));
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       log.info('Queuing incoming DOE for', del.targetSentTimestamp);
@@ -2894,6 +2999,90 @@ export async function startApp(): Promise<void> {
         timestamp,
       };
       drop(Reactions.onReaction(attributes));
+      return;
+    }
+
+    if (data.message.pollVote) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollVote because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollVote, timestamp } = data.message;
+
+      const parsed = safeParsePartial(PollVoteSchema, pollVote);
+      if (!parsed.success) {
+        log.warn(
+          'Dropping PollVote (sync) due to validation error:',
+          parsed.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const validatedVote = parsed.data;
+      const targetAuthorAci = normalizeAci(
+        validatedVote.targetAuthorAci,
+        'DataMessage.PollVote.targetAuthorAci'
+      );
+
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+
+      log.info('Queuing sync poll vote for', pollVote.targetTimestamp);
+      const attributes: PollVoteAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: ourConversationId,
+        source: Polls.PollSource.FromSync,
+        targetAuthorAci,
+        targetTimestamp: validatedVote.targetTimestamp,
+        optionIndexes: validatedVote.optionIndexes,
+        voteCount: validatedVote.voteCount,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollVote(attributes));
+      return;
+    }
+
+    if (data.message.pollTerminate) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollTerminate because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollTerminate, timestamp } = data.message;
+
+      const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
+      if (!parsedTerm.success) {
+        log.warn(
+          'Dropping PollTerminate (sync) due to validation error:',
+          parsedTerm.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+
+      log.info(
+        'Queuing sync poll termination for',
+        pollTerminate.targetTimestamp
+      );
+      const attributes: PollTerminateAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: ourConversationId,
+        source: Polls.PollSource.FromSync,
+        targetTimestamp: parsedTerm.data.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollTerminate(attributes));
       return;
     }
 

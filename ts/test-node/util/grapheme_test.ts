@@ -3,7 +3,12 @@
 
 import { assert } from 'chai';
 
-import { getGraphemes, count, isSingleGrapheme } from '../../util/grapheme.js';
+import {
+  getGraphemes,
+  count,
+  hasAtMostGraphemes,
+  isSingleGrapheme,
+} from '../../util/grapheme.js';
 
 describe('grapheme utilities', () => {
   describe('getGraphemes', () => {
@@ -77,6 +82,23 @@ describe('grapheme utilities', () => {
       assert.isFalse(isSingleGrapheme('ab'));
       assert.isFalse(isSingleGrapheme('a😍'));
       assert.isFalse(isSingleGrapheme('😍a'));
+    });
+  });
+
+  describe('hasAtMostGraphemes', () => {
+    it('returns true when the string is within the limit', () => {
+      assert.isTrue(hasAtMostGraphemes('', 0));
+      assert.isTrue(hasAtMostGraphemes('👩‍❤️‍👩', 1));
+      assert.isTrue(hasAtMostGraphemes('👌🏽👌🏾👌🏿', 3));
+    });
+
+    it('returns false when the string exceeds the limit', () => {
+      assert.isFalse(hasAtMostGraphemes('👌🏽👌🏾👌🏿', 2));
+      assert.isFalse(hasAtMostGraphemes('abc', 2));
+    });
+
+    it('returns false for negative limits', () => {
+      assert.isFalse(hasAtMostGraphemes('anything', -1));
     });
   });
 });
