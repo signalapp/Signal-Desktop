@@ -30,6 +30,7 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
   const hasAttachment = (attributes.attachments || []).length > 0;
   const hasEmbeddedContact = (attributes.contact || []).length > 0;
   const isSticker = Boolean(attributes.sticker);
+  const isPoll = Boolean(attributes.poll);
 
   // Rendered sync messages
   const isCallHistoryValue = isCallHistory(attributes);
@@ -69,6 +70,7 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
     hasAttachment ||
     hasEmbeddedContact ||
     isSticker ||
+    isPoll ||
     isPayment ||
     // Rendered sync messages
     isCallHistoryValue ||

@@ -780,6 +780,7 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
+    poll: message.poll,
     id: message.id,
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),
