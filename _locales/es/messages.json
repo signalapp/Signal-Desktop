@@ -2070,7 +2070,7 @@
     "messageformat": "No se ha podido descargar"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Error en la descarga del archivo adjunto desde la copia de seguridad"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Solo puedes hacer cambios hasta 24 horas después del momento en que enviaste este mensaje."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Archivos compartidos"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Ver todos"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
@@ -5013,10 +5010,10 @@
     "messageformat": "Es necesario restablecer el enlace del alias"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Abrir pantalla de enlace de alias"
+    "messageformat": "Mostrar enlace del alias"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Abrir pantalla de enlace de alias"
+    "messageformat": "Mostrar enlace del alias"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Comparte tu alias"
@@ -5292,7 +5289,7 @@
     "messageformat": "Bloqueados"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Copias Seguras de Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Copias de seguridad automáticas con el servicio de almacenamiento seguro y cifrado de extremo a extremo de Signal. Configúralas en tu teléfono. <learnMoreLink>Más información</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Mensajes de texto + todos tus archivos multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "No se ha encontrado tu suscripción. Renuévala para seguir usando Copias Seguras de Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Mensajes de texto + {mediaDayCount,number} día de archivos multimedia} other {Mensajes de texto + {mediaDayCount,number} días de archivos multimedia}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Suscripción cancelada"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Puedes gestionar o cancelar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Puedes gestionar o actualizar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Puedes gestionar o renovar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Última copia de seguridad"
@@ -6823,10 +6820,10 @@
     "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Para actualizar los ajustes de tu insignia en tu dispositivo móvil, ve a Ajustes > Haz una donación a Signal > Insignias."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donación interrumpida"
@@ -6856,13 +6853,13 @@
     "messageformat": "Es posible que tu donación no se haya procesado. Haz clic en \"Donar a Signal\" y luego en \"Recibos de donación\" para verificar tus recibos y confirmar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Inténtalo de nuevo o envía un registro de depuración al equipo de Asistencia para que te ayuden a completar tu donación. Los registros de depuración nos ayudan a diagnosticar y solucionar el problema, y no contienen información que pueda identificarte."
+    "messageformat": "Inténtalo de nuevo o envía un registro de depuración al equipo de Asistencia para que te ayudemos a completar tu donación. Los registros de depuración nos ayudan a diagnosticar y solucionar el problema, y no contienen información que pueda identificarte."
   },
   "icu:Donations__Processing": {
     "messageformat": "Procesando donación…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Todavía estamos procesando tu donación"
+    "messageformat": "Seguimos procesando tu donación"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Tu donación aún se está procesando. Este proceso puede tardar unos minutos."
@@ -6901,7 +6898,7 @@
     "messageformat": "Mostrar en mi perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes → Donar a Signal → Insignias"
+    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes > Haz una donación a Signal > Insignias"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Esta actualización corrige algunos errores menores, incluido uno que a veces impedía que las reacciones con emojis no se agruparan correctamente."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Hemos corregido un error que a veces impedía que las insignias de donación se mostraran correctamente. Signal es una organización sin ánimo de lucro 501c3. ¡Gracias por tu apoyo!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Hemos corregido un error en Microsoft Windows que hacía que la barra de título de Signal Desktop fuera naranja en lugar de azul. Si ya te habías acostumbrado a la paleta cítrica de estos últimos días y te entristece esta corrección, puedes cambiar el color de énfasis del sistema en Configuración de Windows."
   }
 }

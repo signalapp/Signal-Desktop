@@ -2070,7 +2070,7 @@
     "messageformat": "Failed ang pag-download"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Failed ang pag-download ng attachment mula sa backup"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "May 3 oras ka lang para i-edit ang message pagkatapos mo itong i-send."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Ibinahaging media"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Ipakita lahat"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
@@ -5307,7 +5304,7 @@
     "messageformat": "Backup ng text + lahat ng media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Hindi mahanap ang iyong subscription. Mag-renew para patuloy mong magamit ang Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup ng text + media ng nakaraang {mediaDayCount,number} araw} other {Backup ng text + media ng nakaraang {mediaDayCount,number} araw}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Kinancel ang subscription"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Maaari mong i-manage o kanselahin ang iyong subscription sa Signal Secure Backups sa phone mo."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Maaari mong i-manage o i-upgrade ang Signal Secure Backups sa phone mo."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Maaari mong i-manage at i-renew ang iyong Signal Secure Backups subscription sa phone mo."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Huling backup"
@@ -6823,10 +6820,10 @@
     "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Para i-update ang badge settings mo sa iyong device, pumunta sa Settings → Mag-donate sa Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Naputol ang pag-donate"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "May ilang small bug fixes."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Inayos namin ang isang bug na pumigil sa pagpapakita ng tamang donation badges sa ilang users."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "May inayos kaming bug sa Microsoft Windows na minsan ay nagpapakita ng maling kulay sa title bar."
   }
 }
