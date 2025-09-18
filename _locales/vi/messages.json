@@ -2070,7 +2070,7 @@
     "messageformat": "Tải xuống không thành công"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Tải xuống tập tin đính kèm từ bản sao lưu không thành công"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Tệp đa phương tiện đã chia sẻ"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Xem tất cả"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Đã chặn"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Sao lưu bảo mật Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Sao lưu tự động với dịch vụ lưu trữ bảo mật, được mã hóa đầu cuối của Signal. Bắt đầu trên điện thoại. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Bản sao lưu tin nhắn + tất cả tập tin đa phương tiện"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Không tìm thấy gói đăng ký của bạn. Gia hạn gói đăng ký Sao lưu bảo mật Signal để tiếp tục sử dụng."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Bản sao lưu tin nhắn văn bản + tập tin đa phương tiện {mediaDayCount,number} ngày qua}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Gói đăng ký đã được hủy"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Bạn có thể quản lý hoặc hủy gói đăng ký Sao lưu bảo mật Signal trên điện thoại của bạn."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Bạn có thể quản lý hoặc nâng cấp gói đăng ký Sao lưu bảo mật Signal trên điện thoại của bạn."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Bạn có thể quản lý hoặc gia hạn gói đăng ký Sao lưu bảo mật Signal trên điện thoại của bạn."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Bản sao lưu gần nhất"
@@ -6823,10 +6820,10 @@
     "messageformat": "Bạn đã ủng hộ thành công, nhưng chúng tôi không thể cập nhật cài đặt huy hiệu của bạn"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Bạn đã ủng hộ thành công, nhưng chúng tôi không thể cập nhật cài đặt huy hiệu của bạn"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Để cập nhật cài đặt huy hiệu của bạn trên thiết bị di động, vào mục Cài đặt → Ủng hộ Signal → Huy hiệu."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Quá trình bị gián đoạn"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Sửa một số lỗi nhỏ."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi huy hiệu ủng hộ không hiển thị chính xác đối với một số người dùng."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Chúng tôi đã sửa lỗi thanh tiêu đề đôi khi hiển thị sai màu trên Microsoft Windows."
   }
 }

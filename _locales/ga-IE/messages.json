@@ -2070,7 +2070,7 @@
     "messageformat": "Theip ar íoslódáil"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Theip ar íoslódáil an cheangaltáin ón gcúltaca"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Méain comhroinnte"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "See All"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Bac curtha"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Cúltacaí Slána Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Cúltacaí uathoibríocha le seirbhís shlán stórála, atá criptithe ó cheann ceann, de chuid Signal. Bain úsáid astu ar do ghuthán. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Cúltaca téacs + gach meáin"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Ní bhfuarthas do shíntiús. Athnuaigh le leanúint le Cúltacaí Slána Signal a úsáid."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Téacs + {mediaDayCount,number} lá de chúltaca meán} two {Téacs + {mediaDayCount,number} lá de chúltaca meán} few {Téacs + {mediaDayCount,number} lá de chúltaca meán} many {Téacs + {mediaDayCount,number} lá de chúltaca meán} other {Téacs + {mediaDayCount,number} lá de chúltaca meán}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Síntiús curtha ar ceal"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Is féidir leat do shíntiús le Cúltacaí Slána Signal a bhainistiú nó a chur ar ceal ar do ghuthán."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Is féidir leat Cúltacaí Slána Signal a bhainistiú nó a uasghrádú ar do ghuthán."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Is féidir leat do shíntiús le Cúltacaí Slána Signal a bhainistiú nó a athnuachan ar do ghuthán."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Cúltaca deiridh"
@@ -6823,10 +6820,10 @@
     "messageformat": "D’éirigh leis an tabhartas, ach ní rabhamar in ann socruithe do shuaitheantais a nuashonrú"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "D'éirigh leis an tabhartas, ach ní rabhamar in ann socruithe do shuaitheantais a nuashonrú"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Chun socruithe do chuid suaitheantas a nuashonrú ar do ghléas móibíleach, téigh chuig Socruithe → Tabhair Airgead do Signal → Suaitheantais."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Cuireadh isteach ar an tabhartas"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Cúpla réiteach bheaga ar fhabhtanna."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Réitíomar fabht a chuir cosc ar shuaitheantais deonaithe roinnt úsáideoirí a thaispeáint i gceart."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Réitíomar fabht ar Microsoft Windows a thaispeáin an dath mícheart sa bharra teidil corruair."
   }
 }

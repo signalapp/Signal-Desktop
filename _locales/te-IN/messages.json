@@ -2070,7 +2070,7 @@
     "messageformat": "డౌన్‌లోడ్ విఫలమైంది"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "బ్యాకప్ నుండి అటాచ్‌మెంట్ డౌన్‌లోడ్ చేయడం విఫలమైంది"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "భాగస్వామ్యం చేయబడిన మీడియా"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "అన్నింటిని చూడు"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal సురక్షిత బ్యాకప్‌లు"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal యొక్క సురక్షితమైన, ఎండ్-టు-ఎండ్ గుప్తీకరించబడిన నిల్వ సేవతో ఆటోమేటిక్ బ్యాకప్‌లు. మీ ఫోన్‌లో ప్రారంభించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "టెక్స్ట్ + మొత్తం మీడియా బ్యాకప్"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal సురక్షిత బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "సబ్స్క్రిప్షన్ రద్దు చేయబడింది"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal సురక్షిత బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను మీరు నిర్వహించవచ్చు లేదా రద్దు చేయవచ్చు."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో Signal సురక్షిత బ్యాకప్‌లను మీరు నిర్వహించవచ్చు లేదా అప్‌గ్రేడ్ చేయవచ్చు."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal సురక్షిత బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను మీరు నిర్వహించవచ్చు లేదా పునరుద్ధరించవచ్చు."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "చివరి బ్యాకప్"
@@ -6823,10 +6820,10 @@
     "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "మీ మొబైల్ పరికరంలో మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయడానికి, సెట్టింగ్‌లు → Signal కు విరాళం ఇవ్వండి → బ్యాడ్జ్‌లు కు వెళ్ళండి."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "విరాళానికి అంతరాయం కలిగింది"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "కొన్ని చిన్న బగ్ పరిష్కారాలు."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "కొంతమంది యూజర్‌లకు విరాళం బ్యాడ్జ్‌లు సరిగ్గా కనిపించకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "శీర్షిక బార్‌లో కొన్నిసార్లు తప్పు రంగును ప్రదర్శించే బగ్‌ను మేము Microsoft Windows లో పరిష్కరించాము."
   }
 }

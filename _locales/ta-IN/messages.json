@@ -2070,7 +2070,7 @@
     "messageformat": "பதிவிறக்க முடியவில்லை"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "காப்புப்பிரதியிலிருந்து இணைப்பைப் பதிவிறக்க முடியவில்லை"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "பகிரப்பட்ட மீடியா"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "அனைத்தையும் பார்"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "தடைசெய்யப்பட்டது"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகள்"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "சிக்னலின் பாதுகாப்பான எண்ட்-டூ-எண்ட் குறியாக்கம் செய்யப்பட்ட சேமிப்பகச் சேவையுடன் தானியங்கி காப்புப்பிரதிகள். உங்கள் ஃபோனில் தொடங்குங்கள். <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
@@ -5307,7 +5304,7 @@
     "messageformat": "உரை + அனைத்து ஊடகக் காப்புப்பிரதி"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகளைத் தொடர்ந்து உபயோகிக்கப் புதுப்பியுங்கள்."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {உரை + {mediaDayCount,number} நாள் ஊடகக் காப்புப்பிரதி} other {உரை + {mediaDayCount,number} நாட்கள் ஊடகக் காப்புப்பிரதி}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "சந்தா ரத்துசெய்யப்பட்டது"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "உங்கள் பேசியில் உங்களின் பாதுகாப்பு காப்புப்பிரதி சந்தாவை நிர்வகிக்கலாம் அல்லது ரத்துசெய்யலாம்."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "உங்கள் பேசியில் பாதுகாப்புக் காப்புப்பிரதியை நிர்வகிக்கலாம் அல்லது தரமேற்றலாம்."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "உங்கள் பேசியில் உங்களின் பாதுகாப்புக் காப்புப்பிரதி சந்தாவை நிர்வகிக்கலாம் அல்லது புதுப்பிக்கலாம்."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "கடைசி காப்புப்பிரதி"
@@ -6823,10 +6820,10 @@
     "messageformat": "நன்கொடை வெற்றிகரமாக வழங்கப்பட்டது, ஆனால் உங்கள் பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க முடியவில்லை"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "நன்கொடை வெற்றிகரமாக வழங்கப்பட்டது, ஆனால் உங்கள் பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க முடியவில்லை"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "உங்கள் மொபைல் சாதனத்தில் உள்ள பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க, அமைப்புகள் → சிக்னலுக்கு நன்கொடை அளித்திடுக → பேட்ஜ்கள் என்பதன் கீழ் செய்யலாம்."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "நன்கொடை குறுக்கிட்டது"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "சில சிறிய பிழைகள் சரிபார்க்கப்பட்டன."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "சில பயனர்களுக்கு நன்கொடை பேட்ஜ்கள் சரியாகத் தோன்றாமல் இருந்த பிழையை நாங்கள் சரிசெய்துள்ளோம்."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "சில சமயங்களில் Microsoft Windowsஇன் தலைப்புப் பட்டியில் தவறான வண்ணத்தைக் காட்டும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

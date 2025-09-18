@@ -2070,7 +2070,7 @@
     "messageformat": "Atsisiųsti nepavyko"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Nepavyko atsisiųsti priedo iš atsarginės kopijos"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaguoti galima ne vėliau kaip per 24 val. nuo šios žinutės išsiuntimo."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Bendrinama medija"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Rodyti visus"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Užblokuota"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "„Signal“ saugiosios atsarginės kopijos"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatinės atsarginės kopijos naudojant „Signal“ saugią, užšifruotą saugyklos paslaugą. Pradėkite naudotis savo telefone. <learnMoreLink>Sužinoti daugiau</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Žinučių ir visų įrašų atsarginė kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ saugiąsias atsargines kopijas."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} few {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija} many {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} other {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Prenumerata nutraukta"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Telefone galite tvarkyti arba atšaukti savo „Signal“ saugiųjų atsarginių kopijų prenumeratą."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Savo telefone galite tvarkyti arba atnaujinti „Signal“ saugiąsias atsargines kopijas."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Telefone galite tvarkyti arba atnaujinti savo „Signal“ saugiųjų atsarginių kopijų prenumeratą."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Paskutinė atsarginė kopija"
@@ -6823,10 +6820,10 @@
     "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Norėdami atnaujinti ženklelių nustatymus mobiliajame įrenginyje, eikite į Nustatymai → Paremti „Signal“ → Ženkleliai."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Paramos skyrimas nutrauktas"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Kelių nedidelių klaidų pataisymai."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Ištaisėme klaidą, dėl kurios kai kuriems naudotojams paramos ženkleliai nebuvo rodomi teisingai."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Ištaisėme „Microsoft Windows“ klaidą, dėl kurios pavadinimo juostoje kartais būdavo rodoma netinkama spalva."
   }
 }

@@ -2070,7 +2070,7 @@
     "messageformat": "Неуспешно изтегляне"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Неуспешно изтегляне на прикачен файл от резервното копие"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редакциите могат да се прилагат само в рамките на 24 часа от момента на изпращане на това съобщение."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Споделена медия"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Виж всички"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Блокирани"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Сигурни резервни копия на Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматични резервни копия, криптирани от край до край със защитената услуга за съхранение на Signal. Започнете на телефона си. <learnMoreLink>Научете повече</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Резервно копиране на текстови съобщения + всичката мултимедия"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Абонаментът ви не беше открит. Подновете го сега, за да продължите да използвате „Сигурни резервни копия на Signal“."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервно копиране на текстови съобщения + {mediaDayCount,number} ден мултимедия} other {Резервно копиране на текстови съобщения + {mediaDayCount,number} дни мултимедия}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Абонаментът е отменен"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Можете да управлявате или да отмените своя абонамент за „Сигурни резервни копия на Signal“ на телефона си."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Можете да управлявате или да надградите „Сигурни резервни копия на Signal“ на телефона си."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Можете да управлявате или да подновите своя абонамент за „Сигурни резервни копия на Signal“ на телефона си."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последно резервно копиране"
@@ -6823,10 +6820,10 @@
     "messageformat": "Дарението е успешно, но не успяхме да актуализираме настройките ви за значки"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Дарението е успешно, но не успяхме да актуализираме настройките ви за значки"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "За да актуализирате своите настройки за значки на мобилното си устройство, отидете на „Настройки → Дарете на Signal → Значки“."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Дарението е прекъснато"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Отстраняване няколко малки бъга."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Коригирахме бъг, който пречеше значките за дарения да се появяват правилно при някои потребители."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Отстранихме бъг в Microsoft Windows, който понякога показваше заглавната лента в грешен цвят."
   }
 }

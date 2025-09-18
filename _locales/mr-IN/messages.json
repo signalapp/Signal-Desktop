@@ -2070,7 +2070,7 @@
     "messageformat": "डाऊनलोड झाले नाही"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "बॅकअप मधील अटॅचमेंट डाऊनलोड अयशस्वी ठरले"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपण हा संदेश पाठवल्यापासून फक्त 24 तासांच्या आत संपादन करणे लागू केले जाऊ शकते."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "सामायिक केलेली मिडिया"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "सर्व पहा"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "अवरोधित केले"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal सुरक्षित बॅकअप्स"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "ऑटोमॅटिक बॅकअप्स, Signal च्या सुरक्षित, एण्ड-टू-एण्ड कूटबद्ध केलेल्या संग्रहण सेवेसह. तुमच्या फोनवर सुरुवात करा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "मजकूर + सर्व मिडीया बॅकअप"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "तुमचे सदस्यत्व सापडले नाही. Signal सुरक्षित बॅकअप्स वापरणे सुरु ठेवण्यासाठी रीन्यू करा."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {मजकूर + {mediaDayCount,number} दिवसाचा मिडीया बॅकअप} other {मजकूर + {mediaDayCount,number} दिवसांचा मिडीया बॅकअप}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "सदस्यत्व रद्द केले"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "तुम्ही तुमच्या फोनवरून तुमचे Signal सुरक्षित बॅकअप्स सदस्यत्व व्यवस्थापित करू शकता किंवा रद्द करू शकता."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "तुम्ही तुमच्या फोनवरून तुमचे Signal सुरक्षित बॅकअप्स व्यवस्थापित करू शकता किंवा अपग्रेड करू शकता."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "तुम्ही तुमच्या फोनवरून तुमचे Signal सुरक्षित बॅकअप्स सदस्यत्व व्यवस्थापित करू शकता किंवा रीन्यू करू शकता."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "शेवटचा बॅकअप"
@@ -6823,10 +6820,10 @@
     "messageformat": "देणगी यशस्वी ठरली, पण आम्हाला तुमच्या बॅज सेटिंग्ज अद्ययावत करता आल्या नाहीत"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "देणगी यशस्वी ठरली, पण आम्हाला तुमच्या बॅज सेटिंग्ज अद्ययावत करता आल्या नाहीत"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "तुमच्या मोबाईल डिव्हाईसवरील तुमच्या बॅज सेटिंग्ज अद्ययावत करण्यासाठी, सेटिंग्ज → Signalला देणगी द्या → बॅजेसमध्ये जा."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "देणगी प्रक्रियेत व्यत्यय आला"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "ह्या अद्यतनामध्ये काही छोटे बग्स दुरुस्त केले आहेत, यांमध्ये काही प्रकरणांत इमोजी प्रतिक्रिया नीट एकत्र केल्या जात नव्हत्या तो बगसुद्धा दुरुस्त झाला आहे."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "आम्ही एक बग दुरुस्त केला ज्यामुळे काही वापरकर्ताचे देणगी बॅज नीट दिसत नव्हते. Signal एक 501c3 ना-नफा संस्था आहे, आणि आपल्या सपोर्टसाठी आम्ही कृतज्ञ आहोत!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "आम्ही Microsoft Windows वरील एक बग दुरुस्त केला ज्यामुळे Signal डेस्कटॉप टायटल बार निळ्याऐवजी केशरी व्हायचा. जर तुम्हाला गेल्या काही दिवसांत नारिंगी थीम आवडू लागली असेल आणि या बग दुरुस्तीमुळे तुम्हाला उदास वाटू लागले असेल, तर तुम्ही तुमच्या Windows सेटिंग्ज मध्ये तुमच्या सिस्टीमचा ॲक्सेंट रंग बदलू शकता."
   }
 }

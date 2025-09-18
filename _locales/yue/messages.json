@@ -2070,7 +2070,7 @@
     "messageformat": "下載失敗"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "未能喺備份度下載附件"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "你只可以喺傳送訊息後 24 個鐘內套用編輯。"
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "分享咗嘅媒體"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "全部睇晒"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "封鎖咗"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal 安全備份"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "用 Signal 嘅端對端加密儲存服務安全自動備份。拎部你部手機出嚟開始備份。<learnMoreLink>了解詳情</learnMoreLink>。"
@@ -5307,7 +5304,7 @@
     "messageformat": "備份文字訊息 + 全部媒體"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "搵唔到你嘅課金計劃。即刻續期嚟繼續用「Signal 安全備份」。"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {備份文字訊息 + {mediaDayCount,number} 日嘅媒體}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "取消咗課金計劃"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "你可以喺手機度管理或者取消「Signal 安全備份」課金計劃。"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "你可以喺手機度管理或者升級「Signal 安全備份」課金計劃。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "你可以喺手機度管理「Signal 安全備份」課金計劃或者續期。"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "上一次備份"
@@ -6823,10 +6820,10 @@
     "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "如果想更新流動裝置嘅徽章設定，請去「設定」→「捐款俾 Signal」→「徽章」。"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中斷"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "呢次更新修正咗一啲小錯誤，包括表情符號心情回應嘅分類有時會出錯。"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "我們修正咗某啲用戶顯示唔到正確捐款徽章嘅錯誤。Signal 係屬於 501c3 嘅非牟利組織，我哋好多謝你嘅支持！"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "我們攪掂咗 Microsoft Windows 上面，將 Signal 桌面版標題欄由藍色變成橙色嘅錯誤。如果你已經習慣咗條橙色嘅標題欄，而呢次錯誤修正攪到你唔多習慣，你可以喺 Window 設定度改改個系統主題顏色。"
   }
 }
