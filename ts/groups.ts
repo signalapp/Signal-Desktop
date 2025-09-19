@@ -200,7 +200,7 @@ type GroupV2PendingAddManyChangeType = {
 // Note: pending-remove is only used if user didn't also join the group at the same time
 type GroupV2PendingRemoveOneChangeType = {
   type: 'pending-remove-one';
-  serviceId: ServiceIdString;
+  serviceId?: ServiceIdString;
   inviter?: AciString;
 };
 // Note: pending-remove is only used if user didn't also join the group at the same time
