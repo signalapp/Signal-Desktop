@@ -174,7 +174,11 @@ const preventDisplaySleepService = new PreventDisplaySleepService(
   powerSaveBlocker
 );
 
-const challengeHandler = new ChallengeMainHandler();
+const challengeHandler = new ChallengeMainHandler(
+  config.has('hardcodedCaptchaForLocalTestingOnly')
+    ? config.get<string>('hardcodedCaptchaForLocalTestingOnly')
+    : undefined
+);
 
 const nativeThemeNotifier = new NativeThemeNotifier();
 nativeThemeNotifier.initialize();
