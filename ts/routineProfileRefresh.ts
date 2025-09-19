@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNil, sortBy } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 
 import { createLogger } from './logging/log.js';
@@ -16,6 +16,8 @@ import { getProfile } from './util/getProfile.js';
 import { drop } from './util/drop.js';
 import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.js';
 import { isDirectConversation } from './util/whatTypeOfConversation.js';
+
+const { isNil, sortBy } = lodash;
 
 const log = createLogger('routineProfileRefresh');
 

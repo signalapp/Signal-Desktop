@@ -3,7 +3,7 @@
 
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper.js';
 import { FindDirection } from './leftPane/LeftPaneHelper.js';
@@ -60,6 +60,8 @@ import type { ServerAlertsType } from '../util/handleServerAlerts.js';
 import { getServerAlertDialog } from './ServerAlerts.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import type { Location } from '../types/Nav.js';
+
+const { isNumber } = lodash;
 
 export type PropsType = {
   backupMediaDownloadProgress: {

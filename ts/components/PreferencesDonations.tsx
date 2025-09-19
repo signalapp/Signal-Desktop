@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { groupBy, sortBy } from 'lodash';
+import lodash from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
@@ -54,6 +54,8 @@ import type { AvatarUpdateOptionsType } from '../types/Avatar.js';
 import { drop } from '../util/drop.js';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.js';
 import { getInProgressDonation } from '../util/donations.js';
+
+const { groupBy, sortBy } = lodash;
 
 const log = createLogger('PreferencesDonations');
 

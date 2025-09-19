@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -18,6 +18,8 @@ import { replaceIndex } from '../../util/replaceIndex.js';
 import { storageServiceUploadJob } from '../../services/storage.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+
+const { omit } = lodash;
 
 const log = createLogger('storyDistributionLists');
 

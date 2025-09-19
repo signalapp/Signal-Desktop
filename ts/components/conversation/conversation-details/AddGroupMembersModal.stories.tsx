@@ -3,7 +3,7 @@
 
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { sleep } from '../../../util/sleep.js';
@@ -17,6 +17,8 @@ import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsMo
 import { RequestState } from './util.js';
 import { ThemeType } from '../../../types/Util.js';
 import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

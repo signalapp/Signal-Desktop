@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, sortBy } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { strictAssert } from './assert.js';
@@ -12,6 +12,8 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../model-types.js';
 import type { LoggerType } from '../types/Logging.js';
+
+const { isNumber, sortBy } = lodash;
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
 //   edit, we're still sending that edit.

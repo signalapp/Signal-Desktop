@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useReducer } from 'react';
-import { without } from 'lodash';
+import lodash from 'lodash';
 
 import type { LocalizerType } from '../../../types/Util.js';
 import {
@@ -17,6 +17,8 @@ import {
 } from '../../../groups/toggleSelectedContactForGroupAddition.js';
 import { missingCaseError } from '../../../util/missingCaseError.js';
 import type { RequestState } from './util.js';
+
+const { without } = lodash;
 
 type PropsType = {
   clearRequestError: () => void;

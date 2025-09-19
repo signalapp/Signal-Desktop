@@ -6,10 +6,8 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './ProfileNameWarningModal.js';
 import { ProfileNameWarningModal } from './ProfileNameWarningModal.js';
 import { type ComponentMeta } from '../../storybook/types.js';
-import { setupI18n } from '../../util/setupI18n.js';
-import enMessages from '../../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ProfileNameWarningModal',

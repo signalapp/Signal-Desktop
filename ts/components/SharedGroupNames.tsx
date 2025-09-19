@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { take } from 'lodash';
+import lodash from 'lodash';
 
 import { I18n } from './I18n.js';
 import type { LocalizerType } from '../types/Util.js';
 import { UserText } from './UserText.js';
+
+const { take } = lodash;
 
 type PropsType = {
   i18n: LocalizerType;

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline.js';
 import type { TimelineItemType } from '../components/conversation/TimelineItem.js';
@@ -11,6 +11,8 @@ import { MINUTE } from './durations/index.js';
 import { missingCaseError } from './missingCaseError.js';
 import { isSameDay } from './timestamp.js';
 import type { LastMessageStatus } from '../model-types.d.ts';
+
+const { isNumber } = lodash;
 
 const log = createLogger('timelineUtil');
 

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, omit } from 'lodash';
+import lodash from 'lodash';
 
 import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.js';
@@ -34,6 +34,8 @@ import { drop } from '../util/drop.js';
 import { calling } from './calling.js';
 import { getKeyAndEpochFromCallLink } from '../util/callLinks.js';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
+
+const { debounce, omit } = lodash;
 
 const log = createLogger('LinkPreview');
 

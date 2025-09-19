@@ -6,7 +6,7 @@ import assert from 'node:assert';
 import { join } from 'node:path';
 import { _electron as electron } from 'playwright';
 
-import packageJson from '../../package.json';
+import { productName, name } from '../util/packageJson.js';
 
 const ENVIRONMENT = 'production';
 const RELEASE_DIR = join(__dirname, '..', '..', 'release');
@@ -16,24 +16,24 @@ let exe: string;
 if (process.platform === 'darwin') {
   archive = join(
     'mac-arm64',
-    `${packageJson.productName}.app`,
+    `${productName}.app`,
     'Contents',
     'Resources',
     'app.asar'
   );
   exe = join(
     'mac-arm64',
-    `${packageJson.productName}.app`,
+    `${productName}.app`,
     'Contents',
     'MacOS',
-    packageJson.productName
+    productName
   );
 } else if (process.platform === 'win32') {
   archive = join('win-unpacked', 'resources', 'app.asar');
-  exe = join('win-unpacked', `${packageJson.productName}.exe`);
+  exe = join('win-unpacked', `${productName}.exe`);
 } else if (process.platform === 'linux') {
   archive = join('linux-unpacked', 'resources', 'app.asar');
-  exe = join('linux-unpacked', packageJson.name);
+  exe = join('linux-unpacked', name);
 } else {
   throw new Error(`Unsupported platform: ${process.platform}`);
 }
@@ -72,7 +72,7 @@ const main = async () => {
   );
 
   console.log('Checking window title');
-  assert.strictEqual(await window.title(), packageJson.productName);
+  assert.strictEqual(await window.title(), productName);
 
   await app.close();
 };

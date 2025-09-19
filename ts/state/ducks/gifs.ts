@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
-import { take } from 'lodash';
+import lodash from 'lodash';
 import type { GifType } from '../../components/fun/panels/FunPanelGifs.js';
 import { DataWriter } from '../../sql/Client.js';
 import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
 } from '../../hooks/useBoundActions.js';
+
+const { take } = lodash;
 
 const { addRecentGif, removeRecentGif } = DataWriter;
 

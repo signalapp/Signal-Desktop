@@ -46,10 +46,9 @@ import {
 import { noopAction } from '../../../state/ducks/noop.js';
 import type { StateType } from '../../../state/reducer.js';
 import { reducer as rootReducer } from '../../../state/reducer.js';
-import { setupI18n } from '../../../util/setupI18n.js';
+import i18n from '../../util/i18n.js';
 import type { ServiceIdString } from '../../../types/ServiceId.js';
 import { generateAci, getAciFromPrefix } from '../../../types/ServiceId.js';
-import enMessages from '../../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -104,8 +103,6 @@ describe('both/state/selectors/conversations-extra', () => {
       getAciFromPrefix(id)
     );
   }
-
-  const i18n = setupI18n('en', enMessages);
 
   describe('#getConversationByIdSelector', () => {
     const state = {

@@ -9,8 +9,7 @@ import {
   CallType,
   GroupCallStatus,
 } from '../../types/CallDisposition.js';
-import { setupI18n } from '../../util/setupI18n.js';
-import enMessages from '../../../_locales/en/messages.json';
+import i18n from './i18n.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -19,8 +18,6 @@ import { getPeerIdFromConversation } from '../../util/callDisposition.js';
 import { HOUR } from '../../util/durations/index.js';
 
 describe('calling notification helpers', () => {
-  const i18n = setupI18n('en', enMessages);
-
   describe('getCallingNotificationText', () => {
     // Direct call behavior is not tested here.
 

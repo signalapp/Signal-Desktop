@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { emptyDir, ensureFile } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { v4 as generateUuid } from 'uuid';
 import { readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
@@ -17,6 +17,8 @@ import {
 
 import { generateAci } from '../types/ServiceId.js';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
+
+const { emptyDir, ensureFile } = fsExtra;
 
 function getAbsolutePath(
   path: string,

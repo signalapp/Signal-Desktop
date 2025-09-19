@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
-import { groupBy, isTypedArray, last, map, omit } from 'lodash';
+import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -68,6 +68,8 @@ import {
   throttledUpdateBackupMediaDownloadProgress,
   updateBackupMediaDownloadProgress,
 } from '../util/updateBackupMediaDownloadProgress.js';
+
+const { groupBy, isTypedArray, last, map, omit } = lodash;
 
 const log = createLogger('Client');
 

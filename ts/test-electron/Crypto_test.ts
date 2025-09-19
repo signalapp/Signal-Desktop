@@ -5,9 +5,9 @@ import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createCipheriv } from 'node:crypto';
 import { PassThrough } from 'node:stream';
-import { emptyDir } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { assert } from 'chai';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
@@ -55,6 +55,10 @@ import type { AciString, PniString } from '../types/ServiceId.js';
 import { createTempDir, deleteTempDir } from '../updater/common.js';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
 import { getPath } from '../windows/main/attachments.js';
+
+const { emptyDir } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('Crypto_test');
 

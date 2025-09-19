@@ -1,8 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { throttle } from 'lodash';
+import lodash from 'lodash';
 import type { BackupAttachmentDownloadProgress } from '../sql/Interface.js';
+
+const { throttle } = lodash;
 
 export async function updateBackupMediaDownloadProgress(
   getBackupAttachmentDownloadProgress: () => Promise<BackupAttachmentDownloadProgress>

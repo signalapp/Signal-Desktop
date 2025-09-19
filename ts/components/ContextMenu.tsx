@@ -7,13 +7,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { Theme } from '../util/theme.js';
 import type { LocalizerType } from '../types/Util.js';
 import { getClassNamesFor } from '../util/getClassNamesFor.js';
 import { themeClassName } from '../util/theme.js';
 import { handleOutsideClick } from '../util/handleOutsideClick.js';
+
+const { noop } = lodash;
 
 export type ContextMenuOptionType<T> = Readonly<{
   description?: string;

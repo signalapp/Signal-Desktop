@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import {
   CallLinkEpoch,
@@ -112,6 +112,8 @@ import {
 import { storageServiceUploadJob } from '../../services/storage.js';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.js';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.js';
+
+const { omit } = lodash;
 
 const log = createLogger('calling');
 

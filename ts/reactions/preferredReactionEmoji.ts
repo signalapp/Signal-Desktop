@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from './constants.js';
 import { convertShortName } from '../components/emoji/lib.js';
 import { isValidReactionEmoji } from './isValidReactionEmoji.js';
 import type { EmojiSkinTone } from '../components/fun/data/emojis.js';
+
+const { times } = lodash;
 
 const log = createLogger('preferredReactionEmoji');
 

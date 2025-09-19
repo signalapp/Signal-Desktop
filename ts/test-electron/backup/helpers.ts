@@ -4,12 +4,12 @@
 import { assert } from 'chai';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
-import { omit, sortBy } from 'lodash';
+import lodash from 'lodash';
 import { createReadStream } from 'node:fs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import * as sinon from 'sinon';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
-import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
+import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
 import type {
   EditHistoryType,
@@ -28,6 +28,8 @@ import { DataReader, DataWriter } from '../../sql/Client.js';
 import { getRandomBytes } from '../../Crypto.js';
 import * as Bytes from '../../Bytes.js';
 import { postSaveUpdates } from '../../util/cleanup.js';
+
+const { omit, sortBy } = lodash;
 
 export const OUR_ACI = generateAci();
 export const OUR_PNI = generatePni();

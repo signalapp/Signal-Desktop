@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 
 import {
@@ -16,6 +16,8 @@ import {
 import { generateAci } from '../../types/ServiceId.js';
 import type { CallHistoryDetails } from '../../types/CallDisposition.js';
 import type { MaybeStaleCallHistory } from '../../sql/Server.js';
+
+const { times } = lodash;
 
 const { getAllCallHistory } = DataReader;
 const { getRecentStaleRingsAndMarkOlderMissed, removeAll, saveCallHistory } =

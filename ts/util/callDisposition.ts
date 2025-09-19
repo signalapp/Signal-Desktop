@@ -12,7 +12,7 @@ import {
   RingUpdate,
 } from '@signalapp/ringrtc';
 import { ContentHint } from '@signalapp/libsignal-client';
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import { strictAssert } from './assert.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { SignalService as Proto } from '../protobuf/index.js';
@@ -71,6 +71,8 @@ import { parsePartial, parseStrict } from './schemas.js';
 import { calling } from '../services/calling.js';
 import { cleanupMessages } from './cleanup.js';
 import { MessageModel } from '../models/messages.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('callDisposition');
 

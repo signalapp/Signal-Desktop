@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { mapValues, pick } from 'lodash';
+import lodash from 'lodash';
 
 import type { CustomError } from '../../textsecure/Types.js';
 
@@ -24,6 +24,8 @@ import {
   NotificationType,
 } from '../../services/notifications.js';
 import type { MessageModel } from '../../models/messages.js';
+
+const { mapValues, pick } = lodash;
 
 const log = createLogger('messageFailures');
 

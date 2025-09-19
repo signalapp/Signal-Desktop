@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React from 'react';
-import { compact, flatten } from 'lodash';
+import lodash from 'lodash';
 
 import { ContactName } from './ContactName.js';
 import { SystemMessage } from './SystemMessage.js';
@@ -12,6 +12,8 @@ import type { LocalizerType } from '../../types/Util.js';
 
 import { missingCaseError } from '../../util/missingCaseError.js';
 import type { ConversationType } from '../../state/ducks/conversations.js';
+
+const { compact, flatten } = lodash;
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 

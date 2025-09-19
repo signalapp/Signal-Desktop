@@ -1,8 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Dictionary } from 'lodash';
-import { omit, reject } from 'lodash';
+import lodash, { type Dictionary } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   StickerPackStatusType,
@@ -28,6 +27,8 @@ import type { EraseStorageServiceStateAction } from './user.js';
 import type { NoopActionType } from './noop.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+
+const { omit, reject } = lodash;
 
 const { getRecentStickers } = DataReader;
 const { updateStickerLastUsed } = DataWriter;

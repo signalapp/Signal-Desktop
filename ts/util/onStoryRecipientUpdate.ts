@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import { DataReader } from '../sql/Client.js';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents.js';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
@@ -15,6 +15,8 @@ import { drop } from './drop.js';
 import { fromServiceIdBinaryOrString } from './ServiceId.js';
 import { handleDeleteForEveryone } from './deleteForEveryone.js';
 import { MessageModel } from '../models/messages.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('onStoryRecipientUpdate');
 

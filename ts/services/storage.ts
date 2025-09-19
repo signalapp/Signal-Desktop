@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber, chunk } from 'lodash';
+import lodash from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
@@ -89,6 +89,8 @@ import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import { isMockEnvironment } from '../environment.js';
 import { validateConversation } from '../util/validateConversation.js';
 import type { ChatFolder } from '../types/ChatFolder.js';
+
+const { debounce, isNumber, chunk } = lodash;
 
 const log = createLogger('storage');
 

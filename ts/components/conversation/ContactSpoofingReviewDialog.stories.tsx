@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
@@ -10,6 +10,8 @@ import type { PropsType } from './ContactSpoofingReviewDialog.js';
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.js';
 import { ContactSpoofingType } from '../../util/contactSpoofing.js';
 import { ThemeType } from '../../types/Util.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

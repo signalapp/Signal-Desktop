@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { pick } from 'lodash';
+import lodash from 'lodash';
 import React, { useCallback } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
@@ -22,6 +22,8 @@ import { ListView } from './ListView.js';
 import { ListTile } from './ListTile.js';
 import type { ShowToastAction } from '../state/ducks/toast.js';
 import { SizeObserver } from '../hooks/useSizeObserver.js';
+
+const { pick } = lodash;
 
 type OwnProps = {
   i18n: LocalizerType;

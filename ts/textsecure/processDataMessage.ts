@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
-import { isNumber } from 'lodash';
+import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
+import lodash from 'lodash';
 
 import { assertDev, strictAssert } from '../util/assert.js';
 import { dropNull, shallowDropNull } from '../util/dropNull.js';
@@ -39,6 +39,8 @@ import { bytesToUuid } from '../util/uuidToBytes.js';
 import { createName } from '../util/attachmentPath.js';
 import { partitionBodyAndNormalAttachments } from '../types/Attachment.js';
 import { isNotNil } from '../util/isNotNil.js';
+
+const { isNumber } = lodash;
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;

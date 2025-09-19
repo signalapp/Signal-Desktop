@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations.js';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations.js';
@@ -44,6 +44,8 @@ import { getGroupMemberships } from '../util/getGroupMemberships.js';
 import { strictAssert } from '../util/assert.js';
 import { UserText } from './UserText.js';
 import { SizeObserver } from '../hooks/useSizeObserver.js';
+
+const { noop } = lodash;
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;

@@ -3,13 +3,15 @@
 
 import type { Readable } from 'node:stream';
 import { once } from 'node:events';
-import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup';
-import type { InputStream } from '@signalapp/libsignal-client/dist/io';
-import { Reader } from 'protobufjs';
+import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup.js';
+import type { InputStream } from '@signalapp/libsignal-client/dist/io.js';
+import protobufjs from 'protobufjs';
 
 import { strictAssert } from '../../util/assert.js';
 import { toAciObject } from '../../util/ServiceId.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
+
+const { Reader } = protobufjs;
 
 export enum ValidationType {
   Export = 'Export',

@@ -1,9 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { find, findLast, first, last } from 'lodash';
+import lodash from 'lodash';
 import type { BadgeType } from './types.js';
 import { BadgeImageTheme } from './BadgeImageTheme.js';
+
+const { find, findLast, first, last } = lodash;
 
 export function getBadgeImageFileLocalPath(
   badge: Readonly<undefined | BadgeType>,

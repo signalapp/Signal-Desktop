@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -23,6 +23,8 @@ import { TextDirection } from './Message.js';
 import { PaymentEventKind } from '../../types/Payment.js';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage.js';
 import { CollidingAvatars } from '../CollidingAvatars.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

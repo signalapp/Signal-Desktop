@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get, throttle } from 'lodash';
+import lodash from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI.js';
 import { createLogger } from './logging/log.js';
@@ -13,6 +13,8 @@ import { uuidToBytes } from './util/uuidToBytes.js';
 import { HashType } from './types/Crypto.js';
 import { getCountryCode } from './types/PhoneNumber.js';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
+
+const { get, throttle } = lodash;
 
 const log = createLogger('RemoteConfig');
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get, isEmpty } from 'lodash';
+import lodash from 'lodash';
 import { getOwn } from '../util/getOwn.js';
 import { map, concat, repeat, zipObject } from '../util/iterables.js';
 import { isOutgoing } from '../state/selectors/message.js';
@@ -15,6 +15,8 @@ import {
   sendStateReducer,
   SendStatus,
 } from './MessageSendState.js';
+
+const { get, isEmpty } = lodash;
 
 type LegacyCustomError = Error & {
   identifier?: string;

@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, throttle } from 'lodash';
+import lodash from 'lodash';
 import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
@@ -227,6 +227,8 @@ import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.js';
 import { initialize as initializeDonationService } from './services/donations.js';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.js';
+
+const { isNumber, throttle } = lodash;
 
 const log = createLogger('background');
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
-import { get, has } from 'lodash';
+import lodash from 'lodash';
 
 import { createPortal } from 'react-dom';
 import type { AttachmentType } from '../types/Attachment.js';
@@ -24,6 +24,8 @@ import { MediaEditor } from './MediaEditor.js';
 import { TextStoryCreator } from './TextStoryCreator.js';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { processAttachment } from '../util/processAttachment.js';
+
+const { get, has } = lodash;
 
 function usePortalElement(testid: string): HTMLDivElement | null {
   const [element, setElement] = useState<HTMLDivElement | null>(null);

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import React, {
   useCallback,
   useEffect,
@@ -14,7 +14,7 @@ import type { Ref } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
+import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import { isDownloaded } from '../../types/Attachment.js';
 import type { LocalizerType } from '../../types/I18N.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.js';
@@ -51,6 +51,8 @@ import {
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
 import { isNotNil } from '../../util/isNotNil.js';
+
+const { noop } = lodash;
 
 export type PropsData = {
   canDownload: boolean;

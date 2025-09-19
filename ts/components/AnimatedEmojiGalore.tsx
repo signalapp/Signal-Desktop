@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
-import { random } from 'lodash';
+import lodash from 'lodash';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
 import { FunStaticEmoji } from './fun/FunEmoji.js';
 import { strictAssert } from '../util/assert.js';
@@ -12,6 +12,8 @@ import {
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from './fun/data/emojis.js';
+
+const { random } = lodash;
 
 export type PropsType = {
   emoji: string;

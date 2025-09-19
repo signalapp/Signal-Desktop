@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { unescape } from 'lodash';
+import lodash from 'lodash';
 
 import { CurveType, Image } from './Image.js';
 import { LinkPreviewDate } from './LinkPreviewDate.js';
@@ -16,6 +16,8 @@ import { isCallLink } from '../../types/LinkPreview.js';
 import { Avatar } from '../Avatar.js';
 import { getColorForCallLink } from '../../util/getColorForCallLink.js';
 import { getKeyFromCallLink } from '../../util/callLinks.js';
+
+const { unescape } = lodash;
 
 export type Props = LinkPreviewForUIType & {
   i18n: LocalizerType;

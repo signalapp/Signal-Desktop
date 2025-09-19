@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { AvatarColors } from '../types/Colors.js';
@@ -22,6 +22,8 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCa
 import { MINUTE } from '../util/durations/index.js';
 import type { SetRendererCanvasType } from '../state/ducks/calling.js';
 import { createCallParticipant } from '../test-helpers/createCallParticipant.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

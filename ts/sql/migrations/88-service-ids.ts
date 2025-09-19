@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/sqlcipher';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import type { LoggerType } from '../../types/Logging.js';
 import type {
@@ -14,6 +14,8 @@ import { normalizeServiceId, normalizePni } from '../../types/ServiceId.js';
 import { normalizeAci } from '../../util/normalizeAci.js';
 import type { JSONWithUnknownFields } from '../../types/Util.js';
 import { isNotNil } from '../../util/isNotNil.js';
+
+const { omit } = lodash;
 
 //
 // Main migration function that does the following:

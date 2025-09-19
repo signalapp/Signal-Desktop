@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { MessageReactionType } from '../../model-types.d.ts';
 import { isEmpty } from '../../util/iterables.js';
 
@@ -14,6 +14,8 @@ import {
   markOutgoingReactionFailed,
   markOutgoingReactionSent,
 } from '../../reactions/util.js';
+
+const { omit } = lodash;
 
 describe('reaction utilities', () => {
   const OUR_CONVO_ID = uuid();

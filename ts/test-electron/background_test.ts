@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { pick } from 'lodash';
+import lodash from 'lodash';
 
 import { isOverHourIntoPast, cleanupSessionResets } from '../background.js';
 import { DataWriter } from '../sql/Client.js';
+
+const { pick } = lodash;
 
 describe('#isOverHourIntoPast', () => {
   it('returns false for now', () => {

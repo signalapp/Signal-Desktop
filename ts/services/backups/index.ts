@@ -6,14 +6,14 @@ import { PassThrough } from 'node:stream';
 import type { Readable, Writable } from 'node:stream';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { mkdir, stat, unlink } from 'node:fs/promises';
-import { ensureFile } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { join } from 'node:path';
 import { createGzip, createGunzip } from 'node:zlib';
 import { createCipheriv, createHmac, randomBytes } from 'node:crypto';
-import { isEqual, noop } from 'lodash';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
-import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
-import { throttle } from 'lodash/fp';
+import lodash from 'lodash';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
+import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import lodashFp from 'lodash/fp.js';
 import { ipcRenderer } from 'electron';
 
 import { DataReader, DataWriter } from '../../sql/Client.js';
@@ -85,6 +85,12 @@ import {
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.js';
 import { decipherWithAesKey } from '../../util/decipherWithAesKey.js';
 import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled.js';
+
+const { ensureFile } = fsExtra;
+
+const { throttle } = lodashFp;
+
+const { isEqual, noop } = lodash;
 
 const log = createLogger('backupsService');
 

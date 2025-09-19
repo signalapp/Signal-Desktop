@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { range } from 'lodash';
+import lodash from 'lodash';
 
 import { createDB, insertData, updateToVersion } from './helpers.js';
 import type {
@@ -19,6 +19,8 @@ import type {
   PreKeyType,
   SignedPreKeyType,
 } from '../../sql/Interface.js';
+
+const { range } = lodash;
 
 type TestingKyberKey = Omit<
   KyberPreKeyType,

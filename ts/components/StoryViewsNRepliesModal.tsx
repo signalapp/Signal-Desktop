@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { noop, orderBy } from 'lodash';
+import lodash from 'lodash';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { LocalizerType } from '../types/Util.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
@@ -42,6 +42,8 @@ import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import { FunEmojiPickerButton } from './fun/FunButton.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+
+const { noop, orderBy } = lodash;
 
 // Menu is disabled so these actions are inaccessible. We also don't support
 // link previews, tap to view messages, attachments, or gifts. Just regular

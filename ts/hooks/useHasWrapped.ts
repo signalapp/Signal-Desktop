@@ -3,7 +3,9 @@
 
 import type { Ref } from 'react';
 import { useEffect, useState } from 'react';
-import { first, last, noop } from 'lodash';
+import lodash from 'lodash';
+
+const { first, last, noop } = lodash;
 
 function getBottom(element: Readonly<Element>): number {
   return element.getBoundingClientRect().bottom;

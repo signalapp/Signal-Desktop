@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -28,6 +28,8 @@ import type { MediaItemType } from '../../types/MediaItem.js';
 import type { StateType as RootStateType } from '../reducer.js';
 import type { MessageAttributesType, MessageType } from '../../model-types.js';
 import { isTapToView, getPropsForAttachment } from '../selectors/message.js';
+
+const { orderBy } = lodash;
 
 const log = createLogger('mediaGallery');
 

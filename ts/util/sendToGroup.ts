@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { differenceWith, omit } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import {
@@ -75,6 +75,8 @@ import {
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { isAciString } from './isAciString.js';
 import { safeParseStrict, safeParseUnknown } from './schemas.js';
+
+const { differenceWith, omit } = lodash;
 
 const log = createLogger('sendToGroup');
 

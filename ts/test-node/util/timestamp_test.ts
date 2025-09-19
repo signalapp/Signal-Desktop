@@ -5,8 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import moment from 'moment';
 import { HOUR, DAY } from '../../util/durations/index.js';
-import { setupI18n } from '../../util/setupI18n.js';
-import enMessages from '../../../_locales/en/messages.json';
+import i18n from './i18n.js';
 
 import {
   formatDate,
@@ -35,8 +34,6 @@ describe('timestamp', () => {
       sandbox.restore();
     });
   }
-
-  const i18n = setupI18n('en', enMessages);
 
   describe('formatDate', () => {
     useFakeTimers();

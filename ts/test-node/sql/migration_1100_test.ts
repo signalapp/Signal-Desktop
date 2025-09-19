@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { findLast } from 'lodash';
+import lodash from 'lodash';
 import type { WritableDB } from '../../sql/Interface.js';
 import { markAllCallHistoryRead } from '../../sql/Server.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
@@ -14,6 +14,8 @@ import {
 } from '../../types/CallDisposition.js';
 import { strictAssert } from '../../util/assert.js';
 import { createDB, insertData, updateToVersion } from './helpers.js';
+
+const { findLast } = lodash;
 
 describe('SQL/updateToSchemaVersion1100', () => {
   let db: WritableDB;

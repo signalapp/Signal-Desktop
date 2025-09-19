@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { app, crashReporter, ipcMain as ipc } from 'electron';
-import { realpath, readdir, readFile, unlink, stat } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { basename, join } from 'node:path';
-import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump';
+import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump.js';
 import z from 'zod';
 
 import type { LoggerType } from '../ts/types/Logging.js';
@@ -13,6 +13,8 @@ import { isProduction } from '../ts/util/version.js';
 import { isNotNil } from '../ts/util/isNotNil.js';
 import OS from '../ts/util/os/osMain.js';
 import { parseUnknown } from '../ts/util/schemas.js';
+
+const { realpath, readdir, readFile, unlink, stat } = fsExtra;
 
 // See https://github.com/rust-minidump/rust-minidump/blob/main/minidump-processor/json-schema.md
 const dumpString = z.string().or(z.null()).optional();

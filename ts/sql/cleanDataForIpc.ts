@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isPlainObject } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 
 import { isIterable } from '../util/iterables.js';
+
+const { isPlainObject } = lodash;
 
 const log = createLogger('cleanDataForIpc');
 

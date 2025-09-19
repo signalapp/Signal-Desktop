@@ -3,7 +3,7 @@
 
 import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import { partition } from 'lodash';
+import lodash from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 import { List } from 'react-virtualized';
 import classNames from 'classnames';
@@ -24,6 +24,8 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from './conversation/InAnotherCallTooltip.js';
+
+const { partition } = lodash;
 
 type CallsNewCallProps = Readonly<{
   hasActiveCall: boolean;

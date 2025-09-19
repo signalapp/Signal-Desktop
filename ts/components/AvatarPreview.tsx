@@ -3,7 +3,7 @@
 
 import type { CSSProperties } from 'react';
 import React, { useEffect, useState } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import type { LocalizerType } from '../types/Util.js';
@@ -13,6 +13,8 @@ import { AvatarColors } from '../types/Colors.js';
 import { getInitials } from '../util/getInitials.js';
 import { imagePathToBytes } from '../util/imagePathToBytes.js';
 import { type ConversationType } from '../state/ducks/conversations.js';
+
+const { noop } = lodash;
 
 const log = createLogger('AvatarPreview');
 

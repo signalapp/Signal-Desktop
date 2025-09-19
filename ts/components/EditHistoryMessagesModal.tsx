@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useRef } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { AttachmentType } from '../types/Attachment.js';
 import type { LocalizerType } from '../types/Util.js';
@@ -16,6 +16,8 @@ import { useTheme } from '../hooks/useTheme.js';
 import { isSameDay } from '../util/timestamp.js';
 import { TimelineDateHeader } from './conversation/TimelineDateHeader.js';
 import { drop } from '../util/drop.js';
+
+const { noop } = lodash;
 
 export type PropsType = {
   closeEditHistoryModal: () => unknown;

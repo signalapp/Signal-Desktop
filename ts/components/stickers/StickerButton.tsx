@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { get, noop } from 'lodash';
+import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 
@@ -21,6 +21,8 @@ import { handleOutsideClick } from '../../util/handleOutsideClick.js';
 import * as KeyboardLayout from '../../services/keyboardLayout.js';
 import { useRefMerger } from '../../hooks/useRefMerger.js';
 import { UserText } from '../UserText.js';
+
+const { get, noop } = lodash;
 
 export type OwnProps = {
   readonly className?: string;

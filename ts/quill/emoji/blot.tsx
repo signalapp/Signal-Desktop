@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
 import { strictAssert } from '../../util/assert.js';
 import {
   getEmojiVariantByKey,

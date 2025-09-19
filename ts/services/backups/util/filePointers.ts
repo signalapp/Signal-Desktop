@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { existsSync } from 'node:fs';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 
 import {
   APPLICATION_OCTET_STREAM,

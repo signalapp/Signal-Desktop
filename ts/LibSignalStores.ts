@@ -3,7 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import type {
   Direction,
@@ -32,6 +32,8 @@ import type { ServiceIdString } from './types/ServiceId.js';
 import { normalizeServiceId } from './types/ServiceId.js';
 
 import type { Zone } from './util/Zone.js';
+
+const { isNumber } = lodash;
 
 function encodeAddress(address: ProtocolAddress): Address {
   const name = address.name();

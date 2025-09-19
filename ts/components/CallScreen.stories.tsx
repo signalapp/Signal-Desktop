@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { sample, shuffle, times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -35,6 +35,8 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCa
 import { CallingToastProvider, useCallingToasts } from './CallingToast.js';
 import type { CallingImageDataCache } from './CallManager.js';
 import { MINUTE } from '../util/durations/index.js';
+
+const { sample, shuffle, times } = lodash;
 
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;

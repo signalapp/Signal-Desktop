@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { z } from 'zod';
 import { EventEmitter } from 'node:events';
 
@@ -68,6 +68,8 @@ import {
 } from './textsecure/AccountManager.js';
 import { formatGroups, groupWhile } from './util/groupWhile.js';
 import { parseUnknown } from './util/schemas.js';
+
+const { omit } = lodash;
 
 const log = createLogger('SignalProtocolStore');
 

@@ -1,11 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import type {
   StickerPackType,
   StickerType,
 } from '../../state/ducks/stickers.js';
+
+const { sample } = lodash;
 
 export const sticker1: StickerType = {
   id: 1,

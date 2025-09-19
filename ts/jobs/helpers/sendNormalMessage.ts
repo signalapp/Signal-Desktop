@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
 
@@ -66,6 +66,8 @@ import {
 } from '../../test-node/util/messageFailures.js';
 import { getMessageIdForLogging } from '../../util/idForLogging.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.js';
+
+const { isNumber } = lodash;
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 

@@ -8,7 +8,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util.js';
@@ -44,6 +44,8 @@ import { ListView } from '../../../ListView.js';
 import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox.js';
 import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox.js';
 import { SizeObserver } from '../../../../hooks/useSizeObserver.js';
+
+const { omit } = lodash;
 
 export type StatePropsType = {
   regionCode: string | undefined;

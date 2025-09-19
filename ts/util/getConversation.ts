@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
 import type { ConversationModel } from '../models/conversations.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import type { ConversationAttributesType } from '../model-types.js';
@@ -58,6 +58,8 @@ import {
 import { isNotNil } from './isNotNil.js';
 import { getIdentifierHash } from '../Crypto.js';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
+
+const { sortBy } = lodash;
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};

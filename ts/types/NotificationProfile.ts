@@ -1,12 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, orderBy } from 'lodash';
+import lodash from 'lodash';
 
 import { DAY, HOUR, MINUTE } from '../util/durations/index.js';
 import { strictAssert } from '../util/assert.js';
 
 import type { StorageServiceFieldsType } from '../sql/Interface.js';
+
+const { isNumber, orderBy } = lodash;
 
 // Note: this must match the Backup and Storage Service protos for NotificationProfile
 // This variable is separate so we aren't forced to add it to ScheduleDays object below

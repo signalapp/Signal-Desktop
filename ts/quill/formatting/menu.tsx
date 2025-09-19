@@ -5,17 +5,19 @@ import React from 'react';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
 import { createPortal } from 'react-dom';
-import { isString } from 'lodash';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import lodash from 'lodash';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 import type { Op } from '@signalapp/quill-cjs';
-import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard';
+import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard.js';
 import type { VirtualElement } from '@popperjs/core';
 
 import { createLogger } from '../../logging/log.js';
 import * as Errors from '../../types/errors.js';
 import type { LocalizerType } from '../../types/Util.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+
+const { isString } = lodash;
 
 const log = createLogger('menu');
 

@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isObject, identity } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import * as Contact from './EmbeddedContact.js';
@@ -48,6 +48,8 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
 import { deepClone } from '../util/deepClone.js';
 import * as Bytes from '../Bytes.js';
 import { isBodyTooLong } from '../util/longAttachment.js';
+
+const { isFunction, isObject, identity } = lodash;
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
 import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
@@ -36,6 +36,8 @@ import { getEmojiVariantByKey } from './fun/data/emojis.js';
 import { FunEmojiPickerButton } from './fun/FunButton.js';
 import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+
+const { noop } = lodash;
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (

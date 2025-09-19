@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { isNumber, omit, orderBy } from 'lodash';
+import lodash from 'lodash';
 import { PublicKey, type KyberPreKeyRecord } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import { Readable } from 'node:stream';
 
 import EventTarget from './EventTarget.js';
@@ -72,6 +72,8 @@ import { getRelativePath, createName } from '../util/attachmentPath.js';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.js';
 import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
 import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.js';
+
+const { isNumber, omit, orderBy } = lodash;
 
 const log = createLogger('AccountManager');
 

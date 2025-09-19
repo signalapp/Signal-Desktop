@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { usePopper } from 'react-popper';
-import { isEqual, noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.js';
 import { Modal } from './Modal.js';
@@ -22,6 +22,8 @@ import { EmojiSkinTone, getEmojiVariantByKey } from './fun/data/emojis.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
+
+const { isEqual, noop } = lodash;
 
 export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;

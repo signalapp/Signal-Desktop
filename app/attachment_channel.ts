@@ -6,7 +6,7 @@ import {
   DigestingPassThrough,
   ValidatingPassThrough,
   inferChunkSize,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { ipcMain, protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 import { randomBytes } from 'node:crypto';
@@ -17,7 +17,7 @@ import { PassThrough, type Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import z from 'zod';
 import GrowingFile from 'growing-file';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
@@ -64,6 +64,8 @@ import {
   getStickersPath,
   getTempPath,
 } from './attachments.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('attachment_channel');
 

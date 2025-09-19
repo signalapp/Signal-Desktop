@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { groupBy, isEmpty, isNumber, isObject, map } from 'lodash';
+import lodash from 'lodash';
 import { createSelector } from 'reselect';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
@@ -157,6 +157,8 @@ import { CallMode, CallDirection } from '../../types/CallDisposition.js';
 import { getCallIdFromEra } from '../../util/callDisposition.js';
 import { LONG_MESSAGE } from '../../types/MIME.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.js';
+
+const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
 const log = createLogger('message');
 

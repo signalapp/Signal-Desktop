@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { isNumber, pick } from 'lodash';
+import lodash from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer.js';
@@ -68,6 +68,8 @@ import {
   countAllConversationsUnreadStats,
   type UnreadStats,
 } from '../../util/countUnreadStats.js';
+
+const { isNumber, pick } = lodash;
 
 const log = createLogger('conversations');
 

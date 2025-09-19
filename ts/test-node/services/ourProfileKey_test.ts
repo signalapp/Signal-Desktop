@@ -3,11 +3,13 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { sleep } from '../../util/sleep.js';
 
 import { constantTimeEqual } from '../../Crypto.js';
 import { OurProfileKeyService } from '../../services/ourProfileKey.js';
+
+const { noop } = lodash;
 
 describe('"our profile key" service', () => {
   const createFakeStorage = () => ({

@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { has } from 'lodash';
+import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
 import { createLogger } from '../../logging/log.js';
@@ -28,6 +28,8 @@ import { initMessageCleanup } from '../../services/messageStateCleanup.js';
 import { Environment, getEnvironment } from '../../environment.js';
 import { isProduction } from '../../util/version.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.js';
+
+const { has } = lodash;
 
 const log = createLogger('start');
 

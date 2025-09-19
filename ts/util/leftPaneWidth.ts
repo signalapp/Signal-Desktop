@@ -1,9 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'lodash';
+import lodash from 'lodash';
 import { isSorted } from './isSorted.js';
 import { strictAssert } from './assert.js';
+
+const { clamp } = lodash;
 
 export const MIN_WIDTH = 97;
 export const SNAP_WIDTH = 200;

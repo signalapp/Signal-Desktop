@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { isBoolean, isNumber } from 'lodash';
+import lodash from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
 import { DataWriter } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
@@ -15,6 +15,8 @@ import {
 import { SEALED_SENDER } from '../types/SealedSender.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { drop } from './drop.js';
+
+const { isBoolean, isNumber } = lodash;
 
 const log = createLogger('handleMessageSend');
 

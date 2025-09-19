@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, isNumber, throttle, debounce } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
@@ -204,6 +204,8 @@ import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
 import { maybeNotify } from '../messages/maybeNotify.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import * as Message from '../types/Message2.js';
+
+const { compact, isNumber, throttle, debounce } = lodash;
 
 const log = createLogger('conversations');
 

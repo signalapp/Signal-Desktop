@@ -10,7 +10,7 @@ import React, {
   useEffect,
 } from 'react';
 import classNames from 'classnames';
-import { debounce, noop } from 'lodash';
+import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
 import type { LocalizerType } from '../types/Util.js';
@@ -31,6 +31,8 @@ import { Theme } from '../util/theme.js';
 import { isOlderThan } from '../util/timestamp.js';
 import type { CallingImageDataCache } from './CallManager.js';
 import { usePrevious } from '../hooks/usePrevious.js';
+
+const { debounce, noop } = lodash;
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;

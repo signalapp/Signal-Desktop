@@ -3,7 +3,7 @@
 
 import { EventEmitter } from 'node:events';
 import { Readable } from 'node:stream';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
@@ -21,6 +21,8 @@ import type {
   CDSResponseType,
 } from './Types.d.ts';
 import { RateLimitedError } from './RateLimitedError.js';
+
+const { noop } = lodash;
 
 export type CDSSocketBaseOptionsType = Readonly<{
   logger: LoggerType;

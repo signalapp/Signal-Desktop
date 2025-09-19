@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import type { z } from 'zod';
 
 import { createLogger } from '../logging/log.js';
@@ -68,6 +68,8 @@ import type {
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 

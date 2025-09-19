@@ -7,6 +7,8 @@
 
 const { config } = window.SignalContext;
 
+export {};
+
 if (config.environment === 'test') {
   console.log('Importing test infrastructure...');
   require('./preload_test.js');

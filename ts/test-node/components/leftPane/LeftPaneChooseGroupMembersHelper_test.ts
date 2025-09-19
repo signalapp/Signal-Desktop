@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import {
   RowType,
   _testHeaderText,
@@ -12,6 +12,8 @@ import { ContactCheckboxDisabledReason } from '../../../components/conversationL
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
 
 import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper.js';
+
+const { times } = lodash;
 
 describe('LeftPaneChooseGroupMembersHelper', () => {
   const defaults = {

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import type { LocalizerType } from '../../types/Util.js';
 import { setupI18n } from '../../util/setupI18n.js';
-import * as enMessages from '../../../_locales/en/messages.json';
+import { enMessages } from '../util/i18n.js';
 
 describe('setupI18n', () => {
   let i18n: LocalizerType;

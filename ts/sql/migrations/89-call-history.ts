@@ -4,7 +4,7 @@
 import { callIdFromEra } from '@signalapp/ringrtc';
 import Long from 'long';
 import { v4 as generateUuid } from 'uuid';
-import { isObject } from 'lodash';
+import lodash from 'lodash';
 
 import type { SetOptional } from 'type-fest';
 import type { LoggerType } from '../../types/Logging.js';
@@ -28,6 +28,8 @@ import { strictAssert } from '../../util/assert.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
 import { isAciString } from '../../util/isAciString.js';
 import { safeParseStrict } from '../../util/schemas.js';
+
+const { isObject } = lodash;
 
 // Legacy type for calls that never had a call id
 type DirectCallHistoryDetailsType = {

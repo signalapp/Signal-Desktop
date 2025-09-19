@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memoize } from 'lodash';
+import lodash from 'lodash';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type {
@@ -52,6 +52,8 @@ import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybo
 import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { isLonelyGroup } from '../ducks/callingHelpers.js';
 import { getActiveProfile } from '../selectors/notificationProfiles.js';
+
+const { memoize } = lodash;
 
 const log = createLogger('CallManager');
 

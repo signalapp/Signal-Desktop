@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './Lightbox.js';
 import { Lightbox } from './Lightbox.js';
@@ -18,6 +18,8 @@ import {
 } from '../types/MIME.js';
 
 import { fakeAttachment } from '../test-helpers/fakeAttachment.js';
+
+const { noop } = lodash;
 
 const { i18n } = window.SignalContext;
 

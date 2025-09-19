@@ -4,7 +4,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Delta } from '@signalapp/quill-cjs';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 import type { RefObject } from 'react';
 import { Popper } from 'react-popper';

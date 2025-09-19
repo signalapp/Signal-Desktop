@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { groupBy, mapValues, orderBy } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import { ContactName } from './ContactName.js';
 import type { Props as AvatarProps } from '../Avatar.js';
@@ -22,6 +22,8 @@ import {
 import { strictAssert } from '../../util/assert.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.js';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.js';
+
+const { groupBy, mapValues, orderBy } = lodash;
 
 export type Reaction = {
   emoji: string;

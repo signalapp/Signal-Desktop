@@ -5,13 +5,16 @@
 
 import path from 'node:path';
 
-import { compose } from 'lodash/fp';
-import { escapeRegExp, isString, isRegExp } from 'lodash';
+import lodashFp from 'lodash/fp.js';
+import lodash from 'lodash';
 
 import type { ExtendedStorageID } from '../types/StorageService.d.ts';
 import type { ConversationModel } from '../models/conversations.js';
 
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
+const { escapeRegExp, isString, isRegExp } = lodash;
+
+const { compose } = lodashFp;
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 // The additional 0 in [0-8] and [089AB] are to include MY_STORY_ID

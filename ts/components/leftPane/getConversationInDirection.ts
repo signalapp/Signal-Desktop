@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { find as findFirst, findLast, first, last } from 'lodash';
+import lodash from 'lodash';
 
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
 import { isConversationUnread } from '../../util/isConversationUnread.js';
 import type { ToFindType } from './LeftPaneHelper.js';
 import { FindDirection } from './LeftPaneHelper.js';
+
+const { find: findFirst, findLast, first, last } = lodash;
 
 /**
  * This will look up or down in an array of conversations for the next one to select.

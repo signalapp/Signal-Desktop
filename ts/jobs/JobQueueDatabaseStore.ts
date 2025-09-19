@@ -1,13 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { AsyncQueue } from '../util/AsyncQueue.js';
 import { concat, wrapPromise } from '../util/asyncIterables.js';
 import type { JobQueueStore, StoredJob } from './types.js';
 import { formatJobForInsert } from './formatJobForInsert.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
+
+const { noop } = lodash;
 
 const log = createLogger('JobQueueDatabaseStore');
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/sqlcipher';
-import { keyBy } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import type { LoggerType } from '../../types/Logging.js';
@@ -124,6 +124,8 @@ import updateToSchemaVersion1450 from './1450-all-media.js';
 import updateToSchemaVersion1460 from './1460-attachment-duration.js';
 
 import { DataWriter } from '../Server.js';
+
+const { keyBy } = lodash;
 
 function updateToSchemaVersion1(db: Database): void {
   db.exec(`

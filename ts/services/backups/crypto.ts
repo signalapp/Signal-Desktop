@@ -6,8 +6,8 @@ import type { PrivateKey } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
-import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
 import { strictAssert } from '../../util/assert.js';
 import type { AciString } from '../../types/ServiceId.js';

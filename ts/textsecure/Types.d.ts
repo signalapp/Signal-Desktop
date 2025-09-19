@@ -30,7 +30,7 @@ export {
   SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
-} from '../sql/Interface.js';
+} from '../sql/Interface.ts';
 
 export type StorageServiceCallOptionsType = {
   credentials?: StorageServiceCredentials;

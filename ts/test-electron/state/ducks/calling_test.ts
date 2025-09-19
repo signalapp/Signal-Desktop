@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { cloneDeep, noop } from 'lodash';
+import lodash from 'lodash';
 import type { PeekInfo } from '@signalapp/ringrtc';
 import type {
   StateType as RootStateType,
@@ -51,6 +51,8 @@ import { strictAssert } from '../../../util/assert.js';
 import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue.js';
 import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks.js';
 import { DataWriter } from '../../../sql/Client.js';
+
+const { cloneDeep, noop } = lodash;
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');

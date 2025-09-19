@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateGuid } from 'uuid';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
-import { omit } from 'lodash';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
+import lodash from 'lodash';
 import * as sinon from 'sinon';
 import { join } from 'node:path';
 import { assert } from 'chai';
@@ -42,6 +42,8 @@ import {
   getPlaintextHashForInMemoryAttachment,
 } from '../../AttachmentCrypto.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.js';
+
+const { omit } = lodash;
 
 const CONTACT_A = generateAci();
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop, omit } from 'lodash';
+import lodash from 'lodash';
 import {
   HTTPError,
   SendMessageProtoError,
@@ -14,6 +14,8 @@ import {
   handleMultipleSendErrors,
   maybeExpandErrors,
 } from '../../../jobs/helpers/handleMultipleSendErrors.js';
+
+const { noop, omit } = lodash;
 
 describe('maybeExpandErrors', () => {
   // This returns a readonly array, but Chai wants a mutable one.

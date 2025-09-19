@@ -1,13 +1,15 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { take, uniq } from 'lodash';
+import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker.js';
 import { DataWriter } from '../../sql/Client.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+
+const { take, uniq } = lodash;
 
 const { updateEmojiUsage } = DataWriter;
 

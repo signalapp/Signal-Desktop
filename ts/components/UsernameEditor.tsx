@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.js';
 import type { UsernameReservationType } from '../types/Username.js';
@@ -34,6 +34,8 @@ import { Spinner } from './Spinner.js';
 import { Modal } from './Modal.js';
 import { Button, ButtonVariant } from './Button.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+
+const { noop } = lodash;
 
 export type PropsDataType = Readonly<{
   i18n: LocalizerType;

@@ -1,17 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  compact,
-  difference,
-  flatten,
-  fromPairs,
-  isNumber,
-  omit,
-  values,
-} from 'lodash';
+import lodash from 'lodash';
 import Long from 'long';
-import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
+import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
 import { LRUCache } from 'lru-cache';
 import { createLogger } from './logging/log.js';
 import {
@@ -113,6 +105,9 @@ import {
   isConversationAccepted,
   isTrustedContact,
 } from './util/isConversationAccepted.js';
+
+const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
+  lodash;
 
 const log = createLogger('groups');
 

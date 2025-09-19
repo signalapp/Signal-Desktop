@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
 import { handleMessageSend } from '../../util/handleMessageSend.js';
@@ -34,6 +34,8 @@ import {
 } from '../../textsecure/Errors.js';
 import { shouldSendToConversation } from './shouldSendToConversation.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
+
+const { isNumber } = lodash;
 
 export function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,

@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { AbortableProcess } from '../../util/AbortableProcess.js';
+
+const { noop } = lodash;
 
 describe('AbortableProcess', () => {
   it('resolves the result normally', async () => {

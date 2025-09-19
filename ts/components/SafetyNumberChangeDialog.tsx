@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from './Avatar.js';
@@ -24,6 +24,8 @@ import { MY_STORY_ID } from '../types/Stories.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
 import { UserText } from './UserText.js';
+
+const { noop } = lodash;
 
 export enum SafetyNumberChangeSource {
   InitiateCall = 'InitiateCall',

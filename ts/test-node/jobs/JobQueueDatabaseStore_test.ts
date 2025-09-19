@@ -4,10 +4,12 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import type { StoredJob } from '../../jobs/types.js';
 
 import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore.js';
+
+const { noop } = lodash;
 
 describe('JobQueueDatabaseStore', () => {
   let fakeDatabase: {

@@ -40,7 +40,7 @@ import type {
   ChatServerMessageAck,
   ChatServiceListener,
   ConnectionEventsListener,
-} from '@signalapp/libsignal-client/dist/net/Chat';
+} from '@signalapp/libsignal-client/dist/net/Chat.js';
 import type { EventHandler } from './EventTarget.js';
 import EventTarget from './EventTarget.js';
 

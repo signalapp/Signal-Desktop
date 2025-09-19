@@ -4,7 +4,7 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { times } from 'lodash';
+import lodash from 'lodash';
 
 import type { Meta } from '@storybook/react';
 import type { Props } from './ConversationDetails.js';
@@ -18,6 +18,8 @@ import { ThemeType } from '../../../types/Util.js';
 import { DurationInSeconds } from '../../../util/durations/index.js';
 import { NavTab } from '../../../types/Nav.js';
 import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

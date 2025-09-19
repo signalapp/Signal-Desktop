@@ -9,7 +9,7 @@ import { CircularBuffer } from 'cirbuf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
 import readFirstLine from 'firstline';
-import { filter, flatten, map, pick, sortBy } from 'lodash';
+import lodash from 'lodash';
 import {
   createReadStream,
   mkdirSync,
@@ -31,6 +31,8 @@ import { setPinoDestination, log } from './log.js';
 
 import type { FetchLogIpcData, LogEntryType } from './shared.js';
 import { LogLevel, isLogEntry } from './shared.js';
+
+const { filter, flatten, map, pick, sortBy } = lodash;
 
 const MAX_LOG_LINES = 10_000_000;
 

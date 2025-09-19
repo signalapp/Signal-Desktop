@@ -3,7 +3,7 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { mapValues } from 'lodash';
+import lodash from 'lodash';
 import type { StateType } from '../reducer.js';
 import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog.js';
 import { useConversationsActions } from '../ducks/conversations.js';
@@ -24,6 +24,8 @@ import {
 import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import { getIntl, getTheme } from '../selectors/user.js';
+
+const { mapValues } = lodash;
 
 export type PropsType = Readonly<{
   conversationId: string;

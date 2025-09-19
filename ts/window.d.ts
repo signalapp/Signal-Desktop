@@ -6,9 +6,9 @@
 import type EventEmitter from 'node:events';
 import type { Store } from 'redux';
 import type { SystemPreferences } from 'electron';
-import type PQueue from 'p-queue/dist';
+import type PQueue from 'p-queue/dist.js';
 import type { assert } from 'chai';
-import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
+import googleLibphonenumber from 'google-libphonenumber';
 import type { MochaOptions } from 'mocha';
 
 import type { textsecure } from './textsecure/index.js';
@@ -57,6 +57,8 @@ import type { WindowsNotificationData } from './services/notifications.js';
 import type { QueryStatsOptions } from './sql/main.js';
 import type { SocketStatuses } from './textsecure/SocketManager.js';
 import type { BeforeNavigateService } from './services/BeforeNavigate.js';
+
+const { PhoneNumber, PhoneNumberFormat } = googleLibphonenumber;
 
 export { Long } from 'long';
 

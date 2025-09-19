@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, reject, groupBy, values, chunk } from 'lodash';
+import lodash from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
@@ -35,6 +35,8 @@ import { isNotNil } from '../util/isNotNil.js';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.js';
 import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.js';
+
+const { isNumber, reject, groupBy, values, chunk } = lodash;
 
 const log = createLogger('Stickers');
 

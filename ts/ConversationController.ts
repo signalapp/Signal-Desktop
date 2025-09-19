@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, pick, uniq, without } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
 
@@ -53,6 +53,8 @@ import type {
   AciString,
   PniString,
 } from './types/ServiceId.js';
+
+const { debounce, pick, uniq, without } = lodash;
 
 const log = createLogger('ConversationController');
 

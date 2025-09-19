@@ -3,7 +3,9 @@
 
 import { execSync } from 'node:child_process';
 
-import { realpath } from 'fs-extra';
+import fsExtra from 'fs-extra';
+
+const { realpath } = fsExtra;
 
 // eslint-disable-next-line max-len
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

@@ -3,12 +3,12 @@
 
 import Long from 'long';
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { dirname } from 'node:path';
 import pMap from 'p-map';
 import pTimeout from 'p-timeout';
 import { Readable } from 'node:stream';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
 import { Backups, SignalService } from '../../protobuf/index.js';
@@ -167,6 +167,8 @@ import { toDayOfWeekArray } from '../../types/NotificationProfile.js';
 import { getLinkPreviewSetting } from '../../types/LinkPreview.js';
 import { getTypingIndicatorSetting } from '../../types/Util.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('export');
 

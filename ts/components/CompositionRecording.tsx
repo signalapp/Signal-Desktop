@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 import type { HideToastAction, ShowToastAction } from '../state/ducks/toast.js';
@@ -14,6 +14,8 @@ import { DurationInSeconds, SECOND } from '../util/durations/index.js';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
 import { RecordingComposer } from './RecordingComposer.js';
+
+const { noop } = lodash;
 
 export type Props = {
   i18n: LocalizerType;

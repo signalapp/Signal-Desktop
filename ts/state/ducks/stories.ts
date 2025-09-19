@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { isEqual, pick } from 'lodash';
+import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors.js';
@@ -83,6 +83,8 @@ import {
 import { ReceiptType } from '../../types/Receipt.js';
 import { cleanupMessages } from '../../util/cleanup.js';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.js';
+
+const { isEqual, pick } = lodash;
 
 const log = createLogger('stories');
 

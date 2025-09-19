@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
 import { generateAci } from '../../types/ServiceId.js';
 
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.js';
+
+const { times } = lodash;
 
 const CONFIG_KEY = 'global.calling.maxGroupCallRingSize';
 

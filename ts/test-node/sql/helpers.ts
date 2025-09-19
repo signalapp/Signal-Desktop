@@ -1,13 +1,15 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import SQL from '@signalapp/sqlcipher';
 
 import type { ReadableDB, WritableDB } from '../../sql/Interface.js';
 import type { QueryTemplate } from '../../sql/util.js';
 import { SCHEMA_VERSIONS } from '../../sql/migrations/index.js';
 import { consoleLogger } from '../../util/consoleLogger.js';
+
+const { noop } = lodash;
 
 export function createDB(): WritableDB {
   const db = new SQL(':memory:') as WritableDB;

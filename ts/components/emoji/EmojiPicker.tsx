@@ -8,16 +8,7 @@ import type {
   SectionRenderedParams,
 } from 'react-virtualized';
 import { AutoSizer, Grid } from 'react-virtualized';
-import {
-  chunk,
-  clamp,
-  debounce,
-  findLast,
-  flatMap,
-  initial,
-  last,
-  zipObject,
-} from 'lodash';
+import lodash from 'lodash';
 import { FocusScope } from 'react-aria';
 import { dataByCategory } from './lib.js';
 import type { LocalizerType } from '../../types/Util.js';
@@ -37,6 +28,9 @@ import {
   getEmojiParentByKey,
 } from '../fun/data/emojis.js';
 import { useFunEmojiSearch } from '../fun/useFunEmojiSearch.js';
+
+const { chunk, clamp, debounce, findLast, flatMap, initial, last, zipObject } =
+  lodash;
 
 export type EmojiPickDataType = {
   skinTone: EmojiSkinTone;

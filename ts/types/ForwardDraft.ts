@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.js';
 import {
   isVoiceMessage,
@@ -10,6 +10,8 @@ import {
 } from './Attachment.js';
 import type { HydratedBodyRangesType } from './BodyRange.js';
 import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
+
+const { orderBy } = lodash;
 
 export type MessageForwardDraft = Readonly<{
   attachments?: ReadonlyArray<AttachmentForUIType>;
