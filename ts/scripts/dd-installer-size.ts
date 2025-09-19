@@ -7,7 +7,8 @@ import { join } from 'node:path';
 import { name as NAME, version as VERSION } from '../../package.json';
 
 const SUPPORT_CONFIG = new Set([
-  'linux',
+  'linux-x64',
+  'linux-arm64',
   'windows',
   'macos-arm64',
   'macos-x64',

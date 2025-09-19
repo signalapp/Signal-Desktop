@@ -31,6 +31,9 @@ if (process.platform === 'darwin') {
 } else if (process.platform === 'win32') {
   archive = join('win-unpacked', 'resources', 'app.asar');
   exe = join('win-unpacked', `${packageJson.productName}.exe`);
+} else if (process.platform === 'linux' && process.arch !== 'x64') {
+  archive = join(`linux-${process.arch}-unpacked`, 'resources', 'app.asar');
+  exe = join(`linux-${process.arch}-unpacked`, packageJson.name);
 } else if (process.platform === 'linux') {
   archive = join('linux-unpacked', 'resources', 'app.asar');
   exe = join('linux-unpacked', packageJson.name);
