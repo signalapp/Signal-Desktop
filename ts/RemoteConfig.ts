@@ -28,6 +28,7 @@ const KnownConfigKeys = [
   'desktop.donations',
   'desktop.donations.prod',
   'desktop.internalUser',
+  'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
   'desktop.retryRespondMaxAge',

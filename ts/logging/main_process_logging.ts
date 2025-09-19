@@ -27,10 +27,11 @@ import * as Errors from '../types/errors.js';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest.js';
 import { redactAll } from '../util/privacy.js';
 
-import { setPinoDestination, log } from './log.js';
+import { setPinoDestination, log, setOnLogCallback } from './log.js';
 
 import type { FetchLogIpcData, LogEntryType } from './shared.js';
 import { LogLevel, isLogEntry } from './shared.js';
+import { isProduction } from '../util/version.js';
 
 const { filter, flatten, map, pick, sortBy } = lodash;
 
@@ -46,6 +47,17 @@ export async function initialize(
     throw new Error('Already called initialize!');
   }
   isInitialized = true;
+
+  if (!isProduction(app.getVersion())) {
+    setOnLogCallback((level, logLine, msgPrefix) => {
+      if (level >= LogLevel.Error) {
+        getMainWindow()?.webContents.send(
+          'logging-error',
+          `${msgPrefix ? `${msgPrefix}` : ''}${logLine}`
+        );
+      }
+    });
+  }
 
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');

@@ -19,6 +19,7 @@ import type { LocalizerType } from '../types/Util.js';
 import type { AnyToast } from '../types/Toast.js';
 import type { AnyActionableMegaphone } from '../types/Megaphone.js';
 import type { Location } from '../types/Nav.js';
+import { tw } from '../axo/tw.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -583,6 +584,40 @@ export function renderToast({
   if (toastType === ToastType.OriginalMessageNotFound) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:originalMessageNotFound')}</Toast>
+    );
+  }
+
+  if (toastType === ToastType._InternalMainProcessLoggingError) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        className={tw('max-w-[640px]!')}
+      >
+        <h2>
+          [INTERNAL]: {toast.parameters.count} error(s) from main process,
+          please submit log.
+        </h2>
+
+        {toast.parameters.count > toast.parameters.logLines.length ? (
+          <h3
+            className={tw('my-2')}
+          >{`Showing only last ${toast.parameters.logLines.length} errors`}</h3>
+        ) : null}
+
+        <pre
+          className={tw(
+            'my-2 max-h-48 min-h-24 max-w-[520px] overflow-auto border-1 border-solid p-2'
+          )}
+        >
+          {toast.parameters.logLines.join('\n')}
+        </pre>
+      </Toast>
     );
   }
 

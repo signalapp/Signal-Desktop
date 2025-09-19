@@ -443,11 +443,14 @@ function deleteOrphanedAttachments({
         await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
-
     log.info(
-      `cleanupOrphanedAttachments:  ${totalAttachmentsFound} message ` +
-        `attachments; ${orphanedAttachments.size} remain`
+      `cleanupOrphanedAttachments: ${totalAttachmentsFound} attachments and \
+      ${totalDownloadsFound} downloads found on disk`
     );
+
+    if (orphanedAttachments.size > 0) {
+      log.error(`${orphanedAttachments.size} orphaned attachment(s) found`);
+    }
 
     if (totalMissing > 0) {
       log.warn(
@@ -460,10 +463,10 @@ function deleteOrphanedAttachments({
       attachments: Array.from(orphanedAttachments),
     });
 
-    log.info(
-      `cleanupOrphanedAttachments: found ${totalDownloadsFound} downloads ` +
-        `${orphanedDownloads.size} remain`
-    );
+    if (orphanedDownloads.size > 0) {
+      log.error(`${orphanedDownloads.size} orphaned download(s) found`);
+    }
+
     await deleteAllDownloads({
       userDataPath,
       downloads: Array.from(orphanedDownloads),

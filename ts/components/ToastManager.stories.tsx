@@ -152,6 +152,11 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.LinkCopied };
     case ToastType.LoadingFullLogs:
       return { toastType: ToastType.LoadingFullLogs };
+    case ToastType._InternalMainProcessLoggingError:
+      return {
+        toastType: ToastType._InternalMainProcessLoggingError,
+        parameters: { logLines: ['error1', 'error2'], count: 2 },
+      };
     case ToastType.MaxAttachments:
       return { toastType: ToastType.MaxAttachments };
     case ToastType.MediaNoLongerAvailable:

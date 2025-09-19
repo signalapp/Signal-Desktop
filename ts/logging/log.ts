@@ -38,6 +38,13 @@ const SUBSYSTEM_COLORS = new LRUCache<string, string>({
   max: 500,
 });
 
+let onLogCallback: (level: number, logLine: string, msgPrefix?: string) => void;
+export function setOnLogCallback(
+  cb: (level: number, logLine: string, msgPrefix?: string) => void
+): void {
+  onLogCallback = cb;
+}
+
 // Only for unpackaged app
 function getSubsystemColor(name: string): string {
   const cached = SUBSYSTEM_COLORS.get(name);
@@ -168,6 +175,8 @@ const pinoInstance = pino(
             typeof item === 'string' ? item : reallyJsonStringify(item)
           )
           .join(' ');
+        onLogCallback?.(level, line, this.msgPrefix);
+
         return method.call(this, line);
       },
     },

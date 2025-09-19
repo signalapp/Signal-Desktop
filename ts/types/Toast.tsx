@@ -54,6 +54,7 @@ export enum ToastType {
   LeftGroup = 'LeftGroup',
   LinkCopied = 'LinkCopied',
   LoadingFullLogs = 'LoadingFullLogs',
+  _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
   MaxAttachments = 'MaxAttachments',
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
@@ -165,6 +166,10 @@ export type AnyToast =
   | { toastType: ToastType.LeftGroup }
   | { toastType: ToastType.LinkCopied }
   | { toastType: ToastType.LoadingFullLogs }
+  | {
+      toastType: ToastType._InternalMainProcessLoggingError;
+      parameters: { count: number; logLines: Array<string> };
+    }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }
