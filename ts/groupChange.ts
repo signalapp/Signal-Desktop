@@ -561,6 +561,10 @@ function renderChangeDetail<T extends string | JSX.Element>(
     const sentByInvited = Boolean(from && from === serviceId);
     const sentByInviter = Boolean(from && inviter && from === inviter);
 
+    if (!serviceId) {
+      return i18n('icu:GroupV2--pending-remove--decline--unknown');
+    }
+
     if (weAreInviter) {
       if (sentByInvited) {
         return i18n('icu:GroupV2--pending-remove--decline--you', {

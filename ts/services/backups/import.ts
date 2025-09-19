@@ -2969,12 +2969,9 @@ export class BackupImportStream extends Writable {
       }
       if (update.groupInvitationDeclinedUpdate) {
         const { inviterAci, inviteeAci } = update.groupInvitationDeclinedUpdate;
-        if (!inviteeAci || Bytes.isEmpty(inviteeAci)) {
-          throw new Error(
-            `${logId}: groupInvitationDeclinedUpdate had missing inviteeAci!`
-          );
-        }
-        from = fromAciObject(Aci.fromUuidBytes(inviteeAci));
+        from = Bytes.isNotEmpty(inviteeAci)
+          ? fromAciObject(Aci.fromUuidBytes(inviteeAci))
+          : undefined;
         details.push({
           type: 'pending-remove-one',
           inviter: Bytes.isNotEmpty(inviterAci)
