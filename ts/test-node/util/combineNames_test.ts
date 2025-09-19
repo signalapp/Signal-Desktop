@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { combineNames } from '../../util/combineNames';
+import { combineNames } from '../../util/combineNames.js';
 
 describe('combineNames', () => {
   it('returns undefined if no names provided', () => {

@@ -3,13 +3,13 @@
 
 import React from 'react';
 import { partition } from 'lodash';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { CallingConversationType } from '../types/Calling';
-import type { LocalizerType } from '../types/Util';
-import { Avatar, AvatarSize } from './Avatar';
-import { getParticipantName } from '../util/callingGetParticipantName';
-import { missingCaseError } from '../util/missingCaseError';
-import { UserText } from './UserText';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { CallingConversationType } from '../types/Calling.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { getParticipantName } from '../util/callingGetParticipantName.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { UserText } from './UserText.js';
 
 export enum RingMode {
   WillNotRing,

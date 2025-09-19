@@ -4,11 +4,11 @@
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import { noop } from 'lodash';
-import type { AvatarDataType } from '../types/Avatar';
-import { BetterAvatarBubble } from './BetterAvatarBubble';
-import type { LocalizerType } from '../types/Util';
-import { Spinner } from './Spinner';
-import { avatarDataToBytes } from '../util/avatarDataToBytes';
+import type { AvatarDataType } from '../types/Avatar.js';
+import { BetterAvatarBubble } from './BetterAvatarBubble.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Spinner } from './Spinner.js';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
 
 type AvatarSize = 48 | 80;
 

@@ -4,10 +4,10 @@
 import React from 'react';
 import { noop } from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors';
-import { AvatarPreview } from './AvatarPreview';
-import { Lightbox } from './Lightbox';
-import type { LocalizerType } from '../types/Util';
+import type { AvatarColorType } from '../types/Colors.js';
+import { AvatarPreview } from './AvatarPreview.js';
+import { Lightbox } from './Lightbox.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export type PropsType = {
   avatarPlaceholderGradient?: Readonly<[string, string]>;

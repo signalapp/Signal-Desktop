@@ -4,13 +4,16 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop, omit } from 'lodash';
-import { HTTPError, SendMessageProtoError } from '../../../textsecure/Errors';
-import { SECOND } from '../../../util/durations';
+import {
+  HTTPError,
+  SendMessageProtoError,
+} from '../../../textsecure/Errors.js';
+import { SECOND } from '../../../util/durations/index.js';
 
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from '../../../jobs/helpers/handleMultipleSendErrors';
+} from '../../../jobs/helpers/handleMultipleSendErrors.js';
 
 describe('maybeExpandErrors', () => {
   // This returns a readonly array, but Chai wants a mutable one.

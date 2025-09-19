@@ -5,8 +5,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './CallingDeviceSelection';
-import { CallingDeviceSelection } from './CallingDeviceSelection';
+import type { Props } from './CallingDeviceSelection.js';
+import { CallingDeviceSelection } from './CallingDeviceSelection.js';
 
 const { i18n } = window.SignalContext;
 

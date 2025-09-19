@@ -5,13 +5,13 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import { compact, flatten } from 'lodash';
 
-import { ContactName } from './ContactName';
-import { SystemMessage } from './SystemMessage';
-import { I18n } from '../I18n';
-import type { LocalizerType } from '../../types/Util';
+import { ContactName } from './ContactName.js';
+import { SystemMessage } from './SystemMessage.js';
+import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.js';
 
-import { missingCaseError } from '../../util/missingCaseError';
-import type { ConversationType } from '../../state/ducks/conversations';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 

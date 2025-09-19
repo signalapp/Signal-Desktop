@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import os from 'os';
+import os from 'node:os';
 
-import { getOwn } from './getOwn';
+import { getOwn } from './getOwn.js';
 
 const PLATFORM_STRINGS: { [platform: string]: string } = {
   win32: 'Windows',

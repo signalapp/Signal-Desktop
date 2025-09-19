@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import { ReadStatus } from './MessageReadStatus';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { ReadStatus } from './MessageReadStatus.js';
 
 export function migrateLegacyReadStatus(
   message: Readonly<Pick<MessageAttributesType, 'readStatus'>>

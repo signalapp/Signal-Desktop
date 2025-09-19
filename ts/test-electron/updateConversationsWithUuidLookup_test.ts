@@ -6,14 +6,14 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
-import { DataWriter } from '../sql/Client';
-import { ConversationModel } from '../models/conversations';
-import type { ConversationAttributesType } from '../model-types.d';
-import type { WebAPIType } from '../textsecure/WebAPI';
-import { generateAci, normalizeServiceId } from '../types/ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
+import { DataWriter } from '../sql/Client.js';
+import { ConversationModel } from '../models/conversations.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { generateAci, normalizeServiceId } from '../types/ServiceId.js';
+import { normalizeAci } from '../util/normalizeAci.js';
 
-import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.js';
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {

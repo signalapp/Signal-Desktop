@@ -5,8 +5,8 @@ import * as React from 'react';
 import { isBoolean } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetailsActions';
-import { ConversationDetailsActions } from './ConversationDetailsActions';
+import type { Props } from './ConversationDetailsActions.js';
+import { ConversationDetailsActions } from './ConversationDetailsActions.js';
 
 const { i18n } = window.SignalContext;
 

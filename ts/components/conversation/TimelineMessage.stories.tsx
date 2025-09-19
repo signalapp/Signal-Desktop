@@ -7,13 +7,13 @@ import { isBoolean, noop } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import { SignalService } from '../../protobuf';
-import { ConversationColors } from '../../types/Colors';
-import { EmojiPicker } from '../emoji/EmojiPicker';
-import type { AudioAttachmentProps } from './Message';
-import type { Props } from './TimelineMessage';
-import { TimelineMessage } from './TimelineMessage';
-import { GiftBadgeStates, TextDirection } from './Message';
+import { SignalService } from '../../protobuf/index.js';
+import { ConversationColors } from '../../types/Colors.js';
+import { EmojiPicker } from '../emoji/EmojiPicker.js';
+import type { AudioAttachmentProps } from './Message.js';
+import type { Props } from './TimelineMessage.js';
+import { TimelineMessage } from './TimelineMessage.js';
+import { GiftBadgeStates, TextDirection } from './Message.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -24,26 +24,26 @@ import {
   stringToMIMEType,
   IMAGE_GIF,
   VIDEO_QUICKTIME,
-} from '../../types/MIME';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { MessageAudio } from './MessageAudio';
-import { computePeaks } from '../VoiceNotesPlaybackContext';
-import { pngUrl } from '../../storybook/Fixtures';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { WidthBreakpoint } from '../_util';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
-import { ContactFormType } from '../../types/EmbeddedContact';
-import { generateAci } from '../../types/ServiceId';
+} from '../../types/MIME.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { MessageAudio } from './MessageAudio.js';
+import { computePeaks } from '../VoiceNotesPlaybackContext.js';
+import { pngUrl } from '../../storybook/Fixtures.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { WidthBreakpoint } from '../_util.js';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.js';
+import { ContactFormType } from '../../types/EmbeddedContact.js';
+import { generateAci } from '../../types/ServiceId.js';
 
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../../test-helpers/fakeAttachment';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge';
-import { ThemeType } from '../../types/Util';
-import { BadgeCategory } from '../../badges/BadgeCategory';
-import { PaymentEventKind } from '../../types/Payment';
-import { EmojiSkinTone } from '../fun/data/emojis';
+} from '../../test-helpers/fakeAttachment.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
+import { ThemeType } from '../../types/Util.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.js';
+import { PaymentEventKind } from '../../types/Payment.js';
+import { EmojiSkinTone } from '../fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 

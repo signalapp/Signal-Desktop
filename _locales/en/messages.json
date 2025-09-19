@@ -5916,14 +5916,6 @@
     "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "This is the number of members in a group"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Shared media",
-    "description": "(Deleted 2025/07/01) Title for the media thumbnails in the conversation details screen"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "See all",
-    "description": "(Deleted 2025/07/01) This is a button on the conversation details to show all media"
-  },
   "icu:ConversationDetailsMediaList--title": {
     "messageformat": "Media, links, and files",
     "description": "Title for the show all media button in the conversation details screen"
@@ -9220,17 +9212,5 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases.",
-    "description": "(Deleted 2025/08/13) Release notes for version 7.65"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!",
-    "description": "(Deleted 2025/08/20) Release notes for version 7.67"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings.",
-    "description": "(Deleted 2025/09/10) Release notes for version 7.70"
   }
 }

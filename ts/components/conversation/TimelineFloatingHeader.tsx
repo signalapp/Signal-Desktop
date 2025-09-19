@@ -6,10 +6,10 @@ import type { CSSProperties, ReactElement } from 'react';
 import React, { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-import type { LocalizerType } from '../../types/Util';
-import { drop } from '../../util/drop';
-import { TimelineDateHeader } from './TimelineDateHeader';
-import { Spinner } from '../Spinner';
+import type { LocalizerType } from '../../types/Util.js';
+import { drop } from '../../util/drop.js';
+import { TimelineDateHeader } from './TimelineDateHeader.js';
+import { Spinner } from '../Spinner.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

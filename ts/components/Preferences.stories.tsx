@@ -7,43 +7,43 @@ import type { MutableRefObject } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { shuffle } from 'lodash';
-import { Preferences } from './Preferences';
-import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import { EmojiSkinTone } from './fun/data/emojis';
-import { DAY, DurationInSeconds, WEEK } from '../util/durations';
-import { DialogUpdate } from './DialogUpdate';
-import { DialogType } from '../types/Dialogs';
-import { ThemeType } from '../types/Util';
+import { Preferences } from './Preferences.js';
+import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.js';
+import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
+import { DAY, DurationInSeconds, WEEK } from '../util/durations/index.js';
+import { DialogUpdate } from './DialogUpdate.js';
+import { DialogType } from '../types/Dialogs.js';
+import { ThemeType } from '../types/Util.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation';
-import { ProfileEditor } from './ProfileEditor';
+} from '../test-helpers/getDefaultConversation.js';
+import { ProfileEditor } from './ProfileEditor.js';
 import {
   UsernameEditState,
   UsernameLinkState,
-} from '../state/ducks/usernameEnums';
-import { ProfileEditorPage, SettingsPage } from '../types/Nav';
-import { PreferencesDonations } from './PreferencesDonations';
-import { strictAssert } from '../util/assert';
+} from '../state/ducks/usernameEnums.js';
+import { ProfileEditorPage, SettingsPage } from '../types/Nav.js';
+import { PreferencesDonations } from './PreferencesDonations.js';
+import { strictAssert } from '../util/assert.js';
 
-import type { LocalizerType } from '../types/Util';
-import type { PropsType } from './Preferences';
-import type { WidthBreakpoint } from './_util';
-import type { MessageAttributesType } from '../model-types';
+import type { LocalizerType } from '../types/Util.js';
+import type { PropsType } from './Preferences.js';
+import type { WidthBreakpoint } from './_util.js';
+import type { MessageAttributesType } from '../model-types.js';
 import type {
   DonationReceipt,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations';
-import type { AnyToast } from '../types/Toast';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage';
-import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage';
-import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage';
-import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder';
+} from '../types/Donations.js';
+import type { AnyToast } from '../types/Toast.js';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.js';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.js';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.js';
 
 const { i18n } = window.SignalContext;
 
@@ -858,6 +858,16 @@ BackupsFree.args = {
     mediaIncludedInBackupDurationDays: 30,
   },
 };
+export const BackupsFreeNoLocal = Template.bind({});
+BackupsFreeNoLocal.args = {
+  page: SettingsPage.Backups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: false,
+  backupSubscriptionStatus: {
+    status: 'free',
+    mediaIncludedInBackupDurationDays: 30,
+  },
+};
 
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
@@ -871,6 +881,13 @@ BackupsLocalBackups.args = {
   page: SettingsPage.Backups,
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
+};
+
+export const BackupsRemoteEnabledLocalDisabled = Template.bind({});
+BackupsRemoteEnabledLocalDisabled.args = {
+  page: SettingsPage.Backups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: false,
 };
 
 export const BackupsSubscriptionNotFound = Template.bind({});

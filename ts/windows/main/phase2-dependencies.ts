@@ -6,14 +6,14 @@ import * as moment from 'moment';
 // @ts-expect-error -- no types
 import 'moment/min/locales.min';
 
-import { textsecure } from '../../textsecure';
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
-import { setup } from '../../signal';
-import { addSensitivePath } from '../../util/privacy';
-import * as dns from '../../util/dns';
-import { createLogger } from '../../logging/log';
-import { SignalContext } from '../context';
-import * as Attachments from './attachments';
+import { textsecure } from '../../textsecure/index.js';
+import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.js';
+import { setup } from '../../signal.js';
+import { addSensitivePath } from '../../util/privacy.js';
+import * as dns from '../../util/dns.js';
+import { createLogger } from '../../logging/log.js';
+import { SignalContext } from '../context.js';
+import * as Attachments from './attachments.js';
 
 const log = createLogger('phase2-dependencies');
 

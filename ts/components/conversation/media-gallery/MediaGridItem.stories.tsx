@@ -4,17 +4,17 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
-import type { MediaItemType } from '../../../types/MediaItem';
-import { SignalService } from '../../../protobuf';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import { SignalService } from '../../../protobuf/index.js';
 import {
   IMAGE_JPEG,
   VIDEO_MP4,
   APPLICATION_OCTET_STREAM,
   type MIMEType,
-} from '../../../types/MIME';
-import type { Props } from './MediaGridItem';
-import { MediaGridItem } from './MediaGridItem';
+} from '../../../types/MIME.js';
+import type { Props } from './MediaGridItem.js';
+import { MediaGridItem } from './MediaGridItem.js';
 
 const { i18n } = window.SignalContext;
 

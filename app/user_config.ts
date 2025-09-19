@@ -1,13 +1,13 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { mkdirSync } from 'fs';
+import { join } from 'node:path';
+import { mkdirSync } from 'node:fs';
 import { app } from 'electron';
 
-import { start } from './base_config';
-import config from './config';
-import * as Errors from '../ts/types/errors';
+import { start } from './base_config.js';
+import config from './config.js';
+import * as Errors from '../ts/types/errors.js';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development

@@ -4,34 +4,34 @@
 import React, { useEffect } from 'react';
 import { clamp, isNumber, maxBy } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { Avatar, AvatarSize } from './Avatar';
-import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
-import type { LocalizerType } from '../types/Util';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.js';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
+import type { LocalizerType } from '../types/Util.js';
 import {
   GroupCallJoinState,
   type ActiveCallType,
   type GroupCallRemoteParticipantType,
   type GroupCallVideoRequest,
-} from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
-import { AvatarColors } from '../types/Colors';
-import type { SetRendererCanvasType } from '../state/ducks/calling';
-import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
-import { MAX_FRAME_HEIGHT } from '../calling/constants';
-import { usePageVisibility } from '../hooks/usePageVisibility';
-import { missingCaseError } from '../util/missingCaseError';
-import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
-import { isReconnecting } from '../util/callingIsReconnecting';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
-import { assertDev } from '../util/assert';
-import type { CallingImageDataCache } from './CallManager';
+} from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
+import { AvatarColors } from '../types/Colors.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.js';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.js';
+import { MAX_FRAME_HEIGHT } from '../calling/constants.js';
+import { usePageVisibility } from '../hooks/usePageVisibility.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.js';
+import { isReconnecting } from '../util/callingIsReconnecting.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
+import { assertDev } from '../util/assert.js';
+import type { CallingImageDataCache } from './CallManager.js';
 import {
   PIP_MAXIMUM_HEIGHT_MULTIPLIER,
   PIP_MINIMUM_HEIGHT_MULTIPLIER,
   PIP_WIDTH_NORMAL,
-} from './CallingPip';
+} from './CallingPip.js';
 
 function BlurredBackground({
   activeCall,

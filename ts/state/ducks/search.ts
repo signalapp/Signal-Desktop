@@ -5,15 +5,15 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
-import type { ClientSearchResultMessageType } from '../../sql/Interface';
-import { DataReader } from '../../sql/Client';
-import { makeLookup } from '../../util/makeLookup';
-import { isNotNil } from '../../util/isNotNil';
-import type { ServiceIdString } from '../../types/ServiceId';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { StateType as RootStateType } from '../reducer.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
+import type { ClientSearchResultMessageType } from '../../sql/Interface.js';
+import { DataReader } from '../../sql/Client.js';
+import { makeLookup } from '../../util/makeLookup.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 import type {
   ConversationType,
@@ -24,33 +24,33 @@ import type {
   ShowArchivedConversationsActionType,
   MessageType,
   ConversationLookupType,
-} from './conversations';
+} from './conversations.js';
 import {
   getFilterByUnread,
   getIsActivelySearching,
   getQuery,
   getSearchConversation,
-} from '../selectors/search';
-import { getAllConversations } from '../selectors/conversations';
+} from '../selectors/search.js';
+import { getAllConversations } from '../selectors/conversations.js';
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
-} from '../selectors/user';
-import { strictAssert } from '../../util/assert';
+} from '../selectors/user.js';
+import { strictAssert } from '../../util/assert.js';
 import {
   CONVERSATION_UNLOADED,
   TARGETED_CONVERSATION_CHANGED,
-} from './conversations';
-import { removeDiacritics } from '../../util/removeDiacritics';
-import { createLogger } from '../../logging/log';
-import { searchConversationTitles } from '../../util/searchConversationTitles';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+} from './conversations.js';
+import { removeDiacritics } from '../../util/removeDiacritics.js';
+import { createLogger } from '../../logging/log.js';
+import { searchConversationTitles } from '../../util/searchConversationTitles.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
 import {
   countConversationUnreadStats,
   hasUnread,
-} from '../../util/countUnreadStats';
+} from '../../util/countUnreadStats.js';
 
 const log = createLogger('search');
 

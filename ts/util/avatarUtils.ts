@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ContactAvatarType } from '../types/Avatar';
-import { isMe } from './whatTypeOfConversation';
-import { isSignalConversation } from './isSignalConversation';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ContactAvatarType } from '../types/Avatar.js';
+import { isMe } from './whatTypeOfConversation.js';
+import { isSignalConversation } from './isSignalConversation.js';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
 
 export function hasAvatar(
   conversationAttrs: ConversationAttributesType

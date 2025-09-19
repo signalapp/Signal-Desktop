@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import { useSelector } from 'react-redux';
-import type { PreferencesChatFoldersPageProps } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage';
-import { PreferencesChatFoldersPage } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage';
-import { getIntl } from '../selectors/user';
-import { getCurrentChatFolders } from '../selectors/chatFolders';
-import type { ChatFolderId } from '../../types/ChatFolder';
-import { useChatFolderActions } from '../ducks/chatFolders';
+import type { PreferencesChatFoldersPageProps } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.js';
+import { PreferencesChatFoldersPage } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.js';
+import { getIntl } from '../selectors/user.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import type { ChatFolderId } from '../../types/ChatFolder.js';
+import { useChatFolderActions } from '../ducks/chatFolders.js';
 
 export type SmartPreferencesChatFoldersPageProps = Readonly<{
   settingsPaneRef: PreferencesChatFoldersPageProps['settingsPaneRef'];

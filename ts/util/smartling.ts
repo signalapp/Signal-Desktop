@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as packageJson from '../../package.json';
-import { getUserAgent } from './getUserAgent';
+import { getUserAgent } from './getUserAgent.js';
 
 type AuthenticateOptionsType = Readonly<{
   userIdentifier: string;

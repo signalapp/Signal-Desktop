@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { v7 as getGuid } from 'uuid';
 
-import type { LoggerType } from '../../types/Logging';
+import type { LoggerType } from '../../types/Logging.js';
 import {
   normalizePni,
   normalizeServiceId,
   toTaggedPni,
   isUntaggedPniString,
-} from '../../types/ServiceId';
-import { Migrations as Proto } from '../../protobuf';
-import { sql } from '../util';
-import type { WritableDB } from '../Interface';
-import { getOurUuid } from './41-uuid-keys';
+} from '../../types/ServiceId.js';
+import { Migrations as Proto } from '../../protobuf/index.js';
+import { sql } from '../util.js';
+import type { WritableDB } from '../Interface.js';
+import { getOurUuid } from './41-uuid-keys.js';
 
 export default function updateToSchemaVersion1280(
   db: WritableDB,

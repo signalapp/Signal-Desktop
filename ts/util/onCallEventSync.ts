@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CallEventSyncEvent } from '../textsecure/messageReceiverEvents';
-import { createLogger } from '../logging/log';
+import type { CallEventSyncEvent } from '../textsecure/messageReceiverEvents.js';
+import { createLogger } from '../logging/log.js';
 import {
   peerIdToLog,
   updateCallHistoryFromRemoteEvent,
-} from './callDisposition';
-import { CallMode } from '../types/CallDisposition';
+} from './callDisposition.js';
+import { CallMode } from '../types/CallDisposition.js';
 
 const log = createLogger('onCallEventSync');
 

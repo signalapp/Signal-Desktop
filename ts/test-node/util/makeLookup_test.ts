@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { makeLookup } from '../../util/makeLookup';
+import { makeLookup } from '../../util/makeLookup.js';
 
 describe('makeLookup', () => {
   it('returns an empty object if passed an empty array', () => {

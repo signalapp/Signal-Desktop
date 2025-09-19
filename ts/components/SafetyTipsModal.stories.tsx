@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentMeta } from '../storybook/types';
-import type { SafetyTipsModalProps } from './SafetyTipsModal';
-import { SafetyTipsModal } from './SafetyTipsModal';
+import type { ComponentMeta } from '../storybook/types.js';
+import type { SafetyTipsModalProps } from './SafetyTipsModal.js';
+import { SafetyTipsModal } from './SafetyTipsModal.js';
 
 const { i18n } = window.SignalContext;
 

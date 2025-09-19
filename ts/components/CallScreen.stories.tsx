@@ -11,30 +11,30 @@ import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,
   ObservedRemoteMuteType,
-} from '../types/Calling';
+} from '../types/Calling.js';
 import {
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
-import { generateAci } from '../types/ServiceId';
-import type { AciString } from '../types/ServiceId';
-import type { ConversationType } from '../state/ducks/conversations';
-import { AvatarColors } from '../types/Colors';
-import type { PropsType } from './CallScreen';
-import { CallScreen as UnwrappedCallScreen } from './CallScreen';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
+import { generateAci } from '../types/ServiceId.js';
+import type { AciString } from '../types/ServiceId.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { AvatarColors } from '../types/Colors.js';
+import type { PropsType } from './CallScreen.js';
+import { CallScreen as UnwrappedCallScreen } from './CallScreen.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
-import { CallingToastProvider, useCallingToasts } from './CallingToast';
-import type { CallingImageDataCache } from './CallManager';
-import { MINUTE } from '../util/durations';
+} from '../test-helpers/getDefaultConversation.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
+import { CallingToastProvider, useCallingToasts } from './CallingToast.js';
+import type { CallingImageDataCache } from './CallManager.js';
+import { MINUTE } from '../util/durations/index.js';
 
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;

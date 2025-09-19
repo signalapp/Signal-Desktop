@@ -4,14 +4,14 @@
 import React from 'react';
 import type { FunctionComponent } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { BadgeType } from '../../badges/types';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import { ContactName } from '../conversation/ContactName';
-import { About } from '../conversation/About';
-import { ListTile } from '../ListTile';
-import { Avatar, AvatarSize } from '../Avatar';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { BadgeType } from '../../badges/types.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import { ContactName } from '../conversation/ContactName.js';
+import { About } from '../conversation/About.js';
+import { ListTile } from '../ListTile.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
 
 export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.

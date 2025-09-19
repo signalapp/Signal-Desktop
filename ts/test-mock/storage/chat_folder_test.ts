@@ -4,11 +4,11 @@ import Long from 'long';
 import { v4 as generateUuid } from 'uuid';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
-import * as durations from '../../util/durations';
-import type { App } from './fixtures';
-import { Bootstrap, debug } from './fixtures';
-import { uuidToBytes } from '../../util/uuidToBytes';
-import { CHAT_FOLDER_DELETED_POSITION } from '../../types/ChatFolder';
+import * as durations from '../../util/durations/index.js';
+import type { App } from './fixtures.js';
+import { Bootstrap, debug } from './fixtures.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { CHAT_FOLDER_DELETED_POSITION } from '../../types/ChatFolder.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

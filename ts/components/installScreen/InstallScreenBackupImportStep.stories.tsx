@@ -4,14 +4,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { sleep } from '../../util/sleep';
+import { sleep } from '../../util/sleep.js';
 import {
   InstallScreenBackupStep,
   InstallScreenBackupError,
-} from '../../types/InstallScreen';
-import { DialogType } from '../../types/Dialogs';
-import type { PropsType } from './InstallScreenBackupImportStep';
-import { InstallScreenBackupImportStep } from './InstallScreenBackupImportStep';
+} from '../../types/InstallScreen.js';
+import { DialogType } from '../../types/Dialogs.js';
+import type { PropsType } from './InstallScreenBackupImportStep.js';
+import { InstallScreenBackupImportStep } from './InstallScreenBackupImportStep.js';
 
 const { i18n } = window.SignalContext;
 

@@ -5,17 +5,17 @@ import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
 import { times } from 'lodash';
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client.js';
 
 import {
   CallMode,
   CallDirection,
   CallType,
   GroupCallStatus,
-} from '../../types/CallDisposition';
-import { generateAci } from '../../types/ServiceId';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
-import type { MaybeStaleCallHistory } from '../../sql/Server';
+} from '../../types/CallDisposition.js';
+import { generateAci } from '../../types/ServiceId.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.js';
+import type { MaybeStaleCallHistory } from '../../sql/Server.js';
 
 const { getAllCallHistory } = DataReader;
 const { getRecentStaleRingsAndMarkOlderMissed, removeAll, saveCallHistory } =

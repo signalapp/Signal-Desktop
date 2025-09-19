@@ -4,11 +4,11 @@
 import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
 import { useSelector } from 'react-redux';
-import * as KeyboardLayout from '../services/keyboardLayout';
-import { getHasPanelOpen } from '../state/selectors/conversations';
-import { isInFullScreenCall } from '../state/selectors/calling';
-import { isShowingAnyModal } from '../state/selectors/globalModals';
-import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu';
+import * as KeyboardLayout from '../services/keyboardLayout.js';
+import { getHasPanelOpen } from '../state/selectors/conversations.js';
+import { isInFullScreenCall } from '../state/selectors/calling.js';
+import { isShowingAnyModal } from '../state/selectors/globalModals.js';
+import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu.js';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 

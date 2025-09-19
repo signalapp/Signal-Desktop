@@ -2070,7 +2070,7 @@
     "messageformat": "Downloaden mislukt"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Downloaden van bijlage uit back-up is mislukt"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Uitgewisselde media"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Alles weergeven"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -5307,7 +5304,7 @@
     "messageformat": "Tekstberichten + alle media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Je abonnement is niet gevonden. Vernieuw je back-upabonnement om Signal Secure Backups te blijven gebruiken."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekstberichten + {mediaDayCount,number} dag media} other {Tekstberichten + {mediaDayCount,number} dagen media}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Abonnement opgezegd"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Je Signal Secure Backups-abonnement kun je beheren of opzeggen op je telefoon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Signal Secure Backups kun je beheren of upgraden op je telefoon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Je Signal Secure Backups-abonnement kun je beheren of vernieuwen op je telefoon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Laatste back-up"
@@ -6823,10 +6820,10 @@
     "messageformat": "Donatie is gelukt, maar we konden je badge-instellingen niet bijwerken"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donatie is gelukt, maar we konden je badge-instellingen niet bijwerken"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Om je badge-instellingen op je mobiele apparaat aan te passen ga je naar Instellingen → Aan Signal doneren → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donatie nog niet voltooid"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Deze update lost een paar kleine fouten op, waaronder een fout waarbij emoji-reacties in sommige gevallen niet correct werden gegroepeerd."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We hebben een bug opgelost waardoor donatiebadges niet correct werden weergegeven voor sommige gebruikers. Signal is een non-profitorganisatie, we waarderen je steun!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We hebben een bug in Signal Desktop op Microsoft Windows opgelost waardoor de titelbalk oranje werd in plaats van de standaardkleur. Hou je net als wij van oranje, dan kun je de accentkleur aanpassen in Windows-instellingen."
   }
 }

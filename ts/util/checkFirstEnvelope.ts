@@ -3,14 +3,14 @@
 
 import { isNumber } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import { SignalService as Proto } from '../protobuf';
-import { ToastType } from '../types/Toast';
-import { HOUR, SECOND } from './durations';
-import { isOlderThan } from './timestamp';
-import { isProduction } from './version';
+import { createLogger } from '../logging/log.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { ToastType } from '../types/Toast.js';
+import { HOUR, SECOND } from './durations/index.js';
+import { isOlderThan } from './timestamp.js';
+import { isProduction } from './version.js';
 
-import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
+import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources.js';
 
 const log = createLogger('checkFirstEnvelope');
 

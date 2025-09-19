@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { ReactNode } from 'react';
-import type { LocalizerType } from '../types/I18N';
-import { Button, ButtonSize, ButtonVariant } from './Button';
+import type { LocalizerType } from '../types/I18N.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
 
 type Props = {
   i18n: LocalizerType;

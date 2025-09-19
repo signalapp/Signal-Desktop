@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import type { CallbackResultType } from '../textsecure/Types.d';
-import { createLogger } from '../logging/log';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('messages');
 

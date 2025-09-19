@@ -11,48 +11,52 @@ import type { assert } from 'chai';
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
 import type { MochaOptions } from 'mocha';
 
-import type { textsecure } from './textsecure';
-import type { Storage } from './textsecure/Storage';
+import type { textsecure } from './textsecure/index.js';
+import type { Storage } from './textsecure/Storage.js';
 import type {
   ChallengeHandler,
   IPCRequest as IPCChallengeRequest,
-} from './challenge';
-import type AccountManager from './textsecure/AccountManager';
-import type { WebAPIConnectType } from './textsecure/WebAPI';
-import type { CallingClass } from './services/calling';
-import type * as Donations from './services/donations';
-import type * as StorageService from './services/storage';
-import type { BackupsService } from './services/backups';
-import type * as Groups from './groups';
-import type * as Crypto from './Crypto';
-import type * as Curve from './Curve';
-import type * as RemoteConfig from './RemoteConfig';
-import type { OSType } from './util/os/shared';
-import type { LocalizerType, SystemThemeType, ThemeType } from './types/Util';
-import type { Receipt } from './types/Receipt';
-import type { ConversationController } from './ConversationController';
-import type { ReduxActions } from './state/types';
-import type { createApp } from './state/roots/createApp';
-import type { BatcherType } from './util/batcher';
-import type { ConfirmationDialog } from './components/ConfirmationDialog';
-import type { SignalProtocolStore } from './SignalProtocolStore';
-import type { SocketStatus } from './types/SocketStatus';
-import type { ScreenShareStatus } from './types/Calling';
-import type { MessageCache } from './services/MessageCache';
-import type { StateType } from './state/reducer';
-import type { Address } from './types/Address';
-import type { QualifiedAddress } from './types/QualifiedAddress';
-import type { CIType } from './CI';
-import type { IPCEventsType } from './util/createIPCEvents';
-import type { SignalContextType } from './windows/context';
-import type * as Message2 from './types/Message2';
-import type { initializeMigrations } from './signal';
-import type { RetryPlaceholders } from './util/retryPlaceholders';
-import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
-import type { WindowsNotificationData } from './services/notifications';
-import type { QueryStatsOptions } from './sql/main';
-import type { SocketStatuses } from './textsecure/SocketManager';
-import type { BeforeNavigateService } from './services/BeforeNavigate';
+} from './challenge.js';
+import type AccountManager from './textsecure/AccountManager.js';
+import type { WebAPIConnectType } from './textsecure/WebAPI.js';
+import type { CallingClass } from './services/calling.js';
+import type * as Donations from './services/donations.js';
+import type * as StorageService from './services/storage.js';
+import type { BackupsService } from './services/backups/index.js';
+import type * as Groups from './groups.js';
+import type * as Crypto from './Crypto.js';
+import type * as Curve from './Curve.js';
+import type * as RemoteConfig from './RemoteConfig.js';
+import type { OSType } from './util/os/shared.js';
+import type {
+  LocalizerType,
+  SystemThemeType,
+  ThemeType,
+} from './types/Util.js';
+import type { Receipt } from './types/Receipt.js';
+import type { ConversationController } from './ConversationController.js';
+import type { ReduxActions } from './state/types.js';
+import type { createApp } from './state/roots/createApp.js';
+import type { BatcherType } from './util/batcher.js';
+import type { ConfirmationDialog } from './components/ConfirmationDialog.js';
+import type { SignalProtocolStore } from './SignalProtocolStore.js';
+import type { SocketStatus } from './types/SocketStatus.js';
+import type { ScreenShareStatus } from './types/Calling.js';
+import type { MessageCache } from './services/MessageCache.js';
+import type { StateType } from './state/reducer.js';
+import type { Address } from './types/Address.js';
+import type { QualifiedAddress } from './types/QualifiedAddress.js';
+import type { CIType } from './CI.js';
+import type { IPCEventsType } from './util/createIPCEvents.js';
+import type { SignalContextType } from './windows/context.js';
+import type * as Message2 from './types/Message2.js';
+import type { initializeMigrations } from './signal.js';
+import type { RetryPlaceholders } from './util/retryPlaceholders.js';
+import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.js';
+import type { WindowsNotificationData } from './services/notifications.js';
+import type { QueryStatsOptions } from './sql/main.js';
+import type { SocketStatuses } from './textsecure/SocketManager.js';
+import type { BeforeNavigateService } from './services/BeforeNavigate.js';
 
 export { Long } from 'long';
 
@@ -236,7 +240,7 @@ declare global {
 
     Signal: SignalCoreType;
 
-    getServerTrustRoot: () => string;
+    getServerTrustRoots: () => Array<string>;
     logAuthenticatedConnect?: () => void;
 
     // ========================================================================

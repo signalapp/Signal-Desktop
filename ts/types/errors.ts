@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { HTTPError } from '../textsecure/Errors';
+import { HTTPError } from '../textsecure/Errors.js';
 
 export function toLogFormat(error: unknown): string {
   let result = '';

@@ -4,40 +4,40 @@
 import { ContentHint } from '@signalapp/libsignal-client';
 import { isNumber } from 'lodash';
 
-import * as Errors from '../../types/errors';
-import { getSendOptions } from '../../util/getSendOptions';
+import * as Errors from '../../types/errors.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
 import {
   isDirectConversation,
   isGroupV2,
   isMe,
-} from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+} from '../../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend';
+} from './handleMultipleSendErrors.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   DeleteForEveryoneJobData,
-} from '../conversationJobQueue';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { getMessageById } from '../../messages/getMessageById';
-import { isNotNil } from '../../util/isNotNil';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import type { MessageModel } from '../../models/messages';
-import { SendMessageProtoError } from '../../textsecure/Errors';
-import { strictAssert } from '../../util/assert';
-import type { LoggerType } from '../../types/Logging';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { isStory } from '../../messages/helpers';
-import { sendToGroup } from '../../util/sendToGroup';
+} from '../conversationJobQueue.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import type { MessageModel } from '../../models/messages.js';
+import { SendMessageProtoError } from '../../textsecure/Errors.js';
+import { strictAssert } from '../../util/assert.js';
+import type { LoggerType } from '../../types/Logging.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { isStory } from '../../messages/helpers.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,

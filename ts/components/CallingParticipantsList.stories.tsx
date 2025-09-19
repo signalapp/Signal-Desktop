@@ -6,10 +6,10 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingParticipantsList';
-import { CallingParticipantsList } from './CallingParticipantsList';
-import { generateAci } from '../types/ServiceId';
-import { createCallParticipant } from '../test-helpers/createCallParticipant';
+import type { PropsType } from './CallingParticipantsList.js';
+import { CallingParticipantsList } from './CallingParticipantsList.js';
+import { generateAci } from '../types/ServiceId.js';
+import { createCallParticipant } from '../test-helpers/createCallParticipant.js';
 
 const { i18n } = window.SignalContext;
 

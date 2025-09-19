@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import config from 'config';
 
-import { keyPair, sign, verify } from '../../updater/curve';
+import { keyPair, sign, verify } from '../../updater/curve.js';
 
 describe('updater/curve', () => {
   it('roundtrips', () => {

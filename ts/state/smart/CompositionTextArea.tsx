@@ -2,15 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { CompositionTextAreaProps } from '../../components/CompositionTextArea';
-import { CompositionTextArea } from '../../components/CompositionTextArea';
-import { getIntl, getPlatform, getUserConversationId } from '../selectors/user';
-import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
-import { useItemsActions } from '../ducks/items';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { useComposerActions } from '../ducks/composer';
-import { getTextFormattingEnabled } from '../selectors/items';
-import { getConversationSelector } from '../selectors/conversations';
+import type { CompositionTextAreaProps } from '../../components/CompositionTextArea.js';
+import { CompositionTextArea } from '../../components/CompositionTextArea.js';
+import {
+  getIntl,
+  getPlatform,
+  getUserConversationId,
+} from '../selectors/user.js';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis.js';
+import { useItemsActions } from '../ducks/items.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { useComposerActions } from '../ducks/composer.js';
+import { getTextFormattingEnabled } from '../selectors/items.js';
+import { getConversationSelector } from '../selectors/conversations.js';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,

@@ -1,26 +1,26 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Agent as HTTPSAgent } from 'https';
-import type { AgentOptions, RequestOptions } from 'https';
-import type { LookupAddress } from 'dns';
-import type net from 'net';
-import tls from 'tls';
-import type { ConnectionOptions } from 'tls';
-import { callbackify, promisify } from 'util';
+import { Agent as HTTPSAgent } from 'node:https';
+import type { AgentOptions, RequestOptions } from 'node:https';
+import type { LookupAddress } from 'node:dns';
+import type net from 'node:net';
+import tls from 'node:tls';
+import type { ConnectionOptions } from 'node:tls';
+import { callbackify, promisify } from 'node:util';
 import pTimeout from 'p-timeout';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 import {
   electronLookup as electronLookupWithCb,
   interleaveAddresses,
-} from './dns';
-import { strictAssert } from './assert';
-import { parseIntOrThrow } from './parseIntOrThrow';
-import { sleep } from './sleep';
-import { SECOND } from './durations';
-import { dropNull } from './dropNull';
-import { explodePromise } from './explodePromise';
+} from './dns.js';
+import { strictAssert } from './assert.js';
+import { parseIntOrThrow } from './parseIntOrThrow.js';
+import { sleep } from './sleep.js';
+import { SECOND } from './durations/index.js';
+import { dropNull } from './dropNull.js';
+import { explodePromise } from './explodePromise.js';
 
 const log = createLogger('createHTTPSAgent');
 

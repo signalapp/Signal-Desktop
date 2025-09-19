@@ -5,8 +5,8 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { ConfirmDialogProps } from './ConfirmDiscardDialog';
-import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
+import type { ConfirmDialogProps } from './ConfirmDiscardDialog.js';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.js';
 
 const { i18n } = window.SignalContext;
 

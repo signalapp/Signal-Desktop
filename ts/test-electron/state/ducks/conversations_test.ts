@@ -7,13 +7,13 @@ import { v4 as generateUuid } from 'uuid';
 import { times } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { reducer as rootReducer } from '../../../state/reducer';
-import { noopAction } from '../../../state/ducks/noop';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
 import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
-} from '../../../state/ducks/conversationsEnums';
+} from '../../../state/ducks/conversationsEnums.js';
 import type {
   CancelVerificationDataByConversationActionType,
   ConversationMessageType,
@@ -24,7 +24,7 @@ import type {
   ToggleConversationInChooseMembersActionType,
   MessageChangedActionType,
   ConversationsUpdatedActionType,
-} from '../../../state/ducks/conversations';
+} from '../../../state/ducks/conversations.js';
 import {
   TARGETED_CONVERSATION_CHANGED,
   actions,
@@ -34,41 +34,41 @@ import {
   getEmptyState,
   reducer,
   updateConversationLookups,
-} from '../../../state/ducks/conversations';
-import { ReadStatus } from '../../../messages/MessageReadStatus';
-import type { SingleServePromiseIdString } from '../../../services/singleServePromise';
-import { CallMode } from '../../../types/CallDisposition';
+} from '../../../state/ducks/conversations.js';
+import { ReadStatus } from '../../../messages/MessageReadStatus.js';
+import type { SingleServePromiseIdString } from '../../../services/singleServePromise.js';
+import { CallMode } from '../../../types/CallDisposition.js';
 import {
   type AciString,
   type PniString,
   generateAci,
   getAciFromPrefix,
-} from '../../../types/ServiceId';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
+} from '../../../types/ServiceId.js';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.js';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
   getDefaultGroup,
-} from '../../../test-helpers/getDefaultConversation';
-import { getDefaultAvatars } from '../../../types/Avatar';
+} from '../../../test-helpers/getDefaultConversation.js';
+import { getDefaultAvatars } from '../../../types/Avatar.js';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
-} from '../../../test-helpers/defaultComposerStates';
-import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub';
-import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals';
-import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals';
-import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists';
+} from '../../../test-helpers/defaultComposerStates.js';
+import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.js';
+import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.js';
+import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.js';
+import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.js';
 import {
   DELETE_LIST,
   HIDE_MY_STORIES_FROM,
   MODIFY_LIST,
   VIEWERS_CHANGED,
-} from '../../../state/ducks/storyDistributionLists';
-import { MY_STORY_ID } from '../../../types/Stories';
-import type { ReadonlyMessageAttributesType } from '../../../model-types.d';
-import { strictAssert } from '../../../util/assert';
+} from '../../../state/ducks/storyDistributionLists.js';
+import { MY_STORY_ID } from '../../../types/Stories.js';
+import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
+import { strictAssert } from '../../../util/assert.js';
 
 const {
   clearGroupCreationError,

@@ -8,20 +8,20 @@ import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
 import { v4 as uuid } from 'uuid';
-import type { LocalizerType } from '../types/Util';
-import { ModalHost } from './ModalHost';
-import type { Theme } from '../util/theme';
-import { assertDev } from '../util/assert';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { useAnimated } from '../hooks/useAnimated';
-import { useHasWrapped } from '../hooks/useHasWrapped';
-import { createLogger } from '../logging/log';
+import type { LocalizerType } from '../types/Util.js';
+import { ModalHost } from './ModalHost.js';
+import type { Theme } from '../util/theme.js';
+import { assertDev } from '../util/assert.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { useAnimated } from '../hooks/useAnimated.js';
+import { useHasWrapped } from '../hooks/useHasWrapped.js';
+import { createLogger } from '../logging/log.js';
 import {
   isScrollOverflowVertical,
   isScrollAtTop,
   isScrollAtBottom,
   useScrollObserver,
-} from '../hooks/useSizeObserver';
+} from '../hooks/useSizeObserver.js';
 
 const log = createLogger('Modal');
 

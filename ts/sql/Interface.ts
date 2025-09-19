@@ -4,59 +4,66 @@
 import type { Database, RowType } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
 import type {
   ConversationAttributesType,
   MessageAttributesType,
   SenderKeyInfoType,
-} from '../model-types.d';
-import type { StoredJob } from '../jobs/types';
-import type { ReactionType, ReactionReadStatus } from '../types/Reactions';
-import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import type { StorageAccessType } from '../types/Storage.d';
-import type { BytesToStrings } from '../types/Util';
-import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
-import type { BadgeType } from '../badges/types';
-import type { ReadStatus } from '../messages/MessageReadStatus';
-import type { RawBodyRange } from '../types/BodyRange';
+} from '../model-types.d.ts';
+import type { StoredJob } from '../jobs/types.js';
+import type { ReactionType, ReactionReadStatus } from '../types/Reactions.js';
+import type {
+  ConversationColorType,
+  CustomColorType,
+} from '../types/Colors.js';
+import type { StorageAccessType } from '../types/Storage.d.ts';
+import type { BytesToStrings } from '../types/Util.js';
+import type { QualifiedAddressStringType } from '../types/QualifiedAddress.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../types/ServiceId.js';
+import type { BadgeType } from '../badges/types.js';
+import type { ReadStatus } from '../messages/MessageReadStatus.js';
+import type { RawBodyRange } from '../types/BodyRange.js';
 import type {
   GetMessagesBetweenOptions,
   MaybeStaleCallHistory,
-} from './Server';
-import type { MessageTimestamps } from '../state/ducks/conversations';
+} from './Server.js';
+import type { MessageTimestamps } from '../state/ducks/conversations.js';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition';
+} from '../types/CallDisposition.js';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
   DefunctCallLinkType,
-} from '../types/CallLink';
+} from '../types/CallLink.js';
 import type {
   AttachmentDownloadJobType,
   AttachmentDownloadJobTypeType,
-} from '../types/AttachmentDownload';
+} from '../types/AttachmentDownload.js';
 import type {
   GroupSendEndorsementsData,
   GroupSendMemberEndorsementRecord,
-} from '../types/GroupSendEndorsements';
-import type { SyncTaskType } from '../util/syncTasks';
-import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
-import type { AttachmentType } from '../types/Attachment';
-import type { MediaItemMessageType } from '../types/MediaItem';
-import type { GifType } from '../components/fun/panels/FunPanelGifs';
-import type { NotificationProfileType } from '../types/NotificationProfile';
-import type { DonationReceipt } from '../types/Donations';
-import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks';
-import type { ChatFolderId, ChatFolder } from '../types/ChatFolder';
+} from '../types/GroupSendEndorsements.js';
+import type { SyncTaskType } from '../util/syncTasks.js';
+import type { AttachmentBackupJobType } from '../types/AttachmentBackup.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { MediaItemMessageType } from '../types/MediaItem.js';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.js';
+import type { DonationReceipt } from '../types/Donations.js';
+import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.js';
+import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -594,6 +601,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'editHistoryIndex',
   'clientUuid',
   'size',
+  'duration',
   'contentType',
   'path',
   'localKey',
@@ -652,6 +660,7 @@ export type MessageAttachmentDBType = {
   sentAt: number;
   clientUuid: string | null;
   size: number;
+  duration: number | null;
   contentType: string;
   path: string | null;
   plaintextHash: string | null;

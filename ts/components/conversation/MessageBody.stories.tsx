@@ -4,11 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MessageBody';
-import { MessageBody } from './MessageBody';
-import { BodyRange } from '../../types/BodyRange';
-import { generateAci } from '../../types/ServiceId';
-import { RenderLocation } from './MessageTextRenderer';
+import type { Props } from './MessageBody.js';
+import { MessageBody } from './MessageBody.js';
+import { BodyRange } from '../../types/BodyRange.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { RenderLocation } from './MessageTextRenderer.js';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

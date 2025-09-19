@@ -4,27 +4,27 @@
 import type { ReactChild, ChangeEvent } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import type { ConversationType } from '../../state/ducks/conversations';
-import { ContactCheckboxDisabledReason } from '../conversationList/ContactCheckbox';
-import { ContactPills } from '../ContactPills';
-import { ContactPill } from '../ContactPill';
-import { SearchInput } from '../SearchInput';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import { ContactCheckboxDisabledReason } from '../conversationList/ContactCheckbox.js';
+import { ContactPills } from '../ContactPills.js';
+import { ContactPill } from '../ContactPill.js';
+import { SearchInput } from '../SearchInput.js';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
-} from '../AddGroupMemberErrorDialog';
-import { Button } from '../Button';
-import type { LocalizerType } from '../../types/Util';
-import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState';
+} from '../AddGroupMemberErrorDialog.js';
+import { Button } from '../Button.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
+import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance.js';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.js';
 import {
   isFetchingByUsername,
   isFetchingByE164,
-} from '../../util/uuidFetchState';
+} from '../../util/uuidFetchState.js';
 
 export type LeftPaneChooseGroupMembersPropsType = {
   uuidFetchState: UUIDFetchStateType;

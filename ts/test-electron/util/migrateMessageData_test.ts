@@ -1,13 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import assert from 'assert';
+import assert from 'node:assert';
 import { v7 as uuid } from 'uuid';
-import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData';
-import type { MessageAttributesType } from '../../model-types';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
-import { postSaveUpdates } from '../../util/cleanup';
+import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { postSaveUpdates } from '../../util/cleanup.js';
 
 function composeMessage(timestamp: number): MessageAttributesType {
   return {

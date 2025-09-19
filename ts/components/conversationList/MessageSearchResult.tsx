@@ -5,22 +5,22 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
 import { noop } from 'lodash';
 
-import { ContactName } from '../conversation/ContactName';
+import { ContactName } from '../conversation/ContactName.js';
 
-import type { BodyRangesForDisplayType } from '../../types/BodyRange';
-import { processBodyRangesForSearchResult } from '../../types/BodyRange';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import { BaseConversationListItem } from './BaseConversationListItem';
+import type { BodyRangesForDisplayType } from '../../types/BodyRange.js';
+import { processBodyRangesForSearchResult } from '../../types/BodyRange.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import { BaseConversationListItem } from './BaseConversationListItem.js';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { I18n } from '../I18n';
+} from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import { I18n } from '../I18n.js';
 import {
   MessageTextRenderer,
   RenderLocation,
-} from '../conversation/MessageTextRenderer';
+} from '../conversation/MessageTextRenderer.js';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 

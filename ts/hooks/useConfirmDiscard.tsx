@@ -3,15 +3,15 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog';
-import { BeforeNavigateResponse } from '../services/BeforeNavigate';
+import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog.js';
+import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise';
+} from '../util/explodePromise.js';
 
-import type { ConfirmDialogProps } from '../components/ConfirmDiscardDialog';
-import type { LocalizerType } from '../types/Util';
+import type { ConfirmDialogProps } from '../components/ConfirmDiscardDialog.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export function useConfirmDiscard({
   i18n,

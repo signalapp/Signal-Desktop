@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { missingCaseError } from './missingCaseError';
-import { ThemeType } from '../types/Util';
+import { missingCaseError } from './missingCaseError.js';
+import { ThemeType } from '../types/Util.js';
 
 export enum Theme {
   Light,

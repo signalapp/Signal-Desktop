@@ -4,19 +4,19 @@
 import { assert } from 'chai';
 import { emptyDir, ensureFile } from 'fs-extra';
 import { v4 as generateUuid } from 'uuid';
-import { readdirSync } from 'fs';
-import { dirname } from 'path';
+import { readdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
-import { DataWriter } from '../sql/Client';
-import { missingCaseError } from '../util/missingCaseError';
+import { DataWriter } from '../sql/Client.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   getDownloadsPath,
   getDraftPath,
   getPath,
-} from '../windows/main/attachments';
+} from '../windows/main/attachments.js';
 
-import { generateAci } from '../types/ServiceId';
-import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';
+import { generateAci } from '../types/ServiceId.js';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
 
 function getAbsolutePath(
   path: string,

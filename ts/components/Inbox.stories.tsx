@@ -5,9 +5,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { noop } from 'lodash';
 
-import { Inbox } from './Inbox';
-import type { PropsType } from './Inbox';
-import { DAY, SECOND } from '../util/durations';
+import { Inbox } from './Inbox.js';
+import type { PropsType } from './Inbox.js';
+import { DAY, SECOND } from '../util/durations/index.js';
 
 const { i18n } = window.SignalContext;
 

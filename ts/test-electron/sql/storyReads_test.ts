@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { generateAci } from '../../types/ServiceId.js';
 
-import type { StoryReadType } from '../../sql/Interface';
+import type { StoryReadType } from '../../sql/Interface.js';
 
 const { _getAllStoryReads, getLastStoryReadsForAuthor } = DataReader;
 

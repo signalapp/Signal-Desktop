@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import type { LocalizerType } from '../types/Util';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export type ConfirmDialogProps = {
   i18n: LocalizerType;

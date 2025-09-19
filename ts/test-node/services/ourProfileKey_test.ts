@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
-import { sleep } from '../../util/sleep';
+import { sleep } from '../../util/sleep.js';
 
-import { constantTimeEqual } from '../../Crypto';
-import { OurProfileKeyService } from '../../services/ourProfileKey';
+import { constantTimeEqual } from '../../Crypto.js';
+import { OurProfileKeyService } from '../../services/ourProfileKey.js';
 
 describe('"our profile key" service', () => {
   const createFakeStorage = () => ({

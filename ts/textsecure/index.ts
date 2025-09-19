@@ -1,14 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import EventTarget from './EventTarget';
-import AccountManager from './AccountManager';
-import MessageReceiver from './MessageReceiver';
-import utils from './Helpers';
-import MessageSender from './SendMessage';
-import { Storage } from './Storage';
-import * as WebAPI from './WebAPI';
-import WebSocketResource from './WebsocketResources';
+import EventTarget from './EventTarget.js';
+import AccountManager from './AccountManager.js';
+import MessageReceiver from './MessageReceiver.js';
+import utils from './Helpers.js';
+import MessageSender from './SendMessage.js';
+import { Storage } from './Storage.js';
+import * as WebAPI from './WebAPI.js';
+import WebSocketResource from './WebsocketResources.js';
 
 export type TextSecureType = {
   utils: typeof utils;

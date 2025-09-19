@@ -3,8 +3,8 @@
 
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupDescriptionInput';
-import { GroupDescriptionInput } from './GroupDescriptionInput';
+import type { PropsType } from './GroupDescriptionInput.js';
+import { GroupDescriptionInput } from './GroupDescriptionInput.js';
 
 const { i18n } = window.SignalContext;
 

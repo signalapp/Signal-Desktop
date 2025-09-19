@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { every } from './iterables';
+import { every } from './iterables.js';
 
 const add = <T>(set: Readonly<Set<T>>, item: T): Set<T> =>
   new Set(set).add(item);

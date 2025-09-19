@@ -4,18 +4,18 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { noop } from 'lodash';
 
-import type { AttachmentType } from '../types/Attachment';
-import type { LocalizerType } from '../types/Util';
-import type { MessagePropsType } from '../state/selectors/message';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { Message, TextDirection } from './conversation/Message';
-import { Modal } from './Modal';
-import { WidthBreakpoint } from './_util';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
-import { useTheme } from '../hooks/useTheme';
-import { isSameDay } from '../util/timestamp';
-import { TimelineDateHeader } from './conversation/TimelineDateHeader';
-import { drop } from '../util/drop';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { MessagePropsType } from '../state/selectors/message.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import { Message, TextDirection } from './conversation/Message.js';
+import { Modal } from './Modal.js';
+import { WidthBreakpoint } from './_util.js';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.js';
+import { useTheme } from '../hooks/useTheme.js';
+import { isSameDay } from '../util/timestamp.js';
+import { TimelineDateHeader } from './conversation/TimelineDateHeader.js';
+import { drop } from '../util/drop.js';
 
 export type PropsType = {
   closeEditHistoryModal: () => unknown;

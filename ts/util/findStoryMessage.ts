@@ -4,12 +4,12 @@
 import type {
   ReadonlyMessageAttributesType,
   MessageAttributesType,
-} from '../model-types.d';
-import { type AciString } from '../types/ServiceId';
-import { type ProcessedStoryContext } from '../textsecure/Types.d';
-import { DataReader } from '../sql/Client';
-import { createLogger } from '../logging/log';
-import { getAuthorId } from '../messages/helpers';
+} from '../model-types.d.ts';
+import { type AciString } from '../types/ServiceId.js';
+import type { ProcessedStoryContext } from '../textsecure/Types.d.ts';
+import { DataReader } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
+import { getAuthorId } from '../messages/helpers.js';
 
 const log = createLogger('findStoryMessage');
 

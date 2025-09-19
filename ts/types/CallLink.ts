@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
-import type { ConversationType } from '../state/ducks/conversations';
-import { safeParseInteger } from '../util/numbers';
-import { byteLength } from '../Bytes';
-import type { StorageServiceFieldsType } from '../sql/Interface';
-import { parsePartial } from '../util/schemas';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { safeParseInteger } from '../util/numbers.js';
+import { byteLength } from '../Bytes.js';
+import type { StorageServiceFieldsType } from '../sql/Interface.js';
+import { parsePartial } from '../util/schemas.js';
 
 export enum CallLinkUpdateSyncType {
   Update = 'Update',

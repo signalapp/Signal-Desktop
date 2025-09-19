@@ -7,14 +7,17 @@ import { app } from 'electron';
 import { merge } from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
-import { setupI18n } from '../ts/util/setupI18nMain';
-import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled';
+import { setupI18n } from '../ts/util/setupI18nMain.js';
+import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled.js';
 
-import type { LoggerType } from '../ts/types/Logging';
-import type { HourCyclePreference, LocaleMessagesType } from '../ts/types/I18N';
-import type { LocalizerType } from '../ts/types/Util';
-import * as Errors from '../ts/types/errors';
-import { parseUnknown } from '../ts/util/schemas';
+import type { LoggerType } from '../ts/types/Logging.js';
+import type {
+  HourCyclePreference,
+  LocaleMessagesType,
+} from '../ts/types/I18N.js';
+import type { LocalizerType } from '../ts/types/Util.js';
+import * as Errors from '../ts/types/errors.js';
+import { parseUnknown } from '../ts/util/schemas.js';
 
 type CompactLocaleMessagesType = ReadonlyArray<string | null>;
 type CompactLocaleKeysType = ReadonlyArray<string>;

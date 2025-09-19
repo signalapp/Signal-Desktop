@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useMemo } from 'react';
-import type { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations.js';
 
 type Primitive = undefined | null | boolean | number | bigint | string;
 type PrimitiveObject = Record<string, Primitive>;

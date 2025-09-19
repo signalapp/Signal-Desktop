@@ -4,30 +4,30 @@
 import { has } from 'lodash';
 import { contextBridge } from 'electron';
 
-import { createLogger } from '../../logging/log';
+import { createLogger } from '../../logging/log.js';
 
-import '../context';
+import '../context.js';
 
 // Connect websocket early
-import '../../textsecure/preconnect';
+import '../../textsecure/preconnect.js';
 
-import './phase0-devtools';
-import './phase1-ipc';
-import '../preload';
-import './phase2-dependencies';
-import './phase3-post-signal';
-import './phase4-test';
+import './phase0-devtools.js';
+import './phase1-ipc.js';
+import '../preload.js';
+import './phase2-dependencies.js';
+import './phase3-post-signal.js';
+import './phase4-test.js';
 
 import type {
   CdsLookupOptionsType,
   GetIceServersResultType,
-} from '../../textsecure/WebAPI';
-import type { FeatureFlagType } from '../../window.d';
-import type { StorageAccessType } from '../../types/Storage.d';
-import { initMessageCleanup } from '../../services/messageStateCleanup';
-import { Environment, getEnvironment } from '../../environment';
-import { isProduction } from '../../util/version';
-import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
+} from '../../textsecure/WebAPI.js';
+import type { FeatureFlagType } from '../../window.d.ts';
+import type { StorageAccessType } from '../../types/Storage.d.ts';
+import { initMessageCleanup } from '../../services/messageStateCleanup.js';
+import { Environment, getEnvironment } from '../../environment.js';
+import { isProduction } from '../../util/version.js';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.js';
 
 const log = createLogger('start');
 

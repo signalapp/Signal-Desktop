@@ -3,32 +3,32 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { getSendOptions } from '../../util/getSendOptions';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
 import {
   isDirectConversation,
   isGroup,
-} from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+} from '../../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
+} from './handleMultipleSendErrors.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   CallingMessageJobData,
-} from '../conversationJobQueue';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+} from '../conversationJobQueue.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
-import { sendContentMessageToGroup } from '../../util/sendToGroup';
-import * as Bytes from '../../Bytes';
-import { getValidRecipients } from './getValidRecipients';
+} from '../../textsecure/Errors.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.js';
+import * as Bytes from '../../Bytes.js';
+import { getValidRecipients } from './getValidRecipients.js';
 
 export async function sendCallingMessage(
   conversation: ConversationModel,

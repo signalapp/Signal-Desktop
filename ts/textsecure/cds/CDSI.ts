@@ -10,11 +10,11 @@ import {
   LibSignalErrorBase,
 } from '@signalapp/libsignal-client';
 import pTimeout from 'p-timeout';
-import type { CDSBaseOptionsType } from './CDSBase';
-import { CDSBase } from './CDSBase';
-import type { CDSRequestOptionsType, CDSResponseType } from './Types';
-import { sleep } from '../../util/sleep';
-import * as durations from '../../util/durations';
+import type { CDSBaseOptionsType } from './CDSBase.js';
+import { CDSBase } from './CDSBase.js';
+import type { CDSRequestOptionsType, CDSResponseType } from './Types.js';
+import { sleep } from '../../util/sleep.js';
+import * as durations from '../../util/durations/index.js';
 
 export type CDSIOptionsType = CDSBaseOptionsType;
 

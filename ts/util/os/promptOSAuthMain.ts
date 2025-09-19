@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { systemPreferences } from 'electron';
-import { exec } from 'child_process';
+import { exec } from 'node:child_process';
 import {
   checkAvailability as checkAvailabilityWindowsUcv,
   requestVerification as requestVerificationWindowsUcv,
 } from '@signalapp/windows-ucv';
 
-import { createLogger } from '../../logging/log';
-import OS from './osMain';
-import { missingCaseError } from '../missingCaseError';
+import { createLogger } from '../../logging/log.js';
+import OS from './osMain.js';
+import { missingCaseError } from '../missingCaseError.js';
 
 const log = createLogger('promptOSAuthMain');
 

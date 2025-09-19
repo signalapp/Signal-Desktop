@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
-import type { LoggerType } from '../../types/Logging';
-import type { AciString } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import { getSendOptions } from '../../util/getSendOptions';
-import type { SendTypesType } from '../../util/handleMessageSend';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { isNotNil } from '../../util/isNotNil';
-import { strictAssert } from '../../util/assert';
-import { isRecord } from '../../util/isRecord';
+import type { LoggerType } from '../../types/Logging.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import type { SendTypesType } from '../../util/handleMessageSend.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { strictAssert } from '../../util/assert.js';
+import { isRecord } from '../../util/isRecord.js';
 
-import { commonShouldJobContinue } from './commonShouldJobContinue';
-import { handleCommonJobRequestError } from './handleCommonJobRequestError';
-import { missingCaseError } from '../../util/missingCaseError';
-import type SendMessage from '../../textsecure/SendMessage';
+import { commonShouldJobContinue } from './commonShouldJobContinue.js';
+import { handleCommonJobRequestError } from './handleCommonJobRequestError.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import type SendMessage from '../../textsecure/SendMessage.js';
 
 const CHUNK_SIZE = 100;
 

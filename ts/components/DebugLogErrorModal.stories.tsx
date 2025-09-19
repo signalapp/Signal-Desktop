@@ -5,8 +5,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DebugLogErrorModal';
-import { DebugLogErrorModal } from './DebugLogErrorModal';
+import type { PropsType } from './DebugLogErrorModal.js';
+import { DebugLogErrorModal } from './DebugLogErrorModal.js';
 
 const { i18n } = window.SignalContext;
 

@@ -8,13 +8,13 @@ import promise from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
 import { createLogger as createReduxLogger } from 'redux-logger';
 
-import { createLogger } from '../logging/log';
-import type { StateType } from './reducer';
-import { reducer } from './reducer';
-import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
-import { isOlderThan } from '../util/timestamp';
-import { SECOND } from '../util/durations';
-import { getEnvironment } from '../environment';
+import { createLogger } from '../logging/log.js';
+import type { StateType } from './reducer.js';
+import { reducer } from './reducer.js';
+import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { SECOND } from '../util/durations/index.js';
+import { getEnvironment } from '../environment.js';
 
 const log = createLogger('createStore');
 

@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../types/ServiceId.js';
 import {
   normalizeServiceId,
   normalizePni,
@@ -11,9 +15,9 @@ import {
   fromServiceIdObject,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId';
-import * as Bytes from '../Bytes';
-import { normalizeAci } from './normalizeAci';
+} from '../types/ServiceId.js';
+import * as Bytes from '../Bytes.js';
+import { normalizeAci } from './normalizeAci.js';
 
 export function toServiceIdObject(serviceId: ServiceIdString): ServiceId {
   return ServiceId.parseFromServiceIdString(serviceId);

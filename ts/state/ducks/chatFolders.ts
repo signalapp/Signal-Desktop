@@ -3,22 +3,22 @@
 import type { ReadonlyDeep } from 'type-fest';
 import { v4 as generateUuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
-import type { StateType as RootStateType } from '../reducer';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 import {
   ChatFolderParamsSchema,
   type ChatFolder,
   type ChatFolderId,
   type ChatFolderParams,
-} from '../../types/ChatFolder';
-import { getCurrentChatFolders } from '../selectors/chatFolders';
-import { DataWriter } from '../../sql/Client';
-import { strictAssert } from '../../util/assert';
-import { storageServiceUploadJob } from '../../services/storage';
-import { parseStrict } from '../../util/schemas';
-import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService';
-import { drop } from '../../util/drop';
+} from '../../types/ChatFolder.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import { DataWriter } from '../../sql/Client.js';
+import { strictAssert } from '../../util/assert.js';
+import { storageServiceUploadJob } from '../../services/storage.js';
+import { parseStrict } from '../../util/schemas.js';
+import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.js';
+import { drop } from '../../util/drop.js';
 
 export type ChatFoldersState = ReadonlyDeep<{
   currentChatFolders: ReadonlyArray<ChatFolder>;

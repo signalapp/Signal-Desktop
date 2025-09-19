@@ -11,25 +11,29 @@ import React, {
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import type { LocalizerType } from '../types/Util';
-import type { UsernameReservationType } from '../types/Username';
-import { ToastType } from '../types/Toast';
-import { missingCaseError } from '../util/missingCaseError';
-import { getNickname, getDiscriminator, isCaseChange } from '../types/Username';
+import type { LocalizerType } from '../types/Util.js';
+import type { UsernameReservationType } from '../types/Username.js';
+import { ToastType } from '../types/Toast.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import {
+  getNickname,
+  getDiscriminator,
+  isCaseChange,
+} from '../types/Username.js';
 import {
   UsernameReservationState,
   UsernameReservationError,
-} from '../state/ducks/usernameEnums';
-import type { ReserveUsernameOptionsType } from '../state/ducks/username';
-import type { ShowToastAction } from '../state/ducks/toast';
+} from '../state/ducks/usernameEnums.js';
+import type { ReserveUsernameOptionsType } from '../state/ducks/username.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
 
-import { AutoSizeInput } from './AutoSizeInput';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { Input } from './Input';
-import { Spinner } from './Spinner';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { AutoSizeInput } from './AutoSizeInput.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { Input } from './Input.js';
+import { Spinner } from './Spinner.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 
 export type PropsDataType = Readonly<{
   i18n: LocalizerType;

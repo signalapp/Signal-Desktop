@@ -4,8 +4,8 @@
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import type { LocalizerType } from '../types/Util';
-import { useReducedMotion } from '../hooks/useReducedMotion';
+import type { LocalizerType } from '../types/Util.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
 
 const SPRING_CONFIG = {
   mass: 0.5,

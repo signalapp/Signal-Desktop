@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 
 export enum PanelType {
   AllMedia = 'AllMedia',

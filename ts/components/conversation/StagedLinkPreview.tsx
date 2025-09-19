@@ -5,17 +5,17 @@ import React from 'react';
 import classNames from 'classnames';
 import { unescape } from 'lodash';
 
-import { CurveType, Image } from './Image';
-import { LinkPreviewDate } from './LinkPreviewDate';
+import { CurveType, Image } from './Image.js';
+import { LinkPreviewDate } from './LinkPreviewDate.js';
 
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
-import type { LocalizerType } from '../../types/Util';
-import { getClassNamesFor } from '../../util/getClassNamesFor';
-import { isImageAttachment } from '../../types/Attachment';
-import { isCallLink } from '../../types/LinkPreview';
-import { Avatar } from '../Avatar';
-import { getColorForCallLink } from '../../util/getColorForCallLink';
-import { getKeyFromCallLink } from '../../util/callLinks';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.js';
+import { isImageAttachment } from '../../types/Attachment.js';
+import { isCallLink } from '../../types/LinkPreview.js';
+import { Avatar } from '../Avatar.js';
+import { getColorForCallLink } from '../../util/getColorForCallLink.js';
+import { getKeyFromCallLink } from '../../util/callLinks.js';
 
 export type Props = LinkPreviewForUIType & {
   i18n: LocalizerType;

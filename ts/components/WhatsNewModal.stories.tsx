@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './WhatsNewModal';
-import { WhatsNewModal } from './WhatsNewModal';
+import type { PropsType } from './WhatsNewModal.js';
+import { WhatsNewModal } from './WhatsNewModal.js';
 
 const { i18n } = window.SignalContext;
 

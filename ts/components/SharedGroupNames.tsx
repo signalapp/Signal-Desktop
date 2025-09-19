@@ -4,9 +4,9 @@
 import React from 'react';
 import { take } from 'lodash';
 
-import { I18n } from './I18n';
-import type { LocalizerType } from '../types/Util';
-import { UserText } from './UserText';
+import { I18n } from './I18n.js';
+import type { LocalizerType } from '../types/Util.js';
+import { UserText } from './UserText.js';
 
 type PropsType = {
   i18n: LocalizerType;

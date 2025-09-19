@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { map, size, take, join } from './iterables';
+import { map, size, take, join } from './iterables.js';
 
 export function getGraphemes(str: string): Iterable<string> {
   const segments = new Intl.Segmenter().segment(str);

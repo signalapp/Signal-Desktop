@@ -1,12 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { fromPairs, groupBy, map } from 'lodash';
 
-import type { ExceptionType } from './types';
-import { loadJSON } from './util';
+import type { ExceptionType } from './types.js';
+import { loadJSON } from './util.js';
 
 const exceptionsPath = join(__dirname, 'exceptions.json');
 const exceptions: Array<ExceptionType> = loadJSON(exceptionsPath);

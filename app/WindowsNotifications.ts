@@ -9,10 +9,10 @@ import {
   sendDummyKeystroke,
 } from '@indutny/simple-windows-notifications';
 
-import { createLogger } from '../ts/logging/log';
-import { AUMID } from './startup_config';
-import type { WindowsNotificationData } from '../ts/services/notifications';
-import { renderWindowsToast } from './renderWindowsToast';
+import { createLogger } from '../ts/logging/log.js';
+import { AUMID } from './startup_config.js';
+import type { WindowsNotificationData } from '../ts/services/notifications.js';
+import { renderWindowsToast } from './renderWindowsToast.js';
 
 const log = createLogger('WindowsNotifications');
 

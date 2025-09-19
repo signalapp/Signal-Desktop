@@ -2,25 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { StorySendStateType, StoryViewType } from '../types/Stories';
-import { Avatar, AvatarSize } from './Avatar';
-import { ContactName } from './conversation/ContactName';
-import { ContextMenu } from './ContextMenu';
-import { I18n } from './I18n';
-import { Modal } from './Modal';
-import { SendStatus } from '../messages/MessageSendState';
-import { Theme } from '../util/theme';
-import { formatDateTimeLong } from '../util/timestamp';
-import { DurationInSeconds } from '../util/durations';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations';
-import type { AttachmentType } from '../types/Attachment';
-import { ThemeType } from '../types/Util';
-import { Time } from './Time';
-import { groupBy } from '../util/mapUtil';
-import { format as formatRelativeTime } from '../util/expirationTimer';
-import { formatFileSize } from '../util/formatFileSize';
+import type { LocalizerType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { StorySendStateType, StoryViewType } from '../types/Stories.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ContactName } from './conversation/ContactName.js';
+import { ContextMenu } from './ContextMenu.js';
+import { I18n } from './I18n.js';
+import { Modal } from './Modal.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { Theme } from '../util/theme.js';
+import { formatDateTimeLong } from '../util/timestamp.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { ThemeType } from '../types/Util.js';
+import { Time } from './Time.js';
+import { groupBy } from '../util/mapUtil.js';
+import { format as formatRelativeTime } from '../util/expirationTimer.js';
+import { formatFileSize } from '../util/formatFileSize.js';
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;

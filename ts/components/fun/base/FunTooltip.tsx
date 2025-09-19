@@ -4,7 +4,7 @@
 import React, { useRef, useState, type ReactNode } from 'react';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { useLayoutEffect } from '@react-aria/utils';
-import { strictAssert } from '../../../util/assert';
+import { strictAssert } from '../../../util/assert.js';
 
 export type FunTooltipProps = Readonly<{
   open?: boolean;

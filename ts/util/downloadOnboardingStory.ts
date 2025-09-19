@@ -3,16 +3,16 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../types/Attachment';
-import { MessageModel } from '../models/messages';
-import { createLogger } from '../logging/log';
-import { IMAGE_JPEG } from '../types/MIME';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists';
-import { saveNewMessageBatcher } from './messageBatcher';
-import { strictAssert } from './assert';
-import { incrementMessageCounter } from './incrementMessageCounter';
+import type { AttachmentType } from '../types/Attachment.js';
+import { MessageModel } from '../models/messages.js';
+import { createLogger } from '../logging/log.js';
+import { IMAGE_JPEG } from '../types/MIME.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists.js';
+import { saveNewMessageBatcher } from './messageBatcher.js';
+import { strictAssert } from './assert.js';
+import { incrementMessageCounter } from './incrementMessageCounter.js';
 
 const log = createLogger('downloadOnboardingStory');
 

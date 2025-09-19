@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { times } from 'lodash';
 
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
 export function BadgeCarouselIndex({
   currentIndex,

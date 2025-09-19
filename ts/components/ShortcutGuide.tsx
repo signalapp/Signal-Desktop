@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
-import type { LocalizerType } from '../types/Util';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export type Props = {
   hasInstalledStickers: boolean;

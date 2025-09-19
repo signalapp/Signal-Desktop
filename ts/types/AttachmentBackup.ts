@@ -4,8 +4,8 @@ import { z } from 'zod';
 import {
   type JobManagerJobType,
   jobManagerJobSchema,
-} from '../jobs/JobManager';
-import { type MIMEType, MIMETypeSchema } from './MIME';
+} from '../jobs/JobManager.js';
+import { type MIMEType, MIMETypeSchema } from './MIME.js';
 
 export type CoreAttachmentBackupJobType =
   | StandardAttachmentBackupJobType

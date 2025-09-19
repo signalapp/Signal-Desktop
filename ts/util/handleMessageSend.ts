@@ -3,18 +3,18 @@
 
 import { z } from 'zod';
 import { isBoolean, isNumber } from 'lodash';
-import type { CallbackResultType } from '../textsecure/Types.d';
-import { DataWriter } from '../sql/Client';
-import { createLogger } from '../logging/log';
+import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import { DataWriter } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
 import {
   OutgoingMessageError,
   SendMessageNetworkError,
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../textsecure/Errors';
-import { SEALED_SENDER } from '../types/SealedSender';
-import type { ServiceIdString } from '../types/ServiceId';
-import { drop } from './drop';
+} from '../textsecure/Errors.js';
+import { SEALED_SENDER } from '../types/SealedSender.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { drop } from './drop.js';
 
 const log = createLogger('handleMessageSend');
 

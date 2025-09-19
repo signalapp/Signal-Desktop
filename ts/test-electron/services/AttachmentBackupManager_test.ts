@@ -3,29 +3,29 @@
 
 import * as sinon from 'sinon';
 import { assert } from 'chai';
-import { join } from 'path';
-import { createWriteStream } from 'fs';
+import { join } from 'node:path';
+import { createWriteStream } from 'node:fs';
 import { ensureFile } from 'fs-extra';
 
-import * as Bytes from '../../Bytes';
+import * as Bytes from '../../Bytes.js';
 import {
   AttachmentBackupManager,
   FILE_NOT_FOUND_ON_TRANSIT_TIER_STATUS,
   runAttachmentBackupJob,
-} from '../../jobs/AttachmentBackupManager';
+} from '../../jobs/AttachmentBackupManager.js';
 import type {
   AttachmentBackupJobType,
   CoreAttachmentBackupJobType,
   StandardAttachmentBackupJobType,
   ThumbnailAttachmentBackupJobType,
-} from '../../types/AttachmentBackup';
-import { DataWriter } from '../../sql/Client';
-import { getRandomBytes } from '../../Crypto';
-import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME';
-import { createName, getRelativePath } from '../../util/attachmentPath';
-import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto';
-import { SECOND } from '../../util/durations';
-import { HTTPError } from '../../textsecure/Errors';
+} from '../../types/AttachmentBackup.js';
+import { DataWriter } from '../../sql/Client.js';
+import { getRandomBytes } from '../../Crypto.js';
+import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.js';
+import { createName, getRelativePath } from '../../util/attachmentPath.js';
+import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
+import { SECOND } from '../../util/durations/index.js';
+import { HTTPError } from '../../textsecure/Errors.js';
 
 const TRANSIT_CDN = 2;
 const TRANSIT_CDN_FOR_NEW_UPLOAD = 42;

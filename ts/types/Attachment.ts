@@ -14,36 +14,37 @@ import {
 } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
-import type { LinkPreviewForUIType } from './message/LinkPreviews';
-import type { LoggerType } from './Logging';
-import { createLogger } from '../logging/log';
-import * as MIME from './MIME';
-import { toLogFormat } from './errors';
-import { SignalService } from '../protobuf';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
+import type { LoggerType } from './Logging.js';
+import { createLogger } from '../logging/log.js';
+import * as MIME from './MIME.js';
+import { toLogFormat } from './errors.js';
+import { SignalService } from '../protobuf/index.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../util/GoogleChrome';
+} from '../util/GoogleChrome.js';
 import type {
   LocalizerType,
   WithOptionalProperties,
   WithRequiredProperties,
-} from './Util';
-import { ThemeType } from './Util';
-import * as GoogleChrome from '../util/GoogleChrome';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import type { MessageStatusType } from '../components/conversation/Message';
-import type { SignalService as Proto } from '../protobuf';
-import { isMoreRecentThan } from '../util/timestamp';
-import { DAY } from '../util/durations';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
+} from './Util.js';
+import { ThemeType } from './Util.js';
+import * as GoogleChrome from '../util/GoogleChrome.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import type { MessageStatusType } from '../components/conversation/Message.js';
+import type { SignalService as Proto } from '../protobuf/index.js';
+import { isMoreRecentThan } from '../util/timestamp.js';
+import { DAY } from '../util/durations/index.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from './Crypto';
-import { missingCaseError } from '../util/missingCaseError';
+} from './Crypto.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
 
 const logging = createLogger('Attachment');
 
@@ -122,6 +123,7 @@ export type AttachmentType = EphemeralAttachmentFields & {
   plaintextHash?: string;
   uploadTimestamp?: number;
   size: number;
+  duration?: number;
   pending?: boolean;
   width?: number;
   height?: number;
@@ -239,6 +241,7 @@ export type InMemoryAttachmentDraftType =
       clientUuid: string;
       pending: false;
       screenshotData?: Uint8Array;
+      duration?: number;
       fileName?: string;
       path?: string;
     } & BaseAttachmentDraftType)
@@ -249,6 +252,7 @@ export type InMemoryAttachmentDraftType =
       path?: string;
       pending: true;
       size: number;
+      duration?: number;
     };
 
 // What's stored in conversation.draftAttachments
@@ -502,7 +506,7 @@ export async function captureDimensionsAndScreenshot(
       objectUrl: string;
       contentType: MIME.MIMEType;
       logger: LoggerType;
-    }) => Promise<Blob>;
+    }) => Promise<MakeVideoScreenshotResultType>;
     logger: LoggerType;
   }
 ): Promise<AttachmentType> {
@@ -573,13 +577,12 @@ export async function captureDimensionsAndScreenshot(
 
   let screenshotObjectUrl: string | undefined;
   try {
-    const screenshotBuffer = await blobToArrayBuffer(
-      await makeVideoScreenshot({
-        objectUrl: localUrl,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        logger,
-      })
-    );
+    const { blob, duration } = await makeVideoScreenshot({
+      objectUrl: localUrl,
+      contentType: THUMBNAIL_CONTENT_TYPE,
+      logger,
+    });
+    const screenshotBuffer = await blobToArrayBuffer(blob);
     screenshotObjectUrl = makeObjectUrl(
       screenshotBuffer,
       THUMBNAIL_CONTENT_TYPE
@@ -607,6 +610,7 @@ export async function captureDimensionsAndScreenshot(
 
     return {
       ...attachment,
+      duration,
       screenshot: {
         ...screenshot,
         contentType: THUMBNAIL_CONTENT_TYPE,

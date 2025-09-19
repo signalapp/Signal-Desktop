@@ -3,7 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 
-import type { RendererConfigType } from '../types/RendererConfig';
+import type { RendererConfigType } from '../types/RendererConfig.js';
 
 const config: RendererConfigType = ipcRenderer.sendSync('get-config');
 

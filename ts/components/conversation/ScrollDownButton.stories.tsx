@@ -5,8 +5,11 @@ import * as React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import type { ScrollDownButtonPropsType } from './ScrollDownButton';
-import { ScrollDownButton, ScrollDownButtonVariant } from './ScrollDownButton';
+import type { ScrollDownButtonPropsType } from './ScrollDownButton.js';
+import {
+  ScrollDownButton,
+  ScrollDownButtonVariant,
+} from './ScrollDownButton.js';
 
 const { i18n } = window.SignalContext;
 

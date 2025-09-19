@@ -50,16 +50,19 @@ import {
   ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 import { Aci } from '@signalapp/libsignal-client';
-import { CanvasVideoRenderer, GumVideoCapturer } from '../calling/VideoSupport';
-import type { GumVideoCaptureOptions } from '../calling/VideoSupport';
+import {
+  CanvasVideoRenderer,
+  GumVideoCapturer,
+} from '../calling/VideoSupport.js';
+import type { GumVideoCaptureOptions } from '../calling/VideoSupport.js';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
   GroupCallPeekInfoType,
-} from '../state/ducks/calling';
-import type { ConversationType } from '../state/ducks/conversations';
-import { getConversationCallMode } from '../state/ducks/conversations';
-import { isMe } from '../util/whatTypeOfConversation';
+} from '../state/ducks/calling.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { getConversationCallMode } from '../state/ducks/conversations.js';
+import { isMe } from '../util/whatTypeOfConversation.js';
 import type {
   AvailableIODevicesType,
   CallEndedReason,
@@ -67,34 +70,34 @@ import type {
   IceServerCacheType,
   MediaDeviceSettings,
   PresentedSource,
-} from '../types/Calling';
+} from '../types/Calling.js';
 import {
   GroupCallConnectionState,
   GroupCallJoinState,
   ScreenShareStatus,
-} from '../types/Calling';
-import { CallMode, LocalCallEvent } from '../types/CallDisposition';
+} from '../types/Calling.js';
+import { CallMode, LocalCallEvent } from '../types/CallDisposition.js';
 import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
-} from '../calling/findBestMatchingDevice';
-import { normalizeAci } from '../util/normalizeAci';
-import { isAciString } from '../util/isAciString';
-import * as Errors from '../types/errors';
-import type { ConversationModel } from '../models/conversations';
-import * as Bytes from '../Bytes';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
-import { drop } from '../util/drop';
-import { dropNull } from '../util/dropNull';
-import { getOwn } from '../util/getOwn';
-import * as durations from '../util/durations';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { fetchMembershipProof, getMembershipList } from '../groups';
-import type { ProcessedEnvelope } from '../textsecure/Types.d';
-import type { GetIceServersResultType } from '../textsecure/WebAPI';
-import { missingCaseError } from '../util/missingCaseError';
-import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
-import { requestCameraPermissions } from '../util/callingPermissions';
+} from '../calling/findBestMatchingDevice.js';
+import { normalizeAci } from '../util/normalizeAci.js';
+import { isAciString } from '../util/isAciString.js';
+import * as Errors from '../types/errors.js';
+import type { ConversationModel } from '../models/conversations.js';
+import * as Bytes from '../Bytes.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import { drop } from '../util/drop.js';
+import { dropNull } from '../util/dropNull.js';
+import { getOwn } from '../util/getOwn.js';
+import * as durations from '../util/durations/index.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { fetchMembershipProof, getMembershipList } from '../groups.js';
+import type { ProcessedEnvelope } from '../textsecure/Types.d.ts';
+import type { GetIceServersResultType } from '../textsecure/WebAPI.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.js';
+import { requestCameraPermissions } from '../util/callingPermissions.js';
 import {
   AUDIO_LEVEL_INTERVAL_MS,
   REQUESTED_VIDEO_WIDTH,
@@ -105,20 +108,20 @@ import {
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
-} from '../calling/constants';
-import { callingMessageToProto } from '../util/callingMessageToProto';
-import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
-import { SignalService as Proto } from '../protobuf';
-import { DataReader, DataWriter } from '../sql/Client';
+} from '../calling/constants.js';
+import { callingMessageToProto } from '../util/callingMessageToProto.js';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
 import {
   notificationService,
   NotificationSetting,
   FALLBACK_NOTIFICATION_TITLE,
   NotificationType,
   shouldSaveNotificationAvatarToDisk,
-} from './notifications';
-import { createLogger } from '../logging/log';
-import { assertDev, strictAssert } from '../util/assert';
+} from './notifications.js';
+import { createLogger } from '../logging/log.js';
+import { assertDev, strictAssert } from '../util/assert.js';
 import {
   formatLocalDeviceState,
   formatPeekInfo,
@@ -138,30 +141,30 @@ import {
   updateAdhocCallHistory,
   getCallIdFromEra,
   getCallDetailsForAdhocCall,
-} from '../util/callDisposition';
-import { isNormalNumber } from '../util/isNormalNumber';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { isServiceIdString, isPniString } from '../types/ServiceId';
-import { isSignalConnection } from '../util/getSignalConnections';
-import { toAdminKeyBytes } from '../util/callLinks';
+} from '../util/callDisposition.js';
+import { isNormalNumber } from '../util/isNormalNumber.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+import { isServiceIdString, isPniString } from '../types/ServiceId.js';
+import { isSignalConnection } from '../util/getSignalConnections.js';
+import { toAdminKeyBytes } from '../util/callLinks.js';
 import {
   getCallLinkAuthCredentialPresentation,
   getRoomIdFromRootKey,
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
-} from '../util/callLinksRingrtc';
+} from '../util/callLinksRingrtc.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import type { CallLinkType, CallLinkStateType } from '../types/CallLink';
-import { CallLinkRestrictions } from '../types/CallLink';
-import { getConversationIdForLogging } from '../util/idForLogging';
-import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
-import { createIdenticon } from '../util/createIdenticon';
-import { getColorForCallLink } from '../util/getColorForCallLink';
-import OS from '../util/os/osMain';
-import { sleep } from '../util/sleep';
+} from '../jobs/conversationJobQueue.js';
+import type { CallLinkType, CallLinkStateType } from '../types/CallLink.js';
+import { CallLinkRestrictions } from '../types/CallLink.js';
+import { getConversationIdForLogging } from '../util/idForLogging.js';
+import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync.js';
+import { createIdenticon } from '../util/createIdenticon.js';
+import { getColorForCallLink } from '../util/getColorForCallLink.js';
+import OS from '../util/os/osMain.js';
+import { sleep } from '../util/sleep.js';
 
 const log = createLogger('calling');
 const ringrtcLog = createLogger('@signalapp/ringrtc');
@@ -508,6 +511,10 @@ export class CallingClass {
     RingRTC.handleOutgoingSignaling = this.#handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.#handleIncomingCall.bind(this);
     RingRTC.handleStartCall = this.#handleStartCall.bind(this);
+    RingRTC.handleOutputDeviceChanged =
+      this.#handleOutputDeviceChanged.bind(this);
+    RingRTC.handleInputDeviceChanged =
+      this.#handleInputDeviceChanged.bind(this);
     RingRTC.handleAutoEndedIncomingCallRequest =
       this.#handleAutoEndedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
@@ -2688,8 +2695,7 @@ export class CallingClass {
     return true;
   }
 
-  async #pollForMediaDevices(): Promise<void> {
-    const newSettings = await this.getMediaDeviceSettings();
+  async #maybeUpdateDevices(newSettings: MediaDeviceSettings): Promise<void> {
     if (
       !this.#mediaDeviceSettingsEqual(
         this.#lastMediaDeviceSettings,
@@ -2708,10 +2714,19 @@ export class CallingClass {
     }
   }
 
-  async getAvailableIODevices(): Promise<AvailableIODevicesType> {
+  async #pollForMediaDevices(): Promise<void> {
+    const newSettings = await this.getMediaDeviceSettings();
+    return this.#maybeUpdateDevices(newSettings);
+  }
+
+  async #getAvailableIODevicesWithPrefetchedDevices(
+    prefetchedMicrophones: Array<AudioDevice> | undefined,
+    prefetchedSpeakers: Array<AudioDevice> | undefined
+  ): Promise<AvailableIODevicesType> {
     const availableCameras = await this.#videoCapturer.enumerateDevices();
-    const availableMicrophones = RingRTC.getAudioInputs();
-    const availableSpeakers = RingRTC.getAudioOutputs();
+    const availableMicrophones =
+      prefetchedMicrophones || RingRTC.getAudioInputs();
+    const availableSpeakers = prefetchedSpeakers || RingRTC.getAudioOutputs();
 
     return {
       availableCameras,
@@ -2720,9 +2735,22 @@ export class CallingClass {
     };
   }
 
-  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+  async getAvailableIODevices(): Promise<AvailableIODevicesType> {
+    return this.#getAvailableIODevicesWithPrefetchedDevices(
+      undefined,
+      undefined
+    );
+  }
+
+  async #getMediaDeviceSettingsWithPrefetchedDevices(
+    prefetchedMicrophones: Array<AudioDevice> | undefined,
+    prefetchedSpeakers: Array<AudioDevice> | undefined
+  ): Promise<MediaDeviceSettings> {
     const { availableCameras, availableMicrophones, availableSpeakers } =
-      await this.getAvailableIODevices();
+      await this.#getAvailableIODevicesWithPrefetchedDevices(
+        prefetchedMicrophones,
+        prefetchedSpeakers
+      );
 
     const preferredMicrophone = getPreferredAudioInputDevice();
     const selectedMicIndex = findBestMatchingAudioDeviceIndex(
@@ -2764,6 +2792,13 @@ export class CallingClass {
       availableCameras,
       selectedCamera,
     };
+  }
+
+  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+    return this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      undefined,
+      undefined
+    );
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
@@ -3728,6 +3763,22 @@ export class CallingClass {
     RingRTC.proceed(call.callId, callSettings);
 
     return true;
+  }
+
+  async #handleOutputDeviceChanged(devices: Array<AudioDevice>): Promise<void> {
+    const newSettings = await this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      undefined,
+      devices
+    );
+    return this.#maybeUpdateDevices(newSettings);
+  }
+
+  async #handleInputDeviceChanged(devices: Array<AudioDevice>): Promise<void> {
+    const newSettings = await this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      devices,
+      undefined
+    );
+    return this.#maybeUpdateDevices(newSettings);
   }
 
   public async updateCallHistoryForAdhocCall(

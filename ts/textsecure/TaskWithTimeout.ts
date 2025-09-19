@@ -1,11 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MINUTE } from '../util/durations';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { explodePromise } from '../util/explodePromise';
-import { toLogFormat } from '../types/errors';
-import { createLogger } from '../logging/log';
+import { MINUTE } from '../util/durations/index.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { toLogFormat } from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('TaskWithTimeout');
 

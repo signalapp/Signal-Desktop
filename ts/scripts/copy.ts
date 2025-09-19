@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { copyFileSync } from 'fs';
+import { join } from 'node:path';
+import { copyFileSync } from 'node:fs';
 
 const BASE_BOWER = join(__dirname, '../../components');
 

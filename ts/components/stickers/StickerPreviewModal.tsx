@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { isNumber, range } from 'lodash';
 import classNames from 'classnames';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import type { LocalizerType } from '../../types/Util';
-import type { StickerPackType } from '../../state/ducks/stickers';
-import { Spinner } from '../Spinner';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import { Modal } from '../Modal';
-import { Button, ButtonVariant } from '../Button';
-import { UserText } from '../UserText';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { StickerPackType } from '../../state/ducks/stickers.js';
+import { Spinner } from '../Spinner.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
+import { Modal } from '../Modal.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { UserText } from '../UserText.js';
 
 export type OwnProps = {
   readonly onClose?: () => unknown;

@@ -4,13 +4,13 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { generateAci } from '../../types/ServiceId';
-import type { RetryItemType } from '../../util/retryPlaceholders';
+import { generateAci } from '../../types/ServiceId.js';
+import type { RetryItemType } from '../../util/retryPlaceholders.js';
 import {
   getDeltaIntoPast,
   RetryPlaceholders,
   STORAGE_KEY,
-} from '../../util/retryPlaceholders';
+} from '../../util/retryPlaceholders.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

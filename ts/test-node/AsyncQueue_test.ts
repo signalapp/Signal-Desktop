@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { AsyncQueue } from '../util/AsyncQueue';
+import { AsyncQueue } from '../util/AsyncQueue.js';
 
 describe('AsyncQueue', () => {
   it('yields values as they are added, even if they were added before consuming', async () => {

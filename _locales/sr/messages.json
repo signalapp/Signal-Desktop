@@ -2070,7 +2070,7 @@
     "messageformat": "Преузимање није успело"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Преузимање прилога из резервне копије није успело"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Измене се могу применити само у року од 24 сата од тренутка када сте послали ову поруку."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Подељени медији"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Прикажи све"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Блокирани контакти"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Безбедне резервне копије Signal-а"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Користите аутоматско креирање резервне копије уз помоћ Signal-ове безбедне потпуно шифроване услуге складиштења. Започните на телефону. <learnMoreLink>Сазнајте више</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Резервне копије порука и свих медија"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Претплата није пронађена. Обновите је да бисте наставили да користите безбедне резервне копије Signal-а."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервне копије порука и {mediaDayCount,number} дан(а) резервних копија медија} other {Резервне копије порука и {mediaDayCount,number} дан(а) резервних копија медија}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Претплата је отказана"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "На свом телефону можете управљати претплатом на безбедне резервне копије Signal-а или је отказати."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "На свом телефону можете управљати безбедним резервним копијама Signal-а или их надоградити."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "На свом телефону можете управљати претплатом на безбедне резервне копије Signal-а или је обновити."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последња резервна копија"
@@ -6823,10 +6820,10 @@
     "messageformat": "Донација је успела, али нисмо успели да ажурирамо подешавања значке"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Донација је успела, али нисмо успели да ажурирамо подешавања значке"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Да бисте ажурирали подешавања значке на свом мобилном уређају, идите на Подешавања → Донирајте за Signal → Значке."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Донација је прекинута"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Исправљено је неколико мањих грешака."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Исправили смо грешку која је спречавала правилно појављивање значки за донације код неких корисника. Signal је 501c3 непрофитна организација, и ценимо вашу подршку!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Исправили смо грешку у Microsoft Windows-у због које се понекад приказивала погрешна боја насловне траке."
   }
 }

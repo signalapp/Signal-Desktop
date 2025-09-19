@@ -11,15 +11,15 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { Avatar, AvatarSize } from '../../components/Avatar';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { MemberType, MemberRepository } from '../memberRepository';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { matchBlotTextPartitions } from '../util';
-import type { MentionBlotValue } from '../util';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { sameWidthModifier } from '../../util/popperUtil';
-import { UserText } from '../../components/UserText';
+import { Avatar, AvatarSize } from '../../components/Avatar.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { MemberType, MemberRepository } from '../memberRepository.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import { matchBlotTextPartitions } from '../util.js';
+import type { MentionBlotValue } from '../util.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import { sameWidthModifier } from '../../util/popperUtil.js';
+import { UserText } from '../../components/UserText.js';
 
 export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;

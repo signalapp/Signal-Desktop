@@ -3,7 +3,7 @@
 
 import type { AfterPackContext } from 'electron-builder';
 import fs, { readdir, rm } from 'node:fs/promises';
-import path from 'path';
+import path from 'node:path';
 
 async function safeReaddir(dir: string): Promise<Array<string> | null> {
   try {

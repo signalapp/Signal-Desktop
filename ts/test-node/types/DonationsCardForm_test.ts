@@ -6,7 +6,7 @@ import type {
   CardFormFields,
   CardFormResult,
   CardFormSettings,
-} from '../../types/DonationsCardForm';
+} from '../../types/DonationsCardForm.js';
 import {
   CardCvcError,
   CardExpirationError,
@@ -19,8 +19,8 @@ import {
   parseCardExpiration,
   parseCardForm,
   parseCardNumber,
-} from '../../types/DonationsCardForm';
-import type { CardDetail } from '../../types/Donations';
+} from '../../types/DonationsCardForm.js';
+import type { CardDetail } from '../../types/Donations.js';
 
 function testCard(cardNumber: string, cvcSize: number) {
   return { cardNumber, cvcSize };

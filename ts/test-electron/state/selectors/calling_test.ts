@@ -2,34 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { noopAction } from '../../../state/ducks/noop';
-import { actions as userActions } from '../../../state/ducks/user';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { actions as userActions } from '../../../state/ducks/user.js';
 import {
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../../../types/Calling';
-import { CallMode } from '../../../types/CallDisposition';
-import { generateAci } from '../../../types/ServiceId';
+} from '../../../types/Calling.js';
+import { CallMode } from '../../../types/CallDisposition.js';
+import { generateAci } from '../../../types/ServiceId.js';
 import {
   getCallsByConversation,
   getCallSelector,
   getHasAnyAdminCallLinks,
   getRingingCall,
   isInCall,
-} from '../../../state/selectors/calling';
+} from '../../../state/selectors/calling.js';
 import type {
   CallingStateType,
   DirectCallStateType,
   GroupCallStateType,
-} from '../../../state/ducks/calling';
-import { getEmptyState } from '../../../state/ducks/calling';
+} from '../../../state/ducks/calling.js';
+import { getEmptyState } from '../../../state/ducks/calling.js';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../../../test-helpers/fakeCallLink';
+} from '../../../test-helpers/fakeCallLink.js';
 
 const OUR_ACI = generateAci();
 const ACI_1 = generateAci();

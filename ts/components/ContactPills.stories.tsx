@@ -7,11 +7,11 @@ import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { ContactPills } from './ContactPills';
-import type { PropsType as ContactPillPropsType } from './ContactPill';
-import { ContactPill } from './ContactPill';
-import { gifUrl } from '../storybook/Fixtures';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { ContactPills } from './ContactPills.js';
+import type { PropsType as ContactPillPropsType } from './ContactPill.js';
+import { ContactPill } from './ContactPill.js';
+import { gifUrl } from '../storybook/Fixtures.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
 
 const { i18n } = window.SignalContext;
 

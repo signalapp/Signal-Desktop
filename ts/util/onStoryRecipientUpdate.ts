@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
-import { DataReader } from '../sql/Client';
-import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import { createLogger } from '../logging/log';
-import { SendStatus } from '../messages/MessageSendState';
-import { getConversationIdForLogging } from './idForLogging';
-import { isStory } from '../state/selectors/message';
-import { queueUpdateMessage } from './messageBatcher';
-import { isMe } from './whatTypeOfConversation';
-import { drop } from './drop';
-import { fromServiceIdBinaryOrString } from './ServiceId';
-import { handleDeleteForEveryone } from './deleteForEveryone';
-import { MessageModel } from '../models/messages';
+import { DataReader } from '../sql/Client.js';
+import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
+import { createLogger } from '../logging/log.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { getConversationIdForLogging } from './idForLogging.js';
+import { isStory } from '../state/selectors/message.js';
+import { queueUpdateMessage } from './messageBatcher.js';
+import { isMe } from './whatTypeOfConversation.js';
+import { drop } from './drop.js';
+import { fromServiceIdBinaryOrString } from './ServiceId.js';
+import { handleDeleteForEveryone } from './deleteForEveryone.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('onStoryRecipientUpdate');
 

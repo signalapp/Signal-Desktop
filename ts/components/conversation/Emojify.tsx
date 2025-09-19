@@ -1,18 +1,18 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
-import type { RenderTextCallbackType } from '../../types/Util';
-import { splitByEmoji } from '../../util/emoji';
-import { missingCaseError } from '../../util/missingCaseError';
-import { FunInlineEmoji } from '../fun/FunEmoji';
+import type { RenderTextCallbackType } from '../../types/Util.js';
+import { splitByEmoji } from '../../util/emoji.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { FunInlineEmoji } from '../fun/FunEmoji.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
   isEmojiVariantValueNonQualified,
-} from '../fun/data/emojis';
-import { createLogger } from '../../logging/log';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer';
+} from '../fun/data/emojis.js';
+import { createLogger } from '../../logging/log.js';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.js';
 
 const log = createLogger('Emojify');
 

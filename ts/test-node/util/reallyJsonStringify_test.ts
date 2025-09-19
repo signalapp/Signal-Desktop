@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { reallyJsonStringify } from '../../util/reallyJsonStringify';
+import { reallyJsonStringify } from '../../util/reallyJsonStringify.js';
 
 describe('reallyJsonStringify', () => {
   it('returns the same thing as JSON.stringify when JSON.stringify returns a string', () => {

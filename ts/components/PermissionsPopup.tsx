@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { Button, ButtonVariant } from './Button';
-import type { LocalizerType } from '../types/Util';
-import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { Button, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 
 export type PropsType = {
   i18n: LocalizerType;

@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import * as EmbeddedContact from '../types/EmbeddedContact';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import * as EmbeddedContact from '../types/EmbeddedContact.js';
 
 export function getQuoteBodyText(
   messageAttributes: ReadonlyMessageAttributesType,

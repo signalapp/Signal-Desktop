@@ -3,8 +3,8 @@
 
 import * as sinon from 'sinon';
 import assert from 'node:assert/strict';
-import type { MapEmplaceOptions } from '../../util/mapEmplace';
-import { mapEmplace } from '../../util/mapEmplace';
+import type { MapEmplaceOptions } from '../../util/mapEmplace.js';
+import { mapEmplace } from '../../util/mapEmplace.js';
 
 type InsertFn = NonNullable<MapEmplaceOptions<Map<object, object>>['insert']>;
 type UpdateFn = NonNullable<MapEmplaceOptions<Map<object, object>>['update']>;

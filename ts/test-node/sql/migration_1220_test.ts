@@ -3,13 +3,18 @@
 
 import { assert } from 'chai';
 
-import { type WritableDB } from '../../sql/Interface';
+import { type WritableDB } from '../../sql/Interface.js';
 import {
   sessionRecordToProtobuf,
   sessionStructureToBytes,
-} from '../../util/sessionTranslation';
-import { createDB, updateToVersion, insertData, getTableData } from './helpers';
-import { SESSION_V1_RECORD } from '../util/sessionTranslation_test';
+} from '../../util/sessionTranslation.js';
+import {
+  createDB,
+  updateToVersion,
+  insertData,
+  getTableData,
+} from './helpers.js';
+import { SESSION_V1_RECORD } from '../util/sessionTranslation_test.js';
 
 const MAPS = [
   {

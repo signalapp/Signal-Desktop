@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { hslToRGB } from '../../util/hslToRGB';
+import { hslToRGB } from '../../util/hslToRGB.js';
 
 function getRatio(min: number, max: number, value: number) {
   return (value - min) / (max - min);

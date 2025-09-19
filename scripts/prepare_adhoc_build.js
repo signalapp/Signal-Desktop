@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const fs = require('fs');
+const fs = require('node:fs');
 const _ = require('lodash');
-const { execSync } = require('child_process');
+const { execSync } = require('node:child_process');
 
 const packageJson = require('../package.json');
-const { isAdhoc } = require('../ts/util/version');
+const { isAdhoc } = require('../ts/util/version.js');
 
 const { version } = packageJson;
 

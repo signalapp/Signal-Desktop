@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ChatSessionRefreshedNotification';
-import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
+import type { PropsType } from './ChatSessionRefreshedNotification.js';
+import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification.js';
 
 const { i18n } = window.SignalContext;
 

@@ -5,10 +5,10 @@ import React, { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { take } from 'lodash';
 
-import { I18n } from './I18n';
-import type { LocalizerType } from '../types/Util';
-import { UserText } from './UserText';
-import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList';
+import { I18n } from './I18n.js';
+import type { LocalizerType } from '../types/Util.js';
+import { UserText } from './UserText.js';
+import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.js';
 
 type PropsType = {
   i18n: LocalizerType;

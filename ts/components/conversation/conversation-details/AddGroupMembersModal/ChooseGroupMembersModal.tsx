@@ -11,39 +11,39 @@ import React, {
 import { omit } from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 
-import type { LocalizerType, ThemeType } from '../../../../types/Util';
-import { strictAssert, assertDev } from '../../../../util/assert';
-import { refMerger } from '../../../../util/refMerger';
-import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
-import { missingCaseError } from '../../../../util/missingCaseError';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
-import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
-import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
-import { filterAndSortConversations } from '../../../../util/filterAndSortConversations';
-import type { ConversationType } from '../../../../state/ducks/conversations';
+import type { LocalizerType, ThemeType } from '../../../../types/Util.js';
+import { strictAssert, assertDev } from '../../../../util/assert.js';
+import { refMerger } from '../../../../util/refMerger.js';
+import { useRestoreFocus } from '../../../../hooks/useRestoreFocus.js';
+import { missingCaseError } from '../../../../util/missingCaseError.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId.js';
+import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance.js';
+import type { ParsedE164Type } from '../../../../util/libphonenumberInstance.js';
+import { filterAndSortConversations } from '../../../../util/filterAndSortConversations.js';
+import type { ConversationType } from '../../../../state/ducks/conversations.js';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
-} from '../../../../util/uuidFetchState';
+} from '../../../../util/uuidFetchState.js';
 import {
   isFetchingByE164,
   isFetchingByUsername,
-} from '../../../../util/uuidFetchState';
-import { ModalHost } from '../../../ModalHost';
-import { ContactPills } from '../../../ContactPills';
-import { ContactPill } from '../../../ContactPill';
-import type { Row } from '../../../ConversationList';
-import { RowType } from '../../../ConversationList';
+} from '../../../../util/uuidFetchState.js';
+import { ModalHost } from '../../../ModalHost.js';
+import { ContactPills } from '../../../ContactPills.js';
+import { ContactPill } from '../../../ContactPill.js';
+import type { Row } from '../../../ConversationList.js';
+import { RowType } from '../../../ConversationList.js';
 import {
   ContactCheckbox,
   ContactCheckboxDisabledReason,
-} from '../../../conversationList/ContactCheckbox';
-import { Button, ButtonVariant } from '../../../Button';
-import { SearchInput } from '../../../SearchInput';
-import { ListView } from '../../../ListView';
-import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox';
-import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox';
-import { SizeObserver } from '../../../../hooks/useSizeObserver';
+} from '../../../conversationList/ContactCheckbox.js';
+import { Button, ButtonVariant } from '../../../Button.js';
+import { SearchInput } from '../../../SearchInput.js';
+import { ListView } from '../../../ListView.js';
+import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox.js';
+import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox.js';
+import { SizeObserver } from '../../../../hooks/useSizeObserver.js';
 
 export type StatePropsType = {
   regionCode: string | undefined;

@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import type { MyStoryType, StoryViewType } from '../types/Stories';
+import type { MyStoryType, StoryViewType } from '../types/Stories.js';
 import {
   ResolvedSendStatus,
   StoryViewTargetType,
   StoryViewModeType,
-} from '../types/Stories';
-import type { LocalizerType } from '../types/Util';
-import { ThemeType } from '../types/Util';
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContextMenu } from './ContextMenu';
-import { MessageTimestamp } from './conversation/MessageTimestamp';
-import { StoryDistributionListName } from './StoryDistributionListName';
-import { StoryImage } from './StoryImage';
-import { Theme } from '../util/theme';
-import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
-import { useRetryStorySend } from '../hooks/useRetryStorySend';
-import { NavSidebar } from './NavSidebar';
-import type { WidthBreakpoint } from './_util';
-import type { UnreadStats } from '../util/countUnreadStats';
+} from '../types/Stories.js';
+import type { LocalizerType } from '../types/Util.js';
+import { ThemeType } from '../types/Util.js';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { ContextMenu } from './ContextMenu.js';
+import { MessageTimestamp } from './conversation/MessageTimestamp.js';
+import { StoryDistributionListName } from './StoryDistributionListName.js';
+import { StoryImage } from './StoryImage.js';
+import { Theme } from '../util/theme.js';
+import { resolveStorySendStatus } from '../util/resolveStorySendStatus.js';
+import { useRetryStorySend } from '../hooks/useRetryStorySend.js';
+import { NavSidebar } from './NavSidebar.js';
+import type { WidthBreakpoint } from './_util.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
 
 export type PropsType = {
   i18n: LocalizerType;

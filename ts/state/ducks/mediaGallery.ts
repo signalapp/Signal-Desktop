@@ -5,29 +5,29 @@ import { orderBy } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { createLogger } from '../../logging/log';
-import { DataReader } from '../../sql/Client';
-import type { MediaItemDBType } from '../../sql/Interface';
+import { createLogger } from '../../logging/log.js';
+import { DataReader } from '../../sql/Client.js';
+import type { MediaItemDBType } from '../../sql/Interface.js';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
-} from './conversations';
-import { isNotNil } from '../../util/isNotNil';
-import { useBoundActions } from '../../hooks/useBoundActions';
+} from './conversations.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import type {
   ConversationUnloadedActionType,
   MessageChangedActionType,
   MessageDeletedActionType,
   MessageExpiredActionType,
-} from './conversations';
-import type { MediaItemType } from '../../types/MediaItem';
-import type { StateType as RootStateType } from '../reducer';
-import type { MessageAttributesType, MessageType } from '../../model-types';
-import { isTapToView, getPropsForAttachment } from '../selectors/message';
+} from './conversations.js';
+import type { MediaItemType } from '../../types/MediaItem.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { MessageAttributesType, MessageType } from '../../model-types.js';
+import { isTapToView, getPropsForAttachment } from '../selectors/message.js';
 
 const log = createLogger('mediaGallery');
 

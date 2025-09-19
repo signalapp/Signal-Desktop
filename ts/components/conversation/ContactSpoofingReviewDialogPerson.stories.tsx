@@ -5,11 +5,11 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import { ThemeType } from '../../types/Util';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
+import { ThemeType } from '../../types/Util.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
 
-import type { PropsType } from './ContactSpoofingReviewDialogPerson';
-import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';
+import type { PropsType } from './ContactSpoofingReviewDialogPerson.js';
+import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson.js';
 
 const { i18n } = window.SignalContext;
 

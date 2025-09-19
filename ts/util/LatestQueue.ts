@@ -17,7 +17,7 @@
  *   previously queued task completely.
  */
 
-import { drop } from './drop';
+import { drop } from './drop.js';
 
 export class LatestQueue {
   #isRunning: boolean;

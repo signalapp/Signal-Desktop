@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import assert from 'node:assert/strict';
-import { validateGroupSendEndorsementsExpiration } from '../../util/groupSendEndorsements';
-import { DAY, HOUR, SECOND } from '../../util/durations';
+import { validateGroupSendEndorsementsExpiration } from '../../util/groupSendEndorsements.js';
+import { DAY, HOUR, SECOND } from '../../util/durations/index.js';
 
 describe('groupSendEndorsements', () => {
   describe('validateGroupSendEndorsementsExpiration', () => {

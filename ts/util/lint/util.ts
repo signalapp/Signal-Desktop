@@ -5,7 +5,7 @@ import { readJsonSync, writeJsonSync } from 'fs-extra';
 
 import { orderBy } from 'lodash';
 
-import type { ExceptionType } from './types';
+import type { ExceptionType } from './types.js';
 
 export const ENCODING = 'utf8';
 

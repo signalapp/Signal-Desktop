@@ -6,32 +6,35 @@
 import * as sinon from 'sinon';
 import { assert } from 'chai';
 import { omit } from 'lodash';
-import type { StatsFs } from 'fs';
+import type { StatsFs } from 'node:fs';
 
-import * as MIME from '../../types/MIME';
+import * as MIME from '../../types/MIME.js';
 import {
   AttachmentDownloadManager,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
-} from '../../jobs/AttachmentDownloadManager';
+} from '../../jobs/AttachmentDownloadManager.js';
 import {
   type AttachmentDownloadJobType,
   AttachmentDownloadUrgency,
-} from '../../types/AttachmentDownload';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { DAY, MINUTE, MONTH } from '../../util/durations';
-import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
-import { strictAssert } from '../../util/assert';
-import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment';
-import { AttachmentDownloadSource } from '../../sql/Interface';
+} from '../../types/AttachmentDownload.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { DAY, MINUTE, MONTH } from '../../util/durations/index.js';
+import {
+  type AttachmentType,
+  AttachmentVariant,
+} from '../../types/Attachment.js';
+import { strictAssert } from '../../util/assert.js';
+import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.js';
+import { AttachmentDownloadSource } from '../../sql/Interface.js';
 import {
   generateAttachmentKeys,
   getAttachmentCiphertextLength,
-} from '../../AttachmentCrypto';
-import { MEBIBYTE } from '../../types/AttachmentSize';
-import { generateAci } from '../../types/ServiceId';
-import { toBase64, toHex } from '../../Bytes';
-import { getRandomBytes } from '../../Crypto';
+} from '../../AttachmentCrypto.js';
+import { MEBIBYTE } from '../../types/AttachmentSize.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { toBase64, toHex } from '../../Bytes.js';
+import { getRandomBytes } from '../../Crypto.js';
 
 function composeJob({
   messageId,

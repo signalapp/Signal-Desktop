@@ -3,25 +3,25 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
-} from '../types/Attachment';
+} from '../types/Attachment.js';
 import {
   getMaximumOutgoingAttachmentSizeInKb,
   getRenderDetailsForLimit,
   KIBIBYTE,
-} from '../types/AttachmentSize';
-import * as Errors from '../types/errors';
-import { getValue as getRemoteConfigValue } from '../RemoteConfig';
-import { fileToBytes } from './fileToBytes';
-import { handleImageAttachment } from './handleImageAttachment';
-import { handleVideoAttachment } from './handleVideoAttachment';
-import { isHeic, stringToMIMEType } from '../types/MIME';
-import { ToastType } from '../types/Toast';
-import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+} from '../types/AttachmentSize.js';
+import * as Errors from '../types/errors.js';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig.js';
+import { fileToBytes } from './fileToBytes.js';
+import { handleImageAttachment } from './handleImageAttachment.js';
+import { handleVideoAttachment } from './handleVideoAttachment.js';
+import { isHeic, stringToMIMEType } from '../types/MIME.js';
+import { ToastType } from '../types/Toast.js';
+import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome.js';
+import { getAttachmentCiphertextLength } from '../AttachmentCrypto.js';
 
 const log = createLogger('processAttachment');
 

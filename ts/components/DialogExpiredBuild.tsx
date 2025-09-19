@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import type { WidthBreakpoint } from './_util';
+import type { LocalizerType } from '../types/Util.js';
+import type { WidthBreakpoint } from './_util.js';
 
-import { LeftPaneDialog } from './LeftPaneDialog';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { LeftPaneDialog } from './LeftPaneDialog.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;

@@ -3,9 +3,9 @@
 
 import { createSelector } from 'reselect';
 import type { ReadonlyDeep } from 'type-fest';
-import type { MediaItemType } from '../../types/MediaItem';
-import type { StateType } from '../reducer';
-import type { LightboxStateType } from '../ducks/lightbox';
+import type { MediaItemType } from '../../types/MediaItem.js';
+import type { StateType } from '../reducer.js';
+import type { LightboxStateType } from '../ducks/lightbox.js';
 
 export const getLightboxState = (state: StateType): LightboxStateType =>
   state.lightbox;

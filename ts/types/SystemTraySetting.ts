@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { makeEnumParser } from '../util/enum';
+import { makeEnumParser } from '../util/enum.js';
 
 // Be careful when changing these values, as they are persisted.
 export enum SystemTraySetting {

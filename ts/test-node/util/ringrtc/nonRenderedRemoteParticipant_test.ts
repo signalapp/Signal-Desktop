@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { nonRenderedRemoteParticipant } from '../../../util/ringrtc/nonRenderedRemoteParticipant';
+import { nonRenderedRemoteParticipant } from '../../../util/ringrtc/nonRenderedRemoteParticipant.js';
 
 describe('nonRenderedRemoteParticipant', () => {
   it('returns a video request object a width and height of 0', () => {

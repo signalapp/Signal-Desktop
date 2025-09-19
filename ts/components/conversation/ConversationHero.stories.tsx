@@ -5,13 +5,13 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { useContext } from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
-import type { Props } from './ConversationHero';
-import { ConversationHero } from './ConversationHero';
-import { HasStories } from '../../types/Stories';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { ThemeType } from '../../types/Util';
-import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList';
+import type { Props } from './ConversationHero.js';
+import { ConversationHero } from './ConversationHero.js';
+import { HasStories } from '../../types/Stories.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { ThemeType } from '../../types/Util.js';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.js';
 
 const { i18n } = window.SignalContext;
 

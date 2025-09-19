@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FormEvent, KeyboardEvent } from 'react';
 import React, { memo, useCallback, useRef } from 'react';
-import { CC_CVC_FORMATTER, useInputMask } from '../../../hooks/useInputMask';
-import type { LocalizerType } from '../../../types/I18N';
-import { CardCvcError } from '../../../types/DonationsCardForm';
-import { missingCaseError } from '../../../util/missingCaseError';
+import { CC_CVC_FORMATTER, useInputMask } from '../../../hooks/useInputMask.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import { CardCvcError } from '../../../types/DonationsCardForm.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
 
 export function getCardCvcErrorMessage(
   i18n: LocalizerType,

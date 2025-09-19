@@ -2,24 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { bindActionCreators } from 'redux';
-import { actionCreators } from './actions';
-import { createStore } from './createStore';
-import { getInitialState } from './getInitialState';
+import { actionCreators } from './actions.js';
+import { createStore } from './createStore.js';
+import { getInitialState } from './getInitialState.js';
 
-import type { BadgesStateType } from './ducks/badges';
-import type { CallHistoryDetails } from '../types/CallDisposition';
-import type { DonationsStateType } from './ducks/donations';
-import type { MainWindowStatsType } from '../windows/context';
-import type { MenuOptionsType } from '../types/menu';
-import type { StoryDataType } from './ducks/stories';
-import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import type { ThemeType } from '../types/Util';
-import type { CallLinkType } from '../types/CallLink';
-import type { RecentEmojiObjectType } from '../util/loadRecentEmojis';
-import type { StickersStateType } from './ducks/stickers';
-import type { GifsStateType } from './ducks/gifs';
-import type { NotificationProfileType } from '../types/NotificationProfile';
-import type { ChatFolder } from '../types/ChatFolder';
+import type { BadgesStateType } from './ducks/badges.js';
+import type { CallHistoryDetails } from '../types/CallDisposition.js';
+import type { DonationsStateType } from './ducks/donations.js';
+import type { MainWindowStatsType } from '../windows/context.js';
+import type { MenuOptionsType } from '../types/menu.js';
+import type { StoryDataType } from './ducks/stories.js';
+import type { StoryDistributionListDataType } from './ducks/storyDistributionLists.js';
+import type { ThemeType } from '../types/Util.js';
+import type { CallLinkType } from '../types/CallLink.js';
+import type { RecentEmojiObjectType } from '../util/loadRecentEmojis.js';
+import type { StickersStateType } from './ducks/stickers.js';
+import type { GifsStateType } from './ducks/gifs.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.js';
+import type { ChatFolder } from '../types/ChatFolder.js';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;

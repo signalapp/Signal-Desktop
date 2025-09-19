@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { _urlToPath } from '../../../app/protocol_filter';
+import { _urlToPath } from '../../../app/protocol_filter.js';
 
 describe('Protocol Filter', () => {
   describe('_urlToPath', () => {

@@ -2070,7 +2070,7 @@
     "messageformat": "Falha no download"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Falha ao baixar o anexo do backup"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Só é possível fazer edições no período de 24 horas após enviar esta mensagem."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Mídia compartilhada"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Ver todos"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Bloqueados"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Backups seguros do Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Backups automáticos com o armazenamento seguro e criptografado de ponta a ponta do Signal. Comece a usar no seu celular. <learnMoreLink>Saiba mais</learnMoreLink>. "
@@ -5307,7 +5304,7 @@
     "messageformat": "Backup de mensagens de texto + arquivos de mídia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Sua assinatura não foi encontrada. Renove para continuar usando os backups seguros do Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup de mensagens de texto + {mediaDayCount,number} dia de arquivos de mídia} other {Backup de mensagens de texto + {mediaDayCount,number} dias de arquivos de mídia}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Assinatura cancelada"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Você pode gerenciar ou cancelar a assinatura de Backups seguros do Signal no seu telefone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Você pode gerenciar ou atualizar os Backups seguros do Signal no seu telefone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Você pode gerenciar ou renovar a assinatura de Backups seguros do Signal no seu telefone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Último backup"
@@ -6823,10 +6820,10 @@
     "messageformat": "A doação foi bem-sucedida, mas não foi possível atualizar as configurações do selo"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "A doação foi bem-sucedida, mas não foi possível atualizar as configurações do selo"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Para atualizar as configurações do selo no seu dispositivo móvel, vá para Configurações → Doar para o Signal → Selos."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Doação interrompida"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Esta atualização corrige alguns pequenos bugs, incluindo um que, em alguns casos, fazia as reações com emoji não serem agrupadas corretamente. "
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Corrigimos um erro que impedia que os selos de doação aparecessem corretamente para alguns usuários. O Signal é uma organização sem fins lucrativos 501(c)(3) e agradece muito o seu apoio!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Corrigimos um erro no Microsoft Windows que às vezes exibia a cor errada (laranja em vez de azul) na barra de título."
   }
 }

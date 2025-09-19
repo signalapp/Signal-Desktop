@@ -3,9 +3,9 @@
 
 import { z } from 'zod';
 import { groupBy } from 'lodash';
-import { createLogger } from '../logging/log';
-import { aciSchema } from '../types/ServiceId';
-import { safeParseStrict } from './schemas';
+import { createLogger } from '../logging/log.js';
+import { aciSchema } from '../types/ServiceId.js';
+import { safeParseStrict } from './schemas.js';
 
 const log = createLogger('retryPlaceholders');
 

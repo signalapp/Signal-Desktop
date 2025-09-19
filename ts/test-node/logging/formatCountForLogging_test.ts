@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { formatCountForLogging } from '../../logging/formatCountForLogging';
+import { formatCountForLogging } from '../../logging/formatCountForLogging.js';
 
 describe('formatCountForLogging', () => {
   it('returns "0" if passed zero', () => {

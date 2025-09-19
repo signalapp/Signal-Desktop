@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import path from 'path';
+import path from 'node:path';
 import type { AfterPackContext } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';

@@ -1,8 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 import { assert } from 'chai';
 import { copy } from 'fs-extra';
@@ -14,10 +14,10 @@ import {
   verifySignature,
   writeHexToPath,
   writeSignature,
-} from '../../updater/signature';
-import { createTempDir, deleteTempDir } from '../../updater/common';
-import { keyPair } from '../../updater/curve';
-import { createLogger } from '../../logging/log';
+} from '../../updater/signature.js';
+import { createTempDir, deleteTempDir } from '../../updater/common.js';
+import { keyPair } from '../../updater/curve.js';
+import { createLogger } from '../../logging/log.js';
 
 const log = createLogger('signature_test');
 

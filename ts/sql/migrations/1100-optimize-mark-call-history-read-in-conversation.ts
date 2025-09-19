@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/sqlcipher';
-import { sql } from '../util';
+import { sql } from '../util.js';
 
 export default function updateToSchemaVersion1100(db: Database): void {
   const [query] = sql`

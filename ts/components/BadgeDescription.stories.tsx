@@ -4,8 +4,8 @@
 import React from 'react';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './BadgeDescription';
-import { BadgeDescription } from './BadgeDescription';
+import type { Props } from './BadgeDescription.js';
+import { BadgeDescription } from './BadgeDescription.js';
 
 export default {
   title: 'Components/BadgeDescription',

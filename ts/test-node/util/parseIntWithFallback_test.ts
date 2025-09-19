@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { parseIntWithFallback } from '../../util/parseIntWithFallback';
+import { parseIntWithFallback } from '../../util/parseIntWithFallback.js';
 
 describe('parseIntWithFallback', () => {
   describe('when passed a number argument', () => {

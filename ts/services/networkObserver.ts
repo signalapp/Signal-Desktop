@@ -4,12 +4,12 @@
 import type {
   SetNetworkStatusPayloadType,
   NetworkActionType,
-} from '../state/ducks/network';
-import { createLogger } from '../logging/log';
-import { SECOND } from '../util/durations';
-import { electronLookup } from '../util/dns';
-import { drop } from '../util/drop';
-import { SocketStatus } from '../types/SocketStatus';
+} from '../state/ducks/network.js';
+import { createLogger } from '../logging/log.js';
+import { SECOND } from '../util/durations/index.js';
+import { electronLookup } from '../util/dns.js';
+import { drop } from '../util/drop.js';
+import { SocketStatus } from '../types/SocketStatus.js';
 
 const log = createLogger('networkObserver');
 

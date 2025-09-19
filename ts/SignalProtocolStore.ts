@@ -4,7 +4,7 @@
 import PQueue from 'p-queue';
 import { omit } from 'lodash';
 import { z } from 'zod';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 import {
   Direction,
@@ -19,15 +19,15 @@ import {
   SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
-import { DataReader, DataWriter } from './sql/Client';
-import type { ItemType } from './sql/Interface';
-import * as Bytes from './Bytes';
-import { constantTimeEqual, sha256 } from './Crypto';
-import { assertDev, strictAssert } from './util/assert';
-import { isNotNil } from './util/isNotNil';
-import { drop } from './util/drop';
-import { Zone } from './util/Zone';
-import { isMoreRecentThan } from './util/timestamp';
+import { DataReader, DataWriter } from './sql/Client.js';
+import type { ItemType } from './sql/Interface.js';
+import * as Bytes from './Bytes.js';
+import { constantTimeEqual, sha256 } from './Crypto.js';
+import { assertDev, strictAssert } from './util/assert.js';
+import { isNotNil } from './util/isNotNil.js';
+import { drop } from './util/drop.js';
+import { Zone } from './util/Zone.js';
+import { isMoreRecentThan } from './util/timestamp.js';
 import type {
   DeviceType,
   IdentityKeyType,
@@ -48,22 +48,26 @@ import type {
   SignedPreKeyType,
   UnprocessedType,
   CompatPreKeyType,
-} from './textsecure/Types.d';
-import type { ServiceIdString, PniString, AciString } from './types/ServiceId';
-import { isServiceIdString, ServiceIdKind } from './types/ServiceId';
-import type { Address } from './types/Address';
-import type { QualifiedAddressStringType } from './types/QualifiedAddress';
-import { QualifiedAddress } from './types/QualifiedAddress';
-import { createLogger } from './logging/log';
-import * as Errors from './types/errors';
-import { MINUTE } from './util/durations';
-import { conversationJobQueue } from './jobs/conversationJobQueue';
+} from './textsecure/Types.d.ts';
+import type {
+  ServiceIdString,
+  PniString,
+  AciString,
+} from './types/ServiceId.js';
+import { isServiceIdString, ServiceIdKind } from './types/ServiceId.js';
+import type { Address } from './types/Address.js';
+import type { QualifiedAddressStringType } from './types/QualifiedAddress.js';
+import { QualifiedAddress } from './types/QualifiedAddress.js';
+import { createLogger } from './logging/log.js';
+import * as Errors from './types/errors.js';
+import { MINUTE } from './util/durations/index.js';
+import { conversationJobQueue } from './jobs/conversationJobQueue.js';
 import {
   KYBER_KEY_ID_KEY,
   SIGNED_PRE_KEY_ID_KEY,
-} from './textsecure/AccountManager';
-import { formatGroups, groupWhile } from './util/groupWhile';
-import { parseUnknown } from './util/schemas';
+} from './textsecure/AccountManager.js';
+import { formatGroups, groupWhile } from './util/groupWhile.js';
+import { parseUnknown } from './util/schemas.js';
 
 const log = createLogger('SignalProtocolStore');
 

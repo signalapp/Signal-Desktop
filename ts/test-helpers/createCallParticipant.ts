@@ -3,11 +3,11 @@
 
 import { sample } from 'lodash';
 
-import { AvatarColors } from '../types/Colors';
-import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import { generateAci } from '../types/ServiceId';
+import { AvatarColors } from '../types/Colors.js';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
+import { generateAci } from '../types/ServiceId.js';
 
-import { getDefaultConversationWithServiceId } from './getDefaultConversation';
+import { getDefaultConversationWithServiceId } from './getDefaultConversation.js';
 
 export function createCallParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>

@@ -4,15 +4,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { noop, sortBy } from 'lodash';
 
-import { SearchInput } from './SearchInput';
-import { filterAndSortConversations } from '../util/filterAndSortConversations';
+import { SearchInput } from './SearchInput.js';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.js';
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ConversationWithStoriesType } from '../state/selectors/conversations';
-import type { LocalizerType } from '../types/Util';
-import { ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ConversationWithStoriesType } from '../state/selectors/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import { ThemeType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal.js';
 import {
   getI18nForMyStory,
   getListViewers,
@@ -20,29 +20,29 @@ import {
   EditDistributionListModal,
   EditMyStoryPrivacy,
   Page as StoriesSettingsPage,
-} from './StoriesSettingsModal';
-import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
-import { Alert } from './Alert';
-import { Avatar, AvatarSize } from './Avatar';
-import { Button, ButtonSize, ButtonVariant } from './Button';
-import { Checkbox } from './Checkbox';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContextMenu } from './ContextMenu';
+} from './StoriesSettingsModal.js';
+import type { StoryDistributionListWithMembersDataType } from '../types/Stories.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { Alert } from './Alert.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
+import { Checkbox } from './Checkbox.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { ContextMenu } from './ContextMenu.js';
 
-import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
-import type { RenderModalPage, ModalPropsType } from './Modal';
-import { PagedModal, ModalPage } from './Modal';
-import { StoryDistributionListName } from './StoryDistributionListName';
-import { isNotNil } from '../util/isNotNil';
-import { StoryImage } from './StoryImage';
-import type { AttachmentType } from '../types/Attachment';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { getStoryBackground } from '../util/getStoryBackground';
-import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment';
-import { UserText } from './UserText';
-import { Theme } from '../util/theme';
+import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories.js';
+import type { RenderModalPage, ModalPropsType } from './Modal.js';
+import { PagedModal, ModalPage } from './Modal.js';
+import { StoryDistributionListName } from './StoryDistributionListName.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { StoryImage } from './StoryImage.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+import { getStoryBackground } from '../util/getStoryBackground.js';
+import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment.js';
+import { UserText } from './UserText.js';
+import { Theme } from '../util/theme.js';
 
 export type PropsType = {
   draftAttachment: AttachmentType;

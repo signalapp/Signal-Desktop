@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
-import * as fs from 'fs';
-import { join, relative } from 'path';
+import * as fs from 'node:fs';
+import { join, relative } from 'node:path';
 import normalizePath from 'normalize-path';
 import pMap from 'p-map';
 import FastGlob from 'fast-glob';
 
-import type { ExceptionType, RuleType } from './types';
-import { REASONS } from './types';
-import { ENCODING, loadJSON, sortExceptions, writeExceptions } from './util';
+import type { ExceptionType, RuleType } from './types.js';
+import { REASONS } from './types.js';
+import { ENCODING, loadJSON, sortExceptions, writeExceptions } from './util.js';
 
 const ALL_REASONS = REASONS.join('|');
 

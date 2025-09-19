@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import { pick } from 'lodash';
 
-import { isOverHourIntoPast, cleanupSessionResets } from '../background';
-import { DataWriter } from '../sql/Client';
+import { isOverHourIntoPast, cleanupSessionResets } from '../background.js';
+import { DataWriter } from '../sql/Client.js';
 
 describe('#isOverHourIntoPast', () => {
   it('returns false for now', () => {

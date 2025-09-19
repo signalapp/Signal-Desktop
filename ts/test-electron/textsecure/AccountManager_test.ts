@@ -5,15 +5,19 @@ import { assert } from 'chai';
 import { range } from 'lodash';
 import * as sinon from 'sinon';
 
-import { getRandomBytes } from '../../Crypto';
-import AccountManager from '../../textsecure/AccountManager';
+import { getRandomBytes } from '../../Crypto.js';
+import AccountManager from '../../textsecure/AccountManager.js';
 import type {
   KyberPreKeyType,
   OuterSignedPrekeyType,
   PreKeyType,
-} from '../../textsecure/Types.d';
-import { ServiceIdKind, generateAci, generatePni } from '../../types/ServiceId';
-import { DAY } from '../../util/durations';
+} from '../../textsecure/Types.d.ts';
+import {
+  ServiceIdKind,
+  generateAci,
+  generatePni,
+} from '../../types/ServiceId.js';
+import { DAY } from '../../util/durations/index.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

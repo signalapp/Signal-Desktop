@@ -1,9 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
-import { aciSchema, type AciString } from './ServiceId';
-import * as Bytes from '../Bytes';
-import { parseStrict } from '../util/schemas';
+import { aciSchema, type AciString } from './ServiceId.js';
+import * as Bytes from '../Bytes.js';
+import { parseStrict } from '../util/schemas.js';
 
 const GROUPV2_ID_LENGTH = 32; // 32 bytes
 

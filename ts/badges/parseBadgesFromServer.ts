@@ -3,13 +3,13 @@
 
 import * as z from 'zod';
 import { isEmpty } from 'lodash';
-import { isRecord } from '../util/isRecord';
-import { isNormalNumber } from '../util/isNormalNumber';
-import { createLogger } from '../logging/log';
-import type { BadgeType, BadgeImageType } from './types';
-import { parseBadgeCategory } from './BadgeCategory';
-import { BadgeImageTheme, parseBadgeImageTheme } from './BadgeImageTheme';
-import { safeParseUnknown } from '../util/schemas';
+import { isRecord } from '../util/isRecord.js';
+import { isNormalNumber } from '../util/isNormalNumber.js';
+import { createLogger } from '../logging/log.js';
+import type { BadgeType, BadgeImageType } from './types.js';
+import { parseBadgeCategory } from './BadgeCategory.js';
+import { BadgeImageTheme, parseBadgeImageTheme } from './BadgeImageTheme.js';
+import { safeParseUnknown } from '../util/schemas.js';
 
 const log = createLogger('parseBadgesFromServer');
 

@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { HourCyclePreference } from '../types/I18N';
-import { assertDev } from './assert';
+import { HourCyclePreference } from '../types/I18N.js';
+import { assertDev } from './assert.js';
 
 function getOptionsWithPreferences(
   options: Intl.DateTimeFormatOptions

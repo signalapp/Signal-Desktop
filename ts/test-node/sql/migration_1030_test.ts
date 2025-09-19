@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { sql } from '../../sql/util';
-import { createDB, updateToVersion } from './helpers';
-import type { WritableDB, MessageType } from '../../sql/Interface';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
+import { sql } from '../../sql/util.js';
+import { createDB, updateToVersion } from './helpers.js';
+import type { WritableDB, MessageType } from '../../sql/Interface.js';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.js';
 
 describe('SQL/updateToSchemaVersion1030', () => {
   let db: WritableDB;

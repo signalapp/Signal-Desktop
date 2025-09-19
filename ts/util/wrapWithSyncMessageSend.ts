@@ -1,17 +1,17 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
-import { SendMessageProtoError } from '../textsecure/Errors';
-import { getSendOptions } from './getSendOptions';
-import { handleMessageSend } from './handleMessageSend';
+import { SendMessageProtoError } from '../textsecure/Errors.js';
+import { getSendOptions } from './getSendOptions.js';
+import { handleMessageSend } from './handleMessageSend.js';
 
-import type { CallbackResultType } from '../textsecure/Types.d';
-import type { ConversationModel } from '../models/conversations';
-import type { SendTypesType } from './handleMessageSend';
-import type MessageSender from '../textsecure/SendMessage';
-import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered';
+import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import type { ConversationModel } from '../models/conversations.js';
+import type { SendTypesType } from './handleMessageSend.js';
+import type MessageSender from '../textsecure/SendMessage.js';
+import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.js';
 
 const log = createLogger('wrapWithSyncMessageSend');
 

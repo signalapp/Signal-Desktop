@@ -4,24 +4,24 @@
 import * as React from 'react';
 import { groupBy, mapValues, orderBy } from 'lodash';
 import classNames from 'classnames';
-import { ContactName } from './ContactName';
-import type { Props as AvatarProps } from '../Avatar';
-import { Avatar } from '../Avatar';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import type { EmojiData } from '../emoji/lib';
-import { emojiToData } from '../emoji/lib';
-import { useEscapeHandling } from '../../hooks/useEscapeHandling';
-import type { ThemeType } from '../../types/Util';
+import { ContactName } from './ContactName.js';
+import type { Props as AvatarProps } from '../Avatar.js';
+import { Avatar } from '../Avatar.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import type { EmojiData } from '../emoji/lib.js';
+import { emojiToData } from '../emoji/lib.js';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling.js';
+import type { ThemeType } from '../../types/Util.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis';
-import { strictAssert } from '../../util/assert';
-import { FunStaticEmoji } from '../fun/FunEmoji';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer';
+} from '../fun/data/emojis.js';
+import { strictAssert } from '../../util/assert.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.js';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.js';
 
 export type Reaction = {
   emoji: string;

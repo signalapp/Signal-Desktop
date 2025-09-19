@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Select';
-import { Select } from './Select';
+import type { PropsType } from './Select.js';
+import { Select } from './Select.js';
 
 export default {
   title: 'Components/Select',

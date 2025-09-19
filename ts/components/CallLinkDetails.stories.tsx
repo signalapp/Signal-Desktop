@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentMeta } from '../storybook/types';
-import type { CallLinkDetailsProps } from './CallLinkDetails';
-import { CallLinkDetails } from './CallLinkDetails';
+import type { ComponentMeta } from '../storybook/types.js';
+import type { CallLinkDetailsProps } from './CallLinkDetails.js';
+import { CallLinkDetails } from './CallLinkDetails.js';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../test-helpers/fakeCallLink';
-import { getFakeCallLinkHistoryGroup } from '../test-helpers/getFakeCallHistoryGroup';
+} from '../test-helpers/fakeCallLink.js';
+import { getFakeCallLinkHistoryGroup } from '../test-helpers/getFakeCallHistoryGroup.js';
 
 const { i18n } = window.SignalContext;
 

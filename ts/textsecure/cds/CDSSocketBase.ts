@@ -1,26 +1,26 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EventEmitter } from 'events';
-import { Readable } from 'stream';
+import { EventEmitter } from 'node:events';
+import { Readable } from 'node:stream';
 import { noop } from 'lodash';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
-import type { LoggerType } from '../../types/Logging';
-import { strictAssert } from '../../util/assert';
-import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
-import { isAciString } from '../../util/isAciString';
-import * as Bytes from '../../Bytes';
-import { UUID_BYTE_SIZE } from '../../types/Crypto';
-import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';
-import { SignalService as Proto } from '../../protobuf';
+import type { LoggerType } from '../../types/Logging.js';
+import { strictAssert } from '../../util/assert.js';
+import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId.js';
+import { isAciString } from '../../util/isAciString.js';
+import * as Bytes from '../../Bytes.js';
+import { UUID_BYTE_SIZE } from '../../types/Crypto.js';
+import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 import type {
   CDSRequestOptionsType,
   CDSResponseEntryType,
   CDSResponseType,
-} from './Types.d';
-import { RateLimitedError } from './RateLimitedError';
+} from './Types.d.ts';
+import { RateLimitedError } from './RateLimitedError.js';
 
 export type CDSSocketBaseOptionsType = Readonly<{
   logger: LoggerType;

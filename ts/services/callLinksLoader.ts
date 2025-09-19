@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client';
-import type { CallLinkType } from '../types/CallLink';
-import { strictAssert } from '../util/assert';
+import { DataReader } from '../sql/Client.js';
+import type { CallLinkType } from '../types/CallLink.js';
+import { strictAssert } from '../util/assert.js';
 
 let callLinksData: ReadonlyArray<CallLinkType>;
 

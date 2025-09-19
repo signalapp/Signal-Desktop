@@ -1,11 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createHmac } from 'crypto';
-import { Transform } from 'stream';
-import type { Duplex } from 'stream';
+import { createHmac } from 'node:crypto';
+import { Transform } from 'node:stream';
+import type { Duplex } from 'node:stream';
 
-import { HashType } from '../types/Crypto';
+import { HashType } from '../types/Crypto.js';
 
 export const MAC_KEY_SIZE = 32;
 

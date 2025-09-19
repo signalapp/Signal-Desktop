@@ -3,10 +3,10 @@
 
 import { Cds2Client } from '@signalapp/libsignal-client';
 
-import { strictAssert } from '../../util/assert';
-import { SignalService as Proto } from '../../protobuf';
-import { CDSSocketBase, CDSSocketState } from './CDSSocketBase';
-import type { CDSSocketBaseOptionsType } from './CDSSocketBase';
+import { strictAssert } from '../../util/assert.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import { CDSSocketBase, CDSSocketState } from './CDSSocketBase.js';
+import type { CDSSocketBaseOptionsType } from './CDSSocketBase.js';
 
 export type CDSISocketOptionsType = Readonly<{
   mrenclave: Uint8Array;

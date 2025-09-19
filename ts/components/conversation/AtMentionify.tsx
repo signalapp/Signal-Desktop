@@ -6,8 +6,8 @@ import { sortBy } from 'lodash';
 import type {
   HydratedBodyRangeMention,
   BodyRange,
-} from '../../types/BodyRange';
-import { AtMention } from './AtMention';
+} from '../../types/BodyRange.js';
+import { AtMention } from './AtMention.js';
 
 export type Props = {
   mentions?: ReadonlyArray<HydratedBodyRangeMention>;

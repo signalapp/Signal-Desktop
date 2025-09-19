@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { RenderTextCallbackType } from '../types/Util';
-import { AddNewLines } from './conversation/AddNewLines';
-import { Emojify } from './conversation/Emojify';
-import { Linkify } from './conversation/Linkify';
+import type { RenderTextCallbackType } from '../types/Util.js';
+import { AddNewLines } from './conversation/AddNewLines.js';
+import { Emojify } from './conversation/Emojify.js';
+import { Linkify } from './conversation/Linkify.js';
 
 type PropsType = {
   text: string;

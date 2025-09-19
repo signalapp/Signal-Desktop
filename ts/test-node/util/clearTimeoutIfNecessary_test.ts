@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.js';
 
 describe('clearTimeoutIfNecessary', () => {
   let sandbox: sinon.SinonSandbox;

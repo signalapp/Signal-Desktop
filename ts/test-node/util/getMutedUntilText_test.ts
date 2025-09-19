@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setupI18n } from '../../util/setupI18n';
+import { setupI18n } from '../../util/setupI18n.js';
 import enMessages from '../../../_locales/en/messages.json';
 
-import { getMutedUntilText } from '../../util/getMutedUntilText';
+import { getMutedUntilText } from '../../util/getMutedUntilText.js';
 
 describe('getMutedUntilText', () => {
   const i18n = setupI18n('en', enMessages);

@@ -1,22 +1,22 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
-import { explodePromise } from '../util/explodePromise';
+import { explodePromise } from '../util/explodePromise.js';
 
-import { saveNewMessageBatcher } from '../util/messageBatcher';
-import { handleAttachmentDownloadsForNewMessage } from '../util/queueAttachmentDownloads';
+import { saveNewMessageBatcher } from '../util/messageBatcher.js';
+import { handleAttachmentDownloadsForNewMessage } from '../util/queueAttachmentDownloads.js';
 import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage';
-import { isStory } from './helpers';
-import { drop } from '../util/drop';
+} from '../util/modifyTargetMessage.js';
+import { isStory } from './helpers.js';
+import { drop } from '../util/drop.js';
 
-import type { ConversationModel } from '../models/conversations';
-import type { MessageModel } from '../models/messages';
-import { maybeNotify } from './maybeNotify';
+import type { ConversationModel } from '../models/conversations.js';
+import type { MessageModel } from '../models/messages.js';
+import { maybeNotify } from './maybeNotify.js';
 
 const log = createLogger('saveAndNotify');
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as Bytes from '../../Bytes';
+import * as Bytes from '../../Bytes.js';
 
 describe('Bytes', () => {
   it('converts to base64 and back', () => {

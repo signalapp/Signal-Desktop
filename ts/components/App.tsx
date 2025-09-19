@@ -4,14 +4,14 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import type { VerificationTransport } from '../types/VerificationTransport';
-import { ThemeType } from '../types/Util';
-import { missingCaseError } from '../util/missingCaseError';
-import { type AppStateType, AppViewType } from '../state/ducks/app';
-import { SmartInstallScreen } from '../state/smart/InstallScreen';
-import { StandaloneRegistration } from './StandaloneRegistration';
-import { usePageVisibility } from '../hooks/usePageVisibility';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories.js';
+import type { VerificationTransport } from '../types/VerificationTransport.js';
+import { ThemeType } from '../types/Util.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { type AppStateType, AppViewType } from '../state/ducks/app.js';
+import { SmartInstallScreen } from '../state/smart/InstallScreen.js';
+import { StandaloneRegistration } from './StandaloneRegistration.js';
+import { usePageVisibility } from '../hooks/usePageVisibility.js';
 
 type PropsType = {
   state: AppStateType;

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
 
-import { dropNull, shallowDropNull } from '../../util/dropNull';
+import { dropNull, shallowDropNull } from '../../util/dropNull.js';
 
 type Test = {
   a: number | null;

@@ -5,9 +5,9 @@ import type Quill from '@signalapp/quill-cjs';
 import { Delta } from '@signalapp/quill-cjs';
 import { deleteRange } from '@signalapp/quill-cjs/modules/keyboard';
 
-import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu';
-import { insertEmojiOps } from '../util';
-import { createEventHandler } from './util';
+import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu.js';
+import { insertEmojiOps } from '../util.js';
+import { createEventHandler } from './util.js';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;

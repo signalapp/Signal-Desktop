@@ -1,11 +1,11 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ContactAvatarType } from './Avatar';
-import type { LocalAttachmentV2Type } from './Attachment';
-import { computeHash } from '../Crypto';
-import { createLogger } from '../logging/log';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ContactAvatarType } from './Avatar.js';
+import type { LocalAttachmentV2Type } from './Attachment.js';
+import { computeHash } from '../Crypto.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('Conversation');
 

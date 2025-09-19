@@ -6,36 +6,36 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Avatar, AvatarSize } from '../Avatar';
-import { ContactName } from './ContactName';
-import { ContextMenu } from '../ContextMenu';
-import { Time } from '../Time';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { ContactName } from './ContactName.js';
+import { ContextMenu } from '../ContextMenu.js';
+import { Time } from '../Time.js';
 import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
-} from './Message';
-import { Message } from './Message';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { groupBy } from '../../util/mapUtil';
-import type { ContactNameColorType } from '../../types/Colors';
+} from './Message.js';
+import { Message } from './Message.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import { groupBy } from '../../util/mapUtil.js';
+import type { ContactNameColorType } from '../../types/Colors.js';
 import {
   SendStatus,
   type VisibleSendStatus,
-} from '../../messages/MessageSendState';
-import { WidthBreakpoint } from '../_util';
-import { createLogger } from '../../logging/log';
-import { formatDateTimeLong } from '../../util/timestamp';
-import { DurationInSeconds } from '../../util/durations';
-import { format as formatRelativeTime } from '../../util/expirationTimer';
-import { missingCaseError } from '../../util/missingCaseError';
-import { PanelRow } from './conversation-details/PanelRow';
-import { PanelSection } from './conversation-details/PanelSection';
+} from '../../messages/MessageSendState.js';
+import { WidthBreakpoint } from '../_util.js';
+import { createLogger } from '../../logging/log.js';
+import { formatDateTimeLong } from '../../util/timestamp.js';
+import { DurationInSeconds } from '../../util/durations/index.js';
+import { format as formatRelativeTime } from '../../util/expirationTimer.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { PanelRow } from './conversation-details/PanelRow.js';
+import { PanelSection } from './conversation-details/PanelSection.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './conversation-details/ConversationDetailsIcon';
+} from './conversation-details/ConversationDetailsIcon.js';
 
 const log = createLogger('MessageDetail');
 

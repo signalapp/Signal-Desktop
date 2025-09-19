@@ -10,23 +10,23 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
-import { convertShortName } from '../../components/emoji/lib';
-import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { createLogger } from '../../logging/log';
-import { FunStaticEmoji } from '../../components/fun/FunEmoji';
+import { convertShortName } from '../../components/emoji/lib.js';
+import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker.js';
+import { getBlotTextPartitions, matchBlotTextPartitions } from '../util.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import { createLogger } from '../../logging/log.js';
+import { FunStaticEmoji } from '../../components/fun/FunEmoji.js';
 import {
   EmojiSkinTone,
   getEmojiParentByKey,
   getEmojiVariantByParentKeyAndSkinTone,
   normalizeShortNameCompletionDisplay,
-} from '../../components/fun/data/emojis';
+} from '../../components/fun/data/emojis.js';
 import type {
   FunEmojiSearchResult,
   FunEmojiSearch,
-} from '../../components/fun/useFunEmojiSearch';
-import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer';
+} from '../../components/fun/useFunEmojiSearch.js';
+import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer.js';
 
 const log = createLogger('completion');
 

@@ -5,64 +5,67 @@
 import { existsSync } from 'node:fs';
 import { PassThrough } from 'node:stream';
 
-import * as durations from '../util/durations';
-import { createLogger } from '../logging/log';
-import { DataWriter } from '../sql/Client';
+import * as durations from '../util/durations/index.js';
+import { createLogger } from '../logging/log.js';
+import { DataWriter } from '../sql/Client.js';
 
-import * as Errors from '../types/errors';
-import { redactGenericText } from '../util/privacy';
+import * as Errors from '../types/errors.js';
+import { redactGenericText } from '../util/privacy.js';
 import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
-} from './JobManager';
-import { strictAssert } from '../util/assert';
-import { type BackupsService, backupsService } from '../services/backups';
+} from './JobManager.js';
+import { strictAssert } from '../util/assert.js';
+import {
+  type BackupsService,
+  backupsService,
+} from '../services/backups/index.js';
 import {
   type EncryptedAttachmentV2,
   getAttachmentCiphertextLength,
   getAesCbcCiphertextLength,
   decryptAttachmentV2ToSink,
-} from '../AttachmentCrypto';
+} from '../AttachmentCrypto.js';
 import {
   getBackupMediaRootKey,
   deriveBackupMediaKeyMaterial,
   deriveBackupThumbnailTransitKeyMaterial,
-} from '../services/backups/crypto';
+} from '../services/backups/crypto.js';
 import {
   type AttachmentBackupJobType,
   type CoreAttachmentBackupJobType,
   type StandardAttachmentBackupJobType,
   type ThumbnailAttachmentBackupJobType,
-} from '../types/AttachmentBackup';
-import { isInCall as isInCallSelector } from '../state/selectors/calling';
-import { encryptAndUploadAttachment } from '../util/uploadAttachment';
+} from '../types/AttachmentBackup.js';
+import { isInCall as isInCallSelector } from '../state/selectors/calling.js';
+import { encryptAndUploadAttachment } from '../util/uploadAttachment.js';
 import {
   getMediaIdFromMediaName,
   getMediaNameForAttachmentThumbnail,
-} from '../services/backups/util/mediaId';
-import { fromBase64, toBase64 } from '../Bytes';
-import type { WebAPIType } from '../textsecure/WebAPI';
+} from '../services/backups/util/mediaId.js';
+import { fromBase64, toBase64 } from '../Bytes.js';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
 import {
   type AttachmentType,
   canAttachmentHaveThumbnail,
   mightStillBeOnTransitTier,
-} from '../types/Attachment';
+} from '../types/Attachment.js';
 import {
   type CreatedThumbnailType,
   makeImageThumbnailForBackup,
   makeVideoScreenshot,
-} from '../types/VisualAttachment';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../types/VisualAttachment.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../util/GoogleChrome';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
-import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromError';
-import { BackupCredentialType } from '../types/backups';
-import { supportsIncrementalMac } from '../types/MIME';
-import type { MIMEType } from '../types/MIME';
+} from '../util/GoogleChrome.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
+import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromError.js';
+import { BackupCredentialType } from '../types/backups.js';
+import { supportsIncrementalMac } from '../types/MIME.js';
+import type { MIMEType } from '../types/MIME.js';
 
 const log = createLogger('AttachmentBackupManager');
 
@@ -400,7 +403,7 @@ async function backupThumbnailAttachment(
   if (isVideoTypeSupported(contentType)) {
     // TODO (DESKTOP-7204): pull screenshot path from attachments table if it already
     // exists
-    const screenshotBlob = await makeVideoScreenshot({
+    const { blob: screenshotBlob } = await makeVideoScreenshot({
       objectUrl: fullsizeUrl,
     });
     const screenshotObjectUrl = URL.createObjectURL(screenshotBlob);

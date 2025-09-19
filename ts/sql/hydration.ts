@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { groupBy } from 'lodash';
-import type { ReadStatus } from '../messages/MessageReadStatus';
-import type { SeenStatus } from '../MessageSeenStatus';
-import type { ServiceIdString } from '../types/ServiceId';
-import { dropNull, shallowDropNull } from '../util/dropNull';
+import type { ReadStatus } from '../messages/MessageReadStatus.js';
+import type { SeenStatus } from '../MessageSeenStatus.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { dropNull, shallowDropNull } from '../util/dropNull.js';
 
 /* eslint-disable camelcase */
 
@@ -15,24 +15,24 @@ import type {
   MESSAGE_COLUMNS,
   ReadableDB,
   MessageAttachmentDBType,
-} from './Interface';
+} from './Interface.js';
 import {
   batchMultiVarQuery,
   convertOptionalIntegerToBoolean,
   jsonToObject,
   sql,
   sqlJoin,
-} from './util';
-import { type AttachmentType } from '../types/Attachment';
+} from './util.js';
+import { type AttachmentType } from '../types/Attachment.js';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   stringToMIMEType,
-} from '../types/MIME';
-import { strictAssert } from '../util/assert';
-import type { MessageAttributesType } from '../model-types';
-import { createLogger } from '../logging/log';
+} from '../types/MIME.js';
+import { strictAssert } from '../util/assert.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { createLogger } from '../logging/log.js';
 
 export const ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX = -1;
 
@@ -339,6 +339,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
   const {
     clientUuid,
     size,
+    duration,
     contentType,
     plaintextHash,
     path,
@@ -371,6 +372,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
   const result: AttachmentType = {
     clientUuid,
     size,
+    duration,
     contentType: stringToMIMEType(contentType),
     plaintextHash,
     path,

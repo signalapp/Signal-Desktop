@@ -4,27 +4,27 @@
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
-import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
-import type { LocalizerType } from '../../types/Util';
-import type { DurationInSeconds } from '../../util/durations';
-import { Alert } from '../Alert';
-import { AvatarEditor } from '../AvatarEditor';
-import { AvatarPreview } from '../AvatarPreview';
-import { Spinner } from '../Spinner';
-import { Button } from '../Button';
-import { Modal } from '../Modal';
-import { GroupTitleInput } from '../GroupTitleInput';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem.js';
+import { DisappearingTimerSelect } from '../DisappearingTimerSelect.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { DurationInSeconds } from '../../util/durations/index.js';
+import { Alert } from '../Alert.js';
+import { AvatarEditor } from '../AvatarEditor.js';
+import { AvatarPreview } from '../AvatarPreview.js';
+import { Spinner } from '../Spinner.js';
+import { Button } from '../Button.js';
+import { Modal } from '../Modal.js';
+import { GroupTitleInput } from '../GroupTitleInput.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../types/Avatar';
-import { AvatarColors } from '../../types/Colors';
+} from '../../types/Avatar.js';
+import { AvatarColors } from '../../types/Colors.js';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array;

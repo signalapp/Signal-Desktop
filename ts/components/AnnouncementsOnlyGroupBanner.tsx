@@ -6,11 +6,11 @@ import { noop } from 'lodash';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations';
-import { I18n } from './I18n';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import { Modal } from './Modal';
-import { ConversationListItem } from './conversationList/ConversationListItem';
+} from '../state/ducks/conversations.js';
+import { I18n } from './I18n.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { ConversationListItem } from './conversationList/ConversationListItem.js';
 
 type PropsType = {
   groupAdmins: Array<ConversationType>;

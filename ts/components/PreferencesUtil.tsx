@@ -8,7 +8,7 @@ import { noop } from 'lodash';
 import {
   CircleCheckbox,
   Variant as CircleCheckboxVariant,
-} from './CircleCheckbox';
+} from './CircleCheckbox.js';
 
 export function SettingsRow({
   children,

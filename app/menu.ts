@@ -3,12 +3,12 @@
 
 import { isString } from 'lodash';
 
-import type { LocalizerType } from '../ts/types/I18N';
+import type { LocalizerType } from '../ts/types/I18N.js';
 import type {
   MenuListType,
   MenuOptionsType,
   MenuActionsType,
-} from '../ts/types/menu';
+} from '../ts/types/menu.js';
 
 export type CreateTemplateOptionsType = MenuOptionsType & MenuActionsType;
 

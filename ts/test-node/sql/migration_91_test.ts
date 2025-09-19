@@ -5,11 +5,16 @@ import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 import { range } from 'lodash';
 
-import { createDB, getTableData, insertData, updateToVersion } from './helpers';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { normalizePni } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import type { WritableDB, PreKeyType } from '../../sql/Interface';
+import {
+  createDB,
+  getTableData,
+  insertData,
+  updateToVersion,
+} from './helpers.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { normalizePni } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import type { WritableDB, PreKeyType } from '../../sql/Interface.js';
 
 type TestingPreKey = Omit<
   PreKeyType,

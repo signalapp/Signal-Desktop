@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ImageGrid';
-import { ImageGrid } from './ImageGrid';
+import type { Props } from './ImageGrid.js';
+import { ImageGrid } from './ImageGrid.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -13,23 +13,18 @@ import {
   IMAGE_WEBP,
   VIDEO_MP4,
   stringToMIMEType,
-} from '../../types/MIME';
-import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment';
-import { strictAssert } from '../../util/assert';
-import { isDownloadable } from '../../types/Attachment';
-import { toBase64 } from '../../Bytes';
-import { DIGEST_LENGTH, KEY_SET_LENGTH } from '../../types/Crypto';
+} from '../../types/MIME.js';
+import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
+import { strictAssert } from '../../util/assert.js';
+import { isDownloadable } from '../../types/Attachment.js';
 
 const { i18n } = window.SignalContext;
 
-const getRandomBytes = (length: number): Uint8Array => {
-  const arr = new Uint8Array(length);
-  return window.crypto.getRandomValues(arr);
-};
-
-const MOCK_KEY = toBase64(getRandomBytes(KEY_SET_LENGTH));
-const MOCK_DIGEST = toBase64(getRandomBytes(DIGEST_LENGTH));
+const MOCK_KEY =
+  '+R9hNIYmxBakQ3jMe/sdIXkDKQewidDcgLp2Q74Y1gyxU/hPA2Kyz8oHtc40Gtd3' +
+  'Bp8hPOIS4/V5W/XkIl/bIg==';
+const MOCK_DIGEST = 'HvbPFfuq1WNQEbSBVI310b2WKJGtI5/Ih1kdOBJC7vU=';
 
 export default {
   title: 'Components/Conversation/ImageGrid',

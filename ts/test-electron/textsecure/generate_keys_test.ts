@@ -3,13 +3,16 @@
 
 import { assert } from 'chai';
 
-import { constantTimeEqual } from '../../Crypto';
-import { generateKeyPair } from '../../Curve';
-import type { UploadKeysType, UploadPreKeyType } from '../../textsecure/WebAPI';
-import AccountManager from '../../textsecure/AccountManager';
-import { ServiceIdKind } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import { DataWriter } from '../../sql/Client';
+import { constantTimeEqual } from '../../Crypto.js';
+import { generateKeyPair } from '../../Curve.js';
+import type {
+  UploadKeysType,
+  UploadPreKeyType,
+} from '../../textsecure/WebAPI.js';
+import AccountManager from '../../textsecure/AccountManager.js';
+import { ServiceIdKind } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import { DataWriter } from '../../sql/Client.js';
 
 const { textsecure } = window;
 

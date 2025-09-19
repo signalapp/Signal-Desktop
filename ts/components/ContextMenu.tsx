@@ -9,11 +9,11 @@ import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import { noop } from 'lodash';
 
-import type { Theme } from '../util/theme';
-import type { LocalizerType } from '../types/Util';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { themeClassName } from '../util/theme';
-import { handleOutsideClick } from '../util/handleOutsideClick';
+import type { Theme } from '../util/theme.js';
+import type { LocalizerType } from '../types/Util.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { themeClassName } from '../util/theme.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.js';
 
 export type ContextMenuOptionType<T> = Readonly<{
   description?: string;

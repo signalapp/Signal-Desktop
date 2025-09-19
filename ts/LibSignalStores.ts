@@ -26,12 +26,12 @@ import {
   SessionStore,
   SignedPreKeyStore,
 } from '@signalapp/libsignal-client';
-import { Address } from './types/Address';
-import { QualifiedAddress } from './types/QualifiedAddress';
-import type { ServiceIdString } from './types/ServiceId';
-import { normalizeServiceId } from './types/ServiceId';
+import { Address } from './types/Address.js';
+import { QualifiedAddress } from './types/QualifiedAddress.js';
+import type { ServiceIdString } from './types/ServiceId.js';
+import { normalizeServiceId } from './types/ServiceId.js';
 
-import type { Zone } from './util/Zone';
+import type { Zone } from './util/Zone.js';
 
 function encodeAddress(address: ProtocolAddress): Address {
   const name = address.name();

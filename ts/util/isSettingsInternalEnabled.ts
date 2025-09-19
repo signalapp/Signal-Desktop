@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as RemoteConfig from '../RemoteConfig';
-import { isNightly } from './version';
+import * as RemoteConfig from '../RemoteConfig.js';
+import { isNightly } from './version.js';
 
 export function isSettingsInternalEnabled(): boolean {
   if (RemoteConfig.isEnabled('desktop.internalUser')) {

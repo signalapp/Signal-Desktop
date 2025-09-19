@@ -4,10 +4,10 @@
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
 /* eslint-disable more/no-then */
 
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import * as fse from 'fs-extra';
-import * as os from 'os';
-import * as path from 'path';
+import * as os from 'node:os';
+import * as path from 'node:path';
 import { assert } from 'chai';
 
 import {
@@ -16,7 +16,7 @@ import {
   isLineAfterDate,
   fetchLog,
   fetchLogs,
-} from '../logging/main_process_logging';
+} from '../logging/main_process_logging.js';
 
 describe('logging', () => {
   const fakeLogEntry = ({

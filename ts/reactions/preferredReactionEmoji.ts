@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { times } from 'lodash';
-import { createLogger } from '../logging/log';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from './constants';
-import { convertShortName } from '../components/emoji/lib';
-import { isValidReactionEmoji } from './isValidReactionEmoji';
-import type { EmojiSkinTone } from '../components/fun/data/emojis';
+import { createLogger } from '../logging/log.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from './constants.js';
+import { convertShortName } from '../components/emoji/lib.js';
+import { isValidReactionEmoji } from './isValidReactionEmoji.js';
+import type { EmojiSkinTone } from '../components/fun/data/emojis.js';
 
 const log = createLogger('preferredReactionEmoji');
 

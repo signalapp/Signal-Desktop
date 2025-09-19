@@ -7,24 +7,28 @@ import {
   getUserACI,
   getUserConversationId,
   getUserNumber,
-} from './user';
-import { getMessagePropStatus, getSource, getSourceServiceId } from './message';
+} from './user.js';
+import {
+  getMessagePropStatus,
+  getSource,
+  getSourceServiceId,
+} from './message.js';
 import {
   getConversationByIdSelector,
   getConversations,
   getConversationSelector,
   getSelectedConversationId,
-} from './conversations';
-import type { StateType } from '../reducer';
-import { createLogger } from '../../logging/log';
-import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
-import type { MessageWithUIFieldsType } from '../ducks/conversations';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d';
-import { getMessageIdForLogging } from '../../util/idForLogging';
-import * as Attachment from '../../types/Attachment';
-import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
-import { isPlayed } from '../../types/Attachment';
-import type { ServiceIdString } from '../../types/ServiceId';
+} from './conversations.js';
+import type { StateType } from '../reducer.js';
+import { createLogger } from '../../logging/log.js';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.js';
+import type { MessageWithUIFieldsType } from '../ducks/conversations.js';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import { getMessageIdForLogging } from '../../util/idForLogging.js';
+import * as Attachment from '../../types/Attachment.js';
+import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.js';
+import { isPlayed } from '../../types/Attachment.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
 
 const log = createLogger('audioPlayer');
 

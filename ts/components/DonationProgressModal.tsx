@@ -3,10 +3,10 @@
 
 import React, { useEffect } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import { SpinnerV2 } from './SpinnerV2';
-import { SECOND } from '../util/durations';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { SpinnerV2 } from './SpinnerV2.js';
+import { SECOND } from '../util/durations/index.js';
 
 export type PropsType = {
   i18n: LocalizerType;

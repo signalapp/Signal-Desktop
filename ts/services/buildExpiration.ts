@@ -6,9 +6,9 @@ import EventEmitter from 'node:events';
 import {
   hasBuildExpired,
   getBuildExpirationTimestamp,
-} from '../util/buildExpiration';
-import { LongTimeout } from '../util/timeout';
-import { createLogger } from '../logging/log';
+} from '../util/buildExpiration.js';
+import { LongTimeout } from '../util/timeout.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('buildExpiration');
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { makeEnumParser } from '../../util/enum';
+import { makeEnumParser } from '../../util/enum.js';
 
 describe('enum utils', () => {
   describe('makeEnumParser', () => {

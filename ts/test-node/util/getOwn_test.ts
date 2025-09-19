@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getOwn } from '../../util/getOwn';
+import { getOwn } from '../../util/getOwn.js';
 
 describe('getOwn', () => {
   class Person {

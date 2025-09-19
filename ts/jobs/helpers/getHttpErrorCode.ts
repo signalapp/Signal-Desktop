@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isRecord } from '../../util/isRecord';
-import { parseIntWithFallback } from '../../util/parseIntWithFallback';
+import { isRecord } from '../../util/isRecord.js';
+import { parseIntWithFallback } from '../../util/parseIntWithFallback.js';
 
 /**
  * Looks for an HTTP code. First tries the top level error, then looks at its `httpError`

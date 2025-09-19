@@ -7,22 +7,22 @@ import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
 import { noop } from 'lodash';
 
-import { SignalService as Proto } from '../protobuf';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations';
-import { UsernameLinkState } from '../state/ducks/usernameEnums';
-import { ToastType } from '../types/Toast';
-import type { ShowToastAction } from '../state/ducks/toast';
-import type { LocalizerType } from '../types/Util';
-import { IMAGE_PNG } from '../types/MIME';
-import { strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
-import { splitText } from '../util/splitText';
-import { loadImage } from '../util/loadImage';
-import { Button, ButtonVariant } from './Button';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { Spinner } from './Spinner';
-import { BrandedQRCode } from './BrandedQRCode';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { SignalService as Proto } from '../protobuf/index.js';
+import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.js';
+import { UsernameLinkState } from '../state/ducks/usernameEnums.js';
+import { ToastType } from '../types/Toast.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import type { LocalizerType } from '../types/Util.js';
+import { IMAGE_PNG } from '../types/MIME.js';
+import { strictAssert } from '../util/assert.js';
+import { drop } from '../util/drop.js';
+import { splitText } from '../util/splitText.js';
+import { loadImage } from '../util/loadImage.js';
+import { Button, ButtonVariant } from './Button.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { Spinner } from './Spinner.js';
+import { BrandedQRCode } from './BrandedQRCode.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

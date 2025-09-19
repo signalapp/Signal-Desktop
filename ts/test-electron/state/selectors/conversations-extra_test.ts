@@ -3,23 +3,23 @@
 
 import { assert } from 'chai';
 
-import type { StateType } from '../../../state/reducer';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { StoryDistributionListDataType } from '../../../state/ducks/storyDistributionLists';
-import type { StoryDistributionIdString } from '../../../types/StoryDistributionId';
-import type { ServiceIdString } from '../../../types/ServiceId';
-import type { ContactsByStory } from '../../../components/SafetyNumberChangeDialog';
+import type { StateType } from '../../../state/reducer.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { StoryDistributionListDataType } from '../../../state/ducks/storyDistributionLists.js';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../../../types/ServiceId.js';
+import type { ContactsByStory } from '../../../components/SafetyNumberChangeDialog.js';
 
-import * as Bytes from '../../../Bytes';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { getEmptyState } from '../../../state/ducks/conversations';
-import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra';
-import { generateAci } from '../../../types/ServiceId';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
-import { noopAction } from '../../../state/ducks/noop';
-import { ID_LENGTH } from '../../../groups';
-import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums';
+import * as Bytes from '../../../Bytes.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { getEmptyState } from '../../../state/ducks/conversations.js';
+import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra.js';
+import { generateAci } from '../../../types/ServiceId.js';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { ID_LENGTH } from '../../../groups.js';
+import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums.js';
 
 describe('both/state/selectors/conversations-extra', () => {
   const SERVICE_ID_1 = generateAci();

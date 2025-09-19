@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
-import { getRandomColor } from '../../test-helpers/getRandomColor';
+import { getRandomColor } from '../../test-helpers/getRandomColor.js';
 
-import { getAvatarData } from '../../util/getAvatarData';
+import { getAvatarData } from '../../util/getAvatarData.js';
 
 describe('getAvatarData', () => {
   it('returns existing avatars if present', () => {

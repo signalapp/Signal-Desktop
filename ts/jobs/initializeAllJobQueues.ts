@@ -1,20 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { WebAPIType } from '../textsecure/WebAPI';
-import { drop } from '../util/drop';
-import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager';
-import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService';
-import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue';
-import { conversationJobQueue } from './conversationJobQueue';
-import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
-import { groupAvatarJobQueue } from './groupAvatarJobQueue';
-import { readSyncJobQueue } from './readSyncJobQueue';
-import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
-import { reportSpamJobQueue } from './reportSpamJobQueue';
-import { singleProtoJobQueue } from './singleProtoJobQueue';
-import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue';
-import { viewSyncJobQueue } from './viewSyncJobQueue';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { drop } from '../util/drop.js';
+import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager.js';
+import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.js';
+import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue.js';
+import { conversationJobQueue } from './conversationJobQueue.js';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.js';
+import { groupAvatarJobQueue } from './groupAvatarJobQueue.js';
+import { readSyncJobQueue } from './readSyncJobQueue.js';
+import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue.js';
+import { reportSpamJobQueue } from './reportSpamJobQueue.js';
+import { singleProtoJobQueue } from './singleProtoJobQueue.js';
+import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue.js';
+import { viewSyncJobQueue } from './viewSyncJobQueue.js';
 
 /**
  * Start all of the job queues. Should be called when the database is ready.

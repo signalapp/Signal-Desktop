@@ -15,36 +15,39 @@ import Emitter from '@signalapp/quill-cjs/core/emitter';
 import type { Context } from '@signalapp/quill-cjs/modules/keyboard';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
 
-import { MentionCompletion } from '../quill/mentions/completion';
-import { FormattingMenu, QuillFormattingStyle } from '../quill/formatting/menu';
-import { MonospaceBlot } from '../quill/formatting/monospaceBlot';
-import { SpoilerBlot } from '../quill/formatting/spoilerBlot';
-import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
-import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import { convertShortName } from './emoji/lib';
+import { MentionCompletion } from '../quill/mentions/completion.js';
+import {
+  FormattingMenu,
+  QuillFormattingStyle,
+} from '../quill/formatting/menu.js';
+import { MonospaceBlot } from '../quill/formatting/monospaceBlot.js';
+import { SpoilerBlot } from '../quill/formatting/spoilerBlot.js';
+import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.js';
+import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
+import { convertShortName } from './emoji/lib.js';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
   RangeNode,
-} from '../types/BodyRange';
+} from '../types/BodyRange.js';
 import {
   BodyRange,
   areBodyRangesEqual,
   collapseRangeTree,
   insertRange,
-} from '../types/BodyRange';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { isAciString } from '../util/isAciString';
-import { MentionBlot } from '../quill/mentions/blot';
+} from '../types/BodyRange.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import { isAciString } from '../util/isAciString.js';
+import { MentionBlot } from '../quill/mentions/blot.js';
 import {
   matchEmojiImage,
   matchEmojiBlot,
   matchEmojiText,
-} from '../quill/emoji/matchers';
-import { matchMention } from '../quill/mentions/matchers';
-import { MemberRepository } from '../quill/memberRepository';
+} from '../quill/emoji/matchers.js';
+import { matchMention } from '../quill/mentions/matchers.js';
+import { MemberRepository } from '../quill/memberRepository.js';
 import {
   getDeltaToRemoveStaleMentions,
   getTextAndRangesFromOps,
@@ -54,34 +57,34 @@ import {
   getDeltaToRestartEmoji,
   insertEmojiOps,
   insertFormattingAndMentionsOps,
-} from '../quill/util';
-import { SignalClipboard } from '../quill/signal-clipboard';
-import { DirectionalBlot } from '../quill/block/blot';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { isNotNil } from '../util/isNotNil';
-import { createLogger } from '../logging/log';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import type { DraftEditMessageType } from '../model-types.d';
-import { usePrevious } from '../hooks/usePrevious';
+} from '../quill/util.js';
+import { SignalClipboard } from '../quill/signal-clipboard/index.js';
+import { DirectionalBlot } from '../quill/block/blot.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { createLogger } from '../logging/log.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview.js';
+import type { DraftEditMessageType } from '../model-types.d.ts';
+import { usePrevious } from '../hooks/usePrevious.js';
 import {
   matchBold,
   matchItalic,
   matchMonospace,
   matchSpoiler,
   matchStrikethrough,
-} from '../quill/formatting/matchers';
-import { missingCaseError } from '../util/missingCaseError';
-import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis';
-import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis';
-import { dropNull } from '../util/dropNull';
-import { SimpleQuillWrapper } from './SimpleQuillWrapper';
-import type { EmojiSkinTone } from './fun/data/emojis';
-import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
-import { useFunEmojiSearch } from './fun/useFunEmojiSearch';
-import type { EmojiCompletionOptions } from '../quill/emoji/completion';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
-import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment';
+} from '../quill/formatting/matchers.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis/index.js';
+import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.js';
+import { dropNull } from '../util/dropNull.js';
+import { SimpleQuillWrapper } from './SimpleQuillWrapper.js';
+import type { EmojiSkinTone } from './fun/data/emojis.js';
+import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.js';
+import { useFunEmojiSearch } from './fun/useFunEmojiSearch.js';
+import type { EmojiCompletionOptions } from '../quill/emoji/completion.js';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.js';
+import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.js';
 
 const log = createLogger('CompositionInput');
 

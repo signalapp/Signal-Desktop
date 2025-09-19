@@ -1,21 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from '../util/durations';
-import type { LoggerType } from '../types/Logging';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
-import type { SyncType } from './helpers/syncHelpers';
+import * as durations from '../util/durations/index.js';
+import type { LoggerType } from '../types/Logging.js';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.js';
+import type { SyncType } from './helpers/syncHelpers.js';
 import {
   SyncTypeList,
   parseRawSyncDataArray,
   runSyncJob,
-} from './helpers/syncHelpers';
-import { strictAssert } from '../util/assert';
-import { isRecord } from '../util/isRecord';
+} from './helpers/syncHelpers.js';
+import { strictAssert } from '../util/assert.js';
+import { isRecord } from '../util/isRecord.js';
 
-import type { JOB_STATUS } from './JobQueue';
-import { JobQueue } from './JobQueue';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
+import type { JOB_STATUS } from './JobQueue.js';
+import { JobQueue } from './JobQueue.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
 
 const MAX_RETRY_TIME = durations.DAY;
 

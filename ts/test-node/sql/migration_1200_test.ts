@@ -3,11 +3,14 @@
 
 import { assert } from 'chai';
 
-import { AttachmentDownloadSource, type WritableDB } from '../../sql/Interface';
-import { objectToJSON, sql } from '../../sql/util';
-import { createDB, updateToVersion, explain } from './helpers';
-import { IMAGE_JPEG } from '../../types/MIME';
-import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media';
+import {
+  AttachmentDownloadSource,
+  type WritableDB,
+} from '../../sql/Interface.js';
+import { objectToJSON, sql } from '../../sql/util.js';
+import { createDB, updateToVersion, explain } from './helpers.js';
+import { IMAGE_JPEG } from '../../types/MIME.js';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.js';
 
 type UnflattenedAttachmentDownloadJobType = Omit<
   _AttachmentDownloadJobTypeV1040,

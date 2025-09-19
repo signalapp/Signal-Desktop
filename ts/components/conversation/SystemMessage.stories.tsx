@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './SystemMessage';
-import { SystemMessage, SystemMessageKind } from './SystemMessage';
+import type { PropsType } from './SystemMessage.js';
+import { SystemMessage, SystemMessageKind } from './SystemMessage.js';
 
 export default {
   title: 'Components/Conversation/SystemMessage',

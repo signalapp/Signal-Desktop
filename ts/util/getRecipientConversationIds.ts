@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { getRecipients } from './getRecipients';
-import { strictAssert } from './assert';
+import { getRecipients } from './getRecipients.js';
+import { strictAssert } from './assert.js';
 
 // Recipients includes only the people we'll actually send to for this conversation
 export function getRecipientConversationIds(

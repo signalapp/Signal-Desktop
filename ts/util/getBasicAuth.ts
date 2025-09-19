@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fromString, toBase64 } from '../Bytes';
+import { fromString, toBase64 } from '../Bytes.js';
 
 export type GetBasicAuthOptionsType = Readonly<{
   username: string;

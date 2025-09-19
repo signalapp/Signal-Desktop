@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { noop } from 'lodash';
 
-import { AbortableProcess } from '../../util/AbortableProcess';
+import { AbortableProcess } from '../../util/AbortableProcess.js';
 
 describe('AbortableProcess', () => {
   it('resolves the result normally', async () => {

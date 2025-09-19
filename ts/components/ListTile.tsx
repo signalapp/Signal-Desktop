@@ -4,8 +4,8 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { CircleCheckbox } from './CircleCheckbox';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { CircleCheckbox } from './CircleCheckbox.js';
 
 export type Props = {
   title: string | JSX.Element;

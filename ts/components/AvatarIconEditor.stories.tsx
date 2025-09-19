@@ -5,11 +5,11 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarIconEditor';
-import { AvatarIconEditor } from './AvatarIconEditor';
-import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
-import { AvatarColors } from '../types/Colors';
-import { createAvatarData } from '../util/createAvatarData';
+import type { PropsType } from './AvatarIconEditor.js';
+import { AvatarIconEditor } from './AvatarIconEditor.js';
+import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar.js';
+import { AvatarColors } from '../types/Colors.js';
+import { createAvatarData } from '../util/createAvatarData.js';
 
 const { i18n } = window.SignalContext;
 

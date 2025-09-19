@@ -5,11 +5,11 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import type { MenuItem } from 'electron';
 import { BrowserWindow, Tray, nativeImage } from 'electron';
-import { MINUTE } from '../../util/durations';
+import { MINUTE } from '../../util/durations/index.js';
 
-import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService';
-import { SystemTrayService } from '../../../app/SystemTrayService';
-import { setupI18n } from '../../util/setupI18n';
+import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService.js';
+import { SystemTrayService } from '../../../app/SystemTrayService.js';
+import { setupI18n } from '../../util/setupI18n.js';
 
 import enMessages from '../../../_locales/en/messages.json';
 

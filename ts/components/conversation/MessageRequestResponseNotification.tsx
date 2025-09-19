@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useState } from 'react';
-import type { LocalizerType } from '../../types/I18N';
-import { SystemMessage } from './SystemMessage';
-import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { MessageRequestState } from './MessageRequestActionsConfirmation';
-import { SafetyTipsModal } from '../SafetyTipsModal';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
+import type { LocalizerType } from '../../types/I18N.js';
+import { SystemMessage } from './SystemMessage.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.js';
+import { MessageRequestState } from './MessageRequestActionsConfirmation.js';
+import { SafetyTipsModal } from '../SafetyTipsModal.js';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.js';
 
 export type MessageRequestResponseNotificationData = {
   messageRequestResponseEvent: MessageRequestResponseEvent;

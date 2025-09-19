@@ -7,17 +7,17 @@ import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetails';
-import { ConversationDetails } from './ConversationDetails';
-import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
-import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId';
-import { ThemeType } from '../../../types/Util';
-import { DurationInSeconds } from '../../../util/durations';
-import { NavTab } from '../../../types/Nav';
-import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup';
+import type { Props } from './ConversationDetails.js';
+import { ConversationDetails } from './ConversationDetails.js';
+import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.js';
+import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.js';
+import { ThemeType } from '../../../types/Util.js';
+import { DurationInSeconds } from '../../../util/durations/index.js';
+import { NavTab } from '../../../types/Nav.js';
+import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.js';
 
 const { i18n } = window.SignalContext;
 

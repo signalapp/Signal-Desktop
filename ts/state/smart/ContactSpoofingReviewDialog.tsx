@@ -4,26 +4,26 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { mapValues } from 'lodash';
-import type { StateType } from '../reducer';
-import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog';
-import { useConversationsActions } from '../ducks/conversations';
+import type { StateType } from '../reducer.js';
+import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog.js';
+import { useConversationsActions } from '../ducks/conversations.js';
 import {
   getConversationSelector,
   getConversationByServiceIdSelector,
   getSafeConversationWithSameTitle,
-} from '../selectors/conversations';
-import { getOwn } from '../../util/getOwn';
-import { assertDev } from '../../util/assert';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
-import { getGroupMemberships } from '../../util/getGroupMemberships';
-import { isSignalConnection } from '../../util/getSignalConnections';
+} from '../selectors/conversations.js';
+import { getOwn } from '../../util/getOwn.js';
+import { assertDev } from '../../util/assert.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+import { isSignalConnection } from '../../util/getSignalConnections.js';
 import {
   getCollisionsFromMemberships,
   invertIdsByTitle,
-} from '../../util/groupMemberNameCollisions';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getIntl, getTheme } from '../selectors/user';
+} from '../../util/groupMemberNameCollisions.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { getIntl, getTheme } from '../selectors/user.js';
 
 export type PropsType = Readonly<{
   conversationId: string;

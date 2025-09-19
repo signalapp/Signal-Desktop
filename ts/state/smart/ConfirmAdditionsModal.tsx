@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { strictAssert } from '../../util/assert';
-import { ConfirmAdditionsModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ConfirmAdditionsModal';
-import type { RequestState } from '../../components/conversation/conversation-details/util';
-import { getIntl } from '../selectors/user';
-import { getConversationByIdSelector } from '../selectors/conversations';
+import { strictAssert } from '../../util/assert.js';
+import { ConfirmAdditionsModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ConfirmAdditionsModal.js';
+import type { RequestState } from '../../components/conversation/conversation-details/util.js';
+import { getIntl } from '../selectors/user.js';
+import { getConversationByIdSelector } from '../selectors/conversations.js';
 
 export type SmartConfirmAdditionsModalPropsType = {
   selectedConversationIds: ReadonlyArray<string>;

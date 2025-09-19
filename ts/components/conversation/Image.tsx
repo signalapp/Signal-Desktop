@@ -5,16 +5,16 @@ import type { CSSProperties } from 'react';
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
-import { ImageOrBlurhash } from '../ImageOrBlurhash';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { AttachmentForUIType } from '../../types/Attachment';
+import { ImageOrBlurhash } from '../ImageOrBlurhash.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { AttachmentForUIType } from '../../types/Attachment.js';
 import {
   defaultBlurHash,
   isIncremental,
   isReadyToView,
-} from '../../types/Attachment';
-import { SpinnerV2 } from '../SpinnerV2';
-import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler';
+} from '../../types/Attachment.js';
+import { SpinnerV2 } from '../SpinnerV2.js';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.js';
 
 export enum CurveType {
   None = 0,

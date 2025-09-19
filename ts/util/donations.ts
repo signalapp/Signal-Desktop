@@ -1,10 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DonationWorkflow, HumanDonationAmount } from '../types/Donations';
-import { donationStateSchema } from '../types/Donations';
-import { brandStripeDonationAmount, toHumanDonationAmount } from './currency';
-import { missingCaseError } from './missingCaseError';
+import type {
+  DonationWorkflow,
+  HumanDonationAmount,
+} from '../types/Donations.js';
+import { donationStateSchema } from '../types/Donations.js';
+import {
+  brandStripeDonationAmount,
+  toHumanDonationAmount,
+} from './currency.js';
+import { missingCaseError } from './missingCaseError.js';
 
 // Donation where we started backend processing, but did not redeem a badge yet.
 // Note we skip workflows in the INTENT state because it requires user confirmation

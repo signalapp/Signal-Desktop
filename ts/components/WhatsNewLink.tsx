@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import { I18n } from './I18n';
+import { I18n } from './I18n.js';
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util.js';
 
 export type PropsType = {
   i18n: LocalizerType;

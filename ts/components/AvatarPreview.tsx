@@ -5,14 +5,14 @@ import type { CSSProperties } from 'react';
 import React, { useEffect, useState } from 'react';
 import { noop } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import type { LocalizerType } from '../types/Util';
-import { Spinner } from './Spinner';
-import type { AvatarColorType } from '../types/Colors';
-import { AvatarColors } from '../types/Colors';
-import { getInitials } from '../util/getInitials';
-import { imagePathToBytes } from '../util/imagePathToBytes';
-import { type ConversationType } from '../state/ducks/conversations';
+import { createLogger } from '../logging/log.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Spinner } from './Spinner.js';
+import type { AvatarColorType } from '../types/Colors.js';
+import { AvatarColors } from '../types/Colors.js';
+import { getInitials } from '../util/getInitials.js';
+import { imagePathToBytes } from '../util/imagePathToBytes.js';
+import { type ConversationType } from '../state/ducks/conversations.js';
 
 const log = createLogger('AvatarPreview');
 

@@ -6,11 +6,11 @@ import { Proto } from '@signalapp/mock-server';
 import createDebug from 'debug';
 import Long from 'long';
 import type { Page } from 'playwright';
-import assert from 'assert';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { acceptConversation } from '../helpers';
+import assert from 'node:assert';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { acceptConversation } from '../helpers.js';
 
 export const debug = createDebug('mock:test:edit');
 

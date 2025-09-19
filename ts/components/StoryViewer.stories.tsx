@@ -4,17 +4,17 @@
 import type { Meta } from '@storybook/react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryViewer';
-import { SendStatus } from '../messages/MessageSendState';
-import { StoryViewModeType } from '../types/Stories';
-import { generateStoryDistributionId } from '../types/StoryDistributionId';
-import { StoryViewer } from './StoryViewer';
-import { VIDEO_MP4 } from '../types/MIME';
-import { fakeAttachment } from '../test-helpers/fakeAttachment';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { getFakeStoryView } from '../test-helpers/getFakeStory';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
-import { EmojiSkinTone } from './fun/data/emojis';
+import type { PropsType } from './StoryViewer.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { StoryViewModeType } from '../types/Stories.js';
+import { generateStoryDistributionId } from '../types/StoryDistributionId.js';
+import { StoryViewer } from './StoryViewer.js';
+import { VIDEO_MP4 } from '../types/MIME.js';
+import { fakeAttachment } from '../test-helpers/fakeAttachment.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { getFakeStoryView } from '../test-helpers/getFakeStory.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 

@@ -2070,7 +2070,7 @@
     "messageformat": "Échec du téléchargement"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Impossible de télécharger une pièce jointe depuis la sauvegarde"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Médias partagés"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Tout afficher"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Utilisateurs bloqués"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Sauvegardes sécurisées Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Sauvegardes automatiques chiffrées de bout en bout grâce au service de stockage sécurisé de Signal. Ouvrez Signal sur votre téléphone pour vous lancer. <learnMoreLink>En savoir plus</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Messages texte + tous les médias"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Abonnement introuvable. Pour continuer d'utiliser les sauvegardes sécurisées Signal, nous vous invitons à renouveler votre abonnement."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Messages texte + {mediaDayCount,number} jour de médias} other {Messages texte + {mediaDayCount,number} jours de médias}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Abonnement résilié"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Vous pouvez gérer ou résilier votre abonnement aux sauvegardes sécurisées Signal depuis votre téléphone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Vous pouvez gérer ou mettre à niveau votre abonnement aux sauvegardes sécurisées Signal depuis votre téléphone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Vous pouvez gérer ou renouveler votre abonnement aux sauvegardes sécurisées Signal depuis votre téléphone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Dernière sauvegarde"
@@ -5349,7 +5346,7 @@
     "messageformat": "Créez une sauvegarde chiffrée de bout en bout, que vous pouvez restaurer sur votre téléphone. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Pour restaurer une sauvegarde, réinstallez Signal. Ouvrez l'appli, touchez &quot;Restaurer la sauvegarde&quot;, puis recherchez votre dossier de sauvegarde. <learnMoreLink>En savoir plus</learnMoreLink>."
+    "messageformat": "Pour restaurer une sauvegarde, réinstallez Signal, puis ouvrez l'appli. Touchez &quot;Restaurer une sauvegarde&quot; et recherchez votre dossier de sauvegarde. <learnMoreLink>En savoir plus</learnMoreLink>."
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Choisir un dossier"
@@ -6823,10 +6820,10 @@
     "messageformat": "Nous avons bien traité votre don, mais nous n'avons pas pu mettre à jour votre macaron."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Nous avons bien traité votre don, mais n'avons pas pu mettre à jour votre macaron"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Pour mettre à jour votre macaron depuis votre appareil mobile, accédez à Paramètres → Faire un don à Signal → Macarons."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Don suspendu"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Cette mise à jour éradique quelques bugs mineurs. L'un d'entre eux affichait parfois les émojis dans un joyeux désordre quand on voulait réagir à un message. On l'a remis à sa place. Et ça, ça mérite bien un émoji flamme."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Lorsque vous faisiez un don à Signal, un bug empêchait parfois les macarons de s'afficher correctement. Pas de chance pour lui : on a un don pour corriger les bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Dans Microsoft Windows, un bug affichait la barre de titre Signal Desktop en orange. L'application a maintenant retrouvé son bleu d'origine. Mais si la version orange vous donnait la pêche et que ce correctif vous donne un coup de blues, n'hésitez pas à modifier la couleur d'accentuation dans vos paramètres Windows."
   }
 }

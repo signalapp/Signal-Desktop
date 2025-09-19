@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ProgressModal';
-import { ProgressModal } from './ProgressModal';
+import type { PropsType } from './ProgressModal.js';
+import { ProgressModal } from './ProgressModal.js';
 
 const { i18n } = window.SignalContext;
 

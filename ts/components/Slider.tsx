@@ -3,8 +3,8 @@
 
 import type { CSSProperties, KeyboardEvent } from 'react';
 import React, { useRef } from 'react';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { arrow } from '../util/keyboard';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { arrow } from '../util/keyboard.js';
 
 export type PropsType = {
   containerStyle?: CSSProperties;

@@ -9,7 +9,7 @@ import type {
   SendAction,
   SendState,
   SendStateByConversationId,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
 import {
   SendActionType,
   SendStatus,
@@ -24,7 +24,7 @@ import {
   sendStateReducer,
   someRecipientSendStatus,
   someSendStatus,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
 
 describe('message send state utilities', () => {
   describe('maxStatus', () => {

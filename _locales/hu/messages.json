@@ -2070,7 +2070,7 @@
     "messageformat": "Letöltés sikertelen"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "A melléklet letöltése a biztonsági mentésből sikertelen"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "A módosításokat csak az üzenet elküldésétől számított 24 órán belül lehet alkalmazni."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Megosztott médiafájlok"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Összes megtekintése"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Letiltva"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal Biztonságos Biztonsági mentések"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatikus biztonsági mentések a Signal biztonságos végpontok közötti titkosított tárolási szolgáltatásával. Kezdj hozzá a telefonodon! <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -5307,7 +5304,7 @@
     "messageformat": "Szöveg és minden médiafájl biztonsági mentése"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Az előfizetés nem található A Signal Biztonságos Biztonsági mentéseinek további használatához újítsd meg az előfizetésedet."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra} other {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Előfizetés törölve"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "A Signal Biztonságos biztonsági mentéseire vonatkozó előfizetésedet kezelheted és lemondhatod a telefonodon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "A Signal Biztonságos biztonsági mentéseire vonatkozó előfizetésedet kezelheted és frissítheted a telefonodon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "A Signal Biztonságos biztonsági mentéseire vonatkozó előfizetésedet kezelheted és megújíthatod a telefonodon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Utolsó biztonsági mentés"
@@ -6823,10 +6820,10 @@
     "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "A jelvénybeállítások frissítéséhez lépj a mobileszközödön a Beállítások → Adományozás a Signalnak → Jelvények menüpontra."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Adományozás megszakadt"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Néhány apróbb hibajavítás."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Kijavítottunk egy hibát, amely miatt az adományozási jelvények egyes felhasználóknál nem jelentek meg helyesen."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Kijavítottunk egy hibát a Microsoft Windowson, amely miatt néha rossz szín jelent meg a címsorban."
   }
 }

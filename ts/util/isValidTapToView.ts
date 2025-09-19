@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types';
-import * as GoogleChrome from './GoogleChrome';
+import type { MessageAttributesType } from '../model-types.js';
+import * as GoogleChrome from './GoogleChrome.js';
 
 export function isValidTapToView(message: MessageAttributesType): boolean {
   const { body } = message;

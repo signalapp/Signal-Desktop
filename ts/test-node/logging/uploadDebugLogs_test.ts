@@ -5,12 +5,12 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import got from 'got';
 import FormData from 'form-data';
-import * as util from 'util';
-import * as zlib from 'zlib';
+import * as util from 'node:util';
+import * as zlib from 'node:zlib';
 
-import * as durations from '../../util/durations';
-import { upload } from '../../logging/uploadDebugLog';
-import { createLogger } from '../../logging/log';
+import * as durations from '../../util/durations/index.js';
+import { upload } from '../../logging/uploadDebugLog.js';
+import { createLogger } from '../../logging/log.js';
 
 const logger = createLogger('uploadDebugLogs_test');
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getGraphemes, count, isSingleGrapheme } from '../../util/grapheme';
+import { getGraphemes, count, isSingleGrapheme } from '../../util/grapheme.js';
 
 describe('grapheme utilities', () => {
   describe('getGraphemes', () => {

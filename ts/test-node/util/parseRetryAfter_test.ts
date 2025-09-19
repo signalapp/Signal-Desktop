@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { MINUTE } from '../../util/durations';
+import { MINUTE } from '../../util/durations/index.js';
 
-import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter';
+import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter.js';
 
 describe('parseRetryAfter', () => {
   it('should return 1 minute when passed non-strings', () => {

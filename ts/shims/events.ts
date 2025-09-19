@@ -1,9 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import { MINUTE } from '../util/durations';
-import { explodePromise } from '../util/explodePromise';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
+import { MINUTE } from '../util/durations/index.js';
+import { explodePromise } from '../util/explodePromise.js';
 
 // Matching Whisper.events.trigger API
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

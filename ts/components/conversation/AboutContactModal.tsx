@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { type ReactNode, useCallback, useEffect, useMemo } from 'react';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { Avatar, AvatarBlur, AvatarSize } from '../Avatar';
-import { Modal } from '../Modal';
-import { UserText } from '../UserText';
-import { SharedGroupNames } from '../SharedGroupNames';
-import { About } from './About';
-import { I18n } from '../I18n';
-import { canHaveNicknameAndNote } from '../../util/nicknames';
-import { Tooltip, TooltipPlacement } from '../Tooltip';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.js';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.js';
+import { Modal } from '../Modal.js';
+import { UserText } from '../UserText.js';
+import { SharedGroupNames } from '../SharedGroupNames.js';
+import { About } from './About.js';
+import { I18n } from '../I18n.js';
+import { canHaveNicknameAndNote } from '../../util/nicknames.js';
+import { Tooltip, TooltipPlacement } from '../Tooltip.js';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (

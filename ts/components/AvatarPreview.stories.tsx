@@ -7,9 +7,9 @@ import { chunk } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarPreview';
-import { AvatarPreview } from './AvatarPreview';
-import { AvatarColors } from '../types/Colors';
+import type { PropsType } from './AvatarPreview.js';
+import { AvatarPreview } from './AvatarPreview.js';
+import { AvatarColors } from '../types/Colors.js';
 
 const { i18n } = window.SignalContext;
 

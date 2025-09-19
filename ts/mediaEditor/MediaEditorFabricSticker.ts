@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { loadImage } from '../util/loadImage';
-import { customFabricObjectControls } from './util/customFabricObjectControls';
+import { loadImage } from '../util/loadImage.js';
+import { customFabricObjectControls } from './util/customFabricObjectControls.js';
 
 export class MediaEditorFabricSticker extends fabric.Image {
   constructor(

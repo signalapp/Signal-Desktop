@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
-import type { LocalizerType } from '../types/Util';
-import { isToday } from './timestamp';
+import type { LocalizerType } from '../types/Util.js';
+import { isToday } from './timestamp.js';
 
 /**
  * Returns something like "Muted until 6:09 PM", localized.

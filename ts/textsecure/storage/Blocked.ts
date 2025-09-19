@@ -3,11 +3,11 @@
 
 import { without } from 'lodash';
 
-import { createLogger } from '../../logging/log';
-import * as Bytes from '../../Bytes';
-import { isAciString } from '../../util/isAciString';
-import type { StorageInterface } from '../../types/Storage.d';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { createLogger } from '../../logging/log.js';
+import * as Bytes from '../../Bytes.js';
+import { isAciString } from '../../util/isAciString.js';
+import type { StorageInterface } from '../../types/Storage.d.ts';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
 
 const log = createLogger('Blocked');
 

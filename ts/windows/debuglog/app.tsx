@@ -3,11 +3,11 @@
 
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { DebugLogWindow } from '../../components/DebugLogWindow';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
-import { i18n } from '../sandboxedInit';
-import { strictAssert } from '../../util/assert';
-import { AxoProvider } from '../../axo/AxoProvider';
+import { DebugLogWindow } from '../../components/DebugLogWindow.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
+import { i18n } from '../sandboxedInit.js';
+import { strictAssert } from '../../util/assert.js';
+import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { DebugLogWindowProps } = window.Signal;
 

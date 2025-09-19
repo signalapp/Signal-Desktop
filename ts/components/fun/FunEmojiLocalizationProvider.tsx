@@ -9,25 +9,25 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import type { LocaleEmojiListType } from '../../types/emoji';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import { drop } from '../../util/drop';
+import type { LocaleEmojiListType } from '../../types/emoji.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import { drop } from '../../util/drop.js';
 import {
   getEmojiDefaultEnglishLocalizerIndex,
   getEmojiDefaultEnglishSearchIndex,
-} from './data/emojis';
+} from './data/emojis.js';
 import {
   createFunEmojiLocalizerIndex,
   type FunEmojiLocalizerIndex,
-} from './useFunEmojiLocalizer';
+} from './useFunEmojiLocalizer.js';
 import {
   createFunEmojiSearchIndex,
   type FunEmojiSearchIndex,
-} from './useFunEmojiSearch';
-import type { LocalizerType } from '../../types/I18N';
-import { strictAssert } from '../../util/assert';
-import { isTestOrMockEnvironment } from '../../environment';
+} from './useFunEmojiSearch.js';
+import type { LocalizerType } from '../../types/I18N.js';
+import { strictAssert } from '../../util/assert.js';
+import { isTestOrMockEnvironment } from '../../environment.js';
 
 const log = createLogger('FunEmojiLocalizationProvider');
 

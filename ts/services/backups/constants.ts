@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Backups } from '../../protobuf';
-import type { ConversationColorType } from '../../types/Colors';
+import { Backups } from '../../protobuf/index.js';
+import type { ConversationColorType } from '../../types/Colors.js';
 
 export const BACKUP_VERSION = 1;
 

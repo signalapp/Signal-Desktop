@@ -3,7 +3,7 @@
 
 import { nativeImage } from 'electron';
 import type { NativeImage } from 'electron';
-import { join } from 'path';
+import { join } from 'node:path';
 
 export function getAppErrorIcon(): NativeImage {
   const iconPath = join(

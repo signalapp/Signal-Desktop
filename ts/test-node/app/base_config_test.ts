@@ -1,16 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as path from 'path';
-import { tmpdir } from 'os';
-import { chmodSync, rmSync, writeFileSync, mkdtempSync } from 'fs';
+import * as path from 'node:path';
+import { tmpdir } from 'node:os';
+import { chmodSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { pathExists, readJsonSync } from 'fs-extra';
 
 import { v4 as generateGuid } from 'uuid';
 import { assert } from 'chai';
 
-import type { ConfigType } from '../../../app/base_config';
-import { start } from '../../../app/base_config';
+import type { ConfigType } from '../../../app/base_config.js';
+import { start } from '../../../app/base_config.js';
 
 describe('base_config', () => {
   let targetDir: string;

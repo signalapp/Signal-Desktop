@@ -6,19 +6,19 @@ import type { MutableRefObject } from 'react';
 import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { Props as EmojiPickerProps } from './EmojiPicker';
-import { EmojiPicker } from './EmojiPicker';
-import type { LocalizerType } from '../../types/Util';
-import { useRefMerger } from '../../hooks/useRefMerger';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import * as KeyboardLayout from '../../services/keyboardLayout';
-import { FunStaticEmoji } from '../fun/FunEmoji';
-import type { EmojiVariantData } from '../fun/data/emojis';
+import type { Props as EmojiPickerProps } from './EmojiPicker.js';
+import { EmojiPicker } from './EmojiPicker.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { useRefMerger } from '../../hooks/useRefMerger.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import * as KeyboardLayout from '../../services/keyboardLayout.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.js';
+import type { EmojiVariantData } from '../fun/data/emojis.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis';
+} from '../fun/data/emojis.js';
 
 export enum EmojiButtonVariant {
   Normal,

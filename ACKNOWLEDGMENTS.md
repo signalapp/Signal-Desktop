@@ -10229,7 +10229,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tungstenite 0.26.2
+## tungstenite 0.27.0
 
 ```
 Copyright (c) 2017 Alexey Galakhov
@@ -10348,7 +10348,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tokio-tungstenite 0.26.2
+## tokio-tungstenite 0.27.0
 
 ```
 Copyright (c) 2017 Daniel Abramov
@@ -12885,7 +12885,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
-## data-encoding 2.8.0
+## data-encoding-macro-internal 0.1.16, data-encoding-macro 0.1.18, data-encoding 2.9.0
 
 ```
 The MIT License (MIT)
@@ -14350,7 +14350,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.57.1, protobuf 2.57.1, ringrtc 2.57.1, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.58.0, protobuf 2.58.0, ringrtc 2.58.0, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE

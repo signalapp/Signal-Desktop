@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { StickerPackType } from '../../state/ducks/stickers';
+import type { StickerPackType } from '../../state/ducks/stickers.js';
 
 // This function exists to force stickers to be counted consistently wherever
 // they are counted (TypeScript ensures that all data is named and provided)

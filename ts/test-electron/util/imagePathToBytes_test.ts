@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //
 import { assert } from 'chai';
-import path from 'path';
+import path from 'node:path';
 
-import { imagePathToBytes } from '../../util/imagePathToBytes';
+import { imagePathToBytes } from '../../util/imagePathToBytes.js';
 
 describe('imagePathToBytes', () => {
   it('converts an image to an Bytes', async () => {

@@ -3,12 +3,12 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { NotePreviewModal } from '../../components/NotePreviewModal';
-import { strictAssert } from '../../util/assert';
-import { getConversationSelector } from '../selectors/conversations';
-import { getNotePreviewModalProps } from '../selectors/globalModals';
-import { getIntl } from '../selectors/user';
-import { useGlobalModalActions } from '../ducks/globalModals';
+import { NotePreviewModal } from '../../components/NotePreviewModal.js';
+import { strictAssert } from '../../util/assert.js';
+import { getConversationSelector } from '../selectors/conversations.js';
+import { getNotePreviewModalProps } from '../selectors/globalModals.js';
+import { getIntl } from '../selectors/user.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export const SmartNotePreviewModal = memo(function SmartNotePreviewModal() {
   const i18n = useSelector(getIntl);

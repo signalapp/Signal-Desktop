@@ -7,17 +7,20 @@ import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 
-import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
-import type { LocalizerType } from '../../types/Util';
-import type { Theme } from '../../util/theme';
-import { StickerPicker } from './StickerPicker';
-import { countStickers } from './lib';
-import { offsetDistanceModifier } from '../../util/popperUtil';
-import { themeClassName } from '../../util/theme';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import * as KeyboardLayout from '../../services/keyboardLayout';
-import { useRefMerger } from '../../hooks/useRefMerger';
-import { UserText } from '../UserText';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { Theme } from '../../util/theme.js';
+import { StickerPicker } from './StickerPicker.js';
+import { countStickers } from './lib.js';
+import { offsetDistanceModifier } from '../../util/popperUtil.js';
+import { themeClassName } from '../../util/theme.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import * as KeyboardLayout from '../../services/keyboardLayout.js';
+import { useRefMerger } from '../../hooks/useRefMerger.js';
+import { UserText } from '../UserText.js';
 
 export type OwnProps = {
   readonly className?: string;

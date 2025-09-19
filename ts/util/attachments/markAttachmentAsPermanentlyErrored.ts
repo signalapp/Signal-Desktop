@@ -3,7 +3,7 @@
 
 import { omit } from 'lodash';
 
-import { type AttachmentType } from '../../types/Attachment';
+import { type AttachmentType } from '../../types/Attachment.js';
 
 export function markAttachmentAsPermanentlyErrored(
   attachment: AttachmentType,

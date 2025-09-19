@@ -4,10 +4,10 @@
 import { take, uniq } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-import { DataWriter } from '../../sql/Client';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker.js';
+import { DataWriter } from '../../sql/Client.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 const { updateEmojiUsage } = DataWriter;
 

@@ -4,15 +4,15 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StickerButton';
-import { StickerButton } from './StickerButton';
+import type { Props } from './StickerButton.js';
+import { StickerButton } from './StickerButton.js';
 import {
   createPack,
   sticker1,
   sticker2,
   tallSticker,
   wideSticker,
-} from './mocks';
+} from './mocks.js';
 
 const { i18n } = window.SignalContext;
 

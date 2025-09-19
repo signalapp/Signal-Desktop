@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { useRef, useCallback, useMemo, useLayoutEffect } from 'react';
 import type { Index, ListRowRenderer } from 'react-virtualized';
 import { List } from 'react-virtualized';
-import { ScrollBehavior } from '../types/Util';
+import { ScrollBehavior } from '../types/Util.js';
 
 type Props = {
   width: number;

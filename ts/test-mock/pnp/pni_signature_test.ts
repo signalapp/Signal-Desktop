@@ -12,22 +12,22 @@ import {
 } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations';
-import { uuidToBytes } from '../../util/uuidToBytes';
-import { MY_STORY_ID } from '../../types/Stories';
-import { Bootstrap } from '../bootstrap';
-import type { App } from '../bootstrap';
+import * as durations from '../../util/durations/index.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { MY_STORY_ID } from '../../types/Stories.js';
+import { Bootstrap } from '../bootstrap.js';
+import type { App } from '../bootstrap.js';
 import {
   DELETE_SENT_PROTO_BATCHER_WAIT_MS,
   RECEIPT_BATCHER_WAIT_MS,
-} from '../../types/Receipt';
-import { sleep } from '../../util/sleep';
+} from '../../types/Receipt.js';
+import { sleep } from '../../util/sleep.js';
 import {
   acceptConversation,
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers';
+} from '../helpers.js';
 
 export const debug = createDebug('mock:test:pni-signature');
 

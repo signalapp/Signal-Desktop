@@ -5,23 +5,23 @@ import { pick } from 'lodash';
 import React, { useCallback } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
-import { ToastType } from '../types/Toast';
-import { filterAndSortConversations } from '../util/filterAndSortConversations';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import type { GroupListItemConversationType } from './conversationList/GroupListItem';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import { ToastType } from '../types/Toast.js';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem.js';
 import {
   DisabledReason,
   GroupListItem,
-} from './conversationList/GroupListItem';
-import { Modal } from './Modal';
-import { SearchInput } from './SearchInput';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
-import { ListView } from './ListView';
-import { ListTile } from './ListTile';
-import type { ShowToastAction } from '../state/ducks/toast';
-import { SizeObserver } from '../hooks/useSizeObserver';
+} from './conversationList/GroupListItem.js';
+import { Modal } from './Modal.js';
+import { SearchInput } from './SearchInput.js';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
+import { ListView } from './ListView.js';
+import { ListTile } from './ListTile.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import { SizeObserver } from '../hooks/useSizeObserver.js';
 
 type OwnProps = {
   i18n: LocalizerType;

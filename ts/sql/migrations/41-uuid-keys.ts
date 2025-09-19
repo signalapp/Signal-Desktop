@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging';
-import { isValidUuid } from '../../util/isValidUuid';
-import Helpers from '../../textsecure/Helpers';
-import { createOrUpdate, getById, removeById } from '../util';
-import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface';
+import type { LoggerType } from '../../types/Logging.js';
+import { isValidUuid } from '../../util/isValidUuid.js';
+import Helpers from '../../textsecure/Helpers.js';
+import { createOrUpdate, getById, removeById } from '../util.js';
+import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface.js';
 
 export function getOurUuid(db: ReadableDB): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';

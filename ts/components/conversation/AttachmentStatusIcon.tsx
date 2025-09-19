@@ -4,10 +4,10 @@
 import React, { useRef, useState, type ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SpinnerV2 } from '../SpinnerV2';
-import { usePrevious } from '../../hooks/usePrevious';
+import { SpinnerV2 } from '../SpinnerV2.js';
+import { usePrevious } from '../../hooks/usePrevious.js';
 
-import type { AttachmentForUIType } from '../../types/Attachment';
+import type { AttachmentForUIType } from '../../types/Attachment.js';
 
 const TRANSITION_DELAY = 200;
 

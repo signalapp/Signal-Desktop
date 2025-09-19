@@ -3,18 +3,18 @@
 
 import { createRoot, type Root } from 'react-dom/client';
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationModel } from '../models/conversations';
-import type { PreJoinConversationType } from '../state/ducks/conversations';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationModel } from '../models/conversations.js';
+import type { PreJoinConversationType } from '../state/ducks/conversations.js';
 
-import { DataWriter } from '../sql/Client';
-import * as Bytes from '../Bytes';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { HTTPError } from '../textsecure/Errors';
-import { SignalService as Proto } from '../protobuf';
-import type { ContactAvatarType } from '../types/Avatar';
-import { ToastType } from '../types/Toast';
+import { DataWriter } from '../sql/Client.js';
+import * as Bytes from '../Bytes.js';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import type { ContactAvatarType } from '../types/Avatar.js';
+import { ToastType } from '../types/Toast.js';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -24,17 +24,17 @@ import {
   idForLogging,
   LINK_VERSION_ERROR,
   parseGroupLink,
-} from '../groups';
-import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal';
-import { explodePromise } from '../util/explodePromise';
-import { isAccessControlEnabled } from './util';
-import { isGroupV1 } from '../util/whatTypeOfConversation';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
-import { sleep } from '../util/sleep';
-import { dropNull } from '../util/dropNull';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
-import { type Loadable, LoadingState } from '../util/loadable';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../groups.js';
+import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { isAccessControlEnabled } from './util.js';
+import { isGroupV1 } from '../util/whatTypeOfConversation.js';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.js';
+import { sleep } from '../util/sleep.js';
+import { dropNull } from '../util/dropNull.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
+import { type Loadable, LoadingState } from '../util/loadable.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 
 const log = createLogger('joinViaLink');
 

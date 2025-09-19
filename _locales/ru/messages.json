@@ -2070,7 +2070,7 @@
     "messageformat": "Загрузка не удалась"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Не удалось загрузить вложение из резервной копии"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Изменения могут быть внесены только в течение 24 часов с момента отправки этого сообщения."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Общие медиа"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Просмотреть все"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Заблокировано"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Безопасное резервное копирование Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматическое создание резервных копий с помощью надёжного, полностью зашифрованного хранилища Signal. Начните с вашего телефона. <learnMoreLink>Узнать больше</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Резервное копирование сообщений и всех медиафайлов"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать безопасное резервное копирование Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} день} few {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня} many {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дней} other {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Подписка отменена"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Вы можете управлять безопасным резервным копированием Signal или отменять подписку на своём телефоне."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Вы можете управлять безопасным резервным копированием Signal или продлевать подписку на своём телефоне."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Вы можете управлять подпиской на безопасное резервное копирование Signal или продлевать её на своём телефоне."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последняя резервная копия"
@@ -6823,10 +6820,10 @@
     "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Чтобы обновить настройки значков на своем мобильном устройстве, зайдите в раздел Настройки → Поддержать Signal → Значки."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Пожертвование прервано"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "В этом обновлении исправлено несколько небольших ошибок, в том числе та, из-за которой реакции эмодзи иногда группировались неправильно."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Мы исправили ошибку, из-за которой значки пожертвований у некоторых пользователей отображались некорректно. Signal — это некоммерческая организация со статусом 501c3, и мы ценим вашу поддержку!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Мы исправили ошибку в Microsoft Windows, из-за которой строка заголовка Signal Desktop была оранжевой, а не синей. Если за последние дни вы полюбили цитрусовую цветовую схему и исправление этой ошибки вас огорчило, вы можете изменить цвет системных элементов в настройках Windows."
   }
 }

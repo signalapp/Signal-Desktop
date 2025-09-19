@@ -4,49 +4,50 @@
 import { isFunction, isObject, identity } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Contact from './EmbeddedContact';
+import * as Contact from './EmbeddedContact.js';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
-} from './Attachment';
+} from './Attachment.js';
 import {
   captureDimensionsAndScreenshot,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
-} from './Attachment';
-import * as Errors from './errors';
-import * as SchemaVersion from './SchemaVersion';
+} from './Attachment.js';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
+import * as Errors from './errors.js';
+import * as SchemaVersion from './SchemaVersion.js';
 
-import { LONG_MESSAGE } from './MIME';
-import type * as MIME from './MIME';
-import type { LoggerType } from './Logging';
+import { LONG_MESSAGE } from './MIME.js';
+import type * as MIME from './MIME.js';
+import type { LoggerType } from './Logging.js';
 import type {
   EmbeddedContactType,
   EmbeddedContactWithHydratedAvatar,
-} from './EmbeddedContact';
+} from './EmbeddedContact.js';
 
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
   QuotedMessageType,
-} from '../model-types.d';
+} from '../model-types.d.ts';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from './message/LinkPreviews';
-import type { StickerType, StickerWithHydratedData } from './Stickers';
-import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
+} from './message/LinkPreviews.js';
+import type { StickerType, StickerWithHydratedData } from './Stickers.js';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../util/getLocalAttachmentUrl';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
-import { deepClone } from '../util/deepClone';
-import * as Bytes from '../Bytes';
-import { isBodyTooLong } from '../util/longAttachment';
+} from '../util/getLocalAttachmentUrl.js';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
+import { deepClone } from '../util/deepClone.js';
+import * as Bytes from '../Bytes.js';
+import { isBodyTooLong } from '../util/longAttachment.js';
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -76,7 +77,7 @@ export type ContextType = {
     objectUrl: string;
     contentType: MIME.MIMEType;
     logger: LoggerType;
-  }) => Promise<Blob>;
+  }) => Promise<MakeVideoScreenshotResultType>;
   maxVersion?: number;
   revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (

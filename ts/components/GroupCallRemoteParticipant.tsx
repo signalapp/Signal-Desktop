@@ -12,25 +12,25 @@ import React, {
 import classNames from 'classnames';
 import { debounce, noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import type { LocalizerType } from '../types/Util';
-import { AvatarColors } from '../types/Colors';
-import { CallBackgroundBlur } from './CallBackgroundBlur';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
+import type { LocalizerType } from '../types/Util.js';
+import { AvatarColors } from '../types/Colors.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.js';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator';
-import { Avatar, AvatarSize } from './Avatar';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { I18n } from './I18n';
-import { ContactName } from './conversation/ContactName';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
-import { Theme } from '../util/theme';
-import { isOlderThan } from '../util/timestamp';
-import type { CallingImageDataCache } from './CallManager';
-import { usePrevious } from '../hooks/usePrevious';
+} from './CallingAudioIndicator.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { I18n } from './I18n.js';
+import { ContactName } from './conversation/ContactName.js';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver.js';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.js';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.js';
+import { Theme } from '../util/theme.js';
+import { isOlderThan } from '../util/timestamp.js';
+import type { CallingImageDataCache } from './CallManager.js';
+import { usePrevious } from '../hooks/usePrevious.js';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;

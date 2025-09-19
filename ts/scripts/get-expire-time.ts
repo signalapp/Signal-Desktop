@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { execSync } from 'child_process';
-import { writeFileSync } from 'fs';
+import { join } from 'node:path';
+import { execSync } from 'node:child_process';
+import { writeFileSync } from 'node:fs';
 
-import { DAY } from '../util/durations';
+import { DAY } from '../util/durations/index.js';
 import { version } from '../../package.json';
-import { isNotUpdatable } from '../util/version';
+import { isNotUpdatable } from '../util/version.js';
 
 const unixTimestamp = parseInt(
   process.env.SOURCE_DATE_EPOCH ||

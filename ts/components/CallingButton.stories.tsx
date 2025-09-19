@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingButton';
-import { CallingButton, CallingButtonType } from './CallingButton';
-import { TooltipPlacement } from './Tooltip';
+import type { PropsType } from './CallingButton.js';
+import { CallingButton, CallingButtonType } from './CallingButton.js';
+import { TooltipPlacement } from './Tooltip.js';
 
 const { i18n } = window.SignalContext;
 

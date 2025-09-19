@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isNotNil } from '../../util/isNotNil';
+import { isNotNil } from '../../util/isNotNil.js';
 
 describe('isNotNil', () => {
   it('returns false if provided null value', () => {

@@ -5,56 +5,59 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Crypto from './Crypto';
-import * as Curve from './Curve';
-import * as Groups from './groups';
-import OS from './util/os/osMain';
-import { isProduction } from './util/version';
-import * as RemoteConfig from './RemoteConfig';
-import { DataReader, DataWriter } from './sql/Client';
+import * as Crypto from './Crypto.js';
+import * as Curve from './Curve.js';
+import * as Groups from './groups.js';
+import OS from './util/os/osMain.js';
+import { isProduction } from './util/version.js';
+import * as RemoteConfig from './RemoteConfig.js';
+import { DataReader, DataWriter } from './sql/Client.js';
 
 // Components
-import { ConfirmationDialog } from './components/ConfirmationDialog';
+import { ConfirmationDialog } from './components/ConfirmationDialog.js';
 
 // State
-import { createApp } from './state/roots/createApp';
-import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
+import { createApp } from './state/roots/createApp.js';
+import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer.js';
 
 // Types
-import * as TypesAttachment from './types/Attachment';
-import * as VisualAttachment from './types/VisualAttachment';
-import * as MessageType from './types/Message2';
-import { Address } from './types/Address';
-import { QualifiedAddress } from './types/QualifiedAddress';
+import * as TypesAttachment from './types/Attachment.js';
+import * as VisualAttachment from './types/VisualAttachment.js';
+import * as MessageType from './types/Message2.js';
+import { Address } from './types/Address.js';
+import { QualifiedAddress } from './types/QualifiedAddress.js';
 
 // Processes / Services
-import { initializeGroupCredentialFetcher } from './services/groupCredentialFetcher';
-import { initializeNetworkObserver } from './services/networkObserver';
-import { initializeUpdateListener } from './services/updateListener';
-import { calling } from './services/calling';
-import * as storage from './services/storage';
-import { backupsService } from './services/backups';
-import * as donations from './services/donations';
+import { initializeGroupCredentialFetcher } from './services/groupCredentialFetcher.js';
+import { initializeNetworkObserver } from './services/networkObserver.js';
+import { initializeUpdateListener } from './services/updateListener.js';
+import { calling } from './services/calling.js';
+import * as storage from './services/storage.js';
+import { backupsService } from './services/backups/index.js';
+import * as donations from './services/donations.js';
 
-import type { LoggerType } from './types/Logging';
+import type { LoggerType } from './types/Logging.js';
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
   AddressableAttachmentType,
   LocalAttachmentV2Type,
-} from './types/Attachment';
-import type { MessageAttributesType, QuotedMessageType } from './model-types.d';
-import type { SignalCoreType } from './window.d';
+} from './types/Attachment.js';
+import type {
+  MessageAttributesType,
+  QuotedMessageType,
+} from './model-types.d.ts';
+import type { SignalCoreType } from './window.d.ts';
 import type {
   EmbeddedContactType,
   EmbeddedContactWithHydratedAvatar,
-} from './types/EmbeddedContact';
+} from './types/EmbeddedContact.js';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from './types/message/LinkPreviews';
-import type { StickerType, StickerWithHydratedData } from './types/Stickers';
-import { beforeNavigateService } from './services/BeforeNavigate';
+} from './types/message/LinkPreviews.js';
+import type { StickerType, StickerWithHydratedData } from './types/Stickers.js';
+import { beforeNavigateService } from './services/BeforeNavigate.js';
 
 type EncryptedReader = (
   attachment: Partial<AddressableAttachmentType>

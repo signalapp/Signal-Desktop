@@ -2070,7 +2070,7 @@
     "messageformat": "دانلود انجام نشد"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "بارگیری پیوست از نسخه پشتیبان ناموفق بود"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "رسانه‌های اشتراک‌گذاری شده"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "مشاهدهٔ همه"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "مسدودشده"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "پشتیبان‌های امن سیگنال"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "پشتیبان‌گیری خودکار با سرویس ذخیره‌سازی سرتاسر رمزگذاری‌شده و امن سیگنال. از تلفن خود شروع کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "پشتیبان‌گیری متن + تمام رسانه‌ها"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "اشتراک شما یافت نشد. برای ادامه استفاده از «پشتیبان‌گیری امن سیگنال»، تمدید کنید."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته} other {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "اشتراک لغو شد"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "می‌توانید اشتراک «پشتیبان‌گیری امن سیگنال» خود را در تلفنتان مدیریت یا لغو کنید."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "می‌توانید «پشتیبان‌گیری امن سیگنال» را در تلفنتان مدیریت کنید یا ارتقا دهید."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "می‌توانید اشتراک «پشتیبان‌گیری امن سیگنال» خود را در تلفنتان مدیریت یا تمدید کنید."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "آخرین پشتیبان‌گیری"
@@ -6823,10 +6820,10 @@
     "messageformat": "اهدای مالی باموفقیت انجام شد، اما نتوانستیم تنظیمات نشان شما را به‌روزرسانی کنیم"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "اهدای مالی باموفقیت انجام شد، اما نتوانستیم تنظیمات نشان شما را به‌روزرسانی کنیم"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "برای به‌روزرسانی تنظیمات نشان خود در دستگاه تلفن همراهتان، به «تنظیمات > اهدای کمک مالی به سیگنال > نشان‌ها» بروید."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "اختلال در کمک مالی"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "چند اشکال جزئی رفع شد."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "اشکالی را رفع کردیم که مانع نمایش صحیح نشان‌های حمایت مالی برای برخی کاربرها می‌شد."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "اشکالی را در Microsoft Windows رفع کردیم که گاهی رنگ اشتباه را در نوار عنوان نمایش می‌داد."
   }
 }

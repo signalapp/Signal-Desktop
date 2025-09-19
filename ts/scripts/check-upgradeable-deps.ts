@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-await-in-loop */
 
-import { join } from 'path';
-import { readFile } from 'fs/promises';
+import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 import chalk from 'chalk';
 import semver from 'semver';
 import got from 'got';

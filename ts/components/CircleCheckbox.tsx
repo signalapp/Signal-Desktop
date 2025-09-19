@@ -4,8 +4,8 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { missingCaseError } from '../util/missingCaseError';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 
 export enum Variant {
   Normal = 'Normal',

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as MIME from '../../types/MIME';
+import * as MIME from '../../types/MIME.js';
 
 describe('MIME', () => {
   describe('isGif', () => {

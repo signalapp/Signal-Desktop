@@ -3,7 +3,7 @@
 
 import { stringify } from 'uuid';
 
-import { getRandomBytes } from '../Crypto';
+import { getRandomBytes } from '../Crypto.js';
 
 export type GeneratedMessageIdType = Readonly<{
   id: string;

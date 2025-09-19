@@ -3,26 +3,26 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import { DataWriter } from '../../sql/Client';
-import { SignalService as Proto } from '../../protobuf';
+import { DataWriter } from '../../sql/Client.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 
-import { generateAci, generatePni } from '../../types/ServiceId';
-import type { MessageAttributesType } from '../../model-types';
-import type { GroupV2ChangeType } from '../../groups';
-import { getRandomBytes } from '../../Crypto';
-import * as Bytes from '../../Bytes';
-import { strictAssert } from '../../util/assert';
-import { DurationInSeconds } from '../../util/durations';
+import { generateAci, generatePni } from '../../types/ServiceId.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import type { GroupV2ChangeType } from '../../groups.js';
+import { getRandomBytes } from '../../Crypto.js';
+import * as Bytes from '../../Bytes.js';
+import { strictAssert } from '../../util/assert.js';
+import { DurationInSeconds } from '../../util/durations/index.js';
 import {
   OUR_ACI,
   OUR_PNI,
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
-} from './helpers';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
+} from './helpers.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle

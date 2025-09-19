@@ -3,26 +3,26 @@
 
 import { noop } from 'lodash';
 
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
-import type { StoryDataType } from '../state/ducks/stories';
-import * as Errors from '../types/errors';
-import type { StoryMessageRecipientsType } from '../types/Stories';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
-import { createLogger } from '../logging/log';
-import { DAY } from './durations';
-import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.js';
+import type { StoryDataType } from '../state/ducks/stories.js';
+import * as Errors from '../types/errors.js';
+import type { StoryMessageRecipientsType } from '../types/Stories.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import { DAY } from './durations/index.js';
+import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { onStoryRecipientUpdate } from './onStoryRecipientUpdate';
-import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
-import { isGroupV2 } from './whatTypeOfConversation';
-import { getMessageById } from '../messages/getMessageById';
-import { strictAssert } from './assert';
-import { repeat, zipObject } from './iterables';
-import { isOlderThan } from './timestamp';
+} from '../jobs/conversationJobQueue.js';
+import { onStoryRecipientUpdate } from './onStoryRecipientUpdate.js';
+import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.js';
+import { isGroupV2 } from './whatTypeOfConversation.js';
+import { getMessageById } from '../messages/getMessageById.js';
+import { strictAssert } from './assert.js';
+import { repeat, zipObject } from './iterables.js';
+import { isOlderThan } from './timestamp.js';
 
 const log = createLogger('deleteStoryForEveryone');
 

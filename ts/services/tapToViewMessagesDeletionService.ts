@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce } from 'lodash';
-import { DataReader } from '../sql/Client';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import * as Errors from '../types/errors';
-import { strictAssert } from '../util/assert';
-import { toBoundedDate } from '../util/timestamp';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { eraseMessageContents } from '../util/cleanup';
-import { drop } from '../util/drop';
-import { MessageModel } from '../models/messages';
-import { createLogger } from '../logging/log';
+import { DataReader } from '../sql/Client.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import * as Errors from '../types/errors.js';
+import { strictAssert } from '../util/assert.js';
+import { toBoundedDate } from '../util/timestamp.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { eraseMessageContents } from '../util/cleanup.js';
+import { drop } from '../util/drop.js';
+import { MessageModel } from '../models/messages.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('tapToViewMessagesDeletionService');
 

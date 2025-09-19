@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { drop } from '../../../util/drop';
-import { createLogger } from '../../../logging/log';
-import * as Errors from '../../../types/errors';
-import { strictAssert } from '../../../util/assert';
+import { drop } from '../../../util/drop.js';
+import { createLogger } from '../../../logging/log.js';
+import * as Errors from '../../../types/errors.js';
+import { strictAssert } from '../../../util/assert.js';
 
 const log = createLogger('infinite');
 

@@ -6,30 +6,30 @@ import React, { useRef, useState, useEffect } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 
-import * as MIME from '../../types/MIME';
-import * as GoogleChrome from '../../util/GoogleChrome';
+import * as MIME from '../../types/MIME.js';
+import * as GoogleChrome from '../../util/GoogleChrome.js';
 
-import { MessageBody } from './MessageBody';
-import type { AttachmentType, ThumbnailType } from '../../types/Attachment';
-import type { HydratedBodyRangesType } from '../../types/BodyRange';
-import type { LocalizerType } from '../../types/Util';
+import { MessageBody } from './MessageBody.js';
+import type { AttachmentType, ThumbnailType } from '../../types/Attachment.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
+import type { LocalizerType } from '../../types/Util.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors';
-import { ContactName } from './ContactName';
-import { Emojify } from './Emojify';
-import { TextAttachment } from '../TextAttachment';
-import { getClassNamesFor } from '../../util/getClassNamesFor';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle';
-import type { AnyPaymentEvent } from '../../types/Payment';
-import { PaymentEventKind } from '../../types/Payment';
+} from '../../types/Colors.js';
+import { ContactName } from './ContactName.js';
+import { Emojify } from './Emojify.js';
+import { TextAttachment } from '../TextAttachment.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.js';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.js';
+import type { AnyPaymentEvent } from '../../types/Payment.js';
+import { PaymentEventKind } from '../../types/Payment.js';
 import {
   getPaymentEventNotificationText,
   shouldTryToCopyFromQuotedMessage,
-} from '../../messages/helpers';
-import { RenderLocation } from './MessageTextRenderer';
-import type { QuotedAttachmentType } from '../../model-types';
+} from '../../messages/helpers.js';
+import { RenderLocation } from './MessageTextRenderer.js';
+import type { QuotedAttachmentType } from '../../model-types.js';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 

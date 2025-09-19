@@ -19,12 +19,12 @@ import {
   zipObject,
 } from 'lodash';
 import { FocusScope } from 'react-aria';
-import { dataByCategory } from './lib';
-import type { LocalizerType } from '../../types/Util';
-import { isSingleGrapheme } from '../../util/grapheme';
-import { missingCaseError } from '../../util/missingCaseError';
-import { FunStaticEmoji } from '../fun/FunEmoji';
-import { strictAssert } from '../../util/assert';
+import { dataByCategory } from './lib.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { isSingleGrapheme } from '../../util/grapheme.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.js';
+import { strictAssert } from '../../util/assert.js';
 import {
   EMOJI_SKIN_TONE_ORDER,
   emojiParentKeyConstant,
@@ -35,8 +35,8 @@ import {
   isEmojiEnglishShortName,
   EMOJI_SKIN_TONE_TO_NUMBER,
   getEmojiParentByKey,
-} from '../fun/data/emojis';
-import { useFunEmojiSearch } from '../fun/useFunEmojiSearch';
+} from '../fun/data/emojis.js';
+import { useFunEmojiSearch } from '../fun/useFunEmojiSearch.js';
 
 export type EmojiPickDataType = {
   skinTone: EmojiSkinTone;

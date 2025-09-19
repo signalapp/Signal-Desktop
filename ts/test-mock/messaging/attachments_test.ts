@@ -5,21 +5,21 @@ import createDebug from 'debug';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
-import * as path from 'path';
-import { readFile } from 'fs/promises';
+import * as path from 'node:path';
+import { readFile } from 'node:fs/promises';
 
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
 import {
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
-} from '../helpers';
-import * as durations from '../../util/durations';
-import { strictAssert } from '../../util/assert';
-import { VIDEO_MP4 } from '../../types/MIME';
-import { toBase64 } from '../../Bytes';
+} from '../helpers.js';
+import * as durations from '../../util/durations/index.js';
+import { strictAssert } from '../../util/assert.js';
+import { VIDEO_MP4 } from '../../types/MIME.js';
+import { toBase64 } from '../../Bytes.js';
 
 export const debug = createDebug('mock:test:attachments');
 

@@ -4,17 +4,17 @@
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
 
-import { ButtonVariant } from '../Button';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
-import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import { AvatarColors } from '../../types/Colors';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
-import { ListTile } from '../ListTile';
-import { Avatar, AvatarSize } from '../Avatar';
-import { Spinner } from '../Spinner';
-import { UserText } from '../UserText';
+import { ButtonVariant } from '../Button.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.js';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import { AvatarColors } from '../../types/Colors.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
+import { ListTile } from '../ListTile.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { Spinner } from '../Spinner.js';
+import { UserText } from '../UserText.js';
 
 export type PropsDataType = {
   phoneNumber: ParsedE164Type;

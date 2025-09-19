@@ -5,77 +5,84 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, pick } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
-import * as Errors from '../../types/errors';
-import type { AttachmentType } from '../../types/Attachment';
-import type { DraftBodyRanges } from '../../types/BodyRange';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d';
+import * as Errors from '../../types/errors.js';
+import type { AttachmentType } from '../../types/Attachment.js';
+import type { DraftBodyRanges } from '../../types/BodyRange.js';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
   MessagesAddedActionType,
   TargetedConversationChangedActionType,
-} from './conversations';
-import type { NoopActionType } from './noop';
-import type { StateType as RootStateType } from '../reducer';
-import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
-import type { SyncType } from '../../jobs/helpers/syncHelpers';
-import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { isAciString } from '../../util/isAciString';
-import { createLogger } from '../../logging/log';
-import { TARGETED_CONVERSATION_CHANGED } from './conversations';
-import { SIGNAL_ACI } from '../../types/SignalConversation';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SendStatus } from '../../messages/MessageSendState';
-import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
+} from './conversations.js';
+import type { NoopActionType } from './noop.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type {
+  StoryViewTargetType,
+  StoryViewType,
+} from '../../types/Stories.js';
+import type { SyncType } from '../../jobs/helpers/syncHelpers.js';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { isAciString } from '../../util/isAciString.js';
+import { createLogger } from '../../logging/log.js';
+import { TARGETED_CONVERSATION_CHANGED } from './conversations.js';
+import { SIGNAL_ACI } from '../../types/SignalConversation.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
 import {
   areStoryViewReceiptsEnabled,
   StoryViewDirectionType,
   StoryViewModeType,
-} from '../../types/Stories';
-import { assertDev, strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
-import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
-import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone';
-import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
-import { getMessageById } from '../../messages/getMessageById';
-import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead';
-import { markViewed } from '../../services/MessageUpdater';
-import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
-import { replaceIndex } from '../../util/replaceIndex';
-import type { DurationInSeconds } from '../../util/durations';
-import { hasFailed, isDownloaded, isDownloading } from '../../types/Attachment';
+} from '../../types/Stories.js';
+import { assertDev, strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.js';
+import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone.js';
+import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone.js';
+import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead.js';
+import { markViewed } from '../../services/MessageUpdater.js';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.js';
+import { replaceIndex } from '../../util/replaceIndex.js';
+import type { DurationInSeconds } from '../../util/durations/index.js';
+import {
+  hasFailed,
+  isDownloaded,
+  isDownloading,
+} from '../../types/Attachment.js';
 import {
   getConversationSelector,
   getHideStoryConversationIds,
-} from '../selectors/conversations';
+} from '../selectors/conversations.js';
 import {
   getStories,
   getStoryDownloadableAttachment,
-} from '../selectors/stories';
-import { setStoriesDisabled as utilSetStoriesDisabled } from '../../util/stories';
-import { getStoryDataFromMessageAttributes } from '../../services/storyLoader';
-import { isGroup } from '../../util/whatTypeOfConversation';
-import { isNotNil } from '../../util/isNotNil';
-import { isStory } from '../../messages/helpers';
-import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers';
-import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
-import { getOwn } from '../../util/getOwn';
-import { SHOW_TOAST } from './toast';
-import { ToastType } from '../../types/Toast';
-import type { ShowToastActionType } from './toast';
+} from '../selectors/stories.js';
+import { setStoriesDisabled as utilSetStoriesDisabled } from '../../util/stories.js';
+import { getStoryDataFromMessageAttributes } from '../../services/storyLoader.js';
+import { isGroup } from '../../util/whatTypeOfConversation.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { isStory } from '../../messages/helpers.js';
+import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers.js';
+import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue.js';
+import { getOwn } from '../../util/getOwn.js';
+import { SHOW_TOAST } from './toast.js';
+import { ToastType } from '../../types/Toast.js';
+import type { ShowToastActionType } from './toast.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../../jobs/conversationJobQueue';
-import { ReceiptType } from '../../types/Receipt';
-import { cleanupMessages } from '../../util/cleanup';
-import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
+} from '../../jobs/conversationJobQueue.js';
+import { ReceiptType } from '../../types/Receipt.js';
+import { cleanupMessages } from '../../util/cleanup.js';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.js';
 
 const log = createLogger('stories');
 

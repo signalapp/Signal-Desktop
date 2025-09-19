@@ -5,16 +5,16 @@ import type { KeyboardEventHandler, MouseEventHandler, ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
-import { NavTabsToggle } from './NavTabs';
-import type { LocalizerType } from '../types/I18N';
+import { NavTabsToggle } from './NavTabs.js';
+import type { LocalizerType } from '../types/I18N.js';
 import {
   MAX_WIDTH,
   MIN_FULL_WIDTH,
   MIN_WIDTH,
   getWidthFromPreferredWidth,
-} from '../util/leftPaneWidth';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
-import type { UnreadStats } from '../util/countUnreadStats';
+} from '../util/leftPaneWidth.js';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
 
 type NavSidebarActionButtonProps = {
   icon: ReactNode;

@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { parentPort } from 'worker_threads';
+import { parentPort } from 'node:worker_threads';
 
-import type { WrappedWorkerRequest, WrappedWorkerResponse } from './main';
-import type { WritableDB } from './Interface';
-import { initialize, DataReader, DataWriter, removeDB } from './Server';
-import { SqliteErrorKind, parseSqliteError } from './errors';
-import { sqlLogger as logger } from './sqlLogger';
+import type { WrappedWorkerRequest, WrappedWorkerResponse } from './main.js';
+import type { WritableDB } from './Interface.js';
+import { initialize, DataReader, DataWriter, removeDB } from './Server.js';
+import { SqliteErrorKind, parseSqliteError } from './errors.js';
+import { sqlLogger as logger } from './sqlLogger.js';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');

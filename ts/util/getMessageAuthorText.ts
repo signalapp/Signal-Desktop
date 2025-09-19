@@ -4,9 +4,9 @@
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d';
-import { isIncoming, isOutgoing } from '../state/selectors/message';
-import { getTitle } from './getTitle';
+} from '../model-types.d.ts';
+import { isIncoming, isOutgoing } from '../state/selectors/message.js';
+import { getTitle } from './getTitle.js';
 
 function getIncomingContact(
   messageAttributes: ReadonlyMessageAttributesType

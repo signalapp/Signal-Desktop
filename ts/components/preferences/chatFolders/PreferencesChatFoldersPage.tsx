@@ -3,19 +3,21 @@
 
 import React, { useCallback, useMemo } from 'react';
 import type { MutableRefObject } from 'react';
-import type { LocalizerType } from '../../../types/I18N';
-import { PreferencesContent } from '../../Preferences';
-import { SettingsRow } from '../../PreferencesUtil';
-import type { ChatFolderId } from '../../../types/ChatFolder';
+import type { LocalizerType } from '../../../types/I18N.js';
+import { PreferencesContent } from '../../Preferences.js';
+import { SettingsRow } from '../../PreferencesUtil.js';
 import {
   CHAT_FOLDER_PRESETS,
   matchesChatFolderPreset,
-  type ChatFolderParams,
-  type ChatFolderPreset,
-  type ChatFolder,
   ChatFolderType,
-} from '../../../types/ChatFolder';
-import { Button, ButtonVariant } from '../../Button';
+} from '../../../types/ChatFolder.js';
+import type {
+  ChatFolderId,
+  ChatFolderParams,
+  ChatFolderPreset,
+  ChatFolder,
+} from '../../../types/ChatFolder.js';
+import { Button, ButtonVariant } from '../../Button.js';
 // import { showToast } from '../../state/ducks/toast';
 
 export type PreferencesChatFoldersPageProps = Readonly<{

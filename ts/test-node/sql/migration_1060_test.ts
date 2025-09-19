@@ -8,15 +8,19 @@ import {
   dequeueOldestSyncTasks,
   removeSyncTaskById,
   saveSyncTasks,
-} from '../../sql/Server';
-import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
-import { sql, jsonToObject } from '../../sql/util';
-import { insertData, updateToVersion, createDB, explain } from './helpers';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types';
-import { WEEK } from '../../util/durations';
+} from '../../sql/Server.js';
+import type {
+  WritableDB,
+  ReadableDB,
+  MessageType,
+} from '../../sql/Interface.js';
+import { sql, jsonToObject } from '../../sql/util.js';
+import { insertData, updateToVersion, createDB, explain } from './helpers.js';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types.js';
+import { WEEK } from '../../util/durations/index.js';
 
-import type { MessageAttributesType } from '../../model-types';
-import type { SyncTaskType } from '../../util/syncTasks';
+import type { MessageAttributesType } from '../../model-types.js';
+import type { SyncTaskType } from '../../util/syncTasks.js';
 
 /* eslint-disable camelcase */
 

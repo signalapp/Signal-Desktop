@@ -4,11 +4,11 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
 
-import type { StoryDistributionWithMembersType } from '../../sql/Interface';
+import type { StoryDistributionWithMembersType } from '../../sql/Interface.js';
 
 const {
   _getAllStoryDistributionMembers,

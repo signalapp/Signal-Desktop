@@ -6,13 +6,13 @@ import { assert } from 'chai';
 import {
   callLinkToRecord,
   callLinkFromRecord,
-} from '../../util/callLinksRingrtc';
+} from '../../util/callLinksRingrtc.js';
 import {
   FAKE_CALL_LINK as CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY as CALL_LINK_WITH_ADMIN_KEY,
   FAKE_CALL_LINK_WITH_EPOCH as CALL_LINK_WITH_EPOCH,
   FAKE_CALL_LINK_WITH_ADMIN_KEY_AND_EPOCH as CALL_LINK_WITH_ADMIN_KEY_AND_EPOCH,
-} from '../../test-helpers/fakeCallLink';
+} from '../../test-helpers/fakeCallLink.js';
 
 describe('callLinks', () => {
   it('callLinkToRecord() and callLinkFromRecord() can convert to record and back', () => {

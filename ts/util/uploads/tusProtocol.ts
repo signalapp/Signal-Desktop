@@ -3,11 +3,11 @@
 import { type Readable } from 'node:stream';
 import fetch, { type RequestInit, type Response } from 'node-fetch';
 
-import { HTTPError } from '../../textsecure/Errors';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import { sleep } from '../sleep';
-import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff';
+import { HTTPError } from '../../textsecure/Errors.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import { sleep } from '../sleep.js';
+import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff.js';
 
 const log = createLogger('tusProtocol');
 

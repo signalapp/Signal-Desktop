@@ -1,19 +1,19 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { DataReader } from '../sql/Client';
-import { drop } from '../util/drop';
-import { getAuthorId } from '../messages/helpers';
-import { handleEditMessage } from '../util/handleEditMessage';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { DataReader } from '../sql/Client.js';
+import { drop } from '../util/drop.js';
+import { getAuthorId } from '../messages/helpers.js';
+import { handleEditMessage } from '../util/handleEditMessage.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
 import {
   isAttachmentDownloadQueueEmpty,
   registerQueueEmptyCallback,
-} from '../util/attachmentDownloadQueue';
-import { MessageModel } from '../models/messages';
+} from '../util/attachmentDownloadQueue.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('Edits');
 

@@ -4,16 +4,16 @@
 import type { Database } from '@signalapp/sqlcipher';
 import { omit } from 'lodash';
 
-import type { LoggerType } from '../../types/Logging';
+import type { LoggerType } from '../../types/Logging.js';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../../types/ServiceId';
-import { normalizeServiceId, normalizePni } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import type { JSONWithUnknownFields } from '../../types/Util';
-import { isNotNil } from '../../util/isNotNil';
+} from '../../types/ServiceId.js';
+import { normalizeServiceId, normalizePni } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import type { JSONWithUnknownFields } from '../../types/Util.js';
+import { isNotNil } from '../../util/isNotNil.js';
 
 //
 // Main migration function that does the following:

@@ -4,13 +4,13 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { createLogger } from '../../logging/log';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { NavTab, SettingsPage } from '../../types/Nav';
+import { createLogger } from '../../logging/log.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { NavTab, SettingsPage } from '../../types/Nav.js';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type { StateType as RootStateType } from '../reducer';
-import type { Location } from '../../types/Nav';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { Location } from '../../types/Nav.js';
 
 const log = createLogger('nav');
 

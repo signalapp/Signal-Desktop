@@ -3,17 +3,17 @@
 
 import { assert } from 'chai';
 import { findLast } from 'lodash';
-import type { WritableDB } from '../../sql/Interface';
-import { markAllCallHistoryRead } from '../../sql/Server';
-import { SeenStatus } from '../../MessageSeenStatus';
+import type { WritableDB } from '../../sql/Interface.js';
+import { markAllCallHistoryRead } from '../../sql/Server.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
 import {
   CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
-} from '../../types/CallDisposition';
-import { strictAssert } from '../../util/assert';
-import { createDB, insertData, updateToVersion } from './helpers';
+} from '../../types/CallDisposition.js';
+import { strictAssert } from '../../util/assert.js';
+import { createDB, insertData, updateToVersion } from './helpers.js';
 
 describe('SQL/updateToSchemaVersion1100', () => {
   let db: WritableDB;

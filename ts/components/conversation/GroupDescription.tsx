@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Modal } from '../Modal';
-import type { LocalizerType } from '../../types/Util';
-import { GroupDescriptionText } from '../GroupDescriptionText';
+import { Modal } from '../Modal.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { GroupDescriptionText } from '../GroupDescriptionText.js';
 
 // Emojification can cause the scroll height to be *slightly* larger than the client
 //   height, so we add a little wiggle room.

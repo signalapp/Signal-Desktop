@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { AvatarColorType } from '../types/Colors';
-import { AvatarColors } from '../types/Colors';
-import type { LocalizerType } from '../types/Util';
-import { BetterAvatarBubble } from './BetterAvatarBubble';
+import type { AvatarColorType } from '../types/Colors.js';
+import { AvatarColors } from '../types/Colors.js';
+import type { LocalizerType } from '../types/Util.js';
+import { BetterAvatarBubble } from './BetterAvatarBubble.js';
 
 export type PropsType = {
   i18n: LocalizerType;

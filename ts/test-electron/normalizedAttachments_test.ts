@@ -4,27 +4,27 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import * as Bytes from '../Bytes';
+import * as Bytes from '../Bytes.js';
 import type {
   EphemeralAttachmentFields,
   ScreenshotType,
   AttachmentType,
   ThumbnailType,
   BackupThumbnailType,
-} from '../types/Attachment';
+} from '../types/Attachment.js';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   LONG_MESSAGE,
-} from '../types/MIME';
-import type { MessageAttributesType } from '../model-types';
-import { generateAci } from '../types/ServiceId';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { DataWriter, DataReader } from '../sql/Client';
-import { strictAssert } from '../util/assert';
-import { HOUR, MINUTE } from '../util/durations';
+} from '../types/MIME.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { generateAci } from '../types/ServiceId.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { DataWriter, DataReader } from '../sql/Client.js';
+import { strictAssert } from '../util/assert.js';
+import { HOUR, MINUTE } from '../util/durations/index.js';
 
 const CONTACT_A = generateAci();
 const contactAConversationId = generateGuid();
@@ -88,6 +88,7 @@ function composeAttachment(
     cdnNumber: 3,
     key: getBase64(`key${label}`),
     digest: getBase64(`digest${label}`),
+    duration: 123,
     size: 100,
     downloadPath: 'downloadPath',
     contentType: IMAGE_JPEG,

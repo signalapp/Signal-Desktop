@@ -4,14 +4,14 @@
 import { isNumber, sortBy } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from './assert';
+import { strictAssert } from './assert.js';
 
 import type {
   EditHistoryType,
   MessageAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types';
-import type { LoggerType } from '../types/Logging';
+} from '../model-types.js';
+import type { LoggerType } from '../types/Logging.js';
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
 //   edit, we're still sending that edit.

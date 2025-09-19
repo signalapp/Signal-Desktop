@@ -15,17 +15,17 @@ import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
   HTTPError,
-} from './Errors';
-import { Sessions, IdentityKeys } from '../LibSignalStores';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import type { ServiceIdString } from '../types/ServiceId';
-import type { ServerKeysType, WebAPIType } from './WebAPI';
-import { createLogger } from '../logging/log';
-import { isRecord } from '../util/isRecord';
-import type { GroupSendToken } from '../types/GroupSendEndorsements';
-import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
-import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
+} from './Errors.js';
+import { Sessions, IdentityKeys } from '../LibSignalStores.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import type { ServerKeysType, WebAPIType } from './WebAPI.js';
+import { createLogger } from '../logging/log.js';
+import { isRecord } from '../util/isRecord.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.js';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled.js';
 
 const log = createLogger('getKeysForServiceId');
 

@@ -4,13 +4,13 @@
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
 import { groupBy, keyBy, mapValues, sortBy } from 'lodash';
-import { getOwn } from '../../util/getOwn';
+import { getOwn } from '../../util/getOwn.js';
 import {
   EMOJI_SKIN_TONE_TO_KEY,
   EmojiSkinTone,
   KEY_TO_EMOJI_SKIN_TONE,
-} from '../fun/data/emojis';
-import { strictAssert } from '../../util/assert';
+} from '../fun/data/emojis.js';
+import { strictAssert } from '../../util/assert.js';
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires

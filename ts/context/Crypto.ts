@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Buffer } from 'buffer';
-import type { Decipher } from 'crypto';
-import crypto from 'crypto';
+import { Buffer } from 'node:buffer';
+import type { Decipher } from 'node:crypto';
+import crypto from 'node:crypto';
 
-import { strictAssert } from '../util/assert';
-import type { HashType } from '../types/Crypto';
-import { CipherType } from '../types/Crypto';
+import { strictAssert } from '../util/assert.js';
+import type { HashType } from '../types/Crypto.js';
+import { CipherType } from '../types/Crypto.js';
 
 const AUTH_TAG_SIZE = 16;
 

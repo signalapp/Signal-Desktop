@@ -5,9 +5,9 @@ import type { ReactChild } from 'react';
 import React, { useState } from 'react';
 import { noop } from 'lodash';
 
-import type { LocalizerType } from '../types/Util';
-import { Button, ButtonVariant } from './Button';
-import { Spinner } from './Spinner';
+import type { LocalizerType } from '../types/Util.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Spinner } from './Spinner.js';
 
 export enum CallingLobbyJoinButtonVariant {
   CallIsFull = 'CallIsFull',

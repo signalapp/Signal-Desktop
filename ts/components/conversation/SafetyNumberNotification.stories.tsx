@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { ContactType, Props } from './SafetyNumberNotification';
-import { SafetyNumberNotification } from './SafetyNumberNotification';
+import type { ContactType, Props } from './SafetyNumberNotification.js';
+import { SafetyNumberNotification } from './SafetyNumberNotification.js';
 
 const { i18n } = window.SignalContext;
 

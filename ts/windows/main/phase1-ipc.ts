@@ -7,34 +7,34 @@ import * as semver from 'semver';
 import { groupBy, mapValues } from 'lodash';
 import PQueue from 'p-queue';
 
-import type { IPCType } from '../../window.d';
-import { parseIntWithFallback } from '../../util/parseIntWithFallback';
-import { getSignalConnections } from '../../util/getSignalConnections';
-import { ThemeType } from '../../types/Util';
-import { Environment } from '../../environment';
-import { SignalContext } from '../context';
-import { createLogger } from '../../logging/log';
-import { formatCountForLogging } from '../../logging/formatCountForLogging';
-import * as Errors from '../../types/errors';
+import type { IPCType } from '../../window.d.ts';
+import { parseIntWithFallback } from '../../util/parseIntWithFallback.js';
+import { getSignalConnections } from '../../util/getSignalConnections.js';
+import { ThemeType } from '../../types/Util.js';
+import { Environment } from '../../environment.js';
+import { SignalContext } from '../context.js';
+import { createLogger } from '../../logging/log.js';
+import { formatCountForLogging } from '../../logging/formatCountForLogging.js';
+import * as Errors from '../../types/errors.js';
 
-import { strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { explodePromise } from '../../util/explodePromise';
-import { DataReader } from '../../sql/Client';
-import type { WindowsNotificationData } from '../../services/notifications';
-import { AggregatedStats } from '../../textsecure/WebsocketResources';
-import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
-import { isProduction } from '../../util/version';
-import { ToastType } from '../../types/Toast';
-import { ConversationController } from '../../ConversationController';
-import { createBatcher } from '../../util/batcher';
-import { ReceiptType } from '../../types/Receipt';
-import type { Receipt } from '../../types/Receipt';
-import { MINUTE } from '../../util/durations';
+import { strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { explodePromise } from '../../util/explodePromise.js';
+import { DataReader } from '../../sql/Client.js';
+import type { WindowsNotificationData } from '../../services/notifications.js';
+import { AggregatedStats } from '../../textsecure/WebsocketResources.js';
+import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.js';
+import { isProduction } from '../../util/version.js';
+import { ToastType } from '../../types/Toast.js';
+import { ConversationController } from '../../ConversationController.js';
+import { createBatcher } from '../../util/batcher.js';
+import { ReceiptType } from '../../types/Receipt.js';
+import type { Receipt } from '../../types/Receipt.js';
+import { MINUTE } from '../../util/durations/index.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../../jobs/conversationJobQueue';
+} from '../../jobs/conversationJobQueue.js';
 
 const log = createLogger('phase1-ipc');
 
@@ -91,7 +91,7 @@ window.getVersion = () => config.version;
 window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
 window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
-window.getServerTrustRoot = () => config.serverTrustRoot;
+window.getServerTrustRoots = () => config.serverTrustRoots;
 window.getServerPublicParams = () => config.serverPublicParams;
 window.getGenericServerPublicParams = () => config.genericServerPublicParams;
 window.getBackupServerPublicParams = () => config.backupServerPublicParams;

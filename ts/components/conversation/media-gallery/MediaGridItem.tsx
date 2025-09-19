@@ -4,20 +4,22 @@
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { formatFileSize } from '../../../util/formatFileSize';
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { MediaItemType } from '../../../types/MediaItem';
-import type { AttachmentForUIType } from '../../../types/Attachment';
+import { formatFileSize } from '../../../util/formatFileSize.js';
+import { formatDuration } from '../../../util/formatDuration.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import type { AttachmentForUIType } from '../../../types/Attachment.js';
 import {
   getAlt,
   getUrl,
   defaultBlurHash,
   isGIF,
-} from '../../../types/Attachment';
-import { ImageOrBlurhash } from '../../ImageOrBlurhash';
-import { SpinnerV2 } from '../../SpinnerV2';
-import { tw } from '../../../axo/tw';
-import { AxoSymbol } from '../../../axo/AxoSymbol';
+  isVideoAttachment,
+} from '../../../types/Attachment.js';
+import { ImageOrBlurhash } from '../../ImageOrBlurhash.js';
+import { SpinnerV2 } from '../../SpinnerV2.js';
+import { tw } from '../../../axo/tw.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.js';
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;
@@ -51,7 +53,7 @@ export function MediaGridItem(props: Props): JSX.Element {
   );
 
   let label: string;
-  if (attachment.url || attachment.incrementalUrl) {
+  if (url != null) {
     label = i18n('icu:imageOpenAlt');
   } else if (attachment.pending) {
     label = i18n('icu:cancelDownload');
@@ -84,7 +86,8 @@ type SpinnerOverlayProps = Readonly<{
 function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
   const { attachment } = props;
 
-  if (attachment.url != null || attachment.incrementalUrl != null) {
+  const url = getUrl(attachment);
+  if (url != null) {
     return undefined;
   }
 
@@ -131,15 +134,17 @@ type MetadataOverlayProps = Readonly<{
 function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
   const { i18n, attachment } = props;
 
-  const canBeShown =
-    attachment.url != null || attachment.incrementalUrl != null;
-  if (canBeShown && !isGIF([attachment])) {
+  const url = getUrl(attachment);
+  const canBeShown = url != null;
+  if (canBeShown && !isGIF([attachment]) && !isVideoAttachment(attachment)) {
     return undefined;
   }
 
   let text: string;
   if (isGIF([attachment]) && canBeShown) {
     text = i18n('icu:message--getNotificationText--gif');
+  } else if (isVideoAttachment(attachment) && attachment.duration != null) {
+    text = formatDuration(attachment.duration);
   } else {
     text = formatFileSize(attachment.size);
   }

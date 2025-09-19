@@ -1,14 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EventEmitter } from 'events';
 import { useEffect, useState } from 'react';
 
-import { MINUTE } from '../util/durations';
+import { MINUTE } from '../util/durations/index.js';
 
-const ev = new EventEmitter();
-ev.setMaxListeners(Infinity);
-setInterval(() => ev.emit('tick'), MINUTE);
+const listeners = new Set<() => void>();
+
+let timer: ReturnType<typeof setInterval> | undefined;
 
 export function useNowThatUpdatesEveryMinute(): number {
   const [now, setNow] = useState(Date.now());
@@ -17,10 +16,21 @@ export function useNowThatUpdatesEveryMinute(): number {
     const updateNow = () => setNow(Date.now());
     updateNow();
 
-    ev.on('tick', updateNow);
+    if (listeners.size === 0 && timer == null) {
+      timer = setInterval(() => {
+        for (const fn of listeners) {
+          fn();
+        }
+      }, MINUTE);
+    }
+    listeners.add(updateNow);
 
     return () => {
-      ev.off('tick', updateNow);
+      listeners.delete(updateNow);
+      if (listeners.size === 0 && timer != null) {
+        clearInterval(timer);
+        timer = undefined;
+      }
     };
   }, []);
 

@@ -5,23 +5,23 @@ import { isEmpty } from 'lodash';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { ReadonlyDeep } from 'type-fest';
-import type { WarningType as TimelineWarningType } from '../../components/conversation/Timeline';
-import { Timeline } from '../../components/conversation/Timeline';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
-import { getGroupMemberships } from '../../util/getGroupMemberships';
+import type { WarningType as TimelineWarningType } from '../../components/conversation/Timeline.js';
+import { Timeline } from '../../components/conversation/Timeline.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.js';
 import {
   dehydrateCollisionsWithConversations,
   getCollisionsFromMemberships,
-} from '../../util/groupMemberNameCollisions';
-import { missingCaseError } from '../../util/missingCaseError';
-import { useCallingActions } from '../ducks/calling';
+} from '../../util/groupMemberNameCollisions.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { useCallingActions } from '../ducks/calling.js';
 import {
   useConversationsActions,
   type ConversationType,
-} from '../ducks/conversations';
-import type { StateType } from '../reducer';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+} from '../ducks/conversations.js';
+import type { StateType } from '../reducer.js';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import {
   getConversationByServiceIdSelector,
   getConversationMessagesSelector,
@@ -32,18 +32,21 @@ import {
   getSafeConversationWithSameTitle,
   getSelectedConversationId,
   getTargetedMessage,
-} from '../selectors/conversations';
-import { getIntl, getTheme } from '../selectors/user';
-import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars';
-import { SmartCollidingAvatars } from './CollidingAvatars';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog';
-import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
-import { SmartHeroRow } from './HeroRow';
-import { SmartMiniPlayer } from './MiniPlayer';
-import { SmartTimelineItem, type SmartTimelineItemProps } from './TimelineItem';
-import { SmartTypingBubble } from './TypingBubble';
-import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
+} from '../selectors/conversations.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars.js';
+import { SmartCollidingAvatars } from './CollidingAvatars.js';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.js';
+import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.js';
+import { SmartHeroRow } from './HeroRow.js';
+import { SmartMiniPlayer } from './MiniPlayer.js';
+import {
+  SmartTimelineItem,
+  type SmartTimelineItemProps,
+} from './TimelineItem.js';
+import { SmartTypingBubble } from './TypingBubble.js';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.js';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.js';
 
 type ExternalProps = {
   id: string;

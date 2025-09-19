@@ -4,7 +4,7 @@
 import type { ReactElement } from 'react';
 import React, { useMemo, useRef } from 'react';
 import qrcode from 'qrcode-generator';
-import { getEnvironment, Environment } from '../environment';
+import { getEnvironment, Environment } from '../environment.js';
 
 const AUTODETECT_TYPE_NUMBER = 0;
 const ERROR_CORRECTION_LEVEL = 'L';

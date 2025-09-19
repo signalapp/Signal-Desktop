@@ -2070,7 +2070,7 @@
     "messageformat": "Stahování se nezdařilo"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Stažení přílohy ze zálohy se nezdařilo"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy lze provádět pouze do 24 hodin od odeslání této zprávy."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členové} many {{number,number} členů} other {{number,number} členů}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Sdílená média"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Zobrazit vše"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členové} many {{number,number} členů} other {{number,number} členů}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "Blokováno"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Zabezpečené zálohování služby Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatické zálohování pomocí zabezpečené, koncově šifrované služby úložiště aplikace Signal. Začněte v telefonu. <learnMoreLink>Víc informací</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "Zálohování textových zpráv a všech médií"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Vaše předplatné nebylo nalezeno. Obnovte ho, abyste mohli mohli dál používat zabezpečené zálohování služby Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Zálohování textových zpráv a {mediaDayCount,number} média denně} few {Zálohování textových zpráv a {mediaDayCount,number} médií denně} many {Zálohování textových zpráv a {mediaDayCount,number} médií denně} other {Zálohování textových zpráv a {mediaDayCount,number} médií denně}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "Předplatné zrušeno"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Předplatné zabezpečeného zálohování služby Signal můžete spravovat nebo zrušit ve svém telefonu."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Zabezpečené zálohování služby Signal můžete spravovat nebo aktualizovat ve svém telefonu."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Předplatné zabezpečeného zálohování služby Signal můžete spravovat nebo obnovit ve svém telefonu."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Poslední zálohování"
@@ -6823,10 +6820,10 @@
     "messageformat": "Podařilo se přijetí příspěvku, ale nepodařilo se nám aktualizovat nastavení vašeho odznaku"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Váš příspěvek byl úspěšně přijat, ale nepodařilo se nám aktualizovat nastavení vašeho odznaku"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Chcete-li aktualizovat nastavení odznaků v mobilním zařízení, přejděte do Nastavení → Přispět na Signal → Odznaky."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Příspěvek přerušen"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Oprava několika drobných chyb."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Opravili jsme chybu, která u některých uživatelů způsobovala nesprávné zobrazení odznaků za příspěvek."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "V systému Microsoft Windows jsme opravili chybu, kvůli které se občas zobrazila v záhlaví špatná barva. -"
   }
 }

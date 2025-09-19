@@ -1,21 +1,23 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util.js';
 import {
   CallMode,
   CallDirection,
   DirectCallStatus,
-  type CallHistoryDetails,
   CallType,
   GroupCallStatus,
-} from '../types/CallDisposition';
-import { missingCaseError } from './missingCaseError';
-import type { CallStatus } from '../types/CallDisposition';
-import type { ConversationType } from '../state/ducks/conversations';
-import { strictAssert } from './assert';
-import { isMoreRecentThan } from './timestamp';
-import { MINUTE } from './durations';
+} from '../types/CallDisposition.js';
+import type {
+  CallStatus,
+  CallHistoryDetails,
+} from '../types/CallDisposition.js';
+import { missingCaseError } from './missingCaseError.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { strictAssert } from './assert.js';
+import { isMoreRecentThan } from './timestamp.js';
+import { MINUTE } from './durations/index.js';
 
 export type CallingNotificationType = Readonly<{
   // In some older calls, we don't have a call id, this hardens against that.

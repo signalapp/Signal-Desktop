@@ -3,24 +3,24 @@
 import { noop, omit, throttle } from 'lodash';
 import { statfs } from 'node:fs/promises';
 
-import * as durations from '../util/durations';
-import { createLogger } from '../logging/log';
-import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents';
+import * as durations from '../util/durations/index.js';
+import { createLogger } from '../logging/log.js';
+import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents.js';
 import {
   type AttachmentDownloadJobTypeType,
   type AttachmentDownloadJobType,
   type CoreAttachmentDownloadJobType,
   AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
-} from '../types/AttachmentDownload';
+} from '../types/AttachmentDownload.js';
 import {
   downloadAttachment as downloadAttachmentUtil,
   isIncrementalMacVerificationError,
-} from '../util/downloadAttachment';
-import { DataReader, DataWriter } from '../sql/Client';
-import { getValue } from '../RemoteConfig';
+} from '../util/downloadAttachment.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { getValue } from '../RemoteConfig.js';
 
-import { isInCall as isInCallSelector } from '../state/selectors/calling';
+import { isInCall as isInCallSelector } from '../state/selectors/calling.js';
 import {
   AttachmentSizeError,
   type AttachmentType,
@@ -31,46 +31,46 @@ import {
   shouldAttachmentEndUpInRemoteBackup,
   getUndownloadedAttachmentSignature,
   isIncremental,
-} from '../types/Attachment';
-import { type ReadonlyMessageAttributesType } from '../model-types.d';
-import { getMessageById } from '../messages/getMessageById';
+} from '../types/Attachment.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { getMessageById } from '../messages/getMessageById.js';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
   getMaximumIncomingTextAttachmentSizeInKb,
-} from '../types/AttachmentSize';
-import { addAttachmentToMessage } from '../messageModifiers/AttachmentDownloads';
-import * as Errors from '../types/errors';
-import { redactGenericText } from '../util/privacy';
+} from '../types/AttachmentSize.js';
+import { addAttachmentToMessage } from '../messageModifiers/AttachmentDownloads.js';
+import * as Errors from '../types/errors.js';
+import { redactGenericText } from '../util/privacy.js';
 import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
   type JobManagerJobType,
-} from './JobManager';
-import { IMAGE_WEBP } from '../types/MIME';
-import { AttachmentDownloadSource } from '../sql/Interface';
-import { drop } from '../util/drop';
+} from './JobManager.js';
+import { IMAGE_WEBP } from '../types/MIME.js';
+import { AttachmentDownloadSource } from '../sql/Interface.js';
+import { drop } from '../util/drop.js';
 import {
   getAttachmentCiphertextLength,
   type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto';
-import { safeParsePartial } from '../util/schemas';
-import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
-import { createBatcher } from '../util/batcher';
-import { showDownloadFailedToast } from '../util/showDownloadFailedToast';
-import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored';
+} from '../AttachmentCrypto.js';
+import { safeParsePartial } from '../util/schemas.js';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.js';
+import { createBatcher } from '../util/batcher.js';
+import { showDownloadFailedToast } from '../util/showDownloadFailedToast.js';
+import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored.js';
 import {
   AttachmentBackfill,
   isPermanentlyUndownloadable,
   isPermanentlyUndownloadableWithoutBackfill,
-} from './helpers/attachmentBackfill';
-import { formatCountForLogging } from '../logging/formatCountForLogging';
-import { strictAssert } from '../util/assert';
-import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress';
-import { HTTPError } from '../textsecure/Errors';
-import { isOlderThan } from '../util/timestamp';
-import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime';
+} from './helpers/attachmentBackfill.js';
+import { formatCountForLogging } from '../logging/formatCountForLogging.js';
+import { strictAssert } from '../util/assert.js';
+import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.js';
 
 const log = createLogger('AttachmentDownloadManager');
 
@@ -834,6 +834,9 @@ export async function runDownloadAttachmentJobInner({
     );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
+    if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
     if (mightHaveBackupThumbnailToDownload && !attemptBackupThumbnailFirst) {
       log.error(
         `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,

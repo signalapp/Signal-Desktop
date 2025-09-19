@@ -3,30 +3,30 @@
 
 import { isNumber, pick } from 'lodash';
 
-import type { ConversationAttributesType } from '../model-types.d';
-import { DataWriter } from '../sql/Client';
-import { hasErrors } from '../state/selectors/message';
-import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
-import { notificationService } from '../services/notifications';
-import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
-import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
-import { isGroup, isDirectConversation } from './whatTypeOfConversation';
-import { createLogger } from '../logging/log';
-import { getConversationIdForLogging } from './idForLogging';
-import { drop } from './drop';
-import { isNotNil } from './isNotNil';
-import { assertDev } from './assert';
-import { isConversationAccepted } from './isConversationAccepted';
-import { ReadStatus } from '../messages/MessageReadStatus';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { DataWriter } from '../sql/Client.js';
+import { hasErrors } from '../state/selectors/message.js';
+import { readSyncJobQueue } from '../jobs/readSyncJobQueue.js';
+import { notificationService } from '../services/notifications.js';
+import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.js';
+import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.js';
+import { isGroup, isDirectConversation } from './whatTypeOfConversation.js';
+import { createLogger } from '../logging/log.js';
+import { getConversationIdForLogging } from './idForLogging.js';
+import { drop } from './drop.js';
+import { isNotNil } from './isNotNil.js';
+import { assertDev } from './assert.js';
+import { isConversationAccepted } from './isConversationAccepted.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { ReceiptType } from '../types/Receipt';
-import type { AciString } from '../types/ServiceId';
-import { isAciString } from './isAciString';
-import type { MessageModel } from '../models/messages';
-import { postSaveUpdates } from './cleanup';
+} from '../jobs/conversationJobQueue.js';
+import { ReceiptType } from '../types/Receipt.js';
+import type { AciString } from '../types/ServiceId.js';
+import { isAciString } from './isAciString.js';
+import type { MessageModel } from '../models/messages.js';
+import { postSaveUpdates } from './cleanup.js';
 
 const log = createLogger('markConversationRead');
 

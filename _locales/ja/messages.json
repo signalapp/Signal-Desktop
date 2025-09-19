@@ -2070,7 +2070,7 @@
     "messageformat": "ダウンロードできませんでした"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "バックアップからの添付ファイルのダウンロードが失敗しました"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "共有されたメディア"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "すべて表示"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "ブロック中のユーザー"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signalセキュアバックアップ"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalによる、安全なエンドツーエンドの暗号化ストレージサービスによる自動バックアップです。ご利用中のスマートフォンからバックアップが可能です。<learnMoreLink>詳しく見る</learnMoreLink>。"
@@ -5307,7 +5304,7 @@
     "messageformat": "テキストとすべてのメディアのバックアップ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalセキュアバックアップを引き続き使用するには、更新してください。"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {テキストと{mediaDayCount,number} 日間のメディアのバックアップ}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "サブスクリプションが解除されました"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Signalセキュアバックアップのサブスクリプションは、お使いのスマートフォンから管理またはキャンセル手続きが行えます。"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "お使いのスマートフォンからSignalセキュアバックアップを管理またはアップグレードできます。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Signalセキュアバックアップのサブスクリプションは、お使いのスマートフォンから管理または更新手続きが行えます。"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "最終バックアップ"
@@ -6823,10 +6820,10 @@
     "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "モバイル端末でバッジの設定をアップデートするには、「設定] →「Signalへの寄付」→ 「バッジ」へ移動します。"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "寄付が中断されました"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "いくつかの小規模なバグの修正。"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "一部ユーザーの方に、寄付バッジが正しく表示されないバグを修正しました。"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "Microsoft Windowsで、タイトルバーに誤った色が表示されることがある不具合を修正しました。"
   }
 }

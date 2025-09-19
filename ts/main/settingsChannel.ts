@@ -3,15 +3,15 @@
 
 import type { BrowserWindow } from 'electron';
 import { ipcMain as ipc, session } from 'electron';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
-import { createLogger } from '../logging/log';
-import { userConfig } from '../../app/user_config';
-import { ephemeralConfig } from '../../app/ephemeral_config';
-import { installPermissionsHandler } from '../../app/permissions';
-import { strictAssert } from '../util/assert';
+import { createLogger } from '../logging/log.js';
+import { userConfig } from '../../app/user_config.js';
+import { ephemeralConfig } from '../../app/ephemeral_config.js';
+import { installPermissionsHandler } from '../../app/permissions.js';
+import { strictAssert } from '../util/assert.js';
 
-import type { EphemeralSettings } from '../util/preload';
+import type { EphemeralSettings } from '../util/preload.js';
 
 const log = createLogger('settingsChannel');
 

@@ -1,14 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CallLogEventSyncEvent } from '../textsecure/messageReceiverEvents';
-import { createLogger } from '../logging/log';
-import { DataWriter } from '../sql/Client';
-import type { CallLogEventTarget } from '../types/CallDisposition';
-import { CallLogEvent } from '../types/CallDisposition';
-import { missingCaseError } from './missingCaseError';
-import { strictAssert } from './assert';
-import { updateDeletedMessages } from './callDisposition';
+import type { CallLogEventSyncEvent } from '../textsecure/messageReceiverEvents.js';
+import { createLogger } from '../logging/log.js';
+import { DataWriter } from '../sql/Client.js';
+import type { CallLogEventTarget } from '../types/CallDisposition.js';
+import { CallLogEvent } from '../types/CallDisposition.js';
+import { missingCaseError } from './missingCaseError.js';
+import { strictAssert } from './assert.js';
+import { updateDeletedMessages } from './callDisposition.js';
 
 const log = createLogger('onCallLogEventSync');
 

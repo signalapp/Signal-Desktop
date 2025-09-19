@@ -9,16 +9,16 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
-import { dropNull } from '../util/dropNull';
-import { SignalService as Proto } from '../protobuf';
+import { dropNull } from '../util/dropNull.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 
 import WebSocketResource, {
   ServerRequestType,
-} from '../textsecure/WebsocketResources';
+} from '../textsecure/WebsocketResources.js';
 
 describe('WebSocket-Resource', () => {
   class FakeSocket extends EventEmitter {

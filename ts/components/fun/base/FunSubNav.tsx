@@ -21,12 +21,12 @@ import {
   getScrollLeftDistance,
   getScrollRightDistance,
   useScrollObserver,
-} from '../../../hooks/useSizeObserver';
-import { createLogger } from '../../../logging/log';
-import * as Errors from '../../../types/errors';
-import { strictAssert } from '../../../util/assert';
-import { FunImage } from './FunImage';
-import { FunTooltip } from './FunTooltip';
+} from '../../../hooks/useSizeObserver.js';
+import { createLogger } from '../../../logging/log.js';
+import * as Errors from '../../../types/errors.js';
+import { strictAssert } from '../../../util/assert.js';
+import { FunImage } from './FunImage.js';
+import { FunTooltip } from './FunTooltip.js';
 
 const log = createLogger('FunSubNav');
 

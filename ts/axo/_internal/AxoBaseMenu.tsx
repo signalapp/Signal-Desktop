@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw';
-import { AxoSymbol, type AxoSymbolName } from '../AxoSymbol';
+import { tw } from '../tw.js';
+import { AxoSymbol, type AxoSymbolName } from '../AxoSymbol.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoBaseMenu {

@@ -5,20 +5,20 @@ import classNames from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import { SECOND } from '../util/durations';
-import { Toast } from './Toast';
-import { WidthBreakpoint } from './_util';
-import { UsernameMegaphone } from './UsernameMegaphone';
-import { assertDev } from '../util/assert';
-import { missingCaseError } from '../util/missingCaseError';
-import { ToastType } from '../types/Toast';
-import { MegaphoneType } from '../types/Megaphone';
-import { NavTab, SettingsPage } from '../types/Nav';
+import { SECOND } from '../util/durations/index.js';
+import { Toast } from './Toast.js';
+import { WidthBreakpoint } from './_util.js';
+import { UsernameMegaphone } from './UsernameMegaphone.js';
+import { assertDev } from '../util/assert.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { ToastType } from '../types/Toast.js';
+import { MegaphoneType } from '../types/Megaphone.js';
+import { NavTab, SettingsPage } from '../types/Nav.js';
 
-import type { LocalizerType } from '../types/Util';
-import type { AnyToast } from '../types/Toast';
-import type { AnyActionableMegaphone } from '../types/Megaphone';
-import type { Location } from '../types/Nav';
+import type { LocalizerType } from '../types/Util.js';
+import type { AnyToast } from '../types/Toast.js';
+import type { AnyActionableMegaphone } from '../types/Megaphone.js';
+import type { Location } from '../types/Nav.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;

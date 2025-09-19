@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from '../util/durations';
-import { DurationInSeconds } from '../util/durations';
+import * as durations from '../util/durations/index.js';
+import { DurationInSeconds } from '../util/durations/index.js';
 
 export type TestExpireTimer = Readonly<{
   value: DurationInSeconds;

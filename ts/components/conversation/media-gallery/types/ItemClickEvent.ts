@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../../../../types/Attachment';
+import type { AttachmentType } from '../../../../types/Attachment.js';
 
 export type ItemClickEvent = {
   message: { id: string; sentAt: number };

@@ -1,13 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationModel } from '../../models/conversations';
-import { sendReceipts as sendReceiptsTask } from '../../util/sendReceipts';
+import type { ConversationModel } from '../../models/conversations.js';
+import { sendReceipts as sendReceiptsTask } from '../../util/sendReceipts.js';
 import type {
   ConversationQueueJobBundle,
   ReceiptsJobData,
-} from '../conversationJobQueue';
-import { shouldSendToConversation } from './shouldSendToConversation';
+} from '../conversationJobQueue.js';
+import { shouldSendToConversation } from './shouldSendToConversation.js';
 
 export async function sendReceipts(
   conversation: ConversationModel,

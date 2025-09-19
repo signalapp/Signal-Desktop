@@ -38,22 +38,22 @@ import {
   SenderKeys,
   Sessions,
   SignedPreKeys,
-} from '../LibSignalStores';
-import { createName } from '../util/attachmentPath';
-import { assertDev, strictAssert } from '../util/assert';
-import type { BatcherType } from '../util/batcher';
-import { createBatcher } from '../util/batcher';
-import { drop } from '../util/drop';
-import { dropNull } from '../util/dropNull';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { Zone } from '../util/Zone';
-import * as durations from '../util/durations';
-import { DurationInSeconds } from '../util/durations';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import type { ServiceIdString, AciString } from '../types/ServiceId';
+} from '../LibSignalStores.js';
+import { createName } from '../util/attachmentPath.js';
+import { assertDev, strictAssert } from '../util/assert.js';
+import type { BatcherType } from '../util/batcher.js';
+import { createBatcher } from '../util/batcher.js';
+import { drop } from '../util/drop.js';
+import { dropNull } from '../util/dropNull.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { Zone } from '../util/Zone.js';
+import * as durations from '../util/durations/index.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
+import type { ServiceIdString, AciString } from '../types/ServiceId.js';
 import {
   fromPniObject,
   isPniString,
@@ -63,30 +63,30 @@ import {
   normalizeServiceId,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
-import { isAciString } from '../util/isAciString';
-import * as Errors from '../types/errors';
-import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
+} from '../types/ServiceId.js';
+import { normalizeAci } from '../util/normalizeAci.js';
+import { isAciString } from '../util/isAciString.js';
+import * as Errors from '../types/errors.js';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled.js';
 
-import { SignalService as Proto } from '../protobuf';
-import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.js';
 
-import createTaskWithTimeout from './TaskWithTimeout';
+import createTaskWithTimeout from './TaskWithTimeout.js';
 import {
   processAttachment,
   processDataMessage,
   processGroupV2Context,
   processPreview,
-} from './processDataMessage';
-import { processSyncMessage } from './processSyncMessage';
-import type { EventHandler } from './EventTarget';
-import EventTarget from './EventTarget';
-import type { IncomingWebSocketRequest } from './WebsocketResources';
-import { ServerRequestType } from './WebsocketResources';
-import type { Storage } from './Storage';
-import { WarnOnlyError } from './Errors';
-import * as Bytes from '../Bytes';
+} from './processDataMessage.js';
+import { processSyncMessage } from './processSyncMessage.js';
+import type { EventHandler } from './EventTarget.js';
+import EventTarget from './EventTarget.js';
+import type { IncomingWebSocketRequest } from './WebsocketResources.js';
+import { ServerRequestType } from './WebsocketResources.js';
+import type { Storage } from './Storage.js';
+import { WarnOnlyError } from './Errors.js';
+import * as Bytes from '../Bytes.js';
 import type {
   IRequestHandler,
   ProcessedAttachment,
@@ -96,7 +96,7 @@ import type {
   ProcessedSent,
   ProcessedSyncMessage,
   UnprocessedType,
-} from './Types.d';
+} from './Types.d.ts';
 import type {
   ConversationIdentifier,
   DeleteForMeSyncEventData,
@@ -106,7 +106,7 @@ import type {
   AddressableMessage,
   ReadSyncEventData,
   ViewSyncEventData,
-} from './messageReceiverEvents';
+} from './messageReceiverEvents.js';
 import {
   AttachmentBackfillResponseSyncEvent,
   CallEventSyncEvent,
@@ -139,36 +139,36 @@ import {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './messageReceiverEvents';
-import { createLogger } from '../logging/log';
-import { diffArraysAsSets } from '../util/diffArraysAsSets';
-import { generateBlurHash } from '../util/generateBlurHash';
-import { TEXT_ATTACHMENT } from '../types/MIME';
-import type { SendTypesType } from '../util/handleMessageSend';
-import { getStoriesBlocked } from '../util/stories';
-import { isNotNil } from '../util/isNotNil';
-import { chunk } from '../util/iterables';
-import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { filterAndClean } from '../types/BodyRange';
+} from './messageReceiverEvents.js';
+import { createLogger } from '../logging/log.js';
+import { diffArraysAsSets } from '../util/diffArraysAsSets.js';
+import { generateBlurHash } from '../util/generateBlurHash.js';
+import { TEXT_ATTACHMENT } from '../types/MIME.js';
+import type { SendTypesType } from '../util/handleMessageSend.js';
+import { getStoriesBlocked } from '../util/stories.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { chunk } from '../util/iterables.js';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { filterAndClean } from '../types/BodyRange.js';
 import {
   getCallEventForProto,
   getCallLogEventForProto,
-} from '../util/callDisposition';
-import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
-import { CallLinkUpdateSyncType } from '../types/CallLink';
-import { bytesToUuid } from '../util/uuidToBytes';
-import { isBodyTooLong } from '../util/longAttachment';
+} from '../util/callDisposition.js';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.js';
+import { CallLinkUpdateSyncType } from '../types/CallLink.js';
+import { bytesToUuid } from '../util/uuidToBytes.js';
+import { isBodyTooLong } from '../util/longAttachment.js';
 import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId';
+} from '../util/ServiceId.js';
 import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
-} from '../types/MessageRequestResponseEvent';
+} from '../types/MessageRequestResponseEvent.js';
 
 const log = createLogger('MessageReceiver');
 
@@ -233,7 +233,7 @@ enum TaskType {
 
 export type MessageReceiverOptions = {
   storage: Storage;
-  serverTrustRoot: string;
+  serverTrustRoots: Array<string>;
 };
 
 const TASK_WITH_TIMEOUT_OPTIONS = {
@@ -314,22 +314,22 @@ export default class MessageReceiver
   #encryptedQueue: PQueue;
   #decryptedQueue: PQueue;
   #retryCachedTimeout: NodeJS.Timeout | undefined;
-  #serverTrustRoot: PublicKey;
+  #serverTrustRoots: Array<PublicKey>;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
 
-  constructor({ storage, serverTrustRoot }: MessageReceiverOptions) {
+  constructor({ storage, serverTrustRoots }: MessageReceiverOptions) {
     super();
 
     this.#storage = storage;
 
     this.#processedCount = 0;
 
-    if (!serverTrustRoot) {
+    if (serverTrustRoots.length === 0) {
       throw new Error('Server trust root is required!');
     }
-    this.#serverTrustRoot = PublicKey.deserialize(
-      Bytes.fromBase64(serverTrustRoot)
+    this.#serverTrustRoots = serverTrustRoots.map(key =>
+      PublicKey.deserialize(Bytes.fromBase64(key))
     );
 
     this.#incomingQueue = new PQueue({
@@ -1632,7 +1632,12 @@ export default class MessageReceiver
       );
     }
 
-    if (!certificate.validate(this.#serverTrustRoot, serverTimestamp)) {
+    if (
+      !certificate.validateWithTrustRoots(
+        this.#serverTrustRoots,
+        serverTimestamp
+      )
+    ) {
       throw new Error(`${logId}: Sealed sender certificate validation failed`);
     }
 

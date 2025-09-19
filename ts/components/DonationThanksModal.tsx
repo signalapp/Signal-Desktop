@@ -3,13 +3,13 @@
 
 import React, { useState } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import type { BadgeType } from '../badges/types';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
-import { Checkbox } from './Checkbox';
-import { BadgeImage } from './BadgeImage';
-import { Spinner } from './Spinner';
+import type { LocalizerType } from '../types/Util.js';
+import type { BadgeType } from '../badges/types.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Checkbox } from './Checkbox.js';
+import { BadgeImage } from './BadgeImage.js';
+import { Spinner } from './Spinner.js';
 
 export type PropsType = {
   i18n: LocalizerType;

@@ -4,26 +4,26 @@
 import React, { useCallback, useEffect } from 'react';
 import { noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
-import { CallScreen } from './CallScreen';
-import { CallingLobby } from './CallingLobby';
-import { CallingParticipantsList } from './CallingParticipantsList';
-import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
-import { CallingPip } from './CallingPip';
-import { IncomingCallBar } from './IncomingCallBar';
+import { CallNeedPermissionScreen } from './CallNeedPermissionScreen.js';
+import { CallScreen } from './CallScreen.js';
+import { CallingLobby } from './CallingLobby.js';
+import { CallingParticipantsList } from './CallingParticipantsList.js';
+import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal.js';
+import { CallingPip } from './CallingPip.js';
+import { IncomingCallBar } from './IncomingCallBar.js';
 import type {
   ActiveCallType,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallVideoRequest,
-} from '../types/Calling';
+} from '../types/Calling.js';
 import {
   CallEndedReason,
   CallState,
   GroupCallJoinState,
-} from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
-import type { ConversationType } from '../state/ducks/conversations';
+} from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 import type {
   AcceptCallType,
   BatchUserActionPayloadType,
@@ -40,26 +40,26 @@ import type {
   SetLocalVideoType,
   SetRendererCanvasType,
   StartCallType,
-} from '../state/ducks/calling';
-import { CallLinkRestrictions } from '../types/CallLink';
-import type { CallLinkType } from '../types/CallLink';
-import type { LocalizerType } from '../types/Util';
-import { missingCaseError } from '../util/missingCaseError';
-import { CallingToastProvider } from './CallingToast';
-import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
-import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
-import { createLogger } from '../logging/log';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
-import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
-import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
-import { usePrevious } from '../hooks/usePrevious';
-import { copyCallLink } from '../util/copyLinksWithToast';
+} from '../state/ducks/calling.js';
+import { CallLinkRestrictions } from '../types/CallLink.js';
+import type { CallLinkType } from '../types/CallLink.js';
+import type { LocalizerType } from '../types/Util.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { CallingToastProvider } from './CallingToast.js';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker.js';
+import type { Props as ReactionPickerProps } from './conversation/ReactionPicker.js';
+import { createLogger } from '../logging/log.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
+import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.js';
+import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { copyCallLink } from '../util/copyLinksWithToast.js';
 import {
   redactNotificationProfileId,
   shouldNotify,
-} from '../types/NotificationProfile';
-import type { NotificationProfileType } from '../types/NotificationProfile';
-import { strictAssert } from '../util/assert';
+} from '../types/NotificationProfile.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.js';
+import { strictAssert } from '../util/assert.js';
 
 const log = createLogger('CallManager');
 

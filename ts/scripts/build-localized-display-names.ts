@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { parse } from 'csv-parse';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { _getAvailableLocales } from '../../app/locale';
-import { parseUnknown } from '../util/schemas';
+import { _getAvailableLocales } from '../../app/locale.js';
+import { parseUnknown } from '../util/schemas.js';
 
 const type = process.argv[2];
 if (type !== 'countries' && type !== 'locales') {

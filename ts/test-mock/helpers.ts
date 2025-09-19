@@ -13,8 +13,8 @@ import { assert } from 'chai';
 import Long from 'long';
 import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
-import type { SignalService } from '../protobuf';
-import { strictAssert } from '../util/assert';
+import type { SignalService } from '../protobuf/index.js';
+import { strictAssert } from '../util/assert.js';
 
 const debug = createDebug('mock:test:helpers');
 

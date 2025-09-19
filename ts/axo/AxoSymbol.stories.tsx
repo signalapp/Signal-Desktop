@@ -4,9 +4,13 @@ import React, { memo, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { Direction } from 'radix-ui';
 import Fuse from 'fuse.js';
-import type { AxoSymbolName } from './AxoSymbol';
-import { AxoSymbol, _getAllAxoSymbolNames, _getAxoSymbol } from './AxoSymbol';
-import { tw } from './tw';
+import type { AxoSymbolName } from './AxoSymbol.js';
+import {
+  AxoSymbol,
+  _getAllAxoSymbolNames,
+  _getAxoSymbol,
+} from './AxoSymbol.js';
+import { tw } from './tw.js';
 
 export default {
   title: 'Axo/AxoSymbol',

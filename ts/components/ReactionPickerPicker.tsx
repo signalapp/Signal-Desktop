@@ -6,14 +6,14 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'react-aria-components';
-import type { LocalizerType } from '../types/Util';
-import { FunStaticEmoji } from './fun/FunEmoji';
-import { strictAssert } from '../util/assert';
+import type { LocalizerType } from '../types/Util.js';
+import { FunStaticEmoji } from './fun/FunEmoji.js';
+import { strictAssert } from '../util/assert.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis';
+} from './fun/data/emojis.js';
 
 export enum ReactionPickerPickerStyle {
   Picker,

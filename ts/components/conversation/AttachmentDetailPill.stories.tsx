@@ -3,9 +3,12 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { type PropsType, AttachmentDetailPill } from './AttachmentDetailPill';
-import { type ComponentMeta } from '../../storybook/types';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment';
+import {
+  type PropsType,
+  AttachmentDetailPill,
+} from './AttachmentDetailPill.js';
+import { type ComponentMeta } from '../../storybook/types.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
 
 const { i18n } = window.SignalContext;
 

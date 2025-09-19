@@ -9,14 +9,14 @@ import type {
   DisplayNode,
   DraftBodyRange,
   DraftBodyRanges,
-} from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
-import type { MentionBlot } from './mentions/blot';
-import type { EmojiBlot } from './emoji/blot';
-import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu';
-import { isNotNil } from '../util/isNotNil';
-import type { AciString } from '../types/ServiceId';
-import { emojiToData } from '../components/emoji/lib';
+} from '../types/BodyRange.js';
+import { BodyRange } from '../types/BodyRange.js';
+import type { MentionBlot } from './mentions/blot.js';
+import type { EmojiBlot } from './emoji/blot.js';
+import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu.js';
+import { isNotNil } from '../util/isNotNil.js';
+import type { AciString } from '../types/ServiceId.js';
+import { emojiToData } from '../components/emoji/lib.js';
 
 export type Matcher = (
   node: HTMLElement,

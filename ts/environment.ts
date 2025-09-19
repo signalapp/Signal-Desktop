@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { makeEnumParser } from './util/enum';
-import { log } from './logging/log';
+import { makeEnumParser } from './util/enum.js';
+import { log } from './logging/log.js';
 
 // Many places rely on this enum being a string.
 export enum Environment {

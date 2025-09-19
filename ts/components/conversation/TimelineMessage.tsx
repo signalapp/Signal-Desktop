@@ -15,42 +15,42 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
-import { isDownloaded } from '../../types/Attachment';
-import type { LocalizerType } from '../../types/I18N';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { offsetDistanceModifier } from '../../util/popperUtil';
-import { StopPropagation } from '../StopPropagation';
-import { WidthBreakpoint } from '../_util';
-import { Message } from './Message';
-import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import { isDownloaded } from '../../types/Attachment.js';
+import type { LocalizerType } from '../../types/I18N.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import { offsetDistanceModifier } from '../../util/popperUtil.js';
+import { StopPropagation } from '../StopPropagation.js';
+import { WidthBreakpoint } from '../_util.js';
+import { Message } from './Message.js';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.js';
 import type {
   Props as MessageProps,
   PropsActions as MessagePropsActions,
   PropsData as MessagePropsData,
   PropsHousekeeping,
-} from './Message';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
-import { doesMessageBodyOverflow } from './MessageBodyReadMore';
-import type { Props as ReactionPickerProps } from './ReactionPicker';
+} from './Message.js';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
+import { doesMessageBodyOverflow } from './MessageBodyReadMore.js';
+import type { Props as ReactionPickerProps } from './ReactionPicker.js';
 import {
   useKeyboardShortcutsConditionally,
   useOpenContextMenu,
   useToggleReactionPicker,
-} from '../../hooks/useKeyboardShortcuts';
-import { PanelType } from '../../types/Panels';
+} from '../../hooks/useKeyboardShortcuts.js';
+import { PanelType } from '../../types/Panels.js';
 import type {
   DeleteMessagesPropsType,
   ForwardMessagesPayload,
-} from '../../state/ducks/globalModals';
-import { useScrollerLock } from '../../hooks/useScrollLock';
+} from '../../state/ducks/globalModals.js';
+import { useScrollerLock } from '../../hooks/useScrollLock.js';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,
   useHandleMessageContextMenu,
-} from './MessageContextMenu';
-import { ForwardMessagesModalType } from '../ForwardMessagesModal';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
-import { isNotNil } from '../../util/isNotNil';
+} from './MessageContextMenu.js';
+import { ForwardMessagesModalType } from '../ForwardMessagesModal.js';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
+import { isNotNil } from '../../util/isNotNil.js';
 
 export type PropsData = {
   canDownload: boolean;

@@ -12,38 +12,43 @@ import {
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import { throttle } from 'lodash/fp';
 
-import * as Bytes from '../../Bytes';
-import { createLogger } from '../../logging/log';
-import { strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { isMoreRecentThan, toDayMillis } from '../../util/timestamp';
-import { DAY, DurationInSeconds, HOUR, MINUTE } from '../../util/durations';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff';
-import { missingCaseError } from '../../util/missingCaseError';
+import * as Bytes from '../../Bytes.js';
+import { createLogger } from '../../logging/log.js';
+import { strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.js';
+import {
+  DAY,
+  DurationInSeconds,
+  HOUR,
+  MINUTE,
+} from '../../util/durations/index.js';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
 import {
   type BackupCdnReadCredentialType,
   type BackupCredentialWrapperType,
   type BackupPresentationHeadersType,
   type BackupSignedPresentationType,
   BackupCredentialType,
-} from '../../types/backups';
-import { toLogFormat } from '../../types/errors';
-import { HTTPError } from '../../textsecure/Errors';
+} from '../../types/backups.js';
+import { toLogFormat } from '../../types/errors.js';
+import { HTTPError } from '../../textsecure/Errors.js';
 import type {
   GetBackupCredentialsResponseType,
   GetBackupCDNCredentialsResponseType,
-} from '../../textsecure/WebAPI';
+} from '../../textsecure/WebAPI.js';
 import {
   getBackupKey,
   getBackupMediaRootKey,
   getBackupSignatureKey,
   getBackupMediaSignatureKey,
-} from './crypto';
-import { isTestOrMockEnvironment } from '../../environment';
+} from './crypto.js';
+import { isTestOrMockEnvironment } from '../../environment.js';
 import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
-} from '../../util/isBackupEnabled';
+} from '../../util/isBackupEnabled.js';
 
 const log = createLogger('Backup.Credentials');
 

@@ -1,11 +1,11 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join, normalize, extname, dirname, basename } from 'path';
-import { pathToFileURL } from 'url';
-import * as os from 'os';
+import { join, normalize, extname, dirname, basename } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import * as os from 'node:os';
 import { chmod, realpath, writeFile } from 'fs-extra';
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 import { createParser } from 'dashdash';
 
 import fastGlob from 'fast-glob';
@@ -33,98 +33,98 @@ import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
 import packageJson from '../package.json';
-import * as GlobalErrors from './global_errors';
-import { setup as setupCrashReports } from './crashReports';
-import { setup as setupSpellChecker } from './spell_check';
-import { getDNSFallback } from './dns-fallback';
-import { redactAll, addSensitivePath } from '../ts/util/privacy';
-import { createSupportUrl } from '../ts/util/createSupportUrl';
-import { missingCaseError } from '../ts/util/missingCaseError';
-import { strictAssert } from '../ts/util/assert';
-import { drop } from '../ts/util/drop';
-import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
-import { ThemeType } from '../ts/types/Util';
-import * as Errors from '../ts/types/errors';
-import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales';
-import { createLogger } from '../ts/logging/log';
-import * as debugLog from '../ts/logging/debuglogs';
-import * as uploadDebugLog from '../ts/logging/uploadDebugLog';
-import { explodePromise } from '../ts/util/explodePromise';
+import * as GlobalErrors from './global_errors.js';
+import { setup as setupCrashReports } from './crashReports.js';
+import { setup as setupSpellChecker } from './spell_check.js';
+import { getDNSFallback } from './dns-fallback.js';
+import { redactAll, addSensitivePath } from '../ts/util/privacy.js';
+import { createSupportUrl } from '../ts/util/createSupportUrl.js';
+import { missingCaseError } from '../ts/util/missingCaseError.js';
+import { strictAssert } from '../ts/util/assert.js';
+import { drop } from '../ts/util/drop.js';
+import type { ThemeSettingType } from '../ts/types/StorageUIKeys.js';
+import { ThemeType } from '../ts/types/Util.js';
+import * as Errors from '../ts/types/errors.js';
+import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.js';
+import { createLogger } from '../ts/logging/log.js';
+import * as debugLog from '../ts/logging/debuglogs.js';
+import * as uploadDebugLog from '../ts/logging/uploadDebugLog.js';
+import { explodePromise } from '../ts/util/explodePromise.js';
 
-import './startup_config';
+import './startup_config.js';
 
-import type { RendererConfigType } from '../ts/types/RendererConfig';
+import type { RendererConfigType } from '../ts/types/RendererConfig.js';
 import {
   directoryConfigSchema,
   rendererConfigSchema,
-} from '../ts/types/RendererConfig';
-import config from './config';
+} from '../ts/types/RendererConfig.js';
+import config from './config.js';
 import {
   Environment,
   getEnvironment,
   isTestEnvironment,
-} from '../ts/environment';
+} from '../ts/environment.js';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory. (see requestSingleInstanceLock below)
-import * as userConfig from './user_config';
+import * as userConfig from './user_config.js';
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-import * as attachments from './attachments';
-import * as attachmentChannel from './attachment_channel';
-import * as bounce from '../ts/services/bounce';
-import * as updater from '../ts/updater/index';
-import { updateDefaultSession } from './updateDefaultSession';
-import { PreventDisplaySleepService } from './PreventDisplaySleepService';
-import { SystemTrayService, focusAndForceToTop } from './SystemTrayService';
-import { SystemTraySettingCache } from './SystemTraySettingCache';
-import { OptionalResourceService } from './OptionalResourceService';
-import { EmojiService } from './EmojiService';
+import * as attachments from './attachments.js';
+import * as attachmentChannel from './attachment_channel.js';
+import * as bounce from '../ts/services/bounce.js';
+import * as updater from '../ts/updater/index.js';
+import { updateDefaultSession } from './updateDefaultSession.js';
+import { PreventDisplaySleepService } from './PreventDisplaySleepService.js';
+import { SystemTrayService, focusAndForceToTop } from './SystemTrayService.js';
+import { SystemTraySettingCache } from './SystemTraySettingCache.js';
+import { OptionalResourceService } from './OptionalResourceService.js';
+import { EmojiService } from './EmojiService.js';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
-} from '../ts/types/SystemTraySetting';
+} from '../ts/types/SystemTraySetting.js';
 import {
   getDefaultSystemTraySetting,
   isSystemTraySupported,
   isContentProtectionEnabledByDefault,
-} from '../ts/types/Settings';
-import * as ephemeralConfig from './ephemeral_config';
-import * as mainProcessLogging from '../ts/logging/main_process_logging';
-import { MainSQL } from '../ts/sql/main';
-import * as sqlChannels from './sql_channel';
-import * as windowState from './window_state';
-import type { CreateTemplateOptionsType } from './menu';
-import { createTemplate } from './menu';
-import { installFileHandler, installWebHandler } from './protocol_filter';
-import OS from '../ts/util/os/osMain';
-import { isNightly, isProduction } from '../ts/util/version';
-import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
-import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
-import { ChallengeMainHandler } from '../ts/main/challengeMain';
-import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier';
-import { PowerChannel } from '../ts/main/powerChannel';
-import { SettingsChannel } from '../ts/main/settingsChannel';
-import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url';
-import { getHeicConverter } from '../ts/workers/heicConverterMain';
+} from '../ts/types/Settings.js';
+import * as ephemeralConfig from './ephemeral_config.js';
+import * as mainProcessLogging from '../ts/logging/main_process_logging.js';
+import { MainSQL } from '../ts/sql/main.js';
+import * as sqlChannels from './sql_channel.js';
+import * as windowState from './window_state.js';
+import type { CreateTemplateOptionsType } from './menu.js';
+import { createTemplate } from './menu.js';
+import { installFileHandler, installWebHandler } from './protocol_filter.js';
+import OS from '../ts/util/os/osMain.js';
+import { isNightly, isProduction } from '../ts/util/version.js';
+import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary.js';
+import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow.js';
+import { ChallengeMainHandler } from '../ts/main/challengeMain.js';
+import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.js';
+import { PowerChannel } from '../ts/main/powerChannel.js';
+import { SettingsChannel } from '../ts/main/settingsChannel.js';
+import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.js';
+import { getHeicConverter } from '../ts/workers/heicConverterMain.js';
 
-import type { LocaleDirection, LocaleType } from './locale';
-import { load as loadLocale } from './locale';
+import type { LocaleDirection, LocaleType } from './locale.js';
+import { load as loadLocale } from './locale.js';
 
-import { HourCyclePreference } from '../ts/types/I18N';
-import { ScreenShareStatus } from '../ts/types/Calling';
-import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
-import { parseSignalRoute } from '../ts/util/signalRoutes';
-import * as dns from '../ts/util/dns';
-import { ZoomFactorService } from '../ts/services/ZoomFactorService';
-import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError';
-import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags';
-import { getOwn } from '../ts/util/getOwn';
-import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas';
-import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
-import { promptOSAuth } from '../ts/util/os/promptOSAuthMain';
+import { HourCyclePreference } from '../ts/types/I18N.js';
+import { ScreenShareStatus } from '../ts/types/Calling.js';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes.js';
+import { parseSignalRoute } from '../ts/util/signalRoutes.js';
+import * as dns from '../ts/util/dns.js';
+import { ZoomFactorService } from '../ts/services/ZoomFactorService.js';
+import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.js';
+import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.js';
+import { getOwn } from '../ts/util/getOwn.js';
+import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.js';
+import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.js';
+import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.js';
 
 const log = createLogger('app/main');
 const updaterLog = log.child('updater');
@@ -221,7 +221,7 @@ let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
   try {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    const windowsNotifications = require('./WindowsNotifications');
+    const windowsNotifications = require('./WindowsNotifications.js');
     sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
   } catch (error) {
     log.error('Failed to initialize Windows Notifications:', error.stack);
@@ -2733,7 +2733,7 @@ ipc.on('get-config', async event => {
     reducedMotionSetting: animationSettings.prefersReducedMotion,
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
-    serverTrustRoot: config.get<string>('serverTrustRoot'),
+    serverTrustRoots: config.get<Array<string>>('serverTrustRoots'),
     stripePublishableKey: config.get<string>('stripePublishableKey'),
     genericServerPublicParams: config.get<string>('genericServerPublicParams'),
     backupServerPublicParams: config.get<string>('backupServerPublicParams'),

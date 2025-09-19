@@ -1,15 +1,15 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import type { SpawnOptions } from 'child_process';
-import { spawn as spawnEmitter } from 'child_process';
-import { readdir as readdirCallback, unlink as unlinkCallback } from 'fs';
+import { join } from 'node:path';
+import type { SpawnOptions } from 'node:child_process';
+import { spawn as spawnEmitter } from 'node:child_process';
+import { readdir as readdirCallback, unlink as unlinkCallback } from 'node:fs';
 
 import { app } from 'electron';
 import pify from 'pify';
 
-import { Updater } from './common';
+import { Updater } from './common.js';
 
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);

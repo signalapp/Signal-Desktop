@@ -6,7 +6,7 @@ import type { ReactElement, TimeHTMLAttributes } from 'react';
 import moment from 'moment';
 import React from 'react';
 
-import { toBoundedDate } from '../util/timestamp';
+import { toBoundedDate } from '../util/timestamp.js';
 
 export function Time({
   children,

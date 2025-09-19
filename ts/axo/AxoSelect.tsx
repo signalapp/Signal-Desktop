@@ -3,10 +3,10 @@
 import React, { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu';
-import { AxoSymbol } from './AxoSymbol';
-import type { TailwindStyles } from './tw';
-import { tw } from './tw';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
+import { AxoSymbol } from './AxoSymbol.js';
+import type { TailwindStyles } from './tw.js';
+import { tw } from './tw.js';
 
 const Namespace = 'AxoSelect';
 

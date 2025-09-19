@@ -3,16 +3,16 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
-import type { StateType as RootStateType } from '../reducer';
-import { setVoiceNotePlaybackRate } from './conversations';
-import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer';
+import type { StateType as RootStateType } from '../reducer.js';
+import { setVoiceNotePlaybackRate } from './conversations.js';
+import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer.js';
 import type {
   VoiceNoteAndConsecutiveForPlayback,
   VoiceNoteForPlayback,
-} from '../selectors/audioPlayer';
+} from '../selectors/audioPlayer.js';
 
 import type {
   MessagesAddedActionType,
@@ -20,11 +20,11 @@ import type {
   MessageChangedActionType,
   TargetedConversationChangedActionType,
   ConversationsUpdatedActionType,
-} from './conversations';
-import { createLogger } from '../../logging/log';
-import { isAudio } from '../../types/Attachment';
-import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
-import { assertDev } from '../../util/assert';
+} from './conversations.js';
+import { createLogger } from '../../logging/log.js';
+import { isAudio } from '../../types/Attachment.js';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.js';
+import { assertDev } from '../../util/assert.js';
 
 const log = createLogger('audioPlayer');
 

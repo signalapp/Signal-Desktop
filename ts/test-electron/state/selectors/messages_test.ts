@@ -4,16 +4,16 @@
 import { assert } from 'chai';
 import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
-import { SendStatus } from '../../../messages/MessageSendState';
+import { SendStatus } from '../../../messages/MessageSendState.js';
 import type {
   MessageAttributesType,
   ShallowChallengeError,
-} from '../../../model-types.d';
-import type { ConversationType } from '../../../state/ducks/conversations';
+} from '../../../model-types.d.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../../test-helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation.js';
 
 import {
   canDeleteForEveryone,
@@ -25,7 +25,7 @@ import {
   isGroupUpdate,
   isIncoming,
   isOutgoing,
-} from '../../../state/selectors/message';
+} from '../../../state/selectors/message.js';
 
 describe('state/selectors/messages', () => {
   let ourConversationId: string;

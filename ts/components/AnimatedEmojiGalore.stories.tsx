@@ -5,8 +5,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AnimatedEmojiGalore';
-import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
+import type { PropsType } from './AnimatedEmojiGalore.js';
+import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.js';
 
 export default {
   title: 'Components/AnimatedEmojiGalore',

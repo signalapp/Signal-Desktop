@@ -2070,7 +2070,7 @@
     "messageformat": "ההורדה נכשלה"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "הורדת קובץ מצורף מהגיבוי נכשלה"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ניתן לערוך את ההודעה הזו רק עד 24 שעות מזמן השליחה שלה."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "מדיה משותפת"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "ראה הכל"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "חסומים"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "גיבויים מאובטחים של Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "גיבויים אוטומטיים בשירות האחסון המאובטח והמוצפן מקצה לקצה של Signal. אפשר להתחיל כעת בטלפון שלך. <learnMoreLink>למידע נוסף</learnMoreLink>."
@@ -5307,7 +5304,7 @@
     "messageformat": "גיבוי טקסט + כל המדיה"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויים מאובטחים של Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {גיבוי טקסט + יום {mediaDayCount,number} של מדיה} two {גיבוי טקסט + יומיים של מדיה} many {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה} other {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "מנוי בוטל"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "באפשרותך לנהל או לבטל את מנוי גיבויי Signal המאובטחים שלך בטלפון שלך."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "באפשרותך לנהל או לשדרג את גיבויי Signal המאובטחים בטלפון שלך."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "באפשרותך לנהל או לחדש את מנוי גיבויי Signal המאובטחים שלך בטלפון שלך."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "גיבוי אחרון"
@@ -6823,10 +6820,10 @@
     "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "כדי לעדכן את הגדרות התג שלך במכשיר הנייד שלך, יש לעבור אל הגדרות > תרומה ל–Signal > תגים."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "התרומה הופסקה"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "כמה תיקוני באגים קטנים."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "תיקנו באג שמנע מתגי התרומה להופיע כראוי אצל חלק מהמשתמשים. Signal היא עמותה ללא מטרות רווח, ואנחנו מעריכים מאוד את התמיכה שלך!"
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "תיקנו באג ב–Microsoft Windows שלפעמים גרם להופעת הצבע הלא נכון בשורת הכותרת."
   }
 }

@@ -6,9 +6,9 @@
 // TODO(indutny): format queries
 import type { RowType } from '@signalapp/sqlcipher';
 import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 import { mkdirSync, rmSync } from 'node:fs';
-import { join } from 'path';
+import { join } from 'node:path';
 import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 
@@ -30,40 +30,40 @@ import {
   pick,
 } from 'lodash';
 
-import { parseBadgeCategory } from '../badges/BadgeCategory';
+import { parseBadgeCategory } from '../badges/BadgeCategory.js';
 import {
   parseBadgeImageTheme,
   type BadgeImageTheme,
-} from '../badges/BadgeImageTheme';
-import type { BadgeImageType, BadgeType } from '../badges/types';
-import type { StoredJob } from '../jobs/types';
-import { formatCountForLogging } from '../logging/formatCountForLogging';
-import { ReadStatus } from '../messages/MessageReadStatus';
+} from '../badges/BadgeImageTheme.js';
+import type { BadgeImageType, BadgeType } from '../badges/types.js';
+import type { StoredJob } from '../jobs/types.js';
+import { formatCountForLogging } from '../logging/formatCountForLogging.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
 import type {
   GroupV2MemberType,
   MessageAttributesType,
-} from '../model-types.d';
-import type { ReactionType } from '../types/Reactions';
-import { ReactionReadStatus } from '../types/Reactions';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { isServiceIdString } from '../types/ServiceId';
-import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import * as Errors from '../types/errors';
-import { assertDev, strictAssert } from '../util/assert';
-import { combineNames } from '../util/combineNames';
-import { consoleLogger } from '../util/consoleLogger';
+} from '../model-types.d.ts';
+import type { ReactionType } from '../types/Reactions.js';
+import { ReactionReadStatus } from '../types/Reactions.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+import { isServiceIdString } from '../types/ServiceId.js';
+import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import * as Errors from '../types/errors.js';
+import { assertDev, strictAssert } from '../util/assert.js';
+import { combineNames } from '../util/combineNames.js';
+import { consoleLogger } from '../util/consoleLogger.js';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
   type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
-} from '../util/dropNull';
-import { isNormalNumber } from '../util/isNormalNumber';
-import { isNotNil } from '../util/isNotNil';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import { updateSchema } from './migrations';
-import type { JSONRows } from './util';
+} from '../util/dropNull.js';
+import { isNormalNumber } from '../util/isNormalNumber.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
+import { updateSchema } from './migrations/index.js';
+import type { JSONRows } from './util.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -84,32 +84,32 @@ import {
   sqlJoin,
   QueryFragment,
   convertOptionalBooleanToInteger,
-} from './util';
+} from './util.js';
 import {
   hydrateMessage,
   hydrateMessages,
   convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
-} from './hydration';
+} from './hydration.js';
 
-import { SeenStatus } from '../MessageSeenStatus';
+import { SeenStatus } from '../MessageSeenStatus.js';
 import {
   attachmentBackupJobSchema,
   type AttachmentBackupJobType,
-} from '../types/AttachmentBackup';
+} from '../types/AttachmentBackup.js';
 import {
   attachmentDownloadJobSchema,
   type AttachmentDownloadJobTypeType,
   type AttachmentDownloadJobType,
-} from '../types/AttachmentDownload';
+} from '../types/AttachmentDownload.js';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition';
+} from '../types/CallDisposition.js';
 import {
   CallDirection,
   CallHistoryFilterStatus,
@@ -120,21 +120,21 @@ import {
   GroupCallStatus,
   callHistoryDetailsSchema,
   callHistoryGroupSchema,
-} from '../types/CallDisposition';
-import { redactGenericText } from '../util/privacy';
+} from '../types/CallDisposition.js';
+import { redactGenericText } from '../util/privacy.js';
 import {
   parseLoose,
   parseStrict,
   parseUnknown,
   safeParseUnknown,
-} from '../util/schemas';
+} from '../util/schemas.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search';
-import type { SyncTaskType } from '../util/syncTasks';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types';
+} from '../util/search.js';
+import type { SyncTaskType } from '../util/syncTasks.js';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.js';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
@@ -202,13 +202,13 @@ import type {
   ServerMessageSearchResultType,
   MessageCountBySchemaVersionType,
   BackupAttachmentDownloadProgress,
-} from './Interface';
+} from './Interface.js';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
-} from './Interface';
+} from './Interface.js';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -233,21 +233,21 @@ import {
   updateCallLinkState,
   updateCallLinkStateAndEpoch,
   updateDefunctCallLink,
-} from './server/callLinks';
+} from './server/callLinks.js';
 import {
   _deleteAllDonationReceipts,
   createDonationReceipt,
   deleteDonationReceiptById,
   getAllDonationReceipts,
   getDonationReceiptById,
-} from './server/donationReceipts';
+} from './server/donationReceipts.js';
 import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
-} from './server/groupSendEndorsements';
+} from './server/groupSendEndorsements.js';
 import {
   getAllChatFolders,
   getCurrentChatFolders,
@@ -259,20 +259,23 @@ import {
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
-} from './server/chatFolders';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
-import type { GifType } from '../components/fun/panels/FunPanelGifs';
-import type { NotificationProfileType } from '../types/NotificationProfile';
-import * as durations from '../util/durations';
+} from './server/chatFolders.js';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.js';
+import * as durations from '../util/durations/index.js';
 import {
   isFile,
   isVisualMedia,
   type AttachmentType,
-} from '../types/Attachment';
-import { generateMessageId } from '../util/generateMessageId';
-import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import { sqlLogger } from './sqlLogger';
-import { permissiveMessageAttachmentSchema } from './server/messageAttachments';
+} from '../types/Attachment.js';
+import { generateMessageId } from '../util/generateMessageId.js';
+import type {
+  ConversationColorType,
+  CustomColorType,
+} from '../types/Colors.js';
+import { sqlLogger } from './sqlLogger.js';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments.js';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -2713,6 +2716,7 @@ function saveMessageAttachment({
     receivedAtMs,
     clientUuid: attachment.clientUuid,
     size: attachment.size,
+    duration: attachment.duration,
     contentType: attachment.contentType,
     path: attachment.path,
     localKey: attachment.localKey,
@@ -2993,10 +2997,6 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
-
     const result = db
       .prepare(
         // UPDATE queries that set the value of a primary key column can be very slow when
@@ -3013,6 +3013,10 @@ function saveMessage(
     if (result.changes === 0) {
       // Message has been deleted from DB
       return id;
+    }
+
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
     }
 
     if (jobToInsert) {

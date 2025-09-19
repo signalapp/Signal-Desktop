@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import { omit } from 'lodash';
-import { BadgeCategory } from '../../badges/BadgeCategory';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
+import { BadgeCategory } from '../../badges/BadgeCategory.js';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.js';
 
-import { parseBadgesFromServer } from '../../badges/parseBadgesFromServer';
+import { parseBadgesFromServer } from '../../badges/parseBadgesFromServer.js';
 
 describe('parseBadgesFromServer', () => {
   const UPDATES_URL = 'https://updates2.signal.org/desktop';

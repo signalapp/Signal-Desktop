@@ -4,36 +4,36 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallManager';
-import { CallManager } from './CallManager';
+import type { PropsType } from './CallManager.js';
+import { CallManager } from './CallManager.js';
 import {
   CallEndedReason,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
+} from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
 import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,
-} from '../types/Calling';
+} from '../types/Calling.js';
 import type {
   ConversationType,
   ConversationTypeType,
-} from '../state/ducks/conversations';
-import { AvatarColors } from '../types/Colors';
-import { generateAci } from '../types/ServiceId';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
-import { StorySendMode } from '../types/Stories';
+} from '../state/ducks/conversations.js';
+import { AvatarColors } from '../types/Colors.js';
+import { generateAci } from '../types/ServiceId.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
+import { StorySendMode } from '../types/Stories.js';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getDefaultCallLinkConversation,
-} from '../test-helpers/fakeCallLink';
-import { allRemoteParticipants } from './CallScreen.stories';
-import { getPlaceholderContact } from '../state/selectors/conversations';
+} from '../test-helpers/fakeCallLink.js';
+import { allRemoteParticipants } from './CallScreen.stories.js';
+import { getPlaceholderContact } from '../state/selectors/conversations.js';
 
 const { i18n } = window.SignalContext;
 

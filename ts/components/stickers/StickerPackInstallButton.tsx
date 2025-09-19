@@ -4,7 +4,7 @@
 import type { ButtonHTMLAttributes } from 'react';
 import * as React from 'react';
 import classNames from 'classnames';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util.js';
 
 export type OwnProps = {
   readonly installed: boolean;

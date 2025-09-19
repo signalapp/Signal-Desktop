@@ -5,16 +5,16 @@
 
 import { createSelector } from 'reselect';
 
-import { createLogger } from '../../logging/log';
+import { createLogger } from '../../logging/log.js';
 
-import type { StateType } from '../reducer';
-import type { NotificationProfilesStateType } from '../ducks/notificationProfiles';
+import type { StateType } from '../reducer.js';
+import type { NotificationProfilesStateType } from '../ducks/notificationProfiles.js';
 import {
   redactNotificationProfileId,
   type NextProfileEvent,
   type NotificationProfileOverride,
   type NotificationProfileType,
-} from '../../types/NotificationProfile';
+} from '../../types/NotificationProfile.js';
 
 const log = createLogger('notificationProfiles');
 

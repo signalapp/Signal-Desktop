@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setupI18n } from '../../util/setupI18n';
+import { setupI18n } from '../../util/setupI18n.js';
 import enMessages from '../../../_locales/en/messages.json';
 
-import { getMuteOptions } from '../../util/getMuteOptions';
+import { getMuteOptions } from '../../util/getMuteOptions.js';
 
 describe('getMuteOptions', () => {
   const HOUR = 3600000;

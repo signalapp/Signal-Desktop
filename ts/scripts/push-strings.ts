@@ -4,7 +4,7 @@
 import { randomBytes } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
-import { API_BASE, PROJECT_ID, authenticate } from '../util/smartling';
+import { API_BASE, PROJECT_ID, authenticate } from '../util/smartling.js';
 
 const { SMARTLING_USER, SMARTLING_SECRET } = process.env;
 

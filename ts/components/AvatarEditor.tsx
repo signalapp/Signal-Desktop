@@ -4,25 +4,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar';
-import { AvatarIconEditor } from './AvatarIconEditor';
-import { AvatarModalButtons } from './AvatarModalButtons';
-import { AvatarPreview } from './AvatarPreview';
-import { AvatarTextEditor } from './AvatarTextEditor';
-import { AvatarUploadButton } from './AvatarUploadButton';
-import { BetterAvatar } from './BetterAvatar';
-import type { LocalizerType } from '../types/Util';
-import { avatarDataToBytes } from '../util/avatarDataToBytes';
-import { createAvatarData } from '../util/createAvatarData';
-import { isSameAvatarData } from '../util/isSameAvatarData';
-import { missingCaseError } from '../util/missingCaseError';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+} from '../types/Avatar.js';
+import { AvatarIconEditor } from './AvatarIconEditor.js';
+import { AvatarModalButtons } from './AvatarModalButtons.js';
+import { AvatarPreview } from './AvatarPreview.js';
+import { AvatarTextEditor } from './AvatarTextEditor.js';
+import { AvatarUploadButton } from './AvatarUploadButton.js';
+import { BetterAvatar } from './BetterAvatar.js';
+import type { LocalizerType } from '../types/Util.js';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
+import { createAvatarData } from '../util/createAvatarData.js';
+import { isSameAvatarData } from '../util/isSameAvatarData.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;

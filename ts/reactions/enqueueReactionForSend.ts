@@ -4,25 +4,25 @@
 import noop from 'lodash/noop';
 import { v7 as generateUuid } from 'uuid';
 
-import { DataWriter } from '../sql/Client';
-import { MessageModel } from '../models/messages';
+import { DataWriter } from '../sql/Client.js';
+import { MessageModel } from '../models/messages.js';
 import {
   handleReaction,
   type ReactionAttributesType,
-} from '../messageModifiers/Reactions';
-import { ReactionSource } from './ReactionSource';
-import { getMessageById } from '../messages/getMessageById';
-import { getSourceServiceId, isStory } from '../messages/helpers';
-import { strictAssert } from '../util/assert';
-import { isDirectConversation } from '../util/whatTypeOfConversation';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { generateMessageId } from '../util/generateMessageId';
-import { repeat, zipObject } from '../util/iterables';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import { isAciString } from '../util/isAciString';
-import { SendStatus } from '../messages/MessageSendState';
-import { createLogger } from '../logging/log';
-import { getMessageIdForLogging } from '../util/idForLogging';
+} from '../messageModifiers/Reactions.js';
+import { ReactionSource } from './ReactionSource.js';
+import { getMessageById } from '../messages/getMessageById.js';
+import { getSourceServiceId, isStory } from '../messages/helpers.js';
+import { strictAssert } from '../util/assert.js';
+import { isDirectConversation } from '../util/whatTypeOfConversation.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { generateMessageId } from '../util/generateMessageId.js';
+import { repeat, zipObject } from '../util/iterables.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
+import { isAciString } from '../util/isAciString.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { createLogger } from '../logging/log.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
 
 const log = createLogger('enqueueReactionForSend');
 

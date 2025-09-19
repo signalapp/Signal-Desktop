@@ -5,14 +5,14 @@ import casual from 'casual';
 import { sample } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ServiceIdString } from '../types/ServiceId';
-import { generateAci } from '../types/ServiceId';
-import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem';
-import { getRandomColor } from './getRandomColor';
-import { ConversationColors } from '../types/Colors';
-import { StorySendMode } from '../types/Stories';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { generateAci } from '../types/ServiceId.js';
+import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.js';
+import { getRandomColor } from './getRandomColor.js';
+import { ConversationColors } from '../types/Colors.js';
+import { StorySendMode } from '../types/Stories.js';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
 
 export const getAvatarPath = (): string =>
   sample([

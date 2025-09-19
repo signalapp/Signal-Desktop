@@ -4,8 +4,12 @@
 import type { IpcMainEvent } from 'electron';
 import { ipcMain as ipc } from 'electron';
 
-import { createLogger } from '../logging/log';
-import type { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
+import { createLogger } from '../logging/log.js';
+import type {
+  IPCRequest,
+  IPCResponse,
+  ChallengeResponse,
+} from '../challenge.js';
 
 const log = createLogger('challengeMain');
 

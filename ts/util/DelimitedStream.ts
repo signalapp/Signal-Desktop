@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Transform } from 'stream';
+import { Transform } from 'node:stream';
 
-import { missingCaseError } from './missingCaseError';
+import { missingCaseError } from './missingCaseError.js';
 
 enum State {
   Prefix = 'Prefix',

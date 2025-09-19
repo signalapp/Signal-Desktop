@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { IMAGE_JPEG } from '../types/MIME';
+import { IMAGE_JPEG } from '../types/MIME.js';
 
 /**
  * Similar to [the built-in `toBlob` method][0], but returns a Promise.

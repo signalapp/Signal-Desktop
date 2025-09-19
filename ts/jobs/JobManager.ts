@@ -1,21 +1,21 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as z from 'zod';
-import { MINUTE, SECOND } from '../util/durations';
+import { MINUTE, SECOND } from '../util/durations/index.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { drop } from '../util/drop';
-import { createLogger } from '../logging/log';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../util/explodePromise.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { drop } from '../util/drop.js';
+import { createLogger } from '../logging/log.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   type ExponentialBackoffOptionsType,
   exponentialBackoffSleepTime,
-} from '../util/exponentialBackoff';
-import * as Errors from '../types/errors';
-import { sleep } from '../util/sleep';
+} from '../util/exponentialBackoff.js';
+import * as Errors from '../types/errors.js';
+import { sleep } from '../util/sleep.js';
 
 const log = createLogger('JobManager');
 

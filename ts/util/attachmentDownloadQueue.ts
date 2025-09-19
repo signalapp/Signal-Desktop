@@ -1,18 +1,18 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageModel } from '../models/messages';
-import type { MessageAttributesType } from '../model-types';
-import type { AttachmentType } from '../types/Attachment';
+import type { MessageModel } from '../models/messages.js';
+import type { MessageAttributesType } from '../model-types.js';
+import type { AttachmentType } from '../types/Attachment.js';
 
-import { createLogger } from '../logging/log';
-import * as MIME from '../types/MIME';
+import { createLogger } from '../logging/log.js';
+import * as MIME from '../types/MIME.js';
 
-import { DataWriter } from '../sql/Client';
-import { isMoreRecentThan } from './timestamp';
-import { isNotNil } from './isNotNil';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads';
-import { postSaveUpdates } from './cleanup';
+import { DataWriter } from '../sql/Client.js';
+import { isMoreRecentThan } from './timestamp.js';
+import { isNotNil } from './isNotNil.js';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
+import { postSaveUpdates } from './cleanup.js';
 
 const log = createLogger('attachmentDownloadQueue');
 

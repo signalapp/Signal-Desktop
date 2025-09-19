@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Environment, getEnvironment } from '../environment';
-import type { LoggerType } from '../types/Logging';
-import { isNotUpdatable } from './version';
-import { isInPast } from './timestamp';
-import { DAY } from './durations';
+import { Environment, getEnvironment } from '../environment.js';
+import type { LoggerType } from '../types/Logging.js';
+import { isNotUpdatable } from './version.js';
+import { isInPast } from './timestamp.js';
+import { DAY } from './durations/index.js';
 
 const NINETY_ONE_DAYS = 91 * DAY;
 const THIRTY_ONE_DAYS = 31 * DAY;

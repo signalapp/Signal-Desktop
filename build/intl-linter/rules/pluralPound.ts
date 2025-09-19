@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { PluralElement } from '@formatjs/icu-messageformat-parser';
-import { rule } from '../utils/rule';
+import { rule } from '../utils/rule.js';
 
 export default rule('pluralPound', context => {
   const stack: Array<PluralElement> = [];

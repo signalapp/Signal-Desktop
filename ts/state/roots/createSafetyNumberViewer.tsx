@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
-import { SmartSafetyNumberViewer } from '../smart/SafetyNumberViewer';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.js';
+import { SmartSafetyNumberViewer } from '../smart/SafetyNumberViewer.js';
 
 export const createSafetyNumberViewer = (
   store: Store,

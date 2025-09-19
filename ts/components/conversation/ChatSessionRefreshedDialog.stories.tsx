@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ChatSessionRefreshedDialog';
-import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog';
+import type { PropsType } from './ChatSessionRefreshedDialog.js';
+import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog.js';
 
 const { i18n } = window.SignalContext;
 

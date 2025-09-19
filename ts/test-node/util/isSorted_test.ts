@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isSorted } from '../../util/isSorted';
+import { isSorted } from '../../util/isSorted.js';
 
 describe('isSorted', () => {
   it('returns true for empty lists', () => {

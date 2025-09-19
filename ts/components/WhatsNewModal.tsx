@@ -5,10 +5,10 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import moment from 'moment';
 
-import { Modal } from './Modal';
-import { I18n } from './I18n';
-import type { LocalizerType } from '../types/Util';
-import { tw } from '../axo/tw';
+import { Modal } from './Modal.js';
+import { I18n } from './I18n.js';
+import type { LocalizerType } from '../types/Util.js';
+import { tw } from '../axo/tw.js';
 
 export type PropsType = {
   hideWhatsNewModal: () => unknown;
@@ -43,7 +43,7 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<I18n i18n={i18n} id="icu:WhatsNew__bugfixes--4" />],
+    features: [<I18n i18n={i18n} id="icu:WhatsNew__bugfixes--6" />],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

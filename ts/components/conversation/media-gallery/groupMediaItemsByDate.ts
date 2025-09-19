@@ -3,8 +3,8 @@
 
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
-import type { MediaItemType } from '../../../types/MediaItem';
-import { missingCaseError } from '../../../util/missingCaseError';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';

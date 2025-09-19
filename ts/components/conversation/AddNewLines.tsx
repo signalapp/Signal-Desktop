@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import type { RenderTextCallbackType } from '../../types/Util';
+import type { RenderTextCallbackType } from '../../types/Util.js';
 
 export type Props = {
   text: string;

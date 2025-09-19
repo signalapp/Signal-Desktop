@@ -5,72 +5,72 @@ import { isEqual } from 'lodash';
 import Long from 'long';
 
 import { ServiceId } from '@signalapp/libsignal-client';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
-import * as Bytes from '../Bytes';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto.js';
+import * as Bytes from '../Bytes.js';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
-} from '../groups';
-import { assertDev, strictAssert } from '../util/assert';
-import { dropNull } from '../util/dropNull';
-import { missingCaseError } from '../util/missingCaseError';
-import { isNotNil } from '../util/isNotNil';
+} from '../groups.js';
+import { assertDev, strictAssert } from '../util/assert.js';
+import { dropNull } from '../util/dropNull.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { isNotNil } from '../util/isNotNil.js';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../util/phoneNumberSharingMode';
+} from '../util/phoneNumberSharingMode.js';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../util/phoneNumberDiscoverability';
-import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
-import type { ConversationModel } from '../models/conversations';
+} from '../util/phoneNumberDiscoverability.js';
+import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.js';
+import type { ConversationModel } from '../models/conversations.js';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../util/timestampLongUtils';
-import { canHaveUsername } from '../util/getTitle';
+} from '../util/timestampLongUtils.js';
+import { canHaveUsername } from '../util/getTitle.js';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
-} from '../util/universalExpireTimer';
-import { ourProfileKeyService } from './ourProfileKey';
+} from '../util/universalExpireTimer.js';
+import { ourProfileKeyService } from './ourProfileKey.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../util/whatTypeOfConversation';
-import { DurationInSeconds } from '../util/durations';
-import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
+} from '../util/whatTypeOfConversation.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
 import {
   ServiceIdKind,
   normalizeServiceId,
   toUntaggedPni,
-} from '../types/ServiceId';
-import { isAciString } from '../util/isAciString';
-import * as Stickers from '../types/Stickers';
+} from '../types/ServiceId.js';
+import { isAciString } from '../util/isAciString.js';
+import * as Stickers from '../types/Stickers.js';
 import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
-} from '../sql/Interface';
-import { DataReader, DataWriter } from '../sql/Client';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories';
-import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
-import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
-import { drop } from '../util/drop';
-import { redactExtendedStorageID } from '../util/privacy';
+} from '../sql/Interface.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.js';
+import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.js';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory.js';
+import { drop } from '../util/drop.js';
+import { redactExtendedStorageID } from '../util/privacy.js';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink';
+} from '../types/CallLink.js';
 import {
   callLinkFromRecord,
   fromEpochBytes,
@@ -78,16 +78,16 @@ import {
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
   toEpochBytes,
-} from '../util/callLinksRingrtc';
-import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks';
-import { isOlderThan } from '../util/timestamp';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
+} from '../util/callLinksRingrtc.js';
+import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
   saveBackupTier,
-} from '../util/backupSubscriptionData';
+} from '../util/backupSubscriptionData.js';
 import {
   toAciObject,
   toPniObject,
@@ -95,22 +95,22 @@ import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled';
-import { getLinkPreviewSetting } from '../types/LinkPreview';
+} from '../util/ServiceId.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
+import { getLinkPreviewSetting } from '../types/LinkPreview.js';
 import {
   getReadReceiptSetting,
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
-} from '../types/Util';
-import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent';
-import type { ChatFolder, ChatFolderId } from '../types/ChatFolder';
+} from '../types/Util.js';
+import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.js';
+import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.js';
 import {
   CHAT_FOLDER_DELETED_POSITION,
   ChatFolderType,
-} from '../types/ChatFolder';
-import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup';
-import { chatFolderCleanupService } from './expiring/chatFolderCleanupService';
+} from '../types/ChatFolder.js';
+import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
+import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
 
 const log = createLogger('storageRecordOps');
 

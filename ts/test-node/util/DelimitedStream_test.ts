@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { Readable, Writable } from 'stream';
-import { pipeline } from 'stream/promises';
+import { Readable, Writable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { BufferWriter } from 'protobufjs';
 
-import { DelimitedStream } from '../../util/DelimitedStream';
+import { DelimitedStream } from '../../util/DelimitedStream.js';
 
 describe('DelimitedStream', () => {
   function collect(out: Array<string>): Writable {

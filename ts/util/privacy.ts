@@ -3,13 +3,13 @@
 
 /* eslint-env node */
 
-import path from 'path';
+import path from 'node:path';
 
 import { compose } from 'lodash/fp';
 import { escapeRegExp, isString, isRegExp } from 'lodash';
 
-import type { ExtendedStorageID } from '../types/StorageService.d';
-import type { ConversationModel } from '../models/conversations';
+import type { ExtendedStorageID } from '../types/StorageService.d.ts';
+import type { ConversationModel } from '../models/conversations.js';
 
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 

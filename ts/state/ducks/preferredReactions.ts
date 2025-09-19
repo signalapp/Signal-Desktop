@@ -4,17 +4,17 @@
 import type { ThunkAction } from 'redux-thunk';
 import { omit } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import { replaceIndex } from '../../util/replaceIndex';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import type { StateType as RootStateType } from '../reducer';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
-import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji';
-import { getEmojiSkinToneDefault } from '../selectors/items';
-import { convertShortName } from '../../components/emoji/lib';
-import { EmojiSkinTone } from '../../components/fun/data/emojis';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import { replaceIndex } from '../../util/replaceIndex.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants.js';
+import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.js';
+import { getEmojiSkinToneDefault } from '../selectors/items.js';
+import { convertShortName } from '../../components/emoji/lib.js';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
 const log = createLogger('preferredReactions');
 

@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import { _cleanMessageData } from '../../sql/Client';
-import { IMAGE_GIF } from '../../types/MIME';
+import { _cleanMessageData } from '../../sql/Client.js';
+import { IMAGE_GIF } from '../../types/MIME.js';
 
 describe('_cleanMessageData', () => {
   it('throws if message is missing received_at', () => {

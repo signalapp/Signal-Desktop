@@ -23,6 +23,7 @@ js/WebAudioRecorderMp3.js
 js/calling-tools/**
 
 # TypeScript generated files
+build/**/*.js
 app/**/*.js
 ts/**/*.js
 

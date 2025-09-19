@@ -1,22 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d.ts';
 import type {
   SendIdentifierData,
   SendMetadataType,
   SendOptionsType,
-} from '../textsecure/SendMessage';
-import { getConversationMembers } from './getConversationMembers';
-import { isDirectConversation, isMe } from './whatTypeOfConversation';
-import { senderCertificateService } from '../services/senderCertificate';
-import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode';
-import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
-import { SenderCertificateMode } from '../textsecure/OutgoingMessage';
-import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender';
-import { isNotNil } from './isNotNil';
-import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements';
-import { missingCaseError } from './missingCaseError';
+} from '../textsecure/SendMessage.js';
+import { getConversationMembers } from './getConversationMembers.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
+import { senderCertificateService } from '../services/senderCertificate.js';
+import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode.js';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.js';
+import { SenderCertificateMode } from '../textsecure/OutgoingMessage.js';
+import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender.js';
+import { isNotNil } from './isNotNil.js';
+import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.js';
+import { missingCaseError } from './missingCaseError.js';
 
 export async function getSendOptionsForRecipients(
   recipients: ReadonlyArray<string>,

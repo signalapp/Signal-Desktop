@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useId } from 'react';
 import type { Meta } from '@storybook/react';
 import { VisuallyHidden } from 'react-aria';
-import { FunGif, FunGifPreview } from './FunGif';
-import { LoadingState } from '../../util/loadable';
+import { FunGif, FunGifPreview } from './FunGif.js';
+import { LoadingState } from '../../util/loadable.js';
 
 export default {
   title: 'Components/Fun/FunGif',

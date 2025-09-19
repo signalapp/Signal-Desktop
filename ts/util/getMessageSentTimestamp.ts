@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import type { LoggerType } from '../types/Logging';
-import { assertDev } from './assert';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { LoggerType } from '../types/Logging.js';
+import { assertDev } from './assert.js';
 
 export type GetMessageSentTimestampOptionsType = Readonly<{
   includeEdits?: boolean;

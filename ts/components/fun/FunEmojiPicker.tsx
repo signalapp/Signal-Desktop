@@ -4,13 +4,13 @@ import type { ReactNode } from 'react';
 import React, { memo, useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
-import { FunPopover } from './base/FunPopover';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis';
-import { FunPanelEmojis } from './panels/FunPanelEmojis';
-import { useFunContext } from './FunProvider';
-import type { ThemeType } from '../../types/Util';
-import { FunErrorBoundary } from './base/FunErrorBoundary';
-import type { EmojiVariantKey } from './data/emojis';
+import { FunPopover } from './base/FunPopover.js';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.js';
+import { FunPanelEmojis } from './panels/FunPanelEmojis.js';
+import { useFunContext } from './FunProvider.js';
+import type { ThemeType } from '../../types/Util.js';
+import { FunErrorBoundary } from './base/FunErrorBoundary.js';
+import type { EmojiVariantKey } from './data/emojis.js';
 
 export type FunEmojiPickerProps = Readonly<{
   open: boolean;

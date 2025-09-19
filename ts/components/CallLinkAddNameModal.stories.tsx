@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { CallLinkAddNameModalProps } from './CallLinkAddNameModal';
-import { CallLinkAddNameModal } from './CallLinkAddNameModal';
-import type { ComponentMeta } from '../storybook/types';
-import { FAKE_CALL_LINK_WITH_ADMIN_KEY } from '../test-helpers/fakeCallLink';
+import type { CallLinkAddNameModalProps } from './CallLinkAddNameModal.js';
+import { CallLinkAddNameModal } from './CallLinkAddNameModal.js';
+import type { ComponentMeta } from '../storybook/types.js';
+import { FAKE_CALL_LINK_WITH_ADMIN_KEY } from '../test-helpers/fakeCallLink.js';
 
 const { i18n } = window.SignalContext;
 

@@ -1,6 +1,6 @@
 {
   "icu:AddUserToAnotherGroupModal__title": {
-    "messageformat": "ગ્રુપમાં ઉમેરો"
+    "messageformat": "ગ્રૂપમાં ઉમેરો"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
     "messageformat": "નવા સભ્યો ઉમેરવા છે?"
@@ -9,7 +9,7 @@
     "messageformat": "ઉમેરો"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "“{contact}”ને {group} ગ્રુપમાં ઉમેરવા છે?"
+    "messageformat": "“{contact}”ને {group} ગ્રૂપમાં ઉમેરવા છે?"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "શોધો"
@@ -75,7 +75,7 @@
     "messageformat": "અજાણ્યું"
   },
   "icu:unknownGroup": {
-    "messageformat": "અજાણ્યું ગ્રુપ"
+    "messageformat": "અજાણ્યું ગ્રૂપ"
   },
   "icu:cantOpenSignalError": {
     "messageformat": "Signal ખોલી શકાતું નથી"
@@ -105,22 +105,22 @@
     "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend}માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો અથવા કમાન્ડ લાઇન ફ્લેગ --password-store=\"{previousBackendFlag}\" સાથે Signalને રન કરવાનો પ્રયાસ કરો"
   },
   "icu:mainMenuFile": {
-    "messageformat": "&ફાઇલ"
+    "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
     "messageformat": "સ્ટીકર પેક બનાવો/અપલોડ કરો"
   },
   "icu:mainMenuEdit": {
-    "messageformat": "&સંપાદિત કરો"
+    "messageformat": "&Edit"
   },
   "icu:mainMenuView": {
-    "messageformat": "&જુઓ"
+    "messageformat": "&View"
   },
   "icu:mainMenuWindow": {
-    "messageformat": "&વિન્ડો"
+    "messageformat": "&Window"
   },
   "icu:mainMenuHelp": {
-    "messageformat": "&મદદ"
+    "messageformat": "&Help"
   },
   "icu:mainMenuSettings": {
     "messageformat": "પસંદગીઓ..."
@@ -177,7 +177,7 @@
     "messageformat": "નાનું કરો"
   },
   "icu:windowMenuZoom": {
-    "messageformat": "ઝુમ કરો"
+    "messageformat": "ઝૂમ કરો"
   },
   "icu:windowMenuBringAllToFront": {
     "messageformat": "બધાને આગળ લાવો"
@@ -186,10 +186,10 @@
     "messageformat": "વાસ્તવિક કદ"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "ઝુમ ઇન"
+    "messageformat": "ઝૂમ ઇન"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "ઝુમ આઉટ"
+    "messageformat": "ઝૂમ આઉટ"
   },
   "icu:viewMenuToggleFullScreen": {
     "messageformat": "ટોગલ ફૂલ સ્ક્રીન"
@@ -2070,7 +2070,7 @@
     "messageformat": "ડાઉનલોડ નિષ્ફળ ગયું"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "બેકઅપમાંથી એટેચમેન્ટ ડાઉનલોડ કરવાનું નિષ્ફળ થયું"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "તમે આ મેસેજ મોકલ્યો હોય ત્યારથી માત્ર 24 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે."
@@ -4451,11 +4451,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "શેર કરેલ મીડિયા"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "બધા જુઓ"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
@@ -5292,7 +5289,7 @@
     "messageformat": "બ્લૉક કર્યા"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal સુરક્ષિત બેકઅપ"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalની સુરક્ષિત, એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ સ્ટોરેજ સેવા સાથે ઓટોમેટિક બેકઅપ. તમારા ફોન પર શરૂઆત કરો. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
@@ -5307,7 +5304,7 @@
     "messageformat": "ટેક્સ્ટ + બધા મીડિયાનું બેકઅપ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal સુરક્ષિત બેકઅપનો ઉપયોગ ચાલુ રાખવા રિન્યૂ કરો."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ} other {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ}}"
@@ -5325,13 +5322,13 @@
     "messageformat": "સબ્સ્ક્રિપ્શન રદ કર્યું"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal સુરક્ષિત બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા કેન્સલ કરી શકો છો."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "તમે તમારા ફોન પર Signal સુરક્ષિત બેકઅપને મેનેજ અથવા અપગ્રેડ કરી શકો છો."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal સુરક્ષિત બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા રિન્યૂ કરી શકો છો."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "છેલ્લું બેકઅપ"
@@ -6823,10 +6820,10 @@
     "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "તમારા મોબાઇલ ડિવાઇસ પર તમારા બૅજ સેટિંગ્સ અપડેટ કરવા માટે, સેટિંગ્સ → Signal પર દાન કરો → બૅજ પર જાઓ."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "દાનમાં વિક્ષેપ પડ્યો"
@@ -6930,14 +6927,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "થોડા નાના બગ સુધારાઓ."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "અમે એક બગ ઠીક કર્યો છે જે કેટલાક વપરાશકર્તાઓ માટે દાન બૅજને યોગ્ય રીતે દેખાતા અટકાવતો હતો."
-  },
-  "icu:WhatsNew__v7.70--0": {
-    "messageformat": "ક્યારેક ટાઇટલ બાર ખોટો રંગ બતાવતું હતું તેવા બગને અમે Microsoft Windows પરથી ફિક્સ કર્યો છે."
   }
 }

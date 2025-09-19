@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, forwardRef } from 'react';
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
-import type { TailwindStyles } from './tw';
-import { tw } from './tw';
-import { AxoSymbol, type AxoSymbolName } from './AxoSymbol';
-import { assert } from './_internal/assert';
+import type { TailwindStyles } from './tw.js';
+import { tw } from './tw.js';
+import { AxoSymbol, type AxoSymbolName } from './AxoSymbol.js';
+import { assert } from './_internal/assert.js';
 
 const Namespace = 'AxoButton';
 

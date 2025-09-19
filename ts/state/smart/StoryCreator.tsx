@@ -3,9 +3,9 @@
 
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { ThemeType } from '../../types/Util';
-import { LinkPreviewSourceType } from '../../types/LinkPreview';
-import { StoryCreator } from '../../components/StoryCreator';
+import { ThemeType } from '../../types/Util.js';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.js';
+import { StoryCreator } from '../../components/StoryCreator.js';
 import {
   getAllSignalConnections,
   getCandidateContactsForNewGroup,
@@ -13,33 +13,37 @@ import {
   getMe,
   getNonGroupStories,
   selectMostRecentActiveStoryTimestampByGroupOrDistributionList,
-} from '../selectors/conversations';
-import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
-import { getIntl, getPlatform, getUserConversationId } from '../selectors/user';
+} from '../selectors/conversations.js';
+import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.js';
+import {
+  getIntl,
+  getPlatform,
+  getUserConversationId,
+} from '../selectors/user.js';
 import {
   getInstalledStickerPacks,
   getRecentStickers,
-} from '../selectors/stickers';
-import { getAddStoryData } from '../selectors/stories';
-import { getLinkPreview } from '../selectors/linkPreviews';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+} from '../selectors/stickers.js';
+import { getAddStoryData } from '../selectors/stories.js';
+import { getLinkPreview } from '../selectors/linkPreviews.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import {
   getEmojiSkinToneDefault,
   getHasSetMyStoriesPrivacy,
   getTextFormattingEnabled,
-} from '../selectors/items';
-import { imageToBlurHash } from '../../util/imageToBlurHash';
-import { processAttachment } from '../../util/processAttachment';
-import { useEmojisActions } from '../ducks/emojis';
-import { useAudioPlayerActions } from '../ducks/audioPlayer';
-import { useComposerActions } from '../ducks/composer';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useItemsActions } from '../ducks/items';
-import { useLinkPreviewActions } from '../ducks/linkPreviews';
-import { useRecentEmojis } from '../selectors/emojis';
-import { useStoriesActions } from '../ducks/stories';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
+} from '../selectors/items.js';
+import { imageToBlurHash } from '../../util/imageToBlurHash.js';
+import { processAttachment } from '../../util/processAttachment.js';
+import { useEmojisActions } from '../ducks/emojis.js';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
+import { useComposerActions } from '../ducks/composer.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useItemsActions } from '../ducks/items.js';
+import { useLinkPreviewActions } from '../ducks/linkPreviews.js';
+import { useRecentEmojis } from '../selectors/emojis.js';
+import { useStoriesActions } from '../ducks/stories.js';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.js';
 
 export type PropsType = {
   file?: File;

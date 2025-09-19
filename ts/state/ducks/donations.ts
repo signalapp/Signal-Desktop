@@ -4,32 +4,32 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import { isStagingServer } from '../../util/isStagingServer';
-import { DataWriter } from '../../sql/Client';
-import * as donations from '../../services/donations';
-import { donationStateSchema } from '../../types/Donations';
-import { drop } from '../../util/drop';
-import { storageServiceUploadJob } from '../../services/storage';
-import { getMe } from '../selectors/conversations';
-import {
-  type SetProfileUpdateErrorActionType,
-  actions as conversationActions,
-} from './conversations';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import { isStagingServer } from '../../util/isStagingServer.js';
+import { DataWriter } from '../../sql/Client.js';
+import * as donations from '../../services/donations.js';
+import { donationStateSchema } from '../../types/Donations.js';
+import { drop } from '../../util/drop.js';
+import { storageServiceUploadJob } from '../../services/storage.js';
+import { getMe } from '../selectors/conversations.js';
+import { actions as conversationActions } from './conversations.js';
+import type {
+  ProfileDataType,
+  SetProfileUpdateErrorActionType,
+} from './conversations.js';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import type {
   CardDetail,
   DonationErrorType,
   DonationReceipt,
   DonationWorkflow,
   StripeDonationAmount,
-} from '../../types/Donations';
-import type { BadgeType } from '../../badges/types';
-import type { ProfileDataType } from './conversations';
-import type { StateType as RootStateType } from '../reducer';
+} from '../../types/Donations.js';
+import type { BadgeType } from '../../badges/types.js';
+import type { StateType as RootStateType } from '../reducer.js';
 
 const log = createLogger('donations');
 

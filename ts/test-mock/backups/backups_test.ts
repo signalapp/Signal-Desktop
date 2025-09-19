@@ -1,34 +1,33 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import fs from 'fs/promises';
+import fs, { readFile } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
-import os from 'os';
-import { readFile } from 'node:fs/promises';
+import os from 'node:os';
 import createDebug from 'debug';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import Long from 'long';
 
-import { generateStoryDistributionId } from '../../types/StoryDistributionId';
-import { MY_STORY_ID } from '../../types/Stories';
-import { generateAci } from '../../types/ServiceId';
-import { generateBackup } from '../../test-helpers/generateBackup';
-import { IMAGE_JPEG } from '../../types/MIME';
-import { uuidToBytes } from '../../util/uuidToBytes';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap, type LinkOptionsType } from '../bootstrap';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
+import { MY_STORY_ID } from '../../types/Stories.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { generateBackup } from '../../test-helpers/generateBackup.js';
+import { IMAGE_JPEG } from '../../types/MIME.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap, type LinkOptionsType } from '../bootstrap.js';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
-} from '../helpers';
-import { toBase64 } from '../../Bytes';
-import { strictAssert } from '../../util/assert';
-import { BackupLevel } from '../../services/backups/types';
+} from '../helpers.js';
+import { toBase64 } from '../../Bytes.js';
+import { strictAssert } from '../../util/assert.js';
+import { BackupLevel } from '../../services/backups/types.js';
 
 export const debug = createDebug('mock:test:backups');
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { Theme, themeClassName } from '../../util/theme';
+import { Theme, themeClassName } from '../../util/theme.js';
 
 describe('themeClassName', () => {
   it('returns "light-theme" when passed a light theme', () => {

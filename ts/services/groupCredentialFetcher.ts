@@ -8,18 +8,18 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 
-import { getClientZkAuthOperations } from '../util/zkgroup';
+import { getClientZkAuthOperations } from '../util/zkgroup.js';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI';
-import { strictAssert } from '../util/assert';
-import * as durations from '../util/durations';
-import { BackOff } from '../util/BackOff';
-import { sleep } from '../util/sleep';
-import { toDayMillis } from '../util/timestamp';
-import { toTaggedPni } from '../types/ServiceId';
-import { toPniObject, toAciObject } from '../util/ServiceId';
-import { createLogger } from '../logging/log';
-import * as Bytes from '../Bytes';
+import type { GroupCredentialType } from '../textsecure/WebAPI.js';
+import { strictAssert } from '../util/assert.js';
+import * as durations from '../util/durations/index.js';
+import { BackOff } from '../util/BackOff.js';
+import { sleep } from '../util/sleep.js';
+import { toDayMillis } from '../util/timestamp.js';
+import { toTaggedPni } from '../types/ServiceId.js';
+import { toPniObject, toAciObject } from '../util/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.js';
 
 const log = createLogger('groupCredentialFetcher');
 

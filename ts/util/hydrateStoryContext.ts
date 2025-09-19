@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import omit from 'lodash/omit';
-import { createLogger } from '../logging/log';
-import type { AttachmentType } from '../types/Attachment';
-import type { MessageAttributesType } from '../model-types.d';
-import { getAttachmentsForMessage } from '../state/selectors/message';
-import { isAciString } from './isAciString';
-import { isDirectConversation } from './whatTypeOfConversation';
-import { softAssert, strictAssert } from './assert';
-import { getMessageSentTimestamp } from './getMessageSentTimestamp';
-import { isOlderThan } from './timestamp';
-import { DAY } from './durations';
-import { getMessageById } from '../messages/getMessageById';
-import { MessageModel } from '../models/messages';
+import { createLogger } from '../logging/log.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { getAttachmentsForMessage } from '../state/selectors/message.js';
+import { isAciString } from './isAciString.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
+import { softAssert, strictAssert } from './assert.js';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp.js';
+import { isOlderThan } from './timestamp.js';
+import { DAY } from './durations/index.js';
+import { getMessageById } from '../messages/getMessageById.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('hydrateStoryContext');
 

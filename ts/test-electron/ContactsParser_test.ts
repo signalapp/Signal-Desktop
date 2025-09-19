@@ -2,28 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { createReadStream, unlinkSync, writeFileSync } from 'fs';
+import { createReadStream, unlinkSync, writeFileSync } from 'node:fs';
 import { v4 as generateGuid } from 'uuid';
-import { join } from 'path';
-import { pipeline } from 'stream/promises';
-import { Transform } from 'stream';
+import { join } from 'node:path';
+import { pipeline } from 'node:stream/promises';
+import { Transform } from 'node:stream';
 
-import protobuf from '../protobuf/wrap';
-import { createLogger } from '../logging/log';
-import * as Bytes from '../Bytes';
-import * as Errors from '../types/errors';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME';
-import { type AciString, generateAci } from '../types/ServiceId';
-import { SignalService as Proto } from '../protobuf';
+import protobuf from '../protobuf/wrap.js';
+import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.js';
+import * as Errors from '../types/errors.js';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME.js';
+import { type AciString, generateAci } from '../types/ServiceId.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 import {
   ParseContactsTransform,
   parseContactsV2,
-} from '../textsecure/ContactsParser';
-import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
-import { createTempDir, deleteTempDir } from '../updater/common';
-import { strictAssert } from '../util/assert';
-import { toAciObject } from '../util/ServiceId';
-import { generateKeys, encryptAttachmentV2ToDisk } from '../AttachmentCrypto';
+} from '../textsecure/ContactsParser.js';
+import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.js';
+import { createTempDir, deleteTempDir } from '../updater/common.js';
+import { strictAssert } from '../util/assert.js';
+import { toAciObject } from '../util/ServiceId.js';
+import {
+  generateKeys,
+  encryptAttachmentV2ToDisk,
+} from '../AttachmentCrypto.js';
 
 const log = createLogger('ContactsParser_test');
 

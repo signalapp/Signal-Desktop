@@ -3,27 +3,27 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { getSendOptions } from '../../util/getSendOptions';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
+} from './handleMultipleSendErrors.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   NullMessageJobData,
-} from '../conversationJobQueue';
-import type { SessionResetsType } from '../../textsecure/Types.d';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+} from '../conversationJobQueue.js';
+import type { SessionResetsType } from '../../textsecure/Types.d.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors';
-import MessageSender from '../../textsecure/SendMessage';
-import { sendToGroup } from '../../util/sendToGroup';
+} from '../../textsecure/Errors.js';
+import MessageSender from '../../textsecure/SendMessage.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
 
 async function clearResetsTracking(idForTracking: string | undefined) {
   if (!idForTracking) {

@@ -1,9 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager';
-import { createLogger } from '../logging/log';
-import { DataWriter } from '../sql/Client';
+import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.js';
+import { createLogger } from '../logging/log.js';
+import { DataWriter } from '../sql/Client.js';
 
 const log = createLogger('backupMediaDownload');
 

@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { everDone as wasRegistrationEverDone } from './registration';
+import { everDone as wasRegistrationEverDone } from './registration.js';
 
 export function isLinkAndSyncEnabled(): boolean {
   // Cannot overwrite existing message history

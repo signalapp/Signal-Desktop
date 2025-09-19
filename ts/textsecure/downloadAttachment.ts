@@ -4,14 +4,14 @@
 import { createWriteStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { isNumber } from 'lodash';
-import type { Readable, Writable } from 'stream';
-import { Transform } from 'stream';
-import { pipeline } from 'stream/promises';
+import type { Readable, Writable } from 'node:stream';
+import { Transform } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { ensureFile } from 'fs-extra';
 
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { strictAssert } from '../util/assert';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { strictAssert } from '../util/assert.js';
 import {
   AttachmentSizeError,
   type AttachmentType,
@@ -19,8 +19,8 @@ import {
   AttachmentPermanentlyUndownloadableError,
   hasRequiredInformationForBackup,
   type BackupableAttachmentType,
-} from '../types/Attachment';
-import * as Bytes from '../Bytes';
+} from '../types/Attachment.js';
+import * as Bytes from '../Bytes.js';
 import {
   getAttachmentCiphertextLength,
   safeUnlink,
@@ -29,29 +29,29 @@ import {
   decryptAndReencryptLocally,
   measureSize,
   type IntegrityCheckType,
-} from '../AttachmentCrypto';
-import type { ProcessedAttachment } from './Types.d';
-import type { WebAPIType } from './WebAPI';
-import { createName, getRelativePath } from '../util/attachmentPath';
-import { MediaTier } from '../types/AttachmentDownload';
+} from '../AttachmentCrypto.js';
+import type { ProcessedAttachment } from './Types.d.ts';
+import type { WebAPIType } from './WebAPI.js';
+import { createName, getRelativePath } from '../util/attachmentPath.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
 import {
   getBackupMediaRootKey,
   deriveBackupMediaKeyMaterial,
   type BackupMediaKeyMaterialType,
   deriveBackupThumbnailTransitKeyMaterial,
-} from '../services/backups/crypto';
-import { backupsService } from '../services/backups';
+} from '../services/backups/crypto.js';
+import { backupsService } from '../services/backups/index.js';
 import {
   getMediaIdForAttachment,
   getMediaIdForAttachmentThumbnail,
-} from '../services/backups/util/mediaId';
-import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment';
-import { missingCaseError } from '../util/missingCaseError';
-import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto';
-import { BackupCredentialType } from '../types/backups';
-import { getValue } from '../RemoteConfig';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import { HTTPError } from './Errors';
+} from '../services/backups/util/mediaId.js';
+import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto.js';
+import { BackupCredentialType } from '../types/backups.js';
+import { getValue } from '../RemoteConfig.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
+import { HTTPError } from './Errors.js';
 
 const log = createLogger('downloadAttachment');
 

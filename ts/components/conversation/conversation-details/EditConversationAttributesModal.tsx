@@ -4,23 +4,23 @@
 import type { FormEventHandler } from 'react';
 import React, { useCallback, useRef, useState } from 'react';
 
-import type { LocalizerType } from '../../../types/Util';
-import { Modal } from '../../Modal';
-import { AvatarEditor } from '../../AvatarEditor';
-import { AvatarPreview } from '../../AvatarPreview';
-import { Button, ButtonVariant } from '../../Button';
-import { Spinner } from '../../Spinner';
-import { GroupDescriptionInput } from '../../GroupDescriptionInput';
-import { GroupTitleInput } from '../../GroupTitleInput';
-import { RequestState } from './util';
+import type { LocalizerType } from '../../../types/Util.js';
+import { Modal } from '../../Modal.js';
+import { AvatarEditor } from '../../AvatarEditor.js';
+import { AvatarPreview } from '../../AvatarPreview.js';
+import { Button, ButtonVariant } from '../../Button.js';
+import { Spinner } from '../../Spinner.js';
+import { GroupDescriptionInput } from '../../GroupDescriptionInput.js';
+import { GroupTitleInput } from '../../GroupTitleInput.js';
+import { RequestState } from './util.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../../types/Avatar';
-import type { AvatarColorType } from '../../../types/Colors';
-import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard';
+} from '../../../types/Avatar.js';
+import type { AvatarColorType } from '../../../types/Colors.js';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.js';
 
 type PropsType = {
   avatarColor?: AvatarColorType;

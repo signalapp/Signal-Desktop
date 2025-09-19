@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { type ComponentType, useEffect, useMemo, useId } from 'react';
 import { VisuallyHidden } from 'react-aria';
-import type { LocalizerType } from '../types/I18N';
-import { Button, ButtonVariant } from './Button';
-import { Modal } from './Modal';
-import type { HydratedBodyRangesType } from '../types/BodyRange';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
-import type { ThemeType } from '../types/Util';
-import { EmojiSkinTone } from './fun/data/emojis';
-import { FunGifPreview } from './fun/FunGif';
-import type { FunGifSelection } from './fun/panels/FunPanelGifs';
-import type { GifDownloadState } from '../state/smart/DraftGifMessageSendModal';
-import { LoadingState } from '../util/loadable';
+import type { LocalizerType } from '../types/I18N.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Modal } from './Modal.js';
+import type { HydratedBodyRangesType } from '../types/BodyRange.js';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.js';
+import type { ThemeType } from '../types/Util.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
+import { FunGifPreview } from './fun/FunGif.js';
+import type { FunGifSelection } from './fun/panels/FunPanelGifs.js';
+import type { GifDownloadState } from '../state/smart/DraftGifMessageSendModal.js';
+import { LoadingState } from '../util/loadable.js';
 
 export type DraftGifMessageSendModalProps = Readonly<{
   i18n: LocalizerType;

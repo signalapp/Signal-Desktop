@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { ActionSpec } from './ConfirmationDialog';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import type { LocalizerType } from '../types/Util';
-import type { ShowToastAction } from '../state/ducks/toast';
-import { ToastType } from '../types/Toast';
+import type { ActionSpec } from './ConfirmationDialog.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import { ToastType } from '../types/Toast.js';
 
 export type DeleteMessagesModalProps = Readonly<{
   isMe: boolean;

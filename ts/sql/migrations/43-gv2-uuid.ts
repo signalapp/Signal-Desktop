@@ -3,18 +3,18 @@
 
 import { omit } from 'lodash';
 
-import type { LoggerType } from '../../types/Logging';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import { isNotNil } from '../../util/isNotNil';
-import { assertDev } from '../../util/assert';
+import type { LoggerType } from '../../types/Logging.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { assertDev } from '../../util/assert.js';
 import {
   TableIterator,
   getCountFromTable,
   jsonToObject,
   objectToJSON,
-} from '../util';
-import type { WritableDB } from '../Interface';
+} from '../util.js';
+import type { WritableDB } from '../Interface.js';
 
 type MessageType = Readonly<{
   id: string;

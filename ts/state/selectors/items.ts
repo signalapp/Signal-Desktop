@@ -3,27 +3,27 @@
 
 import { createSelector } from 'reselect';
 
-import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { innerIsBucketValueEnabled } from '../../RemoteConfig';
-import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
-import type { StateType } from '../reducer';
-import type { ItemsStateType } from '../ducks/items';
+import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer.js';
+import { innerIsBucketValueEnabled } from '../../RemoteConfig.js';
+import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.js';
+import type { StateType } from '../reducer.js';
+import type { ItemsStateType } from '../ducks/items.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors';
-import type { AciString } from '../../types/ServiceId';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
-import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
-import { DurationInSeconds } from '../../util/durations';
-import * as Bytes from '../../Bytes';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
-import { isNotUpdatable } from '../../util/version';
+} from '../../types/Colors.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.js';
+import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.js';
+import { DurationInSeconds } from '../../util/durations/index.js';
+import * as Bytes from '../../Bytes.js';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.js';
+import { isNotUpdatable } from '../../util/version.js';
 import {
   EmojiSkinTone,
   isValidEmojiSkinTone,
-} from '../../components/fun/data/emojis';
-import { BackupLevel } from '../../services/backups/types';
+} from '../../components/fun/data/emojis.js';
+import { BackupLevel } from '../../services/backups/types.js';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 

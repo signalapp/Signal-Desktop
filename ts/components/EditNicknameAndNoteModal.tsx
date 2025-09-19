@@ -4,18 +4,18 @@ import type { FormEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
-import { Modal } from './Modal';
-import type { LocalizerType } from '../types/I18N';
-import { Avatar, AvatarSize } from './Avatar';
+import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/I18N.js';
+import { Avatar, AvatarSize } from './Avatar.js';
 import type {
   ConversationType,
   NicknameAndNote,
-} from '../state/ducks/conversations';
-import { Input } from './Input';
-import { AutoSizeTextArea } from './AutoSizeTextArea';
-import { Button, ButtonVariant } from './Button';
-import { strictAssert } from '../util/assert';
-import { safeParsePartial } from '../util/schemas';
+} from '../state/ducks/conversations.js';
+import { Input } from './Input.js';
+import { AutoSizeTextArea } from './AutoSizeTextArea.js';
+import { Button, ButtonVariant } from './Button.js';
+import { strictAssert } from '../util/assert.js';
+import { safeParsePartial } from '../util/schemas.js';
 
 const formSchema = z.object({
   nickname: z

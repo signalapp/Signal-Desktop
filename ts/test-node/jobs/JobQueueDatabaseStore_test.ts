@@ -5,9 +5,9 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
-import type { StoredJob } from '../../jobs/types';
+import type { StoredJob } from '../../jobs/types.js';
 
-import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore';
+import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore.js';
 
 describe('JobQueueDatabaseStore', () => {
   let fakeDatabase: {

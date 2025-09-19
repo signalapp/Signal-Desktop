@@ -4,14 +4,14 @@
 import type {
   StorageAccessType as Access,
   StorageInterface,
-} from '../types/Storage.d';
-import { User } from './storage/User';
-import { Blocked } from './storage/Blocked';
+} from '../types/Storage.d.ts';
+import { User } from './storage/User.js';
+import { Blocked } from './storage/Blocked.js';
 
-import { assertDev } from '../util/assert';
-import { DataReader, DataWriter } from '../sql/Client';
-import type { SignalProtocolStore } from '../SignalProtocolStore';
-import { createLogger } from '../logging/log';
+import { assertDev } from '../util/assert.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import type { SignalProtocolStore } from '../SignalProtocolStore.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('Storage');
 

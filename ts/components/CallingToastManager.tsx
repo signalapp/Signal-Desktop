@@ -2,17 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import type { ActiveCallType, ObservedRemoteMuteType } from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
-import { CallingToastProvider, useCallingToasts } from './CallingToast';
-import { usePrevious } from '../hooks/usePrevious';
-import { difference as setDifference } from '../util/setUtil';
-import { isMoreRecentThan } from '../util/timestamp';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
-import { SECOND } from '../util/durations';
-import type { SetMutedByType } from '../state/ducks/calling';
+import type {
+  ActiveCallType,
+  ObservedRemoteMuteType,
+} from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import { CallingToastProvider, useCallingToasts } from './CallingToast.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { difference as setDifference } from '../util/setUtil.js';
+import { isMoreRecentThan } from '../util/timestamp.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
+import { SECOND } from '../util/durations/index.js';
+import type { SetMutedByType } from '../state/ducks/calling.js';
 
 type PropsType = {
   activeCall: ActiveCallType;

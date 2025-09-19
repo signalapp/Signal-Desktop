@@ -4,21 +4,21 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import type {
   LinkPreviewType,
   LinkPreviewForUIType,
-} from '../../types/message/LinkPreviews';
-import type { AttachmentForUIType } from '../../types/Attachment';
-import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview';
-import type { NoopActionType } from './noop';
-import type { StateType as RootStateType } from '../reducer';
-import { LinkPreviewSourceType } from '../../types/LinkPreview';
-import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
-import { maybeGrabLinkPreview } from '../../services/LinkPreview';
-import { strictAssert } from '../../util/assert';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { getPropsForAttachment } from '../selectors/message';
+} from '../../types/message/LinkPreviews.js';
+import type { AttachmentForUIType } from '../../types/Attachment.js';
+import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview.js';
+import type { NoopActionType } from './noop.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.js';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.js';
+import { maybeGrabLinkPreview } from '../../services/LinkPreview.js';
+import { strictAssert } from '../../util/assert.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { getPropsForAttachment } from '../selectors/message.js';
 
 // State
 

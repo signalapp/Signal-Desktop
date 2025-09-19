@@ -6,39 +6,39 @@ import React from 'react';
 import { noop } from 'lodash';
 import { ContextMenuTrigger } from 'react-contextmenu';
 
-import { SystemMessage, SystemMessageKind } from './SystemMessage';
-import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { MessageTimestamp } from './MessageTimestamp';
-import type { LocalizerType } from '../../types/Util';
+import { SystemMessage, SystemMessageKind } from './SystemMessage.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.js';
+import { MessageTimestamp } from './MessageTimestamp.js';
+import type { LocalizerType } from '../../types/Util.js';
 import {
   CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../types/CallDisposition';
-import type { CallingNotificationType } from '../../util/callingNotification';
+} from '../../types/CallDisposition.js';
+import type { CallingNotificationType } from '../../util/callingNotification.js';
 import {
   getCallingIcon,
   getCallingNotificationText,
-} from '../../util/callingNotification';
-import { missingCaseError } from '../../util/missingCaseError';
-import { Tooltip, TooltipPlacement } from '../Tooltip';
-import { createLogger } from '../../logging/log';
+} from '../../util/callingNotification.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { Tooltip, TooltipPlacement } from '../Tooltip.js';
+import { createLogger } from '../../logging/log.js';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,
   useHandleMessageContextMenu,
-} from './MessageContextMenu';
-import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
+} from './MessageContextMenu.js';
+import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.js';
 import {
   useKeyboardShortcutsConditionally,
   useOpenContextMenu,
-} from '../../hooks/useKeyboardShortcuts';
-import { MINUTE } from '../../util/durations';
-import { isMoreRecentThan } from '../../util/timestamp';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip';
-import type { InteractionModeType } from '../../state/ducks/conversations';
+} from '../../hooks/useKeyboardShortcuts.js';
+import { MINUTE } from '../../util/durations/index.js';
+import { isMoreRecentThan } from '../../util/timestamp.js';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.js';
+import type { InteractionModeType } from '../../state/ducks/conversations.js';
 
 const log = createLogger('CallingNotification');
 

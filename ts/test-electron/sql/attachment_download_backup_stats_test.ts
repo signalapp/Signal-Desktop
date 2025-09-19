@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
 
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client.js';
 
-import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads';
-import type { MessageAttributesType } from '../../model-types';
-import { generateAci } from '../../types/ServiceId';
-import { AttachmentDownloadSource } from '../../sql/Interface';
-import { cleanupMessages } from '../../util/cleanup';
+import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { AttachmentDownloadSource } from '../../sql/Interface.js';
+import { cleanupMessages } from '../../util/cleanup.js';
 
 describe('sql/AttachmentDownloadBackupStats', () => {
   beforeEach(async () => {

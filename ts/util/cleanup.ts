@@ -4,30 +4,30 @@
 import PQueue from 'p-queue';
 import { batch } from 'react-redux';
 
-import type { MessageAttributesType } from '../model-types.d';
-import { MessageModel } from '../models/messages';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { MessageModel } from '../models/messages.js';
 
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
 
-import { DataReader, DataWriter } from '../sql/Client';
-import { deletePackReference } from '../types/Stickers';
-import { isStory } from '../messages/helpers';
-import { isDirectConversation } from './whatTypeOfConversation';
-import { getCallHistorySelector } from '../state/selectors/callHistory';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { deletePackReference } from '../types/Stickers.js';
+import { isStory } from '../messages/helpers.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
+import { getCallHistorySelector } from '../state/selectors/callHistory.js';
 import {
   DirectCallStatus,
   GroupCallStatus,
   AdhocCallStatus,
-} from '../types/CallDisposition';
-import { getMessageIdForLogging } from './idForLogging';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import { MINUTE } from './durations';
-import { drop } from './drop';
-import { hydrateStoryContext } from './hydrateStoryContext';
-import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
-import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
-import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress';
+} from '../types/CallDisposition.js';
+import { getMessageIdForLogging } from './idForLogging.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import { MINUTE } from './durations/index.js';
+import { drop } from './drop.js';
+import { hydrateStoryContext } from './hydrateStoryContext.js';
+import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.js';
+import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.js';
+import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.js';
 
 const log = createLogger('cleanup');
 

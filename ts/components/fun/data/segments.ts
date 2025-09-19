@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { strictAssert } from '../../../util/assert';
+import { strictAssert } from '../../../util/assert.js';
 
 /** @internal Exported for testing */
 export const _SEGMENT_SIZE_BUCKETS: ReadonlyArray<number> = [

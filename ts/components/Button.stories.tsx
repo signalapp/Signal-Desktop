@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Button';
-import { Button, ButtonSize, ButtonVariant } from './Button';
+import type { PropsType } from './Button.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
 
 export default {
   title: 'Components/Button',

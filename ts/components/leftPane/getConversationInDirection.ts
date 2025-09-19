@@ -3,10 +3,10 @@
 
 import { find as findFirst, findLast, first, last } from 'lodash';
 
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
-import { isConversationUnread } from '../../util/isConversationUnread';
-import type { ToFindType } from './LeftPaneHelper';
-import { FindDirection } from './LeftPaneHelper';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
+import { isConversationUnread } from '../../util/isConversationUnread.js';
+import type { ToFindType } from './LeftPaneHelper.js';
+import { FindDirection } from './LeftPaneHelper.js';
 
 /**
  * This will look up or down in an array of conversations for the next one to select.

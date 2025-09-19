@@ -1,11 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import fs from 'fs';
+import fs from 'node:fs';
 import pino from 'pino';
 
-import { DAY, SECOND } from './durations';
-import { isMoreRecentThan } from './timestamp';
+import { DAY, SECOND } from './durations/index.js';
+import { isMoreRecentThan } from './timestamp.js';
 
 export const DEFAULT_MAX_ROTATIONS = 3;
 

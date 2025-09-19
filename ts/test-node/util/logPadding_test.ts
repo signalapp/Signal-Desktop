@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { Readable } from 'stream';
+import { Readable } from 'node:stream';
 
-import { logPadSize, appendPaddingStream } from '../../util/logPadding';
+import { logPadSize, appendPaddingStream } from '../../util/logPadding.js';
 
 const BUCKET_SIZES = [
   541, 568, 596, 626, 657, 690, 725, 761, 799, 839, 881, 925, 972, 1020, 1071,

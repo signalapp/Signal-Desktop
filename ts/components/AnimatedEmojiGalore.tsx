@@ -4,14 +4,14 @@
 import React from 'react';
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
 import { random } from 'lodash';
-import { useReducedMotion } from '../hooks/useReducedMotion';
-import { FunStaticEmoji } from './fun/FunEmoji';
-import { strictAssert } from '../util/assert';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { FunStaticEmoji } from './fun/FunEmoji.js';
+import { strictAssert } from '../util/assert.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis';
+} from './fun/data/emojis.js';
 
 export type PropsType = {
   emoji: string;

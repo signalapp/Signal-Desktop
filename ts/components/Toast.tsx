@@ -4,8 +4,8 @@
 import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import React, { memo, useEffect } from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
 
 export type PropsType = {
   autoDismissDisabled?: boolean;

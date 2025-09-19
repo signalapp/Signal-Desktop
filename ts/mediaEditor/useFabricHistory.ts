@@ -4,16 +4,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
-import type { ImageStateType } from './ImageStateType';
-import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker';
-import { MediaEditorFabricDigitalTimeSticker } from './MediaEditorFabricDigitalTimeSticker';
-import { MediaEditorFabricIText } from './MediaEditorFabricIText';
-import { MediaEditorFabricPath } from './MediaEditorFabricPath';
-import { MediaEditorFabricSticker } from './MediaEditorFabricSticker';
-import { fabricEffectListener } from './fabricEffectListener';
-import { strictAssert } from '../util/assert';
+import type { ImageStateType } from './ImageStateType.js';
+import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker.js';
+import { MediaEditorFabricDigitalTimeSticker } from './MediaEditorFabricDigitalTimeSticker.js';
+import { MediaEditorFabricIText } from './MediaEditorFabricIText.js';
+import { MediaEditorFabricPath } from './MediaEditorFabricPath.js';
+import { MediaEditorFabricSticker } from './MediaEditorFabricSticker.js';
+import { fabricEffectListener } from './fabricEffectListener.js';
+import { strictAssert } from '../util/assert.js';
 
 const log = createLogger('useFabricHistory');
 

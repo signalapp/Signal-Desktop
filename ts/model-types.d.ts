@@ -3,36 +3,43 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { GroupV2ChangeType } from './groups';
-import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange';
-import type { CustomColorType, ConversationColorType } from './types/Colors';
-import type { SendMessageChallengeData } from './textsecure/Errors';
-import type { ProfileNameChangeType } from './util/getStringForProfileChange';
-import type { CapabilitiesType } from './textsecure/WebAPI';
-import type { ReadStatus } from './messages/MessageReadStatus';
-import type { SendStateByConversationId } from './messages/MessageSendState';
-import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
+import type { GroupV2ChangeType } from './groups.js';
+import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.js';
+import type { CustomColorType, ConversationColorType } from './types/Colors.js';
+import type { SendMessageChallengeData } from './textsecure/Errors.js';
+import type { ProfileNameChangeType } from './util/getStringForProfileChange.js';
+import type { CapabilitiesType } from './textsecure/WebAPI.js';
+import type { ReadStatus } from './messages/MessageReadStatus.js';
+import type { SendStateByConversationId } from './messages/MessageSendState.js';
+import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.js';
 
-import type { AttachmentDraftType, AttachmentType } from './types/Attachment';
-import type { EmbeddedContactType } from './types/EmbeddedContact';
-import { SignalService as Proto } from './protobuf';
-import type { AvatarDataType, ContactAvatarType } from './types/Avatar';
-import type { AciString, PniString, ServiceIdString } from './types/ServiceId';
-import type { StoryDistributionIdString } from './types/StoryDistributionId';
-import type { SeenStatus } from './MessageSeenStatus';
-import type { GiftBadgeStates } from './components/conversation/Message';
-import type { LinkPreviewType } from './types/message/LinkPreviews';
+import type {
+  AttachmentDraftType,
+  AttachmentType,
+} from './types/Attachment.js';
+import type { EmbeddedContactType } from './types/EmbeddedContact.js';
+import { SignalService as Proto } from './protobuf/index.js';
+import type { AvatarDataType, ContactAvatarType } from './types/Avatar.js';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from './types/ServiceId.js';
+import type { StoryDistributionIdString } from './types/StoryDistributionId.js';
+import type { SeenStatus } from './MessageSeenStatus.js';
+import type { GiftBadgeStates } from './components/conversation/Message.js';
+import type { LinkPreviewType } from './types/message/LinkPreviews.js';
 
-import type { StickerType } from './types/Stickers';
-import type { StorySendMode } from './types/Stories';
-import type { MIMEType } from './types/MIME';
-import type { DurationInSeconds } from './util/durations';
-import type { AnyPaymentEvent } from './types/Payment';
+import type { StickerType } from './types/Stickers.js';
+import type { StorySendMode } from './types/Stories.js';
+import type { MIMEType } from './types/MIME.js';
+import type { DurationInSeconds } from './util/durations/index.js';
+import type { AnyPaymentEvent } from './types/Payment.js';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
-import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent';
-import type { QuotedMessageForComposerType } from './state/ducks/composer';
+import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.js';
+import type { QuotedMessageForComposerType } from './state/ducks/composer.js';
 
 export type LastMessageStatus =
   | 'paused'

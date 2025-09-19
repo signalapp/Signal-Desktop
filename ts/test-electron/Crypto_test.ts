@@ -1,17 +1,17 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFileSync, unlinkSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { createCipheriv } from 'crypto';
-import { PassThrough } from 'stream';
+import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { createCipheriv } from 'node:crypto';
+import { PassThrough } from 'node:stream';
 import { emptyDir } from 'fs-extra';
 import { assert } from 'chai';
 import { isNumber } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import * as Bytes from '../Bytes';
-import * as Curve from '../Curve';
+import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.js';
+import * as Curve from '../Curve.js';
 import {
   PaddedLengths,
   encryptProfileItemWithPadding,
@@ -39,7 +39,7 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
   CipherType,
-} from '../Crypto';
+} from '../Crypto.js';
 import {
   _generateAttachmentIv,
   decryptAttachmentV2,
@@ -50,11 +50,11 @@ import {
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
   decryptAttachmentV2ToSink,
-} from '../AttachmentCrypto';
-import type { AciString, PniString } from '../types/ServiceId';
-import { createTempDir, deleteTempDir } from '../updater/common';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
-import { getPath } from '../windows/main/attachments';
+} from '../AttachmentCrypto.js';
+import type { AciString, PniString } from '../types/ServiceId.js';
+import { createTempDir, deleteTempDir } from '../updater/common.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import { getPath } from '../windows/main/attachments.js';
 
 const log = createLogger('Crypto_test');
 

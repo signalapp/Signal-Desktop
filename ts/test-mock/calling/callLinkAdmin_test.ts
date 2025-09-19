@@ -1,10 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { expect } from 'playwright/test';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { createCallLink } from '../helpers';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { createCallLink } from '../helpers.js';
 
 describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

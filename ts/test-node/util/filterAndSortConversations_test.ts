@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import { pick } from 'lodash';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
-import type { ConversationType } from '../../state/ducks/conversations';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
 
 type CheckProps = Pick<ConversationType, 'title' | 'activeAt' | 'e164'>;
 

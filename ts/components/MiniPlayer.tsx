@@ -3,11 +3,11 @@
 
 import classnames from 'classnames';
 import React, { useCallback } from 'react';
-import type { LocalizerType } from '../types/Util';
-import { durationToPlaybackText } from '../util/durationToPlaybackText';
-import { PlaybackButton } from './PlaybackButton';
-import { PlaybackRateButton } from './PlaybackRateButton';
-import { UserText } from './UserText';
+import type { LocalizerType } from '../types/Util.js';
+import { durationToPlaybackText } from '../util/durationToPlaybackText.js';
+import { PlaybackButton } from './PlaybackButton.js';
+import { PlaybackRateButton } from './PlaybackRateButton.js';
+import { UserText } from './UserText.js';
 
 export enum PlayerState {
   loading = 'loading',

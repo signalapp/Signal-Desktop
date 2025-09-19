@@ -6,11 +6,11 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
-import { ConversationColors } from '../../types/Colors';
-import { pngUrl } from '../../storybook/Fixtures';
-import type { Props as TimelineMessagesProps } from './TimelineMessage';
-import { TimelineMessage } from './TimelineMessage';
-import { TextDirection } from './Message';
+import { ConversationColors } from '../../types/Colors.js';
+import { pngUrl } from '../../storybook/Fixtures.js';
+import type { Props as TimelineMessagesProps } from './TimelineMessage.js';
+import { TimelineMessage } from './TimelineMessage.js';
+import { TextDirection } from './Message.js';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -18,14 +18,14 @@ import {
   LONG_MESSAGE,
   VIDEO_MP4,
   stringToMIMEType,
-} from '../../types/MIME';
-import type { Props } from './Quote';
-import { Quote } from './Quote';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { WidthBreakpoint } from '../_util';
-import { ThemeType } from '../../types/Util';
-import { PaymentEventKind } from '../../types/Payment';
+} from '../../types/MIME.js';
+import type { Props } from './Quote.js';
+import { Quote } from './Quote.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { WidthBreakpoint } from '../_util.js';
+import { ThemeType } from '../../types/Util.js';
+import { PaymentEventKind } from '../../types/Payment.js';
 
 const { i18n } = window.SignalContext;
 

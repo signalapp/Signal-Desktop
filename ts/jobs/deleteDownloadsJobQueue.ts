@@ -4,16 +4,16 @@
 import { z } from 'zod';
 import { omit } from 'lodash';
 
-import { JobQueue } from './JobQueue';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import { parseUnknown } from '../util/schemas';
-import { DataReader } from '../sql/Client';
+import { JobQueue } from './JobQueue.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
+import { parseUnknown } from '../util/schemas.js';
+import { DataReader } from '../sql/Client.js';
 
-import type { JOB_STATUS } from './JobQueue';
-import type { LoggerType } from '../types/Logging';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
-import { DAY } from '../util/durations';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
+import type { JOB_STATUS } from './JobQueue.js';
+import type { LoggerType } from '../types/Logging.js';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.js';
+import { DAY } from '../util/durations/index.js';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.js';
 
 const deleteDownloadsJobDataSchema = z.object({
   digest: z.string().optional(),

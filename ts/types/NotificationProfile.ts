@@ -3,10 +3,10 @@
 
 import { isNumber, orderBy } from 'lodash';
 
-import { DAY, HOUR, MINUTE } from '../util/durations';
-import { strictAssert } from '../util/assert';
+import { DAY, HOUR, MINUTE } from '../util/durations/index.js';
+import { strictAssert } from '../util/assert.js';
 
-import type { StorageServiceFieldsType } from '../sql/Interface';
+import type { StorageServiceFieldsType } from '../sql/Interface.js';
 
 // Note: this must match the Backup and Storage Service protos for NotificationProfile
 // This variable is separate so we aren't forced to add it to ScheduleDays object below

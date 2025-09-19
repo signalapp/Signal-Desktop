@@ -5,8 +5,8 @@ import type { ChangeEventHandler } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 
-import type { LocalizerType } from '../types/Util';
-import { processImageFile } from '../util/processImageFile';
+import type { LocalizerType } from '../types/Util.js';
+import { processImageFile } from '../util/processImageFile.js';
 
 export type PropsType = {
   className: string;

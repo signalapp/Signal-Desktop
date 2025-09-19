@@ -4,26 +4,26 @@
 import { omit } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { SignalService as Proto } from '../protobuf';
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
+import { SignalService as Proto } from '../protobuf/index.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 
-import { isNotNil } from '../util/isNotNil';
+import { isNotNil } from '../util/isNotNil.js';
 import {
   format as formatPhoneNumber,
   normalize as normalizePhoneNumber,
-} from './PhoneNumber';
+} from './PhoneNumber.js';
 import type {
   AttachmentType,
   AttachmentForUIType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
   UploadedAttachmentType,
-} from './Attachment';
-import { toLogFormat } from './errors';
-import type { LoggerType } from './Logging';
-import type { ServiceIdString } from './ServiceId';
-import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
+} from './Attachment.js';
+import { toLogFormat } from './errors.js';
+import type { LoggerType } from './Logging.js';
+import type { ServiceIdString } from './ServiceId.js';
+import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;

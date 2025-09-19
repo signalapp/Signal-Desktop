@@ -15,86 +15,89 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
-import { Button, ButtonVariant } from './Button';
-import { ChatColorPicker } from './ChatColorPicker';
-import { Checkbox } from './Checkbox';
-import { WidthBreakpoint } from './_util';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
-import { Select } from './Select';
-import { Spinner } from './Spinner';
-import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import { Button, ButtonVariant } from './Button.js';
+import { ChatColorPicker } from './ChatColorPicker.js';
+import { Checkbox } from './Checkbox.js';
+import { WidthBreakpoint } from './_util.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.js';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
+import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
+import { Select } from './Select.js';
+import { Spinner } from './Spinner.js';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.js';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
-} from '../util/expirationTimer';
-import { DurationInSeconds } from '../util/durations';
-import { focusableSelector } from '../util/focusableSelectors';
-import { Modal } from './Modal';
-import { SearchInput } from './SearchInput';
-import { removeDiacritics } from '../util/removeDiacritics';
-import { assertDev } from '../util/assert';
-import { I18n } from './I18n';
-import { FunSkinTonesList } from './fun/FunSkinTones';
-import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
+} from '../util/expirationTimer.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import { focusableSelector } from '../util/focusableSelectors.js';
+import { Modal } from './Modal.js';
+import { SearchInput } from './SearchInput.js';
+import { removeDiacritics } from '../util/removeDiacritics.js';
+import { assertDev } from '../util/assert.js';
+import { I18n } from './I18n.js';
+import { FunSkinTonesList } from './fun/FunSkinTones.js';
+import {
+  emojiParentKeyConstant,
+  type EmojiSkinTone,
+} from './fun/data/emojis.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   SettingsRadio,
   SettingsRow,
-} from './PreferencesUtil';
-import { PreferencesBackups } from './PreferencesBackups';
-import { PreferencesInternal } from './PreferencesInternal';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import { Avatar, AvatarSize } from './Avatar';
-import { NavSidebar } from './NavSidebar';
-import { SettingsPage, ProfileEditorPage } from '../types/Nav';
+} from './PreferencesUtil.js';
+import { PreferencesBackups } from './PreferencesBackups.js';
+import { PreferencesInternal } from './PreferencesInternal.js';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { NavSidebar } from './NavSidebar.js';
+import { SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 
-import type { MediaDeviceSettings } from '../types/Calling';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
+import type { MediaDeviceSettings } from '../types/Calling.js';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
-} from '../types/Storage.d';
-import type { ThemeSettingType } from '../types/StorageUIKeys';
-import type { AnyToast } from '../types/Toast';
-import { ToastType } from '../types/Toast';
-import type { ConversationType } from '../state/ducks/conversations';
+} from '../types/Storage.d.ts';
+import type { ThemeSettingType } from '../types/StorageUIKeys.js';
+import type { AnyToast } from '../types/Toast.js';
+import { ToastType } from '../types/Toast.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
-} from '../types/Colors';
+} from '../types/Colors.js';
 import type {
   LocalizerType,
   SentMediaQualityType,
   ThemeType,
-} from '../types/Util';
+} from '../types/Util.js';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups';
-import type { UnreadStats } from '../util/countUnreadStats';
-import type { BadgeType } from '../badges/types';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface';
-import type { MessageAttributesType } from '../model-types';
-import { isBackupPage } from '../types/PreferencesBackupPage';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
+} from '../types/backups.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
+import type { BadgeType } from '../badges/types.js';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { isBackupPage } from '../types/PreferencesBackupPage.js';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain';
-import type { DonationReceipt } from '../types/Donations';
-import type { ChatFolderId } from '../types/ChatFolder';
-import { isChatFoldersEnabled } from '../types/ChatFolder';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage';
+} from '../util/os/promptOSAuthMain.js';
+import type { DonationReceipt } from '../types/Donations.js';
+import type { ChatFolderId } from '../types/ChatFolder.js';
+import { isChatFoldersEnabled } from '../types/ChatFolder.js';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -2103,6 +2106,8 @@ export function Preferences({
         resumeBackupMediaDownload={resumeBackupMediaDownload}
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
+        isLocalBackupsEnabled={backupLocalBackupsEnabled}
+        isRemoteBackupsEnabled={backupFeatureEnabled}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}

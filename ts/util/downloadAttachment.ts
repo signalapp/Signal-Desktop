@@ -7,16 +7,16 @@ import {
   AttachmentPermanentlyUndownloadableError,
   hasRequiredInformationForBackup,
   wasImportedFromLocalBackup,
-} from '../types/Attachment';
-import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
-import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
-import { MediaTier } from '../types/AttachmentDownload';
-import { createLogger } from '../logging/log';
-import { HTTPError } from '../textsecure/Errors';
-import { toLogFormat } from '../types/errors';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
-import * as RemoteConfig from '../RemoteConfig';
-import { ToastType } from '../types/Toast';
+} from '../types/Attachment.js';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.js';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
+import { createLogger } from '../logging/log.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { toLogFormat } from '../types/errors.js';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
+import * as RemoteConfig from '../RemoteConfig.js';
+import { ToastType } from '../types/Toast.js';
 
 const log = createLogger('downloadAttachment');
 

@@ -3,22 +3,22 @@
 
 import { ipcRenderer } from 'electron';
 import { isString, isTypedArray } from 'lodash';
-import { join, normalize, basename, parse as pathParse } from 'path';
-import { existsSync } from 'fs';
+import { join, normalize, basename, parse as pathParse } from 'node:path';
+import { existsSync } from 'node:fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
-import { isPathInside } from '../../util/isPathInside';
-import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier';
-import OS from '../../util/os/osMain';
-import { getRelativePath, createName } from '../../util/attachmentPath';
-import { toHex } from '../../Bytes';
-import { getRandomBytes } from '../../Crypto';
-import { createLogger } from '../../logging/log';
+import { isPathInside } from '../../util/isPathInside.js';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.js';
+import OS from '../../util/os/osMain.js';
+import { getRelativePath, createName } from '../../util/attachmentPath.js';
+import { toHex } from '../../Bytes.js';
+import { getRandomBytes } from '../../Crypto.js';
+import { createLogger } from '../../logging/log.js';
 
 const log = createLogger('attachments');
 
-export * from '../../../app/attachments';
+export * from '../../../app/attachments.js';
 
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;

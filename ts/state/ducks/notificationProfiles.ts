@@ -4,20 +4,20 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { update as updateProfileService } from '../../services/notificationProfilesService';
-import { strictAssert } from '../../util/assert';
+import { update as updateProfileService } from '../../services/notificationProfilesService.js';
+import { strictAssert } from '../../util/assert.js';
 import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
-} from '../../hooks/useBoundActions';
-import { DataWriter } from '../../sql/Client';
-import { sortProfiles } from '../../types/NotificationProfile';
+} from '../../hooks/useBoundActions.js';
+import { DataWriter } from '../../sql/Client.js';
+import { sortProfiles } from '../../types/NotificationProfile.js';
 
 import type {
   NextProfileEvent,
   NotificationProfileOverride,
   NotificationProfileType,
-} from '../../types/NotificationProfile';
+} from '../../types/NotificationProfile.js';
 
 const {
   updateNotificationProfile,

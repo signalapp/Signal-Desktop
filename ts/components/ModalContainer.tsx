@@ -4,7 +4,7 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
-import { ModalContainerContext } from './ModalHost';
+import { ModalContainerContext } from './ModalHost.js';
 
 type Props = {
   children: ReactNode;

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { Worker } from 'worker_threads';
+import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
 import { app } from 'electron';
 
 export type WrappedWorkerRequest = {

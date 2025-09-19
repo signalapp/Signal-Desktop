@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
-import { wrapEventEmitterOnce as once } from '../../util/wrapEventEmitterOnce';
+import { wrapEventEmitterOnce as once } from '../../util/wrapEventEmitterOnce.js';
 
 describe('wrapEventEmitterOnce', () => {
   let ee: EventEmitter;

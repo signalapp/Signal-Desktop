@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import type { ItemClickEvent } from './types/ItemClickEvent';
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { MediaItemType } from '../../../types/MediaItem';
-import { DocumentListItem } from './DocumentListItem';
-import { MediaGridItem } from './MediaGridItem';
-import { missingCaseError } from '../../../util/missingCaseError';
-import { tw } from '../../../axo/tw';
+import type { ItemClickEvent } from './types/ItemClickEvent.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import { DocumentListItem } from './DocumentListItem.js';
+import { MediaGridItem } from './MediaGridItem.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import { tw } from '../../../axo/tw.js';
 
 export type Props = {
   header?: string;

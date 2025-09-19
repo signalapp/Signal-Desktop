@@ -18,8 +18,8 @@ import {
   isScrollAtTop,
   isScrollOverflowVertical,
   useScrollObserver,
-} from '../../../hooks/useSizeObserver';
-import { strictAssert } from '../../../util/assert';
+} from '../../../hooks/useSizeObserver.js';
+import { strictAssert } from '../../../util/assert.js';
 
 export type FunScrollerProps = Readonly<{
   sectionGap: number;

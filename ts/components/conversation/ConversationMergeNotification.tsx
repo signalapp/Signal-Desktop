@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util';
-import { getStringForConversationMerge } from '../../util/getStringForConversationMerge';
-import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { SystemMessage } from './SystemMessage';
-import { Emojify } from './Emojify';
-import { Modal } from '../Modal';
-import { I18n } from '../I18n';
+import type { LocalizerType } from '../../types/Util.js';
+import { getStringForConversationMerge } from '../../util/getStringForConversationMerge.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.js';
+import { SystemMessage } from './SystemMessage.js';
+import { Emojify } from './Emojify.js';
+import { Modal } from '../Modal.js';
+import { I18n } from '../I18n.js';
 
 export type PropsDataType = {
   conversationTitle: string;

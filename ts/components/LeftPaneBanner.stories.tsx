@@ -4,7 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { LeftPaneBanner, type PropsType } from './LeftPaneBanner';
+import { LeftPaneBanner, type PropsType } from './LeftPaneBanner.js';
 
 export default {
   title: 'Components/LeftPaneBanner',

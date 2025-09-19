@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isValidUuid } from '../../util/isValidUuid';
+import { isValidUuid } from '../../util/isValidUuid.js';
 
 describe('isValidUuid', () => {
   const LOWERCASE_V4_UUID = '9cb737ce-2bb3-4c21-9fe0-d286caa0ca68';

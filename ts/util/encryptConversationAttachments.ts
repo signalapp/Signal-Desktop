@@ -3,14 +3,14 @@
 
 import pMap from 'p-map';
 
-import { createLogger } from '../logging/log';
-import { DataReader, DataWriter } from '../sql/Client';
-import type { ConversationAttributesType } from '../model-types.d';
-import { encryptLegacyAttachment } from './encryptLegacyAttachment';
-import { AttachmentDisposition } from './getLocalAttachmentUrl';
-import { isNotNil } from './isNotNil';
-import { isSignalConversation } from './isSignalConversation';
-import { getConversationIdForLogging } from './idForLogging';
+import { createLogger } from '../logging/log.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { encryptLegacyAttachment } from './encryptLegacyAttachment.js';
+import { AttachmentDisposition } from './getLocalAttachmentUrl.js';
+import { isNotNil } from './isNotNil.js';
+import { isSignalConversation } from './isSignalConversation.js';
+import { getConversationIdForLogging } from './idForLogging.js';
 
 const log = createLogger('encryptConversationAttachments');
 

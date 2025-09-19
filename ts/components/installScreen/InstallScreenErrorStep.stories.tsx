@@ -4,9 +4,9 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { InstallScreenError } from '../../types/InstallScreen';
-import type { Props } from './InstallScreenErrorStep';
-import { InstallScreenErrorStep } from './InstallScreenErrorStep';
+import { InstallScreenError } from '../../types/InstallScreen.js';
+import type { Props } from './InstallScreenErrorStep.js';
+import { InstallScreenErrorStep } from './InstallScreenErrorStep.js';
 
 const { i18n } = window.SignalContext;
 

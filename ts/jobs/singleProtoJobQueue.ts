@@ -4,27 +4,27 @@
 import PQueue from 'p-queue';
 import { isBoolean } from 'lodash';
 
-import * as Bytes from '../Bytes';
-import type { LoggerType } from '../types/Logging';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
-import type { ParsedJob } from './types';
-import type { JOB_STATUS } from './JobQueue';
-import { JobQueue } from './JobQueue';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import { DAY } from '../util/durations';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
-import { SignalService as Proto } from '../protobuf';
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getSendOptions } from '../util/getSendOptions';
-import type { SingleProtoJobData } from '../textsecure/SendMessage';
-import { singleProtoJobDataSchema } from '../textsecure/SendMessage';
+import * as Bytes from '../Bytes.js';
+import type { LoggerType } from '../types/Logging.js';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.js';
+import type { ParsedJob } from './types.js';
+import type { JOB_STATUS } from './JobQueue.js';
+import { JobQueue } from './JobQueue.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
+import { DAY } from '../util/durations/index.js';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { handleMessageSend } from '../util/handleMessageSend.js';
+import { getSendOptions } from '../util/getSendOptions.js';
+import type { SingleProtoJobData } from '../textsecure/SendMessage.js';
+import { singleProtoJobDataSchema } from '../textsecure/SendMessage.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './helpers/handleMultipleSendErrors';
-import { isConversationUnregistered } from '../util/isConversationUnregistered';
-import { isConversationAccepted } from '../util/isConversationAccepted';
-import { parseUnknown } from '../util/schemas';
+} from './helpers/handleMultipleSendErrors.js';
+import { isConversationUnregistered } from '../util/isConversationUnregistered.js';
+import { isConversationAccepted } from '../util/isConversationAccepted.js';
+import { parseUnknown } from '../util/schemas.js';
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;

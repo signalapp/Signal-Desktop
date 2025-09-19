@@ -3,12 +3,12 @@
 
 import { existsSync } from 'node:fs';
 import { isNumber } from 'lodash';
-import { type BackupableAttachmentType } from '../types/Attachment';
+import { type BackupableAttachmentType } from '../types/Attachment.js';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto';
-import { strictAssert } from './assert';
+} from '../AttachmentCrypto.js';
+import { strictAssert } from './assert.js';
 
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 

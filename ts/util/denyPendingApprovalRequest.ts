@@ -1,12 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { SignalService as Proto } from '../protobuf';
-import type { AciString } from '../types/ServiceId';
-import { createLogger } from '../logging/log';
-import { getConversationIdForLogging } from './idForLogging';
-import { isMemberRequestingToJoin } from './groupMembershipUtils';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { SignalService as Proto } from '../protobuf/index.js';
+import type { AciString } from '../types/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import { getConversationIdForLogging } from './idForLogging.js';
+import { isMemberRequestingToJoin } from './groupMembershipUtils.js';
 
 const log = createLogger('denyPendingApprovalRequest');
 

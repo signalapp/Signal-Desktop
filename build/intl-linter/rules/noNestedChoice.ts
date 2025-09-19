@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Element } from '../utils/rule';
-import { rule } from '../utils/rule';
+import type { Element } from '../utils/rule.js';
+import { rule } from '../utils/rule.js';
 
 export default rule('noNestedChoice', context => {
   let insideChoice = false;

@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Database } from '@signalapp/sqlcipher';
-import { AttachmentDownloadSource } from '../Interface';
+import { AttachmentDownloadSource } from '../Interface.js';
 
 export default function updateToSchemaVersion1180(db: Database): void {
   db.exec(`

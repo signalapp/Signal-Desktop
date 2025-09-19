@@ -5,10 +5,13 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryListItem';
-import { StoryListItem } from './StoryListItem';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { fakeAttachment, fakeThumbnail } from '../test-helpers/fakeAttachment';
+import type { PropsType } from './StoryListItem.js';
+import { StoryListItem } from './StoryListItem.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import {
+  fakeAttachment,
+  fakeThumbnail,
+} from '../test-helpers/fakeAttachment.js';
 
 const { i18n } = window.SignalContext;
 

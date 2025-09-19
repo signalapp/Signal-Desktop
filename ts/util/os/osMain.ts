@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import os from 'os';
+import os from 'node:os';
 import { readFileSync } from 'fs-extra';
-import { getOSFunctions } from './shared';
+import { getOSFunctions } from './shared.js';
 
 function getLinuxName(): string | undefined {
   if (os.platform() !== 'linux') {

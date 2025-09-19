@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/I18N';
-import type { NavTabPanelProps } from './NavTabs';
-import { WhatsNewLink } from './WhatsNewLink';
-import type { UnreadStats } from '../util/countUnreadStats';
-import type { SmartConversationViewProps } from '../state/smart/ConversationView';
+import type { LocalizerType } from '../types/I18N.js';
+import type { NavTabPanelProps } from './NavTabs.js';
+import { WhatsNewLink } from './WhatsNewLink.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
+import type { SmartConversationViewProps } from '../state/smart/ConversationView.js';
 
 export type ChatsTabProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;

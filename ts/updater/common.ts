@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
-import { createWriteStream } from 'fs';
+import { createWriteStream } from 'node:fs';
 import { pathExists } from 'fs-extra';
-import { mkdir, readdir, stat, writeFile } from 'fs/promises';
+import { mkdir, readdir, stat, writeFile } from 'node:fs/promises';
 import { throttle } from 'lodash';
-import { release as osRelease, tmpdir } from 'os';
-import { extname, join, normalize } from 'path';
+import { release as osRelease, tmpdir } from 'node:os';
+import { extname, join, normalize } from 'node:path';
 
 import config from 'config';
 import type { ParserConfiguration } from 'dashdash';
@@ -19,22 +19,22 @@ import { v4 as getGuid } from 'uuid';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
-import { missingCaseError } from '../util/missingCaseError';
-import { getTempPath, getUpdateCachePath } from '../../app/attachments';
-import { markShouldNotQuit, markShouldQuit } from '../../app/window_state';
-import { DialogType } from '../types/Dialogs';
-import * as Errors from '../types/errors';
-import { strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
-import * as durations from '../util/durations';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { getTempPath, getUpdateCachePath } from '../../app/attachments.js';
+import { markShouldNotQuit, markShouldQuit } from '../../app/window_state.js';
+import { DialogType } from '../types/Dialogs.js';
+import * as Errors from '../types/errors.js';
+import { strictAssert } from '../util/assert.js';
+import { drop } from '../util/drop.js';
+import * as durations from '../util/durations/index.js';
 import {
   isAlpha,
   isAxolotl,
   isBeta,
   isNotUpdatable,
   isStaging,
-} from '../util/version';
-import { isPathInside } from '../util/isPathInside';
+} from '../util/version.js';
+import { isPathInside } from '../util/isPathInside.js';
 
 import * as packageJson from '../../package.json';
 
@@ -42,24 +42,24 @@ import {
   getSignatureFileName,
   hexToBinary,
   verifySignature,
-} from './signature';
+} from './signature.js';
 import {
   download as downloadDifferentialData,
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
   prepareDownload as prepareDifferentialDownload,
-} from './differential';
-import { getGotOptions } from './got';
+} from './differential.js';
+import { getGotOptions } from './got.js';
 import {
   checkIntegrity,
   gracefulRename,
   gracefulRmRecursive,
   isTimeToUpdate,
-} from './util';
+} from './util.js';
 
-import type { LoggerType } from '../types/Logging';
-import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
-import type { MainSQL } from '../sql/main';
+import type { LoggerType } from '../types/Logging.js';
+import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.js';
+import type { MainSQL } from '../sql/main.js';
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 

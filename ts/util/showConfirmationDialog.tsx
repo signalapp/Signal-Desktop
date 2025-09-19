@@ -3,9 +3,9 @@
 
 import React, { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { ConfirmationDialog } from '../components/ConfirmationDialog';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
-import { AxoProvider } from '../axo/AxoProvider';
+import { ConfirmationDialog } from '../components/ConfirmationDialog.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.js';
+import { AxoProvider } from '../axo/AxoProvider.js';
 
 type ConfirmationDialogViewProps = {
   onTopOfEverything?: boolean;

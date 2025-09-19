@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { convertUndefinedToNull } from '../../util/dropNull';
-import { attachmentDownloadTypeSchema } from '../../types/AttachmentDownload';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME';
-import type { MessageAttachmentDBType } from '../Interface';
+import { convertUndefinedToNull } from '../../util/dropNull.js';
+import { attachmentDownloadTypeSchema } from '../../types/AttachmentDownload.js';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.js';
+import type { MessageAttachmentDBType } from '../Interface.js';
 
 const permissiveStringOrNull = z
   .string()
@@ -45,6 +45,7 @@ export const permissiveMessageAttachmentSchema = z.object({
 
   // Fields allowing NULL
   receivedAtMs: permissiveNumberOrNull,
+  duration: permissiveNumberOrNull,
   path: permissiveStringOrNull,
   clientUuid: permissiveStringOrNull,
   localKey: permissiveStringOrNull,

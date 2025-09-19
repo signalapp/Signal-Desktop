@@ -3,14 +3,14 @@
 
 import { ipcRenderer } from 'electron';
 
-import { strictAssert } from './assert';
-import * as Errors from '../types/errors';
-import type { UnwrapPromise } from '../types/Util';
+import { strictAssert } from './assert.js';
+import * as Errors from '../types/errors.js';
+import type { UnwrapPromise } from '../types/Util.js';
 import type {
   IPCEventsCallbacksType,
   IPCEventsValuesType,
-} from './createIPCEvents';
-import type { SystemTraySetting } from '../types/SystemTraySetting';
+} from './createIPCEvents.js';
+import type { SystemTraySetting } from '../types/SystemTraySetting.js';
 
 type SettingOptionsType = {
   getter?: boolean;

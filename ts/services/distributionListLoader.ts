@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client';
-import type { StoryDistributionWithMembersType } from '../sql/Interface';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
-import { strictAssert } from '../util/assert';
+import { DataReader } from '../sql/Client.js';
+import type { StoryDistributionWithMembersType } from '../sql/Interface.js';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.js';
+import { strictAssert } from '../util/assert.js';
 
 let distributionLists: Array<StoryDistributionWithMembersType> | undefined;
 

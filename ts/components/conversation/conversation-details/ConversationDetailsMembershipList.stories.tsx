@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { ThemeType } from '../../../types/Util';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { ThemeType } from '../../../types/Util.js';
 
 import type {
   Props,
   GroupV2Membership,
-} from './ConversationDetailsMembershipList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+} from './ConversationDetailsMembershipList.js';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.js';
 
 const { i18n } = window.SignalContext;
 
