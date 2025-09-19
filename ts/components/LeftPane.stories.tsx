@@ -171,6 +171,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     resumeBackupMediaDownload: action('resumeBackupMediaDownload'),
     cancelBackupMediaDownload: action('cancelBackupMediaDownload'),
     endConversationSearch: action('endConversationSearch'),
+    removeConversationFilter: action('removeConversationFilter'),
     endSearch: action('endSearch'),
     getPreferredBadge: () => undefined,
     hasFailedStorySends: false,
