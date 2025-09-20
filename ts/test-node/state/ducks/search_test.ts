@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getEmptyState, reducer } from '../../../state/ducks/search';
+import { getEmptyState, reducer } from '../../../state/ducks/search.js';
 
 describe('both/state/ducks/search', () => {
   describe('REMOVE_CONVERSATION_FILTER', () => {
