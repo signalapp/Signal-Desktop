@@ -1,13 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sample } from 'lodash';
+import lodash from 'lodash';
 
 import { AvatarColors } from '../types/Colors.js';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
 import { generateAci } from '../types/ServiceId.js';
 
 import { getDefaultConversationWithServiceId } from './getDefaultConversation.js';
+
+const { sample } = lodash;
 
 export function createCallParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>

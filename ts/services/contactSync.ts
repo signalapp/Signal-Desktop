@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { DataWriter } from '../sql/Client.js';
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents.js';
@@ -26,6 +26,8 @@ import { SECOND } from '../util/durations/index.js';
 import { AttachmentVariant } from '../types/Attachment.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import { waitForOnline } from '../util/waitForOnline.js';
+
+const { noop } = lodash;
 
 const log = createLogger('contactSync');
 

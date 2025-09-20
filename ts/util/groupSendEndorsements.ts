@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { Aci } from '@signalapp/libsignal-client';
-import { throttle } from 'lodash';
+import lodash from 'lodash';
 import {
   groupSendEndorsementsDataSchema,
   toGroupSendToken,
@@ -33,6 +33,8 @@ import { DataReader } from '../sql/Client.js';
 import { maybeUpdateGroup } from '../groups.js';
 import * as Bytes from '../Bytes.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
+
+const { throttle } = lodash;
 
 const log = createLogger('groupSendEndorsements');
 

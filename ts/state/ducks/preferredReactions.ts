@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import { createLogger } from '../../logging/log.js';
 import * as Errors from '../../types/errors.js';
@@ -15,6 +15,8 @@ import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoj
 import { getEmojiSkinToneDefault } from '../selectors/items.js';
 import { convertShortName } from '../../components/emoji/lib.js';
 import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+
+const { omit } = lodash;
 
 const log = createLogger('preferredReactions');
 

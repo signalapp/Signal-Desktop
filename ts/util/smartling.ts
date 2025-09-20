@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as packageJson from '../../package.json';
+import { version } from './packageJson.js';
 import { getUserAgent } from './getUserAgent.js';
 
 type AuthenticateOptionsType = Readonly<{
@@ -36,6 +36,6 @@ export async function authenticate({
 
   return new Headers({
     authorization: `${auth.tokenType} ${auth.accessToken}`,
-    'user-agent': getUserAgent(packageJson.version),
+    'user-agent': getUserAgent(version),
   });
 }

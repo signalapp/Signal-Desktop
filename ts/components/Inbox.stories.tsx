@@ -3,11 +3,13 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { Inbox } from './Inbox.js';
 import type { PropsType } from './Inbox.js';
 import { DAY, SECOND } from '../util/durations/index.js';
+
+const { noop } = lodash;
 
 const { i18n } = window.SignalContext;
 

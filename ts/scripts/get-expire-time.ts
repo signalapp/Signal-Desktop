@@ -6,7 +6,7 @@ import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
 import { DAY } from '../util/durations/index.js';
-import { version } from '../../package.json';
+import { version } from '../util/packageJson.js';
 import { isNotUpdatable } from '../util/version.js';
 
 const unixTimestamp = parseInt(

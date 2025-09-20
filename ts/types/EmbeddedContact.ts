@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { SignalService as Proto } from '../protobuf/index.js';
@@ -24,6 +24,8 @@ import type { LoggerType } from './Logging.js';
 import type { ServiceIdString } from './ServiceId.js';
 import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.js';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
+
+const { omit } = lodash;
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;

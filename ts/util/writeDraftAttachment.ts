@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type {
   InMemoryAttachmentDraftType,
   AttachmentDraftType,
@@ -15,6 +15,8 @@ import {
   AttachmentDisposition,
 } from './getLocalAttachmentUrl.js';
 import { createLogger } from '../logging/log.js';
+
+const { omit } = lodash;
 
 const logger = createLogger('writeDraftAttachment');
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { memoize, times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupCallOverflowArea.js';
@@ -13,6 +13,8 @@ import { FRAME_BUFFER_SIZE } from '../calling/constants.js';
 import { generateAci } from '../types/ServiceId.js';
 import type { CallingImageDataCache } from './CallManager.js';
 import { MINUTE } from '../util/durations/index.js';
+
+const { memoize, times } = lodash;
 
 const MAX_PARTICIPANTS = 32;
 

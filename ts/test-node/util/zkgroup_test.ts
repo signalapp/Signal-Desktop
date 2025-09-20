@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as fs from 'node:fs';
 import path from 'node:path';
-import { ServerPublicParams } from '@signalapp/libsignal-client/zkgroup';
+import { ServerPublicParams } from '@signalapp/libsignal-client/zkgroup.js';
 
 describe('zkgroup', () => {
   describe('serverPublicParams', () => {

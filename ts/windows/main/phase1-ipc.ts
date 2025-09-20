@@ -4,7 +4,7 @@
 import EventEmitter from 'node:events';
 import { ipcRenderer as ipc } from 'electron';
 import * as semver from 'semver';
-import { groupBy, mapValues } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 
 import type { IPCType } from '../../window.d.ts';
@@ -35,6 +35,8 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue.js';
+
+const { groupBy, mapValues } = lodash;
 
 const log = createLogger('phase1-ipc');
 

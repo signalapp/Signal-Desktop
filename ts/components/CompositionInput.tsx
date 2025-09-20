@@ -10,9 +10,9 @@ import {
   matchText,
   matchNewline,
   matchBreak,
-} from '@signalapp/quill-cjs/modules/clipboard';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
-import type { Context } from '@signalapp/quill-cjs/modules/keyboard';
+} from '@signalapp/quill-cjs/modules/clipboard.js';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
+import type { Context } from '@signalapp/quill-cjs/modules/keyboard.js';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
 
 import { MentionCompletion } from '../quill/mentions/completion.js';

@@ -7,7 +7,7 @@ import { join, relative, normalize } from 'node:path';
 import pMap from 'p-map';
 import fastGlob from 'fast-glob';
 import fse from 'fs-extra';
-import { map, isString } from 'lodash';
+import lodash from 'lodash';
 import normalizePath from 'normalize-path';
 import { isPathInside } from '../ts/util/isPathInside.js';
 import { DAY } from '../ts/util/durations/index.js';
@@ -21,6 +21,8 @@ import {
 import type { LocalAttachmentV2Type } from '../ts/types/Attachment.js';
 import * as Errors from '../ts/types/errors.js';
 import { createLogger } from '../ts/logging/log.js';
+
+const { map, isString } = lodash;
 
 const log = createLogger('attachments');
 

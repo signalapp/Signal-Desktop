@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last } from 'lodash';
+import lodash from 'lodash';
 import type { ReactChild } from 'react';
 import React from 'react';
 
@@ -19,6 +19,8 @@ import type { PropsData as ConversationListItemPropsType } from '../conversation
 import type { LocalizerType } from '../../types/Util.js';
 import { handleKeydownForSearch } from './handleKeydownForSearch.js';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
+
+const { last } = lodash;
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;

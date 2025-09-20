@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -14,6 +14,8 @@ import { generateAci } from '../types/ServiceId.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
 import type { CallLinkType } from '../types/CallLink.js';
 import { CallLinkRestrictions } from '../types/CallLink.js';
+
+const { sample } = lodash;
 
 const { i18n } = window.SignalContext;
 

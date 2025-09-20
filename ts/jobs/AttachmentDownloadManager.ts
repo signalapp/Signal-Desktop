@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { noop, omit, throttle } from 'lodash';
+import lodash from 'lodash';
 import { statfs } from 'node:fs/promises';
 
 import * as durations from '../util/durations/index.js';
@@ -71,6 +71,8 @@ import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDown
 import { HTTPError } from '../textsecure/Errors.js';
 import { isOlderThan } from '../util/timestamp.js';
 import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.js';
+
+const { noop, omit, throttle } = lodash;
 
 const log = createLogger('AttachmentDownloadManager');
 

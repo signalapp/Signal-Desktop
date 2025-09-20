@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { reducer as rootReducer } from '../../../state/reducer.js';
@@ -69,6 +69,8 @@ import {
 import { MY_STORY_ID } from '../../../types/Stories.js';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
 import { strictAssert } from '../../../util/assert.js';
+
+const { times } = lodash;
 
 const {
   clearGroupCreationError,

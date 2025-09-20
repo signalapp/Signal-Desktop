@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { groupBy } from 'lodash';
+import lodash from 'lodash';
 
 import type {
   MessageAttributesType,
@@ -35,6 +35,8 @@ import { drop } from '../util/drop.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { MessageModel } from '../models/messages.js';
 import { areStoryViewReceiptsEnabled } from '../types/Stories.js';
+
+const { groupBy } = lodash;
 
 const log = createLogger('MessageReceipts');
 

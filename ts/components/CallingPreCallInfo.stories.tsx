@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
 import type { PropsType } from './CallingPreCallInfo.js';
@@ -12,6 +12,8 @@ import { getPlaceholderContact } from '../state/selectors/conversations.js';
 import { generateAci } from '../types/ServiceId.js';
 import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.js';
 import { callLinkToConversation } from '../util/callLinks.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>

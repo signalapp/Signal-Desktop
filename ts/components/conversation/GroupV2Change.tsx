@@ -3,7 +3,7 @@
 
 import type { ReactElement, ReactNode } from 'react';
 import React, { useState } from 'react';
-import { get } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { createLogger } from '../../logging/log.js';
@@ -30,6 +30,8 @@ import type { SmartContactRendererType } from '../../groupChange.js';
 import { renderChange } from '../../groupChange.js';
 import { Modal } from '../Modal.js';
 import { ConfirmationDialog } from '../ConfirmationDialog.js';
+
+const { get } = lodash;
 
 const log = createLogger('GroupV2Change');
 

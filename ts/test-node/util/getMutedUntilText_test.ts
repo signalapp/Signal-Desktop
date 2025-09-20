@@ -3,14 +3,11 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setupI18n } from '../../util/setupI18n.js';
-import enMessages from '../../../_locales/en/messages.json';
+import i18n from './i18n.js';
 
 import { getMutedUntilText } from '../../util/getMutedUntilText.js';
 
 describe('getMutedUntilText', () => {
-  const i18n = setupI18n('en', enMessages);
-
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {

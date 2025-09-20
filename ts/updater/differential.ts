@@ -8,7 +8,7 @@ import { pipeline } from 'node:stream/promises';
 import { promisify } from 'node:util';
 import { gunzip as nativeGunzip } from 'node:zlib';
 import got from 'got';
-import { chunk as lodashChunk, noop } from 'lodash';
+import lodash from 'lodash';
 import pMap from 'p-map';
 import Dicer from '@indutny/dicer';
 
@@ -18,6 +18,8 @@ import type { LoggerType } from '../types/Logging.js';
 import { getGotOptions } from './got.js';
 import type { GotOptions } from './got.js';
 import { checkIntegrity } from './util.js';
+
+const { chunk: lodashChunk, noop } = lodash;
 
 const gunzip = promisify(nativeGunzip);
 

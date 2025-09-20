@@ -9,7 +9,7 @@
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
-import { escapeRegExp, isNumber, isString, isObject, throttle } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -21,7 +21,7 @@ import type {
   Aci,
   Pni,
 } from '@signalapp/libsignal-client';
-import { AccountAttributes } from '@signalapp/libsignal-client/dist/net';
+import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 
 import { assertDev, strictAssert } from '../util/assert.js';
 import * as durations from '../util/durations/index.js';
@@ -100,6 +100,8 @@ import { subscriptionConfigurationCurrencyZod } from '../types/Donations.js';
 import type { StripeDonationAmount, CardDetail } from '../types/Donations.js';
 import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.js';
+
+const { escapeRegExp, isNumber, isString, isObject, throttle } = lodash;
 
 const log = createLogger('WebAPI');
 

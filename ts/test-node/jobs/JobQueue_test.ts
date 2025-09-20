@@ -7,7 +7,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter, { once } from 'node:events';
 import { z } from 'zod';
-import { noop, groupBy } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import PQueue from 'p-queue';
 import { JobError } from '../../jobs/JobError.js';
@@ -21,6 +21,8 @@ import { JobQueue } from '../../jobs/JobQueue.js';
 import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types.js';
 import { sleep } from '../../util/sleep.js';
 import { parseUnknown } from '../../util/schemas.js';
+
+const { noop, groupBy } = lodash;
 
 describe('JobQueue', () => {
   describe('end-to-end tests', () => {

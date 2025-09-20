@@ -3,9 +3,11 @@
 
 import { execSync } from 'node:child_process';
 
-import { realpath } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import type { CustomWindowsSignTaskConfiguration } from 'electron-builder';
+
+const { realpath } = fsExtra;
 
 export async function sign(
   configuration: CustomWindowsSignTaskConfiguration

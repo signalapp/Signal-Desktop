@@ -1,13 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { mapValues, pickBy } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import { groupBy, map, filter } from './iterables.js';
 import { getOwn } from './getOwn.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { isConversationNameKnown } from './isConversationNameKnown.js';
 import { isInSystemContacts } from './isInSystemContacts.js';
+
+const { mapValues, pickBy } = lodash;
 
 export type GroupNameCollisionsWithIdsByTitle = Readonly<
   Record<string, Array<string>>

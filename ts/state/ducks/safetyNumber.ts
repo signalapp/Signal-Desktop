@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import { generateSafetyNumber } from '../../util/safetyNumber.js';
 import type { SafetyNumberType } from '../../types/safetyNumber.js';
@@ -17,6 +17,8 @@ import * as Errors from '../../types/errors.js';
 import type { StateType as RootStateType } from '../reducer.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+
+const { omit } = lodash;
 
 const log = createLogger('safetyNumber');
 

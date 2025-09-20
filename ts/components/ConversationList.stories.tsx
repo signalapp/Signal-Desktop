@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useContext } from 'react';
-import { times, omit } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -16,6 +16,8 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.j
 import { ThemeType } from '../types/Util.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
 import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.js';
+
+const { times, omit } = lodash;
 
 const { i18n } = window.SignalContext;
 

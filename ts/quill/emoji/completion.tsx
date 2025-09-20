@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Delta } from '@signalapp/quill-cjs';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import React from 'react';
-import _, { isNumber } from 'lodash';
+import lodash from 'lodash';
 import type Quill from '@signalapp/quill-cjs';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
@@ -27,6 +27,8 @@ import type {
   FunEmojiSearch,
 } from '../../components/fun/useFunEmojiSearch.js';
 import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer.js';
+
+const { isNumber, debounce } = lodash;
 
 const log = createLogger('completion');
 
@@ -103,7 +105,7 @@ export class EmojiCompletion {
       () => this.onTextChange(true)
     );
 
-    const debouncedOnTextChange = _.debounce(() => this.onTextChange(), 100);
+    const debouncedOnTextChange = debounce(() => this.onTextChange(), 100);
 
     this.quill.on(Emitter.events.TEXT_CHANGE, (_now, _before, source) => {
       if (source === 'user') {

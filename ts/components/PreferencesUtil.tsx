@@ -4,11 +4,13 @@
 import classNames from 'classnames';
 import React, { type ReactNode, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import {
   CircleCheckbox,
   Variant as CircleCheckboxVariant,
 } from './CircleCheckbox.js';
+
+const { noop } = lodash;
 
 export function SettingsRow({
   children,

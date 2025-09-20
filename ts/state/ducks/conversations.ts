@@ -2,18 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import {
-  chunk,
-  difference,
-  fromPairs,
-  isEqual,
-  omit,
-  orderBy,
-  pick,
-  values,
-  without,
-} from 'lodash';
-import type { PhoneNumber } from 'google-libphonenumber';
+import lodash from 'lodash';
+import { type PhoneNumber } from 'google-libphonenumber';
 
 import { clipboard, ipcRenderer } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
@@ -224,6 +214,18 @@ import { markFailed } from '../../test-node/util/messageFailures.js';
 import { cleanupMessages } from '../../util/cleanup.js';
 import type { ConversationModel } from '../../models/conversations.js';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent.js';
+
+const {
+  chunk,
+  difference,
+  fromPairs,
+  isEqual,
+  omit,
+  orderBy,
+  pick,
+  values,
+  without,
+} = lodash;
 
 const log = createLogger('conversations');
 

@@ -4,10 +4,14 @@
 import { readFileSync, unlinkSync } from 'node:fs';
 import { sync as writeFileSync } from 'write-file-atomic';
 
-import { get } from 'lodash';
-import { set } from 'lodash/fp';
+import lodash from 'lodash';
+import lodashFp from 'lodash/fp.js';
 import { strictAssert } from '../ts/util/assert.js';
 import { createLogger } from '../ts/logging/log.js';
+
+const { set } = lodashFp;
+
+const { get } = lodash;
 
 const log = createLogger('base_config');
 

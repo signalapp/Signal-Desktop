@@ -3,10 +3,12 @@
 
 import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { random } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Emojify } from './conversation/Emojify.js';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
+
+const { random } = lodash;
 
 export type PropsType = {
   values: Array<string>;

@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ReceiptType } from '@signalapp/mock-server';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import { debug, Bootstrap, MAX_CYCLES } from './fixtures.js';
 import { type RegressionSample } from '../bootstrap.js';
+
+const { omit } = lodash;
 
 const INITIAL_MESSAGE_COUNT = 1000;
 const FINAL_MESSAGE_COUNT = 5000;

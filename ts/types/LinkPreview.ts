@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, compact, isEmpty, range } from 'lodash';
+import lodash from 'lodash';
 // This file gets imported into renderer that does not have access to Node.js
 // builtins, use an `npm` package.
 // eslint-disable-next-line import/enforce-node-protocol-usage
@@ -19,6 +19,8 @@ import {
 } from '../util/signalRoutes.js';
 import type { Backups } from '../protobuf/index.js';
 import type { LinkPreviewType } from './message/LinkPreviews.js';
+
+const { isNumber, compact, isEmpty, range } = lodash;
 
 export type LinkPreviewImage = AttachmentWithHydratedData;
 

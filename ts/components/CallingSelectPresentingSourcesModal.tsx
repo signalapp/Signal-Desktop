@@ -3,13 +3,15 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { groupBy } from 'lodash';
+import lodash from 'lodash';
 import { Button, ButtonVariant } from './Button.js';
 import type { LocalizerType } from '../types/Util.js';
 import { Modal } from './Modal.js';
 import type { PresentedSource, PresentableSource } from '../types/Calling.js';
 import { Theme } from '../util/theme.js';
 import { strictAssert } from '../util/assert.js';
+
+const { groupBy } = lodash;
 
 export type PropsType = {
   i18n: LocalizerType;

@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { cleanDataForIpc } from '../../sql/cleanDataForIpc.js';
+
+const { noop } = lodash;
 
 describe('cleanDataForIpc', () => {
   it('does nothing to JSON primitives', () => {

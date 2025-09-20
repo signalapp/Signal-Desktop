@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { normalizeAci } from '../util/normalizeAci.js';
 import type { ConfigKeyType, ConfigListenerType } from '../RemoteConfig.js';
 import {
@@ -16,6 +16,8 @@ import {
   isEnabled,
 } from '../RemoteConfig.js';
 import { updateRemoteConfig } from '../test-helpers/RemoteConfigStub.js';
+
+const { omit } = lodash;
 
 describe('RemoteConfig', () => {
   const aci = normalizeAci('95b9729c-51ea-4ddb-b516-652befe78062', 'test');

@@ -3,7 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 import type { SystemPreferences } from 'electron';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { ZoomFactorType } from '../types/Storage.d.ts';
 import * as Errors from '../types/errors.js';
@@ -32,6 +32,8 @@ import type {
 } from './preload.js';
 import { SystemTraySetting } from '../types/SystemTraySetting.js';
 import OS from './os/osPreload.js';
+
+const { noop } = lodash;
 
 const log = createLogger('createIPCEvents');
 

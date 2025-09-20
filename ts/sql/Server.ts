@@ -13,22 +13,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 
 import type { Dictionary } from 'lodash';
-import {
-  forEach,
-  fromPairs,
-  groupBy,
-  isBoolean,
-  isNil,
-  isNumber,
-  isString,
-  last,
-  map,
-  mapValues,
-  noop,
-  omit,
-  partition,
-  pick,
-} from 'lodash';
+import lodash from 'lodash';
 
 import { parseBadgeCategory } from '../badges/BadgeCategory.js';
 import {
@@ -276,6 +261,23 @@ import type {
 } from '../types/Colors.js';
 import { sqlLogger } from './sqlLogger.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.js';
+
+const {
+  forEach,
+  fromPairs,
+  groupBy,
+  isBoolean,
+  isNil,
+  isNumber,
+  isString,
+  last,
+  map,
+  mapValues,
+  noop,
+  omit,
+  partition,
+  pick,
+} = lodash;
 
 type ConversationRow = Readonly<{
   json: string;

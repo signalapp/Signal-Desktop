@@ -1,6 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload.js';
@@ -12,6 +12,8 @@ import {
 } from '../types/Attachment.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { trimMessageWhitespace } from '../types/BodyRange.js';
+
+const { omit } = lodash;
 
 const log = createLogger('AttachmentDownloads');
 

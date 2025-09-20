@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { clamp, chunk, maxBy, flatten, noop } from 'lodash';
+import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
 import {
@@ -28,6 +28,8 @@ import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.js';
 import { SizeObserver } from '../hooks/useSizeObserver.js';
 import { strictAssert } from '../util/assert.js';
 import type { CallingImageDataCache } from './CallManager.js';
+
+const { clamp, chunk, maxBy, flatten, noop } = lodash;
 
 const log = createLogger('GroupCallRemoteParticipants');
 

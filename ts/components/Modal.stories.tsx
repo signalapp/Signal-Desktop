@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { Button } from './Button.js';
 import type { ModalPropsType } from './Modal.js';
 import { Modal } from './Modal.js';
+
+const { noop } = lodash;
 
 const { i18n } = window.SignalContext;
 

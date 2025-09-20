@@ -4,7 +4,7 @@
 import type {
   ClientZkProfileOperations,
   ProfileKeyCredentialRequestContext,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import PQueue from 'p-queue';
 import { IdentityChange } from '@signalapp/libsignal-client';
 

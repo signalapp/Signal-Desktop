@@ -11,7 +11,7 @@ import {
   ReceiptCredentialResponse,
   ReceiptSerial,
   ServerPublicParams,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import * as countryCodes from 'country-codes-list';
 
 import * as Bytes from '../Bytes.js';

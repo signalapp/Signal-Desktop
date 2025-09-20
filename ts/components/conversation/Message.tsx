@@ -13,9 +13,9 @@ import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
-import { drop, take, unescape } from 'lodash';
+import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
+import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
@@ -123,6 +123,8 @@ import {
   isEmojiVariantValue,
 } from '../fun/data/emojis.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
+
+const { drop, take, unescape } = lodash;
 
 const log = createLogger('Message');
 

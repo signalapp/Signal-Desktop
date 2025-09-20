@@ -1,13 +1,15 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { without } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../../logging/log.js';
 import * as Bytes from '../../Bytes.js';
 import { isAciString } from '../../util/isAciString.js';
 import type { StorageInterface } from '../../types/Storage.d.ts';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+
+const { without } = lodash;
 
 const log = createLogger('Blocked');
 

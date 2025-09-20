@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import path from 'node:path';
-import { debounce, isEqual } from 'lodash';
+import lodash from 'lodash';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
 import { webUtils } from 'electron';
@@ -95,6 +95,8 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome.js';
+
+const { debounce, isEqual } = lodash;
 
 const log = createLogger('composer');
 

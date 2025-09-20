@@ -5,11 +5,11 @@ import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import {
   BackupLevel,
   ReceiptCredentialPresentation,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import { v7 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'node:stream';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type Long from 'long';
 
@@ -156,6 +156,8 @@ import {
 } from '../../types/NotificationProfile.js';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.js';
 import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('import');
 

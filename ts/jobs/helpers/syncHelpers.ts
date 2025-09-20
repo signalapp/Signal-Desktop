@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { chunk } from 'lodash';
+import lodash from 'lodash';
 import type { LoggerType } from '../../types/Logging.js';
 import type { AciString } from '../../types/ServiceId.js';
 import { normalizeAci } from '../../util/normalizeAci.js';
@@ -16,6 +16,8 @@ import { commonShouldJobContinue } from './commonShouldJobContinue.js';
 import { handleCommonJobRequestError } from './handleCommonJobRequestError.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
 import type SendMessage from '../../textsecure/SendMessage.js';
+
+const { chunk } = lodash;
 
 const CHUNK_SIZE = 100;
 

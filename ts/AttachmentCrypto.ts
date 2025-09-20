@@ -14,16 +14,16 @@ import type { Hash } from 'node:crypto';
 import { PassThrough, Transform, type Writable, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
-import { isNumber } from 'lodash';
-import { ensureFile } from 'fs-extra';
+import lodash from 'lodash';
+import fsExtra from 'fs-extra';
 import {
   chunkSizeInBytes,
   DigestingPassThrough,
   everyNthByte,
   inferChunkSize,
   ValidatingPassThrough,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
-import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
+import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { isAbsolute } from 'node:path';
 
 import { createLogger } from './logging/log.js';
@@ -52,6 +52,10 @@ import { missingCaseError } from './util/missingCaseError.js';
 import { getEnvironment, Environment } from './environment.js';
 import { isNotEmpty, toBase64, toHex } from './Bytes.js';
 import { decipherWithAesKey } from './util/decipherWithAesKey.js';
+
+const { ensureFile } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('AttachmentCrypto');
 

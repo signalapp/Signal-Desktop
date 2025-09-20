@@ -1,11 +1,15 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readJsonSync, writeJsonSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
 
 import type { ExceptionType } from './types.js';
+
+const { readJsonSync, writeJsonSync } = fsExtra;
+
+const { orderBy } = lodash;
 
 export const ENCODING = 'utf8';
 

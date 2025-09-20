@@ -9,8 +9,8 @@ import Long from 'long';
 import {
   AccountEntropyPool,
   BackupKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
-import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
 import type { AciString } from '../types/ServiceId.js';
 import { generateAci } from '../types/ServiceId.js';

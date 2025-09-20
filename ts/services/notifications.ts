@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import os from 'node:os';
-import { debounce } from 'lodash';
+import lodash from 'lodash';
 import EventEmitter from 'node:events';
 import { v4 as getGuid } from 'uuid';
 
@@ -16,6 +16,8 @@ import { toLogFormat } from '../types/errors.js';
 import type { StorageInterface } from '../types/Storage.d.ts';
 import type { LocalizerType } from '../types/Util.js';
 import { drop } from '../util/drop.js';
+
+const { debounce } = lodash;
 
 const log = createLogger('notifications');
 

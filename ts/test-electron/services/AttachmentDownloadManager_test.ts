@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import * as sinon from 'sinon';
 import { assert } from 'chai';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import type { StatsFs } from 'node:fs';
 
 import * as MIME from '../../types/MIME.js';
@@ -35,6 +35,8 @@ import { MEBIBYTE } from '../../types/AttachmentSize.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { toBase64, toHex } from '../../Bytes.js';
 import { getRandomBytes } from '../../Crypto.js';
+
+const { omit } = lodash;
 
 function composeJob({
   messageId,

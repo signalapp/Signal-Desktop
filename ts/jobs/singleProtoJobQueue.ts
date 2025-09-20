@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { isBoolean } from 'lodash';
+import lodash from 'lodash';
 
 import * as Bytes from '../Bytes.js';
 import type { LoggerType } from '../types/Logging.js';
@@ -25,6 +25,8 @@ import {
 import { isConversationUnregistered } from '../util/isConversationUnregistered.js';
 import { isConversationAccepted } from '../util/isConversationAccepted.js';
 import { parseUnknown } from '../util/schemas.js';
+
+const { isBoolean } = lodash;
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;

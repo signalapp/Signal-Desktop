@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { debounce, omit } from 'lodash';
+import lodash from 'lodash';
 import type { StateType as RootStateType } from '../reducer.js';
 import {
   clearCallHistoryDataAndSync,
@@ -36,6 +36,8 @@ import { getIntl } from '../selectors/user.js';
 import { ButtonVariant } from '../../components/Button.js';
 import type { ShowErrorModalActionType } from './globalModals.js';
 import { SHOW_ERROR_MODAL } from './globalModals.js';
+
+const { debounce, omit } = lodash;
 
 const log = createLogger('callHistory');
 

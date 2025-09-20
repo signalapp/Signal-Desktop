@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
@@ -11,6 +11,8 @@ import { TypingBubble } from './TypingBubble.js';
 import { AvatarColors } from '../../types/Colors.js';
 import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
 import { ThemeType } from '../../types/Util.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

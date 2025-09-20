@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { isBoolean, noop } from 'lodash';
+import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
@@ -44,6 +44,8 @@ import { ThemeType } from '../../types/Util.js';
 import { BadgeCategory } from '../../badges/BadgeCategory.js';
 import { PaymentEventKind } from '../../types/Payment.js';
 import { EmojiSkinTone } from '../fun/data/emojis.js';
+
+const { isBoolean, noop } = lodash;
 
 const { i18n } = window.SignalContext;
 

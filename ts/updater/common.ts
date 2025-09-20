@@ -3,9 +3,9 @@
 
 /* eslint-disable no-console */
 import { createWriteStream } from 'node:fs';
-import { pathExists } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { mkdir, readdir, stat, writeFile } from 'node:fs/promises';
-import { throttle } from 'lodash';
+import lodash from 'lodash';
 import { release as osRelease, tmpdir } from 'node:os';
 import { extname, join, normalize } from 'node:path';
 
@@ -36,7 +36,7 @@ import {
 } from '../util/version.js';
 import { isPathInside } from '../util/isPathInside.js';
 
-import * as packageJson from '../../package.json';
+import { version as packageVersion } from '../util/packageJson.js';
 
 import {
   getSignatureFileName,
@@ -60,6 +60,10 @@ import {
 import type { LoggerType } from '../types/Logging.js';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.js';
 import type { MainSQL } from '../sql/main.js';
+
+const { pathExists } = fsExtra;
+
+const { throttle } = lodash;
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 
@@ -543,7 +547,7 @@ export abstract class Updater {
   async #checkForUpdates(
     checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
-    if (isNotUpdatable(packageJson.version)) {
+    if (isNotUpdatable(packageVersion)) {
       this.logger.info(
         'checkForUpdates: not checking for updates, this is not an updatable build'
       );
@@ -589,7 +593,7 @@ export abstract class Updater {
 
     if (checkType === CheckType.Normal && !isVersionNewer(version)) {
       this.logger.info(
-        `checkForUpdates: ${version} is not newer than ${packageJson.version}; ` +
+        `checkForUpdates: ${version} is not newer than ${packageVersion}; ` +
           'no new update available'
       );
 
@@ -987,30 +991,27 @@ export function getUpdatesFileName(): string {
 }
 
 function getChannel(): string {
-  const { version } = packageJson;
-  if (isNotUpdatable(version)) {
+  if (isNotUpdatable(packageVersion)) {
     // we don't want ad hoc versions to update
-    return version;
+    return packageVersion;
   }
-  if (isStaging(version)) {
+  if (isStaging(packageVersion)) {
     return 'staging';
   }
-  if (isAlpha(version)) {
+  if (isAlpha(packageVersion)) {
     return 'alpha';
   }
-  if (isAxolotl(version)) {
+  if (isAxolotl(packageVersion)) {
     return 'axolotl';
   }
-  if (isBeta(version)) {
+  if (isBeta(packageVersion)) {
     return 'beta';
   }
   return 'latest';
 }
 
 function isVersionNewer(newVersion: string): boolean {
-  const { version } = packageJson;
-
-  return gt(newVersion, version);
+  return gt(newVersion, packageVersion);
 }
 
 export function getVersion(info: JSONUpdateSchema): string | null {

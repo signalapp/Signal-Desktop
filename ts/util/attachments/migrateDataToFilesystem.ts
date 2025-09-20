@@ -1,12 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isTypedArray, isUndefined, omit } from 'lodash';
+import lodash from 'lodash';
 import type {
   AttachmentType,
   LocalAttachmentV2Type,
 } from '../../types/Attachment.js';
 import type { LoggerType } from '../../types/Logging.js';
+
+const { isFunction, isTypedArray, isUndefined, omit } = lodash;
 
 export async function migrateDataToFileSystem(
   attachment: AttachmentType,

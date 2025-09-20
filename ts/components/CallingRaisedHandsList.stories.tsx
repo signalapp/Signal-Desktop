@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -17,6 +17,8 @@ import {
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { AvatarColors } from '../types/Colors.js';
 import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.js';
+
+const { times } = lodash;
 
 const MAX_HANDS = 20;
 const LOCAL_DEMUX_ID = 1;

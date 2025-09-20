@@ -3,15 +3,7 @@
 /* eslint-disable max-classes-per-file */
 
 import moment from 'moment';
-import {
-  isNumber,
-  padStart,
-  isFunction,
-  isUndefined,
-  isString,
-  omit,
-  partition,
-} from 'lodash';
+import lodash from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
 import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
@@ -45,6 +37,16 @@ import {
 } from './Crypto.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
+
+const {
+  isNumber,
+  padStart,
+  isFunction,
+  isUndefined,
+  isString,
+  omit,
+  partition,
+} = lodash;
 
 const logging = createLogger('Attachment');
 

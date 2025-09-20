@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import { pick } from 'lodash';
+import lodash from 'lodash';
 
 import type { GetConversationByIdType } from './conversations.js';
 import type { ConversationType } from '../ducks/conversations.js';
@@ -45,6 +45,8 @@ import {
 } from '../../util/resolveStorySendStatus.js';
 import { BodyRange, hydrateRanges } from '../../types/BodyRange.js';
 import { getStoriesEnabled } from './items.js';
+
+const { pick } = lodash;
 
 const log = createLogger('stories');
 

@@ -3,7 +3,7 @@
 
 import type { ReactChild } from 'react';
 import React from 'react';
-import { last } from 'lodash';
+import lodash from 'lodash';
 
 import type { ToFindType } from './LeftPaneHelper.js';
 import { LeftPaneHelper } from './LeftPaneHelper.js';
@@ -20,6 +20,8 @@ import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper.js';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper.js';
 import * as KeyboardLayout from '../../services/keyboardLayout.js';
+
+const { last } = lodash;
 
 type LeftPaneArchiveBasePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;

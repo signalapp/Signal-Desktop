@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
+import googleLibphonenumber from 'google-libphonenumber';
 import * as moment from 'moment';
 // @ts-expect-error -- no types
-import 'moment/min/locales.min';
+import 'moment/min/locales.min.js';
 
 import { textsecure } from '../../textsecure/index.js';
 import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.js';
@@ -14,6 +14,8 @@ import * as dns from '../../util/dns.js';
 import { createLogger } from '../../logging/log.js';
 import { SignalContext } from '../context.js';
 import * as Attachments from './attachments.js';
+
+const { PhoneNumberUtil, PhoneNumberFormat } = googleLibphonenumber;
 
 const log = createLogger('phase2-dependencies');
 

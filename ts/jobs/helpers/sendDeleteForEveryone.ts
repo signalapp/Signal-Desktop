@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ContentHint } from '@signalapp/libsignal-client';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import * as Errors from '../../types/errors.js';
 import { getSendOptions } from '../../util/getSendOptions.js';
@@ -38,6 +38,8 @@ import type { LoggerType } from '../../types/Logging.js';
 import type { ServiceIdString } from '../../types/ServiceId.js';
 import { isStory } from '../../messages/helpers.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
+
+const { isNumber } = lodash;
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,

@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { assert } from 'chai';
 import { join } from 'node:path';
 import { createWriteStream } from 'node:fs';
-import { ensureFile } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import * as Bytes from '../../Bytes.js';
 import {
@@ -26,6 +26,8 @@ import { createName, getRelativePath } from '../../util/attachmentPath.js';
 import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
 import { SECOND } from '../../util/durations/index.js';
 import { HTTPError } from '../../textsecure/Errors.js';
+
+const { ensureFile } = fsExtra;
 
 const TRANSIT_CDN = 2;
 const TRANSIT_CDN_FOR_NEW_UPLOAD = 42;

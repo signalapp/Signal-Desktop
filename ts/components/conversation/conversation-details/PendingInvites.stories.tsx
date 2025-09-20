@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { generateAci } from '../../../types/ServiceId.js';
@@ -13,6 +13,8 @@ import type { ConversationType } from '../../../state/ducks/conversations.js';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
 import { getFakeBadge } from '../../../test-helpers/getFakeBadge.js';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

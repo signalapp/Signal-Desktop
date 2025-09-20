@@ -5,13 +5,15 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, StorageState } from '@signalapp/mock-server';
 
 import Long from 'long';
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import { expect } from 'playwright/test';
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.js';
 import { stats } from '../../util/benchmark/stats.js';
 import { uuidToBytes } from '../../util/uuidToBytes.js';
 import { strictAssert } from '../../util/assert.js';
 import { typeIntoInput } from '../helpers.js';
+
+const { sample } = lodash;
 
 const CALL_HISTORY_COUNT = 1000;
 

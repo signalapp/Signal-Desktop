@@ -4,7 +4,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { LocalizerType } from '../../types/Util.js';
 import {
@@ -25,6 +25,8 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.js';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.js';
 import { getClassNamesFor } from '../../util/getClassNamesFor.js';
 import type { UpdatesStateType } from '../../state/ducks/updates.js';
+
+const { noop } = lodash;
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.

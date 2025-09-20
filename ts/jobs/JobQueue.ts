@@ -3,7 +3,7 @@
 
 import PQueue from 'p-queue';
 import { v7 as uuid } from 'uuid';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { Job } from './Job.js';
 import { JobError } from './JobError.js';
@@ -16,6 +16,8 @@ import type { LoggerType } from '../types/Logging.js';
 import { drop } from '../util/drop.js';
 import { sleep } from '../util/sleep.js';
 import { SECOND } from '../util/durations/index.js';
+
+const { noop } = lodash;
 
 const log = createLogger('JobQueue');
 

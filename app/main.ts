@@ -4,13 +4,13 @@
 import { join, normalize, extname, dirname, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import * as os from 'node:os';
-import { chmod, realpath, writeFile } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { randomBytes } from 'node:crypto';
 import { createParser } from 'dashdash';
 
 import fastGlob from 'fast-glob';
 import PQueue from 'p-queue';
-import { get, pick, isNumber, isBoolean, some, debounce, noop } from 'lodash';
+import lodash from 'lodash';
 import {
   app,
   BrowserWindow,
@@ -32,7 +32,10 @@ import {
 import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
-import packageJson from '../package.json';
+import {
+  version as packageVersion,
+  productName,
+} from '../ts/util/packageJson.js';
 import * as GlobalErrors from './global_errors.js';
 import { setup as setupCrashReports } from './crashReports.js';
 import { setup as setupSpellChecker } from './spell_check.js';
@@ -125,6 +128,9 @@ import { getOwn } from '../ts/util/getOwn.js';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.js';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.js';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.js';
+
+const { chmod, realpath, writeFile } = fsExtra;
+const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
 
 const log = createLogger('app/main');
 const updaterLog = log.child('updater');
@@ -2115,7 +2121,7 @@ app.on('ready', async () => {
   }
 
   log.info('app ready');
-  log.info(`starting version ${packageJson.version}`);
+  log.info(`starting version ${packageVersion}`);
 
   // This logging helps us debug user reports about broken devices.
   {
@@ -2691,7 +2697,7 @@ ipc.on('get-config', async event => {
   }
 
   const parsed = safeParseLoose(rendererConfigSchema, {
-    name: packageJson.productName,
+    name: productName,
     availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,

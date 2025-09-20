@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import type { LoggerType } from '../../types/Logging.js';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
@@ -15,6 +15,8 @@ import {
   objectToJSON,
 } from '../util.js';
 import type { WritableDB } from '../Interface.js';
+
+const { omit } = lodash;
 
 type MessageType = Readonly<{
   id: string;

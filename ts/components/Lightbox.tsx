@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -35,6 +35,8 @@ import { formatFileSize } from '../util/formatFileSize.js';
 import { SECOND } from '../util/durations/index.js';
 import { Toast } from './Toast.js';
 import { isAbortError } from '../util/isAbortError.js';
+
+const { noop } = lodash;
 
 const log = createLogger('Lightbox');
 

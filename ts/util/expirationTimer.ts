@@ -3,9 +3,11 @@
 
 import humanizeDuration from 'humanize-duration';
 import type { Unit } from 'humanize-duration';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import type { LocalizerType } from '../types/Util.js';
 import { SECOND, DurationInSeconds } from './durations/index.js';
+
+const { isNumber } = lodash;
 
 export const INITIAL_EXPIRE_TIMER_VERSION = 1;
 

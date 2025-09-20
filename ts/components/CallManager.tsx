@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen.js';
 import { CallScreen } from './CallScreen.js';
@@ -60,6 +60,8 @@ import {
 } from '../types/NotificationProfile.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.js';
 import { strictAssert } from '../util/assert.js';
+
+const { noop } = lodash;
 
 const log = createLogger('CallManager');
 

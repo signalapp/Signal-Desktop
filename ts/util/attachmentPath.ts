@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'node:path';
-import { isString } from 'lodash';
+import lodash from 'lodash';
 
 import { getRandomBytes } from '../Crypto.js';
 import * as Bytes from '../Bytes.js';
+
+const { isString } = lodash;
 
 export const getRelativePath = (name: string): string => {
   if (!isString(name)) {

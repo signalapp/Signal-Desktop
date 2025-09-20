@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { ReadonlyDeep } from 'type-fest';
@@ -47,6 +47,8 @@ import {
 import { SmartTypingBubble } from './TypingBubble.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.js';
+
+const { isEmpty } = lodash;
 
 type ExternalProps = {
   id: string;

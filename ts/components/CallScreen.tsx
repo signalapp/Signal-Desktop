@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { isEqual, noop } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
@@ -98,6 +98,8 @@ import {
 } from './fun/data/emojis.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.js';
 import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
+
+const { isEqual, noop } = lodash;
 
 export type PropsType = {
   activeCall: ActiveCallType;

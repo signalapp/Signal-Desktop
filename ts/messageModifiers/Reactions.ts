@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { maxBy } from 'lodash';
+import lodash from 'lodash';
 
 import type { AciString } from '../types/ServiceId.js';
 import type {
@@ -45,6 +45,8 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue.js';
 import { maybeNotify } from '../messages/maybeNotify.js';
+
+const { maxBy } = lodash;
 
 const log = createLogger('Reactions');
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import libphonenumber from 'google-libphonenumber';
-import type { PhoneNumber } from 'google-libphonenumber';
+import { type PhoneNumber } from 'google-libphonenumber';
 
 const instance = libphonenumber.PhoneNumberUtil.getInstance();
 const { PhoneNumberFormat } = libphonenumber;

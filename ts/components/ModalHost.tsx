@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import type { SpringValues } from '@react-spring/web';
 import { animated } from '@react-spring/web';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { FocusScope } from 'react-aria';
 import type { ModalConfigType } from '../hooks/useAnimated.js';
 import type { Theme } from '../util/theme.js';
@@ -17,6 +17,8 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 import { usePrevious } from '../hooks/usePrevious.js';
 import { handleOutsideClick } from '../util/handleOutsideClick.js';
 import { createLogger } from '../logging/log.js';
+
+const { noop } = lodash;
 
 const log = createLogger('ModalHost');
 

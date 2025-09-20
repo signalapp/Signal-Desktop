@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, pick } from 'lodash';
+import lodash from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import { DataWriter } from '../sql/Client.js';
@@ -27,6 +27,8 @@ import type { AciString } from '../types/ServiceId.js';
 import { isAciString } from './isAciString.js';
 import type { MessageModel } from '../models/messages.js';
 import { postSaveUpdates } from './cleanup.js';
+
+const { isNumber, pick } = lodash;
 
 const log = createLogger('markConversationRead');
 

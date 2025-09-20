@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type Buffer } from 'node:buffer';
-import { InputStream } from '@signalapp/libsignal-client/dist/io';
+import { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 
 export class MemoryStream extends InputStream {
   #offset = 0;

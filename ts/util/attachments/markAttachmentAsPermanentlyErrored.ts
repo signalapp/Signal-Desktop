@@ -1,9 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import { type AttachmentType } from '../../types/Attachment.js';
+
+const { omit } = lodash;
 
 export function markAttachmentAsPermanentlyErrored(
   attachment: AttachmentType,

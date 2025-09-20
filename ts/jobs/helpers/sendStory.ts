@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
 import type { UploadedAttachmentType } from '../../types/Attachment.js';
@@ -47,6 +47,8 @@ import {
   saveErrorsOnMessage,
 } from '../../test-node/util/messageFailures.js';
 import { send } from '../../messages/send.js';
+
+const { isEqual } = lodash;
 
 export async function sendStory(
   conversation: ConversationModel,

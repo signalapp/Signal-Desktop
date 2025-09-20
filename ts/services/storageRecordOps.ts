@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import Long from 'long';
 
 import { ServiceId } from '@signalapp/libsignal-client';
@@ -111,6 +111,8 @@ import {
 } from '../types/ChatFolder.js';
 import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
 import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('storageRecordOps');
 

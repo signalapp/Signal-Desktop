@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import { strictAssert } from './assert.js';
 import { safeParseInteger } from './numbers.js';
 import { DataReader } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
+
+const { debounce, isNumber } = lodash;
 
 const log = createLogger('incrementMessageCounter');
 

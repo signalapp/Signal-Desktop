@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import type { ConversationModel } from '../models/conversations.js';
 import type { MessageModel } from '../models/messages.js';
@@ -46,6 +46,8 @@ import {
   handlePollTerminate,
   handlePollVote,
 } from '../messageModifiers/Polls.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('modifyTargetMessage');
 

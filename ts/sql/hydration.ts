@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { groupBy } from 'lodash';
+import lodash from 'lodash';
 import type { ReadStatus } from '../messages/MessageReadStatus.js';
 import type { SeenStatus } from '../MessageSeenStatus.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
@@ -33,6 +33,8 @@ import {
 import { strictAssert } from '../util/assert.js';
 import type { MessageAttributesType } from '../model-types.js';
 import { createLogger } from '../logging/log.js';
+
+const { groupBy } = lodash;
 
 export const ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX = -1;
 

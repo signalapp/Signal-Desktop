@@ -3,11 +3,11 @@
 
 import { createWriteStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import type { Readable, Writable } from 'node:stream';
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { ensureFile } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
@@ -52,6 +52,10 @@ import { BackupCredentialType } from '../types/backups.js';
 import { getValue } from '../RemoteConfig.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
 import { HTTPError } from './Errors.js';
+
+const { ensureFile } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('downloadAttachment');
 

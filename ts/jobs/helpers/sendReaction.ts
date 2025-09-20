@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
 import * as Errors from '../../types/errors.js';
@@ -42,6 +42,8 @@ import type { LoggerType } from '../../types/Logging.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
 import { hydrateStoryContext } from '../../util/hydrateStoryContext.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.js';
+
+const { isNumber } = lodash;
 
 export async function sendReaction(
   conversation: ConversationModel,

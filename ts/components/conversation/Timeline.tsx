@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { first, get, isNumber, last, throttle } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
@@ -49,6 +49,8 @@ import {
   createScrollerLock,
   ScrollerLockContext,
 } from '../../hooks/useScrollLock.js';
+
+const { first, get, isNumber, last, throttle } = lodash;
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };

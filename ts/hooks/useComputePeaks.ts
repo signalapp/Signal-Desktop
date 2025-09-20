@@ -1,10 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { useEffect, useState } from 'react';
 import { computePeaks } from '../components/VoiceNotesPlaybackContext.js';
 import { createLogger } from '../logging/log.js';
+
+const { noop } = lodash;
 
 const log = createLogger('useComputePeaks');
 

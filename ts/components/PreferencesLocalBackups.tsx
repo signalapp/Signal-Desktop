@@ -9,7 +9,7 @@ import React, {
   useState,
   useRef,
 } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../types/I18N.js';
@@ -34,6 +34,8 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
+
+const { noop } = lodash;
 
 export function PreferencesLocalBackups({
   accountEntropyPool,

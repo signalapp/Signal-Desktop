@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
-import { clone } from 'lodash';
+import lodash from 'lodash';
 import {
   Direction,
   IdentityKeyPair,
@@ -34,6 +34,8 @@ import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import { generateAci, generatePni } from '../types/ServiceId.js';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
+
+const { clone } = lodash;
 
 const {
   RecordStructure,

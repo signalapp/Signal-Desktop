@@ -6,7 +6,7 @@ import { Delta } from '@signalapp/quill-cjs';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 import type Quill from '@signalapp/quill-cjs';
-import type Keyboard from '@signalapp/quill-cjs/modules/keyboard';
+import type Keyboard from '@signalapp/quill-cjs/modules/keyboard.js';
 
 import type { MutableRefObject } from 'react';
 import type { MentionCompletionOptions } from '../../../quill/mentions/completion.js';

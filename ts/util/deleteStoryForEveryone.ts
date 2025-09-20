@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.js';
 import type { StoryDataType } from '../state/ducks/stories.js';
@@ -23,6 +23,8 @@ import { getMessageById } from '../messages/getMessageById.js';
 import { strictAssert } from './assert.js';
 import { repeat, zipObject } from './iterables.js';
 import { isOlderThan } from './timestamp.js';
+
+const { noop } = lodash;
 
 const log = createLogger('deleteStoryForEveryone');
 

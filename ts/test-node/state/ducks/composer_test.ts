@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import type { ReduxActions } from '../../../state/types.js';
@@ -19,6 +19,8 @@ import { reducer as rootReducer } from '../../../state/reducer.js';
 import { IMAGE_JPEG } from '../../../types/MIME.js';
 import type { AttachmentDraftType } from '../../../types/Attachment.js';
 import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.js';
+
+const { noop } = lodash;
 
 describe('both/state/ducks/composer', () => {
   const QUOTED_MESSAGE = {

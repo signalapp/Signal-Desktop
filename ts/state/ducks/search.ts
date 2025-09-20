@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { debounce, omit, reject } from 'lodash';
+import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer.js';
@@ -51,6 +51,8 @@ import {
   countConversationUnreadStats,
   hasUnread,
 } from '../../util/countUnreadStats.js';
+
+const { debounce, omit, reject } = lodash;
 
 const log = createLogger('search');
 

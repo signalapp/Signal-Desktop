@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import { mapValues } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../../logging/log.js';
 import type { StateType } from '../reducer.js';
 import type { BadgesStateType } from '../ducks/badges.js';
 import type { BadgeType } from '../../badges/types.js';
 import { getOwn } from '../../util/getOwn.js';
 import type { ConversationType } from '../ducks/conversations.js';
+
+const { mapValues } = lodash;
 
 const log = createLogger('badges');
 

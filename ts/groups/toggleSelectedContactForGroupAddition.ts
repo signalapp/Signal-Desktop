@@ -1,7 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { without } from 'lodash';
+import lodash from 'lodash';
+
+const { without } = lodash;
 
 export enum OneTimeModalState {
   NeverShown,

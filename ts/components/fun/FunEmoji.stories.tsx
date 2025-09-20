@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { chunk } from 'lodash';
+import lodash from 'lodash';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { type ComponentMeta } from '../../storybook/types.js';
 import type { FunStaticEmojiProps } from './FunEmoji.js';
@@ -13,6 +13,8 @@ import {
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
 } from './data/emojis.js';
+
+const { chunk } = lodash;
 
 export default {
   title: 'Components/Fun/FunEmoji',

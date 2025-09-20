@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { existsSync } from 'node:fs';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { type BackupableAttachmentType } from '../types/Attachment.js';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
 } from '../AttachmentCrypto.js';
 import { strictAssert } from './assert.js';
+
+const { isNumber } = lodash;
 
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 

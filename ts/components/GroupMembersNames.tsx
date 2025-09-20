@@ -3,12 +3,14 @@
 
 import React, { useMemo } from 'react';
 import type { ReactNode } from 'react';
-import { take } from 'lodash';
+import lodash from 'lodash';
 
 import { I18n } from './I18n.js';
 import type { LocalizerType } from '../types/Util.js';
 import { UserText } from './UserText.js';
 import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.js';
+
+const { take } = lodash;
 
 type PropsType = {
   i18n: LocalizerType;

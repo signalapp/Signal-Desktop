@@ -10,7 +10,7 @@ import React, {
   useState,
   useId,
 } from 'react';
-import { isNumber, noop, partition } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
@@ -98,6 +98,8 @@ import type { ChatFolderId } from '../types/ChatFolder.js';
 import { isChatFoldersEnabled } from '../types/ChatFolder.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
+
+const { isNumber, noop, partition } = lodash;
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;

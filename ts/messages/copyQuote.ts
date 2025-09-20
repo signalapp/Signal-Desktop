@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import type { QuotedMessageType } from '../model-types.js';
@@ -15,6 +15,8 @@ import { isQuoteAMatch, messageHasPaymentEvent } from './helpers.js';
 import * as Errors from '../types/errors.js';
 import type { MessageModel } from '../models/messages.js';
 import { isDownloadable } from '../types/Attachment.js';
+
+const { omit } = lodash;
 
 const log = createLogger('copyQuote');
 

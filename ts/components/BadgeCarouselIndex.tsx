@@ -3,9 +3,11 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { times } from 'lodash';
+import lodash from 'lodash';
 
 import { strictAssert } from '../util/assert.js';
+
+const { times } = lodash;
 
 export function BadgeCarouselIndex({
   currentIndex,

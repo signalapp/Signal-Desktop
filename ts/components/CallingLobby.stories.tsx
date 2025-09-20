@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
@@ -19,6 +19,8 @@ import {
 import { CallingToastProvider } from './CallingToast.js';
 import { CallMode } from '../types/CallDisposition.js';
 import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink.js';
+
+const { times } = lodash;
 
 const { i18n } = window.SignalContext;
 

@@ -5,7 +5,7 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
 
 import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.js';
 import type {
@@ -26,6 +26,8 @@ import { Emojify } from './Emojify.js';
 import { AddNewLines } from './AddNewLines.js';
 import type { LocalizerType } from '../../types/Util.js';
 import type { FunJumboEmojiSize } from '../fun/FunEmoji.js';
+
+const { sortBy } = lodash;
 
 const EMOJI_REGEXP = emojiRegex();
 export enum RenderLocation {
