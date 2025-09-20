@@ -6,7 +6,6 @@
 Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348<br>
 Edit Group Modal Alignment: https://github.com/signalapp/Signal-Desktop/pull/7347
 
-
 ---
 
 ## 🔻 Below this line is the original Signal README 🔻
