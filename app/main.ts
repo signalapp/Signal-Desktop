@@ -3044,6 +3044,9 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
 
   // On Windows, if you change the path from the default, the extension is
   // removed. We want to make sure the extension is always there.
+  if (extname(selectedFilePath) != '') {
+    return { canceled: false, filePath: selectedFilePath };
+  }
   const defaultExt = extname(defaultPath);
   const finalDirname = dirname(selectedFilePath);
   const finalBasename = basename(selectedFilePath, defaultExt);
