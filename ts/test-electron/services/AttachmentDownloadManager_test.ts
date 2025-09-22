@@ -17,6 +17,7 @@ import {
 import {
   type AttachmentDownloadJobType,
   AttachmentDownloadUrgency,
+  MediaTier,
 } from '../../types/AttachmentDownload.js';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 import { DAY, MINUTE, MONTH } from '../../util/durations/index.js';
@@ -29,7 +30,7 @@ import type { downloadAttachment as downloadAttachmentUtil } from '../../util/do
 import { AttachmentDownloadSource } from '../../sql/Interface.js';
 import {
   generateAttachmentKeys,
-  getAttachmentCiphertextLength,
+  getAttachmentCiphertextSize,
 } from '../../AttachmentCrypto.js';
 import { MEBIBYTE } from '../../types/AttachmentSize.js';
 import { generateAci } from '../../types/ServiceId.js';
@@ -58,7 +59,10 @@ function composeJob({
     attachmentType: 'attachment',
     attachmentSignature: `${digest}.${plaintextHash}`,
     size,
-    ciphertextSize: getAttachmentCiphertextLength(size),
+    ciphertextSize: getAttachmentCiphertextSize({
+      unpaddedPlaintextSize: size,
+      mediaTier: MediaTier.STANDARD,
+    }),
     contentType,
     active: false,
     attempts: 0,

@@ -22,7 +22,7 @@ import {
 } from '../types/Attachment.js';
 import * as Bytes from '../Bytes.js';
 import {
-  getAttachmentCiphertextLength,
+  getAttachmentCiphertextSize,
   safeUnlink,
   splitKeys,
   type ReencryptedAttachmentV2,
@@ -142,6 +142,7 @@ export async function downloadAttachment(
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
   let downloadPath =
+    mediaTier === MediaTier.STANDARD &&
     options.variant === AttachmentVariant.Default
       ? attachment.downloadPath
       : undefined;
@@ -170,11 +171,13 @@ export async function downloadAttachment(
     }
   }
 
+  const expectedCiphertextSize = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: size,
+    mediaTier,
+  });
+
   // Start over if we go over the size
-  if (
-    downloadOffset >= getAttachmentCiphertextLength(size) &&
-    absoluteDownloadPath
-  ) {
+  if (downloadOffset >= expectedCiphertextSize && absoluteDownloadPath) {
     log.warn('went over, retrying');
     await safeUnlink(absoluteDownloadPath);
     downloadOffset = 0;
@@ -211,7 +214,7 @@ export async function downloadAttachment(
       downloadPath,
       downloadStream,
       onSizeUpdate: options.onSizeUpdate,
-      size,
+      expectedCiphertextSize,
     });
   } else {
     strictAssert(mediaTier === MediaTier.BACKUP, 'backup media tier');
@@ -256,12 +259,14 @@ export async function downloadAttachment(
       downloadPath,
       downloadOffset,
       onSizeUpdate: options.onSizeUpdate,
-      size: getAttachmentCiphertextLength(
+      expectedCiphertextSize:
         options.variant === AttachmentVariant.ThumbnailFromBackup
-          ? // be generous, accept downloads of up to twice what we expect for thumbnail
-            MAX_BACKUP_THUMBNAIL_SIZE * 2
-          : size
-      ),
+          ? getAttachmentCiphertextSize({
+              // to be generous, we accept downloads of up to twice what we expect
+              unpaddedPlaintextSize: MAX_BACKUP_THUMBNAIL_SIZE * 2,
+              mediaTier: MediaTier.BACKUP,
+            })
+          : expectedCiphertextSize,
     });
   }
 
@@ -345,13 +350,13 @@ async function downloadToDisk({
   downloadPath,
   downloadStream,
   onSizeUpdate,
-  size,
+  expectedCiphertextSize,
 }: {
   downloadOffset?: number;
   downloadPath?: string;
   downloadStream: Readable;
   onSizeUpdate: (totalBytes: number) => void;
-  size: number;
+  expectedCiphertextSize: number;
 }): Promise<{ absolutePath: string; downloadSize: number }> {
   const absoluteTargetPath = downloadPath
     ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
@@ -373,7 +378,7 @@ async function downloadToDisk({
     writeStream = createWriteStream(absoluteTargetPath);
   }
 
-  const targetSize = getAttachmentCiphertextLength(size) - downloadOffset;
+  const targetSize = expectedCiphertextSize - downloadOffset;
   let downloadSize = 0;
 
   try {
@@ -428,7 +433,7 @@ function checkSize(expectedBytes: number) {
       }
 
       if (totalBytes > expectedBytes) {
-        log.warn(
+        log.error(
           `checkSize: Received ${totalBytes} bytes, expected ${expectedBytes}`
         );
       }
