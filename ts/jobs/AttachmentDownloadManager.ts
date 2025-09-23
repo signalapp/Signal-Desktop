@@ -72,6 +72,8 @@ import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDown
 import { HTTPError } from '../textsecure/Errors.js';
 import { isOlderThan } from '../util/timestamp.js';
 import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { JobCancelReason } from './types.js';
+import { isAbortError } from '../util/isAbortError.js';
 
 const { noop, omit, throttle } = lodash;
 
@@ -438,11 +440,12 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   static async cancelJobs(
+    reason: JobCancelReason,
     predicate: (
       job: CoreAttachmentDownloadJobType & JobManagerJobType
     ) => boolean
   ): Promise<void> {
-    return AttachmentDownloadManager.instance.cancelJobs(predicate);
+    return AttachmentDownloadManager.instance.cancelJobs(reason, predicate);
   }
 
   static updateVisibleTimelineMessages(messageIds: Array<string>): void {
@@ -475,8 +478,11 @@ type DependenciesType = {
   deleteDownloadData: typeof window.Signal.Migrations.deleteDownloadData;
   downloadAttachment: typeof downloadAttachmentUtil;
   processNewAttachment: typeof window.Signal.Migrations.processNewAttachment;
+  runDownloadAttachmentJobInner: typeof runDownloadAttachmentJobInner;
 };
-async function runDownloadAttachmentJob({
+
+/** @internal Exported only for testing */
+export async function runDownloadAttachmentJob({
   job,
   isLastAttempt,
   options,
@@ -484,6 +490,7 @@ async function runDownloadAttachmentJob({
     deleteDownloadData: window.Signal.Migrations.deleteDownloadData,
     downloadAttachment: downloadAttachmentUtil,
     processNewAttachment: window.Signal.Migrations.processNewAttachment,
+    runDownloadAttachmentJobInner,
   },
 }: {
   job: AttachmentDownloadJobType;
@@ -502,7 +509,7 @@ async function runDownloadAttachmentJob({
   }
 
   try {
-    const result = await runDownloadAttachmentJobInner({
+    const result = await dependencies.runDownloadAttachmentJobInner({
       job,
       abortSignal: options.abortSignal,
       hasMediaBackups: options.hasMediaBackups,
@@ -524,9 +531,12 @@ async function runDownloadAttachmentJob({
       status: 'finished',
     };
   } catch (error) {
-    if (options.abortSignal.aborted) {
+    if (
+      options.abortSignal.aborted &&
+      options.abortSignal.reason === JobCancelReason.UserInitiated
+    ) {
       log.info(
-        `${logId}: Canceled attempt ${job.attempts}. Not scheduling a retry. Error:`
+        `${logId}: User canceled attempt ${job.attempts}. Not scheduling a retry.`
       );
       // Remove `pending` flag from the attachment. User can retry later.
       await addAttachmentToMessage(
@@ -656,6 +666,7 @@ type DownloadAttachmentResultType =
       attachmentWithThumbnail: AttachmentType;
     };
 
+/** @internal Exported only for testing */
 export async function runDownloadAttachmentJobInner({
   job,
   abortSignal,
@@ -666,7 +677,7 @@ export async function runDownloadAttachmentJobInner({
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
-  dependencies: DependenciesType;
+  dependencies: Omit<DependenciesType, 'runDownloadAttachmentJobInner'>;
 } & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
@@ -736,10 +747,13 @@ export async function runDownloadAttachmentJobInner({
           type: attachmentType,
         }
       );
-    } catch (e) {
+    } catch (error) {
+      if (isAbortError(error)) {
+        throw error;
+      }
       log.warn(
         `${logId}: error when trying to download thumbnail`,
-        Errors.toLogFormat(e)
+        Errors.toLogFormat(error)
       );
     }
   }
@@ -846,6 +860,9 @@ export async function runDownloadAttachmentJobInner({
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
     if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
+    if (isAbortError(error)) {
       throw error;
     }
     if (mightHaveBackupThumbnailToDownload && !attemptBackupThumbnailFirst) {

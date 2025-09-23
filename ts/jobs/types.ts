@@ -38,3 +38,11 @@ export type StoredJob = {
   readonly queueType: string;
   readonly data?: unknown;
 };
+
+export enum JobCancelReason {
+  UserInitiated = 'UserInitiated',
+  Shutdown = 'Shutdown',
+  JobManagerStopped = 'JobManagerStopped',
+  PowerMonitorSuspend = 'PowerMonitorSuspend',
+  PowerMonitorResume = 'PowerMonitorResume',
+}

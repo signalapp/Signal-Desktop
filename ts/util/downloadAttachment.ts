@@ -17,6 +17,7 @@ import { toLogFormat } from '../types/errors.js';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
 import * as RemoteConfig from '../RemoteConfig.js';
 import { ToastType } from '../types/Toast.js';
+import { isAbortError } from './isAbortError.js';
 
 const log = createLogger('downloadAttachment');
 
@@ -99,6 +100,9 @@ export async function downloadAttachment({
       if (isIncrementalMacVerificationError(error)) {
         throw error;
       }
+      if (isAbortError(error)) {
+        throw error;
+      }
 
       const shouldFallbackToTransitTier =
         variant !== AttachmentVariant.ThumbnailFromBackup;
@@ -145,6 +149,9 @@ export async function downloadAttachment({
     );
   } catch (error) {
     if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
+    if (isAbortError(error)) {
       throw error;
     }
 

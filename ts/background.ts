@@ -227,6 +227,7 @@ import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.js';
 import { initialize as initializeDonationService } from './services/donations.js';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.js';
+import { JobCancelReason } from './jobs/types.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -775,7 +776,7 @@ export async function startApp(): Promise<void> {
         const attachmentDownloadStopPromise = AttachmentDownloadManager.stop();
         const attachmentBackupStopPromise = AttachmentBackupManager.stop();
 
-        server?.cancelInflightRequests('shutdown');
+        server?.cancelInflightRequests(JobCancelReason.Shutdown);
 
         // Stop background processing
         idleDetector.stop();
@@ -1279,14 +1280,14 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
     log.info('powerMonitor: suspend');
-    server?.cancelInflightRequests('powerMonitorSuspend');
+    server?.cancelInflightRequests(JobCancelReason.PowerMonitorSuspend);
     suspendTasksWithTimeout();
   });
 
   window.Whisper.events.on('powerMonitorResume', () => {
     log.info('powerMonitor: resume');
     server?.checkSockets();
-    server?.cancelInflightRequests('powerMonitorResume');
+    server?.cancelInflightRequests(JobCancelReason.PowerMonitorResume);
     resumeTasksWithTimeout();
   });
 

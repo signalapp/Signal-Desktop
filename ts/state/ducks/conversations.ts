@@ -214,6 +214,7 @@ import { markFailed } from '../../test-node/util/messageFailures.js';
 import { cleanupMessages } from '../../util/cleanup.js';
 import type { ConversationModel } from '../../models/conversations.js';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent.js';
+import { JobCancelReason } from '../../jobs/types.js';
 
 const {
   chunk,
@@ -2373,9 +2374,12 @@ function cancelAttachmentDownload({
     }
 
     // A click kicks off downloads for every attachment in a message, so cancel does too
-    await AttachmentDownloadManager.cancelJobs(job => {
-      return job.messageId === messageId;
-    });
+    await AttachmentDownloadManager.cancelJobs(
+      JobCancelReason.UserInitiated,
+      job => {
+        return job.messageId === messageId;
+      }
+    );
 
     await DataWriter.removeAttachmentDownloadJobsForMessage(messageId);
 

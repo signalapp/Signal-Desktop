@@ -100,6 +100,7 @@ import { subscriptionConfigurationCurrencyZod } from '../types/Donations.js';
 import type { StripeDonationAmount, CardDetail } from '../types/Donations.js';
 import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.js';
+import type { JobCancelReason } from '../jobs/types.js';
 
 const { escapeRegExp, isNumber, isString, isObject, throttle } = lodash;
 
@@ -1550,7 +1551,7 @@ export type SubscriptionResponseType = z.infer<
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
-  cancelInflightRequests: (reason: string) => void;
+  cancelInflightRequests: (reason: JobCancelReason) => void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   createAccount: (
     options: CreateAccountOptionsType
@@ -1944,7 +1945,7 @@ export type TopLevelType = {
   initialize: (options: InitializeOptionsType) => WebAPIConnectType;
 };
 
-type InflightCallback = (error: Error) => unknown;
+type InflightCallback = (cancelReason: string) => unknown;
 
 const libsignalNet = getLibsignalNet();
 
@@ -2117,7 +2118,7 @@ export function initialize({
       },
     });
 
-    const inflightRequests = new Set<(error: Error) => unknown>();
+    const inflightRequests = new Set<InflightCallback>();
     function registerInflightRequest(request: InflightCallback) {
       inflightRequests.add(request);
     }
@@ -2129,7 +2130,7 @@ export function initialize({
       log.warn(`${logId}: Canceling ${inflightRequests.size} requests`);
       for (const request of inflightRequests) {
         try {
-          request(new Error(`${logId}: Canceled!`));
+          request(reason);
         } catch (error: unknown) {
           log.error(
             `${logId}: Failed to cancel request: ${toLogFormat(error)}`
@@ -4311,11 +4312,13 @@ export function initialize({
 
       let streamWithDetails: StreamWithDetailsType | undefined;
 
-      const cancelRequest = () => {
-        abortController.abort();
+      const cancelRequest = (reason: unknown) => {
+        abortController.abort(reason);
       };
 
-      options?.abortSignal?.addEventListener('abort', cancelRequest);
+      options?.abortSignal?.addEventListener('abort', () =>
+        cancelRequest(options.abortSignal?.reason)
+      );
 
       registerInflightRequest(cancelRequest);
 
