@@ -2869,14 +2869,17 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        <AttachmentStatusIcon
-          key={id}
-          attachment={firstAttachment}
-          isExpired={isExpired}
-          isIncoming={isIncoming}
-        >
-          {this.renderTapToViewIcon()}
-        </AttachmentStatusIcon>
+        {isExpired || firstAttachment == null ? (
+          this.renderTapToViewIcon()
+        ) : (
+          <AttachmentStatusIcon
+            key={id}
+            attachment={firstAttachment}
+            isIncoming={isIncoming}
+          >
+            {this.renderTapToViewIcon()}
+          </AttachmentStatusIcon>
+        )}
         {content}
       </div>
     );

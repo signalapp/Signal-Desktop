@@ -29,10 +29,8 @@ import {
 import { strictAssert } from '../../util/assert.js';
 import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.js';
 import { AttachmentDownloadSource } from '../../sql/Interface.js';
-import {
-  generateAttachmentKeys,
-  getAttachmentCiphertextSize,
-} from '../../AttachmentCrypto.js';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
+import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.js';
 import { MEBIBYTE } from '../../types/AttachmentSize.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { toBase64, toHex } from '../../Bytes.js';

@@ -15,6 +15,8 @@ export default {
   title: 'Components/Conversation/MediaGallery/DocumentListItem',
 } satisfies Meta<Props>;
 
+const { i18n } = window.SignalContext;
+
 export function Multiple(): JSX.Element {
   const items = createPreparedMediaItems(createRandomDocuments);
 
@@ -22,6 +24,7 @@ export function Multiple(): JSX.Element {
     <>
       {items.map(mediaItem => (
         <DocumentListItem
+          i18n={i18n}
           key={mediaItem.attachment.fileName}
           mediaItem={mediaItem}
           onClick={action('onClick')}

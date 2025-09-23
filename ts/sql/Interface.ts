@@ -581,6 +581,7 @@ export type GetOlderMediaOptionsType = Readonly<{
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
+  type: 'media' | 'files';
 }>;
 
 export type MediaItemDBType = Readonly<{

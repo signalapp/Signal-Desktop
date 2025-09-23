@@ -21,7 +21,7 @@ import { handleVideoAttachment } from './handleVideoAttachment.js';
 import { isHeic, stringToMIMEType } from '../types/MIME.js';
 import { ToastType } from '../types/Toast.js';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome.js';
-import { getAttachmentCiphertextSize } from '../AttachmentCrypto.js';
+import { getAttachmentCiphertextSize } from './AttachmentCrypto.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 
 const log = createLogger('processAttachment');

@@ -36,6 +36,7 @@ import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
 import * as Errors from '../types/errors.js';
 import { assertDev, strictAssert } from '../util/assert.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import { combineNames } from '../util/combineNames.js';
 import { consoleLogger } from '../util/consoleLogger.js';
 import {
@@ -5097,12 +5098,34 @@ function getOlderMedia(
     messageId,
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
+    type,
   }: GetOlderMediaOptionsType
 ): Array<MediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
     second: sqlFragment`receivedAt < ${maxReceivedAt}`,
   };
+
+  let contentFilter: QueryFragment;
+  if (type === 'media') {
+    // see 'isVisualMedia' in ts/types/Attachment.ts
+    contentFilter = sqlFragment`
+      contentType LIKE 'image/%' OR
+      contentType LIKE 'video/%'
+    `;
+  } else if (type === 'files') {
+    // see 'isFile' in ts/types/Attachment.ts
+    contentFilter = sqlFragment`
+      contentType IS NOT NULL AND
+      contentType IS NOT '' AND
+      contentType IS NOT 'text/x-signal-plain' AND
+      contentType NOT LIKE 'audio/%' AND
+      contentType NOT LIKE 'image/%' AND
+      contentType NOT LIKE 'video/%'
+    `;
+  } else {
+    throw missingCaseError(type);
+  }
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
@@ -5116,11 +5139,7 @@ function getOlderMedia(
       (
         ${timeFilter}
       ) AND
-      (
-        -- see 'isVisualMedia' in ts/types/Attachment.ts
-        contentType LIKE 'image/%' OR
-        contentType LIKE 'video/%'
-      ) AND
+      (${contentFilter}) AND
       isViewOnce IS NOT 1 AND
       messageType IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR messageId IS NOT ${messageId ?? null})

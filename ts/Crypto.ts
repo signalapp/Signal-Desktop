@@ -14,7 +14,7 @@ import { HashType, CipherType } from './types/Crypto.js';
 import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.js';
 import { ProfileDecryptError } from './types/errors.js';
 import { getBytesSubarray } from './util/uuidToBytes.js';
-import { logPadSize } from './util/logPadding.js';
+import { logPadSize } from './util/logPadSize.js';
 import { Environment, getEnvironment } from './environment.js';
 import { toWebSafeBase64 } from './util/webSafeBase64.js';
 

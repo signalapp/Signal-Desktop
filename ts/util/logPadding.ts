@@ -4,14 +4,9 @@
 import { Transform } from 'node:stream';
 import type { Duplex, Readable } from 'node:stream';
 
-const PADDING_CHUNK_SIZE = 64 * 1024;
+import { logPadSize } from './logPadSize.js';
 
-export function logPadSize(size: number): number {
-  return Math.max(
-    541,
-    Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
-  );
-}
+const PADDING_CHUNK_SIZE = 64 * 1024;
 
 /**
  * Creates iterator that yields zero-filled padding chunks.
