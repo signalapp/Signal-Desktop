@@ -11,6 +11,7 @@ import type { StatsFs } from 'node:fs';
 import * as MIME from '../../types/MIME.js';
 import {
   AttachmentDownloadManager,
+  runDownloadAttachmentJob,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
 } from '../../jobs/AttachmentDownloadManager.js';
@@ -36,6 +37,11 @@ import { MEBIBYTE } from '../../types/AttachmentSize.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { toBase64, toHex } from '../../Bytes.js';
 import { getRandomBytes } from '../../Crypto.js';
+import { JobCancelReason } from '../../jobs/types.js';
+import {
+  explodePromise,
+  type ExplodePromiseResultType,
+} from '../../util/explodePromise.js';
 
 const { omit } = lodash;
 
@@ -82,9 +88,18 @@ function composeJob({
   };
 }
 
-describe('AttachmentDownloadManager/JobManager', () => {
+// node-fetch does not export AbortError as a constructor, so we copy it here
+class AbortError extends Error {
+  readonly type = 'aborted';
+  override name = 'AbortError';
+}
+
+describe('AttachmentDownloadManager', () => {
   let downloadManager: AttachmentDownloadManager | undefined;
-  let runJob: sinon.SinonStub;
+  let runJob: sinon.SinonStub<
+    Parameters<typeof runDownloadAttachmentJob>,
+    ReturnType<typeof runDownloadAttachmentJob>
+  >;
   let sandbox: sinon.SinonSandbox;
   let clock: sinon.SinonFakeTimers;
   let hasMediaBackups: sinon.SinonStub;
@@ -106,13 +121,18 @@ describe('AttachmentDownloadManager/JobManager', () => {
       .callsFake(async () =>
         window.storage.put('backupMediaDownloadPaused', true)
       );
-    runJob = sandbox.stub().callsFake(async () => {
-      return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
-        Promise.resolve().then(() => {
-          resolve({ status: 'finished' });
+    runJob = sandbox
+      .stub<
+        Parameters<typeof runDownloadAttachmentJob>,
+        ReturnType<typeof runDownloadAttachmentJob>
+      >()
+      .callsFake(async () => {
+        return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+          Promise.resolve().then(() => {
+            resolve({ status: 'finished' });
+          });
         });
       });
-    });
     statfs = sandbox.stub().callsFake(() =>
       Promise.resolve({
         bavail: 100_000_000_000,
@@ -574,6 +594,87 @@ describe('AttachmentDownloadManager/JobManager', () => {
     });
   });
 
+  describe('handles aborts properly', () => {
+    let inflightRequestAbortController: AbortController;
+    let downloadStarted: ExplodePromiseResultType<void>;
+
+    beforeEach(() => {
+      inflightRequestAbortController = new AbortController();
+      downloadStarted = explodePromise<void>();
+      runJob.callsFake((...args) =>
+        runDownloadAttachmentJob({
+          ...args[0],
+          dependencies: {
+            downloadAttachment: sandbox
+              .stub()
+              .callsFake(({ options: { abortSignal } }) => {
+                return new Promise((_resolve, reject) => {
+                  abortSignal.addEventListener('abort', () => {
+                    reject(new AbortError('aborted by job'));
+                  });
+
+                  inflightRequestAbortController.signal.addEventListener(
+                    'abort',
+                    () => {
+                      reject(
+                        new AbortError(
+                          'aborted by in-flight requests cancellation'
+                        )
+                      );
+                    }
+                  );
+                  downloadStarted.resolve();
+                });
+              }),
+            deleteDownloadData: sandbox.stub(),
+            processNewAttachment: sandbox.stub(),
+            runDownloadAttachmentJobInner,
+          },
+        })
+      );
+    });
+    it('will retry a job when aborted b/c of shutdown', async () => {
+      const jobs = await addJobs(1);
+      const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+
+      await downloadManager?.start();
+      await jobAttempts[0].started;
+      await downloadStarted.promise;
+
+      // Shutdown behavior
+      downloadManager?.stop();
+      inflightRequestAbortController.abort();
+
+      await jobAttempts[0].completed;
+      // Ensure it will be retried
+      assert.strictEqual(
+        (await DataReader._getAttachmentDownloadJob(jobs[0]))?.attempts,
+        1
+      );
+      assert.strictEqual(runJob.callCount, 1);
+    });
+    it('will not retry a job if manually cancelled', async () => {
+      const jobs = await addJobs(1);
+      const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+
+      await downloadManager?.start();
+      const downloadManagerIdled = downloadManager?.waitForIdle();
+
+      await jobAttempts[0].started;
+      await downloadStarted.promise;
+
+      // user-cancelled behavior
+      downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
+
+      await assert.isRejected(jobAttempts[0].completed as Promise<void>);
+      await downloadManagerIdled;
+
+      // Ensure it will not be retried
+      assert.isUndefined(await DataReader._getAttachmentDownloadJob(jobs[0]));
+      assert.strictEqual(runJob.callCount, 1);
+    });
+  });
+
   describe('will drop jobs from non-media backup imports that are old', () => {
     it('will not queue attachments older than 90 days (2 * message queue time)', async () => {
       await addJobs(
@@ -642,7 +743,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
   });
 });
 
-describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
+describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   let sandbox: sinon.SinonSandbox;
   let deleteDownloadData: sinon.SinonStub;
   let downloadAttachment: sinon.SinonStub;
@@ -672,6 +773,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
   afterEach(async () => {
     sandbox.restore();
   });
+
   describe('visible message', () => {
     it('will only download full-size if attachment not from backup', async () => {
       const job = composeJob({
