@@ -12,6 +12,7 @@ import {
   type CoreAttachmentDownloadJobType,
   AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
+  MediaTier,
 } from '../types/AttachmentDownload.js';
 import {
   downloadAttachment as downloadAttachmentUtil,
@@ -52,7 +53,7 @@ import { IMAGE_WEBP } from '../types/MIME.js';
 import { AttachmentDownloadSource } from '../sql/Interface.js';
 import { drop } from '../util/drop.js';
 import {
-  getAttachmentCiphertextLength,
+  getAttachmentCiphertextSize,
   type ReencryptedAttachmentV2,
 } from '../AttachmentCrypto.js';
 import { safeParsePartial } from '../util/schemas.js';
@@ -319,7 +320,15 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
       attachment,
       attachmentType,
-      ciphertextSize: getAttachmentCiphertextLength(attachment.size),
+      // ciphertextSize is used for backup media download progress accounting; it may not
+      // exactly match what we end up downloading, and that's OK (e.g. we may fallback to
+      // download from the transit tier, which would be a slightly smaller size)
+      ciphertextSize: getAttachmentCiphertextSize({
+        unpaddedPlaintextSize: attachment.size,
+        mediaTier: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+          ? MediaTier.BACKUP
+          : MediaTier.STANDARD,
+      }),
       contentType: attachment.contentType,
       attachmentSignature: getUndownloadedAttachmentSignature(attachment),
       isManualDownload,

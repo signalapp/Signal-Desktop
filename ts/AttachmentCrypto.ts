@@ -52,6 +52,7 @@ import { missingCaseError } from './util/missingCaseError.js';
 import { getEnvironment, Environment } from './environment.js';
 import { isNotEmpty, toBase64, toHex } from './Bytes.js';
 import { decipherWithAesKey } from './util/decipherWithAesKey.js';
+import { MediaTier } from './types/AttachmentDownload.js';
 
 const { ensureFile } = fsExtra;
 
@@ -198,7 +199,12 @@ export async function encryptAttachmentV2({
       );
     }
     chunkSizeChoice = isNumber(size)
-      ? inferChunkSize(getAttachmentCiphertextLength(size))
+      ? inferChunkSize(
+          getAttachmentCiphertextSize({
+            unpaddedPlaintextSize: size,
+            mediaTier: MediaTier.STANDARD,
+          })
+        )
       : undefined;
     incrementalDigestCreator =
       needIncrementalMac && chunkSizeChoice
@@ -664,20 +670,38 @@ export function measureSize({
   return passthrough;
 }
 
-export function getAttachmentCiphertextLength(plaintextLength: number): number {
-  const paddedPlaintextSize = logPadSize(plaintextLength);
+export function getAttachmentCiphertextSize({
+  unpaddedPlaintextSize,
+  mediaTier,
+}: {
+  unpaddedPlaintextSize: number;
+  mediaTier: MediaTier;
+}): number {
+  const paddedSize = logPadSize(unpaddedPlaintextSize);
 
+  switch (mediaTier) {
+    case MediaTier.STANDARD:
+      return getCiphertextSize(paddedSize);
+    case MediaTier.BACKUP:
+      // objects on backup tier are doubly encrypted!
+      return getCiphertextSize(getCiphertextSize(paddedSize));
+    default:
+      throw missingCaseError(mediaTier);
+  }
+}
+
+export function getCiphertextSize(paddedPlaintextSize: number): number {
   return (
     IV_LENGTH +
-    getAesCbcCiphertextLength(paddedPlaintextSize) +
+    getAesCbcCiphertextSize(paddedPlaintextSize) +
     ATTACHMENT_MAC_LENGTH
   );
 }
 
-export function getAesCbcCiphertextLength(plaintextLength: number): number {
+export function getAesCbcCiphertextSize(plaintextSize: number): number {
   const AES_CBC_BLOCK_SIZE = 16;
   return (
-    (1 + Math.floor(plaintextLength / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
+    (1 + Math.floor(plaintextSize / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
   );
 }
 

@@ -44,8 +44,8 @@ import {
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
-  getAesCbcCiphertextLength,
-  getAttachmentCiphertextLength,
+  getAesCbcCiphertextSize,
+  getAttachmentCiphertextSize,
   splitKeys,
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
@@ -55,6 +55,7 @@ import type { AciString, PniString } from '../types/ServiceId.js';
 import { createTempDir, deleteTempDir } from '../updater/common.js';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
 import { getPath } from '../windows/main/attachments.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
 
 const { emptyDir } = fsExtra;
 
@@ -780,7 +781,10 @@ describe('Crypto', () => {
 
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
-            getAttachmentCiphertextLength(data.byteLength)
+            getAttachmentCiphertextSize({
+              unpaddedPlaintextSize: data.byteLength,
+              mediaTier: MediaTier.STANDARD,
+            })
           );
 
           if (overrideSize == null) {
@@ -1193,7 +1197,7 @@ describe('Crypto', () => {
     }
     it('calculates cipherTextLength correctly', () => {
       for (let i = 0; i < 128; i += 1) {
-        assert.strictEqual(getAesCbcCiphertextLength(i), encrypt(i).length);
+        assert.strictEqual(getAesCbcCiphertextSize(i), encrypt(i).length);
       }
     });
   });
