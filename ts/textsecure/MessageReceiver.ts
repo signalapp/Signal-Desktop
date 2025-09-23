@@ -1333,6 +1333,17 @@ export default class MessageReceiver
         envelope.sourceServiceId,
         'Unsealed envelope must have source uuid'
       );
+
+      if (
+        isPniString(envelope.sourceServiceId) &&
+        envelope.type !== Proto.Envelope.Type.SERVER_DELIVERY_RECEIPT
+      ) {
+        log.warn(
+          `unsealEnvelope(${logId}): dropping non-receipt envelope from PNI`
+        );
+        return undefined;
+      }
+
       return {
         ...envelope,
         sourceServiceId: envelope.sourceServiceId,
