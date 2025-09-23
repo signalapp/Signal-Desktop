@@ -265,7 +265,11 @@ export const saveAttachmentToDisk = async ({
     }
     filePath = dialogFilePath;
   } else {
-    filePath = join(baseDir, name);
+    filePath = join(baseDir, basename(name));
+
+    if (!isPathInside(filePath, baseDir)) {
+      throw new Error('Invalid attachment path');
+    }
   }
 
   await writeWithAttributes(filePath, data);
