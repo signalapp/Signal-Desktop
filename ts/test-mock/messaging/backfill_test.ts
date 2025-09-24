@@ -197,6 +197,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       .getByRole('button', {
         name: 'Open this attachment in a larger view',
       })
+      .first()
       .waitFor();
 
     debug('failing second attachment');
