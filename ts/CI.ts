@@ -52,6 +52,7 @@ export type CIType = {
   print: (...args: ReadonlyArray<unknown>) => void;
   resetReleaseNotesFetcher(): void;
   forceUnprocessed: boolean;
+  setMediaPermissions(): Promise<void>;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -242,6 +243,10 @@ export function getCI({
     ]);
   }
 
+  async function setMediaPermissions() {
+    await window.IPC.setMediaPermissions(true);
+  }
+
   return {
     deviceName,
     getConversationId,
@@ -263,5 +268,6 @@ export function getCI({
     print,
     resetReleaseNotesFetcher,
     forceUnprocessed,
+    setMediaPermissions,
   };
 }

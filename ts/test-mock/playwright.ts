@@ -146,10 +146,6 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
-  public async waitForWindow(): Promise<Page> {
-    return this.#app.waitForEvent('window');
-  }
-
   public async waitForManifestVersion(version: number): Promise<void> {
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -229,6 +225,11 @@ export class App extends EventEmitter {
   public async uploadBackup(): Promise<void> {
     const window = await this.getWindow();
     await window.evaluate('window.SignalCI.uploadBackup()');
+  }
+
+  public async enableMedia(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.setMediaPermissions()');
   }
 
   public async migrateAllMessages(): Promise<void> {

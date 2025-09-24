@@ -1,0 +1,3 @@
+Source for "the_raven.wav" is the first minute of
+https://commons.wikimedia.org/wiki/File:Ravenandotherpoems_01_poe.mp3,
+a public domain file, converted to Wav by Signal.
