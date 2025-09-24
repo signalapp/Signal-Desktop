@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Usunąć czat?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte z tego urządzenia."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte ze wszystkich Twoich urządzeń."
   },
@@ -1374,7 +1371,7 @@
     "messageformat": "Czaty 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Rozmowy grupowe"
+    "messageformat": "Czaty grupowe"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj czaty"
@@ -2070,7 +2067,7 @@
     "messageformat": "Nie udało się pobrać"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Pobieranie załącznika z kopii zapasowej nie powiodło się"
+    "messageformat": "Nie udało się pobrać załącznika z kopii zapasowej"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Multimedia, linki i pliki"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
@@ -6688,7 +6685,7 @@
     "messageformat": "Wyświetl szczegóły potwierdzenia"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "FAQ darczyńców"
+    "messageformat": "Najczęstsze pytania i odpowiedzi dla darczyńców"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Potwierdzenia darowizn na różnych urządzeniach nie są synchronizowane. Ponadto jeśli aplikacja Signal zostanie zainstalowana ponownie, wcześniejsze potwierdzenia darowizn nie będą dostępne."
@@ -6757,16 +6754,16 @@
     "messageformat": "Zdobądź odznakę za wsparcie na 30 dni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
+    "messageformat": "Minimalna kwota darowizny to {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
+    "messageformat": "Minimalna kwota darowizny to {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "Maksymalna kwota darowizny wynosi {formattedCurrencyAmount}"
+    "messageformat": "Maksymalna kwota darowizny to {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Opuszczenie tej strony spowoduje usunięcie danych Twojej karty kredytowej. Czy chcesz kontynuować?"
+    "messageformat": "Jeśli zamkniesz tę stronę, dane Twojej karty zostaną usunięte. Czy chcesz kontynuować?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Usuń dane"
@@ -6817,13 +6814,13 @@
     "messageformat": "Twoja darowizna jest realizowana, ale wymaga jeszcze potwierdzenia."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Darowizna powiodła się, ale nie mogliśmy zaktualizować Twoich ustawień odznaki"
+    "messageformat": "Darowizna przekazana, ale nie udało się zaktualizować ustawień odznaki"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Darowizna powiodła się, ale nie mogliśmy zaktualizować Twoich ustawień odznaki"
+    "messageformat": "Darowizna przekazana, ale nie udało się zaktualizować ustawień odznaki"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "Aby zaktualizować ustawienia odznak na swoim urządzeniu mobilnym, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki."
+    "messageformat": "Aby zaktualizować ustawienia odznaki na swoim urządzeniu mobilnym, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Wpłata darowizny przerwana"
@@ -6892,13 +6889,13 @@
     "messageformat": "Dziękujemy Ci za wsparcie!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Zdobywasz odznakę darczyńcy Signal! Pochwal się nią na profilu i pokaż, że wspierasz apkę."
+    "messageformat": "Zdobywasz odznakę darczyńcy Signal. Pochwal się nią w profilu i pokaż, że wspierasz naszą aplikację."
   },
   "icu:Donations__badge-modal--display-on-profile": {
     "messageformat": "Pokaż w profilu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "Możesz to zmienić na swoim smartfonie, przechodząc do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki"
+    "messageformat": "Możesz to zmienić na swoim urządzeniu mobilnym. Aby to zrobić, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }
