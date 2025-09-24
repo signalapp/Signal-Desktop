@@ -44,8 +44,6 @@ import {
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
-  getAesCbcCiphertextSize,
-  getAttachmentCiphertextSize,
   splitKeys,
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
@@ -54,6 +52,10 @@ import {
 import type { AciString, PniString } from '../types/ServiceId.js';
 import { createTempDir, deleteTempDir } from '../updater/common.js';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import {
+  getAesCbcCiphertextSize,
+  getAttachmentCiphertextSize,
+} from '../util/AttachmentCrypto.js';
 import { getPath } from '../windows/main/attachments.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 

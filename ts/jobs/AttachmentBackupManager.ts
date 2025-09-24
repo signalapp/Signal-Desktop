@@ -24,7 +24,6 @@ import {
 import {
   type EncryptedAttachmentV2,
   decryptAttachmentV2ToSink,
-  getAttachmentCiphertextSize,
 } from '../AttachmentCrypto.js';
 import {
   getBackupMediaRootKey,
@@ -39,6 +38,7 @@ import {
 } from '../types/AttachmentBackup.js';
 import { isInCall as isInCallSelector } from '../state/selectors/calling.js';
 import { encryptAndUploadAttachment } from '../util/uploadAttachment.js';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import {
   getMediaIdFromMediaName,
   getMediaNameForAttachmentThumbnail,

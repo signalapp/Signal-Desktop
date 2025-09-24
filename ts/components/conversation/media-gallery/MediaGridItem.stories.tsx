@@ -175,7 +175,7 @@ export function PendingImage(): JSX.Element {
       size: 123000,
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       isPermanentlyUndownloadable: false,
-      totalDownloaded: 0,
+      totalDownloaded: undefined,
       pending: true,
     },
   });

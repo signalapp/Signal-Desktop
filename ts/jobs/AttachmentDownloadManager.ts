@@ -52,10 +52,7 @@ import {
 import { IMAGE_WEBP } from '../types/MIME.js';
 import { AttachmentDownloadSource } from '../sql/Interface.js';
 import { drop } from '../util/drop.js';
-import {
-  getAttachmentCiphertextSize,
-  type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto.js';
+import { type ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
 import { safeParsePartial } from '../util/schemas.js';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.js';
 import { createBatcher } from '../util/batcher.js';
@@ -68,6 +65,7 @@ import {
 } from './helpers/attachmentBackfill.js';
 import { formatCountForLogging } from '../logging/formatCountForLogging.js';
 import { strictAssert } from '../util/assert.js';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.js';
 import { HTTPError } from '../textsecure/Errors.js';
 import { isOlderThan } from '../util/timestamp.js';

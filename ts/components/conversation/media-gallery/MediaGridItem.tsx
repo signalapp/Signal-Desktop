@@ -1,11 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
 import { formatFileSize } from '../../../util/formatFileSize.js';
 import { formatDuration } from '../../../util/formatDuration.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.js';
 import type { MediaItemType } from '../../../types/MediaItem.js';
 import type { AttachmentForUIType } from '../../../types/Attachment.js';
@@ -20,10 +21,14 @@ import { ImageOrBlurhash } from '../../ImageOrBlurhash.js';
 import { SpinnerV2 } from '../../SpinnerV2.js';
 import { tw } from '../../../axo/tw.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.js';
+import {
+  useAttachmentStatus,
+  type AttachmentStatusType,
+} from '../../../hooks/useAttachmentStatus.js';
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;
-  onClick?: (ev: React.MouseEvent) => void;
+  onClick?: (attachmentState: AttachmentStatusType['state']) => void;
   i18n: LocalizerType;
   theme?: ThemeType;
 }>;
@@ -38,6 +43,7 @@ export function MediaGridItem(props: Props): JSX.Element {
 
   const resolvedBlurHash = attachment.blurHash || defaultBlurHash(theme);
   const url = getUrl(attachment);
+  const status = useAttachmentStatus(attachment);
 
   const { width, height } = attachment;
 
@@ -53,13 +59,24 @@ export function MediaGridItem(props: Props): JSX.Element {
   );
 
   let label: string;
-  if (url != null) {
+  if (status.state === 'ReadyToShow') {
     label = i18n('icu:imageOpenAlt');
-  } else if (attachment.pending) {
+  } else if (status.state === 'Downloading') {
     label = i18n('icu:cancelDownload');
-  } else {
+  } else if (status.state === 'NeedsDownload') {
     label = i18n('icu:startDownload');
+  } else {
+    throw missingCaseError(status);
   }
+
+  const handleClick = useCallback(
+    (ev: React.MouseEvent) => {
+      ev.preventDefault();
+
+      onClick?.(status.state);
+    },
+    [onClick, status.state]
+  );
 
   return (
     <button
@@ -68,34 +85,27 @@ export function MediaGridItem(props: Props): JSX.Element {
         'relative size-30 overflow-hidden rounded-md',
         'flex items-center justify-center'
       )}
-      onClick={onClick}
+      onClick={handleClick}
       aria-label={label}
     >
       {imageOrBlurHash}
 
-      <MetadataOverlay i18n={i18n} attachment={attachment} />
-      <SpinnerOverlay attachment={attachment} />
+      <MetadataOverlay i18n={i18n} status={status} attachment={attachment} />
+      <SpinnerOverlay status={status} />
     </button>
   );
 }
 
 type SpinnerOverlayProps = Readonly<{
-  attachment: AttachmentForUIType;
+  status: AttachmentStatusType;
 }>;
 
 function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
-  const { attachment } = props;
+  const { status } = props;
 
-  const url = getUrl(attachment);
-  if (url != null) {
+  if (status.state === 'ReadyToShow') {
     return undefined;
   }
-
-  const spinnerValue =
-    (!attachment.incrementalUrl &&
-      attachment.size &&
-      attachment.totalDownloaded) ||
-    undefined;
 
   return (
     <div
@@ -104,20 +114,20 @@ function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
         'flex items-center justify-center'
       )}
     >
-      {attachment.pending && (
+      {status.state === 'Downloading' && (
         <SpinnerV2
           variant="no-background"
           size={44}
           strokeWidth={2}
           marginRatio={1}
           min={0}
-          max={attachment.size}
-          value={spinnerValue}
+          max={status.size}
+          value={status.totalDownloaded}
         />
       )}
       <div className={tw('absolute text-label-primary-on-color')}>
         <AxoSymbol.Icon
-          symbol={attachment.pending ? 'x' : 'arrow-down'}
+          symbol={status.state === 'Downloading' ? 'x' : 'arrow-down'}
           size={24}
           label={null}
         />
@@ -128,20 +138,23 @@ function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
 
 type MetadataOverlayProps = Readonly<{
   i18n: LocalizerType;
+  status: AttachmentStatusType;
   attachment: AttachmentForUIType;
 }>;
 
 function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
-  const { i18n, attachment } = props;
+  const { i18n, status, attachment } = props;
 
-  const url = getUrl(attachment);
-  const canBeShown = url != null;
-  if (canBeShown && !isGIF([attachment]) && !isVideoAttachment(attachment)) {
+  if (
+    status.state === 'ReadyToShow' &&
+    !isGIF([attachment]) &&
+    !isVideoAttachment(attachment)
+  ) {
     return undefined;
   }
 
   let text: string;
-  if (isGIF([attachment]) && canBeShown) {
+  if (isGIF([attachment]) && status.state === 'ReadyToShow') {
     text = i18n('icu:message--getNotificationText--gif');
   } else if (isVideoAttachment(attachment) && attachment.duration != null) {
     text = formatDuration(attachment.duration);

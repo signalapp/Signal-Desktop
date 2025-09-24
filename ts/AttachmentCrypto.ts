@@ -39,7 +39,7 @@ import {
 } from './types/Crypto.js';
 import { constantTimeEqual } from './Crypto.js';
 import { createName, getRelativePath } from './util/attachmentPath.js';
-import { appendPaddingStream, logPadSize } from './util/logPadding.js';
+import { appendPaddingStream } from './util/logPadding.js';
 import { prependStream } from './util/prependStream.js';
 import { appendMacStream } from './util/appendMacStream.js';
 import { finalStream } from './util/finalStream.js';
@@ -52,6 +52,7 @@ import { missingCaseError } from './util/missingCaseError.js';
 import { getEnvironment, Environment } from './environment.js';
 import { isNotEmpty, toBase64, toHex } from './Bytes.js';
 import { decipherWithAesKey } from './util/decipherWithAesKey.js';
+import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.js';
 import { MediaTier } from './types/AttachmentDownload.js';
 
 const { ensureFile } = fsExtra;
@@ -668,41 +669,6 @@ export function measureSize({
   });
 
   return passthrough;
-}
-
-export function getAttachmentCiphertextSize({
-  unpaddedPlaintextSize,
-  mediaTier,
-}: {
-  unpaddedPlaintextSize: number;
-  mediaTier: MediaTier;
-}): number {
-  const paddedSize = logPadSize(unpaddedPlaintextSize);
-
-  switch (mediaTier) {
-    case MediaTier.STANDARD:
-      return getCiphertextSize(paddedSize);
-    case MediaTier.BACKUP:
-      // objects on backup tier are doubly encrypted!
-      return getCiphertextSize(getCiphertextSize(paddedSize));
-    default:
-      throw missingCaseError(mediaTier);
-  }
-}
-
-export function getCiphertextSize(paddedPlaintextSize: number): number {
-  return (
-    IV_LENGTH +
-    getAesCbcCiphertextSize(paddedPlaintextSize) +
-    ATTACHMENT_MAC_LENGTH
-  );
-}
-
-export function getAesCbcCiphertextSize(plaintextSize: number): number {
-  const AES_CBC_BLOCK_SIZE = 16;
-  return (
-    (1 + Math.floor(plaintextSize / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
-  );
 }
 
 function checkIntegrity({

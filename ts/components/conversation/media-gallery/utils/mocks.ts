@@ -33,6 +33,7 @@ function createRandomFile(
   const fileName = `${sample(tokens)}${sample(tokens)}.${fileExtension}`;
 
   const isDownloaded = Math.random() > 0.4;
+  const isPending = !isDownloaded && Math.random() > 0.5;
 
   return {
     message: {
@@ -46,6 +47,7 @@ function createRandomFile(
     attachment: {
       url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
       path: isDownloaded ? 'abc' : undefined,
+      pending: isPending,
       screenshot:
         fileExtension === 'mp4'
           ? {

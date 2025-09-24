@@ -28,23 +28,31 @@ export function renderAvatar({
 
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const title = getName(contact) || '';
+  const fallback = (
+    <Avatar
+      avatarUrl={avatarUrl}
+      badge={undefined}
+      blur={AvatarBlur.NoBlur}
+      color={AvatarColors[0]}
+      conversationType="direct"
+      i18n={i18n}
+      title={title}
+      sharedGroupNames={[]}
+      size={size}
+    />
+  );
+
+  const attachment = avatar?.avatar;
+  if (attachment == null) {
+    return fallback;
+  }
 
   return (
     <AttachmentStatusIcon
-      attachment={avatar?.avatar}
+      attachment={attachment}
       isIncoming={direction === 'incoming'}
     >
-      <Avatar
-        avatarUrl={avatarUrl}
-        badge={undefined}
-        blur={AvatarBlur.NoBlur}
-        color={AvatarColors[0]}
-        conversationType="direct"
-        i18n={i18n}
-        title={title}
-        sharedGroupNames={[]}
-        size={size}
-      />
+      {fallback}
     </AttachmentStatusIcon>
   );
 }

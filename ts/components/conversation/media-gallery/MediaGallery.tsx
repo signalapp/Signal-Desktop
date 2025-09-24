@@ -127,20 +127,30 @@ function MediaSection({
         onItemClick={(event: ItemClickEvent) => {
           switch (event.type) {
             case 'documents': {
-              saveAttachment(event.attachment, event.message.sentAt);
+              if (event.state === 'ReadyToShow') {
+                saveAttachment(event.attachment, event.message.sentAt);
+              } else if (event.state === 'Downloading') {
+                cancelAttachmentDownload({ messageId: event.message.id });
+              } else if (event.state === 'NeedsDownload') {
+                kickOffAttachmentDownload({ messageId: event.message.id });
+              } else {
+                throw missingCaseError(event.state);
+              }
               break;
             }
 
             case 'media': {
-              if (event.attachment.url || event.attachment.incrementalUrl) {
+              if (event.state === 'ReadyToShow') {
                 showLightbox({
                   attachment: event.attachment,
                   messageId: event.message.id,
                 });
-              } else if (event.attachment.pending) {
+              } else if (event.state === 'Downloading') {
                 cancelAttachmentDownload({ messageId: event.message.id });
-              } else {
+              } else if (event.state === 'NeedsDownload') {
                 kickOffAttachmentDownload({ messageId: event.message.id });
+              } else {
+                throw missingCaseError(event.state);
               }
               break;
             }

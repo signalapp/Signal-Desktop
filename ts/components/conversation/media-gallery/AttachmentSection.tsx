@@ -8,6 +8,7 @@ import type { LocalizerType, ThemeType } from '../../../types/Util.js';
 import type { MediaItemType } from '../../../types/MediaItem.js';
 import { DocumentListItem } from './DocumentListItem.js';
 import { MediaGridItem } from './MediaGridItem.js';
+import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.js';
 import { missingCaseError } from '../../../util/missingCaseError.js';
 import { tw } from '../../../axo/tw.js';
 
@@ -37,9 +38,8 @@ export function AttachmentSection({
             {mediaItems.map(mediaItem => {
               const { message, index, attachment } = mediaItem;
 
-              const onClick = (ev: React.MouseEvent) => {
-                ev.preventDefault();
-                onItemClick({ type, message, attachment });
+              const onClick = (state: AttachmentStatusType['state']) => {
+                onItemClick({ type, message, attachment, state });
               };
 
               return (
@@ -69,13 +69,13 @@ export function AttachmentSection({
             {mediaItems.map(mediaItem => {
               const { message, index, attachment } = mediaItem;
 
-              const onClick = (ev: React.MouseEvent) => {
-                ev.preventDefault();
-                onItemClick({ type, message, attachment });
+              const onClick = (state: AttachmentStatusType['state']) => {
+                onItemClick({ type, message, attachment, state });
               };
 
               return (
                 <DocumentListItem
+                  i18n={i18n}
                   key={`${message.id}-${index}`}
                   mediaItem={mediaItem}
                   onClick={onClick}

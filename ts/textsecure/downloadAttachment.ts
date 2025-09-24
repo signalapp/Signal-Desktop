@@ -22,7 +22,6 @@ import {
 } from '../types/Attachment.js';
 import * as Bytes from '../Bytes.js';
 import {
-  getAttachmentCiphertextSize,
   safeUnlink,
   splitKeys,
   type ReencryptedAttachmentV2,
@@ -32,6 +31,7 @@ import {
 } from '../AttachmentCrypto.js';
 import type { ProcessedAttachment } from './Types.d.ts';
 import type { WebAPIType } from './WebAPI.js';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import { createName, getRelativePath } from '../util/attachmentPath.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import {
