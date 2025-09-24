@@ -7,7 +7,7 @@ import * as durations from '../util/durations/index.js';
 import { createLogger } from '../logging/log.js';
 import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents.js';
 import {
-  type AttachmentDownloadJobTypeType,
+  type MessageAttachmentType,
   type AttachmentDownloadJobType,
   type CoreAttachmentDownloadJobType,
   AttachmentDownloadUrgency,
@@ -82,7 +82,7 @@ export { isPermanentlyUndownloadable };
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
   attachment: AttachmentType;
-  attachmentType: AttachmentDownloadJobTypeType;
+  attachmentType: MessageAttachmentType;
   isManualDownload: boolean;
   messageId: string;
   receivedAt: number;
@@ -808,10 +808,13 @@ export async function runDownloadAttachmentJobInner({
       },
     });
 
-    const upgradedAttachment = await dependencies.processNewAttachment({
-      ...omit(attachment, ['error', 'pending']),
-      ...downloadedAttachment,
-    });
+    const upgradedAttachment = await dependencies.processNewAttachment(
+      {
+        ...omit(attachment, ['error', 'pending']),
+        ...downloadedAttachment,
+      },
+      attachmentType
+    );
 
     const isShowingLightbox = (): boolean => {
       const lightboxState = window.reduxStore.getState().lightbox;

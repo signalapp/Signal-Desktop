@@ -73,7 +73,10 @@ export async function downloadOnboardingStory(): Promise<void> {
         ...local,
       };
 
-      return window.Signal.Migrations.processNewAttachment(attachment);
+      return window.Signal.Migrations.processNewAttachment(
+        attachment,
+        'attachment'
+      );
     })
   );
 

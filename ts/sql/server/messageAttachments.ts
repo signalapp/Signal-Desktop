@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import { convertUndefinedToNull } from '../../util/dropNull.js';
-import { attachmentDownloadTypeSchema } from '../../types/AttachmentDownload.js';
+import { messageAttachmentTypeSchema } from '../../types/AttachmentDownload.js';
 import { APPLICATION_OCTET_STREAM } from '../../types/MIME.js';
 import type { MessageAttachmentDBType } from '../Interface.js';
 
@@ -35,7 +35,7 @@ export const permissiveMessageAttachmentSchema = z.object({
   messageId: z.string(),
   messageType: z.string(),
   editHistoryIndex: z.number(),
-  attachmentType: attachmentDownloadTypeSchema,
+  attachmentType: messageAttachmentTypeSchema,
   orderInMessage: z.number(),
   conversationId: z.string(),
   sentAt: z.number().catch(0),

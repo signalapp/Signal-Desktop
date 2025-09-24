@@ -13,7 +13,7 @@ import {
   getUndownloadedAttachmentSignature,
 } from '../../types/Attachment.js';
 import {
-  type AttachmentDownloadJobTypeType,
+  type MessageAttachmentType,
   AttachmentDownloadUrgency,
 } from '../../types/AttachmentDownload.js';
 import { AttachmentDownloadSource } from '../../sql/Interface.js';
@@ -353,7 +353,7 @@ export class AttachmentBackfill {
   }
 
   public static isEnabledForJob(
-    jobType: AttachmentDownloadJobTypeType,
+    jobType: MessageAttachmentType,
     message: Pick<ReadonlyMessageAttributesType, 'type'>
   ): boolean {
     if (message.type === 'story') {
@@ -456,7 +456,7 @@ export class AttachmentBackfill {
 
 export function isPermanentlyUndownloadable(
   attachment: AttachmentType,
-  disposition: AttachmentDownloadJobTypeType,
+  disposition: MessageAttachmentType,
   message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): boolean {
   // Attachment is downloadable or user have not failed to download it yet

@@ -49,7 +49,7 @@ import type {
 } from '../types/CallLink.js';
 import type {
   AttachmentDownloadJobType,
-  AttachmentDownloadJobTypeType,
+  MessageAttachmentType,
 } from '../types/AttachmentDownload.js';
 import type {
   GroupSendEndorsementsData,
@@ -651,7 +651,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
 
 export type MessageAttachmentDBType = {
   messageId: string;
-  attachmentType: AttachmentDownloadJobTypeType;
+  attachmentType: MessageAttachmentType;
   orderInMessage: number;
   editHistoryIndex: number | null;
   conversationId: string;

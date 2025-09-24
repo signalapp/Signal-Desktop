@@ -71,7 +71,7 @@ import {
   isIncremental,
   defaultBlurHash,
 } from '../../types/Attachment.js';
-import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload.js';
+import type { MessageAttachmentType } from '../../types/AttachmentDownload.js';
 import { type DefaultConversationColorType } from '../../types/Colors.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.js';
 
@@ -1852,7 +1852,7 @@ export function getPropsForEmbeddedContact(
 
 export function getPropsForAttachment(
   attachment: AttachmentType,
-  disposition: AttachmentDownloadJobTypeType,
+  disposition: MessageAttachmentType,
   message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): AttachmentForUIType {
   const { path, pending, screenshot, thumbnail, thumbnailFromBackup } =
