@@ -4299,7 +4299,7 @@
     "messageformat": "Signal Desktop biedt geen ondersteuning voor het verzenden van berichten naar personen die niet geregistreerd zijn bij Signal. Vraag deze persoon om Signal te installeren om zo beveiligde gesprekken te kunnen voeren."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
-    "messageformat": "Controleren of deze persoon staat geregistreerd bij Signal"
+    "messageformat": "Controleren of deze persoon is geregistreerd bij Signal"
   },
   "icu:CompositionArea__edit-action--discard": {
     "messageformat": "Bericht weggooien"
@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, links en documenten"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"

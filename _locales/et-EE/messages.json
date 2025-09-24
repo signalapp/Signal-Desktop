@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Meedia, lingid ja failid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"

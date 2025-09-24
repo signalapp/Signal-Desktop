@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Đa phương tiện, đường dẫn và tập tin"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"

@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Multimedia-edukia, estekak eta fitxategiak"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"

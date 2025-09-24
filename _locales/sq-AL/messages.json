@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, lidhje dhe skedarë"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"

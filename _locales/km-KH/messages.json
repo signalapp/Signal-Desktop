@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "មេឌៀ តំណ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"

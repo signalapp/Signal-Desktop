@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Медиумски датотеки, линкови и датотеки"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"

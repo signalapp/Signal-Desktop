@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, link e file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"

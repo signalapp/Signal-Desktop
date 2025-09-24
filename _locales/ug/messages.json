@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "مېدىيا، ئۇلىنىشلار ۋە ھۆججەتلەر"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"

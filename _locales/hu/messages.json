@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Médiatartalmak, linkek és fájlok"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"

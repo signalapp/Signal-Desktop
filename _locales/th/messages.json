@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "ไฟล์สื่อ ลิงก์ และไฟล์อื่นๆ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"

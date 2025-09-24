@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, other {{number,number} 個成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "媒體、連結和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 個成員}}"

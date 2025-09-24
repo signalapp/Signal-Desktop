@@ -4452,7 +4452,7 @@
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Πολυμέσα, σύνδεσμοι και αρχεία"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
