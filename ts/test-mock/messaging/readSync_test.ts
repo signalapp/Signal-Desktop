@@ -67,7 +67,7 @@ describe('readSync', function (this: Mocha.Suite) {
       .locator(
         '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages >> "3"'
       )
-      .first()
+      .last()
       .waitFor({ state: 'visible' });
 
     debug('incoming out of order messages');
@@ -136,7 +136,7 @@ describe('readSync', function (this: Mocha.Suite) {
       .locator(
         '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages >> "1"'
       )
-      .first()
+      .last()
       .waitFor({ state: 'visible' });
 
     debug('opening conversation');
