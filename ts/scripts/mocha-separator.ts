@@ -22,6 +22,8 @@ const filteredFiles = files.filter((_file, index) => {
 
 console.log(`Running on ${filteredFiles.length}/${files.length} of files`);
 
-spawnSync(MOCHA, [...flags, ...filteredFiles], {
+const { status } = spawnSync(MOCHA, [...flags, ...filteredFiles], {
   stdio: 'inherit',
 });
+
+process.exit(status);
