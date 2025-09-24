@@ -3,7 +3,7 @@
 import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
-import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload.js';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.js';
 
 import type { AttachmentType } from '../types/Attachment.js';
 import {
@@ -69,7 +69,7 @@ export async function addAttachmentToMessage(
   messageId: string,
   attachment: AttachmentType,
   jobLogId: string,
-  { type }: { type: AttachmentDownloadJobTypeType }
+  { type }: { type: MessageAttachmentType }
 ): Promise<void> {
   const logPrefix = `${jobLogId}/addAttachmentToMessage`;
   const message = await getMessageById(messageId);

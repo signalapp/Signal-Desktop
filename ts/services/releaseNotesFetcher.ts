@@ -245,10 +245,13 @@ export class ReleaseNotesFetcher {
             );
 
           const processedAttachment =
-            await window.Signal.Migrations.processNewAttachment({
-              ...localAttachment,
-              contentType: stringToMIMEType(contentType),
-            });
+            await window.Signal.Migrations.processNewAttachment(
+              {
+                ...localAttachment,
+                contentType: stringToMIMEType(contentType),
+              },
+              'attachment'
+            );
 
           return { hydratedNote, processedAttachment };
         }

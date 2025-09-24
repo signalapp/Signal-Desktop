@@ -16,6 +16,7 @@ import {
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
+  shouldGenerateThumbnailForAttachmentType,
 } from './Attachment.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
 import * as Errors from './errors.js';
@@ -48,6 +49,7 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
 import { deepClone } from '../util/deepClone.js';
 import * as Bytes from '../Bytes.js';
 import { isBodyTooLong } from '../util/longAttachment.js';
+import type { MessageAttachmentType } from './AttachmentDownload.js';
 
 const { isFunction, isObject, identity } = lodash;
 
@@ -493,7 +495,13 @@ const toVersion7 = _withSchemaVersion({
 
 const toVersion8 = _withSchemaVersion({
   schemaVersion: 8,
-  upgrade: _mapAttachments(captureDimensionsAndScreenshot),
+  upgrade: _mapAttachments((attachment, context) =>
+    captureDimensionsAndScreenshot(
+      attachment,
+      { generateThumbnail: true },
+      context
+    )
+  ),
 });
 
 const toVersion9 = _withSchemaVersion({
@@ -768,6 +776,7 @@ export const upgradeSchema = async (
 //   downloaded out of band.
 export const processNewAttachment = async (
   attachment: AttachmentType,
+  attachmentType: MessageAttachmentType,
   {
     writeNewAttachmentData,
     makeObjectUrl,
@@ -810,15 +819,22 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const finalAttachment = await captureDimensionsAndScreenshot(attachment, {
-    writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
-    getImageDimensions,
-    makeImageThumbnail,
-    makeVideoScreenshot,
-    logger,
-  });
+  const finalAttachment = await captureDimensionsAndScreenshot(
+    attachment,
+    {
+      generateThumbnail:
+        shouldGenerateThumbnailForAttachmentType(attachmentType),
+    },
+    {
+      writeNewAttachmentData,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
+      logger,
+    }
+  );
 
   return finalAttachment;
 };

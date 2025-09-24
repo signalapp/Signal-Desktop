@@ -58,6 +58,7 @@ import type {
 } from './types/message/LinkPreviews.js';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers.js';
 import { beforeNavigateService } from './services/BeforeNavigate.js';
+import type { MessageAttachmentType } from './types/AttachmentDownload.js';
 
 type EncryptedReader = (
   attachment: Partial<AddressableAttachmentType>
@@ -122,7 +123,10 @@ type MigrationsModuleType = {
     name: string;
     baseDir?: string;
   }) => Promise<null | { fullPath: string; name: string }>;
-  processNewAttachment: (attachment: AttachmentType) => Promise<AttachmentType>;
+  processNewAttachment: (
+    attachment: AttachmentType,
+    attachmentType: MessageAttachmentType
+  ) => Promise<AttachmentType>;
   processNewSticker: (stickerData: Uint8Array) => Promise<
     LocalAttachmentV2Type & {
       width: number;
@@ -327,8 +331,11 @@ export function initializeMigrations({
     readStickerData,
     readTempData,
     saveAttachmentToDisk,
-    processNewAttachment: (attachment: AttachmentType) =>
-      MessageType.processNewAttachment(attachment, {
+    processNewAttachment: (
+      attachment: AttachmentType,
+      attachmentType: MessageAttachmentType
+    ) =>
+      MessageType.processNewAttachment(attachment, attachmentType, {
         writeNewAttachmentData,
         makeObjectUrl,
         revokeObjectUrl,

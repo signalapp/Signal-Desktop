@@ -85,7 +85,7 @@ import {
 } from '../types/AttachmentBackup.js';
 import {
   attachmentDownloadJobSchema,
-  type AttachmentDownloadJobTypeType,
+  type MessageAttachmentType,
   type AttachmentDownloadJobType,
 } from '../types/AttachmentDownload.js';
 import type {
@@ -2699,7 +2699,7 @@ function saveMessageAttachment({
   sentAt: number;
   receivedAt: number;
   receivedAtMs: number | undefined;
-  attachmentType: AttachmentDownloadJobTypeType;
+  attachmentType: MessageAttachmentType;
   attachment: AttachmentType;
   orderInMessage: number;
   editHistoryIndex: number | null;
