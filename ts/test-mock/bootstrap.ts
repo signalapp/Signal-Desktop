@@ -34,6 +34,7 @@ import {
   encryptAttachmentV2,
   generateAttachmentKeys,
 } from '../AttachmentCrypto.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.js';
 
 export { App };
 
@@ -689,7 +690,7 @@ export class Bootstrap {
         plaintext: {
           data,
         },
-        needIncrementalMac: true,
+        needIncrementalMac: isVideoTypeSupported(contentType),
         sink: passthrough,
       }),
       this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),
