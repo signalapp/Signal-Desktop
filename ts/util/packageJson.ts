@@ -12,6 +12,17 @@ const json: {
   productName: string;
   build: {
     appId: string;
+    mac: {
+      releaseInfo: {
+        vendor: {
+          minOSVersion: string;
+        };
+      };
+    };
+    deb: {
+      depends: Array<string>;
+    };
+    files: Array<string | Record<string, unknown>>;
   };
 } = JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8'));
 
