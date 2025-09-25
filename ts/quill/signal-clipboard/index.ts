@@ -77,10 +77,16 @@ export class SignalClipboard {
     }
 
     const { ops } = this.quill.getContents(selection.index, selection.length);
-    // Only enable formatting on the pasted text if the entire selection has it enabled!
+    
+    // Check if we're selecting all content
+    const totalLength = this.quill.getLength();
+    const isSelectingAll = selection.length >= totalLength - 1;
+    
     const formats =
       selection.length === 0
         ? this.quill.getFormat(selection.index)
+        : isSelectingAll || !signal
+        ? {} // No formatting for select-all or external plain text
         : {
             [QuillFormattingStyle.bold]: FormattingMenu.isStyleEnabledForOps(
               ops,
