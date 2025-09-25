@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client.js';
 
-import { DayOfWeek } from '../../types/NotificationProfile';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node';
+import { DayOfWeek } from '../../types/NotificationProfile.js';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.js';
 
-import type { NotificationProfileType } from '../../types/NotificationProfile';
+import type { NotificationProfileType } from '../../types/NotificationProfile.js';
 
 const { getAllNotificationProfiles } = DataReader;
 const {

@@ -1,18 +1,18 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import fs from 'fs/promises';
-import { createHash } from 'crypto';
-import path from 'path';
+import fs from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
 import ts from 'typescript';
 import prettier from 'prettier';
 
-import { getICUMessageParams } from '../util/getICUMessageParams';
-import type { ICUMessageParamType } from '../util/getICUMessageParams';
-import { missingCaseError } from '../util/missingCaseError';
+import { getICUMessageParams } from '../util/getICUMessageParams.js';
+import type { ICUMessageParamType } from '../util/getICUMessageParams.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import globalMessages from '../../_locales/en/messages.json';
 
-import { DELETED_REGEXP } from './constants';
+import { DELETED_REGEXP } from './constants.js';
 
 function translateParamType(
   param: ICUMessageParamType,

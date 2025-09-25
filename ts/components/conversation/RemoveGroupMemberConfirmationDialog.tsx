@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
-import { isAccessControlEnabled } from '../../groups/util';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { isAccessControlEnabled } from '../../groups/util.js';
 
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import { I18n } from '../I18n';
-import { ContactName } from './ContactName';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import { I18n } from '../I18n.js';
+import { ContactName } from './ContactName.js';
 
 type PropsType = {
   group: ConversationType;

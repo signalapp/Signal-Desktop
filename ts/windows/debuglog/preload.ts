@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { contextBridge, ipcRenderer } from 'electron';
-import { MinimalSignalContext } from '../minimalContext';
+import { MinimalSignalContext } from '../minimalContext.js';
 
 function downloadLog(logText: string) {
   ipcRenderer.send('show-debug-log-save-dialog', logText);

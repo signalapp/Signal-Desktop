@@ -1,18 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ProfileRequestDataType } from '../textsecure/WebAPI';
-import { assertDev } from './assert';
-import * as Bytes from '../Bytes';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ProfileRequestDataType } from '../textsecure/WebAPI.js';
+import { assertDev } from './assert.js';
+import * as Bytes from '../Bytes.js';
 import {
   PaddedLengths,
   encryptProfile,
   encryptProfileItemWithPadding,
-} from '../Crypto';
-import type { AvatarUpdateType } from '../types/Avatar';
-import { deriveProfileKeyCommitment, deriveProfileKeyVersion } from './zkgroup';
-import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode';
+} from '../Crypto.js';
+import type { AvatarUpdateType } from '../types/Avatar.js';
+import {
+  deriveProfileKeyCommitment,
+  deriveProfileKeyVersion,
+} from './zkgroup.js';
+import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode.js';
 
 export async function encryptProfileData(
   conversation: ConversationType,
@@ -73,7 +76,9 @@ export async function encryptProfileData(
     name: Bytes.toBase64(bytesName),
     about: bytesAbout ? Bytes.toBase64(bytesAbout) : null,
     aboutEmoji: bytesAboutEmoji ? Bytes.toBase64(bytesAboutEmoji) : null,
-    badgeIds: (badges || []).map(({ id }) => id),
+    badgeIds: (badges || [])
+      .filter(badge => 'isVisible' in badge && badge.isVisible)
+      .map(({ id }) => id),
     paymentAddress: window.storage.get('paymentAddress') || null,
     avatar: Boolean(newAvatar),
     sameAvatar,

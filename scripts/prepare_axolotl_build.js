@@ -1,13 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const fs = require('fs');
+const fs = require('node:fs');
 const _ = require('lodash');
 
-const packageJson = require('../package.json');
-const { isAxolotl } = require('../ts/util/version');
-
-const { version } = packageJson;
+const { isAxolotl } = require('../ts/util/version.js');
+const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
 //   side-by-side installation of production and alpha builds. Electron-Builder uses

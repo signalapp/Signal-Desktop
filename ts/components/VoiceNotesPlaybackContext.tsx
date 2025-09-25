@@ -5,9 +5,8 @@ import * as React from 'react';
 import PQueue from 'p-queue';
 import { LRUCache } from 'lru-cache';
 
-import type { WaveformCache } from '../types/Audio';
-import { createLogger } from '../logging/log';
-import { redactAttachmentUrl } from '../util/privacy';
+import type { WaveformCache } from '../types/Audio.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('VoiceNotesPlaybackContext');
 
@@ -40,13 +39,9 @@ const computeQueue = new PQueue({
   concurrency: MAX_PARALLEL_COMPUTE,
 });
 
-async function getAudioDuration(
-  url: string,
-  buffer: ArrayBuffer
-): Promise<number> {
+async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
   const blob = new Blob([buffer]);
   const blobURL = URL.createObjectURL(blob);
-  const urlForLogging = redactAttachmentUrl(url);
   const audio = new Audio();
   audio.muted = true;
   audio.src = blobURL;
@@ -58,14 +53,14 @@ async function getAudioDuration(
 
     audio.addEventListener('error', event => {
       const error = new Error(
-        `Failed to load audio from: ${urlForLogging} due to error: ${event.type}`
+        `Failed to load audio from due to error: ${event.type}`
       );
       reject(error);
     });
   });
 
   if (Number.isNaN(audio.duration)) {
-    throw new Error(`Invalid audio duration for: ${urlForLogging}`);
+    throw new Error('Invalid audio duration');
   }
   return audio.duration;
 }
@@ -86,9 +81,8 @@ async function doComputePeaks(
 ): Promise<ComputePeaksResult> {
   const cacheKey = `${url}:${barCount}`;
   const existing = waveformCache.get(cacheKey);
-  const urlForLogging = redactAttachmentUrl(url);
 
-  const logId = `GlobalAudioContext(${urlForLogging})`;
+  const logId = 'GlobalAudioContext';
   if (existing) {
     log.info(`${logId}: waveform cache hit`);
     return Promise.resolve(existing);
@@ -100,7 +94,7 @@ async function doComputePeaks(
   const response = await fetch(url);
   const raw = await response.arrayBuffer();
 
-  const duration = await getAudioDuration(url, raw);
+  const duration = await getAudioDuration(raw);
 
   const peaks = new Array(barCount).fill(0);
   if (duration > MAX_AUDIO_DURATION) {
@@ -157,7 +151,7 @@ export async function computePeaks(
   barCount: number
 ): Promise<ComputePeaksResult> {
   const computeKey = `${url}:${barCount}`;
-  const logId = `VoiceNotesPlaybackContext(${redactAttachmentUrl(url)})`;
+  const logId = 'VoiceNotesPlaybackContext';
 
   const pending = inProgressMap.get(computeKey);
   if (pending) {

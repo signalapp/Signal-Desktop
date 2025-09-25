@@ -1,11 +1,11 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { app } from 'electron';
 
-import { start } from './base_config';
+import { start } from './base_config.js';
 
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'ephemeral.json');

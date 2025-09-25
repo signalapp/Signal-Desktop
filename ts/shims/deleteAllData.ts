@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import { DataWriter } from '../sql/Client';
-import { deleteAllLogs } from '../util/deleteAllLogs';
-import * as Errors from '../types/errors';
+import { createLogger } from '../logging/log.js';
+import { DataWriter } from '../sql/Client.js';
+import { deleteAllLogs } from '../util/deleteAllLogs.js';
+import * as Errors from '../types/errors.js';
 
 const log = createLogger('deleteAllData');
 

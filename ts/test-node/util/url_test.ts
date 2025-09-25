@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { size } from '../../util/iterables';
+import { size } from '../../util/iterables.js';
 
 import {
   maybeParseUrl,
   setUrlSearchParams,
   urlPathFromComponents,
-} from '../../util/url';
+} from '../../util/url.js';
 
 describe('URL utilities', () => {
   describe('maybeParseUrl', () => {

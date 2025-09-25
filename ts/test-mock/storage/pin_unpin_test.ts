@@ -6,9 +6,9 @@ import { assert } from 'chai';
 
 import type { Group } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations';
-import type { App, Bootstrap } from './fixtures';
-import { initStorage, debug } from './fixtures';
+import * as durations from '../../util/durations/index.js';
+import type { App, Bootstrap } from './fixtures.js';
+import { initStorage, debug } from './fixtures.js';
 
 describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 import {
   areAllAttachmentsVisual,
   getAlt,
@@ -17,12 +17,12 @@ import {
   isDownloadable,
   isIncremental,
   isVideoAttachment,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 
-import { Image, CurveType } from './Image';
+import { Image, CurveType } from './Image.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import { AttachmentDetailPill } from './AttachmentDetailPill';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import { AttachmentDetailPill } from './AttachmentDetailPill.js';
 
 export type DirectionType = 'incoming' | 'outgoing';
 

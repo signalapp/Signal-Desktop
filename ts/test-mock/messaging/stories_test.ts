@@ -6,12 +6,12 @@ import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import type { Group } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations';
-import { uuidToBytes } from '../../util/uuidToBytes';
-import { MY_STORY_ID } from '../../types/Stories';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
+import * as durations from '../../util/durations/index.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { MY_STORY_ID } from '../../types/Stories.js';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
 
 export const debug = createDebug('mock:test:stories');
 

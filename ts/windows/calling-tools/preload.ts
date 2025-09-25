@@ -3,7 +3,7 @@
 
 import { contextBridge, ipcRenderer } from 'electron';
 import type { Event } from 'electron/renderer';
-import { MinimalSignalContext } from '../minimalContext';
+import { MinimalSignalContext } from '../minimalContext.js';
 
 type RtcStatsReport = {
   conversationId: string;

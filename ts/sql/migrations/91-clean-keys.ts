@@ -3,11 +3,11 @@
 
 import type { Database, RunResult } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-import { sql } from '../util';
-import type { PniString } from '../../types/ServiceId';
-import { normalizePni } from '../../types/ServiceId';
-import * as Errors from '../../types/errors';
+import type { LoggerType } from '../../types/Logging.js';
+import { sql } from '../util.js';
+import type { PniString } from '../../types/ServiceId.js';
+import { normalizePni } from '../../types/ServiceId.js';
+import * as Errors from '../../types/errors.js';
 
 export default function updateToSchemaVersion91(
   db: Database,

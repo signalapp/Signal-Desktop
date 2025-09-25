@@ -8,10 +8,10 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
-import { ModalHost } from '../../components/ModalHost';
-import type { SmartGroupV2JoinDialogProps } from '../smart/GroupV2JoinDialog';
-import { SmartGroupV2JoinDialog } from '../smart/GroupV2JoinDialog';
-import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { ModalHost } from '../../components/ModalHost.js';
+import type { SmartGroupV2JoinDialogProps } from '../smart/GroupV2JoinDialog.js';
+import { SmartGroupV2JoinDialog } from '../smart/GroupV2JoinDialog.js';
+import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
 
 export const createGroupV2JoinModal = (
   store: Store,

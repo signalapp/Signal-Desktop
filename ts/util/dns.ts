@@ -6,15 +6,15 @@ import type {
   LookupAllOptions,
   LookupAddress,
   lookup as nodeLookup,
-} from 'dns';
-import { ipcRenderer, net } from 'electron';
+} from 'node:dns';
+import * as electron from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';
 
-import { strictAssert } from './assert';
-import { drop } from './drop';
-import type { DNSFallbackType } from '../types/DNSFallback';
-import { SECOND } from './durations';
+import { strictAssert } from './assert.js';
+import { drop } from './drop.js';
+import type { DNSFallbackType } from '../types/DNSFallback.js';
+import { SECOND } from './durations/index.js';
 
 const LOOKUP_TIMEOUT_MS = 5 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();
@@ -56,10 +56,10 @@ function lookupAll(
     }
 
     try {
-      if (net) {
+      if (electron.net) {
         // Main process
         result = await pTimeout(
-          net.resolveHost(hostname, {
+          electron.net.resolveHost(hostname, {
             queryType,
           }),
           LOOKUP_TIMEOUT_MS,
@@ -68,7 +68,7 @@ function lookupAll(
       } else {
         // Renderer
         result = await pTimeout(
-          ipcRenderer.invoke('net.resolveHost', hostname, queryType),
+          electron.ipcRenderer.invoke('net.resolveHost', hostname, queryType),
           LOOKUP_TIMEOUT_MS,
           'lookupAll: Electron lookup timed out'
         );

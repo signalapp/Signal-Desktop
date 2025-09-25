@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './EmptyState';
-import { EmptyState } from './EmptyState';
+import type { Props } from './EmptyState.js';
+import { EmptyState } from './EmptyState.js';
 
 export default {
   title: 'Components/Conversation/MediaGallery/EmptyState',

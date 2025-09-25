@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { DataPropsType as GroupV1MigrationDialogPropsType } from '../../components/GroupV1MigrationDialog';
-import { GroupV1MigrationDialog } from '../../components/GroupV1MigrationDialog';
-import { useConversationsActions } from '../ducks/conversations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getConversationSelector } from '../selectors/conversations';
-import { getIntl, getTheme } from '../selectors/user';
-import { createLogger } from '../../logging/log';
-import { useGlobalModalActions } from '../ducks/globalModals';
+import type { DataPropsType as GroupV1MigrationDialogPropsType } from '../../components/GroupV1MigrationDialog.js';
+import { GroupV1MigrationDialog } from '../../components/GroupV1MigrationDialog.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { getConversationSelector } from '../selectors/conversations.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import { createLogger } from '../../logging/log.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 const log = createLogger('GroupV1MigrationDialog');
 

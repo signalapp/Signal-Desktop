@@ -373,7 +373,7 @@ message ChatFolderRecord {
   FolderType folderType = 8;
   repeated Recipient includedRecipients = 9;
   repeated Recipient excludedRecipients = 10;
-  uint64 deletedAtTimestampMs = 11;   // When non-zero, `position` should be set to -1 and `includedRecipients` should be empty
+  uint64 deletedAtTimestampMs = 11;   // When non-zero, `position` should be set to 4294967295 (2^32-1) and `includedRecipients` should be empty
 }
 
 message NotificationProfile {

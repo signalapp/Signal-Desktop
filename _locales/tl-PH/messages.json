@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Gusto mo bang burahin ang chat?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Buburahin mula sa device na ito ang lahat ng messages sa chat na ito."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Buburahin mula sa lahat ng devices mo ang lahat ng messages sa chat na ito."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Piliin ang chats na gusto mong makita sa folder na ito"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group Chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Magdagdag ng chats"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Failed ang pag-download"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Failed ang pag-download ng attachment mula sa backup"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "May 3 oras ka lang para i-edit ang message pagkatapos mo itong i-send."
@@ -3531,10 +3537,10 @@
     "messageformat": "An unexpected error occurred"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Isumite ang debug log"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ayaw ko, salamat na lang"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Ibinahaging media"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Ipakita lahat"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, at files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Halimbawa, ang :-) ay magiging <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Panatilihing Naka-archive ang Muted Chats"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Mananatili sa archive ang muted chats kahit may bagong message na dumating."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -5283,7 +5286,7 @@
     "messageformat": "Naka-block"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups na may secure end-to-end encrypted storage service ng Signal. Simulan sa phone mo. <learnMoreLink>Matuto pa</learnMoreLink>."
@@ -5298,7 +5301,7 @@
     "messageformat": "Backup ng text + lahat ng media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Hindi mahanap ang iyong subscription. Mag-renew para patuloy na magamit ang Signal Backups."
+    "messageformat": "Hindi mahanap ang iyong subscription. Mag-renew para patuloy mong magamit ang Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup ng text + media ng nakaraang {mediaDayCount,number} araw} other {Backup ng text + media ng nakaraang {mediaDayCount,number} araw}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "Kinancel ang subscription"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Maaari mong i-manage o kanselahin ang iyong subscription sa Signal Backups sa iyong phone."
+    "messageformat": "Maaari mong i-manage o kanselahin ang iyong subscription sa Signal Secure Backups sa phone mo."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Maaari mong i-manage o i-upgrade ang Signal Backups sa iyong phone."
+    "messageformat": "Maaari mong i-manage o i-upgrade ang Signal Secure Backups sa phone mo."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Maaari mong i-manage at i-renew ang iyong Signal Backups subscription sa phone mo."
+    "messageformat": "Maaari mong i-manage at i-renew ang iyong Signal Secure Backups subscription sa phone mo."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Huling backup"
@@ -6658,7 +6661,7 @@
     "messageformat": "{formattedCurrencyAmount} one-time"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Pinoproseso ang donation…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Mag-donate {formattedCurrencyAmount}"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Hindi kinokolekta o sine-save ng Signal ang anumang personal na impormasyon mo kapag nag-donate ka.</paragraph><paragraph>Ginagamit namin ang Stripe bilang aming tagaproseso ng pagbabayad upang matanggap ang mga donasyon mo. Hindi namin ina-access, itinatago, o sine-save ang anumang impormasyong ibinibigay mo sa kanila.</paragraph><paragraph>Hindi kinokonekta at hindi maikokonekta ng Signal ang iyong donasyon sa Signal account mo.</paragraph><paragraph>Maraming salamat sa iyong suporta!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Tingnan ang mga detalye ng resibo"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "FAQs sa Donasyon"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Hindi nagsi-sync ang receipts sa iba't-ibang devices. Kung ni-reinstall mo ang Signal app, hindi magiging available ang receipts ng lumang donations."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Expiration Date"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Mag-donate ng {formattedCurrencyAmount} sa Signal"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Kunin ang Signal Boost badge sa loob ng 30 days"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Ang minimum donation ay {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Ang minimum amount na pwede mong i-donate ay {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Ang maximum donation ay {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Matatanggal ang credit card information mo kapag umalis ka sa page na ito. Gusto mo bang magpatuloy?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Tanggalin ang info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Magpatuloy"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Maraming salamat sa pagsuporta sa Signal. Ang iyong contribution ay nakatutulong para maipagpatuloy ang aming mission na protektahan ang malayang pamamahayag at pag-enable sa secure global communication para sa milyun-milyong katao sa buong mundo, sa pamamagitan ng open source privacy technology. Kung ika'y isang residente ng United States, ingatan ang receipt na ito para sa tax records mo. Ang Signal Technology Foundation ay isang tax-exempt nonprofit organization sa United States sa ilalim ng section 501c3 ng Internal Revenue Code. Ang aming Federal Tax ID ay 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Offline ka. Mag-connect sa internet para kumpletuhin ang pag-donate."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Na-cancel ang donation"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Para i-update ang badge settings mo sa iyong device, pumunta sa Settings → Mag-donate sa Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Naputol ang pag-donate"
@@ -6811,13 +6850,13 @@
     "messageformat": "Maaaring hindi naproseso ang iyong donation. I-click ang \"Mag-donate sa Signal\" at i-click ang \"Donation Receipts\" para ma-check at ma-confirm ang iyong mga resibo."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Subukan ulit o mag-submit ng debug log sa Support para matulungan kang makumpleto ang donation mo. Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
   },
   "icu:Donations__Processing": {
     "messageformat": "Pinoproseso ang donation…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Pinoproseso pa rin ang donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Pinoproseso pa ang iyong donation. Maaari itong tumagal nang ilang minuto."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "I-cancel ang donation"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Maraming salamat sa iyong suporta!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Nakakuha ka ng isang donor badge mula sa Signal! I-display ito sa profile mo para maipakita ang iyong suporta."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "I-display sa Profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Maaari mo itong ayusin sa iyong mobile device sa Settings → Mag-donate sa Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Mas pinaganda namin ang message read/unread experience habang nagmu-multitask."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "May inayos kaming bug sa emoji search box."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "May ilang small bug fixes."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

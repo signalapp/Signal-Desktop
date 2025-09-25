@@ -3,22 +3,22 @@
 
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { ContactModal } from '../../components/conversation/ContactModal';
-import { getAreWeASubscriber } from '../selectors/items';
-import { getIntl, getTheme } from '../selectors/user';
-import { getBadgesSelector } from '../selectors/badges';
-import { getConversationSelector } from '../selectors/conversations';
-import { getHasStoriesSelector } from '../selectors/stories2';
+import { ContactModal } from '../../components/conversation/ContactModal.js';
+import { getAreWeASubscriber } from '../selectors/items.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import { getBadgesSelector } from '../selectors/badges.js';
+import { getConversationSelector } from '../selectors/conversations.js';
+import { getHasStoriesSelector } from '../selectors/stories2.js';
 import {
   getActiveCallState,
   isInFullScreenCall as getIsInFullScreenCall,
-} from '../selectors/calling';
-import { useStoriesActions } from '../ducks/stories';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useCallingActions } from '../ducks/calling';
-import { getContactModalState } from '../selectors/globalModals';
-import { strictAssert } from '../../util/assert';
+} from '../selectors/calling.js';
+import { useStoriesActions } from '../ducks/stories.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useCallingActions } from '../ducks/calling.js';
+import { getContactModalState } from '../selectors/globalModals.js';
+import { strictAssert } from '../../util/assert.js';
 
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);

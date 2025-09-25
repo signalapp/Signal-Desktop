@@ -1,9 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Bootstrap, MAX_CYCLES } from './fixtures';
-import { type RegressionSample } from '../bootstrap';
-import { generateBackup } from '../../test-helpers/generateBackup';
+import { Bootstrap, MAX_CYCLES } from './fixtures.js';
+import { type RegressionSample } from '../bootstrap.js';
+import { generateBackup } from '../../test-helpers/generateBackup.js';
 
 const INITIAL_MESSAGE_COUNT = 10000;
 const FINAL_MESSAGE_COUNT = 30000;

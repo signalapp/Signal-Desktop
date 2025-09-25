@@ -3,11 +3,14 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { RowType, _testHeaderText } from '../../../components/ConversationList';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { DurationInSeconds } from '../../../util/durations';
+import {
+  RowType,
+  _testHeaderText,
+} from '../../../components/ConversationList.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { DurationInSeconds } from '../../../util/durations/index.js';
 
-import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper';
+import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper.js';
 
 function getComposeState() {
   return {

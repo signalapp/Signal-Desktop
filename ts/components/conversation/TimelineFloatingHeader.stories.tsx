@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './TimelineFloatingHeader';
-import { TimelineFloatingHeader } from './TimelineFloatingHeader';
+import type { PropsType } from './TimelineFloatingHeader.js';
+import { TimelineFloatingHeader } from './TimelineFloatingHeader.js';
 
 const { i18n } = window.SignalContext;
 

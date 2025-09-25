@@ -1,28 +1,29 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { getSendOptions } from '../../util/getSendOptions';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+import { ContentHint } from '@signalapp/libsignal-client';
+
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
+} from './handleMultipleSendErrors.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   NullMessageJobData,
-} from '../conversationJobQueue';
-import type { SessionResetsType } from '../../textsecure/Types.d';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+} from '../conversationJobQueue.js';
+import type { SessionResetsType } from '../../textsecure/Types.d.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors';
-import MessageSender from '../../textsecure/SendMessage';
-import { sendToGroup } from '../../util/sendToGroup';
+} from '../../textsecure/Errors.js';
+import MessageSender from '../../textsecure/SendMessage.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
 
 async function clearResetsTracking(idForTracking: string | undefined) {
   if (!idForTracking) {
@@ -62,8 +63,7 @@ export async function sendNullMessage(
   );
 
   const sendOptions = await getSendOptions(conversation.attributes);
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const sendType = 'nullMessage';
 
   // Note: we will send to blocked users, to those still in message request state, etc.
@@ -109,7 +109,7 @@ export async function sendNullMessage(
         abortSignal =>
           sendToGroup({
             abortSignal,
-            contentHint: ContentHint.RESENDABLE,
+            contentHint: ContentHint.Resendable,
             groupSendOptions: {
               attachments: [],
               bodyRanges: [],

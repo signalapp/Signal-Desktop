@@ -16,6 +16,7 @@ const PATTERNS = [
   'tsconfig.tsbuildinfo',
   'preload.bundle.js',
   'preload.bundle.cache',
+  '.eslintcache',
 ];
 
 async function main() {

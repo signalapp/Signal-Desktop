@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import { SystemMessage } from './SystemMessage';
-import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { ContactName } from './ContactName';
-import { I18n } from '../I18n';
-import type { LocalizerType } from '../../types/Util';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
+import { SystemMessage } from './SystemMessage.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.js';
+import { ContactName } from './ContactName.js';
+import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
 
 export type ContactType = {
   id: string;

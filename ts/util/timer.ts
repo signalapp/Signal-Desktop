@@ -1,7 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { padStart } from 'lodash';
+import lodash from 'lodash';
+
+const { padStart } = lodash;
 
 export function getIncrement(length: number): number {
   if (length < 0) {

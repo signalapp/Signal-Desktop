@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import fs from 'fs/promises';
-import path from 'path';
-import crypto from 'crypto';
-import { execFileSync } from 'child_process';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 
 const FIXTURES = path.join(__dirname, '..', '..', 'fixtures');
 const SIZE = 256 * 1024;

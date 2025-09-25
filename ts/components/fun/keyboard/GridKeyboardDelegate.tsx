@@ -1,15 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
-import { findLast, sortBy } from 'lodash';
-import { strictAssert } from '../../../util/assert';
+import lodash from 'lodash';
+import { strictAssert } from '../../../util/assert.js';
 import type {
   CellKey,
   Layout,
   RowKey,
   SectionKey,
-} from '../virtual/useFunVirtualGrid';
-import { KeyboardDelegate } from './FunKeyboard';
+} from '../virtual/useFunVirtualGrid.js';
+import { KeyboardDelegate } from './FunKeyboard.js';
+
+const { findLast, sortBy } = lodash;
 
 const PAGE_MARGIN = 0.25; // % of scroll height
 

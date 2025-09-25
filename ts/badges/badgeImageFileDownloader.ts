@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { DataWriter } from '../sql/Client';
-import { createLogger } from '../logging/log';
-import { MINUTE } from '../util/durations';
-import { missingCaseError } from '../util/missingCaseError';
-import { waitForOnline } from '../util/waitForOnline';
+import { DataWriter } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
+import { MINUTE } from '../util/durations/index.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { waitForOnline } from '../util/waitForOnline.js';
 
 const log = createLogger('badgeImageFileDownloader');
 

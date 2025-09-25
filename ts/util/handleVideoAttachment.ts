@@ -4,10 +4,10 @@
 import { blobToArrayBuffer } from 'blob-util';
 import { v4 as generateUuid } from 'uuid';
 
-import { makeVideoScreenshot } from '../types/VisualAttachment';
-import { IMAGE_PNG, stringToMIMEType } from '../types/MIME';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment';
-import { fileToBytes } from './fileToBytes';
+import { makeVideoScreenshot } from '../types/VisualAttachment.js';
+import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.js';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.js';
+import { fileToBytes } from './fileToBytes.js';
 
 export async function handleVideoAttachment(
   file: File,
@@ -32,10 +32,11 @@ export async function handleVideoAttachment(
     if (options?.generateScreenshot) {
       const screenshotContentType = IMAGE_PNG;
 
-      const screenshotBlob = await makeVideoScreenshot({
+      const { blob: screenshotBlob, duration } = await makeVideoScreenshot({
         objectUrl,
         contentType: screenshotContentType,
       });
+      attachment.duration = duration;
       attachment.screenshotData = new Uint8Array(
         await blobToArrayBuffer(screenshotBlob)
       );

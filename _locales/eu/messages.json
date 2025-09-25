@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Txata ezabatu nahi duzu?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Txat honetako mezuak gailu honetatik ezabatuko dira."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Aukeratu karpeta honetan agertzea nahi duzun txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Banako txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Taldeko txatak"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Gehitu txatak"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Ezin izan da deskargatu"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Ezin izan da deskargatu babeskopiako eranskina"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mezu hau bidali eta 24 orduko epean soilik aplika daitezke aldaketak."
@@ -3528,13 +3534,13 @@
     "messageformat": "Mesedez, saiatu berriro edo jarri zaitez harremanetan laguntza-zerbitzuarekin."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ustekabeko errore bat gertatu da"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Arazketaren informazioa bidali"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ez eskerrik asko"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Ados"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Partekatutako multimedia-edukia"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Ikusi denak"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Multimedia-edukia, estekak eta fitxategiak"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Adibidez, :-) <emojify>🙂</emojify> bihurtuko da"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mantendu jakinarazpenak desaktibatuta dauzkaten txatak artxibatuta"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Jakinarazpenak desaktibatuta dauzkaten txatek artxibatuta jarraituko dute mezu berri bat iristen denean."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Aurreratua"
@@ -5283,7 +5286,7 @@
     "messageformat": "Blokeatua"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-en babeskopiak"
+    "messageformat": "Signal-en babeskopia seguruak"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Babeskopia automatikoak, Signal-en muturretik muturrera enkriptatutako biltegiratze-zerbitzu seguruarekin. Hasi telefonoan erabiltzen. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
@@ -5298,7 +5301,7 @@
     "messageformat": "Testuaren eta multimedia-eduki guztien babeskopia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopiak erabiltzen jarraitzeko."
+    "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopia seguruak erabiltzen jarraitzeko."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia} other {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia}}"
@@ -6655,10 +6658,10 @@
     "messageformat": "My Support"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} behin"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Eman {formattedCurrencyAmount}"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal-ek ez du zure informazio pertsonalik biltzen edo gordetzen dohaintza bat egiten duzunean.</paragraph><paragraph>Stripe erabiltzen dugu ordainketa-prozesadore gisa zure dohaintzak jasotzeko. Ez dugu ematen diezun informaziorik atzitzen edo gordetzen.</paragraph><paragraph>Signal-ek ez du zure dohaintza zure Signal kontuarekin lotzen eta ezin du lotu.</paragraph><paragraph>Eskerrik asko zure babesagatik!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Ados"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Ordainagiriak"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Ikusi ordainagiriaren xehetasunak"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Dirulaguntzei buruz maiz egiten diren galderak"
+    "messageformat": "Emaileen galderak"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Irakurragiriak ez dira sinkronizatzen gailu artean. Signal berriro instalatu baduzu, aurreko dohaintzen ordainagiriak ez dira erabilgarri egongo."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Iraungitze-data"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "HH/UU"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Eman {formattedCurrencyAmount} Signal-i"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Lortu Signal-en bultzada-bereizgarria 30 egunez"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Dohaintzaren gutxieneko zenbatekoa {formattedCurrencyAmount} da"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Dohaintzan eman daitekeen gutxieneko zenbatekoa {formattedCurrencyAmount} da"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Dohaintzaren gehieneko zenbatekoa {formattedCurrencyAmount} da"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Orri honetatik irteten bazara, kreditu-txartelari buruzko informazioa kendu egingo da. Aurrera egin nahi duzu?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Kendu informazioa"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Jarraitu"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Dohaintzaren ordainagiria"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Lineaz kanpo zaude. Konketatu Internetera dohaintza osatzeko."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Dohaintza bertan behera utzi da"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Berretsi beharreko dohaintza bat duzu abian."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Egin da dohaintza, baina ezin izan ditugu eguneratu bereizgarrien ezarpenak"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Egin da dohaintza, baina ezin izan ditugu eguneratu bereizgarrien ezarpenak"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Bereizgarrien ezarpenak gailu mugikorrean eguneratzeko, joan Ezarpenak → Egin dohaintza bat Signal-i → Bereizgarriak atalera."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dohaintza eten egin da"
@@ -6811,13 +6850,13 @@
     "messageformat": "Baliteke dohaintza ez prozesatu izatea. Sakatu \"Egin dohaintza bat Signal-i\" eta \"Dohaintzen ordainagiriak\" ordainagiriak ikusteko eta berretsi."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Saiatu berriro edo bidali arazketa-erregistro bat Laguntza-zerbitzuari, dohaintza osatzen lagun zaitzaten. Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
   "icu:Donations__Processing": {
     "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Dohaintza prozesatzen oraindik"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Dohaintza prozesatzen ari da oraindik. Baliteke minutu batzuk behar izatea."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Utzi dohaintza"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Eskerrik asko laguntzeagatik!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Signal-en emaile-bereizgarri bat irabazi duzu! Bistara ezazu profilean, Signal-i laguntzen diozula erakusteko."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Erakutsi profilean"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Aukera hau doitzeko, joan Ezarpenak → Egin dohaintza bat Signal-i → Bereizgarriak atalera telefono mugikorrean"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Mezuak irakurri/irakurri gabe aldi berean uzteko esperientzia hobetu dugu. Oraindik ere irudia handi dezakezu harengan klik eginez edo azkar idatziz."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Emojiak bilatzeko kutxako akats bat konpondu dugu."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Zenbait akats txiki konpondu dira."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

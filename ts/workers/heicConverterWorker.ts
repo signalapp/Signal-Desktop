@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import heicConvert from 'heic-convert';
-import { parentPort } from 'worker_threads';
+import { parentPort } from 'node:worker_threads';
 
 import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
-} from './heicConverterMain';
+} from './heicConverterMain.js';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');

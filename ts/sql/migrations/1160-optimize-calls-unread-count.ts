@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Database } from '@signalapp/sqlcipher';
-import { sql, sqlConstant } from '../util';
-import { CallDirection, CallStatusValue } from '../../types/CallDisposition';
+import { sql, sqlConstant } from '../util.js';
+import { CallDirection, CallStatusValue } from '../../types/CallDisposition.js';
 
 const CALL_STATUS_MISSED = sqlConstant(CallStatusValue.Missed);
 const CALL_DIRECTION_INCOMING = sqlConstant(CallDirection.Incoming);

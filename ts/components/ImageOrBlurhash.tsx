@@ -3,7 +3,7 @@
 
 import React, { useMemo, useCallback, useState, useRef } from 'react';
 
-import { computeBlurHashUrl } from '../util/computeBlurHashUrl';
+import { computeBlurHashUrl } from '../util/computeBlurHashUrl.js';
 
 export type Props = React.ImgHTMLAttributes<HTMLImageElement> &
   Readonly<{
@@ -67,7 +67,6 @@ export function ImageOrBlurhash({
         backgroundPosition: 'center',
       }}
       loading={blurHashUrl != null ? 'lazy' : 'eager'}
-      decoding={blurHashUrl != null ? 'async' : 'auto'}
     />
   );
 }

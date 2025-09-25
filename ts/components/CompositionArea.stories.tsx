@@ -4,18 +4,18 @@
 import React, { useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { IMAGE_JPEG } from '../types/MIME';
-import type { Props } from './CompositionArea';
-import { CompositionArea } from './CompositionArea';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { IMAGE_JPEG } from '../types/MIME.js';
+import type { Props } from './CompositionArea.js';
+import { CompositionArea } from './CompositionArea.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
 
-import { fakeDraftAttachment } from '../test-helpers/fakeAttachment';
-import { landscapeGreenUrl } from '../storybook/Fixtures';
-import { RecordingState } from '../types/AudioRecorder';
-import { ConversationColors } from '../types/Colors';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { PaymentEventKind } from '../types/Payment';
-import { EmojiSkinTone } from './fun/data/emojis';
+import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.js';
+import { landscapeGreenUrl } from '../storybook/Fixtures.js';
+import { RecordingState } from '../types/AudioRecorder.js';
+import { ConversationColors } from '../types/Colors.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { PaymentEventKind } from '../types/Payment.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 

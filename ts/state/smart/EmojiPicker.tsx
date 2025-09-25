@@ -3,16 +3,16 @@
 
 import React, { useCallback, forwardRef, memo } from 'react';
 import { useSelector } from 'react-redux';
-import { useRecentEmojis } from '../selectors/emojis';
-import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
+import { useRecentEmojis } from '../selectors/emojis.js';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis.js';
 import type {
   EmojiPickDataType,
   Props as EmojiPickerProps,
-} from '../../components/emoji/EmojiPicker';
-import { EmojiPicker } from '../../components/emoji/EmojiPicker';
-import { getIntl } from '../selectors/user';
-import { getEmojiSkinToneDefault } from '../selectors/items';
-import { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../../components/emoji/EmojiPicker.js';
+import { EmojiPicker } from '../../components/emoji/EmojiPicker.js';
+import { getIntl } from '../selectors/user.js';
+import { getEmojiSkinToneDefault } from '../selectors/items.js';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
 export const SmartEmojiPicker = memo(
   forwardRef<

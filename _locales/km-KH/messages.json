@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "លុបការជជែកឬ?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។"
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។"
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ជ្រើសរើសការជជែកដែលអ្នកចង់បង្ហាញនៅក្នុងថតឯកសារនេះ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "ការជជែកមួយទល់មួយ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "ជជែកជាក្រុម"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "បញ្ចូលការជជែក"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ការទាញយកមិនបានជោគជ័យទេ"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "ការទាញយកឯកសារភ្ជាប់ពីការបម្រុងទុកមិនបានជោគជ័យ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។"
@@ -3528,13 +3534,13 @@
     "messageformat": "សូមព្យាយាមម្តងទៀត ឬទាក់ទងផ្នែកជំនួយ។"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "បញ្ហាមួយដែលមិនបានរំពឹងទុកបានកើតឡើង"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ដាក់បញ្ជូនកំណត់ត្រាបញ្ហា"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ទេ អរគុណ"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "យល់ព្រម"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "ចែករំលែកព័ត៌មាន"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "មើលទាំងអស់"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "មេឌៀ តំណ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "ឧទាហរណ៍ :-) នឹងត្រូវបានបំប្លែងទៅជា <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "បន្តទុកក្នុងបណ្ណសារនូវការជជែកដែលបិទសំឡេង"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "ការជជែកដែលបានបិទសំឡេងដែលត្រូវបានទុកក្នុងបណ្ណសារនឹងនៅតែរក្សាទុកក្នុងបណ្ណសារដដែល នៅពេលសារថ្មីមកដល់។"
   },
   "icu:Preferences--advanced": {
     "messageformat": "កម្រិតខ្ពស់"
@@ -5283,7 +5286,7 @@
     "messageformat": "បានទប់ស្កាត់"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "ការបម្រុងទុក Signal"
+    "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "ការបម្រុងទុកដោយស្វ័យប្រវត្តិជាមួយនឹងសេវាកម្មផ្ទុកទិន្នន័យដែលបានអ៊ីនគ្រីបទាំងសងខាងដ៏មានសុវត្ថិភាពរបស់ Signal។ ចាប់ផ្តើមនៅលើទូរសព្ទរបស់អ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>។"
@@ -5298,7 +5301,7 @@
     "messageformat": "សារជាអក្សរ + ការបម្រុងទុកមេឌៀទាំងអស់"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុក Signal។"
+    "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុកសុវត្ថិភាព Signal។"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {សារជាអក្សរ + ការបម្រុងទុកមេឌៀ {mediaDayCount,number} ថ្ងៃ}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "ការជាវត្រូវបានបោះបង់"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬបោះបង់នូវការជាវការបម្រុងទុក Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក។"
+    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬបោះបង់នូវការជាវការបម្រុងទុកសុវត្ថិភាព Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក។"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬដំឡើងកម្រិតនៃការបម្រុងទុក Signal នៅលើទូរសព្ទរបស់អ្នក។"
+    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬដំឡើងកម្រិតនៃការបម្រុងទុកសុវត្ថិភាព Signal នៅលើទូរសព្ទរបស់អ្នក។"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬបន្តនូវការជាវការបម្រុងទុក Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក។"
+    "messageformat": "អ្នកអាចគ្រប់គ្រង ឬបន្តនូវការជាវការបម្រុងទុកសុវត្ថិភាព Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក។"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ការបម្រុងទុកចុងក្រោយ"
@@ -6655,10 +6658,10 @@
     "messageformat": "ការគាំទ្ររបស់ខ្ញុំ"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "ម្តង {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគ…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount}"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "យល់ព្រម"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "បង្កាន់ដៃ"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "មើលព័ត៌មានលម្អិតបង្កាន់ដៃ"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "សំណួរសួរញឹកញាប់អំពីការបរិច្ចាគ"
+    "messageformat": "សំណួរសួរញឹកញាប់អំពីម្ចាស់ជំនួយ"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "បង្កាន់ដៃមិនធ្វើសមកាលកម្មលើឧបករណ៍នានាទេ។ ប្រសិនបើអ្នកបានដំឡើង Signal ឡើងវិញ បង្កាន់ដៃពីការបរិច្ចាគមុនៗនឹងមិនមានទេ។"
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "កាលបរិច្ឆេទផុតកំណត់"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "ខែ/ឆ្នាំ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount} ទៅ Signal"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "ទទួលបានស្លាកទ្រទ្រង់ Signal រយៈពេល 30 ថ្ងៃ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "ចំនួនទឹកប្រាក់បរិច្ចាគអប្បបរមាគឺ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "ចំនួនទឹកប្រាក់អប្បបរមាដែលអ្នកអាចបរិច្ចាគបានគឺ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "ចំនួនទឹកប្រាក់បរិច្ចាគអតិបរមាគឺ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "ការចាកចេញពីទំព័រនេះនឹងលុបព័ត៌មានកាតឥណទានរបស់អ្នក។ តើអ្នកចង់បន្តឬទេ?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "លុបព័ត៌មាន"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "បន្ត"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "អ្នកមិនមានអ៊ីនធឺណិតទេ។ សូមភ្ជាប់អ៊ីនធឺណិត ដើម្បីបំពេញការបរិច្ចាគ។"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "ការបរិច្ចាគត្រូវបានបោះបង់"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "ការបរិច្ចាគបានជោគជ័យ ប៉ុន្តែយើងមិនអាចធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកបានទេ"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "ការបរិច្ចាគបានជោគជ័យ ប៉ុន្តែយើងមិនអាចធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកបានទេ"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "ដើម្បីធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកនៅលើឧបករណ៍ចល័តរបស់អ្នក សូមចូលទៅកាន់ការកំណត់ → បរិច្ចាគទៅ Signal → ស្លាក។"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ការបរិច្ចាគត្រូវបានរំខាន"
@@ -6811,13 +6850,13 @@
     "messageformat": "ការបរិច្ចាគរបស់អ្នកប្រហែលជាមិនត្រូវបានដំណើរការទេ។ ចុចលើ “បរិច្ចាគទៅ Signal” ហើយបន្ទាប់មក “បង្កាន់ដៃបរិច្ចាគ” ដើម្បីពិនិត្យមើលបង្កាន់ដៃរបស់អ្នក រួចបញ្ជាក់។"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "សូមព្យាយាមម្តងទៀត ឬដាក់បញ្ជូនកំណត់ត្រាបញ្ហាទៅកាន់ផ្នែកជំនួយ ដើម្បីជួយបំពេញការបរិច្ចាគរបស់អ្នក។ កំណត់ត្រាបញ្ហាជួយឱ្យយើងវិភាគ និងដោះស្រាយបញ្ហានេះ ហើយមិនមានព័ត៌មានកំណត់អត្តសញ្ញាណទេ។"
   },
   "icu:Donations__Processing": {
     "messageformat": "កំពុងដំណើរការការបរិច្ចាគ…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគនៅឡើយ"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "ការបរិច្ចាគរបស់អ្នកកំពុងត្រូវបានដំណើរការនៅឡើយ។ វាអាចចំណាយពេលពីរបីនាទី។"
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "បោះបង់ការបរិច្ចាគ"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "អរគុណចំពោះការគាំទ្ររបស់អ្នក!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "អ្នកបានទទួលស្លាកអ្នកបរិច្ចាគពី Signal! សូមបង្ហាញវានៅលើប្រូហ្វាល់របស់អ្នកដើម្បីបង្ហាញការគាំទ្ររបស់អ្នក។"
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "បង្ហាញនៅលើប្រូហ្វាល់"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "អ្នកអាចកែតម្រូវវានៅលើឧបករណ៍ចល័តរបស់អ្នកនៅក្រោមការកំណត់ → បរិច្ចាគទៅ Signal → ស្លាក"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -6874,16 +6925,7 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "យើងបានធ្វើឱ្យប្រសើរឡើងនូវបទពិសោធន៍អាន/មិនទាន់អានសារ ពេលកំពុងធ្វើកិច្ចការជាច្រើន ហើយបានកែបញ្ហាមួយដែលពេលខ្លះបើកកម្មវិធីមើលរូបភាពដែលបានពង្រីកដោយមិនបានត្រឹមត្រូវ ប្រសិនបើអ្នកចុចរបារដកឃ្លា ពេលកំពុងស្វែងរករូបអារម្មណ៍ដ៏ល្អឥតខ្ចោះ។ អ្នកនៅតែអាចពង្រីកបាន ប្រសិនបើអ្នកចុចលើរូបភាព ឬប្រសិនបើអ្នកវាយបញ្ចូលបានលឿនគួរសម។"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "ការស្វែងរកឱ្យត្រូវរូបអារម្មណ៍អាចធ្វើឱ្យអ្នកមានអារម្មណ៍ថាពិបាកបន្តិច ប៉ុន្តែយើងបានដោះស្រាយបញ្ហាមួយដែលអាចបណ្តាលឱ្យមានបញ្ហាកើតឡើងបន្ទាប់ពីចុចគ្រាប់ចុច Escape នៅក្នុងប្រអប់ស្វែងរករូបអារម្មណ៍។"
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "កំណែថ្មីនេះដោះស្រាយបញ្ហាតូចៗមួយចំនួន រួមទាំងបញ្ហាដែលប្រតិកម្មតាមរូបអារម្មណ៍មិនត្រូវបានដាក់ជាក្រុមជាមួយគ្នាឱ្យបានត្រឹមត្រូវនៅក្នុងករណីខ្លះៗ។"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

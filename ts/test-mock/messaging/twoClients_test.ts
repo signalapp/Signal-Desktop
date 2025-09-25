@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StorageState } from '@signalapp/mock-server';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.js';
 
 describe('twoClients', function twoClients(this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

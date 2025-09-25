@@ -3,17 +3,15 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../../_locales/en/messages.json';
-import { type ComponentMeta } from '../../storybook/types';
-import { setupI18n } from '../../util/setupI18n';
-import type { FunStickerPickerProps } from './FunStickerPicker';
-import { FunStickerPicker } from './FunStickerPicker';
-import { MOCK_RECENT_EMOJIS } from './mocks';
-import { FunProvider } from './FunProvider';
-import { packs, recentStickers } from '../stickers/mocks';
-import { EmojiSkinTone } from './data/emojis';
+import { type ComponentMeta } from '../../storybook/types.js';
+import type { FunStickerPickerProps } from './FunStickerPicker.js';
+import { FunStickerPicker } from './FunStickerPicker.js';
+import { MOCK_RECENT_EMOJIS } from './mocks.js';
+import { FunProvider } from './FunProvider.js';
+import { packs, recentStickers } from '../stickers/mocks.js';
+import { EmojiSkinTone } from './data/emojis.js';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type TemplateProps = Omit<
   FunStickerPickerProps,

@@ -2,29 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem.js';
 
-import type { StateType } from '../reducer';
+import type { StateType } from '../reducer.js';
 import {
   getConversationSelector,
   getTargetedMessage,
   getSelectedMessageIds,
   getMessages,
   getCachedConversationMemberColorsSelector,
-} from './conversations';
-import { getAccountSelector } from './accounts';
+} from './conversations.js';
+import { getAccountSelector } from './accounts.js';
 import {
   getRegionCode,
   getUserConversationId,
   getUserNumber,
   getUserACI,
   getUserPNI,
-} from './user';
-import { getDefaultConversationColor } from './items';
-import { getActiveCall, getCallSelector } from './calling';
-import { getPropsForBubble } from './message';
-import { getCallHistorySelector } from './callHistory';
-import { useProxySelector } from '../../hooks/useProxySelector';
+} from './user.js';
+import { getDefaultConversationColor } from './items.js';
+import { getActiveCall, getCallSelector } from './calling.js';
+import { getPropsForBubble } from './message.js';
+import { getCallHistorySelector } from './callHistory.js';
+import { useProxySelector } from '../../hooks/useProxySelector.js';
 
 const getTimelineItem = (
   state: StateType,

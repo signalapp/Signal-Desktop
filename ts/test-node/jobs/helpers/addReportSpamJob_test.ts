@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as sinon from 'sinon';
-import { Job } from '../../../jobs/Job';
-import { addReportSpamJob } from '../../../jobs/helpers/addReportSpamJob';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import { Job } from '../../../jobs/Job.js';
+import { addReportSpamJob } from '../../../jobs/helpers/addReportSpamJob.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
 
 describe('addReportSpamJob', () => {
   let getMessageServerGuidsForSpam: sinon.SinonStub;

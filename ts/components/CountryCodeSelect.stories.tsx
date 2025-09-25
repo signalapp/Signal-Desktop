@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import type { PropsType } from './CountryCodeSelect';
-import { CountryCodeSelect } from './CountryCodeSelect';
-import { type ComponentMeta } from '../storybook/types';
+import type { PropsType } from './CountryCodeSelect.js';
+import { CountryCodeSelect } from './CountryCodeSelect.js';
+import { type ComponentMeta } from '../storybook/types.js';
 
 const { i18n } = window.SignalContext;
 

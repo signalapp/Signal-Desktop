@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import { Button, ButtonVariant } from './Button';
-import { GradientDial, KnobType } from './GradientDial';
-import { SampleMessageBubbles } from './SampleMessageBubbles';
-import { Slider } from './Slider';
-import { Tabs } from './Tabs';
-import type { CustomColorType } from '../types/Colors';
-import type { LocalizerType } from '../types/Util';
-import { getHSL } from '../util/getHSL';
-import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import { Button, ButtonVariant } from './Button.js';
+import { GradientDial, KnobType } from './GradientDial.js';
+import { SampleMessageBubbles } from './SampleMessageBubbles.js';
+import { Slider } from './Slider.js';
+import { Tabs } from './Tabs.js';
+import type { CustomColorType } from '../types/Colors.js';
+import type { LocalizerType } from '../types/Util.js';
+import { getHSL } from '../util/getHSL.js';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.js';
 
 export type PropsType = {
   customColor?: CustomColorType;

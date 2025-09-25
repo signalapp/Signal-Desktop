@@ -3,9 +3,9 @@
 
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './DisappearingTimerSelect';
-import { DisappearingTimerSelect } from './DisappearingTimerSelect';
-import { DurationInSeconds } from '../util/durations';
+import type { Props } from './DisappearingTimerSelect.js';
+import { DisappearingTimerSelect } from './DisappearingTimerSelect.js';
+import { DurationInSeconds } from '../util/durations/index.js';
 
 export default {
   title: 'Components/DisappearingTimerSelect',

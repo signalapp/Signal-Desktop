@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString } from '../types/ServiceId';
+import type { ServiceIdString } from '../types/ServiceId.js';
 
 export type MinimalConversationType = Readonly<{
   type?: string;

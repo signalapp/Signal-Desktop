@@ -5,16 +5,16 @@ import type { Key, ReactNode } from 'react';
 import React, { useState } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
-import { Avatar, AvatarSize } from './Avatar';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { BadgeType } from '../badges/types';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav';
-import type { Location } from '../types/Nav';
-import { Tooltip, TooltipPlacement } from './Tooltip';
-import { Theme } from '../util/theme';
-import type { UnreadStats } from '../util/countUnreadStats';
-import { ProfileMovedModal } from './ProfileMovedModal';
+import { Avatar, AvatarSize } from './Avatar.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { BadgeType } from '../badges/types.js';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.js';
+import type { Location } from '../types/Nav.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.js';
+import { Theme } from '../util/theme.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
+import { ProfileMovedModal } from './ProfileMovedModal.js';
 
 type NavTabsItemBadgesProps = Readonly<{
   i18n: LocalizerType;

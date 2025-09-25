@@ -1,29 +1,31 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { mapValues, pick } from 'lodash';
+import lodash from 'lodash';
 
-import type { CustomError } from '../../textsecure/Types';
+import type { CustomError } from '../../textsecure/Types.js';
 
-import type { MessageAttributesType } from '../../model-types';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
+import type { MessageAttributesType } from '../../model-types.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
 import {
   getChangesForPropAtTimestamp,
   getPropForTimestamp,
-} from '../../util/editHelpers';
+} from '../../util/editHelpers.js';
 import {
   isSent,
   SendActionType,
   sendStateReducer,
   someRecipientSendStatus,
-} from '../../messages/MessageSendState';
-import { isStory } from '../../messages/helpers';
+} from '../../messages/MessageSendState.js';
+import { isStory } from '../../messages/helpers.js';
 import {
   notificationService,
   NotificationType,
-} from '../../services/notifications';
-import type { MessageModel } from '../../models/messages';
+} from '../../services/notifications.js';
+import type { MessageModel } from '../../models/messages.js';
+
+const { mapValues, pick } = lodash;
 
 const log = createLogger('messageFailures');
 

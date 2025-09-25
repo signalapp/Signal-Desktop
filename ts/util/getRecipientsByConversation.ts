@@ -1,12 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types';
-import type { RecipientsByConversation } from '../state/ducks/stories';
-import type { ServiceIdString } from '../types/ServiceId';
+import type { ConversationAttributesType } from '../model-types.js';
+import type { RecipientsByConversation } from '../state/ducks/stories.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
 
-import { getConversationMembers } from './getConversationMembers';
-import { isNotNil } from './isNotNil';
+import { getConversationMembers } from './getConversationMembers.js';
+import { isNotNil } from './isNotNil.js';
 
 export function getRecipientsByConversation(
   conversations: Array<ConversationAttributesType>

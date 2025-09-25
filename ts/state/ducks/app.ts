@@ -3,17 +3,17 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { createLogger } from '../../logging/log';
-import { getEnvironment, Environment } from '../../environment';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { createLogger } from '../../logging/log.js';
+import { getEnvironment, Environment } from '../../environment.js';
 import {
   START_INSTALLER,
   type StartInstallerActionType,
   SHOW_BACKUP_IMPORT,
   type ShowBackupImportActionType,
-} from './installer';
+} from './installer.js';
 
 const log = createLogger('app');
 

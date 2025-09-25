@@ -1,20 +1,20 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getMessageById } from '../messages/getMessageById';
-import type { MessageModel } from '../models/messages';
+import { getMessageById } from '../messages/getMessageById.js';
+import type { MessageModel } from '../models/messages.js';
 
-import { hydrateStoryContext } from './hydrateStoryContext';
-import { getMessageIdForLogging } from './idForLogging';
+import { hydrateStoryContext } from './hydrateStoryContext.js';
+import { getMessageIdForLogging } from './idForLogging.js';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 import {
   isQuoteAMatch,
   shouldTryToCopyFromQuotedMessage,
-} from '../messages/helpers';
-import { copyQuoteContentFromOriginal } from '../messages/copyQuote';
-import { queueUpdateMessage } from './messageBatcher';
-import { drop } from './drop';
+} from '../messages/helpers.js';
+import { copyQuoteContentFromOriginal } from '../messages/copyQuote.js';
+import { queueUpdateMessage } from './messageBatcher.js';
+import { drop } from './drop.js';
 
 const log = createLogger('doubleCheckMissingQuoteReference');
 

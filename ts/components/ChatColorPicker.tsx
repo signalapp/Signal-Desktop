@@ -5,18 +5,21 @@ import type { KeyboardEvent, MouseEvent } from 'react';
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { CustomColorEditor } from './CustomColorEditor';
-import { Modal } from './Modal';
-import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import { ConversationColors } from '../types/Colors';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
-import { SampleMessageBubbles } from './SampleMessageBubbles';
-import { PanelRow } from './conversation/conversation-details/PanelRow';
-import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { CustomColorEditor } from './CustomColorEditor.js';
+import { Modal } from './Modal.js';
+import type {
+  ConversationColorType,
+  CustomColorType,
+} from '../types/Colors.js';
+import { ConversationColors } from '../types/Colors.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import { SampleMessageBubbles } from './SampleMessageBubbles.js';
+import { PanelRow } from './conversation/conversation-details/PanelRow.js';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.js';
 
-import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus';
+import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.js';
 
 type CustomColorDataType = {
   id?: string;

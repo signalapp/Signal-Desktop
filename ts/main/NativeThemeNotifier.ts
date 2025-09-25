@@ -4,7 +4,7 @@
 import type { BrowserWindow } from 'electron';
 import { ipcMain as ipc, nativeTheme } from 'electron';
 
-import type { NativeThemeState } from '../types/NativeThemeNotifier.d';
+import type { NativeThemeState } from '../types/NativeThemeNotifier.d.ts';
 
 function getState(): NativeThemeState {
   return {

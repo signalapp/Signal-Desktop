@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isConversationMuted } from '../../util/isConversationMuted';
+import { isConversationMuted } from '../../util/isConversationMuted.js';
 
 describe('isConversationMuted', () => {
   it('returns false if passed an undefined expiry time', () => {

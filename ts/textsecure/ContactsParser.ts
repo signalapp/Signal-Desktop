@@ -1,23 +1,23 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Transform } from 'stream';
+import { Transform } from 'node:stream';
 
-import { createLogger } from '../logging/log';
-import { SignalService as Proto } from '../protobuf';
-import protobuf from '../protobuf/wrap';
-import { DurationInSeconds } from '../util/durations';
-import type { ContactAvatarType } from '../types/Avatar';
-import type { AttachmentType } from '../types/Attachment';
-import type { AciString } from '../types/ServiceId';
-import { computeHash } from '../Crypto';
-import { dropNull } from '../util/dropNull';
-import { fromAciUuidBytesOrString } from '../util/ServiceId';
-import * as Bytes from '../Bytes';
-import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
+import { createLogger } from '../logging/log.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import protobuf from '../protobuf/wrap.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import type { ContactAvatarType } from '../types/Avatar.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { AciString } from '../types/ServiceId.js';
+import { computeHash } from '../Crypto.js';
+import { dropNull } from '../util/dropNull.js';
+import { fromAciUuidBytesOrString } from '../util/ServiceId.js';
+import * as Bytes from '../Bytes.js';
+import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.js';
 
 import Avatar = Proto.ContactDetails.IAvatar;
-import { stringToMIMEType } from '../types/MIME';
+import { stringToMIMEType } from '../types/MIME.js';
 
 const log = createLogger('ContactsParser');
 

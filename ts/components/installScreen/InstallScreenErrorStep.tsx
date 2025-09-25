@@ -3,14 +3,14 @@
 
 import React, { type ReactElement, useCallback } from 'react';
 
-import type { LocalizerType } from '../../types/Util';
-import { missingCaseError } from '../../util/missingCaseError';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
-import { Button, ButtonVariant } from '../Button';
-import { TitlebarDragArea } from '../TitlebarDragArea';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
-import { LINK_SIGNAL_DESKTOP } from '../../types/support';
-import { InstallScreenError } from '../../types/InstallScreen';
+import type { LocalizerType } from '../../types/Util.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { TitlebarDragArea } from '../TitlebarDragArea.js';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.js';
+import { LINK_SIGNAL_DESKTOP } from '../../types/support.js';
+import { InstallScreenError } from '../../types/InstallScreen.js';
 
 export type Props = Readonly<{
   error: InstallScreenError;

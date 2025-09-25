@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupV2Permissions';
-import { GroupV2Permissions } from './GroupV2Permissions';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import type { PropsType } from './GroupV2Permissions.js';
+import { GroupV2Permissions } from './GroupV2Permissions.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
 
 const { i18n } = window.SignalContext;
 

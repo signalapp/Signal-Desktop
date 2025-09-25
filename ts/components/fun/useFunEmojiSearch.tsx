@@ -1,18 +1,20 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import Fuse from 'fuse.js';
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
 import { useMemo } from 'react';
-import type { EmojiParentKey } from './data/emojis';
+import type { EmojiParentKey } from './data/emojis.js';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
   isEmojiParentValueDeprecated,
   normalizeShortNameCompletionQuery,
-} from './data/emojis';
-import type { LocaleEmojiListType } from '../../types/emoji';
-import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider';
+} from './data/emojis.js';
+import type { LocaleEmojiListType } from '../../types/emoji.js';
+import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.js';
+
+const { sortBy } = lodash;
 
 export type FunEmojiSearchIndexEntry = Readonly<{
   key: EmojiParentKey;

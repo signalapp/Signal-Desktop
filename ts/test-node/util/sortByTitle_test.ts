@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { sortByTitle } from '../../util/sortByTitle';
+import { sortByTitle } from '../../util/sortByTitle.js';
 
 describe('sortByTitle', () => {
   it("does nothing to arrays that don't need to be sorted", () => {

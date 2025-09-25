@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { messageHasPaymentEvent } from '../messages/helpers';
-import type { MessageAttributesType } from '../model-types';
+import { messageHasPaymentEvent } from '../messages/helpers.js';
+import type { MessageAttributesType } from '../model-types.js';
 import {
   hasErrors,
   isCallHistory,
@@ -22,7 +22,7 @@ import {
   isUniversalTimerNotification,
   isUnsupportedMessage,
   isVerifiedChange,
-} from '../state/selectors/message';
+} from '../state/selectors/message.js';
 
 export function isMessageEmpty(attributes: MessageAttributesType): boolean {
   // Core message types - we check for all four because they can each stand alone
@@ -30,6 +30,7 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
   const hasAttachment = (attributes.attachments || []).length > 0;
   const hasEmbeddedContact = (attributes.contact || []).length > 0;
   const isSticker = Boolean(attributes.sticker);
+  const isPoll = Boolean(attributes.poll);
 
   // Rendered sync messages
   const isCallHistoryValue = isCallHistory(attributes);
@@ -69,6 +70,7 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
     hasAttachment ||
     hasEmbeddedContact ||
     isSticker ||
+    isPoll ||
     isPayment ||
     // Rendered sync messages
     isCallHistoryValue ||

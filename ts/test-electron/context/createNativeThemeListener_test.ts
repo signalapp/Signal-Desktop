@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 import type {
   MinimalIPC,
   SystemThemeHolder,
-} from '../../context/createNativeThemeListener';
-import { createNativeThemeListener } from '../../context/createNativeThemeListener';
-import type { NativeThemeState } from '../../types/NativeThemeNotifier.d';
-import { SystemThemeType } from '../../types/Util';
+} from '../../context/createNativeThemeListener.js';
+import { createNativeThemeListener } from '../../context/createNativeThemeListener.js';
+import type { NativeThemeState } from '../../types/NativeThemeNotifier.d.ts';
+import { SystemThemeType } from '../../types/Util.js';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
   constructor(private readonly state: NativeThemeState) {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { makeEnumParser } from '../util/enum';
+import { makeEnumParser } from '../util/enum.js';
 
 /**
  * `SendStatus` represents the send status of a message to a single recipient. For

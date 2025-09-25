@@ -1,17 +1,17 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
-import { strictAssert } from '../../util/assert';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
+import { strictAssert } from '../../util/assert.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../../components/fun/data/emojis';
+} from '../../components/fun/data/emojis.js';
 import {
   createStaticEmojiBlot,
   FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji';
+} from '../../components/fun/FunEmoji.js';
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
 // ts/components/fun/FunEmoji.tsx

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { makeKeysLowercase } from '../../textsecure/WebAPI';
+import { makeKeysLowercase } from '../../textsecure/WebAPI.js';
 
 describe('WebAPI', () => {
   describe('makeKeysLowercase', () => {

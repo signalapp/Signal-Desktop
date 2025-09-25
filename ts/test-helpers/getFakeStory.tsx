@@ -4,17 +4,17 @@
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../types/Attachment';
-import type { ConversationType } from '../state/ducks/conversations';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 import type {
   ConversationStoryType,
   MyStoryType,
   StoryViewType,
-} from '../types/Stories';
-import * as durations from '../util/durations';
-import { getDefaultConversation } from './getDefaultConversation';
-import { fakeAttachment, fakeThumbnail } from './fakeAttachment';
-import { MY_STORY_ID, ResolvedSendStatus } from '../types/Stories';
+} from '../types/Stories.js';
+import * as durations from '../util/durations/index.js';
+import { getDefaultConversation } from './getDefaultConversation.js';
+import { fakeAttachment, fakeThumbnail } from './fakeAttachment.js';
+import { MY_STORY_ID, ResolvedSendStatus } from '../types/Stories.js';
 
 function getAttachmentWithThumbnail(url: string): AttachmentType {
   return fakeAttachment({

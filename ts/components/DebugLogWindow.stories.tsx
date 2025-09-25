@@ -5,9 +5,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DebugLogWindow';
-import { DebugLogWindow } from './DebugLogWindow';
-import { sleep } from '../util/sleep';
+import type { PropsType } from './DebugLogWindow.js';
+import { DebugLogWindow } from './DebugLogWindow.js';
+import { sleep } from '../util/sleep.js';
 
 const { i18n } = window.SignalContext;
 

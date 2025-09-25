@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { assert } from 'chai';
-import * as Errors from '../../types/errors';
+import * as Errors from '../../types/errors.js';
 
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 

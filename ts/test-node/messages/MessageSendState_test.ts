@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { sampleSize, times } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import type {
   SendAction,
   SendState,
   SendStateByConversationId,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
 import {
   SendActionType,
   SendStatus,
@@ -24,7 +24,9 @@ import {
   sendStateReducer,
   someRecipientSendStatus,
   someSendStatus,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
+
+const { sampleSize, times } = lodash;
 
 describe('message send state utilities', () => {
   describe('maxStatus', () => {

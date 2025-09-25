@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import type { LocalizerType } from '../../types/Util';
-import type { StickerPackType } from '../../state/ducks/stickers';
-import { Button, ButtonVariant } from '../Button';
-import { UserText } from '../UserText';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { StickerPackType } from '../../state/ducks/stickers.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { UserText } from '../UserText.js';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

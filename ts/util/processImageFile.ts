@@ -3,7 +3,7 @@
 
 import type { LoadImageOptions } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
-import { canvasToBytes } from './canvasToBytes';
+import { canvasToBytes } from './canvasToBytes.js';
 
 export async function processImageFile(file: File): Promise<Uint8Array> {
   const { image } = await loadImage(file, {

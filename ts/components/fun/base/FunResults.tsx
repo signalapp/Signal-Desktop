@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import { Button, Header } from 'react-aria-components';
-import { SpinnerV2 } from '../../SpinnerV2';
+import { SpinnerV2 } from '../../SpinnerV2.js';
 
 export type FunResultsProps = Readonly<{
   'aria-busy': boolean;
@@ -52,7 +52,5 @@ export function FunResultsButton(props: FunResultsButtonProps): JSX.Element {
 }
 
 export function FunResultsSpinner(): JSX.Element {
-  return (
-    <SpinnerV2 className="FunResults__Spinner" size={36} strokeWidth={4} />
-  );
+  return <SpinnerV2 size={36} strokeWidth={2} />;
 }

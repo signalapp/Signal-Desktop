@@ -1,13 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import os from 'os';
+import os from 'node:os';
 import Sinon from 'sinon';
 import { assert } from 'chai';
 
-import { getOSFunctions } from '../../util/os/shared';
-import * as Settings from '../../types/Settings';
-import { SystemTraySetting } from '../../types/SystemTraySetting';
+import { getOSFunctions } from '../../util/os/shared.js';
+import * as Settings from '../../types/Settings.js';
+import { SystemTraySetting } from '../../types/SystemTraySetting.js';
 
 describe('Settings', () => {
   let sandbox: Sinon.SinonSandbox;

@@ -3,11 +3,11 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import type { LocalizerType } from '../types/Util';
-import { CallViewMode } from '../types/Calling';
-import { Tooltip } from './Tooltip';
-import { Theme } from '../util/theme';
-import { ContextMenu } from './ContextMenu';
+import type { LocalizerType } from '../types/Util.js';
+import { CallViewMode } from '../types/Calling.js';
+import { Tooltip } from './Tooltip.js';
+import { Theme } from '../util/theme.js';
+import { ContextMenu } from './ContextMenu.js';
 
 export type PropsType = {
   callViewMode?: CallViewMode;

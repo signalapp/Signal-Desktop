@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Button, ButtonVariant } from './Button';
-import { I18n } from './I18n';
-import { Modal } from './Modal';
+import type { LocalizerType } from '../types/Util.js';
+import { Button, ButtonVariant } from './Button.js';
+import { I18n } from './I18n.js';
+import { Modal } from './Modal.js';
 
 export type PropsType = {
   i18n: LocalizerType;

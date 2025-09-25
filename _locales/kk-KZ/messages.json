@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Чатты жою керек пе?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Осы чаттағы хаттардың барлығы бұл құрылғыдан жойылады."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Осы қалтада көрсетілетін чаттарды таңдаңыз"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 чаттар"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Топтық чаттар"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Чаттарды қосу"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Жүктеп алынбады"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Тіркемені сақтық көшірмеден жүктеп алу мүмкін болмады"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Бұл хатты жіберген соң, оны 24 сағаттың ішінде ғана өзгертуге болады."
@@ -3528,13 +3534,13 @@
     "messageformat": "Қайталап көріңіз немесе қолдау қызметіне хабарласыңыз."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Күтпеген қате шықты"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
     "messageformat": "Submit debug log"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Жоқ, рақмет"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Жарайды"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Бөлісілген мультимедиа"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Барлығын көру"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Мультимедиа, сілтемелер және файлдар"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Мысалы, :-) деп терсеңіз, <emojify>🙂</emojify> болады"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Дыбысы өшірілген чаттарды мұрағатта қалдыру"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Мұрағаттағы дыбысы өшірілген чаттарға жаңа хат келгенде олар мұрағатта қала береді."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Озық"
@@ -5283,7 +5286,7 @@
     "messageformat": "Блокталған"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-дың сақтық көшірмелері"
+    "messageformat": "Signal қауіпсіз сақтық көшірмелері"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматты cақтық көшірмелер Signal-дың қауіпсіз және тура шифрланған жад қызметі арқылы жасалады. Телефоныңызда бастаңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
@@ -5298,7 +5301,7 @@
     "messageformat": "Мәтін + барлық мультимедианың сақтық көшірмесі"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Жазылымыңыз табылмады. Signal-дың сақтық көшірмелерін пайдалана беру үшін оны жаңартыңыз."
+    "messageformat": "Жазылымыңыз табылмады. Signal-дың қауіпсіз сақтық көшірмелерін пайдалану мүмкіндігін сақтау үшін жазылымды жаңартыңыз."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі} other {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "Жазылым тоқтатылды."
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе тоқтатуыңызға болады."
+    "messageformat": "Signal Secure Backups жазылымын телефонда басқаруға немесе тоқтатуға болады."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелерін басқаруыңызға немесе жаңартуыңызға болады."
+    "messageformat": "Signal Secure Backups жазылымын телефонда басқаруға және жаңартуға болады."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе жаңартуыңызға болады."
+    "messageformat": "Signal Secure Backups жазылымын телефонда басқаруға немесе жаңартуға болады."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Соңғы резервтік көшірме"
@@ -6655,10 +6658,10 @@
     "messageformat": "My Support"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Бір реттік {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Қайырымдылыққа жіберген қаражат өңделіп жатыр..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} демеушілік жасаңыз"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Сіз демеушілік жасағанда, Signal сіздің ешқандай жеке ақпаратыңызды жинамайды немесе сақтамайды.</paragraph><paragraph>Демеу мақсатында жіберген қаражатыңызды қабылдау үшін Stripe төлем операторын қолданамыз. Оларға берген ақпаратыңыздың ешқайсысын пайдаланбаймыз немесе сақтамаймыз.</paragraph><paragraph>Signal сіздің демеушілігіңізді Signal аккаунтыңызбен байланыстырмайды.</paragraph><paragraph>Қолдау көрсеткеніңіз үшін рақмет!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Чектер"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Түбіртек мәліметтерін көру"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Қайырымдылыққа қатысты сұрақ-жауап"
+    "messageformat": "Donor туралы сұрақ-жауап"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Түбіртектер барлық құрылғыда синхрондалмайды. Signal-ды қайта орнатқан болсаңыз, алдыңғы қайырымдылық түбіртектері қолжетімді болмайды."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Жарамдылық мерзімі"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "АА/ЖЖ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-ға {formattedCurrencyAmount} аудару"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 күнге Signal Boost танымбелгісін алыңыз"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Минималды донат сомасы – {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Демеушілік жасағанда, беруге болатын минималды сома – {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Максималды донат сомасы – {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Бұл беттен шығып кетсеңіз, несиелік карта туралы ақпарат өшіріледі. Жалғастырғыңыз келе ме?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Ақпаратты өшіру"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Жалғастыру"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Желіге қосылмағансыз. Демеушілік процесін аяқтау үшін интернетке қосылыңыз."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Демеушіліктен бас тартылды"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Демеу үшін жіберіліп жатқан қаражатыңызды растау қажет."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Қайырымдылыққа арналған қаражат жіберілгенмен, танымбелгі параметрлеріңізді жаңарта алмадық"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Қайырымдылыққа арналған қаражат жіберілгенмен, танымбелгі параметрлеріңізді жаңарта алмадық"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Мобильдік құрылғыңызда танымбелгі параметрлерін жаңарту үшін \"Параметрлер → Signal-ды демеу\" → Танымбелгілер\" тармағына өтіңіз."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Демеушілік үзілді"
@@ -6811,13 +6850,13 @@
     "messageformat": "Қайырымдылыққа жіберген қаражатыңыз өңделмей қалған болуы мүмкін. \"Signal-ды демеу\" түймесін, содан кейін \"Демеу чегі\" түймесін басып, чектеріңізді тексеріңіз және растаңыз."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Әрекетті қайталап көріңіз немесе демеушілік процесін аяқтау жөнінде көмек сұрау үшін Қолдау орталығына ақауларды түзету журналын жіберіңіз. Ақауларды түзету журналдары диагностика жасап, ақауларды түзетуге мүмкіндік береді және онда жеке басты анықтайтын ақпарат болмайды."
   },
   "icu:Donations__Processing": {
     "messageformat": "Қайырымдылыққа жіберген қаражат өңделіп жатыр..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Демеушілікке жіберілген қаражат әлі өңделіп жатыр"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Қайырымдылыққа жіберген қаражатыңыз әлі өңделіп жатыр. Оған бірнеше минут кетуі мүмкін."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Демеушіліктен бас тарту"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Қолдау көрсеткеніңіз үшін рақмет!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Signal-дан донор таңбасын алдыңыз! Демеушілік жасағаныңызды көрсету үшін, оны профиліңізге қойыңыз."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Профильде көрсету"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Оны мобильдік құрылғыңыздағы «Параметрлер → Signal-ды демеу → Танымбелгілер» тармағынан реттей аласыз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Басқа тапсырмаларды орындап отырып, хабарды оқылған/оқылмаған деп белгілеу функциясын жақсарттық. Сондай-ақ көңіл-күйіңізге сай эмоджи реакциясын іздеп жатып, бос орын пернесін басқан кезде, кеңейтілген суретті көру құралын дұрыс ашуға кедергі келтіретін ақауды түзеттік. Суретті бассаңыз немесе жылдам жазсаңыз, масштаб өзгертіле береді."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Қажетті эмоджиді табу кейде қиынға соғып жататындықтан, біз эмоджиді іздеу өрісінде Escape пернесін басқан соң пайда болатын ақауды түзеттік."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Бұл жаңа нұсқада бірқатар болмашы ақау түзетілді, оның ішінде кейбір жағдайда эмоджи реакцияларының дұрыс топтасуына кедергі келтіретін ақау да түзетілді."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

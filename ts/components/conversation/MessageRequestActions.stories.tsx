@@ -4,11 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { MessageRequestActions } from './MessageRequestActions';
+import { MessageRequestActions } from './MessageRequestActions.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation.js';
 
 const { i18n } = window.SignalContext;
 

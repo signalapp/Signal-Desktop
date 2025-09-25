@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util';
-import { SystemMessage } from './SystemMessage';
-import { Emojify } from './Emojify';
-import { getStringForPhoneNumberDiscovery } from '../../util/getStringForPhoneNumberDiscovery';
+import type { LocalizerType } from '../../types/Util.js';
+import { SystemMessage } from './SystemMessage.js';
+import { Emojify } from './Emojify.js';
+import { getStringForPhoneNumberDiscovery } from '../../util/getStringForPhoneNumberDiscovery.js';
 
 export type PropsDataType = {
   conversationTitle: string;

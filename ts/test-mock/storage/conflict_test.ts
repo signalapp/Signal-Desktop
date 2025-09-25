@@ -7,10 +7,10 @@ import { expect } from 'playwright/test';
 import type { Group, StorageState } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations';
-import { createCallLink } from '../helpers';
-import type { App, Bootstrap } from './fixtures';
-import { initStorage, debug, getCallLinkRecordPredicate } from './fixtures';
+import * as durations from '../../util/durations/index.js';
+import { createCallLink } from '../helpers.js';
+import type { App, Bootstrap } from './fixtures.js';
+import { initStorage, debug, getCallLinkRecordPredicate } from './fixtures.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

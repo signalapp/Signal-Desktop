@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ConversationNotificationsSettings';
-import { ConversationNotificationsSettings } from './ConversationNotificationsSettings';
+import type { PropsType } from './ConversationNotificationsSettings.js';
+import { ConversationNotificationsSettings } from './ConversationNotificationsSettings.js';
 
 const { i18n } = window.SignalContext;
 

@@ -2,18 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import classNames from 'classnames';
-import type { CallStatus } from '../../../types/CallDisposition';
 import {
   CallDirection,
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-  type CallHistoryGroup,
-} from '../../../types/CallDisposition';
-import type { LocalizerType } from '../../../types/I18N';
-import { formatDate, formatTime } from '../../../util/timestamp';
-import { PanelSection } from './PanelSection';
-import { getDirectCallNotificationText } from '../../../util/callingNotification';
+} from '../../../types/CallDisposition.js';
+import type {
+  CallStatus,
+  CallHistoryGroup,
+} from '../../../types/CallDisposition.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import { formatDate, formatTime } from '../../../util/timestamp.js';
+import { PanelSection } from './PanelSection.js';
+import { getDirectCallNotificationText } from '../../../util/callingNotification.js';
 
 function describeCallHistory(
   i18n: LocalizerType,

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createIntl } from '@formatjs/intl';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 
 // Note: if this warning appears and build fails:
 //
@@ -11,7 +11,7 @@ import fs from 'fs';
 //
 // Make sure to sync up the values in `util/nsis` with upstream
 // `app-builder-lib`.
-import { REQUIRED_LANGUAGES, LCID } from '../util/nsis';
+import { REQUIRED_LANGUAGES, LCID } from '../util/nsis.js';
 
 const STRING_VARS = new Map([
   [

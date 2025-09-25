@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
-import { I18n } from '../I18n';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { I18n } from '../I18n.js';
 
-import { SystemMessage } from './SystemMessage';
-import { MessageTimestamp } from './MessageTimestamp';
-import { UserText } from '../UserText';
+import { SystemMessage } from './SystemMessage.js';
+import { MessageTimestamp } from './MessageTimestamp.js';
+import { UserText } from '../UserText.js';
 
 export type PropsData = {
   sender: ConversationType;

@@ -4,7 +4,7 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import { ListTile } from '../ListTile';
+import { ListTile } from '../ListTile.js';
 
 export enum Icon {
   Group = 'group',

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { MediaEditorFabricPath } from './MediaEditorFabricPath';
+import { MediaEditorFabricPath } from './MediaEditorFabricPath.js';
 
 export class MediaEditorFabricPencilBrush extends fabric.PencilBrush {
   public strokeMiterLimit: undefined | number;

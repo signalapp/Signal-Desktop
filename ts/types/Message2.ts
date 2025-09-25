@@ -1,52 +1,57 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isObject, identity } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Contact from './EmbeddedContact';
+import * as Contact from './EmbeddedContact.js';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
-} from './Attachment';
+} from './Attachment.js';
 import {
   captureDimensionsAndScreenshot,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
-} from './Attachment';
-import * as Errors from './errors';
-import * as SchemaVersion from './SchemaVersion';
+  shouldGenerateThumbnailForAttachmentType,
+} from './Attachment.js';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
+import * as Errors from './errors.js';
+import * as SchemaVersion from './SchemaVersion.js';
 
-import { LONG_MESSAGE } from './MIME';
-import type * as MIME from './MIME';
-import type { LoggerType } from './Logging';
+import { LONG_MESSAGE } from './MIME.js';
+import type * as MIME from './MIME.js';
+import type { LoggerType } from './Logging.js';
 import type {
   EmbeddedContactType,
   EmbeddedContactWithHydratedAvatar,
-} from './EmbeddedContact';
+} from './EmbeddedContact.js';
 
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
   QuotedMessageType,
-} from '../model-types.d';
+} from '../model-types.d.ts';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from './message/LinkPreviews';
-import type { StickerType, StickerWithHydratedData } from './Stickers';
-import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
+} from './message/LinkPreviews.js';
+import type { StickerType, StickerWithHydratedData } from './Stickers.js';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../util/getLocalAttachmentUrl';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
-import { deepClone } from '../util/deepClone';
-import * as Bytes from '../Bytes';
-import { isBodyTooLong } from '../util/longAttachment';
+} from '../util/getLocalAttachmentUrl.js';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
+import { deepClone } from '../util/deepClone.js';
+import * as Bytes from '../Bytes.js';
+import { isBodyTooLong } from '../util/longAttachment.js';
+import type { MessageAttachmentType } from './AttachmentDownload.js';
+
+const { isFunction, isObject, identity } = lodash;
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -76,7 +81,7 @@ export type ContextType = {
     objectUrl: string;
     contentType: MIME.MIMEType;
     logger: LoggerType;
-  }) => Promise<Blob>;
+  }) => Promise<MakeVideoScreenshotResultType>;
   maxVersion?: number;
   revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (
@@ -490,7 +495,13 @@ const toVersion7 = _withSchemaVersion({
 
 const toVersion8 = _withSchemaVersion({
   schemaVersion: 8,
-  upgrade: _mapAttachments(captureDimensionsAndScreenshot),
+  upgrade: _mapAttachments((attachment, context) =>
+    captureDimensionsAndScreenshot(
+      attachment,
+      { generateThumbnail: true },
+      context
+    )
+  ),
 });
 
 const toVersion9 = _withSchemaVersion({
@@ -765,6 +776,7 @@ export const upgradeSchema = async (
 //   downloaded out of band.
 export const processNewAttachment = async (
   attachment: AttachmentType,
+  attachmentType: MessageAttachmentType,
   {
     writeNewAttachmentData,
     makeObjectUrl,
@@ -807,15 +819,22 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const finalAttachment = await captureDimensionsAndScreenshot(attachment, {
-    writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
-    getImageDimensions,
-    makeImageThumbnail,
-    makeVideoScreenshot,
-    logger,
-  });
+  const finalAttachment = await captureDimensionsAndScreenshot(
+    attachment,
+    {
+      generateThumbnail:
+        shouldGenerateThumbnailForAttachmentType(attachmentType),
+    },
+    {
+      writeNewAttachmentData,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
+      logger,
+    }
+  );
 
   return finalAttachment;
 };

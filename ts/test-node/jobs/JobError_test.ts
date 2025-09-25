@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { JobError } from '../../jobs/JobError';
+import { JobError } from '../../jobs/JobError.js';
 
 describe('JobError', () => {
   it('stores the provided argument as a property', () => {

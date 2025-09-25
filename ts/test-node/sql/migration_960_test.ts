@@ -4,8 +4,13 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion, insertData, getTableData } from './helpers';
+import type { WritableDB } from '../../sql/Interface.js';
+import {
+  createDB,
+  updateToVersion,
+  insertData,
+  getTableData,
+} from './helpers.js';
 
 const CONVO_ID = generateGuid();
 const OUR_ACI = generateGuid();

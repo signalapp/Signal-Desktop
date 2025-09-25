@@ -5,18 +5,23 @@ import React, { memo, useCallback, useEffect } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 import { createKeybindingsHandler } from 'tinykeys';
-import { FunPickerTabKey } from './constants';
-import { FunPopover } from './base/FunPopover';
-import { FunPickerTab, FunTabList, FunTabPanel, FunTabs } from './base/FunTabs';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis';
-import { FunPanelEmojis } from './panels/FunPanelEmojis';
-import type { FunGifSelection } from './panels/FunPanelGifs';
-import { FunPanelGifs } from './panels/FunPanelGifs';
-import type { FunStickerSelection } from './panels/FunPanelStickers';
-import { FunPanelStickers } from './panels/FunPanelStickers';
-import { useFunContext } from './FunProvider';
-import type { ThemeType } from '../../types/Util';
-import { FunErrorBoundary } from './base/FunErrorBoundary';
+import { FunPickerTabKey } from './constants.js';
+import { FunPopover } from './base/FunPopover.js';
+import {
+  FunPickerTab,
+  FunTabList,
+  FunTabPanel,
+  FunTabs,
+} from './base/FunTabs.js';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.js';
+import { FunPanelEmojis } from './panels/FunPanelEmojis.js';
+import type { FunGifSelection } from './panels/FunPanelGifs.js';
+import { FunPanelGifs } from './panels/FunPanelGifs.js';
+import type { FunStickerSelection } from './panels/FunPanelStickers.js';
+import { FunPanelStickers } from './panels/FunPanelStickers.js';
+import { useFunContext } from './FunProvider.js';
+import type { ThemeType } from '../../types/Util.js';
+import { FunErrorBoundary } from './base/FunErrorBoundary.js';
 
 /**
  * FunPicker

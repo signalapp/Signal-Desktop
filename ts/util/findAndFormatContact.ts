@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations';
-import { PLACEHOLDER_CONTACT_ID } from '../state/selectors/conversations';
-import { format, isValidNumber } from '../types/PhoneNumber';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { PLACEHOLDER_CONTACT_ID } from '../state/selectors/conversations.js';
+import { format, isValidNumber } from '../types/PhoneNumber.js';
 
 const PLACEHOLDER_CONTACT: ConversationType = {
   acceptedMessageRequest: false,

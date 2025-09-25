@@ -3,17 +3,11 @@
 
 /** @type {import("prettier").Config} */
 module.exports = {
+  plugins: ['prettier-plugin-tailwindcss'],
   singleQuote: true,
   arrowParens: 'avoid',
   trailingComma: 'es5',
-  overrides: [
-    {
-      files: ['./ts/axo/**.tsx'],
-      plugins: ['prettier-plugin-tailwindcss'],
-      options: {
-        tailwindStylesheet: './stylesheets/tailwind-config.css',
-        tailwindFunctions: ['tw'],
-      },
-    },
-  ],
+  tailwindStylesheet: './stylesheets/tailwind-config.css',
+  tailwindFunctions: ['tw'],
+  tailwindAttributes: [],
 };

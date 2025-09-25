@@ -5,16 +5,16 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoriesSettingsModal';
-import { StoriesSettingsModal } from './StoriesSettingsModal';
+import type { PropsType } from './StoriesSettingsModal.js';
+import { StoriesSettingsModal } from './StoriesSettingsModal.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation.js';
 import {
   getMyStories,
   getFakeDistributionList,
-} from '../test-helpers/getFakeDistributionLists';
+} from '../test-helpers/getFakeDistributionLists.js';
 
 const { i18n } = window.SignalContext;
 

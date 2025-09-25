@@ -3,8 +3,8 @@
 
 import type { ProtocolRequest, ProtocolResponse, Session } from 'electron';
 
-import { isAbsolute, normalize } from 'path';
-import { existsSync, realpathSync } from 'fs';
+import { isAbsolute, normalize } from 'node:path';
+import { existsSync, realpathSync } from 'node:fs';
 import {
   getAvatarsPath,
   getBadgesPath,
@@ -14,8 +14,8 @@ import {
   getStickersPath,
   getTempPath,
   getUpdateCachePath,
-} from './attachments';
-import { createLogger } from '../ts/logging/log';
+} from './attachments.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('protocol_filter');
 

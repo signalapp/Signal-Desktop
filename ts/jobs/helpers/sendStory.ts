@@ -1,50 +1,54 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
-import type { UploadedAttachmentType } from '../../types/Attachment';
-import type { ConversationModel } from '../../models/conversations';
+import lodash from 'lodash';
+import { ContentHint } from '@signalapp/libsignal-client';
+
+import type { UploadedAttachmentType } from '../../types/Attachment.js';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   StoryJobData,
-} from '../conversationJobQueue';
-import type { LoggerType } from '../../types/Logging';
-import type { MessageModel } from '../../models/messages';
+} from '../conversationJobQueue.js';
+import type { LoggerType } from '../../types/Logging.js';
+import type { MessageModel } from '../../models/messages.js';
 import type {
   SendState,
   SendStateByConversationId,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
 import {
   isSent,
   SendActionType,
   sendStateReducer,
-} from '../../messages/MessageSendState';
-import type { ServiceIdString } from '../../types/ServiceId';
-import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
-import * as Errors from '../../types/errors';
-import type { StoryMessageRecipientsType } from '../../types/Stories';
-import { DataReader } from '../../sql/Client';
-import { SignalService as Proto } from '../../protobuf';
-import { getMessagesById } from '../../messages/getMessagesById';
+} from '../../messages/MessageSendState.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId.js';
+import * as Errors from '../../types/errors.js';
+import type { StoryMessageRecipientsType } from '../../types/Stories.js';
+import { DataReader } from '../../sql/Client.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import { getMessagesById } from '../../messages/getMessagesById.js';
 import {
   getSendOptions,
   getSendOptionsForRecipients,
-} from '../../util/getSendOptions';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { handleMultipleSendErrors } from './handleMultipleSendErrors';
-import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { sendContentMessageToGroup } from '../../util/sendToGroup';
-import { distributionListToSendTarget } from '../../util/distributionListToSendTarget';
-import { uploadAttachment } from '../../util/uploadAttachment';
-import { SendMessageChallengeError } from '../../textsecure/Errors';
-import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage';
+} from '../../util/getSendOptions.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
+import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.js';
+import { distributionListToSendTarget } from '../../util/distributionListToSendTarget.js';
+import { uploadAttachment } from '../../util/uploadAttachment.js';
+import { SendMessageChallengeError } from '../../textsecure/Errors.js';
+import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage.js';
 import {
   markFailed,
   notifyStorySendFailed,
   saveErrorsOnMessage,
-} from '../../test-node/util/messageFailures';
-import { send } from '../../messages/send';
+} from '../../test-node/util/messageFailures.js';
+import { send } from '../../messages/send.js';
+
+const { isEqual } = lodash;
 
 export async function sendStory(
   conversation: ConversationModel,
@@ -324,8 +328,6 @@ export async function sendStory(
           return;
         }
 
-        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
         const sendOptions = await getSendOptionsForRecipients(
           pendingSendRecipientServiceIds,
           { story: true }
@@ -356,7 +358,7 @@ export async function sendStory(
         contentMessage.storyMessage = storyMessage;
 
         const innerPromise = sendContentMessageToGroup({
-          contentHint: ContentHint.IMPLICIT,
+          contentHint: ContentHint.Implicit,
           contentMessage,
           isPartialSend: false,
           messageId: undefined,

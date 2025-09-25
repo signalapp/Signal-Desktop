@@ -4,18 +4,18 @@
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import copyText from 'copy-text-to-clipboard';
-import type { LocalizerType } from '../types/Util';
-import * as Errors from '../types/errors';
-import type { AnyToast } from '../types/Toast';
-import { ToastType } from '../types/Toast';
-import { createLogger } from '../logging/log';
-import { Button, ButtonVariant } from './Button';
-import { Spinner } from './Spinner';
-import { ToastManager } from './ToastManager';
-import { createSupportUrl } from '../util/createSupportUrl';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
-import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import type { LocalizerType } from '../types/Util.js';
+import * as Errors from '../types/errors.js';
+import type { AnyToast } from '../types/Toast.js';
+import { ToastType } from '../types/Toast.js';
+import { createLogger } from '../logging/log.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Spinner } from './Spinner.js';
+import { ToastManager } from './ToastManager.js';
+import { createSupportUrl } from '../util/createSupportUrl.js';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 
 const log = createLogger('DebugLogWindow');
 
@@ -152,7 +152,6 @@ export function DebugLogWindow({
         </div>
         <ToastManager
           changeLocation={shouldNeverBeCalled}
-          clearDonation={shouldNeverBeCalled}
           OS="unused"
           hideToast={closeToast}
           i18n={i18n}
@@ -160,7 +159,6 @@ export function DebugLogWindow({
           onUndoArchive={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           setDidResumeDonation={shouldNeverBeCalled}
-          showAttachmentNotAvailableModal={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
           isInFullScreenCall={false}
@@ -213,7 +211,6 @@ export function DebugLogWindow({
       </div>
       <ToastManager
         changeLocation={shouldNeverBeCalled}
-        clearDonation={shouldNeverBeCalled}
         OS="unused"
         hideToast={closeToast}
         i18n={i18n}
@@ -221,7 +218,6 @@ export function DebugLogWindow({
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         setDidResumeDonation={shouldNeverBeCalled}
-        showAttachmentNotAvailableModal={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
         isInFullScreenCall={false}

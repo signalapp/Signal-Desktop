@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { replaceIndex } from '../../util/replaceIndex';
+import { replaceIndex } from '../../util/replaceIndex.js';
 
 describe('replaceIndex', () => {
   it('returns a new array with an index replaced', () => {

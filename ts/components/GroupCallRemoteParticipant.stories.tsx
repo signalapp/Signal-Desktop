@@ -2,15 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { memoize } from 'lodash';
+import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallRemoteParticipant';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { FRAME_BUFFER_SIZE } from '../calling/constants';
-import { generateAci } from '../types/ServiceId';
-import type { CallingImageDataCache } from './CallManager';
-import { MINUTE } from '../util/durations';
+import type { PropsType } from './GroupCallRemoteParticipant.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.js';
+import { generateAci } from '../types/ServiceId.js';
+import type { CallingImageDataCache } from './CallManager.js';
+import { MINUTE } from '../util/durations/index.js';
+
+const { memoize } = lodash;
 
 const { i18n } = window.SignalContext;
 

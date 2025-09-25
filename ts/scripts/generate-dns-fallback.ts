@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { resolve4 as resolve4Cb, resolve6 as resolve6Cb } from 'dns';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
-import { promisify } from 'util';
+import { resolve4 as resolve4Cb, resolve6 as resolve6Cb } from 'node:dns';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { promisify } from 'node:util';
 
-import { isNotNil } from '../util/isNotNil';
+import { isNotNil } from '../util/isNotNil.js';
 
 const resolve4 = promisify(resolve4Cb);
 const resolve6 = promisify(resolve6Cb);

@@ -1462,3 +1462,9 @@ $secondary-text-color: light-dark(
     max-width: 360px;
   }
 }
+
+.Preferences__ReadonlySqlPlayground__Textarea {
+  &__input {
+    font-family: variables.$monospace;
+  }
+}

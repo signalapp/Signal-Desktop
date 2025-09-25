@@ -4,16 +4,16 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import * as Errors from '../../types/errors';
-import { createLogger } from '../../logging/log';
+import * as Errors from '../../types/errors.js';
+import { createLogger } from '../../logging/log.js';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type { StateType as RootStateType } from '../reducer';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
-import type { NoopActionType } from './noop';
+import type { NoopActionType } from './noop.js';
 
 const log = createLogger('accounts');
 

@@ -4,10 +4,10 @@
 import pino from 'pino';
 import { LRUCache } from 'lru-cache';
 
-import type { LoggerType } from '../types/Logging';
-import { Environment, getEnvironment } from '../environment';
-import { reallyJsonStringify } from '../util/reallyJsonStringify';
-import { getLogLevelString, type LogLevel } from './shared';
+import type { LoggerType } from '../types/Logging.js';
+import { Environment, getEnvironment } from '../environment.js';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
+import { getLogLevelString, type LogLevel } from './shared.js';
 
 // This file is imported by some components so we can't import `ts/util/privacy`
 let redactAll = (value: string) => value;
@@ -37,6 +37,13 @@ const COLORS = [
 const SUBSYSTEM_COLORS = new LRUCache<string, string>({
   max: 500,
 });
+
+let onLogCallback: (level: number, logLine: string, msgPrefix?: string) => void;
+export function setOnLogCallback(
+  cb: (level: number, logLine: string, msgPrefix?: string) => void
+): void {
+  onLogCallback = cb;
+}
 
 // Only for unpackaged app
 function getSubsystemColor(name: string): string {
@@ -168,6 +175,8 @@ const pinoInstance = pino(
             typeof item === 'string' ? item : reallyJsonStringify(item)
           )
           .join(' ');
+        onLogCallback?.(level, line, this.msgPrefix);
+
         return method.call(this, line);
       },
     },

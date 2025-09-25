@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { setupI18n } from '../../util/setupI18n';
+import { setupI18n } from '../../util/setupI18n.js';
 
 window.i18n = setupI18n(
   window.SignalContext.getI18nLocale(),

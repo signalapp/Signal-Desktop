@@ -5,8 +5,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ContextMenu';
-import { ContextMenu } from './ContextMenu';
+import type { PropsType } from './ContextMenu.js';
+import { ContextMenu } from './ContextMenu.js';
 
 const { i18n } = window.SignalContext;
 

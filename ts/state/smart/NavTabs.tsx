@@ -6,29 +6,29 @@ import React, { memo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 
 import { useSelector } from 'react-redux';
-import { NavTabs } from '../../components/NavTabs';
-import { getIntl, getTheme, getIsNightly } from '../selectors/user';
+import { NavTabs } from '../../components/NavTabs.js';
+import { getIntl, getTheme, getIsNightly } from '../selectors/user.js';
 import {
   getAllConversationsUnreadStats,
   getMe,
-} from '../selectors/conversations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+} from '../selectors/conversations.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
-} from '../selectors/stories';
+} from '../selectors/stories.js';
 import {
   getProfileMovedModalNeeded,
   getStoriesEnabled,
-} from '../selectors/items';
-import { getSelectedNavTab } from '../selectors/nav';
-import { useNavActions } from '../ducks/nav';
-import { getHasPendingUpdate } from '../selectors/updates';
-import { getCallHistoryUnreadCount } from '../selectors/callHistory';
-import { Environment } from '../../environment';
-import { useItemsActions } from '../ducks/items';
+} from '../selectors/items.js';
+import { getSelectedNavTab } from '../selectors/nav.js';
+import { useNavActions } from '../ducks/nav.js';
+import { getHasPendingUpdate } from '../selectors/updates.js';
+import { getCallHistoryUnreadCount } from '../selectors/callHistory.js';
+import { Environment } from '../../environment.js';
+import { useItemsActions } from '../ducks/items.js';
 
-import type { Location } from '../../types/Nav';
+import type { Location } from '../../types/Nav.js';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;

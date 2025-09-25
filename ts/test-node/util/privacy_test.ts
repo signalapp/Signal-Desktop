@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import * as Privacy from '../../util/privacy';
-import { APP_ROOT_PATH } from '../../util/privacy';
+import * as Privacy from '../../util/privacy.js';
+import { APP_ROOT_PATH } from '../../util/privacy.js';
 
 Privacy.addSensitivePath('sensitive-path');
 

@@ -34,6 +34,9 @@ echo "BUILD_TYPE: ${BUILD_TYPE}"
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 echo "SOURCE_DATE_EPOCH: ${SOURCE_DATE_EPOCH}"
 
+# Ensure consistent permissions for files copied via electron builder extraResources
+umask 0022
+
 pnpm install --frozen-lockfile
 pnpm run clean-transpile
 cd sticker-creator

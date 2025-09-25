@@ -3,15 +3,15 @@
 
 import { useSelector } from 'react-redux';
 import React, { memo } from 'react';
-import { AddUserToAnotherGroupModal } from '../../components/AddUserToAnotherGroupModal';
+import { AddUserToAnotherGroupModal } from '../../components/AddUserToAnotherGroupModal.js';
 import {
   getAllGroupsWithInviteAccess,
   getContactSelector,
-} from '../selectors/conversations';
-import { getIntl, getRegionCode } from '../selectors/user';
-import { useToastActions } from '../ducks/toast';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useConversationsActions } from '../ducks/conversations';
+} from '../selectors/conversations.js';
+import { getIntl, getRegionCode } from '../selectors/user.js';
+import { useToastActions } from '../ducks/toast.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useConversationsActions } from '../ducks/conversations.js';
 
 export type SmartAddUserToAnotherGroupModalProps = Readonly<{
   contactID: string;

@@ -1,12 +1,12 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import path from 'path';
+import path from 'node:path';
 import type { AfterPackContext } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';
 
-import * as packageJson from '../../package.json';
+import { build } from '../util/packageJson.js';
 
 export async function afterSign({
   appOutDir,
@@ -22,7 +22,7 @@ export async function afterSign({
 
   const appPath = path.join(appOutDir, `${productFilename}.app`);
 
-  const appBundleId = packageJson.build.appId;
+  const appBundleId = build.appId;
   if (!appBundleId) {
     throw new Error(
       'appBundleId must be provided in package.json: build.appId'

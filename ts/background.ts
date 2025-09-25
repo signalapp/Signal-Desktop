@@ -1,81 +1,90 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, throttle } from 'lodash';
+import lodash from 'lodash';
 import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
 
-import * as Registration from './util/registration';
-import MessageReceiver from './textsecure/MessageReceiver';
+import * as Registration from './util/registration.js';
+import MessageReceiver from './textsecure/MessageReceiver.js';
 import type {
   SessionResetsType,
   ProcessedDataMessage,
-} from './textsecure/Types.d';
-import { HTTPError } from './textsecure/Errors';
+} from './textsecure/Types.d.ts';
+import { HTTPError } from './textsecure/Errors.js';
 import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
   reportLongRunningTasks,
-} from './textsecure/TaskWithTimeout';
-import type { MessageAttributesType } from './model-types.d';
-import * as Bytes from './Bytes';
-import * as Timers from './Timers';
-import * as indexedDb from './indexeddb';
-import type { MenuOptionsType } from './types/menu';
-import { SocketStatus } from './types/SocketStatus';
-import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
-import { ThemeType } from './types/Util';
-import { ToastType } from './types/Toast';
-import { ChallengeHandler } from './challenge';
-import * as durations from './util/durations';
-import { drop } from './util/drop';
-import { explodePromise } from './util/explodePromise';
-import type { ExplodePromiseResultType } from './util/explodePromise';
-import { isWindowDragElement } from './util/isWindowDragElement';
-import { assertDev, strictAssert } from './util/assert';
-import { filter } from './util/iterables';
-import { isNotNil } from './util/isNotNil';
-import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled';
-import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
-import { IdleDetector } from './IdleDetector';
+} from './textsecure/TaskWithTimeout.js';
+import type { MessageAttributesType } from './model-types.d.ts';
+import * as Bytes from './Bytes.js';
+import * as Timers from './Timers.js';
+import * as indexedDb from './indexeddb.js';
+import type { MenuOptionsType } from './types/menu.js';
+import { SocketStatus } from './types/SocketStatus.js';
+import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.js';
+import { ThemeType } from './types/Util.js';
+import { ToastType } from './types/Toast.js';
+import { ChallengeHandler } from './challenge.js';
+import * as durations from './util/durations/index.js';
+import { drop } from './util/drop.js';
+import { explodePromise } from './util/explodePromise.js';
+import type { ExplodePromiseResultType } from './util/explodePromise.js';
+import { isWindowDragElement } from './util/isWindowDragElement.js';
+import { assertDev, strictAssert } from './util/assert.js';
+import { filter } from './util/iterables.js';
+import { isNotNil } from './util/isNotNil.js';
+import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.js';
+import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.js';
+import { IdleDetector } from './IdleDetector.js';
 import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
-} from './services/expiringMessagesDeletion';
+} from './services/expiringMessagesDeletion.js';
 import {
   initialize as initializeNotificationProfilesService,
   update as updateNotificationProfileService,
-} from './services/notificationProfilesService';
-import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
-import { senderCertificateService } from './services/senderCertificate';
-import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
-import * as KeyboardLayout from './services/keyboardLayout';
-import * as StorageService from './services/storage';
-import { usernameIntegrity } from './services/usernameIntegrity';
-import { updateIdentityKey } from './services/profiles';
-import { RoutineProfileRefresher } from './routineProfileRefresh';
-import { isOlderThan } from './util/timestamp';
-import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
-import type { ConversationModel } from './models/conversations';
-import { getAuthor, isIncoming } from './messages/helpers';
-import { migrateBatchOfMessages } from './messages/migrateMessageData';
-import { createBatcher } from './util/batcher';
+} from './services/notificationProfilesService.js';
+import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.js';
+import { senderCertificateService } from './services/senderCertificate.js';
+import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher.js';
+import * as KeyboardLayout from './services/keyboardLayout.js';
+import * as StorageService from './services/storage.js';
+import { usernameIntegrity } from './services/usernameIntegrity.js';
+import { updateIdentityKey } from './services/profiles.js';
+import { RoutineProfileRefresher } from './routineProfileRefresh.js';
+import { isOlderThan } from './util/timestamp.js';
+import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.js';
+import { safeParsePartial } from './util/schemas.js';
+import {
+  PollVoteSchema,
+  PollTerminateSchema,
+  isPollReceiveEnabled,
+} from './types/Polls.js';
+import type { ConversationModel } from './models/conversations.js';
+import { getAuthor, isIncoming } from './messages/helpers.js';
+import { migrateBatchOfMessages } from './messages/migrateMessageData.js';
+import { createBatcher } from './util/batcher.js';
 import {
   initializeAllJobQueues,
   shutdownAllJobQueues,
-} from './jobs/initializeAllJobQueues';
-import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
-import { ourProfileKeyService } from './services/ourProfileKey';
-import { notificationService } from './services/notifications';
-import { areWeASubscriberService } from './services/areWeASubscriber';
-import { onContactSync, setIsInitialContactSync } from './services/contactSync';
-import { startTimeTravelDetector } from './util/startTimeTravelDetector';
-import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
-import { LatestQueue } from './util/LatestQueue';
-import { parseIntOrThrow } from './util/parseIntOrThrow';
-import { getProfile } from './util/getProfile';
+} from './jobs/initializeAllJobQueues.js';
+import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.js';
+import { ourProfileKeyService } from './services/ourProfileKey.js';
+import { notificationService } from './services/notifications.js';
+import { areWeASubscriberService } from './services/areWeASubscriber.js';
+import {
+  onContactSync,
+  setIsInitialContactSync,
+} from './services/contactSync.js';
+import { startTimeTravelDetector } from './util/startTimeTravelDetector.js';
+import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey.js';
+import { LatestQueue } from './util/LatestQueue.js';
+import { parseIntOrThrow } from './util/parseIntOrThrow.js';
+import { getProfile } from './util/getProfile.js';
 import type {
   AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
@@ -101,118 +110,126 @@ import type {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './textsecure/messageReceiverEvents';
-import type { WebAPIType } from './textsecure/WebAPI';
-import * as KeyChangeListener from './textsecure/KeyChangeListener';
-import { UpdateKeysListener } from './textsecure/UpdateKeysListener';
-import { isDirectConversation } from './util/whatTypeOfConversation';
-import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
-import { AppViewType } from './state/ducks/app';
-import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
-import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
-import * as Deletes from './messageModifiers/Deletes';
-import * as Edits from './messageModifiers/Edits';
-import * as MessageReceipts from './messageModifiers/MessageReceipts';
-import * as MessageRequests from './messageModifiers/MessageRequests';
-import * as Reactions from './messageModifiers/Reactions';
-import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
-import type { DeleteAttributesType } from './messageModifiers/Deletes';
-import type { EditAttributesType } from './messageModifiers/Edits';
-import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
-import type { ReactionAttributesType } from './messageModifiers/Reactions';
-import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs';
-import { ReadStatus } from './messages/MessageReadStatus';
-import type { SendStateByConversationId } from './messages/MessageSendState';
-import { SendStatus } from './messages/MessageSendState';
-import * as Stickers from './types/Stickers';
-import * as Errors from './types/errors';
-import { InstallScreenStep } from './types/InstallScreen';
-import { getEnvironment } from './environment';
-import { SignalService as Proto } from './protobuf';
+} from './textsecure/messageReceiverEvents.js';
+import type { WebAPIType } from './textsecure/WebAPI.js';
+import * as KeyChangeListener from './textsecure/KeyChangeListener.js';
+import { UpdateKeysListener } from './textsecure/UpdateKeysListener.js';
+import { isDirectConversation } from './util/whatTypeOfConversation.js';
+import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.js';
+import { AppViewType } from './state/ducks/app.js';
+import { areAnyCallsActiveOrRinging } from './state/selectors/calling.js';
+import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.js';
+import * as Deletes from './messageModifiers/Deletes.js';
+import * as Edits from './messageModifiers/Edits.js';
+import * as MessageReceipts from './messageModifiers/MessageReceipts.js';
+import * as MessageRequests from './messageModifiers/MessageRequests.js';
+import * as Polls from './messageModifiers/Polls.js';
+import * as Reactions from './messageModifiers/Reactions.js';
+import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.js';
+import type { DeleteAttributesType } from './messageModifiers/Deletes.js';
+import type { EditAttributesType } from './messageModifiers/Edits.js';
+import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.js';
+import type {
+  PollVoteAttributesType,
+  PollTerminateAttributesType,
+} from './messageModifiers/Polls.js';
+import type { ReactionAttributesType } from './messageModifiers/Reactions.js';
+import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs.js';
+import { ReadStatus } from './messages/MessageReadStatus.js';
+import type { SendStateByConversationId } from './messages/MessageSendState.js';
+import { SendStatus } from './messages/MessageSendState.js';
+import * as Stickers from './types/Stickers.js';
+import * as Errors from './types/errors.js';
+import { InstallScreenStep } from './types/InstallScreen.js';
+import { getEnvironment } from './environment.js';
+import { SignalService as Proto } from './protobuf/index.js';
 import {
   getOnDecryptionError,
   onRetryRequest,
   onInvalidPlaintextMessage,
   onSuccessfulDecrypt,
-} from './util/handleRetry';
-import { themeChanged } from './shims/themeChanged';
-import { createIPCEvents } from './util/createIPCEvents';
-import type { ServiceIdString } from './types/ServiceId';
+} from './util/handleRetry.js';
+import { themeChanged } from './shims/themeChanged.js';
+import { createIPCEvents } from './util/createIPCEvents.js';
+import type { ServiceIdString } from './types/ServiceId.js';
 import {
   ServiceIdKind,
   isPniString,
   isServiceIdString,
-} from './types/ServiceId';
-import { isAciString } from './util/isAciString';
-import { normalizeAci } from './util/normalizeAci';
-import { createLogger } from './logging/log';
-import { deleteAllLogs } from './util/deleteAllLogs';
-import { startInteractionMode } from './services/InteractionMode';
-import { ReactionSource } from './reactions/ReactionSource';
-import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
-import { conversationJobQueue } from './jobs/conversationJobQueue';
-import { SeenStatus } from './MessageSeenStatus';
-import MessageSender from './textsecure/SendMessage';
-import type AccountManager from './textsecure/AccountManager';
-import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
-import { initializeRedux } from './state/initializeRedux';
-import { StartupQueue } from './util/StartupQueue';
-import { showConfirmationDialog } from './util/showConfirmationDialog';
-import { onCallEventSync } from './util/onCallEventSync';
-import { sleeper } from './util/sleeper';
-import { DAY, HOUR, SECOND } from './util/durations';
-import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage';
+} from './types/ServiceId.js';
+import { isAciString } from './util/isAciString.js';
+import { normalizeAci } from './util/normalizeAci.js';
+import { createLogger } from './logging/log.js';
+import { deleteAllLogs } from './util/deleteAllLogs.js';
+import { startInteractionMode } from './services/InteractionMode.js';
+import { ReactionSource } from './reactions/ReactionSource.js';
+import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.js';
+import { conversationJobQueue } from './jobs/conversationJobQueue.js';
+import { SeenStatus } from './MessageSeenStatus.js';
+import MessageSender from './textsecure/SendMessage.js';
+import type AccountManager from './textsecure/AccountManager.js';
+import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate.js';
+import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue.js';
+import { initializeRedux } from './state/initializeRedux.js';
+import { StartupQueue } from './util/StartupQueue.js';
+import { showConfirmationDialog } from './util/showConfirmationDialog.js';
+import { onCallEventSync } from './util/onCallEventSync.js';
+import { sleeper } from './util/sleeper.js';
+import { DAY, HOUR, SECOND } from './util/durations/index.js';
+import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage.js';
 import {
   flushMessageCounter,
   incrementMessageCounter,
   initializeMessageCounter,
-} from './util/incrementMessageCounter';
-import { generateMessageId } from './util/generateMessageId';
-import { RetryPlaceholders } from './util/retryPlaceholders';
-import { setBatchingStrategy } from './util/messageBatcher';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
-import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts';
-import { createEventHandler } from './quill/signal-clipboard/util';
-import { onCallLogEventSync } from './util/onCallLogEventSync';
-import { backupsService } from './services/backups';
+} from './util/incrementMessageCounter.js';
+import { generateMessageId } from './util/generateMessageId.js';
+import { RetryPlaceholders } from './util/retryPlaceholders.js';
+import { setBatchingStrategy } from './util/messageBatcher.js';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
+import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts.js';
+import { createEventHandler } from './quill/signal-clipboard/util.js';
+import { onCallLogEventSync } from './util/onCallLogEventSync.js';
+import { backupsService } from './services/backups/index.js';
 import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
-} from './util/callDisposition';
-import { deriveStorageServiceKey, deriveMasterKey } from './Crypto';
-import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
-import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
-import { CallMode } from './types/CallDisposition';
-import type { SyncTaskType } from './util/syncTasks';
-import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks';
-import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs';
-import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts';
-import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs';
-import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
-import { getConversationIdForLogging } from './util/idForLogging';
-import { encryptConversationAttachments } from './util/encryptConversationAttachments';
-import { DataReader, DataWriter } from './sql/Client';
-import { restoreRemoteConfigFromStorage } from './RemoteConfig';
-import { getParametersForRedux, loadAll } from './services/allLoaders';
-import { checkFirstEnvelope } from './util/checkFirstEnvelope';
-import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked';
-import { ReleaseNotesFetcher } from './services/releaseNotesFetcher';
-import { BuildExpirationService } from './services/buildExpiration';
+} from './util/callDisposition.js';
+import { deriveStorageServiceKey, deriveMasterKey } from './Crypto.js';
+import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager.js';
+import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync.js';
+import { CallMode } from './types/CallDisposition.js';
+import type { SyncTaskType } from './util/syncTasks.js';
+import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks.js';
+import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs.js';
+import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts.js';
+import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs.js';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.js';
+import { getConversationIdForLogging } from './util/idForLogging.js';
+import { encryptConversationAttachments } from './util/encryptConversationAttachments.js';
+import { DataReader, DataWriter } from './sql/Client.js';
+import { restoreRemoteConfigFromStorage } from './RemoteConfig.js';
+import { getParametersForRedux, loadAll } from './services/allLoaders.js';
+import { checkFirstEnvelope } from './util/checkFirstEnvelope.js';
+import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.js';
+import { ReleaseNotesFetcher } from './services/releaseNotesFetcher.js';
+import { BuildExpirationService } from './services/buildExpiration.js';
 import {
   maybeQueueDeviceNameFetch,
   onDeviceNameChangeSync,
-} from './util/onDeviceNameChangeSync';
-import { postSaveUpdates } from './util/cleanup';
-import { handleDataMessage } from './messages/handleDataMessage';
-import { MessageModel } from './models/messages';
-import { waitForEvent } from './shims/events';
-import { sendSyncRequests } from './textsecure/syncRequests';
-import { handleServerAlerts } from './util/handleServerAlerts';
-import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
-import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav';
-import { initialize as initializeDonationService } from './services/donations';
-import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent';
+} from './util/onDeviceNameChangeSync.js';
+import { postSaveUpdates } from './util/cleanup.js';
+import { handleDataMessage } from './messages/handleDataMessage.js';
+import { MessageModel } from './models/messages.js';
+import { waitForEvent } from './shims/events.js';
+import { sendSyncRequests } from './textsecure/syncRequests.js';
+import { handleServerAlerts } from './util/handleServerAlerts.js';
+import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.js';
+import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.js';
+import { initialize as initializeDonationService } from './services/donations.js';
+import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.js';
+import { JobCancelReason } from './jobs/types.js';
+
+const { isNumber, throttle } = lodash;
 
 const log = createLogger('background');
 
@@ -566,7 +583,7 @@ export async function startApp(): Promise<void> {
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
       storage: window.storage,
-      serverTrustRoot: window.getServerTrustRoot(),
+      serverTrustRoots: window.getServerTrustRoots(),
     });
     window.ConversationController.registerDelayBeforeUpdatingRedux(() => {
       if (backupsService.isImportRunning()) {
@@ -759,7 +776,7 @@ export async function startApp(): Promise<void> {
         const attachmentDownloadStopPromise = AttachmentDownloadManager.stop();
         const attachmentBackupStopPromise = AttachmentBackupManager.stop();
 
-        server?.cancelInflightRequests('shutdown');
+        server?.cancelInflightRequests(JobCancelReason.Shutdown);
 
         // Stop background processing
         idleDetector.stop();
@@ -1263,14 +1280,14 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
     log.info('powerMonitor: suspend');
-    server?.cancelInflightRequests('powerMonitorSuspend');
+    server?.cancelInflightRequests(JobCancelReason.PowerMonitorSuspend);
     suspendTasksWithTimeout();
   });
 
   window.Whisper.events.on('powerMonitorResume', () => {
     log.info('powerMonitor: resume');
     server?.checkSockets();
-    server?.cancelInflightRequests('powerMonitorResume');
+    server?.cancelInflightRequests(JobCancelReason.PowerMonitorResume);
     resumeTasksWithTimeout();
   });
 
@@ -1509,10 +1526,12 @@ export async function startApp(): Promise<void> {
     // Listen for changes to the `desktop.clientExpiration` remote flag
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
-      ({ value }) => {
-        const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
-          value as string
-        );
+      ({ enabled, value }) => {
+        if (!enabled) {
+          return;
+        }
+        const remoteBuildExpirationTimestamp =
+          parseRemoteClientExpiration(value);
         if (remoteBuildExpirationTimestamp) {
           drop(
             window.storage.put(
@@ -1875,6 +1894,7 @@ export async function startApp(): Promise<void> {
     try {
       await server.registerCapabilities({
         attachmentBackfill: true,
+        spqr: true,
       });
     } catch (error) {
       log.error(
@@ -2484,6 +2504,100 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.pollVote) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollVote because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollVote, timestamp } = data.message;
+
+      const parsed = safeParsePartial(PollVoteSchema, pollVote);
+      if (!parsed.success) {
+        log.warn(
+          'Dropping PollVote due to validation error:',
+          parsed.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const validatedVote = parsed.data;
+      const targetAuthorAci = normalizeAci(
+        validatedVote.targetAuthorAci,
+        'DataMessage.PollVote.targetAuthorAci'
+      );
+
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:pollVote',
+        });
+      strictAssert(fromConversation, 'PollVote without fromConversation');
+
+      log.info('Queuing incoming poll vote for', pollVote.targetTimestamp);
+      const attributes: PollVoteAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: fromConversation.id,
+        source: Polls.PollSource.FromSomeoneElse,
+        targetAuthorAci,
+        targetTimestamp: validatedVote.targetTimestamp,
+        optionIndexes: validatedVote.optionIndexes,
+        voteCount: validatedVote.voteCount,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollVote(attributes));
+      return;
+    }
+
+    if (data.message.pollTerminate) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollTerminate because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollTerminate, timestamp } = data.message;
+
+      const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
+      if (!parsedTerm.success) {
+        log.warn(
+          'Dropping PollTerminate due to validation error:',
+          parsedTerm.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:pollTerminate',
+        });
+      strictAssert(fromConversation, 'PollTerminate without fromConversation');
+
+      log.info(
+        'Queuing incoming poll termination for',
+        pollTerminate.targetTimestamp
+      );
+      const attributes: PollTerminateAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: fromConversation.id,
+        source: Polls.PollSource.FromSomeoneElse,
+        targetTimestamp: parsedTerm.data.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollTerminate(attributes));
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       log.info('Queuing incoming DOE for', del.targetSentTimestamp);
@@ -2891,6 +3005,90 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.pollVote) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollVote because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollVote, timestamp } = data.message;
+
+      const parsed = safeParsePartial(PollVoteSchema, pollVote);
+      if (!parsed.success) {
+        log.warn(
+          'Dropping PollVote (sync) due to validation error:',
+          parsed.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const validatedVote = parsed.data;
+      const targetAuthorAci = normalizeAci(
+        validatedVote.targetAuthorAci,
+        'DataMessage.PollVote.targetAuthorAci'
+      );
+
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+
+      log.info('Queuing sync poll vote for', pollVote.targetTimestamp);
+      const attributes: PollVoteAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: ourConversationId,
+        source: Polls.PollSource.FromSync,
+        targetAuthorAci,
+        targetTimestamp: validatedVote.targetTimestamp,
+        optionIndexes: validatedVote.optionIndexes,
+        voteCount: validatedVote.voteCount,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollVote(attributes));
+      return;
+    }
+
+    if (data.message.pollTerminate) {
+      if (!isPollReceiveEnabled()) {
+        log.warn('Dropping PollTerminate because the flag is disabled');
+        confirm();
+        return;
+      }
+      const { pollTerminate, timestamp } = data.message;
+
+      const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
+      if (!parsedTerm.success) {
+        log.warn(
+          'Dropping PollTerminate (sync) due to validation error:',
+          parsedTerm.error.flatten()
+        );
+        confirm();
+        return;
+      }
+
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+
+      log.info(
+        'Queuing sync poll termination for',
+        pollTerminate.targetTimestamp
+      );
+      const attributes: PollTerminateAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
+        fromConversationId: ourConversationId,
+        source: Polls.PollSource.FromSync,
+        targetTimestamp: parsedTerm.data.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
+        timestamp,
+      };
+
+      drop(Polls.onPollTerminate(attributes));
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       strictAssert(
@@ -3199,8 +3397,6 @@ export async function startApp(): Promise<void> {
   }
 
   async function onKeysSync(ev: KeysEvent) {
-    ev.confirm();
-
     const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
 
     const prevMasterKeyBase64 = window.storage.get('masterKey');
@@ -3282,6 +3478,7 @@ export async function startApp(): Promise<void> {
 
       await StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
     }
+    ev.confirm();
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {

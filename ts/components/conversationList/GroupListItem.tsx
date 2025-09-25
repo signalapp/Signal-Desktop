@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
-import type { AciString } from '../../types/ServiceId';
-import { Avatar, AvatarSize } from '../Avatar';
-import { ListTile } from '../ListTile';
-import { UserText } from '../UserText';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { ListTile } from '../ListTile.js';
+import { UserText } from '../UserText.js';
 
 export enum DisabledReason {
   AlreadyMember = 'already-member',

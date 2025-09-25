@@ -4,11 +4,11 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
-import { Emojify } from './Emojify';
-import type { ContactNameColorType } from '../../types/Colors';
-import { getClassNamesFor } from '../../util/getClassNamesFor';
-import type { ConversationType } from '../../state/ducks/conversations';
-import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation';
+import { Emojify } from './Emojify.js';
+import type { ContactNameColorType } from '../../types/Colors.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.js';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;

@@ -1,11 +1,13 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 
-import { realpath } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import type { CustomWindowsSignTaskConfiguration } from 'electron-builder';
+
+const { realpath } = fsExtra;
 
 export async function sign(
   configuration: CustomWindowsSignTaskConfiguration

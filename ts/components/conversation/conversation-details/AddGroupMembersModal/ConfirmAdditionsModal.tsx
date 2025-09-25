@@ -4,16 +4,16 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../../../../types/Util';
-import { assertDev } from '../../../../util/assert';
-import { ModalHost } from '../../../ModalHost';
-import { Button, ButtonVariant } from '../../../Button';
-import { Spinner } from '../../../Spinner';
-import type { ConversationType } from '../../../../state/ducks/conversations';
-import { RequestState } from '../util';
-import { I18n } from '../../../I18n';
-import { ContactName } from '../../ContactName';
-import { UserText } from '../../../UserText';
+import type { LocalizerType } from '../../../../types/Util.js';
+import { assertDev } from '../../../../util/assert.js';
+import { ModalHost } from '../../../ModalHost.js';
+import { Button, ButtonVariant } from '../../../Button.js';
+import { Spinner } from '../../../Spinner.js';
+import type { ConversationType } from '../../../../state/ducks/conversations.js';
+import { RequestState } from '../util.js';
+import { I18n } from '../../../I18n.js';
+import { ContactName } from '../../ContactName.js';
+import { UserText } from '../../../UserText.js';
 
 export type StatePropsType = {
   groupTitle: string;

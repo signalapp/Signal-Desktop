@@ -1,18 +1,18 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import net from 'net';
+import net from 'node:net';
 import type { ProxyAgent } from 'proxy-agent';
-import { URL } from 'url';
-import type { LookupOptions, LookupAddress } from 'dns';
-import { lookup } from 'dns/promises';
+import { URL } from 'node:url';
+import type { LookupOptions, LookupAddress } from 'node:dns';
+import { lookup } from 'node:dns/promises';
 
-import { createLogger } from '../logging/log';
-import { happyEyeballs } from './createHTTPSAgent';
-import type { ConnectOptionsType } from './createHTTPSAgent';
-import { explodePromise } from './explodePromise';
-import { SECOND } from './durations';
-import { drop } from './drop';
+import { createLogger } from '../logging/log.js';
+import { happyEyeballs } from './createHTTPSAgent.js';
+import type { ConnectOptionsType } from './createHTTPSAgent.js';
+import { explodePromise } from './explodePromise.js';
+import { SECOND } from './durations/index.js';
+import { drop } from './drop.js';
 
 const log = createLogger('createProxyAgent');
 

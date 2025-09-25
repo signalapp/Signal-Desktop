@@ -5,11 +5,11 @@ import type { ReactElement } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 
-import { formatTime } from '../../util/timestamp';
+import { formatTime } from '../../util/timestamp.js';
 
-import type { LocalizerType } from '../../types/Util';
-import { Time } from '../Time';
-import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute';
+import type { LocalizerType } from '../../types/Util.js';
+import { Time } from '../Time.js';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute.js';
 
 export type Props = {
   direction?: 'incoming' | 'outgoing';

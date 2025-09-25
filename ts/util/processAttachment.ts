@@ -3,25 +3,26 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
-} from '../types/Attachment';
+} from '../types/Attachment.js';
 import {
   getMaximumOutgoingAttachmentSizeInKb,
   getRenderDetailsForLimit,
   KIBIBYTE,
-} from '../types/AttachmentSize';
-import * as Errors from '../types/errors';
-import { getValue as getRemoteConfigValue } from '../RemoteConfig';
-import { fileToBytes } from './fileToBytes';
-import { handleImageAttachment } from './handleImageAttachment';
-import { handleVideoAttachment } from './handleVideoAttachment';
-import { isHeic, stringToMIMEType } from '../types/MIME';
-import { ToastType } from '../types/Toast';
-import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+} from '../types/AttachmentSize.js';
+import * as Errors from '../types/errors.js';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig.js';
+import { fileToBytes } from './fileToBytes.js';
+import { handleImageAttachment } from './handleImageAttachment.js';
+import { handleVideoAttachment } from './handleVideoAttachment.js';
+import { isHeic, stringToMIMEType } from '../types/MIME.js';
+import { ToastType } from '../types/Toast.js';
+import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome.js';
+import { getAttachmentCiphertextSize } from './AttachmentCrypto.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
 
 const log = createLogger('processAttachment');
 
@@ -85,7 +86,10 @@ function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
   const limitBytes =
     getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue) * KIBIBYTE;
 
-  const paddedAndEncryptedSize = getAttachmentCiphertextLength(attachment.size);
+  const paddedAndEncryptedSize = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: attachment.size,
+    mediaTier: MediaTier.STANDARD,
+  });
   if (paddedAndEncryptedSize > limitBytes) {
     window.reduxActions.toast.showToast({
       toastType: ToastType.FileSize,

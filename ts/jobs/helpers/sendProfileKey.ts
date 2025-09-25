@@ -1,38 +1,41 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
+import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { getSendOptions } from '../../util/getSendOptions';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV2,
-} from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+} from '../../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
+} from './handleMultipleSendErrors.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   ProfileKeyJobData,
-} from '../conversationJobQueue';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import type { ConversationAttributesType } from '../../model-types.d';
+} from '../conversationJobQueue.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import type { ConversationAttributesType } from '../../model-types.d.ts';
 import {
   OutgoingIdentityKeyError,
   SendMessageChallengeError,
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../../textsecure/Errors';
-import { shouldSendToConversation } from './shouldSendToConversation';
-import { sendToGroup } from '../../util/sendToGroup';
+} from '../../textsecure/Errors.js';
+import { shouldSendToConversation } from './shouldSendToConversation.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
+
+const { isNumber } = lodash;
 
 export function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
@@ -95,8 +98,7 @@ export async function sendProfileKey(
 
   const { revision } = data;
   const sendOptions = await getSendOptions(conversation.attributes);
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const sendType = 'profileKeyUpdate';
 
   let sendPromise: Promise<CallbackResultType>;

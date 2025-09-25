@@ -4,10 +4,10 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
-import type { TooltipPlacement } from './Tooltip';
-import { Tooltip } from './Tooltip';
-import { Theme } from '../util/theme';
-import type { LocalizerType } from '../types/Util';
+import type { TooltipPlacement } from './Tooltip.js';
+import { Tooltip } from './Tooltip.js';
+import { Theme } from '../util/theme.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',

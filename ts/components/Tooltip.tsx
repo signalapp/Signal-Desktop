@@ -3,15 +3,17 @@
 
 import React, { useRef } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import type { StrictModifiers } from '@popperjs/core';
 import { createPortal } from 'react-dom';
-import type { Theme } from '../util/theme';
-import { themeClassName } from '../util/theme';
-import { refMerger } from '../util/refMerger';
-import { offsetDistanceModifier } from '../util/popperUtil';
-import { getInteractionMode } from '../services/InteractionMode';
+import type { Theme } from '../util/theme.js';
+import { themeClassName } from '../util/theme.js';
+import { refMerger } from '../util/refMerger.js';
+import { offsetDistanceModifier } from '../util/popperUtil.js';
+import { getInteractionMode } from '../services/InteractionMode.js';
+
+const { noop } = lodash;
 
 type EventWrapperPropsType = {
   className?: string;

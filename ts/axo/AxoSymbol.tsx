@@ -4,8 +4,8 @@ import type { FC } from 'react';
 import React, { memo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
-import { assert } from './_internal/assert';
-import { tw } from './tw';
+import { assert } from './_internal/assert.js';
+import { tw } from './tw.js';
 
 const { useDirection } = Direction;
 
@@ -246,7 +246,7 @@ export namespace AxoSymbol {
    */
 
   export type IconProps = Readonly<{
-    size: 14 | 16 | 20;
+    size: 14 | 16 | 20 | 24;
     symbol: AxoSymbolName;
     label: string | null;
   }>;

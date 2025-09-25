@@ -5,8 +5,8 @@ import { assert } from 'chai';
 import {
   getServerAlertToShow,
   ServerAlert,
-} from '../../util/handleServerAlerts';
-import { DAY, MONTH, WEEK } from '../../util/durations';
+} from '../../util/handleServerAlerts.js';
+import { DAY, MONTH, WEEK } from '../../util/durations/index.js';
 
 describe('serverAlerts', () => {
   it('should prefer critical alerts', () => {

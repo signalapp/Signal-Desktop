@@ -3,16 +3,16 @@
 
 import loadImage from 'blueimp-load-image';
 import { blobToArrayBuffer } from 'blob-util';
-import { toLogFormat } from './errors';
-import type { MIMEType } from './MIME';
-import { IMAGE_JPEG, IMAGE_PNG } from './MIME';
-import type { LoggerType } from './Logging';
-import { strictAssert } from '../util/assert';
-import { canvasToBlob } from '../util/canvasToBlob';
-import { KIBIBYTE } from './AttachmentSize';
-import { explodePromise } from '../util/explodePromise';
-import { SECOND } from '../util/durations';
-import { createLogger } from '../logging/log';
+import { toLogFormat } from './errors.js';
+import type { MIMEType } from './MIME.js';
+import { IMAGE_JPEG, IMAGE_PNG } from './MIME.js';
+import type { LoggerType } from './Logging.js';
+import { strictAssert } from '../util/assert.js';
+import { canvasToBlob } from '../util/canvasToBlob.js';
+import { KIBIBYTE } from './AttachmentSize.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { SECOND } from '../util/durations/index.js';
+import { createLogger } from '../logging/log.js';
 
 const logging = createLogger('VisualAttachment');
 
@@ -227,10 +227,15 @@ function captureScreenshot(
   return canvasToBlob(canvas, contentType);
 }
 
+export type MakeVideoScreenshotResultType = Readonly<{
+  blob: Blob;
+  duration: number | undefined;
+}>;
+
 export async function makeVideoScreenshot({
   objectUrl,
   contentType = IMAGE_PNG,
-}: MakeVideoScreenshotOptionsType): Promise<Blob> {
+}: MakeVideoScreenshotOptionsType): Promise<MakeVideoScreenshotResultType> {
   const signal = AbortSignal.timeout(MAKE_VIDEO_SCREENSHOT_TIMEOUT);
   const video = document.createElement('video');
 
@@ -255,7 +260,15 @@ export async function makeVideoScreenshot({
   try {
     video.src = objectUrl;
     await videoLoadedAndSeeked;
-    return await captureScreenshot(video, contentType);
+    const blob = await captureScreenshot(video, contentType);
+
+    return {
+      blob,
+      duration:
+        video.duration == null || Number.isNaN(video.duration)
+          ? undefined
+          : video.duration,
+    };
   } catch (error) {
     logging.error('makeVideoScreenshot error:', toLogFormat(error));
     throw error;

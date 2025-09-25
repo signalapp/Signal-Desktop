@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocaleDirection } from '../../app/locale';
+import type { LocaleDirection } from '../../app/locale.js';
 
 export type LogicalDirection = 'start' | 'end';
 export type HorizontalArrowKey = 'ArrowLeft' | 'ArrowRight';

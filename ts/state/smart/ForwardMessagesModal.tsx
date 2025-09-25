@@ -3,33 +3,33 @@
 
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { ForwardMessagesPropsType } from '../ducks/globalModals';
-import { createLogger } from '../../logging/log';
-import { ForwardMessagesModal } from '../../components/ForwardMessagesModal';
-import { LinkPreviewSourceType } from '../../types/LinkPreview';
-import * as Errors from '../../types/errors';
-import { getAllComposableConversations } from '../selectors/conversations';
-import { getIntl, getTheme, getRegionCode } from '../selectors/user';
-import { getLinkPreview } from '../selectors/linkPreviews';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { maybeForwardMessages } from '../../util/maybeForwardMessages';
+import type { ForwardMessagesPropsType } from '../ducks/globalModals.js';
+import { createLogger } from '../../logging/log.js';
+import { ForwardMessagesModal } from '../../components/ForwardMessagesModal.js';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.js';
+import * as Errors from '../../types/errors.js';
+import { getAllComposableConversations } from '../selectors/conversations.js';
+import { getIntl, getTheme, getRegionCode } from '../selectors/user.js';
+import { getLinkPreview } from '../selectors/linkPreviews.js';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { maybeForwardMessages } from '../../util/maybeForwardMessages.js';
 import {
   maybeGrabLinkPreview,
   resetLinkPreview,
-} from '../../services/LinkPreview';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useLinkPreviewActions } from '../ducks/linkPreviews';
-import { SmartCompositionTextArea } from './CompositionTextArea';
-import { useToastActions } from '../ducks/toast';
-import { isDownloaded } from '../../types/Attachment';
-import { getMessageById } from '../../messages/getMessageById';
-import { strictAssert } from '../../util/assert';
+} from '../../services/LinkPreview.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useLinkPreviewActions } from '../ducks/linkPreviews.js';
+import { SmartCompositionTextArea } from './CompositionTextArea.js';
+import { useToastActions } from '../ducks/toast.js';
+import { isDownloaded } from '../../types/Attachment.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { strictAssert } from '../../util/assert.js';
 import type {
   ForwardMessageData,
   MessageForwardDraft,
-} from '../../types/ForwardDraft';
-import { getForwardMessagesProps } from '../selectors/globalModals';
+} from '../../types/ForwardDraft.js';
+import { getForwardMessagesProps } from '../selectors/globalModals.js';
 
 const log = createLogger('ForwardMessagesModal');
 

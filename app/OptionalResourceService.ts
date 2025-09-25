@@ -12,12 +12,12 @@ import PQueue from 'p-queue';
 import type {
   OptionalResourceType,
   OptionalResourcesDictType,
-} from '../ts/types/OptionalResource';
-import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource';
-import { createLogger } from '../ts/logging/log';
-import { getGotOptions } from '../ts/updater/got';
-import { drop } from '../ts/util/drop';
-import { parseUnknown } from '../ts/util/schemas';
+} from '../ts/types/OptionalResource.js';
+import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource.js';
+import { createLogger } from '../ts/logging/log.js';
+import { getGotOptions } from '../ts/updater/got.js';
+import { drop } from '../ts/util/drop.js';
+import { parseUnknown } from '../ts/util/schemas.js';
 
 const log = createLogger('OptionalResourceService');
 

@@ -1,18 +1,20 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last } from 'lodash';
+import lodash from 'lodash';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { TypingBubble } from '../../components/conversation/TypingBubble';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { getIntl, getTheme } from '../selectors/user';
-import { useTimelineItem } from '../selectors/timeline';
+import { TypingBubble } from '../../components/conversation/TypingBubble.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import { useTimelineItem } from '../selectors/timeline.js';
 import {
   getConversationSelector,
   getConversationMessagesSelector,
-} from '../selectors/conversations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+} from '../selectors/conversations.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+
+const { last } = lodash;
 
 type ExternalProps = {
   conversationId: string;

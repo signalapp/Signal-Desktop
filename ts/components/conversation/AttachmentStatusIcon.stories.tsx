@@ -3,9 +3,9 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AttachmentStatusIcon';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment';
+import type { PropsType } from './AttachmentStatusIcon.js';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
 
 export default {
   title: 'Components/Conversation/AttachmentStatusIcon',
@@ -15,24 +15,13 @@ export default {
   args: {
     attachment: fakeAttachment(),
     isIncoming: false,
-    renderAttachmentDownloaded: () => {
-      return <div>🔥🔥</div>;
-    },
   },
 } satisfies Meta<PropsType>;
 
 export function Default(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
-      <AttachmentStatusIcon {...args} />
-    </div>
-  );
-}
-
-export function NoAttachment(args: PropsType): JSX.Element {
-  return (
-    <div style={{ backgroundColor: 'gray' }}>
-      <AttachmentStatusIcon {...args} attachment={undefined} />
+      <AttachmentStatusIcon {...args}>🔥🔥</AttachmentStatusIcon>
     </div>
   );
 }
@@ -43,7 +32,9 @@ export function NeedsDownload(args: PropsType): JSX.Element {
       <AttachmentStatusIcon
         {...args}
         attachment={fakeAttachment({ path: undefined })}
-      />
+      >
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }
@@ -59,7 +50,9 @@ export function Downloading(args: PropsType): JSX.Element {
           size: 1000000,
           totalDownloaded: 750000,
         })}
-      />
+      >
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }
@@ -106,7 +99,9 @@ export function Interactive(args: PropsType): JSX.Element {
       <button type="button" onClick={cancelAttachmentDownload}>
         stop download
       </button>
-      <AttachmentStatusIcon {...args} attachment={attachment} />
+      <AttachmentStatusIcon {...args} attachment={attachment}>
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }

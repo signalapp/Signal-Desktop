@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import path from 'path';
-import http from 'http';
-import fs from 'fs/promises';
-import { tmpdir } from 'os';
+import path from 'node:path';
+import http from 'node:http';
+import fs from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 
-import { strictAssert } from '../../util/assert';
-import * as durations from '../../util/durations';
-import { getGotOptions } from '../../updater/got';
+import { strictAssert } from '../../util/assert.js';
+import * as durations from '../../util/durations/index.js';
+import { getGotOptions } from '../../updater/got.js';
 import {
   computeDiff,
   getBlockMapFileName,
   prepareDownload,
   isValidPreparedData,
   download,
-} from '../../updater/differential';
+} from '../../updater/differential.js';
 
 const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
 const CRLF = '\r\n';

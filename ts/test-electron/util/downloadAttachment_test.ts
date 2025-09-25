@@ -3,28 +3,30 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
-import { DataWriter } from '../../sql/Client';
-import { IMAGE_PNG } from '../../types/MIME';
-import { downloadAttachment } from '../../util/downloadAttachment';
-import { MediaTier } from '../../types/AttachmentDownload';
-import { HTTPError } from '../../textsecure/Errors';
+import { DataWriter } from '../../sql/Client.js';
+import { IMAGE_PNG } from '../../types/MIME.js';
+import { downloadAttachment } from '../../util/downloadAttachment.js';
+import { MediaTier } from '../../types/AttachmentDownload.js';
+import { HTTPError } from '../../textsecure/Errors.js';
 import {
   getCdnNumberForBackupTier,
   type downloadAttachment as downloadAttachmentFromServer,
-} from '../../textsecure/downloadAttachment';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers';
-import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId';
+} from '../../textsecure/downloadAttachment.js';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.js';
+import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.js';
 import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../../types/Attachment';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import { toHex, toBase64 } from '../../Bytes';
-import { generateAttachmentKeys } from '../../AttachmentCrypto';
-import { getRandomBytes } from '../../Crypto';
+} from '../../types/Attachment.js';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
+import type { WebAPIType } from '../../textsecure/WebAPI.js';
+import { toHex, toBase64 } from '../../Bytes.js';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
+import { getRandomBytes } from '../../Crypto.js';
+
+const { noop } = lodash;
 
 describe('utils/downloadAttachment', () => {
   const baseAttachment = {
@@ -67,6 +69,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        logId: '',
       },
       dependencies: {
         downloadAttachmentFromLocalBackup: stubDownload,
@@ -81,7 +84,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -100,6 +103,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          logId: '',
         },
         dependencies: {
           downloadAttachmentFromLocalBackup: stubDownload,
@@ -117,7 +121,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -136,6 +140,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          logId: '',
         },
         dependencies: {
           downloadAttachmentFromLocalBackup: stubDownload,
@@ -153,7 +158,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -173,6 +178,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          logId: '',
         },
         dependencies: {
           downloadAttachmentFromLocalBackup: stubDownload,
@@ -192,6 +198,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        logId: '',
       },
       dependencies: {
         downloadAttachmentFromLocalBackup: stubDownload,
@@ -206,7 +213,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -224,6 +231,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        logId: '',
       },
       dependencies: {
         downloadAttachmentFromLocalBackup: stubDownload,
@@ -238,7 +246,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
@@ -251,7 +259,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -269,6 +277,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        logId: '',
       },
       dependencies: {
         downloadAttachmentFromLocalBackup: stubDownload,
@@ -283,7 +292,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
@@ -293,7 +302,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -312,6 +321,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          logId: '',
         },
         dependencies: {
           downloadAttachmentFromLocalBackup: stubDownload,
@@ -328,7 +338,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
@@ -338,7 +348,7 @@ describe('utils/downloadAttachment', () => {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
-        logPrefix: '[REDACTED]est',
+        logId: '',
       },
     ]);
   });
@@ -362,7 +372,6 @@ describe('getCdnNumberForBackupTier', () => {
     await updateRemoteConfig([
       {
         name: 'global.backups.mediaTierFallbackCdnNumber',
-        enabled: true,
         value: '42',
       },
     ]);

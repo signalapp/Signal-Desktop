@@ -1,15 +1,15 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { EventEmitter, once } from 'events';
-import { Readable } from 'stream';
-import { createServer } from 'http';
+import { EventEmitter, once } from 'node:events';
+import { Readable } from 'node:stream';
+import { createServer } from 'node:http';
 import type {
   IncomingMessage,
   ServerResponse,
   Server,
   OutgoingHttpHeaders,
-} from 'http';
-import { strictAssert } from '../../../util/assert';
+} from 'node:http';
+import { strictAssert } from '../../../util/assert.js';
 
 export type NextResponse = Readonly<{
   status: number;

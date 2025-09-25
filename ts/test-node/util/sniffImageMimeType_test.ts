@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { assert } from 'chai';
 import {
   IMAGE_BMP,
@@ -11,9 +11,9 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-} from '../../types/MIME';
+} from '../../types/MIME.js';
 
-import { sniffImageMimeType } from '../../util/sniffImageMimeType';
+import { sniffImageMimeType } from '../../util/sniffImageMimeType.js';
 
 describe('sniffImageMimeType', () => {
   const fixture = (filename: string): Promise<Buffer> => {

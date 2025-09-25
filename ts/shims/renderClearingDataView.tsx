@@ -4,19 +4,22 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { ClearingData } from '../components/ClearingData';
-import { strictAssert } from '../util/assert';
-import { deleteAllData } from './deleteAllData';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
+import { ClearingData } from '../components/ClearingData.js';
+import { strictAssert } from '../util/assert.js';
+import { deleteAllData } from './deleteAllData.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.js';
+import { AxoProvider } from '../axo/AxoProvider.js';
 
 export function renderClearingDataView(): void {
   const appContainer = document.getElementById('app-container');
   strictAssert(appContainer != null, 'No #app-container');
   createRoot(appContainer).render(
     <StrictMode>
-      <FunDefaultEnglishEmojiLocalizationProvider>
-        <ClearingData deleteAllData={deleteAllData} i18n={window.i18n} />
-      </FunDefaultEnglishEmojiLocalizationProvider>
+      <AxoProvider dir={window.i18n.getLocaleDirection()}>
+        <FunDefaultEnglishEmojiLocalizationProvider>
+          <ClearingData deleteAllData={deleteAllData} i18n={window.i18n} />
+        </FunDefaultEnglishEmojiLocalizationProvider>
+      </AxoProvider>
     </StrictMode>
   );
 }

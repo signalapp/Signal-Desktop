@@ -4,10 +4,10 @@
 import { Delta } from '@signalapp/quill-cjs';
 import type { RefObject } from 'react';
 
-import { assertDev } from '../../util/assert';
-import { isAciString } from '../../util/isAciString';
-import type { MemberRepository } from '../memberRepository';
-import type { Matcher } from '../util';
+import { assertDev } from '../../util/assert.js';
+import { isAciString } from '../../util/isAciString.js';
+import type { MemberRepository } from '../memberRepository.js';
+import type { Matcher } from '../util.js';
 
 export const matchMention: (
   memberRepositoryRef: RefObject<MemberRepository>

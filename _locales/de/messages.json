@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Chat löschen?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Alle Nachrichten in diesem Chat werden von diesem Gerät gelöscht."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Alle Nachrichten in diesem Chat werden von all deinen Geräten gelöscht."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Wähle die Chats aus, die in diesem Ordner angezeigt werden sollen"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Einzelchats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Gruppenchats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Chats hinzufügen"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Download fehlgeschlagen"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Anhang-Download aus Backup fehlgeschlagen"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
@@ -3528,13 +3534,13 @@
     "messageformat": "Bitte versuche es erneut oder kontaktiere den Support."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ein unerwarteter Fehler ist aufgetreten"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Diagnoseprotokoll übermitteln"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nein danke"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "OK"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Geteilte Medieninhalte"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Alle anzeigen"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Medien, Links und Dateien"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Das Emoticon :-) wird beispielsweise umgewandelt in <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Stummgeschaltete Chats archiviert lassen"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Stummgeschaltete Chats, die archiviert sind, bleiben beim Eintreffen einer neuen Nachricht archiviert."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Weitere Einstellungen"
@@ -5283,7 +5286,7 @@
     "messageformat": "Blockiert"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatische Backups mit dem sicheren Ende-zu-Ende-verschlüsselten Speicherservice von Signal. Leg einfach auf deinem Smartphone los. <learnMoreLink>Mehr erfahren</learnMoreLink>."
@@ -5298,7 +5301,7 @@
     "messageformat": "Backups von Text + allen Medien"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Dein Abo wurde nicht gefunden. Jetzt erneuern, um Signal Backups weiterhin verwenden zu können."
+    "messageformat": "Dein Abo wurde nicht gefunden. Jetzt erneuern, um Signal Secure Backups weiterhin verwenden zu können."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text- und Medien-Backup von {mediaDayCount,number} Tag} other {Text- und Medien-Backup der letzten {mediaDayCount,number} Tage}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "Abo gekündigt"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Du kannst dein Signal Backups-Abo direkt auf deinem Telefon verwalten oder stornieren."
+    "messageformat": "Du kannst dein Signal Secure Backups-Abo auf deinem Telefon verwalten oder stornieren."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Du kannst dein Signal Backups-Upgrade direkt auf deinem Telefon verwalten oder erneuern."
+    "messageformat": "Du kannst Signal Secure Backups auf deinem Telefon verwalten oder upgraden."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Du kannst dein Signal Backups-Abo direkt auf deinem Telefon verwalten und erneuern."
+    "messageformat": "Du kannst dein Signal Secure Backups-Abo auf deinem Telefon verwalten oder erneuern."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Letztes Backup"
@@ -6655,10 +6658,10 @@
     "messageformat": "Meine Unterstützung"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} einmalig"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Spende wird bearbeitet…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Spende {formattedCurrencyAmount}"
@@ -6672,8 +6675,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Deine persönlichen Daten werden von Signal nicht erfasst oder gespeichert, wenn du einen Betrag spendest. </paragraph><paragraph>Wir nutzen den Zahlungsdienstleister Stripe, um deine Spenden zu erhalten.Wir haben keinen Zugriff auf die Informationen, die du ihm zur Verfügung stellst, und speichern diese auch nicht.</paragraph><paragraph>Signal kann und wird deine Spende nicht mit deinem Signal-Konto in Verbindung bringen.</paragraph><paragraph>Danke für deine Unterstützung!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Bescheinigungen"
+  },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Details zur Bescheinigung anzeigen"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Häufige Fragen zu Spenden"
@@ -6709,7 +6718,7 @@
     "messageformat": "Eigenen Betrag eingeben"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Kredit- oder Debitkarte"
+    "messageformat": "Kredit- oder Girokarte"
   },
   "icu:DonateFlow__card-form-instructions": {
     "messageformat": "Gib deine Kredit- oder Girokartendaten ein. Deine persönlichen Daten werden von Signal nicht erfasst oder gespeichert. <learnMoreLink>Mehr erfahren</learnMoreLink>"
@@ -6719,6 +6728,9 @@
   },
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Ablaufdatum"
+  },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/JJ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Spende {formattedCurrencyAmount} an Signal"
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Hol dir das Signal Boost-Abzeichen für 30 Tage"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Der Mindestbetrag für eine Spende beträgt {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Der Mindestbetrag, den du spenden kannst, beträgt {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Der maximale Spendenbetrag beträgt {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Wenn du diese Seite verlässt, werden deine Kreditkartendaten gelöscht. Möchtest du fortfahren?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Angaben entfernen"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Fortfahren"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Spendenbescheinigung"
   },
@@ -6757,10 +6787,10 @@
     "messageformat": "Einmalig"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Danke, dass du Signal unterstützt. Deine Spende trägt dazu bei, mithilfe von Open-Source-Datenschutztechnologien die freie Meinungsäußerung zu schützen und eine sichere globale Kommunikation für Millionen von Menschen auf der ganzen Welt zu ermöglichen. Falls du deinen Wohnsitz in den USA hast, bitte bewahre diese Bescheinigung für deine Steuerunterlagen auf. Die Signal Stiftung (Signal Technology Foundation) ist eine steuerbefreite gemeinnützige Organisation in den USA gemäß Abschnitt 501c3 des Internal Revenue Code.Unsere Federal Tax ID lautet 82-4506840."
+    "messageformat": "Danke, dass du Signal unterstützt. Deine Spende trägt dazu bei, mithilfe von Open-Source-Datenschutztechnologien die freie Meinungsäußerung zu schützen und eine sichere globale Kommunikation für Millionen von Menschen auf der ganzen Welt zu ermöglichen. Falls du deinen Wohnsitz in den USA hast, bitte bewahre diese Bescheinigung für deine Steuerunterlagen auf. Die Signal Stiftung (Signal Technology Foundation) ist eine steuerbefreite gemeinnützige Organisation in den USA gemäß Abschnitt 501c3 des Internal Revenue Code. Unsere Federal Tax ID lautet 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Du bist offline. Bitte verbinde dich mit dem Internet, um die Spende abzuschließen."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Spende abgebrochen"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du hast eine Spende in Bearbeitung, die noch bestätigt werden muss."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Die Spende hat geklappt, aber wir konnten deine Abzeichen-Einstellungen nicht aktualisieren"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Die Spende hat geklappt, aber wir konnten deine Abzeichen-Einstellungen nicht aktualisieren"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Du kannst deine Abzeichen-Einstellungen auf deinem Smartphone aktualisieren unter: Einstellungen → An Signal spenden → Abzeichen."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Spende abgebrochen"
@@ -6811,13 +6850,13 @@
     "messageformat": "Deine Spende wurde möglicherweise nicht bearbeitet. Klicke auf »An Signal spenden« und dann auf »Spendenbescheinigung«, um deine Belege zu prüfen und zu bestätigen."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Versuche es erneut oder sende ein Diagnoseprotokoll an den Support, um Unterstützung bei der Abwicklung deiner Spende zu erhalten. Diagnoseprotokolle helfen uns, das Problem zu erkennen und zu beheben; sie enthalten keine persönlichen Informationen."
   },
   "icu:Donations__Processing": {
     "messageformat": "Spende wird bearbeitet…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Spende wird noch bearbeitet"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Deine Spende wird immer noch bearbeitet. Dies kann einige Minuten dauern."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Spende abbrechen"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Danke für deine Unterstützung!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Du hast dir ein Spenderabzeichen von Signal verdient! Präsentiere es in deinem Profil, um deine Unterstützung zu zeigen."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Im Profil anzeigen"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Du kannst das auf deinem Smartphone anpassen unter: Einstellungen → An Signal spenden → Abzeichen"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Wir haben die Funktion von Nachricht gelesen/ungelesen beim Multitasking verbessert und einen Fehler behoben, durch den sich manchmal fälschlicherweise der erweiterte Bildbetrachter geöffnet hat, wenn du bei der Suche nach der perfekten Emoji-Reaktion die Leertaste gedrückt hast. Du kannst immer noch zoomen, wenn auf das Bild klickst oder schnell genug tippst."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Manchmal ist es echt schwierig, das richtige Emoji zu finden – jetzt haben wir einen Fehler behoben, der dazu führte, dass etwas nach dem Drücken der Escape-Taste im Emoji-Suchfeld einfach nicht funktionierte."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Dieses Update behebt ein paar kleine Fehler, darunter einen, bei dem Emoji-Reaktionen in einigen Fällen nicht richtig zugeordnet wurden."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

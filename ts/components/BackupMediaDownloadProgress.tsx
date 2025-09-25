@@ -3,14 +3,13 @@
 
 import React, { useState } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { formatFileSize } from '../util/formatFileSize';
-import { roundFractionForProgressBar } from '../util/numbers';
-import { ProgressCircle } from './ProgressCircle';
-import { ContextMenu } from './ContextMenu';
-import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog';
-import { LeftPaneDialog } from './LeftPaneDialog';
-import { WidthBreakpoint } from './_util';
+import type { LocalizerType } from '../types/Util.js';
+import { formatFileSize } from '../util/formatFileSize.js';
+import { SpinnerV2 } from './SpinnerV2.js';
+import { ContextMenu } from './ContextMenu.js';
+import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.js';
+import { LeftPaneDialog } from './LeftPaneDialog.js';
+import { WidthBreakpoint } from './_util.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -50,14 +49,10 @@ export function BackupMediaDownloadProgress({
     setIsShowingCancelConfirmation(true);
   }
 
-  const fractionComplete = roundFractionForProgressBar(
-    downloadedBytes / totalBytes
-  );
-
   let content: JSX.Element | undefined;
   let icon: JSX.Element | undefined;
 
-  const isCompleted = fractionComplete === 1;
+  const isCompleted = downloadedBytes === totalBytes;
 
   const actionButton =
     isCompleted || isIdle ? (
@@ -141,8 +136,14 @@ export function BackupMediaDownloadProgress({
     );
     icon = (
       <div className="BackupMediaDownloadProgress__icon">
-        <ProgressCircle
-          fractionComplete={fractionComplete}
+        <SpinnerV2
+          size={24}
+          strokeWidth={3}
+          marginRatio={1}
+          min={0}
+          max={totalBytes}
+          value={downloadedBytes}
+          variant="brand"
           ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-paused')}
         />
       </div>
@@ -181,8 +182,14 @@ export function BackupMediaDownloadProgress({
     );
     icon = (
       <div className="BackupMediaDownloadProgress__icon">
-        <ProgressCircle
-          fractionComplete={fractionComplete}
+        <SpinnerV2
+          size={24}
+          strokeWidth={3}
+          marginRatio={1}
+          min={0}
+          max={totalBytes}
+          value={downloadedBytes}
+          variant="brand"
           ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-offline')}
         />
       </div>
@@ -204,8 +211,14 @@ export function BackupMediaDownloadProgress({
     );
     icon = (
       <div className="BackupMediaDownloadProgress__icon">
-        <ProgressCircle
-          fractionComplete={fractionComplete}
+        <SpinnerV2
+          size={24}
+          strokeWidth={3}
+          marginRatio={1}
+          min={0}
+          max={totalBytes}
+          value={downloadedBytes}
+          variant="brand"
           ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-in-progress')}
         />
       </div>

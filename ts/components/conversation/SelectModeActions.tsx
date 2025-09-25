@@ -3,9 +3,9 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import type { ShowToastAction } from '../../state/ducks/toast';
-import { ToastType } from '../../types/Toast';
-import type { LocalizerType } from '../../types/Util';
+import type { ShowToastAction } from '../../state/ducks/toast.js';
+import { ToastType } from '../../types/Toast.js';
+import type { LocalizerType } from '../../types/Util.js';
 
 // Keep this in sync with iOS and Android
 const MAX_FORWARD_COUNT = 30;

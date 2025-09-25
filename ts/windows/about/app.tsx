@@ -4,10 +4,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { About } from '../../components/About';
-import { i18n } from '../sandboxedInit';
-import { strictAssert } from '../../util/assert';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { About } from '../../components/About.js';
+import { i18n } from '../sandboxedInit.js';
+import { strictAssert } from '../../util/assert.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
+import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { AboutWindowProps } = window.Signal;
 
@@ -18,15 +19,17 @@ strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
   <StrictMode>
-    <FunDefaultEnglishEmojiLocalizationProvider>
-      <About
-        closeAbout={() => window.SignalContext.executeMenuRole('close')}
-        appEnv={AboutWindowProps.appEnv}
-        platform={AboutWindowProps.platform}
-        arch={AboutWindowProps.arch}
-        i18n={i18n}
-        version={window.SignalContext.getVersion()}
-      />
-    </FunDefaultEnglishEmojiLocalizationProvider>
+    <AxoProvider dir={i18n.getLocaleDirection()}>
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <About
+          closeAbout={() => window.SignalContext.executeMenuRole('close')}
+          appEnv={AboutWindowProps.appEnv}
+          platform={AboutWindowProps.platform}
+          arch={AboutWindowProps.arch}
+          i18n={i18n}
+          version={window.SignalContext.getVersion()}
+        />
+      </FunDefaultEnglishEmojiLocalizationProvider>
+    </AxoProvider>
   </StrictMode>
 );

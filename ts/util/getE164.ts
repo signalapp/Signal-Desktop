@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationType } from '../state/ducks/conversations';
-import { isInSystemContacts } from './isInSystemContacts';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { isInSystemContacts } from './isInSystemContacts.js';
 
 export function getE164(
   attributes: Pick<

@@ -2,17 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { DonateInputCardExp } from './DonateInputCardExp';
-import type { DonateInputCardExpProps } from './DonateInputCardExp';
-import type { ComponentMeta } from '../../../storybook/types';
+import { DonateInputCardExp } from './DonateInputCardExp.js';
+import type { DonateInputCardExpProps } from './DonateInputCardExp.js';
+import type { ComponentMeta } from '../../../storybook/types.js';
+
+const { i18n } = window.SignalContext;
 
 export default {
   component: DonateInputCardExp,
   args: {
+    i18n,
     id: '',
     value: '',
     onValueChange: action('onValueChange'),
     onBlur: action('onBlur'),
+    onEnter: action('onEnter'),
   },
 } satisfies ComponentMeta<DonateInputCardExpProps>;
 

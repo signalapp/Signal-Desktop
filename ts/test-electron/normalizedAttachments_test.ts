@@ -4,28 +4,27 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import * as Bytes from '../Bytes';
+import * as Bytes from '../Bytes.js';
 import type {
   EphemeralAttachmentFields,
   ScreenshotType,
   AttachmentType,
   ThumbnailType,
   BackupThumbnailType,
-} from '../types/Attachment';
+} from '../types/Attachment.js';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   LONG_MESSAGE,
-  type MIMEType,
-} from '../types/MIME';
-import type { MessageAttributesType } from '../model-types';
-import { generateAci } from '../types/ServiceId';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { DataWriter, DataReader } from '../sql/Client';
-import { strictAssert } from '../util/assert';
-import { HOUR, MINUTE } from '../util/durations';
+} from '../types/MIME.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { generateAci } from '../types/ServiceId.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { DataWriter, DataReader } from '../sql/Client.js';
+import { strictAssert } from '../util/assert.js';
+import { HOUR, MINUTE } from '../util/durations/index.js';
 
 const CONTACT_A = generateAci();
 const contactAConversationId = generateGuid();
@@ -89,6 +88,7 @@ function composeAttachment(
     cdnNumber: 3,
     key: getBase64(`key${label}`),
     digest: getBase64(`digest${label}`),
+    duration: 123,
     size: 100,
     downloadPath: 'downloadPath',
     contentType: IMAGE_JPEG,
@@ -605,20 +605,80 @@ describe('normalizes attachment references', () => {
     assert(messageFromDB, 'message was saved');
     assert.deepEqual(messageFromDB, message);
   });
-  it('handles bad data', async () => {
-    const attachment: AttachmentType = {
+
+  describe('handles bad data', () => {
+    const badDataAttachment = {
       ...composeAttachment(),
-      size: undefined as unknown as number,
-      contentType: undefined as unknown as MIMEType,
+      size: undefined,
+      contentType: undefined,
+      width: '100',
+      isCorrupted: 1,
+      key: {},
+      digest: { '1': 234 },
+      randomKey: 'random',
       uploadTimestamp: {
         low: 6174,
         high: 0,
         unsigned: false,
-      } as unknown as number,
-      incrementalMac: Bytes.fromString('incrementalMac') as unknown as string,
+      },
+      incrementalMac: Bytes.fromString('incrementalMac'),
+    } as unknown as AttachmentType & { randomKey?: string };
+
+    const cleanedAttachment = {
+      ...badDataAttachment,
+      size: 0,
+      width: undefined,
+      digest: undefined,
+      key: undefined,
+      isCorrupted: undefined,
+      contentType: APPLICATION_OCTET_STREAM,
+      uploadTimestamp: undefined,
+      incrementalMac: undefined,
     };
+    delete cleanedAttachment.randomKey;
+
+    it('is resilient to bad data when saved', async () => {
+      const message = composeMessage(Date.now(), {
+        attachments: [badDataAttachment],
+      });
+
+      await DataWriter.saveMessage(message, {
+        forceSave: true,
+        ourAci: generateAci(),
+        postSaveUpdates: () => Promise.resolve(),
+      });
+
+      const messageFromDB = await DataReader.getMessageById(message.id);
+      assert(messageFromDB, 'message was saved');
+      assert.deepEqual(messageFromDB.attachments?.[0], cleanedAttachment);
+    });
+
+    it('is resilient to bad data when saved via saveMessagesIndividually', async () => {
+      const attachments = [badDataAttachment];
+      const message = composeMessage(Date.now(), {
+        attachments,
+      });
+
+      await DataWriter.saveMessages([message], {
+        forceSave: true,
+        ourAci: generateAci(),
+        postSaveUpdates: () => Promise.resolve(),
+        _testOnlyAvoidNormalizingAttachments: true,
+      });
+
+      await DataWriter.saveMessagesIndividually([message], {
+        ourAci: generateAci(),
+        postSaveUpdates: () => Promise.resolve(),
+      });
+
+      const messageFromDB = await DataReader.getMessageById(message.id);
+      assert(messageFromDB, 'message was saved');
+      assert.deepEqual(messageFromDB.attachments?.[0], cleanedAttachment);
+    });
+  });
+  it('adds a placeholder attachment when attachments had been deleted', async () => {
     const message = composeMessage(Date.now(), {
-      attachments: [attachment],
+      attachments: [composeAttachment(), composeAttachment()],
     });
 
     await DataWriter.saveMessage(message, {
@@ -627,14 +687,16 @@ describe('normalizes attachment references', () => {
       postSaveUpdates: () => Promise.resolve(),
     });
 
+    await DataWriter._testOnlyRemoveMessageAttachments(message.timestamp);
+
     const messageFromDB = await DataReader.getMessageById(message.id);
     assert(messageFromDB, 'message was saved');
     assert.deepEqual(messageFromDB.attachments?.[0], {
-      ...attachment,
       size: 0,
-      contentType: APPLICATION_OCTET_STREAM,
-      uploadTimestamp: undefined,
-      incrementalMac: undefined,
+      contentType: IMAGE_PNG,
+      width: 150,
+      height: 150,
+      error: true,
     });
   });
 });

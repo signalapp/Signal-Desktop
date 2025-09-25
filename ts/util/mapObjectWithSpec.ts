@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { cloneDeep, get, set } from 'lodash';
+import lodash from 'lodash';
+
+const { cloneDeep, get, set } = lodash;
 
 export type ObjectMappingSpecType =
   | string

@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CustomColorType } from '../types/Colors';
-import { ThemeType } from '../types/Util';
-import { getHSL } from './getHSL';
-import { getUserTheme } from '../shims/getUserTheme';
+import type { CustomColorType } from '../types/Colors.js';
+import { ThemeType } from '../types/Util.js';
+import { getHSL } from './getHSL.js';
+import { getUserTheme } from '../shims/getUserTheme.js';
 
 type ExtraQuotePropsType = {
   borderInlineStartColor?: string;

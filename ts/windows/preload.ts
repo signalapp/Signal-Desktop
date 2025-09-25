@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { installEphemeralSetting } from '../util/preload';
+import { installEphemeralSetting } from '../util/preload.js';
 
 installEphemeralSetting('contentProtection');
 installEphemeralSetting('localeOverride');

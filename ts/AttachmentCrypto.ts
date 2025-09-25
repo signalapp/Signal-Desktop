@@ -1,27 +1,32 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createReadStream, createWriteStream } from 'fs';
-import { open, unlink, stat } from 'fs/promises';
-import type { FileHandle } from 'fs/promises';
-import { createCipheriv, createHash, createHmac, randomBytes } from 'crypto';
-import type { Hash } from 'crypto';
-import { PassThrough, Transform, type Writable, Readable } from 'stream';
-import { pipeline } from 'stream/promises';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { open, unlink, stat } from 'node:fs/promises';
+import type { FileHandle } from 'node:fs/promises';
+import {
+  createCipheriv,
+  createHash,
+  createHmac,
+  randomBytes,
+} from 'node:crypto';
+import type { Hash } from 'node:crypto';
+import { PassThrough, Transform, type Writable, Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 
-import { isNumber } from 'lodash';
-import { ensureFile } from 'fs-extra';
+import lodash from 'lodash';
+import fsExtra from 'fs-extra';
 import {
   chunkSizeInBytes,
   DigestingPassThrough,
   everyNthByte,
   inferChunkSize,
   ValidatingPassThrough,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
-import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
-import { isAbsolute } from 'path';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
+import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac.js';
+import { isAbsolute } from 'node:path';
 
-import { createLogger } from './logging/log';
+import { createLogger } from './logging/log.js';
 import {
   HashType,
   CipherType,
@@ -31,22 +36,28 @@ import {
   DIGEST_LENGTH,
   ATTACHMENT_MAC_LENGTH,
   AES_KEY_LENGTH,
-} from './types/Crypto';
-import { constantTimeEqual } from './Crypto';
-import { createName, getRelativePath } from './util/attachmentPath';
-import { appendPaddingStream, logPadSize } from './util/logPadding';
-import { prependStream } from './util/prependStream';
-import { appendMacStream } from './util/appendMacStream';
-import { finalStream } from './util/finalStream';
-import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac';
-import { trimPadding } from './util/trimPadding';
-import { assertDev, strictAssert } from './util/assert';
-import * as Errors from './types/errors';
-import { isNotNil } from './util/isNotNil';
-import { missingCaseError } from './util/missingCaseError';
-import { getEnvironment, Environment } from './environment';
-import { isNotEmpty, toBase64, toHex } from './Bytes';
-import { decipherWithAesKey } from './util/decipherWithAesKey';
+} from './types/Crypto.js';
+import { constantTimeEqual } from './Crypto.js';
+import { createName, getRelativePath } from './util/attachmentPath.js';
+import { appendPaddingStream } from './util/logPadding.js';
+import { prependStream } from './util/prependStream.js';
+import { appendMacStream } from './util/appendMacStream.js';
+import { finalStream } from './util/finalStream.js';
+import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.js';
+import { trimPadding } from './util/trimPadding.js';
+import { assertDev, strictAssert } from './util/assert.js';
+import * as Errors from './types/errors.js';
+import { isNotNil } from './util/isNotNil.js';
+import { missingCaseError } from './util/missingCaseError.js';
+import { getEnvironment, Environment } from './environment.js';
+import { isNotEmpty, toBase64, toHex } from './Bytes.js';
+import { decipherWithAesKey } from './util/decipherWithAesKey.js';
+import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.js';
+import { MediaTier } from './types/AttachmentDownload.js';
+
+const { ensureFile } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('AttachmentCrypto');
 
@@ -189,7 +200,12 @@ export async function encryptAttachmentV2({
       );
     }
     chunkSizeChoice = isNumber(size)
-      ? inferChunkSize(getAttachmentCiphertextLength(size))
+      ? inferChunkSize(
+          getAttachmentCiphertextSize({
+            unpaddedPlaintextSize: size,
+            mediaTier: MediaTier.STANDARD,
+          })
+        )
       : undefined;
     incrementalDigestCreator =
       needIncrementalMac && chunkSizeChoice
@@ -582,9 +598,10 @@ export async function decryptAndReencryptLocally(
     };
   } catch (error) {
     log.error(
-      `${logId}: Failed to decrypt attachment`,
+      `${logId}: Failed to decrypt and reencrypt attachment`,
       Errors.toLogFormat(error)
     );
+
     await safeUnlink(absoluteTargetPath);
     throw error;
   } finally {
@@ -652,23 +669,6 @@ export function measureSize({
   });
 
   return passthrough;
-}
-
-export function getAttachmentCiphertextLength(plaintextLength: number): number {
-  const paddedPlaintextSize = logPadSize(plaintextLength);
-
-  return (
-    IV_LENGTH +
-    getAesCbcCiphertextLength(paddedPlaintextSize) +
-    ATTACHMENT_MAC_LENGTH
-  );
-}
-
-export function getAesCbcCiphertextLength(plaintextLength: number): number {
-  const AES_CBC_BLOCK_SIZE = 16;
-  return (
-    (1 + Math.floor(plaintextLength / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
-  );
 }
 
 function checkIntegrity({

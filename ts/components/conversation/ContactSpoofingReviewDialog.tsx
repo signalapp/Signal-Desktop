@@ -4,22 +4,22 @@
 import type { ReactChild, ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
+} from './MessageRequestActionsConfirmation.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.js';
 
-import { Modal } from '../Modal';
-import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog';
-import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';
-import { Button, ButtonVariant } from '../Button';
-import { assertDev } from '../../util/assert';
-import { missingCaseError } from '../../util/missingCaseError';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { Modal } from '../Modal.js';
+import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.js';
+import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { assertDev } from '../../util/assert.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.js';
 
 export type ReviewPropsType = Readonly<
   | {

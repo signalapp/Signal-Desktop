@@ -3,11 +3,11 @@
 
 import { z } from 'zod';
 
-import type { JOB_STATUS } from './JobQueue';
-import { JobQueue } from './JobQueue';
+import type { JOB_STATUS } from './JobQueue.js';
+import { JobQueue } from './JobQueue.js';
 
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import { parseUnknown } from '../util/schemas';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
+import { parseUnknown } from '../util/schemas.js';
 
 const removeStorageKeyJobDataSchema = z.object({
   key: z.enum([

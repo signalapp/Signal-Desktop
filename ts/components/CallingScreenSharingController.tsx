@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { Button, ButtonVariant } from './Button';
-import type { LocalizerType } from '../types/Util';
-import { ScreenShareStatus } from '../types/Calling';
+import { Button, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.js';
+import { ScreenShareStatus } from '../types/Calling.js';
 
 export type PropsType = {
   i18n: LocalizerType;

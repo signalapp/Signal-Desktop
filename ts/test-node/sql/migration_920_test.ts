@@ -3,17 +3,19 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { range } from 'lodash';
+import lodash from 'lodash';
 
-import { createDB, insertData, updateToVersion } from './helpers';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { normalizePni } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
+import { createDB, insertData, updateToVersion } from './helpers.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { normalizePni } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
 import type {
   WritableDB,
   KyberPreKeyType,
   SignedPreKeyType,
-} from '../../sql/Interface';
+} from '../../sql/Interface.js';
+
+const { range } = lodash;
 
 type TestingKyberKey = Omit<
   KyberPreKeyType,

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { StickerManagerPackRow } from './StickerManagerPackRow';
-import { StickerPreviewModal } from './StickerPreviewModal';
-import type { LocalizerType } from '../../types/Util';
-import type { StickerPackType } from '../../state/ducks/stickers';
-import { Tabs } from '../Tabs';
+import { StickerManagerPackRow } from './StickerManagerPackRow.js';
+import { StickerPreviewModal } from './StickerPreviewModal.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { StickerPackType } from '../../state/ducks/stickers.js';
+import { Tabs } from '../Tabs.js';
 
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;

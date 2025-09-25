@@ -4,27 +4,28 @@
 import React, { useCallback } from 'react';
 import type { RefObject } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
 
-import type { LocalizerType } from '../../types/Util';
-import type { AttachmentType } from '../../types/Attachment';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
-import { isDownloaded } from '../../types/Attachment';
-import type { DirectionType, MessageStatusType } from './Message';
+import type { LocalizerType } from '../../types/Util.js';
+import type { AttachmentForUIType } from '../../types/Attachment.js';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
+import { isDownloaded } from '../../types/Attachment.js';
+import type { DirectionType, MessageStatusType } from './Message.js';
 
-import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext';
-import { MessageMetadata } from './MessageMetadata';
-import { createLogger } from '../../logging/log';
-import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
-import { PlaybackRateButton } from '../PlaybackRateButton';
-import { PlaybackButton } from '../PlaybackButton';
-import { WaveformScrubber } from './WaveformScrubber';
-import { useComputePeaks } from '../../hooks/useComputePeaks';
-import { durationToPlaybackText } from '../../util/durationToPlaybackText';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
-import { formatFileSize } from '../../util/formatFileSize';
-import { roundFractionForProgressBar } from '../../util/numbers';
+import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.js';
+import { MessageMetadata } from './MessageMetadata.js';
+import { createLogger } from '../../logging/log.js';
+import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.js';
+import { PlaybackRateButton } from '../PlaybackRateButton.js';
+import { PlaybackButton } from '../PlaybackButton.js';
+import { WaveformScrubber } from './WaveformScrubber.js';
+import { useComputePeaks } from '../../hooks/useComputePeaks.js';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText.js';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.js';
+import { formatFileSize } from '../../util/formatFileSize.js';
+
+const { noop } = lodash;
 
 const log = createLogger('MessageAudio');
 
@@ -37,7 +38,7 @@ export type OwnProps = Readonly<{
     | undefined;
   buttonRef: RefObject<HTMLButtonElement>;
   i18n: LocalizerType;
-  attachment: AttachmentType;
+  attachment: AttachmentForUIType;
   collapseMetadata: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
@@ -293,18 +294,11 @@ export function MessageAudio(props: Props): JSX.Element {
       />
     );
   } else if (state === State.Pending) {
-    // Not really a button, but who cares?
-    const downloadFraction =
-      attachment.size && attachment.totalDownloaded
-        ? roundFractionForProgressBar(
-            attachment.totalDownloaded / attachment.size
-          )
-        : undefined;
     button = (
       <PlaybackButton
         variant="message"
         mod="downloading"
-        downloadFraction={downloadFraction}
+        attachment={attachment}
         onClick={cancelAttachmentDownload}
         label={i18n('icu:MessageAudio--pending')}
         context={direction}

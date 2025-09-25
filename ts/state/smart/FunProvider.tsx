@@ -4,37 +4,37 @@
 import type { ReactNode } from 'react';
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { FunProvider } from '../../components/fun/FunProvider';
-import { getIntl } from '../selectors/user';
-import { selectRecentEmojis } from '../selectors/emojis';
-import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs';
+import { FunProvider } from '../../components/fun/FunProvider.js';
+import { getIntl } from '../selectors/user.js';
+import { selectRecentEmojis } from '../selectors/emojis.js';
+import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.js';
 import {
   getInstalledStickerPacks,
   getRecentStickers,
-} from '../selectors/stickers';
-import { strictAssert } from '../../util/assert';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../selectors/stickers.js';
+import { strictAssert } from '../../util/assert.js';
+import type { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 import {
   getEmojiParentKeyByEnglishShortName,
   isEmojiEnglishShortName,
-} from '../../components/fun/data/emojis';
+} from '../../components/fun/data/emojis.js';
 import {
   getEmojiSkinToneDefault,
   getShowStickerPickerHint,
-} from '../selectors/items';
-import { useItemsActions } from '../ducks/items';
-import { useGifsActions } from '../ducks/gifs';
+} from '../selectors/items.js';
+import { useItemsActions } from '../ducks/items.js';
+import { useGifsActions } from '../ducks/gifs.js';
 import {
   fetchGifsFeatured,
   fetchGifsSearch,
-} from '../../components/fun/data/gifs';
-import { tenorDownload } from '../../components/fun/data/tenor';
-import { usePreferredReactionsActions } from '../ducks/preferredReactions';
-import { useEmojisActions } from '../ducks/emojis';
-import { useStickersActions } from '../ducks/stickers';
-import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers';
-import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis';
-import { getRecentGifs } from '../selectors/gifs';
+} from '../../components/fun/data/gifs.js';
+import { tenorDownload } from '../../components/fun/data/tenor.js';
+import { usePreferredReactionsActions } from '../ducks/preferredReactions.js';
+import { useEmojisActions } from '../ducks/emojis.js';
+import { useStickersActions } from '../ducks/stickers.js';
+import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.js';
+import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.js';
+import { getRecentGifs } from '../selectors/gifs.js';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;

@@ -4,16 +4,15 @@
 import type { ReactNode } from 'react';
 import React, { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
-import { Modal } from './Modal';
-import type { LocalizerType } from '../types/I18N';
-import type { CallLinkRestrictions } from '../types/CallLink';
-import { type CallLinkType } from '../types/CallLink';
-import { linkCallRoute } from '../util/signalRoutes';
-import { Button, ButtonSize, ButtonVariant } from './Button';
-import { Avatar, AvatarSize } from './Avatar';
-import { getColorForCallLink } from '../util/getColorForCallLink';
-import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect';
-import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip';
+import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/I18N.js';
+import type { CallLinkRestrictions, CallLinkType } from '../types/CallLink.js';
+import { linkCallRoute } from '../util/signalRoutes.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { getColorForCallLink } from '../util/getColorForCallLink.js';
+import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.js';
+import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.js';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',

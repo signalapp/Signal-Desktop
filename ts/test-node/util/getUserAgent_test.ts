@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { getUserAgent } from '../../util/getUserAgent';
+import { getUserAgent } from '../../util/getUserAgent.js';
 
 describe('getUserAgent', () => {
   beforeEach(function (this: Mocha.Context) {

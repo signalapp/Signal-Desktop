@@ -1,9 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, isNumber, throttle, debounce } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
+import { ContentHint } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -13,87 +14,94 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
   SenderKeyInfoType,
-} from '../model-types.d';
-import { DataReader, DataWriter } from '../sql/Client';
-import { getConversation } from '../util/getConversation';
-import { drop } from '../util/drop';
-import { isShallowEqual } from '../util/isShallowEqual';
-import { getInitials } from '../util/getInitials';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
-import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
-import type { ProfileNameChangeType } from '../util/getStringForProfileChange';
-import type { AttachmentType, ThumbnailType } from '../types/Attachment';
-import { toDayMillis } from '../util/timestamp';
-import { areWeAdmin } from '../util/areWeAdmin';
-import { isBlocked } from '../util/isBlocked';
-import { getAboutText } from '../util/getAboutText';
+} from '../model-types.d.ts';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { getConversation } from '../util/getConversation.js';
+import { drop } from '../util/drop.js';
+import { isShallowEqual } from '../util/isShallowEqual.js';
+import { getInitials } from '../util/getInitials.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
+import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage.js';
+import type { ProfileNameChangeType } from '../util/getStringForProfileChange.js';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment.js';
+import { toDayMillis } from '../util/timestamp.js';
+import { areWeAdmin } from '../util/areWeAdmin.js';
+import { isBlocked } from '../util/isBlocked.js';
+import { getAboutText } from '../util/getAboutText.js';
 import {
   getAvatar,
   getRawAvatarPath,
   getLocalAvatarUrl,
-} from '../util/avatarUtils';
-import { getDraftPreview } from '../util/getDraftPreview';
-import { hasDraft } from '../util/hasDraft';
-import { hydrateStoryContext } from '../util/hydrateStoryContext';
-import * as Conversation from '../types/Conversation';
-import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
-import * as Stickers from '../types/Stickers';
-import { StorySendMode } from '../types/Stories';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
-import type { GroupV2InfoType } from '../textsecure/SendMessage';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import MessageSender from '../textsecure/SendMessage';
+} from '../util/avatarUtils.js';
+import { getDraftPreview } from '../util/getDraftPreview.js';
+import { hasDraft } from '../util/hasDraft.js';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.js';
+import * as Conversation from '../types/Conversation.js';
+import type {
+  StickerType,
+  StickerWithHydratedData,
+} from '../types/Stickers.js';
+import * as Stickers from '../types/Stickers.js';
+import { StorySendMode } from '../types/Stories.js';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.js';
+import type { GroupV2InfoType } from '../textsecure/SendMessage.js';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
+import MessageSender from '../textsecure/SendMessage.js';
 import type {
   CallbackResultType,
   PniSignatureMessageType,
-} from '../textsecure/Types.d';
+} from '../textsecure/Types.d.ts';
 import type {
   ConversationType,
   DraftPreviewType,
-} from '../state/ducks/conversations';
+} from '../state/ducks/conversations.js';
 import type {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors';
-import { strictAssert } from '../util/assert';
-import { isConversationMuted } from '../util/isConversationMuted';
-import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
+} from '../types/Colors.js';
+import { strictAssert } from '../util/assert.js';
+import { isConversationMuted } from '../util/isConversationMuted.js';
+import { isConversationSMSOnly } from '../util/isConversationSMSOnly.js';
 import {
   isConversationEverUnregistered,
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
-} from '../util/isConversationUnregistered';
-import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import { isValidE164 } from '../util/isValidE164';
-import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
-import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+} from '../util/isConversationUnregistered.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
+import { isValidE164 } from '../util/isValidE164.js';
+import type { MIMEType } from '../types/MIME.js';
+import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME.js';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../types/ServiceId.js';
 import {
   ServiceIdKind,
   normalizeServiceId,
   normalizePni,
-} from '../types/ServiceId';
-import { isAciString } from '../util/isAciString';
+} from '../types/ServiceId.js';
+import { isAciString } from '../util/isAciString.js';
 import {
   constantTimeEqual,
   decryptProfile,
   decryptProfileName,
   deriveAccessKey,
   hashProfileKey,
-} from '../Crypto';
-import { decryptAttachmentV2 } from '../AttachmentCrypto';
-import * as Bytes from '../Bytes';
-import type { DraftBodyRanges } from '../types/BodyRange';
-import { migrateColor } from '../util/migrateColor';
-import { isNotNil } from '../util/isNotNil';
-import { shouldSaveNotificationAvatarToDisk } from '../services/notifications';
-import { storageServiceUploadJob } from '../services/storage';
-import { getSendOptions } from '../util/getSendOptions';
-import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted';
-import { isConversationAccepted } from '../util/isConversationAccepted';
+} from '../Crypto.js';
+import { decryptAttachmentV2 } from '../AttachmentCrypto.js';
+import * as Bytes from '../Bytes.js';
+import type { DraftBodyRanges } from '../types/BodyRange.js';
+import { migrateColor } from '../util/migrateColor.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.js';
+import { storageServiceUploadJob } from '../services/storage.js';
+import { getSendOptions } from '../util/getSendOptions.js';
+import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.js';
+import { isConversationAccepted } from '../util/isConversationAccepted.js';
 import {
   getNumber,
   getProfileName,
@@ -102,97 +110,102 @@ import {
   hasNumberTitle,
   hasUsernameTitle,
   canHaveUsername,
-} from '../util/getTitle';
-import { markConversationRead } from '../util/markConversationRead';
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getConversationMembers } from '../util/getConversationMembers';
-import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SendStatus } from '../messages/MessageSendState';
+} from '../util/getTitle.js';
+import { markConversationRead } from '../util/markConversationRead.js';
+import { handleMessageSend } from '../util/handleMessageSend.js';
+import { getConversationMembers } from '../util/getConversationMembers.js';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SendStatus } from '../messages/MessageSendState.js';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews';
-import { MINUTE, SECOND, DurationInSeconds } from '../util/durations';
-import { concat, filter, map, repeat, zipObject } from '../util/iterables';
-import * as universalExpireTimer from '../util/universalExpireTimer';
-import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
+} from '../types/message/LinkPreviews.js';
+import { MINUTE, SECOND, DurationInSeconds } from '../util/durations/index.js';
+import { concat, filter, map, repeat, zipObject } from '../util/iterables.js';
+import * as universalExpireTimer from '../util/universalExpireTimer.js';
+import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
-} from '../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../protobuf';
+} from '../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 import {
   getMessagePropStatus,
   hasErrors,
   isIncoming,
   isStory,
-} from '../state/selectors/message';
-import { getPreloadedConversationId } from '../state/selectors/conversations';
+} from '../state/selectors/message.js';
+import { getPreloadedConversationId } from '../state/selectors/conversations.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { getProfile } from '../util/getProfile';
-import { SEALED_SENDER } from '../types/SealedSender';
-import { createIdenticon } from '../util/createIdenticon';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { isMessageUnread } from '../util/isMessageUnread';
-import type { SenderKeyTargetType } from '../util/sendToGroup';
-import { resetSenderKey, sendContentMessageToGroup } from '../util/sendToGroup';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import { TimelineMessageLoadingState } from '../util/timelineUtil';
-import { SeenStatus } from '../MessageSeenStatus';
-import { getConversationIdForLogging } from '../util/idForLogging';
-import { getSendTarget } from '../util/getSendTarget';
-import { getRecipients } from '../util/getRecipients';
-import { validateConversation } from '../util/validateConversation';
-import { isSignalConversation } from '../util/isSignalConversation';
-import { removePendingMember } from '../util/removePendingMember';
+} from '../jobs/conversationJobQueue.js';
+import { getProfile } from '../util/getProfile.js';
+import { SEALED_SENDER } from '../types/SealedSender.js';
+import { createIdenticon } from '../util/createIdenticon.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { isMessageUnread } from '../util/isMessageUnread.js';
+import type { SenderKeyTargetType } from '../util/sendToGroup.js';
+import {
+  resetSenderKey,
+  sendContentMessageToGroup,
+} from '../util/sendToGroup.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import { TimelineMessageLoadingState } from '../util/timelineUtil.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { getConversationIdForLogging } from '../util/idForLogging.js';
+import { getSendTarget } from '../util/getSendTarget.js';
+import { getRecipients } from '../util/getRecipients.js';
+import { validateConversation } from '../util/validateConversation.js';
+import { isSignalConversation } from '../util/isSignalConversation.js';
+import { removePendingMember } from '../util/removePendingMember.js';
 import {
   isMember,
   isMemberAwaitingApproval,
   isMemberBanned,
   isMemberPending,
   isMemberRequestingToJoin,
-} from '../util/groupMembershipUtils';
-import { imageToBlurHash } from '../util/imageToBlurHash';
-import { ReceiptType } from '../types/Receipt';
-import { getQuoteAttachment } from '../util/makeQuote';
-import { deriveProfileKeyVersion } from '../util/zkgroup';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { generateMessageId } from '../util/generateMessageId';
-import { getMessageAuthorText } from '../util/getMessageAuthorText';
-import { downscaleOutgoingAttachment } from '../util/attachments';
+} from '../util/groupMembershipUtils.js';
+import { imageToBlurHash } from '../util/imageToBlurHash.js';
+import { ReceiptType } from '../types/Receipt.js';
+import { getQuoteAttachment } from '../util/makeQuote.js';
+import { deriveProfileKeyVersion } from '../util/zkgroup.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { generateMessageId } from '../util/generateMessageId.js';
+import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
+import { downscaleOutgoingAttachment } from '../util/attachments.js';
 import {
   MessageRequestResponseSource,
   type MessageRequestResponseInfo,
   MessageRequestResponseEvent,
-} from '../types/MessageRequestResponseEvent';
-import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
+} from '../types/MessageRequestResponseEvent.js';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents.js';
 import {
   getConversationIdentifier,
   getAddressableMessage,
-} from '../util/syncIdentifiers';
-import { explodePromise } from '../util/explodePromise';
-import { getCallHistorySelector } from '../state/selectors/callHistory';
-import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
-import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
-import { getIsInitialContactSync } from '../services/contactSync';
-import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads';
-import { cleanupMessages } from '../util/cleanup';
-import { MessageModel } from './messages';
-import { applyNewAvatar } from '../groups';
-import { safeSetTimeout } from '../util/timeout';
-import { getTypingIndicatorSetting } from '../types/Util';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
-import { maybeNotify } from '../messages/maybeNotify';
-import { missingCaseError } from '../util/missingCaseError';
-import * as Message from '../types/Message2';
+} from '../util/syncIdentifiers.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { getCallHistorySelector } from '../state/selectors/callHistory.js';
+import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus.js';
+import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes.js';
+import { getIsInitialContactSync } from '../services/contactSync.js';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads.js';
+import { cleanupMessages } from '../util/cleanup.js';
+import { MessageModel } from './messages.js';
+import { applyNewAvatar } from '../groups.js';
+import { safeSetTimeout } from '../util/timeout.js';
+import { getTypingIndicatorSetting } from '../types/Util.js';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
+import { maybeNotify } from '../messages/maybeNotify.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import * as Message from '../types/Message2.js';
+
+const { compact, isNumber, throttle, debounce } = lodash;
 
 const log = createLogger('conversations');
 
@@ -1377,8 +1390,6 @@ export class ConversationModel {
 
       const contentMessage = messaging.getTypingContentMessage(content);
 
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
       const sendOptions = {
         ...(await getSendOptions(this.attributes)),
         online: true,
@@ -1386,7 +1397,7 @@ export class ConversationModel {
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
           messaging.sendMessageProtoAndWait({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             groupId: undefined,
             options: sendOptions,
             proto: contentMessage,
@@ -1399,7 +1410,7 @@ export class ConversationModel {
       } else {
         await handleMessageSend(
           sendContentMessageToGroup({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             contentMessage,
             messageId: undefined,
             online: true,
@@ -4185,29 +4196,6 @@ export class ConversationModel {
     return attributes;
   }
 
-  // Is this someone who is a contact, or are we sharing our profile with them?
-  //   Or is the person who added us to this group a contact or are we sharing profile
-  //   with them?
-  isFromOrAddedByTrustedContact(): boolean {
-    if (isDirectConversation(this.attributes)) {
-      return Boolean(this.get('name')) || Boolean(this.get('profileSharing'));
-    }
-
-    const addedBy = this.get('addedBy');
-    if (!addedBy) {
-      return false;
-    }
-
-    const conv = window.ConversationController.get(addedBy);
-    if (!conv) {
-      return false;
-    }
-
-    return Boolean(
-      isMe(conv.attributes) || conv.get('name') || conv.get('profileSharing')
-    );
-  }
-
   async maybeClearUsername(): Promise<void> {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -5493,7 +5481,7 @@ export class ConversationModel {
 
   async #getTemporaryAvatarPath(): Promise<string | undefined> {
     const {
-      copyIntoTempDirectory,
+      copyAttachmentIntoTempDirectory,
       deleteAttachmentData,
       getAbsoluteAttachmentPath,
       getAbsoluteTempPath,
@@ -5529,7 +5517,7 @@ export class ConversationModel {
     });
 
     try {
-      const { path: tempPath } = await copyIntoTempDirectory(
+      const { path: tempPath } = await copyAttachmentIntoTempDirectory(
         getAbsoluteAttachmentPath(plaintextPath)
       );
       return getAbsoluteTempPath(tempPath);

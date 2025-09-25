@@ -5,9 +5,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import type { PropsType } from './DonationThanksModal';
-import { DonationThanksModal } from './DonationThanksModal';
-import { getFakeBadge } from '../test-helpers/getFakeBadge';
+import type { PropsType } from './DonationThanksModal.js';
+import { DonationThanksModal } from './DonationThanksModal.js';
+import { getFakeBadge } from '../test-helpers/getFakeBadge.js';
 
 const { i18n } = window.SignalContext;
 

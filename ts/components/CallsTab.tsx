@@ -2,29 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useState } from 'react';
-import type { LocalizerType } from '../types/I18N';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
-import { CallsList } from './CallsList';
-import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/I18N.js';
+import { NavSidebar, NavSidebarActionButton } from './NavSidebar.js';
+import { CallsList } from './CallsList.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 import type {
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../types/CallDisposition';
-import { CallsNewCall } from './CallsNewCallButton';
-import { useEscapeHandling } from '../hooks/useEscapeHandling';
+} from '../types/CallDisposition.js';
+import { CallsNewCall } from './CallsNewCallButton.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
-} from '../state/ducks/calling';
-import { ContextMenu } from './ContextMenu';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import type { UnreadStats } from '../util/countUnreadStats';
-import type { WidthBreakpoint } from './_util';
-import type { CallLinkType } from '../types/CallLink';
-import type { CallStateType } from '../state/selectors/calling';
-import type { StartCallData } from './ConfirmLeaveCallModal';
-import { I18n } from './I18n';
+} from '../state/ducks/calling.js';
+import { ContextMenu } from './ContextMenu.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
+import type { WidthBreakpoint } from './_util.js';
+import type { CallLinkType } from '../types/CallLink.js';
+import type { CallStateType } from '../state/selectors/calling.js';
+import type { StartCallData } from './ConfirmLeaveCallModal.js';
+import { I18n } from './I18n.js';
 
 enum CallsTabSidebarView {
   CallsListView,

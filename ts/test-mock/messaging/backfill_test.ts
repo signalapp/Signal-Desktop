@@ -7,14 +7,14 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import createDebug from 'debug';
 import type { Page } from 'playwright';
-import assert from 'assert';
+import assert from 'node:assert';
 import Long from 'long';
 
-import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { sendTextMessage, getTimelineMessageWithText } from '../helpers';
+import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.js';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { sendTextMessage, getTimelineMessageWithText } from '../helpers.js';
 
 export const debug = createDebug('mock:test:backfill');
 
@@ -51,19 +51,19 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     const { unknownContacts } = bootstrap;
     [unknownContact] = unknownContacts;
 
-    textAttachment = await bootstrap.storeAttachmentOnCDN(
+    textAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       Buffer.from('look at this pic, it is gorgeous!'),
       LONG_MESSAGE
     );
 
     const plaintextCat = await readFile(CAT_PATH);
-    catAttachment = await bootstrap.storeAttachmentOnCDN(
+    catAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       plaintextCat,
       IMAGE_JPEG
     );
 
     const plaintextSnow = await readFile(SNOW_PATH);
-    snowAttachment = await bootstrap.storeAttachmentOnCDN(
+    snowAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       plaintextSnow,
       IMAGE_JPEG
     );
@@ -197,6 +197,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       .getByRole('button', {
         name: 'Open this attachment in a larger view',
       })
+      .first()
       .waitFor();
 
     debug('failing second attachment');

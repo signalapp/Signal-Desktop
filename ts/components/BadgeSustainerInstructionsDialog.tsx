@@ -3,8 +3,8 @@
 
 import type { ReactElement } from 'react';
 import React from 'react';
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
 
 export function BadgeSustainerInstructionsDialog({
   i18n,

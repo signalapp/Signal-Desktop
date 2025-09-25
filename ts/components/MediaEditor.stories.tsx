@@ -5,10 +5,10 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './MediaEditor';
-import { MediaEditor } from './MediaEditor';
-import { Stickers, installedPacks } from '../test-helpers/getStickerPacks';
-import { EmojiSkinTone } from './fun/data/emojis';
+import type { PropsType } from './MediaEditor.js';
+import { MediaEditor } from './MediaEditor.js';
+import { Stickers, installedPacks } from '../test-helpers/getStickerPacks.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';

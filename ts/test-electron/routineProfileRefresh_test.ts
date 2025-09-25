@@ -4,14 +4,16 @@
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 
-import { times } from 'lodash';
-import { ConversationModel } from '../models/conversations';
-import type { ConversationAttributesType } from '../model-types.d';
-import { generateAci } from '../types/ServiceId';
-import { DAY, HOUR, MINUTE, MONTH } from '../util/durations';
+import lodash from 'lodash';
+import { ConversationModel } from '../models/conversations.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { generateAci } from '../types/ServiceId.js';
+import { DAY, HOUR, MINUTE, MONTH } from '../util/durations/index.js';
 
-import { routineProfileRefresh } from '../routineProfileRefresh';
-import type { getProfile } from '../util/getProfile';
+import { routineProfileRefresh } from '../routineProfileRefresh.js';
+import type { getProfile } from '../util/getProfile.js';
+
+const { times } = lodash;
 
 describe('routineProfileRefresh', () => {
   let sinonSandbox: sinon.SinonSandbox;

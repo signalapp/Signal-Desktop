@@ -5,11 +5,11 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { NavTabsProps } from './NavTabs';
-import { NavTabs } from './NavTabs';
-import { NavTab } from '../types/Nav';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { ThemeType } from '../types/Util';
+import type { NavTabsProps } from './NavTabs.js';
+import { NavTabs } from './NavTabs.js';
+import { NavTab } from '../types/Nav.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { ThemeType } from '../types/Util.js';
 
 const { i18n } = window.SignalContext;
 

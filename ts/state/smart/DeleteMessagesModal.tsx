@@ -3,22 +3,22 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
-import { getIntl } from '../selectors/user';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import DeleteMessagesModal from '../../components/DeleteMessagesModal';
-import { strictAssert } from '../../util/assert';
-import { canDeleteMessagesForEveryone } from '../selectors/message';
-import { useConversationsActions } from '../ducks/conversations';
-import { useToastActions } from '../ducks/toast';
+import type { StateType } from '../reducer.js';
+import { getIntl } from '../selectors/user.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import DeleteMessagesModal from '../../components/DeleteMessagesModal.js';
+import { strictAssert } from '../../util/assert.js';
+import { canDeleteMessagesForEveryone } from '../selectors/message.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useToastActions } from '../ducks/toast.js';
 import {
   getConversationSelector,
   getLastSelectedMessage,
-} from '../selectors/conversations';
-import { getDeleteMessagesProps } from '../selectors/globalModals';
-import { useItemsActions } from '../ducks/items';
-import { getLocalDeleteWarningShown } from '../selectors/items';
-import { LocalDeleteWarningModal } from '../../components/LocalDeleteWarningModal';
+} from '../selectors/conversations.js';
+import { getDeleteMessagesProps } from '../selectors/globalModals.js';
+import { useItemsActions } from '../ducks/items.js';
+import { getLocalDeleteWarningShown } from '../selectors/items.js';
+import { LocalDeleteWarningModal } from '../../components/LocalDeleteWarningModal.js';
 
 export const SmartDeleteMessagesModal = memo(
   function SmartDeleteMessagesModal() {

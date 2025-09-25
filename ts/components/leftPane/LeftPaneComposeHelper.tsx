@@ -4,21 +4,21 @@
 import type { ReactChild, ChangeEvent } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
-import { SearchInput } from '../SearchInput';
-import type { LocalizerType } from '../../types/Util';
-import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem.js';
+import { SearchInput } from '../SearchInput.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
+import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance.js';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.js';
 import {
   isFetchingByUsername,
   isFetchingByE164,
-} from '../../util/uuidFetchState';
-import type { GroupListItemConversationType } from '../conversationList/GroupListItem';
-import { isProbablyAUsername } from '../../util/Username';
+} from '../../util/uuidFetchState.js';
+import type { GroupListItemConversationType } from '../conversationList/GroupListItem.js';
+import { isProbablyAUsername } from '../../util/Username.js';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;

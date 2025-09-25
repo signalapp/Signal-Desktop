@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { Readable } from 'node:stream';
 import { once } from 'node:events';
-import { toWebStream } from '../../util/toWebStream';
+import { toWebStream } from '../../util/toWebStream.js';
 
 describe('toWebStream', () => {
   it('only reads what it needs', async () => {

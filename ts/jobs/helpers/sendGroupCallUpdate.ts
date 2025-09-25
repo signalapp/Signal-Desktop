@@ -1,23 +1,24 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getSendOptions } from '../../util/getSendOptions';
-import { isGroup } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+import { ContentHint } from '@signalapp/libsignal-client';
+
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { isGroup } from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
+} from './handleMultipleSendErrors.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   GroupCallUpdateJobData,
-} from '../conversationJobQueue';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
-import { sendToGroup } from '../../util/sendToGroup';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend';
-import { getValidRecipients } from './getValidRecipients';
+} from '../conversationJobQueue.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.js';
+import { getValidRecipients } from './getValidRecipients.js';
 
 export async function sendGroupCallUpdate(
   conversation: ConversationModel,
@@ -66,7 +67,6 @@ export async function sendGroupCallUpdate(
   }
 
   const sendType = 'callingMessage';
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const groupV2 = conversation.getGroupV2Info();
   const sendOptions = await getSendOptions(conversation.attributes);
   if (!groupV2) {
@@ -82,7 +82,7 @@ export async function sendGroupCallUpdate(
       send: () =>
         conversation.queueJob(logId, () =>
           sendToGroup({
-            contentHint: ContentHint.DEFAULT,
+            contentHint: ContentHint.Default,
             groupSendOptions: {
               groupCallUpdate: { eraId },
               groupV2,

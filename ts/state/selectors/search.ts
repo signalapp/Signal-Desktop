@@ -4,34 +4,34 @@
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
 
-import { deconstructLookup } from '../../util/deconstructLookup';
+import { deconstructLookup } from '../../util/deconstructLookup.js';
 
-import type { StateType } from '../reducer';
+import type { StateType } from '../reducer.js';
 
 import type {
   MessageSearchResultLookupType,
   MessageSearchResultType,
   SearchStateType,
-} from '../ducks/search';
+} from '../ducks/search.js';
 import type {
   ConversationLookupType,
   ConversationType,
-} from '../ducks/conversations';
+} from '../ducks/conversations.js';
 
-import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
-import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
+import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.js';
+import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.js';
 
-import { getIntl, getUserConversationId } from './user';
-import type { GetConversationByIdType } from './conversations';
+import { getIntl, getUserConversationId } from './user.js';
+import type { GetConversationByIdType } from './conversations.js';
 import {
   getConversationLookup,
   getConversationSelector,
   getSelectedConversationId,
-} from './conversations';
+} from './conversations.js';
 
-import { hydrateRanges } from '../../types/BodyRange';
-import { createLogger } from '../../logging/log';
-import { getOwn } from '../../util/getOwn';
+import { hydrateRanges } from '../../types/BodyRange.js';
+import { createLogger } from '../../logging/log.js';
+import { getOwn } from '../../util/getOwn.js';
 
 const log = createLogger('search');
 

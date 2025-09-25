@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { DonateInputCardNumber } from './DonateInputCardNumber';
-import type { DonateInputCardNumberProps } from './DonateInputCardNumber';
-import type { ComponentMeta } from '../../../storybook/types';
+import { DonateInputCardNumber } from './DonateInputCardNumber.js';
+import type { DonateInputCardNumberProps } from './DonateInputCardNumber.js';
+import type { ComponentMeta } from '../../../storybook/types.js';
 
 export default {
   component: DonateInputCardNumber,
@@ -13,6 +13,7 @@ export default {
     value: '',
     onValueChange: action('onValueChange'),
     onBlur: action('onBlur'),
+    onEnter: action('onEnter'),
     maxInputLength: 19,
   },
 } satisfies ComponentMeta<DonateInputCardNumberProps>;

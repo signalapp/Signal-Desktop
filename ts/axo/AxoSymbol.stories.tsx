@@ -4,9 +4,13 @@ import React, { memo, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { Direction } from 'radix-ui';
 import Fuse from 'fuse.js';
-import type { AxoSymbolName } from './AxoSymbol';
-import { AxoSymbol, _getAllAxoSymbolNames, _getAxoSymbol } from './AxoSymbol';
-import { tw } from './tw';
+import type { AxoSymbolName } from './AxoSymbol.js';
+import {
+  AxoSymbol,
+  _getAllAxoSymbolNames,
+  _getAxoSymbol,
+} from './AxoSymbol.js';
+import { tw } from './tw.js';
 
 export default {
   title: 'Axo/AxoSymbol',
@@ -43,12 +47,12 @@ const SymbolInfo = memo(function SymbolInfo(props: {
                 {variant.title}
               </span>
               <span className={tw('text-[20px] leading-none')}>
-                <Direction.DirectionProvider dir={variant.dir}>
+                <Direction.Provider dir={variant.dir}>
                   <AxoSymbol.InlineGlyph
                     symbol={props.symbolName}
                     label={null}
                   />
-                </Direction.DirectionProvider>
+                </Direction.Provider>
               </span>
               <code className={tw('type-caption text-label-secondary')}>
                 {Array.from(variant.text, char => {

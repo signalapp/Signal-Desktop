@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { DialogNetworkStatus } from '../../components/DialogNetworkStatus';
-import { getIntl } from '../selectors/user';
-import type { WidthBreakpoint } from '../../components/_util';
+import { DialogNetworkStatus } from '../../components/DialogNetworkStatus.js';
+import { getIntl } from '../selectors/user.js';
+import type { WidthBreakpoint } from '../../components/_util.js';
 import {
   getNetworkIsOnline,
   getNetworkIsOutage,
   getNetworkSocketStatus,
-} from '../selectors/network';
-import { useUserActions } from '../ducks/user';
+} from '../selectors/network.js';
+import { useUserActions } from '../ducks/user.js';
 
 type SmartNetworkStatusProps = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;

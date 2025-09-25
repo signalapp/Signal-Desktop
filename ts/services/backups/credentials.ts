@@ -8,41 +8,49 @@ import {
   BackupAuthCredentialResponse,
   type BackupLevel,
   GenericServerPublicParams,
-} from '@signalapp/libsignal-client/zkgroup';
-import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
+} from '@signalapp/libsignal-client/zkgroup.js';
+import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import lodashFp from 'lodash/fp.js';
 
-import * as Bytes from '../../Bytes';
-import { createLogger } from '../../logging/log';
-import { strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { isMoreRecentThan, toDayMillis } from '../../util/timestamp';
-import { DAY, DurationInSeconds, HOUR } from '../../util/durations';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff';
-import { missingCaseError } from '../../util/missingCaseError';
+import * as Bytes from '../../Bytes.js';
+import { createLogger } from '../../logging/log.js';
+import { strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.js';
+import {
+  DAY,
+  DurationInSeconds,
+  HOUR,
+  MINUTE,
+} from '../../util/durations/index.js';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
 import {
   type BackupCdnReadCredentialType,
   type BackupCredentialWrapperType,
   type BackupPresentationHeadersType,
   type BackupSignedPresentationType,
   BackupCredentialType,
-} from '../../types/backups';
-import { toLogFormat } from '../../types/errors';
-import { HTTPError } from '../../textsecure/Errors';
+} from '../../types/backups.js';
+import { toLogFormat } from '../../types/errors.js';
+import { HTTPError } from '../../textsecure/Errors.js';
 import type {
   GetBackupCredentialsResponseType,
   GetBackupCDNCredentialsResponseType,
-} from '../../textsecure/WebAPI';
+} from '../../textsecure/WebAPI.js';
 import {
   getBackupKey,
   getBackupMediaRootKey,
   getBackupSignatureKey,
   getBackupMediaSignatureKey,
-} from './crypto';
-import { isTestOrMockEnvironment } from '../../environment';
+} from './crypto.js';
+import { isTestOrMockEnvironment } from '../../environment.js';
 import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
-} from '../../util/isBackupEnabled';
+} from '../../util/isBackupEnabled.js';
+
+const { throttle } = lodashFp;
 
 const log = createLogger('Backup.Credentials');
 
@@ -54,9 +62,21 @@ const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
 export class BackupCredentials {
   #activeFetch: Promise<ReadonlyArray<BackupCredentialWrapperType>> | undefined;
 
-  #cachedCdnReadCredentials: Record<number, BackupCdnReadCredentialType> = {};
+  #cachedCdnReadCredentials: Record<
+    BackupCredentialType,
+    Record<number, BackupCdnReadCredentialType>
+  > = {
+    [BackupCredentialType.Media]: {},
+    [BackupCredentialType.Messages]: {},
+  };
 
   readonly #fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
+
+  // Throttle credential clearing to avoid loops
+  public readonly onCdnCredentialError = throttle(5 * MINUTE, () => {
+    log.warn('onCdnCredentialError: clearing cache');
+    this.#clearCdnReadCredentials();
+  });
 
   public start(): void {
     this.#scheduleFetch();
@@ -140,7 +160,7 @@ export class BackupCredentials {
   }
 
   public async getCDNReadCredentials(
-    cdn: number,
+    cdnNumber: number,
     credentialType: BackupCredentialType
   ): Promise<GetBackupCDNCredentialsResponseType> {
     const { server } = window.textsecure;
@@ -148,16 +168,19 @@ export class BackupCredentials {
 
     // Backup CDN read credentials are short-lived; we'll just cache them in memory so
     // that they get invalidated for any reason, we'll fetch new ones on app restart
-    const cachedCredentialsForThisCdn = this.#cachedCdnReadCredentials[cdn];
+    const cachedCredentialsForThisCredentialType =
+      this.#cachedCdnReadCredentials[credentialType];
+
+    const cachedCredentials = cachedCredentialsForThisCredentialType[cdnNumber];
 
     if (
-      cachedCredentialsForThisCdn &&
+      cachedCredentials &&
       isMoreRecentThan(
-        cachedCredentialsForThisCdn.retrievedAtMs,
+        cachedCredentials.retrievedAtMs,
         BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION
       )
     ) {
-      return cachedCredentialsForThisCdn.credentials;
+      return cachedCredentials.credentials;
     }
 
     const headers = await this.getHeadersForToday(credentialType);
@@ -165,12 +188,12 @@ export class BackupCredentials {
     const retrievedAtMs = Date.now();
     const newCredentials = await server.getBackupCDNCredentials({
       headers,
-      cdn,
+      cdnNumber,
     });
 
-    this.#cachedCdnReadCredentials[cdn] = {
+    cachedCredentialsForThisCredentialType[cdnNumber] = {
       credentials: newCredentials,
-      cdnNumber: cdn,
+      cdnNumber,
       retrievedAtMs,
     };
 
@@ -410,7 +433,15 @@ export class BackupCredentials {
 
   // Called when backup tier changes or when userChanged event
   public async clearCache(): Promise<void> {
-    this.#cachedCdnReadCredentials = {};
+    log.info('Clearing cache');
+    this.#clearCdnReadCredentials();
     await this.#updateCache([]);
+  }
+
+  #clearCdnReadCredentials(): void {
+    this.#cachedCdnReadCredentials = {
+      [BackupCredentialType.Media]: {},
+      [BackupCredentialType.Messages]: {},
+    };
   }
 }

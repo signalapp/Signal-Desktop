@@ -2,6 +2,7 @@
 # supports `.gitignore`: https://github.com/prettier/prettier/issues/2294
 
 # Generated files
+build/**/*.js
 app/**/*.js
 config/local-*.json
 config/local.json

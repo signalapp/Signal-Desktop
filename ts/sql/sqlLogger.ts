@@ -3,10 +3,10 @@
 import { parentPort } from 'node:worker_threads';
 import { format } from 'node:util';
 
-import type { LoggerType } from '../types/Logging';
-import type { WrappedWorkerLogEntry, WrappedWorkerResponse } from './main';
-import { consoleLogger } from '../util/consoleLogger';
-import { strictAssert } from '../util/assert';
+import type { LoggerType } from '../types/Logging.js';
+import type { WrappedWorkerLogEntry, WrappedWorkerResponse } from './main.js';
+import { consoleLogger } from '../util/consoleLogger.js';
+import { strictAssert } from '../util/assert.js';
 
 class SQLLogger {
   #msgPrefix: string;

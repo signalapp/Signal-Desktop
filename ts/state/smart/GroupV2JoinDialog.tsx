@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { PropsType as GroupV2JoinDialogPropsType } from '../../components/GroupV2JoinDialog';
-import { GroupV2JoinDialog } from '../../components/GroupV2JoinDialog';
-import { getIntl } from '../selectors/user';
-import { getPreJoinConversation } from '../selectors/conversations';
+import type { PropsType as GroupV2JoinDialogPropsType } from '../../components/GroupV2JoinDialog.js';
+import { GroupV2JoinDialog } from '../../components/GroupV2JoinDialog.js';
+import { getIntl } from '../selectors/user.js';
+import { getPreJoinConversation } from '../selectors/conversations.js';
 
 export type SmartGroupV2JoinDialogProps = Pick<
   GroupV2JoinDialogPropsType,

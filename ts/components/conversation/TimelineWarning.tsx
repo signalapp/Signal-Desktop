@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util.js';
 
 const CLASS_NAME = 'module-TimelineWarning';
 const ICON_CONTAINER_CLASS_NAME = `${CLASS_NAME}__icon-container`;

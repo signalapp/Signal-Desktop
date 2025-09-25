@@ -3,33 +3,36 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
-import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
-import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
-import { LeftPane } from '../../components/LeftPane';
-import type { NavTabPanelProps } from '../../components/NavTabs';
-import type { WidthBreakpoint } from '../../components/_util';
+import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.js';
+import { DialogExpiredBuild } from '../../components/DialogExpiredBuild.js';
+import type { PropsType as LeftPanePropsType } from '../../components/LeftPane.js';
+import { LeftPane } from '../../components/LeftPane.js';
+import type { NavTabPanelProps } from '../../components/NavTabs.js';
+import type { WidthBreakpoint } from '../../components/_util.js';
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits';
-import { LeftPaneMode } from '../../types/leftPane';
-import { getUsernameFromSearch } from '../../util/Username';
-import { getCountryDataForLocale } from '../../util/getCountryData';
-import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
-import { missingCaseError } from '../../util/missingCaseError';
-import { isDone as isRegistrationDone } from '../../util/registration';
-import { drop } from '../../util/drop';
-import { useCallingActions } from '../ducks/calling';
-import { useConversationsActions } from '../ducks/conversations';
-import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useItemsActions } from '../ducks/items';
-import { useNetworkActions } from '../ducks/network';
-import { useSearchActions } from '../ducks/search';
-import { useUsernameActions } from '../ducks/username';
-import type { StateType } from '../reducer';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+} from '../../groups/limits.js';
+import { LeftPaneMode } from '../../types/leftPane.js';
+import { getUsernameFromSearch } from '../../util/Username.js';
+import { getCountryDataForLocale } from '../../util/getCountryData.js';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { isDone as isRegistrationDone } from '../../util/registration.js';
+import { drop } from '../../util/drop.js';
+import { useCallingActions } from '../ducks/calling.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import {
+  ComposerStep,
+  OneTimeModalState,
+} from '../ducks/conversationsEnums.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useItemsActions } from '../ducks/items.js';
+import { useNetworkActions } from '../ducks/network.js';
+import { useSearchActions } from '../ducks/search.js';
+import { useUsernameActions } from '../ducks/username.js';
+import type { StateType } from '../reducer.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import {
   getComposeAvatarData,
   getComposeGroupAvatar,
@@ -53,9 +56,9 @@ import {
   hasGroupCreationError,
   isCreatingGroup,
   isEditingAvatar,
-} from '../selectors/conversations';
-import { getCrashReportCount } from '../selectors/crashReports';
-import { hasExpired } from '../selectors/expiration';
+} from '../selectors/conversations.js';
+import { getCrashReportCount } from '../selectors/crashReports.js';
+import { hasExpired } from '../selectors/expiration.js';
 import {
   getBackupMediaDownloadProgress,
   getNavTabsCollapsed,
@@ -63,12 +66,12 @@ import {
   getServerAlerts,
   getUsernameCorrupted,
   getUsernameLinkCorrupted,
-} from '../selectors/items';
+} from '../selectors/items.js';
 import {
   getChallengeStatus,
   hasNetworkDialog as getHasNetworkDialog,
   getNetworkIsOnline,
-} from '../selectors/network';
+} from '../selectors/network.js';
 import {
   getFilterByUnread,
   getHasSearchQuery,
@@ -79,34 +82,34 @@ import {
   getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
-} from '../selectors/search';
+} from '../selectors/search.js';
 import {
   isUpdateDownloaded as getIsUpdateDownloaded,
   isOSUnsupported,
   isUpdateDialogVisible,
-} from '../selectors/updates';
+} from '../selectors/updates.js';
 import {
   getIntl,
   getIsMacOS,
   getRegionCode,
   getTheme,
-} from '../selectors/user';
-import { SmartCaptchaDialog } from './CaptchaDialog';
-import { SmartCrashReportDialog } from './CrashReportDialog';
-import { SmartMessageSearchResult } from './MessageSearchResult';
-import { SmartNetworkStatus } from './NetworkStatus';
-import { SmartRelinkDialog } from './RelinkDialog';
-import { SmartToastManager } from './ToastManager';
-import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog';
-import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
-import { SmartUpdateDialog } from './UpdateDialog';
+} from '../selectors/user.js';
+import { SmartCaptchaDialog } from './CaptchaDialog.js';
+import { SmartCrashReportDialog } from './CrashReportDialog.js';
+import { SmartMessageSearchResult } from './MessageSearchResult.js';
+import { SmartNetworkStatus } from './NetworkStatus.js';
+import { SmartRelinkDialog } from './RelinkDialog.js';
+import { SmartToastManager } from './ToastManager.js';
+import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.js';
+import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.js';
+import { SmartUpdateDialog } from './UpdateDialog.js';
 import {
   cancelBackupMediaDownload,
   dismissBackupMediaDownloadBanner,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
-} from '../../util/backupMediaDownload';
-import { useNavActions } from '../ducks/nav';
+} from '../../util/backupMediaDownload.js';
+import { useNavActions } from '../ducks/nav.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;

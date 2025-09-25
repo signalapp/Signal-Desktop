@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { clamp } from 'lodash';
-import { strictAssert } from '../util/assert';
+import lodash from 'lodash';
+import { strictAssert } from '../util/assert.js';
+
+const { clamp } = lodash;
 
 export class MediaEditorFabricCropRect extends fabric.Rect {
   static PADDING = 4;

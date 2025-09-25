@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { EventEmitter } from 'events';
-import { once } from 'events';
+import type { EventEmitter } from 'node:events';
+import { once } from 'node:events';
 
 export async function wrapEventEmitterOnce(
   emitter: EventEmitter,

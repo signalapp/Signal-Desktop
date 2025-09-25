@@ -3,35 +3,35 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../types/Attachment';
-import type { MessageAttributesType } from '../model-types.d';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   SendState,
   SendStateByConversationId,
-} from '../messages/MessageSendState';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
-import { createLogger } from '../logging/log';
-import { DataReader, DataWriter } from '../sql/Client';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories';
-import { getStoriesBlocked } from './stories';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { SendStatus } from '../messages/MessageSendState';
+} from '../messages/MessageSendState.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.js';
+import { getStoriesBlocked } from './stories.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { SendStatus } from '../messages/MessageSendState.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { getRecipients } from './getRecipients';
-import { getSignalConnections } from './getSignalConnections';
-import { incrementMessageCounter } from './incrementMessageCounter';
-import { isGroupV2 } from './whatTypeOfConversation';
-import { isNotNil } from './isNotNil';
-import { collect } from './iterables';
-import { DurationInSeconds } from './durations';
-import { sanitizeLinkPreview } from '../services/LinkPreview';
-import type { DraftBodyRanges } from '../types/BodyRange';
-import { MessageModel } from '../models/messages';
+} from '../jobs/conversationJobQueue.js';
+import { getRecipients } from './getRecipients.js';
+import { getSignalConnections } from './getSignalConnections.js';
+import { incrementMessageCounter } from './incrementMessageCounter.js';
+import { isGroupV2 } from './whatTypeOfConversation.js';
+import { isNotNil } from './isNotNil.js';
+import { collect } from './iterables.js';
+import { DurationInSeconds } from './durations/index.js';
+import { sanitizeLinkPreview } from '../services/LinkPreview.js';
+import type { DraftBodyRanges } from '../types/BodyRange.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('sendStoryMessage');
 

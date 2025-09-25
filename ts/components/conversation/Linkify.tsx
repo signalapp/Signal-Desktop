@@ -5,10 +5,10 @@ import React from 'react';
 
 import LinkifyIt from 'linkify-it';
 
-import type { RenderTextCallbackType } from '../../types/Util';
-import { isLinkSneaky, shouldLinkifyMessage } from '../../types/LinkPreview';
-import { splitByEmoji } from '../../util/emoji';
-import { missingCaseError } from '../../util/missingCaseError';
+import type { RenderTextCallbackType } from '../../types/Util.js';
+import { isLinkSneaky, shouldLinkifyMessage } from '../../types/LinkPreview.js';
+import { splitByEmoji } from '../../util/emoji.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
 
 export const linkify = new LinkifyIt()
   // This is all TLDs in place in 2010, according to [IANA's root zone database][0]

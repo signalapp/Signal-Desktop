@@ -813,6 +813,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/axo/AriaClickable.tsx",
+    "line": "    const ref = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-28T23:36:44.974Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/axo/AriaClickable.tsx",
+    "line": "    const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-28T23:36:44.974Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
     "line": "  const ref = useRef<Buffer | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -1495,6 +1509,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesInternal.tsx",
+    "line": "  const prevAbortControlerRef = useRef<AbortController | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-20T18:18:34.081Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/PreferencesLocalBackups.tsx",
     "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1689,13 +1710,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-28T00:57:39.376Z",
     "reasonDetail": "Holding on to a close function"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/AttachmentStatusIcon.tsx",
-    "line": "  const timerRef = useRef<NodeJS.Timeout | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-02-21T04:17:59.239Z"
   },
   {
     "rule": "React-useRef",

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isValidLink } from '../types/LinkPreview';
+import { isValidLink } from '../types/LinkPreview.js';
 
 export function openLinkInWebBrowser(url: string): void {
   if (!isValidLink(url)) {

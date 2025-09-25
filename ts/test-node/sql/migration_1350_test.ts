@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sql } from '../../sql/util';
-import type { WritableDB } from '../../sql/Interface';
-import { updateToVersion, createDB } from './helpers';
+import { sql } from '../../sql/util.js';
+import type { WritableDB } from '../../sql/Interface.js';
+import { updateToVersion, createDB } from './helpers.js';
 
 describe('SQL/updateToSchemaVersion1350', () => {
   let db: WritableDB;

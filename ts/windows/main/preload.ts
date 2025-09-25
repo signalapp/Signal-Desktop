@@ -3,14 +3,14 @@
 
 /* eslint-disable global-require */
 
-import { createLogger } from '../../logging/log';
+import { createLogger } from '../../logging/log.js';
 
 const log = createLogger('preload');
 
 window.preloadStartTime = Date.now();
 
 try {
-  require('./start');
+  require('./start.js');
 } catch (error) {
   /* eslint-disable no-console */
   console.log('preload error!', error.stack);

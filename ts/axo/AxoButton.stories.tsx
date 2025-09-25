@@ -7,8 +7,8 @@ import {
   _getAllAxoButtonVariants,
   _getAllAxoButtonSizes,
   AxoButton,
-} from './AxoButton';
-import { tw } from './tw';
+} from './AxoButton.js';
+import { tw } from './tw.js';
 
 export default {
   title: 'Axo/AxoButton',

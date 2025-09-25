@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
-import { isNumber } from 'lodash';
+import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
+import lodash from 'lodash';
 
-import { assertDev, strictAssert } from '../util/assert';
-import { dropNull, shallowDropNull } from '../util/dropNull';
-import { fromAciUuidBytesOrString } from '../util/ServiceId';
-import { getTimestampFromLong } from '../util/timestampLongUtils';
-import { SignalService as Proto } from '../protobuf';
-import { deriveGroupFields } from '../groups';
-import * as Bytes from '../Bytes';
+import { assertDev, strictAssert } from '../util/assert.js';
+import { dropNull, shallowDropNull } from '../util/dropNull.js';
+import { fromAciUuidBytesOrString } from '../util/ServiceId.js';
+import { getTimestampFromLong } from '../util/timestampLongUtils.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { deriveGroupFields } from '../groups.js';
+import * as Bytes from '../Bytes.js';
 
 import type {
   ProcessedAttachment,
@@ -22,20 +22,25 @@ import type {
   ProcessedPreview,
   ProcessedSticker,
   ProcessedReaction,
+  ProcessedPollCreate,
+  ProcessedPollVote,
+  ProcessedPollTerminate,
   ProcessedDelete,
   ProcessedGiftBadge,
   ProcessedStoryContext,
-} from './Types.d';
-import { GiftBadgeStates } from '../components/conversation/Message';
-import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
-import { SECOND, DurationInSeconds } from '../util/durations';
-import type { AnyPaymentEvent } from '../types/Payment';
-import { PaymentEventKind } from '../types/Payment';
-import { filterAndClean } from '../types/BodyRange';
-import { bytesToUuid } from '../util/uuidToBytes';
-import { createName } from '../util/attachmentPath';
-import { partitionBodyAndNormalAttachments } from '../types/Attachment';
-import { isNotNil } from '../util/isNotNil';
+} from './Types.d.ts';
+import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME.js';
+import { SECOND, DurationInSeconds } from '../util/durations/index.js';
+import type { AnyPaymentEvent } from '../types/Payment.js';
+import { PaymentEventKind } from '../types/Payment.js';
+import { filterAndClean } from '../types/BodyRange.js';
+import { bytesToUuid } from '../util/uuidToBytes.js';
+import { createName } from '../util/attachmentPath.js';
+import { partitionBodyAndNormalAttachments } from '../types/Attachment.js';
+import { isNotNil } from '../util/isNotNil.js';
+
+const { isNumber } = lodash;
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -309,6 +314,53 @@ export function processReaction(
   };
 }
 
+export function processPollCreate(
+  pollCreate?: Proto.DataMessage.IPollCreate | null
+): ProcessedPollCreate | undefined {
+  if (!pollCreate) {
+    return undefined;
+  }
+
+  return {
+    question: dropNull(pollCreate.question),
+    options: pollCreate.options?.filter(isNotNil) || [],
+    allowMultiple: Boolean(pollCreate.allowMultiple),
+  };
+}
+
+export function processPollVote(
+  pollVote?: Proto.DataMessage.IPollVote | null
+): ProcessedPollVote | undefined {
+  if (!pollVote) {
+    return undefined;
+  }
+
+  const targetAuthorAci = fromAciUuidBytesOrString(
+    pollVote.targetAuthorAciBinary,
+    undefined,
+    'PollVote.targetAuthorAci'
+  );
+
+  return {
+    targetAuthorAci,
+    targetTimestamp: pollVote.targetSentTimestamp?.toNumber(),
+    optionIndexes: pollVote.optionIndexes?.filter(isNotNil) || [],
+    voteCount: pollVote.voteCount || 0,
+  };
+}
+
+export function processPollTerminate(
+  pollTerminate?: Proto.DataMessage.IPollTerminate | null
+): ProcessedPollTerminate | undefined {
+  if (!pollTerminate) {
+    return undefined;
+  }
+
+  return {
+    targetTimestamp: pollTerminate.targetSentTimestamp?.toNumber(),
+  };
+}
+
 export function processDelete(
   del?: Proto.DataMessage.IDelete | null
 ): ProcessedDelete | undefined {
@@ -407,6 +459,9 @@ export function processDataMessage(
     requiredProtocolVersion: dropNull(message.requiredProtocolVersion),
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
+    pollCreate: processPollCreate(message.pollCreate),
+    pollVote: processPollVote(message.pollVote),
+    pollTerminate: processPollTerminate(message.pollTerminate),
     delete: processDelete(message.delete),
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),

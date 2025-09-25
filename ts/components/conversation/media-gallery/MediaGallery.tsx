@@ -5,17 +5,17 @@ import React, { useEffect, useRef } from 'react';
 
 import moment from 'moment';
 
-import type { ItemClickEvent } from './types/ItemClickEvent';
-import type { LocalizerType } from '../../../types/Util';
-import type { MediaItemType } from '../../../types/MediaItem';
-import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations';
-import { AttachmentSection } from './AttachmentSection';
-import { EmptyState } from './EmptyState';
-import { Tabs } from '../../Tabs';
-import { groupMediaItemsByDate } from './groupMediaItemsByDate';
-import { missingCaseError } from '../../../util/missingCaseError';
-import { usePrevious } from '../../../hooks/usePrevious';
-import type { AttachmentType } from '../../../types/Attachment';
+import type { ItemClickEvent } from './types/ItemClickEvent.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.js';
+import { AttachmentSection } from './AttachmentSection.js';
+import { EmptyState } from './EmptyState.js';
+import { Tabs } from '../../Tabs.js';
+import { groupMediaItemsByDate } from './groupMediaItemsByDate.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import { usePrevious } from '../../../hooks/usePrevious.js';
+import type { AttachmentType } from '../../../types/Attachment.js';
 
 enum TabViews {
   Media = 'Media',
@@ -34,10 +34,13 @@ export type Props = {
   loadMoreDocuments: (id: string) => unknown;
   media: ReadonlyArray<MediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
+  kickOffAttachmentDownload: (options: { messageId: string }) => void;
+  cancelAttachmentDownload: (options: { messageId: string }) => void;
   showLightbox: (options: {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  theme?: ThemeType;
 };
 
 const MONTH_FORMAT = 'MMMM YYYY';
@@ -48,11 +51,22 @@ function MediaSection({
   loading,
   media,
   saveAttachment,
+  kickOffAttachmentDownload,
+  cancelAttachmentDownload,
   showLightbox,
   type,
+  theme,
 }: Pick<
   Props,
-  'documents' | 'i18n' | 'loading' | 'media' | 'saveAttachment' | 'showLightbox'
+  | 'documents'
+  | 'i18n'
+  | 'theme'
+  | 'loading'
+  | 'media'
+  | 'saveAttachment'
+  | 'kickOffAttachmentDownload'
+  | 'cancelAttachmentDownload'
+  | 'showLightbox'
 > & { type: 'media' | 'documents' }): JSX.Element {
   const mediaItems = type === 'media' ? media : documents;
 
@@ -107,20 +121,37 @@ function MediaSection({
         key={header}
         header={header}
         i18n={i18n}
+        theme={theme}
         type={type}
         mediaItems={section.mediaItems}
         onItemClick={(event: ItemClickEvent) => {
           switch (event.type) {
             case 'documents': {
-              saveAttachment(event.attachment, event.message.sentAt);
+              if (event.state === 'ReadyToShow') {
+                saveAttachment(event.attachment, event.message.sentAt);
+              } else if (event.state === 'Downloading') {
+                cancelAttachmentDownload({ messageId: event.message.id });
+              } else if (event.state === 'NeedsDownload') {
+                kickOffAttachmentDownload({ messageId: event.message.id });
+              } else {
+                throw missingCaseError(event.state);
+              }
               break;
             }
 
             case 'media': {
-              showLightbox({
-                attachment: event.attachment,
-                messageId: event.message.id,
-              });
+              if (event.state === 'ReadyToShow') {
+                showLightbox({
+                  attachment: event.attachment,
+                  messageId: event.message.id,
+                });
+              } else if (event.state === 'Downloading') {
+                cancelAttachmentDownload({ messageId: event.message.id });
+              } else if (event.state === 'NeedsDownload') {
+                kickOffAttachmentDownload({ messageId: event.message.id });
+              } else {
+                throw missingCaseError(event.state);
+              }
               break;
             }
 
@@ -147,6 +178,8 @@ export function MediaGallery({
   loadMoreMedia,
   media,
   saveAttachment,
+  kickOffAttachmentDownload,
+  cancelAttachmentDownload,
   showLightbox,
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
@@ -264,6 +297,8 @@ export function MediaGallery({
                   media={media}
                   saveAttachment={saveAttachment}
                   showLightbox={showLightbox}
+                  kickOffAttachmentDownload={kickOffAttachmentDownload}
+                  cancelAttachmentDownload={cancelAttachmentDownload}
                   type="media"
                 />
               )}
@@ -275,6 +310,8 @@ export function MediaGallery({
                   media={media}
                   saveAttachment={saveAttachment}
                   showLightbox={showLightbox}
+                  kickOffAttachmentDownload={kickOffAttachmentDownload}
+                  cancelAttachmentDownload={cancelAttachmentDownload}
                   type="documents"
                 />
               )}

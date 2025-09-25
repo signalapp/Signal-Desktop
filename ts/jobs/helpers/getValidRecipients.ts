@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNotNil } from '../../util/isNotNil';
+import { isNotNil } from '../../util/isNotNil.js';
 
-import type { LoggerType } from '../../types/Logging';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { LoggerType } from '../../types/Logging.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
 
 export function getValidRecipients(
   recipients: Array<string>,

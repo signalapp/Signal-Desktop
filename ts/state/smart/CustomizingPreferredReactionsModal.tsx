@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { usePreferredReactionsActions } from '../ducks/preferredReactions';
-import { useItemsActions } from '../ducks/items';
-import { getIntl } from '../selectors/user';
-import { getEmojiSkinToneDefault } from '../selectors/items';
-import { useRecentEmojis } from '../selectors/emojis';
-import { getCustomizeModalState } from '../selectors/preferredReactions';
-import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal';
-import { strictAssert } from '../../util/assert';
+import { usePreferredReactionsActions } from '../ducks/preferredReactions.js';
+import { useItemsActions } from '../ducks/items.js';
+import { getIntl } from '../selectors/user.js';
+import { getEmojiSkinToneDefault } from '../selectors/items.js';
+import { useRecentEmojis } from '../selectors/emojis.js';
+import { getCustomizeModalState } from '../selectors/preferredReactions.js';
+import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal.js';
+import { strictAssert } from '../../util/assert.js';
 
 export const SmartCustomizingPreferredReactionsModal = memo(
   function SmartCustomizingPreferredReactionsModal(): JSX.Element {

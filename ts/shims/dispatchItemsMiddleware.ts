@@ -8,7 +8,7 @@ import {
   COLORS_CHANGED,
   COLOR_SELECTED,
   SET_VOICE_NOTE_PLAYBACK_RATE,
-} from '../state/ducks/conversations';
+} from '../state/ducks/conversations.js';
 
 export const dispatchItemsMiddleware: Middleware =
   ({ getState }) =>

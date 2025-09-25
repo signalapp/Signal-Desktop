@@ -1,21 +1,23 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
+import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  getAttachmentIdForLogging,
   hasRequiredInformationForBackup,
   wasImportedFromLocalBackup,
-} from '../types/Attachment';
-import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
-import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
-import { MediaTier } from '../types/AttachmentDownload';
-import { createLogger } from '../logging/log';
-import { HTTPError } from '../textsecure/Errors';
-import { toLogFormat } from '../types/errors';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
+} from '../types/Attachment.js';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.js';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
+import { createLogger } from '../logging/log.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { toLogFormat } from '../types/errors.js';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
+import * as RemoteConfig from '../RemoteConfig.js';
+import { ToastType } from '../types/Toast.js';
+import { isAbortError } from './isAbortError.js';
 
 const log = createLogger('downloadAttachment');
 
@@ -26,6 +28,7 @@ export async function downloadAttachment({
     onSizeUpdate,
     abortSignal,
     hasMediaBackups,
+    logId: _logId,
   },
   dependencies = {
     downloadAttachmentFromServer: doDownloadAttachment,
@@ -38,17 +41,16 @@ export async function downloadAttachment({
     onSizeUpdate: (totalBytes: number) => void;
     abortSignal: AbortSignal;
     hasMediaBackups: boolean;
+    logId: string;
   };
   dependencies?: {
     downloadAttachmentFromServer: typeof doDownloadAttachment;
     downloadAttachmentFromLocalBackup: typeof doDownloadAttachmentFromLocalBackup;
   };
 }): Promise<ReencryptedAttachmentV2> {
-  const attachmentId = getAttachmentIdForLogging(attachment);
   const variantForLogging =
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
-  const dataId = `${attachmentId}${variantForLogging}`;
-  const logId = `downloadAttachmentUtil(${dataId})`;
+  const logId = `${_logId}${variantForLogging}`;
 
   const { server } = window.textsecure;
   if (!server) {
@@ -63,11 +65,16 @@ export async function downloadAttachment({
   if (wasImportedFromLocalBackup(attachment)) {
     log.info(`${logId}: Downloading attachment from local backup`);
     try {
-      const result =
-        await dependencies.downloadAttachmentFromLocalBackup(attachment);
+      const result = await dependencies.downloadAttachmentFromLocalBackup(
+        attachment,
+        { logId }
+      );
       onSizeUpdate(attachment.size);
       return result;
     } catch (error) {
+      if (isIncrementalMacVerificationError(error)) {
+        throw error;
+      }
       // We also just log this error instead of throwing, since we want to still try to
       // find it on the backup then transit tiers.
       log.error(
@@ -83,15 +90,28 @@ export async function downloadAttachment({
         server,
         { mediaTier: MediaTier.BACKUP, attachment },
         {
-          logPrefix: dataId,
+          logId,
           onSizeUpdate,
           variant,
           abortSignal,
         }
       );
     } catch (error) {
+      if (isIncrementalMacVerificationError(error)) {
+        throw error;
+      }
+      if (isAbortError(error)) {
+        throw error;
+      }
+
       const shouldFallbackToTransitTier =
         variant !== AttachmentVariant.ThumbnailFromBackup;
+
+      if (RemoteConfig.isEnabled('desktop.internalUser')) {
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.UnableToDownloadFromBackupTier,
+        });
+      }
 
       if (error instanceof HTTPError && error.code === 404) {
         // This is an expected occurrence if restoring from a backup before the
@@ -121,13 +141,20 @@ export async function downloadAttachment({
       server,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
-        logPrefix: dataId,
+        logId,
         onSizeUpdate,
         variant,
         abortSignal,
       }
     );
   } catch (error) {
+    if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
+    if (isAbortError(error)) {
+      throw error;
+    }
+
     if (mightBeOnBackupTierInTheFuture) {
       // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
       // may just need to wait for this attachment to end up on the backup tier
@@ -149,4 +176,11 @@ export async function downloadAttachment({
       throw error;
     }
   }
+}
+
+export function isIncrementalMacVerificationError(error: unknown): boolean {
+  return (
+    error instanceof LibSignalErrorBase &&
+    error.code === ErrorCode.IncrementalMacVerificationFailed
+  );
 }

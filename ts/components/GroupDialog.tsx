@@ -4,13 +4,13 @@
 import type { ReactChild, ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { ModalHost } from './ModalHost';
-import { Button, ButtonVariant } from './Button';
-import { Avatar, AvatarSize } from './Avatar';
-import { ContactName } from './conversation/ContactName';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import { ModalHost } from './ModalHost.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ContactName } from './conversation/ContactName.js';
 
 type PropsType = {
   children: ReactNode;

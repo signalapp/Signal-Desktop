@@ -3,7 +3,7 @@
 
 import Long from 'long';
 
-import { MAX_SAFE_DATE } from './timestamp';
+import { MAX_SAFE_DATE } from './timestamp.js';
 
 export function getSafeLongFromTimestamp(
   timestamp = 0,

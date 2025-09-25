@@ -3,32 +3,32 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { RawBodyRange } from '../types/BodyRange';
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import type { ICUStringMessageParamsByKeyType } from '../types/Util';
-import * as Attachment from '../types/Attachment';
-import * as EmbeddedContact from '../types/EmbeddedContact';
-import * as GroupChange from '../groupChange';
-import * as MIME from '../types/MIME';
-import * as Stickers from '../types/Stickers';
-import * as expirationTimer from './expirationTimer';
-import { createLogger } from '../logging/log';
-import { GiftBadgeStates } from '../components/conversation/Message';
-import { dropNull } from './dropNull';
-import { getCallHistorySelector } from '../state/selectors/callHistory';
-import { getCallSelector, getActiveCall } from '../state/selectors/calling';
-import { getCallingNotificationText } from './callingNotification';
+import type { RawBodyRange } from '../types/BodyRange.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ICUStringMessageParamsByKeyType } from '../types/Util.js';
+import * as Attachment from '../types/Attachment.js';
+import * as EmbeddedContact from '../types/EmbeddedContact.js';
+import * as GroupChange from '../groupChange.js';
+import * as MIME from '../types/MIME.js';
+import * as Stickers from '../types/Stickers.js';
+import * as expirationTimer from './expirationTimer.js';
+import { createLogger } from '../logging/log.js';
+import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { dropNull } from './dropNull.js';
+import { getCallHistorySelector } from '../state/selectors/callHistory.js';
+import { getCallSelector, getActiveCall } from '../state/selectors/calling.js';
+import { getCallingNotificationText } from './callingNotification.js';
 import {
   getConversationSelector,
   getSelectedMessageIds,
   getTargetedMessage,
-} from '../state/selectors/conversations';
-import { getStringForConversationMerge } from './getStringForConversationMerge';
-import { getStringForProfileChange } from './getStringForProfileChange';
-import { getTitleNoDefault, getNumber } from './getTitle';
-import { findAndFormatContact } from './findAndFormatContact';
-import { isGroup, isMe } from './whatTypeOfConversation';
-import { strictAssert } from './assert';
+} from '../state/selectors/conversations.js';
+import { getStringForConversationMerge } from './getStringForConversationMerge.js';
+import { getStringForProfileChange } from './getStringForProfileChange.js';
+import { getTitleNoDefault, getNumber } from './getTitle.js';
+import { findAndFormatContact } from './findAndFormatContact.js';
+import { isGroup, isMe } from './whatTypeOfConversation.js';
+import { strictAssert } from './assert.js';
 import {
   getPropsForCallHistory,
   hasErrors,
@@ -48,15 +48,15 @@ import {
   isUnsupportedMessage,
   isConversationMerge,
   isMessageRequestResponse,
-} from '../state/selectors/message';
+} from '../state/selectors/message.js';
 import {
   getAuthor,
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
-} from '../messages/helpers';
-import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
-import { missingCaseError } from './missingCaseError';
-import { getUserConversationId } from '../state/selectors/user';
+} from '../messages/helpers.js';
+import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.js';
+import { missingCaseError } from './missingCaseError.js';
+import { getUserConversationId } from '../state/selectors/user.js';
 
 const log = createLogger('getNotificationDataForMessage');
 

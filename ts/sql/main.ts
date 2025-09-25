@@ -1,20 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { Worker } from 'worker_threads';
-import { format } from 'util';
+import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
+import { format } from 'node:util';
 import { app } from 'electron';
 
-import { strictAssert } from '../util/assert';
-import { explodePromise } from '../util/explodePromise';
-import type { LoggerType } from '../types/Logging';
-import * as Errors from '../types/errors';
-import { SqliteErrorKind } from './errors';
+import { strictAssert } from '../util/assert.js';
+import { explodePromise } from '../util/explodePromise.js';
+import type { LoggerType } from '../types/Logging.js';
+import * as Errors from '../types/errors.js';
+import { SqliteErrorKind } from './errors.js';
 import type {
   ServerReadableDirectInterface,
   ServerWritableDirectInterface,
-} from './Interface';
+} from './Interface.js';
 
 const MIN_TRACE_DURATION = 40;
 

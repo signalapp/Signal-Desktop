@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
 
-import { DataReader, DataWriter } from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client.js';
 
-import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads';
-import type { MessageAttributesType } from '../../model-types';
-import { generateAci } from '../../types/ServiceId';
-import { AttachmentDownloadSource } from '../../sql/Interface';
-import { cleanupMessages } from '../../util/cleanup';
+import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { AttachmentDownloadSource } from '../../sql/Interface.js';
+import { cleanupMessages } from '../../util/cleanup.js';
 
 describe('sql/AttachmentDownloadBackupStats', () => {
   beforeEach(async () => {
@@ -47,8 +47,8 @@ describe('sql/AttachmentDownloadBackupStats', () => {
     const backupJob1 = createAttachmentDownloadJob(1, {
       messageId: 'message0',
       ciphertextSize: 1000,
-      originalSource: AttachmentDownloadSource.BACKUP_IMPORT,
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      originalSource: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     });
     await DataWriter.saveAttachmentDownloadJob(backupJob1);
     assert.deepStrictEqual(
@@ -59,8 +59,8 @@ describe('sql/AttachmentDownloadBackupStats', () => {
     const backupJob2 = createAttachmentDownloadJob(2, {
       messageId: 'message0',
       ciphertextSize: 2000,
-      originalSource: AttachmentDownloadSource.BACKUP_IMPORT,
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      originalSource: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     });
     await DataWriter.saveAttachmentDownloadJob(backupJob2);
     assert.deepStrictEqual(
@@ -128,8 +128,8 @@ describe('sql/AttachmentDownloadBackupStats', () => {
       }
     );
     const backupJob = createAttachmentDownloadJob(0, {
-      originalSource: AttachmentDownloadSource.BACKUP_IMPORT,
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      originalSource: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
       ciphertextSize: 128,
     });
     await DataWriter.saveAttachmentDownloadJob(backupJob);
@@ -167,8 +167,8 @@ describe('sql/AttachmentDownloadBackupStats', () => {
       }
     );
     const backupJob = createAttachmentDownloadJob(0, {
-      originalSource: AttachmentDownloadSource.BACKUP_IMPORT,
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      originalSource: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
       ciphertextSize: 128,
     });
     await DataWriter.saveAttachmentDownloadJob(backupJob);
@@ -190,7 +190,7 @@ describe('sql/AttachmentDownloadBackupStats', () => {
 
     assert.strictEqual(
       savedJob?.originalSource,
-      AttachmentDownloadSource.BACKUP_IMPORT
+      AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
     );
     assert.strictEqual(savedJob?.source, AttachmentDownloadSource.STANDARD);
 

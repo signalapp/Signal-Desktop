@@ -4,9 +4,9 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DisappearingTimeDialog';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { EXPIRE_TIMERS } from '../test-helpers/expireTimers';
+import type { PropsType } from './DisappearingTimeDialog.js';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.js';
+import { EXPIRE_TIMERS } from '../test-helpers/expireTimers.js';
 
 export default {
   title: 'Components/DisappearingTimeDialog',

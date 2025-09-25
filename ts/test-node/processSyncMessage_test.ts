@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { generateAci } from '../types/ServiceId';
+import { generateAci } from '../types/ServiceId.js';
 
-import { processSyncMessage } from '../textsecure/processSyncMessage';
+import { processSyncMessage } from '../textsecure/processSyncMessage.js';
 
 describe('processSyncMessage', () => {
   const destinationServiceId = generateAci();

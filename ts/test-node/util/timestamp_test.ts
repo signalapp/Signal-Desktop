@@ -4,9 +4,8 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import moment from 'moment';
-import { HOUR, DAY } from '../../util/durations';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
+import { HOUR, DAY } from '../../util/durations/index.js';
+import i18n from './i18n.js';
 
 import {
   formatDate,
@@ -18,7 +17,7 @@ import {
   isSameDay,
   isToday,
   toDayMillis,
-} from '../../util/timestamp';
+} from '../../util/timestamp.js';
 
 const FAKE_NOW = new Date('2020-01-23T04:56:00.000');
 
@@ -35,8 +34,6 @@ describe('timestamp', () => {
       sandbox.restore();
     });
   }
-
-  const i18n = setupI18n('en', enMessages);
 
   describe('formatDate', () => {
     useFakeTimers();

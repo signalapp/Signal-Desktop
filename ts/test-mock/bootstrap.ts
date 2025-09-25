@@ -1,11 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import assert from 'assert';
-import fs from 'fs/promises';
-import crypto from 'crypto';
-import path, { join } from 'path';
-import os from 'os';
+import assert from 'node:assert';
+import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
+import path, { join } from 'node:path';
+import os from 'node:os';
 import { PassThrough } from 'node:stream';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
@@ -21,19 +21,20 @@ import {
   ServiceIdKind,
   loadCertificates,
 } from '@signalapp/mock-server';
-import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
-import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations';
-import { drop } from '../util/drop';
-import { regress } from '../util/benchmark/stats';
-import type { RendererConfigType } from '../types/RendererConfig';
-import type { MIMEType } from '../types/MIME';
-import { App } from './playwright';
-import { CONTACT_COUNT } from './benchmarks/fixtures';
-import { strictAssert } from '../util/assert';
+import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.js';
+import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import { regress } from '../util/benchmark/stats.js';
+import type { RendererConfigType } from '../types/RendererConfig.js';
+import type { MIMEType } from '../types/MIME.js';
+import { App } from './playwright.js';
+import { CONTACT_COUNT } from './benchmarks/fixtures.js';
+import { strictAssert } from '../util/assert.js';
 import {
   encryptAttachmentV2,
   generateAttachmentKeys,
-} from '../AttachmentCrypto';
+} from '../AttachmentCrypto.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.js';
 
 export { App };
 
@@ -175,7 +176,6 @@ function sanitizePathComponent(component: string): string {
 }
 
 const DEFAULT_REMOTE_CONFIG = [
-  ['desktop.backup.credentialFetch', { enabled: true }],
   ['desktop.internalUser', { enabled: true }],
   ['desktop.senderKey.retry', { enabled: true }],
   ['global.backups.mediaTierFallbackCdnNumber', { enabled: true, value: '3' }],
@@ -221,6 +221,7 @@ export class Bootstrap {
   #storagePath?: string;
   #timestamp: number = Date.now() - WEEK;
   #lastApp?: App;
+  #screenshotId = 0;
   readonly #randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
@@ -545,6 +546,45 @@ export class Bootstrap {
     }
   }
 
+  public async screenshot(
+    app: App | undefined = this.#lastApp,
+    testName?: string
+  ): Promise<void> {
+    if (!app) {
+      return;
+    }
+
+    const outDir = await this.#getArtifactsDir(testName);
+    if (outDir == null) {
+      return;
+    }
+
+    const window = await app.getWindow();
+    const screenshot = await window.screenshot();
+
+    const id = this.#screenshotId;
+    this.#screenshotId += 1;
+
+    await fs.writeFile(path.join(outDir, `screenshot-${id}.png`), screenshot);
+  }
+
+  public async screenshotWindow(
+    window: Page,
+    testName?: string
+  ): Promise<void> {
+    const outDir = await this.#getArtifactsDir(testName);
+    if (outDir == null) {
+      return;
+    }
+
+    const screenshot = await window.screenshot();
+
+    const id = this.#screenshotId;
+    this.#screenshotId += 1;
+
+    await fs.writeFile(path.join(outDir, `screenshot-${id}.png`), screenshot);
+  }
+
   public async saveLogs(
     app: App | undefined = this.#lastApp,
     testName?: string
@@ -566,11 +606,7 @@ export class Bootstrap {
         ?.context()
         .tracing.stop({ path: path.join(outDir, 'trace.zip') });
     }
-    if (app) {
-      const window = await app.getWindow();
-      const screenshot = await window.screenshot();
-      await fs.writeFile(path.join(outDir, 'screenshot.png'), screenshot);
-    }
+    await this.screenshot(app, testName);
   }
 
   public async createScreenshotComparator(
@@ -655,7 +691,7 @@ export class Bootstrap {
     return join(this.#storagePath, 'attachments.noindex', relativePath);
   }
 
-  public async storeAttachmentOnCDN(
+  public async encryptAndStoreAttachmentOnCDN(
     data: Buffer,
     contentType: MIMEType
   ): Promise<Proto.IAttachmentPointer> {
@@ -665,13 +701,13 @@ export class Bootstrap {
 
     const passthrough = new PassThrough();
 
-    const [{ digest }] = await Promise.all([
+    const [{ digest, chunkSize, incrementalMac }] = await Promise.all([
       encryptAttachmentV2({
         keys,
         plaintext: {
           data,
         },
-        needIncrementalMac: false,
+        needIncrementalMac: isVideoTypeSupported(contentType),
         sink: passthrough,
       }),
       this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),
@@ -684,6 +720,8 @@ export class Bootstrap {
       cdnNumber,
       key: keys,
       digest,
+      chunkSize,
+      incrementalMac,
     };
   }
 

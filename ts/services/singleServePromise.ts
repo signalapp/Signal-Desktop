@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { ExplodePromiseResultType } from '../util/explodePromise';
+import type { ExplodePromiseResultType } from '../util/explodePromise.js';
 
 export type SingleServePromiseIdString = string & { __single_serve: never };
 

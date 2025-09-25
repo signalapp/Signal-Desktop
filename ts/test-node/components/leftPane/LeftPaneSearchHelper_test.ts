@@ -4,10 +4,13 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
-import { RowType, _testHeaderText } from '../../../components/ConversationList';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import {
+  RowType,
+  _testHeaderText,
+} from '../../../components/ConversationList.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
 
-import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper';
+import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper.js';
 
 const baseSearchHelperArgs = {
   conversationResults: { isLoading: false, results: [] },

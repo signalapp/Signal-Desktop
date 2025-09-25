@@ -5,10 +5,10 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { StandaloneRegistration } from './StandaloneRegistration';
-import type { PropsType } from './StandaloneRegistration';
-import { SECOND } from '../util/durations';
-import { sleep } from '../util/sleep';
+import { StandaloneRegistration } from './StandaloneRegistration.js';
+import type { PropsType } from './StandaloneRegistration.js';
+import { SECOND } from '../util/durations/index.js';
+import { sleep } from '../util/sleep.js';
 
 export default {
   title: 'Components/StandaloneRegistration',

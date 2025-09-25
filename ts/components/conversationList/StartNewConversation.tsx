@@ -4,17 +4,17 @@
 import type { FunctionComponent } from 'react';
 import React, { useCallback, useState } from 'react';
 
-import { ButtonVariant } from '../Button';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
-import { ListTile } from '../ListTile';
-import { Avatar, AvatarSize } from '../Avatar';
-import { Spinner } from '../Spinner';
+import { ButtonVariant } from '../Button.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.js';
+import { ListTile } from '../ListTile.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { Spinner } from '../Spinner.js';
 
-import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
-import type { LocalizerType } from '../../types/Util';
-import type { ShowConversationType } from '../../state/ducks/conversations';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { ShowConversationType } from '../../state/ducks/conversations.js';
 
 type PropsData = {
   phoneNumber: ParsedE164Type;

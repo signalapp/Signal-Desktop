@@ -5,13 +5,13 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { Avatar, AvatarBlur } from '../Avatar';
-import { AvatarColors } from '../../types/Colors';
-import { getName } from '../../types/EmbeddedContact';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon';
+import { Avatar, AvatarBlur } from '../Avatar.js';
+import { AvatarColors } from '../../types/Colors.js';
+import { getName } from '../../types/EmbeddedContact.js';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.js';
 
-import type { LocalizerType } from '../../types/Util';
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
+import type { LocalizerType } from '../../types/Util.js';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
 
 export function renderAvatar({
   contact,
@@ -28,11 +28,7 @@ export function renderAvatar({
 
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const title = getName(contact) || '';
-  const isAttachmentNotAvailable = Boolean(
-    avatar?.avatar?.isPermanentlyUndownloadable
-  );
-
-  const renderAttachmentDownloaded = () => (
+  const fallback = (
     <Avatar
       avatarUrl={avatarUrl}
       badge={undefined}
@@ -46,13 +42,18 @@ export function renderAvatar({
     />
   );
 
+  const attachment = avatar?.avatar;
+  if (attachment == null) {
+    return fallback;
+  }
+
   return (
     <AttachmentStatusIcon
-      attachment={avatar?.avatar}
-      isAttachmentNotAvailable={isAttachmentNotAvailable}
+      attachment={attachment}
       isIncoming={direction === 'incoming'}
-      renderAttachmentDownloaded={renderAttachmentDownloaded}
-    />
+    >
+      {fallback}
+    </AttachmentStatusIcon>
   );
 }
 

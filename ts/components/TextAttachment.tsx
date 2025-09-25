@@ -4,23 +4,23 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
-import type { TextAttachmentType } from '../types/Attachment';
-import { AddNewLines } from './conversation/AddNewLines';
-import { Emojify } from './conversation/Emojify';
-import { StoryLinkPreview } from './StoryLinkPreview';
-import { TextAttachmentStyleType } from '../types/Attachment';
-import { count } from '../util/grapheme';
-import { isValidLink, getSafeDomain } from '../types/LinkPreview';
-import { getFontNameByTextScript } from '../util/getFontNameByTextScript';
+import type { LocalizerType, RenderTextCallbackType } from '../types/Util.js';
+import type { TextAttachmentType } from '../types/Attachment.js';
+import { AddNewLines } from './conversation/AddNewLines.js';
+import { Emojify } from './conversation/Emojify.js';
+import { StoryLinkPreview } from './StoryLinkPreview.js';
+import { TextAttachmentStyleType } from '../types/Attachment.js';
+import { count } from '../util/grapheme.js';
+import { isValidLink, getSafeDomain } from '../types/LinkPreview.js';
+import { getFontNameByTextScript } from '../util/getFontNameByTextScript.js';
 import {
   COLOR_WHITE_INT,
   getHexFromNumber,
   getBackgroundColor,
-} from '../util/getStoryBackground';
-import { SECOND } from '../util/durations';
-import { useRefMerger } from '../hooks/useRefMerger';
-import { useSizeObserver } from '../hooks/useSizeObserver';
+} from '../util/getStoryBackground.js';
+import { SECOND } from '../util/durations/index.js';
+import { useRefMerger } from '../hooks/useRefMerger.js';
+import { useSizeObserver } from '../hooks/useSizeObserver.js';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,

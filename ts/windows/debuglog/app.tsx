@@ -3,10 +3,11 @@
 
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { DebugLogWindow } from '../../components/DebugLogWindow';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
-import { i18n } from '../sandboxedInit';
-import { strictAssert } from '../../util/assert';
+import { DebugLogWindow } from '../../components/DebugLogWindow.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
+import { i18n } from '../sandboxedInit.js';
+import { strictAssert } from '../../util/assert.js';
+import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { DebugLogWindowProps } = window.Signal;
 
@@ -17,14 +18,16 @@ strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
   <StrictMode>
-    <FunDefaultEnglishEmojiLocalizationProvider>
-      <DebugLogWindow
-        closeWindow={() => window.SignalContext.executeMenuRole('close')}
-        downloadLog={DebugLogWindowProps.downloadLog}
-        i18n={i18n}
-        fetchLogs={DebugLogWindowProps.fetchLogs}
-        uploadLogs={DebugLogWindowProps.uploadLogs}
-      />
-    </FunDefaultEnglishEmojiLocalizationProvider>
+    <AxoProvider dir={i18n.getLocaleDirection()}>
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <DebugLogWindow
+          closeWindow={() => window.SignalContext.executeMenuRole('close')}
+          downloadLog={DebugLogWindowProps.downloadLog}
+          i18n={i18n}
+          fetchLogs={DebugLogWindowProps.fetchLogs}
+          uploadLogs={DebugLogWindowProps.uploadLogs}
+        />
+      </FunDefaultEnglishEmojiLocalizationProvider>
+    </AxoProvider>
   </StrictMode>
 );

@@ -4,19 +4,19 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import * as Message from '../../types/Message2';
-import { SignalService } from '../../protobuf';
-import * as Bytes from '../../Bytes';
-import * as MIME from '../../types/MIME';
+import * as Message from '../../types/Message2.js';
+import { SignalService } from '../../protobuf/index.js';
+import * as Bytes from '../../Bytes.js';
+import * as MIME from '../../types/MIME.js';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   LocalAttachmentV2Type,
-} from '../../types/Attachment';
-import type { LoggerType } from '../../types/Logging';
+} from '../../types/Attachment.js';
+import type { LoggerType } from '../../types/Logging.js';
 
 const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
   version: 2,
@@ -79,7 +79,7 @@ describe('Message', () => {
         objectUrl: string;
         contentType: MIME.MIMEType;
         logger: LoggerType;
-      }) => new Blob(),
+      }) => ({ blob: new Blob(), duration: undefined }),
       revokeObjectUrl: (_objectUrl: string) => undefined,
       readAttachmentData: async (
         attachment: Partial<AddressableAttachmentType>

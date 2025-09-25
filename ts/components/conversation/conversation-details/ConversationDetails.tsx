@@ -4,64 +4,65 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 
-import { Button, ButtonIconType, ButtonVariant } from '../../Button';
+import { Button, ButtonIconType, ButtonVariant } from '../../Button.js';
 import type {
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
-} from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
-import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
-import { assertDev } from '../../../util/assert';
-import { getMutedUntilText } from '../../../util/getMutedUntilText';
+} from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.js';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.js';
+import { assertDev } from '../../../util/assert.js';
+import { getMutedUntilText } from '../../../util/getMutedUntilText.js';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { BadgeType } from '../../../badges/types';
-import { missingCaseError } from '../../../util/missingCaseError';
-import { DurationInSeconds } from '../../../util/durations';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { BadgeType } from '../../../badges/types.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import { DurationInSeconds } from '../../../util/durations/index.js';
 
-import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
+import { DisappearingTimerSelect } from '../../DisappearingTimerSelect.js';
 
-import { PanelRow } from './PanelRow';
-import { PanelSection } from './PanelSection';
-import { AddGroupMembersModal } from './AddGroupMembersModal';
-import { ConversationDetailsActions } from './ConversationDetailsActions';
-import { ConversationDetailsHeader } from './ConversationDetailsHeader';
-import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import type { Props as ConversationDetailsMediaListPropsType } from './ConversationDetailsMediaList';
-import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import { PanelRow } from './PanelRow.js';
+import { PanelSection } from './PanelSection.js';
+import { AddGroupMembersModal } from './AddGroupMembersModal.js';
+import { ConversationDetailsActions } from './ConversationDetailsActions.js';
+import { ConversationDetailsHeader } from './ConversationDetailsHeader.js';
+import {
+  ConversationDetailsIcon,
+  IconType,
+} from './ConversationDetailsIcon.js';
+import type { GroupV2Membership } from './ConversationDetailsMembershipList.js';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.js';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
-} from './PendingInvites';
-import { EditConversationAttributesModal } from './EditConversationAttributesModal';
-import { RequestState } from './util';
-import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
-import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser';
-import { ConfirmationDialog } from '../../ConfirmationDialog';
-import { ConversationNotificationsModal } from './ConversationNotificationsModal';
+} from './PendingInvites.js';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal.js';
+import { RequestState } from './util.js';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle.js';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.js';
+import { ConversationNotificationsModal } from './ConversationNotificationsModal.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../../types/Avatar';
-import { isConversationMuted } from '../../../util/isConversationMuted';
-import { ConversationDetailsGroups } from './ConversationDetailsGroups';
-import { PanelType } from '../../../types/Panels';
-import { type CallHistoryGroup } from '../../../types/CallDisposition';
-import { NavTab } from '../../../types/Nav';
-import { ContextMenu } from '../../ContextMenu';
-import { canHaveNicknameAndNote } from '../../../util/nicknames';
-import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';
+} from '../../../types/Avatar.js';
+import { isConversationMuted } from '../../../util/isConversationMuted.js';
+import { ConversationDetailsGroups } from './ConversationDetailsGroups.js';
+import { PanelType } from '../../../types/Panels.js';
+import { type CallHistoryGroup } from '../../../types/CallDisposition.js';
+import { NavTab } from '../../../types/Nav.js';
+import { ContextMenu } from '../../ContextMenu.js';
+import { canHaveNicknameAndNote } from '../../../util/nicknames.js';
+import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.js';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from '../InAnotherCallTooltip';
-import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog';
+} from '../InAnotherCallTooltip.js';
+import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -82,6 +83,7 @@ export type StateProps = {
   canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
+  hasMedia: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   hasActiveCall: boolean;
   i18n: LocalizerType;
@@ -122,7 +124,6 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
-  loadRecentMediaItems: (id: string, limit: number) => void;
   onDeleteNicknameAndNote: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
@@ -150,7 +151,7 @@ type ActionProps = {
       onFailure?: () => unknown;
     }
   ) => unknown;
-} & Pick<ConversationDetailsMediaListPropsType, 'showLightbox'>;
+};
 
 export type Props = StateProps & ActionProps;
 
@@ -180,6 +181,7 @@ export function ConversationDetails({
   conversation,
   deleteAvatarFromDisk,
   hasGroupLink,
+  hasMedia,
   getPreferredBadge,
   getProfilesForConversation,
   groupsInCommon,
@@ -189,7 +191,6 @@ export function ConversationDetails({
   isGroup,
   isSignalConversation,
   leaveGroup,
-  loadRecentMediaItems,
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
@@ -211,7 +212,6 @@ export function ConversationDetails({
   setMuteExpiration,
   showContactModal,
   showConversation,
-  showLightbox,
   startAvatarDownload,
   theme,
   toggleAboutContactModal,
@@ -691,6 +691,22 @@ export function ConversationDetails({
               }
             />
           )}
+          {hasMedia && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetailsMediaList--title')}
+                  icon={IconType.media}
+                />
+              }
+              label={i18n('icu:ConversationDetailsMediaList--title')}
+              onClick={() => {
+                pushPanelForConversation({
+                  type: PanelType.AllMedia,
+                });
+              }}
+            />
+          )}
           {!isGroup && !conversation.isMe && (
             <PanelRow
               onClick={() => toggleSafetyNumberModal(conversation.id)}
@@ -778,18 +794,6 @@ export function ConversationDetails({
           ) : null}
         </PanelSection>
       )}
-
-      <ConversationDetailsMediaList
-        conversation={conversation}
-        i18n={i18n}
-        loadRecentMediaItems={loadRecentMediaItems}
-        showAllMedia={() =>
-          pushPanelForConversation({
-            type: PanelType.AllMedia,
-          })
-        }
-        showLightbox={showLightbox}
-      />
 
       {!isGroup && !conversation.isMe && !isSignalConversation && (
         <ConversationDetailsGroups

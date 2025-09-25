@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { randomBytes, createHmac } from 'crypto';
+import { randomBytes, createHmac } from 'node:crypto';
 
 import {
   appendMacStream,
   MAC_KEY_SIZE,
   MAC_SIZE,
-} from '../../util/appendMacStream';
-import { generateConfigMatrix } from '../../util/generateConfigMatrix';
+} from '../../util/appendMacStream.js';
+import { generateConfigMatrix } from '../../util/generateConfigMatrix.js';
 
 describe('appendMacStream', () => {
   generateConfigMatrix({

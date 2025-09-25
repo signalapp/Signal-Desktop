@@ -6,11 +6,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors';
-import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
-import type { PropsType } from './BetterAvatar';
-import { BetterAvatar } from './BetterAvatar';
-import { createAvatarData } from '../util/createAvatarData';
+import { AvatarColors } from '../types/Colors.js';
+import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar.js';
+import type { PropsType } from './BetterAvatar.js';
+import { BetterAvatar } from './BetterAvatar.js';
+import { createAvatarData } from '../util/createAvatarData.js';
 
 const { i18n } = window.SignalContext;
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { getActiveWindowService } from '../services/ActiveWindowService';
+import { getActiveWindowService } from '../services/ActiveWindowService.js';
 
 const activeWindowService = getActiveWindowService(
   window.document,

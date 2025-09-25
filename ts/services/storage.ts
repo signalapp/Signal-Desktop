@@ -1,12 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber, chunk } from 'lodash';
+import lodash from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
-import { DataReader, DataWriter } from '../sql/Client';
-import * as Bytes from '../Bytes';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import * as Bytes from '../Bytes.js';
 import {
   getRandomBytes,
   deriveStorageItemKey,
@@ -15,7 +15,7 @@ import {
   decryptProfile,
   deriveMasterKeyFromGroupV1,
   deriveStorageServiceKey,
-} from '../Crypto';
+} from '../Crypto.js';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -32,60 +32,65 @@ import {
   toCallLinkRecord,
   mergeCallLinkRecord,
   toDefunctOrPendingCallLinkRecord,
-} from './storageRecordOps';
-import type { MergeResultType } from './storageRecordOps';
-import { MAX_READ_KEYS } from './storageConstants';
-import type { ConversationModel } from '../models/conversations';
-import { strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
-import { dropNull } from '../util/dropNull';
-import * as durations from '../util/durations';
-import { BackOff } from '../util/BackOff';
-import { storageJobQueue } from '../util/JobQueue';
-import { sleep } from '../util/sleep';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
-import { map, filter } from '../util/iterables';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { ourProfileKeyService } from './ourProfileKey';
+  toChatFolderRecord,
+  mergeChatFolderRecord,
+} from './storageRecordOps.js';
+import type { MergeResultType } from './storageRecordOps.js';
+import { MAX_READ_KEYS } from './storageConstants.js';
+import type { ConversationModel } from '../models/conversations.js';
+import { strictAssert } from '../util/assert.js';
+import { drop } from '../util/drop.js';
+import { dropNull } from '../util/dropNull.js';
+import * as durations from '../util/durations/index.js';
+import { BackOff } from '../util/BackOff.js';
+import { storageJobQueue } from '../util/JobQueue.js';
+import { sleep } from '../util/sleep.js';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.js';
+import { map, filter } from '../util/iterables.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { ourProfileKeyService } from './ourProfileKey.js';
 import {
   ConversationTypes,
   isDirectConversation,
   typeofConversation,
-} from '../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import * as Errors from '../types/errors';
+} from '../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import * as Errors from '../types/errors.js';
 import type {
   ExtendedStorageID,
   RemoteRecord,
   UnknownRecord,
-} from '../types/StorageService.d';
-import MessageSender from '../textsecure/SendMessage';
+} from '../types/StorageService.d.ts';
+import MessageSender from '../textsecure/SendMessage.js';
 import type {
   StoryDistributionWithMembersType,
   StorageServiceFieldsType,
   StickerPackType,
   UninstalledStickerPackType,
-} from '../sql/Interface';
-import { MY_STORY_ID } from '../types/Stories';
-import { isNotNil } from '../util/isNotNil';
-import { isSignalConversation } from '../util/isSignalConversation';
-import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
+} from '../sql/Interface.js';
+import { MY_STORY_ID } from '../types/Stories.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { isSignalConversation } from '../util/isSignalConversation.js';
+import { redactExtendedStorageID, redactStorageID } from '../util/privacy.js';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink';
+} from '../types/CallLink.js';
 import {
   callLinkFromRecord,
   getRoomIdFromRootKeyString,
-} from '../util/callLinksRingrtc';
-import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId';
-import { isDone as isRegistrationDone } from '../util/registration';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
-import { isMockEnvironment } from '../environment';
-import { validateConversation } from '../util/validateConversation';
+} from '../util/callLinksRingrtc.js';
+import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId.js';
+import { isDone as isRegistrationDone } from '../util/registration.js';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
+import { isMockEnvironment } from '../environment.js';
+import { validateConversation } from '../util/validateConversation.js';
+import type { ChatFolder } from '../types/ChatFolder.js';
+
+const { debounce, isNumber, chunk } = lodash;
 
 const log = createLogger('storage');
 
@@ -102,15 +107,18 @@ const {
 
 const uploadBucket: Array<number> = [];
 
+const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
+
 const validRecordTypes = new Set([
-  0, // UNKNOWN
-  1, // CONTACT
-  2, // GROUPV1
-  3, // GROUPV2
-  4, // ACCOUNT
-  5, // STORY_DISTRIBUTION_LIST
-  6, // STICKER_PACK
-  7, // CALL_LINK
+  ITEM_TYPE.UNKNOWN,
+  ITEM_TYPE.CONTACT,
+  ITEM_TYPE.GROUPV1,
+  ITEM_TYPE.GROUPV2,
+  ITEM_TYPE.ACCOUNT,
+  ITEM_TYPE.STORY_DISTRIBUTION_LIST,
+  ITEM_TYPE.STICKER_PACK,
+  ITEM_TYPE.CALL_LINK,
+  ITEM_TYPE.CHAT_FOLDER,
 ]);
 
 const backOff = new BackOff([
@@ -181,8 +189,6 @@ async function generateManifest(
 
   await window.ConversationController.checkForConflicts();
 
-  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
-
   const postUploadUpdateFunctions: Array<() => unknown> = [];
   const insertKeys = new Set<string>();
   const deleteKeys = new Set<string>();
@@ -197,8 +203,8 @@ async function generateManifest(
     storageRecord,
   }: {
     conversation?: ConversationModel;
-    currentStorageID?: string;
-    currentStorageVersion?: number;
+    currentStorageID?: string | null;
+    currentStorageVersion?: number | null;
     identifierType: Proto.ManifestRecord.Identifier.Type;
     storageNeedsSync: boolean;
     storageRecord: Proto.IStorageRecord;
@@ -353,6 +359,7 @@ async function generateManifest(
     storyDistributionLists,
     installedStickerPacks,
     uninstalledStickerPacks,
+    chatFolders,
   } = await getNonConversationRecords();
 
   log.info(
@@ -604,6 +611,33 @@ async function generateManifest(
             storageVersion: version,
             storageNeedsSync: false,
           }
+        );
+      });
+    }
+  });
+
+  log.info(`upload(${version}): adding chatFolders=${chatFolders.length}`);
+
+  chatFolders.forEach(chatFolder => {
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: chatFolder.storageID ?? undefined,
+      currentStorageVersion: chatFolder.storageVersion ?? undefined,
+      identifierType: ITEM_TYPE.CHAT_FOLDER,
+      storageNeedsSync: chatFolder.storageNeedsSync,
+      storageRecord: new Proto.StorageRecord({
+        chatFolder: toChatFolderRecord(chatFolder),
+      }),
+    });
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(() => {
+        drop(
+          DataWriter.updateChatFolder({
+            ...chatFolder,
+            storageID,
+            storageVersion: version,
+            storageNeedsSync: false,
+          })
         );
       });
     }
@@ -1105,8 +1139,6 @@ async function mergeRecord(
     storageVersion,
   });
 
-  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
-
   let mergeResult: MergeResultType = { details: [] };
   let isUnsupported = false;
   let hasError = false;
@@ -1164,6 +1196,12 @@ async function mergeRecord(
         storageVersion,
         storageRecord.callLink
       );
+    } else if (itemType === ITEM_TYPE.CHAT_FOLDER && storageRecord.chatFolder) {
+      mergeResult = await mergeChatFolderRecord(
+        storageID,
+        storageVersion,
+        storageRecord.chatFolder
+      );
     } else {
       isUnsupported = true;
       log.warn(`merge(${redactedStorageID}): unknown item type=${itemType}`);
@@ -1220,6 +1258,7 @@ type NonConversationRecordsResultType = Readonly<{
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   uninstalledStickerPacks: ReadonlyArray<UninstalledStickerPackType>;
   storyDistributionLists: ReadonlyArray<StoryDistributionWithMembersType>;
+  chatFolders: ReadonlyArray<ChatFolder>;
 }>;
 
 // TODO: DESKTOP-3929
@@ -1231,6 +1270,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
+    chatFolders,
   ] = await Promise.all([
     DataReader.getAllCallLinkRecordsWithAdminKey(),
     DataReader.getAllDefunctCallLinksWithAdminKey(),
@@ -1238,6 +1278,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),
     DataReader.getInstalledStickerPacks(),
+    DataReader.getAllChatFolders(),
   ]);
 
   return {
@@ -1247,6 +1288,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
+    chatFolders,
   };
 }
 
@@ -1267,7 +1309,7 @@ async function processManifest(
   );
 
   const remoteKeys = new Set(remoteKeysTypeMap.keys());
-  const localVersions = new Map<string, number | undefined>();
+  const localVersions = new Map<string, number | null | undefined>();
   let localRecordCount = 0;
 
   const conversations = window.ConversationController.getAll();
@@ -1287,6 +1329,7 @@ async function processManifest(
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
+      chatFolders,
     } = await getNonConversationRecords();
 
     const collectLocalKeysFromFields = ({
@@ -1317,6 +1360,9 @@ async function processManifest(
 
     installedStickerPacks.forEach(collectLocalKeysFromFields);
     localRecordCount += installedStickerPacks.length;
+
+    chatFolders.forEach(collectLocalKeysFromFields);
+    localRecordCount += chatFolders.length;
   }
 
   const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
@@ -1439,6 +1485,7 @@ async function processManifest(
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
+      chatFolders,
     } = await getNonConversationRecords();
 
     uninstalledStickerPacks.forEach(stickerPack => {
@@ -1592,6 +1639,25 @@ async function processManifest(
         }
       );
     });
+
+    chatFolders.forEach(chatFolder => {
+      const { storageID, storageVersion } = chatFolder;
+      if (!storageID || remoteKeys.has(storageID)) {
+        return;
+      }
+
+      const missingKey = redactStorageID(storageID, storageVersion);
+      log.info(
+        `process(${version}): localKey=${missingKey} was not ` +
+          'in remote manifest'
+      );
+
+      void DataWriter.updateChatFolder({
+        ...chatFolder,
+        storageID: null,
+        storageVersion: null,
+      });
+    });
   }
 
   log.info(`process(${version}): done`);
@@ -1730,7 +1796,6 @@ async function processRemoteRecords(
   storageVersion: number,
   { decryptedItems, missingKeys }: FetchRemoteRecordsResultType
 ): Promise<void> {
-  const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
   const droppedKeys = new Set<string>();
 
   // Drop all GV1 records for which we have GV2 record in the same manifest

@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI';
-import type { OneTimeDonationHumanAmounts } from '../types/Donations';
-import { HOUR } from './durations';
-import { isInPast } from './timestamp';
+import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.js';
+import type { OneTimeDonationHumanAmounts } from '../types/Donations.js';
+import { HOUR } from './durations/index.js';
+import { isInPast } from './timestamp.js';
 
 const SUBSCRIPTION_CONFIG_CACHE_TIME = HOUR;
 

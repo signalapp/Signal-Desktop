@@ -8,18 +8,18 @@ import createDebug from 'debug';
 import Long from 'long';
 import type { Page } from 'playwright';
 
-import type { App } from '../playwright';
-import * as durations from '../../util/durations';
-import { Bootstrap } from '../bootstrap';
-import { RECEIPT_BATCHER_WAIT_MS, ReceiptType } from '../../types/Receipt';
-import { SendStatus } from '../../messages/MessageSendState';
-import { drop } from '../../util/drop';
-import { strictAssert } from '../../util/assert';
-import { generateAci } from '../../types/ServiceId';
-import { IMAGE_GIF } from '../../types/MIME';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
-import type { MessageAttributesType } from '../../model-types';
-import { sleep } from '../../util/sleep';
+import type { App } from '../playwright.js';
+import * as durations from '../../util/durations/index.js';
+import { Bootstrap } from '../bootstrap.js';
+import { RECEIPT_BATCHER_WAIT_MS, ReceiptType } from '../../types/Receipt.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import { drop } from '../../util/drop.js';
+import { strictAssert } from '../../util/assert.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { IMAGE_GIF } from '../../types/MIME.js';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { sleep } from '../../util/sleep.js';
 
 export const debug = createDebug('mock:test:edit');
 

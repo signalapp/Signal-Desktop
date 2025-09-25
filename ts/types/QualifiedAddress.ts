@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
-import type { ServiceIdString } from './ServiceId';
-import { isServiceIdString } from './ServiceId';
-import type { AddressStringType } from './Address';
-import { Address } from './Address';
+import type { ServiceIdString } from './ServiceId.js';
+import { isServiceIdString } from './ServiceId.js';
+import type { AddressStringType } from './Address.js';
+import { Address } from './Address.js';
 
 const QUALIFIED_ADDRESS_REGEXP =
   /^((?:PNI:)?[:0-9a-f-]+):((?:PNI:)?[:0-9a-f-]+).(\d+)$/i;

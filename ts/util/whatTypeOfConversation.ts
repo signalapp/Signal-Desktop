@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationType } from '../state/ducks/conversations';
-import * as Bytes from '../Bytes';
-import { createLogger } from '../logging/log';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import * as Bytes from '../Bytes.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('whatTypeOfConversation');
 

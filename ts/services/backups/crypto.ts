@@ -6,12 +6,12 @@ import type { PrivateKey } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
-import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
-import { strictAssert } from '../../util/assert';
-import type { AciString } from '../../types/ServiceId';
-import { toAciObject } from '../../util/ServiceId';
+import { strictAssert } from '../../util/assert.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { toAciObject } from '../../util/ServiceId.js';
 
 const getMemoizedBackupKey = memoizee((accountEntropyPool: string) => {
   return AccountEntropyPool.deriveBackupKey(accountEntropyPool);

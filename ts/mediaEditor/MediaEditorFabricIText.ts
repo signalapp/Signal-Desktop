@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls';
+import { customFabricObjectControls } from './util/customFabricObjectControls.js';
 
 export class MediaEditorFabricIText extends fabric.IText {
   constructor(text: string, options: fabric.ITextOptions) {

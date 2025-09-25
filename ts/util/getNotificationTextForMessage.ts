@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import { applyRangesToText, hydrateRanges } from '../types/BodyRange';
-import { findAndFormatContact } from './findAndFormatContact';
-import { getNotificationDataForMessage } from './getNotificationDataForMessage';
-import { isConversationAccepted } from './isConversationAccepted';
-import { strictAssert } from './assert';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { applyRangesToText, hydrateRanges } from '../types/BodyRange.js';
+import { findAndFormatContact } from './findAndFormatContact.js';
+import { getNotificationDataForMessage } from './getNotificationDataForMessage.js';
+import { isConversationAccepted } from './isConversationAccepted.js';
+import { strictAssert } from './assert.js';
 
 export function getNotificationTextForMessage(
   attributes: ReadonlyMessageAttributesType

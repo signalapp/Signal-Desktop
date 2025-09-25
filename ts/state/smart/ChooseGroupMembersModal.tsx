@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { strictAssert } from '../../util/assert';
-import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
-import { getUsernameFromSearch } from '../../util/Username';
-import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
-import { getIntl, getTheme, getRegionCode } from '../selectors/user';
+import { strictAssert } from '../../util/assert.js';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.js';
+import { getUsernameFromSearch } from '../../util/Username.js';
+import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.js';
+import { getIntl, getTheme, getRegionCode } from '../selectors/user.js';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
   getMe,
-} from '../selectors/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export type SmartChooseGroupMembersModalPropsType = Readonly<{
   conversationIdsAlreadyInGroup: Set<string>;

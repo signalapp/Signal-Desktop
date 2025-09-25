@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { noopAction } from '../../../state/ducks/noop';
-import type { StateType } from '../../../state/reducer';
-import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import type { StateType } from '../../../state/reducer.js';
+import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions.js';
 
-import { getIsCustomizingPreferredReactions } from '../../../state/selectors/preferredReactions';
+import { getIsCustomizingPreferredReactions } from '../../../state/selectors/preferredReactions.js';
 
 describe('both/state/selectors/preferredReactions', () => {
   const getEmptyRootState = (): StateType =>

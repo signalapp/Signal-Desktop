@@ -4,7 +4,9 @@
 export type TailwindStyles = string & { __Styles: never };
 
 export function tw(
-  ...classNames: ReadonlyArray<TailwindStyles | string | boolean | null>
+  ...classNames: ReadonlyArray<
+    TailwindStyles | string | boolean | null | undefined
+  >
 ): TailwindStyles {
   const { length } = classNames;
 

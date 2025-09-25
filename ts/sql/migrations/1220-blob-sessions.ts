@@ -1,16 +1,16 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import assert from 'assert';
+import assert from 'node:assert';
 import z from 'zod';
 import type { Database } from '@signalapp/sqlcipher';
-import type { LoggerType } from '../../types/Logging';
-import * as Errors from '../../types/errors';
+import type { LoggerType } from '../../types/Logging.js';
+import * as Errors from '../../types/errors.js';
 import {
   sessionRecordToProtobuf,
   sessionStructureToBytes,
-} from '../../util/sessionTranslation';
-import { getOwn } from '../../util/getOwn';
-import { missingCaseError } from '../../util/missingCaseError';
+} from '../../util/sessionTranslation.js';
+import { getOwn } from '../../util/getOwn.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
 
 export const version = 1220;
 

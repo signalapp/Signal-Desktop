@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 import {
   CipherType,
@@ -11,7 +11,7 @@ import {
   sign,
   encrypt,
   decrypt,
-} from '../../Crypto';
+} from '../../Crypto.js';
 
 describe('SignalContext.Crypto', () => {
   describe('hash', () => {

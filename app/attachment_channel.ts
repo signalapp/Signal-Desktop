@@ -6,7 +6,7 @@ import {
   DigestingPassThrough,
   ValidatingPassThrough,
   inferChunkSize,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { ipcMain, protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 import { randomBytes } from 'node:crypto';
@@ -17,35 +17,35 @@ import { PassThrough, type Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import z from 'zod';
 import GrowingFile from 'growing-file';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
   decryptAttachmentV2ToSink,
-} from '../ts/AttachmentCrypto';
-import * as Bytes from '../ts/Bytes';
-import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
-import type { MainSQL } from '../ts/sql/main';
+} from '../ts/AttachmentCrypto.js';
+import * as Bytes from '../ts/Bytes.js';
+import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.js';
+import type { MainSQL } from '../ts/sql/main.js';
 import {
   APPLICATION_OCTET_STREAM,
   MIMETypeToString,
   stringToMIMEType,
-} from '../ts/types/MIME';
-import * as Errors from '../ts/types/errors';
+} from '../ts/types/MIME.js';
+import * as Errors from '../ts/types/errors.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../ts/util/GoogleChrome';
-import { strictAssert } from '../ts/util/assert';
-import { drop } from '../ts/util/drop';
-import { SECOND } from '../ts/util/durations';
-import { isPathInside } from '../ts/util/isPathInside';
-import { missingCaseError } from '../ts/util/missingCaseError';
-import { safeParseInteger } from '../ts/util/numbers';
-import { parseLoose } from '../ts/util/schemas';
-import { sleep } from '../ts/util/sleep';
-import { toWebStream } from '../ts/util/toWebStream';
-import { createLogger } from '../ts/logging/log';
+} from '../ts/util/GoogleChrome.js';
+import { strictAssert } from '../ts/util/assert.js';
+import { drop } from '../ts/util/drop.js';
+import { SECOND } from '../ts/util/durations/index.js';
+import { isPathInside } from '../ts/util/isPathInside.js';
+import { missingCaseError } from '../ts/util/missingCaseError.js';
+import { safeParseInteger } from '../ts/util/numbers.js';
+import { parseLoose } from '../ts/util/schemas.js';
+import { sleep } from '../ts/util/sleep.js';
+import { toWebStream } from '../ts/util/toWebStream.js';
+import { createLogger } from '../ts/logging/log.js';
 import {
   deleteAll as deleteAllAttachments,
   deleteAllBadges,
@@ -63,7 +63,9 @@ import {
   getPath,
   getStickersPath,
   getTempPath,
-} from './attachments';
+} from './attachments.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('attachment_channel');
 
@@ -134,7 +136,7 @@ async function safeDecryptToSink(
       });
       file.on('error', (error: Error) => {
         log.warn(
-          'safeDecryptToSync/incremental: growing-file emitted an error:',
+          'safeDecryptToSink/incremental: growing-file emitted an error:',
           Errors.toLogFormat(error)
         );
       });
@@ -441,11 +443,14 @@ function deleteOrphanedAttachments({
         await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
-
     log.info(
-      `cleanupOrphanedAttachments:  ${totalAttachmentsFound} message ` +
-        `attachments; ${orphanedAttachments.size} remain`
+      `cleanupOrphanedAttachments: ${totalAttachmentsFound} attachments and \
+      ${totalDownloadsFound} downloads found on disk`
     );
+
+    if (orphanedAttachments.size > 0) {
+      log.error(`${orphanedAttachments.size} orphaned attachment(s) found`);
+    }
 
     if (totalMissing > 0) {
       log.warn(
@@ -458,10 +463,10 @@ function deleteOrphanedAttachments({
       attachments: Array.from(orphanedAttachments),
     });
 
-    log.info(
-      `cleanupOrphanedAttachments: found ${totalDownloadsFound} downloads ` +
-        `${orphanedDownloads.size} remain`
-    );
+    if (orphanedDownloads.size > 0) {
+      log.error(`${orphanedDownloads.size} orphaned download(s) found`);
+    }
+
     await deleteAllDownloads({
       userDataPath,
       downloads: Array.from(orphanedDownloads),

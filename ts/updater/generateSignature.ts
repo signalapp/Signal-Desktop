@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
-import { join, resolve } from 'path';
-import { readdir as readdirCallback } from 'fs';
+import { join, resolve } from 'node:path';
+import { readdir as readdirCallback } from 'node:fs';
 
 import pify from 'pify';
 
-import * as Errors from '../types/errors';
-import { getCliOptions } from './common';
-import { writeSignature } from './signature';
-import * as packageJson from '../../package.json';
+import * as Errors from '../types/errors.js';
+import { getCliOptions } from './common.js';
+import { writeSignature } from './signature.js';
+import { version as packageVersion } from '../util/packageJson.js';
 
 const readdir = pify(readdirCallback);
 
@@ -34,8 +34,8 @@ const OPTIONS = [
   {
     names: ['version', 'v'],
     type: 'string',
-    help: `Version number of this package (default: ${packageJson.version})`,
-    default: packageJson.version,
+    help: `Version number of this package (default: ${packageVersion})`,
+    default: packageVersion,
   },
 ];
 

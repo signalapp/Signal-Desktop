@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as durations from '../../util/durations';
+import * as durations from '../../util/durations/index.js';
 
 import {
   exponentialBackoffSleepTime,
   exponentialBackoffMaxAttempts,
-} from '../../util/exponentialBackoff';
+} from '../../util/exponentialBackoff.js';
 
 describe('exponential backoff utilities', () => {
   describe('exponentialBackoffSleepTime', () => {

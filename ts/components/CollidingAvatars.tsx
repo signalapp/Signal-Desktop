@@ -4,9 +4,9 @@
 import { v4 as uuid } from 'uuid';
 import React, { useMemo, useCallback } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import { Avatar, AvatarSize } from './Avatar';
+import type { LocalizerType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { Avatar, AvatarSize } from './Avatar.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

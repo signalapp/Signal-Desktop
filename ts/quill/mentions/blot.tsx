@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
 import { createRoot } from 'react-dom/client';
 
-import { Emojify } from '../../components/conversation/Emojify';
-import { normalizeAci } from '../../util/normalizeAci';
-import type { MentionBlotValue } from '../util';
-import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { Emojify } from '../../components/conversation/Emojify.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import type { MentionBlotValue } from '../util.js';
+import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
+import { AxoProvider } from '../../axo/AxoProvider.js';
 
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
@@ -48,14 +49,16 @@ export class MentionBlot extends EmbedBlot {
 
     createRoot(mentionSpan).render(
       <StrictMode>
-        <FunEmojiLocalizationProvider i18n={window.i18n}>
-          <span className="module-composition-input__at-mention">
-            <bdi>
-              @
-              <Emojify text={mention.title} />
-            </bdi>
-          </span>
-        </FunEmojiLocalizationProvider>
+        <AxoProvider dir={window.i18n.getLocaleDirection()}>
+          <FunEmojiLocalizationProvider i18n={window.i18n}>
+            <span className="module-composition-input__at-mention">
+              <bdi>
+                @
+                <Emojify text={mention.title} />
+              </bdi>
+            </span>
+          </FunEmojiLocalizationProvider>
+        </AxoProvider>
       </StrictMode>
     );
 

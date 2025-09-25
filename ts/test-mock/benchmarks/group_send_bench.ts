@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-await-in-loop, no-console */
 
-import assert from 'assert';
+import assert from 'node:assert';
 
 import {
   StorageState,
@@ -18,11 +18,11 @@ import {
   DISCARD_COUNT,
   GROUP_DELIVERY_RECEIPTS,
   BLOCKED_COUNT,
-} from './fixtures';
-import { stats } from '../../util/benchmark/stats';
-import { sleep } from '../../util/sleep';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
-import { MINUTE } from '../../util/durations';
+} from './fixtures.js';
+import { stats } from '../../util/benchmark/stats.js';
+import { sleep } from '../../util/sleep.js';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.js';
+import { MINUTE } from '../../util/durations/index.js';
 
 const LAST_MESSAGE = 'start sending messages now';
 
@@ -140,12 +140,12 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   {
     const leftPane = window.locator('#LeftPane');
 
-    // Left pane should show either the message preview or
-    // "You were added to the group".
+    // Wait for group state to be fetched
     await leftPane
       .locator(
         `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]`
       )
+      .getByText(GROUP_NAME)
       .waitFor();
   }
 

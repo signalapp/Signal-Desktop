@@ -4,8 +4,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util';
-import { getClassNamesFor } from '../../util/getClassNamesFor';
+import type { LocalizerType } from '../../types/Util.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.js';
 
 export enum ScrollDownButtonVariant {
   UNREAD_MESSAGES = 'unread-messages',

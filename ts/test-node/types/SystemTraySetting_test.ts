@@ -7,7 +7,7 @@ import {
   SystemTraySetting,
   parseSystemTraySetting,
   shouldMinimizeToSystemTray,
-} from '../../types/SystemTraySetting';
+} from '../../types/SystemTraySetting.js';
 
 describe('system tray setting utilities', () => {
   describe('shouldMinimizeToSystemTray', () => {

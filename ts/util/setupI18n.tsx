@@ -3,17 +3,17 @@
 
 import type { IntlShape } from 'react-intl';
 import React from 'react';
-import type { LocaleMessagesType } from '../types/I18N';
-import type { LocalizerType } from '../types/Util';
-import { Emojify } from '../components/conversation/Emojify';
+import type { LocaleMessagesType } from '../types/I18N.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Emojify } from '../components/conversation/Emojify.js';
 import {
   createCachedIntl as createCachedIntlMain,
   setupI18n as setupI18nMain,
-} from './setupI18nMain';
-import type { SetupI18nOptionsType } from './setupI18nMain';
-import { strictAssert } from './assert';
+} from './setupI18nMain.js';
+import type { SetupI18nOptionsType } from './setupI18nMain.js';
+import { strictAssert } from './assert.js';
 
-export { isLocaleMessageType } from './setupI18nMain';
+export { isLocaleMessageType } from './setupI18nMain.js';
 
 export function renderEmojify(parts: ReadonlyArray<unknown>): JSX.Element {
   strictAssert(parts.length === 1, '<emojify> must contain only one child');

@@ -3,9 +3,9 @@
 import type { ForwardedRef } from 'react';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { mergeRefs } from '@react-aria/utils';
-import { strictAssert } from '../util/assert';
-import type { PropsType } from './Input';
-import { Input } from './Input';
+import { strictAssert } from '../util/assert.js';
+import type { PropsType } from './Input.js';
+import { Input } from './Input.js';
 
 export const AutoSizeTextArea = forwardRef(function AutoSizeTextArea(
   props: PropsType,

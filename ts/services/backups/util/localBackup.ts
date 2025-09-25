@@ -1,25 +1,25 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { randomBytes } from 'crypto';
-import { dirname, join } from 'path';
-import { readFile, stat, writeFile } from 'fs/promises';
-import { createReadStream, createWriteStream } from 'fs';
-import { Transform } from 'stream';
-import { pipeline } from 'stream/promises';
-import { createLogger } from '../../../logging/log';
-import * as Bytes from '../../../Bytes';
-import * as Errors from '../../../types/errors';
-import { Signal } from '../../../protobuf';
-import protobuf from '../../../protobuf/wrap';
-import { strictAssert } from '../../../util/assert';
-import { decryptAesCtr, encryptAesCtr } from '../../../Crypto';
-import type { LocalBackupMetadataVerificationType } from '../../../types/backups';
+import { randomBytes } from 'node:crypto';
+import { dirname, join } from 'node:path';
+import { readFile, stat, writeFile } from 'node:fs/promises';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { Transform } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
+import { createLogger } from '../../../logging/log.js';
+import * as Bytes from '../../../Bytes.js';
+import * as Errors from '../../../types/errors.js';
+import { Signal } from '../../../protobuf/index.js';
+import protobuf from '../../../protobuf/wrap.js';
+import { strictAssert } from '../../../util/assert.js';
+import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.js';
+import type { LocalBackupMetadataVerificationType } from '../../../types/backups.js';
 import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
-} from '../constants';
-import { explodePromise } from '../../../util/explodePromise';
+} from '../constants.js';
+import { explodePromise } from '../../../util/explodePromise.js';
 
 const log = createLogger('localBackup');
 

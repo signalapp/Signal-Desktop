@@ -4,15 +4,15 @@
 import type { ReactNode } from 'react';
 import React, { useState, useCallback } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import type { ShowToastAction } from '../state/ducks/toast';
-import { ContextMenu } from './ContextMenu';
-import { ToastType } from '../types/Toast';
+import type { LocalizerType } from '../types/Util.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import { ContextMenu } from './ContextMenu.js';
+import { ToastType } from '../types/Toast.js';
 import {
   isVideoGoodForStories,
   ReasonVideoNotGood,
-} from '../util/isVideoGoodForStories';
-import { ConfirmationDialog } from './ConfirmationDialog';
+} from '../util/isVideoGoodForStories.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
 
 export type PropsType = {
   children?: ReactNode;

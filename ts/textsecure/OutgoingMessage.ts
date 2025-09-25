@@ -5,7 +5,7 @@
 /* eslint-disable more/no-then */
 /* eslint-disable no-param-reassign */
 
-import { reject } from 'lodash';
+import lodash from 'lodash';
 
 import { z } from 'zod';
 import type {
@@ -23,8 +23,8 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
 
-import type { WebAPIType, MessageType } from './WebAPI';
-import type { SendMetadataType, SendOptionsType } from './SendMessage';
+import type { WebAPIType, MessageType } from './WebAPI.js';
+import type { SendMetadataType, SendOptionsType } from './SendMessage.js';
 import {
   OutgoingIdentityKeyError,
   OutgoingMessageError,
@@ -32,19 +32,21 @@ import {
   SendMessageChallengeError,
   UnregisteredUserError,
   HTTPError,
-} from './Errors';
-import type { CallbackResultType, CustomError } from './Types.d';
-import { Address } from '../types/Address';
-import * as Errors from '../types/errors';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import type { ServiceIdString } from '../types/ServiceId';
-import { Sessions, IdentityKeys } from '../LibSignalStores';
-import { getKeysForServiceId } from './getKeysForServiceId';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import type { GroupSendToken } from '../types/GroupSendEndorsements';
-import { isSignalServiceId } from '../util/isSignalConversation';
-import * as Bytes from '../Bytes';
+} from './Errors.js';
+import type { CallbackResultType, CustomError } from './Types.d.ts';
+import { Address } from '../types/Address.js';
+import * as Errors from '../types/errors.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { Sessions, IdentityKeys } from '../LibSignalStores.js';
+import { getKeysForServiceId } from './getKeysForServiceId.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { isSignalServiceId } from '../util/isSignalConversation.js';
+import * as Bytes from '../Bytes.js';
+
+const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
 

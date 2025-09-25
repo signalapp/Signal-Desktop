@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './Linkify';
-import { Linkify } from './Linkify';
+import type { Props } from './Linkify.js';
+import { Linkify } from './Linkify.js';
 
 export default {
   title: 'Components/Conversation/Linkify',

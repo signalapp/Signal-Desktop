@@ -1,20 +1,20 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import assert from 'assert';
+import assert from 'node:assert';
 import { v4 as generateGuid } from 'uuid';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
-import type { ConversationModel } from '../../models/conversations';
-import type { MessageAttributesType } from '../../model-types';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
-import type { CallLinkType } from '../../types/CallLink';
+import type { ConversationModel } from '../../models/conversations.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.js';
+import type { CallLinkType } from '../../types/CallLink.js';
 
-import * as Bytes from '../../Bytes';
-import { getRandomBytes } from '../../Crypto';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
-import { setupBasics, symmetricRoundtripHarness } from './helpers';
+import * as Bytes from '../../Bytes.js';
+import { getRandomBytes } from '../../Crypto.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { setupBasics, symmetricRoundtripHarness } from './helpers.js';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -22,14 +22,14 @@ import {
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../types/CallDisposition';
-import { CallLinkRestrictions } from '../../types/CallLink';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
-import { fromAdminKeyBytes } from '../../util/callLinks';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
-import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
+} from '../../types/CallDisposition.js';
+import { CallLinkRestrictions } from '../../types/CallLink.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.js';
+import { fromAdminKeyBytes } from '../../util/callLinks.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
+import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);

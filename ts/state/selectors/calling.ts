@@ -3,7 +3,7 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer';
+import type { StateType } from '../reducer.js';
 import type {
   CallingStateType,
   CallsByConversationType,
@@ -12,14 +12,14 @@ import type {
   DirectCallStateType,
   GroupCallStateType,
   ActiveCallStateType,
-} from '../ducks/calling';
-import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers';
-import type { PresentedSource } from '../../types/Calling';
-import { CallMode } from '../../types/CallDisposition';
-import { isCallLinkAdmin, type CallLinkType } from '../../types/CallLink';
-import { getUserACI } from './user';
-import { getOwn } from '../../util/getOwn';
-import type { AciString } from '../../types/ServiceId';
+} from '../ducks/calling.js';
+import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers.js';
+import type { PresentedSource } from '../../types/Calling.js';
+import { CallMode } from '../../types/CallDisposition.js';
+import { isCallLinkAdmin, type CallLinkType } from '../../types/CallLink.js';
+import { getUserACI } from './user.js';
+import { getOwn } from '../../util/getOwn.js';
+import type { AciString } from '../../types/ServiceId.js';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 

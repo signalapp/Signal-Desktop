@@ -11,32 +11,31 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
-import type { PanelRenderType } from '../../types/Panels';
-import { createLogger } from '../../logging/log';
-import { PanelType } from '../../types/Panels';
-import { toLogFormat } from '../../types/errors';
-import { SmartAllMedia } from './AllMedia';
-import { SmartChatColorPicker } from './ChatColorPicker';
-import { SmartContactDetail } from './ContactDetail';
-import { SmartConversationDetails } from './ConversationDetails';
-import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings';
-import { SmartGV1Members } from './GV1Members';
-import { SmartGroupLinkManagement } from './GroupLinkManagement';
-import { SmartGroupV2Permissions } from './GroupV2Permissions';
-import { SmartMessageDetail } from './MessageDetail';
-import { SmartPendingInvites } from './PendingInvites';
-import { SmartStickerManager } from './StickerManager';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
-import { getIntl } from '../selectors/user';
+import type { PanelRenderType } from '../../types/Panels.js';
+import { createLogger } from '../../logging/log.js';
+import { PanelType } from '../../types/Panels.js';
+import { toLogFormat } from '../../types/errors.js';
+import { SmartAllMedia } from './AllMedia.js';
+import { SmartChatColorPicker } from './ChatColorPicker.js';
+import { SmartContactDetail } from './ContactDetail.js';
+import { SmartConversationDetails } from './ConversationDetails.js';
+import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings.js';
+import { SmartGV1Members } from './GV1Members.js';
+import { SmartGroupLinkManagement } from './GroupLinkManagement.js';
+import { SmartGroupV2Permissions } from './GroupV2Permissions.js';
+import { SmartMessageDetail } from './MessageDetail.js';
+import { SmartPendingInvites } from './PendingInvites.js';
+import { SmartStickerManager } from './StickerManager.js';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.js';
+import { getIntl } from '../selectors/user.js';
 import {
-  getIsPanelAnimating,
   getPanelInformation,
   getWasPanelAnimated,
-} from '../selectors/conversations';
-import { focusableSelector } from '../../util/focusableSelectors';
-import { missingCaseError } from '../../util/missingCaseError';
-import { useConversationsActions } from '../ducks/conversations';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+} from '../selectors/conversations.js';
+import { focusableSelector } from '../../util/focusableSelectors.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useReducedMotion } from '../../hooks/useReducedMotion.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -111,7 +110,6 @@ export const ConversationPanel = memo(function ConversationPanel({
   const i18n = useSelector(getIntl);
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
-  const isAnimating = useSelector(getIsPanelAnimating);
   const wasAnimated = useSelector(getWasPanelAnimated);
 
   const [lastPanelDoneAnimating, setLastPanelDoneAnimating] =
@@ -217,16 +215,22 @@ export const ConversationPanel = memo(function ConversationPanel({
       <>
         {activePanel && (
           <PanelContainer
+            key={getPanelKey(activePanel)}
             conversationId={conversationId}
             isActive
             panel={activePanel}
           />
         )}
         {lastPanelDoneAnimating !== prevPanel && (
-          <div className="ConversationPanel__overlay" ref={overlayRef} />
+          <div
+            key="overlay"
+            className="ConversationPanel__overlay"
+            ref={overlayRef}
+          />
         )}
         {prevPanel && lastPanelDoneAnimating !== prevPanel && (
           <PanelContainer
+            key={getPanelKey(prevPanel)}
             conversationId={conversationId}
             panel={prevPanel}
             ref={animateRef}
@@ -239,11 +243,20 @@ export const ConversationPanel = memo(function ConversationPanel({
   if (direction === 'push' && activePanel) {
     return (
       <>
-        {isAnimating && prevPanel && (
-          <PanelContainer conversationId={conversationId} panel={prevPanel} />
+        {lastPanelDoneAnimating !== prevPanel && prevPanel && (
+          <PanelContainer
+            conversationId={conversationId}
+            panel={prevPanel}
+            key={getPanelKey(prevPanel)}
+          />
         )}
-        <div className="ConversationPanel__overlay" ref={overlayRef} />
+        <div
+          key="overlay"
+          className="ConversationPanel__overlay"
+          ref={overlayRef}
+        />
         <PanelContainer
+          key={getPanelKey(activePanel)}
           conversationId={conversationId}
           isActive
           panel={activePanel}
@@ -373,4 +386,26 @@ function PanelElement({
 
   log.warn(toLogFormat(missingCaseError(panel)));
   return null;
+}
+
+function getPanelKey(panel: PanelRenderType): string {
+  switch (panel.type) {
+    case PanelType.AllMedia:
+    case PanelType.ChatColorEditor:
+    case PanelType.ConversationDetails:
+    case PanelType.GroupInvites:
+    case PanelType.GroupLinkManagement:
+    case PanelType.GroupPermissions:
+    case PanelType.GroupV1Members:
+    case PanelType.NotificationSettings:
+    case PanelType.StickerManager:
+      return panel.type;
+    case PanelType.MessageDetails:
+      return `${panel.type}:${panel.args.message.id}`;
+    case PanelType.ContactDetails:
+      return `${panel.type}:${panel.args.messageId}`;
+    default:
+      log.warn(toLogFormat(missingCaseError(panel)));
+      return 'unknown';
+  }
 }

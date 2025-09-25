@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ToastType } from './Toast';
+import type { ToastType } from './Toast.js';
 
 export class ErrorWithToast extends Error {
   public toastType: ToastType;

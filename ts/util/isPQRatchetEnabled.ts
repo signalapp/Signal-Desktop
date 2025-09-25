@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { UsePQRatchet } from '@signalapp/libsignal-client';
-import * as RemoteConfig from '../RemoteConfig';
+import * as RemoteConfig from '../RemoteConfig.js';
 
 export const isPQRatchetEnabled = (): UsePQRatchet => {
   return RemoteConfig.isEnabled('desktop.usePqRatchet')

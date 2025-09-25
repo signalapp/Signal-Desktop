@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { session } from 'electron';
 import { v4 as uuid } from 'uuid';
 
-import { updateDefaultSession } from '../../../app/updateDefaultSession';
+import { updateDefaultSession } from '../../../app/updateDefaultSession.js';
 
 describe('updateDefaultSession', () => {
   let sandbox: sinon.SinonSandbox;

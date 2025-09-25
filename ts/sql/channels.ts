@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { createLogger } from '../logging/log';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import { explodePromise } from '../util/explodePromise';
-import { missingCaseError } from '../util/missingCaseError';
+import { createLogger } from '../logging/log.js';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 
 const log = createLogger('channels');
 

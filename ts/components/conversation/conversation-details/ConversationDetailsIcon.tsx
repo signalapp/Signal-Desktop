@@ -4,8 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../../Spinner';
-import { bemGenerator } from './util';
+import { Spinner } from '../../Spinner.js';
+import { bemGenerator } from './util.js';
 
 export enum IconType {
   'approveAllMembers' = 'approveAllMembers',
@@ -23,6 +23,7 @@ export enum IconType {
   'leave' = 'leave',
   'link' = 'link',
   'lock' = 'lock',
+  'media' = 'media',
   'mention' = 'mention',
   'mute' = 'mute',
   'notifications' = 'notifications',

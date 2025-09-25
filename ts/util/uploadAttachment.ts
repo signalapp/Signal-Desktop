@@ -1,27 +1,27 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import Long from 'long';
-import { createReadStream } from 'fs';
+import { createReadStream } from 'node:fs';
 import type {
   AttachmentWithHydratedData,
   UploadedAttachmentType,
-} from '../types/Attachment';
-import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME';
-import { getRandomBytes } from '../Crypto';
-import { strictAssert } from './assert';
-import { backupsService } from '../services/backups';
-import { tusUpload } from './uploads/tusProtocol';
-import { defaultFileReader } from './uploads/uploads';
-import type { AttachmentUploadFormResponseType } from '../textsecure/WebAPI';
+} from '../types/Attachment.js';
+import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.js';
+import { getRandomBytes } from '../Crypto.js';
+import { strictAssert } from './assert.js';
+import { backupsService } from '../services/backups/index.js';
+import { tusUpload } from './uploads/tusProtocol.js';
+import { defaultFileReader } from './uploads/uploads.js';
+import type { AttachmentUploadFormResponseType } from '../textsecure/WebAPI.js';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
   safeUnlink,
   type PlaintextSourceType,
-} from '../AttachmentCrypto';
-import { missingCaseError } from './missingCaseError';
-import { uuidToBytes } from './uuidToBytes';
-import { isVisualMedia } from '../types/Attachment';
+} from '../AttachmentCrypto.js';
+import { missingCaseError } from './missingCaseError.js';
+import { uuidToBytes } from './uuidToBytes.js';
+import { isVisualMedia } from '../types/Attachment.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 

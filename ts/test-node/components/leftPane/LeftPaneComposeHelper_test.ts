@@ -3,14 +3,17 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { RowType, _testHeaderText } from '../../../components/ConversationList';
-import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
+import {
+  RowType,
+  _testHeaderText,
+} from '../../../components/ConversationList.js';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.js';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../../../test-helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation.js';
 
-import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
+import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper.js';
 
 describe('LeftPaneComposeHelper', () => {
   let sinonSandbox: sinon.SinonSandbox;

@@ -2,18 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
-import type { LastMessageStatus } from '../../model-types.d';
-import { MINUTE, SECOND } from '../../util/durations';
-import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil';
+import type { LastMessageStatus } from '../../model-types.d.ts';
+import { MINUTE, SECOND } from '../../util/durations/index.js';
+import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.js';
 import {
   ScrollAnchor,
   areMessagesInSameGroup,
   getScrollAnchorBeforeUpdate,
   shouldCurrentMessageHideMetadata,
   TimelineMessageLoadingState,
-} from '../../util/timelineUtil';
+} from '../../util/timelineUtil.js';
+
+const { times } = lodash;
 
 describe('<Timeline> utilities', () => {
   describe('areMessagesInSameGroup', () => {

@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "是否刪除聊天？"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "此聊天中的訊息將從此裝置上刪除。"
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "此聊天內的全部訊息將自你所有裝置中刪除。"
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "選擇要顯示在此資料夾中的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1 對 1 聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "群組聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "新增聊天"
@@ -2063,6 +2066,9 @@
   "icu:Toast--download-failed": {
     "messageformat": "下載失敗"
   },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "從備份下載附件失敗"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編輯只能在你傳送此訊息後的 24 小時內套用。"
   },
@@ -2238,7 +2244,7 @@
     "messageformat": "一次性影片"
   },
   "icu:message--getDescription--gif": {
-    "messageformat": "GIF"
+    "messageformat": "動態圖檔"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "這則訊息已被刪除。"
@@ -3528,13 +3534,13 @@
     "messageformat": "請重試或聯絡支援。"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "發生未預期錯誤"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "提交除錯記錄檔"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "不必了"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "好的"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "分享的媒體"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "查看全部"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "媒體、連結和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "例如 :-) 將轉換為 <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "繼續存檔靜音聊天記錄"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "當收到新訊息時，已存檔的靜音聊天將會保持存檔狀態。"
   },
   "icu:Preferences--advanced": {
     "messageformat": "進階"
@@ -5283,7 +5286,7 @@
     "messageformat": "已封鎖"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal 備份"
+    "messageformat": "Signal 安全備份"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "使用 Signal 的安全端對端加密儲存服務自動備份。就從你的手機開始。<learnMoreLink>了解更多</learnMoreLink>。"
@@ -5298,7 +5301,7 @@
     "messageformat": "文字 + 所有媒體備份"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 備份」。"
+    "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 安全備份」。"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {文字 + {mediaDayCount,number} 天的媒體備份}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "備份定期贊助已取消"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "你可以在手機上管理或取消「Signal 備份」定期贊助。"
+    "messageformat": "你可以在手機上管理或取消「Signal 安全備份」定期贊助。"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "你可以在手機上管理或升級「Signal 備份」。"
+    "messageformat": "你可以在手機上管理或升級「Signal 安全備份」。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "你可以在手機上管理「Signal 備份」定期贊助或為其續期。"
+    "messageformat": "你可以在手機上管理「Signal 安全備份」定期贊助或為其續期。"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "上次備份"
@@ -6655,10 +6658,10 @@
     "messageformat": "我的支持"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} 單次"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "正在處理捐款..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "捐款 {formattedCurrencyAmount}"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>當你捐款時，Signal 不會收集或儲存任何個人資料。</paragraph><paragraph>我們使用 Stripe 作為接收捐款的付款處理商。我們不會存取、保存或儲存你向他們提供的任何資料。</paragraph><paragraph>Signal 不會也無法將你的捐款連結到你的 Signal 帳戶。</paragraph><paragraph>感謝你的支持！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "好"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "收據"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "檢視收據詳情"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "捐款常見問題"
+    "messageformat": "捐款者常見問題"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "收據不會跨裝置進行同步。若你已重新安裝 Signal，恕未能提供先前捐款的收據。"
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "到期日"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "捐款 {formattedCurrencyAmount} 給 Signal"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "獲取為期 30 天的 Signal 捐款徽章"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "最低捐款金額為 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "你可以捐款的最低金額為 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "最高捐款金額為 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "離開此頁面將移除你的信用卡資料。你想繼續嗎？"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "移除資訊"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "繼續"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收據"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "你處於離線狀態。請連結網路以完成捐款。"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "已取消捐款"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "你有一筆處理中的捐款需要確認。"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "捐款成功，但我們無法更新你的徽章設定"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "捐款成功，但我們無法更新你的徽章設定"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "要更新行動裝置的徽章設定，請前往「設定」→「捐款給 Signal」→「徽章」。"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中斷"
@@ -6811,13 +6850,13 @@
     "messageformat": "可能尚未處理你的捐款。點擊「捐款給 Signal」，然後點擊「捐款收據」以查看你的收據並確認。"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "再試一次或向支援團隊提交除錯日誌，以取得協助完成捐款。除錯日誌可協助我們診斷並修正問題，而且不包含識別資料。"
   },
   "icu:Donations__Processing": {
     "messageformat": "正在處理捐款..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "仍在處理捐款"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "你的捐款仍在處理中。 可能需要數分鐘。"
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "取消捐款"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "謝謝你的支持！"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "你已獲得 Signal 的捐款者徽章！在你的個人檔案中展示徽章，表現你對我們的支持。"
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "在個人資料中展現"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "你可以在行動裝置的「設定 → 捐款給 Signal → 徽章」中更改此項目"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
@@ -6874,16 +6925,7 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "我們改善了多工處理時的訊息已讀或未讀體驗。"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "我們修正了一個錯誤﹐以後在表情符號搜尋框中按下 Esc 退出鍵後，便不會再出現問題。"
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "此更新修正了一些小錯誤，包括某些情況下表情符號心情回應分類出錯。"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

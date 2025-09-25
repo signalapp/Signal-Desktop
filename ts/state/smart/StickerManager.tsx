@@ -3,16 +3,16 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { StickerManager } from '../../components/stickers/StickerManager';
-import { getIntl } from '../selectors/user';
+import { StickerManager } from '../../components/stickers/StickerManager.js';
+import { getIntl } from '../selectors/user.js';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
   getKnownStickerPacks,
   getReceivedStickerPacks,
-} from '../selectors/stickers';
-import { useStickersActions } from '../ducks/stickers';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/stickers.js';
+import { useStickersActions } from '../ducks/stickers.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export const SmartStickerManager = memo(function SmartStickerManager() {
   const i18n = useSelector(getIntl);

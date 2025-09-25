@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { makeEnumParser } from '../util/enum';
+import { makeEnumParser } from '../util/enum.js';
 
 // The server may return "testing", which we should parse as "other".
 export enum BadgeCategory {

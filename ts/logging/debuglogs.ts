@@ -1,18 +1,20 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memoize, sortBy } from 'lodash';
-import { reallyJsonStringify } from '../util/reallyJsonStringify';
-import type { FetchLogIpcData, LogEntryType } from './shared';
+import lodash from 'lodash';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
+import type { FetchLogIpcData, LogEntryType } from './shared.js';
 import {
   LogLevel,
   getLogLevelString,
   isFetchLogIpcData,
   isLogEntry,
   levelMaxLength,
-} from './shared';
-import { redactAll } from '../util/privacy';
-import { getEnvironment } from '../environment';
+} from './shared.js';
+import { redactAll } from '../util/privacy.js';
+import { getEnvironment } from '../environment.js';
+
+const { memoize, sortBy } = lodash;
 
 // The mechanics of preparing a log for publish
 

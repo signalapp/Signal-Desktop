@@ -1,71 +1,76 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import Long from 'long';
 
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
-import * as Bytes from '../Bytes';
+import { ServiceId } from '@signalapp/libsignal-client';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto.js';
+import * as Bytes from '../Bytes.js';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
-} from '../groups';
-import { assertDev, strictAssert } from '../util/assert';
-import { dropNull } from '../util/dropNull';
-import { missingCaseError } from '../util/missingCaseError';
-import { isNotNil } from '../util/isNotNil';
+} from '../groups.js';
+import { assertDev, strictAssert } from '../util/assert.js';
+import { dropNull } from '../util/dropNull.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { isNotNil } from '../util/isNotNil.js';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../util/phoneNumberSharingMode';
+} from '../util/phoneNumberSharingMode.js';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../util/phoneNumberDiscoverability';
-import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
-import type { ConversationModel } from '../models/conversations';
+} from '../util/phoneNumberDiscoverability.js';
+import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.js';
+import type { ConversationModel } from '../models/conversations.js';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../util/timestampLongUtils';
-import { canHaveUsername } from '../util/getTitle';
+} from '../util/timestampLongUtils.js';
+import { canHaveUsername } from '../util/getTitle.js';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
-} from '../util/universalExpireTimer';
-import { ourProfileKeyService } from './ourProfileKey';
-import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
-import { DurationInSeconds } from '../util/durations';
-import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
+} from '../util/universalExpireTimer.js';
+import { ourProfileKeyService } from './ourProfileKey.js';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+} from '../util/whatTypeOfConversation.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
 import {
   ServiceIdKind,
   normalizeServiceId,
   toUntaggedPni,
-} from '../types/ServiceId';
-import { isAciString } from '../util/isAciString';
-import * as Stickers from '../types/Stickers';
+} from '../types/ServiceId.js';
+import { isAciString } from '../util/isAciString.js';
+import * as Stickers from '../types/Stickers.js';
 import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
-} from '../sql/Interface';
-import { DataReader, DataWriter } from '../sql/Client';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories';
-import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
-import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
-import { drop } from '../util/drop';
-import { redactExtendedStorageID } from '../util/privacy';
+} from '../sql/Interface.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.js';
+import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.js';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory.js';
+import { drop } from '../util/drop.js';
+import { redactExtendedStorageID } from '../util/privacy.js';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink';
+} from '../types/CallLink.js';
 import {
   callLinkFromRecord,
   fromEpochBytes,
@@ -73,16 +78,16 @@ import {
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
   toEpochBytes,
-} from '../util/callLinksRingrtc';
-import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks';
-import { isOlderThan } from '../util/timestamp';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
+} from '../util/callLinksRingrtc.js';
+import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
   saveBackupTier,
-} from '../util/backupSubscriptionData';
+} from '../util/backupSubscriptionData.js';
 import {
   toAciObject,
   toPniObject,
@@ -90,15 +95,24 @@ import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled';
-import { getLinkPreviewSetting } from '../types/LinkPreview';
+} from '../util/ServiceId.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
+import { getLinkPreviewSetting } from '../types/LinkPreview.js';
 import {
   getReadReceiptSetting,
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
-} from '../types/Util';
-import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent';
+} from '../types/Util.js';
+import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.js';
+import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.js';
+import {
+  CHAT_FOLDER_DELETED_POSITION,
+  ChatFolderType,
+} from '../types/ChatFolder.js';
+import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
+import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('storageRecordOps');
 
@@ -115,8 +129,8 @@ export type MergeResultType = Readonly<{
   conversation?: ConversationModel;
   needsProfileFetch?: boolean;
   updatedConversations?: ReadonlyArray<ConversationModel>;
-  oldStorageID?: string;
-  oldStorageVersion?: number;
+  oldStorageID?: string | null;
+  oldStorageVersion?: number | null;
   details: ReadonlyArray<string>;
 }>;
 
@@ -751,6 +765,96 @@ export function toDefunctOrPendingCallLinkRecord(
   }
 
   return callLinkRecord;
+}
+
+function toRecipient(conversationId: string): Proto.Recipient {
+  const conversation = window.ConversationController.get(conversationId);
+
+  if (conversation == null) {
+    throw new Error('toRecipient: Missing conversation');
+  }
+
+  const logPrefix = `toRecipient(${conversation.idForLogging()})`;
+
+  if (isDirectConversation(conversation.attributes)) {
+    const serviceId = conversation.getServiceId();
+    strictAssert(
+      serviceId,
+      `${logPrefix}: Missing serviceId on direct conversation`
+    );
+    const serviceIdBinary =
+      ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
+    return new Proto.Recipient({
+      contact: new Proto.Recipient.Contact({
+        serviceId,
+        e164: conversation.get('e164'),
+        serviceIdBinary,
+      }),
+    });
+  }
+
+  if (isGroupV2(conversation.attributes)) {
+    const masterKey = conversation.get('masterKey');
+    strictAssert(
+      masterKey,
+      `${logPrefix}: Missing masterKey on groupV2 conversation`
+    );
+    return new Proto.Recipient({
+      groupMasterKey: Bytes.fromBase64(masterKey),
+    });
+  }
+
+  if (isGroupV1(conversation.attributes)) {
+    return new Proto.Recipient({
+      legacyGroupId: conversation.getGroupIdBuffer(),
+    });
+  }
+
+  throw new Error(`${logPrefix}: Unexpected conversation type for recipient`);
+}
+
+function toRecipients(
+  conversationIds: ReadonlyArray<string>
+): Array<Proto.Recipient> {
+  return conversationIds.map(conversationId => {
+    return toRecipient(conversationId);
+  });
+}
+
+function toChatFolderRecordFolderType(
+  folderType: ChatFolderType
+): Proto.ChatFolderRecord.FolderType {
+  if (folderType === ChatFolderType.ALL) {
+    return Proto.ChatFolderRecord.FolderType.ALL;
+  }
+  if (folderType === ChatFolderType.CUSTOM) {
+    return Proto.ChatFolderRecord.FolderType.CUSTOM;
+  }
+  return Proto.ChatFolderRecord.FolderType.UNKNOWN;
+}
+
+export function toChatFolderRecord(
+  chatFolder: ChatFolder
+): Proto.ChatFolderRecord {
+  const chatFolderRecord = new Proto.ChatFolderRecord({
+    id: uuidToBytes(chatFolder.id),
+    name: chatFolder.name,
+    position: chatFolder.position,
+    showOnlyUnread: chatFolder.showOnlyUnread,
+    showMutedChats: chatFolder.showMutedChats,
+    includeAllIndividualChats: chatFolder.includeAllIndividualChats,
+    includeAllGroupChats: chatFolder.includeAllGroupChats,
+    folderType: toChatFolderRecordFolderType(chatFolder.folderType),
+    includedRecipients: toRecipients(chatFolder.includedConversationIds),
+    excludedRecipients: toRecipients(chatFolder.excludedConversationIds),
+    deletedAtTimestampMs: Long.fromNumber(chatFolder.deletedAtTimestampMs),
+  });
+
+  if (chatFolder.storageUnknownFields != null) {
+    chatFolderRecord.$unknownFields = [chatFolder.storageUnknownFields];
+  }
+
+  return chatFolderRecord;
 }
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV2Record;
@@ -2193,5 +2297,170 @@ export async function mergeCallLinkRecord(
     shouldDrop,
     oldStorageID,
     oldStorageVersion,
+  };
+}
+
+function protoToChatFolderType(folderType: Proto.ChatFolderRecord.FolderType) {
+  if (folderType === Proto.ChatFolderRecord.FolderType.ALL) {
+    return ChatFolderType.ALL;
+  }
+  if (folderType === Proto.ChatFolderRecord.FolderType.CUSTOM) {
+    return ChatFolderType.CUSTOM;
+  }
+  return ChatFolderType.UNKNOWN;
+}
+
+function recipientToConversationId(recipient: Proto.Recipient): string {
+  let match: ConversationModel | undefined;
+  if (recipient.contact != null) {
+    match = window.ConversationController.get(recipient.contact.serviceId);
+    match ??= window.ConversationController.get(recipient.contact.e164);
+  } else if (
+    recipient.groupMasterKey != null &&
+    recipient.groupMasterKey.byteLength !== 0
+  ) {
+    const secretParams = deriveGroupSecretParams(recipient.groupMasterKey);
+    const groupId = Bytes.toBase64(deriveGroupID(secretParams));
+    match = window.ConversationController.get(groupId);
+  } else if (
+    recipient.legacyGroupId != null &&
+    recipient.legacyGroupId.byteLength !== 0
+  ) {
+    const groupId = Bytes.toBinary(recipient.legacyGroupId);
+    match = window.ConversationController.get(groupId);
+  } else {
+    throw new Error('Unexpected type of recipient');
+  }
+  strictAssert(match, 'Missing conversation for recipient');
+  return match.id;
+}
+
+function recipientsToConversationIds(
+  recipients: ReadonlyArray<Proto.Recipient>
+): ReadonlyArray<string> {
+  return recipients.map(recipient => {
+    return recipientToConversationId(recipient);
+  });
+}
+
+export async function mergeChatFolderRecord(
+  storageID: string,
+  storageVersion: number,
+  remoteChatFolderRecord: Proto.IChatFolderRecord
+): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
+
+  const logPrefix = `mergeChatFolderRecord(${redactedStorageID})`;
+
+  if (remoteChatFolderRecord.id == null) {
+    return { shouldDrop: true, details: ['no id'] };
+  }
+
+  const remoteChatFolder: ChatFolder = {
+    id: bytesToUuid(remoteChatFolderRecord.id) as ChatFolderId,
+    folderType: protoToChatFolderType(
+      remoteChatFolderRecord.folderType ??
+        Proto.ChatFolderRecord.FolderType.UNKNOWN
+    ),
+    name: remoteChatFolderRecord.name ?? '',
+    position: remoteChatFolderRecord.position ?? CHAT_FOLDER_DELETED_POSITION,
+    showOnlyUnread: remoteChatFolderRecord.showOnlyUnread ?? false,
+    showMutedChats: remoteChatFolderRecord.showMutedChats ?? false,
+    includeAllIndividualChats:
+      remoteChatFolderRecord.includeAllIndividualChats ?? false,
+    includeAllGroupChats: remoteChatFolderRecord.includeAllGroupChats ?? false,
+    includedConversationIds: recipientsToConversationIds(
+      remoteChatFolderRecord.includedRecipients ?? []
+    ),
+    excludedConversationIds: recipientsToConversationIds(
+      remoteChatFolderRecord.excludedRecipients ?? []
+    ),
+    deletedAtTimestampMs:
+      remoteChatFolderRecord.deletedAtTimestampMs?.toNumber() ?? 0,
+    storageID,
+    storageVersion,
+    storageUnknownFields:
+      remoteChatFolderRecord.$unknownFields != null
+        ? Bytes.concatenate(remoteChatFolderRecord.$unknownFields)
+        : null,
+    storageNeedsSync: false,
+  };
+
+  const localChatFolder = await DataReader.getChatFolder(remoteChatFolder.id);
+
+  let deletedAtTimestampMs: number;
+
+  const remoteDeletedAt = remoteChatFolder.deletedAtTimestampMs;
+  const localDeletedAt = localChatFolder?.deletedAtTimestampMs ?? 0;
+
+  if (remoteDeletedAt > 0 && localDeletedAt > 0) {
+    if (remoteDeletedAt < localDeletedAt) {
+      deletedAtTimestampMs = remoteDeletedAt;
+    } else {
+      deletedAtTimestampMs = localDeletedAt;
+    }
+  } else if (remoteDeletedAt > 0) {
+    deletedAtTimestampMs = remoteDeletedAt;
+  } else if (localDeletedAt > 0) {
+    deletedAtTimestampMs = localDeletedAt;
+  } else {
+    deletedAtTimestampMs = remoteDeletedAt;
+  }
+
+  if (deletedAtTimestampMs > 0) {
+    if (localChatFolder == null) {
+      log.info(
+        `${logPrefix}: skipping deleted chat folder, no local record found`
+      );
+    } else if (localDeletedAt === deletedAtTimestampMs) {
+      log.info(
+        `${logPrefix}: skipping deleted chat folder, local record already deleted`
+      );
+    } else if (localDeletedAt > 0) {
+      log.info(`${logPrefix}: updating deleted chat folder timestamp `);
+      await DataWriter.updateChatFolderDeletedAtTimestampMsFromSync(
+        remoteChatFolder.id,
+        deletedAtTimestampMs
+      );
+      drop(chatFolderCleanupService.trigger('storage: updated timestamp'));
+    } else {
+      log.info(`${logPrefix}: deleting chat folder`);
+      await DataWriter.markChatFolderDeleted(
+        remoteChatFolder.id,
+        deletedAtTimestampMs,
+        false
+      );
+      window.reduxActions.chatFolders.removeChatFolderRecord(
+        remoteChatFolder.id
+      );
+      drop(chatFolderCleanupService.trigger('storage: deleted chat folder'));
+    }
+  } else if (localChatFolder == null) {
+    log.info(`${logPrefix}: creating new chat folder`);
+    await DataWriter.createChatFolder(remoteChatFolder);
+    window.reduxActions.chatFolders.addChatFolderRecord(remoteChatFolder);
+  } else {
+    log.info(`${logPrefix}: updating existing chat folder`);
+    await DataWriter.updateChatFolder(remoteChatFolder);
+    window.reduxActions.chatFolders.replaceChatFolderRecord(remoteChatFolder);
+  }
+
+  const details = logRecordChanges(
+    localChatFolder != null ? toChatFolderRecord(localChatFolder) : undefined,
+    remoteChatFolderRecord
+  );
+
+  const shouldDrop =
+    remoteChatFolder.deletedAtTimestampMs > 0 &&
+    isOlderThan(remoteChatFolder.deletedAtTimestampMs, getMessageQueueTime());
+
+  return {
+    details,
+    shouldDrop,
+    oldStorageID: localChatFolder?.storageID ?? undefined,
+    oldStorageVersion: localChatFolder?.storageVersion ?? undefined,
   };
 }

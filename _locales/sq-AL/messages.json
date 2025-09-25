@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Të fshihet biseda?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga kjo pajisje."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga të gjitha pajisjet."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Zgjidh bisedat që dëshiron të shfaqen në këtë dosje"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Biseda 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Fjalosje grupi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Shto biseda"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Shkarkimi dështoi"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Shkarkimi i bashkëngjitjes nga kopjeruajtja dështoi"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -3528,13 +3534,13 @@
     "messageformat": "Ju lutemi, riprovoni ose lidhuni me asistencën."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ndodhi një gabim i papritur"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Parashtro regjistër diagnostikimi"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Jo, faleminderit"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "OK"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Media e ndarë me të tjerët"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Shihi të gjithë"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, lidhje dhe skedarë"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Për shembull, :-) do të konvertohet në <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mbaj të arkivuara bisedat pa zë"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Bisedat e arkivuara pa zë do të mbeten të tilla, edhe kur të vijë mesazh i ri."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Të mëtejshme"
@@ -5283,7 +5286,7 @@
     "messageformat": "Bllokuar"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Kopjeruajtjet e Signal"
+    "messageformat": "Kopjeruajtjet e sigurta të Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefon. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
@@ -5298,7 +5301,7 @@
     "messageformat": "Teksti + kopjeruajtja e të gjitha mediave"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonimi nuk u gjet. Rinovo për të vazhduar përdorimin e \"Kopjeruajtjet e Signal\"."
+    "messageformat": "Abonimi nuk u gjet. Rinovo për të vazhduar përdorimin e \"Kopjeruajtjet e sigurta të Signal\"."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë} other {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "Abonimi u anulua"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Mund të menaxhosh ose anulosh abonimin e \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "Mund të menaxhosh ose anulosh abonimin e \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Mund të menaxhosh ose përmirësosh \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "Mund të menaxhosh ose përditësosh \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Mund të menaxhosh ose rinovosh abonimin e \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "Mund të menaxhosh ose rinovosh abonimin e \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Kopjeruajtja e fundit"
@@ -6655,10 +6658,10 @@
     "messageformat": "Përkrahja ime"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} për vetëm një herë"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Dhuro {formattedCurrencyAmount}"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal nuk mbledh apo ruan asnjë nga të dhënat e tua personale kur bën një dhurim.</paragraph><paragraph>Ne përdorim Stripe si përpunues të pagesave për të marrë dhurimet. Nuk kemi qasje, nuk mbledhim apo ruajmë asnjë nga informacionet që ti u jep atyre.</paragraph><paragraph>Signal nuk e lidh dhe nuk mund ta lidhë dhurimin tënd me llogarinë Signal.</paragraph><paragraph>Faleminderit për mbështetjen!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Fatura"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Shiko detajet e faturës"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Pyetje të shpeshta rreth dhurimeve"
+    "messageformat": "Pyetje të dhuruesve"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Faturat nuk sinkronizohen në të gjitha pajisjet. Nëse ke riinstaluar Signal, faturat e dhurimeve të mëparshme nuk do të shfaqen."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Data e skadencës"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Dhuro {formattedCurrencyAmount} te Signal"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Merr distinktivin shtesë të Signal për 30 ditë"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Shuma minimale e dhurimit është {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Shuma minimale që mund të dhurosh është {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Shuma maksimale e dhurimit është {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Largimi nga kjo faqe do ta heqë informacionin e kartës së kreditit. Dëshiron të vazhdosh?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Hiq informacionin"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Vazhdo"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Je jashtë linje. Të lutem, lidh internetin për të përfunduar dhurimin."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Dhurimi u anulua"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Ke një dhurim në proces që kërkon konfirmim."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Për të përditësuar parametrat e distinktivit në pajisjen celulare, shko te Parametrat → Dhuro për Signal → Distinktivët."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dhurimi u ndërpre"
@@ -6811,13 +6850,13 @@
     "messageformat": "Dhurimi mund të mos jetë përpunuar. Kliko te “Dhuro për Signal” dhe pastaj te “Faturat e dhurimit” për të kontrolluar faturat dhe për t'i konfirmuar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Provo përsëri ose dërgo regjistrin e diagnostikimeve te \"Ndihma: që të ndihmojë të përfundosh dhurimin. Regjistrat e diagnostifikimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
   },
   "icu:Donations__Processing": {
     "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Ende po përpunohet dhurimi"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Dhurimi është ende duke u përpunuar. Kjo mund të zgjasë disa minuta."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Anulo dhurimin"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Faleminderit për përkrahjen tënde!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Ke fituar një distinktiv dhuruesi nga Signal! Shfaqe atë në profil për të treguar mbështetjen tënde."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Shfaqe në Profil"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Mund ta rregullosh këtë te pajisja te Parametrat → Dhuro për Signal → Distinktivët"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Ne përmirësuam përvojën e leximit/paleximit të mesazheve gjatë kryerjes së shumë detyrave njëkohësisht dhe rregulluam një gabim që ndonjëherë hapte gabimisht shikuesin e zgjeruar të imazheve nëse shtypnit tastin e hapësirës ndërsa kërkonit reagimin perfekt të emoxhit. Mund ta zmadhosh akoma nëse kliko mbi imazhin ose nëse shkruan mjaftueshëm shpejt."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Gjetja e emoxhit të duhur mund të përngjajë me një luftë të pashmangshme, megjithatë gabimi që mund të shkaktohej pas shtypjes së tastit \"Escape\" në kutinë e kërkimit të emoxhive u rregullua."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Ky përditësim rregullon disa gabime të vogla, përfshirë një ku reagimet ndaj emoxhive nuk grupoheshin siç duhet në disa raste."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

@@ -3,10 +3,9 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
+import i18n from './i18n.js';
 
-import { getMuteOptions } from '../../util/getMuteOptions';
+import { getMuteOptions } from '../../util/getMuteOptions.js';
 
 describe('getMuteOptions', () => {
   const HOUR = 3600000;
@@ -34,8 +33,6 @@ describe('getMuteOptions', () => {
       value: Number.MAX_SAFE_INTEGER,
     },
   ];
-
-  const i18n = setupI18n('en', enMessages);
 
   describe('when not muted', () => {
     it('returns the 5 default options', () => {

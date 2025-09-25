@@ -4,22 +4,22 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { MenuOptionsType } from '../types/menu';
-import type { RendererConfigType } from '../types/RendererConfig';
-import type { LocalizerType } from '../types/Util';
-import type { SettingType, SettingsValuesType } from '../util/preload';
+import type { NativeThemeType } from '../context/createNativeThemeListener.js';
+import type { MenuOptionsType } from '../types/menu.js';
+import type { RendererConfigType } from '../types/RendererConfig.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { SettingType, SettingsValuesType } from '../util/preload.js';
 
-import { Bytes } from '../context/Bytes';
-import { Crypto } from '../context/Crypto';
-import { Timers } from '../context/Timers';
+import { Bytes } from '../context/Bytes.js';
+import { Crypto } from '../context/Crypto.js';
+import { Timers } from '../context/Timers.js';
 
-import type { LocaleDirection } from '../../app/locale';
-import { i18n } from '../context/i18n';
-import type { ActiveWindowServiceType } from '../services/ActiveWindowService';
-import type { LocaleEmojiListType } from '../types/emoji';
-import type { HourCyclePreference } from '../types/I18N';
-import { MinimalSignalContext } from './minimalContext';
+import type { LocaleDirection } from '../../app/locale.js';
+import { i18n } from '../context/i18n.js';
+import type { ActiveWindowServiceType } from '../services/ActiveWindowService.js';
+import type { LocaleEmojiListType } from '../types/emoji.js';
+import type { HourCyclePreference } from '../types/I18N.js';
+import { MinimalSignalContext } from './minimalContext.js';
 
 export type MainWindowStatsType = Readonly<{
   isMaximized: boolean;

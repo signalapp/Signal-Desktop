@@ -5,18 +5,18 @@ import { readdirSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { Readable } from 'node:stream';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   ComparableBackup,
   Purpose,
-} from '@signalapp/libsignal-client/dist/MessageBackup';
+} from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import { assert } from 'chai';
 
-import { clearData } from './helpers';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
-import { backupsService, BackupType } from '../../services/backups';
-import { MemoryStream } from '../../services/backups/util/MemoryStream';
-import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion';
+import { clearData } from './helpers.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { backupsService, BackupType } from '../../services/backups/index.js';
+import { MemoryStream } from '../../services/backups/util/MemoryStream.js';
+import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.js';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
 

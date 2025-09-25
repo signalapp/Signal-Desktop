@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { decode } from 'blurhash';
-import * as Bytes from '../Bytes';
+import * as Bytes from '../Bytes.js';
 
 const BITMAP_HEADER = new Uint8Array([
   // Header

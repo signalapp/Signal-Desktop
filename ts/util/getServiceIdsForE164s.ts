@@ -1,12 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CDSResponseType } from '../textsecure/cds/Types.d';
-import type { WebAPIType } from '../textsecure/WebAPI';
-import type { AciString } from '../types/ServiceId';
-import { createLogger } from '../logging/log';
-import { isDirectConversation, isMe } from './whatTypeOfConversation';
-import { parseNumber } from './libphonenumberUtil';
+import type { CDSResponseType } from '../textsecure/cds/Types.d.ts';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { AciString } from '../types/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
+import { parseNumber } from './libphonenumberUtil.js';
 
 const log = createLogger('getServiceIdsForE164s');
 

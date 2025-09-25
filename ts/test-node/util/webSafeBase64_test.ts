@@ -3,7 +3,10 @@
 
 import { assert } from 'chai';
 
-import { toWebSafeBase64, fromWebSafeBase64 } from '../../util/webSafeBase64';
+import {
+  toWebSafeBase64,
+  fromWebSafeBase64,
+} from '../../util/webSafeBase64.js';
 
 describe('both/util/webSafeBase64', () => {
   it('roundtrips with all elements', () => {

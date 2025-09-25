@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 
-import { sql } from '../../sql/util';
-import { createDB, explain, updateToVersion } from './helpers';
-import type { WritableDB } from '../../sql/Interface';
+import { sql } from '../../sql/util.js';
+import { createDB, explain, updateToVersion } from './helpers.js';
+import type { WritableDB } from '../../sql/Interface.js';
 
 describe('SQL/updateToSchemaVersion1360', () => {
   let db: WritableDB;

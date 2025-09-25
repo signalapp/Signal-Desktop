@@ -4,7 +4,7 @@
 import { stat } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { name as NAME, version as VERSION } from '../../package.json';
+import { name as NAME, version as VERSION } from '../util/packageJson.js';
 
 const SUPPORT_CONFIG = new Set([
   'linux',

@@ -3,10 +3,10 @@
 
 import React, { useEffect } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import { SpinnerV2 } from './SpinnerV2';
-import { SECOND } from '../util/durations';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { SpinnerV2 } from './SpinnerV2.js';
+import { SECOND } from '../util/durations/index.js';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -36,9 +36,10 @@ export function DonationProgressModal(props: PropsType): JSX.Element {
       modalName="DonationProgressModal"
       noEscapeClose
       noMouseClose
-      onClose={() => undefined}
     >
-      <SpinnerV2 size={58} strokeWidth={8} />
+      <div className="DonationProgressModal__SpinnerV2">
+        <SpinnerV2 size={58} strokeWidth={4} variant="brand" />
+      </div>
       <div className="DonationProgressModal__text">
         {i18n('icu:Donations__Processing')}
       </div>

@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Delta } from '@signalapp/quill-cjs';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 
-import { createLogger } from '../../logging/log';
-import type { EmojiData } from '../../components/emoji/lib';
+import { createLogger } from '../../logging/log.js';
+import type { EmojiData } from '../../components/emoji/lib.js';
 import {
   convertShortName,
   convertShortNameToData,
-} from '../../components/emoji/lib';
-import { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../../components/emoji/lib.js';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
 const log = createLogger('index');
 

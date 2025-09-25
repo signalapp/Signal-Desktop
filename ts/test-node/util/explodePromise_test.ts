@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { explodePromise } from '../../util/explodePromise';
+import { explodePromise } from '../../util/explodePromise.js';
 
 describe('explodePromise', () => {
   it('resolves the promise', async () => {

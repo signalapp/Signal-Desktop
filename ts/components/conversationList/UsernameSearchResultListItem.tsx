@@ -3,14 +3,14 @@
 
 import React, { useCallback } from 'react';
 
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
-import { ListTile } from '../ListTile';
-import { Avatar, AvatarSize } from '../Avatar';
-import { Spinner } from '../Spinner';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.js';
+import { ListTile } from '../ListTile.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { Spinner } from '../Spinner.js';
 
-import type { LocalizerType } from '../../types/Util';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
-import type { ShowConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
+import type { ShowConversationType } from '../../state/ducks/conversations.js';
 
 type PropsData = {
   username: string;

@@ -1,6 +1,6 @@
 {
   "icu:AddUserToAnotherGroupModal__title": {
-    "messageformat": "ગ્રુપમાં ઉમેરો"
+    "messageformat": "ગ્રૂપમાં ઉમેરો"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
     "messageformat": "નવા સભ્યો ઉમેરવા છે?"
@@ -9,7 +9,7 @@
     "messageformat": "ઉમેરો"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "“{contact}”ને {group} ગ્રુપમાં ઉમેરવા છે?"
+    "messageformat": "“{contact}”ને {group} ગ્રૂપમાં ઉમેરવા છે?"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "શોધો"
@@ -75,7 +75,7 @@
     "messageformat": "અજાણ્યું"
   },
   "icu:unknownGroup": {
-    "messageformat": "અજાણ્યું ગ્રુપ"
+    "messageformat": "અજાણ્યું ગ્રૂપ"
   },
   "icu:cantOpenSignalError": {
     "messageformat": "Signal ખોલી શકાતું નથી"
@@ -105,22 +105,22 @@
     "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend}માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો અથવા કમાન્ડ લાઇન ફ્લેગ --password-store=\"{previousBackendFlag}\" સાથે Signalને રન કરવાનો પ્રયાસ કરો"
   },
   "icu:mainMenuFile": {
-    "messageformat": "&ફાઇલ"
+    "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
     "messageformat": "સ્ટીકર પેક બનાવો/અપલોડ કરો"
   },
   "icu:mainMenuEdit": {
-    "messageformat": "&સંપાદિત કરો"
+    "messageformat": "&Edit"
   },
   "icu:mainMenuView": {
-    "messageformat": "&જુઓ"
+    "messageformat": "&View"
   },
   "icu:mainMenuWindow": {
-    "messageformat": "&વિન્ડો"
+    "messageformat": "&Window"
   },
   "icu:mainMenuHelp": {
-    "messageformat": "&મદદ"
+    "messageformat": "&Help"
   },
   "icu:mainMenuSettings": {
     "messageformat": "પસંદગીઓ..."
@@ -177,7 +177,7 @@
     "messageformat": "નાનું કરો"
   },
   "icu:windowMenuZoom": {
-    "messageformat": "ઝુમ કરો"
+    "messageformat": "ઝૂમ કરો"
   },
   "icu:windowMenuBringAllToFront": {
     "messageformat": "બધાને આગળ લાવો"
@@ -186,10 +186,10 @@
     "messageformat": "વાસ્તવિક કદ"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "ઝુમ ઇન"
+    "messageformat": "ઝૂમ ઇન"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "ઝુમ આઉટ"
+    "messageformat": "ઝૂમ આઉટ"
   },
   "icu:viewMenuToggleFullScreen": {
     "messageformat": "ટોગલ ફૂલ સ્ક્રીન"
@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "ચેટ ડિલીટ કરવી છે?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "આ ડિવાઇસમાંથી આ ચેટમાંના તમામ મેસેજને ડિલીટ કરવામાં આવશે."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "આ ચેટમાંના તમામ મેસેજને તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "તમે આ ફોલ્ડરમાં બતાવવા માંગતા હો તે ચેટ પસંદ કરો"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 ચેટ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "ગ્રૂપ ચેટ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ચેટ ઉમેરો"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ડાઉનલોડ નિષ્ફળ ગયું"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "બેકઅપમાંથી એટેચમેન્ટ ડાઉનલોડ કરવાનું નિષ્ફળ થયું"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "તમે આ મેસેજ મોકલ્યો હોય ત્યારથી માત્ર 24 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે."
@@ -3528,13 +3534,13 @@
     "messageformat": "કૃપા કરીને ફરી પ્રયાસ કરો અથવા સપોર્ટનો સંપર્ક કરો."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "એક અનપેક્ષિત ત્રુટિ આવી"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ડિબગ લૉગ સબમિટ કરો"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ના, આભાર"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "બરાબર"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "શેર કરેલ મીડિયા"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "બધા જુઓ"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "મીડિયા, લિંક અને ફાઇલો"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "ઉદાહરણ તરીકે, :-) <emojify>🙂</emojify> માં કન્વર્ટ થઈ જશે"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "મ્યૂટ કરેલી ચેટને આર્કાઇવ રાખો"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "મ્યૂટ કરેલી ચેટ જેને આર્કાઇવ કરેલ છે તે નવો મેસેજ આવે ત્યારે પણ આર્કાઇવ જ રહેશે."
   },
   "icu:Preferences--advanced": {
     "messageformat": "વધુ"
@@ -5283,7 +5286,7 @@
     "messageformat": "બ્લૉક કર્યા"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal બેકઅપ"
+    "messageformat": "Signal સુરક્ષિત બેકઅપ"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalની સુરક્ષિત, એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ સ્ટોરેજ સેવા સાથે ઓટોમેટિક બેકઅપ. તમારા ફોન પર શરૂઆત કરો. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
@@ -5298,7 +5301,7 @@
     "messageformat": "ટેક્સ્ટ + બધા મીડિયાનું બેકઅપ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal બેકઅપનો ઉપયોગ ચાલુ રાખવા માટે રિન્યૂ કરો."
+    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal સુરક્ષિત બેકઅપનો ઉપયોગ ચાલુ રાખવા રિન્યૂ કરો."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ} other {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "સબ્સ્ક્રિપ્શન રદ કર્યું"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા કેન્સલ કરી શકો છો."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal સુરક્ષિત બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા કેન્સલ કરી શકો છો."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "તમે તમારા ફોન પર Signal બેકઅપને મેનેજ અથવા અપગ્રેડ કરી શકો છો."
+    "messageformat": "તમે તમારા ફોન પર Signal સુરક્ષિત બેકઅપને મેનેજ અથવા અપગ્રેડ કરી શકો છો."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા રિન્યૂ કરી શકો છો."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal સુરક્ષિત બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા રિન્યૂ કરી શકો છો."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "છેલ્લું બેકઅપ"
@@ -6655,10 +6658,10 @@
     "messageformat": "મારું સમર્થન"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} એક-વખત"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "દાનની પ્રક્રિયા થઈ રહી છે..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} દાન કરો"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>તમે દાન કરો છો ત્યારે Signal તમારી કોઈ પણ અંગત માહિતી એકત્રિત કે સંગ્રહિત કરતું નથી.</paragraph><paragraph>અમે તમારા દાન મેળવવા માટે અમારા પેમેન્ટ પ્રોસેસર તરીકે Stripeનો ઉપયોગ કરીએ છીએ.તમે તેમને પ્રદાન કરો છો તે કોઈ પણ માહિતી અમે ઍક્સેસ, સ્ટોર કે સેવ કરતાં નથી.</paragraph><paragraph>Signal તમારા દાનને તમારા Signal એકાઉન્ટ સાથે કનેક્ટ કરતું નથી અને કરી શકતું નથી.</paragraph><paragraph>તમારા સપોર્ટ બદલ તમારો આભાર!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "ઓકે"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "રસીદો"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "રસીદની વિગતો જુઓ"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "દાન માટેની પ્રશ્નોત્તરી"
+    "messageformat": "દાતા માટેની પ્રશ્નોત્તરી"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "રસીદો બધા ડિવાઇસ પર સિંક થતી નથી. જો તમે Signalને ફરીથી ઇન્સ્ટોલ કર્યું હોય, તો અગાઉના દાનની રસીદો ઉપલબ્ધ નહીં રહે."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "સમાપ્તિ તારીખ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal માટે {formattedCurrencyAmount} નું દાન કરો"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 દિવસ માટે Signal બૂસ્ટ બૅજ મેળવો"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "ઓછામાં ઓછી દાનની રકમ છે {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "તમે જે ઓછામાં ઓછી રકમ દાન કરી શકો છો તે છે {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "મહત્તમ દાનની રકમ છે {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "આ પેજને બંધ કરવાથી તમારી ક્રેડિટ કાર્ડ માહિતી દૂર થઈ જશે. શું તમે આગળ વધવા માંગો છો?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "માહિતી દૂર કરો"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "ચાલુ રાખો"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "દાનની રસીદ"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Signalને સપોર્ટ કરવા બદલ આપનો આભાર. તમારું યોગદાન ઓપન સોર્સ પ્રાઇવસી ટેક્નોલોજી વિકસિત કરવાના મિશનને વેગ આપવામાં મદદ કરે છે જે મુક્ત અભિવ્યક્તિનું રક્ષણ કરે છે અને વિશ્વના લાખો લોકો માટે સુરક્ષિત વૈશ્વિક સંચારને સક્રિય કરે છે. જો તમે યુનાઇટેડ સ્ટેટ્સના રહેવાસી હો, તો કૃપા કરીને તમારા ટેક્સ રેકોર્ડ માટે આ રસીદને સાચવી રાખો. Signal Technology Foundation એ યુનાઇટેડ સ્ટેટ્સમાં Internal Revenue Code (આંતરિક મહેસૂલ સંહિતા)ની કલમ 501c3 હેઠળ એક કરવેરા-મુક્ત બિનલાભકારી સંસ્થા છે. અમારું સંઘીય ટેક્સ ID છે 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "તમે ઓફલાઇન છો. દાન પૂર્ણ કરવા માટે કૃપા કરીને ઇન્ટરનેટથી કનેક્ટ થાઓ."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "દાન રદ કર્યું"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "તમારા એક દાનની પ્રક્રિયા ચાલુ છે જેની ખાતરી કરવી જરૂરી છે."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "તમારા મોબાઇલ ડિવાઇસ પર તમારા બૅજ સેટિંગ્સ અપડેટ કરવા માટે, સેટિંગ્સ → Signal પર દાન કરો → બૅજ પર જાઓ."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "દાનમાં વિક્ષેપ પડ્યો"
@@ -6811,13 +6850,13 @@
     "messageformat": "તમારા દાનની પ્રક્રિયા થઈ ન હોય એવું બની શકે. તમારી રસીદો તપાસવા અને પુષ્ટિ કરવા માટે \"Signalને દાન આપો\" અને પછી \"દાનની રસીદ\" પર ક્લિક કરો."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "ફરી પ્રયાસ કરો અથવા તમારા દાનને પૂર્ણ કરવામાં મદદ માટે સપોર્ટને ડીબગ લૉગ સબમિટ કરો. ડીબગ લૉગ અમને સમસ્યાને ઉકેલવામાં અને તેને ઠીક કરવામાં મદદ કરે છે અને તેમાં ઓળખ થઈ શકે તેવી માહિતી શામેલ હોતી નથી."
   },
   "icu:Donations__Processing": {
     "messageformat": "દાનની પ્રક્રિયા થઈ રહી છે..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "હજુ પણ દાનની પ્રક્રિયા ચાલુ છે"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "તમારા દાનની પ્રક્રિયા હજી ચાલુ છે. આમાં થોડીવાર લાગી શકે છે."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "દાન રદ કરો"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "તમારા સપોર્ટ બદલ આભાર!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "તમે Signal તરફથી દાતાનો બૅજ મેળવ્યો છે! તમારો સપોર્ટ બતાવવા માટે તેને તમારી પ્રોફાઇલ પર બતાવો."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "પ્રોફાઇલ પર બતાવો"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "તમે તમારા મોબાઇલ ડિવાઇસ પર સેટિંગ્સ → Signal પર દાન કરો → બૅજ હેઠળ આને એડજસ્ટ કરી શકો છો"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "આ વર્ઝનમાં Signalને સરસ રીતે ચાલતું રાખવા માટે નાના ફેરફારો અને ભૂલ સુધાર શામેલ છે.",
@@ -6874,16 +6925,7 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "અમે મલ્ટિટાસ્કિંગ કરતી વખતે મેસેજને વાંચેલ / ન વાંચેલ તરીકે ચિહ્નિત કરવાના અનુભવમાં સુધારો કર્યો છે."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "અમે ઇમોજી સર્ચ બોક્સમાં એક બગ સુધાર્યો."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "થોડા નાના બગ સુધારાઓ."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

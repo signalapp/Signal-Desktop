@@ -6,14 +6,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
 
-import { TypingAnimation } from './TypingAnimation';
-import { Avatar } from '../Avatar';
+import { TypingAnimation } from './TypingAnimation.js';
+import { Avatar } from '../Avatar.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { drop } from '../../util/drop';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import { drop } from '../../util/drop.js';
+import { useReducedMotion } from '../../hooks/useReducedMotion.js';
 
 const MAX_AVATARS_COUNT = 3;
 
@@ -209,10 +209,7 @@ function TypingBubbleGroupAvatars({
     <div className="module-message__author-avatar-container module-message__author-avatar-container--typing">
       <div className="module-message__typing-avatar-spacer" />
       {typingContactsOverflowCount > 0 && (
-        <div
-          className="module-message__typing-avatar module-message__typing-avatar--overflow-count
-        "
-        >
+        <div className="module-message__typing-avatar module-message__typing-avatar--overflow-count">
           <div
             aria-label={i18n('icu:TypingBubble__avatar--overflow-count', {
               count: typingContactsOverflowCount,

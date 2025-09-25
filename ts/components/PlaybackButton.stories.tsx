@@ -5,10 +5,11 @@ import React, { useContext } from 'react';
 import type { CSSProperties } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { ButtonProps } from './PlaybackButton';
-import { PlaybackButton } from './PlaybackButton';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { ThemeType } from '../types/Util';
+import type { ButtonProps } from './PlaybackButton.js';
+import { PlaybackButton } from './PlaybackButton.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { ThemeType } from '../types/Util.js';
+import { AUDIO_MP3 } from '../types/MIME.js';
 
 export default {
   title: 'components/PlaybackButton',
@@ -50,6 +51,16 @@ export function Default(): JSX.Element {
                   key={`${variant}_${context}_${mod}`}
                   variant={variant}
                   label="playback"
+                  attachment={
+                    mod === 'downloading'
+                      ? undefined
+                      : {
+                          contentType: AUDIO_MP3,
+                          size: 3000,
+                          totalDownloaded: 1000,
+                          isPermanentlyUndownloadable: false,
+                        }
+                  }
                   onClick={action('click')}
                   context={context}
                   mod={mod}

@@ -5,21 +5,21 @@ import type { ComponentProps } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl } from '../selectors/user';
-import { getUpdatesState } from '../selectors/updates';
-import { getInstallerState } from '../selectors/installer';
-import { useInstallerActions } from '../ducks/installer';
-import { useUpdatesActions } from '../ducks/updates';
-import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
-import { missingCaseError } from '../../util/missingCaseError';
-import { backupsService } from '../../services/backups';
-import { InstallScreen } from '../../components/InstallScreen';
-import { WidthBreakpoint } from '../../components/_util';
-import { InstallScreenStep } from '../../types/InstallScreen';
-import OS from '../../util/os/osMain';
-import { isStagingServer } from '../../util/isStagingServer';
-import { createLogger } from '../../logging/log';
-import { SmartToastManager } from './ToastManager';
+import { getIntl } from '../selectors/user.js';
+import { getUpdatesState } from '../selectors/updates.js';
+import { getInstallerState } from '../selectors/installer.js';
+import { useInstallerActions } from '../ducks/installer.js';
+import { useUpdatesActions } from '../ducks/updates.js';
+import { hasExpired as hasExpiredSelector } from '../selectors/expiration.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { backupsService } from '../../services/backups/index.js';
+import { InstallScreen } from '../../components/InstallScreen.js';
+import { WidthBreakpoint } from '../../components/_util.js';
+import { InstallScreenStep } from '../../types/InstallScreen.js';
+import OS from '../../util/os/osMain.js';
+import { isStagingServer } from '../../util/isStagingServer.js';
+import { createLogger } from '../../logging/log.js';
+import { SmartToastManager } from './ToastManager.js';
 
 const log = createLogger('InstallScreen');
 

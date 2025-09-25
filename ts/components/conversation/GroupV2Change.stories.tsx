@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { generateAci, generatePni } from '../../types/ServiceId';
-import type { ServiceIdString, AciString } from '../../types/ServiceId';
-import type { GroupV2ChangeType } from '../../groups';
-import { SignalService as Proto } from '../../protobuf';
-import type { SmartContactRendererType } from '../../groupChange';
-import type { PropsType } from './GroupV2Change';
-import { GroupV2Change } from './GroupV2Change';
+import { generateAci, generatePni } from '../../types/ServiceId.js';
+import type { ServiceIdString, AciString } from '../../types/ServiceId.js';
+import type { GroupV2ChangeType } from '../../groups.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import type { SmartContactRendererType } from '../../groupChange.js';
+import type { PropsType } from './GroupV2Change.js';
+import { GroupV2Change } from './GroupV2Change.js';
 
 // Note: this should be kept up to date with backup_groupv2_notifications_test.ts, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -1094,7 +1094,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: CONTACT_B,
         details: [
@@ -1115,7 +1114,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: CONTACT_C,
         details: [
@@ -1145,7 +1143,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: OUR_ACI,
         details: [
@@ -1169,6 +1166,23 @@ export function PendingRemoveOne(): JSX.Element {
           {
             type: 'pending-remove-one',
             serviceId: INVITEE_A,
+          },
+        ],
+      })}
+      no from field or invitee
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-one',
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      no from field, invitee, or inviter
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-one',
           },
         ],
       })}

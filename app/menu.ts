@@ -1,14 +1,16 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isString } from 'lodash';
+import lodash from 'lodash';
 
-import type { LocalizerType } from '../ts/types/I18N';
+import type { LocalizerType } from '../ts/types/I18N.js';
 import type {
   MenuListType,
   MenuOptionsType,
   MenuActionsType,
-} from '../ts/types/menu';
+} from '../ts/types/menu.js';
+
+const { isString } = lodash;
 
 export type CreateTemplateOptionsType = MenuOptionsType & MenuActionsType;
 

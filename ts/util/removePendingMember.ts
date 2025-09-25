@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { SignalService as Proto } from '../protobuf';
-import type { ServiceIdString } from '../types/ServiceId';
-import { createLogger } from '../logging/log';
-import { getConversationIdForLogging } from './idForLogging';
-import { isMemberPending } from './groupMembershipUtils';
-import { isNotNil } from './isNotNil';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { SignalService as Proto } from '../protobuf/index.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { createLogger } from '../logging/log.js';
+import { getConversationIdForLogging } from './idForLogging.js';
+import { isMemberPending } from './groupMembershipUtils.js';
+import { isNotNil } from './isNotNil.js';
 
 const log = createLogger('removePendingMember');
 

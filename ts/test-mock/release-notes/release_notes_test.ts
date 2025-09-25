@@ -5,15 +5,15 @@ import createDebug from 'debug';
 
 import { expect } from 'playwright/test';
 import { assert } from 'chai';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { MINUTE } from '../../util/durations';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { MINUTE } from '../../util/durations/index.js';
 
-import { SIGNAL_ACI } from '../../types/SignalConversation';
+import { SIGNAL_ACI } from '../../types/SignalConversation.js';
 import {
   clickOnConversationWithAci,
   getTimelineMessageWithText,
-} from '../helpers';
+} from '../helpers.js';
 
 export const debug = createDebug('mock:test:releaseNotes');
 

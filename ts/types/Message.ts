@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DurationInSeconds } from '../util/durations';
-import type { AttachmentType } from './Attachment';
-import type { EmbeddedContactType } from './EmbeddedContact';
+import type { DurationInSeconds } from '../util/durations/index.js';
+import type { AttachmentType } from './Attachment.js';
+import type { EmbeddedContactType } from './EmbeddedContact.js';
 
 export function getMentionsRegex(): RegExp {
   return /\uFFFC/g;

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { waitForAll } from '../../util/waitForAll';
+import { waitForAll } from '../../util/waitForAll.js';
 
 describe('util/waitForAll', () => {
   it('returns result of provided tasks', async () => {

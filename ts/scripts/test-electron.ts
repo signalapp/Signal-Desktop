@@ -11,10 +11,10 @@ import z from 'zod';
 import split2 from 'split2';
 import logSymbols from 'log-symbols';
 
-import { explodePromise } from '../util/explodePromise';
-import { missingCaseError } from '../util/missingCaseError';
-import { SECOND } from '../util/durations';
-import { parseUnknown } from '../util/schemas';
+import { explodePromise } from '../util/explodePromise.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { SECOND } from '../util/durations/index.js';
+import { parseUnknown } from '../util/schemas.js';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 

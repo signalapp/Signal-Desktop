@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import { ConfirmationDialog } from './ConfirmationDialog';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util.js';
 import type {
   StartCallingLobbyType,
   StartCallLinkLobbyByRoomIdType,
   StartCallLinkLobbyType,
-} from '../state/ducks/calling';
+} from '../state/ducks/calling.js';
 
 export type StartCallData =
   | ({

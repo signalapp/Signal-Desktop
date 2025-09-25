@@ -1,21 +1,23 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNil, sortBy } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 
-import { createLogger } from './logging/log';
-import { assertDev } from './util/assert';
-import { sleep } from './util/sleep';
-import { isNormalNumber } from './util/isNormalNumber';
-import { take } from './util/iterables';
-import type { ConversationModel } from './models/conversations';
-import type { StorageInterface } from './types/Storage.d';
-import * as Errors from './types/errors';
-import { getProfile } from './util/getProfile';
-import { drop } from './util/drop';
-import { MINUTE, HOUR, DAY, WEEK } from './util/durations';
-import { isDirectConversation } from './util/whatTypeOfConversation';
+import { createLogger } from './logging/log.js';
+import { assertDev } from './util/assert.js';
+import { sleep } from './util/sleep.js';
+import { isNormalNumber } from './util/isNormalNumber.js';
+import { take } from './util/iterables.js';
+import type { ConversationModel } from './models/conversations.js';
+import type { StorageInterface } from './types/Storage.d.ts';
+import * as Errors from './types/errors.js';
+import { getProfile } from './util/getProfile.js';
+import { drop } from './util/drop.js';
+import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.js';
+import { isDirectConversation } from './util/whatTypeOfConversation.js';
+
+const { isNil, sortBy } = lodash;
 
 const log = createLogger('routineProfileRefresh');
 

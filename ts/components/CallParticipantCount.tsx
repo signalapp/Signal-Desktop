@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util';
-import { CallMode } from '../types/CallDisposition';
+import type { LocalizerType } from '../types/Util.js';
+import { CallMode } from '../types/CallDisposition.js';
 
 export type PropsType = {
   callMode: CallMode.Group | CallMode.Adhoc;

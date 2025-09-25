@@ -11,11 +11,11 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
-import * as grapheme from '../util/grapheme';
-import type { LocalizerType } from '../types/Util';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { useRefMerger } from '../hooks/useRefMerger';
-import { byteLength } from '../Bytes';
+import * as grapheme from '../util/grapheme.js';
+import type { LocalizerType } from '../types/Util.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { useRefMerger } from '../hooks/useRefMerger.js';
+import { byteLength } from '../Bytes.js';
 
 export type PropsType = {
   autoFocus?: boolean;
@@ -37,6 +37,7 @@ export type PropsType = {
   onFocus?: () => unknown;
   onEnter?: () => unknown;
   placeholder: string;
+  readOnly?: boolean;
   value?: string;
   whenToShowRemainingCount?: number;
   whenToWarnRemainingCount?: number;
@@ -84,6 +85,7 @@ export const Input = forwardRef<
     onFocus,
     onEnter,
     placeholder,
+    readOnly,
     value = '',
     whenToShowRemainingCount = Infinity,
     whenToWarnRemainingCount = Infinity,
@@ -226,6 +228,7 @@ export const Input = forwardRef<
     onKeyDown: handleKeyDown,
     onPaste: handlePaste,
     placeholder,
+    readOnly,
     ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
       ref,
       innerRef

@@ -1,16 +1,18 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
-import { createLogger } from '../logging/log';
-import { SignalService as Proto } from '../protobuf';
-import { ToastType } from '../types/Toast';
-import { HOUR, SECOND } from './durations';
-import { isOlderThan } from './timestamp';
-import { isProduction } from './version';
+import { createLogger } from '../logging/log.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { ToastType } from '../types/Toast.js';
+import { HOUR, SECOND } from './durations/index.js';
+import { isOlderThan } from './timestamp.js';
+import { isProduction } from './version.js';
 
-import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
+import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('checkFirstEnvelope');
 

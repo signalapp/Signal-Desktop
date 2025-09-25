@@ -1,27 +1,29 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isEqual, isNumber } from 'lodash';
+import lodash from 'lodash';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { isInPast, isMoreRecentThan } from '../util/timestamp';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { drop } from '../util/drop';
-import { DataReader, DataWriter } from '../sql/Client';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { isInPast, isMoreRecentThan } from '../util/timestamp.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { drop } from '../util/drop.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
 import {
   findNextProfileEvent,
   redactNotificationProfileId,
   type NotificationProfileType,
-} from '../types/NotificationProfile';
+} from '../types/NotificationProfile.js';
 import {
   getCurrentState,
   getDeletedProfiles,
   getOverride,
   getProfiles,
-} from '../state/selectors/notificationProfiles';
-import { safeSetTimeout } from '../util/timeout';
+} from '../state/selectors/notificationProfiles.js';
+import { safeSetTimeout } from '../util/timeout.js';
+
+const { debounce, isEqual, isNumber } = lodash;
 
 const log = createLogger('notificationProfilesService');
 

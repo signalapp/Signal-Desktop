@@ -4,15 +4,15 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsData as MessageDataPropsType } from './Message';
-import { TextDirection } from './Message';
-import type { Props } from './MessageDetail';
-import { MessageDetail } from './MessageDetail';
-import { SendStatus } from '../../messages/MessageSendState';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge';
-import { ThemeType } from '../../types/Util';
+import type { PropsData as MessageDataPropsType } from './Message.js';
+import { TextDirection } from './Message.js';
+import type { Props } from './MessageDetail.js';
+import { MessageDetail } from './MessageDetail.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
+import { ThemeType } from '../../types/Util.js';
 
 const { i18n } = window.SignalContext;
 

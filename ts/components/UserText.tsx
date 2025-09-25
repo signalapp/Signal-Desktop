@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useMemo } from 'react';
-import { Emojify } from './conversation/Emojify';
-import { bidiIsolate } from '../util/unicodeBidi';
+import { Emojify } from './conversation/Emojify.js';
+import { bidiIsolate } from '../util/unicodeBidi.js';
 
 export type UserTextProps = Readonly<{
   text: string;

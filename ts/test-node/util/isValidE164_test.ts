@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isValidE164 } from '../../util/isValidE164';
+import { isValidE164 } from '../../util/isValidE164.js';
 
 describe('isValidE164', () => {
   it('returns false for non-strings', () => {

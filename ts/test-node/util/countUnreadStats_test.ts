@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { countConversationUnreadStats } from '../../util/countUnreadStats';
+import { countConversationUnreadStats } from '../../util/countUnreadStats.js';
 
 describe('countConversationUnreadStats', () => {
   const mutedTimestamp = (): number => Date.now() + 12345;

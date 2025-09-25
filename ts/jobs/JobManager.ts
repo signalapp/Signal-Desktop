@@ -1,21 +1,22 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as z from 'zod';
-import { MINUTE, SECOND } from '../util/durations';
+import { MINUTE, SECOND } from '../util/durations/index.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { drop } from '../util/drop';
-import { createLogger } from '../logging/log';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../util/explodePromise.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { drop } from '../util/drop.js';
+import { createLogger } from '../logging/log.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   type ExponentialBackoffOptionsType,
   exponentialBackoffSleepTime,
-} from '../util/exponentialBackoff';
-import * as Errors from '../types/errors';
-import { sleep } from '../util/sleep';
+} from '../util/exponentialBackoff.js';
+import * as Errors from '../types/errors.js';
+import { sleep } from '../util/sleep.js';
+import type { JobCancelReason } from './types.js';
 
 const log = createLogger('JobManager');
 
@@ -66,10 +67,8 @@ export type JobManagerParamsType<
 
 const DEFAULT_TICK_INTERVAL = MINUTE;
 export type JobManagerJobResultType<CoreJobType> =
-  | {
-      status: 'retry';
-    }
-  | { status: 'finished'; newJob?: CoreJobType }
+  | { status: 'retry'; updatedJob?: CoreJobType & JobManagerJobType }
+  | { status: 'finished' }
   | { status: 'rate-limited'; pauseDurationMs: number };
 
 export type ActiveJobData<CoreJobType> = {
@@ -287,6 +286,7 @@ export abstract class JobManager<CoreJobType> {
       return;
     }
 
+    const isFirstAttempt = job.attempts === 0;
     const isLastAttempt =
       job.attempts + 1 >=
       (this.params.getRetryConfig(job).maxAttempts ?? Infinity);
@@ -303,7 +303,9 @@ export abstract class JobManager<CoreJobType> {
       this.#handleJobStartPromises(job);
       jobRunResult = await runJobPromise;
       const { status } = jobRunResult;
-      log.info(`${logId}: job completed with status: ${status}`);
+      log.info(
+        `${logId}: job completed with status: ${status}${status === 'retry' && jobRunResult.updatedJob ? ' with updated job' : ''}`
+      );
 
       switch (status) {
         case 'finished':
@@ -313,7 +315,13 @@ export abstract class JobManager<CoreJobType> {
           if (isLastAttempt) {
             throw new Error('Cannot retry on last attempt');
           }
-          await this.#retryJobLater(job);
+          // If we get an updated job, retry it without delay only if it's the first
+          // attempt (to avoid loops)
+          if (isFirstAttempt && jobRunResult.updatedJob) {
+            await this.#retryJobWithoutDelay(jobRunResult.updatedJob);
+          } else {
+            await this.#retryJobLater(jobRunResult.updatedJob ?? job);
+          }
           return;
         case 'rate-limited':
           log.info(
@@ -334,16 +342,19 @@ export abstract class JobManager<CoreJobType> {
       }
     } finally {
       this.#removeRunningJob(job);
-      if (jobRunResult?.status === 'finished') {
-        if (jobRunResult.newJob) {
-          log.info(
-            `${logId}: adding new job as a result of this one completing`
-          );
-          await this.addJob(jobRunResult.newJob);
-        }
-      }
       drop(this.maybeStartJobs());
     }
+  }
+
+  async #retryJobWithoutDelay(job: CoreJobType & JobManagerJobType) {
+    const now = Date.now();
+    await this.params.saveJob({
+      ...job,
+      active: false,
+      attempts: job.attempts + 1,
+      retryAfter: now,
+      lastAttemptTimestamp: now,
+    });
   }
 
   async #retryJobLater(job: CoreJobType & JobManagerJobType) {
@@ -395,9 +406,10 @@ export abstract class JobManager<CoreJobType> {
   }
 
   public async cancelJobs(
+    reason: JobCancelReason,
     predicate: (job: CoreJobType & JobManagerJobType) => boolean
   ): Promise<void> {
-    const logId = `${this.logPrefix}/cancelJobs`;
+    const logId = `${this.logPrefix}/cancelJobs/${reason}`;
     const jobs = Array.from(this.#activeJobs.values()).filter(data =>
       predicate(data.job)
     );
@@ -411,10 +423,12 @@ export abstract class JobManager<CoreJobType> {
       jobs.map(async jobData => {
         const { abortController, completionPromise, job } = jobData;
 
-        abortController.abort();
+        abortController.abort(reason);
 
         // First tell those waiting for the job that it's not happening
-        const rejectionError = new Error('Canceled at JobManager.cancelJobs');
+        const rejectionError = new Error(
+          `Canceled at JobManager.cancelJobs, reason: ${reason}`
+        );
         const idWithAttempts = this.#getJobIdIncludingAttempts(job);
         this.#jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
         this.#jobCompletePromises.delete(idWithAttempts);

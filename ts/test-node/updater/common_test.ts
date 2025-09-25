@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { pathExists } from 'fs-extra';
-import { stat, mkdir } from 'fs/promises';
-import { join } from 'path';
+import fsExtra from 'fs-extra';
+import { stat, mkdir } from 'node:fs/promises';
+import { join } from 'node:path';
 
 import {
   createUpdateCacheDirIfNeeded,
@@ -16,8 +16,10 @@ import {
   createTempDir,
   getTempDir,
   deleteTempDir,
-} from '../../updater/common';
-import { createLogger } from '../../logging/log';
+} from '../../updater/common.js';
+import { createLogger } from '../../logging/log.js';
+
+const { pathExists } = fsExtra;
 
 const log = createLogger('common_test');
 

@@ -6,11 +6,11 @@ import type { PrimaryDevice, Group } from '@signalapp/mock-server';
 import { StorageState, Proto, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations';
-import { Bootstrap } from '../bootstrap';
-import type { App } from '../bootstrap';
-import { MY_STORY_ID } from '../../types/Stories';
-import { uuidToBytes } from '../../util/uuidToBytes';
+import * as durations from '../../util/durations/index.js';
+import { Bootstrap } from '../bootstrap.js';
+import type { App } from '../bootstrap.js';
+import { MY_STORY_ID } from '../../types/Stories.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

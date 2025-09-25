@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME';
-import { sniffImageMimeType } from '../../util/sniffImageMimeType';
+import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME.js';
+import { sniffImageMimeType } from '../../util/sniffImageMimeType.js';
 
-import { canvasToBytes } from '../../util/canvasToBytes';
+import { canvasToBytes } from '../../util/canvasToBytes.js';
 
 describe('canvasToBytes', () => {
   let canvas: HTMLCanvasElement;

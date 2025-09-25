@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { mergeRefs } from '@react-aria/utils';
 import classNames from 'classnames';
-import { maxBy } from 'lodash';
+import lodash from 'lodash';
 import type { CSSProperties, ReactNode, Ref } from 'react';
 import React, {
   createContext,
@@ -18,8 +18,10 @@ import {
   isScrollAtTop,
   isScrollOverflowVertical,
   useScrollObserver,
-} from '../../../hooks/useSizeObserver';
-import { strictAssert } from '../../../util/assert';
+} from '../../../hooks/useSizeObserver.js';
+import { strictAssert } from '../../../util/assert.js';
+
+const { maxBy } = lodash;
 
 export type FunScrollerProps = Readonly<{
   sectionGap: number;

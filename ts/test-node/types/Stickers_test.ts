@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as Stickers from '../../types/Stickers';
+import * as Stickers from '../../types/Stickers.js';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {

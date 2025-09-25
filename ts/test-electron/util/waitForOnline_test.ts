@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import * as sinon from 'sinon';
 
-import { waitForOnline } from '../../util/waitForOnline';
+import { waitForOnline } from '../../util/waitForOnline.js';
 
 describe('waitForOnline', () => {
   let sandbox: sinon.SinonSandbox;

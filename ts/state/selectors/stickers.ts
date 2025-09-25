@@ -1,25 +1,26 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Dictionary } from 'lodash';
-import { compact, filter, map, orderBy, reject, sortBy, values } from 'lodash';
+import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
-import type { RecentStickerType } from '../../types/Stickers';
+import type { RecentStickerType } from '../../types/Stickers.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../../util/getLocalAttachmentUrl';
+} from '../../util/getLocalAttachmentUrl.js';
 import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
-} from '../../sql/Interface';
-import type { StateType } from '../reducer';
+} from '../../sql/Interface.js';
+import type { StateType } from '../reducer.js';
 import type {
   StickersStateType,
   StickerPackType,
   StickerType,
-} from '../ducks/stickers';
+} from '../ducks/stickers.js';
+
+const { compact, filter, map, orderBy, reject, sortBy, values } = lodash;
 
 const getSticker = (
   packs: Dictionary<StickerPackDBType>,

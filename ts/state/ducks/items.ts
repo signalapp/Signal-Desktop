@@ -1,25 +1,27 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { v4 as getGuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer';
-import * as storageShim from '../../shims/storage';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { drop } from '../../util/drop';
+import type { StateType as RootStateType } from '../reducer.js';
+import * as storageShim from '../../shims/storage.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { drop } from '../../util/drop.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors';
-import { ConversationColors } from '../../types/Colors';
-import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
-import type { StorageAccessType } from '../../types/Storage.d';
-import { actions as conversationActions } from './conversations';
-import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../../types/Colors.js';
+import { ConversationColors } from '../../types/Colors.js';
+import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation.js';
+import type { StorageAccessType } from '../../types/Storage.d.ts';
+import { actions as conversationActions } from './conversations.js';
+import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.js';
+import type { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+
+const { omit } = lodash;
 
 // State
 

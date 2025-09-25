@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { chunk } from 'lodash';
+import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarPreview';
-import { AvatarPreview } from './AvatarPreview';
-import { AvatarColors } from '../types/Colors';
+import type { PropsType } from './AvatarPreview.js';
+import { AvatarPreview } from './AvatarPreview.js';
+import { AvatarColors } from '../types/Colors.js';
+
+const { chunk } = lodash;
 
 const { i18n } = window.SignalContext;
 

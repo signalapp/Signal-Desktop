@@ -1,17 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Transform } from 'stream';
-import type { Duplex, Readable } from 'stream';
+import { Transform } from 'node:stream';
+import type { Duplex, Readable } from 'node:stream';
+
+import { logPadSize } from './logPadSize.js';
 
 const PADDING_CHUNK_SIZE = 64 * 1024;
-
-export function logPadSize(size: number): number {
-  return Math.max(
-    541,
-    Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
-  );
-}
 
 /**
  * Creates iterator that yields zero-filled padding chunks.

@@ -6,13 +6,17 @@ import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   ICUJSXMessageParamsByKeyType,
-} from './types/Util';
-import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
-import { missingCaseError } from './util/missingCaseError';
+} from './types/Util.js';
+import type {
+  ServiceIdString,
+  AciString,
+  PniString,
+} from './types/ServiceId.js';
+import { missingCaseError } from './util/missingCaseError.js';
 
-import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
-import { SignalService as Proto } from './protobuf';
-import { createLogger } from './logging/log';
+import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups.js';
+import { SignalService as Proto } from './protobuf/index.js';
+import { createLogger } from './logging/log.js';
 
 const log = createLogger('groupChange');
 
@@ -556,6 +560,10 @@ function renderChangeDetail<T extends string | JSX.Element>(
     const weAreInvited = isOurServiceId(serviceId);
     const sentByInvited = Boolean(from && from === serviceId);
     const sentByInviter = Boolean(from && inviter && from === inviter);
+
+    if (!serviceId) {
+      return i18n('icu:GroupV2--pending-remove--decline--unknown');
+    }
 
     if (weAreInviter) {
       if (sentByInvited) {

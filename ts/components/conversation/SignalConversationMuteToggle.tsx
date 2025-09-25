@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../../types/I18N';
+import type { LocalizerType } from '../../types/I18N.js';
 
 type Props = {
   isMuted: boolean;

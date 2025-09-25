@@ -3,31 +3,34 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { AnyActionableMegaphone } from '../../types/Megaphone';
-import { MegaphoneType } from '../../types/Megaphone';
-import { UsernameOnboardingState } from '../../types/globalModals';
-import OS from '../../util/os/osMain';
-import { drop } from '../../util/drop';
-import { getIntl } from '../selectors/user';
+import type { AnyActionableMegaphone } from '../../types/Megaphone.js';
+import { MegaphoneType } from '../../types/Megaphone.js';
+import { UsernameOnboardingState } from '../../types/globalModals.js';
+import OS from '../../util/os/osMain.js';
+import { drop } from '../../util/drop.js';
+import { getIntl } from '../selectors/user.js';
 import {
   getGlobalModalsState,
   isShowingAnyModal as getIsShowingAnyModal,
-} from '../selectors/globalModals';
-import { hasSelectedStoryData } from '../selectors/stories';
-import { shouldShowLightbox } from '../selectors/lightbox';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
-import { getSelectedNavTab } from '../selectors/nav';
-import { getMe, getSelectedConversationId } from '../selectors/conversations';
-import { useConversationsActions } from '../ducks/conversations';
-import { useToastActions } from '../ducks/toast';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useNavActions } from '../ducks/nav';
-import { NavTab } from '../../types/Nav';
-import { getHasCompletedUsernameOnboarding } from '../selectors/items';
-import { ToastManager } from '../../components/ToastManager';
-import type { WidthBreakpoint } from '../../components/_util';
-import { getToast } from '../selectors/toast';
-import { useDonationsActions } from '../ducks/donations';
+} from '../selectors/globalModals.js';
+import { hasSelectedStoryData } from '../selectors/stories.js';
+import { shouldShowLightbox } from '../selectors/lightbox.js';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.js';
+import { getSelectedNavTab } from '../selectors/nav.js';
+import {
+  getMe,
+  getSelectedConversationId,
+} from '../selectors/conversations.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useToastActions } from '../ducks/toast.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useNavActions } from '../ducks/nav.js';
+import { NavTab } from '../../types/Nav.js';
+import { getHasCompletedUsernameOnboarding } from '../selectors/items.js';
+import { ToastManager } from '../../components/ToastManager.js';
+import type { WidthBreakpoint } from '../../components/_util.js';
+import { getToast } from '../selectors/toast.js';
+import { useDonationsActions } from '../ducks/donations.js';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -56,12 +59,11 @@ export const SmartToastManager = memo(function SmartToastManager({
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const { changeLocation } = useNavActions();
-  const { clearWorkflow, setDidResume } = useDonationsActions();
+  const { setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();
-  const { showAttachmentNotAvailableModal, toggleUsernameOnboarding } =
-    useGlobalModalActions();
+  const { toggleUsernameOnboarding } = useGlobalModalActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -91,7 +93,6 @@ export const SmartToastManager = memo(function SmartToastManager({
   return (
     <ToastManager
       changeLocation={changeLocation}
-      clearDonation={clearWorkflow}
       i18n={i18n}
       OS={OS.getName()}
       toast={toast}
@@ -101,7 +102,6 @@ export const SmartToastManager = memo(function SmartToastManager({
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
-      showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
       isCompositionAreaVisible={isCompositionAreaVisible}

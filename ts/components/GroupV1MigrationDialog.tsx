@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { GroupDialog } from './GroupDialog';
-import { sortByTitle } from '../util/sortByTitle';
-import { missingCaseError } from '../util/missingCaseError';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import { GroupDialog } from './GroupDialog.js';
+import { sortByTitle } from '../util/sortByTitle.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 
 export type DataPropsType = {
   readonly areWeInvited: boolean;

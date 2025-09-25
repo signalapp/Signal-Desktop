@@ -372,6 +372,23 @@ message DataMessage {
     optional bytes receiptCredentialPresentation = 1;
   }
 
+  message PollCreate {
+    optional string question = 1;
+    optional bool allowMultiple = 2;
+    repeated string options = 3;
+  }
+
+  message PollTerminate {
+    optional uint64 targetSentTimestamp = 1;
+  }
+
+  message PollVote {
+    optional bytes targetAuthorAciBinary = 1;
+    optional uint64 targetSentTimestamp = 2;
+    repeated uint32 optionIndexes = 3;
+    optional uint32 voteCount = 4;
+  }
+
   optional string body = 1;
   repeated AttachmentPointer attachments = 2;
   reserved /*groupV1*/ 3;
@@ -394,7 +411,10 @@ message DataMessage {
   optional Payment payment = 20;
   optional StoryContext storyContext = 21;
   optional GiftBadge giftBadge = 22;
-  // NEXT ID: 24
+  optional PollCreate pollCreate = 24;
+  optional PollTerminate pollTerminate = 25;
+  optional PollVote pollVote = 26;
+  // NEXT ID: 27
 }
 
 message NullMessage {

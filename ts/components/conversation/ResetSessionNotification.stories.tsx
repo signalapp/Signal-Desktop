@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ResetSessionNotification';
-import { ResetSessionNotification } from './ResetSessionNotification';
+import type { Props } from './ResetSessionNotification.js';
+import { ResetSessionNotification } from './ResetSessionNotification.js';
 
 const { i18n } = window.SignalContext;
 

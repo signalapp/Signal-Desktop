@@ -1,13 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from 'chai';
 import createDebug from 'debug';
 import Long from 'long';
 
-import type { App } from '../playwright';
-import * as durations from '../../util/durations';
-import { Bootstrap } from '../bootstrap';
+import type { App } from '../playwright.js';
+import * as durations from '../../util/durations/index.js';
+import { Bootstrap } from '../bootstrap.js';
 
 export const debug = createDebug('mock:test:readSync');
 
@@ -64,13 +63,12 @@ describe('readSync', function (this: Mocha.Suite) {
       .waitFor();
 
     debug('checking left pane for 3 unread');
-    const unreadCount = await leftPane
+    await leftPane
       .locator(
-        '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages'
+        '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages >> "3"'
       )
-      .first()
-      .innerText();
-    assert.equal(unreadCount, '3', 'unread count');
+      .last()
+      .waitFor({ state: 'visible' });
 
     debug('incoming out of order messages');
     const massTimestamps = Array.from(Array(100)).map(() =>
@@ -134,15 +132,12 @@ describe('readSync', function (this: Mocha.Suite) {
     await sendUnreadMessage();
 
     debug('checking left pane for 1 unread');
-    const newUnreadCount = await leftPane
+    await leftPane
       .locator(
-        '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages'
+        '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages >> "1"'
       )
-      .first()
-      .innerText();
-
-    assert.equal(newUnreadCount, '1', 'updated unread count');
-    debug({ newUnreadCount });
+      .last()
+      .waitFor({ state: 'visible' });
 
     debug('opening conversation');
     await leftPane

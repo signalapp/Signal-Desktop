@@ -8,7 +8,6 @@ export enum ToastType {
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   AttachmentDownloadFailed = 'AttachmentDownloadFailed',
   AttachmentDownloadStillInProgress = 'AttachmentDownloadStillInProgress',
-  DonationCompletedAndBadgeApplicationFailed = 'DonationCompletedAndBadgeApplicationFailed',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
@@ -55,6 +54,7 @@ export enum ToastType {
   LeftGroup = 'LeftGroup',
   LinkCopied = 'LinkCopied',
   LoadingFullLogs = 'LoadingFullLogs',
+  _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
   MaxAttachments = 'MaxAttachments',
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
@@ -79,6 +79,7 @@ export enum ToastType {
   TooManyMessagesToForward = 'TooManyMessagesToForward',
   TransportError = 'TransportError',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
+  UnableToDownloadFromBackupTier = 'UnableToDownloadFromBackupTier',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
@@ -104,7 +105,6 @@ export type AnyToast =
       toastType: ToastType.AttachmentDownloadStillInProgress;
       parameters: { count: number };
     }
-  | { toastType: ToastType.DonationCompletedAndBadgeApplicationFailed }
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
   | { toastType: ToastType.CallHistoryCleared }
@@ -166,6 +166,10 @@ export type AnyToast =
   | { toastType: ToastType.LeftGroup }
   | { toastType: ToastType.LinkCopied }
   | { toastType: ToastType.LoadingFullLogs }
+  | {
+      toastType: ToastType._InternalMainProcessLoggingError;
+      parameters: { count: number; logLines: Array<string> };
+    }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }
@@ -195,6 +199,7 @@ export type AnyToast =
     }
   | { toastType: ToastType.TooManyMessagesToForward }
   | { toastType: ToastType.TransportError }
+  | { toastType: ToastType.UnableToDownloadFromBackupTier }
   | { toastType: ToastType.UnableToLoadAttachment }
   | { toastType: ToastType.UnsupportedMultiAttachment }
   | { toastType: ToastType.UnsupportedOS }

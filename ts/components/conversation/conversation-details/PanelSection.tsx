@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { bemGenerator } from './util';
+import { bemGenerator } from './util.js';
 
 export type Props = {
   actions?: React.ReactNode;

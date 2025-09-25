@@ -3,9 +3,9 @@
 
 import type { Moment } from 'moment';
 import moment from 'moment';
-import type { LocalizerType } from '../types/Util';
-import { DAY, HOUR, MINUTE, MONTH, WEEK } from './durations';
-import { formatTimestamp } from './formatTimestamp';
+import type { LocalizerType } from '../types/Util.js';
+import { DAY, HOUR, MINUTE, MONTH, WEEK } from './durations/index.js';
+import { formatTimestamp } from './formatTimestamp.js';
 
 type RawTimestamp = Readonly<number | Date | Moment>;
 

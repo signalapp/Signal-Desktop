@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "チャットを消去しますか？"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。"
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。"
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "このフォルダに表示したいチャットを選択してください"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1対1のチャット"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "グループチャット"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "チャットを追加する"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ダウンロードできませんでした"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "バックアップからの添付ファイルのダウンロードが失敗しました"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
@@ -3528,13 +3534,13 @@
     "messageformat": "再度試すか、サポートにお問い合わせください。"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "予期せぬエラーが発生しました"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "デバッグログを送信する"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "今はしない"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "OK"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "共有されたメディア"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "すべて表示"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "メディア、リンク、ファイル"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "例：:-)は<emojify>🙂</emojify>に変換されます"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "ミュートしたチャットをアーカイブしたままにします"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "アーカイブされており、さらにミュートもしているチャットは、新しいメッセージが届いてもアーカイブされたままになります。"
   },
   "icu:Preferences--advanced": {
     "messageformat": "詳細設定"
@@ -5283,7 +5286,7 @@
     "messageformat": "ブロック中のユーザー"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signalバックアップ"
+    "messageformat": "Signalセキュアバックアップ"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalによる、安全なエンドツーエンドの暗号化ストレージサービスによる自動バックアップです。ご利用中のスマートフォンからバックアップが可能です。<learnMoreLink>詳しく見る</learnMoreLink>。"
@@ -5298,7 +5301,7 @@
     "messageformat": "テキストとすべてのメディアのバックアップ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalバックアップを引き続き使用するには、更新手続きをしてください。"
+    "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalセキュアバックアップを引き続き使用するには、更新してください。"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {テキストと{mediaDayCount,number} 日間のメディアのバックアップ}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "サブスクリプションが解除されました"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signalバックアップのサブスクリプションは、お使いのスマートフォンで管理またはキャンセル手続きが行えます。"
+    "messageformat": "Signalセキュアバックアップのサブスクリプションは、お使いのスマートフォンから管理またはキャンセル手続きが行えます。"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "お使いのスマートフォンからSignalバックアップを管理またはアップグレードできます。"
+    "messageformat": "お使いのスマートフォンからSignalセキュアバックアップを管理またはアップグレードできます。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signalバックアップのサブスクリプションは、お使いのスマートフォンから管理または更新手続きが行えます。"
+    "messageformat": "Signalセキュアバックアップのサブスクリプションは、お使いのスマートフォンから管理または更新手続きが行えます。"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "最終バックアップ"
@@ -6655,10 +6658,10 @@
     "messageformat": "マイサポート"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} 1回限り"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "寄付の処理中です..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} を寄付する"
@@ -6672,8 +6675,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signalは、寄付を受ける際に、お客様のいかなる個人情報も収集したり保存したりすることはありません。</paragraph><paragraph>Signalでは寄付を受け取る決済処理にStripeを使用しています。Signalは、お客様から提供されたいかなる情報にもアクセスすることはありません。また保管・保存したりすることもありません。</paragraph><paragraph>Signalは、寄付からお客様のSignalアカウントを特定することはありません。特定はできない仕組みになっています。</paragraph><paragraph>ご支援ありがとうございます！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "領収書"
+  },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "領収書の詳細を表示する"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "寄付についてのよくある質問"
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "有効期限"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "月／年"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signalに {formattedCurrencyAmount}を寄付する"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30日間のSignalブーストバッジを獲得しましょう"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "寄付の最小金額は{formattedCurrencyAmount}です"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "最小の寄付金額は{formattedCurrencyAmount}です"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "寄付の上限金額は{formattedCurrencyAmount}です"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "このページを離れると、クレジットカード情報は削除されます。ページを離れますか？"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "情報を削除する"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "続ける"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "寄付の領収書"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Signalをサポートしていただきありがとうございます。皆様のご寄付は、オープンソースのプライバシー技術を通して表現の自由を守り、世界中の何百万人もの人々に安全なグローバルコミュニケーションを可能にするというミッションを推進する原動力となるものです。米国にお住まいの方は、この領収書を税務記録のために保管しておいてください。Signal Technology Foundationは、米国内国歳入法第501c3条に基づく非課税の非営利団体です。連邦税IDは82-4506840です。"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "オフラインです。寄付を完了するには、インターネットに接続してください。"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "寄付がキャンセルされました"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "確認が必要な寄付のお手続き中です。"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "モバイル端末でバッジの設定をアップデートするには、「設定] →「Signalへの寄付」→ 「バッジ」へ移動します。"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "寄付が中断されました"
@@ -6811,13 +6850,13 @@
     "messageformat": "寄付のお手続き処理できなかった可能性があります。「Signalへの寄付」から「寄付の領収書」をクリックし、該当する領収書を確認してください。"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "もう一度お試しいただくか、サポートにデバッグログを送信して寄付を完了できるよう支援を受けてください。デバッグログは、問題の診断と修正に役立てられます。個人を特定する情報は含まれません。"
   },
   "icu:Donations__Processing": {
     "messageformat": "寄付の処理中です..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "寄付のお手続き中です"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "寄付の処理は完了していません。数分かかるかも知れません。"
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "寄付をキャンセルする"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "ご支援をありがとうございます！"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Signalからバッジを受け取りました！プロフィールに表示してSignalをサポートしていることを示しましょう。"
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "プロフィールに表示する"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "ご利用のモバイル端末の「設定」→「Signalへの寄付」→「バッジ」から、ご自身で変更ができます"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -6874,16 +6925,7 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "マルチタスク中でもメッセージの既読/未読がより分かりやすくなりました。"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "絵文字検索ボックスに関する不具合を解消しました。"
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "いくつかの小規模なバグの修正。"
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

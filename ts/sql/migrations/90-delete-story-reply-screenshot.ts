@@ -3,8 +3,8 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-import { sql } from '../util';
+import type { LoggerType } from '../../types/Logging.js';
+import { sql } from '../util.js';
 
 export default function updateToSchemaVersion90(
   db: Database,

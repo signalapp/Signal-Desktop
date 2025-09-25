@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DurationInSeconds } from './durations';
-import type { ItemsStateType } from '../state/ducks/items';
+import { DurationInSeconds } from './durations/index.js';
+import type { ItemsStateType } from '../state/ducks/items.js';
 
 export const ITEM_NAME = 'universalExpireTimer';
 

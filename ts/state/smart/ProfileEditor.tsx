@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { ProfileEditor } from '../../components/ProfileEditor';
-import { useConversationsActions } from '../ducks/conversations';
-import { useItemsActions } from '../ducks/items';
-import { useToastActions } from '../ducks/toast';
-import { useUsernameActions } from '../ducks/username';
-import { getMe, getProfileUpdateError } from '../selectors/conversations';
-import { selectRecentEmojis } from '../selectors/emojis';
+import { ProfileEditor } from '../../components/ProfileEditor.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useItemsActions } from '../ducks/items.js';
+import { useToastActions } from '../ducks/toast.js';
+import { useUsernameActions } from '../ducks/username.js';
+import { getMe, getProfileUpdateError } from '../selectors/conversations.js';
+import { selectRecentEmojis } from '../selectors/emojis.js';
 import {
   getEmojiSkinToneDefault,
   getHasCompletedUsernameLinkOnboarding,
@@ -19,20 +19,20 @@ import {
   getUsernameLink,
   getUsernameLinkColor,
   getUsernameLinkCorrupted,
-} from '../selectors/items';
-import { getIntl } from '../selectors/user';
+} from '../selectors/items.js';
+import { getIntl } from '../selectors/user.js';
 import {
   getUsernameEditState,
   getUsernameLinkState,
-} from '../selectors/username';
-import { SmartUsernameEditor } from './UsernameEditor';
-import { getSelectedLocation } from '../selectors/nav';
-import { useNavActions } from '../ducks/nav';
-import { NavTab, SettingsPage } from '../../types/Nav';
+} from '../selectors/username.js';
+import { SmartUsernameEditor } from './UsernameEditor.js';
+import { getSelectedLocation } from '../selectors/nav.js';
+import { useNavActions } from '../ducks/nav.js';
+import { NavTab, SettingsPage } from '../../types/Nav.js';
 
-import type { ProfileEditorPage } from '../../types/Nav';
-import type { SmartUsernameEditorProps } from './UsernameEditor';
-import { ConfirmationDialog } from '../../components/ConfirmationDialog';
+import type { ProfileEditorPage } from '../../types/Nav.js';
+import type { SmartUsernameEditorProps } from './UsernameEditor.js';
+import { ConfirmationDialog } from '../../components/ConfirmationDialog.js';
 
 function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;

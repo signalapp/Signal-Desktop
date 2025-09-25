@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupV2JoinDialog';
-import { GroupV2JoinDialog } from './GroupV2JoinDialog';
+import type { PropsType } from './GroupV2JoinDialog.js';
+import { GroupV2JoinDialog } from './GroupV2JoinDialog.js';
 
 const { i18n } = window.SignalContext;
 

@@ -1,15 +1,15 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { pathToFileURL } from 'url';
+import { pathToFileURL } from 'node:url';
 import { autoUpdater } from 'electron';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-import { Updater, createTempDir, deleteTempDir } from './common';
-import { explodePromise } from '../util/explodePromise';
-import * as Errors from '../types/errors';
-import { DialogType } from '../types/Dialogs';
+import { Updater, createTempDir, deleteTempDir } from './common.js';
+import { explodePromise } from '../util/explodePromise.js';
+import * as Errors from '../types/errors.js';
+import { DialogType } from '../types/Dialogs.js';
 
 export class MacOSUpdater extends Updater {
   protected async deletePreviousInstallers(): Promise<void> {

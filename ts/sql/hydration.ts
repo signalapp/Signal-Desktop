@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { groupBy } from 'lodash';
-import type { ReadStatus } from '../messages/MessageReadStatus';
-import type { SeenStatus } from '../MessageSeenStatus';
-import type { ServiceIdString } from '../types/ServiceId';
-import { dropNull, shallowDropNull } from '../util/dropNull';
+import lodash from 'lodash';
+import type { ReadStatus } from '../messages/MessageReadStatus.js';
+import type { SeenStatus } from '../MessageSeenStatus.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { dropNull, shallowDropNull } from '../util/dropNull.js';
 
 /* eslint-disable camelcase */
 
@@ -15,21 +15,30 @@ import type {
   MESSAGE_COLUMNS,
   ReadableDB,
   MessageAttachmentDBType,
-} from './Interface';
+} from './Interface.js';
 import {
   batchMultiVarQuery,
   convertOptionalIntegerToBoolean,
   jsonToObject,
   sql,
   sqlJoin,
-} from './util';
-import type { AttachmentType } from '../types/Attachment';
-import { IMAGE_JPEG, stringToMIMEType } from '../types/MIME';
-import { strictAssert } from '../util/assert';
-import type { MessageAttributesType } from '../model-types';
+} from './util.js';
+import { type AttachmentType } from '../types/Attachment.js';
+import {
+  APPLICATION_OCTET_STREAM,
+  IMAGE_JPEG,
+  IMAGE_PNG,
+  stringToMIMEType,
+} from '../types/MIME.js';
+import { strictAssert } from '../util/assert.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { createLogger } from '../logging/log.js';
+
+const { groupBy } = lodash;
 
 export const ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX = -1;
 
+const log = createLogger('hydrateMessage');
 function toBoolean(value: number | null): boolean | undefined {
   if (value == null) {
     return undefined;
@@ -48,9 +57,12 @@ export function hydrateMessages(
   db: ReadableDB,
   unhydratedMessages: Array<MessageTypeUnhydrated>
 ): Array<MessageType> {
-  const messagesWithColumnsHydrated = unhydratedMessages.map(
-    hydrateMessageTableColumns
-  );
+  const messagesWithColumnsHydrated = unhydratedMessages.map(msg => ({
+    ...hydrateMessageTableColumns(msg),
+    hasAttachments: msg.hasAttachments === 1,
+    hasFileAttachments: msg.hasFileAttachments === 1,
+    hasVisualMediaAttachments: msg.hasVisualMediaAttachments === 1,
+  }));
 
   return hydrateMessagesWithAttachments(db, messagesWithColumnsHydrated);
 }
@@ -142,7 +154,13 @@ export function getAttachmentReferencesForMessages(
 
 function hydrateMessagesWithAttachments(
   db: ReadableDB,
-  messagesWithoutAttachments: Array<MessageType>
+  messagesWithoutAttachments: Array<
+    MessageType & {
+      hasAttachments: boolean;
+      hasVisualMediaAttachments: boolean;
+      hasFileAttachments: boolean;
+    }
+  >
 ): Array<MessageType> {
   const attachmentReferencesForAllMessages = getAttachmentReferencesForMessages(
     db,
@@ -153,10 +171,56 @@ function hydrateMessagesWithAttachments(
     'messageId'
   );
 
-  return messagesWithoutAttachments.map(msg => {
+  return messagesWithoutAttachments.map(msgWithExtraFields => {
+    const {
+      hasAttachments,
+      hasFileAttachments,
+      hasVisualMediaAttachments,
+      ...msg
+    } = msgWithExtraFields;
+
     const attachmentReferences = attachmentReferencesByMessage[msg.id] ?? [];
+
     if (!attachmentReferences.length) {
-      return msg;
+      if (msg.attachments?.length) {
+        // legacy message, attachments still on JSON
+        return msg;
+      }
+
+      if (msg.isErased || msg.deletedForEveryone || msg.isViewOnce) {
+        return msg;
+      }
+
+      if (msg.type !== 'incoming' && msg.type !== 'outgoing') {
+        return msg;
+      }
+
+      if (
+        !hasAttachments &&
+        !hasFileAttachments &&
+        !hasVisualMediaAttachments
+      ) {
+        return msg;
+      }
+
+      log.warn(
+        `Retrieved message that should have attachments but missing message_attachment rows, timestamp: ${msg.timestamp}`
+      );
+      // Add an empty attachment to the message to enable backfilling in the UI
+      return {
+        ...msg,
+        attachments: [
+          {
+            error: true,
+            size: 0,
+            width: hasVisualMediaAttachments ? 150 : undefined,
+            height: hasVisualMediaAttachments ? 150 : undefined,
+            contentType: hasVisualMediaAttachments
+              ? IMAGE_PNG
+              : APPLICATION_OCTET_STREAM,
+          },
+        ],
+      };
     }
 
     const attachmentsByEditHistoryIndex = groupBy(
@@ -268,7 +332,7 @@ function hydrateMessageRootOrRevisionWithAttachments<
   return hydratedMessage;
 }
 
-function convertAttachmentDBFieldsToAttachmentType(
+export function convertAttachmentDBFieldsToAttachmentType(
   dbFields: MessageAttachmentDBType
 ): AttachmentType {
   const messageAttachment = shallowDropNull(dbFields);
@@ -277,6 +341,7 @@ function convertAttachmentDBFieldsToAttachmentType(
   const {
     clientUuid,
     size,
+    duration,
     contentType,
     plaintextHash,
     path,
@@ -309,6 +374,7 @@ function convertAttachmentDBFieldsToAttachmentType(
   const result: AttachmentType = {
     clientUuid,
     size,
+    duration,
     contentType: stringToMIMEType(contentType),
     plaintextHash,
     path,

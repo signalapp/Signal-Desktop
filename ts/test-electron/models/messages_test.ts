@@ -5,21 +5,21 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../../types/Attachment';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import type { ConversationModel } from '../../models/conversations';
-import type { MessageAttributesType } from '../../model-types.d';
-import { MessageModel } from '../../models/messages';
-import type { RawBodyRange } from '../../types/BodyRange';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import { DataWriter } from '../../sql/Client';
-import MessageSender from '../../textsecure/SendMessage';
+import type { AttachmentType } from '../../types/Attachment.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import type { ConversationModel } from '../../models/conversations.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { MessageModel } from '../../models/messages.js';
+import type { RawBodyRange } from '../../types/BodyRange.js';
+import type { WebAPIType } from '../../textsecure/WebAPI.js';
+import { DataWriter } from '../../sql/Client.js';
+import MessageSender from '../../textsecure/SendMessage.js';
 import enMessages from '../../../_locales/en/messages.json';
-import { SendStatus } from '../../messages/MessageSendState';
-import { SignalService as Proto } from '../../protobuf';
-import { generateAci } from '../../types/ServiceId';
-import { getAuthor } from '../../messages/helpers';
-import { setupI18n } from '../../util/setupI18n';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { getAuthor } from '../../messages/helpers.js';
+import { setupI18n } from '../../util/setupI18n.js';
 import {
   APPLICATION_JSON,
   AUDIO_MP3,
@@ -28,10 +28,10 @@ import {
   LONG_MESSAGE,
   TEXT_ATTACHMENT,
   VIDEO_MP4,
-} from '../../types/MIME';
-import { getNotificationDataForMessage } from '../../util/getNotificationDataForMessage';
-import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage';
-import { send } from '../../messages/send';
+} from '../../types/MIME.js';
+import { getNotificationDataForMessage } from '../../util/getNotificationDataForMessage.js';
+import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage.js';
+import { send } from '../../messages/send.js';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);

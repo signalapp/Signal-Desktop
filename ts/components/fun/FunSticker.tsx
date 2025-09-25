@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
-import { FunImage } from './base/FunImage';
-import type { FunImageAriaProps } from './types';
+import { FunImage } from './base/FunImage.js';
+import type { FunImageAriaProps } from './types.js';
 
 export type FunStickerProps = FunImageAriaProps &
   Readonly<{

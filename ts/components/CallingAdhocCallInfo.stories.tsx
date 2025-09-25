@@ -2,18 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingAdhocCallInfo';
-import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
-import { AvatarColors } from '../types/Colors';
-import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import { generateAci } from '../types/ServiceId';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import type { CallLinkType } from '../types/CallLink';
-import { CallLinkRestrictions } from '../types/CallLink';
+import type { PropsType } from './CallingAdhocCallInfo.js';
+import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.js';
+import { AvatarColors } from '../types/Colors.js';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
+import { generateAci } from '../types/ServiceId.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { CallLinkType } from '../types/CallLink.js';
+import { CallLinkRestrictions } from '../types/CallLink.js';
+
+const { sample } = lodash;
 
 const { i18n } = window.SignalContext;
 

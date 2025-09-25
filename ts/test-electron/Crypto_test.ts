@@ -1,17 +1,17 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFileSync, unlinkSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { createCipheriv } from 'crypto';
-import { PassThrough } from 'stream';
-import { emptyDir } from 'fs-extra';
+import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { createCipheriv } from 'node:crypto';
+import { PassThrough } from 'node:stream';
+import fsExtra from 'fs-extra';
 import { assert } from 'chai';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
-import { createLogger } from '../logging/log';
-import * as Bytes from '../Bytes';
-import * as Curve from '../Curve';
+import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.js';
+import * as Curve from '../Curve.js';
 import {
   PaddedLengths,
   encryptProfileItemWithPadding,
@@ -39,22 +39,29 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
   CipherType,
-} from '../Crypto';
+} from '../Crypto.js';
 import {
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
-  getAesCbcCiphertextLength,
-  getAttachmentCiphertextLength,
   splitKeys,
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
   decryptAttachmentV2ToSink,
-} from '../AttachmentCrypto';
-import type { AciString, PniString } from '../types/ServiceId';
-import { createTempDir, deleteTempDir } from '../updater/common';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
-import { getPath } from '../windows/main/attachments';
+} from '../AttachmentCrypto.js';
+import type { AciString, PniString } from '../types/ServiceId.js';
+import { createTempDir, deleteTempDir } from '../updater/common.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import {
+  getAesCbcCiphertextSize,
+  getAttachmentCiphertextSize,
+} from '../util/AttachmentCrypto.js';
+import { getPath } from '../windows/main/attachments.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
+
+const { emptyDir } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('Crypto_test');
 
@@ -776,7 +783,10 @@ describe('Crypto', () => {
 
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
-            getAttachmentCiphertextLength(data.byteLength)
+            getAttachmentCiphertextSize({
+              unpaddedPlaintextSize: data.byteLength,
+              mediaTier: MediaTier.STANDARD,
+            })
           );
 
           if (overrideSize == null) {
@@ -856,7 +866,7 @@ describe('Crypto', () => {
               plaintextHash,
               modifyIncrementalMac: true,
             }),
-            /Corrupted/
+            /^Corrupted input data/
           );
         } finally {
           unlinkSync(sourcePath);
@@ -1189,7 +1199,7 @@ describe('Crypto', () => {
     }
     it('calculates cipherTextLength correctly', () => {
       for (let i = 0; i < 128; i += 1) {
-        assert.strictEqual(getAesCbcCiphertextLength(i), encrypt(i).length);
+        assert.strictEqual(getAesCbcCiphertextSize(i), encrypt(i).length);
       }
     });
   });

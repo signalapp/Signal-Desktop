@@ -4,7 +4,7 @@
 import {
   FUN_INLINE_EMOJI_CLASS,
   FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji';
+} from '../../components/fun/FunEmoji.js';
 
 const QUILL_EMBED_GUARD = '\uFEFF';
 

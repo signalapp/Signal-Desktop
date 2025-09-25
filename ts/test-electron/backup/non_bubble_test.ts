@@ -4,27 +4,27 @@
 import { v4 as generateGuid } from 'uuid';
 import Long from 'long';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 
-import { getRandomBytes } from '../../Crypto';
-import * as Bytes from '../../Bytes';
-import { SignalService as Proto, Backups } from '../../protobuf';
-import { DataWriter } from '../../sql/Client';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME';
-import { generateAci } from '../../types/ServiceId';
-import { PaymentEventKind } from '../../types/Payment';
-import { ContactFormType } from '../../types/EmbeddedContact';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
-import { DurationInSeconds } from '../../util/durations';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
+import { getRandomBytes } from '../../Crypto.js';
+import * as Bytes from '../../Bytes.js';
+import { SignalService as Proto, Backups } from '../../protobuf/index.js';
+import { DataWriter } from '../../sql/Client.js';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { PaymentEventKind } from '../../types/Payment.js';
+import { ContactFormType } from '../../types/EmbeddedContact.js';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.js';
+import { DurationInSeconds } from '../../util/durations/index.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
   OUR_ACI,
-} from './helpers';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
+} from './helpers.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));

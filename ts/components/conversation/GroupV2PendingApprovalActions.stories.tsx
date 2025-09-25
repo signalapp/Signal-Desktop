@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './GroupV2PendingApprovalActions';
-import { GroupV2PendingApprovalActions } from './GroupV2PendingApprovalActions';
+import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './GroupV2PendingApprovalActions.js';
+import { GroupV2PendingApprovalActions } from './GroupV2PendingApprovalActions.js';
 
 const { i18n } = window.SignalContext;
 

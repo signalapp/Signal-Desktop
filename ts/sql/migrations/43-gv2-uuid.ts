@@ -1,20 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 
-import type { LoggerType } from '../../types/Logging';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
-import { isNotNil } from '../../util/isNotNil';
-import { assertDev } from '../../util/assert';
+import type { LoggerType } from '../../types/Logging.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { assertDev } from '../../util/assert.js';
 import {
   TableIterator,
   getCountFromTable,
   jsonToObject,
   objectToJSON,
-} from '../util';
-import type { WritableDB } from '../Interface';
+} from '../util.js';
+import type { WritableDB } from '../Interface.js';
+
+const { omit } = lodash;
 
 type MessageType = Readonly<{
   id: string;

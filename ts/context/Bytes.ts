@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// This file gets imported into renderer that does not have access to Node.js
+// builtins, use an `npm` package.
+// eslint-disable-next-line import/enforce-node-protocol-usage
 import { Buffer } from 'buffer';
 
 export class Bytes {

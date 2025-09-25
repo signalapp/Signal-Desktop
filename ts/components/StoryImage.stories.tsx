@@ -4,13 +4,18 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './StoryImage';
-import { StoryImage } from './StoryImage';
-import { fakeAttachment, fakeThumbnail } from '../test-helpers/fakeAttachment';
-import { VIDEO_MP4 } from '../types/MIME';
+import type { PropsType } from './StoryImage.js';
+import { StoryImage } from './StoryImage.js';
+import {
+  fakeAttachment,
+  fakeThumbnail,
+} from '../test-helpers/fakeAttachment.js';
+import { VIDEO_MP4 } from '../types/MIME.js';
+
+const { noop } = lodash;
 
 const { i18n } = window.SignalContext;
 

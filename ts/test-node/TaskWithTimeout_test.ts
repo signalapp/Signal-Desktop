@@ -4,12 +4,12 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { sleep } from '../util/sleep';
-import { explodePromise } from '../util/explodePromise';
+import { sleep } from '../util/sleep.js';
+import { explodePromise } from '../util/explodePromise.js';
 import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
-} from '../textsecure/TaskWithTimeout';
+} from '../textsecure/TaskWithTimeout.js';
 
 describe('createTaskWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;

@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { createLogger } from '../../logging/log';
-import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME';
-import type { MessageAttributesType } from '../../model-types.d';
-import type { Avatar, Email, Phone } from '../../types/EmbeddedContact';
+import { createLogger } from '../../logging/log.js';
+import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { Avatar, Email, Phone } from '../../types/EmbeddedContact.js';
 import {
   _validate,
   ContactFormType,
@@ -15,9 +15,9 @@ import {
   getName,
   parseAndWriteAvatar,
   parsePhoneItem,
-} from '../../types/EmbeddedContact';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment';
-import { generateAci } from '../../types/ServiceId';
+} from '../../types/EmbeddedContact.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
+import { generateAci } from '../../types/ServiceId.js';
 
 const logger = createLogger('EmbeddedContact_test');
 

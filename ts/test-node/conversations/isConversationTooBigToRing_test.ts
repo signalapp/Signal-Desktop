@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { times } from 'lodash';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub';
-import { generateAci } from '../../types/ServiceId';
+import lodash from 'lodash';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
+import { generateAci } from '../../types/ServiceId.js';
 
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.js';
+
+const { times } = lodash;
 
 const CONFIG_KEY = 'global.calling.maxGroupCallRingSize';
 
@@ -36,14 +38,12 @@ describe('isConversationTooBigToRing', () => {
   });
 
   it('returns whether there are 16 or more people in the group, if the remote config value is bogus', async () => {
-    await updateRemoteConfig([
-      { name: CONFIG_KEY, value: 'uh oh', enabled: true },
-    ]);
+    await updateRemoteConfig([{ name: CONFIG_KEY, value: 'uh oh' }]);
     textMaximum(16);
   });
 
   it('returns whether there are 9 or more people in the group, if the remote config value is 9', async () => {
-    await updateRemoteConfig([{ name: CONFIG_KEY, value: '9', enabled: true }]);
+    await updateRemoteConfig([{ name: CONFIG_KEY, value: '9' }]);
     textMaximum(9);
   });
 });

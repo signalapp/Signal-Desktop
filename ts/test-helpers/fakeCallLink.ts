@@ -1,9 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
-import type { CallingConversationType } from '../types/Calling';
-import { CallLinkRestrictions } from '../types/CallLink';
-import { MONTH } from '../util/durations/constants';
+import type { CallLinkStateType, CallLinkType } from '../types/CallLink.js';
+import type { CallingConversationType } from '../types/Calling.js';
+import { CallLinkRestrictions } from '../types/CallLink.js';
+import { MONTH } from '../util/durations/constants.js';
 
 export const FAKE_CALL_LINK: CallLinkType = {
   adminKey: null,

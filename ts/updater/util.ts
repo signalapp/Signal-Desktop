@@ -1,16 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createHash } from 'crypto';
-import { createReadStream } from 'fs';
-import { rename, rm } from 'fs/promises';
-import { pipeline } from 'stream/promises';
+import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
+import { rename, rm } from 'node:fs/promises';
+import { pipeline } from 'node:stream/promises';
 
-import type { LoggerType } from '../types/Logging';
-import * as Errors from '../types/errors';
-import { SECOND, MINUTE, HOUR } from '../util/durations';
-import { sleep } from '../util/sleep';
-import { isOlderThan } from '../util/timestamp';
+import type { LoggerType } from '../types/Logging.js';
+import * as Errors from '../types/errors.js';
+import { SECOND, MINUTE, HOUR } from '../util/durations/index.js';
+import { sleep } from '../util/sleep.js';
+import { isOlderThan } from '../util/timestamp.js';
 
 export type CheckIntegrityResultType = Readonly<
   | {
@@ -156,13 +156,13 @@ export function isTimeToUpdate({
 }): boolean {
   // Check that the release date is a proper number
   if (!Number.isFinite(releasedAt) || Number.isNaN(releasedAt)) {
-    logger.warn('updater/isTimeToUpdate: invalid releasedAt');
+    logger.warn('isTimeToUpdate: invalid releasedAt');
     return true;
   }
 
   // Check that the release date is not too far in the future
   if (releasedAt - HOUR > now) {
-    logger.warn('updater/isTimeToUpdate: releasedAt too far in the future');
+    logger.warn('isTimeToUpdate: releasedAt too far in the future');
     return true;
   }
 
@@ -180,6 +180,6 @@ export function isTimeToUpdate({
   }
 
   const remaining = Math.round((updateAt - now) / MINUTE);
-  logger.info(`updater/isTimeToUpdate: updating in ${remaining} minutes`);
+  logger.info(`isTimeToUpdate: updating in ${remaining} minutes`);
   return false;
 }

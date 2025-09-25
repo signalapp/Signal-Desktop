@@ -1,21 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { unmountComponentAtNode } from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationModel } from '../models/conversations';
-import type { PreJoinConversationType } from '../state/ducks/conversations';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationModel } from '../models/conversations.js';
+import type { PreJoinConversationType } from '../state/ducks/conversations.js';
 
-import { DataWriter } from '../sql/Client';
-import * as Bytes from '../Bytes';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { HTTPError } from '../textsecure/Errors';
-import { SignalService as Proto } from '../protobuf';
-import type { ContactAvatarType } from '../types/Avatar';
-import { ToastType } from '../types/Toast';
+import { DataWriter } from '../sql/Client.js';
+import * as Bytes from '../Bytes.js';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import type { ContactAvatarType } from '../types/Avatar.js';
+import { ToastType } from '../types/Toast.js';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -25,17 +24,17 @@ import {
   idForLogging,
   LINK_VERSION_ERROR,
   parseGroupLink,
-} from '../groups';
-import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal';
-import { explodePromise } from '../util/explodePromise';
-import { isAccessControlEnabled } from './util';
-import { isGroupV1 } from '../util/whatTypeOfConversation';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
-import { sleep } from '../util/sleep';
-import { dropNull } from '../util/dropNull';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
-import { type Loadable, LoadingState } from '../util/loadable';
-import { missingCaseError } from '../util/missingCaseError';
+} from '../groups.js';
+import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { isAccessControlEnabled } from './util.js';
+import { isGroupV1 } from '../util/whatTypeOfConversation.js';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.js';
+import { sleep } from '../util/sleep.js';
+import { dropNull } from '../util/dropNull.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
+import { type Loadable, LoadingState } from '../util/loadable.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 
 const log = createLogger('joinViaLink');
 
@@ -211,9 +210,9 @@ export async function joinViaLink(value: string): Promise<void> {
 
   const closeDialog = async () => {
     try {
-      if (groupV2InfoNode) {
-        unmountComponentAtNode(groupV2InfoNode);
-        groupV2InfoNode = undefined;
+      if (groupV2InfoRoot) {
+        groupV2InfoRoot.unmount();
+        groupV2InfoRoot = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -234,9 +233,9 @@ export async function joinViaLink(value: string): Promise<void> {
 
   const join = async () => {
     try {
-      if (groupV2InfoNode) {
-        unmountComponentAtNode(groupV2InfoNode);
-        groupV2InfoNode = undefined;
+      if (groupV2InfoRoot) {
+        groupV2InfoRoot.unmount();
+        groupV2InfoRoot = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -387,10 +386,11 @@ export async function joinViaLink(value: string): Promise<void> {
 
   log.info(`${logId}: Showing modal`);
 
-  let groupV2InfoNode: HTMLDivElement | undefined =
-    document.createElement('div');
+  const groupV2InfoNode = document.createElement('div');
+  let groupV2InfoRoot: Root | undefined;
 
-  createRoot(groupV2InfoNode).render(
+  groupV2InfoRoot = createRoot(groupV2InfoNode);
+  groupV2InfoRoot.render(
     createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog })
   );
 
@@ -426,7 +426,7 @@ export async function joinViaLink(value: string): Promise<void> {
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar
-        if (!groupV2InfoNode) {
+        if (!groupV2InfoRoot) {
           await window.Signal.Migrations.deleteAttachmentData(
             attributes.avatar.path
           );

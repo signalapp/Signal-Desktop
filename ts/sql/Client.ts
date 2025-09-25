@@ -2,34 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
-import { groupBy, isTypedArray, last, map, omit } from 'lodash';
+import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 
 // Note: nothing imported here can come back and require Client.ts, and that includes
 // their imports too. That circularity causes problems. Anything that would do that needs
 // to be passed in, like cleanupMessages below.
-import * as Bytes from '../Bytes';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
+import * as Bytes from '../Bytes.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
 
-import { deleteExternalFiles } from '../types/Conversation';
-import { createBatcher } from '../util/batcher';
-import { assertDev, softAssert } from '../util/assert';
-import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
-import { cleanDataForIpc } from './cleanDataForIpc';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid';
-import { formatJobForInsert } from '../jobs/formatJobForInsert';
-import { AccessType, ipcInvoke, doShutdown, removeDB } from './channels';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { generateSnippetAroundMention } from '../util/search';
-import { drop } from '../util/drop';
+import { deleteExternalFiles } from '../types/Conversation.js';
+import { createBatcher } from '../util/batcher.js';
+import { assertDev, softAssert } from '../util/assert.js';
+import { mapObjectWithSpec } from '../util/mapObjectWithSpec.js';
+import { cleanDataForIpc } from './cleanDataForIpc.js';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
+import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.js';
+import { formatJobForInsert } from '../jobs/formatJobForInsert.js';
+import { AccessType, ipcInvoke, doShutdown, removeDB } from './channels.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { generateSnippetAroundMention } from '../util/search.js';
+import { drop } from '../util/drop.js';
 
-import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
-import type { StoredJob } from '../jobs/types';
+import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+import type { StoredJob } from '../jobs/types.js';
 import type {
   ClientInterfaceWrap,
   AdjacentMessagesByConversationOptionsType,
@@ -60,14 +60,16 @@ import type {
   StoredKyberPreKeyType,
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
-} from './Interface';
-import { AttachmentDownloadSource } from './Interface';
-import type { MessageAttributesType } from '../model-types';
-import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+} from './Interface.js';
+import { AttachmentDownloadSource } from './Interface.js';
+import type { MessageAttributesType } from '../model-types.js';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.js';
 import {
   throttledUpdateBackupMediaDownloadProgress,
   updateBackupMediaDownloadProgress,
-} from '../util/updateBackupMediaDownloadProgress';
+} from '../util/updateBackupMediaDownloadProgress.js';
+
+const { groupBy, isTypedArray, last, map, omit } = lodash;
 
 const log = createLogger('Client');
 
@@ -833,7 +835,9 @@ async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
   await writableChannel.saveAttachmentDownloadJob(job);
-  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+  if (
+    job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+  ) {
     drop(
       throttledUpdateBackupMediaDownloadProgress(
         readableChannel.getBackupAttachmentDownloadProgress
@@ -847,7 +851,8 @@ async function saveAttachmentDownloadJobs(
   await writableChannel.saveAttachmentDownloadJobs(jobs);
   if (
     jobs.some(
-      job => job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT
+      job =>
+        job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
     )
   ) {
     drop(
@@ -862,7 +867,9 @@ async function removeAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
   await writableChannel.removeAttachmentDownloadJob(job);
-  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+  if (
+    job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+  ) {
     drop(
       throttledUpdateBackupMediaDownloadProgress(
         readableChannel.getBackupAttachmentDownloadProgress

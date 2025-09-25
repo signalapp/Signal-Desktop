@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ComposerStep } from '../state/ducks/conversationsEnums';
-import { OneTimeModalState } from '../groups/toggleSelectedContactForGroupAddition';
-import { DurationInSeconds } from '../util/durations';
+import { ComposerStep } from '../state/ducks/conversationsEnums.js';
+import { OneTimeModalState } from '../groups/toggleSelectedContactForGroupAddition.js';
+import { DurationInSeconds } from '../util/durations/index.js';
 
 export const defaultStartDirectConversationComposerState = {
   step: ComposerStep.StartDirectConversation as const,

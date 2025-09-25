@@ -1,27 +1,28 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getSendOptionsForRecipients } from '../../util/getSendOptions';
-import { isGroupV2 } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
+import { ContentHint } from '@signalapp/libsignal-client';
+
+import { getSendOptionsForRecipients } from '../../util/getSendOptions.js';
+import { isGroupV2 } from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend';
-import * as Bytes from '../../Bytes';
-import { strictAssert } from '../../util/assert';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
+} from './handleMultipleSendErrors.js';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.js';
+import * as Bytes from '../../Bytes.js';
+import { strictAssert } from '../../util/assert.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
 
-import type { ConversationModel } from '../../models/conversations';
-import type { GroupV2InfoType } from '../../textsecure/SendMessage';
+import type { ConversationModel } from '../../models/conversations.js';
+import type { GroupV2InfoType } from '../../textsecure/SendMessage.js';
 import type {
   GroupUpdateJobData,
   ConversationQueueJobBundle,
-} from '../conversationJobQueue';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
-import { sendToGroup } from '../../util/sendToGroup';
-import { getValidRecipients } from './getValidRecipients';
+} from '../conversationJobQueue.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
+import { getValidRecipients } from './getValidRecipients.js';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers
@@ -70,8 +71,7 @@ export async function sendGroupUpdate(
 
   const sendOptions = await getSendOptionsForRecipients(recipients);
 
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const sendType = 'groupChange';
 
   const groupChange = groupChangeBase64

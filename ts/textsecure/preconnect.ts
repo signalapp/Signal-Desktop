@@ -3,14 +3,14 @@
 
 import { Net } from '@signalapp/libsignal-client';
 
-import { getUserAgent } from '../util/getUserAgent';
-import { isStagingServer } from '../util/isStagingServer';
-import { getMockServerPort } from '../util/getMockServerPort';
-import { isMockServer } from '../util/isMockServer';
-import { pemToDer } from '../util/pemToDer';
-import { drop } from '../util/drop';
-import { toLogFormat } from '../types/errors';
-import { createLogger } from '../logging/log';
+import { getUserAgent } from '../util/getUserAgent.js';
+import { isStagingServer } from '../util/isStagingServer.js';
+import { getMockServerPort } from '../util/getMockServerPort.js';
+import { isMockServer } from '../util/isMockServer.js';
+import { pemToDer } from '../util/pemToDer.js';
+import { drop } from '../util/drop.js';
+import { toLogFormat } from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('preconnect');
 

@@ -3,9 +3,9 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer';
-import type { AccountsStateType } from '../ducks/accounts';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { StateType } from '../reducer.js';
+import type { AccountsStateType } from '../ducks/accounts.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
 
 export const getAccounts = (state: StateType): AccountsStateType =>
   state.accounts;

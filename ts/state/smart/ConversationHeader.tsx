@@ -3,48 +3,48 @@
 
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useContactNameData } from '../../components/conversation/ContactName';
+import { useContactNameData } from '../../components/conversation/ContactName.js';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
-} from '../../components/conversation/ConversationHeader';
-import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
-import { useMinimalConversation } from '../../hooks/useMinimalConversation';
-import { CallMode } from '../../types/CallDisposition';
-import { PanelType } from '../../types/Panels';
-import { StoryViewModeType } from '../../types/Stories';
-import { strictAssert } from '../../util/assert';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
-import { getGroupMemberships } from '../../util/getGroupMemberships';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { missingCaseError } from '../../util/missingCaseError';
-import { useCallingActions } from '../ducks/calling';
-import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
-import type { ConversationType } from '../ducks/conversations';
+} from '../../components/conversation/ConversationHeader.js';
+import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails.js';
+import { useMinimalConversation } from '../../hooks/useMinimalConversation.js';
+import { CallMode } from '../../types/CallDisposition.js';
+import { PanelType } from '../../types/Panels.js';
+import { StoryViewModeType } from '../../types/Stories.js';
+import { strictAssert } from '../../util/assert.js';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { useCallingActions } from '../ducks/calling.js';
+import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers.js';
+import type { ConversationType } from '../ducks/conversations.js';
 import {
   getConversationCallMode,
   useConversationsActions,
-} from '../ducks/conversations';
-import { useSearchActions } from '../ducks/search';
-import { useStoriesActions } from '../ducks/stories';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getActiveCallState, getCallSelector } from '../selectors/calling';
+} from '../ducks/conversations.js';
+import { useSearchActions } from '../ducks/search.js';
+import { useStoriesActions } from '../ducks/stories.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { getActiveCallState, getCallSelector } from '../selectors/calling.js';
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
   getSelectedMessageIds,
-} from '../selectors/conversations';
-import { getHasStoriesSelector } from '../selectors/stories2';
-import { getIntl, getTheme, getUserACI } from '../selectors/user';
-import { useItemsActions } from '../ducks/items';
-import { getLocalDeleteWarningShown } from '../selectors/items';
-import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import type { DurationInSeconds } from '../../util/durations';
+} from '../selectors/conversations.js';
+import { getHasStoriesSelector } from '../selectors/stories2.js';
+import { getIntl, getTheme, getUserACI } from '../selectors/user.js';
+import { useItemsActions } from '../ducks/items.js';
+import { getLocalDeleteWarningShown } from '../selectors/items.js';
+import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
+import type { DurationInSeconds } from '../../util/durations/index.js';
 
 export type OwnProps = {
   id: string;

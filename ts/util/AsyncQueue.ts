@@ -1,7 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { once, noop } from 'lodash';
+import lodash from 'lodash';
+
+const { once, noop } = lodash;
 
 /**
  * You can do two things with an async queue:

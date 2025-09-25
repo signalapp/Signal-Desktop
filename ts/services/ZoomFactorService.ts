@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { BrowserWindow } from 'electron';
 import { ipcMain } from 'electron';
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('ZoomFactorService');
 

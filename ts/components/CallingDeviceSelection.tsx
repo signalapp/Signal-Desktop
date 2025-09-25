@@ -4,16 +4,16 @@
 import * as React from 'react';
 import type { AudioDevice } from '@signalapp/ringrtc';
 
-import type { Option } from './Select';
-import { Modal } from './Modal';
-import { Select } from './Select';
-import type { LocalizerType } from '../types/Util';
+import type { Option } from './Select.js';
+import { Modal } from './Modal.js';
+import { Select } from './Select.js';
+import type { LocalizerType } from '../types/Util.js';
 import type {
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
-} from '../types/Calling';
-import { CallingDeviceType } from '../types/Calling';
-import { Theme } from '../util/theme';
+} from '../types/Calling.js';
+import { CallingDeviceType } from '../types/Calling.js';
+import { Theme } from '../util/theme.js';
 
 export type Props = MediaDeviceSettings & {
   changeIODevice: (payload: ChangeIODevicePayloadType) => void;

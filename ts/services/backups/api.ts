@@ -3,7 +3,7 @@
 
 import { type Readable } from 'node:stream';
 
-import { strictAssert } from '../../util/assert';
+import { strictAssert } from '../../util/assert.js';
 import type {
   WebAPIType,
   AttachmentUploadFormResponseType,
@@ -13,17 +13,17 @@ import type {
   BackupListMediaResponseType,
   TransferArchiveType,
   SubscriptionResponseType,
-} from '../../textsecure/WebAPI';
-import type { BackupCredentials } from './credentials';
+} from '../../textsecure/WebAPI.js';
+import type { BackupCredentials } from './credentials.js';
 import {
   BackupCredentialType,
   type BackupsSubscriptionType,
   type SubscriptionCostType,
-} from '../../types/backups';
-import { uploadFile } from '../../util/uploadAttachment';
-import { HTTPError } from '../../textsecure/Errors';
-import { createLogger } from '../../logging/log';
-import { toLogFormat } from '../../types/errors';
+} from '../../types/backups.js';
+import { uploadFile } from '../../util/uploadAttachment.js';
+import { HTTPError } from '../../textsecure/Errors.js';
+import { createLogger } from '../../logging/log.js';
+import { toLogFormat } from '../../types/errors.js';
 
 const log = createLogger('api');
 
@@ -144,7 +144,9 @@ export class BackupAPI {
         });
       return { backupExists: true, size, createdAt };
     } catch (error) {
-      if (error instanceof HTTPError && error.code === 404) {
+      if (error instanceof HTTPError && error.code === 401) {
+        this.credentials.onCdnCredentialError();
+      } else if (error instanceof HTTPError && error.code === 404) {
         return { backupExists: false };
       }
       throw error;
@@ -218,7 +220,7 @@ export class BackupAPI {
     try {
       subscriptionResponse = await this.#server.getSubscription(subscriberId);
     } catch (e) {
-      log.error(
+      log.warn(
         'Backups.getSubscriptionInfo: error fetching subscription',
         toLogFormat(e)
       );

@@ -3,31 +3,43 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog';
-import { BeforeNavigateResponse } from '../services/BeforeNavigate';
+import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog.js';
+import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise';
+} from '../util/explodePromise.js';
 
-import type { PropsType } from '../components/ConfirmDiscardDialog';
-import type { LocalizerType } from '../types/Util';
+import type { ConfirmDialogProps } from '../components/ConfirmDiscardDialog.js';
+import type { LocalizerType } from '../types/Util.js';
 
 export function useConfirmDiscard({
   i18n,
+  bodyText,
+  discardText,
   name,
   tryClose,
 }: {
   i18n: LocalizerType;
+  bodyText?: string;
+  discardText?: string;
   name: string;
   tryClose?: React.MutableRefObject<(() => void) | undefined>;
 }): [
   JSX.Element | null,
   (condition: boolean, discardChanges: () => void, cancel?: () => void) => void,
 ] {
-  const [props, setProps] = useState<Omit<PropsType, 'i18n'> | null>(null);
+  const [props, setProps] = useState<Omit<
+    ConfirmDialogProps,
+    'i18n' | 'bodyText' | 'discardText'
+  > | null>(null);
   const confirmElement = props ? (
-    <ConfirmDiscardDialog i18n={i18n} {...props} />
+    <ConfirmDiscardDialog
+      i18n={i18n}
+      bodyText={bodyText}
+      discardText={discardText}
+      {...props}
+    />
   ) : null;
   const confirmDiscardPromise = useRef<
     ExplodePromiseResultType<BeforeNavigateResponse> | undefined

@@ -2,15 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import { isEqual, mapValues } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { DataWriter } from '../../sql/Client';
-import type { StateType as RootStateType } from '../reducer';
-import type { BadgeType, BadgeImageType } from '../../badges/types';
-import { getOwn } from '../../util/getOwn';
-import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { DataWriter } from '../../sql/Client.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { BadgeType, BadgeImageType } from '../../badges/types.js';
+import { getOwn } from '../../util/getOwn.js';
+import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+
+const { isEqual, mapValues } = lodash;
 
 /**
  * This duck deals with badge data. Some assumptions it makes:

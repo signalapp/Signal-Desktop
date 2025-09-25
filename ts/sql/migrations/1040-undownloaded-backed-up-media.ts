@@ -4,21 +4,21 @@
 import type { Database } from '@signalapp/sqlcipher';
 import * as z from 'zod';
 
-import type { LoggerType } from '../../types/Logging';
+import type { LoggerType } from '../../types/Logging.js';
 import {
-  attachmentDownloadTypeSchema,
+  messageAttachmentTypeSchema,
   type AttachmentDownloadJobType,
-  type AttachmentDownloadJobTypeType,
-} from '../../types/AttachmentDownload';
-import type { AttachmentType } from '../../types/Attachment';
-import { jsonToObject, objectToJSON, sql } from '../util';
-import { AttachmentDownloadSource } from '../Interface';
-import { parsePartial } from '../../util/schemas';
-import { MIMETypeSchema } from '../../types/MIME';
+  type MessageAttachmentType,
+} from '../../types/AttachmentDownload.js';
+import type { AttachmentType } from '../../types/Attachment.js';
+import { jsonToObject, objectToJSON, sql } from '../util.js';
+import { AttachmentDownloadSource } from '../Interface.js';
+import { parsePartial } from '../../util/schemas.js';
+import { MIMETypeSchema } from '../../types/MIME.js';
 import {
   jobManagerJobSchema,
   type JobManagerJobType,
-} from '../../jobs/JobManager';
+} from '../../jobs/JobManager.js';
 
 export type _AttachmentDownloadJobTypeV1030 = {
   attachment: AttachmentType;
@@ -28,7 +28,7 @@ export type _AttachmentDownloadJobTypeV1030 = {
   messageId: string;
   pending: number;
   timestamp: number;
-  type: AttachmentDownloadJobTypeType;
+  type: MessageAttachmentType;
 };
 
 const attachmentDownloadJobSchemaV1040 = z
@@ -36,7 +36,7 @@ const attachmentDownloadJobSchemaV1040 = z
     attachment: z
       .object({ size: z.number(), contentType: MIMETypeSchema })
       .passthrough(),
-    attachmentType: attachmentDownloadTypeSchema,
+    attachmentType: messageAttachmentTypeSchema,
     ciphertextSize: z.number(),
     contentType: MIMETypeSchema,
     digest: z.string(),

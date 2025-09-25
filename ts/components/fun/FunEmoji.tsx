@@ -3,8 +3,8 @@
 import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
-import type { EmojiVariantData } from './data/emojis';
-import type { FunImageAriaProps } from './types';
+import type { EmojiVariantData } from './data/emojis.js';
+import type { FunImageAriaProps } from './types.js';
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
 export const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';

@@ -5,28 +5,28 @@ import React, { useState } from 'react';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations';
+} from '../state/ducks/conversations.js';
 import type {
   ConversationStoryType,
   MyStoryType,
   StoryViewType,
-} from '../types/Stories';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { ShowToastAction } from '../state/ducks/toast';
+} from '../types/Stories.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
 import type {
   AddStoryData,
   ViewUserStoriesActionCreatorType,
   ViewStoryActionCreatorType,
-} from '../state/ducks/stories';
-import { MyStories } from './MyStories';
-import { StoriesPane } from './StoriesPane';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
-import { StoriesAddStoryButton } from './StoriesAddStoryButton';
-import { ContextMenu } from './ContextMenu';
-import { I18n } from './I18n';
-import type { WidthBreakpoint } from './_util';
-import type { UnreadStats } from '../util/countUnreadStats';
+} from '../state/ducks/stories.js';
+import { MyStories } from './MyStories.js';
+import { StoriesPane } from './StoriesPane.js';
+import { NavSidebar, NavSidebarActionButton } from './NavSidebar.js';
+import { StoriesAddStoryButton } from './StoriesAddStoryButton.js';
+import { ContextMenu } from './ContextMenu.js';
+import { I18n } from './I18n.js';
+import type { WidthBreakpoint } from './_util.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
 
 export type PropsType = {
   addStoryData: AddStoryData;

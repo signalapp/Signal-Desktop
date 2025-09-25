@@ -1,16 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DeleteAttributesType } from '../messageModifiers/Deletes';
-import type { MessageModel } from '../models/messages';
-import { createLogger } from '../logging/log';
-import { isMe } from './whatTypeOfConversation';
-import { getAuthorId } from '../messages/helpers';
-import { isStory } from '../state/selectors/message';
-import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
-import { drop } from './drop';
-import { eraseMessageContents } from './cleanup';
-import { notificationService } from '../services/notifications';
+import type { DeleteAttributesType } from '../messageModifiers/Deletes.js';
+import type { MessageModel } from '../models/messages.js';
+import { createLogger } from '../logging/log.js';
+import { isMe } from './whatTypeOfConversation.js';
+import { getAuthorId } from '../messages/helpers.js';
+import { isStory } from '../state/selectors/message.js';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.js';
+import { drop } from './drop.js';
+import { eraseMessageContents } from './cleanup.js';
+import { notificationService } from '../services/notifications.js';
 
 const log = createLogger('deleteForEveryone');
 

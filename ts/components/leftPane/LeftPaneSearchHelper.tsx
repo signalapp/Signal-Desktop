@@ -4,22 +4,22 @@
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import type { ToFindType } from './LeftPaneHelper';
-import { LeftPaneHelper } from './LeftPaneHelper';
-import type { LocalizerType } from '../../types/Util';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
-import { handleKeydownForSearch } from './handleKeydownForSearch';
+import type { ToFindType } from './LeftPaneHelper.js';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
+import { handleKeydownForSearch } from './handleKeydownForSearch.js';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
+} from '../../state/ducks/conversations.js';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
 
-import { I18n } from '../I18n';
-import { assertDev } from '../../util/assert';
-import { UserText } from '../UserText';
+import { I18n } from '../I18n.js';
+import { assertDev } from '../../util/assert.js';
+import { UserText } from '../UserText.js';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is

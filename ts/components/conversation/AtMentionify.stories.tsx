@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { generateAci } from '../../types/ServiceId';
-import type { Props } from './AtMentionify';
-import { AtMentionify } from './AtMentionify';
+import { generateAci } from '../../types/ServiceId.js';
+import type { Props } from './AtMentionify.js';
+import { AtMentionify } from './AtMentionify.js';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

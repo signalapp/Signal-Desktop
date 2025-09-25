@@ -3,6 +3,13 @@
 
 import type { StorybookConfig } from '@storybook/react-webpack5';
 import { ProvidePlugin } from 'webpack';
+import { builtinModules } from 'node:module';
+
+const EXTERNALS = new Set(builtinModules);
+
+// We have polyfills for these
+EXTERNALS.delete('buffer');
+EXTERNALS.delete('url');
 
 const config: StorybookConfig = {
   typescript: {
@@ -51,7 +58,9 @@ const config: StorybookConfig = {
       type: 'filesystem',
     };
 
-    config.resolve!.extensions = ['.tsx', '.ts', '...'];
+    config.resolve!.extensionAlias = {
+      '.js': ['.tsx', '.ts', '.js'],
+    };
 
     config.module!.rules!.unshift({
       test: /\.scss$/,
@@ -88,33 +97,15 @@ const config: StorybookConfig = {
 
     config.node = { global: true };
 
-    config.externals = {
-      net: 'commonjs net',
-      vm: 'commonjs vm',
-      fs: 'commonjs fs',
-      async_hooks: 'commonjs async_hooks',
-      module: 'commonjs module',
-      stream: 'commonjs stream',
-      tls: 'commonjs tls',
-      dns: 'commonjs dns',
-      http: 'commonjs http',
-      https: 'commonjs https',
-      os: 'commonjs os',
-      constants: 'commonjs constants',
-      zlib: 'commonjs zlib',
-      '@signalapp/libsignal-client': 'commonjs @signalapp/libsignal-client',
-      '@signalapp/libsignal-client/zkgroup':
-        'commonjs @signalapp/libsignal-client/zkgroup',
-      '@signalapp/ringrtc': 'commonjs @signalapp/ringrtc',
-      '@signalapp/better-sqlite3': 'commonjs @signalapp/better-sqlite3',
-      electron: 'commonjs electron',
-      'fs-xattr': 'commonjs fs-xattr',
-      fsevents: 'commonjs fsevents',
-      'mac-screen-capture-permissions':
-        'commonjs mac-screen-capture-permissions',
-      sass: 'commonjs sass',
-      bufferutil: 'commonjs bufferutil',
-      'utf-8-validate': 'commonjs utf-8-validate',
+    config.externals = ({ request }, callback) => {
+      if (
+        (/^node:/.test(request) && request !== 'node:buffer') ||
+        EXTERNALS.has(request)
+      ) {
+        // Keep Node.js imports unchanged
+        return callback(null, 'commonjs ' + request);
+      }
+      callback();
     };
 
     config.plugins!.push(

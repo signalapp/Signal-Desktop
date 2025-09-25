@@ -3,11 +3,11 @@
 
 import { useSelector } from 'react-redux';
 import React, { memo } from 'react';
-import { ConversationNotificationsSettings } from '../../components/conversation/conversation-details/ConversationNotificationsSettings';
-import { getIntl } from '../selectors/user';
-import { getConversationByIdSelector } from '../selectors/conversations';
-import { strictAssert } from '../../util/assert';
-import { useConversationsActions } from '../ducks/conversations';
+import { ConversationNotificationsSettings } from '../../components/conversation/conversation-details/ConversationNotificationsSettings.js';
+import { getIntl } from '../selectors/user.js';
+import { getConversationByIdSelector } from '../selectors/conversations.js';
+import { strictAssert } from '../../util/assert.js';
+import { useConversationsActions } from '../ducks/conversations.js';
 
 export type SmartConversationNotificationsSettingsProps = {
   conversationId: string;

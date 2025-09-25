@@ -2,27 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { existsSync } from 'node:fs';
-import { isNumber } from 'lodash';
-import {
-  type BackupableAttachmentType,
-  getAttachmentIdForLogging,
-} from '../types/Attachment';
+import lodash from 'lodash';
+import { type BackupableAttachmentType } from '../types/Attachment.js';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto';
-import { strictAssert } from './assert';
+} from '../AttachmentCrypto.js';
+import { strictAssert } from './assert.js';
+
+const { isNumber } = lodash;
 
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachmentFromLocalBackup(
-  attachment: BackupableAttachmentType
+  attachment: BackupableAttachmentType,
+  { logId }: { logId: string }
 ): Promise<ReencryptedAttachmentV2> {
-  const attachmentId = getAttachmentIdForLogging(attachment);
-  const dataId = `${attachmentId}`;
-  const logId = `downloadAttachmentFromLocalBackup(${dataId})`;
-
-  return doDownloadFromLocalBackup(attachment, { logId });
+  return doDownloadFromLocalBackup(attachment, {
+    logId: `downloadAttachmentFromLocalBackup(${logId})`,
+  });
 }
 
 async function doDownloadFromLocalBackup(

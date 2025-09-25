@@ -4,7 +4,7 @@
 import * as sinon from 'sinon';
 import type { BrowserWindow } from 'electron';
 
-import { toggleMaximizedBrowserWindow } from '../../util/toggleMaximizedBrowserWindow';
+import { toggleMaximizedBrowserWindow } from '../../util/toggleMaximizedBrowserWindow.js';
 
 describe('toggleMaximizedBrowserWindow', () => {
   const createFakeWindow = () => ({

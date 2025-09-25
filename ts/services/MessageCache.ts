@@ -1,22 +1,24 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { throttle } from 'lodash';
+import lodash from 'lodash';
 import { LRUCache } from 'lru-cache';
 
-import { createLogger } from '../logging/log';
-import { MessageModel } from '../models/messages';
-import { DataReader, DataWriter } from '../sql/Client';
-import { getMessageConversation } from '../util/getMessageConversation';
-import { getSenderIdentifier } from '../util/getSenderIdentifier';
-import { isNotNil } from '../util/isNotNil';
-import { isStory } from '../messages/helpers';
-import { getStoryDataFromMessageAttributes } from './storyLoader';
-import { postSaveUpdates } from '../util/cleanup';
+import { createLogger } from '../logging/log.js';
+import { MessageModel } from '../models/messages.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { getMessageConversation } from '../util/getMessageConversation.js';
+import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { isStory } from '../messages/helpers.js';
+import { getStoryDataFromMessageAttributes } from './storyLoader.js';
+import { postSaveUpdates } from '../util/cleanup.js';
 
-import type { MessageAttributesType } from '../model-types.d';
-import type { SendStateByConversationId } from '../messages/MessageSendState';
-import type { StoredJob } from '../jobs/types';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { SendStateByConversationId } from '../messages/MessageSendState.js';
+import type { StoredJob } from '../jobs/types.js';
+
+const { throttle } = lodash;
 
 const log = createLogger('MessageCache');
 

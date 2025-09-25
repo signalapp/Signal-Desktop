@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import EventEmitter from 'events';
-import { createLogger } from './logging/log';
-import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
+import EventEmitter from 'node:events';
+import { createLogger } from './logging/log.js';
+import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.js';
 
 const log = createLogger('IdleDetector');
 

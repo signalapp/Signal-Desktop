@@ -2,35 +2,35 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { isNumber, omit, orderBy } from 'lodash';
+import lodash from 'lodash';
 import { PublicKey, type KyberPreKeyRecord } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
-import { Readable } from 'stream';
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import { Readable } from 'node:stream';
 
-import EventTarget from './EventTarget';
+import EventTarget from './EventTarget.js';
 import type {
   UploadKeysType,
   UploadKyberPreKeyType,
   UploadPreKeyType,
   UploadSignedPreKeyType,
   WebAPIType,
-} from './WebAPI';
+} from './WebAPI.js';
 import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
   KeyPairType,
   KyberPreKeyType,
   PniKeyMaterialType,
-} from './Types.d';
-import createTaskWithTimeout from './TaskWithTimeout';
-import * as Bytes from '../Bytes';
-import * as Errors from '../types/errors';
-import { isMockEnvironment } from '../environment';
-import { senderCertificateService } from '../services/senderCertificate';
-import { backupsService } from '../services/backups';
+} from './Types.d.ts';
+import createTaskWithTimeout from './TaskWithTimeout.js';
+import * as Bytes from '../Bytes.js';
+import * as Errors from '../types/errors.js';
+import { isMockEnvironment } from '../environment.js';
+import { senderCertificateService } from '../services/senderCertificate.js';
+import { backupsService } from '../services/backups/index.js';
 import {
   decryptDeviceName,
   deriveAccessKey,
@@ -39,35 +39,41 @@ import {
   encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
-} from '../Crypto';
+} from '../Crypto.js';
 import {
   generateKeyPair,
   generateKyberPreKey,
   generatePreKey,
   generateSignedPreKey,
-} from '../Curve';
-import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+} from '../Curve.js';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../types/ServiceId.js';
 import {
   isUntaggedPniString,
   normalizePni,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
-import { drop } from '../util/drop';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
-import { ourProfileKeyService } from '../services/ourProfileKey';
-import { strictAssert } from '../util/assert';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
-import { isNotNil } from '../util/isNotNil';
-import { missingCaseError } from '../util/missingCaseError';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import type { StorageAccessType } from '../types/Storage';
-import { getRelativePath, createName } from '../util/attachmentPath';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled';
+} from '../types/ServiceId.js';
+import { normalizeAci } from '../util/normalizeAci.js';
+import { drop } from '../util/drop.js';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.js';
+import { ourProfileKeyService } from '../services/ourProfileKey.js';
+import { strictAssert } from '../util/assert.js';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import type { StorageAccessType } from '../types/Storage.js';
+import { getRelativePath, createName } from '../util/attachmentPath.js';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.js';
+
+const { isNumber, omit, orderBy } = lodash;
 
 const log = createLogger('AccountManager');
 

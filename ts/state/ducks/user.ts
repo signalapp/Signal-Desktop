@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import { trigger } from '../../shims/events';
-import type { LocaleMessagesType } from '../../types/I18N';
-import type { LocalizerType } from '../../types/Util';
-import type { MenuOptionsType } from '../../types/menu';
-import type { NoopActionType } from './noop';
-import type { AciString, PniString } from '../../types/ServiceId';
-import OS from '../../util/os/osMain';
-import { ThemeType } from '../../types/Util';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import { trigger } from '../../shims/events.js';
+import type { LocaleMessagesType } from '../../types/I18N.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { MenuOptionsType } from '../../types/menu.js';
+import type { NoopActionType } from './noop.js';
+import type { AciString, PniString } from '../../types/ServiceId.js';
+import OS from '../../util/os/osMain.js';
+import { ThemeType } from '../../types/Util.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 // State
 

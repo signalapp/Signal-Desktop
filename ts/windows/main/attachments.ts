@@ -2,23 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { isString, isTypedArray } from 'lodash';
-import { join, normalize, basename, parse as pathParse } from 'path';
-import { existsSync } from 'fs';
+import lodash from 'lodash';
+import { join, normalize, basename, parse as pathParse } from 'node:path';
+import { existsSync } from 'node:fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
-import { isPathInside } from '../../util/isPathInside';
-import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier';
-import OS from '../../util/os/osMain';
-import { getRelativePath, createName } from '../../util/attachmentPath';
-import { toHex } from '../../Bytes';
-import { getRandomBytes } from '../../Crypto';
-import { createLogger } from '../../logging/log';
+import { isPathInside } from '../../util/isPathInside.js';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.js';
+import OS from '../../util/os/osMain.js';
+import { getRelativePath, createName } from '../../util/attachmentPath.js';
+import { toHex } from '../../Bytes.js';
+import { getRandomBytes } from '../../Crypto.js';
+import { createLogger } from '../../logging/log.js';
+
+const { isString, isTypedArray } = lodash;
 
 const log = createLogger('attachments');
 
-export * from '../../../app/attachments';
+export * from '../../../app/attachments.js';
 
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;
@@ -59,14 +61,19 @@ export const createPlaintextReader = (
   };
 };
 
-export const copyIntoAttachmentsDirectory = (
-  root: string
-): ((sourcePath: string) => Promise<{ path: string; size: number }>) => {
-  if (!isString(root)) {
-    throw new TypeError("'root' must be a path");
+export const copyIntoAttachmentsDirectory = ({
+  sourceDir,
+  targetDir,
+}: {
+  sourceDir: string;
+  targetDir: string;
+}): ((sourcePath: string) => Promise<{ path: string; size: number }>) => {
+  if (!isString(sourceDir)) {
+    throw new TypeError("'sourceDir' must be a path");
   }
-
-  const userDataPath = window.SignalContext.getPath('userData');
+  if (!isString(targetDir)) {
+    throw new TypeError("'targetDir' must be a path");
+  }
 
   return async (
     sourcePath: string
@@ -75,7 +82,7 @@ export const copyIntoAttachmentsDirectory = (
       throw new TypeError('sourcePath must be a string');
     }
 
-    if (!isPathInside(sourcePath, userDataPath)) {
+    if (!isPathInside(sourcePath, sourceDir)) {
       throw new Error(
         "'sourcePath' must be relative to the user config directory"
       );
@@ -83,9 +90,9 @@ export const copyIntoAttachmentsDirectory = (
 
     const name = createName();
     const relativePath = getRelativePath(name);
-    const absolutePath = join(root, relativePath);
+    const absolutePath = join(targetDir, relativePath);
     const normalized = normalize(absolutePath);
-    if (!isPathInside(normalized, root)) {
+    if (!isPathInside(normalized, targetDir)) {
       throw new Error('Invalid relative path');
     }
 
@@ -260,7 +267,11 @@ export const saveAttachmentToDisk = async ({
     }
     filePath = dialogFilePath;
   } else {
-    filePath = join(baseDir, name);
+    filePath = join(baseDir, basename(name));
+
+    if (!isPathInside(filePath, baseDir)) {
+      throw new Error('Invalid attachment path');
+    }
   }
 
   await writeWithAttributes(filePath, data);

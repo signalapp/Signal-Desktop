@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { CollidingAvatars } from '../../components/CollidingAvatars';
-import { getIntl } from '../selectors/user';
-import { getConversationSelector } from '../selectors/conversations';
+import { CollidingAvatars } from '../../components/CollidingAvatars.js';
+import { getIntl } from '../selectors/user.js';
+import { getConversationSelector } from '../selectors/conversations.js';
 
 export type PropsType = Readonly<{
   conversationIds: ReadonlyArray<string>;

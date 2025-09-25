@@ -11,14 +11,15 @@ import {
   callIdFromRingId,
   RingUpdate,
 } from '@signalapp/ringrtc';
-import { isEqual } from 'lodash';
-import { strictAssert } from './assert';
-import { DataReader, DataWriter } from '../sql/Client';
-import { SignalService as Proto } from '../protobuf';
-import { bytesToUuid, uuidToBytes } from './uuidToBytes';
-import { missingCaseError } from './missingCaseError';
-import { generateMessageId } from './generateMessageId';
-import { CallEndedReason, GroupCallJoinState } from '../types/Calling';
+import { ContentHint } from '@signalapp/libsignal-client';
+import lodash from 'lodash';
+import { strictAssert } from './assert.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { bytesToUuid, uuidToBytes } from './uuidToBytes.js';
+import { missingCaseError } from './missingCaseError.js';
+import { generateMessageId } from './generateMessageId.js';
+import { CallEndedReason, GroupCallJoinState } from '../types/Calling.js';
 import {
   CallMode,
   DirectCallStatus,
@@ -36,20 +37,20 @@ import {
   callLogEventNormalizeSchema,
   CallLogEvent,
   ClearCallHistoryResult,
-} from '../types/CallDisposition';
-import type { AciString } from '../types/ServiceId';
-import { isAciString } from './isAciString';
-import { isMe } from './whatTypeOfConversation';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { incrementMessageCounter } from './incrementMessageCounter';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus';
-import { canConversationBeUnarchived } from './canConversationBeUnarchived';
-import type { ConversationAttributesType } from '../model-types';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import MessageSender from '../textsecure/SendMessage';
-import * as Bytes from '../Bytes';
+} from '../types/CallDisposition.js';
+import type { AciString } from '../types/ServiceId.js';
+import { isAciString } from './isAciString.js';
+import { isMe } from './whatTypeOfConversation.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { incrementMessageCounter } from './incrementMessageCounter.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus.js';
+import { canConversationBeUnarchived } from './canConversationBeUnarchived.js';
+import type { ConversationAttributesType } from '../model-types.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import MessageSender from '../textsecure/SendMessage.js';
+import * as Bytes from '../Bytes.js';
 import type {
   CallDetails,
   CallEvent,
@@ -59,17 +60,19 @@ import type {
   CallLogEventDetails,
   CallStatus,
   GroupCallMeta,
-} from '../types/CallDisposition';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ConversationModel } from '../models/conversations';
-import { drop } from './drop';
-import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
-import { storageServiceUploadJob } from '../services/storage';
-import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager';
-import { parsePartial, parseStrict } from './schemas';
-import { calling } from '../services/calling';
-import { cleanupMessages } from './cleanup';
-import { MessageModel } from '../models/messages';
+} from '../types/CallDisposition.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ConversationModel } from '../models/conversations.js';
+import { drop } from './drop.js';
+import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync.js';
+import { storageServiceUploadJob } from '../services/storage.js';
+import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager.js';
+import { parsePartial, parseStrict } from './schemas.js';
+import { calling } from '../services/calling.js';
+import { cleanupMessages } from './cleanup.js';
+import { MessageModel } from '../models/messages.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('callDisposition');
 
@@ -144,7 +147,7 @@ export function getCallIdFromEra(eraId: string): string {
   return Long.fromValue(callIdFromEra(eraId)).toString();
 }
 
-export function getCreatorAci(creator: Buffer): AciString {
+export function getCreatorAci(creator: Uint8Array): AciString {
   const aci = bytesToUuid(creator);
   strictAssert(aci != null, 'creator uuid buffer was not a valid uuid');
   strictAssert(isAciString(aci), 'creator uuid buffer was not a valid aci');
@@ -1305,10 +1308,8 @@ async function updateRemoteCallHistory(
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1468,11 +1469,9 @@ export async function markAllCallHistoryReadAndSync(
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     log.info('markAllCallHistoryReadAndSync: Queueing sync message');
     await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(

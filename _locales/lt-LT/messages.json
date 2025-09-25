@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Ištrinti pokalbį?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių."
   },
@@ -1369,6 +1366,12 @@
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Pasirinkite pokalbius, kuriuos norite rodyti šiame aplanke."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 pokalbiai"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Grupės pokalbiai"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Pridėti pokalbių"
@@ -2062,6 +2065,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Atsisiųsti nepavyko"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Nepavyko atsisiųsti priedo iš atsarginės kopijos"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaguoti galima ne vėliau kaip per 24 val. nuo šios žinutės išsiuntimo."
@@ -3528,13 +3534,13 @@
     "messageformat": "Bandykite dar kartą arba susisiekite su palaikymu."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Įvyko nenumatyta klaida"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Pateikti derinimo žurnalą"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, ačiū"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Gerai"
@@ -4442,11 +4448,8 @@
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
-  "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "Bendrinama medija"
-  },
-  "icu:ConversationDetailsMediaList--show-all": {
-    "messageformat": "Rodyti visus"
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Įrašai, nuorodos ir failai"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5268,10 +5271,10 @@
     "messageformat": "Pavyzdžiui, :-) bus konvertuotas į <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Laikyti nutildytus pokalbius suarchyvuotus"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Suarchyvuoti nutildyti pokalbiai gavus naują žinutę liks suarchyvuoti."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Išplėstiniai"
@@ -5283,7 +5286,7 @@
     "messageformat": "Užblokuota"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "„Signal“ atsarginės kopijos"
+    "messageformat": "„Signal“ saugiosios atsarginės kopijos"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatinės atsarginės kopijos naudojant „Signal“ saugią, užšifruotą saugyklos paslaugą. Pradėkite naudotis savo telefone. <learnMoreLink>Sužinoti daugiau</learnMoreLink>."
@@ -5298,7 +5301,7 @@
     "messageformat": "Žinučių ir visų įrašų atsarginė kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ atsargines kopijas."
+    "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ saugiąsias atsargines kopijas."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} few {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija} many {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} other {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija}}"
@@ -5316,13 +5319,13 @@
     "messageformat": "Prenumerata nutraukta"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Telefone galite tvarkyti savo „Signal“ atsarginių kopijų prenumeratą arba jos atsisakyti."
+    "messageformat": "Telefone galite tvarkyti arba atšaukti savo „Signal“ saugiųjų atsarginių kopijų prenumeratą."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Savo telefone galite tvarkyti arba atnaujinti „Signal“ atsargines kopijas."
+    "messageformat": "Savo telefone galite tvarkyti arba atnaujinti „Signal“ saugiąsias atsargines kopijas."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Telefone galite tvarkyti arba atnaujinti savo „Signal“ atsarginių kopijų prenumeratą."
+    "messageformat": "Telefone galite tvarkyti arba atnaujinti savo „Signal“ saugiųjų atsarginių kopijų prenumeratą."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Paskutinė atsarginė kopija"
@@ -6655,10 +6658,10 @@
     "messageformat": "Mano palaikymas"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} vienkartinė"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Parama apdorojama..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Skirti {formattedCurrencyAmount} paramą"
@@ -6672,11 +6675,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>„Signal“ nerenka ir nesaugo jokios jūsų asmeninės informacijos, kai skiriate paramą.</paragraph><paragraph>Jūsų paramai gauti kaip mokėjimų tvarkytoją naudojame „Stripe“. Mes nepasiekiame, nelaikome ir neišsaugome jokios jūsų jiems pateiktos informacijos.</paragraph><paragraph>„Signal“ nesusieja ir negali susieti jūsų paramos su jūsų „Signal“ paskyra.</paragraph><paragraph>Dėkojame už jūsų paramą!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Gerai"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitai"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Žiūrėti informaciją apie kvitą"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "DUK apie paramą"
+    "messageformat": "Rėmėjų DUK"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kvitai nesinchronizuojami skirtinguose įrenginiuose. Jei įdiegėte „Signal“ iš naujo, anksčiau skirtos paramos kvitai nebus prieinami."
@@ -6720,6 +6729,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Galiojimo data"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Skirti „Signal“ {formattedCurrencyAmount} paramą"
   },
@@ -6741,6 +6753,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Gaukite „Signal“ rėmėjo ženklelį 30 dienų"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Mažiausia paramos suma yra {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Mažiausia paramos suma, kurią gali skirti: {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Didžiausia paramos suma yra {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Išėjus iš šio puslapio, jūsų kredito kortelės informacija bus pašalinta. Ar norite tęsti?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Pašalinti informaciją"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Tęsti"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Paramos kvitas"
   },
@@ -6760,7 +6790,7 @@
     "messageformat": "Dėkojame, kad remiate „Signal“. Jūsų įnašas padeda skatinti misiją apsaugoti žodžio laisvę ir įgalinti saugų bendravimą milijonams žmonių visame pasaulyje dėl atvirojo kodo privatumo technologijos. Jei gyvenate Jungtinėse Valstijose, išsaugokite šį kvitą, kad turėtumėte jį savo mokestinių duomenų reikmėms. „Signal Technology Foundation“ yra Jungtinėse Valstijose įsteigta pelno nesiekianti organizacija, atleista nuo mokesčių pagal Vidaus mokesčių kodekso skirsnį 501c3. Mūsų federalinis mokesčių mokėtojo kodas: 82–4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Esate neprisijungęs. Norėdami užbaigti paramos teikimą, prisijunkite prie interneto."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Parama atšaukta"
@@ -6782,6 +6812,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jūsų parama yra apdorojama ir ją reikia patvirtinti."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "Norėdami atnaujinti ženklelių nustatymus mobiliajame įrenginyje, eikite į Nustatymai → Paremti „Signal“ → Ženkleliai."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Paramos skyrimas nutrauktas"
@@ -6811,13 +6850,13 @@
     "messageformat": "Jūsų parama galėjo būti neapdorota. Norėdami patikrinti kvitus ir patvirtinti, spustelėkite „Paremti „Signal“, o tada – „Paramos kvitai“."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Bandykite dar kartą arba pateikite derinimo žurnalą palaikymo komandai, kad gautumėte pagalbos užbaigti paramos skyrimą. Derinimo žurnalai padeda mums diagnozuoti ir išspręsti problemą, juose nėra identifikavimo informacijos."
   },
   "icu:Donations__Processing": {
     "messageformat": "Parama apdorojama..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Parama vis dar apdorojama"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Jūsų parama vis dar apdorojama. Tai gali šiek tiek užtrukti."
@@ -6845,6 +6884,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Atšaukti paramą"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Ačiū tau už palaikymą!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Tu pelnei „Signal“ rėmėjo ženklelį! Užsidėk jį ant savo profilio ir parodyk palaikymą."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Rodyti profilyje"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Tai galite koreguoti savo mobiliajame įrenginyje, pasirinkę „Nustatymai“ → „Paremti „Signal“ → „Ženkleliai“"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -6874,16 +6925,7 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Patobulinome perskaitytų ir neperskaitytų žinučių patirtį atliekant kelias užduotis vienu metu."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Ištaisėme jaustukų paieškos laukelio klaidą."
-  },
-  "icu:WhatsNew__v7.66--0": {
-    "messageformat": "Kelių nedidelių klaidų pataisymai."
-  },
-  "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

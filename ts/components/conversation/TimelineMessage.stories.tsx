@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { isBoolean, noop } from 'lodash';
+import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import { SignalService } from '../../protobuf';
-import { ConversationColors } from '../../types/Colors';
-import { EmojiPicker } from '../emoji/EmojiPicker';
-import type { AudioAttachmentProps } from './Message';
-import type { Props } from './TimelineMessage';
-import { TimelineMessage } from './TimelineMessage';
-import { GiftBadgeStates, TextDirection } from './Message';
+import { SignalService } from '../../protobuf/index.js';
+import { ConversationColors } from '../../types/Colors.js';
+import { EmojiPicker } from '../emoji/EmojiPicker.js';
+import type { AudioAttachmentProps } from './Message.js';
+import type { Props } from './TimelineMessage.js';
+import { TimelineMessage } from './TimelineMessage.js';
+import { GiftBadgeStates, TextDirection } from './Message.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -23,26 +23,29 @@ import {
   LONG_MESSAGE,
   stringToMIMEType,
   IMAGE_GIF,
-} from '../../types/MIME';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { MessageAudio } from './MessageAudio';
-import { computePeaks } from '../VoiceNotesPlaybackContext';
-import { pngUrl } from '../../storybook/Fixtures';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { WidthBreakpoint } from '../_util';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
-import { ContactFormType } from '../../types/EmbeddedContact';
-import { generateAci } from '../../types/ServiceId';
+  VIDEO_QUICKTIME,
+} from '../../types/MIME.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { MessageAudio } from './MessageAudio.js';
+import { computePeaks } from '../VoiceNotesPlaybackContext.js';
+import { pngUrl } from '../../storybook/Fixtures.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { WidthBreakpoint } from '../_util.js';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.js';
+import { ContactFormType } from '../../types/EmbeddedContact.js';
+import { generateAci } from '../../types/ServiceId.js';
 
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../../test-helpers/fakeAttachment';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge';
-import { ThemeType } from '../../types/Util';
-import { BadgeCategory } from '../../badges/BadgeCategory';
-import { PaymentEventKind } from '../../types/Payment';
-import { EmojiSkinTone } from '../fun/data/emojis';
+} from '../../test-helpers/fakeAttachment.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
+import { ThemeType } from '../../types/Util.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.js';
+import { PaymentEventKind } from '../../types/Payment.js';
+import { EmojiSkinTone } from '../fun/data/emojis.js';
+
+const { isBoolean, noop } = lodash;
 
 const { i18n } = window.SignalContext;
 
@@ -346,7 +349,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showAttachmentDownloadStillInProgressToast: action(
     'showAttachmentDownloadStillInProgressToast'
   ),
-  showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
@@ -2809,6 +2811,24 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
     ],
     status: 'sent',
   });
+  const undisplayableVideo = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_QUICKTIME,
+        fileName: 'bird.mov',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+        isPermanentlyUndownloadable: true,
+      }),
+    ],
+    status: 'sent',
+  });
+
   const multipleImagesProps = createProps({
     attachments: [
       fakeAttachment({
@@ -2822,6 +2842,32 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         id: undefined,
         error: true,
         isPermanentlyUndownloadable: true,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+        isPermanentlyUndownloadable: true,
+      }),
+    ],
+    status: 'sent',
+  });
+  const multipleImagesSomeUndownloadableProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 296,
+        height: 394,
+        isPermanentlyUndownloadable: false,
       }),
       fakeAttachment({
         contentType: IMAGE_JPEG,
@@ -2947,9 +2993,11 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
   return (
     <>
       <TimelineMessage {...imageProps} shouldCollapseAbove />
+      <TimelineMessage {...undisplayableVideo} />
       <TimelineMessage {...gifProps} />
       <TimelineMessage {...videoProps} />
       <TimelineMessage {...multipleImagesProps} />
+      <TimelineMessage {...multipleImagesSomeUndownloadableProps} />
       <TimelineMessage {...stickerProps} />
       <TimelineMessage {...textFileProps} />
       <TimelineMessage {...textFileWithCaptionProps} />

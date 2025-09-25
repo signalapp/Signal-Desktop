@@ -8,7 +8,7 @@ import type {
 } from 'react';
 import React, { forwardRef, useCallback, useEffect, useMemo } from 'react';
 import { mergeProps } from '@react-aria/utils';
-import { strictAssert } from '../../../util/assert';
+import { strictAssert } from '../../../util/assert.js';
 
 /**
  * Button

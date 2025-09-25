@@ -1,47 +1,49 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
+import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Errors from '../../types/errors';
-import { strictAssert } from '../../util/assert';
-import { repeat, zipObject } from '../../util/iterables';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import { MessageModel } from '../../models/messages';
-import type { MessageReactionType } from '../../model-types.d';
-import type { ConversationModel } from '../../models/conversations';
+import * as Errors from '../../types/errors.js';
+import { strictAssert } from '../../util/assert.js';
+import { repeat, zipObject } from '../../util/iterables.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import { MessageModel } from '../../models/messages.js';
+import type { MessageReactionType } from '../../model-types.d.ts';
+import type { ConversationModel } from '../../models/conversations.js';
 
-import * as reactionUtil from '../../reactions/util';
-import { isSent, SendStatus } from '../../messages/MessageSendState';
-import { getMessageById } from '../../messages/getMessageById';
-import { isIncoming } from '../../messages/helpers';
+import * as reactionUtil from '../../reactions/util.js';
+import { isSent, SendStatus } from '../../messages/MessageSendState.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { isIncoming } from '../../messages/helpers.js';
 import {
   isMe,
   isDirectConversation,
   isGroupV2,
-} from '../../util/whatTypeOfConversation';
-import { getSendOptions } from '../../util/getSendOptions';
-import { SignalService as Proto } from '../../protobuf';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { canReact, isStory } from '../../state/selectors/message';
-import { findAndFormatContact } from '../../util/findAndFormatContact';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { isAciString } from '../../util/isAciString';
-import { handleMultipleSendErrors } from './handleMultipleSendErrors';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter';
-import { generateMessageId } from '../../util/generateMessageId';
+} from '../../util/whatTypeOfConversation.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+import { canReact, isStory } from '../../state/selectors/message.js';
+import { findAndFormatContact } from '../../util/findAndFormatContact.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+import { isAciString } from '../../util/isAciString.js';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
+import { generateMessageId } from '../../util/generateMessageId.js';
 
 import type {
   ConversationQueueJobBundle,
   ReactionJobData,
-} from '../conversationJobQueue';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import type { LoggerType } from '../../types/Logging';
-import { sendToGroup } from '../../util/sendToGroup';
-import { hydrateStoryContext } from '../../util/hydrateStoryContext';
-import { send, sendSyncMessageOnly } from '../../messages/send';
+} from '../conversationJobQueue.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import type { LoggerType } from '../../types/Logging.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
+import { hydrateStoryContext } from '../../util/hydrateStoryContext.js';
+import { send, sendSyncMessageOnly } from '../../messages/send.js';
+
+const { isNumber } = lodash;
 
 export async function sendReaction(
   conversation: ConversationModel,
@@ -211,7 +213,6 @@ export async function sendReaction(
       successfulConversationIds.add(ourConversationId);
     } else {
       const sendOptions = await getSendOptions(conversation.attributes);
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let promise: Promise<CallbackResultType>;
       if (isDirectConversation(conversation.attributes)) {
@@ -250,7 +251,7 @@ export async function sendReaction(
           timestamp: pendingReaction.timestamp,
           expireTimer,
           expireTimerVersion: conversation.getExpireTimerVersion(),
-          contentHint: ContentHint.RESENDABLE,
+          contentHint: ContentHint.Resendable,
           groupId: undefined,
           profileKey,
           options: sendOptions,
@@ -276,7 +277,7 @@ export async function sendReaction(
 
             return sendToGroup({
               abortSignal,
-              contentHint: ContentHint.RESENDABLE,
+              contentHint: ContentHint.Resendable,
               groupSendOptions: {
                 groupV2: groupV2Info,
                 reaction: reactionForSend,

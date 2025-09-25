@@ -1,21 +1,20 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const assert = require('assert');
-const fs = require('fs');
-const { join } = require('path');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const { join } = require('node:path');
 const pMap = require('p-map');
 const prettier = require('prettier');
+
+const { default: packageJson } = require('./packageJson.js');
 
 // During development, you might use local versions of dependencies which are missing
 // acknowledgment files. In this case we'll skip rebuilding the acknowledgment files.
 // Enable this flag to throw an error.
 const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
 
-const {
-  dependencies = {},
-  optionalDependencies = {},
-} = require('../package.json');
+const { dependencies = {}, optionalDependencies = {} } = packageJson;
 
 const SIGNAL_LIBS = ['@signalapp/libsignal-client', '@signalapp/ringrtc'];
 

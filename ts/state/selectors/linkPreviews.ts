@@ -3,8 +3,8 @@
 
 import { createSelector } from 'reselect';
 
-import type { LinkPreviewSourceType } from '../../types/LinkPreview';
-import type { StateType } from '../reducer';
+import type { LinkPreviewSourceType } from '../../types/LinkPreview.js';
+import type { StateType } from '../reducer.js';
 
 export const getLinkPreview = createSelector(
   ({ linkPreviews }: StateType) => linkPreviews,

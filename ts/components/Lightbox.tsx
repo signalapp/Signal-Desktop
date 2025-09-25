@@ -5,36 +5,38 @@ import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
-} from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
-import type { MediaItemType } from '../types/MediaItem';
-import * as GoogleChrome from '../util/GoogleChrome';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { Avatar, AvatarSize } from './Avatar';
-import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
-import { formatDateTimeForAttachment } from '../util/timestamp';
-import { formatDuration } from '../util/formatDuration';
-import { isGIF, isIncremental } from '../types/Attachment';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
-import { usePrevious } from '../hooks/usePrevious';
-import { arrow } from '../util/keyboard';
-import { drop } from '../util/drop';
-import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
-import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
-import { ForwardMessagesModalType } from './ForwardMessagesModal';
-import { useReducedMotion } from '../hooks/useReducedMotion';
-import { formatFileSize } from '../util/formatFileSize';
-import { SECOND } from '../util/durations';
-import { Toast } from './Toast';
-import { isAbortError } from '../util/isAbortError';
+} from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { MediaItemType } from '../types/MediaItem.js';
+import * as GoogleChrome from '../util/GoogleChrome.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { IMAGE_PNG, isImage, isVideo } from '../types/MIME.js';
+import { formatDateTimeForAttachment } from '../util/timestamp.js';
+import { formatDuration } from '../util/formatDuration.js';
+import { isGIF, isIncremental } from '../types/Attachment.js';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { arrow } from '../util/keyboard.js';
+import { drop } from '../util/drop.js';
+import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.js';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals.js';
+import { ForwardMessagesModalType } from './ForwardMessagesModal.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { formatFileSize } from '../util/formatFileSize.js';
+import { SECOND } from '../util/durations/index.js';
+import { Toast } from './Toast.js';
+import { isAbortError } from '../util/isAbortError.js';
+
+const { noop } = lodash;
 
 const log = createLogger('Lightbox');
 
@@ -140,13 +142,10 @@ export function Lightbox({
   >();
 
   const currentItem = media[selectedIndex];
-  const {
-    attachment,
-    contentType,
-    loop = false,
-    objectURL,
-    incrementalObjectUrl,
-  } = currentItem || {};
+  const attachment = currentItem?.attachment;
+  const url = attachment?.url;
+  const incrementalUrl = attachment?.incrementalUrl;
+  const contentType = attachment?.contentType;
 
   const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
   const isDownloading =
@@ -599,7 +598,7 @@ export function Lightbox({
       !isVideoTypeSupported && isVideo(contentType);
 
     if (isImageTypeSupported) {
-      if (objectURL) {
+      if (url) {
         content = (
           <div className="Lightbox__zoomable-container">
             <button
@@ -621,7 +620,7 @@ export function Lightbox({
                     ev.preventDefault();
                   }
                 }}
-                src={objectURL}
+                src={url}
                 ref={imageRef}
               />
             </button>
@@ -642,19 +641,19 @@ export function Lightbox({
         );
       }
     } else if (isVideoTypeSupported) {
-      const shouldLoop = loop || isAttachmentGIF || isViewOnce;
+      const shouldLoop = isAttachmentGIF || isViewOnce;
 
       content = (
         <video
           className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}
-          key={objectURL || incrementalObjectUrl}
+          key={url || incrementalUrl}
           loop={shouldLoop}
           ref={setVideoElement}
           onMouseMove={onUserInteractionOnVideo}
           onMouseLeave={onMouseLeaveVideo}
         >
-          <source src={objectURL || incrementalObjectUrl} />
+          <source src={url || incrementalUrl} />
         </video>
       );
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
@@ -834,7 +833,7 @@ export function Lightbox({
                             'Lightbox__thumbnail--selected':
                               index === selectedIndex,
                           })}
-                          key={item.thumbnailObjectUrl}
+                          key={item.attachment.thumbnail?.url}
                           type="button"
                           onClick={(
                             event: React.MouseEvent<
@@ -848,10 +847,10 @@ export function Lightbox({
                             onSelectAttachment(index);
                           }}
                         >
-                          {item.thumbnailObjectUrl ? (
+                          {item.attachment.thumbnail?.url ? (
                             <img
                               alt={i18n('icu:lightboxImageAlt')}
-                              src={item.thumbnailObjectUrl}
+                              src={item.attachment.thumbnail.url}
                             />
                           ) : (
                             <div className="Lightbox__thumbnail--unavailable" />

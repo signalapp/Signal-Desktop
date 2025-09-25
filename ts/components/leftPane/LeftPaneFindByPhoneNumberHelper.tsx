@@ -4,22 +4,22 @@
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import { SearchInput } from '../SearchInput';
-import type { LocalizerType } from '../../types/Util';
-import type { ShowConversationType } from '../../state/ducks/conversations';
-import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState';
-import type { CountryDataType } from '../../util/getCountryData';
-import { isFetchingByE164 } from '../../util/uuidFetchState';
-import { drop } from '../../util/drop';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
-import { Spinner } from '../Spinner';
-import { Button } from '../Button';
-import { CountryCodeSelect } from '../CountryCodeSelect';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import { SearchInput } from '../SearchInput.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { ShowConversationType } from '../../state/ducks/conversations.js';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
+import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance.js';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.js';
+import type { CountryDataType } from '../../util/getCountryData.js';
+import { isFetchingByE164 } from '../../util/uuidFetchState.js';
+import { drop } from '../../util/drop.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
+import { Spinner } from '../Spinner.js';
+import { Button } from '../Button.js';
+import { CountryCodeSelect } from '../CountryCodeSelect.js';
 
 export type LeftPaneFindByPhoneNumberPropsType = {
   searchTerm: string;
