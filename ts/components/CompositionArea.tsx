@@ -180,7 +180,10 @@ export type OwnProps = Readonly<{
   quotedMessageAuthorAci: AciString | null;
   quotedMessageSentAt: number | null;
 
-  removeAttachment: (conversationId: string, filePath: string) => unknown;
+  removeAttachment: (
+    conversationId: string,
+    attachment: AttachmentDraftType
+  ) => unknown;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   setComposerFocus: (conversationId: string) => unknown;
   setMessageToEdit(conversationId: string, messageId: string): unknown;
@@ -1172,9 +1175,7 @@ export const CompositionArea = memo(function CompositionArea({
               onClickAttachment={maybeEditAttachment}
               onClose={() => onClearAttachments(conversationId)}
               onCloseAttachment={attachment => {
-                if (attachment.path) {
-                  removeAttachment(conversationId, attachment.path);
-                }
+                removeAttachment(conversationId, attachment);
               }}
             />
           </div>

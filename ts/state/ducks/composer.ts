@@ -5,7 +5,6 @@ import path from 'node:path';
 import lodash from 'lodash';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
-import { webUtils } from 'electron';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -1036,7 +1035,10 @@ function processAttachments({
     const nextDraftAttachments = (
       conversation.get('draftAttachments') || []
     ).slice();
-    const filesToProcess: Array<File> = [];
+    const filesToProcess: Array<{
+      file: File;
+      pendingAttachment: AttachmentDraftType;
+    }> = [];
     for (let i = 0; i < files.length; i += 1) {
       const file = files[i];
       const processingResult = preProcessAttachment(file, nextDraftAttachments);
@@ -1050,7 +1052,7 @@ function processAttachments({
             getState,
             undefined
           );
-          filesToProcess.push(file);
+          filesToProcess.push({ file, pendingAttachment });
           // we keep a running count of the draft attachments so we can show a
           // toast in case we add too many attachments at once
           nextDraftAttachments.push(pendingAttachment);
@@ -1062,14 +1064,14 @@ function processAttachments({
 
     try {
       await Promise.all(
-        filesToProcess.map(async file => {
+        filesToProcess.map(async ({ file, pendingAttachment }) => {
           try {
             const attachment = await processAttachment(file, {
               generateScreenshot: true,
               flags,
             });
             if (!attachment) {
-              removeAttachment(conversationId, webUtils.getPathForFile(file))(
+              removeAttachment(conversationId, pendingAttachment)(
                 dispatch,
                 getState,
                 undefined
@@ -1086,7 +1088,7 @@ function processAttachments({
               'handleAttachmentsProcessing: failed to process attachment:',
               err.stack
             );
-            removeAttachment(conversationId, webUtils.getPathForFile(file))(
+            removeAttachment(conversationId, pendingAttachment)(
               dispatch,
               getState,
               undefined
@@ -1183,7 +1185,7 @@ function getPendingAttachment(file: File): AttachmentDraftType | undefined {
 
 function removeAttachment(
   conversationId: string,
-  filePath: string
+  draft: AttachmentDraftType
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
   return async (dispatch, getState) => {
     const state = getState();
@@ -1193,16 +1195,21 @@ function removeAttachment(
       conversationId
     );
 
-    const [targetAttachment] = attachments.filter(
-      attachment => attachment.path === filePath
-    );
-    if (!targetAttachment) {
+    const targetAttachmentIndex = attachments.findIndex(attachment => {
+      return (
+        (attachment.clientUuid != null &&
+          attachment.clientUuid === draft.clientUuid) ||
+        (attachment.path != null && attachment.path === draft.path)
+      );
+    });
+    if (targetAttachmentIndex === -1) {
       return;
     }
 
-    const nextAttachments = attachments.filter(
-      attachment => attachment.path !== filePath
-    );
+    const targetAttachment = attachments[targetAttachmentIndex];
+    const nextAttachments = attachments
+      .slice(0, targetAttachmentIndex)
+      .concat(attachments.slice(targetAttachmentIndex + 1));
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
