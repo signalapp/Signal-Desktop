@@ -44,7 +44,7 @@ export function addGlobalKeyboardShortcuts(): void {
       return;
     }
 
-    // Super tab :)
+    // Super tab :(
     if (
       (commandOrCtrl && key === 'F6') ||
       (commandOrCtrl && !shiftKey && (key === 't' || key === 'T'))
@@ -57,10 +57,7 @@ export function addGlobalKeyboardShortcuts(): void {
       const focusedIndexes: Array<number> = [];
 
       targets.forEach((target, index) => {
-        if (
-          (focusedElement != null && target === focusedElement) ||
-          target.contains(focusedElement)
-        ) {
+        if (target.contains(focusedElement)) {
           focusedIndexes.push(index);
         }
       });
@@ -78,20 +75,13 @@ export function addGlobalKeyboardShortcuts(): void {
       const focusedIndex = focusedIndexes.at(-1) ?? -1;
 
       const lastIndex = targets.length - 1;
-      const increment = shiftKey ? -1 : 1;
 
-      let index;
-      if (focusedIndex < 0 || focusedIndex >= lastIndex) {
-        index = 0;
+      let index: number | undefined;
+      if (focusedIndex < 0) {
+        index = shiftKey ? lastIndex : 0;
       } else {
-        index = focusedIndex + increment;
-      }
-
-      while (!targets[index]) {
-        index += increment;
-        if (index > lastIndex || index < 0) {
-          index = 0;
-        }
+        const increment = shiftKey ? lastIndex : 1;
+        index = (focusedIndex + increment) % targets.length;
       }
 
       const node = targets[index];
@@ -100,12 +90,15 @@ export function addGlobalKeyboardShortcuts(): void {
       if (firstFocusableElement) {
         firstFocusableElement.focus();
       } else {
-        const nodeInfo = Array.from(node.attributes)
-          .map(attr => `${attr.name}=${attr.value}`)
-          .join(',');
-        log.warn(
-          `supertab: could not find focus for DOM node ${node.nodeName}<${nodeInfo}>`
-        );
+        if (node) {
+          const nodeInfo = Array.from(node.attributes)
+            .map(attr => `${attr.name}=${attr.value}`)
+            .join(',');
+          log.warn(
+            `supertab: could not find focus for DOM node ${node.nodeName}<${nodeInfo}>`
+          );
+        }
+
         window.enterMouseMode();
         const { activeElement } = document;
         if (
