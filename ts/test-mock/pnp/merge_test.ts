@@ -527,35 +527,22 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 1, 'message count');
     }
 
-    debug('Find and open e164 conversation');
+    debug('Search for phone number, see that nothing comes up');
     const searchBox = window.locator(
       '.module-SearchInput__input.LeftPaneSearchInput__input'
     );
 
     await typeIntoInput(searchBox, aciContact.device.number, '');
+
     const firstSearchResult = await window.locator(
-      '.module-contact-name.module-conversation-list__item--contact-or-conversation__content__header__name__contact-name'
+      '.module-left-pane__no-search-results'
     );
     const firstSearchResultText = await firstSearchResult.innerText();
     assert.equal(
-      firstSearchResultText.slice(-4),
-      aciContact.device.number.slice(-4),
-      'no profile, just phone number'
+      firstSearchResultText,
+      `No results for "${aciContact.device.number}"`,
+      'found something unexpected for e164 search'
     );
-    await firstSearchResult.click();
-
-    debug('Wait for ACI conversation to go away');
-    await window
-      .locator(`.module-conversation-hero >> "${pniContact.profileName}"`)
-      .waitFor({
-        state: 'hidden',
-      });
-
-    debug('Verify absence of messages in the e164 conversation');
-    {
-      const messages = window.locator('.module-message__text');
-      assert.strictEqual(await messages.count(), 0, 'message count');
-    }
   });
 
   it('preserves expireTimerVersion after merge', async () => {
