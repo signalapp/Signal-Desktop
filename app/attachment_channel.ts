@@ -18,6 +18,7 @@ import { pipeline } from 'node:stream/promises';
 import z from 'zod';
 import GrowingFile from 'growing-file';
 import lodash from 'lodash';
+import { pathExists } from 'fs-extra';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
@@ -609,6 +610,22 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
   );
   if (!isPathInside(path, parentDir)) {
     return new Response('Access denied', { status: 401 });
+  }
+
+  // Some attachments have weak references (e.g. copied quotes) and we
+  // don't want to treat those attachments missing as an error
+  const weakReferenceParam = url.searchParams.get('weakReference');
+  if (weakReferenceParam != null) {
+    strictAssert(
+      disposition === 'attachment',
+      'Only attachments can have weak references'
+    );
+    const fileExists = await pathExists(path);
+    if (!fileExists) {
+      return new Response('Weakly referenced attachment does not exist', {
+        status: 404,
+      });
+    }
   }
 
   // Get attachment size to trim the padding
