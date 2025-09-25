@@ -444,7 +444,7 @@
       "mergeASARs": true,
       "releaseInfo": {
         "vendor": {
-          "minOSVersion": "20.0.0"
+          "minOSVersion": "21.0.0"
         }
       },
       "sign": "./ts/scripts/sign-macos.js",
