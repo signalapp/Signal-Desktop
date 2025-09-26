@@ -99,14 +99,14 @@ export const SmartCompositionRecordingDraft = memo(
 
     const handleCancel = useCallback(() => {
       unloadMessageAudio();
-      if (selectedConversationId && voiceNoteAttachment.path) {
-        removeAttachment(selectedConversationId, voiceNoteAttachment.path);
+      if (selectedConversationId) {
+        removeAttachment(selectedConversationId, voiceNoteAttachment);
       }
     }, [
       removeAttachment,
       selectedConversationId,
       unloadMessageAudio,
-      voiceNoteAttachment.path,
+      voiceNoteAttachment,
     ]);
 
     const handleScrub = useCallback(
