@@ -35,6 +35,7 @@ export function getLocalAttachmentUrl(
       | 'path'
       | 'size'
       | 'version'
+      | 'copied'
     >
   >,
   {
@@ -104,6 +105,11 @@ export function getLocalAttachmentUrl(
       );
     }
     url.searchParams.set('chunkSize', attachment.chunkSize.toString());
+  }
+
+  // For weak references (e.g. copied quotes) don't error if path is missing
+  if (attachment.copied) {
+    url.searchParams.set('weakReference', '1');
   }
 
   return url.toString();
