@@ -96,10 +96,9 @@ import { isPaymentNotificationEvent } from '../../types/Payment.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
 import { getPaymentEventDescription } from '../../messages/helpers.js';
 import { PanelType } from '../../types/Panels.js';
-import {
-  type PollMessageAttribute,
-  isPollReceiveEnabled,
-} from '../../types/Polls.js';
+import { isPollReceiveEnabled } from '../../types/Polls.js';
+import type { PollWithResolvedVotersType } from '../../state/selectors/message.js';
+import { PollMessageContents } from './poll-message/PollMessageContents.js';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
 import { RenderLocation } from './MessageTextRenderer.js';
 import { UserText } from '../UserText.js';
@@ -307,7 +306,7 @@ export type PropsData = {
   attachments?: ReadonlyArray<AttachmentForUIType>;
   giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
-  poll?: PollMessageAttribute;
+  poll?: PollWithResolvedVotersType;
   quote?: {
     conversationColor: ConversationColorType;
     conversationTitle: string;
@@ -2082,19 +2081,12 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderPoll(): JSX.Element | null {
-    const { poll, direction } = this.props;
+    const { poll, direction, i18n } = this.props;
     if (!poll || !isPollReceiveEnabled()) {
       return null;
     }
     return (
-      <div
-        className={classNames(
-          'module-message__text',
-          `module-message__text--${direction}`
-        )}
-      >
-        <pre>{JSON.stringify(poll, null, 2)}</pre>
-      </div>
+      <PollMessageContents poll={poll} direction={direction} i18n={i18n} />
     );
   }
 
