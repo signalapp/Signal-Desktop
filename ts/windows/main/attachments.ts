@@ -291,11 +291,12 @@ export const getUnusedFilename = ({
   filename: string;
   baseDir?: string;
 }): string => {
-  if (baseDir == null || !existsSync(join(baseDir, filename))) {
-    return filename;
+  const { ext, name: mainFilename, base } = pathParse(filename);
+
+  if (baseDir == null || !existsSync(join(baseDir, base))) {
+    return base;
   }
 
-  const { ext, name: mainFilename } = pathParse(filename);
   for (let n = 1; n < GET_UNUSED_FILENAME_MAX_ATTEMPTS; n += 1) {
     const nextFilename = `${mainFilename}-${n}${ext}`;
     if (!existsSync(join(baseDir, nextFilename))) {
