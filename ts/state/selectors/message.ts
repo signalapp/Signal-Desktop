@@ -145,6 +145,7 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer.js';
 import { isSignalConversation } from '../../util/isSignalConversation.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
 import { isPaymentNotificationEvent } from '../../types/Payment.js';
+import type { PollMessageAttribute } from '../../types/Polls.js';
 import {
   getTitleNoDefault,
   getTitle,
@@ -474,6 +475,103 @@ const getReactionsForMessage = (
   return [...formattedReactions];
 };
 
+export type PollVoteWithUserType = {
+  optionIndexes: ReadonlyArray<number>;
+  timestamp: number;
+  isMe: boolean;
+  from: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarUrl'
+    | 'badges'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
+};
+
+export type PollWithResolvedVotersType = PollMessageAttribute & {
+  votesByOption: Map<number, ReadonlyArray<PollVoteWithUserType>>;
+  totalNumVotes: number;
+};
+
+const getPollForMessage = (
+  message: MessageWithUIFieldsType,
+  {
+    conversationSelector,
+    ourConversationId,
+  }: {
+    conversationSelector: GetConversationByIdType;
+    ourConversationId?: string;
+  }
+): PollWithResolvedVotersType | undefined => {
+  const { poll } = message;
+  if (!poll) {
+    return undefined;
+  }
+
+  if (!poll.votes || poll.votes.length === 0) {
+    return {
+      ...poll,
+      votesByOption: new Map(),
+      totalNumVotes: 0,
+    };
+  }
+
+  const resolvedVotes: ReadonlyArray<PollVoteWithUserType> = poll.votes.map(
+    vote => {
+      const voter = conversationSelector(vote.fromConversationId);
+
+      const from: PollVoteWithUserType['from'] = {
+        acceptedMessageRequest: voter.acceptedMessageRequest,
+        avatarUrl: voter.avatarUrl,
+        badges: voter.badges,
+        color: voter.color,
+        id: voter.id,
+        isMe: voter.isMe,
+        name: voter.name,
+        phoneNumber: voter.phoneNumber,
+        profileName: voter.profileName,
+        sharedGroupNames: voter.sharedGroupNames,
+        title: voter.title,
+      };
+
+      return {
+        optionIndexes: vote.optionIndexes,
+        timestamp: vote.timestamp,
+        isMe: voter.id === ourConversationId,
+        from,
+      };
+    }
+  );
+
+  const votesByOption = new Map<number, Array<PollVoteWithUserType>>();
+  let totalNumVotes = 0;
+
+  for (const vote of resolvedVotes) {
+    for (const optionIndex of vote.optionIndexes) {
+      if (!votesByOption.has(optionIndex)) {
+        votesByOption.set(optionIndex, []);
+      }
+      const votes = votesByOption.get(optionIndex);
+      strictAssert(!!votes, 'votes should exist');
+      votes.push(vote);
+      totalNumVotes += 1;
+    }
+  }
+
+  return {
+    ...poll,
+    votesByOption,
+    totalNumVotes,
+  };
+};
+
 const getPropsForStoryReplyContext = (
   message: Pick<
     MessageWithUIFieldsType,
@@ -782,7 +880,10 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
-    poll: message.poll,
+    poll: getPollForMessage(message, {
+      conversationSelector: options.conversationSelector,
+      ourConversationId,
+    }),
     id: message.id,
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),

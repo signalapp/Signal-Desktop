@@ -373,6 +373,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
   timestamp: overrideProps.timestamp ?? Date.now(),
   viewStory: action('viewStory'),
+  poll: overrideProps.poll,
 });
 
 const renderMany = (propsArray: ReadonlyArray<Props>) => (
@@ -1995,6 +1996,196 @@ AudioWithPendingAttachment.args = {
     }),
   ],
   status: 'sent',
+};
+
+// Poll Messages
+
+function createMockPollWithVotes(
+  question: string,
+  options: Array<string>,
+  allowMultiple: boolean,
+  votes?: Array<{
+    fromId: string;
+    optionIndexes: Array<number>;
+  }>,
+  terminatedAt?: number
+) {
+  const resolvedVotes =
+    votes?.map((vote, idx) => {
+      const name = vote.fromId === 'me' ? 'You' : vote.fromId;
+
+      return {
+        optionIndexes: vote.optionIndexes,
+        timestamp: Date.now() - (idx + 1) * 1000,
+        isMe: vote.fromId === 'me',
+        from: {
+          acceptedMessageRequest: true,
+          avatarUrl: undefined,
+          badges: [],
+          color: ConversationColors[idx % ConversationColors.length],
+          id: vote.fromId,
+          isMe: vote.fromId === 'me',
+          name,
+          phoneNumber: undefined,
+          profileName: undefined,
+          sharedGroupNames: [],
+          title: name,
+        },
+      };
+    }) || [];
+
+  const votesByOption = new Map();
+  let totalNumVotes = 0;
+
+  resolvedVotes.forEach(vote => {
+    vote.optionIndexes.forEach(index => {
+      if (!votesByOption.has(index)) {
+        votesByOption.set(index, []);
+      }
+      votesByOption.get(index).push(vote);
+      totalNumVotes += 1;
+    });
+  });
+
+  return {
+    question,
+    options,
+    allowMultiple,
+    votesByOption,
+    totalNumVotes,
+    terminatedAt,
+    votes: votes?.map(v => ({
+      fromConversationId: v.fromId,
+      optionIndexes: v.optionIndexes,
+      voteCount: 1,
+      timestamp: Date.now(),
+    })),
+  };
+}
+
+export const Poll = Template.bind({});
+Poll.args = {
+  conversationType: 'group',
+  poll: {
+    question: 'What should we have for lunch?',
+    options: ['Pizza 🍕', 'Sushi 🍱', 'Tacos 🌮', 'Salad 🥗'],
+    allowMultiple: false,
+    votesByOption: new Map(),
+    totalNumVotes: 0,
+  },
+  status: 'sent',
+};
+
+export const PollMultipleChoice = Template.bind({});
+PollMultipleChoice.args = {
+  conversationType: 'group',
+  poll: {
+    question: 'Which features would you like to see in the next update?',
+    options: ['Dark mode', 'Video calls', 'File sharing', 'Reactions', 'Polls'],
+    allowMultiple: true,
+    votesByOption: new Map(),
+    totalNumVotes: 0,
+  },
+  status: 'sent',
+};
+
+export const PollWithVotes = Template.bind({});
+PollWithVotes.args = {
+  conversationType: 'group',
+  poll: createMockPollWithVotes(
+    'Best day for the team meeting?',
+    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    false,
+    [
+      { fromId: 'alice', optionIndexes: [0] },
+      { fromId: 'user1', optionIndexes: [0] },
+      { fromId: 'user2', optionIndexes: [0] },
+      { fromId: 'bob', optionIndexes: [1] },
+      { fromId: 'user3', optionIndexes: [1] },
+      { fromId: 'charlie', optionIndexes: [2] },
+      { fromId: 'user4', optionIndexes: [2] },
+      { fromId: 'user5', optionIndexes: [2] },
+      { fromId: 'user6', optionIndexes: [2] },
+      { fromId: 'user7', optionIndexes: [2] },
+      { fromId: 'me', optionIndexes: [3] },
+    ]
+  ),
+  status: 'read',
+};
+
+export const PollTerminated = Template.bind({});
+PollTerminated.args = {
+  conversationType: 'group',
+  poll: createMockPollWithVotes(
+    'Quick poll: Coffee or tea?',
+    ['Coffee ☕', 'Tea 🍵'],
+    false,
+    [
+      { fromId: 'alice', optionIndexes: [0] },
+      { fromId: 'user1', optionIndexes: [0] },
+      { fromId: 'user2', optionIndexes: [0] },
+      { fromId: 'user3', optionIndexes: [0] },
+      { fromId: 'user4', optionIndexes: [0] },
+      { fromId: 'user5', optionIndexes: [0] },
+      { fromId: 'me', optionIndexes: [0] },
+      { fromId: 'bob', optionIndexes: [1] },
+      { fromId: 'user6', optionIndexes: [1] },
+      { fromId: 'user7', optionIndexes: [1] },
+      { fromId: 'user8', optionIndexes: [1] },
+    ],
+    Date.now() - 60000
+  ),
+  status: 'read',
+};
+
+export const PollLongText = Template.bind({});
+PollLongText.args = {
+  conversationType: 'group',
+  poll: createMockPollWithVotes(
+    'Given the current situation with remote work becoming more prevalent, what would be your preferred working arrangement for the future once everything stabilizes?',
+    [
+      'Fully remote with no requirement to come to office except for special team events or emergencies', // 96 chars
+      'Hybrid model with 2-3 days in office for collaboration and team meetings', // 72 chars
+      'Mostly office-based with occasional work from home days when really needed for personal appointments', // 100 chars (max!)
+      'Traditional full-time office presence with standard 9-5 schedule', // 64 chars
+      'Flexible arrangement based on project needs and deadlines', // 57 chars
+    ],
+    false,
+    [
+      { fromId: 'alice', optionIndexes: [0] },
+      { fromId: 'bob', optionIndexes: [1] },
+      { fromId: 'charlie', optionIndexes: [1] },
+      { fromId: 'me', optionIndexes: [2] },
+      { fromId: 'dana', optionIndexes: [2] },
+      { fromId: 'eve', optionIndexes: [3] },
+    ]
+  ),
+  status: 'sent',
+};
+
+export const PollMultipleChoiceWithVotes = Template.bind({});
+PollMultipleChoiceWithVotes.args = {
+  conversationType: 'group',
+  poll: createMockPollWithVotes(
+    'Which toppings do you want on the pizza?',
+    [
+      'Pepperoni',
+      'Mushrooms',
+      'Sausage',
+      'Bell Peppers',
+      'Olives',
+      'Extra Cheese',
+    ],
+    true,
+    [
+      { fromId: 'alice', optionIndexes: [0, 2, 5] }, // Pepperoni, Sausage, Extra Cheese
+      { fromId: 'bob', optionIndexes: [1, 3, 4] }, // Mushrooms, Bell Peppers, Olives
+      { fromId: 'charlie', optionIndexes: [0, 1] }, // Pepperoni, Mushrooms
+      { fromId: 'me', optionIndexes: [0, 3, 5] }, // Pepperoni, Bell Peppers, Extra Cheese
+      { fromId: 'dana', optionIndexes: [2, 4, 5] }, // Sausage, Olives, Extra Cheese
+    ]
+  ),
+  status: 'read',
 };
 
 export const OtherFileType = Template.bind({});

@@ -1374,6 +1374,42 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one",
+    "description": "Status text for single-choice poll where user can select one option"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more",
+    "description": "Status text for multiple-choice poll where user can select multiple options"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results",
+    "description": "Status text for terminated poll showing final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes",
+    "description": "Button text to view poll votes details"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted",
+    "description": "Accessibility label for checkmark indicating user voted for this poll option"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details",
+    "description": "Modal title for viewing poll votes and who voted on which option"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question",
+    "description": "Label for the poll question in the votes modal"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}",
+    "description": "Vote count display header for a specific poll option"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes",
+    "description": "Message shown when poll has no votes"
+  },
   "icu:deleteConversation": {
     "messageformat": "Delete",
     "description": "Menu item for deleting a conversation (including messages), title case."
