@@ -10,6 +10,7 @@ import LinkifyIt from 'linkify-it';
 
 import { maybeParseUrl } from '../util/url.js';
 import { replaceEmojiWithSpaces } from '../util/emoji.js';
+import { count } from '../util/grapheme.js';
 
 import type { AttachmentWithHydratedData } from './Attachment.js';
 import {
@@ -167,7 +168,7 @@ export function findLinks(text: string, caretLocation?: number): Array<string> {
   }
 
   const haveCaretLocation = isNumber(caretLocation);
-  const textLength = text ? text.length : 0;
+  const textLength = count(text || '');
 
   const matches = linkify.match(text ? replaceEmojiWithSpaces(text) : '') || [];
   return compact(
