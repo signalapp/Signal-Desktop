@@ -5913,7 +5913,7 @@
     "description": "This is the number of members in a group"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files",
+    "messageformat": "Media and files",
     "description": "Title for the show all media button in the conversation details screen"
   },
   "icu:ConversationDetailsMembershipList--title": {
