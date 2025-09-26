@@ -3,7 +3,7 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import { tw } from '../tw.js';
-import { AxoSymbol, type AxoSymbolName } from '../AxoSymbol.js';
+import { AxoSymbol } from '../AxoSymbol.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoBaseMenu {
@@ -62,7 +62,7 @@ export namespace AxoBaseMenu {
     /**
      * An icon that should be rendered before the text.
      */
-    symbol?: AxoSymbolName;
+    symbol?: AxoSymbol.IconName;
   }>;
 
   // <Item/RadioItem/CheckboxItem> (not SubTrigger/Label/Separator)
@@ -138,7 +138,9 @@ export namespace AxoBaseMenu {
     return <AxoSymbol.Icon size={14} symbol="check" label={null} />;
   }
 
-  export function ItemSymbol(props: { symbol: AxoSymbolName }): JSX.Element {
+  export function ItemSymbol(props: {
+    symbol: AxoSymbol.IconName;
+  }): JSX.Element {
     return <AxoSymbol.Icon size={16} symbol={props.symbol} label={null} />;
   }
 

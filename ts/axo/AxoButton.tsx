@@ -4,7 +4,7 @@ import React, { memo, forwardRef } from 'react';
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
 import type { TailwindStyles } from './tw.js';
 import { tw } from './tw.js';
-import { AxoSymbol, type AxoSymbolName } from './AxoSymbol.js';
+import { AxoSymbol } from './AxoSymbol.js';
 import { assert } from './_internal/assert.js';
 
 const Namespace = 'AxoButton';
@@ -143,7 +143,7 @@ type AxoButtonProps = BaseButtonAttrs &
   Readonly<{
     variant: AxoButtonVariant;
     size: AxoButtonSize;
-    symbol?: AxoSymbolName;
+    symbol?: AxoSymbol.InlineGlyphName;
     arrow?: boolean;
     children: ReactNode;
   }>;
