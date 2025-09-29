@@ -88,15 +88,19 @@ function ciphertextMessageTypeToEnvelopeType(type: number) {
   );
 }
 
+const PADDING_BLOCK = 80;
+
 function getPaddedMessageLength(messageLength: number): number {
   const messageLengthWithTerminator = messageLength + 1;
-  let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
+  let messagePartCount = Math.floor(
+    messageLengthWithTerminator / PADDING_BLOCK
+  );
 
-  if (messageLengthWithTerminator % 160 !== 0) {
+  if (messageLengthWithTerminator % PADDING_BLOCK !== 0) {
     messagePartCount += 1;
   }
 
-  return messagePartCount * 160;
+  return messagePartCount * PADDING_BLOCK;
 }
 
 export function padMessage(messageBuffer: Uint8Array): Uint8Array {
