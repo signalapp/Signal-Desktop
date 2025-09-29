@@ -18,7 +18,6 @@ const { useDirection } = Direction;
 
 const Namespace = 'AxoSymbol';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoSymbol {
   const symbolStyles = tw('font-symbols select-none');
   const labelStyles = tw('select-none');
@@ -83,7 +82,7 @@ export namespace AxoSymbol {
 
   export type IconProps = Readonly<{
     size: IconSize;
-    symbol: AxoSymbolIconName;
+    symbol: IconName;
     label: string | null;
   }>;
 
@@ -93,7 +92,6 @@ export namespace AxoSymbol {
 
   export const Icon: FC<IconProps> = memo(props => {
     const config = IconSizes[props.size];
-
     const direction = useDirection();
     const glyph = getAxoSymbolIcon(props.symbol, direction);
     const content = useRenderSymbol(glyph, props.label);

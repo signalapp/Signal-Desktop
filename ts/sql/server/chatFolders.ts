@@ -1,9 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import { v4 as generateUuid } from 'uuid';
 import {
   type ChatFolderId,
   type ChatFolder,
   CHAT_FOLDER_DELETED_POSITION,
+  CHAT_FOLDER_DEFAULTS,
+  ChatFolderType,
 } from '../../types/ChatFolder.js';
 import type { ReadableDB, WritableDB } from '../Interface.js';
 import { sql } from '../util.js';
@@ -97,45 +100,71 @@ export function getChatFolder(
   })();
 }
 
+function _insertChatFolder(db: WritableDB, chatFolder: ChatFolder): void {
+  const chatFolderRow = chatFolderToRow(chatFolder);
+  const [chatFolderQuery, chatFolderParams] = sql`
+    INSERT INTO chatFolders (
+      id,
+      folderType,
+      name,
+      position,
+      showOnlyUnread,
+      showMutedChats,
+      includeAllIndividualChats,
+      includeAllGroupChats,
+      includedConversationIds,
+      excludedConversationIds,
+      deletedAtTimestampMs,
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync
+    ) VALUES (
+      ${chatFolderRow.id},
+      ${chatFolderRow.folderType},
+      ${chatFolderRow.name},
+      ${chatFolderRow.position},
+      ${chatFolderRow.showOnlyUnread},
+      ${chatFolderRow.showMutedChats},
+      ${chatFolderRow.includeAllIndividualChats},
+      ${chatFolderRow.includeAllGroupChats},
+      ${chatFolderRow.includedConversationIds},
+      ${chatFolderRow.excludedConversationIds},
+      ${chatFolderRow.deletedAtTimestampMs},
+      ${chatFolderRow.storageID},
+      ${chatFolderRow.storageVersion},
+      ${chatFolderRow.storageUnknownFields},
+      ${chatFolderRow.storageNeedsSync}
+    )
+  `;
+  db.prepare(chatFolderQuery).run(chatFolderParams);
+}
+
 export function createChatFolder(db: WritableDB, chatFolder: ChatFolder): void {
   return db.transaction(() => {
-    const chatFolderRow = chatFolderToRow(chatFolder);
-    const [chatFolderQuery, chatFolderParams] = sql`
-      INSERT INTO chatFolders (
-        id,
-        folderType,
-        name,
-        position,
-        showOnlyUnread,
-        showMutedChats,
-        includeAllIndividualChats,
-        includeAllGroupChats,
-        includedConversationIds,
-        excludedConversationIds,
-        deletedAtTimestampMs,
-        storageID,
-        storageVersion,
-        storageUnknownFields,
-        storageNeedsSync
-      ) VALUES (
-        ${chatFolderRow.id},
-        ${chatFolderRow.folderType},
-        ${chatFolderRow.name},
-        ${chatFolderRow.position},
-        ${chatFolderRow.showOnlyUnread},
-        ${chatFolderRow.showMutedChats},
-        ${chatFolderRow.includeAllIndividualChats},
-        ${chatFolderRow.includeAllGroupChats},
-        ${chatFolderRow.includedConversationIds},
-        ${chatFolderRow.excludedConversationIds},
-        ${chatFolderRow.deletedAtTimestampMs},
-        ${chatFolderRow.storageID},
-        ${chatFolderRow.storageVersion},
-        ${chatFolderRow.storageUnknownFields},
-        ${chatFolderRow.storageNeedsSync}
-      )
-    `;
-    db.prepare(chatFolderQuery).run(chatFolderParams);
+    _insertChatFolder(db, chatFolder);
+  })();
+}
+
+export function createAllChatsChatFolder(db: WritableDB): ChatFolder {
+  return db.transaction(() => {
+    const allChatsChatFolder: ChatFolder = {
+      ...CHAT_FOLDER_DEFAULTS,
+      id: generateUuid() as ChatFolderId,
+      folderType: ChatFolderType.ALL,
+      position: 0,
+      deletedAtTimestampMs: 0,
+      storageID: null,
+      storageVersion: null,
+      storageUnknownFields: null,
+      storageNeedsSync: true,
+    };
+
+    // shift all positions over 1
+    _resetAllChatFolderPositions(db, 1);
+    _insertChatFolder(db, allChatsChatFolder);
+
+    return allChatsChatFolder;
   })();
 }
 
@@ -187,11 +216,11 @@ export function markChatFolderDeleted(
       WHERE id = ${id}
     `;
     db.prepare(query).run(params);
-    _resetAllChatFolderPositions(db);
+    _resetAllChatFolderPositions(db, 0);
   })();
 }
 
-function _resetAllChatFolderPositions(db: WritableDB) {
+function _resetAllChatFolderPositions(db: WritableDB, offset: number) {
   const [query, params] = sql`
     SELECT id FROM chatFolders
     WHERE deletedAtTimestampMs IS 0
@@ -204,7 +233,7 @@ function _resetAllChatFolderPositions(db: WritableDB) {
       const [update, updateParams] = sql`
         UPDATE chatFolders
         SET
-          position = ${index},
+          position = ${offset + index},
           storageNeedsSync = 1
         WHERE id = ${id}
       `;

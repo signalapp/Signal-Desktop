@@ -7,6 +7,7 @@ import { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
 import { AxoSymbol } from './AxoSymbol.js';
 import type { TailwindStyles } from './tw.js';
 import { tw } from './tw.js';
+import { ExperimentalAxoBadge } from './AxoBadge.js';
 
 const Namespace = 'AxoSelect';
 
@@ -19,18 +20,22 @@ const Namespace = 'AxoSelect';
  *   <AxoSelect.Root>
  *     <AxoSelect.Trigger/>
  *     <AxoSelect.Content>
- *       <AxoSelect.Item/>
+ *       <AxoSelect.Item>
+ *         <AxoSelect.ItemText/>
+ *         <AxoSelect.ItemBadge/>
+ *       </AxoSelect.Item>
  *       <AxoSelect.Separator/>
  *       <AxoSelect.Group>
  *         <AxoSelect.Label/>
- *         <AxoSelect.Item/>
+ *         <AxoSelect.Item>
+ *           <AxoSelect.ItemText/>
+ *         </AxoSelect.Item>
  *       </AxoSelect.Group>
  *     </AxoSelect.Content>
  *   </AxoSelect.Root>
  * );
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoSelect {
   /**
    * Component: <AxoSelect.Root>
@@ -78,15 +83,19 @@ export namespace AxoSelect {
    * ---------------------------
    */
 
+  export type TriggerVariant = 'default' | 'floating' | 'borderless';
+  export type TriggerWidth = 'hug' | 'full';
+  export type TriggerChevron = 'always' | 'on-hover';
+
   const baseTriggerStyles = tw(
-    'flex',
-    'rounded-full py-[5px] ps-3 pe-2.5 type-body-medium text-label-primary',
+    'group relative flex items-center',
+    'rounded-full text-start type-body-medium text-label-primary',
     'disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'forced-colors:border'
   );
 
-  const TriggerVariants = {
+  const TriggerVariants: Record<TriggerVariant, TailwindStyles> = {
     default: tw(
       baseTriggerStyles,
       'bg-fill-secondary',
@@ -104,19 +113,52 @@ export namespace AxoSelect {
       'hovered:bg-fill-secondary',
       'pressed:bg-fill-secondary-pressed'
     ),
-  } as const satisfies Record<string, TailwindStyles>;
+  };
 
-  const TriggerWidths = {
+  const TriggerWidths: Record<TriggerWidth, TailwindStyles> = {
     hug: tw(),
     full: tw('w-full'),
   };
 
-  export type TriggerVariant = keyof typeof TriggerVariants;
-  export type TriggerWidth = keyof typeof TriggerWidths;
+  type TriggerChevronConfig = {
+    chevronStyles: TailwindStyles;
+    contentStyles: TailwindStyles;
+  };
+
+  const baseContentStyles = tw('flex min-w-0 flex-1');
+
+  const TriggerChevrons: Record<TriggerChevron, TriggerChevronConfig> = {
+    always: {
+      chevronStyles: tw('ps-2 pe-2.5'),
+      contentStyles: tw(baseContentStyles, 'py-[5px] ps-3'),
+    },
+    'on-hover': {
+      chevronStyles: tw(
+        'absolute inset-y-0 end-0 w-9.5',
+        'flex items-center justify-end pe-2',
+        'opacity-0 group-focus:opacity-100 group-data-[state=open]:opacity-100 group-hovered:opacity-100',
+        'transition-opacity duration-150'
+      ),
+      contentStyles: tw(
+        baseContentStyles,
+        'px-3 py-[5px]',
+        '[--axo-select-trigger-mask-start:black]',
+        'group-hovered:[--axo-select-trigger-mask-start:transparent]',
+        'group-focus:[--axo-select-trigger-mask-start:transparent]',
+        'group-data-[state=open]:[--axo-select-trigger-mask-start:transparent]',
+        '[mask-image:linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        'rtl:[mask-image:linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        '[mask-repeat:no-repeat]',
+        '[mask-position:right] rtl:[mask-position:left]',
+        '[transition-property:--axo-select-trigger-mask-start] duration-150'
+      ),
+    },
+  };
 
   export type TriggerProps = Readonly<{
     variant?: TriggerVariant;
     width?: TriggerWidth;
+    chevron?: TriggerChevron;
     placeholder: string;
     children?: ReactNode;
   }>;
@@ -129,16 +171,20 @@ export namespace AxoSelect {
   export const Trigger: FC<TriggerProps> = memo(props => {
     const variant = props.variant ?? 'default';
     const width = props.width ?? 'hug';
+    const chevron = props.chevron ?? 'always';
     const variantStyles = TriggerVariants[variant];
     const widthStyles = TriggerWidths[width];
+    const chevronConfig = TriggerChevrons[chevron];
     return (
       <Select.Trigger className={tw(variantStyles, widthStyles)}>
-        <AxoBaseMenu.ItemText>
-          <Select.Value placeholder={props.placeholder}>
-            {props.children}
-          </Select.Value>
-        </AxoBaseMenu.ItemText>
-        <Select.Icon className={tw('ms-2')}>
+        <div className={chevronConfig.contentStyles}>
+          <AxoBaseMenu.ItemText>
+            <Select.Value placeholder={props.placeholder}>
+              {props.children}
+            </Select.Value>
+          </AxoBaseMenu.ItemText>
+        </div>
+        <Select.Icon className={chevronConfig.chevronStyles}>
           <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
         </Select.Icon>
       </Select.Trigger>
@@ -152,7 +198,29 @@ export namespace AxoSelect {
    * ------------------------------
    */
 
+  export type ContentPosition = 'item-aligned' | 'dropdown';
+
+  type ContentPositionConfig = {
+    position: Select.SelectContentProps['position'];
+    alignOffset?: Select.SelectContentProps['alignOffset'];
+    collisionPadding?: Select.SelectContentProps['collisionPadding'];
+    sideOffset?: Select.SelectContentProps['sideOffset'];
+  };
+
+  const ContentPositions: Record<ContentPosition, ContentPositionConfig> = {
+    'item-aligned': {
+      position: 'item-aligned',
+    },
+    dropdown: {
+      position: 'popper',
+      alignOffset: 0,
+      collisionPadding: 6,
+      sideOffset: 8,
+    },
+  };
+
   export type ContentProps = Readonly<{
+    position?: ContentPosition;
     children: ReactNode;
   }>;
 
@@ -161,9 +229,17 @@ export namespace AxoSelect {
    * Uses a portal to render the content part into the `body`.
    */
   export const Content: FC<ContentProps> = memo(props => {
+    const position = props.position ?? 'item-aligned';
+    const positionConfig = ContentPositions[position];
     return (
       <Select.Portal>
-        <Select.Content className={AxoBaseMenu.selectContentStyles}>
+        <Select.Content
+          className={AxoBaseMenu.selectContentStyles}
+          position={positionConfig.position}
+          alignOffset={positionConfig.alignOffset}
+          collisionPadding={positionConfig.collisionPadding}
+          sideOffset={positionConfig.sideOffset}
+        >
           <Select.ScrollUpButton
             className={tw(
               'flex items-center justify-center p-1 text-label-primary'
@@ -197,6 +273,7 @@ export namespace AxoSelect {
     value: string;
     disabled?: boolean;
     textValue?: string;
+    symbol?: AxoSymbol.IconName;
     children: ReactNode;
   }>;
 
@@ -219,9 +296,12 @@ export namespace AxoSelect {
           </AxoBaseMenu.ItemCheckPlaceholder>
         </AxoBaseMenu.ItemLeadingSlot>
         <AxoBaseMenu.ItemContentSlot>
-          <AxoBaseMenu.ItemText>
-            <Select.ItemText>{props.children}</Select.ItemText>
-          </AxoBaseMenu.ItemText>
+          {props.symbol && (
+            <span className={tw('me-2')}>
+              <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
+            </span>
+          )}
+          {props.children}
         </AxoBaseMenu.ItemContentSlot>
       </Select.Item>
     );
@@ -230,8 +310,54 @@ export namespace AxoSelect {
   Item.displayName = `${Namespace}.Content`;
 
   /**
+   * Component: <AxoSelect.ItemText>
+   */
+
+  export type ItemTextProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const ItemText: FC<ItemTextProps> = memo(props => {
+    return (
+      <AxoBaseMenu.ItemText>
+        <Select.ItemText>{props.children}</Select.ItemText>
+      </AxoBaseMenu.ItemText>
+    );
+  });
+
+  ItemText.displayName = `${Namespace}.ItemText`;
+
+  /**
+   * Component: <AxoSelect.ItemBadge>
+   * --------------------------------
+   */
+
+  export type ExperimentalItemBadgeProps = Omit<
+    ExperimentalAxoBadge.RootProps,
+    'size'
+  >;
+
+  export const ExperimentalItemBadge = memo(
+    (props: ExperimentalItemBadgeProps) => {
+      return (
+        <span className={tw('ms-[5px]')}>
+          <ExperimentalAxoBadge.Root
+            size="sm"
+            value={props.value}
+            max={props.max}
+            maxDisplay={props.maxDisplay}
+            aria-label={props['aria-label']}
+          />
+        </span>
+      );
+    }
+  );
+
+  ExperimentalItemBadge.displayName = `${Namespace}.ItemBadge`;
+
+  /**
    * Component: <AxoSelect.Group>
-   * ---------------------------
+   * ----------------------------
    */
 
   export type GroupProps = Readonly<{

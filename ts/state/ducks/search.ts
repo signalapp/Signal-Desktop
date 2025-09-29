@@ -47,10 +47,7 @@ import { createLogger } from '../../logging/log.js';
 import { searchConversationTitles } from '../../util/searchConversationTitles.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
-import {
-  countConversationUnreadStats,
-  hasUnread,
-} from '../../util/countUnreadStats.js';
+import { isConversationUnread } from '../../util/countUnreadStats.js';
 
 const { debounce, omit, reject } = lodash;
 
@@ -336,9 +333,7 @@ function shouldRemoveConversationFromUnreadList(
     conversation &&
     (selectedConversationId == null ||
       selectedConversationId !== conversation.id) &&
-    !hasUnread(
-      countConversationUnreadStats(conversation, { includeMuted: true })
-    )
+    !isConversationUnread(conversation, { includeMuted: true })
   ) {
     return true;
   }
@@ -503,11 +498,9 @@ const doSearch = debounce(
               selectedConversationId &&
               selectedConversation &&
               state.search.conversationIds.includes(selectedConversationId) &&
-              !hasUnread(
-                countConversationUnreadStats(selectedConversation, {
-                  includeMuted: true,
-                })
-              )
+              !isConversationUnread(selectedConversation, {
+                includeMuted: true,
+              })
                 ? selectedConversation
                 : undefined,
           });

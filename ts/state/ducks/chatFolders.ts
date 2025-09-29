@@ -8,25 +8,43 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.j
 import { useBoundActions } from '../../hooks/useBoundActions.js';
 import {
   ChatFolderParamsSchema,
+  lookupCurrentChatFolder,
+  toCurrentChatFolders,
+  getSortedCurrentChatFolders,
   type ChatFolder,
   type ChatFolderId,
   type ChatFolderParams,
+  type CurrentChatFolders,
 } from '../../types/ChatFolder.js';
 import { getCurrentChatFolders } from '../selectors/chatFolders.js';
 import { DataWriter } from '../../sql/Client.js';
-import { strictAssert } from '../../util/assert.js';
 import { storageServiceUploadJob } from '../../services/storage.js';
 import { parseStrict } from '../../util/schemas.js';
 import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.js';
 import { drop } from '../../util/drop.js';
+import {
+  TARGETED_CONVERSATION_CHANGED,
+  type TargetedConversationChangedActionType,
+} from './conversations.js';
 
 export type ChatFoldersState = ReadonlyDeep<{
-  currentChatFolders: ReadonlyArray<ChatFolder>;
+  currentChatFolders: CurrentChatFolders;
+  selectedChatFolderId: ChatFolderId | null;
+  stableSelectedConversationIdInChatFolder: string | null;
 }>;
 
+const CHAT_FOLDER_RECORD_REPLACE_ALL =
+  'chatFolders/CHAT_FOLDER_RECORD_REPLACE_ALL';
 const CHAT_FOLDER_RECORD_ADD = 'chatFolders/RECORD_ADD';
 const CHAT_FOLDER_RECORD_REPLACE = 'chatFolders/RECORD_REPLACE';
 const CHAT_FOLDER_RECORD_REMOVE = 'chatFolders/RECORD_REMOVE';
+const CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID =
+  'chatFolders/CHANGE_SELECTED_CHAT_FOLDER_ID';
+
+export type ChatFolderRecordReplaceAll = ReadonlyDeep<{
+  type: typeof CHAT_FOLDER_RECORD_REPLACE_ALL;
+  payload: CurrentChatFolders;
+}>;
 
 export type ChatFolderRecordAdd = ReadonlyDeep<{
   type: typeof CHAT_FOLDER_RECORD_ADD;
@@ -43,13 +61,36 @@ export type ChatFolderRecordRemove = ReadonlyDeep<{
   payload: ChatFolderId;
 }>;
 
+export type ChatFolderChangeSelectedChatFolderId = ReadonlyDeep<{
+  type: typeof CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID;
+  payload: ChatFolderId | null;
+}>;
+
 export type ChatFolderAction = ReadonlyDeep<
-  ChatFolderRecordAdd | ChatFolderRecordReplace | ChatFolderRecordRemove
+  | ChatFolderRecordReplaceAll
+  | ChatFolderRecordAdd
+  | ChatFolderRecordReplace
+  | ChatFolderRecordRemove
+  | ChatFolderChangeSelectedChatFolderId
 >;
 
 export function getEmptyState(): ChatFoldersState {
   return {
-    currentChatFolders: [],
+    currentChatFolders: {
+      order: [],
+      lookup: {},
+    },
+    selectedChatFolderId: null,
+    stableSelectedConversationIdInChatFolder: null,
+  };
+}
+
+function replaceAllChatFolderRecords(
+  currentChatFolders: CurrentChatFolders
+): ChatFolderRecordReplaceAll {
+  return {
+    type: CHAT_FOLDER_RECORD_REPLACE_ALL,
+    payload: currentChatFolders,
   };
 }
 
@@ -87,7 +128,7 @@ function createChatFolder(
     const chatFolder: ChatFolder = {
       ...chatFolderParams,
       id: generateUuid() as ChatFolderId,
-      position: chatFolders.length,
+      position: chatFolders.order.length,
       deletedAtTimestampMs: 0,
       storageID: null,
       storageVersion: null,
@@ -106,12 +147,12 @@ function updateChatFolder(
   chatFolderParams: ChatFolderParams
 ): ThunkAction<void, RootStateType, unknown, ChatFolderRecordReplace> {
   return async (dispatch, getState) => {
-    const chatFolders = getCurrentChatFolders(getState());
+    const currentChatFolders = getCurrentChatFolders(getState());
 
-    const prevChatFolder = chatFolders.find(chatFolder => {
-      return chatFolder.id === chatFolderId;
-    });
-    strictAssert(prevChatFolder != null, 'Missing chat folder');
+    const prevChatFolder = lookupCurrentChatFolder(
+      currentChatFolders,
+      chatFolderId
+    );
 
     const nextChatFolder: ChatFolder = {
       ...prevChatFolder,
@@ -136,57 +177,101 @@ function deleteChatFolder(
   };
 }
 
+function updateChatFoldersPositions(
+  chatFolderIds: ReadonlyArray<ChatFolderId>
+): ThunkAction<void, RootStateType, unknown, ChatFolderRecordReplaceAll> {
+  return async (dispatch, getState) => {
+    const currentChatFolders = getCurrentChatFolders(getState());
+    const chatFolders = chatFolderIds.map((chatFolderId, index) => {
+      const chatFolder = lookupCurrentChatFolder(
+        currentChatFolders,
+        chatFolderId
+      );
+      return { ...chatFolder, position: index + 1 };
+    });
+    await DataWriter.updateChatFolderPositions(chatFolders);
+    storageServiceUploadJob({ reason: 'updateChatFoldersPositions' });
+    dispatch(replaceAllChatFolderRecords(toCurrentChatFolders(chatFolders)));
+  };
+}
+
+function updateSelectedChangeFolderId(
+  chatFolderId: ChatFolderId | null
+): ChatFolderChangeSelectedChatFolderId {
+  return {
+    type: CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID,
+    payload: chatFolderId,
+  };
+}
+
 export const actions = {
+  replaceAllChatFolderRecords,
   addChatFolderRecord,
   replaceChatFolderRecord,
   removeChatFolderRecord,
   createChatFolder,
   updateChatFolder,
   deleteChatFolder,
+  updateChatFoldersPositions,
+  updateSelectedChangeFolderId,
 };
 
 export const useChatFolderActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function toSortedChatFolders(
-  chatFolders: ReadonlyArray<ChatFolder>
-): ReadonlyArray<ChatFolder> {
-  return chatFolders.toSorted((a, b) => a.position - b.position);
-}
-
 export function reducer(
   state: ChatFoldersState = getEmptyState(),
-  action: ChatFolderAction
+  action: ChatFolderAction | TargetedConversationChangedActionType
 ): ChatFoldersState {
   switch (action.type) {
+    case CHAT_FOLDER_RECORD_REPLACE_ALL:
+      return {
+        ...state,
+        currentChatFolders: action.payload,
+      };
     case CHAT_FOLDER_RECORD_ADD:
       return {
         ...state,
-        currentChatFolders: toSortedChatFolders([
-          ...state.currentChatFolders,
+        currentChatFolders: toCurrentChatFolders([
+          ...getSortedCurrentChatFolders(state.currentChatFolders),
           action.payload,
         ]),
       };
     case CHAT_FOLDER_RECORD_REPLACE:
       return {
         ...state,
-        currentChatFolders: toSortedChatFolders(
-          state.currentChatFolders.map(chatFolder => {
-            return chatFolder.id === action.payload.id
-              ? action.payload
-              : chatFolder;
-          })
-        ),
+        currentChatFolders: toCurrentChatFolders([
+          ...getSortedCurrentChatFolders(state.currentChatFolders).filter(
+            chatFolder => {
+              return chatFolder.id !== action.payload.id;
+            }
+          ),
+          action.payload,
+        ]),
       };
     case CHAT_FOLDER_RECORD_REMOVE:
       return {
         ...state,
-        currentChatFolders: toSortedChatFolders(
-          state.currentChatFolders.filter(chatFolder => {
-            return chatFolder.id !== action.payload;
-          })
+        currentChatFolders: toCurrentChatFolders(
+          getSortedCurrentChatFolders(state.currentChatFolders).filter(
+            chatFolder => {
+              return chatFolder.id !== action.payload;
+            }
+          )
         ),
+      };
+    case CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID:
+      return {
+        ...state,
+        selectedChatFolderId: action.payload,
+        stableSelectedConversationIdInChatFolder: null,
+      };
+    case TARGETED_CONVERSATION_CHANGED:
+      return {
+        ...state,
+        stableSelectedConversationIdInChatFolder:
+          action.payload.conversationId ?? null,
       };
     default:
       return state;

@@ -2085,6 +2085,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.tsx",
+    "line": "  const didSaveOrDiscardChangesRef = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-09-24T17:08:10.620Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/preferences/donations/DonateInputAmount.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2140,6 +2147,20 @@
     "line": "  const isMounted = useRef(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-04T20:50:45.297Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useNavBlocker.ts",
+    "line": "  const nameRef = useRef(name);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-09-24T17:08:10.620Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useNavBlocker.ts",
+    "line": "  const shouldBlockRef = useRef(shouldBlock);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-09-24T17:08:10.620Z"
   },
   {
     "rule": "React-useRef",

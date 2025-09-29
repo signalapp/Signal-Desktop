@@ -1374,6 +1374,10 @@ $secondary-text-color: light-dark(
   padding-block: 8px;
   padding-inline: 24px;
   border-radius: 1px;
+
+  &[data-dragging='true'] {
+    opacity: 50%;
+  }
 }
 
 .Preferences__ChatFolders__ChatSelection__ItemAvatar {

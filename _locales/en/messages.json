@@ -379,6 +379,38 @@
     "messageformat": "Enter a username followed by a dot and its set of numbers.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item Label > All chats (needs to fit in very small space)"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item Label > All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount, number}+",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Badge Count > When over the max count (Example: 1000 or more would be 999+)"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Mark all unread chats in chat folder as read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Mute Notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Mute Notifications > Sub-Menu > Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Unmute all chats in chat folder"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder",
+    "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Open settings for current chat folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Country code",
     "description": "Placeholder displayed as default value of country code select element"
@@ -446,6 +478,10 @@
   "icu:markUnread": {
     "messageformat": "Mark as unread",
     "description": "Shown in menu for conversation, and marks conversation as unread"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read",
+    "description": "Shown in menu for conversation, and marks conversation read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Select messages",

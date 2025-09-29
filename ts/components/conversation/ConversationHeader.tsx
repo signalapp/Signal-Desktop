@@ -38,8 +38,8 @@ import {
   MessageRequestState,
 } from './MessageRequestActionsConfirmation.js';
 import type { MinimalConversation } from '../../hooks/useMinimalConversation.js';
-import { LocalDeleteWarningModal } from '../LocalDeleteWarningModal.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.js';
+import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.js';
 
 function HeaderInfoTitle({
   name,
@@ -1001,52 +1001,5 @@ function CannotLeaveGroupBecauseYouAreLastAdminAlert({
       )}
       onClose={onClose}
     />
-  );
-}
-
-function DeleteMessagesConfirmationDialog({
-  i18n,
-  localDeleteWarningShown,
-  onDestroyMessages,
-  onClose,
-  setLocalDeleteWarningShown,
-}: {
-  i18n: LocalizerType;
-  localDeleteWarningShown: boolean;
-  onDestroyMessages: () => void;
-  onClose: () => void;
-  setLocalDeleteWarningShown: () => void;
-}) {
-  if (!localDeleteWarningShown) {
-    return (
-      <LocalDeleteWarningModal
-        i18n={i18n}
-        onClose={setLocalDeleteWarningShown}
-      />
-    );
-  }
-
-  const dialogBody = i18n(
-    'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
-  );
-
-  return (
-    <ConfirmationDialog
-      dialogName="ConversationHeader.destroyMessages"
-      title={i18n(
-        'icu:ConversationHeader__DeleteConversationConfirmation__title'
-      )}
-      actions={[
-        {
-          action: onDestroyMessages,
-          style: 'negative',
-          text: i18n('icu:delete'),
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
-    >
-      {dialogBody}
-    </ConfirmationDialog>
   );
 }

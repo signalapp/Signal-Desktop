@@ -6,7 +6,7 @@ import type { ConversationType } from '../state/ducks/conversations.js';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance.js';
 import { WEEK } from './durations/index.js';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.js';
-import { countConversationUnreadStats, hasUnread } from './countUnreadStats.js';
+import { isConversationUnread } from './countUnreadStats.js';
 import { getE164 } from './getE164.js';
 import { removeDiacritics } from './removeDiacritics.js';
 import { isAciString } from './isAciString.js';
@@ -69,9 +69,7 @@ function filterConversationsByUnread(
   includeMuted: boolean
 ): Array<ConversationType> {
   return conversations.filter(conversation => {
-    return hasUnread(
-      countConversationUnreadStats(conversation, { includeMuted })
-    );
+    return isConversationUnread(conversation, { includeMuted });
   });
 }
 

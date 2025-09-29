@@ -17,7 +17,7 @@ function Template(props: {
   const [checked, setChecked] = useState(props.defaultChecked);
   return (
     <label className={tw('my-2 flex items-center gap-2')}>
-      <AxoCheckbox
+      <AxoCheckbox.Root
         checked={checked}
         onCheckedChange={setChecked}
         disabled={props.disabled}

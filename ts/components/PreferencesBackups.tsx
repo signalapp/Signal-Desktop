@@ -19,7 +19,7 @@ import {
 } from './PreferencesUtil.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { Button, ButtonVariant } from './Button.js';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
+import type { SettingsLocation } from '../types/Nav.js';
 import { SettingsPage } from '../types/Nav.js';
 import { I18n } from './I18n.js';
 import { PreferencesLocalBackups } from './PreferencesLocalBackups.js';
@@ -64,11 +64,11 @@ export function PreferencesBackups({
   cancelBackupMediaDownload,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
-  page,
+  settingsLocation,
   promptOSAuth,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
-  setPage,
+  setSettingsLocation,
   showToast,
 }: {
   accountEntropyPool: string | undefined;
@@ -81,7 +81,7 @@ export function PreferencesBackups({
   isRemoteBackupsEnabled: boolean;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
-  page: PreferencesBackupPage;
+  settingsLocation: SettingsLocation;
   backupMediaDownloadStatus: BackupMediaDownloadStatusType | undefined;
   cancelBackupMediaDownload: () => void;
   pauseBackupMediaDownload: () => void;
@@ -92,7 +92,7 @@ export function PreferencesBackups({
   ) => Promise<PromptOSAuthResultType>;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
-  setPage: (page: PreferencesBackupPage) => void;
+  setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
 }): JSX.Element | null {
   const [authError, setAuthError] =
@@ -100,27 +100,31 @@ export function PreferencesBackups({
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
 
   useEffect(() => {
-    if (page === SettingsPage.Backups) {
+    if (settingsLocation.page === SettingsPage.Backups) {
       refreshBackupSubscriptionStatus();
-    } else if (page === SettingsPage.BackupsDetails) {
+    } else if (settingsLocation.page === SettingsPage.BackupsDetails) {
       refreshBackupSubscriptionStatus();
       refreshCloudBackupStatus();
     }
-  }, [page, refreshBackupSubscriptionStatus, refreshCloudBackupStatus]);
+  }, [
+    settingsLocation.page,
+    refreshBackupSubscriptionStatus,
+    refreshCloudBackupStatus,
+  ]);
 
-  if (!isRemoteBackupsEnabled && isRemoteBackupsPage(page)) {
-    setPage(SettingsPage.Backups);
+  if (!isRemoteBackupsEnabled && isRemoteBackupsPage(settingsLocation.page)) {
+    setSettingsLocation({ page: SettingsPage.Backups });
     return null;
   }
 
-  if (!isLocalBackupsEnabled && isLocalBackupsPage(page)) {
-    setPage(SettingsPage.Backups);
+  if (!isLocalBackupsEnabled && isLocalBackupsPage(settingsLocation.page)) {
+    setSettingsLocation({ page: SettingsPage.Backups });
     return null;
   }
 
-  if (page === SettingsPage.BackupsDetails) {
+  if (settingsLocation.page === SettingsPage.BackupsDetails) {
     if (backupSubscriptionStatus.status === 'off') {
-      setPage(SettingsPage.Backups);
+      setSettingsLocation({ page: SettingsPage.Backups });
       return null;
     }
     return (
@@ -137,7 +141,7 @@ export function PreferencesBackups({
     );
   }
 
-  if (isLocalBackupsPage(page)) {
+  if (isLocalBackupsPage(settingsLocation.page)) {
     return (
       <PreferencesLocalBackups
         accountEntropyPool={accountEntropyPool}
@@ -145,10 +149,10 @@ export function PreferencesBackups({
         i18n={i18n}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
-        page={page}
+        settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
         promptOSAuth={promptOSAuth}
-        setPage={setPage}
+        setSettingsLocation={setSettingsLocation}
         showToast={showToast}
       />
     );
@@ -211,7 +215,9 @@ export function PreferencesBackups({
                 )}
               >
                 <Button
-                  onClick={() => setPage(SettingsPage.BackupsDetails)}
+                  onClick={() =>
+                    setSettingsLocation({ page: SettingsPage.BackupsDetails })
+                  }
                   variant={ButtonVariant.Secondary}
                 >
                   {i18n('icu:Preferences__button--manage')}
@@ -270,7 +276,7 @@ export function PreferencesBackups({
                     }
                   }
 
-                  setPage(SettingsPage.LocalBackups);
+                  setSettingsLocation({ page: SettingsPage.LocalBackups });
                 }}
                 variant={ButtonVariant.Secondary}
               >

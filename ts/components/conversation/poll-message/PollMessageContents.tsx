@@ -209,13 +209,13 @@ export function PollMessageContents({
 
       {totalVotes > 0 ? (
         <div className={tw('mt-4 flex justify-center scheme-light')}>
-          <AxoButton
+          <AxoButton.Root
             size="medium"
             variant="floating-secondary"
             onClick={() => setShowVotesModal(true)}
           >
             {i18n('icu:PollMessage__ViewVotesButton')}
-          </AxoButton>
+          </AxoButton.Root>
         </div>
       ) : (
         <div

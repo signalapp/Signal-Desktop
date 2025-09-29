@@ -15,3 +15,9 @@ export function assert<T>(input: T, message?: string): NonNullable<T> {
   }
   return input;
 }
+
+export function unreachable(_value: never): never {
+  // eslint-disable-next-line no-debugger
+  debugger;
+  throw new AssertionError('unreachable');
+}

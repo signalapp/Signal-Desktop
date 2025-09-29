@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import { v4 as generateUuid } from 'uuid';
 import type {
   Group,
   PrimaryDevice,
@@ -103,6 +104,22 @@ export async function initStorage(
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+        },
+      },
+    });
+
+    state = state.addRecord({
+      type: IdentifierType.CHAT_FOLDER,
+      record: {
+        chatFolder: {
+          id: uuidToBytes(generateUuid()),
+          name: null,
+          position: 0,
+          showOnlyUnread: false,
+          showMutedChats: true,
+          includeAllIndividualChats: true,
+          includeAllGroupChats: true,
+          folderType: Proto.ChatFolderRecord.FolderType.ALL,
         },
       },
     });

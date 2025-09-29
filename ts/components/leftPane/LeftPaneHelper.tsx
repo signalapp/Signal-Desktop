@@ -88,6 +88,7 @@ export abstract class LeftPaneHelper<T> {
       createGroup: () => unknown;
       i18n: LocalizerType;
       removeSelectedContact: (_: string) => unknown;
+      renderLeftPaneChatFolders: () => JSX.Element;
       setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
       setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
       setComposeGroupName: (_: string) => unknown;

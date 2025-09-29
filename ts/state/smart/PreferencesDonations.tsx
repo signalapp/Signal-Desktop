@@ -9,7 +9,7 @@ import type { MutableRefObject } from 'react';
 import { getIntl, getTheme, getUserNumber } from '../selectors/user.js';
 import { getMe } from '../selectors/conversations.js';
 import { PreferencesDonations } from '../../components/PreferencesDonations.js';
-import type { SettingsPage } from '../../types/Nav.js';
+import type { SettingsLocation } from '../../types/Nav.js';
 import { useDonationsActions } from '../ducks/donations.js';
 import type { StateType } from '../reducer.js';
 import { useConversationsActions } from '../ducks/conversations.js';
@@ -40,12 +40,12 @@ const log = createLogger('SmartPreferencesDonations');
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
     contentsRef,
-    page,
-    setPage,
+    settingsLocation,
+    setSettingsLocation,
   }: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-    page: SettingsPage;
-    setPage: (page: SettingsPage) => void;
+    settingsLocation: SettingsLocation;
+    setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   }) {
     const [validCurrencies, setValidCurrencies] = useState<
       ReadonlyArray<string>
@@ -142,7 +142,7 @@ export const SmartPreferencesDonations = memo(
         contentsRef={contentsRef}
         initialCurrency={initialCurrency}
         isOnline={isOnline}
-        page={page}
+        settingsLocation={settingsLocation}
         didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}
         lastError={donationsState.lastError}
         workflow={donationsState.currentWorkflow}
@@ -151,7 +151,7 @@ export const SmartPreferencesDonations = memo(
         resumeWorkflow={resumeWorkflow}
         updateLastError={updateLastError}
         submitDonation={submitDonation}
-        setPage={setPage}
+        setSettingsLocation={setSettingsLocation}
         theme={theme}
         donationBadge={badgesById[BOOST_ID] ?? undefined}
         fetchBadgeData={fetchBadgeData}

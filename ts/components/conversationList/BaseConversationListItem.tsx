@@ -34,6 +34,11 @@ const CHECKBOX_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox--container`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 export const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
 
+export type RenderConversationListItemContextMenuProps = Readonly<{
+  conversationId: string;
+  children: ReactNode;
+}>;
+
 type PropsType = {
   buttonAriaLabel?: string;
   checked?: boolean;
@@ -58,6 +63,9 @@ type PropsType = {
   unreadMentionsCount?: number;
   avatarSize?: AvatarSize;
   testId?: string;
+  renderConversationListItemContextMenu?: (
+    props: RenderConversationListItemContextMenuProps
+  ) => JSX.Element;
 } & Pick<
   ConversationType,
   | 'avatarPlaceholderGradient'
@@ -114,6 +122,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       unreadCount,
       unreadMentionsCount,
       serviceId,
+      renderConversationListItemContextMenu,
     } = props;
 
     const identifier = id ? cleanId(id) : undefined;
@@ -275,8 +284,10 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       );
     }
 
+    let wrapper: JSX.Element;
+
     if (onClick) {
-      return (
+      wrapper = (
         <button
           aria-label={
             buttonAriaLabel ||
@@ -298,17 +309,26 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           {contents}
         </button>
       );
+    } else {
+      wrapper = (
+        <div
+          className={commonClassNames}
+          data-id={identifier}
+          data-testid={testId}
+        >
+          {contents}
+        </div>
+      );
     }
 
-    return (
-      <div
-        className={commonClassNames}
-        data-id={identifier}
-        data-testid={testId}
-      >
-        {contents}
-      </div>
-    );
+    if (renderConversationListItemContextMenu != null && id != null) {
+      return renderConversationListItemContextMenu({
+        conversationId: id,
+        children: wrapper,
+      });
+    }
+
+    return wrapper;
   });
 
 function Timestamp({

@@ -110,9 +110,17 @@ import {
   resumeBackupMediaDownload,
 } from '../../util/backupMediaDownload.js';
 import { useNavActions } from '../ducks/nav.js';
+import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.js';
+import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.js';
+import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
+}
+function renderConversationListItemContextMenu(
+  props: RenderConversationListItemContextMenuProps
+): JSX.Element {
+  return <SmartLeftPaneConversationListItemContextMenu {...props} />;
 }
 function renderNetworkStatus(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -139,6 +147,9 @@ function renderExpiredBuildDialog(
   props: DialogExpiredBuildPropsType
 ): JSX.Element {
   return <DialogExpiredBuild {...props} />;
+}
+function renderLeftPaneChatFolders(): JSX.Element {
+  return <SmartLeftPaneChatFolders />;
 }
 function renderUnsupportedOSDialog(
   props: Readonly<SmartUnsupportedOSDialogPropsType>
@@ -420,7 +431,11 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       renderCaptchaDialog={renderCaptchaDialog}
       renderCrashReportDialog={renderCrashReportDialog}
       renderExpiredBuildDialog={renderExpiredBuildDialog}
+      renderLeftPaneChatFolders={renderLeftPaneChatFolders}
       renderMessageSearchResult={renderMessageSearchResult}
+      renderConversationListItemContextMenu={
+        renderConversationListItemContextMenu
+      }
       renderNetworkStatus={renderNetworkStatus}
       renderRelinkDialog={renderRelinkDialog}
       renderToastManager={renderToastManager}

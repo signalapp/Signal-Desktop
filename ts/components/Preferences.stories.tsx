@@ -25,7 +25,8 @@ import {
   UsernameEditState,
   UsernameLinkState,
 } from '../state/ducks/usernameEnums.js';
-import { ProfileEditorPage, SettingsPage } from '../types/Nav.js';
+import type { SettingsLocation } from '../types/Nav.js';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.js';
 import { PreferencesDonations } from './PreferencesDonations.js';
 import { strictAssert } from '../util/assert.js';
 
@@ -220,8 +221,8 @@ function renderProfileEditor({
 
 function renderDonationsPane(props: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-  page: SettingsPage;
-  setPage: (page: SettingsPage) => void;
+  settingsLocation: SettingsLocation;
+  setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   me: typeof me;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   saveAttachmentToDisk: (options: {
@@ -245,8 +246,8 @@ function renderDonationsPane(props: {
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
       isOnline
-      page={props.page}
-      setPage={props.setPage}
+      settingsLocation={props.settingsLocation}
+      setSettingsLocation={props.setSettingsLocation}
       submitDonation={action('submitDonation')}
       lastError={undefined}
       workflow={props.workflow}
@@ -286,6 +287,8 @@ function renderPreferencesChatFoldersPage(
       chatFolders={[]}
       onOpenEditChatFoldersPage={props.onOpenEditChatFoldersPage}
       onCreateChatFolder={action('onCreateChatFolder')}
+      onDeleteChatFolder={action('onDeletChatFolder')}
+      onUpdateChatFoldersPositions={action('onUpdateChatFoldersPositions')}
     />
   );
 }
@@ -297,10 +300,14 @@ function renderPreferencesEditChatFolderPage(
     <PreferencesEditChatFolderPage
       i18n={i18n}
       theme={ThemeType.light}
-      onBack={props.onBack}
+      previousLocation={{
+        tab: NavTab.Settings,
+        details: { page: SettingsPage.ChatFolders },
+      }}
       settingsPaneRef={props.settingsPaneRef}
       existingChatFolderId={props.existingChatFolderId}
       initChatFolderParams={CHAT_FOLDER_DEFAULTS}
+      changeLocation={action('changeLocation')}
       onCreateChatFolder={action('onCreateChatFolder')}
       onUpdateChatFolder={action('onUpdateChatFolder')}
       onDeleteChatFolder={action('onDeleteChatFolder')}
@@ -403,9 +410,12 @@ export default {
     otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
-      markedUnread: false,
+      readChatsMarkedUnreadCount: 0,
     },
-    page: SettingsPage.Profile,
+    settingsLocation: {
+      page: SettingsPage.Profile,
+      state: ProfileEditorPage.None,
+    },
     preferredSystemLocales: ['en'],
     preferredWidthFromStorage: 300,
     resolvedLocale: 'en',
@@ -424,17 +434,17 @@ export default {
 
     renderDonationsPane: ({
       contentsRef,
-      page,
-      setPage,
+      settingsLocation,
+      setSettingsLocation,
     }: {
       contentsRef: MutableRefObject<HTMLDivElement | null>;
-      page: SettingsPage;
-      setPage: (page: SettingsPage) => void;
+      settingsLocation: SettingsLocation;
+      setSettingsLocation: (settingsLocation: SettingsLocation) => void;
     }) =>
       renderDonationsPane({
         contentsRef,
-        page,
-        setPage,
+        settingsLocation,
+        setSettingsLocation,
         me,
         donationReceipts: [],
         saveAttachmentToDisk: async () => {
@@ -534,7 +544,7 @@ export default {
     setGlobalDefaultConversationColor: action(
       'setGlobalDefaultConversationColor'
     ),
-    setPage: action('setPage'),
+    setSettingsLocation: action('setSettingsLocation'),
     showToast: action('showToast'),
     validateBackup: async () => {
       return {
@@ -559,18 +569,17 @@ export default {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  const [page, setPage] = useState(args.page);
+  const [settingsLocation, setSettingsLocation] = useState(
+    args.settingsLocation
+  );
   return (
     <Preferences
       {...args}
-      page={page}
-      setPage={(
-        newPage: SettingsPage,
-        profilePage: ProfileEditorPage | undefined
-      ) => {
+      settingsLocation={settingsLocation}
+      setSettingsLocation={(newSettingsLocation: SettingsLocation) => {
         // eslint-disable-next-line no-console
-        console.log('setPage:', newPage, profilePage);
-        setPage(newPage);
+        console.log('setSettingsLocation:', newSettingsLocation);
+        setSettingsLocation(newSettingsLocation);
       }}
     />
   );
@@ -580,62 +589,69 @@ export const _Preferences = Template.bind({});
 
 export const General = Template.bind({});
 General.args = {
-  page: SettingsPage.General,
+  settingsLocation: { page: SettingsPage.General },
 };
 export const Appearance = Template.bind({});
 Appearance.args = {
-  page: SettingsPage.Appearance,
+  settingsLocation: { page: SettingsPage.Appearance },
 };
 export const Chats = Template.bind({});
 Chats.args = {
-  page: SettingsPage.Chats,
+  settingsLocation: { page: SettingsPage.Chats },
 };
 export const ChatFolders = Template.bind({});
 ChatFolders.args = {
-  page: SettingsPage.ChatFolders,
+  settingsLocation: { page: SettingsPage.ChatFolders },
 };
 export const EditChatFolder = Template.bind({});
 EditChatFolder.args = {
-  page: SettingsPage.EditChatFolder,
+  settingsLocation: {
+    page: SettingsPage.EditChatFolder,
+    chatFolderId: null,
+    previousLocation: {
+      tab: NavTab.Settings,
+      details: { page: SettingsPage.ChatFolders },
+    },
+  },
 };
 export const Calls = Template.bind({});
 Calls.args = {
-  page: SettingsPage.Calls,
+  settingsLocation: { page: SettingsPage.Calls },
 };
 export const Notifications = Template.bind({});
 Notifications.args = {
-  page: SettingsPage.Notifications,
+  settingsLocation: { page: SettingsPage.Notifications },
 };
 export const Privacy = Template.bind({});
 Privacy.args = {
-  page: SettingsPage.Privacy,
+  settingsLocation: { page: SettingsPage.Privacy },
 };
 export const DataUsage = Template.bind({});
 DataUsage.args = {
-  page: SettingsPage.DataUsage,
+  settingsLocation: { page: SettingsPage.DataUsage },
 };
 export const Donations = Template.bind({});
 Donations.args = {
   donationsFeatureEnabled: true,
-  page: SettingsPage.Donations,
+  settingsLocation: { page: SettingsPage.Donations },
 };
 export const DonationsDonateFlow = Template.bind({});
 DonationsDonateFlow.args = {
   donationsFeatureEnabled: true,
-  page: SettingsPage.DonationsDonateFlow,
+  settingsLocation: { page: SettingsPage.DonationsDonateFlow },
   renderDonationsPane: ({
     contentsRef,
   }: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-    page: SettingsPage;
-    setPage: (page: SettingsPage) => void;
+    settingsLocation: SettingsLocation;
+    setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   }) =>
     renderDonationsPane({
       contentsRef,
       me,
       donationReceipts: [],
-      page: SettingsPage.DonationsDonateFlow,
-      setPage: action('setPage'),
+      settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+      setSettingsLocation: action('setSettingsLocation'),
       saveAttachmentToDisk: async () => {
         action('saveAttachmentToDisk')();
         return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
@@ -650,13 +666,13 @@ DonationsDonateFlow.args = {
 export const DonationReceipts = Template.bind({});
 DonationReceipts.args = {
   donationsFeatureEnabled: true,
-  page: SettingsPage.DonationsDonateFlow,
+  settingsLocation: { page: SettingsPage.DonationsDonateFlow },
   renderDonationsPane: ({
     contentsRef,
   }: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-    page: SettingsPage;
-    setPage: (page: SettingsPage) => void;
+    settingsLocation: SettingsLocation;
+    setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   }) =>
     renderDonationsPane({
       contentsRef,
@@ -675,8 +691,8 @@ DonationReceipts.args = {
           timestamp: 1753995255509,
         },
       ],
-      page: SettingsPage.DonationsReceiptList,
-      setPage: action('setPage'),
+      settingsLocation: { page: SettingsPage.DonationsReceiptList },
+      setSettingsLocation: action('setSettingsLocation'),
       saveAttachmentToDisk: async () => {
         action('saveAttachmentToDisk')();
         return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
@@ -691,7 +707,7 @@ DonationReceipts.args = {
 export const DonationsHomeWithInProgressDonation = Template.bind({});
 DonationsHomeWithInProgressDonation.args = {
   donationsFeatureEnabled: true,
-  page: SettingsPage.Donations,
+  settingsLocation: { page: SettingsPage.Donations },
   renderDonationsPane: ({
     contentsRef,
   }: {
@@ -701,8 +717,8 @@ DonationsHomeWithInProgressDonation.args = {
       contentsRef,
       me,
       donationReceipts: [],
-      page: SettingsPage.Donations,
-      setPage: action('setPage'),
+      settingsLocation: { page: SettingsPage.Donations },
+      setSettingsLocation: action('setSettingsLocation'),
       saveAttachmentToDisk: async () => {
         action('saveAttachmentToDisk')();
         return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
@@ -727,45 +743,45 @@ DonationsHomeWithInProgressDonation.args = {
 };
 export const Internal = Template.bind({});
 Internal.args = {
-  page: SettingsPage.Internal,
+  settingsLocation: { page: SettingsPage.Internal },
   isInternalUser: true,
 };
 
 export const Blocked1 = Template.bind({});
 Blocked1.args = {
   blockedCount: 1,
-  page: SettingsPage.Privacy,
+  settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const BlockedMany = Template.bind({});
 BlockedMany.args = {
   blockedCount: 55,
-  page: SettingsPage.Privacy,
+  settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const CustomUniversalExpireTimer = Template.bind({});
 CustomUniversalExpireTimer.args = {
   universalExpireTimer: DurationInSeconds.fromSeconds(9000),
-  page: SettingsPage.Privacy,
+  settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PNPSharingDisabled = Template.bind({});
 PNPSharingDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
-  page: SettingsPage.PNP,
+  settingsLocation: { page: SettingsPage.PNP },
 };
 
 export const PNPDiscoverabilityDisabled = Template.bind({});
 PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
-  page: SettingsPage.PNP,
+  settingsLocation: { page: SettingsPage.PNP },
 };
 
 export const BackupsMediaDownloadActive = Template.bind({});
 BackupsMediaDownloadActive.args = {
-  page: SettingsPage.BackupsDetails,
+  settingsLocation: { page: SettingsPage.BackupsDetails },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
@@ -789,7 +805,7 @@ BackupsMediaDownloadActive.args = {
 };
 export const BackupsMediaDownloadPaused = Template.bind({});
 BackupsMediaDownloadPaused.args = {
-  page: SettingsPage.BackupsDetails,
+  settingsLocation: { page: SettingsPage.BackupsDetails },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
@@ -814,7 +830,7 @@ BackupsMediaDownloadPaused.args = {
 
 export const BackupsPaidActive = Template.bind({});
 BackupsPaidActive.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
@@ -833,7 +849,7 @@ BackupsPaidActive.args = {
 
 export const BackupsPaidCanceled = Template.bind({});
 BackupsPaidCanceled.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
@@ -852,7 +868,7 @@ BackupsPaidCanceled.args = {
 
 export const BackupsFree = Template.bind({});
 BackupsFree.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
@@ -862,7 +878,7 @@ BackupsFree.args = {
 };
 export const BackupsFreeNoLocal = Template.bind({});
 BackupsFreeNoLocal.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: false,
   backupSubscriptionStatus: {
@@ -873,28 +889,28 @@ BackupsFreeNoLocal.args = {
 
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 
 export const BackupsLocalBackups = Template.bind({});
 BackupsLocalBackups.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 
 export const BackupsRemoteEnabledLocalDisabled = Template.bind({});
 BackupsRemoteEnabledLocalDisabled.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: false,
 };
 
 export const BackupsSubscriptionNotFound = Template.bind({});
 BackupsSubscriptionNotFound.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
@@ -908,7 +924,7 @@ BackupsSubscriptionNotFound.args = {
 
 export const BackupsSubscriptionExpired = Template.bind({});
 BackupsSubscriptionExpired.args = {
-  page: SettingsPage.Backups,
+  settingsLocation: { page: SettingsPage.Backups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
@@ -918,7 +934,7 @@ BackupsSubscriptionExpired.args = {
 
 export const LocalBackups = Template.bind({});
 LocalBackups.args = {
-  page: SettingsPage.LocalBackups,
+  settingsLocation: { page: SettingsPage.LocalBackups },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupKeyViewed: true,
@@ -927,14 +943,14 @@ LocalBackups.args = {
 
 export const LocalBackupsSetupChooseFolder = Template.bind({});
 LocalBackupsSetupChooseFolder.args = {
-  page: SettingsPage.LocalBackupsSetupFolder,
+  settingsLocation: { page: SettingsPage.LocalBackupsSetupFolder },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 
 export const LocalBackupsSetupViewBackupKey = Template.bind({});
 LocalBackupsSetupViewBackupKey.args = {
-  page: SettingsPage.LocalBackupsSetupKey,
+  settingsLocation: { page: SettingsPage.LocalBackupsSetupKey },
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   localBackupFolder: '/home/signaluser/Signal Backups/',
@@ -957,7 +973,7 @@ NavTabsCollapsedWithBadges.args = {
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,
-    markedUnread: false,
+    readChatsMarkedUnreadCount: 0,
   },
 };
 
@@ -968,7 +984,7 @@ NavTabsCollapsedWithExclamation.args = {
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,
-    markedUnread: true,
+    readChatsMarkedUnreadCount: 0,
   },
 };
 

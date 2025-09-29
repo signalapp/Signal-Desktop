@@ -436,6 +436,24 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ['ts/axo/**/*.tsx'],
+      rules: {
+        '@typescript-eslint/no-namespace': 'off',
+        '@typescript-eslint/no-redeclare': [
+          'error',
+          {
+            ignoreDeclarationMerge: true,
+          },
+        ],
+        '@typescript-eslint/explicit-module-boundary-types': [
+          'error',
+          {
+            allowHigherOrderFunctions: false,
+          },
+        ],
+      },
+    },
   ],
 
   rules: {

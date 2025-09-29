@@ -131,6 +131,14 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
   }
 
+  override getPreRowsNode({
+    renderLeftPaneChatFolders,
+  }: Readonly<{
+    renderLeftPaneChatFolders: () => JSX.Element;
+  }>): ReactChild {
+    return renderLeftPaneChatFolders();
+  }
+
   override getBackgroundNode({
     i18n,
   }: Readonly<{

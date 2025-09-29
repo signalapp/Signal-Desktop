@@ -373,17 +373,19 @@ export const ConversationMessageRequest = (): JSX.Element =>
 export function ConversationsUnreadCount(): JSX.Element {
   return (
     <Wrapper
-      rows={[4, 10, 34, 250, 2048].map(unreadCount => ({
-        type: RowType.Conversation,
-        conversation: createConversation({
-          lastMessage: {
-            text: 'Hey there!',
-            status: 'delivered',
-            deletedForEveryone: false,
-          },
-          unreadCount,
-        }),
-      }))}
+      rows={[4, 10, 34, 250, 2048, Number.MAX_SAFE_INTEGER].map(
+        unreadCount => ({
+          type: RowType.Conversation,
+          conversation: createConversation({
+            lastMessage: {
+              text: 'Hey there!',
+              status: 'delivered',
+              deletedForEveryone: false,
+            },
+            unreadCount,
+          }),
+        })
+      )}
     />
   );
 }

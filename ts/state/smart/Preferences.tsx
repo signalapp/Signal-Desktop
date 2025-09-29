@@ -64,7 +64,8 @@ import {
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import { SmartProfileEditor } from './ProfileEditor.js';
 import { useNavActions } from '../ducks/nav.js';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../../types/Nav.js';
+import type { SettingsLocation } from '../../types/Nav.js';
+import { NavTab } from '../../types/Nav.js';
 import { SmartToastManager } from './ToastManager.js';
 import { useToastActions } from '../ducks/toast.js';
 import { DataReader } from '../../sql/Client.js';
@@ -127,19 +128,19 @@ function renderToastManager(props: {
 
 function renderDonationsPane({
   contentsRef,
-  page,
-  setPage,
+  settingsLocation,
+  setSettingsLocation,
 }: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-  page: SettingsPage;
-  setPage: (page: SettingsPage) => void;
+  settingsLocation: SettingsLocation;
+  setSettingsLocation: (settingsLocation: SettingsLocation) => void;
 }): JSX.Element {
   return (
     <DonationsErrorBoundary>
       <SmartPreferencesDonations
         contentsRef={contentsRef}
-        page={page}
-        setPage={setPage}
+        settingsLocation={settingsLocation}
+        setSettingsLocation={setSettingsLocation}
       />
     </DonationsErrorBoundary>
   );
@@ -719,24 +720,12 @@ export function SmartPreferences(): JSX.Element | null {
     return null;
   }
 
-  const { page } = currentLocation.details;
-  const setPage = (newPage: SettingsPage, editState?: ProfileEditorPage) => {
-    if (newPage === SettingsPage.Profile) {
-      changeLocation({
-        tab: NavTab.Settings,
-        details: {
-          page: newPage,
-          state: editState || ProfileEditorPage.None,
-        },
-      });
-      return;
-    }
+  const settingsLocation = currentLocation.details;
 
+  const setSettingsLocation = (location: SettingsLocation) => {
     changeLocation({
       tab: NavTab.Settings,
-      details: {
-        page: newPage,
-      },
+      details: location,
     });
   };
 
@@ -873,7 +862,7 @@ export function SmartPreferences(): JSX.Element | null {
           onWhoCanSeeMeChange={onWhoCanSeeMeChange}
           onZoomFactorChange={onZoomFactorChange}
           otherTabsUnreadStats={otherTabsUnreadStats}
-          page={page}
+          settingsLocation={settingsLocation}
           pickLocalBackupFolder={pickLocalBackupFolder}
           preferredSystemLocales={preferredSystemLocales}
           preferredWidthFromStorage={preferredWidthFromStorage}
@@ -902,7 +891,7 @@ export function SmartPreferences(): JSX.Element | null {
           selectedSpeaker={selectedSpeaker}
           sentMediaQualitySetting={sentMediaQualitySetting}
           setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
-          setPage={setPage}
+          setSettingsLocation={setSettingsLocation}
           shouldShowUpdateDialog={shouldShowUpdateDialog}
           showToast={showToast}
           theme={theme}

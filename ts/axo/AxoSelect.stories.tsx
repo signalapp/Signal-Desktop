@@ -1,5 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoSelect } from './AxoSelect.js';
@@ -8,6 +9,18 @@ import { tw } from './tw.js';
 export default {
   title: 'Axo/AxoSelect',
 } satisfies Meta;
+
+function TemplateItem(props: {
+  value: string;
+  disabled?: boolean;
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <AxoSelect.Item value={props.value} disabled={props.disabled}>
+      <AxoSelect.ItemText>{props.children}</AxoSelect.ItemText>
+    </AxoSelect.Item>
+  );
+}
 
 function Template(props: {
   disabled?: boolean;
@@ -29,29 +42,29 @@ function Template(props: {
       <AxoSelect.Content>
         <AxoSelect.Group>
           <AxoSelect.Label>Fruits</AxoSelect.Label>
-          <AxoSelect.Item value="apple">Apple</AxoSelect.Item>
-          <AxoSelect.Item value="banana">Banana</AxoSelect.Item>
-          <AxoSelect.Item value="blueberry">Blueberry</AxoSelect.Item>
-          <AxoSelect.Item value="grapes">Grapes</AxoSelect.Item>
-          <AxoSelect.Item value="pineapple">Pineapple</AxoSelect.Item>
+          <TemplateItem value="apple">Apple</TemplateItem>
+          <TemplateItem value="banana">Banana</TemplateItem>
+          <TemplateItem value="blueberry">Blueberry</TemplateItem>
+          <TemplateItem value="grapes">Grapes</TemplateItem>
+          <TemplateItem value="pineapple">Pineapple</TemplateItem>
         </AxoSelect.Group>
         <AxoSelect.Separator />
         <AxoSelect.Group>
           <AxoSelect.Label>Vegetables</AxoSelect.Label>
-          <AxoSelect.Item value="aubergine">Aubergine</AxoSelect.Item>
-          <AxoSelect.Item value="broccoli">Broccoli</AxoSelect.Item>
-          <AxoSelect.Item value="carrot" disabled>
+          <TemplateItem value="aubergine">Aubergine</TemplateItem>
+          <TemplateItem value="broccoli">Broccoli</TemplateItem>
+          <TemplateItem value="carrot" disabled>
             Carrot
-          </AxoSelect.Item>
-          <AxoSelect.Item value="leek">Leek</AxoSelect.Item>
+          </TemplateItem>
+          <TemplateItem value="leek">Leek</TemplateItem>
         </AxoSelect.Group>
         <AxoSelect.Separator />
         <AxoSelect.Group>
           <AxoSelect.Label>Meat</AxoSelect.Label>
-          <AxoSelect.Item value="beef">Beef</AxoSelect.Item>
-          <AxoSelect.Item value="chicken">Chicken</AxoSelect.Item>
-          <AxoSelect.Item value="lamb">Lamb</AxoSelect.Item>
-          <AxoSelect.Item value="pork">Pork</AxoSelect.Item>
+          <TemplateItem value="beef">Beef</TemplateItem>
+          <TemplateItem value="chicken">Chicken</TemplateItem>
+          <TemplateItem value="lamb">Lamb</TemplateItem>
+          <TemplateItem value="pork">Pork</TemplateItem>
         </AxoSelect.Group>
       </AxoSelect.Content>
     </AxoSelect.Root>

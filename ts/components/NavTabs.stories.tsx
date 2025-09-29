@@ -38,7 +38,7 @@ const createProps = (
   unreadConversationsStats: overrideProps.unreadConversationsStats ?? {
     unreadCount: 0,
     unreadMentionsCount: 0,
-    markedUnread: false,
+    readChatsMarkedUnreadCount: 0,
   },
   unreadStoriesCount: overrideProps.unreadStoriesCount ?? 0,
 });

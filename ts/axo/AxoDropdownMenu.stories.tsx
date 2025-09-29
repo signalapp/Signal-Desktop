@@ -19,9 +19,9 @@ export function Basic(): JSX.Element {
     <div className={tw('flex h-96 w-full items-center justify-center')}>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton variant="secondary" size="medium">
+          <AxoButton.Root variant="secondary" size="medium">
             Open Dropdown Menu
-          </AxoButton>
+          </AxoButton.Root>
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
           <AxoDropdownMenu.Item

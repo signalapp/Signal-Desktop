@@ -51,7 +51,6 @@ const Namespace = 'AxoDropdownMenu';
  * )
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoDropdownMenu {
   /**
    * Component: <AxoDropdownMenu.Root>
@@ -261,7 +260,7 @@ export namespace AxoDropdownMenu {
   export const RadioGroup: FC<RadioGroupProps> = memo(props => {
     return (
       <DropdownMenu.RadioGroup
-        value={props.value}
+        value={props.value ?? undefined}
         onValueChange={props.onValueChange}
         className={AxoBaseMenu.menuRadioGroupStyles}
       >
@@ -297,7 +296,11 @@ export namespace AxoDropdownMenu {
           </AxoBaseMenu.ItemCheckPlaceholder>
         </AxoBaseMenu.ItemLeadingSlot>
         <AxoBaseMenu.ItemContentSlot>
-          {props.symbol && <AxoBaseMenu.ItemSymbol symbol={props.symbol} />}
+          {props.symbol && (
+            <span className={tw('me-2')}>
+              <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
+            </span>
+          )}
           <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
           {props.keyboardShortcut && (
             <AxoBaseMenu.ItemKeyboardShortcut

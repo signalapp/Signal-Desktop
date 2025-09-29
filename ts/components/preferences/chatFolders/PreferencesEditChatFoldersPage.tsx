@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MutableRefObject } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
 import type { LocalizerType } from '../../../types/I18N.js';
@@ -28,12 +28,17 @@ import type {
 import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
 import { strictAssert } from '../../../util/assert.js';
 import { parseStrict } from '../../../util/schemas.js';
+import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
+import { type Location } from '../../../types/Nav.js';
+import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
+import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
+  previousLocation: Location;
   existingChatFolderId: ChatFolderId | null;
   initChatFolderParams: ChatFolderParams;
-  onBack: () => void;
+  changeLocation: (location: Location) => void;
   conversations: ReadonlyArray<ConversationType>;
   preferredBadgeSelector: PreferredBadgeSelectorType;
   theme: ThemeType;
@@ -52,12 +57,13 @@ export function PreferencesEditChatFolderPage(
 ): JSX.Element {
   const {
     i18n,
+    previousLocation,
     initChatFolderParams,
     existingChatFolderId,
     onCreateChatFolder,
     onUpdateChatFolder,
     onDeleteChatFolder,
-    onBack,
+    changeLocation,
     conversationSelector,
   } = props;
 
@@ -67,7 +73,6 @@ export function PreferencesEditChatFolderPage(
   const [showInclusionsDialog, setShowInclusionsDialog] = useState(false);
   const [showExclusionsDialog, setShowExclusionsDialog] = useState(false);
   const [showDeleteFolderDialog, setShowDeleteFolderDialog] = useState(false);
-  const [showSaveChangesDialog, setShowSaveChangesDialog] = useState(false);
 
   const normalizedChatFolderParams = useMemo(() => {
     return parseStrict(ChatFolderParamsSchema, chatFolderParams);
@@ -79,6 +84,12 @@ export function PreferencesEditChatFolderPage(
       normalizedChatFolderParams
     );
   }, [initChatFolderParams, normalizedChatFolderParams]);
+
+  const didSaveOrDiscardChangesRef = useRef(false);
+
+  const blocker = useNavBlocker('PreferencesEditChatFoldersPage', () => {
+    return isChanged && !didSaveOrDiscardChangesRef.current;
+  });
 
   const isValid = useMemo(() => {
     return validateChatFolderParams(normalizedChatFolderParams);
@@ -102,23 +113,16 @@ export function PreferencesEditChatFolderPage(
     });
   }, []);
 
-  const handleBackInit = useCallback(() => {
-    if (!isChanged) {
-      onBack();
-    } else {
-      setShowSaveChangesDialog(true);
-    }
-  }, [isChanged, onBack]);
+  const handleBack = useCallback(() => {
+    changeLocation(previousLocation);
+  }, [changeLocation, previousLocation]);
 
-  const handleDiscard = useCallback(() => {
-    onBack();
-  }, [onBack]);
+  const handleDiscardAndBack = useCallback(() => {
+    didSaveOrDiscardChangesRef.current = true;
+    handleBack();
+  }, [handleBack]);
 
-  const handleSaveClose = useCallback(() => {
-    setShowSaveChangesDialog(false);
-  }, []);
-
-  const handleSave = useCallback(() => {
+  const handleSaveChanges = useCallback(() => {
     strictAssert(isChanged, 'tried saving when unchanged');
     strictAssert(isValid, 'tried saving when invalid');
 
@@ -127,9 +131,9 @@ export function PreferencesEditChatFolderPage(
     } else {
       onCreateChatFolder(normalizedChatFolderParams);
     }
-    onBack();
+
+    didSaveOrDiscardChangesRef.current = true;
   }, [
-    onBack,
     existingChatFolderId,
     isChanged,
     isValid,
@@ -138,6 +142,24 @@ export function PreferencesEditChatFolderPage(
     onUpdateChatFolder,
   ]);
 
+  const handleSaveChangesAndBack = useCallback(() => {
+    handleSaveChanges();
+    handleBack();
+  }, [handleSaveChanges, handleBack]);
+
+  const handleBlockerCancelNavigation = useCallback(() => {
+    blocker.respond?.(BeforeNavigateResponse.CancelNavigation);
+  }, [blocker]);
+
+  const handleBlockerSaveChanges = useCallback(() => {
+    handleSaveChanges();
+    blocker.respond?.(BeforeNavigateResponse.WaitedForUser);
+  }, [handleSaveChanges, blocker]);
+
+  const handleBlockerDiscardChanges = useCallback(() => {
+    blocker.respond?.(BeforeNavigateResponse.WaitedForUser);
+  }, [blocker]);
+
   const handleDeleteInit = useCallback(() => {
     setShowDeleteFolderDialog(true);
   }, []);
@@ -145,8 +167,8 @@ export function PreferencesEditChatFolderPage(
     strictAssert(existingChatFolderId, 'Missing existing chat folder id');
     onDeleteChatFolder(existingChatFolderId);
     setShowDeleteFolderDialog(false);
-    onBack();
-  }, [existingChatFolderId, onDeleteChatFolder, onBack]);
+    handleBack();
+  }, [existingChatFolderId, onDeleteChatFolder, handleBack]);
   const handleDeleteClose = useCallback(() => {
     setShowDeleteFolderDialog(false);
   }, []);
@@ -193,7 +215,7 @@ export function PreferencesEditChatFolderPage(
         <button
           aria-label={i18n('icu:goBack')}
           className="Preferences__back-icon"
-          onClick={handleBackInit}
+          onClick={handleBack}
           type="button"
         />
       }
@@ -415,16 +437,28 @@ export function PreferencesEditChatFolderPage(
           {showDeleteFolderDialog && (
             <DeleteChatFolderDialog
               i18n={i18n}
+              title={i18n(
+                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title'
+              )}
+              description={i18n(
+                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description'
+              )}
+              cancelText={i18n(
+                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton'
+              )}
+              deleteText={i18n(
+                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton'
+              )}
               onConfirm={handleDeleteConfirm}
               onClose={handleDeleteClose}
             />
           )}
-          {showSaveChangesDialog && (
+          {blocker.state === 'blocked' && (
             <SaveChangesFolderDialog
               i18n={i18n}
-              onSave={handleSave}
-              onCancel={handleDiscard}
-              onClose={handleSaveClose}
+              onSave={handleBlockerSaveChanges}
+              onDiscard={handleBlockerDiscardChanges}
+              onClose={handleBlockerCancelNavigation}
             />
           )}
         </>
@@ -433,12 +467,15 @@ export function PreferencesEditChatFolderPage(
       title={i18n('icu:Preferences__EditChatFolderPage__Title')}
       actions={
         <>
-          <Button variant={ButtonVariant.Secondary} onClick={handleDiscard}>
+          <Button
+            variant={ButtonVariant.Secondary}
+            onClick={handleDiscardAndBack}
+          >
             {i18n('icu:Preferences__EditChatFolderPage__CancelButton')}
           </Button>
           <Button
             variant={ButtonVariant.Primary}
-            onClick={handleSave}
+            onClick={handleSaveChangesAndBack}
             disabled={!(isChanged && isValid)}
           >
             {i18n('icu:Preferences__EditChatFolderPage__SaveButton')}
@@ -449,44 +486,10 @@ export function PreferencesEditChatFolderPage(
   );
 }
 
-function DeleteChatFolderDialog(props: {
-  i18n: LocalizerType;
-  onConfirm: () => void;
-  onClose: () => void;
-}) {
-  const { i18n } = props;
-  return (
-    <ConfirmationDialog
-      i18n={i18n}
-      dialogName="Preferences__EditChatFolderPage__DeleteChatFolderDialog"
-      title={i18n(
-        'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title'
-      )}
-      cancelText={i18n(
-        'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton'
-      )}
-      actions={[
-        {
-          text: i18n(
-            'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton'
-          ),
-          style: 'affirmative',
-          action: props.onConfirm,
-        },
-      ]}
-      onClose={props.onClose}
-    >
-      {i18n(
-        'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description'
-      )}
-    </ConfirmationDialog>
-  );
-}
-
 function SaveChangesFolderDialog(props: {
   i18n: LocalizerType;
   onSave: () => void;
-  onCancel: () => void;
+  onDiscard: () => void;
   onClose: () => void;
 }) {
   const { i18n } = props;
@@ -510,7 +513,7 @@ function SaveChangesFolderDialog(props: {
           action: props.onSave,
         },
       ]}
-      onCancel={props.onCancel}
+      onCancel={props.onDiscard}
       onClose={props.onClose}
     >
       {i18n(

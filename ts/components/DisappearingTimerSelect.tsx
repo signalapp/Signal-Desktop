@@ -107,7 +107,7 @@ export function DisappearingTimerSelect(props: Props): JSX.Element {
           {expirationTimerOptions.map(option => {
             return (
               <AxoSelect.Item key={option.value} value={String(option.value)}>
-                {option.text}
+                <AxoSelect.ItemText>{option.text}</AxoSelect.ItemText>
               </AxoSelect.Item>
             );
           })}

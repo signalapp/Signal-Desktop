@@ -41,6 +41,7 @@ import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
 import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.js';
 import type { QuotedMessageForComposerType } from './state/ducks/composer.js';
+import type { SEALED_SENDER } from './types/SealedSender.js';
 
 export type LastMessageStatus =
   | 'paused'
@@ -399,7 +400,7 @@ export type ConversationAttributesType = {
    * TODO: Rename this key to be specific to the accessKey on the conversation
    * It's not used for group endorsements.
    */
-  sealedSender?: unknown;
+  sealedSender?: SEALED_SENDER;
   sentMessageCount?: number;
   sharedGroupNames?: ReadonlyArray<string>;
   voiceNotePlaybackRate?: number;

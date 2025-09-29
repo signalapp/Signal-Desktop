@@ -1246,6 +1246,7 @@ type WritableInterface = {
   createDonationReceipt(profile: DonationReceipt): void;
 
   createChatFolder: (chatFolder: ChatFolder) => void;
+  createAllChatsChatFolder: () => ChatFolder;
   updateChatFolder: (chatFolder: ChatFolder) => void;
   updateChatFolderPositions: (chatFolders: ReadonlyArray<ChatFolder>) => void;
   updateChatFolderDeletedAtTimestampMsFromSync: (

@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Selector } from 'reselect';
+import type { StateType } from './reducer.js';
 import type { actions as accounts } from './ducks/accounts.js';
 import type { actions as app } from './ducks/app.js';
 import type { actions as audioPlayer } from './ducks/audioPlayer.js';
@@ -72,3 +74,5 @@ export type ReduxActions = {
   user: typeof user;
   username: typeof username;
 };
+
+export type StateSelector<T> = Selector<StateType, T>;

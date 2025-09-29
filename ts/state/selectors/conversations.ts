@@ -4,9 +4,8 @@
 import memoizee from 'memoizee';
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
-
 import type { StateType } from '../reducer.js';
-
+import type { StateSelector } from '../types.js';
 import type {
   ConversationLookupType,
   ConversationMessageType,
@@ -64,10 +63,25 @@ import type { HasStories } from '../../types/Stories.js';
 import { getHasStoriesSelector } from './stories2.js';
 import { canEditMessage } from '../../util/canEditMessage.js';
 import { isOutgoing } from '../../messages/helpers.js';
-import {
-  countAllConversationsUnreadStats,
-  type UnreadStats,
+import type {
+  AllChatFoldersUnreadStats,
+  UnreadStats,
 } from '../../util/countUnreadStats.js';
+import {
+  isConversationInChatFolder,
+  type ChatFolder,
+} from '../../types/ChatFolder.js';
+import {
+  getSelectedChatFolder,
+  getSortedChatFolders,
+  getStableSelectedConversationIdInChatFolder,
+} from './chatFolders.js';
+import {
+  countAllChatFoldersUnreadStats,
+  countAllConversationsUnreadStats,
+} from '../../util/countUnreadStats.js';
+import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.js';
+import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.js';
 
 const { isNumber, pick } = lodash;
 
@@ -364,21 +378,71 @@ type LeftPaneLists = Readonly<{
   pinnedConversations: ReadonlyArray<ConversationType>;
 }>;
 
-export const _getLeftPaneLists = (
-  lookup: ConversationLookupType,
-  comparator: (left: ConversationType, right: ConversationType) => number,
-  selectedConversation?: string,
-  pinnedConversationIds?: ReadonlyArray<string>
-): LeftPaneLists => {
+function _shouldIncludeInChatFolder(
+  conversation: ConversationType,
+  selectedChatFolder: ChatFolder | null,
+  stableSelectedConversationIdInChatFolder: string | null
+): boolean {
+  if (selectedChatFolder == null) {
+    return true;
+  }
+
+  // This keeps conversation items from instantly disappearing from the left
+  // pane list when you open them and they get marked read
+  if (
+    stableSelectedConversationIdInChatFolder != null &&
+    conversation.id === stableSelectedConversationIdInChatFolder
+  ) {
+    return true;
+  }
+
+  if (isConversationInChatFolder(selectedChatFolder, conversation)) {
+    return true;
+  }
+
+  return false;
+}
+
+type GetLeftPaneListsProps = Readonly<{
+  conversationLookup: ConversationLookupType;
+  conversationComparator: (
+    left: ConversationType,
+    right: ConversationType
+  ) => number;
+  selectedConversationId: string | undefined;
+  pinnedConversationIds: ReadonlyArray<string> | null;
+  selectedChatFolder: ChatFolder | null;
+  stableSelectedConversationIdInChatFolder: string | null;
+}>;
+
+export const _getLeftPaneLists = ({
+  conversationLookup,
+  conversationComparator,
+  selectedConversationId,
+  pinnedConversationIds,
+  selectedChatFolder,
+  stableSelectedConversationIdInChatFolder,
+}: GetLeftPaneListsProps): LeftPaneLists => {
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
   const pinnedConversations: Array<ConversationType> = [];
 
-  const values = Object.values(lookup);
+  const values = Object.values(conversationLookup);
   const max = values.length;
   for (let i = 0; i < max; i += 1) {
     let conversation = values[i];
-    if (selectedConversation === conversation.id) {
+
+    if (
+      !_shouldIncludeInChatFolder(
+        conversation,
+        selectedChatFolder,
+        stableSelectedConversationIdInChatFolder
+      )
+    ) {
+      continue;
+    }
+
+    if (selectedConversationId === conversation.id) {
       conversation = {
         ...conversation,
         isSelected: true,
@@ -400,8 +464,8 @@ export const _getLeftPaneLists = (
     }
   }
 
-  conversations.sort(comparator);
-  archivedConversations.sort(comparator);
+  conversations.sort(conversationComparator);
+  archivedConversations.sort(conversationComparator);
 
   pinnedConversations.sort(
     (a, b) =>
@@ -417,7 +481,25 @@ export const getLeftPaneLists = createSelector(
   getConversationComparator,
   getSelectedConversationId,
   getPinnedConversationIds,
-  _getLeftPaneLists
+  getSelectedChatFolder,
+  getStableSelectedConversationIdInChatFolder,
+  (
+    conversationLookup,
+    conversationComparator,
+    selectedConversationId,
+    pinnedConversationIds,
+    selectedChatFolder,
+    stableSelectedConversationIdInChatFolder
+  ) => {
+    return _getLeftPaneLists({
+      conversationLookup,
+      conversationComparator,
+      selectedConversationId,
+      pinnedConversationIds,
+      selectedChatFolder,
+      stableSelectedConversationIdInChatFolder,
+    });
+  }
 );
 
 export const getMaximumGroupSizeModalState = createSelector(
@@ -614,6 +696,30 @@ export const getAllConversationsUnreadStats = createSelector(
     });
   }
 );
+
+export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadStats> =
+  createSelector(
+    getSortedChatFolders,
+    getAllConversations,
+    (sortedChatFolders, allConversations) => {
+      return countAllChatFoldersUnreadStats(
+        sortedChatFolders,
+        allConversations,
+        {
+          includeMuted: false,
+        }
+      );
+    }
+  );
+
+export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats> =
+  createSelector(
+    getSortedChatFolders,
+    getAllConversations,
+    (sortedChatFolders, allConversations) => {
+      return countAllChatFoldersMutedStats(sortedChatFolders, allConversations);
+    }
+  );
 
 /**
  * getComposableContacts/getCandidateContactsForNewGroup both return contacts for the

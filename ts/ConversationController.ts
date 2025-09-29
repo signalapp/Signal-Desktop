@@ -368,6 +368,8 @@ export class ConversationController {
           // because `conversation.format()` can return cached props by the
           // time this runs
           return {
+            id: conversation.get('id'),
+            type: conversation.get('type') === 'private' ? 'direct' : 'group',
             activeAt: conversation.get('active_at') ?? undefined,
             isArchived: conversation.get('isArchived'),
             markedUnread: conversation.get('markedUnread'),
@@ -383,15 +385,16 @@ export class ConversationController {
     drop(window.storage.put('unreadCount', unreadStats.unreadCount));
 
     if (unreadStats.unreadCount > 0) {
-      window.IPC.setBadge(unreadStats.unreadCount);
-      window.IPC.updateTrayIcon(unreadStats.unreadCount);
-      window.document.title = `${window.getTitle()} (${
-        unreadStats.unreadCount
-      })`;
-    } else if (unreadStats.markedUnread) {
-      window.IPC.setBadge('marked-unread');
-      window.IPC.updateTrayIcon(1);
-      window.document.title = `${window.getTitle()} (1)`;
+      const total =
+        unreadStats.unreadCount + unreadStats.readChatsMarkedUnreadCount;
+      window.IPC.setBadge(total);
+      window.IPC.updateTrayIcon(total);
+      window.document.title = `${window.getTitle()} (${total})`;
+    } else if (unreadStats.readChatsMarkedUnreadCount > 0) {
+      const total = unreadStats.readChatsMarkedUnreadCount;
+      window.IPC.setBadge(total);
+      window.IPC.updateTrayIcon(total);
+      window.document.title = `${window.getTitle()} (${total})`;
     } else {
       window.IPC.setBadge(0);
       window.IPC.updateTrayIcon(0);

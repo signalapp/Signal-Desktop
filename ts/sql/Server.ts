@@ -239,6 +239,7 @@ import {
   getCurrentChatFolders,
   getChatFolder,
   createChatFolder,
+  createAllChatsChatFolder,
   updateChatFolder,
   markChatFolderDeleted,
   getOldestDeletedChatFolder,
@@ -700,6 +701,7 @@ export const DataWriter: ServerWritableInterface = {
   createDonationReceipt,
 
   createChatFolder,
+  createAllChatsChatFolder,
   updateChatFolder,
   markChatFolderDeleted,
   deleteExpiredChatFolders,
@@ -7655,8 +7657,8 @@ function hydrateNotificationProfile(
     allowAllMentions: Boolean(profile.allowAllMentions),
     scheduleEnabled: Boolean(profile.scheduleEnabled),
     allowedMembers: profile.allowedMembersJson
-      ? new Set(JSON.parse(profile.allowedMembersJson))
-      : new Set(),
+      ? new Set<string>(JSON.parse(profile.allowedMembersJson))
+      : new Set<string>(),
     scheduleStartTime: profile.scheduleStartTime || undefined,
     scheduleEndTime: profile.scheduleEndTime || undefined,
     scheduleDaysEnabled: profile.scheduleDaysEnabledJson

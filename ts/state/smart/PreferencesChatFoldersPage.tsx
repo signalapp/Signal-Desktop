@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import type { PreferencesChatFoldersPageProps } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.js';
 import { PreferencesChatFoldersPage } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.js';
 import { getIntl } from '../selectors/user.js';
-import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import { getSortedChatFolders } from '../selectors/chatFolders.js';
 import type { ChatFolderId } from '../../types/ChatFolder.js';
 import { useChatFolderActions } from '../ducks/chatFolders.js';
 
@@ -19,8 +19,9 @@ export function SmartPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
 ): JSX.Element {
   const i18n = useSelector(getIntl);
-  const chatFolders = useSelector(getCurrentChatFolders);
-  const { createChatFolder } = useChatFolderActions();
+  const chatFolders = useSelector(getSortedChatFolders);
+  const { createChatFolder, deleteChatFolder, updateChatFoldersPositions } =
+    useChatFolderActions();
   return (
     <PreferencesChatFoldersPage
       i18n={i18n}
@@ -29,6 +30,8 @@ export function SmartPreferencesChatFoldersPage(
       onOpenEditChatFoldersPage={props.onOpenEditChatFoldersPage}
       chatFolders={chatFolders}
       onCreateChatFolder={createChatFolder}
+      onDeleteChatFolder={deleteChatFolder}
+      onUpdateChatFoldersPositions={updateChatFoldersPositions}
     />
   );
 }

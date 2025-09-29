@@ -2,267 +2,198 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-
+import { v4 as generateUuid } from 'uuid';
 import { countConversationUnreadStats } from '../../util/countUnreadStats.js';
+import type {
+  UnreadStats,
+  ConversationPropsForUnreadStats,
+} from '../../util/countUnreadStats.js';
 
-describe('countConversationUnreadStats', () => {
-  const mutedTimestamp = (): number => Date.now() + 12345;
-  const oldMutedTimestamp = (): number => Date.now() - 1000;
+function getFutureMutedTimestamp() {
+  return Date.now() + 12345;
+}
 
-  it('returns 0 if the conversation is archived', () => {
-    const archivedConversations = [
-      {
-        activeAt: Date.now(),
-        isArchived: true,
-        markedUnread: false,
-        unreadCount: 0,
-      },
-      {
-        activeAt: Date.now(),
-        isArchived: true,
-        markedUnread: false,
-        unreadCount: 123,
-      },
-      {
-        activeAt: Date.now(),
-        isArchived: true,
-        markedUnread: true,
-        unreadCount: 0,
-      },
-      { activeAt: Date.now(), isArchived: true, markedUnread: true },
-    ];
-    for (const conversation of archivedConversations) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
-          markedUnread: false,
-        }
-      );
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
-          markedUnread: false,
-        }
-      );
-    }
-  });
+function getPastMutedTimestamp() {
+  return Date.now() - 1000;
+}
 
-  it("returns 0 if the conversation is muted and the user doesn't want to include those in the result", () => {
-    const mutedConversations = [
-      {
-        activeAt: Date.now(),
-        muteExpiresAt: mutedTimestamp(),
-        markedUnread: false,
-        unreadCount: 0,
-      },
-      {
-        activeAt: Date.now(),
-        muteExpiresAt: mutedTimestamp(),
-        markedUnread: false,
-        unreadCount: 9,
-      },
-      {
-        activeAt: Date.now(),
-        muteExpiresAt: mutedTimestamp(),
-        markedUnread: true,
-        unreadCount: 0,
-      },
-      {
-        activeAt: Date.now(),
-        muteExpiresAt: mutedTimestamp(),
-        markedUnread: true,
-      },
-    ];
-    for (const conversation of mutedConversations) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
-          markedUnread: false,
-        }
-      );
-    }
-  });
+function mockChat(
+  props: Partial<ConversationPropsForUnreadStats>
+): ConversationPropsForUnreadStats {
+  return {
+    id: generateUuid(),
+    type: 'direct',
+    activeAt: Date.now(),
+    isArchived: false,
+    markedUnread: false,
+    unreadCount: 0,
+    unreadMentionsCount: 0,
+    muteExpiresAt: undefined,
+    left: false,
+    ...props,
+  };
+}
 
-  it('returns the unread count if nonzero (and not archived)', () => {
-    const conversationsWithUnreadCount = [
-      { activeAt: Date.now(), unreadCount: 9, markedUnread: false },
-      { activeAt: Date.now(), unreadCount: 9, markedUnread: true },
-      {
-        activeAt: Date.now(),
-        unreadCount: 9,
-        markedUnread: false,
-        muteExpiresAt: oldMutedTimestamp(),
-      },
-      {
-        activeAt: Date.now(),
-        unreadCount: 9,
-        markedUnread: false,
-        isArchived: false,
-      },
-    ];
-    for (const conversation of conversationsWithUnreadCount) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 9,
-          unreadMentionsCount: 0,
-          markedUnread: conversation.markedUnread,
-        }
-      );
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 9,
-          unreadMentionsCount: 0,
-          markedUnread: conversation.markedUnread,
-        }
-      );
-    }
+function mockStats(props: Partial<UnreadStats>): UnreadStats {
+  return {
+    unreadCount: 0,
+    unreadMentionsCount: 0,
+    readChatsMarkedUnreadCount: 0,
+    ...props,
+  };
+}
 
-    const mutedWithUnreads = {
-      activeAt: Date.now(),
-      unreadCount: 123,
-      markedUnread: false,
-      muteExpiresAt: mutedTimestamp(),
-    };
-    assert.deepStrictEqual(
-      countConversationUnreadStats(mutedWithUnreads, { includeMuted: true }),
-      {
-        unreadCount: 123,
-        unreadMentionsCount: 0,
-        markedUnread: false,
+describe('countUnreadStats', () => {
+  describe('countConversationUnreadStats', () => {
+    it('returns 0 if the conversation is archived', () => {
+      const isArchived = true;
+
+      const archivedConversations = [
+        mockChat({ isArchived, markedUnread: false, unreadCount: 0 }),
+        mockChat({ isArchived, markedUnread: false, unreadCount: 123 }),
+        mockChat({ isArchived, markedUnread: true, unreadCount: 0 }),
+        mockChat({ isArchived, markedUnread: true, unreadCount: undefined }),
+        mockChat({ isArchived, markedUnread: undefined, unreadCount: 0 }),
+      ];
+
+      for (const conversation of archivedConversations) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
       }
-    );
-  });
+    });
 
-  it('returns markedUnread:true if the conversation is marked unread', () => {
-    const conversationsMarkedUnread = [
-      { activeAt: Date.now(), markedUnread: true },
-      { activeAt: Date.now(), markedUnread: true, unreadCount: 0 },
-      {
-        activeAt: Date.now(),
-        markedUnread: true,
-        muteExpiresAt: oldMutedTimestamp(),
-      },
-      {
-        activeAt: Date.now(),
-        markedUnread: true,
-        muteExpiresAt: oldMutedTimestamp(),
-        isArchived: false,
-      },
-    ];
-    for (const conversation of conversationsMarkedUnread) {
+    it("returns 0 if the conversation is muted and the user doesn't want to include those in the result", () => {
+      const muteExpiresAt = getFutureMutedTimestamp();
+      const mutedConversations = [
+        mockChat({ muteExpiresAt, markedUnread: false, unreadCount: 0 }),
+        mockChat({ muteExpiresAt, markedUnread: false, unreadCount: 9 }),
+        mockChat({ muteExpiresAt, markedUnread: true, unreadCount: 0 }),
+        mockChat({ muteExpiresAt, markedUnread: true, unreadCount: undefined }),
+      ];
+      for (const conversation of mutedConversations) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+      }
+    });
+
+    it('returns the unread count if nonzero (and not archived)', () => {
+      const conversationsWithUnreadCount = [
+        mockChat({ unreadCount: 9, markedUnread: false }),
+        mockChat({ unreadCount: 9, markedUnread: true }),
+        mockChat({ unreadCount: 9, muteExpiresAt: getPastMutedTimestamp() }),
+      ];
+
+      for (const conversation of conversationsWithUnreadCount) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ unreadCount: 9 })
+        );
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ unreadCount: 9 })
+        );
+      }
+
+      const mutedWithUnreads = mockChat({
+        unreadCount: 123,
+        muteExpiresAt: getFutureMutedTimestamp(),
+      });
       assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
+        countConversationUnreadStats(mutedWithUnreads, { includeMuted: true }),
+        mockStats({ unreadCount: 123 })
+      );
+    });
+
+    it('returns markedUnread:true if the conversation is marked unread', () => {
+      const conversationsMarkedUnread = [
+        mockChat({ markedUnread: true }),
+        mockChat({
           markedUnread: true,
-        }
-      );
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
+          muteExpiresAt: getPastMutedTimestamp(),
+        }),
+      ];
+      for (const conversation of conversationsMarkedUnread) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ readChatsMarkedUnreadCount: 1 })
+        );
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ readChatsMarkedUnreadCount: 1 })
+        );
+      }
+
+      const mutedConversationsMarkedUnread = [
+        mockChat({
           markedUnread: true,
-        }
-      );
-    }
-
-    const mutedConversationsMarkedUnread = [
-      {
-        activeAt: Date.now(),
-        markedUnread: true,
-        muteExpiresAt: mutedTimestamp(),
-      },
-      {
-        activeAt: Date.now(),
-        markedUnread: true,
-        muteExpiresAt: mutedTimestamp(),
-        unreadCount: 0,
-      },
-    ];
-    for (const conversation of mutedConversationsMarkedUnread) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
+          muteExpiresAt: getFutureMutedTimestamp(),
+        }),
+        mockChat({
           markedUnread: true,
-        }
-      );
-    }
-  });
+          muteExpiresAt: getFutureMutedTimestamp(),
+          unreadCount: 0,
+        }),
+      ];
+      for (const conversation of mutedConversationsMarkedUnread) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ readChatsMarkedUnreadCount: 1 })
+        );
+      }
+    });
 
-  it('returns 0 if the conversation is read', () => {
-    const readConversations = [
-      { activeAt: Date.now(), markedUnread: false },
-      { activeAt: Date.now(), markedUnread: false, unreadCount: 0 },
-      {
-        activeAt: Date.now(),
-        markedUnread: false,
-        mutedTimestamp: mutedTimestamp(),
-      },
-      {
-        activeAt: Date.now(),
-        markedUnread: false,
-        mutedTimestamp: oldMutedTimestamp(),
-      },
-    ];
-    for (const conversation of readConversations) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
+    it('returns 0 if the conversation is read', () => {
+      const readConversations = [
+        mockChat({ markedUnread: false, unreadCount: undefined }),
+        mockChat({ markedUnread: false, unreadCount: 0 }),
+        mockChat({
           markedUnread: false,
-        }
-      );
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
+          muteExpiresAt: getFutureMutedTimestamp(),
+        }),
+        mockChat({
           markedUnread: false,
-        }
-      );
-    }
-  });
+          muteExpiresAt: getPastMutedTimestamp(),
+        }),
+      ];
+      for (const conversation of readConversations) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+      }
+    });
 
-  it('returns 0 if the conversation has falsey activeAt', () => {
-    const readConversations = [
-      { activeAt: undefined, markedUnread: false, unreadCount: 2 },
-      {
-        activeAt: 0,
-        unreadCount: 2,
-        markedUnread: false,
-        mutedTimestamp: oldMutedTimestamp(),
-      },
-    ];
-    for (const conversation of readConversations) {
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: false }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
-          markedUnread: false,
-        }
-      );
-      assert.deepStrictEqual(
-        countConversationUnreadStats(conversation, { includeMuted: true }),
-        {
-          unreadCount: 0,
-          unreadMentionsCount: 0,
-          markedUnread: false,
-        }
-      );
-    }
+    it('returns 0 if the conversation has falsey activeAt', () => {
+      const readConversations = [
+        mockChat({ activeAt: undefined, unreadCount: 2 }),
+        mockChat({
+          activeAt: 0,
+          unreadCount: 2,
+          muteExpiresAt: getPastMutedTimestamp(),
+        }),
+      ];
+      for (const conversation of readConversations) {
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: false }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+        assert.deepStrictEqual(
+          countConversationUnreadStats(conversation, { includeMuted: true }),
+          mockStats({ unreadCount: 0, readChatsMarkedUnreadCount: 0 })
+        );
+      }
+    });
   });
 });

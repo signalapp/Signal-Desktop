@@ -26,33 +26,33 @@ export function Basic(): JSX.Element {
             {variants.map(variant => {
               return (
                 <div key={variant} className={tw('flex gap-1')}>
-                  <AxoButton
+                  <AxoButton.Root
                     variant={variant}
                     size={size}
                     onClick={action('click')}
                   >
                     {variant}
-                  </AxoButton>
+                  </AxoButton.Root>
 
-                  <AxoButton
+                  <AxoButton.Root
                     variant={variant}
                     size={size}
                     onClick={action('click')}
                     disabled
                   >
                     Disabled
-                  </AxoButton>
+                  </AxoButton.Root>
 
-                  <AxoButton
+                  <AxoButton.Root
                     symbol="info"
                     variant={variant}
                     size={size}
                     onClick={action('click')}
                   >
                     Icon
-                  </AxoButton>
+                  </AxoButton.Root>
 
-                  <AxoButton
+                  <AxoButton.Root
                     symbol="info"
                     variant={variant}
                     size={size}
@@ -60,18 +60,18 @@ export function Basic(): JSX.Element {
                     disabled
                   >
                     Disabled
-                  </AxoButton>
+                  </AxoButton.Root>
 
-                  <AxoButton
+                  <AxoButton.Root
                     arrow
                     variant={variant}
                     size={size}
                     onClick={action('click')}
                   >
                     Arrow
-                  </AxoButton>
+                  </AxoButton.Root>
 
-                  <AxoButton
+                  <AxoButton.Root
                     arrow
                     variant={variant}
                     size={size}
@@ -79,7 +79,7 @@ export function Basic(): JSX.Element {
                     disabled
                   >
                     Disabled
-                  </AxoButton>
+                  </AxoButton.Root>
                 </div>
               );
             })}

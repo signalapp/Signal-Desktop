@@ -36,12 +36,13 @@ export const getOtherTabsUnreadStats = createSelector(
   ): UnreadStats => {
     let unreadCount = 0;
     let unreadMentionsCount = 0;
-    let markedUnread = false;
+    let readChatsMarkedUnreadCount = 0;
 
     if (selectedNavTab !== NavTab.Chats) {
       unreadCount += conversationsUnreadStats.unreadCount;
       unreadMentionsCount += conversationsUnreadStats.unreadMentionsCount;
-      markedUnread ||= conversationsUnreadStats.markedUnread;
+      readChatsMarkedUnreadCount +=
+        conversationsUnreadStats.readChatsMarkedUnreadCount;
     }
 
     // Note: Conversation unread stats includes the call history unread count.
@@ -56,7 +57,7 @@ export const getOtherTabsUnreadStats = createSelector(
     return {
       unreadCount,
       unreadMentionsCount,
-      markedUnread,
+      readChatsMarkedUnreadCount,
     };
   }
 );

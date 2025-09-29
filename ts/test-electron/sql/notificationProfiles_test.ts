@@ -72,7 +72,7 @@ describe('sql/notificationProfiles', () => {
       allowAllCalls: false,
       allowAllMentions: false,
 
-      allowedMembers: new Set(),
+      allowedMembers: new Set<string>(),
       scheduleEnabled: false,
 
       scheduleStartTime: undefined,
@@ -148,7 +148,7 @@ describe('sql/notificationProfiles', () => {
       allowAllCalls: false,
       allowAllMentions: false,
 
-      allowedMembers: new Set(),
+      allowedMembers: new Set<string>(),
       scheduleEnabled: false,
 
       scheduleStartTime: undefined,
@@ -220,7 +220,7 @@ describe('sql/notificationProfiles', () => {
       allowAllCalls: false,
       allowAllMentions: false,
 
-      allowedMembers: new Set(),
+      allowedMembers: new Set<string>(),
       scheduleEnabled: false,
 
       scheduleStartTime: undefined,

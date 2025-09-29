@@ -224,9 +224,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     );
 
     const confirmDeleteBtn = window
-      .getByTestId(
-        'ConfirmationDialog.Preferences__EditChatFolderPage__DeleteChatFolderDialog'
-      )
+      .getByTestId('ConfirmationDialog.Preferences__DeleteChatFolderDialog')
       .locator('button:has-text("Delete")');
 
     let state = await phone.expectStorageState('initial state');

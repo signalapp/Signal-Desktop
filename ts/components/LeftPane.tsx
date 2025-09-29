@@ -60,6 +60,7 @@ import type { ServerAlertsType } from '../util/handleServerAlerts.js';
 import { getServerAlertDialog } from './ServerAlerts.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import type { Location } from '../types/Nav.js';
+import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.js';
 
 const { isNumber } = lodash;
 
@@ -173,6 +174,9 @@ export type PropsType = {
 
   // Render Props
   renderMessageSearchResult: (id: string) => JSX.Element;
+  renderConversationListItemContextMenu: (
+    props: RenderConversationListItemContextMenuProps
+  ) => JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
@@ -188,6 +192,7 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
+  renderLeftPaneChatFolders: () => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
@@ -237,7 +242,9 @@ export function LeftPane({
   renderCaptchaDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
+  renderLeftPaneChatFolders,
   renderMessageSearchResult,
+  renderConversationListItemContextMenu,
   renderNetworkStatus,
   renderUnsupportedOSDialog,
   renderRelinkDialog,
@@ -519,6 +526,7 @@ export function LeftPane({
     createGroup,
     i18n,
     removeSelectedContact: toggleConversationInChooseMembers,
+    renderLeftPaneChatFolders,
     setComposeGroupAvatar,
     setComposeGroupExpireTimer,
     setComposeGroupName,
@@ -887,6 +895,9 @@ export function LeftPane({
                 }
                 removeConversation={removeConversation}
                 renderMessageSearchResult={renderMessageSearchResult}
+                renderConversationListItemContextMenu={
+                  renderConversationListItemContextMenu
+                }
                 rowCount={helper.getRowCount()}
                 scrollBehavior={scrollBehavior}
                 scrollToRowIndex={rowIndexToScrollTo}

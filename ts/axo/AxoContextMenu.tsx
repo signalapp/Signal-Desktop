@@ -48,7 +48,6 @@ const Namespace = 'AxoContextMenu';
  * )
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoContextMenu {
   /**
    * Component: <AxoContextMenu.Root>
@@ -71,7 +70,7 @@ export namespace AxoContextMenu {
   export type TriggerProps = AxoBaseMenu.MenuTriggerProps;
 
   export const Trigger: FC<TriggerProps> = memo(props => {
-    return <ContextMenu.Trigger>{props.children}</ContextMenu.Trigger>;
+    return <ContextMenu.Trigger asChild>{props.children}</ContextMenu.Trigger>;
   });
 
   Trigger.displayName = `${Namespace}.Trigger`;
@@ -247,7 +246,7 @@ export namespace AxoContextMenu {
   export const RadioGroup: FC<RadioGroupProps> = memo(props => {
     return (
       <ContextMenu.RadioGroup
-        value={props.value}
+        value={props.value ?? undefined}
         onValueChange={props.onValueChange}
         className={AxoBaseMenu.menuRadioGroupStyles}
       >
@@ -283,7 +282,11 @@ export namespace AxoContextMenu {
           </AxoBaseMenu.ItemCheckPlaceholder>
         </AxoBaseMenu.ItemLeadingSlot>
         <AxoBaseMenu.ItemContentSlot>
-          {props.symbol && <AxoBaseMenu.ItemSymbol symbol={props.symbol} />}
+          {props.symbol && (
+            <span className={tw('me-2')}>
+              <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
+            </span>
+          )}
           <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
           {props.keyboardShortcut && (
             <AxoBaseMenu.ItemKeyboardShortcut

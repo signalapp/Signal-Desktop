@@ -38,6 +38,7 @@ import { GroupListItem } from './conversationList/GroupListItem.js';
 import { ListView } from './ListView.js';
 import { Button, ButtonVariant } from './Button.js';
 import { ListTile } from './ListTile.js';
+import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.js';
 
 const { get, pick } = lodash;
 
@@ -238,6 +239,9 @@ export type PropsType = {
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
   renderMessageSearchResult?: (id: string) => JSX.Element;
+  renderConversationListItemContextMenu?: (
+    props: RenderConversationListItemContextMenuProps
+  ) => JSX.Element;
   showChooseGroupMembers: () => void;
   showFindByUsername: () => void;
   showFindByPhoneNumber: () => void;
@@ -264,6 +268,7 @@ export function ConversationList({
   onOutgoingVideoCallInConversation,
   removeConversation,
   renderMessageSearchResult,
+  renderConversationListItemContextMenu,
   rowCount,
   scrollBehavior = ScrollBehavior.Default,
   scrollToRowIndex,
@@ -514,6 +519,9 @@ export function ConversationList({
               onClick={onSelectConversation}
               i18n={i18n}
               theme={theme}
+              renderConversationListItemContextMenu={
+                renderConversationListItemContextMenu
+              }
             />
           );
           break;
@@ -650,6 +658,7 @@ export function ConversationList({
       onSelectConversation,
       removeConversation,
       renderMessageSearchResult,
+      renderConversationListItemContextMenu,
       setIsFetchingUUID,
       showChooseGroupMembers,
       showFindByUsername,

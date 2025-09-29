@@ -46,19 +46,21 @@ function NavTabsItemBadges({
 
   if (unreadStats != null) {
     if (unreadStats.unreadCount > 0) {
+      const total =
+        unreadStats.unreadCount + unreadStats.readChatsMarkedUnreadCount;
       return (
         <span className="NavTabs__ItemUnreadBadge">
           <span className="NavTabs__ItemIconLabel">
             {i18n('icu:NavTabs__ItemIconLabel--UnreadCount', {
-              count: unreadStats.unreadCount,
+              count: total,
             })}
           </span>
-          <span aria-hidden>{unreadStats.unreadCount}</span>
+          <span aria-hidden>{total}</span>
         </span>
       );
     }
 
-    if (unreadStats.markedUnread) {
+    if (unreadStats.readChatsMarkedUnreadCount > 0) {
       return (
         <span className="NavTabs__ItemUnreadBadge">
           <span className="NavTabs__ItemIconLabel">
@@ -307,7 +309,7 @@ export function NavTabs({
             unreadStats={{
               unreadCount: unreadCallsCount,
               unreadMentionsCount: 0,
-              markedUnread: false,
+              readChatsMarkedUnreadCount: 0,
             }}
           />
           {storiesEnabled && (
@@ -321,7 +323,7 @@ export function NavTabs({
               unreadStats={{
                 unreadCount: unreadStoriesCount,
                 unreadMentionsCount: 0,
-                markedUnread: false,
+                readChatsMarkedUnreadCount: 0,
               }}
             />
           )}
@@ -331,11 +333,7 @@ export function NavTabs({
             label={i18n('icu:NavTabs__ItemLabel--Settings')}
             iconClassName="NavTabs__ItemIcon--Settings"
             navTabClassName="NavTabs__Item--Settings"
-            unreadStats={{
-              unreadCount: 0,
-              unreadMentionsCount: 0,
-              markedUnread: false,
-            }}
+            unreadStats={null}
             hasPendingUpdate={hasPendingUpdate}
           />
         </TabList>

@@ -34,6 +34,8 @@ import {
 } from '../test-helpers/fakeLookupConversationWithoutServiceId.js';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem.js';
 import { ServerAlert } from '../util/handleServerAlerts.js';
+import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.js';
+import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.js';
 
 const { i18n } = window.SignalContext;
 
@@ -144,7 +146,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
-      markedUnread: false,
+      readChatsMarkedUnreadCount: 0,
     },
     backupMediaDownloadProgress: {
       isBackupMediaEnabled: true,
@@ -297,6 +299,38 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         containerWidthBreakpoint={containerWidthBreakpoint}
         isInFullScreenCall={false}
       />
+    ),
+    renderLeftPaneChatFolders: () => (
+      <LeftPaneChatFolders
+        i18n={i18n}
+        navSidebarWidthBreakpoint={null}
+        sortedChatFolders={[]}
+        allChatFoldersUnreadStats={new Map()}
+        allChatFoldersMutedStats={new Map()}
+        selectedChatFolder={null}
+        onSelectedChatFolderIdChange={action('onSelectedChatFolderIdChange')}
+        onChatFolderMarkRead={action('onChatFolderMarkRead')}
+        onChatFolderUpdateMute={action('onChatFolderUpdateMute')}
+        onChatFolderOpenSettings={action('onChatFolderOpenSettings')}
+      />
+    ),
+    renderConversationListItemContextMenu: props => (
+      <LeftPaneConversationListItemContextMenu
+        i18n={i18n}
+        conversation={getDefaultConversation()}
+        onMarkUnread={action('onMarkUnread')}
+        onMarkRead={action('onMarkRead')}
+        onPin={action('onPin')}
+        onUnpin={action('onUnpin')}
+        onUpdateMute={action('onUpdateMute')}
+        onArchive={action('onArchive')}
+        onUnarchive={action('onUnarchive')}
+        onDelete={action('onDelete')}
+        localDeleteWarningShown={false}
+        setLocalDeleteWarningShown={action('setLocalDeleteWarningShown')}
+      >
+        {props.children}
+      </LeftPaneConversationListItemContextMenu>
     ),
     selectedConversationId: undefined,
     targetedMessageId: undefined,

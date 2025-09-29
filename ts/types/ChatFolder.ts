@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
+import type { Simplify } from 'type-fest';
 import {
   Environment,
   getEnvironment,
@@ -9,6 +10,9 @@ import {
 import * as grapheme from '../util/grapheme.js';
 import * as RemoteConfig from '../RemoteConfig.js';
 import { isAlpha, isBeta, isProduction } from '../util/version.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { strictAssert } from '../util/assert.js';
+import { isConversationUnread } from '../util/isConversationUnread.js';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
 
@@ -22,32 +26,38 @@ export enum ChatFolderType {
 
 export type ChatFolderId = string & { ChatFolderId: never }; // uuid
 
-export type ChatFolderPreset = Readonly<{
-  folderType: ChatFolderType;
-  showOnlyUnread: boolean;
-  showMutedChats: boolean;
-  includeAllIndividualChats: boolean;
-  includeAllGroupChats: boolean;
-  includedConversationIds: ReadonlyArray<string>;
-  excludedConversationIds: ReadonlyArray<string>;
-}>;
-
-export type ChatFolderParams = Readonly<
-  ChatFolderPreset & {
-    name: string;
-  }
+export type ChatFolderPreset = Simplify<
+  Readonly<{
+    folderType: ChatFolderType;
+    showOnlyUnread: boolean;
+    showMutedChats: boolean;
+    includeAllIndividualChats: boolean;
+    includeAllGroupChats: boolean;
+    includedConversationIds: ReadonlyArray<string>;
+    excludedConversationIds: ReadonlyArray<string>;
+  }>
 >;
 
-export type ChatFolder = Readonly<
-  ChatFolderParams & {
-    id: ChatFolderId;
-    position: number;
-    deletedAtTimestampMs: number;
-    storageID: string | null;
-    storageVersion: number | null;
-    storageUnknownFields: Uint8Array | null;
-    storageNeedsSync: boolean;
-  }
+export type ChatFolderParams = Simplify<
+  Readonly<
+    ChatFolderPreset & {
+      name: string;
+    }
+  >
+>;
+
+export type ChatFolder = Simplify<
+  Readonly<
+    ChatFolderParams & {
+      id: ChatFolderId;
+      position: number;
+      deletedAtTimestampMs: number;
+      storageID: string | null;
+      storageVersion: number | null;
+      storageUnknownFields: Uint8Array | null;
+      storageNeedsSync: boolean;
+    }
+  >
 >;
 
 export const ChatFolderPresetSchema = z.object({
@@ -172,4 +182,92 @@ export function isChatFoldersEnabled(): boolean {
   }
 
   return false;
+}
+
+type ConversationPropsForChatFolder = Pick<
+  ConversationType,
+  'type' | 'id' | 'unreadCount' | 'markedUnread' | 'muteExpiresAt'
+>;
+
+function _isConversationIncludedInChatFolder(
+  chatFolder: ChatFolder,
+  conversation: ConversationPropsForChatFolder
+): boolean {
+  if (chatFolder.includeAllIndividualChats && conversation.type === 'direct') {
+    return true; // is individual chat
+  }
+  if (chatFolder.includeAllGroupChats && conversation.type === 'group') {
+    return true; // is group chat
+  }
+  if (chatFolder.includedConversationIds.includes(conversation.id)) {
+    return true; // is included by id
+  }
+  return false;
+}
+
+function _isConversationExcludedFromChatFolder(
+  chatFolder: ChatFolder,
+  conversation: ConversationPropsForChatFolder
+): boolean {
+  if (chatFolder.showOnlyUnread && !isConversationUnread(conversation)) {
+    return true; // not unread, only showing unread
+  }
+  if (!chatFolder.showMutedChats && (conversation.muteExpiresAt ?? 0) > 0) {
+    return true; // muted, not showing muted chats
+  }
+  if (chatFolder.excludedConversationIds.includes(conversation.id)) {
+    return true; // is excluded by id
+  }
+  return false;
+}
+
+export function isConversationInChatFolder(
+  chatFolder: ChatFolder,
+  conversation: ConversationPropsForChatFolder
+): boolean {
+  if (chatFolder.folderType === ChatFolderType.ALL) {
+    return true;
+  }
+
+  return (
+    _isConversationIncludedInChatFolder(chatFolder, conversation) &&
+    !_isConversationExcludedFromChatFolder(chatFolder, conversation)
+  );
+}
+
+export type CurrentChatFolders = Readonly<{
+  order: ReadonlyArray<ChatFolderId>;
+  lookup: Partial<Record<ChatFolderId, ChatFolder>>;
+}>;
+
+export function toCurrentChatFolders(
+  chatFolders: ReadonlyArray<ChatFolder>
+): CurrentChatFolders {
+  const order = chatFolders
+    .toSorted((a, b) => a.position - b.position)
+    .map(chatFolder => chatFolder.id);
+
+  const lookup: Record<ChatFolderId, ChatFolder> = {};
+  for (const chatFolder of chatFolders) {
+    lookup[chatFolder.id] = chatFolder;
+  }
+
+  return { order, lookup };
+}
+
+export function getSortedCurrentChatFolders(
+  currentChatFolders: CurrentChatFolders
+): ReadonlyArray<ChatFolder> {
+  return currentChatFolders.order.map(chatFolderId => {
+    return lookupCurrentChatFolder(currentChatFolders, chatFolderId);
+  });
+}
+
+export function lookupCurrentChatFolder(
+  currentChatFolders: CurrentChatFolders,
+  chatFolderId: ChatFolderId
+): ChatFolder {
+  const chatFolder = currentChatFolders.lookup[chatFolderId];
+  strictAssert(chatFolder != null, 'Missing chat folder');
+  return chatFolder;
 }

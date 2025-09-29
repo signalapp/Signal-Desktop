@@ -20,7 +20,7 @@ export default {
     otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
-      markedUnread: false,
+      readChatsMarkedUnreadCount: 0,
     },
     isStaging: false,
     hasPendingUpdate: false,

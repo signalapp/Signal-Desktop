@@ -9,11 +9,14 @@ import type { Store } from 'redux';
 
 import { SmartApp } from '../smart/App.js';
 import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProvider.js';
+import { AxoProvider } from '../../axo/AxoProvider.js';
 
 export const createApp = (store: Store): ReactElement => (
-  <Provider store={store}>
-    <SmartVoiceNotesPlaybackProvider>
-      <SmartApp />
-    </SmartVoiceNotesPlaybackProvider>
-  </Provider>
+  <AxoProvider dir={window.i18n.getLocaleDirection()}>
+    <Provider store={store}>
+      <SmartVoiceNotesPlaybackProvider>
+        <SmartApp />
+      </SmartVoiceNotesPlaybackProvider>
+    </Provider>
+  </AxoProvider>
 );

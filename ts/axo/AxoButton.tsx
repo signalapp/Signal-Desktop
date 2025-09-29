@@ -139,15 +139,6 @@ type BaseButtonAttrs = Omit<
 type AxoButtonVariant = keyof typeof AxoButtonVariants;
 type AxoButtonSize = keyof typeof AxoButtonSizes;
 
-type AxoButtonProps = BaseButtonAttrs &
-  Readonly<{
-    variant: AxoButtonVariant;
-    size: AxoButtonSize;
-    symbol?: AxoSymbol.InlineGlyphName;
-    arrow?: boolean;
-    children: ReactNode;
-  }>;
-
 export function _getAllAxoButtonVariants(): ReadonlyArray<AxoButtonVariant> {
   return Object.keys(AxoButtonVariants) as Array<AxoButtonVariant>;
 }
@@ -156,41 +147,47 @@ export function _getAllAxoButtonSizes(): ReadonlyArray<AxoButtonSize> {
   return Object.keys(AxoButtonSizes) as Array<AxoButtonSize>;
 }
 
-// eslint-disable-next-line import/export
-export const AxoButton: FC<AxoButtonProps> = memo(
-  forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
-    const { variant, size, symbol, arrow, children, ...rest } = props;
-    const variantStyles = assert(
-      AxoButtonVariants[variant],
-      `${Namespace}: Invalid variant ${variant}`
-    );
-    const sizeStyles = assert(
-      AxoButtonSizes[size],
-      `${Namespace}: Invalid size ${size}`
-    );
-    return (
-      <button
-        ref={ref}
-        type="button"
-        className={tw(variantStyles, sizeStyles)}
-        {...rest}
-      >
-        {symbol != null && (
-          <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
-        )}
-        {children}
-        {arrow && <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />}
-      </button>
-    );
-  })
-);
-
-AxoButton.displayName = `${Namespace}`;
-
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare, import/export
 export namespace AxoButton {
   export type Variant = AxoButtonVariant;
   export type Size = AxoButtonSize;
-  export type Props = AxoButtonProps;
+  export type RootProps = BaseButtonAttrs &
+    Readonly<{
+      variant: AxoButtonVariant;
+      size: AxoButtonSize;
+      symbol?: AxoSymbol.InlineGlyphName;
+      arrow?: boolean;
+      children: ReactNode;
+    }>;
+
+  export const Root: FC<RootProps> = memo(
+    forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
+      const { variant, size, symbol, arrow, children, ...rest } = props;
+      const variantStyles = assert(
+        AxoButtonVariants[variant],
+        `${Namespace}: Invalid variant ${variant}`
+      );
+      const sizeStyles = assert(
+        AxoButtonSizes[size],
+        `${Namespace}: Invalid size ${size}`
+      );
+      return (
+        <button
+          ref={ref}
+          type="button"
+          className={tw(variantStyles, sizeStyles)}
+          {...rest}
+        >
+          {symbol != null && (
+            <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
+          )}
+          {children}
+          {arrow && (
+            <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+          )}
+        </button>
+      );
+    })
+  );
+
+  Root.displayName = `${Namespace}.Root`;
 }

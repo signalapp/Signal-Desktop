@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 import { tw } from '../tw.js';
 import { AxoSymbol } from '../AxoSymbol.js';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AxoBaseMenu {
   // <Content/SubContent>
   const baseContentStyles = tw(
@@ -114,7 +113,7 @@ export namespace AxoBaseMenu {
    * -----------------------
    */
 
-  export const itemTextStyles = tw('flex-1 truncate text-start');
+  export const itemTextStyles = tw('flex-auto grow-0 truncate text-start');
 
   export type ItemTextProps = Readonly<{
     children: ReactNode;
@@ -283,7 +282,7 @@ export namespace AxoBaseMenu {
     /**
      * The value of the selected item in the group.
      */
-    value: string;
+    value: string | null;
 
     /**
      * Event handler called when the value changes.

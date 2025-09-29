@@ -88,7 +88,11 @@ import { isDone as isRegistrationDone } from '../util/registration.js';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import { isMockEnvironment } from '../environment.js';
 import { validateConversation } from '../util/validateConversation.js';
-import type { ChatFolder } from '../types/ChatFolder.js';
+import {
+  ChatFolderType,
+  toCurrentChatFolders,
+  type ChatFolder,
+} from '../types/ChatFolder.js';
 
 const { debounce, isNumber, chunk } = lodash;
 
@@ -1658,6 +1662,22 @@ async function processManifest(
         storageVersion: null,
       });
     });
+
+    const chatFoldersHasAllChatsFolder = chatFolders.some(chatFolder => {
+      return (
+        chatFolder.folderType === ChatFolderType.ALL &&
+        chatFolder.deletedAtTimestampMs === 0
+      );
+    });
+
+    if (!chatFoldersHasAllChatsFolder) {
+      log.info(`process(${version}): creating all chats chat folder`);
+      await DataWriter.createAllChatsChatFolder();
+      const currentChatFolders = await DataReader.getCurrentChatFolders();
+      window.reduxActions.chatFolders.replaceAllChatFolderRecords(
+        toCurrentChatFolders(currentChatFolders)
+      );
+    }
   }
 
   log.info(`process(${version}): done`);

@@ -2,16 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
+import type { ChatFolderId } from './ChatFolder.js';
+
+export type SettingsLocation = ReadonlyDeep<
+  | {
+      page: SettingsPage.Profile;
+      state: ProfileEditorPage;
+    }
+  | {
+      page: SettingsPage.EditChatFolder;
+      chatFolderId: ChatFolderId | null;
+      previousLocation: Location;
+    }
+  | {
+      page: Exclude<
+        SettingsPage,
+        SettingsPage.Profile | SettingsPage.EditChatFolder
+      >;
+    }
+>;
 
 export type Location = ReadonlyDeep<
   | {
       tab: NavTab.Settings;
-      details:
-        | {
-            page: SettingsPage.Profile;
-            state: ProfileEditorPage;
-          }
-        | { page: Exclude<SettingsPage, SettingsPage.Profile> };
+      details: SettingsLocation;
     }
   | { tab: Exclude<NavTab, NavTab.Settings> }
 >;

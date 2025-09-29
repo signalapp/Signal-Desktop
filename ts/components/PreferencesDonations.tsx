@@ -10,6 +10,7 @@ import { getDateTimeFormatter } from '../util/formatTimestamp.js';
 
 import type { LocalizerType, ThemeType } from '../types/Util.js';
 import { PreferencesContent } from './Preferences.js';
+import type { SettingsLocation } from '../types/Nav.js';
 import { SettingsPage } from '../types/Nav.js';
 import { PreferencesDonateFlow } from './PreferencesDonateFlow.js';
 import type {
@@ -67,7 +68,7 @@ export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
   isOnline: boolean;
-  page: SettingsPage;
+  settingsLocation: SettingsLocation;
   didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
   workflow: DonationWorkflow | undefined;
@@ -106,7 +107,7 @@ type PropsActionType = {
   }) => void;
   clearWorkflow: () => void;
   resumeWorkflow: () => void;
-  setPage: (page: SettingsPage) => void;
+  setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: (toast: AnyToast) => void;
   submitDonation: (payload: SubmitDonationType) => void;
   updateLastError: (error: DonationErrorType | undefined) => void;
@@ -123,12 +124,11 @@ type PreferencesHomeProps = Pick<
   PropsType,
   | 'contentsRef'
   | 'i18n'
-  | 'setPage'
+  | 'setSettingsLocation'
   | 'isOnline'
   | 'donationReceipts'
   | 'workflow'
 > & {
-  navigateToPage: (newPage: SettingsPage) => void;
   renderDonationHero: () => JSX.Element;
 };
 
@@ -205,8 +205,7 @@ function DonationHero({
 function DonationsHome({
   i18n,
   renderDonationHero,
-  navigateToPage,
-  setPage,
+  setSettingsLocation,
   isOnline,
   donationReceipts,
   workflow,
@@ -224,9 +223,9 @@ function DonationsHome({
     if (inProgressDonationAmount) {
       setIsInProgressVisible(true);
     } else {
-      setPage(SettingsPage.DonationsDonateFlow);
+      setSettingsLocation({ page: SettingsPage.DonationsDonateFlow });
     }
-  }, [inProgressDonationAmount, setPage]);
+  }, [inProgressDonationAmount, setSettingsLocation]);
 
   const handleInProgressDonationClicked = useCallback(() => {
     setIsInProgressVisible(true);
@@ -299,7 +298,7 @@ function DonationsHome({
           <ListBoxItem
             className="PreferencesDonations__list-item"
             onAction={() => {
-              navigateToPage(SettingsPage.DonationsReceiptList);
+              setSettingsLocation({ page: SettingsPage.DonationsReceiptList });
             }}
           >
             <span className="PreferencesDonations__list-item__icon PreferencesDonations__list-item__icon--receipts" />
@@ -542,14 +541,14 @@ export function PreferencesDonations({
   i18n,
   initialCurrency,
   isOnline,
-  page,
+  settingsLocation,
   workflow,
   didResumeWorkflowAtStartup,
   lastError,
   applyDonationBadge,
   clearWorkflow,
   resumeWorkflow,
-  setPage,
+  setSettingsLocation,
   submitDonation,
   badge,
   color,
@@ -575,19 +574,12 @@ export function PreferencesDonations({
   useEffect(() => {
     if (
       workflow?.type === donationStateSchema.Enum.DONE &&
-      page === SettingsPage.Donations &&
+      settingsLocation.page === SettingsPage.Donations &&
       !donationBadge
     ) {
       drop(fetchBadgeData());
     }
-  }, [workflow, page, donationBadge, fetchBadgeData]);
-
-  const navigateToPage = useCallback(
-    (newPage: SettingsPage) => {
-      setPage(newPage);
-    },
-    [setPage]
-  );
+  }, [workflow, settingsLocation.page, donationBadge, fetchBadgeData]);
 
   useEffect(() => {
     if (lastError) {
@@ -618,7 +610,7 @@ export function PreferencesDonations({
     [badge, color, firstName, i18n, profileAvatarUrl, theme]
   );
 
-  if (!isDonationPage(page)) {
+  if (!isDonationPage(settingsLocation.page)) {
     return null;
   }
 
@@ -649,7 +641,7 @@ export function PreferencesDonations({
         i18n={i18n}
         onCancelDonation={() => {
           clearWorkflow();
-          setPage(SettingsPage.Donations);
+          setSettingsLocation({ page: SettingsPage.Donations });
           showToast({ toastType: ToastType.DonationCanceled });
         }}
         onRetryDonation={() => {
@@ -663,7 +655,7 @@ export function PreferencesDonations({
         i18n={i18n}
         onCancelDonation={() => {
           clearWorkflow();
-          setPage(SettingsPage.Donations);
+          setSettingsLocation({ page: SettingsPage.Donations });
           showToast({ toastType: ToastType.DonationCanceled });
         }}
         onOpenBrowser={() => {
@@ -672,7 +664,7 @@ export function PreferencesDonations({
         onTimedOut={() => {
           clearWorkflow();
           updateLastError(donationErrorTypeSchema.Enum.TimedOut);
-          setPage(SettingsPage.Donations);
+          setSettingsLocation({ page: SettingsPage.Donations });
         }}
       />
     );
@@ -695,7 +687,7 @@ export function PreferencesDonations({
       />
     );
   } else if (
-    page === SettingsPage.DonationsDonateFlow &&
+    settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT)
@@ -711,7 +703,7 @@ export function PreferencesDonations({
         <DonationStillProcessingModal
           i18n={i18n}
           onClose={() => {
-            setPage(SettingsPage.Donations);
+            setSettingsLocation({ page: SettingsPage.Donations });
             // We need to delay until we've transitioned away from this page, or we'll
             // go back to showing the spinner.
             setTimeout(() => setHasProcessingExpired(false), 500);
@@ -736,7 +728,7 @@ export function PreferencesDonations({
   ) : null;
 
   let content;
-  if (page === SettingsPage.DonationsDonateFlow) {
+  if (settingsLocation.page === SettingsPage.DonationsDonateFlow) {
     // DonateFlow has to control Back button to switch between CC form and Amount picker
     return (
       <>
@@ -758,25 +750,24 @@ export function PreferencesDonations({
             submitDonation(details);
           }}
           showPrivacyModal={() => setIsPrivacyModalVisible(true)}
-          onBack={() => setPage(SettingsPage.Donations)}
+          onBack={() => setSettingsLocation({ page: SettingsPage.Donations })}
         />
       </>
     );
   }
-  if (page === SettingsPage.Donations) {
+  if (settingsLocation.page === SettingsPage.Donations) {
     content = (
       <DonationsHome
         contentsRef={contentsRef}
         i18n={i18n}
         isOnline={isOnline}
-        navigateToPage={navigateToPage}
         donationReceipts={donationReceipts}
         renderDonationHero={renderDonationHero}
-        setPage={setPage}
+        setSettingsLocation={setSettingsLocation}
         workflow={workflow}
       />
     );
-  } else if (page === SettingsPage.DonationsReceiptList) {
+  } else if (settingsLocation.page === SettingsPage.DonationsReceiptList) {
     content = (
       <PreferencesReceiptList
         i18n={i18n}
@@ -790,15 +781,15 @@ export function PreferencesDonations({
 
   let title: string | undefined;
   let backButton: JSX.Element | undefined;
-  if (page === SettingsPage.Donations) {
+  if (settingsLocation.page === SettingsPage.Donations) {
     title = i18n('icu:Preferences__DonateTitle');
-  } else if (page === SettingsPage.DonationsReceiptList) {
+  } else if (settingsLocation.page === SettingsPage.DonationsReceiptList) {
     title = i18n('icu:PreferencesDonations__receipts');
     backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
-        onClick={() => setPage(SettingsPage.Donations)}
+        onClick={() => setSettingsLocation({ page: SettingsPage.Donations })}
         type="button"
       />
     );

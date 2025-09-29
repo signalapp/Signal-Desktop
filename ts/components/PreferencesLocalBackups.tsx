@@ -23,7 +23,7 @@ import {
   SIGNAL_BACKUPS_LEARN_MORE_URL,
 } from './PreferencesBackups.js';
 import { I18n } from './I18n.js';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
+import type { SettingsLocation } from '../types/Nav.js';
 import { SettingsPage } from '../types/Nav.js';
 import { ToastType } from '../types/Toast.js';
 import type { ShowToastAction } from '../state/ducks/toast.js';
@@ -43,10 +43,10 @@ export function PreferencesLocalBackups({
   i18n,
   localBackupFolder,
   onBackupKeyViewedChange,
-  page,
+  settingsLocation,
   pickLocalBackupFolder,
   promptOSAuth,
-  setPage,
+  setSettingsLocation,
   showToast,
 }: {
   accountEntropyPool: string | undefined;
@@ -54,12 +54,12 @@ export function PreferencesLocalBackups({
   i18n: LocalizerType;
   localBackupFolder: string | undefined;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
-  page: PreferencesBackupPage;
+  settingsLocation: SettingsLocation;
   pickLocalBackupFolder: () => Promise<string | undefined>;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
   ) => Promise<PromptOSAuthResultType>;
-  setPage: (page: PreferencesBackupPage) => void;
+  setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
 }): JSX.Element {
   const [authError, setAuthError] =
@@ -75,7 +75,8 @@ export function PreferencesLocalBackups({
     );
   }
 
-  const isReferencingBackupKey = page === SettingsPage.LocalBackupsKeyReference;
+  const isReferencingBackupKey =
+    settingsLocation.page === SettingsPage.LocalBackupsKeyReference;
   if (!backupKeyViewed || isReferencingBackupKey) {
     strictAssert(accountEntropyPool, 'AEP is required for backup key viewer');
 
@@ -86,7 +87,9 @@ export function PreferencesLocalBackups({
         isReferencing={isReferencingBackupKey}
         onBackupKeyViewed={() => {
           if (backupKeyViewed) {
-            setPage(SettingsPage.LocalBackups);
+            setSettingsLocation({
+              page: SettingsPage.LocalBackups,
+            });
           } else {
             onBackupKeyViewedChange(true);
           }
@@ -160,7 +163,9 @@ export function PreferencesLocalBackups({
                   setIsAuthPending(true);
                   const result = await promptOSAuth('view-aep');
                   if (result === 'success' || result === 'unsupported') {
-                    setPage(SettingsPage.LocalBackupsKeyReference);
+                    setSettingsLocation({
+                      page: SettingsPage.LocalBackupsKeyReference,
+                    });
                   } else {
                     setAuthError(result);
                   }

@@ -83,6 +83,7 @@ import {
   getMe,
   getMessagesByConversation,
   getPendingAvatarDownloadSelector,
+  getAllConversations,
 } from '../selectors/conversations.js';
 import { getIntl } from '../selectors/user.js';
 import type {
@@ -215,6 +216,13 @@ import { cleanupMessages } from '../../util/cleanup.js';
 import type { ConversationModel } from '../../models/conversations.js';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent.js';
 import { JobCancelReason } from '../../jobs/types.js';
+import type { ChatFolderId } from '../../types/ChatFolder.js';
+import {
+  isConversationInChatFolder,
+  lookupCurrentChatFolder,
+} from '../../types/ChatFolder.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import { isConversationUnread } from '../../util/isConversationUnread.js';
 
 const {
   chunk,
@@ -1180,6 +1188,8 @@ export const actions = {
   loadOlderMessages,
   markAttachmentAsCorrupted,
   markMessageRead,
+  markConversationRead,
+  markChatFolderRead,
   markOpenConversationRead,
   messageChanged,
   messageDeleted,
@@ -1237,6 +1247,7 @@ export const actions = {
   setMessageLoadingState,
   setMessageToEdit,
   setMuteExpiration,
+  setChatFolderMuteExpiration,
   setPinned,
   setPreJoinConversation,
   setProfileUpdateError,
@@ -1445,6 +1456,57 @@ function loadOlderMessages(
   return {
     type: 'NOOP',
     payload: null,
+  };
+}
+
+function _getAllConversationsInChatFolder(
+  state: RootStateType,
+  chatFolderId: ChatFolderId
+) {
+  const currentChatFolders = getCurrentChatFolders(state);
+  const chatFolder = lookupCurrentChatFolder(currentChatFolders, chatFolderId);
+  const allConversations = getAllConversations(state);
+  return allConversations.filter(conversation => {
+    return isConversationInChatFolder(chatFolder, conversation);
+  });
+}
+
+function markChatFolderRead(
+  chatFolderId: ChatFolderId
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const chatFolderConversations = _getAllConversationsInChatFolder(
+      getState(),
+      chatFolderId
+    );
+
+    const unreadChatFolderConversations = chatFolderConversations.filter(
+      conversation => {
+        return isConversationUnread(conversation);
+      }
+    );
+
+    for (const conversation of unreadChatFolderConversations) {
+      dispatch(markConversationRead(conversation.id));
+    }
+  };
+}
+
+function markConversationRead(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const model = window.ConversationController.get(conversationId);
+    strictAssert(model, 'Conversation must be found');
+    model.setMarkedUnread(false);
+
+    const lastMessage = await DataReader.getLastConversationMessage({
+      conversationId,
+    });
+    if (lastMessage == null) {
+      return;
+    }
+    dispatch(markMessageRead(conversationId, lastMessage.id));
   };
 }
 
@@ -1724,6 +1786,22 @@ function setDontNotifyForMentionsIfMuted(
   return {
     type: 'NOOP',
     payload: null,
+  };
+}
+
+function setChatFolderMuteExpiration(
+  chatFolderId: ChatFolderId,
+  muteExpiresAt: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const chatFolderConversations = _getAllConversationsInChatFolder(
+      getState(),
+      chatFolderId
+    );
+
+    for (const conversation of chatFolderConversations) {
+      dispatch(setMuteExpiration(conversation.id, muteExpiresAt));
+    }
   };
 }
 

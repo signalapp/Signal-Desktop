@@ -40,6 +40,7 @@ import { getEmptyState as usernameEmptyState } from './ducks/username.js';
 import OS from '../util/os/osMain.js';
 import { getInteractionMode } from '../services/InteractionMode.js';
 import { makeLookup } from '../util/makeLookup.js';
+import { toCurrentChatFolders } from '../types/ChatFolder.js';
 
 import type { StateType } from './reducer.js';
 import type { MainWindowStatsType } from '../windows/context.js';
@@ -91,7 +92,7 @@ export function getInitialState(
     },
     chatFolders: {
       ...chatFoldersEmptyState(),
-      currentChatFolders: chatFolders,
+      currentChatFolders: toCurrentChatFolders(chatFolders),
     },
     donations,
     emojis: recentEmoji,

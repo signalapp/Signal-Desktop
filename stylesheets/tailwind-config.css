@@ -410,3 +410,9 @@
     }
   }
 }
+
+@property --axo-select-trigger-mask-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}

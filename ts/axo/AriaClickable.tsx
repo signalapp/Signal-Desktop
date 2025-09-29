@@ -27,7 +27,7 @@ const Namespace = 'AriaClickable';
  *       <AriaClickable.HiddenTrigger aria-labelledby="see-more-1"/>
  *     </p>
  *     <AriaClickable.SubWidget>
- *       <AxoButton>Delete</AxoButton>
+ *       <AxoButton.Root>Delete</AxoButton.Root>
  *     </AriaClickable.SubWidget>
  *     <AriaClickable.SubWidget>
  *       <AxoLink>Edit</AxoLink>
@@ -36,7 +36,6 @@ const Namespace = 'AriaClickable';
  * );
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AriaClickable {
   type TriggerState = Readonly<{
     hovered: boolean;

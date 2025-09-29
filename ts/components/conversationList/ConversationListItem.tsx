@@ -5,6 +5,7 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
+import type { RenderConversationListItemContextMenuProps } from './BaseConversationListItem.js';
 import {
   BaseConversationListItem,
   HEADER_NAME_CLASS_NAME,
@@ -77,6 +78,9 @@ type PropsHousekeeping = {
   onClick: (id: string) => void;
   onMouseDown: (id: string) => void;
   theme: ThemeType;
+  renderConversationListItemContextMenu?: (
+    props: RenderConversationListItemContextMenuProps
+  ) => JSX.Element;
 };
 
 export type Props = PropsData & PropsHousekeeping;
@@ -115,6 +119,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     unreadCount,
     unreadMentionsCount,
     serviceId,
+    renderConversationListItemContextMenu,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
     const isSomeoneTyping =
@@ -243,6 +248,9 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
         serviceId={serviceId}
+        renderConversationListItemContextMenu={
+          renderConversationListItemContextMenu
+        }
       />
     );
   }

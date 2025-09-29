@@ -12,11 +12,13 @@ import {
 } from '../selectors/conversations.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import { useChatFolderActions } from '../ducks/chatFolders.js';
-import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import { getSortedChatFolders } from '../selectors/chatFolders.js';
 import { strictAssert } from '../../util/assert.js';
+import { useNavActions } from '../ducks/nav.js';
+import type { Location } from '../../types/Nav.js';
 
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
-  onBack: () => void;
+  previousLocation: Location;
   existingChatFolderId: PreferencesEditChatFolderPageProps['existingChatFolderId'];
   settingsPaneRef: PreferencesEditChatFolderPageProps['settingsPaneRef'];
 }>;
@@ -31,9 +33,10 @@ export function SmartPreferencesEditChatFolderPage(
   const conversations = useSelector(getAllComposableConversations);
   const conversationSelector = useSelector(getConversationSelector);
   const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
-  const chatFolders = useSelector(getCurrentChatFolders);
+  const chatFolders = useSelector(getSortedChatFolders);
   const { createChatFolder, updateChatFolder, deleteChatFolder } =
     useChatFolderActions();
+  const { changeLocation } = useNavActions();
 
   const initChatFolderParams = useMemo(() => {
     if (existingChatFolderId == null) {
@@ -49,9 +52,10 @@ export function SmartPreferencesEditChatFolderPage(
   return (
     <PreferencesEditChatFolderPage
       i18n={i18n}
+      previousLocation={props.previousLocation}
       existingChatFolderId={props.existingChatFolderId}
       initChatFolderParams={initChatFolderParams}
-      onBack={props.onBack}
+      changeLocation={changeLocation}
       conversations={conversations}
       preferredBadgeSelector={preferredBadgeSelector}
       theme={theme}

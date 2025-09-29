@@ -17,10 +17,16 @@ export enum BeforeNavigateResponse {
   CancelNavigation = 'CancelNavigation',
   TimedOut = 'TimedOut',
 }
-export type BeforeNavigateCallback = (options: {
-  existingLocation?: Location;
+
+export type BeforeNavigateTransitionDetails = Readonly<{
+  existingLocation: Location;
   newLocation: Location;
-}) => Promise<BeforeNavigateResponse>;
+}>;
+
+export type BeforeNavigateCallback = (
+  details: BeforeNavigateTransitionDetails
+) => Promise<BeforeNavigateResponse>;
+
 export type BeforeNavigateEntry = {
   name: string;
   callback: BeforeNavigateCallback;
