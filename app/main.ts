@@ -123,6 +123,7 @@ import { parseSignalRoute } from '../ts/util/signalRoutes.js';
 import * as dns from '../ts/util/dns.js';
 import { ZoomFactorService } from '../ts/services/ZoomFactorService.js';
 import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.js';
+import { SafeStorageDecryptionError } from '../ts/types/SafeStorageDecryptionError.js';
 import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.js';
 import { getOwn } from '../ts/util/getOwn.js';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.js';
@@ -1650,9 +1651,20 @@ function getSQLKey(): string {
     const encrypted = Buffer.from(modernKeyValue, 'hex');
     key = safeStorage.decryptString(encrypted);
 
-    if (legacyKeyValue != null) {
-      log.info('getSQLKey: removing legacy key');
-      userConfig.set('key', undefined);
+    if (typeof legacyKeyValue === 'string') {
+      if (key === legacyKeyValue) {
+        // Confirmed roundtrip encryption, we can remove the legacy key
+        log.info('getSQLKey: removing legacy key');
+        userConfig.set('key', undefined);
+      } else {
+        log.warn('getSQLKey: decrypted modern key mismatch with legacy key');
+        const nextStep = handleSafeStorageDecryptionError();
+        if (nextStep === 'quit') {
+          throw new SafeStorageDecryptionError();
+        }
+
+        key = legacyKeyValue;
+      }
     }
 
     if (isLinux && previousBackend == null) {
@@ -1681,7 +1693,15 @@ function getSQLKey(): string {
     log.info('getSQLKey: updating encrypted key in the config');
     const encrypted = safeStorage.encryptString(key).toString('hex');
     userConfig.set('encryptedKey', encrypted);
-    userConfig.set('key', undefined);
+
+    if (OS.isFlatpak()) {
+      log.info(
+        'getSQLKey: updating plaintext key in the config, will confirm decryption on next start'
+      );
+      userConfig.set('key', key);
+    } else {
+      userConfig.set('key', undefined);
+    }
 
     if (isLinux && safeStorageBackend) {
       log.info(`getSQLKey: saving safeStorageBackend: ${safeStorageBackend}`);
@@ -1693,6 +1713,41 @@ function getSQLKey(): string {
   }
 
   return key;
+}
+
+// In Flatpak, safeStorage encryption may appear to work on the first run but on
+// subsequent starts the decrypted value may be incorrect.
+function handleSafeStorageDecryptionError(): 'continue' | 'quit' {
+  const previousError = userConfig.get('safeStorageDecryptionError');
+  if (typeof previousError === 'string') {
+    return 'continue';
+  }
+
+  const { i18n } = getResolvedMessagesLocale();
+  const message = i18n('icu:systemEncryptionError');
+  const detail = i18n(
+    'icu:systemEncryptionError__linuxSafeStorageDecryptionError'
+  );
+  const buttons = [
+    i18n('icu:copyErrorAndQuit'),
+    i18n('icu:systemEncryptionError__continueWithPlaintextKey'),
+  ];
+  const copyErrorAndQuitIndex = 0;
+  const resultIndex = dialog.showMessageBoxSync({
+    buttons,
+    defaultId: copyErrorAndQuitIndex,
+    cancelId: copyErrorAndQuitIndex,
+    message,
+    detail,
+    icon: getAppErrorIcon(),
+    noLink: true,
+  });
+  if (resultIndex === copyErrorAndQuitIndex) {
+    return 'quit';
+  }
+
+  userConfig.set('safeStorageDecryptionError', 'true');
+  return 'continue';
 }
 
 async function initializeSQL(
@@ -1818,6 +1873,12 @@ const onDatabaseInitializationError = async (error: Error) => {
     buttons.push(i18n('icu:copyErrorAndQuit'));
     copyErrorAndQuitButtonIndex = 0;
     defaultButtonId = copyErrorAndQuitButtonIndex;
+  } else if (error instanceof SafeStorageDecryptionError) {
+    log.error(
+      'onDatabaseInitializationError: SafeStorageDecryptionError, user chose to quit'
+    );
+    app.exit(1);
+    return;
   } else {
     // Otherwise, this is some other kind of DB error, most likely broken safeStorage key.
     // Let's give them the option to delete and show them the support guide.
