@@ -2054,11 +2054,10 @@ export function initialize({
       log.info('libsignal net will shadow auth chat connections');
       libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
     }
-    if (
-      window.Signal.RemoteConfig.isEnabled(
-        'desktop.libsignalNet.chatPermessageDeflate'
-      )
-    ) {
+    const perMessageDeflateConfigKey = isProduction(version)
+      ? 'desktop.libsignalNet.chatPermessageDeflate.prod'
+      : 'desktop.libsignalNet.chatPermessageDeflate';
+    if (window.Signal.RemoteConfig.isEnabled(perMessageDeflateConfigKey)) {
       libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
     }
     libsignalNet.setRemoteConfig(libsignalRemoteConfig);
