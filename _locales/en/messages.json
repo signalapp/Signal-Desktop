@@ -7088,6 +7088,10 @@
     "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups.",
     "description": "Description when a backup subscription used to exist but is not active"
   },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month",
+    "description": "Text displaying the cost per month of the backup plan. Cost is an internationalized string, e.g. '$2.99' or '2,99 €'"
+  },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "Text + {mediaDayCount, plural, one {# day} other {# days}} media backup",
     "description": "Description of a backup plan that backups all of their messages (text) and recent ~45 days of media"
