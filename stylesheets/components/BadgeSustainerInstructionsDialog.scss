@@ -24,6 +24,7 @@
   &__instructions {
     @include mixins.font-body-2;
     padding: 0;
+    list-style-type: decimal;
     list-style-position: inside;
 
     &::before {
