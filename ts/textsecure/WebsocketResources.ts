@@ -443,6 +443,10 @@ function connectLibsignal(
         logId,
         keepalive
       );
+      if (abortController.signal.aborted) {
+        resource.close(3000, 'aborted');
+        throw new Error('Aborted');
+      }
       // eslint-disable-next-line no-param-reassign
       resourceHolder.resource = resource;
       return resource;
@@ -454,7 +458,16 @@ function connectLibsignal(
   };
   return new AbortableProcess<LibsignalWebSocketResource>(
     `${logId}.connect`,
-    abortController,
+    {
+      abort() {
+        if (resourceHolder.resource != null) {
+          log.warn(`${logId}: closing socket`);
+          resourceHolder.resource.close(3000, 'aborted');
+        } else {
+          abortController.abort();
+        }
+      },
+    },
     connectAsync()
   );
 }
