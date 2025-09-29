@@ -363,7 +363,7 @@ export function connectAuthenticatedLibsignal({
   const listener: LibsignalWebSocketResourceHolder & ChatServiceListener = {
     resource: undefined,
     onIncomingMessage(
-      envelope: Buffer,
+      envelope: Uint8Array,
       timestamp: number,
       ack: ChatServerMessageAck
     ): void {

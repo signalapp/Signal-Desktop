@@ -27,6 +27,7 @@ import {
   clampPrivateKey,
   setPublicKeyTypeByte,
   generateSignedPreKey,
+  generateKyberPreKey,
 } from '../Curve.js';
 import type { SignalProtocolStore } from '../SignalProtocolStore.js';
 import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
@@ -597,12 +598,9 @@ describe('SignalProtocolStore', () => {
       });
 
       async function testInvalidAttributes() {
-        try {
-          await store.saveIdentityWithAttributes(theirAci, attributes);
-          throw new Error('saveIdentityWithAttributes should have failed');
-        } catch (error) {
-          // good. we expect to fail with invalid attributes.
-        }
+        await assert.isRejected(
+          store.saveIdentityWithAttributes(theirAci, attributes)
+        );
       }
 
       it('rejects an invalid publicKey', async () => {
@@ -1635,6 +1633,98 @@ describe('SignalProtocolStore', () => {
       );
       assert.strictEqual(storedSignedPreKey.timestamp(), createdAt);
       // Note: signature is ignored.
+    });
+  });
+
+  describe('maybeRemoveKyberPreKey', () => {
+    beforeEach(async () => {
+      await store.clearKyberPreKeyStore();
+    });
+
+    afterEach(async () => {
+      await store.clearKyberPreKeyStore();
+    });
+
+    it('should detect duplicate triples', async () => {
+      await store.storeKyberPreKeys(ourAci, [
+        {
+          createdAt: Date.now(),
+          data: generateKyberPreKey(identityKey, 1).serialize(),
+          isConfirmed: true,
+          isLastResort: true,
+          keyId: 1,
+          ourServiceId: ourAci,
+        },
+      ]);
+
+      await store.maybeRemoveKyberPreKey(ourAci, {
+        keyId: 1,
+        signedPreKeyId: 1,
+        baseKey: testKey.publicKey,
+      });
+
+      await assert.isRejected(
+        store.maybeRemoveKyberPreKey(ourAci, {
+          keyId: 1,
+          signedPreKeyId: 1,
+          baseKey: testKey.publicKey,
+        }),
+        'Duplicate kyber triple 1:1'
+      );
+    });
+
+    it('should ignore triples for non last resort keys', async () => {
+      await store.storeKyberPreKeys(ourAci, [
+        {
+          createdAt: Date.now(),
+          data: generateKyberPreKey(identityKey, 1).serialize(),
+          isConfirmed: true,
+          isLastResort: false,
+          keyId: 1,
+          ourServiceId: ourAci,
+        },
+      ]);
+
+      await store.maybeRemoveKyberPreKey(ourAci, {
+        keyId: 1,
+        signedPreKeyId: 1,
+        baseKey: testKey.publicKey,
+      });
+
+      // this should not throw since the key was not last resort
+      await store.maybeRemoveKyberPreKey(ourAci, {
+        keyId: 1,
+        signedPreKeyId: 1,
+        baseKey: testKey.publicKey,
+      });
+    });
+
+    it('should remove triples when removing the key', async () => {
+      await store.storeKyberPreKeys(ourAci, [
+        {
+          createdAt: Date.now(),
+          data: generateKyberPreKey(identityKey, 1).serialize(),
+          isConfirmed: true,
+          isLastResort: true,
+          keyId: 1,
+          ourServiceId: ourAci,
+        },
+      ]);
+
+      await store.maybeRemoveKyberPreKey(ourAci, {
+        keyId: 1,
+        signedPreKeyId: 1,
+        baseKey: testKey.publicKey,
+      });
+
+      await store.removeKyberPreKeys(ourAci, [1]);
+
+      // this should not throw since we removed the key
+      await store.maybeRemoveKyberPreKey(ourAci, {
+        keyId: 1,
+        signedPreKeyId: 1,
+        baseKey: testKey.publicKey,
+      });
     });
   });
 });

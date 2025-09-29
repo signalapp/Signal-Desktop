@@ -503,7 +503,11 @@ export class SignalProtocolStore extends EventEmitter {
 
   async maybeRemoveKyberPreKey(
     ourServiceId: ServiceIdString,
-    keyId: number,
+    {
+      keyId,
+      signedPreKeyId,
+      baseKey,
+    }: { keyId: number; signedPreKeyId: number; baseKey: PublicKey },
     { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<void> {
     const id: PreKeyIdType = this.#_getKeyId(ourServiceId, keyId);
@@ -512,14 +516,23 @@ export class SignalProtocolStore extends EventEmitter {
     if (!entry) {
       return;
     }
-    if (entry.fromDB.isLastResort) {
-      log.info(
-        `maybeRemoveKyberPreKey: Not removing kyber prekey ${id}; it's a last resort key`
-      );
+    if (!entry.fromDB.isLastResort) {
+      await this.removeKyberPreKeys(ourServiceId, [keyId], { zone });
       return;
     }
 
-    await this.removeKyberPreKeys(ourServiceId, [keyId], { zone });
+    log.info(
+      `maybeRemoveKyberPreKey: Not removing kyber prekey ${id}; it's a last resort key`
+    );
+
+    const result = await DataWriter.markKyberTripleSeenOrFail({
+      id: `${ourServiceId}:${keyId}`,
+      signedPreKeyId,
+      baseKey: baseKey.serialize(),
+    });
+    if (result === 'fail') {
+      throw new Error(`Duplicate kyber triple ${keyId}:${signedPreKeyId}`);
+    }
   }
 
   async removeKyberPreKeys(
