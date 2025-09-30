@@ -325,12 +325,13 @@ function getSubscriptionDetails({
       <>
         {subscriptionStatus.cost ? (
           <div className="Preferences--backups-summary__subscription-price">
-            {new Intl.NumberFormat(locale, {
-              style: 'currency',
-              currency: subscriptionStatus.cost.currencyCode,
-              currencyDisplay: 'narrowSymbol',
-            }).format(subscriptionStatus.cost.amount)}{' '}
-            / month
+            {i18n('icu:Preferences--backup-subscription-monthly-cost', {
+              cost: new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: subscriptionStatus.cost.currencyCode,
+                currencyDisplay: 'narrowSymbol',
+              }).format(subscriptionStatus.cost.amount),
+            })}
           </div>
         ) : null}
         {subscriptionStatus.renewalTimestamp ? (
