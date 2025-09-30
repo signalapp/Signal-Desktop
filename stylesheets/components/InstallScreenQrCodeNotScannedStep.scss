@@ -178,7 +178,9 @@
   ol {
     @include mixins.font-body-1;
     line-height: 26px;
+    list-style-type: decimal;
     list-style-position: inside;
+    margin-block: 8px;
     padding-inline-start: 0;
   }
 

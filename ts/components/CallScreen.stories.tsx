@@ -62,6 +62,7 @@ type OverridePropsBase = {
   outgoingRing?: boolean;
   reactions?: ActiveCallReactionsType;
   myAci?: AciString;
+  showNeedsScreenRecordingPermissionsWarning?: boolean;
 };
 
 type DirectCallOverrideProps = OverridePropsBase & {
@@ -198,6 +199,8 @@ const createActiveCallProp = (
     settingsDialogOpen: false,
     selfViewExpanded: overrideProps.selfViewExpanded ?? false,
     showParticipantsList: false,
+    showNeedsScreenRecordingPermissionsWarning:
+      overrideProps.showNeedsScreenRecordingPermissionsWarning ?? false,
   };
 
   switch (overrideProps.callMode) {
@@ -1142,4 +1145,15 @@ export function RemoteMuteObserveIgnoreSelfMute(): JSX.Element {
     );
   }, [myAci]);
   return <CallScreen {...props} />;
+}
+
+export function ShowNeedsScreenRecordingPermissionsWarning(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        showNeedsScreenRecordingPermissionsWarning: true,
+      })}
+    />
+  );
 }
