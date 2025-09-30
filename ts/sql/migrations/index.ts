@@ -122,6 +122,7 @@ import updateToSchemaVersion1430 from './1430-call-links-epoch-id.js';
 import updateToSchemaVersion1440 from './1440-chat-folders.js';
 import updateToSchemaVersion1450 from './1450-all-media.js';
 import updateToSchemaVersion1460 from './1460-attachment-duration.js';
+import updateToSchemaVersion1470 from './1470-kyber-triple.js';
 
 import { DataWriter } from '../Server.js';
 
@@ -1601,6 +1602,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1440, update: updateToSchemaVersion1440 },
   { version: 1450, update: updateToSchemaVersion1450 },
   { version: 1460, update: updateToSchemaVersion1460 },
+  { version: 1470, update: updateToSchemaVersion1470 },
 ];
 
 export class DBVersionFromFutureError extends Error {

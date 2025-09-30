@@ -590,6 +590,12 @@ export type MediaItemDBType = Readonly<{
   message: MediaItemMessageType;
 }>;
 
+export type KyberPreKeyTripleType = Readonly<{
+  id: PreKeyIdType;
+  signedPreKeyId: number;
+  baseKey: Uint8Array;
+}>;
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
@@ -956,6 +962,9 @@ type WritableInterface = {
   removeKyberPreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => number;
   removeKyberPreKeysByServiceId: (serviceId: ServiceIdString) => void;
   removeAllKyberPreKeys: () => number;
+  markKyberTripleSeenOrFail: (
+    options: KyberPreKeyTripleType
+  ) => 'seen' | 'fail';
 
   removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => number;
   removePreKeysByServiceId: (serviceId: ServiceIdString) => void;

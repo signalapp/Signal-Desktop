@@ -140,6 +140,7 @@ import type {
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
+  KyberPreKeyTripleType,
   MediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
@@ -530,6 +531,7 @@ export const DataWriter: ServerWritableInterface = {
   bulkAddKyberPreKeys,
   removeKyberPreKeyById,
   removeKyberPreKeysByServiceId,
+  markKyberTripleSeenOrFail,
   removeAllKyberPreKeys,
 
   createOrUpdatePreKey,
@@ -1072,6 +1074,34 @@ function removeKyberPreKeysByServiceId(
   db.prepare('DELETE FROM kyberPreKeys WHERE ourServiceId IS $serviceId;').run({
     serviceId,
   });
+}
+function markKyberTripleSeenOrFail(
+  db: WritableDB,
+  { id, signedPreKeyId, baseKey }: KyberPreKeyTripleType
+): 'seen' | 'fail' {
+  // Notes that `kyberPreKey_triples` has
+  // - Unique constraint on id, signedPreKeyId, baseKey so that we can't insert
+  //   two identical rows
+  // - `ON DELETE CASCADE` trigger linked to `kyberPreKeys` table so that we
+  //   cleanup the triples whenever we remove the key
+  const [query, parameters] = sql`
+    INSERT OR FAIL INTO kyberPreKey_triples
+      (id, signedPreKeyId, baseKey)
+    VALUES
+      (${id}, ${signedPreKeyId}, ${baseKey});
+  `;
+
+  try {
+    db.prepare(query).run(parameters);
+    return 'seen';
+  } catch (error) {
+    if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return 'fail';
+    }
+
+    // Unexpected error
+    throw error;
+  }
 }
 function removeAllKyberPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, KYBER_PRE_KEYS_TABLE);

@@ -250,10 +250,14 @@ export class KyberPreKeys extends KyberPreKeyStore {
     return kyberPreKey;
   }
 
-  async markKyberPreKeyUsed(id: number): Promise<void> {
+  async markKyberPreKeyUsed(
+    keyId: number,
+    signedPreKeyId: number,
+    baseKey: PublicKey
+  ): Promise<void> {
     await window.textsecure.storage.protocol.maybeRemoveKyberPreKey(
       this.#ourServiceId,
-      id,
+      { keyId, signedPreKeyId, baseKey },
       { zone: this.#zone }
     );
   }
