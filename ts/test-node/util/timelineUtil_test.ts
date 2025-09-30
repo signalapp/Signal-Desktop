@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { times } from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import type { LastMessageStatus } from '../../model-types.d.ts';
 import { MINUTE, SECOND } from '../../util/durations/index.js';
@@ -14,6 +14,8 @@ import {
   shouldCurrentMessageHideMetadata,
   TimelineMessageLoadingState,
 } from '../../util/timelineUtil.js';
+
+const { times } = lodash;
 
 describe('<Timeline> utilities', () => {
   describe('areMessagesInSameGroup', () => {

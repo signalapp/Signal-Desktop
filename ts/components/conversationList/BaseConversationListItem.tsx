@@ -4,7 +4,7 @@
 import type { ReactNode, FunctionComponent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { isBoolean, isNumber } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar.js';
@@ -17,6 +17,8 @@ import { Spinner } from '../Spinner.js';
 import { Time } from '../Time.js';
 import { formatDateTimeShort } from '../../util/timestamp.js';
 import * as durations from '../../util/durations/index.js';
+
+const { isBoolean, isNumber } = lodash;
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';

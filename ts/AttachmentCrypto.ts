@@ -14,16 +14,16 @@ import type { Hash } from 'node:crypto';
 import { PassThrough, Transform, type Writable, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
-import { isNumber } from 'lodash';
-import { ensureFile } from 'fs-extra';
+import lodash from 'lodash';
+import fsExtra from 'fs-extra';
 import {
   chunkSizeInBytes,
   DigestingPassThrough,
   everyNthByte,
   inferChunkSize,
   ValidatingPassThrough,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
-import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
+import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { isAbsolute } from 'node:path';
 
 import { createLogger } from './logging/log.js';
@@ -39,7 +39,7 @@ import {
 } from './types/Crypto.js';
 import { constantTimeEqual } from './Crypto.js';
 import { createName, getRelativePath } from './util/attachmentPath.js';
-import { appendPaddingStream, logPadSize } from './util/logPadding.js';
+import { appendPaddingStream } from './util/logPadding.js';
 import { prependStream } from './util/prependStream.js';
 import { appendMacStream } from './util/appendMacStream.js';
 import { finalStream } from './util/finalStream.js';
@@ -52,6 +52,12 @@ import { missingCaseError } from './util/missingCaseError.js';
 import { getEnvironment, Environment } from './environment.js';
 import { isNotEmpty, toBase64, toHex } from './Bytes.js';
 import { decipherWithAesKey } from './util/decipherWithAesKey.js';
+import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.js';
+import { MediaTier } from './types/AttachmentDownload.js';
+
+const { ensureFile } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('AttachmentCrypto');
 
@@ -194,7 +200,12 @@ export async function encryptAttachmentV2({
       );
     }
     chunkSizeChoice = isNumber(size)
-      ? inferChunkSize(getAttachmentCiphertextLength(size))
+      ? inferChunkSize(
+          getAttachmentCiphertextSize({
+            unpaddedPlaintextSize: size,
+            mediaTier: MediaTier.STANDARD,
+          })
+        )
       : undefined;
     incrementalDigestCreator =
       needIncrementalMac && chunkSizeChoice
@@ -658,23 +669,6 @@ export function measureSize({
   });
 
   return passthrough;
-}
-
-export function getAttachmentCiphertextLength(plaintextLength: number): number {
-  const paddedPlaintextSize = logPadSize(plaintextLength);
-
-  return (
-    IV_LENGTH +
-    getAesCbcCiphertextLength(paddedPlaintextSize) +
-    ATTACHMENT_MAC_LENGTH
-  );
-}
-
-export function getAesCbcCiphertextLength(plaintextLength: number): number {
-  const AES_CBC_BLOCK_SIZE = 16;
-  return (
-    (1 + Math.floor(plaintextLength / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
-  );
 }
 
 function checkIntegrity({

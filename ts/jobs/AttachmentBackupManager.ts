@@ -23,8 +23,6 @@ import {
 } from '../services/backups/index.js';
 import {
   type EncryptedAttachmentV2,
-  getAttachmentCiphertextLength,
-  getAesCbcCiphertextLength,
   decryptAttachmentV2ToSink,
 } from '../AttachmentCrypto.js';
 import {
@@ -40,6 +38,7 @@ import {
 } from '../types/AttachmentBackup.js';
 import { isInCall as isInCallSelector } from '../state/selectors/calling.js';
 import { encryptAndUploadAttachment } from '../util/uploadAttachment.js';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import {
   getMediaIdFromMediaName,
   getMediaNameForAttachmentThumbnail,
@@ -66,6 +65,7 @@ import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromErr
 import { BackupCredentialType } from '../types/backups.js';
 import { supportsIncrementalMac } from '../types/MIME.js';
 import type { MIMEType } from '../types/MIME.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
 
 const log = createLogger('AttachmentBackupManager');
 
@@ -582,7 +582,10 @@ async function copyToBackupTier({
     dependencies.backupMediaBatch,
     'backupMediaBatch must be intialized'
   );
-  const ciphertextLength = getAttachmentCiphertextLength(size);
+  const ciphertextSizeOnTransitTier = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: size,
+    mediaTier: MediaTier.STANDARD,
+  });
 
   const { responses } = await dependencies.backupMediaBatch({
     headers: await dependencies.backupsService.credentials.getHeadersForToday(
@@ -594,7 +597,7 @@ async function copyToBackupTier({
           cdn: cdnNumber,
           key: cdnKey,
         },
-        objectLength: ciphertextLength,
+        objectLength: ciphertextSizeOnTransitTier,
         mediaId,
         hmacKey: macKey,
         encryptionKey: aesKey,
@@ -613,9 +616,17 @@ async function copyToBackupTier({
   }
 
   // Update our local understanding of what's in the backup cdn
-  const sizeOnBackupCdn = getAesCbcCiphertextLength(ciphertextLength);
+  const ciphertextSizeOnBackupTier = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: size,
+    mediaTier: MediaTier.BACKUP,
+  });
+
   await DataWriter.saveBackupCdnObjectMetadata([
-    { mediaId, cdnNumber: response.cdn, sizeOnBackupCdn },
+    {
+      mediaId,
+      cdnNumber: response.cdn,
+      sizeOnBackupCdn: ciphertextSizeOnBackupTier,
+    },
   ]);
 
   return {

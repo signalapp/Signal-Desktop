@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { assert } from 'chai';
 
 import type { ReadableDB, WritableDB } from '../../sql/Interface.js';
@@ -12,6 +12,8 @@ import type {
 } from '../../sql/migrations/1040-undownloaded-backed-up-media.js';
 import type { AttachmentType } from '../../types/Attachment.js';
 import { IMAGE_JPEG } from '../../types/MIME.js';
+
+const { omit } = lodash;
 
 function getAttachmentDownloadJobs(
   db: ReadableDB

@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get, isFinite, isInteger, isString } from 'lodash';
+import lodash from 'lodash';
 
 import { signal } from '../protobuf/compiled.js';
 import * as Bytes from '../Bytes.js';
 import { deriveSecrets } from '../Crypto.js';
+
+const { get, isFinite, isInteger, isString } = lodash;
 
 const { RecordStructure, SessionStructure } = signal.proto.storage;
 const { Chain } = SessionStructure;

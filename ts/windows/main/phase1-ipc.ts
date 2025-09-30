@@ -4,7 +4,7 @@
 import EventEmitter from 'node:events';
 import { ipcRenderer as ipc } from 'electron';
 import * as semver from 'semver';
-import { groupBy, mapValues } from 'lodash';
+import lodash, { throttle } from 'lodash';
 import PQueue from 'p-queue';
 
 import type { IPCType } from '../../window.d.ts';
@@ -35,6 +35,9 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue.js';
+import { isEnabled } from '../../RemoteConfig.js';
+
+const { groupBy, mapValues } = lodash;
 
 const log = createLogger('phase1-ipc');
 
@@ -496,6 +499,56 @@ ipc.on('sql-error', () => {
     toastType: ToastType.SQLError,
   });
 });
+
+let untoastedMainProcessErrorLogCount = 0;
+let untoastedMainProcessErrorLogs: Array<string> = [];
+const MAX_MAIN_PROCESS_ERROR_LOGS_TO_CACHE = 5;
+
+ipc.on('logging-error', (_event, logLine) => {
+  if (isProduction(window.getVersion())) {
+    return;
+  }
+
+  if (!isEnabled('desktop.loggingErrorToasts')) {
+    return;
+  }
+
+  untoastedMainProcessErrorLogCount += 1;
+  const numCached = untoastedMainProcessErrorLogs.unshift(logLine);
+  if (numCached > MAX_MAIN_PROCESS_ERROR_LOGS_TO_CACHE) {
+    untoastedMainProcessErrorLogs.pop();
+  }
+
+  throttledHandleMainProcessErrors();
+});
+
+const throttledHandleMainProcessErrors = throttle(
+  _handleMainProcessErrors,
+  5000
+);
+
+function _handleMainProcessErrors() {
+  if (!window.reduxActions) {
+    // Try again in a bit!
+    throttledHandleMainProcessErrors();
+    return;
+  }
+
+  if (untoastedMainProcessErrorLogs.length === 0) {
+    return;
+  }
+
+  window.reduxActions.toast.showToast({
+    toastType: ToastType._InternalMainProcessLoggingError,
+    parameters: {
+      count: untoastedMainProcessErrorLogCount,
+      logLines: untoastedMainProcessErrorLogs,
+    },
+  });
+
+  untoastedMainProcessErrorLogCount = 0;
+  untoastedMainProcessErrorLogs = [];
+}
 
 ipc.on(
   'art-creator:uploadStickerPack',

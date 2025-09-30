@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { shuffle } from 'lodash';
+import lodash from 'lodash';
 
 import { IMAGE_JPEG } from '../../../types/MIME.js';
 import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate.js';
 import type { MediaItemType } from '../../../types/MediaItem.js';
 import { fakeAttachment } from '../../../test-helpers/fakeAttachment.js';
+
+const { shuffle } = lodash;
 
 const testDate = (
   year: number,

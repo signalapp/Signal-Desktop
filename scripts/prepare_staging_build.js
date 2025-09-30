@@ -1,13 +1,11 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const fs = require('node:fs');
 const _ = require('lodash');
 
-const packageJson = require('../package.json');
 const { isAlpha } = require('../ts/util/version.js');
-
-const { version } = packageJson;
+const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
 //   side-by-side installation of production and staging builds. Electron-Builder uses

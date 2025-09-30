@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { groupBy } from 'lodash';
+import lodash from 'lodash';
 import { createLogger } from '../logging/log.js';
 import { aciSchema } from '../types/ServiceId.js';
 import { safeParseStrict } from './schemas.js';
+
+const { groupBy } = lodash;
 
 const log = createLogger('retryPlaceholders');
 

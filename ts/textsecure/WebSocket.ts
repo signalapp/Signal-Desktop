@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { client as WebSocketClient } from 'websocket';
+import ws from 'websocket';
 import type { connection as WebSocket } from 'websocket';
 import type { IncomingMessage } from 'node:http';
 
@@ -16,6 +16,8 @@ import { createLogger } from '../logging/log.js';
 import * as Timers from '../Timers.js';
 import { ConnectTimeoutError, HTTPError } from './Errors.js';
 import { handleStatusCode, translateError } from './Utils.js';
+
+const { client: WebSocketClient } = ws;
 
 const log = createLogger('WebSocket');
 

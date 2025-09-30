@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import casual from 'casual';
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import type { ConversationType } from '../state/ducks/conversations.js';
@@ -13,6 +13,8 @@ import { getRandomColor } from './getRandomColor.js';
 import { ConversationColors } from '../types/Colors.js';
 import { StorySendMode } from '../types/Stories.js';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
+
+const { sample } = lodash;
 
 export const getAvatarPath = (): string =>
   sample([

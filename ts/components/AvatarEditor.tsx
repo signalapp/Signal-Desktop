@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 
 import type { AvatarColorType } from '../types/Colors.js';
 import type {
@@ -23,6 +23,8 @@ import { createAvatarData } from '../util/createAvatarData.js';
 import { isSameAvatarData } from '../util/isSameAvatarData.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+
+const { isEqual } = lodash;
 
 export type PropsType = {
   avatarColor?: AvatarColorType;

@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Supprimer la conversation ?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Tous les messages de cette conversation seront supprimés de cet appareil."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Tous les messages de cette conversation seront supprimés de tous vos appareils."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Médias, liens et fichiers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

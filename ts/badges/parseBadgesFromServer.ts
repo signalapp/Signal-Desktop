@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
 import { isRecord } from '../util/isRecord.js';
 import { isNormalNumber } from '../util/isNormalNumber.js';
 import { createLogger } from '../logging/log.js';
@@ -10,6 +10,8 @@ import type { BadgeType, BadgeImageType } from './types.js';
 import { parseBadgeCategory } from './BadgeCategory.js';
 import { BadgeImageTheme, parseBadgeImageTheme } from './BadgeImageTheme.js';
 import { safeParseUnknown } from '../util/schemas.js';
+
+const { isEmpty } = lodash;
 
 const log = createLogger('parseBadgesFromServer');
 

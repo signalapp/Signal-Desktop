@@ -14,7 +14,7 @@ export enum MediaTier {
   BACKUP = 'backup',
 }
 
-export const attachmentDownloadTypeSchema = z.enum([
+export const messageAttachmentTypeSchema = z.enum([
   'long-message',
   'attachment',
   'preview',
@@ -23,13 +23,11 @@ export const attachmentDownloadTypeSchema = z.enum([
   'sticker',
 ]);
 
-export type AttachmentDownloadJobTypeType = z.infer<
-  typeof attachmentDownloadTypeSchema
->;
+export type MessageAttachmentType = z.infer<typeof messageAttachmentTypeSchema>;
 
 export type CoreAttachmentDownloadJobType = {
   attachment: AttachmentType;
-  attachmentType: AttachmentDownloadJobTypeType;
+  attachmentType: MessageAttachmentType;
   ciphertextSize: number;
   contentType: MIMEType;
   attachmentSignature: string;
@@ -49,7 +47,7 @@ export const coreAttachmentDownloadJobSchema = z.object({
   attachment: z
     .object({ size: z.number(), contentType: MIMETypeSchema })
     .passthrough(),
-  attachmentType: attachmentDownloadTypeSchema,
+  attachmentType: messageAttachmentTypeSchema,
   ciphertextSize: z.number(),
   contentType: MIMETypeSchema,
   attachmentSignature: z.string(),

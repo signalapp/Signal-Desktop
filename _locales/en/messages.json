@@ -1382,10 +1382,6 @@
     "messageformat": "Delete chat?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title. Previously known as icu:ConversationHeader__DeleteMessagesConfirmation__title"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device.",
-    "description": "(Deleted 2025/08/20) Description for confirmation modal to delete a conversation"
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "All messages in this chat will be deleted from all your devices.",
     "description": "Description for confirmation modal to delete a conversation"
@@ -9212,5 +9208,9 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations.",
+    "description": "Release notes for 7.73 release"
   }
 }

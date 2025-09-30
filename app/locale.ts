@@ -4,7 +4,7 @@
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { app } from 'electron';
-import { merge } from 'lodash';
+import lodash from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
 import { setupI18n } from '../ts/util/setupI18nMain.js';
@@ -18,6 +18,8 @@ import type {
 import type { LocalizerType } from '../ts/types/Util.js';
 import * as Errors from '../ts/types/errors.js';
 import { parseUnknown } from '../ts/util/schemas.js';
+
+const { merge } = lodash;
 
 type CompactLocaleMessagesType = ReadonlyArray<string | null>;
 type CompactLocaleKeysType = ReadonlyArray<string>;

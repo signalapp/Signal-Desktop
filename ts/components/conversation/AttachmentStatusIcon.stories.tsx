@@ -26,16 +26,6 @@ export function Default(args: PropsType): JSX.Element {
   );
 }
 
-export function NoAttachment(args: PropsType): JSX.Element {
-  return (
-    <div style={{ backgroundColor: 'gray' }}>
-      <AttachmentStatusIcon {...args} attachment={undefined}>
-        🔥🔥
-      </AttachmentStatusIcon>
-    </div>
-  );
-}
-
 export function NeedsDownload(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>

@@ -3,7 +3,7 @@
 import { assert } from 'chai';
 import Long from 'long';
 import * as sinon from 'sinon';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 

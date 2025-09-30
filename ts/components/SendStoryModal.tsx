@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { noop, sortBy } from 'lodash';
+import lodash from 'lodash';
 
 import { SearchInput } from './SearchInput.js';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.js';
@@ -43,6 +43,8 @@ import { getStoryBackground } from '../util/getStoryBackground.js';
 import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment.js';
 import { UserText } from './UserText.js';
 import { Theme } from '../util/theme.js';
+
+const { noop, sortBy } = lodash;
 
 export type PropsType = {
   draftAttachment: AttachmentType;

@@ -11,7 +11,7 @@ import type {
 import { StorageState, Proto } from '@signalapp/mock-server';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { range } from 'lodash';
+import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { App } from '../playwright.js';
 import { Bootstrap } from '../bootstrap.js';
@@ -20,6 +20,8 @@ import { MY_STORY_ID } from '../../types/Stories.js';
 import { uuidToBytes } from '../../util/uuidToBytes.js';
 import { artAddStickersRoute } from '../../util/signalRoutes.js';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.js';
+
+const { range } = lodash;
 
 export const debug = createDebug('mock:test:storage');
 

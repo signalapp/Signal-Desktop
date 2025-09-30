@@ -6,11 +6,13 @@ import {
   type VirtualItem,
   type Virtualizer,
 } from '@tanstack/react-virtual';
-import { chunk, groupBy } from 'lodash';
+import lodash from 'lodash';
 import type { RefObject } from 'react';
 import { useCallback, useMemo } from 'react';
 import { strictAssert } from '../../../util/assert.js';
 import { missingCaseError } from '../../../util/missingCaseError.js';
+
+const { chunk, groupBy } = lodash;
 
 export type SectionKey = `section-${string}`;
 export type HeaderKey = `header-${string}`;

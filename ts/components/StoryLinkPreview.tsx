@@ -3,13 +3,15 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { unescape } from 'lodash';
+import lodash from 'lodash';
 
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
 import type { LocalizerType } from '../types/Util.js';
 import { CurveType, Image } from './conversation/Image.js';
 import { isImageAttachment } from '../types/Attachment.js';
 import { getSafeDomain } from '../types/LinkPreview.js';
+
+const { unescape } = lodash;
 
 export type Props = LinkPreviewForUIType & {
   forceCompactMode?: boolean;

@@ -5,7 +5,7 @@ import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { SignalService as Proto } from '../protobuf/index.js';
 import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.js';
@@ -23,6 +23,8 @@ import { ConfirmationDialog } from './ConfirmationDialog.js';
 import { Spinner } from './Spinner.js';
 import { BrandedQRCode } from './BrandedQRCode.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+
+const { noop } = lodash;
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

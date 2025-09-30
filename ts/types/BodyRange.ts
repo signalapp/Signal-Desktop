@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { isEqual, isNumber, omit, orderBy, partition } from 'lodash';
+import lodash from 'lodash';
 
 import { SignalService as Proto } from '../protobuf/index.js';
 import { createLogger } from '../logging/log.js';
@@ -18,6 +18,8 @@ import {
 import { assertDev } from '../util/assert.js';
 import type { AciString } from './ServiceId.js';
 import { normalizeAci } from '../util/normalizeAci.js';
+
+const { isEqual, isNumber, omit, orderBy, partition } = lodash;
 
 const log = createLogger('BodyRange');
 

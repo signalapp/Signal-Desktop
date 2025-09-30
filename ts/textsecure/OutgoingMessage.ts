@@ -5,7 +5,7 @@
 /* eslint-disable more/no-then */
 /* eslint-disable no-param-reassign */
 
-import { reject } from 'lodash';
+import lodash from 'lodash';
 
 import { z } from 'zod';
 import type {
@@ -45,6 +45,8 @@ import { createLogger } from '../logging/log.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { isSignalServiceId } from '../util/isSignalConversation.js';
 import * as Bytes from '../Bytes.js';
+
+const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
 

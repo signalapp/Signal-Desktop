@@ -13,22 +13,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 
 import type { Dictionary } from 'lodash';
-import {
-  forEach,
-  fromPairs,
-  groupBy,
-  isBoolean,
-  isNil,
-  isNumber,
-  isString,
-  last,
-  map,
-  mapValues,
-  noop,
-  omit,
-  partition,
-  pick,
-} from 'lodash';
+import lodash from 'lodash';
 
 import { parseBadgeCategory } from '../badges/BadgeCategory.js';
 import {
@@ -51,6 +36,7 @@ import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
 import * as Errors from '../types/errors.js';
 import { assertDev, strictAssert } from '../util/assert.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import { combineNames } from '../util/combineNames.js';
 import { consoleLogger } from '../util/consoleLogger.js';
 import {
@@ -100,7 +86,7 @@ import {
 } from '../types/AttachmentBackup.js';
 import {
   attachmentDownloadJobSchema,
-  type AttachmentDownloadJobTypeType,
+  type MessageAttachmentType,
   type AttachmentDownloadJobType,
 } from '../types/AttachmentDownload.js';
 import type {
@@ -276,6 +262,23 @@ import type {
 } from '../types/Colors.js';
 import { sqlLogger } from './sqlLogger.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.js';
+
+const {
+  forEach,
+  fromPairs,
+  groupBy,
+  isBoolean,
+  isNil,
+  isNumber,
+  isString,
+  last,
+  map,
+  mapValues,
+  noop,
+  omit,
+  partition,
+  pick,
+} = lodash;
 
 type ConversationRow = Readonly<{
   json: string;
@@ -2697,7 +2700,7 @@ function saveMessageAttachment({
   sentAt: number;
   receivedAt: number;
   receivedAtMs: number | undefined;
-  attachmentType: AttachmentDownloadJobTypeType;
+  attachmentType: MessageAttachmentType;
   attachment: AttachmentType;
   orderInMessage: number;
   editHistoryIndex: number | null;
@@ -5095,12 +5098,34 @@ function getOlderMedia(
     messageId,
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
+    type,
   }: GetOlderMediaOptionsType
 ): Array<MediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
     second: sqlFragment`receivedAt < ${maxReceivedAt}`,
   };
+
+  let contentFilter: QueryFragment;
+  if (type === 'media') {
+    // see 'isVisualMedia' in ts/types/Attachment.ts
+    contentFilter = sqlFragment`
+      contentType LIKE 'image/%' OR
+      contentType LIKE 'video/%'
+    `;
+  } else if (type === 'files') {
+    // see 'isFile' in ts/types/Attachment.ts
+    contentFilter = sqlFragment`
+      contentType IS NOT NULL AND
+      contentType IS NOT '' AND
+      contentType IS NOT 'text/x-signal-plain' AND
+      contentType NOT LIKE 'audio/%' AND
+      contentType NOT LIKE 'image/%' AND
+      contentType NOT LIKE 'video/%'
+    `;
+  } else {
+    throw missingCaseError(type);
+  }
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
@@ -5114,11 +5139,7 @@ function getOlderMedia(
       (
         ${timeFilter}
       ) AND
-      (
-        -- see 'isVisualMedia' in ts/types/Attachment.ts
-        contentType LIKE 'image/%' OR
-        contentType LIKE 'video/%'
-      ) AND
+      (${contentFilter}) AND
       isViewOnce IS NOT 1 AND
       messageType IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR messageId IS NOT ${messageId ?? null})

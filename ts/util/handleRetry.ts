@@ -5,7 +5,7 @@ import {
   DecryptionErrorMessage,
   PlaintextContent,
 } from '@signalapp/libsignal-client';
-import { isNumber, random } from 'lodash';
+import lodash from 'lodash';
 import type PQueue from 'p-queue';
 
 import * as Bytes from '../Bytes.js';
@@ -41,6 +41,8 @@ import { conversationJobQueue } from '../jobs/conversationJobQueue.js';
 import { incrementMessageCounter } from './incrementMessageCounter.js';
 import { SECOND } from './durations/index.js';
 import { sleep } from './sleep.js';
+
+const { isNumber, random } = lodash;
 
 const log = createLogger('handleRetry');
 

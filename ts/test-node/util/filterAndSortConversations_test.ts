@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { pick } from 'lodash';
+import lodash from 'lodash';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
 import type { ConversationType } from '../../state/ducks/conversations.js';
+
+const { pick } = lodash;
 
 type CheckProps = Pick<ConversationType, 'title' | 'activeAt' | 'e164'>;
 

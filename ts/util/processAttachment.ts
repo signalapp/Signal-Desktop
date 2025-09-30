@@ -21,7 +21,8 @@ import { handleVideoAttachment } from './handleVideoAttachment.js';
 import { isHeic, stringToMIMEType } from '../types/MIME.js';
 import { ToastType } from '../types/Toast.js';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome.js';
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto.js';
+import { getAttachmentCiphertextSize } from './AttachmentCrypto.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
 
 const log = createLogger('processAttachment');
 
@@ -85,7 +86,10 @@ function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
   const limitBytes =
     getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue) * KIBIBYTE;
 
-  const paddedAndEncryptedSize = getAttachmentCiphertextLength(attachment.size);
+  const paddedAndEncryptedSize = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: attachment.size,
+    mediaTier: MediaTier.STANDARD,
+  });
   if (paddedAndEncryptedSize > limitBytes) {
     window.reduxActions.toast.showToast({
       toastType: ToastType.FileSize,

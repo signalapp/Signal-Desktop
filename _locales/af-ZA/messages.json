@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Skrap klets?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Al die boodskappe in hierdie klets sal van hierdie toestel af geskrap word."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Al die boodskappe in hierdie klets sal van al jou toestelle af geskrap word."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, skakels en lêers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

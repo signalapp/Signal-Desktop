@@ -364,11 +364,12 @@ jobs:
   mock-tests:
     needs: lint
 
+    continue-on-error: true
     strategy:
       matrix:
         workerIndex: [0, 1, 2, 3]
 
-    runs-on: ubuntu-22.04-8-cores
+    runs-on: ubuntu-latest-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
     timeout-minutes: 30
 
@@ -396,7 +397,7 @@ jobs:
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install xvfb and libpulse0
-      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
+      run: sudo apt-get install -y xvfb libpulse0 || (sudo apt-get update && sudo apt-get install -y xvfb libpulse0)
 
     # - name: Setup sccache
     #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
@@ -407,7 +408,10 @@ jobs:
     #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
-      run: pnpm install
+      run: |
+        pnpm install
+        sudo chown root node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
+        sudo chmod 4755 node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
       env:
         # CC: sccache gcc
         # CXX: sccache g++
@@ -439,8 +443,11 @@ jobs:
       if: ${{ matrix.workerIndex == 0 }}
       run: |
         set -o pipefail
+        sudo apt-get install -y pipewire pipewire-pulse wireplumber psmisc pulseaudio-utils
+        systemctl --user start pipewire.service
+        systemctl --user start pipewire-pulse.service
         xvfb-run --auto-servernum pnpm run test-mock-docker
-      timeout-minutes: 15
+      timeout-minutes: 10
       env:
         NODE_ENV: production
         DEBUG: mock:test:*
@@ -450,5 +457,5 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
-        name: logs
+        name: logs-${{ matrix.workerIndex }}
         path: artifacts

@@ -1094,7 +1094,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: CONTACT_B,
         details: [
@@ -1115,7 +1114,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: CONTACT_C,
         details: [
@@ -1145,7 +1143,6 @@ export function PendingRemoveOne(): JSX.Element {
           },
         ],
       })}
-
       {renderChange({
         from: OUR_ACI,
         details: [
@@ -1169,6 +1166,23 @@ export function PendingRemoveOne(): JSX.Element {
           {
             type: 'pending-remove-one',
             serviceId: INVITEE_A,
+          },
+        ],
+      })}
+      no from field or invitee
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-one',
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      no from field, invitee, or inviter
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-one',
           },
         ],
       })}

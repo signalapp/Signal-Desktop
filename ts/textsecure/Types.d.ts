@@ -30,7 +30,7 @@ export {
   SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
-} from '../sql/Interface.js';
+} from '../sql/Interface.ts';
 
 export type StorageServiceCallOptionsType = {
   credentials?: StorageServiceCredentials;
@@ -185,6 +185,23 @@ export type ProcessedReaction = {
   targetTimestamp?: number;
 };
 
+export type ProcessedPollCreate = {
+  question?: string;
+  options?: Array<string>;
+  allowMultiple?: boolean;
+};
+
+export type ProcessedPollVote = {
+  targetAuthorAci?: AciString;
+  targetTimestamp?: number;
+  optionIndexes?: Array<number>;
+  voteCount?: number;
+};
+
+export type ProcessedPollTerminate = {
+  targetTimestamp?: number;
+};
+
 export type ProcessedDelete = {
   targetSentTimestamp?: number;
 };
@@ -226,6 +243,9 @@ export type ProcessedDataMessage = {
   isStory?: boolean;
   isViewOnce: boolean;
   reaction?: ProcessedReaction;
+  pollCreate?: ProcessedPollCreate;
+  pollVote?: ProcessedPollVote;
+  pollTerminate?: ProcessedPollTerminate;
   delete?: ProcessedDelete;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
   groupCallUpdate?: ProcessedGroupCallUpdate;

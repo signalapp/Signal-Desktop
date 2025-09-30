@@ -34,6 +34,7 @@ import {
   encryptAttachmentV2,
   generateAttachmentKeys,
 } from '../AttachmentCrypto.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.js';
 
 export { App };
 
@@ -567,6 +568,23 @@ export class Bootstrap {
     await fs.writeFile(path.join(outDir, `screenshot-${id}.png`), screenshot);
   }
 
+  public async screenshotWindow(
+    window: Page,
+    testName?: string
+  ): Promise<void> {
+    const outDir = await this.#getArtifactsDir(testName);
+    if (outDir == null) {
+      return;
+    }
+
+    const screenshot = await window.screenshot();
+
+    const id = this.#screenshotId;
+    this.#screenshotId += 1;
+
+    await fs.writeFile(path.join(outDir, `screenshot-${id}.png`), screenshot);
+  }
+
   public async saveLogs(
     app: App | undefined = this.#lastApp,
     testName?: string
@@ -689,7 +707,7 @@ export class Bootstrap {
         plaintext: {
           data,
         },
-        needIncrementalMac: true,
+        needIncrementalMac: isVideoTypeSupported(contentType),
         sink: passthrough,
       }),
       this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),

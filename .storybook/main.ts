@@ -3,6 +3,13 @@
 
 import type { StorybookConfig } from '@storybook/react-webpack5';
 import { ProvidePlugin } from 'webpack';
+import { builtinModules } from 'node:module';
+
+const EXTERNALS = new Set(builtinModules);
+
+// We have polyfills for these
+EXTERNALS.delete('buffer');
+EXTERNALS.delete('url');
 
 const config: StorybookConfig = {
   typescript: {
@@ -91,7 +98,10 @@ const config: StorybookConfig = {
     config.node = { global: true };
 
     config.externals = ({ request }, callback) => {
-      if (/^node:/.test(request) && request !== 'node:buffer') {
+      if (
+        (/^node:/.test(request) && request !== 'node:buffer') ||
+        EXTERNALS.has(request)
+      ) {
         // Keep Node.js imports unchanged
         return callback(null, 'commonjs ' + request);
       }

@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last } from 'lodash';
+import lodash from 'lodash';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { TypingBubble } from '../../components/conversation/TypingBubble.js';
@@ -13,6 +13,8 @@ import {
   getConversationMessagesSelector,
 } from '../selectors/conversations.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
+
+const { last } = lodash;
 
 type ExternalProps = {
   conversationId: string;

@@ -10,7 +10,7 @@ import type {
 } from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors.js';
@@ -27,6 +27,8 @@ import { getInitials } from '../util/getInitials.js';
 import { isBadgeVisible } from '../badges/isBadgeVisible.js';
 import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation.js';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
+
+const { noop } = lodash;
 
 const log = createLogger('Avatar');
 

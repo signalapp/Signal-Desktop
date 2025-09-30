@@ -126,8 +126,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.81.0
-        version: 0.81.0
+        specifier: 0.81.1
+        version: 0.81.1
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -135,8 +135,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.58.0
-        version: 2.58.0
+        specifier: 2.58.1
+        version: 2.58.1
       '@signalapp/sqlcipher':
         specifier: 2.4.4
         version: 2.4.4
@@ -3455,8 +3455,8 @@ packages:
   '@signalapp/libsignal-client@0.76.7':
     resolution: {integrity: sha512-iGWTlFkko7IKlm96Iy91Wz5sIN089nj02ifOk6BWtLzeVi0kFaNj+jK26Sl1JRXy/VfXevcYtiOivOg43BPqpg==}
 
-  '@signalapp/libsignal-client@0.81.0':
-    resolution: {integrity: sha512-oGVhVTfbh6Sp2m74o4iG61sF9Bf50FKcSX6FQxKBoqiIiZe7f4ziBuVCT1vis3o9lu1RMFrIK/Wf9YrsAhKGdg==}
+  '@signalapp/libsignal-client@0.81.1':
+    resolution: {integrity: sha512-pG0ShEkYH3q3kmlLAl/G3SGMOSc47AM4ksBlWUn6uNi7CBkCRLFoiN/LgI0zQ4LnwIifSl3tkilFSKPYs+fVuA==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
@@ -3471,8 +3471,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.58.0':
-    resolution: {integrity: sha512-e72iWv7GlP84GKhbLKhsqEtc8QwJu6pPV5AbToXGD7ja6n6kqLGuyD3BkJqHn7jUvRS8VGQTprv1qJIWTLg56Q==}
+  '@signalapp/ringrtc@2.58.1':
+    resolution: {integrity: sha512-u+80Vl460f4U4Btnv3blp2kbtPt29FHdC63mXaf1Yor5C/DH4xeb7HwYPdHW28cLu6xVBNw/j9h8DPJ0jrvbZw==}
     hasBin: true
 
   '@signalapp/sqlcipher@2.4.4':
@@ -14219,7 +14219,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/libsignal-client@0.81.0':
+  '@signalapp/libsignal-client@0.81.1':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -14259,7 +14259,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.58.0':
+  '@signalapp/ringrtc@2.58.1':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1

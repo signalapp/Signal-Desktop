@@ -4,11 +4,8 @@
 const fs = require('node:fs');
 const _ = require('lodash');
 const { execSync } = require('node:child_process');
-
-const packageJson = require('../package.json');
 const { isAdhoc } = require('../ts/util/version.js');
-
-const { version } = packageJson;
+const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
 //   side-by-side installation of production and adhoc builds. Electron-Builder uses

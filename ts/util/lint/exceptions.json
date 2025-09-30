@@ -1509,18 +1509,18 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesInternal.tsx",
+    "line": "  const prevAbortControlerRef = useRef<AbortController | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-20T18:18:34.081Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/PreferencesLocalBackups.tsx",
     "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-30T22:48:14.420Z",
     "reasonDetail": "For focusing the settings backup key viewer textarea"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/PreferencesInternal.tsx",
-    "line": "  const prevAbortControlerRef = useRef<AbortController | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-08-20T18:18:34.081Z"
   },
   {
     "rule": "React-useRef",
@@ -1710,13 +1710,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-28T00:57:39.376Z",
     "reasonDetail": "Holding on to a close function"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/AttachmentStatusIcon.tsx",
-    "line": "  const timerRef = useRef<NodeJS.Timeout | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-02-21T04:17:59.239Z"
   },
   {
     "rule": "React-useRef",

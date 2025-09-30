@@ -1,10 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { strictAssert } from './assert.js';
 
 import type { AttachmentType } from '../types/Attachment.js';
+
+const { isNumber } = lodash;
 
 export enum AttachmentDisposition {
   Attachment = 'attachment',

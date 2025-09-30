@@ -4,7 +4,7 @@
 import * as React from 'react';
 import type { MutableRefObject } from 'react';
 import classNames from 'classnames';
-import { get, noop } from 'lodash';
+import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { Props as EmojiPickerProps } from './EmojiPicker.js';
 import { EmojiPicker } from './EmojiPicker.js';
@@ -19,6 +19,8 @@ import {
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from '../fun/data/emojis.js';
+
+const { get, noop } = lodash;
 
 export enum EmojiButtonVariant {
   Normal,

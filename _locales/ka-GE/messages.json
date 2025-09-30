@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "წავშალოთ ჩატი?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "ამ ჩატში არსებული მიმოწერა ამ მოწყობილობიდან წაიშლება."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "ამ ჩატის ყველა შეტყობინება შენი ყველა მოწყობილობიდან წაიშლება."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "მედია ფაილები, ბმულები და ფაილები"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

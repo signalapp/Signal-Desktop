@@ -4,12 +4,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import * as sinon from 'sinon';
 
 import { STORAGE_KEY, ChallengeHandler } from '../challenge.js';
 import type { RegisteredChallengeType } from '../challenge.js';
 import { DAY, SECOND } from '../util/durations/index.js';
+
+const { noop } = lodash;
 
 type CreateHandlerOptions = {
   readonly autoSolve?: boolean;

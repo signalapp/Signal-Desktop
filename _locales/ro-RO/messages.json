@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Ștergi conversația?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Toate mesajele din această conversație vor fi eliminate de pe toate dispozitivele tale."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, linkuri și fișiere"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

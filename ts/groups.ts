@@ -1,17 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  compact,
-  difference,
-  flatten,
-  fromPairs,
-  isNumber,
-  omit,
-  values,
-} from 'lodash';
+import lodash from 'lodash';
 import Long from 'long';
-import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
+import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
 import { LRUCache } from 'lru-cache';
 import { createLogger } from './logging/log.js';
 import {
@@ -114,6 +106,9 @@ import {
   isTrustedContact,
 } from './util/isConversationAccepted.js';
 
+const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
+  lodash;
+
 const log = createLogger('groups');
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
@@ -200,7 +195,7 @@ type GroupV2PendingAddManyChangeType = {
 // Note: pending-remove is only used if user didn't also join the group at the same time
 type GroupV2PendingRemoveOneChangeType = {
   type: 'pending-remove-one';
-  serviceId: ServiceIdString;
+  serviceId?: ServiceIdString;
   inviter?: AciString;
 };
 // Note: pending-remove is only used if user didn't also join the group at the same time

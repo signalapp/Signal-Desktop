@@ -4,13 +4,15 @@
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
 import { chmodSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs';
-import { pathExists, readJsonSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import { v4 as generateGuid } from 'uuid';
 import { assert } from 'chai';
 
 import type { ConfigType } from '../../../app/base_config.js';
 import { start } from '../../../app/base_config.js';
+
+const { pathExists, readJsonSync } = fsExtra;
 
 describe('base_config', () => {
   let targetDir: string;

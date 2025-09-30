@@ -3,7 +3,7 @@
 
 /* eslint-disable no-bitwise */
 
-import { isBoolean, isNumber, isString, noop, omit } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
 
@@ -169,6 +169,8 @@ import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.js';
+
+const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
 
@@ -1333,6 +1335,17 @@ export default class MessageReceiver
         envelope.sourceServiceId,
         'Unsealed envelope must have source uuid'
       );
+
+      if (
+        isPniString(envelope.sourceServiceId) &&
+        envelope.type !== Proto.Envelope.Type.SERVER_DELIVERY_RECEIPT
+      ) {
+        log.warn(
+          `unsealEnvelope(${logId}): dropping non-receipt envelope from PNI`
+        );
+        return undefined;
+      }
+
       return {
         ...envelope,
         sourceServiceId: envelope.sourceServiceId,

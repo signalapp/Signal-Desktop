@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
 import { createRoot } from 'react-dom/client';
 
 import { Emojify } from '../../components/conversation/Emojify.js';

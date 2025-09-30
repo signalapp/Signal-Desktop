@@ -39,16 +39,16 @@ import {
   GroupCallKind,
   SpeechEvent,
 } from '@signalapp/ringrtc';
-import { uniqBy, noop, compact } from 'lodash';
+import lodash from 'lodash';
 import Long from 'long';
-import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
+import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   CallLinkSecretParams,
   CreateCallLinkCredentialRequestContext,
   CreateCallLinkCredentialResponse,
   GenericServerPublicParams,
   ServerPublicParams,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import { Aci } from '@signalapp/libsignal-client';
 import {
   CanvasVideoRenderer,
@@ -165,6 +165,8 @@ import { createIdenticon } from '../util/createIdenticon.js';
 import { getColorForCallLink } from '../util/getColorForCallLink.js';
 import OS from '../util/os/osMain.js';
 import { sleep } from '../util/sleep.js';
+
+const { uniqBy, noop, compact } = lodash;
 
 const log = createLogger('calling');
 const ringrtcLog = createLogger('@signalapp/ringrtc');

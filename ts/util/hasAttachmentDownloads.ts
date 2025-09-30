@@ -1,9 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { partition } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { isLongMessage } from '../types/MIME.js';
+
+const { partition } = lodash;
 
 // NOTE: If you're modifying this function then you'll likely also need
 // to modify ./queueAttachmentDownloads

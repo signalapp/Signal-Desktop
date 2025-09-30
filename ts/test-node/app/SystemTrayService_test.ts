@@ -9,11 +9,7 @@ import { MINUTE } from '../../util/durations/index.js';
 
 import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService.js';
 import { SystemTrayService } from '../../../app/SystemTrayService.js';
-import { setupI18n } from '../../util/setupI18n.js';
-
-import enMessages from '../../../_locales/en/messages.json';
-
-const i18n = setupI18n('en', enMessages);
+import i18n from '../util/i18n.js';
 
 describe('SystemTrayService', function (this: Mocha.Suite) {
   // These tests take more time on CI in some cases, so we increase the timeout.

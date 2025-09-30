@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import os from 'node:os';
-import { readFileSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { getOSFunctions } from './shared.js';
+
+const { readFileSync } = fsExtra;
 
 function getLinuxName(): string | undefined {
   if (os.platform() !== 'linux') {

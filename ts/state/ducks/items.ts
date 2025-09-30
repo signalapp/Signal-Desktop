@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { v4 as getGuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
@@ -20,6 +20,8 @@ import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { actions as conversationActions } from './conversations.js';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.js';
 import type { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+
+const { omit } = lodash;
 
 // State
 

@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useCallback, useEffect } from 'react';
-import { get } from 'lodash';
+import lodash from 'lodash';
 import { useSelector } from 'react-redux';
 import * as KeyboardLayout from '../services/keyboardLayout.js';
 import { getHasPanelOpen } from '../state/selectors/conversations.js';
 import { isInFullScreenCall } from '../state/selectors/calling.js';
 import { isShowingAnyModal } from '../state/selectors/globalModals.js';
 import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu.js';
+
+const { get } = lodash;
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 

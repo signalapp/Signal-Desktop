@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect } from 'react';
-import { clamp, isNumber, maxBy } from 'lodash';
+import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { Avatar, AvatarSize } from './Avatar.js';
 import { CallBackgroundBlur } from './CallBackgroundBlur.js';
@@ -32,6 +32,8 @@ import {
   PIP_MINIMUM_HEIGHT_MULTIPLIER,
   PIP_WIDTH_NORMAL,
 } from './CallingPip.js';
+
+const { clamp, isNumber, maxBy } = lodash;
 
 function BlurredBackground({
   activeCall,

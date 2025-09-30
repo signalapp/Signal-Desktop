@@ -4,6 +4,7 @@
 import React, { useCallback } from 'react';
 
 import { Modal } from './Modal.js';
+import { tw } from '../axo/tw.js';
 import type { LocalizerType } from '../types/Util.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { Button } from './Button.js';
@@ -62,14 +63,20 @@ export function MediaPermissionsModal({
       <div className="MediaPermissionsModal__body">
         <h1>{title}</h1>
         <p className="MediaPermissionsModal__subtitle">{subtitle}</p>
-        <ol>
+        <ol className={tw('list-decimal')}>
           <li>
             {i18n('icu:MediaPermissionsModal__step-1', {
               buttonName: i18n('icu:MediaPermissionsModal__open'),
             })}
           </li>
           <li>
-            <img alt="" src="images/macos-switch.svg" width={28} height={17} />
+            <img
+              className={tw('me-1 inline-block')}
+              alt=""
+              src="images/macos-switch.svg"
+              width={30}
+              height={20}
+            />
             {i18n('icu:MediaPermissionsModal__step-2')}
           </li>
         </ol>

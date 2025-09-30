@@ -4,10 +4,8 @@
 const fs = require('node:fs');
 const _ = require('lodash');
 
-const packageJson = require('../package.json');
 const { isAlpha } = require('../ts/util/version.js');
-
-const { version } = packageJson;
+const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
 //   side-by-side installation of production and alpha builds. Electron-Builder uses

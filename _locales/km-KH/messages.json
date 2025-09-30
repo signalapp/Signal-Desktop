@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "លុបការជជែកឬ?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។"
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "សារទាំងអស់នៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។"
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "មេឌៀ តំណ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

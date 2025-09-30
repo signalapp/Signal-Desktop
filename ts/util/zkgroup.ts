@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
+import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   AuthCredentialWithPni,
   ClientZkAuthOperations,
@@ -17,7 +17,7 @@ import {
   ServerPublicParams,
   UuidCiphertext,
   NotarySignature,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import { Aci, Pni, type ServiceId } from '@signalapp/libsignal-client';
 import type {
   ServiceIdString,
@@ -33,7 +33,7 @@ import * as Bytes from '../Bytes.js';
 import { toServiceIdObject } from './ServiceId.js';
 import { strictAssert } from './assert.js';
 
-export * from '@signalapp/libsignal-client/zkgroup';
+export * from '@signalapp/libsignal-client/zkgroup.js';
 
 // Scenarios
 

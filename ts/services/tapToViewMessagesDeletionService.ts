@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce } from 'lodash';
+import lodash from 'lodash';
 import { DataReader } from '../sql/Client.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
 import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
@@ -13,6 +13,8 @@ import { eraseMessageContents } from '../util/cleanup.js';
 import { drop } from '../util/drop.js';
 import { MessageModel } from '../models/messages.js';
 import { createLogger } from '../logging/log.js';
+
+const { debounce } = lodash;
 
 const log = createLogger('tapToViewMessagesDeletionService');
 

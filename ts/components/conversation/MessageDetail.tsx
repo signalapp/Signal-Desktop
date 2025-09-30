@@ -4,7 +4,7 @@
 import type { ReactChild, ReactNode } from 'react';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { Avatar, AvatarSize } from '../Avatar.js';
 import { ContactName } from './ContactName.js';
@@ -36,6 +36,8 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation-details/ConversationDetailsIcon.js';
+
+const { noop } = lodash;
 
 const log = createLogger('MessageDetail');
 

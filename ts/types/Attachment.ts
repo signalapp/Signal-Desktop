@@ -3,15 +3,7 @@
 /* eslint-disable max-classes-per-file */
 
 import moment from 'moment';
-import {
-  isNumber,
-  padStart,
-  isFunction,
-  isUndefined,
-  isString,
-  omit,
-  partition,
-} from 'lodash';
+import lodash from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
 import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
@@ -45,6 +37,17 @@ import {
 } from './Crypto.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
+import type { MessageAttachmentType } from './AttachmentDownload.js';
+
+const {
+  isNumber,
+  padStart,
+  isFunction,
+  isUndefined,
+  isString,
+  omit,
+  partition,
+} = lodash;
 
 const logging = createLogger('Attachment');
 
@@ -480,6 +483,7 @@ const THUMBNAIL_CONTENT_TYPE = MIME.IMAGE_PNG;
 
 export async function captureDimensionsAndScreenshot(
   attachment: AttachmentType,
+  options: { generateThumbnail: boolean },
   params: {
     writeNewAttachmentData: (
       data: Uint8Array
@@ -542,28 +546,35 @@ export async function captureDimensionsAndScreenshot(
         objectUrl: localUrl,
         logger,
       });
-      const thumbnailBuffer = await blobToArrayBuffer(
-        await makeImageThumbnail({
-          size: THUMBNAIL_SIZE,
-          objectUrl: localUrl,
-          contentType: THUMBNAIL_CONTENT_TYPE,
-          logger,
-        })
-      );
+      let thumbnail: LocalAttachmentV2Type | undefined;
 
-      const thumbnail = await writeNewAttachmentData(
-        new Uint8Array(thumbnailBuffer)
-      );
+      if (options.generateThumbnail) {
+        const thumbnailBuffer = await blobToArrayBuffer(
+          await makeImageThumbnail({
+            size: THUMBNAIL_SIZE,
+            objectUrl: localUrl,
+            contentType: THUMBNAIL_CONTENT_TYPE,
+            logger,
+          })
+        );
+
+        thumbnail = await writeNewAttachmentData(
+          new Uint8Array(thumbnailBuffer)
+        );
+      }
+
       return {
         ...attachment,
         width,
         height,
-        thumbnail: {
-          ...thumbnail,
-          contentType: THUMBNAIL_CONTENT_TYPE,
-          width: THUMBNAIL_SIZE,
-          height: THUMBNAIL_SIZE,
-        },
+        thumbnail: thumbnail
+          ? {
+              ...thumbnail,
+              contentType: THUMBNAIL_CONTENT_TYPE,
+              width: THUMBNAIL_SIZE,
+              height: THUMBNAIL_SIZE,
+            }
+          : undefined,
       };
     } catch (error) {
       logger.error(
@@ -595,18 +606,19 @@ export async function captureDimensionsAndScreenshot(
       new Uint8Array(screenshotBuffer)
     );
 
-    const thumbnailBuffer = await blobToArrayBuffer(
-      await makeImageThumbnail({
-        size: THUMBNAIL_SIZE,
-        objectUrl: screenshotObjectUrl,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        logger,
-      })
-    );
+    let thumbnail: LocalAttachmentV2Type | undefined;
+    if (options.generateThumbnail) {
+      const thumbnailBuffer = await blobToArrayBuffer(
+        await makeImageThumbnail({
+          size: THUMBNAIL_SIZE,
+          objectUrl: screenshotObjectUrl,
+          contentType: THUMBNAIL_CONTENT_TYPE,
+          logger,
+        })
+      );
 
-    const thumbnail = await writeNewAttachmentData(
-      new Uint8Array(thumbnailBuffer)
-    );
+      thumbnail = await writeNewAttachmentData(new Uint8Array(thumbnailBuffer));
+    }
 
     return {
       ...attachment,
@@ -617,12 +629,14 @@ export async function captureDimensionsAndScreenshot(
         width,
         height,
       },
-      thumbnail: {
-        ...thumbnail,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        width: THUMBNAIL_SIZE,
-        height: THUMBNAIL_SIZE,
-      },
+      thumbnail: thumbnail
+        ? {
+            ...thumbnail,
+            contentType: THUMBNAIL_CONTENT_TYPE,
+            width: THUMBNAIL_SIZE,
+            height: THUMBNAIL_SIZE,
+          }
+        : undefined,
       width,
       height,
     };
@@ -1418,4 +1432,13 @@ export function partitionBodyAndNormalAttachments<
     bodyAttachment: existingBodyAttachment ?? bodyAttachments[0],
     attachments: normalAttachments,
   };
+}
+
+const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS: Set<MessageAttachmentType> =
+  new Set(['attachment', 'sticker']);
+
+export function shouldGenerateThumbnailForAttachmentType(
+  type: MessageAttachmentType
+): boolean {
+  return MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS.has(type);
 }

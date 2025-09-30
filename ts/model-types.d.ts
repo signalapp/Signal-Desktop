@@ -35,6 +35,7 @@ import type { StorySendMode } from './types/Stories.js';
 import type { MIMEType } from './types/MIME.js';
 import type { DurationInSeconds } from './util/durations/index.js';
 import type { AnyPaymentEvent } from './types/Payment.js';
+import type { PollMessageAttribute } from './types/Polls.js';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -205,6 +206,7 @@ export type MessageAttributesType = {
   payment?: AnyPaymentEvent;
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
+  poll?: PollMessageAttribute;
   requiredProtocolVersion?: number;
   sms?: boolean;
   sourceDevice?: number;

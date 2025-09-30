@@ -1,7 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { has } from 'lodash';
+import lodash from 'lodash';
+
+const { has } = lodash;
 
 /**
  * This function is like `Object.assign` but won't create a new object if we don't need

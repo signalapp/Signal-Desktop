@@ -1,12 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get } from 'lodash';
+import lodash from 'lodash';
 import { fabric } from 'fabric';
 import { customFabricObjectControls } from './util/customFabricObjectControls.js';
 import { getAnalogTime } from '../util/getAnalogTime.js';
 import { strictAssert } from '../util/assert.js';
 import { moreStyles } from './util/moreStyles.js';
+
+const { get } = lodash;
 
 export enum AnalogClockStickerStyle {
   Arabic = 'Arabic',

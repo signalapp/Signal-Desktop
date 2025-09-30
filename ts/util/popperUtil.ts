@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Modifier } from '@popperjs/core';
-import type { OffsetModifier } from '@popperjs/core/lib/modifiers/offset';
+import type { OffsetModifier } from '@popperjs/core/lib/modifiers/offset.js';
 
 /**
  * Shorthand for the [offset modifier][0] when you just wanna set the distance.

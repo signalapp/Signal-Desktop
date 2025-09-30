@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { times } from 'lodash';
+import lodash from 'lodash';
 import type { BadgeType } from '../badges/types.js';
 import { BadgeCategory } from '../badges/BadgeCategory.js';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme.js';
 import { repeat, zipObject } from '../util/iterables.js';
+
+const { times } = lodash;
 
 export function getFakeBadge({
   alternate = false,

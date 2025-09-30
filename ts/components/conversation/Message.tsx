@@ -13,9 +13,9 @@ import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
-import { drop, take, unescape } from 'lodash';
+import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
+import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
@@ -96,6 +96,10 @@ import { isPaymentNotificationEvent } from '../../types/Payment.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
 import { getPaymentEventDescription } from '../../messages/helpers.js';
 import { PanelType } from '../../types/Panels.js';
+import {
+  type PollMessageAttribute,
+  isPollReceiveEnabled,
+} from '../../types/Polls.js';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
 import { RenderLocation } from './MessageTextRenderer.js';
 import { UserText } from '../UserText.js';
@@ -119,6 +123,8 @@ import {
   isEmojiVariantValue,
 } from '../fun/data/emojis.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
+
+const { drop, take, unescape } = lodash;
 
 const log = createLogger('Message');
 
@@ -301,6 +307,7 @@ export type PropsData = {
   attachments?: ReadonlyArray<AttachmentForUIType>;
   giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
+  poll?: PollMessageAttribute;
   quote?: {
     conversationColor: ConversationColorType;
     conversationTitle: string;
@@ -2074,6 +2081,23 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  public renderPoll(): JSX.Element | null {
+    const { poll, direction } = this.props;
+    if (!poll || !isPollReceiveEnabled()) {
+      return null;
+    }
+    return (
+      <div
+        className={classNames(
+          'module-message__text',
+          `module-message__text--${direction}`
+        )}
+      >
+        <pre>{JSON.stringify(poll, null, 2)}</pre>
+      </div>
+    );
+  }
+
   #doubleCheckMissingQuoteReference = () => {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
@@ -2845,14 +2869,17 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        <AttachmentStatusIcon
-          key={id}
-          attachment={firstAttachment}
-          isExpired={isExpired}
-          isIncoming={isIncoming}
-        >
-          {this.renderTapToViewIcon()}
-        </AttachmentStatusIcon>
+        {isExpired || firstAttachment == null ? (
+          this.renderTapToViewIcon()
+        ) : (
+          <AttachmentStatusIcon
+            key={id}
+            attachment={firstAttachment}
+            isIncoming={isIncoming}
+          >
+            {this.renderTapToViewIcon()}
+          </AttachmentStatusIcon>
+        )}
         {content}
       </div>
     );
@@ -2973,6 +3000,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderPreview()}
         {this.renderAttachmentTooBig()}
         {this.renderPayment()}
+        {this.renderPoll()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
         {this.renderUndownloadableTextAttachment()}

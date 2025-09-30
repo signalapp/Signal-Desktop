@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Ištrinti pokalbį?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Įrašai, nuorodos ir failai"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

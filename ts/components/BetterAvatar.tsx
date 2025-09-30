@@ -3,12 +3,14 @@
 
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import type { AvatarDataType } from '../types/Avatar.js';
 import { BetterAvatarBubble } from './BetterAvatarBubble.js';
 import type { LocalizerType } from '../types/Util.js';
 import { Spinner } from './Spinner.js';
 import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
+
+const { noop } = lodash;
 
 type AvatarSize = 48 | 80;
 

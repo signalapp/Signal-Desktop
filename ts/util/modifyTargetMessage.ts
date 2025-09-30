@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import type { ConversationModel } from '../models/conversations.js';
 import type { MessageModel } from '../models/messages.js';
@@ -40,6 +40,14 @@ import {
 import { getMessageIdForLogging } from './idForLogging.js';
 import { markViewOnceMessageViewed } from '../services/MessageUpdater.js';
 import { handleReaction } from '../messageModifiers/Reactions.js';
+import {
+  drainCachedTerminatesForMessage as drainCachedPollTerminatesForMessage,
+  drainCachedVotesForMessage as drainCachedPollVotesForMessage,
+  handlePollTerminate,
+  handlePollVote,
+} from '../messageModifiers/Polls.js';
+
+const { isEqual } = lodash;
 
 const log = createLogger('modifyTargetMessage');
 
@@ -314,6 +322,28 @@ export async function modifyTargetMessage(
       }
     })
   );
+
+  const pollVotes = drainCachedPollVotesForMessage(message.attributes);
+  if (pollVotes.length) {
+    changed = true;
+    await Promise.all(
+      pollVotes.map(vote =>
+        handlePollVote(message, vote, { shouldPersist: false })
+      )
+    );
+  }
+
+  const pollTerminates = drainCachedPollTerminatesForMessage(
+    message.attributes
+  );
+  if (pollTerminates.length) {
+    changed = true;
+    await Promise.all(
+      pollTerminates.map(term =>
+        handlePollTerminate(message, term, { shouldPersist: false })
+      )
+    );
+  }
 
   // Does message message have any pending, previously-received associated
   // delete for everyone messages?

@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { AvatarColorType } from '../types/Colors.js';
 import { AvatarPreview } from './AvatarPreview.js';
 import { Lightbox } from './Lightbox.js';
 import type { LocalizerType } from '../types/Util.js';
+
+const { noop } = lodash;
 
 export type PropsType = {
   avatarPlaceholderGradient?: Readonly<[string, string]>;

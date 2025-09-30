@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "هل ترغبُ بحذف الدردشة؟"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من هذا الجهاز."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "ملفات الوسائط والروابط والملفات"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

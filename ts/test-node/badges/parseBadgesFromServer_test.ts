@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import { BadgeCategory } from '../../badges/BadgeCategory.js';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme.js';
 
 import { parseBadgesFromServer } from '../../badges/parseBadgesFromServer.js';
+
+const { omit } = lodash;
 
 describe('parseBadgesFromServer', () => {
   const UPDATES_URL = 'https://updates2.signal.org/desktop';

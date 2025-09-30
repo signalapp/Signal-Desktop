@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
 import React, { memo, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.js';
@@ -43,6 +43,8 @@ import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { isSignalConversation } from '../../util/isSignalConversation.js';
 import { drop } from '../../util/drop.js';
 import { DataReader } from '../../sql/Client.js';
+
+const { sortBy } = lodash;
 
 export type SmartConversationDetailsProps = {
   conversationId: string;

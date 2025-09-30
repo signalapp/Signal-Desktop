@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
+import type { z } from 'zod';
 
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
@@ -56,6 +57,8 @@ import {
 } from '../util/modifyTargetMessage.js';
 import { saveAndNotify } from './saveAndNotify.js';
 import { MessageModel } from '../models/messages.js';
+import { safeParsePartial } from '../util/schemas.js';
+import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.js';
 
 import type { SentEventData } from '../textsecure/messageReceiverEvents.js';
 import type {
@@ -65,6 +68,8 @@ import type {
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 
@@ -481,6 +486,35 @@ export async function handleDataMessage(
       }
     }
 
+    let validatedPollCreate: z.infer<typeof PollCreateSchema> | undefined;
+    if (initialMessage.pollCreate) {
+      if (!isPollReceiveEnabled()) {
+        log.warn(`${idLog}: Dropping PollCreate because flag is not enabled`);
+        confirm();
+        return;
+      }
+      if (!isGroup(conversation.attributes)) {
+        log.warn(
+          `${idLog}: Dropping PollCreate in non-group conversation ${conversation.idForLogging()}`
+        );
+        confirm();
+        return;
+      }
+      const result = safeParsePartial(
+        PollCreateSchema,
+        initialMessage.pollCreate
+      );
+      if (!result.success) {
+        log.warn(
+          `${idLog}: Dropping invalid PollCreate:`,
+          result.error.flatten()
+        );
+        confirm();
+        return;
+      }
+      validatedPollCreate = result.data;
+    }
+
     const withQuoteReference = {
       ...message.attributes,
       ...initialMessage,
@@ -576,6 +610,14 @@ export async function handleDataMessage(
         quote: dataMessage.quote,
         schemaVersion: dataMessage.schemaVersion,
         sticker: dataMessage.sticker,
+        poll: validatedPollCreate
+          ? {
+              question: validatedPollCreate.question,
+              options: validatedPollCreate.options,
+              allowMultiple: Boolean(validatedPollCreate.allowMultiple),
+              votes: [],
+            }
+          : undefined,
         storyId: dataMessage.storyId,
       });
 

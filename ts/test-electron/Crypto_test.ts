@@ -5,9 +5,9 @@ import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createCipheriv } from 'node:crypto';
 import { PassThrough } from 'node:stream';
-import { emptyDir } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { assert } from 'chai';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
@@ -44,8 +44,6 @@ import {
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
-  getAesCbcCiphertextLength,
-  getAttachmentCiphertextLength,
   splitKeys,
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
@@ -54,7 +52,16 @@ import {
 import type { AciString, PniString } from '../types/ServiceId.js';
 import { createTempDir, deleteTempDir } from '../updater/common.js';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+import {
+  getAesCbcCiphertextSize,
+  getAttachmentCiphertextSize,
+} from '../util/AttachmentCrypto.js';
 import { getPath } from '../windows/main/attachments.js';
+import { MediaTier } from '../types/AttachmentDownload.js';
+
+const { emptyDir } = fsExtra;
+
+const { isNumber } = lodash;
 
 const log = createLogger('Crypto_test');
 
@@ -776,7 +783,10 @@ describe('Crypto', () => {
 
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
-            getAttachmentCiphertextLength(data.byteLength)
+            getAttachmentCiphertextSize({
+              unpaddedPlaintextSize: data.byteLength,
+              mediaTier: MediaTier.STANDARD,
+            })
           );
 
           if (overrideSize == null) {
@@ -1189,7 +1199,7 @@ describe('Crypto', () => {
     }
     it('calculates cipherTextLength correctly', () => {
       for (let i = 0; i < 128; i += 1) {
-        assert.strictEqual(getAesCbcCiphertextLength(i), encrypt(i).length);
+        assert.strictEqual(getAesCbcCiphertextSize(i), encrypt(i).length);
       }
     });
   });

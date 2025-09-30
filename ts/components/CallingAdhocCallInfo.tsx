@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { partition } from 'lodash';
+import lodash from 'lodash';
 import { Avatar, AvatarSize } from './Avatar.js';
 import { ContactName } from './conversation/ContactName.js';
 import { InContactsIcon } from './InContactsIcon.js';
@@ -21,6 +21,8 @@ import { Button } from './Button.js';
 import { Modal } from './Modal.js';
 import { Theme } from '../util/theme.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
+
+const { partition } = lodash;
 
 const MAX_UNKNOWN_AVATARS_COUNT = 3;
 

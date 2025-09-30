@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
 import type { ConfigKeyType } from '../RemoteConfig.js';
 import { getValue } from '../RemoteConfig.js';
+
+const { isNumber } = lodash;
 
 function makeGetter(configKey: ConfigKeyType): (fallback?: number) => number {
   return fallback => {

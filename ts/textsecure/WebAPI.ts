@@ -9,7 +9,7 @@
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
-import { escapeRegExp, isNumber, isString, isObject, throttle } from 'lodash';
+import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -21,7 +21,7 @@ import type {
   Aci,
   Pni,
 } from '@signalapp/libsignal-client';
-import { AccountAttributes } from '@signalapp/libsignal-client/dist/net';
+import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 
 import { assertDev, strictAssert } from '../util/assert.js';
 import * as durations from '../util/durations/index.js';
@@ -100,6 +100,9 @@ import { subscriptionConfigurationCurrencyZod } from '../types/Donations.js';
 import type { StripeDonationAmount, CardDetail } from '../types/Donations.js';
 import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.js';
+import type { JobCancelReason } from '../jobs/types.js';
+
+const { escapeRegExp, isNumber, isString, isObject, throttle } = lodash;
 
 const log = createLogger('WebAPI');
 
@@ -1548,7 +1551,7 @@ export type SubscriptionResponseType = z.infer<
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
-  cancelInflightRequests: (reason: string) => void;
+  cancelInflightRequests: (reason: JobCancelReason) => void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   createAccount: (
     options: CreateAccountOptionsType
@@ -1942,7 +1945,7 @@ export type TopLevelType = {
   initialize: (options: InitializeOptionsType) => WebAPIConnectType;
 };
 
-type InflightCallback = (error: Error) => unknown;
+type InflightCallback = (cancelReason: string) => unknown;
 
 const libsignalNet = getLibsignalNet();
 
@@ -2051,6 +2054,13 @@ export function initialize({
       log.info('libsignal net will shadow auth chat connections');
       libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
     }
+    if (
+      window.Signal.RemoteConfig.isEnabled(
+        'desktop.libsignalNet.chatPermessageDeflate'
+      )
+    ) {
+      libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
+    }
     libsignalNet.setRemoteConfig(libsignalRemoteConfig);
 
     const socketManager = new SocketManager(libsignalNet, {
@@ -2108,7 +2118,7 @@ export function initialize({
       },
     });
 
-    const inflightRequests = new Set<(error: Error) => unknown>();
+    const inflightRequests = new Set<InflightCallback>();
     function registerInflightRequest(request: InflightCallback) {
       inflightRequests.add(request);
     }
@@ -2120,7 +2130,7 @@ export function initialize({
       log.warn(`${logId}: Canceling ${inflightRequests.size} requests`);
       for (const request of inflightRequests) {
         try {
-          request(new Error(`${logId}: Canceled!`));
+          request(reason);
         } catch (error: unknown) {
           log.error(
             `${logId}: Failed to cancel request: ${toLogFormat(error)}`
@@ -4302,11 +4312,13 @@ export function initialize({
 
       let streamWithDetails: StreamWithDetailsType | undefined;
 
-      const cancelRequest = () => {
-        abortController.abort();
+      const cancelRequest = (reason: unknown) => {
+        abortController.abort(reason);
       };
 
-      options?.abortSignal?.addEventListener('abort', cancelRequest);
+      options?.abortSignal?.addEventListener('abort', () =>
+        cancelRequest(options.abortSignal?.reason)
+      );
 
       registerInflightRequest(cancelRequest);
 

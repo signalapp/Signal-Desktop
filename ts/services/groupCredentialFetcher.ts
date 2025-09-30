@@ -1,12 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { first, last, sortBy } from 'lodash';
+import lodash from 'lodash';
 import {
   AuthCredentialWithPniResponse,
   CallLinkAuthCredentialResponse,
   GenericServerPublicParams,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 
 import { getClientZkAuthOperations } from '../util/zkgroup.js';
 
@@ -20,6 +20,8 @@ import { toTaggedPni } from '../types/ServiceId.js';
 import { toPniObject, toAciObject } from '../util/ServiceId.js';
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
+
+const { first, last, sortBy } = lodash;
 
 const log = createLogger('groupCredentialFetcher');
 

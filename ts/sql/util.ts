@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import { isNumber, last } from 'lodash';
+import lodash from 'lodash';
 
 import type { ReadableDB, WritableDB } from './Interface.js';
 import type { LoggerType } from '../types/Logging.js';
+
+const { isNumber, last } = lodash;
 
 export type JSONRow = Readonly<{ json: string }>;
 export type JSONRows = Array<JSONRow>;

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, uniq } from 'lodash';
+import lodash from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
@@ -10,6 +10,8 @@ import { getConversationMembers } from './getConversationMembers.js';
 import { getSendTarget } from './getSendTarget.js';
 import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
 import { isNotNil } from './isNotNil.js';
+
+const { compact, uniq } = lodash;
 
 export function getRecipients(
   conversationAttributes: ConversationAttributesType,

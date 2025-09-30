@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -14,7 +14,6 @@ import {
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
 } from './conversations.js';
-import { isNotNil } from '../../util/isNotNil.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
@@ -25,21 +24,13 @@ import type {
   MessageExpiredActionType,
 } from './conversations.js';
 import type { MediaItemType } from '../../types/MediaItem.js';
+import { isFile, isVisualMedia } from '../../types/Attachment.js';
 import type { StateType as RootStateType } from '../reducer.js';
-import type { MessageAttributesType, MessageType } from '../../model-types.js';
-import { isTapToView, getPropsForAttachment } from '../selectors/message.js';
+import { getPropsForAttachment } from '../selectors/message.js';
+
+const { orderBy } = lodash;
 
 const log = createLogger('mediaGallery');
-
-type MediaItemMessage = ReadonlyDeep<{
-  // Note that this reflects the sender, and not the parent conversation
-  conversationId: string;
-  type: MessageType;
-  id: string;
-  receivedAt: number;
-  receivedAtMs: number;
-  sentAt: number;
-}>;
 
 export type MediaGalleryStateType = ReadonlyDeep<{
   conversationId: string | undefined;
@@ -112,25 +103,7 @@ function _sortDocuments(
   return orderBy(documents, ['message.receivedAt', 'message.sentAt']);
 }
 
-function _getMediaItemMessage(
-  message: ReadonlyDeep<MessageAttributesType>
-): MediaItemMessage {
-  return {
-    conversationId:
-      window.ConversationController.lookupOrCreate({
-        serviceId: message.sourceServiceId,
-        e164: message.source,
-        reason: 'conversation_view.showAllMedia',
-      })?.id || message.conversationId,
-    type: message.type,
-    id: message.id,
-    receivedAt: message.received_at,
-    receivedAtMs: Number(message.received_at_ms),
-    sentAt: message.sent_at,
-  };
-}
-
-function _cleanVisualAttachments(
+function _cleanAttachments(
   rawMedia: ReadonlyArray<MediaItemDBType>
 ): ReadonlyArray<MediaItemType> {
   return rawMedia.map(({ message, index, attachment }) => {
@@ -140,30 +113,6 @@ function _cleanVisualAttachments(
       message,
     };
   });
-}
-
-function _cleanFileAttachments(
-  rawDocuments: ReadonlyDeep<ReadonlyArray<MessageAttributesType>>
-): ReadonlyArray<MediaItemType> {
-  return rawDocuments
-    .map(message => {
-      if (isTapToView(message)) {
-        return;
-      }
-
-      const attachments = message.attachments || [];
-      const attachment = attachments[0];
-      if (!attachment) {
-        return;
-      }
-
-      return {
-        index: 0,
-        attachment: getPropsForAttachment(attachment, 'attachment', message),
-        message: _getMediaItemMessage(message),
-      };
-    })
-    .filter(isNotNil);
 }
 
 function initialLoad(
@@ -183,17 +132,16 @@ function initialLoad(
     const rawMedia = await DataReader.getOlderMedia({
       conversationId,
       limit: FETCH_CHUNK_COUNT,
+      type: 'media',
     });
-    const rawDocuments = await DataReader.getOlderMessagesByConversation({
+    const rawDocuments = await DataReader.getOlderMedia({
       conversationId,
-      includeStoryReplies: false,
       limit: FETCH_CHUNK_COUNT,
-      requireFileAttachments: true,
-      storyId: undefined,
+      type: 'files',
     });
 
-    const media = _cleanVisualAttachments(rawMedia);
-    const documents = _cleanFileAttachments(rawDocuments);
+    const media = _cleanAttachments(rawMedia);
+    const documents = _cleanAttachments(rawDocuments);
 
     dispatch({
       type: INITIAL_LOAD,
@@ -244,9 +192,10 @@ function loadMoreMedia(
       messageId,
       receivedAt,
       sentAt,
+      type: 'media',
     });
 
-    const media = _cleanVisualAttachments(rawMedia);
+    const media = _cleanAttachments(rawMedia);
 
     dispatch({
       type: LOAD_MORE_MEDIA,
@@ -296,18 +245,16 @@ function loadMoreDocuments(
 
     const { sentAt, receivedAt, id: messageId } = oldestLoadedDocument.message;
 
-    const rawDocuments = await DataReader.getOlderMessagesByConversation({
+    const rawDocuments = await DataReader.getOlderMedia({
       conversationId,
-      includeStoryReplies: false,
       limit: FETCH_CHUNK_COUNT,
       messageId,
       receivedAt,
-      requireFileAttachments: true,
       sentAt,
-      storyId: undefined,
+      type: 'files',
     });
 
-    const documents = _cleanFileAttachments(rawDocuments);
+    const documents = _cleanAttachments(rawDocuments);
 
     dispatch({
       type: LOAD_MORE_DOCUMENTS,
@@ -429,23 +376,29 @@ export function reducer(
     const oldestLoadedMedia = state.media[0];
     const oldestLoadedDocument = state.documents[0];
 
-    const newMedia = _cleanVisualAttachments(
-      (message.attachments ?? []).map((attachment, index) => {
-        return {
-          index,
-          attachment,
-          message: {
-            id: message.id,
-            type: message.type,
-            conversationId: message.conversationId,
-            receivedAt: message.received_at,
-            receivedAtMs: message.received_at_ms,
-            sentAt: message.sent_at,
-          },
-        };
-      })
+    const messageMediaItems: Array<MediaItemDBType> = (
+      message.attachments ?? []
+    ).map((attachment, index) => {
+      return {
+        index,
+        attachment,
+        message: {
+          id: message.id,
+          type: message.type,
+          conversationId: message.conversationId,
+          receivedAt: message.received_at,
+          receivedAtMs: message.received_at_ms,
+          sentAt: message.sent_at,
+        },
+      };
+    });
+
+    const newMedia = _cleanAttachments(
+      messageMediaItems.filter(({ attachment }) => isVisualMedia(attachment))
     );
-    const newDocuments = _cleanFileAttachments([message]);
+    const newDocuments = _cleanAttachments(
+      messageMediaItems.filter(({ attachment }) => isFile(attachment))
+    );
 
     let { documents, haveOldestDocument, haveOldestMedia, media } = state;
 

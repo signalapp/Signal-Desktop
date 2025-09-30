@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import * as grapheme from '../util/grapheme.js';
 import { AvatarColorPicker } from './AvatarColorPicker.js';
@@ -24,6 +24,8 @@ import {
   getFittedFontSize,
   getFontSizes,
 } from '../util/avatarTextSizeCalculator.js';
+
+const { noop } = lodash;
 
 type DoneHandleType = (
   avatarBuffer: Uint8Array,

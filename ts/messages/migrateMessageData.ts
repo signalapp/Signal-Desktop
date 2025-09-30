@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isNumber } from 'lodash';
+import lodash from 'lodash';
 import pMap from 'p-map';
 import PQueue from 'p-queue';
 
@@ -14,6 +14,8 @@ import * as Errors from '../types/errors.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { postSaveUpdates } from '../util/cleanup.js';
 import { createLogger } from '../logging/log.js';
+
+const { isFunction, isNumber } = lodash;
 
 const log = createLogger('migrateMessageData');
 

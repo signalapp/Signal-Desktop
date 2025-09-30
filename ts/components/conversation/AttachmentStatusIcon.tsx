@@ -1,90 +1,29 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState, type ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { SpinnerV2 } from '../SpinnerV2.js';
-import { usePrevious } from '../../hooks/usePrevious.js';
 
 import type { AttachmentForUIType } from '../../types/Attachment.js';
-
-const TRANSITION_DELAY = 200;
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { useAttachmentStatus } from '../../hooks/useAttachmentStatus.js';
 
 export type PropsType = {
-  attachment: AttachmentForUIType | undefined;
-  isExpired?: boolean;
+  attachment: AttachmentForUIType;
   isIncoming: boolean;
   children?: ReactNode;
 };
 
-enum IconState {
-  NeedsDownload = 'NeedsDownload',
-  Downloading = 'Downloading',
-  Downloaded = 'Downloaded',
-}
-
 export function AttachmentStatusIcon({
   attachment,
-  isExpired,
   isIncoming,
   children,
 }: PropsType): JSX.Element | null {
-  const [isWaiting, setIsWaiting] = useState<boolean>(false);
+  const status = useAttachmentStatus(attachment);
 
-  const isAttachmentNotAvailable =
-    isExpired ||
-    (attachment != null &&
-      attachment.isPermanentlyUndownloadable &&
-      !attachment.wasTooBig);
-
-  let state: IconState = IconState.Downloaded;
-  if (attachment && isAttachmentNotAvailable) {
-    state = IconState.Downloaded;
-  } else if (attachment && !attachment.path && !attachment.pending) {
-    state = IconState.NeedsDownload;
-  } else if (attachment && !attachment.path && attachment.pending) {
-    state = IconState.Downloading;
-  }
-
-  const timerRef = useRef<NodeJS.Timeout | undefined>();
-  const previousState = usePrevious(state, state);
-
-  // We need useLayoutEffect; otherwise we might get a flash of the wrong visual state.
-  // We do calculations here which change the UI!
-  React.useLayoutEffect(() => {
-    if (state === previousState) {
-      return;
-    }
-
-    if (
-      previousState === IconState.NeedsDownload &&
-      state === IconState.Downloading
-    ) {
-      setIsWaiting(true);
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => {
-        timerRef.current = undefined;
-        setIsWaiting(false);
-      }, TRANSITION_DELAY);
-    } else if (
-      previousState === IconState.Downloading &&
-      state === IconState.Downloaded
-    ) {
-      setIsWaiting(true);
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => {
-        timerRef.current = undefined;
-        setIsWaiting(false);
-      }, TRANSITION_DELAY);
-    }
-  }, [previousState, state]);
-
-  if (attachment && state === IconState.NeedsDownload) {
+  if (status.state === 'NeedsDownload') {
     return (
       <div className="AttachmentStatusIcon__container">
         <div
@@ -109,19 +48,8 @@ export function AttachmentStatusIcon({
     );
   }
 
-  if (
-    attachment &&
-    (state === IconState.Downloading ||
-      (state === IconState.Downloaded && isWaiting))
-  ) {
-    const { size, totalDownloaded } = attachment;
-    let spinnerValue = (size && totalDownloaded) || undefined;
-    if (state === IconState.Downloading && isWaiting) {
-      spinnerValue = undefined;
-    }
-    if (state === IconState.Downloaded && isWaiting) {
-      spinnerValue = size;
-    }
+  if (status.state === 'Downloading') {
+    const { size, totalDownloaded: spinnerValue } = status;
 
     return (
       <div className="AttachmentStatusIcon__container">
@@ -165,5 +93,9 @@ export function AttachmentStatusIcon({
     );
   }
 
-  return <div className="AttachmentStatusIcon__container">{children}</div>;
+  if (status.state === 'ReadyToShow') {
+    return <div className="AttachmentStatusIcon__container">{children}</div>;
+  }
+
+  throw missingCaseError(status);
 }

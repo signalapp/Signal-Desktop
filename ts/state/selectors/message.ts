@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { groupBy, isEmpty, isNumber, isObject, map } from 'lodash';
+import lodash from 'lodash';
 import { createSelector } from 'reselect';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
@@ -71,7 +71,7 @@ import {
   isIncremental,
   defaultBlurHash,
 } from '../../types/Attachment.js';
-import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload.js';
+import type { MessageAttachmentType } from '../../types/AttachmentDownload.js';
 import { type DefaultConversationColorType } from '../../types/Colors.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.js';
 
@@ -157,6 +157,8 @@ import { CallMode, CallDirection } from '../../types/CallDisposition.js';
 import { getCallIdFromEra } from '../../util/callDisposition.js';
 import { LONG_MESSAGE } from '../../types/MIME.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.js';
+
+const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
 const log = createLogger('message');
 
@@ -780,6 +782,7 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
+    poll: message.poll,
     id: message.id,
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),
@@ -1849,7 +1852,7 @@ export function getPropsForEmbeddedContact(
 
 export function getPropsForAttachment(
   attachment: AttachmentType,
-  disposition: AttachmentDownloadJobTypeType,
+  disposition: MessageAttachmentType,
   message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): AttachmentForUIType {
   const { path, pending, screenshot, thumbnail, thumbnailFromBackup } =

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { DataWriter } from '../../sql/Client.js';
 import { IMAGE_PNG } from '../../types/MIME.js';
@@ -25,6 +25,8 @@ import type { WebAPIType } from '../../textsecure/WebAPI.js';
 import { toHex, toBase64 } from '../../Bytes.js';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
 import { getRandomBytes } from '../../Crypto.js';
+
+const { noop } = lodash;
 
 describe('utils/downloadAttachment', () => {
   const baseAttachment = {

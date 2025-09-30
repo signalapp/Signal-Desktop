@@ -4,7 +4,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
 import { Avatar, AvatarSize } from './Avatar.js';
@@ -25,6 +25,8 @@ import { ConfirmationDialog } from './ConfirmationDialog.js';
 import { usePrevious } from '../hooks/usePrevious.js';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
 import { drop } from '../util/drop.js';
+
+const { noop } = lodash;
 
 enum ConfirmDialogState {
   None = 'None',

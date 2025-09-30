@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 
 import * as MIME from '../../types/MIME.js';
@@ -30,6 +30,8 @@ import {
 } from '../../messages/helpers.js';
 import { RenderLocation } from './MessageTextRenderer.js';
 import type { QuotedAttachmentType } from '../../model-types.js';
+
+const { noop } = lodash;
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 

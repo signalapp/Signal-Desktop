@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { assert } from 'chai';
-import { copy } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import {
   _getFileHash,
@@ -18,6 +18,8 @@ import {
 import { createTempDir, deleteTempDir } from '../../updater/common.js';
 import { keyPair } from '../../updater/curve.js';
 import { createLogger } from '../../logging/log.js';
+
+const { copy } = fsExtra;
 
 const log = createLogger('signature_test');
 

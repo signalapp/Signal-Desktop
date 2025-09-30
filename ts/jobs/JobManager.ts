@@ -16,6 +16,7 @@ import {
 } from '../util/exponentialBackoff.js';
 import * as Errors from '../types/errors.js';
 import { sleep } from '../util/sleep.js';
+import type { JobCancelReason } from './types.js';
 
 const log = createLogger('JobManager');
 
@@ -405,9 +406,10 @@ export abstract class JobManager<CoreJobType> {
   }
 
   public async cancelJobs(
+    reason: JobCancelReason,
     predicate: (job: CoreJobType & JobManagerJobType) => boolean
   ): Promise<void> {
-    const logId = `${this.logPrefix}/cancelJobs`;
+    const logId = `${this.logPrefix}/cancelJobs/${reason}`;
     const jobs = Array.from(this.#activeJobs.values()).filter(data =>
       predicate(data.job)
     );
@@ -421,10 +423,12 @@ export abstract class JobManager<CoreJobType> {
       jobs.map(async jobData => {
         const { abortController, completionPromise, job } = jobData;
 
-        abortController.abort();
+        abortController.abort(reason);
 
         // First tell those waiting for the job that it's not happening
-        const rejectionError = new Error('Canceled at JobManager.cancelJobs');
+        const rejectionError = new Error(
+          `Canceled at JobManager.cancelJobs, reason: ${reason}`
+        );
         const idWithAttempts = this.#getJobIdIncludingAttempts(job);
         this.#jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
         this.#jobCompletePromises.delete(idWithAttempts);

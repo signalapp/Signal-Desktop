@@ -5,6 +5,10 @@ const fs = require('node:fs');
 const { execSync } = require('node:child_process');
 
 const _ = require('lodash');
+const {
+  default: packageJson,
+  version: currentVersion,
+} = require('./packageJson.js');
 
 const release = process.argv[2];
 if (release !== 'alpha' && release !== 'axolotl' && release !== 'adhoc') {
@@ -13,10 +17,6 @@ if (release !== 'alpha' && release !== 'axolotl' && release !== 'adhoc') {
 }
 
 const { generateTaggedVersion } = require('../ts/util/version.js');
-
-const packageJson = require('../package.json');
-
-const { version: currentVersion } = packageJson;
 
 const shortSha = execSync('git rev-parse --short HEAD')
   .toString('utf8')

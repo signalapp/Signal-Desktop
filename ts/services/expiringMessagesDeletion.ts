@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { batch } from 'react-redux';
-import { debounce } from 'lodash';
+import lodash from 'lodash';
 
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
@@ -13,6 +13,8 @@ import { SECOND } from '../util/durations/index.js';
 import { MessageModel } from '../models/messages.js';
 import { cleanupMessages } from '../util/cleanup.js';
 import { drop } from '../util/drop.js';
+
+const { debounce } = lodash;
 
 const log = createLogger('expiringMessagesDeletion');
 

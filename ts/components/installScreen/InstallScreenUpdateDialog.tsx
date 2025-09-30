@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { DialogType } from '../../types/Dialogs.js';
 import { InstallScreenStep } from '../../types/InstallScreen.js';
@@ -20,6 +20,8 @@ import { ConfirmationDialog } from '../ConfirmationDialog.js';
 import { Modal } from '../Modal.js';
 import { I18n } from '../I18n.js';
 import { formatFileSize } from '../../util/formatFileSize.js';
+
+const { noop } = lodash;
 
 export type PropsType = UpdatesStateType &
   Readonly<{

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import noop from 'lodash/noop';
+import noop from 'lodash/noop.js';
 import { v7 as generateUuid } from 'uuid';
 
 import { DataWriter } from '../sql/Client.js';

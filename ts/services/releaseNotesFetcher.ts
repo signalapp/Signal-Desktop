@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import semver from 'semver';
-import { last } from 'lodash';
+import lodash from 'lodash';
 
 import * as durations from '../util/durations/index.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
@@ -28,6 +28,8 @@ import type { WithRequiredProperties } from '../types/Util.js';
 import { MessageModel } from '../models/messages.js';
 import { stringToMIMEType } from '../types/MIME.js';
 import { isNotNil } from '../util/isNotNil.js';
+
+const { last } = lodash;
 
 const log = createLogger('releaseNotesFetcher');
 
@@ -243,10 +245,13 @@ export class ReleaseNotesFetcher {
             );
 
           const processedAttachment =
-            await window.Signal.Migrations.processNewAttachment({
-              ...localAttachment,
-              contentType: stringToMIMEType(contentType),
-            });
+            await window.Signal.Migrations.processNewAttachment(
+              {
+                ...localAttachment,
+                contentType: stringToMIMEType(contentType),
+              },
+              'attachment'
+            );
 
           return { hydratedNote, processedAttachment };
         }

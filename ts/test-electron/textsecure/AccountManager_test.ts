@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { range } from 'lodash';
+import lodash from 'lodash';
 import * as sinon from 'sinon';
 
 import { getRandomBytes } from '../../Crypto.js';
@@ -18,6 +18,8 @@ import {
   generatePni,
 } from '../../types/ServiceId.js';
 import { DAY } from '../../util/durations/index.js';
+
+const { range } = lodash;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

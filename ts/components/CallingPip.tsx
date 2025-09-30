@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { minBy, debounce, noop } from 'lodash';
+import lodash from 'lodash';
 
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 
@@ -26,6 +26,8 @@ import type { CallingImageDataCache } from './CallManager.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { Avatar, AvatarSize } from './Avatar.js';
 import { AvatarColors } from '../types/Colors.js';
+
+const { minBy, debounce, noop } = lodash;
 
 enum PositionMode {
   BeingDragged,

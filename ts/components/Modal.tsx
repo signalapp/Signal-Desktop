@@ -4,7 +4,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { animated } from '@react-spring/web';
 
 import { v4 as uuid } from 'uuid';
@@ -22,6 +22,8 @@ import {
   isScrollAtBottom,
   useScrollObserver,
 } from '../hooks/useSizeObserver.js';
+
+const { noop } = lodash;
 
 const log = createLogger('Modal');
 

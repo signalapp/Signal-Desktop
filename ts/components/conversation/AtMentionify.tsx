@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
 import type {
   HydratedBodyRangeMention,
   BodyRange,
 } from '../../types/BodyRange.js';
 import { AtMention } from './AtMention.js';
+
+const { sortBy } = lodash;
 
 export type Props = {
   mentions?: ReadonlyArray<HydratedBodyRangeMention>;

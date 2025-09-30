@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "சாட்டை நீக்க வேண்டுமா?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "இந்த சாட்டில் உள்ள அனைத்து மெசேஜ்களும் இந்த டிவைஸிலிருந்து நீக்கப்படும்."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "இந்தச் சாட்டில் உள்ள அனைத்து மெசேஜ்களும் உங்கள் எல்லா சாதனங்களிலிருந்தும் அழிக்கப்படும்."
   },
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "ஊடகம், இணைப்புகள் மற்றும் கோப்புகள்"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

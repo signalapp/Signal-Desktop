@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get, throttle } from 'lodash';
+import lodash from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI.js';
 import { createLogger } from './logging/log.js';
@@ -13,6 +13,8 @@ import { uuidToBytes } from './util/uuidToBytes.js';
 import { HashType } from './types/Crypto.js';
 import { getCountryCode } from './types/PhoneNumber.js';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
+
+const { get, throttle } = lodash;
 
 const log = createLogger('RemoteConfig');
 
@@ -26,6 +28,7 @@ const KnownConfigKeys = [
   'desktop.donations',
   'desktop.donations.prod',
   'desktop.internalUser',
+  'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
   'desktop.retryRespondMaxAge',
@@ -34,9 +37,13 @@ const KnownConfigKeys = [
   'desktop.libsignalNet.enforceMinimumTls',
   'desktop.libsignalNet.shadowUnauthChatWithNoise',
   'desktop.libsignalNet.shadowAuthChatWithNoise',
+  'desktop.libsignalNet.chatPermessageDeflate',
   'desktop.funPicker', // alpha
   'desktop.funPicker.beta',
   'desktop.funPicker.prod',
+  'desktop.pollReceive.alpha',
+  'desktop.pollReceive.beta',
+  'desktop.pollReceive.prod',
   'desktop.usePqRatchet',
   'global.attachments.maxBytes',
   'global.attachments.maxReceiveBytes',

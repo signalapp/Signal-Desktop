@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memoize, sortBy } from 'lodash';
+import lodash from 'lodash';
 import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
 import type { FetchLogIpcData, LogEntryType } from './shared.js';
 import {
@@ -13,6 +13,8 @@ import {
 } from './shared.js';
 import { redactAll } from '../util/privacy.js';
 import { getEnvironment } from '../environment.js';
+
+const { memoize, sortBy } = lodash;
 
 // The mechanics of preparing a log for publish
 

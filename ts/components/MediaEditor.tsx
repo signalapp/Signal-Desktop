@@ -13,7 +13,7 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
 import { useSelector } from 'react-redux';
-import { get, has, noop } from 'lodash';
+import lodash from 'lodash';
 import type {
   EmojiPickDataType,
   Props as EmojiPickerProps,
@@ -72,6 +72,8 @@ import type { FunStickerSelection } from './fun/panels/FunPanelStickers.js';
 import { drop } from '../util/drop.js';
 import type { FunTimeStickerStyle } from './fun/constants.js';
 import * as Errors from '../types/errors.js';
+
+const { get, has, noop } = lodash;
 
 const log = createLogger('MediaEditor');
 

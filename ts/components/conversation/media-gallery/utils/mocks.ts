@@ -1,11 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { random, range, sample, sortBy } from 'lodash';
+import lodash from 'lodash';
 import { type MIMEType, IMAGE_JPEG } from '../../../../types/MIME.js';
 import type { MediaItemType } from '../../../../types/MediaItem.js';
 import { randomBlurHash } from '../../../../util/randomBlurHash.js';
 import { SignalService } from '../../../../protobuf/index.js';
+
+const { random, range, sample, sortBy } = lodash;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 export const days = (n: number): number => n * DAY_MS;
@@ -31,6 +33,7 @@ function createRandomFile(
   const fileName = `${sample(tokens)}${sample(tokens)}.${fileExtension}`;
 
   const isDownloaded = Math.random() > 0.4;
+  const isPending = !isDownloaded && Math.random() > 0.5;
 
   return {
     message: {
@@ -44,6 +47,7 @@ function createRandomFile(
     attachment: {
       url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
       path: isDownloaded ? 'abc' : undefined,
+      pending: isPending,
       screenshot:
         fileExtension === 'mp4'
           ? {

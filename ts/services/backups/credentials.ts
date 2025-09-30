@@ -8,9 +8,9 @@ import {
   BackupAuthCredentialResponse,
   type BackupLevel,
   GenericServerPublicParams,
-} from '@signalapp/libsignal-client/zkgroup';
-import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
-import { throttle } from 'lodash/fp';
+} from '@signalapp/libsignal-client/zkgroup.js';
+import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import lodashFp from 'lodash/fp.js';
 
 import * as Bytes from '../../Bytes.js';
 import { createLogger } from '../../logging/log.js';
@@ -49,6 +49,8 @@ import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
 } from '../../util/isBackupEnabled.js';
+
+const { throttle } = lodashFp;
 
 const log = createLogger('Backup.Credentials');
 

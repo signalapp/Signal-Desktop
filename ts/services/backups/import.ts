@@ -5,11 +5,11 @@ import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import {
   BackupLevel,
   ReceiptCredentialPresentation,
-} from '@signalapp/libsignal-client/zkgroup';
+} from '@signalapp/libsignal-client/zkgroup.js';
 import { v7 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'node:stream';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type Long from 'long';
 
@@ -156,6 +156,8 @@ import {
 } from '../../types/NotificationProfile.js';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.js';
 import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('import');
 
@@ -2969,12 +2971,9 @@ export class BackupImportStream extends Writable {
       }
       if (update.groupInvitationDeclinedUpdate) {
         const { inviterAci, inviteeAci } = update.groupInvitationDeclinedUpdate;
-        if (!inviteeAci || Bytes.isEmpty(inviteeAci)) {
-          throw new Error(
-            `${logId}: groupInvitationDeclinedUpdate had missing inviteeAci!`
-          );
-        }
-        from = fromAciObject(Aci.fromUuidBytes(inviteeAci));
+        from = Bytes.isNotEmpty(inviteeAci)
+          ? fromAciObject(Aci.fromUuidBytes(inviteeAci))
+          : undefined;
         details.push({
           type: 'pending-remove-one',
           inviter: Bytes.isNotEmpty(inviterAci)

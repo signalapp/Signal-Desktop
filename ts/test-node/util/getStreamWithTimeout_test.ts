@@ -4,10 +4,12 @@
 import { assert } from 'chai';
 import { Readable } from 'node:stream';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { once } from 'node:events';
 
 import { getStreamWithTimeout } from '../../util/getStreamWithTimeout.js';
+
+const { noop } = lodash;
 
 describe('getStreamWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;

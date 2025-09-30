@@ -6,7 +6,7 @@ import {
   DigestingPassThrough,
   ValidatingPassThrough,
   inferChunkSize,
-} from '@signalapp/libsignal-client/dist/incremental_mac';
+} from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { ipcMain, protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 import { randomBytes } from 'node:crypto';
@@ -17,7 +17,7 @@ import { PassThrough, type Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import z from 'zod';
 import GrowingFile from 'growing-file';
-import { isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
@@ -64,6 +64,8 @@ import {
   getStickersPath,
   getTempPath,
 } from './attachments.js';
+
+const { isNumber } = lodash;
 
 const log = createLogger('attachment_channel');
 
@@ -441,11 +443,14 @@ function deleteOrphanedAttachments({
         await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
-
     log.info(
-      `cleanupOrphanedAttachments:  ${totalAttachmentsFound} message ` +
-        `attachments; ${orphanedAttachments.size} remain`
+      `cleanupOrphanedAttachments: ${totalAttachmentsFound} attachments and \
+      ${totalDownloadsFound} downloads found on disk`
     );
+
+    if (orphanedAttachments.size > 0) {
+      log.error(`${orphanedAttachments.size} orphaned attachment(s) found`);
+    }
 
     if (totalMissing > 0) {
       log.warn(
@@ -458,10 +463,10 @@ function deleteOrphanedAttachments({
       attachments: Array.from(orphanedAttachments),
     });
 
-    log.info(
-      `cleanupOrphanedAttachments: found ${totalDownloadsFound} downloads ` +
-        `${orphanedDownloads.size} remain`
-    );
+    if (orphanedDownloads.size > 0) {
+      log.error(`${orphanedDownloads.size} orphaned download(s) found`);
+    }
+
     await deleteAllDownloads({
       userDataPath,
       downloads: Array.from(orphanedDownloads),

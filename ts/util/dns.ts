@@ -7,7 +7,7 @@ import type {
   LookupAddress,
   lookup as nodeLookup,
 } from 'node:dns';
-import { ipcRenderer, net } from 'electron';
+import * as electron from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';
 
@@ -56,10 +56,10 @@ function lookupAll(
     }
 
     try {
-      if (net) {
+      if (electron.net) {
         // Main process
         result = await pTimeout(
-          net.resolveHost(hostname, {
+          electron.net.resolveHost(hostname, {
             queryType,
           }),
           LOOKUP_TIMEOUT_MS,
@@ -68,7 +68,7 @@ function lookupAll(
       } else {
         // Renderer
         result = await pTimeout(
-          ipcRenderer.invoke('net.resolveHost', hostname, queryType),
+          electron.ipcRenderer.invoke('net.resolveHost', hostname, queryType),
           LOOKUP_TIMEOUT_MS,
           'lookupAll: Electron lookup timed out'
         );

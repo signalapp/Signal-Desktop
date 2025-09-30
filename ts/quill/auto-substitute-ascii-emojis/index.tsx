@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Delta } from '@signalapp/quill-cjs';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 
 import { createLogger } from '../../logging/log.js';

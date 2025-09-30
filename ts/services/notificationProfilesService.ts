@@ -1,7 +1,7 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isEqual, isNumber } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 
@@ -22,6 +22,8 @@ import {
   getProfiles,
 } from '../state/selectors/notificationProfiles.js';
 import { safeSetTimeout } from '../util/timeout.js';
+
+const { debounce, isEqual, isNumber } = lodash;
 
 const log = createLogger('notificationProfilesService');
 

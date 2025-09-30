@@ -1,8 +1,10 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { take } from 'lodash';
+import lodash from 'lodash';
 import { DataReader } from '../sql/Client.js';
+
+const { take } = lodash;
 
 export type RecentEmojiObjectType = {
   recents: Array<string>;

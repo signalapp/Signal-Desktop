@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { useCallback } from 'react';
 import type { ListRowRenderer } from 'react-virtualized';
 import classNames from 'classnames';
-import { get, pick } from 'lodash';
+import lodash from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError.js';
 import { assertDev } from '../util/assert.js';
@@ -38,6 +38,8 @@ import { GroupListItem } from './conversationList/GroupListItem.js';
 import { ListView } from './ListView.js';
 import { Button, ButtonVariant } from './Button.js';
 import { ListTile } from './ListTile.js';
+
+const { get, pick } = lodash;
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',

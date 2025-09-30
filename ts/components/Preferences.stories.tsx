@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import type { MutableRefObject } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { shuffle } from 'lodash';
+import lodash from 'lodash';
 import { Preferences } from './Preferences.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.js';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
@@ -44,6 +44,8 @@ import { PreferencesChatFoldersPage } from './preferences/chatFolders/Preference
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
 import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.js';
 import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.js';
+
+const { shuffle } = lodash;
 
 const { i18n } = window.SignalContext;
 

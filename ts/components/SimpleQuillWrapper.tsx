@@ -3,7 +3,7 @@
 
 import React, { createRef } from 'react';
 import Quill from '@signalapp/quill-cjs';
-import Emitter from '@signalapp/quill-cjs/core/emitter';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { Delta } from '@signalapp/quill-cjs';
 
 export type Props = {

@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop, union } from 'lodash';
+import lodash from 'lodash';
 
 import { filter, map } from '../util/iterables.js';
 import { isNotNil } from '../util/isNotNil.js';
@@ -32,6 +32,8 @@ import type { CallbackResultType } from '../textsecure/Types.d.ts';
 import type { MessageModel } from '../models/messages.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { SendStateByConversationId } from './MessageSendState.js';
+
+const { noop, union } = lodash;
 
 const log = createLogger('send');
 

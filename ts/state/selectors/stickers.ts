@@ -1,8 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Dictionary } from 'lodash';
-import { compact, filter, map, orderBy, reject, sortBy, values } from 'lodash';
+import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { RecentStickerType } from '../../types/Stickers.js';
@@ -20,6 +19,8 @@ import type {
   StickerPackType,
   StickerType,
 } from '../ducks/stickers.js';
+
+const { compact, filter, map, orderBy, reject, sortBy, values } = lodash;
 
 const getSticker = (
   packs: Dictionary<StickerPackDBType>,

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { pick } from 'lodash';
+import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import type { StoryDataType } from '../state/ducks/stories.js';
 import * as durations from '../util/durations/index.js';
@@ -18,6 +18,8 @@ import { strictAssert } from '../util/assert.js';
 import { dropNull } from '../util/dropNull.js';
 import { DurationInSeconds } from '../util/durations/index.js';
 import { SIGNAL_ACI } from '../types/SignalConversation.js';
+
+const { pick } = lodash;
 
 const log = createLogger('storyLoader');
 

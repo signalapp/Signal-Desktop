@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import { sample } from 'lodash';
+import lodash from 'lodash';
 import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
-import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
+import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
 import * as Bytes from './Bytes.js';
 import { Crypto } from './context/Crypto.js';
@@ -14,11 +14,13 @@ import { HashType, CipherType } from './types/Crypto.js';
 import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.js';
 import { ProfileDecryptError } from './types/errors.js';
 import { getBytesSubarray } from './util/uuidToBytes.js';
-import { logPadSize } from './util/logPadding.js';
+import { logPadSize } from './util/logPadSize.js';
 import { Environment, getEnvironment } from './environment.js';
 import { toWebSafeBase64 } from './util/webSafeBase64.js';
 
 import type { AciString, PniString } from './types/ServiceId.js';
+
+const { sample } = lodash;
 
 export { HashType, CipherType };
 

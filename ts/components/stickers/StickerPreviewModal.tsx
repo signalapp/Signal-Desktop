@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { isNumber, range } from 'lodash';
+import lodash from 'lodash';
 import classNames from 'classnames';
 import { ConfirmationDialog } from '../ConfirmationDialog.js';
 import type { LocalizerType } from '../../types/Util.js';
@@ -12,6 +12,8 @@ import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
 import { Modal } from '../Modal.js';
 import { Button, ButtonVariant } from '../Button.js';
 import { UserText } from '../UserText.js';
+
+const { isNumber, range } = lodash;
 
 export type OwnProps = {
   readonly onClose?: () => unknown;

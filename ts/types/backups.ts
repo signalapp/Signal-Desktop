@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
-import { BackupCredentialType } from '@signalapp/libsignal-client/dist/zkgroup';
+import type { BackupLevel } from '@signalapp/libsignal-client/dist/zkgroup/index.js';
+import { BackupCredentialType } from '@signalapp/libsignal-client/dist/zkgroup/index.js';
 import type { GetBackupCDNCredentialsResponseType } from '../textsecure/WebAPI.js';
 
 export { BackupCredentialType };

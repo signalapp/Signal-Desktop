@@ -3,7 +3,7 @@
 
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 
 import { ContactName } from '../conversation/ContactName.js';
 
@@ -21,6 +21,8 @@ import {
   MessageTextRenderer,
   RenderLocation,
 } from '../conversation/MessageTextRenderer.js';
+
+const { noop } = lodash;
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 

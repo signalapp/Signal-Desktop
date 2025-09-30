@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last, sortBy } from 'lodash';
+import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client.js';
@@ -17,6 +17,8 @@ import {
   findMatchingMessage,
   getMessageQueryFromTarget,
 } from './syncIdentifiers.js';
+
+const { last, sortBy } = lodash;
 
 const log = createLogger('deleteForMe');
 

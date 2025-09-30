@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React from 'react';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { ContextMenuTrigger } from 'react-contextmenu';
 
 import { SystemMessage, SystemMessageKind } from './SystemMessage.js';
@@ -39,6 +39,8 @@ import { MINUTE } from '../../util/durations/index.js';
 import { isMoreRecentThan } from '../../util/timestamp.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.js';
 import type { InteractionModeType } from '../../state/ducks/conversations.js';
+
+const { noop } = lodash;
 
 const log = createLogger('CallingNotification');
 

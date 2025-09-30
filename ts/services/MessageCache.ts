@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { throttle } from 'lodash';
+import lodash from 'lodash';
 import { LRUCache } from 'lru-cache';
 
 import { createLogger } from '../logging/log.js';
@@ -17,6 +17,8 @@ import { postSaveUpdates } from '../util/cleanup.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { SendStateByConversationId } from '../messages/MessageSendState.js';
 import type { StoredJob } from '../jobs/types.js';
+
+const { throttle } = lodash;
 
 const log = createLogger('MessageCache');
 

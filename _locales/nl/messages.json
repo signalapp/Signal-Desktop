@@ -1037,9 +1037,6 @@
   "icu:ConversationHeader__DeleteConversationConfirmation__title": {
     "messageformat": "Chat verwijderen?"
   },
-  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Alle berichten in deze chat worden verwijderd van dit apparaat."
-  },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Alle berichten in deze chat worden verwijderd van al je apparaten."
   },
@@ -4299,7 +4296,7 @@
     "messageformat": "Signal Desktop biedt geen ondersteuning voor het verzenden van berichten naar personen die niet geregistreerd zijn bij Signal. Vraag deze persoon om Signal te installeren om zo beveiligde gesprekken te kunnen voeren."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
-    "messageformat": "Controleren of deze persoon staat geregistreerd bij Signal"
+    "messageformat": "Controleren of deze persoon is geregistreerd bij Signal"
   },
   "icu:CompositionArea__edit-action--discard": {
     "messageformat": "Bericht weggooien"
@@ -4452,7 +4449,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links, and files"
+    "messageformat": "Media, links en documenten"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -6927,5 +6924,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__7.73": {
+    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
   }
 }

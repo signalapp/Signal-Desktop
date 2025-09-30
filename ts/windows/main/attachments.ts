@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { isString, isTypedArray } from 'lodash';
+import lodash from 'lodash';
 import { join, normalize, basename, parse as pathParse } from 'node:path';
 import { existsSync } from 'node:fs';
 import fse from 'fs-extra';
@@ -15,6 +15,8 @@ import { getRelativePath, createName } from '../../util/attachmentPath.js';
 import { toHex } from '../../Bytes.js';
 import { getRandomBytes } from '../../Crypto.js';
 import { createLogger } from '../../logging/log.js';
+
+const { isString, isTypedArray } = lodash;
 
 const log = createLogger('attachments');
 
@@ -265,7 +267,11 @@ export const saveAttachmentToDisk = async ({
     }
     filePath = dialogFilePath;
   } else {
-    filePath = join(baseDir, name);
+    filePath = join(baseDir, basename(name));
+
+    if (!isPathInside(filePath, baseDir)) {
+      throw new Error('Invalid attachment path');
+    }
   }
 
   await writeWithAttributes(filePath, data);

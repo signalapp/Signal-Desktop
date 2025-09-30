@@ -4,7 +4,7 @@
 import React, { useCallback } from 'react';
 import type { RefObject } from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import lodash from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util.js';
@@ -24,6 +24,8 @@ import { useComputePeaks } from '../../hooks/useComputePeaks.js';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText.js';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.js';
 import { formatFileSize } from '../../util/formatFileSize.js';
+
+const { noop } = lodash;
 
 const log = createLogger('MessageAudio');
 
