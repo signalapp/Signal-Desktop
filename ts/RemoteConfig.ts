@@ -38,6 +38,7 @@ const KnownConfigKeys = [
   'desktop.libsignalNet.shadowUnauthChatWithNoise',
   'desktop.libsignalNet.shadowAuthChatWithNoise',
   'desktop.libsignalNet.chatPermessageDeflate',
+  'desktop.libsignalNet.chatPermessageDeflate.prod',
   'desktop.funPicker', // alpha
   'desktop.funPicker.beta',
   'desktop.funPicker.prod',
