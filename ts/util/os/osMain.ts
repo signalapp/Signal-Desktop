@@ -21,6 +21,19 @@ function getLinuxName(): string | undefined {
   return match[1];
 }
 
+function isFlatpak(): boolean {
+  if (process.env.container === 'flatpak') {
+    return true;
+  }
+
+  const linuxName = getLinuxName();
+  if (linuxName && linuxName.toLowerCase().includes('flatpak')) {
+    return true;
+  }
+
+  return false;
+}
+
 function isWaylandEnabled(): boolean {
   return Boolean(process.env.WAYLAND_DISPLAY);
 }
@@ -32,6 +45,7 @@ function isLinuxUsingKDE(): boolean {
 const OS = {
   ...getOSFunctions(os.release()),
   getLinuxName,
+  isFlatpak,
   isLinuxUsingKDE,
   isWaylandEnabled,
 };
