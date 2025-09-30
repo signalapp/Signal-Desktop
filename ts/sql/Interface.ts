@@ -738,6 +738,8 @@ type ReadableInterface = {
 
   getAllSessions: () => Array<SessionType>;
 
+  getAllKyberTriples: () => Array<KyberPreKeyTripleType>;
+
   getConversationCount: () => number;
   getConversationById: (id: string) => ConversationType | undefined;
 
@@ -962,9 +964,6 @@ type WritableInterface = {
   removeKyberPreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => number;
   removeKyberPreKeysByServiceId: (serviceId: ServiceIdString) => void;
   removeAllKyberPreKeys: () => number;
-  markKyberTripleSeenOrFail: (
-    options: KyberPreKeyTripleType
-  ) => 'seen' | 'fail';
 
   removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => number;
   removePreKeysByServiceId: (serviceId: ServiceIdString) => void;
@@ -1017,6 +1016,7 @@ type WritableInterface = {
     senderKeys: Array<SenderKeyType>;
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
+    kyberTriples: Array<KyberPreKeyTripleType>;
   }): void;
   removeSessionById: (id: SessionIdType) => number;
   removeSessionsByConversation: (conversationId: string) => void;
