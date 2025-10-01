@@ -42,7 +42,7 @@ const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
 const CONTAINER_TRANSITION_TIME = 200;
 
 type BasePropsType = {
-  getFrameBuffer: () => Buffer;
+  getFrameBuffer: () => Uint8Array;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   imageDataCache: React.RefObject<CallingImageDataCache>;

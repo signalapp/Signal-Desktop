@@ -828,9 +828,9 @@
   {
     "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
-    "line": "  const ref = useRef<Buffer | null>(null);",
+    "line": "  const ref = useRef<Uint8Array | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-12-10T23:24:03.829Z",
+    "updated": "2025-10-01T20:11:56Z",
     "reasonDetail": "Doesn't touch the DOM."
   },
   {

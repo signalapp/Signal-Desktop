@@ -43,7 +43,7 @@ export default {
 } satisfies Meta<PropsType>;
 
 const defaultProps = {
-  getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
+  getFrameBuffer: memoize(() => new Uint8Array(FRAME_BUFFER_SIZE)),
   getCallingImageDataCache: memoize(() => new Map()),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   imageDataCache: React.createRef<CallingImageDataCache>(),

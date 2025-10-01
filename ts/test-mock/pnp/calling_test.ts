@@ -65,7 +65,7 @@ describe('pnp/calling', function (this: Mocha.Suite) {
       {
         callMessage: {
           offer: {
-            opaque: Buffer.alloc(1),
+            opaque: new Uint8Array(1),
           },
         },
       },

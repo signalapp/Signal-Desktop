@@ -17,7 +17,7 @@ const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
 export const OVERFLOW_PARTICIPANT_WIDTH = 107;
 
 export type PropsType = {
-  getFrameBuffer: () => Buffer;
+  getFrameBuffer: () => Uint8Array;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   imageDataCache: React.RefObject<CallingImageDataCache>;

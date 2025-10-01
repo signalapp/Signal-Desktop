@@ -32,7 +32,7 @@ class FakeGroupCallVideoFrameSource implements VideoFrameSource {
   }
 
   receiveVideoFrame(
-    destinationBuffer: Buffer,
+    destinationBuffer: Uint8Array,
     _maxWidth: number,
     _maxHeight: number
   ): [number, number] | undefined {
