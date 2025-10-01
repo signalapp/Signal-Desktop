@@ -40,16 +40,26 @@ class MockQuill {
     };
     this.selection = {
       getRange: () => [null],
-      update: () => {},
+      update: () => {
+        // Placeholder for linter
+      },
     };
     this.getContents = (_index: number, _length: number) => ({ ops: [] });
     this.getSelection = () => ({ index: 0, length: 0 });
     this.getLength = () => 1;
     this.getFormat = () => ({});
-    this.updateContents = () => {};
-    this.setSelection = () => {};
-    this.scrollSelectionIntoView = () => {};
-    this.focus = () => {};
+    this.updateContents = () => {
+      // Placeholder for linter
+    };
+    this.setSelection = () => {
+      // Placeholder for linter
+    };
+    this.scrollSelectionIntoView = () => {
+      // Placeholder for linter
+    };
+    this.focus = () => {
+      // Placeholder for linter
+    };
   }
 }
 
