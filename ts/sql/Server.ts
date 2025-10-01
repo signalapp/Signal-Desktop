@@ -396,6 +396,8 @@ export const DataReader: ServerReadableInterface = {
 
   getAllSessions,
 
+  getAllKyberTriples,
+
   getConversationCount,
   getConversationById,
 
@@ -531,7 +533,6 @@ export const DataWriter: ServerWritableInterface = {
   bulkAddKyberPreKeys,
   removeKyberPreKeyById,
   removeKyberPreKeysByServiceId,
-  markKyberTripleSeenOrFail,
   removeAllKyberPreKeys,
 
   createOrUpdatePreKey,
@@ -1078,7 +1079,7 @@ function removeKyberPreKeysByServiceId(
 function markKyberTripleSeenOrFail(
   db: WritableDB,
   { id, signedPreKeyId, baseKey }: KyberPreKeyTripleType
-): 'seen' | 'fail' {
+): void {
   // Notes that `kyberPreKey_triples` has
   // - Unique constraint on id, signedPreKeyId, baseKey so that we can't insert
   //   two identical rows
@@ -1093,10 +1094,9 @@ function markKyberTripleSeenOrFail(
 
   try {
     db.prepare(query).run(parameters);
-    return 'seen';
   } catch (error) {
     if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-      return 'fail';
+      throw new Error(`Duplicate kyber triple ${id}:${signedPreKeyId}`);
     }
 
     // Unexpected error
@@ -1697,12 +1697,14 @@ function commitDecryptResult(
     senderKeys,
     sessions,
     unprocessed,
+    kyberTriples,
   }: {
     kyberPreKeysToRemove: Array<PreKeyIdType>;
     preKeysToRemove: Array<PreKeyIdType>;
     senderKeys: Array<SenderKeyType>;
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
+    kyberTriples: Array<KyberPreKeyTripleType>;
   }
 ): void {
   db.transaction(() => {
@@ -1743,6 +1745,10 @@ function commitDecryptResult(
     for (const item of unprocessed) {
       saveUnprocessed(db, item);
     }
+
+    for (const item of kyberTriples) {
+      markKyberTripleSeenOrFail(db, item);
+    }
   })();
 }
 
@@ -1780,6 +1786,9 @@ function removeAllSessions(db: WritableDB): number {
 }
 function getAllSessions(db: ReadableDB): Array<SessionType> {
   return db.prepare('SELECT * FROM sessions').all();
+}
+function getAllKyberTriples(db: ReadableDB): Array<KyberPreKeyTripleType> {
+  return db.prepare('SELECT * FROM kyberPreKey_triples').all();
 }
 // Conversations
 
