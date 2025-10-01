@@ -77,39 +77,41 @@ export class SignalClipboard {
     }
 
     const { ops } = this.quill.getContents(selection.index, selection.length);
-    
+
     // Check if we're selecting all content
     const totalLength = this.quill.getLength();
     const isSelectingAll = selection.length >= totalLength - 1;
-    
-    const formats =
-      selection.length === 0
-        ? this.quill.getFormat(selection.index)
-        : isSelectingAll || !signal
-        ? {} // No formatting for select-all or external plain text
-        : {
-            [QuillFormattingStyle.bold]: FormattingMenu.isStyleEnabledForOps(
-              ops,
-              QuillFormattingStyle.bold
-            ),
-            [QuillFormattingStyle.italic]: FormattingMenu.isStyleEnabledForOps(
-              ops,
-              QuillFormattingStyle.italic
-            ),
-            [QuillFormattingStyle.monospace]:
-              FormattingMenu.isStyleEnabledForOps(
-                ops,
-                QuillFormattingStyle.monospace
-              ),
-            [QuillFormattingStyle.spoiler]: FormattingMenu.isStyleEnabledForOps(
-              ops,
-              QuillFormattingStyle.spoiler
-            ),
-            [QuillFormattingStyle.strike]: FormattingMenu.isStyleEnabledForOps(
-              ops,
-              QuillFormattingStyle.strike
-            ),
-          };
+
+    let formats: Record<string, unknown>;
+    if (selection.length === 0) {
+      formats = this.quill.getFormat(selection.index);
+    } else if (isSelectingAll || !signal) {
+      // No formatting for select-all or external plain text
+      formats = {};
+    } else {
+      formats = {
+        [QuillFormattingStyle.bold]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.bold
+        ),
+        [QuillFormattingStyle.italic]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.italic
+        ),
+        [QuillFormattingStyle.monospace]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.monospace
+        ),
+        [QuillFormattingStyle.spoiler]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.spoiler
+        ),
+        [QuillFormattingStyle.strike]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.strike
+        ),
+      };
+    }
     const clipboardDelta = signal
       ? clipboard.convert({ html: signal }, formats)
       : new Delta(insertEmojiOps(clipboard.convert({ text }, formats).ops, {}));
