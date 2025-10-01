@@ -13,7 +13,7 @@ import { OptionalResourcesDictSchema } from '../types/OptionalResource.js';
 import { parseUnknown } from '../util/schemas.js';
 import { utf16ToEmoji } from '../util/utf16ToEmoji.js';
 
-const VERSION = 10;
+const VERSION = 12;
 
 const STATIC_URL = 'https://updates.signal.org/static/android/emoji';
 const STATIC_PINNED_URL = 'https://updates2.signal.org/static/android/emoji';
