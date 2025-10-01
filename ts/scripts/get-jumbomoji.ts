@@ -13,7 +13,9 @@ import { parseUnknown } from '../util/schemas.js';
 
 const VERSION = 10;
 
-const MANIFEST_URL = `https://updates.signal.org/static/android/emoji/${VERSION}/emoji_data.json`;
+const STATIC_URL = 'https://updates.signal.org/static/android/emoji';
+const STATIC_PINNED_URL = 'https://updates2.signal.org/static/android/emoji';
+const MANIFEST_URL = `${STATIC_URL}/${VERSION}/emoji_data.json`;
 
 const ManifestSchema = z.object({
   jumbomoji: z.record(z.string(), z.string().array()),
@@ -38,9 +40,7 @@ async function main(): Promise<void> {
 
   await Promise.all(
     Array.from(Object.keys(jumbomoji)).map(async sheet => {
-      const publicUrl =
-        'https://updates.signal.org/static/android/emoji/' +
-        `${VERSION}/xhdpi/jumbo/${sheet}.proto`;
+      const publicUrl = `${STATIC_URL}/${VERSION}/xhdpi/jumbo/${sheet}.proto`;
 
       const res = await fetch(publicUrl);
       if (!res.ok) {
@@ -51,9 +51,7 @@ async function main(): Promise<void> {
 
       const digest = createHash('sha512').update(data).digest('base64');
 
-      const pinnedUrl =
-        'https://updates2.signal.org/static/android/emoji/' +
-        `${VERSION}/xhdpi/jumbo/${sheet}.proto`;
+      const pinnedUrl = `${STATIC_PINNED_URL}/${VERSION}/xhdpi/jumbo/${sheet}.proto`;
 
       extraResources.set(sheet, {
         url: pinnedUrl,
