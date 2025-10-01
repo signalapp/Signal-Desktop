@@ -32,6 +32,7 @@ import {
   shouldAttachmentEndUpInRemoteBackup,
   getUndownloadedAttachmentSignature,
   isIncremental,
+  hasRequiredInformationForBackup,
 } from '../types/Attachment.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { getMessageById } from '../messages/getMessageById.js';
@@ -294,9 +295,17 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       messageId,
       receivedAt,
       sentAt,
-      source,
       urgency = AttachmentDownloadUrgency.STANDARD,
     } = newJobData;
+
+    let { source } = newJobData;
+
+    if (
+      source === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA &&
+      !hasRequiredInformationForBackup(attachment)
+    ) {
+      source = AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA;
+    }
 
     const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
 
@@ -325,9 +334,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       // download from the transit tier, which would be a slightly smaller size)
       ciphertextSize: getAttachmentCiphertextSize({
         unpaddedPlaintextSize: attachment.size,
-        mediaTier: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
-          ? MediaTier.BACKUP
-          : MediaTier.STANDARD,
+        mediaTier:
+          source === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+            ? MediaTier.BACKUP
+            : MediaTier.STANDARD,
       }),
       contentType: attachment.contentType,
       attachmentSignature: getUndownloadedAttachmentSignature(attachment),
