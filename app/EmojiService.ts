@@ -10,19 +10,11 @@ import { LRUCache } from 'lru-cache';
 import type { OptionalResourceService } from './OptionalResourceService.js';
 import { SignalService as Proto } from '../ts/protobuf/index.js';
 import { parseUnknown } from '../ts/util/schemas.js';
+import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.js';
 
 const MANIFEST_PATH = join(__dirname, '..', 'build', 'jumbomoji.json');
 
 const manifestSchema = z.record(z.string(), z.string().array());
-
-function utf16ToEmoji(utf16: string): string {
-  const codePoints = new Array<number>();
-  const buf = Buffer.from(utf16, 'hex');
-  for (let i = 0; i < buf.length; i += 2) {
-    codePoints.push(buf.readUint16BE(i));
-  }
-  return String.fromCodePoint(...codePoints);
-}
 
 export type ManifestType = z.infer<typeof manifestSchema>;
 
@@ -57,7 +49,7 @@ export class EmojiService {
 
     for (const [sheet, emojiList] of Object.entries(manifest)) {
       for (const utf16 of emojiList) {
-        this.#emojiMap.set(utf16ToEmoji(utf16), { sheet, utf16 });
+        this.#emojiMap.set(utf16, { sheet, utf16 });
       }
     }
   }
@@ -92,7 +84,7 @@ export class EmojiService {
 
       imageMap = new Map(
         pack.items.map(({ name, image }) => [
-          name ?? '',
+          name != null ? utf16ToEmoji(name) : '',
           image || new Uint8Array(0),
         ])
       );

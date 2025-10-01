@@ -3,14 +3,30 @@
 import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
+import MANIFEST from '../../../build/jumbomoji.json';
 import type { EmojiVariantData } from './data/emojis.js';
 import type { FunImageAriaProps } from './types.js';
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
 export const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';
 
-function getEmojiJumboUrl(emoji: EmojiVariantData): string {
-  return `emoji://jumbo?emoji=${encodeURIComponent(emoji.value)}`;
+const FUN_STATIC_JUMBO_EMOJI_CLASS = 'FunStaticEmoji--has-jumbo';
+const FUN_INLINE_JUMBO_EMOJI_CLASS = 'FunInlineEmoji--has-jumbo';
+
+const KNOWN_JUMBOMOJI = new Set<string>(Object.values(MANIFEST).flat());
+const MIN_JUMBOMOJI_SIZE = 33;
+
+function getEmojiJumboBackground(
+  emoji: EmojiVariantData,
+  size: number | undefined
+): string | null {
+  if (size != null && size < MIN_JUMBOMOJI_SIZE) {
+    return null;
+  }
+  if (KNOWN_JUMBOMOJI.has(emoji.value)) {
+    return `url(emoji://jumbo?emoji=${encodeURIComponent(emoji.value)})`;
+  }
+  return null;
 }
 
 export type FunStaticEmojiSize =
@@ -57,9 +73,7 @@ export type FunStaticEmojiProps = FunImageAriaProps &
   }>;
 
 export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
-  const emojiJumboUrl = useMemo(() => {
-    return getEmojiJumboUrl(props.emoji);
-  }, [props.emoji]);
+  const jumboImage = getEmojiJumboBackground(props.emoji, props.size);
   return (
     <div
       role={props.role}
@@ -68,13 +82,14 @@ export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
       data-emoji-value={props.emoji.value}
       className={classNames(
         FUN_STATIC_EMOJI_CLASS,
+        jumboImage != null && FUN_STATIC_JUMBO_EMOJI_CLASS,
         funStaticEmojiSizeClasses[props.size]
       )}
       style={
         {
           '--fun-emoji-sheet-x': props.emoji.sheetX,
           '--fun-emoji-sheet-y': props.emoji.sheetY,
-          '--fun-emoji-jumbo-image': `url(${emojiJumboUrl})`,
+          '--fun-emoji-jumbo-image': jumboImage,
         } as CSSProperties
       }
     />
@@ -99,11 +114,15 @@ export function createStaticEmojiBlot(
   node: HTMLImageElement,
   props: StaticEmojiBlotProps
 ): void {
+  const jumboImage = getEmojiJumboBackground(props.emoji, props.size);
   // eslint-disable-next-line no-param-reassign
   node.src = TRANSPARENT_PIXEL;
   // eslint-disable-next-line no-param-reassign
   node.role = props.role;
   node.classList.add(FUN_STATIC_EMOJI_CLASS);
+  if (jumboImage != null) {
+    node.classList.add(FUN_STATIC_JUMBO_EMOJI_CLASS);
+  }
   node.classList.add(funStaticEmojiSizeClasses[props.size]);
   node.classList.add('FunStaticEmoji--Blot');
   if (props['aria-label'] != null) {
@@ -111,10 +130,7 @@ export function createStaticEmojiBlot(
   }
   node.style.setProperty('--fun-emoji-sheet-x', `${props.emoji.sheetX}`);
   node.style.setProperty('--fun-emoji-sheet-y', `${props.emoji.sheetY}`);
-  node.style.setProperty(
-    '--fun-emoji-jumbo-image',
-    `url(${getEmojiJumboUrl(props.emoji)})`
-  );
+  node.style.setProperty('--fun-emoji-jumbo-image', jumboImage);
 }
 
 export type FunInlineEmojiProps = FunImageAriaProps &
@@ -124,8 +140,10 @@ export type FunInlineEmojiProps = FunImageAriaProps &
   }>;
 
 export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
-  const emojiJumboUrl = useMemo(() => {
-    return getEmojiJumboUrl(props.emoji);
+  const jumboImage = useMemo(() => {
+    // Note: we don't pass size here because appearance of jumbomoji is decided
+    // in cass based on the parent svg container size.
+    return getEmojiJumboBackground(props.emoji, undefined);
   }, [props.emoji]);
   return (
     <svg
@@ -156,12 +174,15 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
         <span
           role={props.role}
           aria-label={props['aria-label']}
-          className="FunInlineEmoji__Image"
+          className={classNames(
+            'FunInlineEmoji__Image',
+            jumboImage != null && FUN_INLINE_JUMBO_EMOJI_CLASS
+          )}
           style={
             {
               '--fun-emoji-sheet-x': props.emoji.sheetX,
               '--fun-emoji-sheet-y': props.emoji.sheetY,
-              '--fun-emoji-jumbo-image': `url(${emojiJumboUrl})`,
+              '--fun-emoji-jumbo-image': jumboImage,
             } as CSSProperties
           }
         />

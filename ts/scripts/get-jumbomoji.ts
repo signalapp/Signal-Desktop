@@ -4,12 +4,14 @@
 import { writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
+import { Buffer } from 'node:buffer';
 import z from 'zod';
 import prettier from 'prettier';
 
 import type { OptionalResourceType } from '../types/OptionalResource.js';
 import { OptionalResourcesDictSchema } from '../types/OptionalResource.js';
 import { parseUnknown } from '../util/schemas.js';
+import { utf16ToEmoji } from '../util/utf16ToEmoji.js';
 
 const VERSION = 10;
 
@@ -18,7 +20,7 @@ const STATIC_PINNED_URL = 'https://updates2.signal.org/static/android/emoji';
 const MANIFEST_URL = `${STATIC_URL}/${VERSION}/emoji_data.json`;
 
 const ManifestSchema = z.object({
-  jumbomoji: z.record(z.string(), z.string().array()),
+  jumbomoji: z.record(z.string(), z.string().transform(utf16ToEmoji).array()),
 });
 
 async function fetchJSON(url: string): Promise<unknown> {

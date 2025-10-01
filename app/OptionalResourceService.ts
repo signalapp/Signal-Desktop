@@ -61,13 +61,13 @@ export class OptionalResourceService {
       return undefined;
     }
 
-    const inMemory = this.#cache.get(name);
-    if (inMemory) {
-      return inMemory;
-    }
-
     const filePath = join(this.resourcesDir, name);
     return this.#queueFileWork(filePath, async () => {
+      const inMemory = this.#cache.get(name);
+      if (inMemory) {
+        return inMemory;
+      }
+
       try {
         const onDisk = await readFile(filePath);
         const digest = createHash('sha512').update(onDisk).digest();
