@@ -146,6 +146,19 @@ export function createChatFolder(db: WritableDB, chatFolder: ChatFolder): void {
   })();
 }
 
+export function hasAllChatsChatFolder(db: ReadableDB): boolean {
+  const [query, params] = sql`
+    SELECT EXISTS (
+      SELECT 1 FROM chatFolders
+      WHERE folderType IS ${ChatFolderType.ALL}
+      AND deletedAtTimestampMs IS 0
+      LIMIT 1
+    )
+  `;
+  const result = db.prepare(query, { pluck: true }).get<number>(params);
+  return result === 1;
+}
+
 export function createAllChatsChatFolder(db: WritableDB): ChatFolder {
   return db.transaction(() => {
     const allChatsChatFolder: ChatFolder = {

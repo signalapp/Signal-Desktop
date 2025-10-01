@@ -1014,6 +1014,17 @@ export async function startApp(): Promise<void> {
       ) {
         await window.storage.put('needProfileMovedModal', true);
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.75.0-beta.1')) {
+        const hasAllChatsChatFolder = await DataReader.hasAllChatsChatFolder();
+        if (!hasAllChatsChatFolder) {
+          log.info('Creating "all chats" chat folder');
+          await DataWriter.createAllChatsChatFolder();
+          StorageService.storageServiceUploadJobAfterEnabled({
+            reason: 'createAllChatsChatFolder',
+          });
+        }
+      }
     }
 
     setAppLoadingScreenMessage(

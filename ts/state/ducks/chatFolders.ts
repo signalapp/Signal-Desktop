@@ -17,7 +17,7 @@ import {
   type CurrentChatFolders,
 } from '../../types/ChatFolder.js';
 import { getCurrentChatFolders } from '../selectors/chatFolders.js';
-import { DataWriter } from '../../sql/Client.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
 import { storageServiceUploadJob } from '../../services/storage.js';
 import { parseStrict } from '../../util/schemas.js';
 import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.js';
@@ -142,6 +142,20 @@ function createChatFolder(
   };
 }
 
+function createAllChatsChatFolder(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ChatFolderRecordReplaceAll
+> {
+  return async dispatch => {
+    await DataWriter.createAllChatsChatFolder();
+    storageServiceUploadJob({ reason: 'createAllChatsChatFolder' });
+    const chatFolders = await DataReader.getCurrentChatFolders();
+    dispatch(replaceAllChatFolderRecords(toCurrentChatFolders(chatFolders)));
+  };
+}
+
 function updateChatFolder(
   chatFolderId: ChatFolderId,
   chatFolderParams: ChatFolderParams
@@ -210,6 +224,7 @@ export const actions = {
   replaceChatFolderRecord,
   removeChatFolderRecord,
   createChatFolder,
+  createAllChatsChatFolder,
   updateChatFolder,
   deleteChatFolder,
   updateChatFoldersPositions,

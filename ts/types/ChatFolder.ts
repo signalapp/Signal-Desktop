@@ -271,3 +271,14 @@ export function lookupCurrentChatFolder(
   strictAssert(chatFolder != null, 'Missing chat folder');
   return chatFolder;
 }
+
+export function hasAllChatsChatFolder(
+  chatFolders: ReadonlyArray<ChatFolder>
+): boolean {
+  return chatFolders.some(chatFolder => {
+    return (
+      chatFolder.folderType === ChatFolderType.ALL &&
+      chatFolder.deletedAtTimestampMs === 0
+    );
+  });
+}

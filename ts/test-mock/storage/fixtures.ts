@@ -239,3 +239,26 @@ export function getCallLinkRecordPredicate(
     return roomId === recordRoomId;
   };
 }
+
+export function getChatFolderRecordPredicate(
+  folderType: keyof typeof Proto.ChatFolderRecord.FolderType,
+  name: string,
+  deleted: boolean
+): (record: StorageStateRecord) => boolean {
+  return ({ type, record }) => {
+    const { chatFolder } = record;
+    if (type !== IdentifierType.CHAT_FOLDER || chatFolder == null) {
+      return false;
+    }
+
+    const deletedAtTimestampMs =
+      chatFolder.deletedAtTimestampMs?.toNumber() ?? 0;
+    const isDeleted = deletedAtTimestampMs > 0;
+
+    return (
+      chatFolder.folderType === Proto.ChatFolderRecord.FolderType[folderType] &&
+      chatFolder.name === name &&
+      isDeleted === deleted
+    );
+  };
+}

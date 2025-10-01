@@ -88,11 +88,7 @@ import { isDone as isRegistrationDone } from '../util/registration.js';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import { isMockEnvironment } from '../environment.js';
 import { validateConversation } from '../util/validateConversation.js';
-import {
-  ChatFolderType,
-  toCurrentChatFolders,
-  type ChatFolder,
-} from '../types/ChatFolder.js';
+import { hasAllChatsChatFolder, type ChatFolder } from '../types/ChatFolder.js';
 
 const { debounce, isNumber, chunk } = lodash;
 
@@ -1663,20 +1659,9 @@ async function processManifest(
       });
     });
 
-    const chatFoldersHasAllChatsFolder = chatFolders.some(chatFolder => {
-      return (
-        chatFolder.folderType === ChatFolderType.ALL &&
-        chatFolder.deletedAtTimestampMs === 0
-      );
-    });
-
-    if (!chatFoldersHasAllChatsFolder) {
+    if (!hasAllChatsChatFolder(chatFolders)) {
       log.info(`process(${version}): creating all chats chat folder`);
-      await DataWriter.createAllChatsChatFolder();
-      const currentChatFolders = await DataReader.getCurrentChatFolders();
-      window.reduxActions.chatFolders.replaceAllChatFolderRecords(
-        toCurrentChatFolders(currentChatFolders)
-      );
+      window.reduxActions.chatFolders.createAllChatsChatFolder();
     }
   }
 
@@ -2235,6 +2220,7 @@ async function upload({
 }
 
 let storageServiceEnabled = false;
+let storageServiceNeedsUploadAfterEnabled = false;
 
 export function enableStorageService(): void {
   if (storageServiceEnabled) {
@@ -2243,6 +2229,12 @@ export function enableStorageService(): void {
 
   storageServiceEnabled = true;
   log.info('enableStorageService');
+
+  if (storageServiceNeedsUploadAfterEnabled) {
+    storageServiceUploadJob({
+      reason: 'storageServiceNeedsUploadAfterEnabled',
+    });
+  }
 }
 
 export function disableStorageService(reason: string): void {
@@ -2349,6 +2341,18 @@ export async function reprocessUnknownFields(): Promise<void> {
       log.info(`reprocessUnknownFields(${version}): done`);
     })
   );
+}
+
+export function storageServiceUploadJobAfterEnabled({
+  reason,
+}: {
+  reason: string;
+}): void {
+  if (storageServiceEnabled) {
+    return storageServiceUploadJob({ reason });
+  }
+  log.info(`storageServiceNeedsUploadAfterEnabled: ${reason}`);
+  storageServiceNeedsUploadAfterEnabled = true;
 }
 
 export const storageServiceUploadJob = debounce(

@@ -923,6 +923,7 @@ type ReadableInterface = {
   getAllChatFolders: () => ReadonlyArray<ChatFolder>;
   getCurrentChatFolders: () => ReadonlyArray<ChatFolder>;
   getChatFolder: (id: ChatFolderId) => ChatFolder | null;
+  hasAllChatsChatFolder: () => boolean;
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
   getMessagesNeedingUpgrade: (

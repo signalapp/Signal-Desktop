@@ -240,6 +240,7 @@ import {
   getCurrentChatFolders,
   getChatFolder,
   createChatFolder,
+  hasAllChatsChatFolder,
   createAllChatsChatFolder,
   updateChatFolder,
   markChatFolderDeleted,
@@ -459,6 +460,7 @@ export const DataReader: ServerReadableInterface = {
   getAllChatFolders,
   getCurrentChatFolders,
   getChatFolder,
+  hasAllChatsChatFolder,
   getOldestDeletedChatFolder,
 
   callLinkExists,
