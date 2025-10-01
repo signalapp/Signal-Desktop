@@ -464,7 +464,10 @@
           ]
         }
       ],
-      "bundleVersion": "1"
+      "bundleVersion": "1",
+      "extendInfo": {
+        "NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac": true
+      }
     },
     "win": {
       "signtoolOptions": {
