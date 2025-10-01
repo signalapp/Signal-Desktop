@@ -27,7 +27,7 @@ export function callingMessageToProto(
   if (opaque) {
     opaqueField = {
       ...opaque,
-      data: bufferToProto(opaque.data),
+      data: opaque.data,
     };
   }
   if (urgency !== undefined) {
@@ -43,14 +43,14 @@ export function callingMessageToProto(
           ...offer,
           id: Long.fromValue(offer.callId),
           type: offer.type as number,
-          opaque: bufferToProto(offer.opaque),
+          opaque: offer.opaque,
         }
       : undefined,
     answer: answer
       ? {
           ...answer,
           id: Long.fromValue(answer.callId),
-          opaque: bufferToProto(answer.opaque),
+          opaque: answer.opaque,
         }
       : undefined,
     iceUpdate: iceCandidates
@@ -58,7 +58,7 @@ export function callingMessageToProto(
           return {
             ...candidate,
             id: Long.fromValue(candidate.callId),
-            opaque: bufferToProto(candidate.opaque),
+            opaque: candidate.opaque,
           };
         })
       : undefined,
@@ -78,19 +78,6 @@ export function callingMessageToProto(
     destinationDeviceId,
     opaque: opaqueField,
   };
-}
-
-function bufferToProto(
-  value: Uint8Array | { toArrayBuffer(): ArrayBuffer } | undefined
-): Uint8Array | undefined {
-  if (!value) {
-    return undefined;
-  }
-  if (value instanceof Uint8Array) {
-    return value;
-  }
-
-  return new Uint8Array(value.toArrayBuffer());
 }
 
 function urgencyToProto(

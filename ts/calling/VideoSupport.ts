@@ -307,7 +307,7 @@ export class GumVideoCapturer {
     const reader = new MediaStreamTrackProcessor({
       track,
     }).readable.getReader();
-    const buffer = Buffer.alloc(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
+    const buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
     this.spawnedSenderRunning = true;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
@@ -397,13 +397,13 @@ export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement>;
-  private buffer: Buffer;
+  private buffer: Uint8Array;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
   private rafId?: any;
 
   constructor() {
-    this.buffer = Buffer.alloc(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
+    this.buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
   }
 
   setCanvas(canvas: RefObject<HTMLCanvasElement> | undefined): void {

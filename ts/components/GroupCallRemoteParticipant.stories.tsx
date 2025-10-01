@@ -32,7 +32,7 @@ type OverridePropsType = {
     }
 );
 
-const getFrameBuffer = memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE));
+const getFrameBuffer = memoize(() => new Uint8Array(FRAME_BUFFER_SIZE));
 
 const createProps = (
   overrideProps: OverridePropsType,
