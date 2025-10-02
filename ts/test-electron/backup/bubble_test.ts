@@ -13,7 +13,7 @@ import * as Bytes from '../../Bytes.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
-import { ID_V1_LENGTH } from '../../groups.js';
+import { ID_V1_LENGTH } from '../../types/groups.js';
 import { DurationInSeconds, WEEK } from '../../util/durations/index.js';
 import {
   setupBasics,

@@ -197,7 +197,30 @@ import { getIsInitialContactSync } from '../services/contactSync.js';
 import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads.js';
 import { cleanupMessages } from '../util/cleanup.js';
 import { MessageModel } from './messages.js';
-import { applyNewAvatar } from '../groups.js';
+import {
+  applyNewAvatar,
+  buildAccessControlAddFromInviteLinkChange,
+  buildAccessControlAttributesChange,
+  buildAccessControlMembersChange,
+  buildAddBannedMemberChange,
+  buildAddMember,
+  buildAddPendingAdminApprovalMemberChange,
+  buildAnnouncementsOnlyChange,
+  buildDeleteMemberChange,
+  buildDeletePendingAdminApprovalMemberChange,
+  buildDisappearingMessagesTimerChange,
+  buildGroupLink,
+  buildInviteLinkPasswordChange,
+  buildModifyMemberRoleChange,
+  buildNewGroupLinkChange,
+  buildPromoteMemberChange,
+  generateGroupInviteLinkPassword,
+  hasV1GroupBeenMigrated,
+  joinGroupV2ViaLinkAndMigrate,
+  modifyGroupV2,
+  waitThenMaybeUpdateGroup,
+  waitThenRespondToGroupV2Migration,
+} from '../groups.js';
 import { safeSetTimeout } from '../util/timeout.js';
 import { getTypingIndicatorSetting } from '../types/Util.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
@@ -534,7 +557,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    return window.Signal.Groups.buildDisappearingMessagesTimerChange({
+    return buildDisappearingMessagesTimerChange({
       expireTimer: seconds || DurationInSeconds.ZERO,
       group: this.attributes,
     });
@@ -569,7 +592,7 @@ export class ConversationModel {
     strictAssert(profileKeyCredentialBase64, 'Must have profileKeyCredential');
 
     if (serviceIdKind === ServiceIdKind.ACI) {
-      return window.Signal.Groups.buildPromoteMemberChange({
+      return buildPromoteMemberChange({
         group: this.attributes,
         isPendingPniAciProfileKey: false,
         profileKeyCredentialBase64,
@@ -582,7 +605,7 @@ export class ConversationModel {
       'Must be a PNI promotion'
     );
 
-    return window.Signal.Groups.buildPromoteMemberChange({
+    return buildPromoteMemberChange({
       group: this.attributes,
       isPendingPniAciProfileKey: true,
       profileKeyCredentialBase64,
@@ -608,7 +631,7 @@ export class ConversationModel {
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-    return window.Signal.Groups.buildDeletePendingAdminApprovalMemberChange({
+    return buildDeletePendingAdminApprovalMemberChange({
       group: this.attributes,
       ourAci,
       aci,
@@ -652,7 +675,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    return window.Signal.Groups.buildAddPendingAdminApprovalMemberChange({
+    return buildAddPendingAdminApprovalMemberChange({
       group: this.attributes,
       profileKeyCredentialBase64,
       serverPublicParamsBase64: window.getServerPublicParams(),
@@ -697,7 +720,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    return window.Signal.Groups.buildAddMember({
+    return buildAddMember({
       group: this.attributes,
       profileKeyCredentialBase64,
       serverPublicParamsBase64: window.getServerPublicParams(),
@@ -728,7 +751,7 @@ export class ConversationModel {
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-    return window.Signal.Groups.buildDeleteMemberChange({
+    return buildDeleteMemberChange({
       group: this.attributes,
       ourAci,
       serviceId,
@@ -757,7 +780,7 @@ export class ConversationModel {
       ? MEMBER_ROLES.DEFAULT
       : MEMBER_ROLES.ADMINISTRATOR;
 
-    return window.Signal.Groups.buildModifyMemberRoleChange({
+    return buildModifyMemberRoleChange({
       group: this.attributes,
       serviceId,
       role,
@@ -779,7 +802,7 @@ export class ConversationModel {
     name: string;
     syncMessageOnly?: boolean;
   }): Promise<void> {
-    await window.Signal.Groups.modifyGroupV2({
+    await modifyGroupV2({
       conversation: this,
       usingCredentialsFrom,
       createGroupChange,
@@ -1188,7 +1211,7 @@ export class ConversationModel {
       return;
     }
 
-    await window.Signal.Groups.waitThenMaybeUpdateGroup({
+    await waitThenMaybeUpdateGroup({
       force: options.force,
       conversation: this,
     });
@@ -1240,12 +1263,12 @@ export class ConversationModel {
       return;
     }
 
-    const isMigrated = await window.Signal.Groups.hasV1GroupBeenMigrated(this);
+    const isMigrated = await hasV1GroupBeenMigrated(this);
     if (!isMigrated) {
       return;
     }
 
-    await window.Signal.Groups.waitThenRespondToGroupV2Migration({
+    await waitThenRespondToGroupV2Migration({
       conversation: this,
     });
   }
@@ -2612,7 +2635,7 @@ export class ConversationModel {
     inviteLinkPassword: string;
     revision: number;
   }): Promise<void> {
-    await window.Signal.Groups.joinGroupV2ViaLinkAndMigrate({
+    await joinGroupV2ViaLinkAndMigrate({
       approvalRequired,
       conversation: this,
       inviteLinkPassword,
@@ -2758,7 +2781,7 @@ export class ConversationModel {
       return;
     }
 
-    return window.Signal.Groups.buildAddBannedMemberChange({
+    return buildAddBannedMemberChange({
       group: this.attributes,
       serviceId,
     });
@@ -3755,7 +3778,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    return window.Signal.Groups.buildGroupLink(this.attributes);
+    return buildGroupLink(this.attributes);
   }
 
   getMembers(
@@ -4423,7 +4446,7 @@ export class ConversationModel {
     }
 
     const groupInviteLinkPassword = Bytes.toBase64(
-      window.Signal.Groups.generateGroupInviteLinkPassword()
+      generateGroupInviteLinkPassword()
     );
 
     log.info('refreshGroupLink for conversation', this.idForLogging());
@@ -4432,10 +4455,7 @@ export class ConversationModel {
       name: 'updateInviteLinkPassword',
       usingCredentialsFrom: [],
       createGroupChange: async () =>
-        window.Signal.Groups.buildInviteLinkPasswordChange(
-          this.attributes,
-          groupInviteLinkPassword
-        ),
+        buildInviteLinkPasswordChange(this.attributes, groupInviteLinkPassword),
     });
 
     this.set({ groupInviteLinkPassword });
@@ -4450,7 +4470,7 @@ export class ConversationModel {
       value && !this.get('groupInviteLinkPassword');
     const groupInviteLinkPassword =
       this.get('groupInviteLinkPassword') ||
-      Bytes.toBase64(window.Signal.Groups.generateGroupInviteLinkPassword());
+      Bytes.toBase64(generateGroupInviteLinkPassword());
 
     log.info('toggleGroupLink for conversation', this.idForLogging(), value);
 
@@ -4464,7 +4484,7 @@ export class ConversationModel {
         name: 'updateNewGroupLink',
         usingCredentialsFrom: [],
         createGroupChange: async () =>
-          window.Signal.Groups.buildNewGroupLinkChange(
+          buildNewGroupLinkChange(
             this.attributes,
             groupInviteLinkPassword,
             addFromInviteLink
@@ -4475,7 +4495,7 @@ export class ConversationModel {
         name: 'updateAccessControlAddFromInviteLink',
         usingCredentialsFrom: [],
         createGroupChange: async () =>
-          window.Signal.Groups.buildAccessControlAddFromInviteLinkChange(
+          buildAccessControlAddFromInviteLinkChange(
             this.attributes,
             addFromInviteLink
           ),
@@ -4510,7 +4530,7 @@ export class ConversationModel {
       name: 'updateAccessControlAddFromInviteLink',
       usingCredentialsFrom: [],
       createGroupChange: async () =>
-        window.Signal.Groups.buildAccessControlAddFromInviteLinkChange(
+        buildAccessControlAddFromInviteLinkChange(
           this.attributes,
           addFromInviteLink
         ),
@@ -4534,10 +4554,7 @@ export class ConversationModel {
       name: 'updateAccessControlAttributes',
       usingCredentialsFrom: [],
       createGroupChange: async () =>
-        window.Signal.Groups.buildAccessControlAttributesChange(
-          this.attributes,
-          value
-        ),
+        buildAccessControlAttributesChange(this.attributes, value),
     });
 
     const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -4560,10 +4577,7 @@ export class ConversationModel {
       name: 'updateAccessControlMembers',
       usingCredentialsFrom: [],
       createGroupChange: async () =>
-        window.Signal.Groups.buildAccessControlMembersChange(
-          this.attributes,
-          value
-        ),
+        buildAccessControlMembersChange(this.attributes, value),
     });
 
     const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -4586,10 +4600,7 @@ export class ConversationModel {
       name: 'updateAnnouncementsOnly',
       usingCredentialsFrom: [],
       createGroupChange: async () =>
-        window.Signal.Groups.buildAnnouncementsOnlyChange(
-          this.attributes,
-          value
-        ),
+        buildAnnouncementsOnlyChange(this.attributes, value),
     });
 
     this.set({ announcementsOnly: value });

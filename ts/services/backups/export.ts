@@ -67,7 +67,7 @@ import {
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../../util/phoneNumberSharingMode.js';
+} from '../../types/PhoneNumberSharingMode.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
 import {
   isCallHistory,

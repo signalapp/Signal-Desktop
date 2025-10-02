@@ -66,6 +66,8 @@ import {
 } from '../types/ServiceId.js';
 import { normalizeAci } from '../util/normalizeAci.js';
 import { isAciString } from '../util/isAciString.js';
+import { calling } from '../services/calling.js';
+import { retryPlaceholders } from '../services/retryPlaceholders.js';
 import * as Errors from '../types/errors.js';
 import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled.js';
 
@@ -2517,12 +2519,6 @@ export default class MessageReceiver
   async #maybeUpdateTimestamp(
     envelope: UnsealedEnvelope
   ): Promise<UnsealedEnvelope> {
-    const { retryPlaceholders } = window.Signal.Services;
-    if (!retryPlaceholders) {
-      log.warn('maybeUpdateTimestamp: retry placeholders not available!');
-      return envelope;
-    }
-
     const { timestamp } = envelope;
     const identifier = envelope.groupId || envelope.sourceServiceId;
     const conversation = window.ConversationController.get(identifier);
@@ -2773,10 +2769,7 @@ export default class MessageReceiver
     }
 
     log.info(`${logId}: Passing to ringrtc`);
-    await window.Signal.Services.calling.handleCallingMessage(
-      envelope,
-      callingMessage
-    );
+    await calling.handleCallingMessage(envelope, callingMessage);
   }
 
   async #handleReceiptMessage(

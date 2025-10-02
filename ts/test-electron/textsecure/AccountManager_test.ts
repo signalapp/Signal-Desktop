@@ -6,6 +6,7 @@ import lodash from 'lodash';
 import * as sinon from 'sinon';
 
 import { getRandomBytes } from '../../Crypto.js';
+import { generateKeyPair } from '../../Curve.js';
 import AccountManager from '../../textsecure/AccountManager.js';
 import type {
   KyberPreKeyType,
@@ -29,7 +30,7 @@ describe('AccountManager', () => {
 
   const ourAci = generateAci();
   const ourPni = generatePni();
-  const identityKey = window.Signal.Curve.generateKeyPair();
+  const identityKey = generateKeyPair();
   const pubKey = getRandomBytes(33);
   const privKey = getRandomBytes(32);
 

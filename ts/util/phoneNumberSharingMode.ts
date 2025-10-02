@@ -3,21 +3,12 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { makeEnumParser } from './enum.js';
+import {
+  PhoneNumberSharingMode,
+  parsePhoneNumberSharingMode,
+} from '../types/PhoneNumberSharingMode.js';
 import { missingCaseError } from './missingCaseError.js';
 import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
-
-// These strings are saved to disk, so be careful when changing them.
-export enum PhoneNumberSharingMode {
-  Everybody = 'Everybody',
-  ContactsOnly = 'ContactsOnly',
-  Nobody = 'Nobody',
-}
-
-export const parsePhoneNumberSharingMode = makeEnumParser(
-  PhoneNumberSharingMode,
-  PhoneNumberSharingMode.Nobody
-);
 
 export const isSharingPhoneNumberWithEverybody = (): boolean => {
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(

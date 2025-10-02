@@ -19,14 +19,6 @@ import type {
 } from './challenge.js';
 import type AccountManager from './textsecure/AccountManager.js';
 import type { WebAPIConnectType } from './textsecure/WebAPI.js';
-import type { CallingClass } from './services/calling.js';
-import type * as Donations from './services/donations.js';
-import type * as StorageService from './services/storage.js';
-import type { BackupsService } from './services/backups/index.js';
-import type * as Groups from './groups.js';
-import type * as Crypto from './Crypto.js';
-import type * as Curve from './Curve.js';
-import type * as RemoteConfig from './RemoteConfig.js';
 import type { OSType } from './util/os/shared.js';
 import type {
   LocalizerType,
@@ -36,11 +28,8 @@ import type {
 import type { Receipt } from './types/Receipt.js';
 import type { ConversationController } from './ConversationController.js';
 import type { ReduxActions } from './state/types.js';
-import type { createApp } from './state/roots/createApp.js';
 import type { BatcherType } from './util/batcher.js';
-import type { ConfirmationDialog } from './components/ConfirmationDialog.js';
 import type { SignalProtocolStore } from './SignalProtocolStore.js';
-import type { SocketStatus } from './types/SocketStatus.js';
 import type { ScreenShareStatus } from './types/Calling.js';
 import type { MessageCache } from './services/MessageCache.js';
 import type { StateType } from './state/reducer.js';
@@ -51,12 +40,10 @@ import type { IPCEventsType } from './util/createIPCEvents.js';
 import type { SignalContextType } from './windows/context.js';
 import type * as Message2 from './types/Message2.js';
 import type { initializeMigrations } from './signal.js';
-import type { RetryPlaceholders } from './util/retryPlaceholders.js';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.js';
 import type { WindowsNotificationData } from './services/notifications.js';
 import type { QueryStatsOptions } from './sql/main.js';
 import type { SocketStatuses } from './textsecure/SocketManager.js';
-import type { BeforeNavigateService } from './services/BeforeNavigate.js';
 
 const { PhoneNumber, PhoneNumberFormat } = googleLibphonenumber;
 
@@ -149,27 +136,14 @@ type SettingsWindowPropsType = {
 
 export type SignalCoreType = {
   AboutWindowProps?: AboutWindowPropsType;
-  Crypto: typeof Crypto;
-  Curve: typeof Curve;
   DebugLogWindowProps?: DebugLogWindowPropsType;
-  Groups: typeof Groups;
   PermissionsWindowProps?: PermissionsWindowPropsType;
-  RemoteConfig: typeof RemoteConfig;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
   Services: {
-    backups: BackupsService;
-    beforeNavigate: BeforeNavigateService;
-    calling: CallingClass;
-    initializeGroupCredentialFetcher: () => Promise<void>;
-    initializeNetworkObserver: (
-      network: ReduxActions['network'],
-      getAuthSocketStatus: () => SocketStatus
-    ) => void;
-    initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-    lightSessionResetQueue?: PQueue;
-    retryPlaceholders?: RetryPlaceholders;
-    storage: typeof StorageService;
-    donations: typeof Donations;
+    // Only for development
+    backups: unknown;
+    calling: unknown;
+    donations: unknown;
   };
   SettingsWindowProps?: SettingsWindowPropsType;
   Migrations: ReturnType<typeof initializeMigrations>;
@@ -178,15 +152,7 @@ export type SignalCoreType = {
     Address: typeof Address;
     QualifiedAddress: typeof QualifiedAddress;
   };
-  Components: {
-    ConfirmationDialog: typeof ConfirmationDialog;
-  };
   OS: OSType;
-  State: {
-    Roots: {
-      createApp: typeof createApp;
-    };
-  };
   challengeHandler?: ChallengeHandler;
 
   // Only for debugging in Dev Tools

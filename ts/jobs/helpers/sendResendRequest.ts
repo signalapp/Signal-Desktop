@@ -22,8 +22,8 @@ import {
   UnregisteredUserError,
 } from '../../textsecure/Errors.js';
 import { drop } from '../../util/drop.js';
-import { strictAssert } from '../../util/assert.js';
 import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents.js';
+import { retryPlaceholders } from '../../services/retryPlaceholders.js';
 import type { LoggerType } from '../../types/Logging.js';
 import { startAutomaticSessionReset } from '../../util/handleRetry.js';
 import * as Bytes from '../../Bytes.js';
@@ -123,9 +123,6 @@ export async function sendResendRequest(
 
     // 1. We believe that it could be successfully re-sent, so we'll add a placeholder.
     if (contentHint === ContentHint.Resendable) {
-      const { retryPlaceholders } = window.Signal.Services;
-      strictAssert(retryPlaceholders, 'sendResendRequest: adding placeholder');
-
       log.info('contentHint is RESENDABLE, adding placeholder');
 
       const state = window.reduxStore.getState();

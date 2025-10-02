@@ -38,7 +38,7 @@ import type { FetchFunctionType } from '../util/uploads/tusProtocol.js';
 import { VerificationTransport } from '../types/VerificationTransport.js';
 import { ZERO_ACCESS_KEY } from '../types/SealedSender.js';
 import { toLogFormat } from '../types/errors.js';
-import { isPackIdValid, redactPackId } from '../types/Stickers.js';
+import { isPackIdValid, redactPackId } from '../util/Stickers.js';
 import type {
   ServiceIdString,
   AciString,
@@ -64,6 +64,7 @@ import {
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
 import { CDSI } from './cds/CDSI.js';
 import { SignalService as Proto } from '../protobuf/index.js';
+import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.js';
 
 import { HTTPError } from './Errors.js';
 import type MessageSender from './SendMessage.js';
@@ -2030,34 +2031,24 @@ export function initialize({
     let activeRegistration: ExplodePromiseResultType<void> | undefined;
 
     const libsignalRemoteConfig = new Map();
-    if (
-      window.Signal.RemoteConfig.isEnabled(
-        'desktop.libsignalNet.enforceMinimumTls'
-      )
-    ) {
+    if (isRemoteConfigEnabled('desktop.libsignalNet.enforceMinimumTls')) {
       log.info('libsignal net will require TLS 1.3');
       libsignalRemoteConfig.set('enforceMinimumTls', 'true');
     }
     if (
-      window.Signal.RemoteConfig.isEnabled(
-        'desktop.libsignalNet.shadowUnauthChatWithNoise'
-      )
+      isRemoteConfigEnabled('desktop.libsignalNet.shadowUnauthChatWithNoise')
     ) {
       log.info('libsignal net will shadow unauth chat connections');
       libsignalRemoteConfig.set('shadowUnauthChatWithNoise', 'true');
     }
-    if (
-      window.Signal.RemoteConfig.isEnabled(
-        'desktop.libsignalNet.shadowAuthChatWithNoise'
-      )
-    ) {
+    if (isRemoteConfigEnabled('desktop.libsignalNet.shadowAuthChatWithNoise')) {
       log.info('libsignal net will shadow auth chat connections');
       libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
     }
     const perMessageDeflateConfigKey = isProduction(version)
       ? 'desktop.libsignalNet.chatPermessageDeflate.prod'
       : 'desktop.libsignalNet.chatPermessageDeflate';
-    if (window.Signal.RemoteConfig.isEnabled(perMessageDeflateConfigKey)) {
+    if (isRemoteConfigEnabled(perMessageDeflateConfigKey)) {
       libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
     }
     libsignalNet.setRemoteConfig(libsignalRemoteConfig);

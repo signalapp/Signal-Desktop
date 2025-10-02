@@ -7,7 +7,6 @@ import type {
   DefaultConversationColorType,
 } from './Colors.js';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
-import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
 import type { RetryItemType } from '../util/retryPlaceholders.js';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.js';
 import type { ExtendedStorageID, UnknownRecord } from './StorageService.d.ts';
@@ -26,6 +25,7 @@ import type { ServiceIdString } from './ServiceId.js';
 import type { RegisteredChallengeType } from '../challenge.js';
 import type { ServerAlertsType } from '../util/handleServerAlerts.js';
 import type { NotificationProfileOverride } from './NotificationProfile.js';
+import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.js';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;

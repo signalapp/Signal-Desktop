@@ -5,6 +5,7 @@ import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { SignalService as Proto } from '../protobuf/index.js';
 import type { AciString } from '../types/ServiceId.js';
 import { createLogger } from '../logging/log.js';
+import { buildDeletePendingAdminApprovalMemberChange } from '../groups.js';
 import { getConversationIdForLogging } from './idForLogging.js';
 import { isMemberRequestingToJoin } from './groupMembershipUtils.js';
 
@@ -29,7 +30,7 @@ export async function denyPendingApprovalRequest(
 
   const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-  return window.Signal.Groups.buildDeletePendingAdminApprovalMemberChange({
+  return buildDeletePendingAdminApprovalMemberChange({
     group: conversationAttributes,
     ourAci,
     aci,

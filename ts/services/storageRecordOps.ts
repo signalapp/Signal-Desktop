@@ -20,7 +20,7 @@ import { isNotNil } from '../util/isNotNil.js';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../util/phoneNumberSharingMode.js';
+} from '../types/PhoneNumberSharingMode.js';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,

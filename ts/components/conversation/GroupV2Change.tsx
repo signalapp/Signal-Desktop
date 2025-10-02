@@ -24,7 +24,7 @@ import { SystemMessage } from './SystemMessage.js';
 import type {
   GroupV2ChangeType,
   GroupV2ChangeDetailType,
-} from '../../groups.js';
+} from '../../types/groups.ts';
 
 import type { SmartContactRendererType } from '../../groupChange.js';
 import { renderChange } from '../../groupChange.js';

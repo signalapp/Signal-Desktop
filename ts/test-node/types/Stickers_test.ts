@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import * as Stickers from '../../types/Stickers.js';
+import { isPackIdValid, redactPackId } from '../../util/Stickers.js';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {
@@ -103,45 +104,41 @@ describe('Stickers', () => {
 
   describe('isPackIdValid', () => {
     it('returns false for non-strings', () => {
-      assert.isFalse(Stickers.isPackIdValid(undefined));
-      assert.isFalse(Stickers.isPackIdValid(null));
-      assert.isFalse(Stickers.isPackIdValid(123));
-      assert.isFalse(Stickers.isPackIdValid(123));
-      assert.isFalse(
-        Stickers.isPackIdValid(['b9439fa5fdc8b9873fe64f01b88b8ccf'])
-      );
+      assert.isFalse(isPackIdValid(undefined));
+      assert.isFalse(isPackIdValid(null));
+      assert.isFalse(isPackIdValid(123));
+      assert.isFalse(isPackIdValid(123));
+      assert.isFalse(isPackIdValid(['b9439fa5fdc8b9873fe64f01b88b8ccf']));
       assert.isFalse(
         // eslint-disable-next-line no-new-wrappers
-        Stickers.isPackIdValid(new String('b9439fa5fdc8b9873fe64f01b88b8ccf'))
+        isPackIdValid(new String('b9439fa5fdc8b9873fe64f01b88b8ccf'))
       );
     });
 
     it('returns false for invalid pack IDs', () => {
-      assert.isFalse(Stickers.isPackIdValid(''));
-      assert.isFalse(
-        Stickers.isPackIdValid('x9439fa5fdc8b9873fe64f01b88b8ccf')
-      );
+      assert.isFalse(isPackIdValid(''));
+      assert.isFalse(isPackIdValid('x9439fa5fdc8b9873fe64f01b88b8ccf'));
       assert.isFalse(
         // This is one character too short.
-        Stickers.isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8cc')
+        isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8cc')
       );
       assert.isFalse(
         // This is one character too long.
-        Stickers.isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8ccfa')
+        isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8ccfa')
       );
     });
 
     it('returns true for valid pack IDs', () => {
-      assert.isTrue(Stickers.isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8ccf'));
-      assert.isTrue(Stickers.isPackIdValid('3eff225a1036a58a7530b312dd92f8d8'));
-      assert.isTrue(Stickers.isPackIdValid('DDFD48B8097DA7A4E928192B10963F6A'));
+      assert.isTrue(isPackIdValid('b9439fa5fdc8b9873fe64f01b88b8ccf'));
+      assert.isTrue(isPackIdValid('3eff225a1036a58a7530b312dd92f8d8'));
+      assert.isTrue(isPackIdValid('DDFD48B8097DA7A4E928192B10963F6A'));
     });
   });
 
   describe('redactPackId', () => {
     it('redacts pack IDs', () => {
       assert.strictEqual(
-        Stickers.redactPackId('b9439fa5fdc8b9873fe64f01b88b8ccf'),
+        redactPackId('b9439fa5fdc8b9873fe64f01b88b8ccf'),
         '[REDACTED]ccf'
       );
     });

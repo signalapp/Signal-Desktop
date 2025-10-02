@@ -25,6 +25,7 @@ import {
   isGroup,
   isGroupV1,
 } from '../util/whatTypeOfConversation.js';
+import { respondToGroupV2Migration, maybeUpdateGroup } from '../groups.js';
 import { generateMessageId } from '../util/generateMessageId.js';
 import {
   hasErrors,
@@ -234,7 +235,7 @@ export async function handleDataMessage(
         // If we received a GroupV2 message in a GroupV1 group, we migrate!
 
         const { revision, groupChange } = initialMessage.groupV2;
-        await window.Signal.Groups.respondToGroupV2Migration({
+        await respondToGroupV2Migration({
           conversation,
           groupChange: groupChange
             ? {
@@ -270,7 +271,7 @@ export async function handleDataMessage(
         if (isV2GroupUpdate && initialMessage.groupV2) {
           const { revision, groupChange } = initialMessage.groupV2;
           try {
-            await window.Signal.Groups.maybeUpdateGroup({
+            await maybeUpdateGroup({
               conversation,
               groupChange: groupChange
                 ? {

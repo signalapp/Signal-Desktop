@@ -10,7 +10,7 @@ import type { Row, PropsType } from './ConversationList.js';
 import { ConversationList, RowType } from './ConversationList.js';
 import { MessageSearchResult } from './conversationList/MessageSearchResult.js';
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem.js';
-import { MessageStatuses } from './conversationList/ConversationListItem.js';
+import { MessageStatuses } from '../types/message/MessageStatus.js';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
 import { ThemeType } from '../types/Util.js';

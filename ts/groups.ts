@@ -67,6 +67,7 @@ import {
 } from './util/whatTypeOfConversation.js';
 import * as Bytes from './Bytes.js';
 import type { AvatarDataType } from './types/Avatar.js';
+import type { GroupV2ChangeDetailType } from './types/groups.ts';
 import type {
   ServiceIdString,
   AciString,
@@ -114,155 +115,6 @@ const log = createLogger('groups');
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
 export { joinViaLink } from './groups/joinViaLink.js';
-
-type GroupV2AccessCreateChangeType = {
-  type: 'create';
-};
-type GroupV2AccessAttributesChangeType = {
-  type: 'access-attributes';
-  newPrivilege: number;
-};
-type GroupV2AccessMembersChangeType = {
-  type: 'access-members';
-  newPrivilege: number;
-};
-type GroupV2AccessInviteLinkChangeType = {
-  type: 'access-invite-link';
-  newPrivilege: number;
-};
-type GroupV2AnnouncementsOnlyChangeType = {
-  type: 'announcements-only';
-  announcementsOnly: boolean;
-};
-type GroupV2AvatarChangeType = {
-  type: 'avatar';
-  removed: boolean;
-};
-type GroupV2TitleChangeType = {
-  type: 'title';
-  // Allow for null, because the title could be removed entirely
-  newTitle?: string;
-};
-type GroupV2GroupLinkAddChangeType = {
-  type: 'group-link-add';
-  privilege: number;
-};
-type GroupV2GroupLinkResetChangeType = {
-  type: 'group-link-reset';
-};
-type GroupV2GroupLinkRemoveChangeType = {
-  type: 'group-link-remove';
-};
-
-// No disappearing messages timer change type - message.expirationTimerUpdate used instead
-
-type GroupV2MemberAddChangeType = {
-  type: 'member-add';
-  aci: AciString;
-};
-type GroupV2MemberAddFromInviteChangeType = {
-  type: 'member-add-from-invite';
-  aci: AciString;
-  pni?: PniString;
-  inviter?: AciString;
-};
-type GroupV2MemberAddFromLinkChangeType = {
-  type: 'member-add-from-link';
-  aci: AciString;
-};
-type GroupV2MemberAddFromAdminApprovalChangeType = {
-  type: 'member-add-from-admin-approval';
-  aci: AciString;
-};
-type GroupV2MemberPrivilegeChangeType = {
-  type: 'member-privilege';
-  aci: AciString;
-  newPrivilege: number;
-};
-type GroupV2MemberRemoveChangeType = {
-  type: 'member-remove';
-  aci: AciString;
-};
-
-type GroupV2PendingAddOneChangeType = {
-  type: 'pending-add-one';
-  serviceId: ServiceIdString;
-};
-type GroupV2PendingAddManyChangeType = {
-  type: 'pending-add-many';
-  count: number;
-};
-// Note: pending-remove is only used if user didn't also join the group at the same time
-type GroupV2PendingRemoveOneChangeType = {
-  type: 'pending-remove-one';
-  serviceId?: ServiceIdString;
-  inviter?: AciString;
-};
-// Note: pending-remove is only used if user didn't also join the group at the same time
-type GroupV2PendingRemoveManyChangeType = {
-  type: 'pending-remove-many';
-  count: number;
-  inviter?: AciString;
-};
-
-type GroupV2AdminApprovalAddOneChangeType = {
-  type: 'admin-approval-add-one';
-  aci: AciString;
-};
-// Note: admin-approval-remove-one is only used if user didn't also join the group at
-//   the same time
-type GroupV2AdminApprovalRemoveOneChangeType = {
-  type: 'admin-approval-remove-one';
-  aci: AciString;
-  inviter?: AciString;
-};
-type GroupV2AdminApprovalBounceChangeType = {
-  type: 'admin-approval-bounce';
-  times: number;
-  isApprovalPending: boolean;
-  aci: AciString;
-};
-export type GroupV2DescriptionChangeType = {
-  type: 'description';
-  removed?: boolean;
-  // Adding this field; cannot remove previous field for backwards compatibility
-  description?: string;
-};
-export type GroupV2SummaryType = {
-  type: 'summary';
-};
-
-export type GroupV2ChangeDetailType =
-  | GroupV2AccessAttributesChangeType
-  | GroupV2AccessCreateChangeType
-  | GroupV2AccessInviteLinkChangeType
-  | GroupV2AccessMembersChangeType
-  | GroupV2AdminApprovalAddOneChangeType
-  | GroupV2AdminApprovalRemoveOneChangeType
-  | GroupV2AdminApprovalBounceChangeType
-  | GroupV2AnnouncementsOnlyChangeType
-  | GroupV2AvatarChangeType
-  | GroupV2DescriptionChangeType
-  | GroupV2GroupLinkAddChangeType
-  | GroupV2GroupLinkRemoveChangeType
-  | GroupV2GroupLinkResetChangeType
-  | GroupV2MemberAddChangeType
-  | GroupV2MemberAddFromAdminApprovalChangeType
-  | GroupV2MemberAddFromInviteChangeType
-  | GroupV2MemberAddFromLinkChangeType
-  | GroupV2MemberPrivilegeChangeType
-  | GroupV2MemberRemoveChangeType
-  | GroupV2PendingAddManyChangeType
-  | GroupV2PendingAddOneChangeType
-  | GroupV2PendingRemoveManyChangeType
-  | GroupV2PendingRemoveOneChangeType
-  | GroupV2SummaryType
-  | GroupV2TitleChangeType;
-
-export type GroupV2ChangeType = {
-  from?: ServiceIdString;
-  details: ReadonlyArray<GroupV2ChangeDetailType>;
-};
 
 export type GroupFields = {
   readonly id: Uint8Array;
@@ -335,8 +187,6 @@ type GroupChangeMessageType = BasicMessageType &
 export const MASTER_KEY_LENGTH = 32;
 const GROUP_TITLE_MAX_ENCRYPTED_BYTES = 1024;
 const GROUP_DESC_MAX_ENCRYPTED_BYTES = 8192;
-export const ID_V1_LENGTH = 16;
-export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
@@ -356,9 +206,7 @@ export async function getPreJoinGroupInfo(
   inviteLinkPasswordBase64: string,
   masterKeyBase64: string
 ): Promise<Proto.GroupJoinInfo> {
-  const data = window.Signal.Groups.deriveGroupFields(
-    Bytes.fromBase64(masterKeyBase64)
-  );
+  const data = deriveGroupFields(Bytes.fromBase64(masterKeyBase64));
 
   return makeRequestWithCredentials({
     logId: `getPreJoinInfo/groupv2(${data.id})`,
@@ -1569,7 +1417,7 @@ export async function modifyGroupV2({
 
         // Apply change locally, just like we would with an incoming change. This will
         //   change conversation state and add change notifications to the timeline.
-        await window.Signal.Groups.maybeUpdateGroup({
+        await maybeUpdateGroup({
           conversation,
           groupChange: {
             base64: groupChangeBase64,

@@ -25,18 +25,6 @@ import { RenderLocation } from '../conversation/MessageTextRenderer.js';
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
-export const MessageStatuses = [
-  'sending',
-  'sent',
-  'delivered',
-  'read',
-  'paused',
-  'error',
-  'partial-sent',
-] as const;
-
-export type MessageStatusType = (typeof MessageStatuses)[number];
-
 export type PropsData = Pick<
   ConversationType,
   | 'avatarPlaceholderGradient'

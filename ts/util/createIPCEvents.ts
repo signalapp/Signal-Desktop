@@ -21,6 +21,7 @@ import {
   type NotificationClickData,
   notificationService,
 } from '../services/notifications.js';
+import { joinViaLink } from '../groups.js';
 import { StoryViewModeType, StoryViewTargetType } from '../types/Stories.js';
 import { isValidE164 } from './isValidE164.js';
 import { fromWebSafeBase64 } from './webSafeBase64.js';
@@ -394,7 +395,7 @@ export function createIPCEvents(
         return;
       }
       try {
-        await window.Signal.Groups.joinViaLink(value);
+        await joinViaLink(value);
       } catch (error) {
         log.error(
           'showGroupViaLink: Ran into an error!',

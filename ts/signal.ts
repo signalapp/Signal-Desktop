@@ -5,20 +5,9 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Crypto from './Crypto.js';
-import * as Curve from './Curve.js';
-import * as Groups from './groups.js';
 import OS from './util/os/osMain.js';
 import { isProduction } from './util/version.js';
-import * as RemoteConfig from './RemoteConfig.js';
 import { DataReader, DataWriter } from './sql/Client.js';
-
-// Components
-import { ConfirmationDialog } from './components/ConfirmationDialog.js';
-
-// State
-import { createApp } from './state/roots/createApp.js';
-import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer.js';
 
 // Types
 import * as TypesAttachment from './types/Attachment.js';
@@ -28,9 +17,6 @@ import { Address } from './types/Address.js';
 import { QualifiedAddress } from './types/QualifiedAddress.js';
 
 // Processes / Services
-import { initializeGroupCredentialFetcher } from './services/groupCredentialFetcher.js';
-import { initializeNetworkObserver } from './services/networkObserver.js';
-import { initializeUpdateListener } from './services/updateListener.js';
 import { calling } from './services/calling.js';
 import * as storage from './services/storage.js';
 import { backupsService } from './services/backups/index.js';
@@ -57,7 +43,6 @@ import type {
   LinkPreviewWithHydratedData,
 } from './types/message/LinkPreviews.js';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers.js';
-import { beforeNavigateService } from './services/BeforeNavigate.js';
 import type { MessageAttachmentType } from './types/AttachmentDownload.js';
 
 type EncryptedReader = (
@@ -464,30 +449,12 @@ export const setup = (options: {
     userDataPath,
   });
 
-  const Components = {
-    ConfirmationDialog,
-  };
-
-  const Roots = {
-    createApp,
-    createSafetyNumberViewer,
-  };
-
+  // Only for testing
   const Services = {
-    backups: backupsService,
-    beforeNavigate: beforeNavigateService,
-    calling,
-    initializeGroupCredentialFetcher,
-    initializeNetworkObserver,
-    initializeUpdateListener,
-    donations,
-
-    // Testing
     storage,
-  };
-
-  const State = {
-    Roots,
+    calling,
+    donations,
+    backups: backupsService,
   };
 
   const Types = {
@@ -499,15 +466,9 @@ export const setup = (options: {
   };
 
   return {
-    Components,
-    Crypto,
-    Curve,
-    Groups,
     Migrations,
     OS,
-    RemoteConfig,
     Services,
-    State,
     Types,
 
     ...(isProduction(window.getVersion())

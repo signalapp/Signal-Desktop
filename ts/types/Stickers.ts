@@ -34,6 +34,7 @@ import { drop } from '../util/drop.js';
 import { isNotNil } from '../util/isNotNil.js';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.js';
+import { isPackIdValid, redactPackId } from '../util/Stickers.js';
 import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.js';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
@@ -132,8 +133,6 @@ const STICKER_PACK_DEFAULTS: StickerPackType = {
 
   storageNeedsSync: false,
 };
-
-const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
 
 const DOWNLOAD_PRIORITY_NORMAL = 0;
 const DOWNLOAD_PRIORITY_HIGH = 1;
@@ -395,14 +394,6 @@ async function getRecentStickersForRedux(): Promise<Array<RecentStickerType>> {
 export function getInitialState(): StickersStateType {
   strictAssert(initialState !== undefined, 'Stickers not initialized');
   return initialState;
-}
-
-export function isPackIdValid(packId: unknown): packId is string {
-  return typeof packId === 'string' && VALID_PACK_ID_REGEXP.test(packId);
-}
-
-export function redactPackId(packId: string): string {
-  return `[REDACTED]${packId.slice(-3)}`;
 }
 
 function getReduxStickerActions() {

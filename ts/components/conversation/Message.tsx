@@ -47,6 +47,7 @@ import type {
 import { ReactionViewer } from './ReactionViewer.js';
 import { LinkPreviewDate } from './LinkPreviewDate.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
+import type { MessageStatusType } from '../../types/message/MessageStatus.js';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.js';
 import type { WidthBreakpoint } from '../_util.js';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.js';
@@ -177,18 +178,6 @@ const TextDirectionToDirAttribute = {
   [TextDirection.Default]: 'auto',
   [TextDirection.None]: 'auto',
 };
-
-export const MessageStatuses = [
-  'delivered',
-  'error',
-  'paused',
-  'partial-sent',
-  'read',
-  'sending',
-  'sent',
-  'viewed',
-] as const;
-export type MessageStatusType = (typeof MessageStatuses)[number];
 
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = (typeof Directions)[number];

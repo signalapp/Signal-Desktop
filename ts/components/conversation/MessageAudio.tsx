@@ -9,9 +9,10 @@ import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util.js';
 import type { AttachmentForUIType } from '../../types/Attachment.js';
+import type { MessageStatusType } from '../../types/message/MessageStatus.js';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
 import { isDownloaded } from '../../types/Attachment.js';
-import type { DirectionType, MessageStatusType } from './Message.js';
+import type { DirectionType } from './Message.js';
 
 import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.js';
 import { MessageMetadata } from './MessageMetadata.js';
