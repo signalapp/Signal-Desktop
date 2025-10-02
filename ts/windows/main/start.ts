@@ -25,6 +25,7 @@ import type {
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { initMessageCleanup } from '../../services/messageStateCleanup.js';
+import { calling } from '../../services/calling.js';
 import { Environment, getEnvironment } from '../../environment.js';
 import { isProduction } from '../../util/version.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.js';
@@ -83,9 +84,8 @@ if (
       return message?.attributes;
     },
     getReduxState: () => window.reduxStore.getState(),
-    getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
-    getIceServerOverride: () =>
-      window.Signal.Services.calling._iceServerOverride,
+    getSfuUrl: () => calling._sfuUrl,
+    getIceServerOverride: () => calling._iceServerOverride,
     getSocketStatus: () => window.textsecure.server?.getSocketStatus(),
     getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),
     putStorageItem: <K extends keyof StorageAccessType>(
@@ -99,7 +99,7 @@ if (
       window.Flags[name] = value;
     },
     setSfuUrl: (url: string) => {
-      window.Signal.Services.calling._sfuUrl = url;
+      calling._sfuUrl = url;
     },
     setIceServerOverride: (
       override: GetIceServersResultType | string | undefined
@@ -112,10 +112,10 @@ if (
         }
       }
 
-      window.Signal.Services.calling._iceServerOverride = override;
+      calling._iceServerOverride = override;
     },
     setRtcStatsInterval: (intervalMillis: number) =>
-      window.Signal.Services.calling.setAllRtcStatsInterval(intervalMillis),
+      calling.setAllRtcStatsInterval(intervalMillis),
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
           benchmarkConversationOpen,

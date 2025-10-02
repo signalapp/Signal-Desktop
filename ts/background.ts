@@ -38,6 +38,7 @@ import { assertDev, strictAssert } from './util/assert.js';
 import { filter } from './util/iterables.js';
 import { isNotNil } from './util/isNotNil.js';
 import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.js';
+import { lightSessionResetQueue } from './util/lightSessionResetQueue.js';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.js';
 import { IdleDetector } from './IdleDetector.js';
 import {
@@ -50,11 +51,16 @@ import {
 } from './services/notificationProfilesService.js';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.js';
 import { senderCertificateService } from './services/senderCertificate.js';
-import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher.js';
+import {
+  GROUP_CREDENTIALS_KEY,
+  initializeGroupCredentialFetcher,
+} from './services/groupCredentialFetcher.js';
+import { initializeNetworkObserver } from './services/networkObserver.js';
 import * as KeyboardLayout from './services/keyboardLayout.js';
 import * as StorageService from './services/storage.js';
 import { usernameIntegrity } from './services/usernameIntegrity.js';
 import { updateIdentityKey } from './services/profiles.js';
+import { initializeUpdateListener } from './services/updateListener.js';
 import { RoutineProfileRefresher } from './routineProfileRefresh.js';
 import { isOlderThan } from './util/timestamp.js';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.js';
@@ -116,6 +122,7 @@ import * as KeyChangeListener from './textsecure/KeyChangeListener.js';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener.js';
 import { isDirectConversation } from './util/whatTypeOfConversation.js';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.js';
+import { createApp as createAppRoot } from './state/roots/createApp.js';
 import { AppViewType } from './state/ducks/app.js';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling.js';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.js';
@@ -162,6 +169,7 @@ import { normalizeAci } from './util/normalizeAci.js';
 import { createLogger } from './logging/log.js';
 import { deleteAllLogs } from './util/deleteAllLogs.js';
 import { startInteractionMode } from './services/InteractionMode.js';
+import { calling } from './services/calling.js';
 import { ReactionSource } from './reactions/ReactionSource.js';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.js';
 import { conversationJobQueue } from './jobs/conversationJobQueue.js';
@@ -183,7 +191,7 @@ import {
   initializeMessageCounter,
 } from './util/incrementMessageCounter.js';
 import { generateMessageId } from './util/generateMessageId.js';
-import { RetryPlaceholders } from './util/retryPlaceholders.js';
+import { retryPlaceholders } from './services/retryPlaceholders.js';
 import { setBatchingStrategy } from './util/messageBatcher.js';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
 import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts.js';
@@ -207,7 +215,13 @@ import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.js';
 import { getConversationIdForLogging } from './util/idForLogging.js';
 import { encryptConversationAttachments } from './util/encryptConversationAttachments.js';
 import { DataReader, DataWriter } from './sql/Client.js';
-import { restoreRemoteConfigFromStorage } from './RemoteConfig.js';
+import {
+  restoreRemoteConfigFromStorage,
+  getValue as getRemoteConfigValue,
+  onChange as onRemoteConfigChange,
+  maybeRefreshRemoteConfig,
+  forceRefreshRemoteConfig,
+} from './RemoteConfig.js';
 import { getParametersForRedux, loadAll } from './services/allLoaders.js';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope.js';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.js';
@@ -304,10 +318,6 @@ export async function startApp(): Promise<void> {
   // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
   const profileKeyResponseQueue = new PQueue();
   profileKeyResponseQueue.pause();
-
-  const lightSessionResetQueue = new PQueue({ concurrency: 1 });
-  window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
-  lightSessionResetQueue.pause();
 
   const onDecryptionErrorQueue = new PQueue({ concurrency: 1 });
   onDecryptionErrorQueue.pause();
@@ -768,7 +778,7 @@ export async function startApp(): Promise<void> {
         flushMessageCounter();
 
         // Hangup active calls
-        window.Signal.Services.calling.hangupAllCalls({
+        calling.hangupAllCalls({
           excludeRinging: true,
           reason: 'background/shutdown: shutdown requested',
         });
@@ -1097,10 +1107,7 @@ export async function startApp(): Promise<void> {
       }
     });
 
-    const retryPlaceholders = new RetryPlaceholders({
-      retryReceiptLifespan: HOUR,
-    });
-    window.Signal.Services.retryPlaceholders = retryPlaceholders;
+    retryPlaceholders.start(window.storage);
 
     setInterval(async () => {
       const now = Date.now();
@@ -1108,7 +1115,7 @@ export async function startApp(): Promise<void> {
 
       try {
         sentProtoMaxAge = parseIntOrThrow(
-          window.Signal.RemoteConfig.getValue('desktop.retryRespondMaxAge'),
+          getRemoteConfigValue('desktop.retryRespondMaxAge'),
           'retryRespondMaxAge'
         );
       } catch (error) {
@@ -1186,14 +1193,12 @@ export async function startApp(): Promise<void> {
     } finally {
       setupAppState();
       drop(start());
-      window.Signal.Services.initializeNetworkObserver(
+      initializeNetworkObserver(
         window.reduxActions.network,
         () => window.getSocketStatus().authenticated.status
       );
-      window.Signal.Services.initializeUpdateListener(
-        window.reduxActions.updates
-      );
-      window.Signal.Services.calling.initialize(
+      initializeUpdateListener(window.reduxActions.updates);
+      calling.initialize(
         {
           ...window.reduxActions.calling,
           areAnyCallsActiveOrRinging: () =>
@@ -1467,9 +1472,7 @@ export async function startApp(): Promise<void> {
 
     const appContainer = document.getElementById('app-container');
     strictAssert(appContainer != null, 'No #app-container');
-    createRoot(appContainer).render(
-      window.Signal.State.Roots.createApp(window.reduxStore)
-    );
+    createRoot(appContainer).render(createAppRoot(window.reduxStore));
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
     window.IPC.setAutoHideMenuBar(hideMenuBar);
     window.IPC.setMenuBarVisibility(!hideMenuBar);
@@ -1522,7 +1525,7 @@ export async function startApp(): Promise<void> {
       strictAssert(server !== undefined, 'WebAPI not ready');
 
       try {
-        await window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
+        await maybeRefreshRemoteConfig(server);
       } catch (error) {
         if (error instanceof HTTPError) {
           log.warn(
@@ -1535,24 +1538,20 @@ export async function startApp(): Promise<void> {
     });
 
     // Listen for changes to the `desktop.clientExpiration` remote flag
-    window.Signal.RemoteConfig.onChange(
-      'desktop.clientExpiration',
-      ({ enabled, value }) => {
-        if (!enabled) {
-          return;
-        }
-        const remoteBuildExpirationTimestamp =
-          parseRemoteClientExpiration(value);
-        if (remoteBuildExpirationTimestamp) {
-          drop(
-            window.storage.put(
-              'remoteBuildExpiration',
-              remoteBuildExpirationTimestamp
-            )
-          );
-        }
+    onRemoteConfigChange('desktop.clientExpiration', ({ enabled, value }) => {
+      if (!enabled) {
+        return;
       }
-    );
+      const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(value);
+      if (remoteBuildExpirationTimestamp) {
+        drop(
+          window.storage.put(
+            'remoteBuildExpiration',
+            remoteBuildExpirationTimestamp
+          )
+        );
+      }
+    });
 
     if (resolveOnAppView) {
       resolveOnAppView();
@@ -1679,7 +1678,7 @@ export async function startApp(): Promise<void> {
       // 2. Fetch remote config, before we process the message queue
       if (isFirstAuthSocketConnect) {
         try {
-          await window.Signal.RemoteConfig.forceRefreshRemoteConfig(
+          await forceRefreshRemoteConfig(
             server,
             'afterAuthSocketConnect/firstConnect'
           );
@@ -1925,7 +1924,7 @@ export async function startApp(): Promise<void> {
     drop(challengeHandler.onOnline());
 
     reconnectBackOff.reset();
-    drop(window.Signal.Services.initializeGroupCredentialFetcher());
+    drop(initializeGroupCredentialFetcher());
     drop(AttachmentDownloadManager.start());
 
     if (areRemoteBackupsTurnedOn()) {

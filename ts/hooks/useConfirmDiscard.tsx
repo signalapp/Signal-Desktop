@@ -4,7 +4,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog.js';
-import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
+import {
+  BeforeNavigateResponse,
+  beforeNavigateService,
+} from '../services/BeforeNavigate.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
@@ -60,13 +63,13 @@ export function useConfirmDiscard({
       close();
       return confirmDiscardPromise.current.promise;
     };
-    window.Signal.Services.beforeNavigate.registerCallback({
+    beforeNavigateService.registerCallback({
       name,
       callback,
     });
 
     return () => {
-      window.Signal.Services.beforeNavigate.unregisterCallback({
+      beforeNavigateService.unregisterCallback({
         name,
         callback,
       });

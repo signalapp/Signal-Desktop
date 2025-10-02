@@ -4,6 +4,7 @@
 import Long from 'long';
 import type { Backups, SignalService } from '../protobuf/index.js';
 import * as Bytes from '../Bytes.js';
+import { backupsService } from '../services/backups/index.js';
 import { drop } from './drop.js';
 import { createLogger } from '../logging/log.js';
 import { resetBackupMediaDownloadStats } from './backupMediaDownload.js';
@@ -23,7 +24,7 @@ export async function saveBackupsSubscriberData(
   const previousSubscriberId = window.storage.get('backupsSubscriberId');
 
   if (previousSubscriberId !== backupsSubscriberData?.subscriberId) {
-    drop(window.Signal.Services.backups.refreshBackupAndSubscriptionStatus());
+    drop(backupsService.refreshBackupAndSubscriptionStatus());
   }
 
   if (backupsSubscriberData == null) {
@@ -66,7 +67,7 @@ export async function saveBackupTier(
   if (backupTier !== previousBackupTier) {
     log.info('backup tier has changed', { previousBackupTier, backupTier });
     await resetBackupMediaDownloadStats();
-    drop(window.Signal.Services.backups.resetCachedData());
+    drop(backupsService.resetCachedData());
   }
 }
 

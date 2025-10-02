@@ -4,6 +4,7 @@
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { SignalService as Proto } from '../protobuf/index.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
+import { buildDeletePendingMemberChange } from '../groups.js';
 import { createLogger } from '../logging/log.js';
 import { getConversationIdForLogging } from './idForLogging.js';
 import { isMemberPending } from './groupMembershipUtils.js';
@@ -37,7 +38,7 @@ export async function removePendingMember(
     return undefined;
   }
 
-  return window.Signal.Groups.buildDeletePendingMemberChange({
+  return buildDeletePendingMemberChange({
     group: conversationAttributes,
     serviceIds: pendingServiceIds,
   });

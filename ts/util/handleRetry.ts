@@ -12,6 +12,7 @@ import * as Bytes from '../Bytes.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { isProduction } from './version.js';
 import { strictAssert } from './assert.js';
+import { lightSessionResetQueue } from './lightSessionResetQueue.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
 import { isOlderThan } from './timestamp.js';
 import { parseIntOrThrow } from './parseIntOrThrow.js';
@@ -714,13 +715,6 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
 
 function scheduleSessionReset(senderAci: AciString, senderDevice: number) {
   // Postpone sending light session resets until the queue is empty
-  const { lightSessionResetQueue } = window.Signal.Services;
-
-  if (!lightSessionResetQueue) {
-    throw new Error(
-      'scheduleSessionReset: lightSessionResetQueue is not available!'
-    );
-  }
 
   drop(
     lightSessionResetQueue.add(async () => {

@@ -9,7 +9,6 @@ import { SignalService as Proto } from '../protobuf/index.js';
 import { createLogger } from '../logging/log.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { isNotNil } from '../util/isNotNil.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
@@ -219,7 +218,7 @@ export function filterAndClean(
 
 export function hydrateRanges(
   ranges: ReadonlyArray<BodyRange<object>> | undefined,
-  conversationSelector: (id: string) => ConversationType
+  conversationSelector: (id: string) => { id: string; title: string }
 ): Array<HydratedBodyRangeType> | undefined {
   if (!ranges) {
     return undefined;

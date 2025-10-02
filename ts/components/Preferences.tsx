@@ -22,7 +22,7 @@ import { WidthBreakpoint } from './_util.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.js';
 import { Select } from './Select.js';
 import { Spinner } from './Spinner.js';
 import { getCustomColorStyle } from '../util/getCustomColorStyle.js';

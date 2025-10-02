@@ -249,7 +249,7 @@ export async function downloadAttachment(
       });
     } catch (error) {
       if (error instanceof HTTPError && error.code === 401) {
-        window.Signal.Services.backups.credentials.onCdnCredentialError();
+        backupsService.credentials.onCdnCredentialError();
       }
       throw error;
     }

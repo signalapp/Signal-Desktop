@@ -5,12 +5,12 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { generateAci } from '../../types/ServiceId.js';
-import type { RetryItemType } from '../../util/retryPlaceholders.js';
+import type { RetryItemType } from '../../services/retryPlaceholders.js';
 import {
   getDeltaIntoPast,
   RetryPlaceholders,
   STORAGE_KEY,
-} from '../../util/retryPlaceholders.js';
+} from '../../services/retryPlaceholders.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -50,6 +50,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
 
       assert.strictEqual(2, placeholders.getCount());
     });
@@ -60,6 +61,7 @@ describe('RetryPlaceholders', () => {
       ] as any);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
 
       assert.strictEqual(0, placeholders.getCount());
     });
@@ -68,12 +70,14 @@ describe('RetryPlaceholders', () => {
   describe('#add', () => {
     it('adds one item', async () => {
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       await placeholders.add(getDefaultItem());
       assert.strictEqual(1, placeholders.getCount());
     });
 
     it('throws if provided data fails to parse', async () => {
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       await assert.isRejected(
         placeholders.add({
           item: 'is wrong shape!',
@@ -86,6 +90,7 @@ describe('RetryPlaceholders', () => {
   describe('#getNextToExpire', () => {
     it('returns nothing if no items', () => {
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(0, placeholders.getCount());
       assert.isUndefined(placeholders.getNextToExpire());
     });
@@ -95,6 +100,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(1, placeholders.getCount());
       assert.deepEqual(item, placeholders.getNextToExpire());
     });
@@ -111,6 +117,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(older, placeholders.getNextToExpire());
 
@@ -139,6 +146,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual([], await placeholders.getExpiredAndRemove());
       assert.strictEqual(2, placeholders.getCount());
@@ -156,6 +164,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual([older], await placeholders.getExpiredAndRemove());
       assert.strictEqual(1, placeholders.getCount());
@@ -174,6 +183,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(
         [older, newer],
@@ -197,6 +207,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       await placeholders.findByConversationAndMarkOpened('conversation-id-3');
       assert.strictEqual(2, placeholders.getCount());
@@ -224,6 +235,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(3, placeholders.getCount());
       await placeholders.findByConversationAndMarkOpened('conversation-id-1');
       assert.strictEqual(3, placeholders.getCount());
@@ -298,6 +310,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.isUndefined(
         await placeholders.findByMessageAndRemove('conversation-id-1', sentAt)
@@ -321,6 +334,7 @@ describe('RetryPlaceholders', () => {
       await window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
+      placeholders.start(window.storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(
         newer,

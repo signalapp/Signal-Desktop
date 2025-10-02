@@ -22,6 +22,7 @@ import { drop } from '../../util/drop.js';
 import { explodePromise } from '../../util/explodePromise.js';
 import { DataReader } from '../../sql/Client.js';
 import type { WindowsNotificationData } from '../../services/notifications.js';
+import { finish3dsValidation } from '../../services/donations.js';
 import { AggregatedStats } from '../../textsecure/WebsocketResources.js';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.js';
 import { isProduction } from '../../util/version.js';
@@ -415,7 +416,7 @@ ipc.on('cancel-presenting', () => {
 });
 
 ipc.on('donation-validation-complete', (_event, { token }) => {
-  drop(window.Signal.Services.donations.finish3dsValidation(token));
+  drop(finish3dsValidation(token));
 });
 
 ipc.on('show-conversation-via-token', (_event, token: string) => {

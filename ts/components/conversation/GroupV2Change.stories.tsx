@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { generateAci, generatePni } from '../../types/ServiceId.js';
 import type { ServiceIdString, AciString } from '../../types/ServiceId.js';
-import type { GroupV2ChangeType } from '../../groups.js';
+import type { GroupV2ChangeType } from '../../types/groups.ts';
 import { SignalService as Proto } from '../../protobuf/index.js';
 import type { SmartContactRendererType } from '../../groupChange.js';
 import type { PropsType } from './GroupV2Change.js';

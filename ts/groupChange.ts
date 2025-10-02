@@ -14,7 +14,10 @@ import type {
 } from './types/ServiceId.js';
 import { missingCaseError } from './util/missingCaseError.js';
 
-import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups.js';
+import type {
+  GroupV2ChangeDetailType,
+  GroupV2ChangeType,
+} from './types/groups.ts';
 import { SignalService as Proto } from './protobuf/index.js';
 import { createLogger } from './logging/log.js';
 

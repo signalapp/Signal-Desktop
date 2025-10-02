@@ -6,7 +6,8 @@ import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util.js';
-import type { DirectionType, MessageStatusType } from './Message.js';
+import type { MessageStatusType } from '../../types/message/MessageStatus.js';
+import type { DirectionType } from './Message.js';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
 import { ExpireTimer } from './ExpireTimer.js';

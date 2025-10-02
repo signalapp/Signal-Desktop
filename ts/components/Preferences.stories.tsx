@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 import { Preferences } from './Preferences.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.js';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
 import { EmojiSkinTone } from './fun/data/emojis.js';
 import { DAY, DurationInSeconds, WEEK } from '../util/durations/index.js';

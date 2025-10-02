@@ -35,6 +35,7 @@ import {
   hasRequiredInformationForBackup,
 } from '../types/Attachment.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { backupsService } from '../services/backups/index.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import {
   KIBIBYTE,
@@ -208,7 +209,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     getRetryConfig: job =>
       shouldAttachmentEndUpInRemoteBackup({
         attachment: job.attachment,
-        hasMediaBackups: window.Signal.Services.backups.hasMediaBackups(),
+        hasMediaBackups: backupsService.hasMediaBackups(),
       })
         ? BACKUP_RETRY_CONFIG
         : DEFAULT_RETRY_CONFIG,
@@ -225,7 +226,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         bytesNeeded
       );
     },
-    hasMediaBackups: () => window.Signal.Services.backups.hasMediaBackups(),
+    hasMediaBackups: () => backupsService.hasMediaBackups(),
     getMessageQueueTime: () => doGetMessageQueueTime(),
     statfs,
   };

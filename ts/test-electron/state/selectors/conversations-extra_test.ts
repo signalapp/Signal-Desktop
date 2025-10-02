@@ -18,7 +18,7 @@ import { getByDistributionListConversationsStoppingSend } from '../../../state/s
 import { generateAci } from '../../../types/ServiceId.js';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId.js';
 import { noopAction } from '../../../state/ducks/noop.js';
-import { ID_LENGTH } from '../../../groups.js';
+import { ID_LENGTH } from '../../../types/groups.js';
 import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums.js';
 
 describe('both/state/selectors/conversations-extra', () => {

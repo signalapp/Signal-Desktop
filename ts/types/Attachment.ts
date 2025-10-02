@@ -24,7 +24,7 @@ import type {
 import { ThemeType } from './Util.js';
 import * as GoogleChrome from '../util/GoogleChrome.js';
 import { ReadStatus } from '../messages/MessageReadStatus.js';
-import type { MessageStatusType } from '../components/conversation/Message.js';
+import type { MessageStatusType } from './message/MessageStatus.js';
 import type { SignalService as Proto } from '../protobuf/index.js';
 import { isMoreRecentThan } from '../util/timestamp.js';
 import { DAY } from '../util/durations/index.js';

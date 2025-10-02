@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { GroupV2ChangeType } from './groups.js';
+import type { GroupV2ChangeType } from './types/groups.ts';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.js';
 import type { CustomColorType, ConversationColorType } from './types/Colors.js';
 import type { SendMessageChallengeData } from './textsecure/Errors.js';

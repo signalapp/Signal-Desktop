@@ -5,6 +5,7 @@ import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import * as Bytes from '../Bytes.js';
 import { createLogger } from '../logging/log.js';
+import { ID_V1_LENGTH, ID_LENGTH } from '../types/groups.js';
 
 const log = createLogger('whatTypeOfConversation');
 
@@ -54,7 +55,7 @@ export function isGroupV1(
   }
 
   const buffer = Bytes.fromBinary(groupId);
-  return buffer.byteLength === window.Signal.Groups.ID_V1_LENGTH;
+  return buffer.byteLength === ID_V1_LENGTH;
 }
 
 export function isGroupV2(
@@ -70,8 +71,7 @@ export function isGroupV2(
 
   try {
     return (
-      groupVersion === 2 &&
-      Bytes.fromBase64(groupId).byteLength === window.Signal.Groups.ID_LENGTH
+      groupVersion === 2 && Bytes.fromBase64(groupId).byteLength === ID_LENGTH
     );
   } catch (error) {
     log.error('isGroupV2: Failed to process groupId in base64!');

@@ -22,6 +22,13 @@ import * as LinkPreview from '../types/LinkPreview.js';
 import * as Stickers from '../types/Stickers.js';
 import * as VisualAttachment from '../types/VisualAttachment.js';
 import { createLogger } from '../logging/log.js';
+import {
+  parseGroupLink,
+  deriveGroupFields,
+  getPreJoinGroupInfo,
+  decryptGroupTitle,
+  decryptGroupAvatar,
+} from '../groups.js';
 import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME.js';
 import { SECOND } from '../util/durations/index.js';
 import { autoScale } from '../util/handleImageAttachment.js';
@@ -532,31 +539,23 @@ async function getGroupPreview(
   }
   const groupData = hash.slice(1);
 
-  const { inviteLinkPassword, masterKey } =
-    window.Signal.Groups.parseGroupLink(groupData);
+  const { inviteLinkPassword, masterKey } = parseGroupLink(groupData);
 
-  const fields = window.Signal.Groups.deriveGroupFields(
-    Bytes.fromBase64(masterKey)
-  );
+  const fields = deriveGroupFields(Bytes.fromBase64(masterKey));
   const id = Bytes.toBase64(fields.id);
   const logId = `groupv2(${id})`;
   const secretParams = Bytes.toBase64(fields.secretParams);
 
   log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
-  const result = await window.Signal.Groups.getPreJoinGroupInfo(
-    inviteLinkPassword,
-    masterKey
-  );
+  const result = await getPreJoinGroupInfo(inviteLinkPassword, masterKey);
 
   if (abortSignal.aborted) {
     return null;
   }
 
   const title =
-    window.Signal.Groups.decryptGroupTitle(
-      dropNull(result.title),
-      secretParams
-    ) || window.i18n('icu:unknownGroup');
+    decryptGroupTitle(dropNull(result.title), secretParams) ||
+    window.i18n('icu:unknownGroup');
   const description = window.i18n('icu:GroupV2--join--group-metadata--full', {
     memberCount: result?.memberCount ?? 0,
   });
@@ -564,10 +563,7 @@ async function getGroupPreview(
 
   if (result.avatar) {
     try {
-      const data = await window.Signal.Groups.decryptGroupAvatar(
-        result.avatar,
-        secretParams
-      );
+      const data = await decryptGroupAvatar(result.avatar, secretParams);
       image = {
         data,
         size: data.byteLength,

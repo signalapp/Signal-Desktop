@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useRef, useState } from 'react';
-import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
+import {
+  beforeNavigateService,
+  BeforeNavigateResponse,
+} from '../services/BeforeNavigate.js';
 import type {
   BeforeNavigateCallback,
   BeforeNavigateTransitionDetails,
@@ -80,12 +83,12 @@ export function useNavBlocker(
       return promise;
     };
 
-    window.Signal.Services.beforeNavigate.registerCallback({
+    beforeNavigateService.registerCallback({
       callback,
       name: nameValue,
     });
     return () => {
-      window.Signal.Services.beforeNavigate.unregisterCallback({
+      beforeNavigateService.unregisterCallback({
         callback,
         name: nameValue,
       });

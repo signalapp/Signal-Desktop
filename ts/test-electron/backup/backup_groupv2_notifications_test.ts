@@ -8,7 +8,7 @@ import { SignalService as Proto } from '../../protobuf/index.js';
 
 import { generateAci, generatePni } from '../../types/ServiceId.js';
 import type { MessageAttributesType } from '../../model-types.js';
-import type { GroupV2ChangeType } from '../../groups.js';
+import type { GroupV2ChangeType } from '../../types/groups.ts';
 import { getRandomBytes } from '../../Crypto.js';
 import * as Bytes from '../../Bytes.js';
 import { strictAssert } from '../../util/assert.js';

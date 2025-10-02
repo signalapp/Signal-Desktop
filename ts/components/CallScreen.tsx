@@ -97,7 +97,10 @@ import {
   isEmojiVariantValue,
 } from './fun/data/emojis.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.js';
-import { BeforeNavigateResponse } from '../services/BeforeNavigate.js';
+import {
+  BeforeNavigateResponse,
+  beforeNavigateService,
+} from '../services/BeforeNavigate.js';
 
 const { isEqual, noop } = lodash;
 
@@ -323,12 +326,12 @@ export function CallScreen({
       togglePip();
       return BeforeNavigateResponse.MadeChanges;
     };
-    window.Signal.Services.beforeNavigate.registerCallback({
+    beforeNavigateService.registerCallback({
       callback,
       name,
     });
     return () => {
-      window.Signal.Services.beforeNavigate.unregisterCallback({
+      beforeNavigateService.unregisterCallback({
         callback,
         name,
       });

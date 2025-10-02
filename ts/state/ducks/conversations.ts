@@ -13,6 +13,7 @@ import type { StateType as RootStateType } from '../reducer.js';
 import * as groups from '../../groups.js';
 import { createLogger } from '../../logging/log.js';
 import { calling } from '../../services/calling.js';
+import { retryPlaceholders } from '../../services/retryPlaceholders.js';
 import { getOwn } from '../../util/getOwn.js';
 import { assertDev, strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
@@ -4816,10 +4817,7 @@ function onConversationOpened(
       log.warn(`${logId}: Did not find message ${messageId}`);
     }
 
-    const { retryPlaceholders } = window.Signal.Services;
-    if (retryPlaceholders) {
-      await retryPlaceholders.findByConversationAndMarkOpened(conversation.id);
-    }
+    await retryPlaceholders.findByConversationAndMarkOpened(conversation.id);
 
     const loadAndUpdate = async () => {
       drop(

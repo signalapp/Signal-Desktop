@@ -46,7 +46,7 @@ import { assertDev, strictAssert } from '../../util/assert.js';
 import { backupsService } from '../../services/backups/index.js';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.js';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.js';
-import { PhoneNumberSharingMode } from '../../util/phoneNumberSharingMode.js';
+import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.js';
 import { writeProfile } from '../../services/writeProfile.js';
 import { getConversation } from '../../util/getConversation.js';
 import { waitForEvent } from '../../shims/events.js';
@@ -251,9 +251,9 @@ export function SmartPreferences(): JSX.Element | null {
 
   const doDeleteAllData = () => renderClearingDataView();
   const refreshCloudBackupStatus =
-    window.Signal.Services.backups.throttledFetchCloudBackupStatus;
+    backupsService.throttledFetchCloudBackupStatus;
   const refreshBackupSubscriptionStatus =
-    window.Signal.Services.backups.throttledFetchSubscriptionStatus;
+    backupsService.throttledFetchSubscriptionStatus;
 
   // Context - these don't change per startup
 
