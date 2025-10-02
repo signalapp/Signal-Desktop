@@ -365,8 +365,8 @@ export async function modifyTargetMessage(
   if (!isFirstRun && !skipEdits) {
     const edits = Edits.forMessage(message.attributes);
     log.info(`${logId}: ${edits.length} edits in second run`);
-    await Promise.all(
-      edits.map(editAttributes =>
+    edits.map(editAttributes =>
+      drop(
         conversation.queueJob('modifyTargetMessage/edits', () =>
           handleEditMessage(message.attributes, editAttributes)
         )

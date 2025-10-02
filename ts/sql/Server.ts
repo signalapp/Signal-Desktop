@@ -8758,8 +8758,9 @@ function saveEditedMessages(
       alreadyInTransaction: true,
     });
 
-    for (const { conversationId, messageId, readStatus, sentAt } of history) {
-      const [query, params] = sql`
+    try {
+      for (const { conversationId, messageId, readStatus, sentAt } of history) {
+        const [query, params] = sql`
         INSERT INTO edited_messages (
           conversationId,
           messageId,
@@ -8773,7 +8774,29 @@ function saveEditedMessages(
         );
       `;
 
-      db.prepare(query).run(params);
+        db.prepare(query).run(params);
+      }
+    } catch (e) {
+      const [messageExistsQuery, messageExistsParams] = sql`
+        SELECT EXISTS(
+          SELECT 1 FROM messages
+          WHERE messages.id = ${mainMessage.id}
+        );
+      `;
+      const messageExists = db
+        .prepare(messageExistsQuery, {
+          pluck: true,
+        })
+        .get<number>(messageExistsParams);
+
+      if (messageExists !== 1) {
+        logger.warn(
+          'saveEditedMessages: save failed because message does not exist'
+        );
+      } else {
+        // Some other, unknown error
+        throw e;
+      }
     }
   })();
 }
