@@ -5988,6 +5988,10 @@
     "messageformat": "Your contacts will be able add you to this group.",
     "description": "This is the modal content for confirming unblock of a group"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group.",
+    "description": "This is the modal content for confirming unblock of a group"
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Unblock",
     "description": "This is the modal button to confirm unblock of a group"
