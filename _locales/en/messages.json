@@ -9264,5 +9264,9 @@
   "icu:WhatsNew__7.73": {
     "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations.",
     "description": "Release notes for 7.73 release"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop.",
+    "description": "Release notes for 7.74 release."
   }
 }
