@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Tietokannan salausavainta ei voida käyttää, koska käyttöjärjestelmän salausavainnippu on muuttunut arvosta {previousBackend} arvoon {currentBackend}. Tämä voi tapahtua, jos työpöytäympäristö muuttuu, esimerkiksi GNOME:n ja KDE:n välillä.\n\nVaihda edelliseen työpöytäympäristöön tai yritä suorittaa Signal komentorivilipulla --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Tiedosto"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Tietoja"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Poista"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, linkit ja tiedostot"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Tilaustasi ei löydy. Uusi jatkaaksesi Signal Secure -varmuuskopioinnin käyttöä."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta} other {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "Tämä päivitys tuo mukanaan uusia suorituskyvyn optimointeja akun keston parantamiseksi."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

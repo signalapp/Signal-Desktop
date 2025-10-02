@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Nevar piekļūt datu bāzes šifrēšanas atslēgai, jo OS šifrēšanas atslēgu turētāja aizmugursistēma ir mainīta no {previousBackend} uz {currentBackend}. Tas var notikt, ja mainās darbvirsmas vide, piemēram, no GNOME uz KDE.\n\nLūdzu, pārslēdzieties uz iepriekšējo darbvirsmas vidi vai mēģiniet palaist Signal ar komandrindas karogu --password-store=\"{previousBackendFlag}\"."
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fails"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informācija"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multivide, saites un faili"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Jūsu abonements netika atrasts. Atjauniniet to, lai turpinātu izmantot Signal drošās rezerves kopijas."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija} one {Teksta + {mediaDayCount,number} dienas multivides rezerves kopija} other {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "Šis atjauninājums ietver jaunus veiktspējas uzlabojumus, kas paildzina akumulatora darbības laiku, tāpēc tagad jums būs vairāk laika garām un aizraujošām sarunām."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

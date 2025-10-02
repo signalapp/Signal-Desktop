@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l’entorn d’escriptori anterior, o prova d’executar Signal amb el paràmetre de la línia d’ordres --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxer"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informació"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Suprimeix"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Arxius multimèdia, enllaços i arxius"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "No s'ha trobat la teva subscripció. Renova-la per continuar utilitzant les Còpies segures de Signal."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Còpia de seguretat de missatges de text + {mediaDayCount,number} dia de multimèdia} other {Còpia de seguretat de missatges de text + {mediaDayCount,number} dies de multimèdia}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "Aquesta actualització introdueix noves optimitzacions de rendiment per ajudar a millorar la durada de la bateria."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "无法访问数据库加密密钥，因为 OS 加密密钥环后端已从 {previousBackend} 更改为 {currentBackend}。当桌面环境发生变化时，如在 GNOME 和 KDE 之间切换，这种情况就会发生。\n\n请切换到之前的桌面环境，或尝试使用命令行标志 --password-store=\"{previousBackendFlag}\" 运行 Signal"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "文件(&F)"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "信息"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "删除"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, other {{number,number} 名成员}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "媒体、链接和文件"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 名成员}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "未找到您的套餐。请续订以继续使用 Signal 安全备份。"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {文本 + {mediaDayCount,number} 天媒体备份}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "此次更新进行了新的性能优化，有助于提升电池续航时间。"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

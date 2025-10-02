@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "डेटाबेस एनक्रिप्शन की ऐक्सेस नहीं कर पाए, क्योंकि OS एनक्रिप्शन कीरिंग बैंकएंड {previousBackend} से बदलकर {currentBackend} हो गया है। ऐसा तब हो सकता है, जब डेस्कटॉप एनवायरनमेंट बदलता है, जैसे कि GNOME और KDE के बीच।\n\nकृपया पिछले डेस्कटॉप एनवायरनमेंट पर स्विच करें या फिर कमांड लाइन फ़्लैग के साथ Signal चलाने की कोशिश करें --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&File"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "जानकारी"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "डिलीट करें"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "मीडिया, लिंक और फ़ाइलें"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "आपका सब्सक्रिप्शन नहीं मिला। Signal सिक्योर बैकअप का इस्तेमाल जारी रखने के लिए रिन्यू करें।"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {टेक्स्ट + {mediaDayCount,number} दिन का मीडिया बैकअप} other {टेक्स्ट + {mediaDayCount,number} दिनों का मीडिया बैकअप}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "इस अपडेट में परफ़ॉर्मेंस से जुड़े ऐसे सुधार शामिल हैं, जो बैटरी की लाइफ़ को बेहतर बनाने में मदद करेंगे, ताकि जब बातें दिल से हों, तो बैटरी भी साथ निभाए।"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

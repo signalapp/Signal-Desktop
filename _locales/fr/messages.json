@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau ou essayez d’exécuter Signal avec l’indicateur de ligne de commande --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fichier"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Infos"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Supprimer"
@@ -4299,7 +4335,7 @@
     "messageformat": "Vérification de l'inscription du contact"
   },
   "icu:CompositionArea__edit-action--discard": {
-    "messageformat": "Ignorer les modifications"
+    "messageformat": "Annuler les modifications"
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Envoyer le message modifié"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médias, liens et fichiers"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Abonnement introuvable. Pour continuer d'utiliser les sauvegardes sécurisées Signal, nous vous invitons à renouveler votre abonnement."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Messages texte + {mediaDayCount,number} jour de médias} other {Messages texte + {mediaDayCount,number} jours de médias}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "De nouveaux gains de performance boostent l'autonomie de la batterie. Plus rien ne vous empêche de discuter pendant des heures !"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

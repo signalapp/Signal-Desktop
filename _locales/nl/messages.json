@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} naar {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving of probeer Signal uit te voeren met de commandoregelvlag: --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand"
   },
@@ -516,7 +525,7 @@
     "messageformat": "Verificatie ongedaan maken"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Om end-to-end-versleuteling met {name} te verifiëren, vergelijk je bovenstaande nummers met het apparaat van je contact. Je contacten kunnen ook jouw QR-code scannen met hun apparaat."
+    "messageformat": "Om end-to-end-versleuteling met {name} te verifiëren, vergelijk je bovenstaande nummers met die op het apparaat van je contact. Je contacten kunnen ook jouw code scannen met hun apparaat"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Meer informatie"
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Bericht­details"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Verwijderen"
@@ -4299,7 +4335,7 @@
     "messageformat": "Controleren of deze persoon is geregistreerd bij Signal"
   },
   "icu:CompositionArea__edit-action--discard": {
-    "messageformat": "Bericht weggooien"
+    "messageformat": "Bewerking annuleren"
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Bewerkt bericht versturen"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, links en documenten"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Je abonnement is niet gevonden. Vernieuw je back-upabonnement om Signal Secure Backups te blijven gebruiken."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekstberichten + {mediaDayCount,number} dag media} other {Tekstberichten + {mediaDayCount,number} dagen media}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "Deze update introduceert nieuwe prestatie-optimalisaties om de levensduur van de batterij te verbeteren."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

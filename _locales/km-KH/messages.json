@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន ឬព្យាយាមដំណើរការ Signal ដោយឃ្លាបញ្ជា --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "ព័ត៌មាន"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "មេឌៀ តំណ និងឯកសារ"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុកសុវត្ថិភាព Signal។"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {សារជាអក្សរ + ការបម្រុងទុកមេឌៀ {mediaDayCount,number} ថ្ងៃ}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "កំណែថ្មីនេះដាក់ឱ្យប្រើប្រាស់នូវការបង្កើនប្រសិទ្ធភាពថ្មីទៅលើការដំណើរការ ដើម្បីជួយបង្កើនអាយុកាលរបស់ថ្ម ដើម្បីឱ្យអ្នកនៅសល់ថ្មច្រើនទៀតសម្រាប់ការសន្ទនាដែលស៊ីអារម្មណ៍។"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

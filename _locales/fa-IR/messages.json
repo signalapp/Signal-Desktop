@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "دسترسی به کلید رمزگذاری پایگاه داده امکان‌پذیر نیست زیرا پشتیبان کلید رمزگذاری سیستم عامل از {previousBackend} به {currentBackend} تغییر کرده است. اگر محیط دسک‌تاپ مثلاً از GNOME به KDE تغییر کند، ممکن است این اتفاق بیفتد.\n\nلطفاً به محیط دسک‌تاپ قبلی بروید یا سعی کنید سیگنال را با دستور خط فرمان --password-store=\"{previousBackendFlag}\" اجرا کنید"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&فایل"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "اطلاعات"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "رسانه، پیوندها، و فایل‌ها"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "اشتراک شما یافت نشد. برای ادامه استفاده از «پشتیبان‌گیری امن سیگنال»، تمدید کنید."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته} other {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "در این نسخه جدید، بهینه‌سازی‌های جدیدی در عملکرد اعمال کردیم تا عمر باتری را بهتر کند."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

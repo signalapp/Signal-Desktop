@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Nepavyko pasiekti duomenų bazės šifravimo rakto, nes OS šifravimo raktų rinkinys pasikeitė iš {previousBackend} į {currentBackend}. Taip gali nutikti pasikeitus darbalaukio aplinkai, pavyzdžiui, tarp GNOME ir KDE.\n\nGrįžkite į ankstesnę darbalaukio aplinką arba pabandykite paleisti „Signal“ naudodami komandinės eilutės parinktį --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Failas"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "Informacija"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "Ištrinti"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Įrašai, nuorodos ir failai"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ saugiąsias atsargines kopijas."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} few {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija} many {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} other {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "Šiuo atnaujinimu pristatomi nauji našumo optimizavimai, padedantys prailginti akumuliatoriaus veikimo laiką."
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }

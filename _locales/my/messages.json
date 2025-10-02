@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nယခင် Desktop အခြေအနေသို့ ပြောင်းပါ သို့မဟုတ် Signal ကို command line flag --password-store=\"{previousBackendFlag}\" ဖြင့် လည်ပတ်ကြည့်ပါ"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်"
   },
@@ -1030,6 +1039,33 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "အချက်အလက်"
+  },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Poll · Select one"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Poll · Select one or more"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Poll · Final results"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "View votes"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "You voted"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Poll details"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "No votes"
   },
   "icu:deleteConversation": {
     "messageformat": "ဖျက်ရန်"
@@ -4449,7 +4485,7 @@
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "မီဒီယာ၊ လင့်ခ်များနှင့် ဖိုင်များ"
+    "messageformat": "Media and files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
@@ -5302,6 +5338,9 @@
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal လုံခြုံရေးဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost} / month"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {စာတို + {mediaDayCount,number} ရက် မီဒီယာဘက်ခ်အပ်}}"
@@ -6926,6 +6965,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+    "messageformat": "ဤအပ်ဒိတ်သည် ဘက်ထရီသက်တမ်းကို ပိုမိုကောင်းမွန်စေမည့် လုပ်ဆောင်မှုအသစ်ကို မိတ်ဆက်ပေးထားသည်။"
+  },
+  "icu:WhatsNew__7.74": {
+    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
   }
 }
