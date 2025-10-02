@@ -15,7 +15,7 @@ import {
 } from '../../types/CallDisposition.js';
 import { generateAci } from '../../types/ServiceId.js';
 import type { CallHistoryDetails } from '../../types/CallDisposition.js';
-import type { MaybeStaleCallHistory } from '../../sql/Server.js';
+import type { MaybeStaleCallHistory } from '../../sql/Interface.js';
 
 const { times } = lodash;
 

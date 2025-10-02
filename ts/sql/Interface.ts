@@ -29,10 +29,6 @@ import type {
 import type { BadgeType } from '../badges/types.js';
 import type { ReadStatus } from '../messages/MessageReadStatus.js';
 import type { RawBodyRange } from '../types/BodyRange.js';
-import type {
-  GetMessagesBetweenOptions,
-  MaybeStaleCallHistory,
-} from './Server.js';
 import type { MessageTimestamps } from '../state/ducks/conversations.js';
 import type {
   CallHistoryDetails,
@@ -595,6 +591,16 @@ export type KyberPreKeyTripleType = Readonly<{
   signedPreKeyId: number;
   baseKey: Uint8Array;
 }>;
+
+export type GetMessagesBetweenOptions = Readonly<{
+  after: { received_at: number; sent_at: number };
+  before: { received_at: number; sent_at: number };
+  includeStoryReplies: boolean;
+}>;
+
+export type MaybeStaleCallHistory = Readonly<
+  Pick<CallHistoryDetails, 'callId' | 'peerId'>
+>;
 
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',

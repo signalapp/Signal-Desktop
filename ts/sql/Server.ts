@@ -189,6 +189,8 @@ import type {
   ServerMessageSearchResultType,
   MessageCountBySchemaVersionType,
   BackupAttachmentDownloadProgress,
+  GetMessagesBetweenOptions,
+  MaybeStaleCallHistory,
 } from './Interface.js';
 import {
   AttachmentDownloadSource,
@@ -3887,12 +3889,6 @@ function getNewestMessageForConversation(
   return row;
 }
 
-export type GetMessagesBetweenOptions = Readonly<{
-  after: { received_at: number; sent_at: number };
-  before: { received_at: number; sent_at: number };
-  includeStoryReplies: boolean;
-}>;
-
 function getMessagesBetween(
   db: ReadableDB,
   conversationId: string,
@@ -5237,10 +5233,6 @@ function markCallHistoryMissed(
 ): void {
   return db.transaction(() => _markCallHistoryMissed(db, callIds))();
 }
-
-export type MaybeStaleCallHistory = Readonly<
-  Pick<CallHistoryDetails, 'callId' | 'peerId'>
->;
 
 function getRecentStaleRingsAndMarkOlderMissed(
   db: WritableDB
