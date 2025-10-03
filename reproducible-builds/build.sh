@@ -8,7 +8,11 @@
 # First we prepare the docker container in which our build scripts will run. This container includes
 # all build dependencies at specific versions.
 # We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
-docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+if [ -z "${SKIP_DOCKER_BUILD}" ]; then
+  docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+else
+  echo "Skipping docker build step because SKIP_DOCKER_BUILD was set"
+fi
 
 # Before performing the actual build, go to the project root.
 cd ..
