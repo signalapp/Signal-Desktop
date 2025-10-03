@@ -267,6 +267,7 @@ import type {
 } from '../types/Colors.js';
 import { sqlLogger } from './sqlLogger.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.js';
+import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.js';
 
 const {
   forEach,
@@ -8132,97 +8133,6 @@ function getMessageServerGuidsForSpam(
     .all({ conversationId });
 }
 
-function getExternalFilesForMessage(message: MessageType): {
-  externalAttachments: Array<string>;
-  externalDownloads: Array<string>;
-} {
-  const { attachments, bodyAttachment, contact, quote, preview, sticker } =
-    message;
-  const externalAttachments: Array<string> = [];
-  const externalDownloads: Array<string> = [];
-
-  forEach(attachments, attachment => {
-    const {
-      path: file,
-      thumbnail,
-      screenshot,
-      thumbnailFromBackup,
-      downloadPath,
-    } = attachment;
-    if (file) {
-      externalAttachments.push(file);
-    }
-
-    // downloadPath is relative to downloads folder and has to be tracked
-    // separately.
-    if (downloadPath) {
-      externalDownloads.push(downloadPath);
-    }
-
-    if (thumbnail && thumbnail.path) {
-      externalAttachments.push(thumbnail.path);
-    }
-
-    if (screenshot && screenshot.path) {
-      externalAttachments.push(screenshot.path);
-    }
-
-    if (thumbnailFromBackup && thumbnailFromBackup.path) {
-      externalAttachments.push(thumbnailFromBackup.path);
-    }
-  });
-
-  if (bodyAttachment?.path) {
-    externalAttachments.push(bodyAttachment.path);
-  }
-
-  for (const editHistory of message.editHistory ?? []) {
-    if (editHistory.bodyAttachment?.path) {
-      externalAttachments.push(editHistory.bodyAttachment.path);
-    }
-  }
-
-  if (quote && quote.attachments && quote.attachments.length) {
-    forEach(quote.attachments, attachment => {
-      const { thumbnail } = attachment;
-
-      if (thumbnail && thumbnail.path) {
-        externalAttachments.push(thumbnail.path);
-      }
-    });
-  }
-
-  if (contact && contact.length) {
-    forEach(contact, item => {
-      const { avatar } = item;
-
-      if (avatar && avatar.avatar && avatar.avatar.path) {
-        externalAttachments.push(avatar.avatar.path);
-      }
-    });
-  }
-
-  if (preview && preview.length) {
-    forEach(preview, item => {
-      const { image } = item;
-
-      if (image && image.path) {
-        externalAttachments.push(image.path);
-      }
-    });
-  }
-
-  if (sticker && sticker.data && sticker.data.path) {
-    externalAttachments.push(sticker.data.path);
-
-    if (sticker.data.thumbnail && sticker.data.thumbnail.path) {
-      externalAttachments.push(sticker.data.thumbnail.path);
-    }
-  }
-
-  return { externalAttachments, externalDownloads };
-}
-
 function getExternalFilesForConversation(
   conversation: Pick<ConversationType, 'avatar' | 'profileAvatar'>
 ): Array<string> {
@@ -8277,7 +8187,7 @@ function getKnownMessageAttachments(
   const { messages, cursor: newCursor } = pageMessages(db, innerCursor);
   for (const message of messages) {
     const { externalAttachments, externalDownloads } =
-      getExternalFilesForMessage(message);
+      getFilePathsOwnedByMessage(message);
     externalAttachments.forEach(file => attachments.add(file));
     externalDownloads.forEach(file => downloads.add(file));
   }
