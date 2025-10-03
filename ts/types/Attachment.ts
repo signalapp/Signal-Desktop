@@ -38,6 +38,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
 import type { MessageAttachmentType } from './AttachmentDownload.js';
+import { strictAssert } from '../util/assert.js';
 
 const {
   isNumber,
@@ -541,6 +542,11 @@ export async function captureDimensionsAndScreenshot(
   const localUrl = getLocalAttachmentUrl(attachment);
 
   if (GoogleChrome.isImageTypeSupported(contentType)) {
+    // Already generated thumbnail / width / height
+    if (attachment.thumbnail?.path) {
+      return attachment;
+    }
+
     try {
       const { width, height } = await getImageDimensionsFromURL({
         objectUrl: localUrl,
@@ -584,6 +590,16 @@ export async function captureDimensionsAndScreenshot(
       );
       return attachment;
     }
+  }
+
+  strictAssert(
+    GoogleChrome.isVideoTypeSupported(contentType),
+    'enforced by early return'
+  );
+
+  // Already generated screenshot / width / height
+  if (attachment.screenshot?.path) {
+    return attachment;
   }
 
   let screenshotObjectUrl: string | undefined;
