@@ -5,13 +5,69 @@ import { v4 as generateUuid } from 'uuid';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import type { Page } from 'playwright/test';
 import { expect } from 'playwright/test';
+import type { StorageStateNewRecord } from '@signalapp/mock-server/src/api/storage-state.js';
 import * as durations from '../../util/durations/index.js';
 import type { App } from './fixtures.js';
 import { Bootstrap, debug, getChatFolderRecordPredicate } from './fixtures.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { bytesToUuid, uuidToBytes } from '../../util/uuidToBytes.js';
 import { CHAT_FOLDER_DELETED_POSITION } from '../../types/ChatFolder.js';
+import { strictAssert } from '../../util/assert.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
+
+const ALL_CHATS_PREDICATE = getChatFolderRecordPredicate('ALL', '', false);
+
+async function openChatFolderSettings(window: Page) {
+  const openSettingsBtn = window.locator(
+    '[data-testid="NavTabsItem--Settings"]'
+  );
+  const openChatsSettingsBtn = window.locator('.Preferences__button--chats');
+  const openChatFoldersSettingsBtn = window.locator(
+    '.Preferences__control:has-text("Add a chat folder")'
+  );
+
+  await openSettingsBtn.click();
+  await openChatsSettingsBtn.click();
+  await openChatFoldersSettingsBtn.click();
+}
+
+function countAllChatsInStorageState(state: StorageState): number {
+  return state.filterRecords(ALL_CHATS_PREDICATE).length;
+}
+
+function getAllChatsListItem(window: Page) {
+  return window
+    .getByTestId('ChatFoldersList')
+    .locator('.Preferences__ChatFolders__ChatSelection__Item')
+    .getByText('All chats');
+}
+
+function getGroupsPresetAddButton(window: Page) {
+  return window
+    .getByTestId('ChatFolderPreset--GroupChats')
+    .locator('button:has-text("Add")');
+}
+
+function createAllChatsRecord(id: string): StorageStateNewRecord {
+  return {
+    type: IdentifierType.CHAT_FOLDER,
+    record: {
+      chatFolder: {
+        id: uuidToBytes(id),
+        folderType: Proto.ChatFolderRecord.FolderType.ALL,
+        name: '',
+        position: 0,
+        showOnlyUnread: false,
+        showMutedChats: false,
+        includeAllIndividualChats: false,
+        includeAllGroupChats: true,
+        includedRecipients: [],
+        excludedRecipients: [],
+        deletedAtTimestampMs: Long.fromNumber(0),
+      },
+    },
+  };
+}
 
 describe('storage service/chat folders', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -49,34 +105,15 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  async function openChatFolderSettings(window: Page) {
-    const openSettingsBtn = window.locator(
-      '[data-testid="NavTabsItem--Settings"]'
-    );
-    const openChatsSettingsBtn = window.locator('.Preferences__button--chats');
-    const openChatFoldersSettingsBtn = window.locator(
-      '.Preferences__control:has-text("Add a chat folder")'
-    );
-
-    await openSettingsBtn.click();
-    await openChatsSettingsBtn.click();
-    await openChatFoldersSettingsBtn.click();
-  }
-
   it('should update from storage service', async () => {
     const { phone } = bootstrap;
     const window = await app.getWindow();
-
-    const ALL_CHATS_PREDICATE = getChatFolderRecordPredicate('ALL', '', false);
 
     const ALL_GROUPS_ID = generateUuid();
     const ALL_GROUPS_NAME = 'All Groups';
     const ALL_GROUPS_NAME_UPDATED = 'The Groups';
 
-    const allChatsListItem = window
-      .getByTestId('ChatFoldersList')
-      .locator('.Preferences__ChatFolders__ChatSelection__Item')
-      .getByText('All chats');
+    const allChatsListItem = getAllChatsListItem(window);
 
     const allGroupsListItem = window.getByTestId(
       `ChatFolder--${ALL_GROUPS_ID}`
@@ -182,16 +219,8 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const { phone } = bootstrap;
     const window = await app.getWindow();
 
-    const ALL_CHATS_PREDICATE = getChatFolderRecordPredicate('ALL', '', false);
-
-    const allChatsListItem = window
-      .getByTestId('ChatFoldersList')
-      .locator('.Preferences__ChatFolders__ChatSelection__Item')
-      .getByText('All chats');
-
-    const groupPresetBtn = window
-      .getByTestId('ChatFolderPreset--GroupChats')
-      .locator('button:has-text("Add")');
+    const allChatsListItem = getAllChatsListItem(window);
+    const groupPresetBtn = getGroupsPresetAddButton(window);
 
     const groupsFolderBtn = window
       .getByTestId('ChatFoldersList')
@@ -279,8 +308,6 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const { phone } = bootstrap;
     const window = await app.getWindow();
 
-    const ALL_CHATS_PREDICATE = getChatFolderRecordPredicate('ALL', '', false);
-
     let state = await phone.expectStorageState('initial state');
     expect(state.version).toBe(1);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
@@ -291,18 +318,11 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
 
     await openChatFolderSettings(window);
+    const allChatsListItem = getAllChatsListItem(window);
+    const groupPresetAddButton = getGroupsPresetAddButton(window);
 
     // update record
-    state = state.updateRecord(ALL_CHATS_PREDICATE, item => {
-      return {
-        ...item,
-        chatFolder: {
-          ...item.chatFolder,
-          position: CHAT_FOLDER_DELETED_POSITION,
-          deletedAtTimestampMs: Long.fromNumber(Date.now()),
-        },
-      };
-    });
+    state = state.removeRecord(ALL_CHATS_PREDICATE);
     state = await phone.setStorageState(state);
     expect(state.version).toBe(3);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
@@ -311,9 +331,60 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     await phone.sendFetchStorage({ timestamp: bootstrap.getTimestamp() });
     await app.waitForManifestVersion(state.version);
 
-    // wait for app to insert a new "All chats" chat folder
+    await expect(allChatsListItem).toBeVisible();
+
+    // Trigger another storage upload
+    await groupPresetAddButton.click();
     state = await phone.waitForStorageState({ after: state });
+
     expect(state.version).toBe(4);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
+  });
+
+  it('should remove duplicate all chats folders from storage service', async () => {
+    const { phone } = bootstrap;
+    const window = await app.getWindow();
+
+    let state = await phone.expectStorageState('initial state');
+    // wait for initial creation of story distribution list and "all chats" chat folder
+    state = await phone.waitForStorageState({ after: state });
+
+    expect(countAllChatsInStorageState(state)).toBe(1);
+
+    await openChatFolderSettings(window);
+    const allChatsListItem = getAllChatsListItem(window);
+    const groupPresetAddButton = getGroupsPresetAddButton(window);
+
+    const ONE = generateUuid();
+    const TWO = generateUuid();
+
+    state = state.addRecord(createAllChatsRecord(ONE));
+    state = state.addRecord(createAllChatsRecord(TWO));
+
+    state = await phone.setStorageState(state);
+    await phone.sendFetchStorage({ timestamp: bootstrap.getTimestamp() });
+    await app.waitForManifestVersion(state.version);
+
+    expect(countAllChatsInStorageState(state)).toBe(3);
+
+    // It should not have created two "all chats" folders
+    await expect(allChatsListItem).toHaveCount(1);
+
+    // Trigger another storage upload
+    await groupPresetAddButton.click();
+    state = await phone.waitForStorageState({ after: state });
+
+    // App should have removed one of the "all chats" folders
+    expect(countAllChatsInStorageState(state)).toBe(1);
+
+    // Make sure we took the updated id
+    const item = state.findRecord(ALL_CHATS_PREDICATE);
+    const idBytes = item?.record.chatFolder?.id;
+    strictAssert(idBytes != null, 'Missing all chats record with id');
+    const id = bytesToUuid(idBytes);
+    strictAssert(id != null, 'All chats record id was not valid uuid');
+
+    // Records are processed concurrently so it could be either id
+    expect([ONE, TWO].includes(id)).toBe(true);
   });
 });

@@ -2410,7 +2410,10 @@ export async function mergeChatFolderRecord(
     deletedAtTimestampMs = remoteDeletedAt;
   }
 
-  if (deletedAtTimestampMs > 0) {
+  if (remoteChatFolder.folderType === ChatFolderType.ALL) {
+    log.info(`${logPrefix}: Updating or inserting all chats folder`);
+    await DataWriter.upsertAllChatsChatFolderFromSync(remoteChatFolder);
+  } else if (deletedAtTimestampMs > 0) {
     if (localChatFolder == null) {
       log.info(
         `${logPrefix}: skipping deleted chat folder, no local record found`
@@ -2420,9 +2423,11 @@ export async function mergeChatFolderRecord(
         `${logPrefix}: skipping deleted chat folder, local record already deleted`
       );
     } else if (localDeletedAt > 0) {
-      log.info(`${logPrefix}: updating deleted chat folder timestamp `);
+      log.info(`${logPrefix}: updating deleted chat folder timestamp`);
+
       await DataWriter.updateChatFolderDeletedAtTimestampMsFromSync(
         remoteChatFolder.id,
+        // `deletedAtTimestampMs` should already be the earlier delete timestamp
         deletedAtTimestampMs
       );
       drop(chatFolderCleanupService.trigger('storage: updated timestamp'));
@@ -2433,20 +2438,17 @@ export async function mergeChatFolderRecord(
         deletedAtTimestampMs,
         false
       );
-      window.reduxActions.chatFolders.removeChatFolderRecord(
-        remoteChatFolder.id
-      );
       drop(chatFolderCleanupService.trigger('storage: deleted chat folder'));
     }
   } else if (localChatFolder == null) {
     log.info(`${logPrefix}: creating new chat folder`);
     await DataWriter.createChatFolder(remoteChatFolder);
-    window.reduxActions.chatFolders.addChatFolderRecord(remoteChatFolder);
   } else {
     log.info(`${logPrefix}: updating existing chat folder`);
     await DataWriter.updateChatFolder(remoteChatFolder);
-    window.reduxActions.chatFolders.replaceChatFolderRecord(remoteChatFolder);
   }
+
+  window.reduxActions.chatFolders.refetchChatFolders();
 
   const details = logRecordChanges(
     localChatFolder != null ? toChatFolderRecord(localChatFolder) : undefined,

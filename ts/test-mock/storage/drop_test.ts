@@ -115,7 +115,7 @@ describe('storage service', function (this: Mocha.Suite) {
           type: IdentifierType.ACCOUNT,
           record: oldAccount.record,
         })
-        .updateAccount({})
+        .updateManyAccounts({})
     );
 
     debug('sending fetch storage');
