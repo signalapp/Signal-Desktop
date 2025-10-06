@@ -45,6 +45,7 @@
     "prepare-adhoc-build": "node scripts/prepare_adhoc_build.js",
     "prepare-adhoc-version": "node scripts/prepare_tagged_version.js adhoc",
     "prepare-staging-build": "node scripts/prepare_staging_build.js",
+    "prepare-linux-build": "node scripts/prepare_linux_build.js",
     "test": "run-s test-node test-electron test-lint-intl test-eslint",
     "test-electron": "node ts/scripts/test-electron.js",
     "test-release": "node ts/scripts/test-release.js",

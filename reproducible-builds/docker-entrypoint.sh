@@ -66,4 +66,8 @@ else
   exit 1
 fi
 
+if [ "${BUILD_TARGETS}" != "" ]; then
+  pnpm run prepare-linux-build $BUILD_TARGETS
+fi
+
 pnpm run build-linux
