@@ -25,7 +25,6 @@ import { createLogger } from '../logging/log.js';
 import { isRecord } from '../util/isRecord.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.js';
-import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled.js';
 
 const log = createLogger('getKeysForServiceId');
 
@@ -187,8 +186,7 @@ async function handleServerKeys(
               preKeyBundle,
               protocolAddress,
               sessionStore,
-              identityKeyStore,
-              isPQRatchetEnabled()
+              identityKeyStore
             )
         );
       } catch (error) {

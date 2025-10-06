@@ -69,7 +69,6 @@ import { isAciString } from '../util/isAciString.js';
 import { calling } from '../services/calling.js';
 import { retryPlaceholders } from '../services/retryPlaceholders.js';
 import * as Errors from '../types/errors.js';
-import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled.js';
 
 import { SignalService as Proto } from '../protobuf/index.js';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.js';
@@ -1804,8 +1803,7 @@ export default class MessageReceiver
             identityKeyStore,
             preKeyStore,
             signedPreKeyStore,
-            kyberPreKeyStore,
-            isPQRatchetEnabled()
+            kyberPreKeyStore
           );
         }
         return signalDecrypt(
@@ -1929,8 +1927,7 @@ export default class MessageReceiver
               identityKeyStore,
               preKeyStore,
               signedPreKeyStore,
-              kyberPreKeyStore,
-              isPQRatchetEnabled()
+              kyberPreKeyStore
             )
           ),
         zone
