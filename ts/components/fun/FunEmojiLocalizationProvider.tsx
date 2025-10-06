@@ -130,9 +130,10 @@ function useFunEmojiSearchIndex(
   localeEmojiList: LocaleEmojiListType | null
 ): FunEmojiSearchIndex {
   const funEmojiSearchIndex = useMemo(() => {
+    const defaultSearchIndex = getEmojiDefaultEnglishSearchIndex();
     return localeEmojiList != null
-      ? createFunEmojiSearchIndex(localeEmojiList)
-      : getEmojiDefaultEnglishSearchIndex();
+      ? createFunEmojiSearchIndex(localeEmojiList, defaultSearchIndex)
+      : defaultSearchIndex;
   }, [localeEmojiList]);
   return funEmojiSearchIndex;
 }
@@ -141,9 +142,10 @@ function useFunEmojiLocalizerIndex(
   localeEmojiList: LocaleEmojiListType | null
 ): FunEmojiLocalizerIndex {
   const funEmojiLocalizerIndex = useMemo(() => {
+    const defaultSearchIndex = getEmojiDefaultEnglishLocalizerIndex();
     return localeEmojiList != null
-      ? createFunEmojiLocalizerIndex(localeEmojiList)
-      : getEmojiDefaultEnglishLocalizerIndex();
+      ? createFunEmojiLocalizerIndex(localeEmojiList, defaultSearchIndex)
+      : defaultSearchIndex;
   }, [localeEmojiList]);
   return funEmojiLocalizerIndex;
 }
