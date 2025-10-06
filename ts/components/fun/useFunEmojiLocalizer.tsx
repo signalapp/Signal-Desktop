@@ -23,7 +23,8 @@ export type FunEmojiLocalizer = Readonly<{
 }>;
 
 export function createFunEmojiLocalizerIndex(
-  localeEmojiList: LocaleEmojiListType
+  localeEmojiList: LocaleEmojiListType,
+  defaultLocalizerIndex?: FunEmojiLocalizerIndex
 ): FunEmojiLocalizerIndex {
   const parentKeyToLocaleShortName = new Map<EmojiParentKey, string>();
   const localeShortNameToParentKey = new Map<string, EmojiParentKey>();
@@ -37,8 +38,23 @@ export function createFunEmojiLocalizerIndex(
     const variantKey = getEmojiVariantKeyByValue(entry.emoji);
     const parentKey = getEmojiParentKeyByVariantKey(variantKey);
     const localizedShortName = entry.tags.at(0) ?? entry.shortName;
+
     parentKeyToLocaleShortName.set(parentKey, localizedShortName);
     localeShortNameToParentKey.set(localizedShortName, parentKey);
+  }
+
+  if (defaultLocalizerIndex != null) {
+    for (const [
+      parentKey,
+      defaultShortName,
+    ] of defaultLocalizerIndex.parentKeyToLocaleShortName) {
+      if (parentKeyToLocaleShortName.has(parentKey)) {
+        continue;
+      }
+
+      parentKeyToLocaleShortName.set(parentKey, defaultShortName);
+      localeShortNameToParentKey.set(defaultShortName, parentKey);
+    }
   }
 
   return { parentKeyToLocaleShortName, localeShortNameToParentKey };
