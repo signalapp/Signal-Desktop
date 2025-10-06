@@ -2351,14 +2351,16 @@ export function storageServiceUploadJobAfterEnabled({
   if (storageServiceEnabled) {
     return storageServiceUploadJob({ reason });
   }
-  log.info(`storageServiceNeedsUploadAfterEnabled: ${reason}`);
+  log.info(
+    `storageServiceNeedsUploadAfterEnabled(${reason}): waiting until enabled`
+  );
   storageServiceNeedsUploadAfterEnabled = true;
 }
 
 export const storageServiceUploadJob = debounce(
   ({ reason }: { reason: string }) => {
     if (!storageServiceEnabled) {
-      log.info('storageServiceUploadJob: called before enabled');
+      log.info(`storageServiceUploadJob(${reason}): called before enabled `);
       return;
     }
 

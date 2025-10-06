@@ -244,6 +244,7 @@ import {
   createChatFolder,
   hasAllChatsChatFolder,
   createAllChatsChatFolder,
+  upsertAllChatsChatFolderFromSync,
   updateChatFolder,
   markChatFolderDeleted,
   getOldestDeletedChatFolder,
@@ -707,6 +708,7 @@ export const DataWriter: ServerWritableInterface = {
 
   createChatFolder,
   createAllChatsChatFolder,
+  upsertAllChatsChatFolderFromSync,
   updateChatFolder,
   markChatFolderDeleted,
   deleteExpiredChatFolders,
@@ -5779,9 +5781,9 @@ function _getAttachmentDownloadJob(
 function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
-    WHERE 
-      source = ${AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA} 
-    OR 
+    WHERE
+      source = ${AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA}
+    OR
       source = ${AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA};`;
   db.prepare(query).run(params);
 }

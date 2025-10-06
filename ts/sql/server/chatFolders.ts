@@ -10,6 +10,7 @@ import {
 } from '../../types/ChatFolder.js';
 import type { ReadableDB, WritableDB } from '../Interface.js';
 import { sql } from '../util.js';
+import { strictAssert } from '../../util/assert.js';
 
 export type ChatFolderRow = Readonly<
   Omit<
@@ -178,6 +179,37 @@ export function createAllChatsChatFolder(db: WritableDB): ChatFolder {
     _insertChatFolder(db, allChatsChatFolder);
 
     return allChatsChatFolder;
+  })();
+}
+
+export function upsertAllChatsChatFolderFromSync(
+  db: WritableDB,
+  chatFolder: ChatFolder
+): void {
+  return db.transaction(() => {
+    strictAssert(
+      chatFolder.folderType === ChatFolderType.ALL,
+      'Chat folder must have folderType=ALL'
+    );
+
+    if (hasAllChatsChatFolder(db)) {
+      const chatFolderRow = chatFolderToRow(chatFolder);
+      const [query, params] = sql`
+        UPDATE chatFolders
+        SET
+          id = ${chatFolderRow.id},
+          position = ${chatFolderRow.position},
+          storageID = ${chatFolderRow.storageID},
+          storageVersion = ${chatFolderRow.storageVersion},
+          storageUnknownFields = ${chatFolderRow.storageUnknownFields},
+          storageNeedsSync = ${chatFolderRow.storageNeedsSync}
+        WHERE
+          folderType = ${ChatFolderType.ALL}
+      `;
+      db.prepare(query).run(params);
+    } else {
+      _insertChatFolder(db, chatFolder);
+    }
   })();
 }
 

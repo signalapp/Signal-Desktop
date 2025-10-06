@@ -3,6 +3,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 import { v4 as generateUuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
+import { throttle } from 'lodash';
 import type { StateType as RootStateType } from '../reducer.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
@@ -10,7 +11,6 @@ import {
   ChatFolderParamsSchema,
   lookupCurrentChatFolder,
   toCurrentChatFolders,
-  getSortedCurrentChatFolders,
   type ChatFolder,
   type ChatFolderId,
   type ChatFolderParams,
@@ -35,9 +35,6 @@ export type ChatFoldersState = ReadonlyDeep<{
 
 const CHAT_FOLDER_RECORD_REPLACE_ALL =
   'chatFolders/CHAT_FOLDER_RECORD_REPLACE_ALL';
-const CHAT_FOLDER_RECORD_ADD = 'chatFolders/RECORD_ADD';
-const CHAT_FOLDER_RECORD_REPLACE = 'chatFolders/RECORD_REPLACE';
-const CHAT_FOLDER_RECORD_REMOVE = 'chatFolders/RECORD_REMOVE';
 const CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID =
   'chatFolders/CHANGE_SELECTED_CHAT_FOLDER_ID';
 
@@ -46,32 +43,13 @@ export type ChatFolderRecordReplaceAll = ReadonlyDeep<{
   payload: CurrentChatFolders;
 }>;
 
-export type ChatFolderRecordAdd = ReadonlyDeep<{
-  type: typeof CHAT_FOLDER_RECORD_ADD;
-  payload: ChatFolder;
-}>;
-
-export type ChatFolderRecordReplace = ReadonlyDeep<{
-  type: typeof CHAT_FOLDER_RECORD_REPLACE;
-  payload: ChatFolder;
-}>;
-
-export type ChatFolderRecordRemove = ReadonlyDeep<{
-  type: typeof CHAT_FOLDER_RECORD_REMOVE;
-  payload: ChatFolderId;
-}>;
-
 export type ChatFolderChangeSelectedChatFolderId = ReadonlyDeep<{
   type: typeof CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID;
   payload: ChatFolderId | null;
 }>;
 
 export type ChatFolderAction = ReadonlyDeep<
-  | ChatFolderRecordReplaceAll
-  | ChatFolderRecordAdd
-  | ChatFolderRecordReplace
-  | ChatFolderRecordRemove
-  | ChatFolderChangeSelectedChatFolderId
+  ChatFolderRecordReplaceAll | ChatFolderChangeSelectedChatFolderId
 >;
 
 export function getEmptyState(): ChatFoldersState {
@@ -94,34 +72,26 @@ function replaceAllChatFolderRecords(
   };
 }
 
-function addChatFolderRecord(chatFolder: ChatFolder): ChatFolderRecordAdd {
-  return {
-    type: CHAT_FOLDER_RECORD_ADD,
-    payload: chatFolder,
+function _refetchChatFolders(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ChatFolderRecordReplaceAll
+> {
+  return async dispatch => {
+    const chatFolders = await DataReader.getCurrentChatFolders();
+    const currentChatFolders = toCurrentChatFolders(chatFolders);
+    dispatch(replaceAllChatFolderRecords(currentChatFolders));
   };
 }
 
-function replaceChatFolderRecord(
-  chatFolder: ChatFolder
-): ChatFolderRecordReplace {
-  return {
-    type: CHAT_FOLDER_RECORD_REPLACE,
-    payload: chatFolder,
-  };
-}
-
-function removeChatFolderRecord(
-  chatFolderId: ChatFolderId
-): ChatFolderRecordRemove {
-  return {
-    type: CHAT_FOLDER_RECORD_REMOVE,
-    payload: chatFolderId,
-  };
-}
+// Note: 100ms is just the max amount of time before
+// users start to perceive a delay
+const refetchChatFolders = throttle(_refetchChatFolders, 100);
 
 function createChatFolder(
   chatFolderParams: ChatFolderParams
-): ThunkAction<void, RootStateType, unknown, ChatFolderRecordAdd> {
+): ThunkAction<void, RootStateType, unknown, never> {
   return async (dispatch, getState) => {
     const chatFolders = getCurrentChatFolders(getState());
 
@@ -138,7 +108,7 @@ function createChatFolder(
 
     await DataWriter.createChatFolder(chatFolder);
     storageServiceUploadJob({ reason: 'createChatFolder' });
-    dispatch(addChatFolderRecord(chatFolder));
+    dispatch(_refetchChatFolders());
   };
 }
 
@@ -151,15 +121,14 @@ function createAllChatsChatFolder(): ThunkAction<
   return async dispatch => {
     await DataWriter.createAllChatsChatFolder();
     storageServiceUploadJob({ reason: 'createAllChatsChatFolder' });
-    const chatFolders = await DataReader.getCurrentChatFolders();
-    dispatch(replaceAllChatFolderRecords(toCurrentChatFolders(chatFolders)));
+    dispatch(_refetchChatFolders());
   };
 }
 
 function updateChatFolder(
   chatFolderId: ChatFolderId,
   chatFolderParams: ChatFolderParams
-): ThunkAction<void, RootStateType, unknown, ChatFolderRecordReplace> {
+): ThunkAction<void, RootStateType, unknown, never> {
   return async (dispatch, getState) => {
     const currentChatFolders = getCurrentChatFolders(getState());
 
@@ -176,24 +145,24 @@ function updateChatFolder(
 
     await DataWriter.updateChatFolder(nextChatFolder);
     storageServiceUploadJob({ reason: 'updateChatFolder' });
-    dispatch(replaceChatFolderRecord(nextChatFolder));
+    dispatch(_refetchChatFolders());
   };
 }
 
 function deleteChatFolder(
   chatFolderId: ChatFolderId
-): ThunkAction<void, RootStateType, unknown, ChatFolderRecordRemove> {
+): ThunkAction<void, RootStateType, unknown, never> {
   return async dispatch => {
     await DataWriter.markChatFolderDeleted(chatFolderId, Date.now(), true);
     storageServiceUploadJob({ reason: 'deleteChatFolder' });
-    dispatch(removeChatFolderRecord(chatFolderId));
+    dispatch(_refetchChatFolders());
     drop(chatFolderCleanupService.trigger('redux: deleted chat folder'));
   };
 }
 
 function updateChatFoldersPositions(
   chatFolderIds: ReadonlyArray<ChatFolderId>
-): ThunkAction<void, RootStateType, unknown, ChatFolderRecordReplaceAll> {
+): ThunkAction<void, RootStateType, unknown, never> {
   return async (dispatch, getState) => {
     const currentChatFolders = getCurrentChatFolders(getState());
     const chatFolders = chatFolderIds.map((chatFolderId, index) => {
@@ -205,7 +174,7 @@ function updateChatFoldersPositions(
     });
     await DataWriter.updateChatFolderPositions(chatFolders);
     storageServiceUploadJob({ reason: 'updateChatFoldersPositions' });
-    dispatch(replaceAllChatFolderRecords(toCurrentChatFolders(chatFolders)));
+    dispatch(_refetchChatFolders());
   };
 }
 
@@ -219,10 +188,7 @@ function updateSelectedChangeFolderId(
 }
 
 export const actions = {
-  replaceAllChatFolderRecords,
-  addChatFolderRecord,
-  replaceChatFolderRecord,
-  removeChatFolderRecord,
+  refetchChatFolders,
   createChatFolder,
   createAllChatsChatFolder,
   updateChatFolder,
@@ -244,37 +210,6 @@ export function reducer(
       return {
         ...state,
         currentChatFolders: action.payload,
-      };
-    case CHAT_FOLDER_RECORD_ADD:
-      return {
-        ...state,
-        currentChatFolders: toCurrentChatFolders([
-          ...getSortedCurrentChatFolders(state.currentChatFolders),
-          action.payload,
-        ]),
-      };
-    case CHAT_FOLDER_RECORD_REPLACE:
-      return {
-        ...state,
-        currentChatFolders: toCurrentChatFolders([
-          ...getSortedCurrentChatFolders(state.currentChatFolders).filter(
-            chatFolder => {
-              return chatFolder.id !== action.payload.id;
-            }
-          ),
-          action.payload,
-        ]),
-      };
-    case CHAT_FOLDER_RECORD_REMOVE:
-      return {
-        ...state,
-        currentChatFolders: toCurrentChatFolders(
-          getSortedCurrentChatFolders(state.currentChatFolders).filter(
-            chatFolder => {
-              return chatFolder.id !== action.payload;
-            }
-          )
-        ),
       };
     case CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID:
       return {
