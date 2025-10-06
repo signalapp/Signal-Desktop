@@ -231,7 +231,7 @@ export function initializeMigrations({
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
   const loadStickerData = MessageType.loadStickerData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
-  const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
+  const deleteAttachmentOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createEncryptedWriterForNew(attachmentsPath);
   const doesAttachmentExist = createDoesExist(attachmentsPath);
 
@@ -282,16 +282,13 @@ export function initializeMigrations({
     attachmentsPath,
     copyStickerIntoAttachmentsDirectory,
     copyAttachmentIntoTempDirectory,
-    deleteAttachmentData: deleteOnDisk,
+    deleteAttachmentData: deleteAttachmentOnDisk,
     deleteAvatar,
     deleteDownloadData: deleteDownloadOnDisk,
     deleteDraftFile,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
-      deleteAttachmentData: Type.deleteData({
-        deleteOnDisk,
-        deleteDownloadOnDisk,
-      }),
-      deleteOnDisk,
+      deleteAttachmentOnDisk,
+      deleteDownloadOnDisk,
     }),
     deleteSticker,
     deleteTempFile,
@@ -327,7 +324,6 @@ export function initializeMigrations({
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,
-        deleteOnDisk,
         logger,
       }),
     processNewSticker: (stickerData: Uint8Array) =>
@@ -349,7 +345,7 @@ export function initializeMigrations({
       const { maxVersion } = options;
 
       return MessageType.upgradeSchema(message, {
-        deleteOnDisk,
+        deleteAttachmentOnDisk,
         doesAttachmentExist,
         getImageDimensions,
         getRegionCode,

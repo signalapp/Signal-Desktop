@@ -38,6 +38,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
 import type { MessageAttachmentType } from './AttachmentDownload.js';
+import { getFilePathsOwnedByAttachment } from '../util/messageFilePaths.js';
 import { strictAssert } from '../util/assert.js';
 
 const {
@@ -438,15 +439,17 @@ export function loadData(
   };
 }
 
-export function deleteData({
-  deleteOnDisk,
+export function deleteAllAttachmentFilesOnDisk({
+  deleteAttachmentOnDisk,
   deleteDownloadOnDisk,
 }: {
-  deleteOnDisk: (path: string) => Promise<void>;
+  deleteAttachmentOnDisk: (path: string) => Promise<void>;
   deleteDownloadOnDisk: (path: string) => Promise<void>;
 }): (attachment?: AttachmentType) => Promise<void> {
-  if (!isFunction(deleteOnDisk)) {
-    throw new TypeError('deleteData: deleteOnDisk must be a function');
+  if (!isFunction(deleteAttachmentOnDisk)) {
+    throw new TypeError(
+      'deleteAttachmentOnDisk: deleteAttachmentOnDisk must be a function'
+    );
   }
 
   return async (attachment?: AttachmentType): Promise<void> => {
@@ -454,28 +457,11 @@ export function deleteData({
       throw new TypeError('deleteData: attachment is not valid');
     }
 
-    const { path, downloadPath, thumbnail, screenshot, thumbnailFromBackup } =
-      attachment;
-
-    if (isString(path)) {
-      await deleteOnDisk(path);
-    }
-
-    if (isString(downloadPath)) {
-      await deleteDownloadOnDisk(downloadPath);
-    }
-
-    if (thumbnail && isString(thumbnail.path)) {
-      await deleteOnDisk(thumbnail.path);
-    }
-
-    if (screenshot && isString(screenshot.path)) {
-      await deleteOnDisk(screenshot.path);
-    }
-
-    if (thumbnailFromBackup && isString(thumbnailFromBackup.path)) {
-      await deleteOnDisk(thumbnailFromBackup.path);
-    }
+    const result = getFilePathsOwnedByAttachment(attachment);
+    await Promise.all(
+      [...result.externalAttachments].map(deleteAttachmentOnDisk)
+    );
+    await Promise.all([...result.externalDownloads].map(deleteDownloadOnDisk));
   };
 }
 

@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client.js';
-import { deleteData } from '../types/Attachment.js';
+import { deleteAllAttachmentFilesOnDisk } from '../types/Attachment.js';
 
 import type { MessageAttributesType } from '../model-types.js';
 import type { ConversationModel } from '../models/conversations.js';
@@ -63,11 +63,11 @@ export async function deleteAttachmentFromMessage(
     fallbackPlaintextHash?: string;
   },
   {
-    deleteOnDisk,
+    deleteAttachmentOnDisk,
     deleteDownloadOnDisk,
     logId,
   }: {
-    deleteOnDisk: (path: string) => Promise<void>;
+    deleteAttachmentOnDisk: (path: string) => Promise<void>;
     deleteDownloadOnDisk: (path: string) => Promise<void>;
     logId: string;
   }
@@ -85,7 +85,7 @@ export async function deleteAttachmentFromMessage(
   const message = window.MessageCache.register(new MessageModel(found));
 
   return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
-    deleteOnDisk,
+    deleteAttachmentOnDisk,
     deleteDownloadOnDisk,
     logId,
     shouldSave: true,
@@ -104,12 +104,12 @@ export async function applyDeleteAttachmentFromMessage(
     fallbackPlaintextHash?: string;
   },
   {
-    deleteOnDisk,
+    deleteAttachmentOnDisk,
     deleteDownloadOnDisk,
     shouldSave,
     logId,
   }: {
-    deleteOnDisk: (path: string) => Promise<void>;
+    deleteAttachmentOnDisk: (path: string) => Promise<void>;
     deleteDownloadOnDisk: (path: string) => Promise<void>;
     shouldSave: boolean;
     logId: string;
@@ -148,7 +148,10 @@ export async function applyDeleteAttachmentFromMessage(
         if (shouldSave) {
           await saveMessage(message.attributes, { ourAci, postSaveUpdates });
         }
-        await deleteData({ deleteOnDisk, deleteDownloadOnDisk })(attachment);
+        await deleteAllAttachmentFilesOnDisk({
+          deleteAttachmentOnDisk,
+          deleteDownloadOnDisk,
+        })(attachment);
 
         return true;
       }

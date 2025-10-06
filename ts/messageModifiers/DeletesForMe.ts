@@ -111,7 +111,8 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
             item.message,
             item.deleteAttachmentData,
             {
-              deleteOnDisk: window.Signal.Migrations.deleteAttachmentData,
+              deleteAttachmentOnDisk:
+                window.Signal.Migrations.deleteAttachmentData,
               deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
               logId,
             }

@@ -106,7 +106,8 @@ export async function modifyTargetMessage(
           {
             logId,
             shouldSave: false,
-            deleteOnDisk: window.Signal.Migrations.deleteAttachmentData,
+            deleteAttachmentOnDisk:
+              window.Signal.Migrations.deleteAttachmentData,
             deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
           }
         );
