@@ -50,7 +50,7 @@ ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 ENV CI=true
 
 # Install pnpm
-RUN npm install -g pnpm@10.6.4
+RUN npm install -g pnpm@10.18.1
 
 RUN git config --global --add safe.directory /project
 
