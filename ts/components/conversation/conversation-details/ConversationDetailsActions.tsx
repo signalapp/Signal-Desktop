@@ -237,7 +237,7 @@ export function ConversationDetailsActions({
             }
           )}
         >
-          {i18n('icu:ConversationDetailsActions--unblock-group-modal-content')}
+          {i18n('icu:ConversationDetailsActions--unblock-group-modal-body')}
         </ConfirmationDialog>
       )}
 
