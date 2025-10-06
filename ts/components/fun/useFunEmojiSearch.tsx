@@ -37,9 +37,12 @@ export type FunEmojiSearch = (
 ) => ReadonlyArray<FunEmojiSearchResult>;
 
 export function createFunEmojiSearchIndex(
-  localeEmojiList: LocaleEmojiListType
+  localeEmojiList: LocaleEmojiListType,
+  defaultSearchIndex: ReadonlyArray<FunEmojiSearchIndexEntry> = []
 ): FunEmojiSearchIndex {
   const results: Array<FunEmojiSearchIndexEntry> = [];
+
+  const localizedKeys = new Set<string>();
 
   for (const localeEmoji of localeEmojiList) {
     if (!isEmojiParentValue(localeEmoji.emoji)) {
@@ -54,6 +57,7 @@ export function createFunEmojiSearchIndex(
 
     const parentKey = getEmojiParentKeyByValue(localeEmoji.emoji);
     const emoji = getEmojiParentByKey(parentKey);
+    localizedKeys.add(parentKey);
     results.push({
       key: parentKey,
       rank: localeEmoji.rank,
@@ -64,6 +68,12 @@ export function createFunEmojiSearchIndex(
       emoticon: emoji.emoticonDefault,
       emoticons: emoji.emoticons,
     });
+  }
+
+  for (const defaultEntry of defaultSearchIndex) {
+    if (!localizedKeys.has(defaultEntry.key)) {
+      results.push(defaultEntry);
+    }
   }
 
   return results;
