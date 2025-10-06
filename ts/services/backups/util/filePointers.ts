@@ -8,11 +8,11 @@ import {
   stringToMIMEType,
 } from '../../../types/MIME.js';
 import { createLogger } from '../../../logging/log.js';
+import type { AttachmentType } from '../../../types/Attachment.js';
 import {
-  type AttachmentType,
   hasRequiredInformationForBackup,
   hasRequiredInformationToDownloadFromTransitTier,
-} from '../../../types/Attachment.js';
+} from '../../../util/Attachment.js';
 import { Backups, SignalService } from '../../../protobuf/index.js';
 import * as Bytes from '../../../Bytes.js';
 import {

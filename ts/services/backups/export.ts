@@ -23,7 +23,7 @@ import type {
   IdentityKeyType,
 } from '../../sql/Interface.js';
 import { createLogger } from '../../logging/log.js';
-import { GiftBadgeStates } from '../../components/conversation/Message.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
 import { type CustomColorType } from '../../types/Colors.js';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.js';
 import { getStickerPacksForBackup } from '../../types/Stickers.js';
@@ -125,12 +125,12 @@ import {
   numberToPhoneType,
 } from '../../types/EmbeddedContact.js';
 import { toLogFormat } from '../../types/errors.js';
+import type { AttachmentType } from '../../types/Attachment.js';
 import {
-  type AttachmentType,
   isGIF,
   isDownloaded,
   hasRequiredInformationForBackup,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import { getFilePointerForAttachment } from './util/filePointers.js';
 import { getBackupMediaRootKey } from './crypto.js';
 import type {

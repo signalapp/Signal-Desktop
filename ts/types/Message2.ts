@@ -17,7 +17,7 @@ import {
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
   shouldGenerateThumbnailForAttachmentType,
-} from './Attachment.js';
+} from '../util/Attachment.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
 import * as Errors from './errors.js';
 import * as SchemaVersion from './SchemaVersion.js';

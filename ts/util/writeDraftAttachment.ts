@@ -6,7 +6,7 @@ import type {
   InMemoryAttachmentDraftType,
   AttachmentDraftType,
 } from '../types/Attachment.js';
-import { isImageAttachment } from '../types/Attachment.js';
+import { isImageAttachment } from './Attachment.js';
 import { getImageDimensions } from '../types/VisualAttachment.js';
 import { IMAGE_PNG } from '../types/MIME.js';
 import * as Errors from '../types/errors.js';

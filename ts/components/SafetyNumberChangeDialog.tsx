@@ -27,13 +27,6 @@ import { UserText } from './UserText.js';
 
 const { noop } = lodash;
 
-export enum SafetyNumberChangeSource {
-  InitiateCall = 'InitiateCall',
-  JoinCall = 'JoinCall',
-  MessageSend = 'MessageSend',
-  Story = 'Story',
-}
-
 enum DialogState {
   StartingInReview = 'StartingInReview',
   ExplicitReviewNeeded = 'ExplicitReviewNeeded',

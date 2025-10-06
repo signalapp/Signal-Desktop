@@ -12,7 +12,7 @@ import {
   defaultBlurHash,
   isIncremental,
   isReadyToView,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import { SpinnerV2 } from '../SpinnerV2.js';
 import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.js';
 

@@ -5,7 +5,7 @@ import { v4 as generateGuid } from 'uuid';
 
 import { SendStatus } from '../../messages/MessageSendState.js';
 import type { ConversationModel } from '../../models/conversations.js';
-import { GiftBadgeStates } from '../../components/conversation/Message.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
 
 import { DataWriter } from '../../sql/Client.js';
 import { getRandomBytes } from '../../Crypto.js';

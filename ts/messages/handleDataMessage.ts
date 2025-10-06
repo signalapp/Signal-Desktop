@@ -49,7 +49,7 @@ import { isMessageEmpty } from '../util/isMessageEmpty.js';
 import { isValidTapToView } from '../util/isValidTapToView.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
 import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
-import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.js';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import {

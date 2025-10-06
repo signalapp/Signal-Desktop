@@ -5,7 +5,7 @@ import type { ChangeEventHandler } from 'react';
 import React, { forwardRef } from 'react';
 
 import type { AttachmentDraftType } from '../types/Attachment.js';
-import { isVideoAttachment, isImageAttachment } from '../types/Attachment.js';
+import { isVideoAttachment, isImageAttachment } from '../util/Attachment.js';
 import type { LocalizerType } from '../types/Util.js';
 
 import {

@@ -260,6 +260,18 @@ const typescriptRules = {
 
   // TODO: DESKTOP-4655
   'import/no-cycle': 'off',
+  'import/no-restricted-paths': [
+    'error',
+    {
+      zones: [
+        {
+          target: ['ts/util', 'ts/types'],
+          from: ['ts/components', 'ts/axo'],
+          message: 'Importing components is forbidden from ts/{util,types}',
+        },
+      ],
+    },
+  ],
 };
 
 const TAILWIND_REPLACEMENTS = [

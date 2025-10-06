@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
-import { isImageAttachment } from '../types/Attachment.js';
+import { isImageAttachment } from '../util/Attachment.js';
 
 const MINIMUM_FULL_SIZE_DIMENSION = 200;
 

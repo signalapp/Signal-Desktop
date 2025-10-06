@@ -18,10 +18,8 @@ import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.js';
 import { missingCaseError } from './util/missingCaseError.js';
 import type { StorageInterface } from './types/Storage.d.ts';
 import * as Errors from './types/errors.js';
-import {
-  HTTPError,
-  type SendMessageChallengeData,
-} from './textsecure/Errors.js';
+import { HTTPError } from './types/HTTPError.js';
+import type { SendMessageChallengeData } from './textsecure/Errors.js';
 import { createLogger } from './logging/log.js';
 import { drop } from './util/drop.js';
 import { findRetryAfterTimeFromError } from './jobs/helpers/findRetryAfterTimeFromError.js';

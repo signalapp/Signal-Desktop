@@ -33,7 +33,7 @@ import { drop } from '../util/drop.js';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
 import { SEALED_SENDER } from '../types/SealedSender.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto.js';

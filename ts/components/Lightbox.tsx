@@ -22,7 +22,7 @@ import { Avatar, AvatarSize } from './Avatar.js';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME.js';
 import { formatDateTimeForAttachment } from '../util/timestamp.js';
 import { formatDuration } from '../util/formatDuration.js';
-import { isGIF, isIncremental } from '../types/Attachment.js';
+import { isGIF, isIncremental } from '../util/Attachment.js';
 import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
 import { usePrevious } from '../hooks/usePrevious.js';
 import { arrow } from '../util/keyboard.js';

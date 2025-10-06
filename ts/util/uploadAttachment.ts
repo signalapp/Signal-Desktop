@@ -21,7 +21,7 @@ import {
 } from '../AttachmentCrypto.js';
 import { missingCaseError } from './missingCaseError.js';
 import { uuidToBytes } from './uuidToBytes.js';
-import { isVisualMedia } from '../types/Attachment.js';
+import { isVisualMedia } from './Attachment.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 

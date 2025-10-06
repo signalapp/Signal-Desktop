@@ -21,7 +21,7 @@ import {
   type SubscriptionCostType,
 } from '../../types/backups.js';
 import { uploadFile } from '../../util/uploadAttachment.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import { createLogger } from '../../logging/log.js';
 import { toLogFormat } from '../../types/errors.js';
 

@@ -22,7 +22,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { useLinkPreviewActions } from '../ducks/linkPreviews.js';
 import { SmartCompositionTextArea } from './CompositionTextArea.js';
 import { useToastActions } from '../ducks/toast.js';
-import { isDownloaded } from '../../types/Attachment.js';
+import { isDownloaded } from '../../util/Attachment.js';
 import { getMessageById } from '../../messages/getMessageById.js';
 import { strictAssert } from '../../util/assert.js';
 import type {

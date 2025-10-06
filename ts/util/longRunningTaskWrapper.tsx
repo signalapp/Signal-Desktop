@@ -6,10 +6,13 @@ import { createRoot, type Root } from 'react-dom/client';
 
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
+// eslint-disable-next-line import/no-restricted-paths
 import { ProgressModal } from '../components/ProgressModal.js';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
 import { sleep } from './sleep.js';
+// eslint-disable-next-line import/no-restricted-paths
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.js';
+// eslint-disable-next-line import/no-restricted-paths
 import { AxoProvider } from '../axo/AxoProvider.js';
 
 const log = createLogger('longRunningTaskWrapper');

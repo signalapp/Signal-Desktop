@@ -15,7 +15,7 @@ import { JobQueue } from './JobQueue.js';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
 import { parseIntWithFallback } from '../util/parseIntWithFallback.js';
 import type { WebAPIType } from '../textsecure/WebAPI.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { sleeper } from '../util/sleeper.js';
 import { parseUnknown } from '../util/schemas.js';
 

@@ -28,6 +28,7 @@ import { drop } from '../util/drop.js';
 import type { ProxyAgent } from '../util/createProxyAgent.js';
 import { createProxyAgent } from '../util/createProxyAgent.js';
 import { type SocketInfo, SocketStatus } from '../types/SocketStatus.js';
+import { HTTPError } from '../types/HTTPError.js';
 import * as Errors from '../types/errors.js';
 import * as Bytes from '../Bytes.js';
 import { createLogger } from '../logging/log.js';
@@ -42,7 +43,7 @@ import WebSocketResource, {
   connectUnauthenticatedLibsignal,
   ServerRequestType,
 } from './WebsocketResources.js';
-import { ConnectTimeoutError, HTTPError } from './Errors.js';
+import { ConnectTimeoutError } from './Errors.js';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
 import { connect as connectWebSocket } from './WebSocket.js';
 import { type ServerAlert } from '../util/handleServerAlerts.js';

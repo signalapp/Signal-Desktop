@@ -13,7 +13,6 @@ import { generateAci } from '../../types/ServiceId.js';
 import type { DeviceType } from '../../textsecure/Types.d.ts';
 import {
   ConnectTimeoutError,
-  HTTPError,
   IncorrectSenderKeyAuthError,
   MessageError,
   OutgoingIdentityKeyError,
@@ -24,6 +23,7 @@ import {
   UnknownRecipientError,
   UnregisteredUserError,
 } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 
 describe('sendToGroup', () => {
   const serviceIdOne = generateAci();

@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// eslint-disable-next-line import/no-restricted-paths
 import type { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList.js';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
+  // eslint-disable-next-line import/no-restricted-paths
 } from '../components/conversation/conversation-details/PendingInvites.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import type { ServiceIdString } from '../types/ServiceId.js';

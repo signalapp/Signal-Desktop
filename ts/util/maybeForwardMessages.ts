@@ -5,7 +5,7 @@ import type { AttachmentType } from '../types/Attachment.js';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.js';
 import type { QuotedMessageType } from '../model-types.js';
 import { createLogger } from '../logging/log.js';
-import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog.js';
+import { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.js';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.js';
 import {
   getMessageIdForLogging,

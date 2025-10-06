@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isRecord } from '../../util/isRecord.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter.js';
 
 export function findRetryAfterTimeFromError(

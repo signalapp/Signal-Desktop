@@ -3,7 +3,7 @@
 
 import { existsSync } from 'node:fs';
 import lodash from 'lodash';
-import { type BackupableAttachmentType } from '../types/Attachment.js';
+import type { BackupableAttachmentType } from '../types/Attachment.js';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,

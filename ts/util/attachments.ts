@@ -11,7 +11,7 @@ import type {
   AttachmentType,
   UploadedAttachmentType,
 } from '../types/Attachment.js';
-import { canBeTranscoded } from '../types/Attachment.js';
+import { canBeTranscoded } from './Attachment.js';
 import * as Errors from '../types/errors.js';
 import * as Bytes from '../Bytes.js';
 

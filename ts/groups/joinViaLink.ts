@@ -11,7 +11,7 @@ import { DataWriter } from '../sql/Client.js';
 import * as Bytes from '../Bytes.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import type { ContactAvatarType } from '../types/Avatar.js';
 import { ToastType } from '../types/Toast.js';

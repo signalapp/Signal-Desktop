@@ -22,7 +22,7 @@ import type {
   ConversationsUpdatedActionType,
 } from './conversations.js';
 import { createLogger } from '../../logging/log.js';
-import { isAudio } from '../../types/Attachment.js';
+import { isAudio } from '../../util/Attachment.js';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.js';
 import { assertDev } from '../../util/assert.js';
 

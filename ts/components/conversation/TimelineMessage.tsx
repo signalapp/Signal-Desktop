@@ -15,7 +15,7 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
-import { isDownloaded } from '../../types/Attachment.js';
+import { isDownloaded } from '../../util/Attachment.js';
 import type { LocalizerType } from '../../types/I18N.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.js';
 import { offsetDistanceModifier } from '../../util/popperUtil.js';

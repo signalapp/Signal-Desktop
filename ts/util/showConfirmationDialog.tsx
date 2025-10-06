@@ -3,8 +3,11 @@
 
 import React, { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+// eslint-disable-next-line import/no-restricted-paths
 import { ConfirmationDialog } from '../components/ConfirmationDialog.js';
+// eslint-disable-next-line import/no-restricted-paths
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.js';
+// eslint-disable-next-line import/no-restricted-paths
 import { AxoProvider } from '../axo/AxoProvider.js';
 
 type ConfirmationDialogViewProps = {

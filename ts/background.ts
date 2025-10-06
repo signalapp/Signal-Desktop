@@ -13,7 +13,7 @@ import type {
   SessionResetsType,
   ProcessedDataMessage,
 } from './textsecure/Types.d.ts';
-import { HTTPError } from './textsecure/Errors.js';
+import { HTTPError } from './types/HTTPError.js';
 import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,

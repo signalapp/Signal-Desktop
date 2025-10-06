@@ -5,7 +5,7 @@ import type { ConversationAttributesType } from '../model-types.js';
 import type { DraftPreviewType } from '../state/ducks/conversations.js';
 import { findAndFormatContact } from './findAndFormatContact.js';
 import { hydrateRanges } from '../types/BodyRange.js';
-import { isVoiceMessage } from '../types/Attachment.js';
+import { isVoiceMessage } from './Attachment.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.js';
 
 export function getDraftPreview(

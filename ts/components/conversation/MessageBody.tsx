@@ -4,7 +4,7 @@
 import type { KeyboardEvent } from 'react';
 import React from 'react';
 import type { AttachmentType } from '../../types/Attachment.js';
-import { canBeDownloaded, isDownloaded } from '../../types/Attachment.js';
+import { canBeDownloaded, isDownloaded } from '../../util/Attachment.js';
 import type { ShowConversationType } from '../../state/ducks/conversations.js';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
 import type { LocalizerType } from '../../types/Util.js';

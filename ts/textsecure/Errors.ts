@@ -3,57 +3,18 @@
 
 /* eslint-disable max-classes-per-file */
 
-import type { Response } from 'node-fetch';
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import { parseRetryAfter } from '../util/parseRetryAfter.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
+import type { HTTPError } from '../types/HTTPError.js';
+import type { HeaderListType } from '../types/WebAPI.d.ts';
 
 import type { CallbackResultType } from './Types.d.ts';
-import type { HeaderListType } from './WebAPI.js';
 
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
-}
-
-export class HTTPError extends Error {
-  public override readonly name = 'HTTPError';
-
-  public readonly code: number;
-
-  public readonly responseHeaders: HeaderListType;
-
-  public readonly response: unknown;
-
-  static fromResponse(response: Response): HTTPError {
-    return new HTTPError(response.statusText, {
-      code: response.status,
-      headers: Object.fromEntries(response.headers),
-      response,
-    });
-  }
-
-  constructor(
-    message: string,
-    options: {
-      code: number;
-      headers: HeaderListType;
-      response?: unknown;
-      stack?: string;
-      cause?: unknown;
-    }
-  ) {
-    super(`${message}; code: ${options.code}`, { cause: options.cause });
-
-    const { code: providedCode, headers, response, stack } = options;
-
-    this.code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
-    this.responseHeaders = headers;
-
-    this.stack += `\nOriginal stack:\n${stack}`;
-    this.response = response;
-  }
 }
 
 export class ReplayableError extends Error {

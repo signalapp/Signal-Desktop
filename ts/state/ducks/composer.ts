@@ -11,13 +11,12 @@ import type {
   AddLinkPreviewActionType,
   RemoveLinkPreviewActionType,
 } from './linkPreviews.js';
-import {
-  type AttachmentType,
-  type AttachmentDraftType,
-  type InMemoryAttachmentDraftType,
-  isVideoAttachment,
-  isImageAttachment,
+import type {
+  AttachmentType,
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
 } from '../../types/Attachment.js';
+import { isVideoAttachment, isImageAttachment } from '../../util/Attachment.js';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import type { DraftBodyRanges } from '../../types/BodyRange.js';
@@ -38,7 +37,7 @@ import { completeRecording, getIsRecording } from './audioRecorder.js';
 import { SHOW_TOAST } from './toast.js';
 import type { AnyToast } from '../../types/Toast.js';
 import { ToastType } from '../../types/Toast.js';
-import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.js';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.js';
 import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments.js';

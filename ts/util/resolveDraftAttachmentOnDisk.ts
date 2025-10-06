@@ -3,7 +3,7 @@
 
 import { createLogger } from '../logging/log.js';
 import type { AttachmentDraftType } from '../types/Attachment.js';
-import { isVideoAttachment } from '../types/Attachment.js';
+import { isVideoAttachment } from './Attachment.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,

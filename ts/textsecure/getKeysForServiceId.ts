@@ -11,11 +11,7 @@ import {
   PublicKey,
 } from '@signalapp/libsignal-client';
 
-import {
-  OutgoingIdentityKeyError,
-  UnregisteredUserError,
-  HTTPError,
-} from './Errors.js';
+import { OutgoingIdentityKeyError, UnregisteredUserError } from './Errors.js';
 import { Sessions, IdentityKeys } from '../LibSignalStores.js';
 import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
@@ -24,6 +20,7 @@ import type { ServerKeysType, WebAPIType } from './WebAPI.js';
 import { createLogger } from '../logging/log.js';
 import { isRecord } from '../util/isRecord.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.js';
 
 const log = createLogger('getKeysForServiceId');

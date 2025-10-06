@@ -29,7 +29,7 @@ import type {
   ProcessedGiftBadge,
   ProcessedStoryContext,
 } from './Types.d.ts';
-import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.js';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME.js';
 import { SECOND, DurationInSeconds } from '../util/durations/index.js';
 import type { AnyPaymentEvent } from '../types/Payment.js';
@@ -37,7 +37,7 @@ import { PaymentEventKind } from '../types/Payment.js';
 import { filterAndClean } from '../types/BodyRange.js';
 import { bytesToUuid } from '../util/uuidToBytes.js';
 import { createName } from '../util/attachmentPath.js';
-import { partitionBodyAndNormalAttachments } from '../types/Attachment.js';
+import { partitionBodyAndNormalAttachments } from '../util/Attachment.js';
 import { isNotNil } from '../util/isNotNil.js';
 
 const { isNumber } = lodash;

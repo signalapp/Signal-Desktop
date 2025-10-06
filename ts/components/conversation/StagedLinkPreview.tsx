@@ -11,7 +11,7 @@ import { LinkPreviewDate } from './LinkPreviewDate.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
 import type { LocalizerType } from '../../types/Util.js';
 import { getClassNamesFor } from '../../util/getClassNamesFor.js';
-import { isImageAttachment } from '../../types/Attachment.js';
+import { isImageAttachment } from '../../util/Attachment.js';
 import { isCallLink } from '../../types/LinkPreview.js';
 import { Avatar } from '../Avatar.js';
 import { getColorForCallLink } from '../../util/getColorForCallLink.js';

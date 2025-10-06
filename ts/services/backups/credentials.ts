@@ -33,7 +33,7 @@ import {
   BackupCredentialType,
 } from '../../types/backups.js';
 import { toLogFormat } from '../../types/errors.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import type {
   GetBackupCredentialsResponseType,
   GetBackupCDNCredentialsResponseType,

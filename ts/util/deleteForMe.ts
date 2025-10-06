@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.js';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client.js';
-import { deleteAllAttachmentFilesOnDisk } from '../types/Attachment.js';
+import { deleteAllAttachmentFilesOnDisk } from './Attachment.js';
 
 import type { MessageAttributesType } from '../model-types.js';
 import type { ConversationModel } from '../models/conversations.js';

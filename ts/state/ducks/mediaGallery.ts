@@ -24,7 +24,7 @@ import type {
   MessageExpiredActionType,
 } from './conversations.js';
 import type { MediaItemType } from '../../types/MediaItem.js';
-import { isFile, isVisualMedia } from '../../types/Attachment.js';
+import { isFile, isVisualMedia } from '../../util/Attachment.js';
 import type { StateType as RootStateType } from '../reducer.js';
 import { getPropsForAttachment } from '../selectors/message.js';
 

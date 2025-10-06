@@ -43,7 +43,7 @@ import { ToastType } from '../types/Toast.js';
 import { getAvatarColor } from '../types/Colors.js';
 import { getStoryBackground } from '../util/getStoryBackground.js';
 import { getStoryDuration } from '../util/getStoryDuration.js';
-import { isVideoAttachment } from '../types/Attachment.js';
+import { isVideoAttachment } from '../util/Attachment.js';
 import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice.js';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
 import { useRetryStorySend } from '../hooks/useRetryStorySend.js';

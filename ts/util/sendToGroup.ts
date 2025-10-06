@@ -42,7 +42,6 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
-  HTTPError,
 } from '../textsecure/Errors.js';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores.js';
 import type { ConversationModel } from '../models/conversations.js';
@@ -55,6 +54,7 @@ import type {
 import type { SendTypesType } from './handleMessageSend.js';
 import { handleMessageSend, shouldSaveProto } from './handleMessageSend.js';
 import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { parseIntOrThrow } from './parseIntOrThrow.js';
 import {
   multiRecipient200ResponseSchema,

@@ -4,7 +4,7 @@
 import { DataReader } from '../../../sql/Client.js';
 import * as Bytes from '../../../Bytes.js';
 import { getBackupMediaRootKey } from '../crypto.js';
-import { type BackupableAttachmentType } from '../../../types/Attachment.js';
+import type { BackupableAttachmentType } from '../../../types/Attachment.js';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;

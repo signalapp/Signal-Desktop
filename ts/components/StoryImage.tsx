@@ -18,7 +18,7 @@ import {
   isDownloaded,
   isDownloading,
   isGIF,
-} from '../types/Attachment.js';
+} from '../util/Attachment.js';
 import { getClassNamesFor } from '../util/getClassNamesFor.js';
 import { isVideoTypeSupported } from '../util/GoogleChrome.js';
 import { createLogger } from '../logging/log.js';

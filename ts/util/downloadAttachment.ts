@@ -2,17 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
+  hasRequiredInformationForBackup,
+  wasImportedFromLocalBackup,
+} from './Attachment.js';
+import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  hasRequiredInformationForBackup,
-  wasImportedFromLocalBackup,
 } from '../types/Attachment.js';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.js';
 import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import { createLogger } from '../logging/log.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { toLogFormat } from '../types/errors.js';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
 import * as RemoteConfig from '../RemoteConfig.js';

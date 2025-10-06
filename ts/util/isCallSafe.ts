@@ -7,7 +7,7 @@ import { createLogger } from '../logging/log.js';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.js';
 import { getRecipientsByConversation } from './getRecipientsByConversation.js';
 
-import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog.js';
+import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.js';
 
 const log = createLogger('isCallSafe');
 

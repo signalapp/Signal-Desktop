@@ -8,7 +8,7 @@ import { createLogger } from '../logging/log.js';
 import type { AciString } from '../types/ServiceId.js';
 import * as Errors from '../types/errors.js';
 import { ToastType } from '../types/Toast.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { strictAssert } from './assert.js';
 import type { UUIDFetchStateKeyType } from './uuidFetchState.js';
 import { getServiceIdsForE164s } from './getServiceIdsForE164s.js';

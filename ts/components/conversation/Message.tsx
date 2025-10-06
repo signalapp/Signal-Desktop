@@ -53,6 +53,7 @@ import type { WidthBreakpoint } from '../_util.js';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.js';
 import { createLogger } from '../../logging/log.js';
 import { StoryViewModeType } from '../../types/Stories.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
 import type {
   AttachmentForUIType,
   AttachmentType,
@@ -71,7 +72,7 @@ import {
   isImageAttachment,
   isPlayed,
   isVideo,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
 
 import { getIncrement } from '../../util/timer.js';
@@ -207,13 +208,6 @@ export type AudioAttachmentProps = {
   cancelAttachmentDownload(): void;
   onCorrupted(): void;
 };
-
-export enum GiftBadgeStates {
-  Unopened = 'Unopened',
-  Opened = 'Opened',
-  Redeemed = 'Redeemed',
-  Failed = 'Failed',
-}
 
 export type GiftBadgeType =
   | {

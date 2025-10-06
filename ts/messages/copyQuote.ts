@@ -14,7 +14,7 @@ import { getQuoteBodyText } from '../util/getQuoteBodyText.js';
 import { isQuoteAMatch, messageHasPaymentEvent } from './helpers.js';
 import * as Errors from '../types/errors.js';
 import type { MessageModel } from '../models/messages.js';
-import { isDownloadable } from '../types/Attachment.js';
+import { isDownloadable } from '../util/Attachment.js';
 
 const { omit } = lodash;
 

@@ -3,7 +3,7 @@
 
 import type { AttachmentType } from '../types/Attachment.js';
 import type { LocalizerType } from '../types/Util.js';
-import { isGIF, isImage, isVideo } from '../types/Attachment.js';
+import { isGIF, isImage, isVideo } from './Attachment.js';
 
 export function getStoryReplyText(
   i18n: LocalizerType,

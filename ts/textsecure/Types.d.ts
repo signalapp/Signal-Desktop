@@ -11,7 +11,7 @@ import type {
   PniString,
 } from '../types/ServiceId.js';
 import type { TextAttachmentType } from '../types/Attachment.js';
-import type { GiftBadgeStates } from '../components/conversation/Message.js';
+import type { GiftBadgeStates } from '../types/GiftBadgeStates.js';
 import type { MIMEType } from '../types/MIME.js';
 import type { DurationInSeconds } from '../util/durations/index.js';
 import type { AnyPaymentEvent } from '../types/Payment.js';

@@ -27,7 +27,7 @@ import {
   getCachedAttachmentBySignature,
   cacheAttachmentBySignature,
   getUndownloadedAttachmentSignature,
-} from '../types/Attachment.js';
+} from './Attachment.js';
 import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.js';
 import type { StickerType } from '../types/Stickers.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';

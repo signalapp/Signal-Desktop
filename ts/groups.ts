@@ -54,7 +54,7 @@ import type {
   GroupCredentialsType,
   GroupLogResponseType,
 } from './textsecure/WebAPI.js';
-import { HTTPError } from './textsecure/Errors.js';
+import { HTTPError } from './types/HTTPError.js';
 import type MessageSender from './textsecure/SendMessage.js';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.js';
 import type { ConversationModel } from './models/conversations.js';
