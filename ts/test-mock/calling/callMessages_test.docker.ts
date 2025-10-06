@@ -223,7 +223,9 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
 
       // Wait for audio levels indicator to be visible.
       await expect(
-        window2.locator('.CallingAudioIndicator--with-content')
+        window2.locator(
+          '.module-ongoing-call__direct-call-speaking-indicator > .CallingAudioIndicator--with-content'
+        )
       ).toBeVisible({ timeout: 15000 });
     } finally {
       await bootstrap2.screenshotWindow(window2, 'callee');
