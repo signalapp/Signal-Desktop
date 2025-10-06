@@ -45,7 +45,6 @@ const KnownConfigKeys = [
   'desktop.pollReceive.alpha',
   'desktop.pollReceive.beta',
   'desktop.pollReceive.prod',
-  'desktop.usePqRatchet',
   'global.attachments.maxBytes',
   'global.attachments.maxReceiveBytes',
   'global.backups.mediaTierFallbackCdnNumber',
