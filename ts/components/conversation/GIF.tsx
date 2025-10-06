@@ -13,7 +13,7 @@ import {
   getImageDimensionsForTimeline,
   defaultBlurHash,
   isDownloadable,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import * as Errors from '../../types/errors.js';
 import { createLogger } from '../../logging/log.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.js';

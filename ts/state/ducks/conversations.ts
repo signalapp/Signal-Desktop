@@ -19,7 +19,7 @@ import { assertDev, strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
 import type { DurationInSeconds } from '../../util/durations/index.js';
 import * as universalExpireTimer from '../../util/universalExpireTimer.js';
-import * as Attachment from '../../types/Attachment.js';
+import * as Attachment from '../../util/Attachment.js';
 import type { LocalizerType } from '../../types/I18N.js';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.js';
 import { isFileDangerous } from '../../util/isFileDangerous.js';

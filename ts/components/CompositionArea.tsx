@@ -38,7 +38,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment.js';
-import { isImageAttachment, isVoiceMessage } from '../types/Attachment.js';
+import { isImageAttachment, isVoiceMessage } from '../util/Attachment.js';
 import type { AciString } from '../types/ServiceId.js';
 import { AudioCapture } from './conversation/AudioCapture.js';
 import { CompositionUpload } from './CompositionUpload.js';

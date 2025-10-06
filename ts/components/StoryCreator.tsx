@@ -17,7 +17,7 @@ import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator.
 import type { PropsType as MediaEditorPropsType } from './MediaEditor.js';
 
 import { TEXT_ATTACHMENT } from '../types/MIME.js';
-import { isVideoAttachment } from '../types/Attachment.js';
+import { isVideoAttachment } from '../util/Attachment.js';
 import { SendStoryModal } from './SendStoryModal.js';
 
 import { MediaEditor } from './MediaEditor.js';

@@ -18,7 +18,7 @@ import { isRecord } from '../../util/isRecord.js';
 import { strictAssert } from '../../util/assert.js';
 import * as Registration from '../../util/registration.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import {
   Provisioner,
   EventKind as ProvisionEventKind,

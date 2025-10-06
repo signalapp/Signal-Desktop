@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling.js';
-import { getSuggestedFilename } from '../../types/Attachment.js';
+import { getSuggestedFilename } from '../../util/Attachment.js';
 import { IMAGE_PNG, type MIMEType } from '../../types/MIME.js';
 
 export type PropsType = {

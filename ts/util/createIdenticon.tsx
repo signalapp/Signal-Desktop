@@ -10,6 +10,7 @@ import {
   IdenticonSVGForCallLink,
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
+  // eslint-disable-next-line import/no-restricted-paths
 } from '../components/IdenticonSVG.js';
 import { missingCaseError } from './missingCaseError.js';
 

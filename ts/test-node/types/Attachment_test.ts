@@ -3,7 +3,11 @@
 
 import { assert } from 'chai';
 
-import * as Attachment from '../../types/Attachment.js';
+import * as Attachment from '../../util/Attachment.js';
+import type {
+  LocalAttachmentV2Type,
+  AttachmentType,
+} from '../../types/Attachment.js';
 import * as MIME from '../../types/MIME.js';
 import { SignalService } from '../../protobuf/index.js';
 import * as Bytes from '../../Bytes.js';
@@ -15,7 +19,7 @@ import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFil
 
 const logger = createLogger('Attachment_test');
 
-const FAKE_LOCAL_ATTACHMENT: Attachment.LocalAttachmentV2Type = {
+const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
   version: 2,
   size: 1,
   plaintextHash: 'bogus',
@@ -26,7 +30,7 @@ const FAKE_LOCAL_ATTACHMENT: Attachment.LocalAttachmentV2Type = {
 describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
-      const input: Attachment.AttachmentType = fakeAttachment({
+      const input: AttachmentType = fakeAttachment({
         data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,
       });
@@ -34,7 +38,7 @@ describe('Attachment', () => {
     });
 
     it('should return file extension for QuickTime videos', () => {
-      const input: Attachment.AttachmentType = fakeAttachment({
+      const input: AttachmentType = fakeAttachment({
         data: Bytes.fromString('foo'),
         contentType: MIME.VIDEO_QUICKTIME,
       });
@@ -45,7 +49,7 @@ describe('Attachment', () => {
   describe('getSuggestedFilename', () => {
     context('for attachment with filename', () => {
       it('should return existing filename if present', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
@@ -57,7 +61,7 @@ describe('Attachment', () => {
     });
     context('for attachment without filename', () => {
       it('should generate a filename based on timestamp', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
@@ -74,7 +78,7 @@ describe('Attachment', () => {
     });
     context('for attachment with index', () => {
       it('should use filename if it is provided', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
@@ -91,7 +95,7 @@ describe('Attachment', () => {
       });
 
       it('should use filename if it is provided and index is 1', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
@@ -109,7 +113,7 @@ describe('Attachment', () => {
       });
 
       it('should use filename if it is provided and index is >1', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
@@ -127,7 +131,7 @@ describe('Attachment', () => {
       });
 
       it('should use provided index if > 1 and filename not provided', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
@@ -144,7 +148,7 @@ describe('Attachment', () => {
       });
 
       it('should not use provided index == 1 if filename not provided', () => {
-        const attachment: Attachment.AttachmentType = fakeAttachment({
+        const attachment: AttachmentType = fakeAttachment({
           data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
@@ -164,7 +168,7 @@ describe('Attachment', () => {
 
   describe('isVisualMedia', () => {
     it('should return true for images', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.gif',
         data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
@@ -173,7 +177,7 @@ describe('Attachment', () => {
     });
 
     it('should return true for videos', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.mp4',
         data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
@@ -182,7 +186,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for voice message attachment', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
         data: Bytes.fromString('voice message'),
@@ -192,7 +196,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for other attachments', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.json',
         data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
@@ -203,7 +207,7 @@ describe('Attachment', () => {
 
   describe('isFile', () => {
     it('should return true for JSON', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.json',
         data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
@@ -212,7 +216,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for images', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.gif',
         data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
@@ -221,7 +225,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for videos', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.mp4',
         data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
@@ -230,7 +234,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for voice message attachment', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
         data: Bytes.fromString('voice message'),
@@ -242,7 +246,7 @@ describe('Attachment', () => {
 
   describe('isVoiceMessage', () => {
     it('should return true for voice message attachment', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
         data: Bytes.fromString('voice message'),
@@ -252,7 +256,7 @@ describe('Attachment', () => {
     });
 
     it('should return true for legacy Android voice message attachment', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_MP3,
       });
@@ -260,7 +264,7 @@ describe('Attachment', () => {
     });
 
     it('should return false for other attachments', () => {
-      const attachment: Attachment.AttachmentType = fakeAttachment({
+      const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.gif',
         data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,

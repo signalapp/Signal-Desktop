@@ -16,7 +16,7 @@ import { PaymentEventKind } from '../types/Payment.js';
 import type { AnyPaymentEvent } from '../types/Payment.js';
 import type { LocalizerType } from '../types/Util.js';
 import { missingCaseError } from '../util/missingCaseError.js';
-import { isDownloaded } from '../types/Attachment.js';
+import { isDownloaded } from '../util/Attachment.js';
 
 const log = createLogger('helpers');
 

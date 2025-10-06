@@ -13,7 +13,7 @@ import { EmojiPicker } from '../emoji/EmojiPicker.js';
 import type { AudioAttachmentProps } from './Message.js';
 import type { Props } from './TimelineMessage.js';
 import { TimelineMessage } from './TimelineMessage.js';
-import { GiftBadgeStates, TextDirection } from './Message.js';
+import { TextDirection } from './Message.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -33,6 +33,7 @@ import { getDefaultConversation } from '../../test-helpers/getDefaultConversatio
 import { WidthBreakpoint } from '../_util.js';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.js';
 import { ContactFormType } from '../../types/EmbeddedContact.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
 import { generateAci } from '../../types/ServiceId.js';
 
 import {

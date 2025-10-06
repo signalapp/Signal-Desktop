@@ -16,7 +16,7 @@ import {
   defaultBlurHash,
   isGIF,
   isVideoAttachment,
-} from '../../../types/Attachment.js';
+} from '../../../util/Attachment.js';
 import { ImageOrBlurhash } from '../../ImageOrBlurhash.js';
 import { SpinnerV2 } from '../../SpinnerV2.js';
 import { tw } from '../../../axo/tw.js';

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import { findRetryAfterTimeFromError } from '../../../jobs/helpers/findRetryAfterTimeFromError.js';
-import { HTTPError } from '../../../textsecure/Errors.js';
+import { HTTPError } from '../../../types/HTTPError.js';
 import { MINUTE } from '../../../util/durations/index.js';
 
 describe('findRetryAfterTimeFromError', () => {

@@ -17,7 +17,7 @@ import {
   isDownloadable,
   isIncremental,
   isVideoAttachment,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 
 import { Image, CurveType } from './Image.js';
 

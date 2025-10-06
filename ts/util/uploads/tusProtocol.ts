@@ -3,7 +3,7 @@
 import { type Readable } from 'node:stream';
 import fetch, { type RequestInit, type Response } from 'node-fetch';
 
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import { createLogger } from '../../logging/log.js';
 import * as Errors from '../../types/errors.js';
 import { sleep } from '../sleep.js';

@@ -5,13 +5,13 @@ import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messa
 import MessageSender from '../../textsecure/SendMessage.js';
 import { createLogger } from '../../logging/log.js';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { AttachmentType } from '../../types/Attachment.js';
 import {
-  type AttachmentType,
   isDownloading,
   isDownloaded,
   isDownloadable,
   getUndownloadedAttachmentSignature,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import {
   type MessageAttachmentType,
   AttachmentDownloadUrgency,

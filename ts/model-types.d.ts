@@ -13,10 +13,7 @@ import type { ReadStatus } from './messages/MessageReadStatus.js';
 import type { SendStateByConversationId } from './messages/MessageSendState.js';
 import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.js';
 
-import type {
-  AttachmentDraftType,
-  AttachmentType,
-} from './types/Attachment.js';
+import type { AttachmentDraftType, AttachmentType } from './util/Attachment.js';
 import type { EmbeddedContactType } from './types/EmbeddedContact.js';
 import { SignalService as Proto } from './protobuf/index.js';
 import type { AvatarDataType, ContactAvatarType } from './types/Avatar.js';
@@ -27,7 +24,7 @@ import type {
 } from './types/ServiceId.js';
 import type { StoryDistributionIdString } from './types/StoryDistributionId.js';
 import type { SeenStatus } from './MessageSeenStatus.js';
-import type { GiftBadgeStates } from './components/conversation/Message.js';
+import type { GiftBadgeStates } from './types/GiftBadgeStates.js';
 import type { LinkPreviewType } from './types/message/LinkPreviews.js';
 
 import type { StickerType } from './types/Stickers.js';

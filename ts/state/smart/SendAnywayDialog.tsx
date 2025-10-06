@@ -3,12 +3,10 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import * as SingleServePromise from '../../services/singleServePromise.js';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.js';
-import {
-  SafetyNumberChangeDialog,
-  SafetyNumberChangeSource,
-} from '../../components/SafetyNumberChangeDialog.js';
+import { SafetyNumberChangeDialog } from '../../components/SafetyNumberChangeDialog.js';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer.js';
 import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra.js';
 import { getIntl, getTheme } from '../selectors/user.js';

@@ -25,7 +25,7 @@ import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.js';
 import { createName, getRelativePath } from '../../util/attachmentPath.js';
 import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
 import { SECOND } from '../../util/durations/index.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 
 const { ensureFile } = fsExtra;
 

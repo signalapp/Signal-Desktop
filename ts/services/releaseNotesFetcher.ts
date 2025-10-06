@@ -9,7 +9,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
 import * as Registration from '../util/registration.js';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { drop } from '../util/drop.js';
 import { strictAssert } from '../util/assert.js';
 import type { MessageAttributesType } from '../model-types.js';

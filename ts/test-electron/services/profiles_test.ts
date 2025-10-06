@@ -8,7 +8,7 @@ import { drop } from '../../util/drop.js';
 
 import { ProfileService } from '../../services/profiles.js';
 import { generateAci } from '../../types/ServiceId.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 
 describe('util/profiles', () => {
   const SERVICE_ID_1 = generateAci();

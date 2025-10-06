@@ -36,6 +36,7 @@ import { createProxyAgent } from '../util/createProxyAgent.js';
 import type { ProxyAgent } from '../util/createProxyAgent.js';
 import type { FetchFunctionType } from '../util/uploads/tusProtocol.js';
 import { VerificationTransport } from '../types/VerificationTransport.js';
+import type { HeaderListType } from '../types/WebAPI.d.ts';
 import { ZERO_ACCESS_KEY } from '../types/SealedSender.js';
 import { toLogFormat } from '../types/errors.js';
 import { isPackIdValid, redactPackId } from '../util/Stickers.js';
@@ -51,6 +52,7 @@ import {
   untaggedPniSchema,
 } from '../types/ServiceId.js';
 import type { BackupPresentationHeadersType } from '../types/backups.js';
+import { HTTPError } from '../types/HTTPError.js';
 import * as Bytes from '../Bytes.js';
 import { getRandomBytes, randomInt } from '../Crypto.js';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.js';
@@ -66,7 +68,6 @@ import { CDSI } from './cds/CDSI.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.js';
 
-import { HTTPError } from './Errors.js';
 import type MessageSender from './SendMessage.js';
 import type {
   WebAPICredentials,
@@ -172,7 +173,6 @@ function getContentType(response: Response) {
 }
 
 type FetchHeaderListType = { [name: string]: string };
-export type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 
 type RedactUrl = (url: string) => string;

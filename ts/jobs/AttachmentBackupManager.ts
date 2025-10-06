@@ -45,11 +45,11 @@ import {
 } from '../services/backups/util/mediaId.js';
 import { fromBase64, toBase64 } from '../Bytes.js';
 import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { AttachmentType } from '../types/Attachment.js';
 import {
-  type AttachmentType,
   canAttachmentHaveThumbnail,
   mightStillBeOnTransitTier,
-} from '../types/Attachment.js';
+} from '../util/Attachment.js';
 import {
   type CreatedThumbnailType,
   makeImageThumbnailForBackup,

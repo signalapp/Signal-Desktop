@@ -30,8 +30,8 @@ import type {
 import {
   hasRequiredInformationForBackup,
   isVoiceMessage,
-  type AttachmentType,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
+import type { AttachmentType } from '../../types/Attachment.js';
 import { strictAssert } from '../../util/assert.js';
 import { SignalService } from '../../protobuf/index.js';
 import { getRandomBytes } from '../../Crypto.js';

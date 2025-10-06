@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { HTTPError } from './Errors.js';
+import type { HTTPError } from '../types/HTTPError.js';
 
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {

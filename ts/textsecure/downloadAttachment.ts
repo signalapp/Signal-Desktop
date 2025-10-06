@@ -12,12 +12,12 @@ import fsExtra from 'fs-extra';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { strictAssert } from '../util/assert.js';
+import { hasRequiredInformationForBackup } from '../util/Attachment.js';
 import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  hasRequiredInformationForBackup,
   type BackupableAttachmentType,
 } from '../types/Attachment.js';
 import * as Bytes from '../Bytes.js';
@@ -49,9 +49,9 @@ import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto.js';
 import { BackupCredentialType } from '../types/backups.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { getValue } from '../RemoteConfig.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
-import { HTTPError } from './Errors.js';
 
 const { ensureFile } = fsExtra;
 

@@ -15,7 +15,7 @@ import {
 } from '../../services/backups/util/filePointers.js';
 import { IMAGE_PNG } from '../../types/MIME.js';
 import * as Bytes from '../../Bytes.js';
-import { type AttachmentType } from '../../types/Attachment.js';
+import type { AttachmentType } from '../../types/Attachment.js';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.js';
 import { generateKeys } from '../../AttachmentCrypto.js';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.js';

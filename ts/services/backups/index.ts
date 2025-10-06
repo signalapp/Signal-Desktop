@@ -42,7 +42,7 @@ import {
   type BackupsSubscriptionType,
   type BackupStatusType,
 } from '../../types/backups.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import { constantTimeEqual } from '../../Crypto.js';
 import { measureSize } from '../../AttachmentCrypto.js';
 import { isTestOrMockEnvironment } from '../../environment.js';

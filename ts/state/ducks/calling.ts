@@ -84,7 +84,7 @@ import {
   isAnybodyInGroupCall,
   MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
 } from './callingHelpers.js';
-import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,

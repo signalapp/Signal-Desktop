@@ -25,9 +25,9 @@ import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.js';
 import type { MessageWithUIFieldsType } from '../ducks/conversations.js';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { getMessageIdForLogging } from '../../util/idForLogging.js';
-import * as Attachment from '../../types/Attachment.js';
+import * as Attachment from '../../util/Attachment.js';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.js';
-import { isPlayed } from '../../types/Attachment.js';
+import { isPlayed } from '../../util/Attachment.js';
 import type { ServiceIdString } from '../../types/ServiceId.js';
 
 const log = createLogger('audioPlayer');

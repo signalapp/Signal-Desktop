@@ -22,7 +22,7 @@ import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import {
   getUndownloadedAttachmentSignature,
   isIncremental,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,

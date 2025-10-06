@@ -23,7 +23,7 @@ import {
   sql,
   sqlJoin,
 } from './util.js';
-import { type AttachmentType } from '../types/Attachment.js';
+import type { AttachmentType } from '../types/Attachment.js';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,

@@ -3,11 +3,8 @@
 
 import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.js';
-import {
-  isVoiceMessage,
-  type AttachmentForUIType,
-  isDownloaded,
-} from './Attachment.js';
+import type { AttachmentForUIType } from './Attachment.js';
+import { isVoiceMessage, isDownloaded } from '../util/Attachment.js';
 import type { HydratedBodyRangesType } from './BodyRange.js';
 import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
 

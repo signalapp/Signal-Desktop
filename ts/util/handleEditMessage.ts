@@ -17,7 +17,7 @@ import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
   isVoiceMessage,
-} from '../types/Attachment.js';
+} from './Attachment.js';
 import { isAciString } from './isAciString.js';
 import { getMessageIdForLogging } from './idForLogging.js';
 import { hasErrors } from '../state/selectors/message.js';

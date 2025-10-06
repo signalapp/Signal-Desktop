@@ -11,7 +11,7 @@ import type { StickerType } from '../types/Stickers.js';
 import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.js';
 import { getAuthor } from '../messages/helpers.js';
 import { getQuoteBodyText } from './getQuoteBodyText.js';
-import { isGIF } from '../types/Attachment.js';
+import { isGIF } from './Attachment.js';
 import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
 import { createLogger } from '../logging/log.js';
 import { map, take, collect } from './iterables.js';

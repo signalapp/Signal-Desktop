@@ -31,11 +31,11 @@ import {
   SendMessageNetworkError,
   SendMessageChallengeError,
   UnregisteredUserError,
-  HTTPError,
 } from './Errors.js';
 import type { CallbackResultType, CustomError } from './Types.d.ts';
 import { Address } from '../types/Address.js';
 import * as Errors from '../types/errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { Sessions, IdentityKeys } from '../LibSignalStores.js';

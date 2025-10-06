@@ -6,7 +6,7 @@ import { z } from 'zod';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
-import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.js';
 import { ReadStatus } from '../messages/MessageReadStatus.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';

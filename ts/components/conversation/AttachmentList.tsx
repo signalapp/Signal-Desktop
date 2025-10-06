@@ -16,7 +16,7 @@ import {
   canDisplayImage,
   isImageAttachment,
   isVideoAttachment,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 
 export type Props<T extends AttachmentForUIType | AttachmentDraftType> =
   Readonly<{

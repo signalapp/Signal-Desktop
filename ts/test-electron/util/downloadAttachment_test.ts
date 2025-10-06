@@ -9,7 +9,7 @@ import { DataWriter } from '../../sql/Client.js';
 import { IMAGE_PNG } from '../../types/MIME.js';
 import { downloadAttachment } from '../../util/downloadAttachment.js';
 import { MediaTier } from '../../types/AttachmentDownload.js';
-import { HTTPError } from '../../textsecure/Errors.js';
+import { HTTPError } from '../../types/HTTPError.js';
 import {
   getCdnNumberForBackupTier,
   type downloadAttachment as downloadAttachmentFromServer,

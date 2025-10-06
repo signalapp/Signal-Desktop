@@ -4,10 +4,8 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
-import {
-  HTTPError,
-  SendMessageProtoError,
-} from '../../../textsecure/Errors.js';
+import { SendMessageProtoError } from '../../../textsecure/Errors.js';
+import { HTTPError } from '../../../types/HTTPError.js';
 import { SECOND } from '../../../util/durations/index.js';
 
 import {

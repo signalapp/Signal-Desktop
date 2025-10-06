@@ -23,7 +23,7 @@ import {
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
 import MessageSender from '../textsecure/SendMessage.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
 import * as Bytes from '../Bytes.js';
 import { storageServiceUploadJob } from './storage.js';

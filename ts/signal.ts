@@ -10,7 +10,7 @@ import { isProduction } from './util/version.js';
 import { DataReader, DataWriter } from './sql/Client.js';
 
 // Types
-import * as TypesAttachment from './types/Attachment.js';
+import * as TypesAttachment from './util/Attachment.js';
 import * as VisualAttachment from './types/VisualAttachment.js';
 import * as MessageType from './types/Message2.js';
 import { Address } from './types/Address.js';

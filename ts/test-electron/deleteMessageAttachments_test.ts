@@ -12,10 +12,8 @@ import { getDownloadsPath, getPath } from '../windows/main/attachments.js';
 
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
 import type { MessageAttributesType } from '../model-types.js';
-import {
-  type AttachmentType,
-  deleteAllAttachmentFilesOnDisk,
-} from '../types/Attachment.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { deleteAllAttachmentFilesOnDisk } from '../util/Attachment.js';
 import { strictAssert } from '../util/assert.js';
 
 const { emptyDir, ensureFile } = fsExtra;

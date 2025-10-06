@@ -61,10 +61,10 @@ import { getRandomBytes } from '../Crypto.js';
 import {
   MessageError,
   SendMessageProtoError,
-  HTTPError,
   NoSenderKeyError,
 } from './Errors.js';
 import { BodyRange } from '../types/BodyRange.js';
+import { HTTPError } from '../types/HTTPError.js';
 import type { RawBodyRange } from '../types/BodyRange.js';
 import type { StoryContextType } from '../types/Util.js';
 import type {

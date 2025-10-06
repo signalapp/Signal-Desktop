@@ -21,7 +21,7 @@ import {
   type IdentityKeyType,
 } from '../../sql/Interface.js';
 import { createLogger } from '../../logging/log.js';
-import { GiftBadgeStates } from '../../components/conversation/Message.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.js';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
 import * as LinkPreview from '../../types/LinkPreview.js';

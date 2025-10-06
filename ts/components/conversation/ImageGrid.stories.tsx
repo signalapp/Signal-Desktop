@@ -17,7 +17,7 @@ import {
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.js';
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
 import { strictAssert } from '../../util/assert.js';
-import { isDownloadable } from '../../types/Attachment.js';
+import { isDownloadable } from '../../util/Attachment.js';
 
 const { i18n } = window.SignalContext;
 

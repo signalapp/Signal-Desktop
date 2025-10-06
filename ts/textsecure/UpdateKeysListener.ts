@@ -7,7 +7,7 @@ import * as Registration from '../util/registration.js';
 import { ServiceIdKind } from '../types/ServiceId.js';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
-import { HTTPError } from './Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 
 const log = createLogger('UpdateKeysListener');
 

@@ -9,7 +9,7 @@ import type { AttachmentType } from '../types/Attachment.js';
 import {
   doAttachmentsOnSameMessageMatch,
   isDownloaded,
-} from '../types/Attachment.js';
+} from '../util/Attachment.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { trimMessageWhitespace } from '../types/BodyRange.js';
 

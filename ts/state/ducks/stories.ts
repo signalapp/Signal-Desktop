@@ -31,7 +31,7 @@ import { SIGNAL_ACI } from '../../types/SignalConversation.js';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SendStatus } from '../../messages/MessageSendState.js';
-import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import {
   areStoryViewReceiptsEnabled,
   StoryViewDirectionType,
@@ -53,7 +53,7 @@ import {
   hasFailed,
   isDownloaded,
   isDownloading,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import {
   getConversationSelector,
   getHideStoryConversationIds,

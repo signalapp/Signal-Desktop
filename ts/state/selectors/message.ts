@@ -70,7 +70,7 @@ import {
   isVoiceMessage,
   isIncremental,
   defaultBlurHash,
-} from '../../types/Attachment.js';
+} from '../../util/Attachment.js';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.js';
 import { type DefaultConversationColorType } from '../../types/Colors.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.js';

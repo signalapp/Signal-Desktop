@@ -27,13 +27,15 @@ import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
+} from '../types/Attachment.js';
+import {
   wasImportedFromLocalBackup,
   canAttachmentHaveThumbnail,
   shouldAttachmentEndUpInRemoteBackup,
   getUndownloadedAttachmentSignature,
   isIncremental,
   hasRequiredInformationForBackup,
-} from '../types/Attachment.js';
+} from '../util/Attachment.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.js';
 import { getMessageById } from '../messages/getMessageById.js';
@@ -69,7 +71,7 @@ import { formatCountForLogging } from '../logging/formatCountForLogging.js';
 import { strictAssert } from '../util/assert.js';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.js';
-import { HTTPError } from '../textsecure/Errors.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { isOlderThan } from '../util/timestamp.js';
 import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.js';
 import { JobCancelReason } from './types.js';

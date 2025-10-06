@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getUrl, type AttachmentForUIType } from '../types/Attachment.js';
+import type { AttachmentForUIType } from '../types/Attachment.js';
+import { getUrl } from '../util/Attachment.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';

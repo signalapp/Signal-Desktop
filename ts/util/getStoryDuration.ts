@@ -8,7 +8,7 @@ import {
   isDownloaded,
   isGIF,
   isVideo,
-} from '../types/Attachment.js';
+} from './Attachment.js';
 import { count } from './grapheme.js';
 import { SECOND } from './durations/index.js';
 import { createLogger } from '../logging/log.js';

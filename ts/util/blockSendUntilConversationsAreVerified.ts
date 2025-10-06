@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog.js';
+import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.js';
 import { createLogger } from '../logging/log.js';
 import { explodePromise } from './explodePromise.js';
 import type {

@@ -16,7 +16,7 @@ import type {
 } from './conversations.js';
 import type { MessagePropsType } from '../selectors/message.js';
 import type { RecipientsByConversation } from './stories.js';
-import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
+import type { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import type { StateType as RootStateType } from '../reducer.js';
 import * as SingleServePromise from '../../services/singleServePromise.js';
 import * as Stickers from '../../types/Stickers.js';
@@ -39,7 +39,7 @@ import {
   MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations.js';
-import { isDownloaded } from '../../types/Attachment.js';
+import { isDownloaded } from '../../util/Attachment.js';
 import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.js';
 import type { ButtonVariant } from '../../components/Button.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.js';

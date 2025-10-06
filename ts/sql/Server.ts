@@ -253,11 +253,8 @@ import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.js';
 import * as durations from '../util/durations/index.js';
-import {
-  isFile,
-  isVisualMedia,
-  type AttachmentType,
-} from '../types/Attachment.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { isFile, isVisualMedia } from '../util/Attachment.js';
 import { generateMessageId } from '../util/generateMessageId.js';
 import type {
   ConversationColorType,

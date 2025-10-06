@@ -12,9 +12,10 @@ import { getUserAgent } from '../util/getUserAgent.js';
 import * as durations from '../util/durations/index.js';
 import type { ProxyAgent } from '../util/createProxyAgent.js';
 import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
+import { HTTPError } from '../types/HTTPError.js';
 import { createLogger } from '../logging/log.js';
 import * as Timers from '../Timers.js';
-import { ConnectTimeoutError, HTTPError } from './Errors.js';
+import { ConnectTimeoutError } from './Errors.js';
 import { handleStatusCode, translateError } from './Utils.js';
 
 const { client: WebSocketClient } = ws;
