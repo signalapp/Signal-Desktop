@@ -2838,8 +2838,4 @@ export class SignalProtocolStore extends EventEmitter {
   }
 }
 
-export function getSignalProtocolStore(): SignalProtocolStore {
-  return new SignalProtocolStore();
-}
-
-window.SignalProtocolStore = SignalProtocolStore;
+export const signalProtocolStore = new SignalProtocolStore();

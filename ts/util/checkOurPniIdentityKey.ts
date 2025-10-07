@@ -3,6 +3,7 @@
 
 import { createLogger } from '../logging/log.js';
 import { constantTimeEqual } from '../Crypto.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { strictAssert } from './assert.js';
 
 const log = createLogger('checkOurPniIdentityKey');
@@ -19,7 +20,7 @@ export async function checkOurPniIdentityKey(): Promise<void> {
     return;
   }
 
-  const localKeyPair = await window.storage.protocol.getIdentityKeyPair(ourPni);
+  const localKeyPair = await signalProtocolStore.getIdentityKeyPair(ourPni);
   if (!localKeyPair) {
     log.warn(`no local key pair for ${ourPni}, unlinking`);
     window.Whisper.events.emit('unlinkAndDisconnect');

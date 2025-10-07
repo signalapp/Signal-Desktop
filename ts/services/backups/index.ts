@@ -45,6 +45,7 @@ import {
 import { HTTPError } from '../../types/HTTPError.js';
 import { constantTimeEqual } from '../../Crypto.js';
 import { measureSize } from '../../AttachmentCrypto.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.js';
 import { isTestOrMockEnvironment } from '../../environment.js';
 import { runStorageServiceSyncJob } from '../storage.js';
 import { BackupExportStream, type StatsType } from './export.js';
@@ -1014,7 +1015,7 @@ export class BackupsService {
 
     try {
       log.info('backups.unlinkAndDeleteAllData: deleting all data');
-      await window.textsecure.storage.protocol.removeAllData();
+      await signalProtocolStore.removeAllData();
       log.info('backups.unlinkAndDeleteAllData: all data deleted successfully');
     } catch (e) {
       log.error(

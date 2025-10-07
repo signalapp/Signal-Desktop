@@ -45,6 +45,7 @@ import { createLogger } from '../logging/log.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { isSignalServiceId } from '../util/isSignalConversation.js';
 import * as Bytes from '../Bytes.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 const { reject } = lodash;
 
@@ -274,7 +275,7 @@ export default class OutgoingMessage {
   ): () => Promise<void> {
     return async () => {
       const ourAci = window.textsecure.storage.user.getCheckedAci();
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+      const deviceIds = await signalProtocolStore.getDeviceIds({
         ourServiceId: ourAci,
         serviceId,
       });
@@ -452,7 +453,7 @@ export default class OutgoingMessage {
           new Address(serviceId, destinationDeviceId)
         );
 
-        return window.textsecure.storage.protocol.enqueueSessionJob<MessageType>(
+        return signalProtocolStore.enqueueSessionJob<MessageType>(
           address,
           async () => {
             const protocolAddress = ProtocolAddress.new(
@@ -622,7 +623,7 @@ export default class OutgoingMessage {
           } else {
             p = Promise.all(
               (response.staleDevices || []).map(async (deviceId: number) => {
-                await window.textsecure.storage.protocol.archiveSession(
+                await signalProtocolStore.archiveSession(
                   new QualifiedAddress(ourAci, new Address(serviceId, deviceId))
                 );
               })
@@ -655,7 +656,7 @@ export default class OutgoingMessage {
           );
 
           log.info('closing all sessions for', serviceId);
-          window.textsecure.storage.protocol.archiveAllSessions(serviceId).then(
+          signalProtocolStore.archiveAllSessions(serviceId).then(
             () => {
               throw error;
             },
@@ -687,7 +688,7 @@ export default class OutgoingMessage {
 
     await Promise.all(
       deviceIdsToRemove.map(async deviceId => {
-        await window.textsecure.storage.protocol.archiveSession(
+        await signalProtocolStore.archiveSession(
           new QualifiedAddress(ourAci, new Address(serviceId, deviceId))
         );
       })
@@ -706,7 +707,7 @@ export default class OutgoingMessage {
 
     try {
       const ourAci = window.textsecure.storage.user.getCheckedAci();
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+      const deviceIds = await signalProtocolStore.getDeviceIds({
         ourServiceId: ourAci,
         serviceId,
       });

@@ -15,9 +15,9 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
 
+import { GLOBAL_ZONE, signalProtocolStore } from '../SignalProtocolStore.js';
 import { DataWriter } from '../sql/Client.js';
 import type { ConversationModel } from '../models/conversations.js';
-import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
 import { assertDev, strictAssert } from '../util/assert.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
 import { Address } from '../types/Address.js';
@@ -1368,9 +1368,7 @@ export default class MessageSender {
             }
             if (isPniString(serviceId)) {
               const pniIdentityKey =
-                await window.textsecure.storage.protocol.loadIdentityKey(
-                  serviceId
-                );
+                await signalProtocolStore.loadIdentityKey(serviceId);
               if (pniIdentityKey) {
                 status.destinationPniIdentityKey = pniIdentityKey;
               }
@@ -2297,33 +2295,30 @@ export default class MessageSender {
     );
 
     const senderKeyDistributionMessage =
-      await window.textsecure.storage.protocol.enqueueSenderKeyJob(
-        address,
-        async () => {
-          const senderKeyStore = new SenderKeys({
-            ourServiceId: ourAci,
-            zone: GLOBAL_ZONE,
-          });
+      await signalProtocolStore.enqueueSenderKeyJob(address, async () => {
+        const senderKeyStore = new SenderKeys({
+          ourServiceId: ourAci,
+          zone: GLOBAL_ZONE,
+        });
 
-          if (throwIfNotInDatabase) {
-            const key = await senderKeyStore.getSenderKey(
-              protocolAddress,
-              distributionId
-            );
-            if (!key) {
-              throw new NoSenderKeyError(
-                `getSenderKeyDistributionMessage: Distribution ${distributionId} was not in database as expected`
-              );
-            }
-          }
-
-          return SenderKeyDistributionMessage.create(
+        if (throwIfNotInDatabase) {
+          const key = await senderKeyStore.getSenderKey(
             protocolAddress,
-            distributionId,
-            senderKeyStore
+            distributionId
           );
+          if (!key) {
+            throw new NoSenderKeyError(
+              `getSenderKeyDistributionMessage: Distribution ${distributionId} was not in database as expected`
+            );
+          }
         }
-      );
+
+        return SenderKeyDistributionMessage.create(
+          protocolAddress,
+          distributionId,
+          senderKeyStore
+        );
+      });
 
     log.info(
       `getSenderKeyDistributionMessage: Building ${distributionId} with timestamp ${timestamp}`

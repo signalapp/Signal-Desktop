@@ -8,6 +8,7 @@ import { assertDev } from './assert.js';
 import { uuidToBytes } from './uuidToBytes.js';
 import { createLogger } from '../logging/log.js';
 import type { SafetyNumberType } from '../types/safetyNumber.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { isAciString } from './isAciString.js';
 
 const log = createLogger('safetyNumber');
@@ -27,14 +28,14 @@ export async function generateSafetyNumber(
   const { storage } = window.textsecure;
   const ourAci = storage.user.getCheckedAci();
 
-  const us = storage.protocol.getIdentityRecord(ourAci);
+  const us = signalProtocolStore.getIdentityRecord(ourAci);
   const ourKeyBuffer = us ? us.publicKey : null;
 
   const theirAci = isAciString(contact.serviceId)
     ? contact.serviceId
     : undefined;
   const them = theirAci
-    ? await storage.protocol.getOrMigrateIdentityRecord(theirAci)
+    ? await signalProtocolStore.getOrMigrateIdentityRecord(theirAci)
     : undefined;
   const theirKeyBuffer = them?.publicKey;
 

@@ -14,7 +14,6 @@ import chaiAsPromised from 'chai-as-promised';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { reporters, type MochaOptions } from 'mocha';
 
-import { getSignalProtocolStore } from '../../SignalProtocolStore.js';
 import { initMessageCleanup } from '../../services/messageStateCleanup.js';
 import { initializeMessageCounter } from '../../util/incrementMessageCounter.js';
 import { initializeRedux } from '../../state/initializeRedux.js';
@@ -165,5 +164,3 @@ window.testUtilities = {
     }
   },
 };
-
-window.getSignalProtocolStore = getSignalProtocolStore;

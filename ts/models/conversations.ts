@@ -97,6 +97,7 @@ import * as Bytes from '../Bytes.js';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import { migrateColor } from '../util/migrateColor.js';
 import { isNotNil } from '../util/isNotNil.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.js';
 import { storageServiceUploadJob } from '../services/storage.js';
 import { getSendOptions } from '../util/getSendOptions.js';
@@ -321,7 +322,7 @@ export class ConversationModel {
 
   #lastIsTyping?: boolean;
   #muteTimer?: NodeJS.Timeout;
-  #privVerifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
+  #privVerifiedEnum?: typeof signalProtocolStore.VerifiedStatus;
   #isShuttingDown = false;
   #savePromises = new Set<Promise<void>>();
 
@@ -418,7 +419,7 @@ export class ConversationModel {
 
     this.storeName = 'conversations';
 
-    this.#privVerifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
+    this.#privVerifiedEnum = signalProtocolStore.VerifiedStatus;
 
     // This may be overridden by window.ConversationController.getOrCreate, and signify
     //   our first save to the database. Or first fetch from the database.
@@ -522,7 +523,7 @@ export class ConversationModel {
     };
   }
 
-  get #verifiedEnum(): typeof window.textsecure.storage.protocol.VerifiedStatus {
+  get #verifiedEnum(): typeof signalProtocolStore.VerifiedStatus {
     strictAssert(this.#privVerifiedEnum, 'ConversationModel not initialize');
     return this.#privVerifiedEnum;
   }
@@ -2116,7 +2117,7 @@ export class ConversationModel {
     //   for the case where we need to do old and new PNI comparisons. We'll wait
     //   for the PNI update to do that.
     if (oldValue && oldValue !== this.getPni()) {
-      drop(window.textsecure.storage.protocol.removeIdentityKey(oldValue));
+      drop(signalProtocolStore.removeIdentityKey(oldValue));
     }
 
     this.captureChange('updateServiceId');
@@ -2176,9 +2177,8 @@ export class ConversationModel {
       // We're going from an old PNI to a new PNI
       if (pni) {
         const oldIdentityRecord =
-          window.textsecure.storage.protocol.getIdentityRecord(oldValue);
-        const newIdentityRecord =
-          window.textsecure.storage.protocol.getIdentityRecord(pni);
+          signalProtocolStore.getIdentityRecord(oldValue);
+        const newIdentityRecord = signalProtocolStore.getIdentityRecord(pni);
 
         if (
           newIdentityRecord &&
@@ -2197,7 +2197,7 @@ export class ConversationModel {
       // We're just dropping the PNI
       if (!pni) {
         const oldIdentityRecord =
-          window.textsecure.storage.protocol.getIdentityRecord(oldValue);
+          signalProtocolStore.getIdentityRecord(oldValue);
 
         if (oldIdentityRecord) {
           this.trackPreviousIdentityKey(oldIdentityRecord.publicKey);
@@ -2207,7 +2207,7 @@ export class ConversationModel {
 
     // If this PNI is going away or going to someone else, we'll delete all its sessions
     if (oldValue) {
-      drop(window.textsecure.storage.protocol.removeIdentityKey(oldValue));
+      drop(signalProtocolStore.removeIdentityKey(oldValue));
     }
 
     if (pni && !this.getServiceId()) {
@@ -2877,7 +2877,7 @@ export class ConversationModel {
     }
 
     try {
-      return await window.textsecure.storage.protocol.getVerified(serviceId);
+      return await signalProtocolStore.getVerified(serviceId);
     } catch {
       return this.#verifiedEnum.DEFAULT;
     }
@@ -2942,9 +2942,9 @@ export class ConversationModel {
     const keyChange = false;
     if (aci) {
       if (verified === this.#verifiedEnum.DEFAULT) {
-        await window.textsecure.storage.protocol.setVerified(aci, verified);
+        await signalProtocolStore.setVerified(aci, verified);
       } else {
-        await window.textsecure.storage.protocol.setVerified(aci, verified, {
+        await signalProtocolStore.setVerified(aci, verified, {
           firstUse: false,
           nonblockingApproval: true,
         });
@@ -2997,7 +2997,7 @@ export class ConversationModel {
       return;
     }
 
-    const key = await window.textsecure.storage.protocol.loadIdentityKey(aci);
+    const key = await signalProtocolStore.loadIdentityKey(aci);
     if (!key) {
       throw new Error(
         `sendVerifySyncMessage: No identity key found for aci ${aci}`
@@ -3089,7 +3089,7 @@ export class ConversationModel {
     }
 
     return this.queueJob('setApproved', async () => {
-      return window.textsecure.storage.protocol.setApproval(serviceId, true);
+      return signalProtocolStore.setApproval(serviceId, true);
     });
   }
 
@@ -3097,10 +3097,7 @@ export class ConversationModel {
     try {
       const serviceId = this.getServiceId();
       strictAssert(serviceId, `No serviceId for conversation: ${this.id}`);
-      return window.textsecure.storage.protocol.isUntrusted(
-        serviceId,
-        timestampThreshold
-      );
+      return signalProtocolStore.isUntrusted(serviceId, timestampThreshold);
     } catch (err) {
       return false;
     }
@@ -3357,8 +3354,7 @@ export class ConversationModel {
       return;
     }
 
-    const hadSession =
-      await window.textsecure.storage.protocol.hasSessionWith(originalPni);
+    const hadSession = await signalProtocolStore.hasSessionWith(originalPni);
 
     if (!hadSession) {
       log.info(`${logId}: not adding, no PNI session`);
@@ -5776,7 +5772,7 @@ export class ConversationModel {
     if (!this.get('shareMyPhoneNumber')) {
       return undefined;
     }
-    return window.textsecure.storage.protocol.signAlternateIdentity();
+    return signalProtocolStore.signAlternateIdentity();
   }
 
   /** @return only undefined if not a group */

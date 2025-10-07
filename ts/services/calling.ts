@@ -165,6 +165,7 @@ import { createIdenticon } from '../util/createIdenticon.js';
 import { getColorForCallLink } from '../util/getColorForCallLink.js';
 import OS from '../util/os/osMain.js';
 import { sleep } from '../util/sleep.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 const { uniqBy, noop, compact } = lodash;
 
@@ -2885,7 +2886,7 @@ export class CallingClass {
     const { storage } = window.textsecure;
 
     const senderIdentityRecord =
-      await storage.protocol.getOrMigrateIdentityRecord(remoteUserId);
+      await signalProtocolStore.getOrMigrateIdentityRecord(remoteUserId);
     if (!senderIdentityRecord) {
       log.error(
         `${logId}: Missing sender identity record; ignoring call message.`
@@ -2896,7 +2897,8 @@ export class CallingClass {
 
     const ourAci = storage.user.getCheckedAci();
 
-    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourAci);
+    const receiverIdentityRecord =
+      signalProtocolStore.getIdentityRecord(ourAci);
     if (!receiverIdentityRecord) {
       log.error(
         `${logId}: Missing receiver identity record; ignoring call message.`
@@ -3324,10 +3326,7 @@ export class CallingClass {
       // This is mostly the safety number check, unverified meaning that they were
       // verified before but now they are not.
       const verifiedEnum = await conversation.safeGetVerified();
-      if (
-        verifiedEnum ===
-        window.textsecure.storage.protocol.VerifiedStatus.UNVERIFIED
-      ) {
+      if (verifiedEnum === signalProtocolStore.VerifiedStatus.UNVERIFIED) {
         log.info(`${logId}: Peer is not trusted, ignoring incoming call`);
 
         const localCallEvent = LocalCallEvent.Missed;

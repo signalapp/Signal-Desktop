@@ -29,6 +29,7 @@ import { useBoundActions } from '../../hooks/useBoundActions.js';
 import { createLogger } from '../../logging/log.js';
 import { backupsService } from '../../services/backups/index.js';
 import OS from '../../util/os/osMain.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.js';
 
 const log = createLogger('installer');
 
@@ -370,7 +371,7 @@ function finishInstall({
     const shouldRetainData = Registration.everDone();
     if (!shouldRetainData) {
       try {
-        await window.textsecure.storage.protocol.removeAllData();
+        await signalProtocolStore.removeAllData();
       } catch (error) {
         log.error(
           'finishInstall: error clearing database',

@@ -30,7 +30,7 @@ import {
   generateKyberPreKey,
 } from '../Curve.js';
 import type { SignalProtocolStore } from '../SignalProtocolStore.js';
-import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
+import { GLOBAL_ZONE, signalProtocolStore } from '../SignalProtocolStore.js';
 import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import { generateAci, generatePni } from '../types/ServiceId.js';
@@ -152,7 +152,7 @@ describe('SignalProtocolStore', () => {
   }
 
   before(async () => {
-    store = window.textsecure.storage.protocol;
+    store = signalProtocolStore;
     await store.hydrateCaches();
     identityKey = IdentityKeyPair.generate();
     testKey = IdentityKeyPair.generate();

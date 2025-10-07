@@ -8,7 +8,7 @@ import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.js';
 import type { CustomColorType, ConversationColorType } from './types/Colors.js';
 import type { SendMessageChallengeData } from './textsecure/Errors.js';
 import type { ProfileNameChangeType } from './util/getStringForProfileChange.js';
-import type { CapabilitiesType } from './textsecure/WebAPI.js';
+import type { CapabilitiesType } from './types/Capabilities.d.ts';
 import type { ReadStatus } from './messages/MessageReadStatus.js';
 import type { SendStateByConversationId } from './messages/MessageSendState.js';
 import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.js';

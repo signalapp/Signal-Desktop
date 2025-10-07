@@ -42,6 +42,7 @@ import { validateConversation } from './util/validateConversation.js';
 import { ConversationModel } from './models/conversations.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer.js';
 import { missingCaseError } from './util/missingCaseError.js';
+import { signalProtocolStore } from './SignalProtocolStore.js';
 
 import type {
   ConversationAttributesType,
@@ -490,7 +491,7 @@ export class ConversationController {
         version: 2,
         expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
         unreadCount: 0,
-        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        verified: signalProtocolStore.VerifiedStatus.DEFAULT,
         messageCount: 0,
         sentMessageCount: 0,
         ...additionalInitialProps,
@@ -506,7 +507,7 @@ export class ConversationController {
         version: 2,
         expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
         unreadCount: 0,
-        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        verified: signalProtocolStore.VerifiedStatus.DEFAULT,
         messageCount: 0,
         sentMessageCount: 0,
         ...additionalInitialProps,
@@ -522,7 +523,7 @@ export class ConversationController {
         version: 2,
         expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
         unreadCount: 0,
-        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        verified: signalProtocolStore.VerifiedStatus.DEFAULT,
         messageCount: 0,
         sentMessageCount: 0,
         ...additionalInitialProps,
@@ -1366,17 +1367,13 @@ export class ConversationController {
 
       log.warn(`${logId}: Delete all sessions tied to old conversationId`);
       // Note: we use the conversationId here in case we've already lost our service id.
-      await window.textsecure.storage.protocol.removeSessionsByConversation(
-        obsoleteId
-      );
+      await signalProtocolStore.removeSessionsByConversation(obsoleteId);
 
       log.warn(
         `${logId}: Delete all identity information tied to old conversationId`
       );
       if (obsoleteServiceId) {
-        await window.textsecure.storage.protocol.removeIdentityKey(
-          obsoleteServiceId
-        );
+        await signalProtocolStore.removeIdentityKey(obsoleteServiceId);
       }
 
       log.warn(
@@ -1814,9 +1811,7 @@ export class ConversationController {
     recipients.forEach(serviceId => {
       drop(
         queue.add(async () => {
-          await window.textsecure.storage.protocol.archiveAllSessions(
-            serviceId
-          );
+          await signalProtocolStore.archiveAllSessions(serviceId);
         })
       );
     });

@@ -19,6 +19,7 @@ import {
   generatePni,
 } from '../../types/ServiceId.js';
 import { DAY } from '../../util/durations/index.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.js';
 
 const { range } = lodash;
 
@@ -40,9 +41,10 @@ describe('AccountManager', () => {
     const server: any = {};
     accountManager = new AccountManager(server);
 
-    const { storage } = window.textsecure;
-    sandbox.stub(storage.protocol, 'getIdentityKeyPair').returns(identityKey);
-    const { user } = storage;
+    sandbox
+      .stub(signalProtocolStore, 'getIdentityKeyPair')
+      .returns(identityKey);
+    const { user } = window.textsecure.storage;
     sandbox.stub(user, 'getAci').returns(ourAci);
     sandbox.stub(user, 'getPni').returns(ourPni);
     sandbox.stub(user, 'getServiceId').returns(ourAci);
@@ -83,20 +85,15 @@ describe('AccountManager', () => {
     let signedPreKeys: Array<OuterSignedPrekeyType>;
 
     beforeEach(async () => {
-      originalLoadSignedPreKeys =
-        window.textsecure.storage.protocol.loadSignedPreKeys;
-      originalRemoveSignedPreKey =
-        window.textsecure.storage.protocol.removeSignedPreKeys;
+      originalLoadSignedPreKeys = signalProtocolStore.loadSignedPreKeys;
+      originalRemoveSignedPreKey = signalProtocolStore.removeSignedPreKeys;
 
-      window.textsecure.storage.protocol.loadSignedPreKeys = () =>
-        signedPreKeys;
+      signalProtocolStore.loadSignedPreKeys = () => signedPreKeys;
       // removeSignedPreKeys is updated per-test, below
     });
     afterEach(() => {
-      window.textsecure.storage.protocol.loadSignedPreKeys =
-        originalLoadSignedPreKeys;
-      window.textsecure.storage.protocol.removeSignedPreKeys =
-        originalRemoveSignedPreKey;
+      signalProtocolStore.loadSignedPreKeys = originalLoadSignedPreKeys;
+      signalProtocolStore.removeSignedPreKeys = originalRemoveSignedPreKey;
     });
 
     it('keeps no keys if five or less, even if over a month old', () => {
@@ -192,10 +189,7 @@ describe('AccountManager', () => {
       ];
 
       let removedKeys: Array<number> = [];
-      window.textsecure.storage.protocol.removeSignedPreKeys = async (
-        _,
-        keyIds
-      ) => {
+      signalProtocolStore.removeSignedPreKeys = async (_, keyIds) => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
@@ -210,19 +204,15 @@ describe('AccountManager', () => {
     let kyberPreKeys: Array<KyberPreKeyType>;
 
     beforeEach(async () => {
-      originalLoadKyberPreKeys =
-        window.textsecure.storage.protocol.loadKyberPreKeys;
-      originalRemoveKyberPreKey =
-        window.textsecure.storage.protocol.removeKyberPreKeys;
+      originalLoadKyberPreKeys = signalProtocolStore.loadKyberPreKeys;
+      originalRemoveKyberPreKey = signalProtocolStore.removeKyberPreKeys;
 
-      window.textsecure.storage.protocol.loadKyberPreKeys = () => kyberPreKeys;
+      signalProtocolStore.loadKyberPreKeys = () => kyberPreKeys;
       // removeKyberPreKeys is updated per-test, below
     });
     afterEach(() => {
-      window.textsecure.storage.protocol.loadKyberPreKeys =
-        originalLoadKyberPreKeys;
-      window.textsecure.storage.protocol.removeKyberPreKeys =
-        originalRemoveKyberPreKey;
+      signalProtocolStore.loadKyberPreKeys = originalLoadKyberPreKeys;
+      signalProtocolStore.removeKyberPreKeys = originalRemoveKyberPreKey;
     });
 
     it('keeps five keys even if over a month old', () => {
@@ -351,10 +341,7 @@ describe('AccountManager', () => {
       ];
 
       let removedKeys: Array<number> = [];
-      window.textsecure.storage.protocol.removeKyberPreKeys = async (
-        _,
-        keyIds
-      ) => {
+      signalProtocolStore.removeKyberPreKeys = async (_, keyIds) => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
@@ -369,15 +356,15 @@ describe('AccountManager', () => {
     let preKeys: Array<PreKeyType>;
 
     beforeEach(async () => {
-      originalLoadPreKeys = window.textsecure.storage.protocol.loadPreKeys;
-      originalRemovePreKeys = window.textsecure.storage.protocol.removePreKeys;
+      originalLoadPreKeys = signalProtocolStore.loadPreKeys;
+      originalRemovePreKeys = signalProtocolStore.removePreKeys;
 
-      window.textsecure.storage.protocol.loadPreKeys = () => preKeys;
+      signalProtocolStore.loadPreKeys = () => preKeys;
       // removePreKeys is updated per-test, below
     });
     afterEach(() => {
-      window.textsecure.storage.protocol.loadPreKeys = originalLoadPreKeys;
-      window.textsecure.storage.protocol.removePreKeys = originalRemovePreKeys;
+      signalProtocolStore.loadPreKeys = originalLoadPreKeys;
+      signalProtocolStore.removePreKeys = originalRemovePreKeys;
     });
 
     it('keeps five keys even if over 90 days old, but all latest batch', () => {
@@ -474,7 +461,7 @@ describe('AccountManager', () => {
       ];
 
       let removedKeys: Array<number> = [];
-      window.textsecure.storage.protocol.removePreKeys = async (_, keyIds) => {
+      signalProtocolStore.removePreKeys = async (_, keyIds) => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
@@ -489,19 +476,15 @@ describe('AccountManager', () => {
     let kyberPreKeys: Array<KyberPreKeyType>;
 
     beforeEach(async () => {
-      originalLoadKyberPreKeys =
-        window.textsecure.storage.protocol.loadKyberPreKeys;
-      originalRemoveKyberPreKeys =
-        window.textsecure.storage.protocol.removeKyberPreKeys;
+      originalLoadKyberPreKeys = signalProtocolStore.loadKyberPreKeys;
+      originalRemoveKyberPreKeys = signalProtocolStore.removeKyberPreKeys;
 
-      window.textsecure.storage.protocol.loadKyberPreKeys = () => kyberPreKeys;
+      signalProtocolStore.loadKyberPreKeys = () => kyberPreKeys;
       // removeKyberPreKeys is updated per-test, below
     });
     afterEach(() => {
-      window.textsecure.storage.protocol.loadKyberPreKeys =
-        originalLoadKyberPreKeys;
-      window.textsecure.storage.protocol.removeKyberPreKeys =
-        originalRemoveKyberPreKeys;
+      signalProtocolStore.loadKyberPreKeys = originalLoadKyberPreKeys;
+      signalProtocolStore.removeKyberPreKeys = originalRemoveKyberPreKeys;
     });
 
     it('keeps five keys even if over 90 days old', () => {
@@ -606,10 +589,7 @@ describe('AccountManager', () => {
       ];
 
       let removedKeys: Array<number> = [];
-      window.textsecure.storage.protocol.removeKyberPreKeys = async (
-        _,
-        keyIds
-      ) => {
+      signalProtocolStore.removeKyberPreKeys = async (_, keyIds) => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
