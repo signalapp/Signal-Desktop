@@ -30,51 +30,34 @@ import {
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.js';
-import { selectRecentEmojis } from '../selectors/emojis.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
-  getShowStickerPickerHint,
-  getShowStickersIntroduction,
   getTextFormattingEnabled,
 } from '../selectors/items.js';
 import { canForward, getPropsForQuote } from '../selectors/message.js';
-import {
-  getBlessedStickerPacks,
-  getInstalledStickerPacks,
-  getKnownStickerPacks,
-  getReceivedStickerPacks,
-  getRecentStickers,
-  getRecentlyInstalledStickerPack,
-} from '../selectors/stickers.js';
 import {
   getIntl,
   getPlatform,
   getTheme,
   getUserConversationId,
 } from '../selectors/user.js';
-import type { SmartCompositionRecordingProps } from './CompositionRecording.js';
 import { SmartCompositionRecording } from './CompositionRecording.js';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.js';
 import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft.js';
-import { useItemsActions } from '../ducks/items.js';
 import { useComposerActions } from '../ducks/composer.js';
 import { useConversationsActions } from '../ducks/conversations.js';
 import { useAudioRecorderActions } from '../ducks/audioRecorder.js';
 import { useEmojisActions } from '../ducks/emojis.js';
 import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useStickersActions } from '../ducks/stickers.js';
 import { useToastActions } from '../ducks/toast.js';
 import { isShowingAnyModal } from '../selectors/globalModals.js';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import { isConversationMuted } from '../../util/isConversationMuted.js';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
-function renderSmartCompositionRecording(
-  recProps: SmartCompositionRecordingProps
-) {
-  return <SmartCompositionRecording {...recProps} />;
+function renderSmartCompositionRecording() {
+  return <SmartCompositionRecording />;
 }
 
 function renderSmartCompositionRecordingDraft(
@@ -95,21 +78,12 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
-  const recentEmojis = useSelector(selectRecentEmojis);
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messageLookup = useSelector(getMessages);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const lastEditableMessageId = useSelector(getLastEditableMessageId);
-  const receivedPacks = useSelector(getReceivedStickerPacks);
-  const installedPacks = useSelector(getInstalledStickerPacks);
-  const blessedPacks = useSelector(getBlessedStickerPacks);
-  const knownPacks = useSelector(getKnownStickerPacks);
   const platform = useSelector(getPlatform);
   const shouldHidePopovers = useSelector(getHasPanelOpen);
-  const installedPack = useSelector(getRecentlyInstalledStickerPack);
-  const recentStickers = useSelector(getRecentStickers);
-  const showStickersIntroduction = useSelector(getShowStickersIntroduction);
-  const showStickerPickerHint = useSelector(getShowStickerPickerHint);
   const recordingState = useSelector(getRecordingState);
   const errorDialogAudioRecorderType = useSelector(
     getErrorDialogAudioRecorderType
@@ -205,23 +179,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     defaultConversationColor,
   ]);
 
-  const { putItem, removeItem } = useItemsActions();
-
-  const onEmojiSkinToneDefaultChange = useCallback(
-    (emojiSkinTone: EmojiSkinTone) => {
-      putItem('emojiSkinToneDefault', emojiSkinTone);
-    },
-    [putItem]
-  );
-
-  const clearShowIntroduction = useCallback(() => {
-    removeItem('showStickersIntroduction');
-  }, [removeItem]);
-
-  const clearShowPickerHint = useCallback(() => {
-    removeItem('showStickerPickerHint');
-  }, [removeItem]);
-
   const {
     onTextTooLong,
     onCloseLinkPreview,
@@ -259,7 +216,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     toggleForwardMessagesModal,
     toggleDraftGifMessageSendModal,
   } = useGlobalModalActions();
-  const { clearInstalledStickerPack } = useStickersActions();
   const { showToast } = useToastActions();
   const { onEditorStateChange } = useComposerActions();
 
@@ -318,19 +274,9 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       quotedMessageAuthorAci={quotedMessage?.quote?.authorAci ?? null}
       quotedMessageSentAt={quotedMessage?.quote?.id ?? null}
       setQuoteByMessageId={setQuoteByMessageId}
-      // Emojis
-      recentEmojis={recentEmojis}
+      // Fun Picker
       emojiSkinToneDefault={emojiSkinToneDefault}
-      onPickEmoji={onUseEmoji}
-      // Stickers
-      receivedPacks={receivedPacks}
-      installedPack={installedPack}
-      blessedPacks={blessedPacks}
-      knownPacks={knownPacks}
-      installedPacks={installedPacks}
-      recentStickers={recentStickers}
-      showIntroduction={showStickersIntroduction}
-      showPickerHint={showStickerPickerHint}
+      onSelectEmoji={onUseEmoji}
       // Message Requests
       acceptedMessageRequest={conversation.acceptedMessageRequest ?? null}
       removalStage={conversation.removalStage ?? null}
@@ -385,10 +331,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       // DraftGifMessageSendModal
       toggleDraftGifMessageSendModal={toggleDraftGifMessageSendModal}
       // Dispatch
-      onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-      clearShowIntroduction={clearShowIntroduction}
-      clearInstalledStickerPack={clearInstalledStickerPack}
-      clearShowPickerHint={clearShowPickerHint}
       showToast={showToast}
       sendStickerMessage={sendStickerMessage}
       sendEditedMessage={sendEditedMessage}

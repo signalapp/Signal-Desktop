@@ -621,7 +621,7 @@ export function _getAllEmojiVariantKeys(): Iterable<EmojiVariantKey> {
   return EMOJI_INDEX.variantByKey.keys();
 }
 
-export function emojiParentKeyConstant(input: string): EmojiParentKey {
+function emojiParentKeyConstant(input: string): EmojiParentKey {
   strictAssert(
     isEmojiParentValue(input),
     `Missing emoji parent for value "${input}"`
@@ -629,14 +629,43 @@ export function emojiParentKeyConstant(input: string): EmojiParentKey {
   return getEmojiParentKeyByValue(input);
 }
 
-export function emojiVariantConstant(input: string): EmojiVariantData {
+function emojiVariantKeyConstant(input: string): EmojiVariantKey {
   strictAssert(
     isEmojiVariantValue(input),
     `Missing emoji variant for value "${input}"`
   );
-  const key = getEmojiVariantKeyByValue(input);
-  return getEmojiVariantByKey(key);
+  return getEmojiVariantKeyByValue(input);
 }
+
+export const EMOJI_PARENT_KEY_CONSTANTS = {
+  RED_HEART: emojiParentKeyConstant('\u{2764}\u{FE0F}'),
+  CRYING_FACE: emojiParentKeyConstant('\u{1F622}'),
+  FACE_WITH_TEARS_OF_JOY: emojiParentKeyConstant('\u{1F602}'),
+  FACE_WITH_OPEN_MOUTH: emojiParentKeyConstant('\u{1F62E}'),
+  ENRAGED_FACE: emojiParentKeyConstant('\u{1F621}'),
+  SLIGHTLY_SMILING_FACE: emojiParentKeyConstant('\u{1F642}'),
+  SLIGHTLY_FROWNING_FACE: emojiParentKeyConstant('\u{1F641}'),
+  GRINNING_FACE: emojiParentKeyConstant('\u{1F600}'),
+  FACE_BLOWING_A_KISS: emojiParentKeyConstant('\u{1F618}'),
+  FACE_WITH_STUCK_OUT_TONGUE: emojiParentKeyConstant('\u{1F61B}'),
+  CONFUSED_FACE: emojiParentKeyConstant('\u{1F615}'),
+  NEUTRAL_FACE: emojiParentKeyConstant('\u{1F610}'),
+  WINKING_FACE: emojiParentKeyConstant('\u{1F609}'),
+  ZIPPER_MOUTH_FACE: emojiParentKeyConstant('\u{1F910}'),
+  THUMBS_UP: emojiParentKeyConstant('\u{1F44D}'),
+  THUMBS_DOWN: emojiParentKeyConstant('\u{1F44E}'),
+  RAISED_HAND: emojiParentKeyConstant('\u{270B}'),
+  WAVING_HAND: emojiParentKeyConstant('\u{1F44B}'),
+  HOT_BEVERAGE: emojiParentKeyConstant('\u{2615}'),
+  MOBILE_PHONE_OFF: emojiParentKeyConstant('\u{1F4F4}'),
+} as const;
+
+export const EMOJI_VARIANT_KEY_CONSTANTS = {
+  SLIGHTLY_FROWNING_FACE: emojiVariantKeyConstant('\u{1F641}'),
+  GRINNING_FACE_WITH_SMILING_EYES: emojiVariantKeyConstant('\u{1F604}'),
+  GRINNING_CAT_WITH_SMILING_EYES: emojiVariantKeyConstant('\u{1F638}'),
+  FRIED_SHRIMP: emojiVariantKeyConstant('\u{1F364}'),
+} as const;
 
 /**
  * Completions

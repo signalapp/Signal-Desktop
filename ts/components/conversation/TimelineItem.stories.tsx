@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { EmojiPicker } from '../emoji/EmojiPicker.js';
 import { DurationInSeconds } from '../../util/durations/index.js';
 import type { PropsType as TimelineItemProps } from './TimelineItem.js';
 import { TimelineItem } from './TimelineItem.js';
@@ -16,27 +15,8 @@ import { WidthBreakpoint } from '../_util.js';
 import { ThemeType } from '../../types/Util.js';
 import { PaymentEventKind } from '../../types/Payment.js';
 import { ErrorBoundary } from './ErrorBoundary.js';
-import { EmojiSkinTone } from '../fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
-
-const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
-  onClose,
-  onPickEmoji,
-  ref,
-}) => (
-  <EmojiPicker
-    i18n={i18n}
-    emojiSkinToneDefault={EmojiSkinTone.None}
-    onEmojiSkinToneDefaultChange={action(
-      'EmojiPicker::onEmojiSkinToneDefaultChange'
-    )}
-    ref={ref}
-    onClose={onClose}
-    onPickEmoji={onPickEmoji}
-    wasInvokedFromKeyboard={false}
-  />
-);
 
 const renderReactionPicker: TimelineItemProps['renderReactionPicker'] = () => (
   <div />
@@ -124,7 +104,6 @@ const getDefaultProps = () => ({
 
   renderContact,
   renderUniversalTimerNotification,
-  renderEmojiPicker,
   renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   viewStory: action('viewStory'),

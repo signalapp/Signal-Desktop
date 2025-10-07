@@ -14,10 +14,6 @@ import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
 import { useSelector } from 'react-redux';
 import lodash from 'lodash';
-import type {
-  EmojiPickDataType,
-  Props as EmojiPickerProps,
-} from './emoji/EmojiPicker.js';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { ImageStateType } from '../mediaEditor/ImageStateType.js';
 import type {
@@ -26,7 +22,6 @@ import type {
 } from './CompositionInput.js';
 import type { LocalizerType } from '../types/Util.js';
 import type { MIMEType } from '../types/MIME.js';
-import type { Props as StickerButtonProps } from './stickers/StickerButton.js';
 import type { imageToBlurHash } from '../util/imageToBlurHash.js';
 import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker.js';
 import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect.js';
@@ -44,12 +39,10 @@ import { createLogger } from '../logging/log.js';
 import { Button, ButtonVariant } from './Button.js';
 import { CompositionInput } from './CompositionInput.js';
 import { ContextMenu } from './ContextMenu.js';
-import { EmojiButton } from './emoji/EmojiButton.js';
 import { IMAGE_PNG } from '../types/MIME.js';
 import { SizeObserver } from '../hooks/useSizeObserver.js';
 import { Slider } from './Slider.js';
 import { Spinner } from './Spinner.js';
-import { StickerButton } from './stickers/StickerButton.js';
 import { Theme } from '../util/theme.js';
 import { ThemeType } from '../types/Util.js';
 import { arrow } from '../util/keyboard.js';
@@ -60,7 +53,6 @@ import { hydrateRanges } from '../types/BodyRange.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory.js';
 import { usePortal } from '../hooks/usePortal.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import {
   FunEmojiPickerButton,
@@ -94,20 +86,19 @@ export type PropsType = {
   imageToBlurHash: typeof imageToBlurHash;
   onClose: () => unknown;
   onDone: (result: MediaEditorResultType) => unknown;
-} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
-  Pick<
-    CompositionInputProps,
-    | 'draftText'
-    | 'draftBodyRanges'
-    | 'getPreferredBadge'
-    | 'isFormattingEnabled'
-    | 'onPickEmoji'
-    | 'onTextTooLong'
-    | 'ourConversationId'
-    | 'platform'
-    | 'sortedGroupMembers'
-  > &
-  Omit<EmojiPickerProps, 'wasInvokedFromKeyboard'>;
+} & Pick<
+  CompositionInputProps,
+  | 'draftText'
+  | 'draftBodyRanges'
+  | 'getPreferredBadge'
+  | 'isFormattingEnabled'
+  | 'emojiSkinToneDefault'
+  | 'onSelectEmoji'
+  | 'onTextTooLong'
+  | 'ourConversationId'
+  | 'platform'
+  | 'sortedGroupMembers'
+>;
 
 const INITIAL_IMAGE_STATE: ImageStateType = {
   angle: 0,
@@ -171,20 +162,12 @@ export function MediaEditor({
   draftBodyRanges,
   getPreferredBadge,
   isFormattingEnabled,
-  onPickEmoji,
+  emojiSkinToneDefault,
+  onSelectEmoji,
   onTextTooLong,
   ourConversationId,
   platform,
   sortedGroupMembers,
-
-  // EmojiPickerProps
-  onEmojiSkinToneDefaultChange,
-  recentEmojis,
-  emojiSkinToneDefault,
-
-  // StickerButtonProps
-  installedPacks,
-  recentStickers,
   ...props
 }: PropsType): JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
@@ -209,23 +192,6 @@ export function MediaEditor({
   const [imageState, setImageState] =
     useState<ImageStateType>(INITIAL_IMAGE_STATE);
 
-  const closeEmojiPickerAndFocusComposer = useCallback(() => {
-    if (inputApiRef.current) {
-      inputApiRef.current.focus();
-    }
-    setEmojiPickerOpen(false);
-  }, [inputApiRef]);
-
-  const insertEmoji = useCallback(
-    (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onPickEmoji(e);
-      }
-    },
-    [inputApiRef, onPickEmoji]
-  );
-
   const handleEmojiPickerOpenChange = useCallback((open: boolean) => {
     setEmojiPickerOpen(open);
   }, []);
@@ -234,16 +200,11 @@ export function MediaEditor({
     setStickerPickerOpen(open);
   }, []);
 
-  const handleSelectEmoji = useCallback(
-    (emojiSelection: FunEmojiSelection) => {
-      const data: EmojiPickDataType = {
-        shortName: emojiSelection.englishShortName,
-        skinTone: emojiSelection.skinTone,
-      };
-      insertEmoji(data);
-    },
-    [insertEmoji]
-  );
+  const handleSelectEmoji = useCallback((emojiSelection: FunEmojiSelection) => {
+    if (inputApiRef.current) {
+      inputApiRef.current.insertEmoji(emojiSelection);
+    }
+  }, []);
 
   const handlePickSticker = useCallback(
     (_packId: string, _stickerId: number, src: string) => {
@@ -1333,48 +1294,17 @@ export function MediaEditor({
                 }}
                 type="button"
               />
-              {!isFunPickerEnabled() && (
-                <StickerButton
-                  blessedPacks={[]}
-                  className={classNames({
-                    MediaEditor__control: true,
-                    'MediaEditor__control--sticker': true,
-                  })}
-                  onOpenStateChanged={value => {
-                    setStickerPickerOpen(value);
-                  }}
-                  clearInstalledStickerPack={noop}
-                  clearShowIntroduction={() => {
-                    // We're using this as a callback for when the sticker button
-                    // is pressed.
-                    fabricCanvas?.discardActiveObject();
-                    setEditMode(undefined);
-                  }}
-                  clearShowPickerHint={noop}
-                  i18n={i18n}
-                  installedPacks={installedPacks}
-                  knownPacks={[]}
-                  onPickSticker={handlePickSticker}
-                  onPickTimeSticker={handlePickTimeSticker}
-                  receivedPacks={[]}
-                  recentStickers={recentStickers}
-                  showPickerHint={false}
-                  theme={Theme.Dark}
-                />
-              )}
-              {isFunPickerEnabled() && (
-                <FunStickerPicker
-                  open={stickerPickerOpen}
-                  onOpenChange={handleStickerPickerOpenChange}
-                  onSelectSticker={handleSelectSticker}
-                  showTimeStickers
-                  onSelectTimeSticker={handlePickTimeSticker}
-                  placement="top"
-                  theme={ThemeType.dark}
-                >
-                  <FunStickerPickerButton i18n={i18n} />
-                </FunStickerPicker>
-              )}
+              <FunStickerPicker
+                open={stickerPickerOpen}
+                onOpenChange={handleStickerPickerOpenChange}
+                onSelectSticker={handleSelectSticker}
+                showTimeStickers
+                onSelectTimeSticker={handlePickTimeSticker}
+                placement="top"
+                theme={ThemeType.dark}
+              >
+                <FunStickerPickerButton i18n={i18n} />
+              </FunStickerPicker>
             </div>
             <div className="MediaEditor__tools-row-2">
               <div className="MediaEditor__tools--input dark-theme">
@@ -1393,7 +1323,7 @@ export function MediaEditor({
                     setCaption(messageText);
                   }}
                   emojiSkinToneDefault={emojiSkinToneDefault ?? null}
-                  onPickEmoji={onPickEmoji}
+                  onSelectEmoji={onSelectEmoji}
                   onSubmit={noop}
                   onTextTooLong={onTextTooLong}
                   ourConversationId={ourConversationId}
@@ -1414,32 +1344,16 @@ export function MediaEditor({
                   // link previews not displayed with media
                   linkPreviewResult={null}
                 >
-                  {!isFunPickerEnabled() && (
-                    <EmojiButton
-                      className="StoryViewsNRepliesModal__emoji-button"
-                      i18n={i18n}
-                      onPickEmoji={insertEmoji}
-                      onOpen={() => setEmojiPickerOpen(true)}
-                      onClose={closeEmojiPickerAndFocusComposer}
-                      recentEmojis={recentEmojis}
-                      emojiSkinToneDefault={emojiSkinToneDefault}
-                      onEmojiSkinToneDefaultChange={
-                        onEmojiSkinToneDefaultChange
-                      }
-                    />
-                  )}
-                  {isFunPickerEnabled() && (
-                    <FunEmojiPicker
-                      open={emojiPickerOpen}
-                      onOpenChange={handleEmojiPickerOpenChange}
-                      onSelectEmoji={handleSelectEmoji}
-                      placement="top"
-                      theme={ThemeType.dark}
-                      closeOnSelect={false}
-                    >
-                      <FunEmojiPickerButton i18n={i18n} />
-                    </FunEmojiPicker>
-                  )}
+                  <FunEmojiPicker
+                    open={emojiPickerOpen}
+                    onOpenChange={handleEmojiPickerOpenChange}
+                    onSelectEmoji={handleSelectEmoji}
+                    placement="top"
+                    theme={ThemeType.dark}
+                    closeOnSelect={false}
+                  >
+                    <FunEmojiPickerButton i18n={i18n} />
+                  </FunEmojiPicker>
                 </CompositionInput>
               </div>
               <Button

@@ -9,7 +9,6 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import { SignalService } from '../../protobuf/index.js';
 import { ConversationColors } from '../../types/Colors.js';
-import { EmojiPicker } from '../emoji/EmojiPicker.js';
 import type { AudioAttachmentProps } from './Message.js';
 import type { Props } from './TimelineMessage.js';
 import { TimelineMessage } from './TimelineMessage.js';
@@ -44,7 +43,6 @@ import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
 import { ThemeType } from '../../types/Util.js';
 import { BadgeCategory } from '../../badges/BadgeCategory.js';
 import { PaymentEventKind } from '../../types/Payment.js';
-import { EmojiSkinTone } from '../fun/data/emojis.js';
 
 const { isBoolean, noop } = lodash;
 
@@ -109,24 +107,6 @@ function getJoyReaction() {
     timestamp: Date.now() - 10,
   };
 }
-
-const renderEmojiPicker: Props['renderEmojiPicker'] = ({
-  onClose,
-  onPickEmoji,
-  ref,
-}) => (
-  <EmojiPicker
-    i18n={i18n}
-    emojiSkinToneDefault={EmojiSkinTone.None}
-    onEmojiSkinToneDefaultChange={action(
-      'EmojiPicker::onEmojiSkinToneDefaultChange'
-    )}
-    ref={ref}
-    onClose={onClose}
-    onPickEmoji={onPickEmoji}
-    wasInvokedFromKeyboard={false}
-  />
-);
 
 const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
 
@@ -319,7 +299,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.readStatus === undefined
       ? ReadStatus.Read
       : overrideProps.readStatus,
-  renderEmojiPicker,
   renderReactionPicker,
   renderAudioAttachment,
   saveAttachment: action('saveAttachment'),

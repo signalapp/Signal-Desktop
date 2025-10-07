@@ -9,11 +9,9 @@ import type { AttachmentType } from '../types/Attachment.js';
 import type { LinkPreviewSourceType } from '../types/LinkPreview.js';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
 import type { LocalizerType, ThemeType } from '../types/Util.js';
-import type { Props as StickerButtonProps } from './stickers/StickerButton.js';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
 import type { imageToBlurHash } from '../util/imageToBlurHash.js';
-import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator.js';
 import type { PropsType as MediaEditorPropsType } from './MediaEditor.js';
 
 import { TEXT_ATTACHMENT } from '../types/MIME.js';
@@ -63,42 +61,35 @@ export type PropsType = {
   processAttachment: typeof processAttachment;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
   theme: ThemeType;
-} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
-  Pick<
-    SendStoryModalPropsType,
-    | 'candidateConversations'
-    | 'distributionLists'
-    | 'getPreferredBadge'
-    | 'groupConversations'
-    | 'groupStories'
-    | 'hasFirstStoryPostExperience'
-    | 'me'
-    | 'ourConversationId'
-    | 'onDeleteList'
-    | 'onDistributionListCreated'
-    | 'onHideMyStoriesFrom'
-    | 'onRemoveMembers'
-    | 'onRepliesNReactionsChanged'
-    | 'onSelectedStoryList'
-    | 'onViewersUpdated'
-    | 'setMyStoriesToAllSignalConnections'
-    | 'signalConnections'
-    | 'toggleGroupsForStorySend'
-    | 'mostRecentActiveStoryTimestampByGroupOrDistributionList'
-    | 'toggleSignalConnectionsModal'
-    | 'onMediaPlaybackStart'
-  > &
-  Pick<
-    TextStoryCreatorPropsType,
-    | 'onUseEmoji'
-    | 'emojiSkinToneDefault'
-    | 'onEmojiSkinToneDefaultChange'
-    | 'recentEmojis'
-  > &
+} & Pick<
+  SendStoryModalPropsType,
+  | 'candidateConversations'
+  | 'distributionLists'
+  | 'getPreferredBadge'
+  | 'groupConversations'
+  | 'groupStories'
+  | 'hasFirstStoryPostExperience'
+  | 'me'
+  | 'ourConversationId'
+  | 'onDeleteList'
+  | 'onDistributionListCreated'
+  | 'onHideMyStoriesFrom'
+  | 'onRemoveMembers'
+  | 'onRepliesNReactionsChanged'
+  | 'onSelectedStoryList'
+  | 'onViewersUpdated'
+  | 'setMyStoriesToAllSignalConnections'
+  | 'signalConnections'
+  | 'toggleGroupsForStorySend'
+  | 'mostRecentActiveStoryTimestampByGroupOrDistributionList'
+  | 'toggleSignalConnectionsModal'
+  | 'onMediaPlaybackStart'
+> &
   Pick<
     MediaEditorPropsType,
     | 'isFormattingEnabled'
-    | 'onPickEmoji'
+    | 'emojiSkinToneDefault'
+    | 'onSelectEmoji'
     | 'onTextTooLong'
     | 'platform'
     | 'sortedGroupMembers'
@@ -115,7 +106,6 @@ export function StoryCreator({
   hasFirstStoryPostExperience,
   i18n,
   imageToBlurHash,
-  installedPacks,
   isFormattingEnabled,
   isSending,
   linkPreview,
@@ -126,20 +116,16 @@ export function StoryCreator({
   onDistributionListCreated,
   onHideMyStoriesFrom,
   onMediaPlaybackStart,
-  onPickEmoji,
+  onSelectEmoji,
   onRemoveMembers,
   onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
-  onEmojiSkinToneDefaultChange,
   onTextTooLong,
-  onUseEmoji,
   onViewersUpdated,
   ourConversationId,
   platform,
   processAttachment,
-  recentEmojis,
-  recentStickers,
   sendStoryModalOpenStateChanged,
   setMyStoriesToAllSignalConnections,
   signalConnections,
@@ -274,7 +260,6 @@ export function StoryCreator({
               i18n={i18n}
               imageSrc={attachmentUrl}
               imageToBlurHash={imageToBlurHash}
-              installedPacks={installedPacks}
               isCreatingStory
               isFormattingEnabled={isFormattingEnabled}
               isSending={isSending}
@@ -297,11 +282,10 @@ export function StoryCreator({
                 setBodyRanges(captionBodyRanges);
                 setIsReadyToSend(true);
               }}
-              onPickEmoji={onPickEmoji}
+              onSelectEmoji={onSelectEmoji}
               onTextTooLong={onTextTooLong}
               ourConversationId={ourConversationId}
               platform={platform}
-              recentStickers={recentStickers}
               emojiSkinToneDefault={emojiSkinToneDefault}
               sortedGroupMembers={sortedGroupMembers}
               draftText={null}
@@ -323,10 +307,7 @@ export function StoryCreator({
                 });
                 setIsReadyToSend(true);
               }}
-              onUseEmoji={onUseEmoji}
-              onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-              recentEmojis={recentEmojis}
-              emojiSkinToneDefault={emojiSkinToneDefault}
+              onSelectEmoji={onSelectEmoji}
             />
           )}
         </>,

@@ -244,7 +244,6 @@ const createProps = (
     serviceId: overrideProps.myAci ?? generateAci(),
   }),
   openSystemPreferencesAction: action('open-system-preferences-action'),
-  renderEmojiPicker: () => <>EmojiPicker</>,
   renderReactionPicker: () => <div />,
   cancelPresenting: action('cancel-presenting'),
   sendGroupCallRaiseHand: action('send-group-call-raise-hand'),

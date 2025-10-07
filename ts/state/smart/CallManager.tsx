@@ -46,7 +46,6 @@ import {
 import { getConversationSelector, getMe } from '../selectors/conversations.js';
 import { getIntl, getUserACI } from '../selectors/user.js';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection.js';
-import { renderEmojiPicker } from './renderEmojiPicker.js';
 import { renderReactionPicker } from './renderReactionPicker.js';
 import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode.js';
 import { useGlobalModalActions } from '../ducks/globalModals.js';
@@ -465,7 +464,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       playRingtone={playRingtone}
       removeClient={removeClient}
       renderDeviceSelection={renderDeviceSelection}
-      renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
       ringingCall={ringingCall}
       sendGroupCallRaiseHand={sendGroupCallRaiseHand}

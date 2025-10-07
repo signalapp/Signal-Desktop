@@ -52,7 +52,6 @@ import {
   FunResultsSpinner,
 } from '../base/FunResults.js';
 import { FunStaticEmoji } from '../FunEmoji.js';
-import { emojiVariantConstant } from '../data/emojis.js';
 import {
   FunLightboxPortal,
   FunLightboxBackdrop,
@@ -66,6 +65,10 @@ import type { LocalizerType } from '../../../types/I18N.js';
 import { isAbortError } from '../../../util/isAbortError.js';
 import { createLogger } from '../../../logging/log.js';
 import * as Errors from '../../../types/errors.js';
+import {
+  EMOJI_VARIANT_KEY_CONSTANTS,
+  getEmojiVariantByKey,
+} from '../data/emojis.js';
 
 const log = createLogger('FunPanelGifs');
 
@@ -508,7 +511,9 @@ export function FunPanelGifs({
                   <FunStaticEmoji
                     size={16}
                     role="presentation"
-                    emoji={emojiVariantConstant('\u{1F641}')}
+                    emoji={getEmojiVariantByKey(
+                      EMOJI_VARIANT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE
+                    )}
                   />
                 </FunResultsHeader>
               )}

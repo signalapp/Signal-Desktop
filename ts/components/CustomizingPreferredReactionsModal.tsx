@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { usePopper } from 'react-popper';
+import React, { useState, useCallback, useRef } from 'react';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.js';
@@ -13,17 +12,16 @@ import {
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
 } from './ReactionPickerPicker.js';
-import { EmojiPicker } from './emoji/EmojiPicker.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants.js';
-import { convertShortName } from './emoji/lib.js';
-import { offsetDistanceModifier } from '../util/popperUtil.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
-import { EmojiSkinTone, getEmojiVariantByKey } from './fun/data/emojis.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.js';
+import {
+  EmojiSkinTone,
+  getEmojiVariantByKey,
+  getEmojiVariantByParentKeyAndSkinTone,
+} from './fun/data/emojis.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 
-const { isEqual, noop } = lodash;
+const { isEqual } = lodash;
 
 export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;
@@ -52,56 +50,16 @@ export function CustomizingPreferredReactionsModal({
   hadSaveError,
   i18n,
   isSaving,
-  onEmojiSkinToneDefaultChange,
   originalPreferredReactions,
-  recentEmojis,
   replaceSelectedDraftEmoji,
   resetDraftEmoji,
   savePreferredReactions,
   selectDraftEmojiToBeReplaced,
   selectedDraftEmojiIndex,
 }: Readonly<PropsType>): JSX.Element {
-  const [referenceElement, setReferenceElement] =
-    useState<null | HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
-  const [popperElement, setPopperElement] = useState<null | HTMLDivElement>(
-    null
-  );
-  const emojiPickerPopper = usePopper(referenceElement, popperElement, {
-    placement: 'bottom',
-    modifiers: [
-      offsetDistanceModifier(8),
-      {
-        name: 'preventOverflow',
-        options: { altAxis: true },
-      },
-    ],
-  });
 
   const isSomethingSelected = selectedDraftEmojiIndex !== undefined;
-
-  useEffect(() => {
-    if (!isSomethingSelected) {
-      return noop;
-    }
-
-    return handleOutsideClick(
-      target => {
-        if (
-          target instanceof Element &&
-          target.closest('[data-fun-overlay]') != null
-        ) {
-          return true;
-        }
-        deselectDraftEmoji();
-        return true;
-      },
-      {
-        containerElements: [popperElement, pickerRef],
-        name: 'CustomizingPreferredReactionsModal.draftEmoji',
-      }
-    );
-  }, [isSomethingSelected, popperElement, deselectDraftEmoji]);
 
   const hasChanged = !isEqual(
     originalPreferredReactions,
@@ -110,9 +68,13 @@ export function CustomizingPreferredReactionsModal({
   const canReset =
     !isSaving &&
     !isEqual(
-      DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
-        convertShortName(shortName, emojiSkinToneDefault ?? EmojiSkinTone.None)
-      ),
+      DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.map(parentKey => {
+        const variant = getEmojiVariantByParentKeyAndSkinTone(
+          parentKey,
+          emojiSkinToneDefault ?? EmojiSkinTone.None
+        );
+        return variant.value;
+      }),
       draftPreferredReactions
     );
   const canSave = !isSaving && hasChanged;
@@ -168,7 +130,6 @@ export function CustomizingPreferredReactionsModal({
         <ReactionPickerPicker
           isSomethingSelected={isSomethingSelected}
           pickerStyle={ReactionPickerPickerStyle.Menu}
-          ref={setReferenceElement}
         >
           {draftPreferredReactions.map((emoji, index) => {
             return (
@@ -199,31 +160,6 @@ export function CustomizingPreferredReactionsModal({
           ? i18n('icu:CustomizingPreferredReactions__had-save-error')
           : i18n('icu:CustomizingPreferredReactions__subtitle')}
       </div>
-      {!isFunPickerEnabled() && isSomethingSelected && (
-        <div
-          ref={setPopperElement}
-          style={emojiPickerPopper.styles.popper}
-          {...emojiPickerPopper.attributes.popper}
-        >
-          <EmojiPicker
-            i18n={i18n}
-            onPickEmoji={pickedEmoji => {
-              const emoji = convertShortName(
-                pickedEmoji.shortName,
-                pickedEmoji.skinTone
-              );
-              replaceSelectedDraftEmoji(emoji);
-            }}
-            recentEmojis={recentEmojis}
-            emojiSkinToneDefault={emojiSkinToneDefault}
-            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-            onClose={() => {
-              deselectDraftEmoji();
-            }}
-            wasInvokedFromKeyboard={false}
-          />
-        </div>
-      )}
     </Modal>
   );
 }
@@ -249,26 +185,19 @@ function CustomizingPreferredReactionsModalItem(props: {
     [onDeselect]
   );
 
-  const button = (
-    <ReactionPickerPickerEmojiButton
-      emoji={props.emoji}
-      onClick={props.onSelect}
-      isSelected={props.isSelected}
-    />
+  return (
+    <FunEmojiPicker
+      open={emojiPickerOpen}
+      onOpenChange={handleEmojiPickerOpenChange}
+      placement="bottom"
+      onSelectEmoji={props.onSelectEmoji}
+      closeOnSelect
+    >
+      <ReactionPickerPickerEmojiButton
+        emoji={props.emoji}
+        onClick={props.onSelect}
+        isSelected={props.isSelected}
+      />
+    </FunEmojiPicker>
   );
-
-  if (isFunPickerEnabled()) {
-    return (
-      <FunEmojiPicker
-        open={emojiPickerOpen}
-        onOpenChange={handleEmojiPickerOpenChange}
-        placement="bottom"
-        onSelectEmoji={props.onSelectEmoji}
-        closeOnSelect
-      >
-        {button}
-      </FunEmojiPicker>
-    );
-  }
-  return button;
 }

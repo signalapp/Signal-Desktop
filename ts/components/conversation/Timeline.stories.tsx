@@ -376,7 +376,6 @@ const renderItem = ({
     item={items[messageId]}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     renderContact={() => <div>*ContactName*</div>}
-    renderEmojiPicker={() => <div />}
     renderReactionPicker={() => <div />}
     renderUniversalTimerNotification={() => (
       <div>*UniversalTimerNotification*</div>

@@ -39,7 +39,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     large: overrideProps.large ?? false,
     onCloseLinkPreview: action('onCloseLinkPreview'),
     onEditorStateChange: action('onEditorStateChange'),
-    onPickEmoji: action('onPickEmoji'),
+    onSelectEmoji: action('onSelectEmoji'),
     onSubmit: action('onSubmit'),
     onTextTooLong: action('onTextTooLong'),
     ourConversationId: 'me',

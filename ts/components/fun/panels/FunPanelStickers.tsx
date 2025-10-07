@@ -9,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { VisuallyHidden } from 'react-aria';
 import type {
   StickerPackType,
   StickerType,
@@ -55,9 +56,10 @@ import {
   FunSubNavScroller,
 } from '../base/FunSubNav.js';
 import {
+  EMOJI_VARIANT_KEY_CONSTANTS,
   type EmojiParentKey,
-  emojiVariantConstant,
   getEmojiParentKeyByValue,
+  getEmojiVariantByKey,
   isEmojiParentValue,
 } from '../data/emojis.js';
 import { FunKeyboard } from '../keyboard/FunKeyboard.js';
@@ -455,6 +457,9 @@ export function FunPanelStickers({
             {onAddStickerPack != null && (
               <FunSubNavButtons>
                 <FunSubNavButton onClick={onAddStickerPack}>
+                  <VisuallyHidden>
+                    {i18n('icu:FunPanelStickers__SubNavButton--AddStickerPack')}
+                  </VisuallyHidden>
                   <FunSubNavIcon iconClassName="FunSubNav__Icon--Plus" />
                 </FunSubNavButton>
               </FunSubNavButtons>
@@ -475,7 +480,9 @@ export function FunPanelStickers({
                 <FunStaticEmoji
                   size={16}
                   role="presentation"
-                  emoji={emojiVariantConstant('\u{1F641}')}
+                  emoji={getEmojiVariantByKey(
+                    EMOJI_VARIANT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE
+                  )}
                 />
               </FunResultsHeader>
             </FunResults>

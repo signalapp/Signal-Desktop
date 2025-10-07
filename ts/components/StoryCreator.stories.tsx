@@ -30,7 +30,6 @@ export default {
     hasFirstStoryPostExperience: false,
     i18n,
     imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-    installedPacks: [],
     isSending: false,
     linkPreview: undefined,
     me: getDefaultConversation(),
@@ -39,12 +38,9 @@ export default {
     onDistributionListCreated: undefined,
     onHideMyStoriesFrom: action('onHideMyStoriesFrom'),
     onSend: action('onSend'),
-    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
-    onUseEmoji: action('onUseEmoji'),
+    onSelectEmoji: action('onSelectEmoji'),
     onViewersUpdated: action('onViewersUpdated'),
     processAttachment: undefined,
-    recentEmojis: [],
-    recentStickers: [],
     sendStoryModalOpenStateChanged: action('sendStoryModalOpenStateChanged'),
     setMyStoriesToAllSignalConnections: action(
       'setMyStoriesToAllSignalConnections'

@@ -12,9 +12,7 @@ import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
 } from '../state/ducks/conversations.js';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import type { RenderEmojiPickerProps } from './conversation/ReactionPicker.js';
 import type { ReplyStateType, StoryViewType } from '../types/Stories.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
 import type { ShowToastAction } from '../state/ducks/toast.js';
@@ -54,6 +52,7 @@ import { RenderLocation } from './conversation/MessageTextRenderer.js';
 import { arrow } from '../util/keyboard.js';
 import { StoryProgressSegment } from './StoryProgressSegment.js';
 import type { EmojiSkinTone } from './fun/data/emojis.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 
 const log = createLogger('StoryViewer');
 
@@ -94,7 +93,6 @@ export type PropsType = {
   numStories: number;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
-  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
   onTextTooLong: () => unknown;
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
@@ -103,14 +101,12 @@ export type PropsType = {
     timestamp: number,
     story: StoryViewType
   ) => unknown;
-  onUseEmoji: (_: EmojiPickDataType) => unknown;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => unknown;
   onMediaPlaybackStart: () => void;
   ourConversationId: string | undefined;
   platform: string;
   preferredReactionEmoji: ReadonlyArray<string>;
   queueStoryDownload: (storyId: string) => unknown;
-  recentEmojis?: ReadonlyArray<string>;
-  renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
   retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
@@ -158,16 +154,13 @@ export function StoryViewer({
   onHideStory,
   onReactToStory,
   onReplyToStory,
-  onEmojiSkinToneDefaultChange,
   onTextTooLong,
-  onUseEmoji,
+  onSelectEmoji,
   onMediaPlaybackStart,
   ourConversationId,
   platform,
   preferredReactionEmoji,
   queueStoryDownload,
-  recentEmojis,
-  renderEmojiPicker,
   replyState,
   retryMessageSend,
   saveAttachment,
@@ -967,13 +960,10 @@ export function StoryViewer({
               }
               onReplyToStory(message, replyBodyRanges, replyTimestamp, story);
             }}
-            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
             onTextTooLong={onTextTooLong}
-            onUseEmoji={onUseEmoji}
+            onSelectEmoji={onSelectEmoji}
             ourConversationId={ourConversationId}
             preferredReactionEmoji={preferredReactionEmoji}
-            recentEmojis={recentEmojis}
-            renderEmojiPicker={renderEmojiPicker}
             replies={replies}
             showContactModal={showContactModal}
             emojiSkinToneDefault={emojiSkinToneDefault}

@@ -23,8 +23,6 @@ import {
 import { MonospaceBlot } from '../quill/formatting/monospaceBlot.js';
 import { SpoilerBlot } from '../quill/formatting/spoilerBlot.js';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.js';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
-import { convertShortName } from './emoji/lib.js';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -79,12 +77,13 @@ import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-
 import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.js';
 import { dropNull } from '../util/dropNull.js';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper.js';
-import type { EmojiSkinTone } from './fun/data/emojis.js';
+import { getEmojiVariantByKey, type EmojiSkinTone } from './fun/data/emojis.js';
 import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.js';
 import { useFunEmojiSearch } from './fun/useFunEmojiSearch.js';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.js';
 import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 
 const log = createLogger('CompositionInput');
 
@@ -106,7 +105,7 @@ Quill.register(
 
 export type InputApi = {
   focus: () => void;
-  insertEmoji: (e: EmojiPickDataType) => void;
+  insertEmoji: (emojiSelection: FunEmojiSelection) => void;
   setContents: (
     text: string,
     draftBodyRanges?: HydratedBodyRangesType,
@@ -144,7 +143,7 @@ export type Props = Readonly<{
     sendCounter: number;
   }): unknown;
   onTextTooLong(): unknown;
-  onPickEmoji(o: EmojiPickDataType): unknown;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onBlur?: () => unknown;
   onFocus?: () => unknown;
   onSubmit(
@@ -184,7 +183,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onCloseLinkPreview,
     onBlur,
     onFocus,
-    onPickEmoji,
+    onSelectEmoji,
     onScroll,
     onSubmit,
     ourConversationId,
@@ -285,7 +284,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.focus();
   };
 
-  const insertEmoji = (e: EmojiPickDataType) => {
+  const insertEmoji = (emojiSelection: FunEmojiSelection) => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -299,12 +298,12 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
-    const emoji = convertShortName(e.shortName, e.skinTone);
+    const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
 
     const delta = new Delta()
       .retain(insertionRange.index)
       .delete(insertionRange.length)
-      .insert({ emoji: { value: emoji } });
+      .insert({ emoji: { value: emojiVariant.value } });
 
     quill.updateContents(delta, 'user');
     quill.setSelection(insertionRange.index + 1, 0, 'user');
@@ -768,7 +767,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onChange,
     onEnter,
     onEscape,
-    onPickEmoji,
+    onSelectEmoji,
     onShortKeyEnter,
     onTab,
   };
@@ -842,8 +841,8 @@ export function CompositionInput(props: Props): React.ReactElement {
             },
             emojiCompletion: {
               setEmojiPickerElement: setEmojiCompletionElement,
-              onPickEmoji: (emoji: EmojiPickDataType) =>
-                callbacksRef.current.onPickEmoji(emoji),
+              onSelectEmoji: (emojiSelection: FunEmojiSelection) =>
+                callbacksRef.current.onSelectEmoji(emojiSelection),
               emojiSkinToneDefault,
               emojiSearch,
               emojiLocalizer,

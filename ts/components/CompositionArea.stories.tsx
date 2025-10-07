@@ -83,23 +83,11 @@ export default {
     draftText: undefined,
     getPreferredBadge: () => undefined,
     sortedGroupMembers: [],
-    // EmojiButton
-    onPickEmoji: action('onPickEmoji'),
-    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
-    recentEmojis: [],
+    // FunPicker
+    onSelectEmoji: action('onSelectEmoji'),
     emojiSkinToneDefault: EmojiSkinTone.Type1,
-    // StickerButton
-    knownPacks: [],
-    receivedPacks: [],
-    installedPacks: [],
-    blessedPacks: [],
-    recentStickers: [],
-    clearInstalledStickerPack: action('clearInstalledStickerPack'),
     pushPanelForConversation: action('pushPanelForConversation'),
     sendStickerMessage: action('sendStickerMessage'),
-    clearShowIntroduction: action('clearShowIntroduction'),
-    showPickerHint: false,
-    clearShowPickerHint: action('clearShowPickerHint'),
     // Message Requests
     conversationType: 'direct',
     acceptConversation: action('acceptConversation'),
@@ -118,7 +106,7 @@ export default {
     showConversation: action('showConversation'),
     isSmsOnlyOrUnregistered: false,
     isFetchingUUID: false,
-    renderSmartCompositionRecording: _ => <div>RECORDING</div>,
+    renderSmartCompositionRecording: () => <div>RECORDING</div>,
     renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
     // Select mode
     selectedMessageIds: undefined,
@@ -149,14 +137,7 @@ export function StartingText(args: Props): JSX.Element {
 
 export function StickerButton(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
-  return (
-    <CompositionArea
-      {...args}
-      theme={theme}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      knownPacks={[{} as any]}
-    />
-  );
+  return <CompositionArea {...args} theme={theme} />;
 }
 
 export function MessageRequest(args: Props): JSX.Element {

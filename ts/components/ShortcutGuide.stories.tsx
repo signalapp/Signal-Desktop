@@ -16,7 +16,6 @@ export default {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   close: action('close'),
-  hasInstalledStickers: overrideProps.hasInstalledStickers === true || false,
   platform: overrideProps.platform || 'other',
 });
 
@@ -27,10 +26,5 @@ export function Default(): JSX.Element {
 
 export function Mac(): JSX.Element {
   const props = createProps({ platform: 'darwin' });
-  return <ShortcutGuide {...props} />;
-}
-
-export function HasStickers(): JSX.Element {
-  const props = createProps({ hasInstalledStickers: true });
   return <ShortcutGuide {...props} />;
 }

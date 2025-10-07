@@ -210,7 +210,6 @@ export type PropsType = PropsLocalType &
     AllMessageProps,
     | 'containerWidthBreakpoint'
     | 'getPreferredBadge'
-    | 'renderEmojiPicker'
     | 'renderAudioAttachment'
     | 'renderReactionPicker'
     | 'shouldCollapseAbove'

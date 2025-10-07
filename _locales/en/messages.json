@@ -3480,6 +3480,10 @@
     "messageformat": "Recently Used",
     "description": "FunPicker > Stickers Panel > Sub Nav > Category Label > Recents"
   },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack",
+    "description": "FunPicker > Stickers Panel > Sub Nav > Button > Add a sticker pack (accessibility label, opens sticker manager)"
+  },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Search Results",
     "description": "FunPicker > Stickers Panel > Section Title > Search Results"

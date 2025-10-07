@@ -28,13 +28,10 @@ import {
 } from '../selectors/stories.js';
 import { isInFullScreenCall } from '../selectors/calling.js';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.js';
-import { renderEmojiPicker } from './renderEmojiPicker.js';
 import { strictAssert } from '../../util/assert.js';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled.js';
 import { useEmojisActions } from '../ducks/emojis.js';
 import { useConversationsActions } from '../ducks/conversations.js';
-import { useRecentEmojis } from '../selectors/emojis.js';
-import { useItemsActions } from '../ducks/items.js';
 import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
 import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { useStoriesActions } from '../ducks/stories.js';
@@ -62,7 +59,6 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
     showConversation,
     toggleHideStories,
   } = useConversationsActions();
-  const { setEmojiSkinToneDefault } = useItemsActions();
   const { showToast } = useToastActions();
   const { showContactModal } = useGlobalModalActions();
 
@@ -81,7 +77,6 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const conversationSelector = useSelector(getConversationSelector);
 
   const getStoryById = useSelector(getStoryByIdSelector);
-  const recentEmojis = useRecentEmojis();
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const replyState = useSelector(getStoryReplies);
   const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
@@ -163,15 +158,12 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onReactToStory={handleReactToStory}
       onReplyToStory={handleReplyToStory}
-      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={handleTextTooLong}
-      onUseEmoji={onUseEmoji}
+      onSelectEmoji={onUseEmoji}
       ourConversationId={ourConversationId}
       platform={platform}
       preferredReactionEmoji={preferredReactionEmoji}
       queueStoryDownload={queueStoryDownload}
-      recentEmojis={recentEmojis}
-      renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
       retryMessageSend={retryMessageSend}
       saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}

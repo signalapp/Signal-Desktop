@@ -33,7 +33,7 @@ function RenderCompositionTextArea(props: SmartCompositionTextAreaProps) {
       i18n={i18n}
       isActive
       isFormattingEnabled
-      onPickEmoji={action('onPickEmoji')}
+      onSelectEmoji={action('onSelectEmoji')}
       onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onTextTooLong={action('onTextTooLong')}
       ourConversationId="me"
