@@ -91,7 +91,6 @@ import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFold
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.js';
 import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.js';
-import { isProduction } from '../../util/version.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
@@ -543,13 +542,6 @@ export function SmartPreferences(): JSX.Element | null {
   const backupFeatureEnabled = isBackupFeatureEnabled(items.remoteConfig);
   const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
 
-  const donationsFeatureEnabled =
-    (isInternalUser ||
-      items.remoteConfig?.['desktop.donations']?.enabled ||
-      (isProduction(window.getVersion()) &&
-        items.remoteConfig?.['desktop.donations.prod']?.enabled)) ??
-    false;
-
   // Two-way items
 
   function createItemsAccess<K extends keyof StorageAccessType>(
@@ -760,7 +752,6 @@ export function SmartPreferences(): JSX.Element | null {
           customColors={customColors}
           defaultConversationColor={defaultConversationColor}
           deviceName={deviceName}
-          donationsFeatureEnabled={donationsFeatureEnabled}
           emojiSkinToneDefault={emojiSkinToneDefault}
           exportLocalBackup={exportLocalBackup}
           phoneNumber={phoneNumber}

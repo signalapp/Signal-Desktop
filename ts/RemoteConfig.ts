@@ -25,8 +25,6 @@ const KnownConfigKeys = [
   'desktop.clientExpiration',
   'desktop.backups.beta',
   'desktop.backups.prod',
-  'desktop.donations',
-  'desktop.donations.prod',
   'desktop.internalUser',
   'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',

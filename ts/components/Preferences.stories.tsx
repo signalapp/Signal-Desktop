@@ -361,7 +361,6 @@ export default {
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
     deviceName: 'Work Windows ME',
-    donationsFeatureEnabled: false,
     emojiSkinToneDefault: EmojiSkinTone.None,
     phoneNumber: '+1 555 123-4567',
     hasAudioNotifications: true,
@@ -632,12 +631,10 @@ DataUsage.args = {
 };
 export const Donations = Template.bind({});
 Donations.args = {
-  donationsFeatureEnabled: true,
   settingsLocation: { page: SettingsPage.Donations },
 };
 export const DonationsDonateFlow = Template.bind({});
 DonationsDonateFlow.args = {
-  donationsFeatureEnabled: true,
   settingsLocation: { page: SettingsPage.DonationsDonateFlow },
   renderDonationsPane: ({
     contentsRef,
@@ -665,7 +662,6 @@ DonationsDonateFlow.args = {
 };
 export const DonationReceipts = Template.bind({});
 DonationReceipts.args = {
-  donationsFeatureEnabled: true,
   settingsLocation: { page: SettingsPage.DonationsDonateFlow },
   renderDonationsPane: ({
     contentsRef,
@@ -706,7 +702,6 @@ DonationReceipts.args = {
 };
 export const DonationsHomeWithInProgressDonation = Template.bind({});
 DonationsHomeWithInProgressDonation.args = {
-  donationsFeatureEnabled: true,
   settingsLocation: { page: SettingsPage.Donations },
   renderDonationsPane: ({
     contentsRef,
@@ -986,9 +981,4 @@ NavTabsCollapsedWithExclamation.args = {
     unreadMentionsCount: 2,
     readChatsMarkedUnreadCount: 0,
   },
-};
-
-export const WithDonationsEnabled = Template.bind({});
-WithDonationsEnabled.args = {
-  donationsFeatureEnabled: true,
 };
