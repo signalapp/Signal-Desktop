@@ -125,7 +125,6 @@ export type PropsDataType = {
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
-  donationsFeatureEnabled: boolean;
   emojiSkinToneDefault: EmojiSkinTone;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -393,7 +392,6 @@ export function Preferences({
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
-  donationsFeatureEnabled,
   editCustomColor,
   emojiSkinToneDefault,
   exportLocalBackup,
@@ -576,9 +574,6 @@ export function Preferences({
     settingsLocation.page === SettingsPage.Backups &&
     !shouldShowBackupsPage
   ) {
-    setSettingsLocation({ page: SettingsPage.General });
-  }
-  if (isDonationsPage(settingsLocation.page) && !donationsFeatureEnabled) {
     setSettingsLocation({ page: SettingsPage.General });
   }
   if (settingsLocation.page === SettingsPage.Internal && !isInternalUser) {
@@ -2448,23 +2443,21 @@ export function Preferences({
                   {i18n('icu:Preferences__button--backups')}
                 </button>
               ) : null}
-              {donationsFeatureEnabled && (
-                <button
-                  type="button"
-                  className={classNames({
-                    Preferences__button: true,
-                    'Preferences__button--donations': true,
-                    'Preferences__button--selected': isDonationsPage(
-                      settingsLocation.page
-                    ),
-                  })}
-                  onClick={() =>
-                    setSettingsLocation({ page: SettingsPage.Donations })
-                  }
-                >
-                  {i18n('icu:Preferences__button--donate')}
-                </button>
-              )}
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--donations': true,
+                  'Preferences__button--selected': isDonationsPage(
+                    settingsLocation.page
+                  ),
+                })}
+                onClick={() =>
+                  setSettingsLocation({ page: SettingsPage.Donations })
+                }
+              >
+                {i18n('icu:Preferences__button--donate')}
+              </button>
               {isInternalUser ? (
                 <button
                   type="button"
