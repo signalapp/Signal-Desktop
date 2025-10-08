@@ -21,7 +21,6 @@ before(async () => {
 
 window.testUtilities.prepareTests();
 delete window.testUtilities.prepareTests;
-window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
 !(function () {
   class Reporter extends Mocha.reporters.HTML {

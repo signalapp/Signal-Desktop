@@ -13,6 +13,7 @@ import AccountManager from '../../textsecure/AccountManager.js';
 import { ServiceIdKind } from '../../types/ServiceId.js';
 import { normalizeAci } from '../../util/normalizeAci.js';
 import { DataWriter } from '../../sql/Client.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.js';
 
 const { textsecure } = window;
 
@@ -31,16 +32,13 @@ describe('Key generation', function (this: Mocha.Suite) {
 
   function itStoresPreKey(keyId: number): void {
     it(`prekey ${keyId} is valid`, async () => {
-      const keyPair = await textsecure.storage.protocol.loadPreKey(
-        ourServiceId,
-        keyId
-      );
+      const keyPair = await signalProtocolStore.loadPreKey(ourServiceId, keyId);
       assert(keyPair, `PreKey ${keyId} not found`);
     });
   }
   function itStoresKyberPreKey(keyId: number): void {
     it(`kyber pre key ${keyId} is valid`, async () => {
-      const key = await textsecure.storage.protocol.loadKyberPreKey(
+      const key = await signalProtocolStore.loadKyberPreKey(
         ourServiceId,
         keyId
       );
@@ -51,7 +49,7 @@ describe('Key generation', function (this: Mocha.Suite) {
   async function validateResultPreKey(
     resultKey: UploadPreKeyType
   ): Promise<void> {
-    const keyPair = await textsecure.storage.protocol.loadPreKey(
+    const keyPair = await signalProtocolStore.loadPreKey(
       ourServiceId,
       resultKey.keyId
     );
@@ -65,9 +63,9 @@ describe('Key generation', function (this: Mocha.Suite) {
   }
 
   before(async () => {
-    await textsecure.storage.protocol.clearPreKeyStore();
-    await textsecure.storage.protocol.clearKyberPreKeyStore();
-    await textsecure.storage.protocol.clearSignedPreKeysStore();
+    await signalProtocolStore.clearPreKeyStore();
+    await signalProtocolStore.clearKyberPreKeyStore();
+    await signalProtocolStore.clearSignedPreKeysStore();
 
     const keyPair = generateKeyPair();
     await textsecure.storage.put('identityKeyMap', {
@@ -78,13 +76,13 @@ describe('Key generation', function (this: Mocha.Suite) {
     });
     await textsecure.storage.user.setAciAndDeviceId(ourServiceId, 1);
 
-    await textsecure.storage.protocol.hydrateCaches();
+    await signalProtocolStore.hydrateCaches();
   });
 
   after(async () => {
-    await textsecure.storage.protocol.clearPreKeyStore();
-    await textsecure.storage.protocol.clearKyberPreKeyStore();
-    await textsecure.storage.protocol.clearSignedPreKeysStore();
+    await signalProtocolStore.clearPreKeyStore();
+    await signalProtocolStore.clearKyberPreKeyStore();
+    await signalProtocolStore.clearSignedPreKeysStore();
 
     await DataWriter.removeAll();
     await window.storage.fetch();
@@ -209,7 +207,7 @@ describe('Key generation', function (this: Mocha.Suite) {
     });
     it('does not generate a third last resort prekey', async () => {
       const keyId = 3 * count + 3;
-      const key = await textsecure.storage.protocol.loadKyberPreKey(
+      const key = await signalProtocolStore.loadKyberPreKey(
         ourServiceId,
         keyId
       );
@@ -217,7 +215,7 @@ describe('Key generation', function (this: Mocha.Suite) {
     });
     it('does not generate a third signed prekey', async () => {
       const keyId = 3;
-      const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
+      const keyPair = await signalProtocolStore.loadSignedPreKey(
         ourServiceId,
         keyId
       );

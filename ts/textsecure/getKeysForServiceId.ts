@@ -22,6 +22,7 @@ import { isRecord } from '../util/isRecord.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 const log = createLogger('getKeysForServiceId');
 
@@ -47,7 +48,7 @@ export async function getKeysForServiceId(
     };
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {
-      await window.textsecure.storage.protocol.archiveAllSessions(serviceId);
+      await signalProtocolStore.archiveAllSessions(serviceId);
 
       throw new UnregisteredUserError(serviceId, error);
     }
@@ -176,15 +177,13 @@ async function handleServerKeys(
       );
 
       try {
-        await window.textsecure.storage.protocol.enqueueSessionJob(
-          address,
-          () =>
-            processPreKeyBundle(
-              preKeyBundle,
-              protocolAddress,
-              sessionStore,
-              identityKeyStore
-            )
+        await signalProtocolStore.enqueueSessionJob(address, () =>
+          processPreKeyBundle(
+            preKeyBundle,
+            protocolAddress,
+            sessionStore,
+            identityKeyStore
+          )
         );
       } catch (error) {
         if (

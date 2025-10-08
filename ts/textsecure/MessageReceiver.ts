@@ -69,6 +69,7 @@ import { isAciString } from '../util/isAciString.js';
 import { calling } from '../services/calling.js';
 import { retryPlaceholders } from '../services/retryPlaceholders.js';
 import * as Errors from '../types/errors.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 import { SignalService as Proto } from '../protobuf/index.js';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.js';
@@ -936,7 +937,7 @@ export default class MessageReceiver
 
       try {
         const { id } = item;
-        await this.#storage.protocol.removeUnprocessed(id);
+        await signalProtocolStore.removeUnprocessed(id);
       } catch (deleteError) {
         log.error(
           'queueCached error deleting item',
@@ -973,15 +974,13 @@ export default class MessageReceiver
   async *#getAllFromCache(): AsyncIterable<Array<UnprocessedType>> {
     log.info('getAllFromCache');
 
-    const ids = await this.#storage.protocol.getAllUnprocessedIds();
+    const ids = await signalProtocolStore.getAllUnprocessedIds();
 
     log.info(`getAllFromCache - ${ids.length} unprocessed`);
 
     for (const batch of chunk(ids, 1000)) {
       log.info(`getAllFromCache - yielding batch of ${batch.length}`);
-      yield this.#storage.protocol.getUnprocessedByIdsAndIncrementAttempts(
-        batch
-      );
+      yield signalProtocolStore.getUnprocessedByIdsAndIncrementAttempts(batch);
     }
     log.info(`getAllFromCache - done retrieving ${ids.length} unprocessed`);
   }
@@ -997,7 +996,7 @@ export default class MessageReceiver
       }>
     > = [];
 
-    const storageProtocol = this.#storage.protocol;
+    const storageProtocol = signalProtocolStore;
 
     try {
       const zone = new Zone('decryptAndCacheBatch', {
@@ -1189,7 +1188,7 @@ export default class MessageReceiver
   }
 
   async #cacheRemoveBatch(items: Array<string>): Promise<void> {
-    await this.#storage.protocol.removeUnprocessed(items);
+    await signalProtocolStore.removeUnprocessed(items);
   }
 
   #removeFromCache(envelope: ProcessedEnvelope): void {
@@ -1750,7 +1749,7 @@ export default class MessageReceiver
         Address.create(sealedSenderIdentifier, sealedSenderSourceDevice)
       );
 
-      const plaintext = await this.#storage.protocol.enqueueSenderKeyJob(
+      const plaintext = await signalProtocolStore.enqueueSenderKeyJob(
         address,
         () =>
           groupDecrypt(
@@ -1792,7 +1791,7 @@ export default class MessageReceiver
       messageContent.msgType() === CiphertextMessageType.PreKey
         ? PreKeySignalMessage.deserialize(messageContent.contents())
         : SignalMessage.deserialize(messageContent.contents());
-    const plaintext = await this.#storage.protocol.enqueueSessionJob(
+    const plaintext = await signalProtocolStore.enqueueSessionJob(
       address,
       () => {
         if (message instanceof PreKeySignalMessage) {
@@ -1887,7 +1886,7 @@ export default class MessageReceiver
       }
       const signalMessage = SignalMessage.deserialize(ciphertext);
 
-      const plaintext = await this.#storage.protocol.enqueueSessionJob(
+      const plaintext = await signalProtocolStore.enqueueSessionJob(
         address,
         async () =>
           this.#unpad(
@@ -1916,7 +1915,7 @@ export default class MessageReceiver
       }
       const preKeySignalMessage = PreKeySignalMessage.deserialize(ciphertext);
 
-      const plaintext = await this.#storage.protocol.enqueueSessionJob(
+      const plaintext = await signalProtocolStore.enqueueSessionJob(
         address,
         async () =>
           this.#unpad(
@@ -2689,7 +2688,7 @@ export default class MessageReceiver
       Address.create(sourceServiceId, sourceDevice)
     );
 
-    await this.#storage.protocol.enqueueSenderKeyJob(
+    await signalProtocolStore.enqueueSenderKeyJob(
       address,
       () =>
         processSenderKeyDistributionMessage(
@@ -2722,7 +2721,7 @@ export default class MessageReceiver
     strictAssert(isAciString(aci), `${logId}: invalid ACI`);
     strictAssert(isPniString(pni), `${logId}: invalid PNI`);
 
-    const isValid = await this.#storage.protocol.verifyAlternateIdentity({
+    const isValid = await signalProtocolStore.verifyAlternateIdentity({
       aci,
       pni,
       signature,
@@ -4034,7 +4033,7 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'resetSession');
 
-    await this.#storage.protocol.archiveAllSessions(theirServiceId);
+    await signalProtocolStore.archiveAllSessions(theirServiceId);
   }
 
   #processDecrypted(

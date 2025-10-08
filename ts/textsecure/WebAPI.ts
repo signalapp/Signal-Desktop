@@ -36,6 +36,10 @@ import { createProxyAgent } from '../util/createProxyAgent.js';
 import type { ProxyAgent } from '../util/createProxyAgent.js';
 import type { FetchFunctionType } from '../util/uploads/tusProtocol.js';
 import { VerificationTransport } from '../types/VerificationTransport.js';
+import type {
+  CapabilitiesType,
+  CapabilitiesUploadType,
+} from '../types/Capabilities.d.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
 import { ZERO_ACCESS_KEY } from '../types/SealedSender.js';
 import { toLogFormat } from '../types/errors.js';
@@ -849,16 +853,6 @@ export type WebAPIConnectOptionsType = WebAPICredentials & {
 
 export type WebAPIConnectType = {
   connect: (options: WebAPIConnectOptionsType) => WebAPIType;
-};
-
-// When updating this make sure to update `observedCapabilities` type in
-// ts/types/Storage.d.ts
-export type CapabilitiesType = {
-  attachmentBackfill: boolean;
-};
-export type CapabilitiesUploadType = {
-  attachmentBackfill: true;
-  spqr: true;
 };
 
 type StickerPackManifestType = Uint8Array;

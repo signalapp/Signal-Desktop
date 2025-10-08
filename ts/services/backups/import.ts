@@ -86,6 +86,7 @@ import { SendStatus } from '../../messages/MessageSendState.js';
 import type { SendStateByConversationId } from '../../messages/MessageSendState.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
 import { constantTimeEqual, deriveAccessKey } from '../../Crypto.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.js';
 import * as Bytes from '../../Bytes.js';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants.js';
 import { UnsupportedBackupVersion } from './errors.js';
@@ -386,7 +387,7 @@ export class BackupImportStream extends Writable {
       await window.storage.fetch();
 
       // Load identity keys we just saved.
-      await window.storage.protocol.hydrateCaches();
+      await signalProtocolStore.hydrateCaches();
 
       // Load all data into redux (need to do this before updating a
       // conversation's last message, which uses redux selectors)

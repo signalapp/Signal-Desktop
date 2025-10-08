@@ -200,7 +200,7 @@ import {
 } from '../../util/syncIdentifiers.js';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types.js';
 import { markCallHistoryReadInConversation } from './callHistory.js';
-import type { CapabilitiesType } from '../../textsecure/WebAPI.js';
+import type { CapabilitiesType } from '../../types/Capabilities.d.ts';
 import { actions as searchActions } from './search.js';
 import type { SearchActionType } from './search.js';
 import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage.js';

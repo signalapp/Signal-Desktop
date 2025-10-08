@@ -9,6 +9,7 @@ import lodash from 'lodash';
 import type PQueue from 'p-queue';
 
 import * as Bytes from '../Bytes.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { isProduction } from './version.js';
 import { strictAssert } from './assert.js';
@@ -360,13 +361,13 @@ async function archiveSessionOnMatch({
     ourAci,
     Address.create(requesterAci, requesterDevice)
   );
-  const session = await window.textsecure.storage.protocol.loadSession(address);
+  const session = await signalProtocolStore.loadSession(address);
 
   if (session && session.currentRatchetKeyMatches(ratchetKey)) {
     log.info(
       'archiveSessionOnMatch: Matching device and ratchetKey, archiving session'
     );
-    await window.textsecure.storage.protocol.archiveSession(address);
+    await signalProtocolStore.archiveSession(address);
     return true;
   }
 
@@ -720,7 +721,7 @@ function scheduleSessionReset(senderAci: AciString, senderDevice: number) {
     lightSessionResetQueue.add(async () => {
       const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-      await window.textsecure.storage.protocol.lightSessionReset(
+      await signalProtocolStore.lightSessionReset(
         new QualifiedAddress(ourAci, Address.create(senderAci, senderDevice))
       );
     })

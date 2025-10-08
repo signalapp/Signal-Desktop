@@ -8,7 +8,6 @@ import type { Store } from 'redux';
 import type { SystemPreferences } from 'electron';
 import type PQueue from 'p-queue/dist.js';
 import type { assert } from 'chai';
-import googleLibphonenumber from 'google-libphonenumber';
 import type { MochaOptions } from 'mocha';
 
 import type { textsecure } from './textsecure/index.js';
@@ -18,7 +17,6 @@ import type {
   IPCRequest as IPCChallengeRequest,
 } from './challenge.js';
 import type AccountManager from './textsecure/AccountManager.js';
-import type { WebAPIConnectType } from './textsecure/WebAPI.js';
 import type { OSType } from './util/os/shared.js';
 import type {
   LocalizerType,
@@ -29,7 +27,6 @@ import type { Receipt } from './types/Receipt.js';
 import type { ConversationController } from './ConversationController.js';
 import type { ReduxActions } from './state/types.js';
 import type { BatcherType } from './util/batcher.js';
-import type { SignalProtocolStore } from './SignalProtocolStore.js';
 import type { ScreenShareStatus } from './types/Calling.js';
 import type { MessageCache } from './services/MessageCache.js';
 import type { StateType } from './state/reducer.js';
@@ -44,8 +41,6 @@ import type { PropsPreloadType as PreferencesPropsType } from './components/Pref
 import type { WindowsNotificationData } from './services/notifications.js';
 import type { QueryStatsOptions } from './sql/main.js';
 import type { SocketStatuses } from './textsecure/SocketManager.js';
-
-const { PhoneNumber, PhoneNumberFormat } = googleLibphonenumber;
 
 export { Long } from 'long';
 
@@ -164,13 +159,6 @@ declare global {
   // We want to extend various globals, so we need to use interfaces.
   /* eslint-disable no-restricted-syntax */
   interface Window {
-    // Used in Sticker Creator to create proper paths to emoji images
-    ROOT_PATH?: string;
-    // Used for sticker creator localization
-    localeMessages: { [key: string]: { message: string } };
-
-    openArtCreator: (opts: { username: string; password: string }) => void;
-
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
@@ -191,18 +179,11 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     initialTheme?: ThemeType;
-    libphonenumberInstance: {
-      parse: (number: string) => PhoneNumber;
-      getRegionCodeForNumber: (number: PhoneNumber) => string | undefined;
-      format: (number: PhoneNumber, format: PhoneNumberFormat) => string;
-    };
-    libphonenumberFormat: typeof PhoneNumberFormat;
     nodeSetImmediate: typeof setImmediate;
     platform: string;
     preloadedImages: Array<HTMLImageElement>;
     setImmediate: typeof setImmediate;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
-    showKeyboardShortcuts: () => void;
     storage: Storage;
     systemTheme: SystemThemeType;
 
@@ -217,12 +198,8 @@ declare global {
 
     ConversationController: ConversationController;
     Events: IPCEventsType;
-    FontFace: typeof FontFace;
     MessageCache: MessageCache;
-    SignalProtocolStore: typeof SignalProtocolStore;
-    WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
-    getSignalProtocolStore: () => SignalProtocolStore;
     i18n: LocalizerType;
     // Note: used in background.html, and not type-checked
     startApp: () => void;
@@ -286,12 +263,6 @@ declare global {
 
   interface SharedArrayBuffer {
     __arrayBuffer: never;
-  }
-
-  interface Set<T> {
-    // Needed until TS upgrade
-    difference<U>(other: ReadonlySet<U>): Set<T>;
-    symmetricDifference<U>(other: ReadonlySet<U>): Set<T>;
   }
 }
 

@@ -7,6 +7,7 @@ import type {
 } from '../model-types.d.ts';
 import { combineNames } from './combineNames.js';
 import { getRegionCodeForNumber } from './libphonenumberUtil.js';
+import { instance, PhoneNumberFormat } from './libphonenumberInstance.js';
 import { isDirectConversation } from './whatTypeOfConversation.js';
 import { getE164 } from './getE164.js';
 
@@ -158,18 +159,12 @@ export function getNumber(
 
 export function renderNumber(e164: string): string | undefined {
   try {
-    const parsedNumber = window.libphonenumberInstance.parse(e164);
+    const parsedNumber = instance.parse(e164);
     const regionCode = getRegionCodeForNumber(e164);
     if (regionCode === window.storage.get('regionCode')) {
-      return window.libphonenumberInstance.format(
-        parsedNumber,
-        window.libphonenumberFormat.NATIONAL
-      );
+      return instance.format(parsedNumber, PhoneNumberFormat.NATIONAL);
     }
-    return window.libphonenumberInstance.format(
-      parsedNumber,
-      window.libphonenumberFormat.INTERNATIONAL
-    );
+    return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
   } catch (e) {
     return undefined;
   }

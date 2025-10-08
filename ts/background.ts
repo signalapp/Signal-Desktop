@@ -9,6 +9,7 @@ import { v7 as generateUuid } from 'uuid';
 
 import * as Registration from './util/registration.js';
 import MessageReceiver from './textsecure/MessageReceiver.js';
+import { signalProtocolStore } from './SignalProtocolStore.js';
 import type {
   SessionResetsType,
   ProcessedDataMessage,
@@ -269,8 +270,6 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
-  window.textsecure.storage.protocol = new window.SignalProtocolStore();
-
   if (window.initialTheme === ThemeType.light) {
     document.body.classList.add('light-theme');
   }
@@ -390,8 +389,8 @@ export async function startApp(): Promise<void> {
     window.SignalContext.getResolvedMessagesLocaleDirection()
   );
 
-  KeyChangeListener.init(window.textsecure.storage.protocol);
-  window.textsecure.storage.protocol.on(
+  KeyChangeListener.init(signalProtocolStore);
+  signalProtocolStore.on(
     'lowKeys',
     throttle(
       async () => {
@@ -403,7 +402,7 @@ export async function startApp(): Promise<void> {
     )
   );
 
-  window.textsecure.storage.protocol.on('removeAllData', () => {
+  signalProtocolStore.on('removeAllData', () => {
     window.reduxActions.stories.removeAllStories();
   });
 
@@ -525,7 +524,27 @@ export async function startApp(): Promise<void> {
 
     const buildExpirationService = new BuildExpirationService();
 
-    server = window.WebAPI.connect({
+    const { config } = window.SignalContext;
+
+    const WebAPI = window.textsecure.WebAPI.initialize({
+      chatServiceUrl: config.serverUrl,
+      storageUrl: config.storageUrl,
+      updatesUrl: config.updatesUrl,
+      resourcesUrl: config.resourcesUrl,
+      cdnUrlObject: {
+        0: config.cdnUrl0,
+        2: config.cdnUrl2,
+        3: config.cdnUrl3,
+      },
+      certificateAuthority: config.certificateAuthority,
+      contentProxyUrl: config.contentProxyUrl,
+      proxyUrl: config.proxyUrl,
+      version: config.version,
+      disableIPv6: config.disableIPv6,
+      stripePublishableKey: config.stripePublishableKey,
+    });
+
+    server = WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
       hasBuildExpired: buildExpirationService.hasBuildExpired(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
@@ -1181,7 +1200,7 @@ export async function startApp(): Promise<void> {
 
       await Promise.all([
         window.ConversationController.getOrCreateSignalConversation(),
-        window.textsecure.storage.protocol.hydrateCaches(),
+        signalProtocolStore.hydrateCaches(),
         loadAll(),
       ]);
       await window.ConversationController.checkForConflicts();
@@ -3292,7 +3311,7 @@ export async function startApp(): Promise<void> {
       await DataReader.getItemById('manifestVersion');
 
       // Finally, conversations in the database, and delete all config tables
-      await window.textsecure.storage.protocol.removeAllConfiguration();
+      await signalProtocolStore.removeAllConfiguration();
 
       // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.

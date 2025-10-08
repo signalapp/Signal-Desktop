@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import googleLibphonenumber from 'google-libphonenumber';
 import * as moment from 'moment';
 // @ts-expect-error -- no types
 import 'moment/min/locales.min.js';
@@ -15,8 +14,6 @@ import { createLogger } from '../../logging/log.js';
 import { SignalContext } from '../context.js';
 import * as Attachments from './attachments.js';
 
-const { PhoneNumberUtil, PhoneNumberFormat } = googleLibphonenumber;
-
 const log = createLogger('phase2-dependencies');
 
 initializeLogging();
@@ -25,27 +22,6 @@ window.nodeSetImmediate = setImmediate;
 window.textsecure = textsecure;
 
 const { config } = window.SignalContext;
-
-window.WebAPI = window.textsecure.WebAPI.initialize({
-  chatServiceUrl: config.serverUrl,
-  storageUrl: config.storageUrl,
-  updatesUrl: config.updatesUrl,
-  resourcesUrl: config.resourcesUrl,
-  cdnUrlObject: {
-    0: config.cdnUrl0,
-    2: config.cdnUrl2,
-    3: config.cdnUrl3,
-  },
-  certificateAuthority: config.certificateAuthority,
-  contentProxyUrl: config.contentProxyUrl,
-  proxyUrl: config.proxyUrl,
-  version: config.version,
-  disableIPv6: config.disableIPv6,
-  stripePublishableKey: config.stripePublishableKey,
-});
-
-window.libphonenumberInstance = PhoneNumberUtil.getInstance();
-window.libphonenumberFormat = PhoneNumberFormat;
 
 const { resolvedTranslationsLocale, preferredSystemLocales, localeOverride } =
   config;

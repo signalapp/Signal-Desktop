@@ -5,6 +5,7 @@ import { createLogger } from '../logging/log.js';
 import { isNotNil } from './isNotNil.js';
 import { updateIdentityKey } from '../services/profiles.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 import * as Bytes from '../Bytes.js';
 
 const log = createLogger('verifyStoryListMembers');
@@ -25,8 +26,7 @@ export async function verifyStoryListMembers(
 
   const elements = await Promise.all(
     serviceIds.map(async serviceId => {
-      const fingerprint =
-        await window.textsecure.storage.protocol.getFingerprint(serviceId);
+      const fingerprint = await signalProtocolStore.getFingerprint(serviceId);
 
       if (!fingerprint) {
         log.warn('no fingerprint found for serviceId=', serviceId);

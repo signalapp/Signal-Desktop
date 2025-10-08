@@ -10,7 +10,8 @@ import { IdentityChange } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ConversationModel } from '../models/conversations.js';
-import type { CapabilitiesType, ProfileType } from '../textsecure/WebAPI.js';
+import type { CapabilitiesType } from '../types/Capabilities.d.ts';
+import type { ProfileType } from '../textsecure/WebAPI.js';
 import MessageSender from '../textsecure/SendMessage.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { DataWriter } from '../sql/Client.js';
@@ -44,6 +45,7 @@ import {
   onFailedToSendWithEndorsements,
 } from '../util/groupSendEndorsements.js';
 import { ProfileDecryptError } from '../types/errors.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 const log = createLogger('profiles');
 
@@ -852,7 +854,7 @@ export async function updateIdentityKey(
     return false;
   }
 
-  const saveOutcome = await window.textsecure.storage.protocol.saveIdentity(
+  const saveOutcome = await signalProtocolStore.saveIdentity(
     new Address(serviceId, 1),
     identityKey,
     false,
@@ -864,7 +866,7 @@ export async function updateIdentityKey(
     // save identity will close all sessions except for .1, so we
     // must close that one manually.
     const ourAci = window.textsecure.storage.user.getCheckedAci();
-    await window.textsecure.storage.protocol.archiveSession(
+    await signalProtocolStore.archiveSession(
       new QualifiedAddress(ourAci, new Address(serviceId, 1))
     );
   }

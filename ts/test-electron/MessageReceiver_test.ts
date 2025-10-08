@@ -15,6 +15,7 @@ import { toAciObject } from '../util/ServiceId.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import * as Crypto from '../Crypto.js';
 import { toBase64 } from '../Bytes.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 describe('MessageReceiver', () => {
   const someAci = generateAci();
@@ -27,14 +28,14 @@ describe('MessageReceiver', () => {
     oldAci = window.storage.user.getAci();
     oldDeviceId = window.storage.user.getDeviceId();
     await window.storage.user.setAciAndDeviceId(generateAci(), 2);
-    await window.storage.protocol.hydrateCaches();
+    await signalProtocolStore.hydrateCaches();
   });
 
   afterEach(async () => {
     if (oldAci !== undefined && oldDeviceId !== undefined) {
       await window.storage.user.setAciAndDeviceId(oldAci, oldDeviceId);
     }
-    await window.storage.protocol.removeAllUnprocessed();
+    await signalProtocolStore.removeAllUnprocessed();
   });
 
   describe('connecting', () => {

@@ -14,6 +14,7 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
+import { signalProtocolStore, GLOBAL_ZONE } from '../SignalProtocolStore.js';
 import { senderCertificateService } from '../services/senderCertificate.js';
 import type { SendLogCallbackType } from '../textsecure/OutgoingMessage.js';
 import {
@@ -65,7 +66,6 @@ import { SignalService as Proto } from '../protobuf/index.js';
 
 import { strictAssert } from './assert.js';
 import { createLogger } from '../logging/log.js';
-import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
 import { waitForAll } from './waitForAll.js';
 import type { GroupSendEndorsementState } from './groupSendEndorsements.js';
 import {
@@ -355,7 +355,7 @@ export async function sendToGroupViaSenderKey(
   // 2. Fetch all devices we believe we'll be sending to
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const { devices: currentDevices, emptyServiceIds } =
-    await window.textsecure.storage.protocol.getOpenDevices(ourAci, recipients);
+    await signalProtocolStore.getOpenDevices(ourAci, recipients);
 
   let groupSendEndorsementState: GroupSendEndorsementState | null = null;
   if (groupId != null && !story) {
@@ -770,7 +770,7 @@ export async function resetSenderKey(
   });
 
   const ourAci = window.storage.user.getCheckedAci();
-  await window.textsecure.storage.protocol.removeSenderKey(
+  await signalProtocolStore.removeSenderKey(
     new QualifiedAddress(ourAci, ourAddress),
     distributionId
   );
@@ -950,7 +950,7 @@ async function markServiceIdUnregistered(serviceId: ServiceIdString) {
   conversation.setUnregistered();
   await DataWriter.updateConversation(conversation.attributes);
 
-  await window.textsecure.storage.protocol.archiveAllSessions(serviceId);
+  await signalProtocolStore.archiveAllSessions(serviceId);
 }
 
 function isServiceIdRegistered(serviceId: ServiceIdString) {
@@ -992,7 +992,7 @@ async function handle409Response(
 
           await waitForAll({
             tasks: devices.extraDevices.map(deviceId => async () => {
-              await window.textsecure.storage.protocol.archiveSession(
+              await signalProtocolStore.archiveSession(
                 new QualifiedAddress(ourAci, Address.create(uuid, deviceId))
               );
             }),
@@ -1032,7 +1032,7 @@ async function handle410Response(
           // First, archive our existing sessions with these devices
           await waitForAll({
             tasks: devices.staleDevices.map(deviceId => async () => {
-              await window.textsecure.storage.protocol.archiveSession(
+              await signalProtocolStore.archiveSession(
                 new QualifiedAddress(ourAci, Address.create(uuid, deviceId))
               );
             }),
@@ -1151,11 +1151,10 @@ async function encryptForSenderKey({
   });
   const message = padMessage(contentMessage);
 
-  const ciphertextMessage =
-    await window.textsecure.storage.protocol.enqueueSenderKeyJob(
-      new QualifiedAddress(ourAci, ourAddress),
-      () => groupEncrypt(sender, distributionId, senderKeyStore, message)
-    );
+  const ciphertextMessage = await signalProtocolStore.enqueueSenderKeyJob(
+    new QualifiedAddress(ourAci, ourAddress),
+    () => groupEncrypt(sender, distributionId, senderKeyStore, message)
+  );
 
   const groupIdBuffer = groupId ? Bytes.fromBase64(groupId) : null;
   const senderCertificateObject = await senderCertificateService.get(

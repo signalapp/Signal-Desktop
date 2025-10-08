@@ -111,6 +111,7 @@ import {
 } from '../types/ChatFolder.js';
 import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
 import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
+import { signalProtocolStore } from '../SignalProtocolStore.js';
 
 const { isEqual } = lodash;
 
@@ -135,7 +136,7 @@ export type MergeResultType = Readonly<{
 }>;
 
 function toRecordVerified(verified: number): Proto.ContactRecord.IdentityState {
-  const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
+  const VERIFIED_ENUM = signalProtocolStore.VerifiedStatus;
   const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
   switch (verified) {
@@ -151,7 +152,7 @@ function toRecordVerified(verified: number): Proto.ContactRecord.IdentityState {
 function fromRecordVerified(
   verified: Proto.ContactRecord.IdentityState
 ): number {
-  const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
+  const VERIFIED_ENUM = signalProtocolStore.VerifiedStatus;
   const STATE_ENUM = Proto.ContactRecord.IdentityState;
 
   switch (verified) {
@@ -283,7 +284,7 @@ export async function toContactRecord(
 
   const serviceId = aci ?? pni;
   const identityKey = serviceId
-    ? await window.textsecure.storage.protocol.loadIdentityKey(serviceId)
+    ? await signalProtocolStore.loadIdentityKey(serviceId)
     : undefined;
   if (identityKey) {
     contactRecord.identityKey = identityKey;
@@ -1376,12 +1377,11 @@ export async function mergeContactRecord(
     }
     const newVerified = fromRecordVerified(identityState);
 
-    const needsNotification =
-      await window.textsecure.storage.protocol.updateIdentityAfterSync(
-        serviceId,
-        newVerified,
-        contactRecord.identityKey
-      );
+    const needsNotification = await signalProtocolStore.updateIdentityAfterSync(
+      serviceId,
+      newVerified,
+      contactRecord.identityKey
+    );
 
     if (verified !== newVerified) {
       details.push(
@@ -1392,7 +1392,7 @@ export async function mergeContactRecord(
       conversation.set({ verified: newVerified });
     }
 
-    const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
+    const VERIFIED_ENUM = signalProtocolStore.VerifiedStatus;
     if (needsNotification) {
       details.push('adding a verified notification');
       await conversation.addVerifiedChange(
