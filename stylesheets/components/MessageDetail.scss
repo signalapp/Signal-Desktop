@@ -28,6 +28,7 @@
   @include mixins.font-body-1-bold;
 
   min-width: 72px;
+  padding-inline-end: 1em;
 }
 
 .module-message-detail__unix-timestamp-menu__button {
