@@ -165,6 +165,11 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.MessageBodyTooLong };
     case ToastType.MessageLoop:
       return { toastType: ToastType.MessageLoop };
+    case ToastType.NotificationProfileUpdate:
+      return {
+        toastType: ToastType.NotificationProfileUpdate,
+        parameters: { name: 'Focus', enabled: true },
+      };
     case ToastType.OriginalMessageNotFound:
       return { toastType: ToastType.OriginalMessageNotFound };
     case ToastType.PinnedConversationsFull:

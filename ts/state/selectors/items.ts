@@ -214,6 +214,12 @@ export const getHasStoryViewReceiptSetting = createSelector(
     )
 );
 
+export const getNotificationProfileSyncDisabled = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.notificationProfileSyncDisabled)
+);
+
 export const getRemoteBuildExpiration = createSelector(
   getItems,
   (state: ItemsStateType): number | undefined =>

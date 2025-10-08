@@ -57,6 +57,8 @@ export enum SettingsPage {
   DonationsDonateFlow = 'DonationsDonateFlow',
   DonationsReceiptList = 'DonationsReceiptList',
   EditChatFolder = 'EditChatFolder',
+  NotificationProfilesHome = 'NotificationProfilesHome',
+  NotificationProfilesCreateFlow = 'NotificationProfilesCreateFlow',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
   LocalBackups = 'LocalBackups',

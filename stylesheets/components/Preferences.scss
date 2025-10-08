@@ -24,7 +24,9 @@ $secondary-text-color: light-dark(
   display: flex;
   overflow: hidden;
   user-select: none;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  align-items: stretch;
 
   @include mixins.light-theme {
     background: variables.$color-white;
@@ -343,6 +345,7 @@ $secondary-text-color: light-dark(
     width: 100%;
     padding-top: 8px;
     max-width: 750px;
+    position: relative;
 
     &::-webkit-scrollbar-corner {
       background: transparent;
@@ -1467,8 +1470,36 @@ $secondary-text-color: light-dark(
   }
 }
 
+.Preferences__EditChatFolderPage__SelectChatsDialog {
+  height: 60vw;
+
+  .module-conversation-list::-webkit-scrollbar-thumb {
+    border-color: light-dark(variables.$color-white, variables.$color-gray-80);
+  }
+}
+
+.Preferences__EditChatFolderPage__SelectChatsDialog__body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Preferences__EditChatFolderPage__SelectChatsDialog__body_inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .Preferences__ReadonlySqlPlayground__Textarea {
   &__input {
     font-family: variables.$monospace;
+  }
+}
+
+.TimePickerPopup {
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
   }
 }

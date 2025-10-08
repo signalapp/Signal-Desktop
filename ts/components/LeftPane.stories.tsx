@@ -192,6 +192,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     usernameCorrupted: false,
     usernameLinkCorrupted: false,
     isUpdateDownloaded,
+    isNotificationProfileActive: false,
     navTabsCollapsed: false,
 
     setChallengeStatus: action('setChallengeStatus'),
@@ -236,6 +237,9 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         {...overrideProps.dialogNetworkStatus}
         {...props}
       />
+    ),
+    renderNotificationProfilesMenu: ({ trigger }) => (
+      <div className="fakeNotificationProfilesMenu">{trigger}</div>
     ),
     renderRelinkDialog: props => (
       <DialogRelink

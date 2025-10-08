@@ -111,7 +111,7 @@ export function DeliveredIncoming(args: Props): JSX.Element {
       contacts={[
         {
           ...getDefaultConversation({
-            color: 'forest',
+            color: 'A100',
             title: 'Max',
           }),
           status: undefined,

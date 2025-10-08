@@ -11,6 +11,7 @@ import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import Long from 'long';
 
+import * as Bytes from '../../Bytes.js';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
 import { MY_STORY_ID } from '../../types/Stories.js';
 import { generateAci } from '../../types/ServiceId.js';
@@ -28,6 +29,7 @@ import {
 import { toBase64 } from '../../Bytes.js';
 import { strictAssert } from '../../util/assert.js';
 import { BackupLevel } from '../../services/backups/types.js';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.js';
 
 export const debug = createDebug('mock:test:backups');
 
@@ -119,6 +121,35 @@ describe('backups', function (this: Mocha.Suite) {
           isBlockList: false,
           name: 'friend',
           recipientServiceIdsBinary: [friend.device.aciBinary],
+        },
+      },
+    });
+
+    const notificationProfileName1 = 'Work';
+    const now = Date.now();
+    state = state.addRecord({
+      type: IdentifierType.NOTIFICATION_PROFILE,
+      record: {
+        notificationProfile: {
+          id: Bytes.fromHex(generateNotificationProfileId()),
+          name: notificationProfileName1,
+          color: 0xffff0000,
+          createdAtMs: Long.fromNumber(now),
+          allowAllCalls: true,
+        },
+      },
+    });
+
+    const notificationProfileName2 = 'Driving';
+    state = state.addRecord({
+      type: IdentifierType.NOTIFICATION_PROFILE,
+      record: {
+        notificationProfile: {
+          id: Bytes.fromHex(generateNotificationProfileId()),
+          name: notificationProfileName2,
+          color: 0xff00ff00,
+          createdAtMs: Long.fromNumber(now + 1),
+          allowAllMentions: true,
         },
       },
     });
@@ -304,6 +335,24 @@ describe('backups', function (this: Mocha.Suite) {
         ).toHaveCSS('opacity', '1');
 
         await snapshot('story privacy');
+
+        debug('Closing story privacy dialog');
+        await window.locator('.module-Modal__close-button').click();
+
+        debug('Switching to settings tab');
+        await window.getByTestId('NavTabsItem--Settings').click();
+
+        debug('Opening Notification Profiles list screen');
+        await window.getByRole('button', { name: 'Notifications' }).click();
+        await window.getByTestId('ManageNotificationProfiles').click();
+        await expect(
+          window.getByTestId(`EditProfile--${notificationProfileName1}`)
+        ).toBeVisible();
+        await expect(
+          window.getByTestId(`EditProfile--${notificationProfileName2}`)
+        ).toBeVisible();
+
+        await snapshot('notification profile list');
       },
       thisVal.test
     );

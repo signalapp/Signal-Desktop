@@ -86,6 +86,7 @@ export type StorageAccessType = {
   hasCompletedUsernameLinkOnboarding: boolean;
   hasCompletedSafetyNumberOnboarding: boolean;
   hasSeenGroupStoryEducationSheet: boolean;
+  hasSeenNotificationProfileOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean | undefined;
@@ -200,6 +201,10 @@ export type StorageAccessType = {
   needOrphanedAttachmentCheck: boolean;
   needProfileMovedModal: boolean;
   notificationProfileOverride: NotificationProfileOverride | undefined;
+  notificationProfileOverrideFromPrimary:
+    | NotificationProfileOverride
+    | undefined;
+  notificationProfileSyncDisabled: boolean;
   observedCapabilities: {
     attachmentBackfill?: true;
 

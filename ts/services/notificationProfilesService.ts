@@ -13,15 +13,22 @@ import { DataReader, DataWriter } from '../sql/Client.js';
 import {
   findNextProfileEvent,
   redactNotificationProfileId,
-  type NotificationProfileType,
 } from '../types/NotificationProfile.js';
 import {
+  getActiveProfile,
   getCurrentState,
   getDeletedProfiles,
   getOverride,
   getProfiles,
 } from '../state/selectors/notificationProfiles.js';
 import { safeSetTimeout } from '../util/timeout.js';
+import { ToastType } from '../types/Toast.js';
+import { toLogFormat } from '../types/errors.js';
+
+import type {
+  NextProfileEvent,
+  NotificationProfileType,
+} from '../types/NotificationProfile.js';
 
 const { debounce, isEqual, isNumber } = lodash;
 
@@ -35,15 +42,25 @@ export class NotificationProfilesService {
     drop(this.#debouncedRefreshNextEvent());
   }
 
-  async #refreshNextEvent() {
+  fastUpdate(): void {
+    drop(this.#refreshNextEvent());
+  }
+
+  async #refreshNextEvent(): Promise<void> {
     log.info('notificationProfileService: starting');
 
     const { updateCurrentState, updateOverride, profileWasRemoved } =
       window.reduxActions.notificationProfiles;
 
     const state = window.reduxStore.getState();
+
+    // This gets everything, even if it's not being shown to user
+    const allProfilesIncludingRemoteOnly = state.notificationProfiles.profiles;
+
+    // These fetches are limited to what user can see (local-only items, if sync=OFF)
     const profiles = getProfiles(state);
     const previousCurrentState = getCurrentState(state);
+    const previousActiveProfile = getActiveProfile(state);
     const deletedProfiles = getDeletedProfiles(state);
     let override = getOverride(state);
 
@@ -88,7 +105,7 @@ export class NotificationProfilesService {
       ) {
         log.info('notificationProfileService: Clearing manual enable override');
         override = undefined;
-        updateOverride(undefined);
+        updateOverride(undefined, { fromStorageService: false });
       } else {
         log.info(
           'notificationProfileService: Tried to clear manual enable override, but it did not match previous override'
@@ -107,7 +124,7 @@ export class NotificationProfilesService {
           'notificationProfileService: Clearing manual disable override'
         );
         override = undefined;
-        updateOverride(undefined);
+        updateOverride(undefined, { fromStorageService: false });
       } else {
         log.info(
           'notificationProfileService: Tried to clear manual disable override, but it did not match previous override'
@@ -115,18 +132,88 @@ export class NotificationProfilesService {
       }
     }
 
-    log.info('notificationProfileService: finding next profile event');
-    const currentState = findNextProfileEvent({
-      override,
-      profiles,
-      time,
-    });
+    let currentState: NextProfileEvent;
+    try {
+      log.info('notificationProfileService: finding next profile event');
+      currentState = findNextProfileEvent({
+        override,
+        profiles,
+        time,
+      });
+    } catch (error) {
+      log.warn('notificationProfileService:', toLogFormat(error));
+      if (override) {
+        log.warn(
+          'notificationProfileService: Clearing override because something went wrong'
+        );
+
+        // This will kick off another profile update when it completes
+        updateOverride(undefined, { fromStorageService: false });
+      }
+
+      return;
+    }
+
+    const currentActiveProfileId =
+      currentState.type === 'willDisable' || currentState.type === 'noChange'
+        ? currentState.activeProfile
+        : undefined;
+    const currentActiveProfile = currentActiveProfileId
+      ? allProfilesIncludingRemoteOnly.find(
+          item => item.id === currentActiveProfileId
+        )
+      : undefined;
 
     if (!isEqual(previousCurrentState, currentState)) {
       log.info(
         'notificationProfileService: next profile event has changed, updating redux'
       );
-      updateCurrentState(currentState);
+      updateCurrentState(currentState, currentActiveProfile);
+    }
+
+    if (previousActiveProfile?.id === currentActiveProfileId) {
+      // do nothing!
+      // Something has changed, but it's still the same profile
+    } else if (
+      previousActiveProfile &&
+      currentActiveProfile &&
+      previousActiveProfile.name === currentActiveProfile.name &&
+      // This off-by-one timestamp is created in prepareForDisabledNotificationProfileSync
+      (previousActiveProfile.createdAtMs ===
+        currentActiveProfile.createdAtMs + 1 ||
+        previousActiveProfile.createdAtMs + 1 ===
+          currentActiveProfile.createdAtMs)
+    ) {
+      // do nothing!
+      // We're switching to a different profile, but it's a remote/local copy. This will
+      // happen whenever there's an override enabling a profile and notification profiles
+      // sync is turned on/off.
+    } else if (!currentActiveProfileId) {
+      if (previousActiveProfile) {
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.NotificationProfileUpdate,
+          parameters: {
+            enabled: false,
+            name: previousActiveProfile.name,
+          },
+        });
+      } else {
+        log.warn(
+          'refreshNextEvent: Unable to find just-disabled profile for toast'
+        );
+      }
+    } else if (currentActiveProfile) {
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.NotificationProfileUpdate,
+        parameters: {
+          enabled: true,
+          name: currentActiveProfile.name,
+        },
+      });
+    } else {
+      log.warn(
+        'refreshNextEvent: Unable to find just-enabled profile for toast'
+      );
     }
 
     let nextCheck: number | undefined;
@@ -146,7 +233,7 @@ export class NotificationProfilesService {
       return;
     }
 
-    const wait = Date.now() - nextCheck;
+    const wait = nextCheck - Date.now();
     log.info(
       `notificationProfileService: next check ${new Date(nextCheck).toISOString()};` +
         ` waiting ${wait}ms`
@@ -159,18 +246,26 @@ export class NotificationProfilesService {
 }
 
 export function initialize(): void {
-  // if (instance) {
-  //   log.warn('NotificationProfileService is already initialized!');
-  //   return;
-  // }
-  // instance = new NotificationProfilesService();
+  if (instance) {
+    log.warn('NotificationProfileService is already initialized!');
+    return;
+  }
+  instance = new NotificationProfilesService();
 }
 
 export function update(): void {
-  // if (!instance) {
-  //   throw new Error('NotificationProfileService not yet initialized!');
-  // }
-  // instance.update();
+  if (!instance) {
+    throw new Error('update: NotificationProfileService not yet initialized!');
+  }
+  instance.update();
+}
+export function fastUpdate(): void {
+  if (!instance) {
+    throw new Error(
+      'fastUpdate: NotificationProfileService not yet initialized!'
+    );
+  }
+  instance.fastUpdate();
 }
 
 let cachedProfiles: ReadonlyArray<NotificationProfileType> | undefined;
@@ -189,4 +284,4 @@ export function getCachedProfiles(): ReadonlyArray<NotificationProfileType> {
   return profiles;
 }
 
-// let instance: NotificationProfilesService;
+let instance: NotificationProfilesService;

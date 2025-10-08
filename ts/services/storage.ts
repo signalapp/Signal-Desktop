@@ -27,6 +27,7 @@ import {
   toContactRecord,
   toGroupV1Record,
   toGroupV2Record,
+  toNotificationProfileRecord,
   toStoryDistributionListRecord,
   toStickerPackRecord,
   toCallLinkRecord,
@@ -34,6 +35,7 @@ import {
   toDefunctOrPendingCallLinkRecord,
   toChatFolderRecord,
   mergeChatFolderRecord,
+  mergeNotificationProfileRecord,
 } from './storageRecordOps.js';
 import type { MergeResultType } from './storageRecordOps.js';
 import { MAX_READ_KEYS } from './storageConstants.js';
@@ -88,7 +90,9 @@ import { isDone as isRegistrationDone } from '../util/registration.js';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import { isMockEnvironment } from '../environment.js';
 import { validateConversation } from '../util/validateConversation.js';
-import { hasAllChatsChatFolder, type ChatFolder } from '../types/ChatFolder.js';
+import { hasAllChatsChatFolder } from '../types/ChatFolder.js';
+import type { ChatFolder } from '../types/ChatFolder.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.js';
 
 const { debounce, isNumber, chunk } = lodash;
 
@@ -109,6 +113,7 @@ const uploadBucket: Array<number> = [];
 
 const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
+// Note: when updating this, update the switch downfile in mergeRecord()
 const validRecordTypes = new Set([
   ITEM_TYPE.UNKNOWN,
   ITEM_TYPE.CONTACT,
@@ -119,6 +124,7 @@ const validRecordTypes = new Set([
   ITEM_TYPE.STICKER_PACK,
   ITEM_TYPE.CALL_LINK,
   ITEM_TYPE.CHAT_FOLDER,
+  ITEM_TYPE.NOTIFICATION_PROFILE,
 ]);
 
 const backOff = new BackOff([
@@ -188,6 +194,12 @@ async function generateManifest(
   log.info(`upload(${version}): generating manifest new=${isNewManifest}`);
 
   await window.ConversationController.checkForConflicts();
+
+  // Load at the beginning, so we use this one value through the whole process
+  const notificationProfileSyncDisabled = window.storage.get(
+    'notificationProfileSyncDisabled',
+    false
+  );
 
   const postUploadUpdateFunctions: Array<() => unknown> = [];
   const insertKeys = new Set<string>();
@@ -263,7 +275,9 @@ async function generateManifest(
     if (conversationType === ConversationTypes.Me) {
       storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
-      storageRecord.account = await toAccountRecord(conversation);
+      storageRecord.account = await toAccountRecord(conversation, {
+        notificationProfileSyncDisabled,
+      });
       identifierType = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
@@ -355,6 +369,7 @@ async function generateManifest(
   const {
     callLinkDbRecords,
     defunctCallLinks,
+    notificationProfiles,
     pendingCallLinks,
     storyDistributionLists,
     installedStickerPacks,
@@ -415,6 +430,78 @@ async function generateManifest(
           storageVersion: version,
           storageNeedsSync: false,
         });
+      });
+    }
+  }
+
+  const notificationProfilesToUpload = notificationProfileSyncDisabled
+    ? notificationProfiles.filter(item => item.storageID)
+    : notificationProfiles;
+  if (notificationProfileSyncDisabled) {
+    const localOnlyCount =
+      notificationProfilesToUpload.length - notificationProfiles.length;
+    log.info(
+      `upload(${version}): ` +
+        `sync=OFF; adding notificationProfiles=${notificationProfilesToUpload.length}, excluding ${localOnlyCount} local profiles`
+    );
+  } else {
+    log.info(
+      `upload(${version}): ` +
+        `sync=ON, adding notificationProfiles=${notificationProfilesToUpload.length}`
+    );
+  }
+  for (const notificationProfile of notificationProfilesToUpload) {
+    const storageRecord = new Proto.StorageRecord();
+    storageRecord.notificationProfile =
+      toNotificationProfileRecord(notificationProfile);
+
+    if (
+      notificationProfile.deletedAtTimestampMs != null &&
+      notificationProfile.deletedAtTimestampMs !== 0 &&
+      isOlderThan(
+        notificationProfile.deletedAtTimestampMs,
+        getMessageQueueTime()
+      )
+    ) {
+      const droppedID = notificationProfile.storageID;
+      const droppedVersion = notificationProfile.storageVersion;
+      if (!droppedID) {
+        continue;
+      }
+
+      const recordID = redactStorageID(droppedID, droppedVersion);
+
+      log.info(
+        `generateManifest(${version}): ` +
+          `dropping notificationProfile=${recordID} ` +
+          `due to expired deleted timestamp=${notificationProfile.deletedAtTimestampMs}`
+      );
+      deleteKeys.add(droppedID);
+
+      const { id } = notificationProfile;
+      drop(DataWriter.deleteNotificationProfileById(id));
+      window.reduxActions.notificationProfiles.profileWasRemoved(id);
+      continue;
+    }
+
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: notificationProfile.storageID,
+      currentStorageVersion: notificationProfile.storageVersion,
+      identifierType: ITEM_TYPE.NOTIFICATION_PROFILE,
+      storageNeedsSync: notificationProfile.storageNeedsSync,
+      storageRecord,
+    });
+
+    if (isNewItem) {
+      postUploadUpdateFunctions.push(() => {
+        const updated = {
+          ...notificationProfile,
+          storageID,
+          storageVersion: version,
+          storageNeedsSync: false,
+        };
+        drop(DataWriter.updateNotificationProfile(updated));
+        window.reduxActions.notificationProfiles.profileWasUpdated(updated);
       });
     }
   }
@@ -1146,6 +1233,7 @@ async function mergeRecord(
   const needProfileFetch = new Array<ConversationModel>();
 
   try {
+    // Note: when updating this switch, update the validRecordTypes set upfile
     if (itemType === ITEM_TYPE.UNKNOWN) {
       log.warn('mergeRecord: Unknown item type', redactedStorageID);
     } else if (itemType === ITEM_TYPE.CONTACT && storageRecord.contact) {
@@ -1202,10 +1290,20 @@ async function mergeRecord(
         storageVersion,
         storageRecord.chatFolder
       );
+    } else if (
+      itemType === ITEM_TYPE.NOTIFICATION_PROFILE &&
+      storageRecord.notificationProfile
+    ) {
+      mergeResult = await mergeNotificationProfileRecord(
+        storageID,
+        storageVersion,
+        storageRecord.notificationProfile
+      );
     } else {
       isUnsupported = true;
       log.warn(`merge(${redactedStorageID}): unknown item type=${itemType}`);
     }
+    // Note: when updating this switch, update the validRecordTypes set upfile
 
     const redactedID = redactStorageID(
       storageID,
@@ -1254,6 +1352,7 @@ async function mergeRecord(
 type NonConversationRecordsResultType = Readonly<{
   callLinkDbRecords: ReadonlyArray<CallLinkRecord>;
   defunctCallLinks: ReadonlyArray<DefunctCallLinkType>;
+  notificationProfiles: ReadonlyArray<NotificationProfileType>;
   pendingCallLinks: ReadonlyArray<PendingCallLinkType>;
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   uninstalledStickerPacks: ReadonlyArray<UninstalledStickerPackType>;
@@ -1266,6 +1365,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
   const [
     callLinkDbRecords,
     defunctCallLinks,
+    notificationProfiles,
     pendingCallLinks,
     storyDistributionLists,
     uninstalledStickerPacks,
@@ -1274,6 +1374,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
   ] = await Promise.all([
     DataReader.getAllCallLinkRecordsWithAdminKey(),
     DataReader.getAllDefunctCallLinksWithAdminKey(),
+    DataReader.getAllNotificationProfiles(),
     callLinkRefreshJobQueue.getPendingAdminCallLinks(),
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),
@@ -1284,6 +1385,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
   return {
     callLinkDbRecords,
     defunctCallLinks,
+    notificationProfiles,
     pendingCallLinks,
     storyDistributionLists,
     uninstalledStickerPacks,
@@ -1325,6 +1427,7 @@ async function processManifest(
     const {
       callLinkDbRecords,
       defunctCallLinks,
+      notificationProfiles,
       pendingCallLinks,
       storyDistributionLists,
       installedStickerPacks,
@@ -1348,6 +1451,9 @@ async function processManifest(
 
     defunctCallLinks.forEach(collectLocalKeysFromFields);
     localRecordCount += defunctCallLinks.length;
+
+    notificationProfiles.forEach(collectLocalKeysFromFields);
+    localRecordCount += notificationProfiles.length;
 
     pendingCallLinks.forEach(collectLocalKeysFromFields);
     localRecordCount += pendingCallLinks.length;
@@ -1815,9 +1921,18 @@ async function processRemoteRecords(
   }
 
   let accountItem: MergeableItemType | undefined;
+  const recordsNeedingAllContacts: Array<MergeableItemType> = [];
 
   let prunedStorageItems = decryptedItems.filter(item => {
     const { itemType, storageID, storageRecord } = item;
+    if (
+      itemType === ITEM_TYPE.NOTIFICATION_PROFILE ||
+      itemType === ITEM_TYPE.NOTIFICATION_PROFILE
+    ) {
+      recordsNeedingAllContacts.push(item);
+      return false;
+    }
+
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (accountItem !== undefined) {
         log.warn(
@@ -1829,6 +1944,15 @@ async function processRemoteRecords(
       }
 
       accountItem = item;
+      const record = accountItem?.storageRecord.account;
+
+      if (!record) {
+        log.warn(
+          `process(${storageVersion}): account record had no account data`
+        );
+        return false;
+      }
+
       return false;
     }
 
@@ -1910,19 +2034,34 @@ async function processRemoteRecords(
       );
     };
 
+    const mergedPrunedStorageItems =
+      await mergeWithConcurrency(prunedStorageItems);
+
+    // Merge split PNI contacts after processing remote records. If original
+    // e164+ACI+PNI contact is unregistered - it is going to be split so we
+    // have to make that happen first. Otherwise we will ignore ContactRecord
+    // changes on these since there is already a parent "merged" contact.
+    const mergedSplitPNIContacts = await mergeWithConcurrency(splitPNIContacts);
+
+    // Merge records that need all contacts already processed beforehand. Records like
+    // Chat Folders and Notification Profiles need all contacts in place since they might
+    // refer to any contact.
+    const mergedRecordsNeedingAllContacts = await mergeWithConcurrency(
+      recordsNeedingAllContacts
+    );
+
+    // Merge Account record last since it contains references to records that need
+    // to be processed first - things like pinned conversations or the user's notification
+    // profile manual override.
+    const mergedAccountRecord = accountItem
+      ? await mergeRecord(storageVersion, accountItem)
+      : undefined;
+
     const mergedRecords = [
-      ...(await mergeWithConcurrency(prunedStorageItems)),
-
-      // Merge split PNI contacts after processing remote records. If original
-      // e164+ACI+PNI contact is unregistered - it is going to be split so we
-      // have to make that happen first. Otherwise we will ignore ContactRecord
-      // changes on these since there is already a parent "merged" contact.
-      ...(await mergeWithConcurrency(splitPNIContacts)),
-
-      // Merge Account records last since it contains the pinned conversations
-      // and we need all other records merged first before we can find the pinned
-      // records in our db
-      ...(accountItem ? [await mergeRecord(storageVersion, accountItem)] : []),
+      ...mergedPrunedStorageItems,
+      ...mergedSplitPNIContacts,
+      ...mergedRecordsNeedingAllContacts,
+      ...(mergedAccountRecord ? [mergedAccountRecord] : []),
     ];
 
     log.info(

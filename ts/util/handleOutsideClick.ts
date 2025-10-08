@@ -6,7 +6,7 @@ import { createLogger } from '../logging/log.js';
 
 const log = createLogger('handleOutsideClick');
 
-export type HandlerType = (target: Node) => boolean;
+export type HandlerType = (target: Node, event: MouseEvent) => boolean;
 export type HandlersType = {
   name: string;
   handleClick: HandlerType;
@@ -26,13 +26,13 @@ export type HandleOutsideClickOptionsType = Readonly<{
 function handleGlobalPointerDown(event: MouseEvent) {
   for (const handlers of fakeHandlers) {
     // continue even if handled, so that we can detect if the click was inside
-    handlers.handlePointerDown(event.target as Node);
+    handlers.handlePointerDown(event.target as Node, event);
   }
 }
 
 function handleGlobalClick(event: MouseEvent) {
   for (const handlers of fakeHandlers.slice().reverse()) {
-    const handled = handlers.handleClick(event.target as Node);
+    const handled = handlers.handleClick(event.target as Node, event);
     if (handled) {
       log.info(`${handlers.name} handled click`);
       break;
@@ -65,14 +65,14 @@ export const handleOutsideClick = (
     return false;
   }
 
-  function handleClick(target: Node) {
+  function handleClick(target: Node, event: MouseEvent) {
     const endedInside = isInside(target);
     // Clicked inside of one of container elements - stop processing
     if (startedInside || endedInside) {
       return true;
     }
     // Stop processing if requested by handler function
-    return handler(target);
+    return handler(target, event);
   }
 
   const fakeHandler = {

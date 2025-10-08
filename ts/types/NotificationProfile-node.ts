@@ -15,9 +15,10 @@ import type { LoggerType } from './Logging.js';
 const log = createLogger('NotificationProfile-node');
 
 export function generateNotificationProfileId(): NotificationProfileIdString {
-  return Bytes.toHex(
-    getRandomBytes(NOTIFICATION_PROFILE_ID_LENGTH)
-  ) as NotificationProfileIdString;
+  return normalizeNotificationProfileId(
+    Bytes.toHex(getRandomBytes(NOTIFICATION_PROFILE_ID_LENGTH)),
+    'generateNotificationProfileId'
+  );
 }
 
 export function isNotificationProfileId(
@@ -36,7 +37,7 @@ export function normalizeNotificationProfileId(
   context: string,
   logger: Pick<LoggerType, 'warn'> = log
 ): NotificationProfileIdString {
-  const result = id.toUpperCase();
+  const result = id.toLowerCase();
 
   if (!isNotificationProfileId(result)) {
     logger.warn(

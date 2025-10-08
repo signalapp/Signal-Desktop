@@ -7770,7 +7770,9 @@ function markNotificationProfileDeleted(
 
   const [query, parameters] = sql`
       UPDATE notificationProfiles
-      SET deletedAtTimestampMs = ${now}
+      SET
+        deletedAtTimestampMs = ${now},
+        storageNeedsSync = 1
       WHERE
         id = ${id} AND
         deletedAtTimestampMs IS NULL
@@ -8041,6 +8043,14 @@ function eraseStorageServiceState(db: WritableDB): void {
 
     -- Chat Folders
     UPDATE chatFolders
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0; 
+
+    -- Notification Profiles
+    UPDATE notificationProfiles
     SET
       storageID = null,
       storageVersion = null,

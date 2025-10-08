@@ -12,8 +12,8 @@ export function migrateColor(
   color: string | undefined,
   options: Parameters<typeof generateAvatarColor>[0]
 ): AvatarColorType {
-  if (color && NEW_COLOR_NAMES.has(color)) {
-    return color;
+  if (color && NEW_COLOR_NAMES.has(color as AvatarColorType)) {
+    return color as AvatarColorType;
   }
 
   return generateAvatarColor(options);

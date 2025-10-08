@@ -11,8 +11,6 @@ import type { StorageServiceFieldsType } from '../sql/Interface.js';
 const { isNumber, orderBy } = lodash;
 
 // Note: this must match the Backup and Storage Service protos for NotificationProfile
-// This variable is separate so we aren't forced to add it to ScheduleDays object below
-export const DayOfWeekUnknown = 0;
 export enum DayOfWeek {
   MONDAY = 1,
   TUESDAY = 2,
@@ -23,6 +21,9 @@ export enum DayOfWeek {
   SUNDAY = 7,
 }
 export type ScheduleDays = { [key in DayOfWeek]: boolean };
+
+// This variable is separate so we aren't forced to add it to ScheduleDays type
+export const DayOfWeekUnknown = 0;
 
 export type NotificationProfileIdString = string & {
   __notification_profile_id: never;
@@ -148,7 +149,17 @@ export function findNextProfileEvent({
   if (override?.enabled) {
     const profile = getProfileById(override.enabled.profileId, profiles);
 
-    const isEnabled = isProfileEnabledBySchedule({ time, profile });
+    const isEnabled =
+      isProfileEnabledBySchedule({
+        time,
+        timeForSchedule: time - DAY,
+        profile,
+      }) ||
+      isProfileEnabledBySchedule({
+        time,
+        timeForSchedule: time,
+        profile,
+      });
     if (isEnabled) {
       const willDisableAt = findNextScheduledDisable({ time, profile });
       strictAssert(
@@ -257,13 +268,15 @@ export function findNextProfileEvent({
 // Should this profile be active right now, based on its schedule?
 export function isProfileEnabledBySchedule({
   time,
+  timeForSchedule,
   profile,
 }: {
   time: number;
+  timeForSchedule: number;
   profile: NotificationProfileType;
 }): boolean {
-  const day = getDayOfWeek(time);
-  const midnight = getMidnight(time);
+  const day = getDayOfWeek(timeForSchedule);
+  const midnight = getMidnight(timeForSchedule);
 
   const {
     scheduleEnabled,
@@ -281,13 +294,49 @@ export function isProfileEnabledBySchedule({
     return false;
   }
 
-  const scheduleStart = scheduleToTime(midnight, scheduleStartTime);
-  const scheduleEnd = scheduleToTime(midnight, scheduleEndTime);
+  const scheduleStart = getStartTime(midnight, {
+    scheduleStartTime,
+  });
+  const scheduleEnd = getEndTime(midnight, {
+    scheduleEndTime,
+    scheduleStartTime,
+  });
   if (time >= scheduleStart && time <= scheduleEnd) {
     return true;
   }
 
   return false;
+}
+
+// For a schedule like start: 8pm, end: 8am, it's an overnight schedule. But we still just
+// start with the start time.
+export function getStartTime(
+  midnight: number,
+  { scheduleStartTime }: { scheduleStartTime: number }
+): number {
+  const scheduleStart = scheduleToTime(midnight, scheduleStartTime);
+
+  return scheduleStart;
+}
+
+// For a schedule like start: 8pm, end: 8am, it's an overnight schedule. It ends with
+// the stated start time, 24 hours added.
+export function getEndTime(
+  midnight: number,
+  {
+    scheduleStartTime,
+    scheduleEndTime,
+  }: { scheduleStartTime: number; scheduleEndTime: number }
+): number {
+  const scheduleStart = scheduleToTime(midnight, scheduleStartTime);
+  const scheduleEnd = scheduleToTime(midnight, scheduleEndTime);
+
+  // The normal case, where the end comes after the start.
+  if (scheduleEnd > scheduleStart) {
+    return scheduleEnd;
+  }
+
+  return scheduleEnd + DAY;
 }
 
 // Find the profile that should be active right, based on schedules
@@ -300,8 +349,21 @@ export function areAnyProfilesEnabledBySchedule({
 }): NotificationProfileType | undefined {
   // We find the first match, assuming the array is sorted, newest to oldest
   for (const profile of profiles) {
-    const result = isProfileEnabledBySchedule({ time, profile });
-    if (result) {
+    const enabledYesterday = isProfileEnabledBySchedule({
+      time,
+      timeForSchedule: time - DAY,
+      profile,
+    });
+    if (enabledYesterday) {
+      return profile;
+    }
+
+    const enabledNow = isProfileEnabledBySchedule({
+      time,
+      timeForSchedule: time,
+      profile,
+    });
+    if (enabledNow) {
       return profile;
     }
   }
@@ -329,12 +391,21 @@ export function findNextScheduledDisable({
     time,
     startingDay,
     check: ({ startOfDay, day }) => {
-      const { scheduleDaysEnabled, scheduleEndTime } = profile;
-      if (!scheduleDaysEnabled?.[day] || !isNumber(scheduleEndTime)) {
+      const { scheduleDaysEnabled, scheduleEndTime, scheduleStartTime } =
+        profile;
+      if (
+        !scheduleDaysEnabled?.[day] ||
+        !isNumber(scheduleEndTime) ||
+        !isNumber(scheduleStartTime)
+      ) {
         return false;
       }
 
-      const scheduleEnd = scheduleToTime(startOfDay, scheduleEndTime);
+      const scheduleEnd = getEndTime(startOfDay, {
+        scheduleEndTime,
+        scheduleStartTime,
+      });
+
       if (time < scheduleEnd) {
         result = scheduleEnd;
         return true;
@@ -367,13 +438,20 @@ export function findNextScheduledEnable({
     time,
     startingDay,
     check: ({ startOfDay, day }) => {
-      const { scheduleDaysEnabled, scheduleStartTime } = profile;
+      const { scheduleDaysEnabled, scheduleEndTime, scheduleStartTime } =
+        profile;
 
-      if (!scheduleDaysEnabled?.[day] || !isNumber(scheduleStartTime)) {
+      if (
+        !scheduleDaysEnabled?.[day] ||
+        !isNumber(scheduleEndTime) ||
+        !isNumber(scheduleStartTime)
+      ) {
         return false;
       }
 
-      const scheduleStart = scheduleToTime(startOfDay, scheduleStartTime);
+      const scheduleStart = getStartTime(startOfDay, {
+        scheduleStartTime,
+      });
       if (time < scheduleStart) {
         result = scheduleStart;
         return true;
@@ -386,8 +464,8 @@ export function findNextScheduledEnable({
   return result;
 }
 
-// This is specifically about finding schedule that will enable later. It will not return
-// a schedule enabled right now unless it also has the next scheduled start.
+// This is specifically about finding a schedule that will enable later. It will not
+// return a schedule enabled right now unless it also has the next scheduled start.
 export function findNextScheduledEnableForAll({
   profiles,
   time,
@@ -456,10 +534,13 @@ export function loopThroughWeek({
   check: (options: { startOfDay: number; day: DayOfWeek }) => boolean;
 }): void {
   const todayAtMidnight = getMidnight(time);
-  let index = 0;
+  let index = -1;
 
   while (index < DayOfWeek.SUNDAY) {
     let indexDay = startingDay + index;
+    if (indexDay <= 0) {
+      indexDay += DayOfWeek.SUNDAY;
+    }
     if (indexDay > DayOfWeek.SUNDAY) {
       indexDay -= DayOfWeek.SUNDAY;
     }

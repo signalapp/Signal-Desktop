@@ -30,6 +30,7 @@ function getEmojiJumboBackground(
 }
 
 export type FunStaticEmojiSize =
+  | 12
   | 16
   | 18
   | 20
@@ -52,6 +53,7 @@ export enum FunJumboEmojiSize {
 }
 
 const funStaticEmojiSizeClasses = {
+  12: 'FunStaticEmoji--Size12',
   16: 'FunStaticEmoji--Size16',
   18: 'FunStaticEmoji--Size18',
   20: 'FunStaticEmoji--Size20',

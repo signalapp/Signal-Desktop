@@ -59,6 +59,7 @@ export enum ToastType {
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
   MessageLoop = 'MessageLoop',
+  NotificationProfileUpdate = 'NotificationProfileUpdate',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
@@ -174,6 +175,10 @@ export type AnyToast =
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }
   | { toastType: ToastType.MessageLoop }
+  | {
+      toastType: ToastType.NotificationProfileUpdate;
+      parameters: { enabled: boolean; name: string };
+    }
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }

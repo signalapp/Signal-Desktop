@@ -4,9 +4,9 @@
 import type { Meta, StoryFn } from '@storybook/react';
 import React, { useState } from 'react';
 import type { MutableRefObject } from 'react';
-
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
+
 import { Preferences } from './Preferences.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.js';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.js';
@@ -29,6 +29,14 @@ import type { SettingsLocation } from '../types/Nav.js';
 import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.js';
 import { PreferencesDonations } from './PreferencesDonations.js';
 import { strictAssert } from '../util/assert.js';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.js';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.js';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.js';
+import {
+  NotificationProfilesHome,
+  NotificationProfilesCreateFlow,
+} from './PreferencesNotificationProfiles.js';
+import { DayOfWeek } from '../types/NotificationProfile.js';
 
 import type { LocalizerType } from '../types/Util.js';
 import type { PropsType } from './Preferences.js';
@@ -41,10 +49,9 @@ import type {
 } from '../types/Donations.js';
 import type { AnyToast } from '../types/Toast.js';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
-import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
-import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.js';
-import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.js';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.js';
 
 const { shuffle } = lodash;
 
@@ -316,6 +323,49 @@ function renderPreferencesEditChatFolderPage(
   );
 }
 
+function renderNotificationProfilesCreateFlow(
+  props: SmartNotificationProfilesProps
+): JSX.Element {
+  return (
+    <NotificationProfilesCreateFlow
+      contentsRef={props.contentsRef}
+      conversations={conversations}
+      conversationSelector={conversationSelector}
+      createProfile={action('createProfile')}
+      i18n={i18n}
+      preferredBadgeSelector={() => undefined}
+      setSettingsLocation={props.setSettingsLocation}
+      theme={ThemeType.light}
+    />
+  );
+}
+
+function renderNotificationProfilesHome(
+  props: SmartNotificationProfilesProps
+): JSX.Element {
+  return (
+    <NotificationProfilesHome
+      activeProfileId={undefined}
+      allProfiles={[]}
+      contentsRef={props.contentsRef}
+      conversations={conversations}
+      conversationSelector={conversationSelector}
+      hasOnboardingBeenSeen={false}
+      i18n={i18n}
+      isSyncEnabled
+      loading={false}
+      markProfileDeleted={action('markProfileDeleted')}
+      preferredBadgeSelector={() => undefined}
+      setHasOnboardingBeenSeen={action('setHasOnboardingBeenSeen')}
+      setIsSyncEnabled={action('setIsSyncEnabled')}
+      setSettingsLocation={props.setSettingsLocation}
+      setProfileOverride={action('setProfileOverride')}
+      theme={ThemeType.light}
+      updateProfile={action('updateProfile')}
+    />
+  );
+}
+
 export default {
   title: 'Components/Preferences',
   component: Preferences,
@@ -405,6 +455,7 @@ export default {
     me,
     navTabsCollapsed: false,
     notificationContent: 'name',
+    notificationProfileCount: 0,
     otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
@@ -456,6 +507,8 @@ export default {
         },
         showToast: action('showToast'),
       }),
+    renderNotificationProfilesCreateFlow,
+    renderNotificationProfilesHome,
     renderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
@@ -633,6 +686,142 @@ Donations.args = {
   donationsFeatureEnabled: true,
   settingsLocation: { page: SettingsPage.Donations },
 };
+
+export const NotificationsPageWithThreeProfiles = Template.bind({});
+const threeProfiles = [
+  {
+    id: 'Weekday' as NotificationProfileIdString,
+    name: 'Weekday',
+    emoji: '😬',
+    color: 0xffe3e3fe,
+
+    createdAtMs: Date.now(),
+
+    allowAllCalls: true,
+    allowAllMentions: true,
+
+    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    scheduleEnabled: true,
+
+    scheduleStartTime: 1800,
+    scheduleEndTime: 2300,
+
+    scheduleDaysEnabled: {
+      [DayOfWeek.SUNDAY]: false,
+      [DayOfWeek.MONDAY]: true,
+      [DayOfWeek.TUESDAY]: true,
+      [DayOfWeek.WEDNESDAY]: true,
+      [DayOfWeek.THURSDAY]: true,
+      [DayOfWeek.FRIDAY]: true,
+      [DayOfWeek.SATURDAY]: false,
+    },
+    deletedAtTimestampMs: undefined,
+    storageNeedsSync: true,
+  },
+  {
+    id: 'Weekend' as NotificationProfileIdString,
+    name: 'Weekend',
+    emoji: '❤️‍🔥',
+    color: 0xffd7d7d9,
+
+    createdAtMs: Date.now(),
+
+    allowAllCalls: true,
+    allowAllMentions: true,
+
+    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    scheduleEnabled: true,
+
+    scheduleStartTime: 100,
+    scheduleEndTime: 1200,
+
+    scheduleDaysEnabled: {
+      [DayOfWeek.SUNDAY]: true,
+      [DayOfWeek.MONDAY]: false,
+      [DayOfWeek.TUESDAY]: false,
+      [DayOfWeek.WEDNESDAY]: false,
+      [DayOfWeek.THURSDAY]: false,
+      [DayOfWeek.FRIDAY]: false,
+      [DayOfWeek.SATURDAY]: true,
+    },
+    deletedAtTimestampMs: undefined,
+    storageNeedsSync: true,
+  },
+  {
+    id: 'Random' as NotificationProfileIdString,
+    name: 'Random',
+    emoji: undefined,
+    color: 0xfffef5d0,
+
+    createdAtMs: Date.now(),
+
+    allowAllCalls: true,
+    allowAllMentions: true,
+
+    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    scheduleEnabled: true,
+
+    scheduleStartTime: 1800,
+    scheduleEndTime: 2300,
+
+    scheduleDaysEnabled: {
+      [DayOfWeek.SUNDAY]: true,
+      [DayOfWeek.MONDAY]: false,
+      [DayOfWeek.TUESDAY]: true,
+      [DayOfWeek.WEDNESDAY]: false,
+      [DayOfWeek.THURSDAY]: true,
+      [DayOfWeek.FRIDAY]: false,
+      [DayOfWeek.SATURDAY]: true,
+    },
+    deletedAtTimestampMs: undefined,
+    storageNeedsSync: true,
+  },
+];
+
+NotificationsPageWithThreeProfiles.args = {
+  settingsLocation: { page: SettingsPage.Notifications },
+  notificationProfileCount: threeProfiles.length,
+  renderNotificationProfilesCreateFlow: (
+    props: SmartNotificationProfilesProps
+  ) => {
+    return (
+      <NotificationProfilesCreateFlow
+        contentsRef={props.contentsRef}
+        conversations={conversations}
+        conversationSelector={conversationSelector}
+        createProfile={action('createProfile')}
+        i18n={i18n}
+        setSettingsLocation={props.setSettingsLocation}
+        preferredBadgeSelector={() => undefined}
+        theme={ThemeType.light}
+      />
+    );
+  },
+  renderNotificationProfilesHome: (props: SmartNotificationProfilesProps) => {
+    return (
+      <NotificationProfilesHome
+        activeProfileId={threeProfiles[0].id}
+        allProfiles={threeProfiles}
+        contentsRef={props.contentsRef}
+        conversations={conversations}
+        conversationSelector={conversationSelector}
+        hasOnboardingBeenSeen
+        i18n={i18n}
+        isSyncEnabled
+        loading={false}
+        markProfileDeleted={action('markProfileDeleted')}
+        preferredBadgeSelector={() => undefined}
+        setHasOnboardingBeenSeen={action('setHasOnboardingBeenSeen')}
+        setIsSyncEnabled={action('setIsSyncEnabled')}
+        setSettingsLocation={props.setSettingsLocation}
+        setProfileOverride={action('setProfileOverride)')}
+        theme={ThemeType.light}
+        updateProfile={action('updateProfile')}
+      />
+    );
+  },
+};
+
 export const DonationsDonateFlow = Template.bind({});
 DonationsDonateFlow.args = {
   donationsFeatureEnabled: true,

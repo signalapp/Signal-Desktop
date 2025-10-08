@@ -9,7 +9,9 @@ import {
   DayOfWeek,
   findNextProfileEvent,
   getDayOfWeek,
+  getEndTime,
   getMidnight,
+  getStartTime,
   loopThroughWeek,
   sortProfiles,
 } from '../../types/NotificationProfile.js';
@@ -86,7 +88,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return noChange with no profiles with schedules', () => {
@@ -106,7 +108,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return noChange if manual enable override w/o end time and profile has no schedule', () => {
@@ -132,7 +134,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable if manual enable override w/ end time and profile has no schedule', () => {
@@ -163,7 +165,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable if manual enable override w/ end time overlaps with scheduled time', () => {
@@ -206,7 +208,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
     it('should return willDisable if manual enable override w/ end time if different profile enables at end time', () => {
       const newProfile = createBasicProfile({
@@ -261,7 +263,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable if manual enable override w/o end time refers to profile with schedule, enabled now', () => {
@@ -303,7 +305,48 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
+    });
+    it('should return willDisable if manual enable override w/o end time refers to profile with schedule, enabled via previous day schedule', () => {
+      const defaultProfile = createBasicProfile({
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: false,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: true,
+        },
+        scheduleStartTime: 2000,
+        scheduleEndTime: 1100,
+      });
+
+      const expected: NextProfileEvent = {
+        type: 'willDisable',
+        activeProfile: defaultProfile.id,
+        willDisableAt: now + HOUR,
+        clearEnableOverride: true,
+      };
+      const profiles: ReadonlyArray<NotificationProfileType> = [
+        defaultProfile,
+        createBasicProfile({
+          name: 'Work',
+        }),
+      ];
+
+      const actual = findNextProfileEvent({
+        override: {
+          disabledAtMs: undefined,
+          enabled: {
+            profileId: defaultProfile.id,
+          },
+        },
+        profiles,
+        time: now,
+      });
+      assert.deepEqual(actual, expected);
     });
     it('should return willDisable if manual enable override w/o end time refers to profile with schedule, not enabled now', () => {
       const defaultProfile = createBasicProfile({
@@ -344,7 +387,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable if profile should be active right now', () => {
@@ -380,7 +423,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable if profile should be active right now, with earlier preempt time', () => {
@@ -449,7 +492,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willDisable with newer profile if two profiles should be active right now, different start time', () => {
@@ -499,7 +542,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
     it('should return willDisable with newer profile if two profiles should be active right now, same start time', () => {
       const oldProfile = createBasicProfile({
@@ -548,7 +591,43 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return willDisable if profile has end before start, and is scheduled to end soon', () => {
+      const defaultProfile = createBasicProfile({
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: false,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: true,
+        },
+        scheduleStartTime: 2000,
+        scheduleEndTime: 1100,
+      });
+
+      const expected: NextProfileEvent = {
+        type: 'willDisable',
+        activeProfile: defaultProfile.id,
+        willDisableAt: now + HOUR,
+      };
+      const profiles: ReadonlyArray<NotificationProfileType> = [
+        defaultProfile,
+        createBasicProfile({
+          name: 'Work',
+        }),
+      ];
+
+      const actual = findNextProfileEvent({
+        override: undefined,
+        profiles,
+        time: now,
+      });
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable if profile is scheduled to start soon', () => {
@@ -584,7 +663,43 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should return willEnable if profile has end before start, and is scheduled to start soon', () => {
+      const defaultProfile = createBasicProfile({
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: true,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: false,
+        },
+        scheduleStartTime: 2000,
+        scheduleEndTime: 1100,
+      });
+
+      const expected: NextProfileEvent = {
+        type: 'willEnable',
+        toEnable: defaultProfile.id,
+        willEnableAt: now + 10 * HOUR,
+      };
+      const profiles: ReadonlyArray<NotificationProfileType> = [
+        defaultProfile,
+        createBasicProfile({
+          name: 'Work',
+        }),
+      ];
+
+      const actual = findNextProfileEvent({
+        override: undefined,
+        profiles,
+        time: now,
+      });
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable w/ manual disable override if profile will start soon', () => {
@@ -624,7 +739,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable w/ manual disable override if profile should be active now, another starts tomorrow', () => {
@@ -679,7 +794,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable if profile schedule starts in six days', () => {
@@ -715,7 +830,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable for newer profile if there is a conflict', () => {
@@ -766,7 +881,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
 
     it('should return willEnable for older profile if it will activate first', () => {
@@ -817,7 +932,7 @@ describe('NotificationProfile', () => {
         profiles,
         time: now,
       });
-      assert.deepEqual(expected, actual);
+      assert.deepEqual(actual, expected);
     });
   });
 
@@ -853,7 +968,7 @@ describe('NotificationProfile', () => {
         },
       });
 
-      assert.strictEqual(count, 6);
+      assert.strictEqual(count, 7);
     });
     it('loops through entire week if check returns false', () => {
       let count = 0;
@@ -868,9 +983,9 @@ describe('NotificationProfile', () => {
         },
       });
 
-      assert.strictEqual(count, 7);
+      assert.strictEqual(count, 8);
     });
-    it('loops from monday to sunday', () => {
+    it('loops from sunday (yesterday) to next sunday', () => {
       let count = 0;
       const startingDay = getDayOfWeek(now);
 
@@ -879,16 +994,16 @@ describe('NotificationProfile', () => {
         startingDay,
         check: ({ day }) => {
           count += 1;
-          if (day === DayOfWeek.SUNDAY) {
+          if (day === DayOfWeek.SUNDAY && count !== 1) {
             return true;
           }
           return false;
         },
       });
 
-      assert.strictEqual(count, 7);
+      assert.strictEqual(count, 8);
     });
-    it('loops from sunday to saturday', () => {
+    it('loops from saturday (yesterday) to next saturday', () => {
       const sundayAt10 = now + 6 * DAY;
       let count = 0;
       const startingDay = getDayOfWeek(sundayAt10);
@@ -898,14 +1013,14 @@ describe('NotificationProfile', () => {
         startingDay,
         check: ({ day }) => {
           count += 1;
-          if (day === DayOfWeek.SATURDAY) {
+          if (day === DayOfWeek.SATURDAY && count !== 1) {
             return true;
           }
           return false;
         },
       });
 
-      assert.strictEqual(count, 7);
+      assert.strictEqual(count, 8);
     });
   });
 
@@ -924,6 +1039,44 @@ describe('NotificationProfile', () => {
       assert.strictEqual(actual[0].name, 'newest');
       assert.strictEqual(actual[1].name, 'middle');
       assert.strictEqual(actual[2].name, 'old');
+    });
+  });
+
+  describe('getStartTime', () => {
+    it('returns start time for today, without considering end time', () => {
+      const scheduleStartTime = 1100;
+
+      const expected = now + HOUR;
+      const actual = getStartTime(midnight, {
+        scheduleStartTime,
+      });
+      assert.strictEqual(actual, expected);
+    });
+  });
+
+  describe('getEndTime', () => {
+    it('returns end time for today if it is later', () => {
+      const scheduleStartTime = 1100;
+      const scheduleEndTime = 1200;
+
+      const expected = now + 2 * HOUR;
+      const actual = getEndTime(midnight, {
+        scheduleStartTime,
+        scheduleEndTime,
+      });
+      assert.strictEqual(actual, expected);
+    });
+
+    it('returns start time tomorrow if it start is later', () => {
+      const scheduleStartTime = 1200;
+      const scheduleEndTime = 1100;
+
+      const expected = now + DAY + HOUR;
+      const actual = getEndTime(midnight, {
+        scheduleStartTime,
+        scheduleEndTime,
+      });
+      assert.strictEqual(actual, expected);
     });
   });
 });

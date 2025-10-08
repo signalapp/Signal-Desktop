@@ -57,13 +57,17 @@ export namespace AxoDropdownMenu {
    * ---------------------------------
    */
 
-  export type RootProps = AxoBaseMenu.MenuRootProps;
+  export type RootProps = AxoBaseMenu.MenuRootProps & {
+    open?: boolean;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+  };
 
   /**
    * Contains all the parts of a dropdown menu.
    */
   export const Root: FC<RootProps> = memo(props => {
-    return <DropdownMenu.Root>{props.children}</DropdownMenu.Root>;
+    return <DropdownMenu.Root {...props}>{props.children}</DropdownMenu.Root>;
   });
 
   Root.displayName = `${Namespace}.Root`;
@@ -121,7 +125,9 @@ export namespace AxoDropdownMenu {
    * ---------------------------------
    */
 
-  export type ItemProps = AxoBaseMenu.MenuItemProps;
+  export type ItemProps = AxoBaseMenu.MenuItemProps & {
+    customIcon?: React.ReactNode;
+  };
 
   /**
    * The component that contains the dropdown menu items.
@@ -143,6 +149,11 @@ export namespace AxoDropdownMenu {
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
             <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
+          </AxoBaseMenu.ItemLeadingSlot>
+        )}
+        {props.customIcon && (
+          <AxoBaseMenu.ItemLeadingSlot>
+            {props.customIcon}
           </AxoBaseMenu.ItemLeadingSlot>
         )}
         <AxoBaseMenu.ItemContentSlot>

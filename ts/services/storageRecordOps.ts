@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
+import lodash, { omit, partition, without } from 'lodash';
 import Long from 'long';
 
 import { ServiceId } from '@signalapp/libsignal-client';
@@ -112,6 +112,20 @@ import {
 import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
 import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import type {
+  NotificationProfileOverride,
+  NotificationProfileType,
+} from '../types/NotificationProfile.js';
+import {
+  DEFAULT_PROFILE_COLOR,
+  fromDayOfWeekArray,
+  redactNotificationProfileId,
+  toDayOfWeekArray,
+} from '../types/NotificationProfile.js';
+import {
+  generateNotificationProfileId,
+  normalizeNotificationProfileId,
+} from '../types/NotificationProfile-node.js';
 
 const { isEqual } = lodash;
 
@@ -211,7 +225,8 @@ function applyAvatarColor(
   });
 }
 
-function addUnknownFields(
+// Conversation stores a base64-encoded storageUnknownFields field
+function addUnknownFieldsToConversation(
   record: RecordClass,
   conversation: ConversationModel,
   details: Array<string>
@@ -231,7 +246,7 @@ function addUnknownFields(
   }
 }
 
-function applyUnknownFields(
+function applyConversationUnknownFieldsToRecord(
   record: RecordClass,
   conversation: ConversationModel
 ): void {
@@ -244,6 +259,26 @@ function applyUnknownFields(
     // eslint-disable-next-line no-param-reassign
     record.$unknownFields = [Bytes.fromBase64(storageUnknownFields)];
   }
+}
+
+// Other records save a UInt8Array to the database
+function toStorageUnknownFields(
+  unknownFields: ReadonlyArray<Uint8Array> | undefined
+): Uint8Array | null {
+  if (!unknownFields) {
+    return null;
+  }
+
+  return Bytes.concatenate(unknownFields);
+}
+function fromStorageUnknownFields(
+  storageUnknownFields: Uint8Array | null
+): ReadonlyArray<Uint8Array> | undefined {
+  if (!storageUnknownFields) {
+    return undefined;
+  }
+
+  return [storageUnknownFields];
 }
 
 export async function toContactRecord(
@@ -345,13 +380,16 @@ export async function toContactRecord(
     contactRecord.avatarColor = avatarColor;
   }
 
-  applyUnknownFields(contactRecord, conversation);
+  applyConversationUnknownFieldsToRecord(contactRecord, conversation);
 
   return contactRecord;
 }
 
 export function toAccountRecord(
-  conversation: ConversationModel
+  conversation: ConversationModel,
+  {
+    notificationProfileSyncDisabled,
+  }: { notificationProfileSyncDisabled: boolean }
 ): Proto.AccountRecord {
   const accountRecord = new Proto.AccountRecord();
 
@@ -584,7 +622,39 @@ export function toAccountRecord(
     accountRecord.avatarColor = avatarColor;
   }
 
-  applyUnknownFields(accountRecord, conversation);
+  accountRecord.notificationProfileSyncDisabled =
+    notificationProfileSyncDisabled;
+
+  const override = notificationProfileSyncDisabled
+    ? window.storage.get('notificationProfileOverrideFromPrimary')
+    : window.storage.get('notificationProfileOverride');
+
+  if (override?.disabledAtMs && override?.disabledAtMs > 0) {
+    const overrideProto =
+      new Proto.AccountRecord.NotificationProfileManualOverride();
+
+    overrideProto.disabledAtTimestampMs = Long.fromNumber(
+      override.disabledAtMs
+    );
+
+    accountRecord.notificationProfileManualOverride = overrideProto;
+  } else if (override?.enabled) {
+    const { profileId, endsAtMs } = override.enabled;
+
+    const overrideProto =
+      new Proto.AccountRecord.NotificationProfileManualOverride();
+    overrideProto.enabled =
+      new Proto.AccountRecord.NotificationProfileManualOverride.ManuallyEnabled();
+
+    overrideProto.enabled.id = Bytes.fromHex(profileId);
+    if (endsAtMs && endsAtMs > 0) {
+      overrideProto.enabled.endAtTimestampMs = Long.fromNumber(endsAtMs);
+    }
+
+    accountRecord.notificationProfileManualOverride = overrideProto;
+  }
+
+  applyConversationUnknownFieldsToRecord(accountRecord, conversation);
 
   return accountRecord;
 }
@@ -596,7 +666,7 @@ export function toGroupV1Record(
 
   groupV1Record.id = Bytes.fromBinary(String(conversation.get('groupId')));
 
-  applyUnknownFields(groupV1Record, conversation);
+  applyConversationUnknownFieldsToRecord(groupV1Record, conversation);
 
   return groupV1Record;
 }
@@ -640,7 +710,7 @@ export function toGroupV2Record(
     groupV2Record.avatarColor = avatarColor;
   }
 
-  applyUnknownFields(groupV2Record, conversation);
+  applyConversationUnknownFieldsToRecord(groupV2Record, conversation);
 
   return groupV2Record;
 }
@@ -675,9 +745,9 @@ export function toStoryDistributionListRecord(
   }
 
   if (storyDistributionList.storageUnknownFields) {
-    storyDistributionListRecord.$unknownFields = [
-      storyDistributionList.storageUnknownFields,
-    ];
+    storyDistributionListRecord.$unknownFields = fromStorageUnknownFields(
+      storyDistributionList.storageUnknownFields
+    );
   }
 
   return storyDistributionListRecord;
@@ -702,7 +772,9 @@ export function toStickerPackRecord(
   }
 
   if (stickerPack.storageUnknownFields) {
-    stickerPackRecord.$unknownFields = [stickerPack.storageUnknownFields];
+    stickerPackRecord.$unknownFields = fromStorageUnknownFields(
+      stickerPack.storageUnknownFields
+    );
   }
 
   return stickerPackRecord;
@@ -734,7 +806,9 @@ export function toCallLinkRecord(
   }
 
   if (callLinkDbRecord.storageUnknownFields) {
-    callLinkRecord.$unknownFields = [callLinkDbRecord.storageUnknownFields];
+    callLinkRecord.$unknownFields = fromStorageUnknownFields(
+      callLinkDbRecord.storageUnknownFields
+    );
   }
 
   return callLinkRecord;
@@ -762,26 +836,31 @@ export function toDefunctOrPendingCallLinkRecord(
   }
 
   if (callLink.storageUnknownFields) {
-    callLinkRecord.$unknownFields = [callLink.storageUnknownFields];
+    callLinkRecord.$unknownFields = fromStorageUnknownFields(
+      callLink.storageUnknownFields
+    );
   }
 
   return callLinkRecord;
 }
 
-function toRecipient(conversationId: string): Proto.Recipient {
+function toRecipient(
+  conversationId: string,
+  logPrefix: string
+): Proto.Recipient {
   const conversation = window.ConversationController.get(conversationId);
 
   if (conversation == null) {
-    throw new Error('toRecipient: Missing conversation');
+    throw new Error(`${logPrefix}/toRecipient: Missing conversation`);
   }
 
-  const logPrefix = `toRecipient(${conversation.idForLogging()})`;
+  const logId = `${logPrefix}/toRecipient(${conversation.idForLogging()})`;
 
   if (isDirectConversation(conversation.attributes)) {
     const serviceId = conversation.getServiceId();
     strictAssert(
       serviceId,
-      `${logPrefix}: Missing serviceId on direct conversation`
+      `${logId}: Missing serviceId on direct conversation`
     );
     const serviceIdBinary =
       ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
@@ -798,7 +877,7 @@ function toRecipient(conversationId: string): Proto.Recipient {
     const masterKey = conversation.get('masterKey');
     strictAssert(
       masterKey,
-      `${logPrefix}: Missing masterKey on groupV2 conversation`
+      `${logId}: Missing masterKey on groupV2 conversation`
     );
     return new Proto.Recipient({
       groupMasterKey: Bytes.fromBase64(masterKey),
@@ -815,10 +894,11 @@ function toRecipient(conversationId: string): Proto.Recipient {
 }
 
 function toRecipients(
-  conversationIds: ReadonlyArray<string>
+  conversationIds: ReadonlyArray<string>,
+  logPrefix: string
 ): Array<Proto.Recipient> {
   return conversationIds.map(conversationId => {
-    return toRecipient(conversationId);
+    return toRecipient(conversationId, logPrefix);
   });
 }
 
@@ -837,6 +917,8 @@ function toChatFolderRecordFolderType(
 export function toChatFolderRecord(
   chatFolder: ChatFolder
 ): Proto.ChatFolderRecord {
+  const logId = `toChatFolderRecord(${chatFolder.id})`;
+
   const chatFolderRecord = new Proto.ChatFolderRecord({
     id: uuidToBytes(chatFolder.id),
     name: chatFolder.name,
@@ -846,8 +928,8 @@ export function toChatFolderRecord(
     includeAllIndividualChats: chatFolder.includeAllIndividualChats,
     includeAllGroupChats: chatFolder.includeAllGroupChats,
     folderType: toChatFolderRecordFolderType(chatFolder.folderType),
-    includedRecipients: toRecipients(chatFolder.includedConversationIds),
-    excludedRecipients: toRecipients(chatFolder.excludedConversationIds),
+    includedRecipients: toRecipients(chatFolder.includedConversationIds, logId),
+    excludedRecipients: toRecipients(chatFolder.excludedConversationIds, logId),
     deletedAtTimestampMs: Long.fromNumber(chatFolder.deletedAtTimestampMs),
   });
 
@@ -856,6 +938,59 @@ export function toChatFolderRecord(
   }
 
   return chatFolderRecord;
+}
+
+export function toNotificationProfileRecord(
+  profile: NotificationProfileType
+): Proto.NotificationProfile {
+  const {
+    id,
+    name,
+    emoji,
+    color,
+    createdAtMs,
+    deletedAtTimestampMs,
+    allowAllCalls,
+    allowAllMentions,
+    allowedMembers,
+    scheduleEnabled,
+    scheduleStartTime,
+    scheduleEndTime,
+    scheduleDaysEnabled,
+    storageUnknownFields,
+  } = profile;
+  const logId = `toNotificationProfileRecord(${redactNotificationProfileId(id)})`;
+  const proto = new Proto.NotificationProfile();
+
+  proto.id = Bytes.fromHex(id);
+  proto.name = name;
+  if (emoji) {
+    proto.emoji = emoji;
+  }
+  proto.color = color;
+  proto.createdAtMs = Long.fromNumber(createdAtMs);
+  if (deletedAtTimestampMs) {
+    proto.deletedAtTimestampMs = Long.fromNumber(deletedAtTimestampMs);
+  }
+  proto.allowAllCalls = allowAllCalls;
+  proto.allowAllMentions = allowAllMentions;
+  proto.scheduleEnabled = scheduleEnabled;
+
+  if (scheduleStartTime) {
+    proto.scheduleStartTime = scheduleStartTime;
+  }
+  if (scheduleEndTime) {
+    proto.scheduleEndTime = scheduleEndTime;
+  }
+  proto.scheduleDaysEnabled = toDayOfWeekArray(scheduleDaysEnabled) ?? [];
+
+  proto.allowedMembers = toRecipients(Array.from(allowedMembers), logId);
+
+  if (storageUnknownFields) {
+    proto.$unknownFields = fromStorageUnknownFields(storageUnknownFields);
+  }
+
+  return proto;
 }
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV2Record;
@@ -1074,7 +1209,7 @@ export async function mergeGroupV1Record(
   });
 
   if (isGroupV1(conversation.attributes)) {
-    addUnknownFields(groupV1Record, conversation, details);
+    addUnknownFieldsToConversation(groupV1Record, conversation, details);
   } else {
     // We cannot preserve unknown fields if local group is V2 and the remote is
     // still V1, because the storageItem that we'll put into manifest will have
@@ -1209,7 +1344,7 @@ export async function mergeGroupV2Record(
 
   applyAvatarColor(conversation, groupV2Record.avatarColor);
 
-  addUnknownFields(groupV2Record, conversation, details);
+  addUnknownFieldsToConversation(groupV2Record, conversation, details);
 
   if (isGroupV1(conversation.attributes)) {
     // If we found a GroupV1 conversation from this incoming GroupV2 record, we need to
@@ -1405,7 +1540,7 @@ export async function mergeContactRecord(
 
   applyMessageRequestState(contactRecord, conversation);
 
-  addUnknownFields(contactRecord, conversation, details);
+  addUnknownFieldsToConversation(contactRecord, conversation, details);
 
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
@@ -1500,13 +1635,17 @@ export async function mergeAccountRecord(
     storyViewReceiptsEnabled,
     username,
     usernameLink,
+    notificationProfileManualOverride,
+    notificationProfileSyncDisabled,
   } = accountRecord;
 
   const conversation =
     window.ConversationController.getOurConversationOrThrow();
 
   const details = logRecordChanges(
-    toAccountRecord(conversation),
+    toAccountRecord(conversation, {
+      notificationProfileSyncDisabled: Boolean(notificationProfileSyncDisabled),
+    }),
     accountRecord
   );
 
@@ -1808,7 +1947,60 @@ export async function mergeAccountRecord(
     ]);
   }
 
-  addUnknownFields(accountRecord, conversation, details);
+  const previousSyncDisabled = window.storage.get(
+    'notificationProfileSyncDisabled',
+    false
+  );
+  if (previousSyncDisabled !== notificationProfileSyncDisabled) {
+    log.info(
+      `process(${storageVersion}): Account just flipped from notificationProfileSyncDisabled=${previousSyncDisabled} to ${notificationProfileSyncDisabled}`
+    );
+    await window.reduxActions.notificationProfiles.setIsSyncEnabled(
+      !notificationProfileSyncDisabled,
+      { fromStorageService: true }
+    );
+  }
+
+  const override = notificationProfileManualOverride;
+  let overrideToSave: NotificationProfileOverride | undefined;
+  if (override) {
+    if (override.enabled?.id) {
+      overrideToSave = {
+        disabledAtMs: undefined,
+        enabled: {
+          profileId: normalizeNotificationProfileId(
+            Bytes.toHex(override.enabled.id),
+            'mergeAccountRecord'
+          ),
+          endsAtMs: override.enabled.endAtTimestampMs?.toNumber(),
+        },
+      };
+    } else if (override.disabledAtTimestampMs) {
+      overrideToSave = {
+        disabledAtMs: override.disabledAtTimestampMs.toNumber(),
+        enabled: undefined,
+      };
+    } else {
+      log.warn(
+        'mergeAccountRecord: notificationProfileManualOverride had neither enabled nor disabledAtTimestamp. Clearing local override.'
+      );
+      overrideToSave = undefined;
+    }
+  } else {
+    overrideToSave = undefined;
+  }
+
+  if (notificationProfileSyncDisabled) {
+    await window.storage.put(
+      'notificationProfileOverrideFromPrimary',
+      overrideToSave
+    );
+  } else {
+    const { updateOverride } = window.reduxActions.notificationProfiles;
+    updateOverride(overrideToSave, { fromStorageService: true });
+  }
+
+  addUnknownFieldsToConversation(accountRecord, conversation, details);
 
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
@@ -1935,9 +2127,9 @@ export async function mergeStoryDistributionListRecord(
 
     storageID,
     storageVersion,
-    storageUnknownFields: storyDistributionListRecord.$unknownFields
-      ? Bytes.concatenate(storyDistributionListRecord.$unknownFields)
-      : null,
+    storageUnknownFields: toStorageUnknownFields(
+      storyDistributionListRecord.$unknownFields
+    ),
     storageNeedsSync: false,
   };
 
@@ -2036,9 +2228,9 @@ export async function mergeStickerPackRecord(
   if (stickerPackRecord.$unknownFields) {
     details.push('adding unknown fields');
   }
-  const storageUnknownFields = stickerPackRecord.$unknownFields
-    ? Bytes.concatenate(stickerPackRecord.$unknownFields)
-    : null;
+  const storageUnknownFields = toStorageUnknownFields(
+    stickerPackRecord.$unknownFields
+  );
 
   let stickerPack: StickerPackInfoType;
   if (stickerPackRecord.deletedAtTimestamp?.toNumber()) {
@@ -2200,9 +2392,7 @@ export async function mergeCallLinkRecord(
 
     storageID,
     storageVersion,
-    storageUnknownFields: callLinkRecord.$unknownFields
-      ? Bytes.concatenate(callLinkRecord.$unknownFields)
-      : null,
+    storageUnknownFields: toStorageUnknownFields(callLinkRecord.$unknownFields),
     storageNeedsSync: 0,
   };
 
@@ -2310,7 +2500,10 @@ function protoToChatFolderType(folderType: Proto.ChatFolderRecord.FolderType) {
   return ChatFolderType.UNKNOWN;
 }
 
-function recipientToConversationId(recipient: Proto.Recipient): string {
+function recipientToConversationId(
+  recipient: Proto.Recipient,
+  logPrefix: string
+): string {
   let match: ConversationModel | undefined;
   if (recipient.contact != null) {
     match = window.ConversationController.get(recipient.contact.serviceId);
@@ -2331,15 +2524,16 @@ function recipientToConversationId(recipient: Proto.Recipient): string {
   } else {
     throw new Error('Unexpected type of recipient');
   }
-  strictAssert(match, 'Missing conversation for recipient');
+  strictAssert(match, `${logPrefix}: Missing conversation for recipient`);
   return match.id;
 }
 
 function recipientsToConversationIds(
-  recipients: ReadonlyArray<Proto.Recipient>
+  recipients: ReadonlyArray<Proto.Recipient>,
+  logPrefix: string
 ): ReadonlyArray<string> {
   return recipients.map(recipient => {
-    return recipientToConversationId(recipient);
+    return recipientToConversationId(recipient, logPrefix);
   });
 }
 
@@ -2353,14 +2547,15 @@ export async function mergeChatFolderRecord(
     storageVersion,
   });
 
-  const logPrefix = `mergeChatFolderRecord(${redactedStorageID})`;
-
   if (remoteChatFolderRecord.id == null) {
     return { shouldDrop: true, details: ['no id'] };
   }
 
+  const idString = bytesToUuid(remoteChatFolderRecord.id) as ChatFolderId;
+  const logPrefix = `mergeChatFolderRecord(${redactedStorageID}, idString)`;
+
   const remoteChatFolder: ChatFolder = {
-    id: bytesToUuid(remoteChatFolderRecord.id) as ChatFolderId,
+    id: idString,
     folderType: protoToChatFolderType(
       remoteChatFolderRecord.folderType ??
         Proto.ChatFolderRecord.FolderType.UNKNOWN
@@ -2373,10 +2568,12 @@ export async function mergeChatFolderRecord(
       remoteChatFolderRecord.includeAllIndividualChats ?? false,
     includeAllGroupChats: remoteChatFolderRecord.includeAllGroupChats ?? false,
     includedConversationIds: recipientsToConversationIds(
-      remoteChatFolderRecord.includedRecipients ?? []
+      remoteChatFolderRecord.includedRecipients ?? [],
+      logPrefix
     ),
     excludedConversationIds: recipientsToConversationIds(
-      remoteChatFolderRecord.excludedRecipients ?? []
+      remoteChatFolderRecord.excludedRecipients ?? [],
+      logPrefix
     ),
     deletedAtTimestampMs:
       remoteChatFolderRecord.deletedAtTimestampMs?.toNumber() ?? 0,
@@ -2464,5 +2661,307 @@ export async function mergeChatFolderRecord(
     shouldDrop,
     oldStorageID: localChatFolder?.storageID ?? undefined,
     oldStorageVersion: localChatFolder?.storageVersion ?? undefined,
+  };
+}
+
+function cleanNotificationProfileForComparision(
+  profile: NotificationProfileType
+): Omit<NotificationProfileType, 'id'> & {
+  id: null;
+} {
+  return {
+    ...profile,
+    // Color and id are randomly assigned; profiles made on different devices will differ
+    id: null,
+    color: 0,
+    // If we really just care about structure, then we shouldn't consider this
+    createdAtMs: 0,
+    // Storage services details could easily get out of date
+    storageID: null,
+    storageNeedsSync: false,
+    storageVersion: null,
+    storageUnknownFields: undefined,
+  };
+}
+
+export function prepareForDisabledNotificationProfileSync(): {
+  toAdd: Array<NotificationProfileType>;
+  newOverride: NotificationProfileOverride | undefined;
+} {
+  const logId = 'prepareForDisabledNotificationProfileSync';
+  const state = window.reduxStore.getState();
+  const { profiles } = state.notificationProfiles;
+  let newOverride: NotificationProfileOverride | undefined = window.storage.get(
+    'notificationProfileOverride'
+  );
+
+  const notDeletedProfiles = profiles.filter(
+    profile =>
+      (profile.storageID && profile.deletedAtTimestampMs == null) ||
+      profile.deletedAtTimestampMs === 0
+  );
+
+  const toAdd: Array<NotificationProfileType> = [];
+
+  notDeletedProfiles.forEach(profile => {
+    const localId = generateNotificationProfileId();
+    toAdd.push({
+      ...omit(profile, 'storageID', 'storageVersion', 'storageUnknownFields'),
+      id: localId,
+      storageNeedsSync: true,
+      // Note: we check for createdAtMs + 1 downfile for conflict detection
+      createdAtMs: profile.createdAtMs + 1,
+    });
+
+    if (newOverride?.enabled?.profileId === profile.id) {
+      log.info(
+        `${logId}: Override referenced now-remote match; updating to local profile`
+      );
+      newOverride = {
+        disabledAtMs: undefined,
+        enabled: {
+          endsAtMs: newOverride.enabled.endsAtMs,
+          profileId: localId,
+        },
+      };
+    }
+  });
+
+  log.info(`${logId}: Duplicated ${toAdd.length} profiles`);
+  return {
+    newOverride,
+    toAdd,
+  };
+}
+
+export function prepareForEnabledNotificationProfileSync(): {
+  newOverride: NotificationProfileOverride | undefined;
+  toAdd: Array<NotificationProfileType>;
+  toRemove: Array<NotificationProfileType>;
+} {
+  const logId = 'prepareForEnabledNotificationProfileSync';
+  const state = window.reduxStore.getState();
+  const { profiles } = state.notificationProfiles;
+  let newOverride: NotificationProfileOverride | undefined = window.storage.get(
+    'notificationProfileOverride'
+  );
+
+  const notDeletedProfiles = profiles.filter(
+    profile =>
+      profile.deletedAtTimestampMs == null || profile.deletedAtTimestampMs === 0
+  );
+  const withCleaned = notDeletedProfiles.map(profile => ({
+    clean: cleanNotificationProfileForComparision(profile),
+    profile,
+  }));
+  const result = partition(withCleaned, item => item.profile.storageID);
+  const remoteProfiles = result[0];
+  let localProfiles = result[1];
+
+  const toRemove: Array<NotificationProfileType> = [];
+
+  remoteProfiles.forEach(remote => {
+    const localMatch = localProfiles.find(local =>
+      isEqual(remote.clean, local.clean)
+    );
+
+    if (localMatch) {
+      log.info(
+        `${logId}: Found local record that matches. Dropping local in favor of remote`
+      );
+      toRemove.push(localMatch.profile);
+      localProfiles = without(localProfiles, localMatch);
+
+      if (newOverride?.enabled?.profileId === localMatch.profile.id) {
+        log.info(
+          `${logId}: Override referenced local match; updating to remote profile`
+        );
+        newOverride = {
+          disabledAtMs: undefined,
+          enabled: {
+            endsAtMs: newOverride.enabled.endsAtMs,
+            profileId: remote.profile.id,
+          },
+        };
+      }
+    }
+  });
+
+  const toAdd: Array<NotificationProfileType> = [];
+  localProfiles.forEach(local => {
+    if (
+      remoteProfiles.some(
+        remote =>
+          remote.profile.name === local.profile.name &&
+          // Note: when we create local copies above, we use original.createdAtMs + 1
+          remote.profile.createdAtMs + 1 === local.profile.createdAtMs
+      )
+    ) {
+      log.info(
+        `${logId}: Found local record that indicates divergence; adding copy label`
+      );
+      toRemove.push(local.profile);
+      toAdd.push({
+        ...local.profile,
+        name: window.i18n('icu:NotificationProfile--copy-label', {
+          profileName: local.profile.name,
+        }),
+      });
+    }
+  });
+
+  log.info(
+    `${logId}: Removed ${toRemove.length} profiles, added ${toAdd.length} profiles`
+  );
+  return {
+    newOverride,
+    toAdd,
+    toRemove,
+  };
+}
+
+export async function mergeNotificationProfileRecord(
+  storageID: string,
+  storageVersion: number,
+  profileRecord: Proto.INotificationProfile
+): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
+  const {
+    id,
+    name,
+    color,
+    emoji,
+    createdAtMs,
+    allowAllCalls,
+    allowAllMentions,
+    allowedMembers,
+    scheduleEnabled,
+    scheduleStartTime,
+    scheduleEndTime,
+    scheduleDaysEnabled,
+    deletedAtTimestampMs,
+  } = profileRecord;
+  // NotificationProfile records must have id
+  if (!id) {
+    return { shouldDrop: true, details: ['no id'] };
+  }
+  // NotificationProfile records must have name
+  if (!name) {
+    return { shouldDrop: true, details: ['no name'] };
+  }
+
+  const details: Array<string> = [];
+
+  const idString = normalizeNotificationProfileId(
+    Bytes.toHex(id),
+    'storage service merge',
+    log
+  );
+  const logId = `mergeNotificationProfileRecord(${redactedStorageID}, ${redactNotificationProfileId(idString)})`;
+  const localProfile = await DataReader.getNotificationProfileById(idString);
+
+  // Note deletedAtTimestampMs can be 0
+  const deletedAt = deletedAtTimestampMs?.toNumber() || null;
+  const shouldDrop = Boolean(
+    deletedAt && isOlderThan(deletedAt, getMessageQueueTime())
+  );
+  if (shouldDrop) {
+    details.push(
+      `expired deleted notification profile deletedAt=${deletedAt}; scheduling for removal`
+    );
+  }
+
+  const allowedMemberConversationIds = recipientsToConversationIds(
+    allowedMembers || [],
+    logId
+  );
+
+  if (localProfile?.storageNeedsSync) {
+    log.warn(
+      `${logId}: Local record had storageNeedsSync=true, but we're updating from remote`
+    );
+  }
+
+  const localDeletedAt = localProfile?.deletedAtTimestampMs;
+  const newProfile: NotificationProfileType = {
+    id: idString,
+    name,
+    emoji: dropNull(emoji),
+    color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
+    createdAtMs: createdAtMs?.toNumber() ?? Date.now(),
+    allowAllCalls: Boolean(allowAllCalls),
+    allowAllMentions: Boolean(allowAllMentions),
+    allowedMembers: new Set(allowedMemberConversationIds),
+    scheduleEnabled: Boolean(scheduleEnabled),
+    scheduleStartTime: dropNull(scheduleStartTime),
+    scheduleEndTime: dropNull(scheduleEndTime),
+    scheduleDaysEnabled: fromDayOfWeekArray(scheduleDaysEnabled),
+    deletedAtTimestampMs: localDeletedAt
+      ? Math.min(localDeletedAt, deletedAt ?? Number.MAX_SAFE_INTEGER)
+      : dropNull(deletedAt),
+    storageID,
+    storageVersion,
+    storageUnknownFields:
+      toStorageUnknownFields(profileRecord.$unknownFields) ?? undefined,
+    storageNeedsSync: false,
+  };
+
+  const { profileWasCreated, profileWasUpdated } =
+    window.reduxActions.notificationProfiles;
+
+  if (!localProfile) {
+    if (deletedAt) {
+      details.push(
+        `skipping deleted notification profile with no matching local record deletedAt=${deletedAt}`
+      );
+    } else {
+      details.push('created new notification profile');
+      await DataWriter.createNotificationProfile(newProfile);
+      profileWasCreated(newProfile);
+    }
+
+    return {
+      details,
+      shouldDrop,
+    };
+  }
+
+  const oldStorageID = localProfile.storageID || undefined;
+  const oldStorageVersion = localProfile.storageVersion || undefined;
+
+  const needsToClearUnknownFields =
+    !profileRecord.$unknownFields && localProfile.storageUnknownFields;
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const changeDetails = logRecordChanges(
+    toNotificationProfileRecord(newProfile),
+    profileRecord
+  );
+
+  // First update local record
+  details.push('updated');
+  await DataWriter.updateNotificationProfile(newProfile);
+  profileWasUpdated(newProfile);
+
+  if (deletedAt && !localProfile.deletedAtTimestampMs) {
+    log.info(`${logId}: Discovered profile deleted remotely.`);
+  } else if (!deletedAt && localProfile.deletedAtTimestampMs) {
+    log.info(
+      `${logId}: Notification profile deleted locally, but not remotely.`
+    );
+  } else if (deletedAt && localProfile.deletedAtTimestampMs) {
+    // No need to do anything - deleted before, and deleted now
+  }
+
+  return {
+    details: [...details, ...changeDetails],
+    shouldDrop,
+    oldStorageID,
+    oldStorageVersion,
   };
 }

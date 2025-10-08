@@ -113,6 +113,9 @@ import { useNavActions } from '../ducks/nav.js';
 import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.js';
 import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.js';
 import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.js';
+import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.js';
+import type { ExternalProps as NotificationProfilesMenuProps } from './NotificationProfilesMenu.js';
+import { getActiveProfile } from '../selectors/notificationProfiles.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -166,6 +169,12 @@ function renderToastManagerWithoutMegaphone(props: {
   containerWidthBreakpoint: WidthBreakpoint;
 }): JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
+}
+
+function renderNotificationProfilesMenu(
+  props: NotificationProfilesMenuProps
+): JSX.Element {
+  return <SmartNotificationProfilesMenu {...props} />;
 }
 
 const getModeSpecificProps = (
@@ -385,6 +394,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       : renderToastManagerWithoutMegaphone;
 
   const targetedMessageId = targetedMessage?.id;
+  const isNotificationProfileActive = Boolean(useSelector(getActiveProfile));
 
   return (
     <LeftPane
@@ -416,6 +426,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       i18n={i18n}
       isMacOS={isMacOS}
       isOnline={isOnline}
+      isNotificationProfileActive={isNotificationProfileActive}
       isUpdateDownloaded={isUpdateDownloaded}
       lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
       modeSpecificProps={modeSpecificProps}
@@ -437,6 +448,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
         renderConversationListItemContextMenu
       }
       renderNetworkStatus={renderNetworkStatus}
+      renderNotificationProfilesMenu={renderNotificationProfilesMenu}
       renderRelinkDialog={renderRelinkDialog}
       renderToastManager={renderToastManager}
       renderUnsupportedOSDialog={renderUnsupportedOSDialog}

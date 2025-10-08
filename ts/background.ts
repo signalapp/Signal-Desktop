@@ -48,7 +48,7 @@ import {
 } from './services/expiringMessagesDeletion.js';
 import {
   initialize as initializeNotificationProfilesService,
-  update as updateNotificationProfileService,
+  fastUpdate as updateNotificationProfileService,
 } from './services/notificationProfilesService.js';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.js';
 import { senderCertificateService } from './services/senderCertificate.js';

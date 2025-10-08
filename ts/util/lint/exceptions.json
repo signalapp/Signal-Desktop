@@ -1517,6 +1517,30 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "line": "  const tryClose = React.useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-25T21:04:21.643Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "line": "  const selectedHour = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-09-05T21:41:09.931Z",
+    "reasonDetail": "Holding on to element for focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "line": "  const selectedMinute = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-09-05T21:41:09.931Z",
+    "reasonDetail": "Holding on to element for scrolling into view"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",

@@ -300,6 +300,7 @@ message AccountRecord {
   IAPSubscriberData backupSubscriberData = 41;
   optional AvatarColor avatarColor = 42;
   NotificationProfileManualOverride notificationProfileManualOverride = 44;
+  bool notificationProfileSyncDisabled = 45;
 }
 
 message StoryDistributionListRecord {

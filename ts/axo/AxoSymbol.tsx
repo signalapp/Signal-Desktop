@@ -65,15 +65,17 @@ export namespace AxoSymbol {
    */
 
   export type IconName = AxoSymbolIconName;
-  export type IconSize = 14 | 16 | 20 | 24;
+  export type IconSize = 12 | 14 | 16 | 20 | 24 | 48;
 
   type IconSizeConfig = { size: number; fontSize: number };
 
   const IconSizes: Record<IconSize, IconSizeConfig> = {
+    12: { size: 12, fontSize: 11 },
     14: { size: 14, fontSize: 12 },
     16: { size: 16, fontSize: 14 },
     20: { size: 20, fontSize: 18 },
     24: { size: 24, fontSize: 22 },
+    48: { size: 48, fontSize: 44 },
   };
 
   export function _getAllIconSizes(): ReadonlyArray<IconSize> {

@@ -7116,6 +7116,334 @@
     "messageformat": "Notification content",
     "description": "Label for the notification content setting select box"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Moon icon",
+    "description": "Screenreader description for the moon icon used to signify notification profiles"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Copy of {profileName}",
+    "description": "Like 'Copy of Work.' When turning notification profiles sync back on, profile copies may be made if a given profile diverged on multiple devices."
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM",
+    "description": "Text to be used for morning times in times; if your locale uses 24-hour time, this won't be used"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM",
+    "description": "Text to be used for afternoon times in times; if your locale uses 24-hour time, this won't be used"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":",
+    "description": "The symbol used to separate hour and minutes in a time representation"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Notification profile",
+    "description": "Item in the main chats view 'more actions' menu allowing quick control of notification profiles"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Notification Profile",
+    "description": "Header for the popop meny to control notification profile overrides"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "On",
+    "description": "Shown when a notification profile is enabled, but with no overrided end time"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "On until {endTime}",
+    "description": "Shown when a notification profile is enabled, with an override that has an end time"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "For one hour",
+    "description": "Label for an item that will turn on a notification profile for one hour"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Until {time}",
+    "description": "Label for an item that will turn on a notification profile until a certain time"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Settings",
+    "description": "Label for an item that will take the user to the Notification Profiles list in the preferences tab"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” on",
+    "description": "Shown in toast announcing that the named notification profile is now enabled"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” off",
+    "description": "Shown in toast announcing that the named notification profile is now disabled, and another has not replaced it as active"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Notification profile now enabled",
+    "description": "Shown in toast announcing that the named notification profile is now enabled"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Notification profile now disabled",
+    "description": "Shown in toast announcing that the named notification profile is now disabled, and another has not replaced it as active"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Notification profiles",
+    "description": "Label for the notification profiles setting button"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Set up",
+    "description": "Button text to setup notification profiles"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Notification Profiles",
+    "description": "Header text for notification profiles"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose",
+    "description": "Description text shown above create button when users have no notification profiles set up."
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Continue",
+    "description": "Button on Notification Profile onboarding dialog, shown their first time on the profile list screen, if user has no profiles."
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Add or edit notification profiles",
+    "description": "Description text on the Notifications preferences page when the user already has profiles"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {One profile} other {# profiles}}",
+    "description": "Button text to take user to profile list page when they already have notification profiles"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Create profile",
+    "description": "Button text to create a user's first notification profile"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Name your profile",
+    "description": "Title on page where users can type in a name for a notification profile."
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Name",
+    "description": "Title on page where user can edit the name/emoji for their notification profile."
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profile name",
+    "description": "Placeholder text for notification profile name text input box"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Select an avatar",
+    "description": "Text shown above list of avatars that users can select for a notification profile"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Work",
+    "description": "Sample notification profile name, shown next to a flexed biceps emoji"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Sleep",
+    "description": "Sample notification profile name, shown next to a sleeping face emoji"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Driving",
+    "description": "Sample notification profile name, shown next to a car emoji"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Downtime",
+    "description": "Sample notification profile name, shown next to a blushing smiley face emoji"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Focus",
+    "description": "Sample notification profile name, shown next to a lightbulb emoji"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Allowed notifications",
+    "description": "Header text above area where users select people or groups to include in the notification profile, who will still recevive nofications"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Allowed Notifications",
+    "description": "Title text for modal where users select people or groups to include in the notification profile, who will still recevive nofications"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notications from when this profile is on",
+    "description": "Description text for selecting people or groups that you still want to get notifications from when this profile is active"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Add people or groups",
+    "description": "Label text for a button to add people or groups to the allowed notification list"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Exceptions",
+    "description": "Section header on text 'allowed notifications' screen, with checkboxes inside of it"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Allow all calls",
+    "description": "Label text for a checkbox in the 'allowed notifications' page Exceptions section"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Notify for all mentions",
+    "description": "Label text for a checkbox in the 'allowed notifications' page Exceptions section"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Add a schedule",
+    "description": "Title of page where users can add a schedule for the profile to be active"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Schedule",
+    "description": "Title of page where users change the schedule of their profile"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Enable and edit your schedule to automate your notification profile.",
+    "description": "More information about the schedule screen when creating a notification profile"
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Turn on automatically",
+    "description": "Label text for checkbox to enable / disable schedule"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Schedule",
+    "description": "Shown above area where users can edit a notification profile schedule"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "From",
+    "description": "Label for dropdown to select time to start a notification profile schedule"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Until",
+    "description": "Label for dropdown to select time to end a notification profile schedule"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Open time picker",
+    "description": "Label for button to open popup to make time choosing easier"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Sunday",
+    "description": "Label for the schedule checkbox for Sunday"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Monday",
+    "description": "Label for the schedule checkbox for Monday"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Tuesday",
+    "description": "Label for the schedule checkbox for Tuesday"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Wednesday",
+    "description": "Label for the schedule checkbox for Wednesday"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Thursday",
+    "description": "Label for the schedule checkbox for Thursday"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Friday",
+    "description": "Label for the schedule checkbox for Friday"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Saturday",
+    "description": "Label for the schedule checkbox for Saturday"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profile Created",
+    "description": "Title text for the final screen in the notification profile creation flow"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually.",
+    "description": "Description for the final screen in the notification profile creation flow"
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Sun",
+    "description": "Abbreviation for Sunday"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Mon",
+    "description": "Abbreviation for Monday"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Tue",
+    "description": "Abbreviation for Tuesday"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Wed",
+    "description": "Abbreviation for Wednesday"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Thu",
+    "description": "Abbreviation for Thursday"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Fri",
+    "description": "Abbreviation for Friday"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sat",
+    "description": "Abbreviation for Saturday"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Weekdays",
+    "description": "Shown when someone has selected all of the weekdays for a notification profile schedule"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Weekends",
+    "description": "Shown when someone has selected only weekend days for a notification profile schedule"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Daily",
+    "description": "Shown when someone has selected every day for a notification profile schedule"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", ",
+    "description": "Shown when user chose something other than weekdays/weekends/daily for a notification profile schedule. Short versions of all days chosen are shown, separated by this character. Like 'Mon, Thu, Fri'"
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiles",
+    "description": "Shown right above the list of notification profiles on the main list page"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sync across devices",
+    "description": "Shown below the notification profile list; label for checkbox which controls whether notification profile behavior is always the same across all devices"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the the others.",
+    "description": "More details for the 'Sync across devices' setting"
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "New profile",
+    "description": "Button label text to create a new notification profile"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Delete profile",
+    "description": "Button label text to delete a notification profile"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Permanently delete this notification profile?",
+    "description": "Text of notification profile delete confirmation modal"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Delete",
+    "description": "Button label text in the delete confirmation modal"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "On",
+    "description": "Shorthand description for a notification profile that is currently active"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Off",
+    "description": "Shorthand description for a notification profile that is NOT currently active"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Edit this profile's name",
+    "description": "Label for pen icon next to notification profile's name on the edit page"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "{allowedCount, plural, zero {No allowed notifications} one {One allowed notification} other {# allowed notifications}}",
+    "description": "Header on notification profile edit page, showing number of contacts and groups in the allowed list"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} to {endTime}",
+    "description": "A summary of a notification profile's schedule - times will be rendered like 9:00 AM to 5:00 PM"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "On",
+    "description": "Shorthand description for an enabled notification profile schedule"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Off",
+    "description": "Shorthand description for a disabled notification profile  schedule"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Blocked",
     "description": "Label for blocked contacts setting"

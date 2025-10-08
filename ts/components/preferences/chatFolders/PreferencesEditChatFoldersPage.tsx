@@ -2,15 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import type { ThemeType } from '../../../types/Util.js';
+
 import { Input } from '../../Input.js';
 import { Button, ButtonVariant } from '../../Button.js';
 import { ConfirmationDialog } from '../../ConfirmationDialog.js';
-import type { ChatFolderSelection } from './PreferencesEditChatFoldersSelectChatsDialog.js';
-import { PreferencesEditChatFoldersSelectChatsDialog } from './PreferencesEditChatFoldersSelectChatsDialog.js';
+import { PreferencesSelectChatsDialog } from '../PreferencesSelectChatsDialog.js';
 import { SettingsRow } from '../../PreferencesUtil.js';
 import { Checkbox } from '../../Checkbox.js';
 import { Avatar, AvatarSize } from '../../Avatar.js';
@@ -21,17 +17,23 @@ import {
   isSameChatFolderParams,
   validateChatFolderParams,
 } from '../../../types/ChatFolder.js';
+import { strictAssert } from '../../../util/assert.js';
+import { parseStrict } from '../../../util/schemas.js';
+import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
+import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
+import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
+
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import type { ThemeType } from '../../../types/Util.js';
+import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.js';
 import type {
   ChatFolderId,
   ChatFolderParams,
 } from '../../../types/ChatFolder.js';
 import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
-import { strictAssert } from '../../../util/assert.js';
-import { parseStrict } from '../../../util/schemas.js';
-import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
-import { type Location } from '../../../types/Nav.js';
-import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
-import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
+import type { Location } from '../../../types/Nav.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
@@ -395,7 +397,7 @@ export function PreferencesEditChatFolderPage(
             </SettingsRow>
           )}
           {showInclusionsDialog && (
-            <PreferencesEditChatFoldersSelectChatsDialog
+            <PreferencesSelectChatsDialog
               i18n={i18n}
               title={i18n(
                 'icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title'
@@ -415,7 +417,7 @@ export function PreferencesEditChatFolderPage(
             />
           )}
           {showExclusionsDialog && (
-            <PreferencesEditChatFoldersSelectChatsDialog
+            <PreferencesSelectChatsDialog
               i18n={i18n}
               title={i18n(
                 'icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title'

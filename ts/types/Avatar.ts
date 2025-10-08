@@ -113,7 +113,7 @@ const groupIconColors = [
   'A110',
   'A130',
   'A210',
-];
+] as const;
 
 const personalIconColors = [
   'A130',
@@ -128,7 +128,7 @@ const personalIconColors = [
   'A180',
   'A210',
   'A100',
-];
+] as const;
 
 strictAssert(
   groupIconColors.length === GroupAvatarIcons.length &&
@@ -136,17 +136,20 @@ strictAssert(
   'colors.length !== icons.length'
 );
 
-const groupDefaultAvatars = GroupAvatarIcons.map((icon, index) => ({
-  id: index,
-  color: groupIconColors[index],
-  icon,
-}));
+const groupDefaultAvatars: ReadonlyArray<AvatarDataType> = GroupAvatarIcons.map(
+  (icon, index) => ({
+    id: index,
+    color: groupIconColors[index],
+    icon,
+  })
+);
 
-const personalDefaultAvatars = PersonalAvatarIcons.map((icon, index) => ({
-  id: index,
-  color: personalIconColors[index],
-  icon,
-}));
+const personalDefaultAvatars: ReadonlyArray<AvatarDataType> =
+  PersonalAvatarIcons.map((icon, index) => ({
+    id: index,
+    color: personalIconColors[index],
+    icon,
+  }));
 
 export function getDefaultAvatars(
   isGroup?: boolean

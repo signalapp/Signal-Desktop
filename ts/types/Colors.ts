@@ -86,7 +86,7 @@ export const AvatarColorMap = new Map([
       fg: '#5c5c5c',
     },
   ],
-]);
+] as const);
 
 export const AvatarColors = Array.from(AvatarColorMap.keys()).sort();
 

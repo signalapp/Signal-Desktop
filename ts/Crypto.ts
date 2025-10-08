@@ -19,6 +19,7 @@ import { Environment, getEnvironment } from './environment.js';
 import { toWebSafeBase64 } from './util/webSafeBase64.js';
 
 import type { AciString, PniString } from './types/ServiceId.js';
+import type { AvatarColorType } from './types/Colors.js';
 
 const { sample } = lodash;
 
@@ -710,7 +711,7 @@ export function generateAvatarColor({
   e164: string | undefined;
   pni: PniString | undefined;
   groupId: string | undefined;
-}): string {
+}): AvatarColorType {
   const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
 
   if (hashValue == null) {

@@ -61,6 +61,9 @@ import { getServerAlertDialog } from './ServerAlerts.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import type { Location } from '../types/Nav.js';
 import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.js';
+import type { ExternalProps as NotificationProfilesMenuProps } from '../state/smart/NotificationProfilesMenu.js';
+import { ProfileAvatar } from './PreferencesNotificationProfiles.js';
+import { tw } from '../axo/tw.js';
 
 const { isNumber } = lodash;
 
@@ -117,6 +120,7 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isMacOS: boolean;
+  isNotificationProfileActive: boolean;
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   targetedMessageId: undefined | string;
@@ -193,6 +197,9 @@ export type PropsType = {
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
   renderLeftPaneChatFolders: () => JSX.Element;
+  renderNotificationProfilesMenu: (
+    props: NotificationProfilesMenuProps
+  ) => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
@@ -227,6 +234,7 @@ export function LeftPane({
   i18n,
   lookupConversationWithoutServiceId,
   isMacOS,
+  isNotificationProfileActive,
   isOnline,
   isUpdateDownloaded,
   modeSpecificProps,
@@ -246,6 +254,7 @@ export function LeftPane({
   renderMessageSearchResult,
   renderConversationListItemContextMenu,
   renderNetworkStatus,
+  renderNotificationProfilesMenu,
   renderUnsupportedOSDialog,
   renderRelinkDialog,
   renderUpdateDialog,
@@ -729,6 +738,21 @@ export function LeftPane({
 
   const hasDialogs = dialogs.length ? !hideHeader : false;
 
+  // The notification profile menu shows in two places - under its own icon and
+  // under the more actions context menu.
+  const [isNotificationProfilesMenuOpen, setIsNotificationProfilesMenuOpen] =
+    React.useState(false);
+  const [
+    isNotificationProfilesSubMenuOpen,
+    setIsNotificationProfilesSubMenuOpen,
+  ] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isNotificationProfileActive) {
+      setIsNotificationProfilesMenuOpen(false);
+    }
+  }, [isNotificationProfileActive, setIsNotificationProfilesMenuOpen]);
+
   return (
     <NavSidebar
       title={i18n('icu:LeftPane--chats')}
@@ -745,6 +769,29 @@ export function LeftPane({
       renderToastManager={renderToastManager}
       actions={
         <>
+          {isNotificationProfileActive &&
+            renderNotificationProfilesMenu({
+              isOpen: isNotificationProfilesMenuOpen,
+              onClose: () => {
+                setIsNotificationProfilesMenuOpen(false);
+              },
+              trigger: (
+                <button
+                  className={tw(
+                    'rounded-sm focus:outline-none focus-visible:shadow-legacy-outline'
+                  )}
+                  type="button"
+                  onClick={() => setIsNotificationProfilesMenuOpen(true)}
+                  onKeyUp={(event: React.KeyboardEvent<HTMLButtonElement>) => {
+                    if (event.code === 'Enter' || event.code === 'Space') {
+                      setIsNotificationProfilesMenuOpen(true);
+                    }
+                  }}
+                >
+                  <ProfileAvatar i18n={i18n} size="medium-small" />
+                </button>
+              ),
+            })}
           <NavSidebarActionButton
             label={i18n('icu:newConversation')}
             icon={<span className="module-left-pane__startComposingIcon" />}
@@ -757,6 +804,10 @@ export function LeftPane({
                 label: i18n('icu:avatarMenuViewArchive'),
                 onClick: showArchivedConversations,
               },
+              {
+                label: i18n('icu:NotificationProfileMenuItem'),
+                onClick: () => setIsNotificationProfilesSubMenuOpen(true),
+              },
             ]}
             popperOptions={{
               placement: 'bottom',
@@ -764,17 +815,25 @@ export function LeftPane({
             }}
             portalToRoot
           >
-            {({ onClick, onKeyDown, ref }) => {
-              return (
-                <NavSidebarActionButton
-                  ref={ref}
-                  onClick={onClick}
-                  onKeyDown={onKeyDown}
-                  icon={<span className="module-left-pane__moreActionsIcon" />}
-                  label="More Actions"
-                />
-              );
-            }}
+            {({ onClick, onKeyDown, ref }) =>
+              renderNotificationProfilesMenu({
+                isOpen: isNotificationProfilesSubMenuOpen,
+                onClose: () => {
+                  setIsNotificationProfilesSubMenuOpen(false);
+                },
+                trigger: (
+                  <NavSidebarActionButton
+                    ref={ref}
+                    onClick={onClick}
+                    onKeyDown={onKeyDown}
+                    icon={
+                      <span className="module-left-pane__moreActionsIcon" />
+                    }
+                    label="More Actions"
+                  />
+                ),
+              })
+            }
           </ContextMenu>
         </>
       }

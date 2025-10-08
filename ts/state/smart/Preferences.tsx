@@ -93,6 +93,12 @@ import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditC
 import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.js';
 import { isProduction } from '../../util/version.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
+import {
+  SmartNotificationProfilesCreateFlow,
+  SmartNotificationProfilesHome,
+} from './PreferencesNotificationProfiles.js';
+import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.js';
+import { getProfiles } from '../selectors/notificationProfiles.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -112,6 +118,18 @@ function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
 ): JSX.Element {
   return <SmartPreferencesEditChatFolderPage {...props} />;
+}
+
+function renderNotificationProfilesHome(
+  props: SmartNotificationProfilesProps
+): JSX.Element {
+  return <SmartNotificationProfilesHome {...props} />;
+}
+
+function renderNotificationProfilesCreateFlow(
+  props: SmartNotificationProfilesProps
+): JSX.Element {
+  return <SmartNotificationProfilesCreateFlow {...props} />;
 }
 
 function renderProfileEditor(options: {
@@ -200,20 +218,21 @@ export function SmartPreferences(): JSX.Element | null {
     getConversationsWithCustomColorSelector
   );
   const i18n = useSelector(getIntl);
+  const dialogType = useSelector(getUpdateDialogType);
   const items = useSelector(getItems);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const dialogType = useSelector(getUpdateDialogType);
   const me = useSelector(getMe);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const theme = useSelector(getTheme);
   const donationReceipts = useSelector(
     (state: StateType) => state.donations.receipts
   );
+  const notificationProfileCount = useSelector(getProfiles).length;
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const badge = getPreferredBadge(me.badges);
 
   // The weird ones
@@ -820,6 +839,7 @@ export function SmartPreferences(): JSX.Element | null {
           me={me}
           navTabsCollapsed={navTabsCollapsed}
           notificationContent={notificationContent}
+          notificationProfileCount={notificationProfileCount}
           onAudioNotificationsChange={onAudioNotificationsChange}
           onAutoConvertEmojiChange={onAutoConvertEmojiChange}
           onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
@@ -871,6 +891,10 @@ export function SmartPreferences(): JSX.Element | null {
           removeCustomColorOnConversations={removeCustomColorOnConversations}
           removeCustomColor={removeCustomColor}
           renderDonationsPane={renderDonationsPane}
+          renderNotificationProfilesHome={renderNotificationProfilesHome}
+          renderNotificationProfilesCreateFlow={
+            renderNotificationProfilesCreateFlow
+          }
           renderProfileEditor={renderProfileEditor}
           renderToastManager={renderToastManager}
           renderUpdateDialog={renderUpdateDialog}

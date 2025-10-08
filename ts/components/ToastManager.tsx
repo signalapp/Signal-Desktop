@@ -14,12 +14,13 @@ import { missingCaseError } from '../util/missingCaseError.js';
 import { ToastType } from '../types/Toast.js';
 import { MegaphoneType } from '../types/Megaphone.js';
 import { NavTab, SettingsPage } from '../types/Nav.js';
+import { AxoSymbol } from '../axo/AxoSymbol.js';
+import { tw } from '../axo/tw.js';
 
 import type { LocalizerType } from '../types/Util.js';
 import type { AnyToast } from '../types/Toast.js';
 import type { AnyActionableMegaphone } from '../types/Megaphone.js';
 import type { Location } from '../types/Nav.js';
-import { tw } from '../axo/tw.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -577,6 +578,26 @@ export function renderToast({
         }}
       >
         {i18n('icu:messageLoop')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.NotificationProfileUpdate) {
+    const { name, enabled } = toast.parameters;
+    const text = enabled
+      ? i18n('icu:NotificationProfilesToast--enabled', { name })
+      : i18n('icu:NotificationProfilesToast--disabled', { name });
+    const label = enabled
+      ? i18n('icu:NotificationProfilesToast--enabled--label')
+      : i18n('icu:NotificationProfilesToast--disabled--label');
+    const symbol = enabled ? 'moon-fill' : 'moon-slash-fill';
+
+    return (
+      <Toast onClose={hideToast}>
+        <div className={tw('flex items-center')}>
+          <AxoSymbol.Icon symbol={symbol} size={12} label={label} />
+          <span className={tw('mx-[10px]')}>{text}</span>
+        </div>
       </Toast>
     );
   }

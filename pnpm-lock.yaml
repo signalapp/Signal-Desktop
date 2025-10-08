@@ -104,6 +104,9 @@ importers:
       '@indutny/sneequals':
         specifier: 4.0.0
         version: 4.0.0
+      '@internationalized/date':
+        specifier: 3.7.0
+        version: 3.7.0
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8

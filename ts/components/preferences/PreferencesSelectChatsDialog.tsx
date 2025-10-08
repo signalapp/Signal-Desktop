@@ -2,27 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import type { ThemeType } from '../../../types/Util.js';
-import { filterAndSortConversations } from '../../../util/filterAndSortConversations.js';
-import { ContactPills } from '../../ContactPills.js';
-import { ContactPill } from '../../ContactPill.js';
+
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import type { LocalizerType } from '../../types/I18N.js';
+import type { ThemeType } from '../../types/Util.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
+import { ContactPills } from '../ContactPills.js';
+import { ContactPill } from '../ContactPill.js';
 import {
   asyncShouldNeverBeCalled,
   shouldNeverBeCalled,
-} from '../../../util/shouldNeverBeCalled.js';
-import { SearchInput } from '../../SearchInput.js';
-import { Button, ButtonVariant } from '../../Button.js';
-import { Modal } from '../../Modal.js';
-import type { Row } from '../../ConversationList.js';
+} from '../../util/shouldNeverBeCalled.js';
+import { SearchInput } from '../SearchInput.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { Modal } from '../Modal.js';
+import type { Row } from '../ConversationList.js';
 import {
   ConversationList,
   GenericCheckboxRowIcon,
   RowType,
-} from '../../ConversationList.js';
-import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
+} from '../ConversationList.js';
+import type { GetConversationByIdType } from '../../state/selectors/conversations.js';
+import { SizeObserver } from '../../hooks/useSizeObserver.js';
+import { tw } from '../../axo/tw.js';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;
@@ -30,7 +33,7 @@ export type ChatFolderSelection = Readonly<{
   selectAllGroupChats: boolean;
 }>;
 
-export type PreferencesEditChatFoldersSelectChatsDialogProps = Readonly<{
+export type PreferencesSelectChatsDialogProps = Readonly<{
   i18n: LocalizerType;
   title: string;
   conversations: ReadonlyArray<ConversationType>;
@@ -42,8 +45,8 @@ export type PreferencesEditChatFoldersSelectChatsDialogProps = Readonly<{
   showChatTypes: boolean;
 }>;
 
-export function PreferencesEditChatFoldersSelectChatsDialog(
-  props: PreferencesEditChatFoldersSelectChatsDialogProps
+export function PreferencesSelectChatsDialog(
+  props: PreferencesSelectChatsDialogProps
 ): JSX.Element {
   const {
     i18n,
@@ -199,7 +202,7 @@ export function PreferencesEditChatFoldersSelectChatsDialog(
       onClose={handleClose}
       padded={false}
       noMouseClose
-      noEscapeClose
+      hasXButton
       modalFooter={
         <Button variant={ButtonVariant.Primary} onClick={handleClose}>
           {i18n(
@@ -240,35 +243,42 @@ export function PreferencesEditChatFoldersSelectChatsDialog(
           })}
         </ContactPills>
       )}
-      <ConversationList
-        dimensions={{
-          width: 360,
-          height: 404,
+      <SizeObserver>
+        {(ref, size) => {
+          return (
+            <div ref={ref} className={tw('min-h-[100px] w-full flex-grow')}>
+              {size != null && (
+                <ConversationList
+                  dimensions={size}
+                  i18n={i18n}
+                  getPreferredBadge={props.preferredBadgeSelector}
+                  getRow={index => rows[index]}
+                  onClickContactCheckbox={handleToggleSelectedConversation}
+                  rowCount={rows.length}
+                  shouldRecomputeRowHeights={false}
+                  theme={props.theme}
+                  // never called:
+                  blockConversation={shouldNeverBeCalled}
+                  lookupConversationWithoutServiceId={asyncShouldNeverBeCalled}
+                  onClickArchiveButton={shouldNeverBeCalled}
+                  onClickClearFilterButton={shouldNeverBeCalled}
+                  onOutgoingAudioCallInConversation={shouldNeverBeCalled}
+                  onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                  onPreloadConversation={shouldNeverBeCalled}
+                  onSelectConversation={shouldNeverBeCalled}
+                  removeConversation={shouldNeverBeCalled}
+                  setIsFetchingUUID={shouldNeverBeCalled}
+                  showChooseGroupMembers={shouldNeverBeCalled}
+                  showConversation={shouldNeverBeCalled}
+                  showFindByPhoneNumber={shouldNeverBeCalled}
+                  showFindByUsername={shouldNeverBeCalled}
+                  showUserNotFoundModal={shouldNeverBeCalled}
+                />
+              )}
+            </div>
+          );
         }}
-        i18n={i18n}
-        getPreferredBadge={props.preferredBadgeSelector}
-        getRow={index => rows[index]}
-        onClickContactCheckbox={handleToggleSelectedConversation}
-        rowCount={rows.length}
-        shouldRecomputeRowHeights={false}
-        theme={props.theme}
-        // never called:
-        blockConversation={shouldNeverBeCalled}
-        lookupConversationWithoutServiceId={asyncShouldNeverBeCalled}
-        onClickArchiveButton={shouldNeverBeCalled}
-        onClickClearFilterButton={shouldNeverBeCalled}
-        onOutgoingAudioCallInConversation={shouldNeverBeCalled}
-        onOutgoingVideoCallInConversation={shouldNeverBeCalled}
-        onPreloadConversation={shouldNeverBeCalled}
-        onSelectConversation={shouldNeverBeCalled}
-        removeConversation={shouldNeverBeCalled}
-        setIsFetchingUUID={shouldNeverBeCalled}
-        showChooseGroupMembers={shouldNeverBeCalled}
-        showConversation={shouldNeverBeCalled}
-        showFindByPhoneNumber={shouldNeverBeCalled}
-        showFindByUsername={shouldNeverBeCalled}
-        showUserNotFoundModal={shouldNeverBeCalled}
-      />
+      </SizeObserver>
     </Modal>
   );
 }

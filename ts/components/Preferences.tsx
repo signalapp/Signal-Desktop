@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
+
 import { Button, ButtonVariant } from './Button.js';
 import { ChatColorPicker } from './ChatColorPicker.js';
 import { Checkbox } from './Checkbox.js';
@@ -39,10 +40,7 @@ import { removeDiacritics } from '../util/removeDiacritics.js';
 import { assertDev } from '../util/assert.js';
 import { I18n } from './I18n.js';
 import { FunSkinTonesList } from './fun/FunSkinTones.js';
-import {
-  EMOJI_PARENT_KEY_CONSTANTS,
-  type EmojiSkinTone,
-} from './fun/data/emojis.js';
+import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
@@ -56,7 +54,12 @@ import { Avatar, AvatarSize } from './Avatar.js';
 import { NavSidebar } from './NavSidebar.js';
 import type { SettingsLocation } from '../types/Nav.js';
 import { SettingsPage, ProfileEditorPage, NavTab } from '../types/Nav.js';
+import { tw } from '../axo/tw.js';
+import { isBackupPage } from '../types/PreferencesBackupPage.js';
+import { isChatFoldersEnabled } from '../types/ChatFolder.js';
+import { FullWidthButton } from './PreferencesNotificationProfiles.js';
 
+import type { EmojiSkinTone } from './fun/data/emojis.js';
 import type { MediaDeviceSettings } from '../types/Calling.js';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
 import type {
@@ -88,7 +91,6 @@ import type { UnreadStats } from '../util/countUnreadStats.js';
 import type { BadgeType } from '../badges/types.js';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
 import type { MessageAttributesType } from '../model-types.js';
-import { isBackupPage } from '../types/PreferencesBackupPage.js';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
 import type {
   PromptOSAuthReasonType,
@@ -96,9 +98,9 @@ import type {
 } from '../util/os/promptOSAuthMain.js';
 import type { DonationReceipt } from '../types/Donations.js';
 import type { ChatFolderId } from '../types/ChatFolder.js';
-import { isChatFoldersEnabled } from '../types/ChatFolder.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -180,6 +182,7 @@ export type PropsDataType = {
   preferredWidthFromStorage: number;
   shouldShowUpdateDialog: boolean;
   theme: ThemeType;
+  notificationProfileCount: number;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -208,6 +211,13 @@ type PropsFunctionType = {
     settingsLocation: SettingsLocation;
     setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   }) => JSX.Element;
+  renderNotificationProfilesHome: (
+    props: SmartNotificationProfilesProps
+  ) => JSX.Element;
+  renderNotificationProfilesCreateFlow: (
+    props: SmartNotificationProfilesProps
+  ) => JSX.Element;
+
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
   }) => JSX.Element;
@@ -434,6 +444,7 @@ export function Preferences({
   me,
   navTabsCollapsed,
   notificationContent,
+  notificationProfileCount,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
   onAutoDownloadAttachmentChange,
@@ -483,6 +494,8 @@ export function Preferences({
   removeCustomColor,
   removeCustomColorOnConversations,
   renderDonationsPane,
+  renderNotificationProfilesCreateFlow,
+  renderNotificationProfilesHome,
   renderProfileEditor,
   renderToastManager,
   renderUpdateDialog,
@@ -1486,6 +1499,59 @@ export function Preferences({
             onChange={onMessageAudioChange}
           />
         </SettingsRow>
+        {notificationProfileCount > 0 ? (
+          <FullWidthButton
+            testId="ManageNotificationProfiles"
+            className={tw(
+              'mx-[10px] mt-[-3px] min-h-[52px] max-w-[calc(100%-20px)]'
+            )}
+            onClick={() =>
+              setSettingsLocation({
+                page: SettingsPage.NotificationProfilesHome,
+              })
+            }
+          >
+            <div className={tw('grow text-start')}>
+              <div>{i18n('icu:NotificationProfiles--setting')}</div>
+              <div className="Preferences__description">
+                {i18n('icu:NotificationProfiles--manage-description')}
+              </div>
+            </div>
+            <span className={tw('ms-4')}>
+              {i18n('icu:NotificationProfiles--manage-profiles', {
+                profileCount: notificationProfileCount,
+              })}
+            </span>
+          </FullWidthButton>
+        ) : (
+          <SettingsRow>
+            <Control
+              left={
+                <>
+                  <div>{i18n('icu:NotificationProfiles--setting')}</div>
+                  <div className="Preferences__description">
+                    {i18n('icu:NotificationProfiles--setup-description')}
+                  </div>
+                </>
+              }
+              right={
+                <Button
+                  testId="OnboardNotificationProfiles"
+                  aria-label={i18n('icu:NotificationProfiles--setup')}
+                  aria-live="polite"
+                  variant={ButtonVariant.SecondaryAffirmative}
+                  onClick={() =>
+                    setSettingsLocation({
+                      page: SettingsPage.NotificationProfilesHome,
+                    })
+                  }
+                >
+                  {i18n('icu:NotificationProfiles--setup')}
+                </Button>
+              }
+            />
+          </SettingsRow>
+        )}
       </>
     );
     content = (
@@ -2136,6 +2202,18 @@ export function Preferences({
         title={pageTitle}
       />
     );
+  } else if (settingsLocation.page === SettingsPage.NotificationProfilesHome) {
+    content = renderNotificationProfilesHome({
+      setSettingsLocation,
+      contentsRef: settingsPaneRef,
+    });
+  } else if (
+    settingsLocation.page === SettingsPage.NotificationProfilesCreateFlow
+  ) {
+    content = renderNotificationProfilesCreateFlow({
+      setSettingsLocation,
+      contentsRef: settingsPaneRef,
+    });
   } else if (settingsLocation.page === SettingsPage.Internal) {
     content = (
       <PreferencesContent
@@ -2160,7 +2238,6 @@ export function Preferences({
       />
     );
   }
-
   return (
     <FunEmojiLocalizationProvider i18n={i18n}>
       <div className="module-title-bar-drag-area" />

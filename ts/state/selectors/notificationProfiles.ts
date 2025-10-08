@@ -5,18 +5,15 @@
 
 import { createSelector } from 'reselect';
 
-import { createLogger } from '../../logging/log.js';
+import { getNotificationProfileSyncDisabled } from './items.js';
 
 import type { StateType } from '../reducer.js';
 import type { NotificationProfilesStateType } from '../ducks/notificationProfiles.js';
-import {
-  redactNotificationProfileId,
-  type NextProfileEvent,
-  type NotificationProfileOverride,
-  type NotificationProfileType,
+import type {
+  NextProfileEvent,
+  NotificationProfileOverride,
+  NotificationProfileType,
 } from '../../types/NotificationProfile.js';
-
-const log = createLogger('notificationProfiles');
 
 export const getNotificationProfileData = (
   state: StateType
@@ -25,24 +22,51 @@ export const getNotificationProfileData = (
 };
 
 export const getProfiles = createSelector(
+  getNotificationProfileSyncDisabled,
   getNotificationProfileData,
   (
+    syncDisabled: boolean,
     state: NotificationProfilesStateType
   ): ReadonlyArray<NotificationProfileType> => {
-    return state.profiles.filter(
-      profile => profile.deletedAtTimestampMs == null
+    const notDeleted = state.profiles.filter(
+      profile =>
+        profile.deletedAtTimestampMs == null ||
+        profile.deletedAtTimestampMs === 0
     );
+
+    if (syncDisabled) {
+      return notDeleted.filter(profile => !profile.storageID);
+    }
+
+    return notDeleted;
   }
 );
 
 export const getDeletedProfiles = createSelector(
+  getNotificationProfileSyncDisabled,
   getNotificationProfileData,
   (
+    syncDisabled: boolean,
     state: NotificationProfilesStateType
   ): ReadonlyArray<NotificationProfileType> => {
-    return state.profiles.filter(
-      profile => profile.deletedAtTimestampMs != null
+    const deleted = state.profiles.filter(
+      profile =>
+        profile.deletedAtTimestampMs != null &&
+        profile.deletedAtTimestampMs !== 0
     );
+
+    if (syncDisabled) {
+      return deleted.filter(profile => !profile.storageID);
+    }
+
+    return deleted;
+  }
+);
+
+export const getLoading = createSelector(
+  getNotificationProfileData,
+  (state: NotificationProfilesStateType): boolean => {
+    return state.loading;
   }
 );
 
@@ -63,29 +87,10 @@ export const getCurrentState = createSelector(
 );
 
 export const getActiveProfile = createSelector(
-  getCurrentState,
-  getProfiles,
+  getNotificationProfileData,
   (
-    state: NextProfileEvent,
-    profiles: ReadonlyArray<NotificationProfileType>
+    state: NotificationProfilesStateType
   ): NotificationProfileType | undefined => {
-    let profileId: string;
-
-    if (state.type === 'noChange' && state.activeProfile) {
-      profileId = state.activeProfile;
-    } else if (state.type === 'willDisable') {
-      profileId = state.activeProfile;
-    } else {
-      return undefined;
-    }
-
-    const profile = profiles.find(item => item.id === profileId);
-    if (!profile) {
-      log.warn(
-        `getActiveProfile: currentState referred to profileId ${redactNotificationProfileId(profileId)} not in the list`
-      );
-    }
-
-    return profile;
+    return state.activeProfile;
   }
 );
