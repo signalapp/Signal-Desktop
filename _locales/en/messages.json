@@ -3210,71 +3210,71 @@
   },
   "icu:stickers--StickerManager--Introduction--Image": {
     "messageformat": "Introducing Stickers: Bandit the Cat",
-    "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
+    "description": "(Deleted 2025/10/08) Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerManager--Introduction--Title": {
     "messageformat": "Introducing Stickers",
-    "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    "description": "(Deleted 2025/10/08) Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerManager--Introduction--Body": {
     "messageformat": "Why use words when you can use stickers?",
-    "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    "description": "(Deleted 2025/10/08) Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerPicker--Open": {
     "messageformat": "Open the sticker picker",
-    "description": "Label for the open button for the sticker picker"
+    "description": "(Deleted 2025/10/08) Label for the open button for the sticker picker"
   },
   "icu:stickers--StickerPicker--AddPack": {
     "messageformat": "Add a sticker pack",
-    "description": "Label for the add pack button in the sticker picker"
+    "description": "(Deleted 2025/10/08) Label for the add pack button in the sticker picker"
   },
   "icu:stickers--StickerPicker--NextPage": {
     "messageformat": "Next Page",
-    "description": "Label for the next page button in the sticker picker"
+    "description": "(Deleted 2025/10/08) Label for the next page button in the sticker picker"
   },
   "icu:stickers--StickerPicker--PrevPage": {
     "messageformat": "Previous Page",
-    "description": "Label for the previous page button in the sticker picker"
+    "description": "(Deleted 2025/10/08) Label for the previous page button in the sticker picker"
   },
   "icu:stickers--StickerPicker--Recents": {
     "messageformat": "Recent Sticker",
-    "description": "Label for the recent stickers button in the sticker picker"
+    "description": "(Deleted 2025/10/08) Label for the recent stickers button in the sticker picker"
   },
   "icu:stickers--StickerPicker--DownloadError": {
     "messageformat": "Some stickers could not be downloaded.",
-    "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "icu:stickers--StickerPicker--DownloadPending": {
     "messageformat": "Installing sticker pack...",
-    "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker when one or more stickers are still downloading."
   },
   "icu:stickers--StickerPicker--Empty": {
     "messageformat": "No stickers found",
-    "description": "Shown in the sticker picker when there are no stickers to show."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker when there are no stickers to show."
   },
   "icu:stickers--StickerPicker--Hint": {
     "messageformat": "New sticker packs from your messages are available to install",
-    "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker the first time you have received new packs you can install."
   },
   "icu:stickers--StickerPicker--NoPacks": {
     "messageformat": "No sticker packs found",
-    "description": "Shown in the sticker picker when there are no installed sticker packs."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker when there are no installed sticker packs."
   },
   "icu:stickers--StickerPicker--NoRecents": {
     "messageformat": "Recently used stickers will appear here.",
-    "description": "Shown in the sticker picker when there are no recent stickers to show."
+    "description": "(Deleted 2025/10/08) Shown in the sticker picker when there are no recent stickers to show."
   },
   "icu:stickers__StickerPicker__recent": {
     "messageformat": "Recents",
-    "description": "Title for all of the recent stickers"
+    "description": "(Deleted 2025/10/08) Title for all of the recent stickers"
   },
   "icu:stickers__StickerPicker__featured": {
     "messageformat": "Featured",
-    "description": "Title for featured stickers"
+    "description": "(Deleted 2025/10/08) Title for featured stickers"
   },
   "icu:stickers__StickerPicker__analog-time": {
     "messageformat": "Analog time",
-    "description": "aria-label for the analog time sticker"
+    "description": "(Deleted 2025/10/08) aria-label for the analog time sticker"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Sticker Pack",
@@ -3286,55 +3286,55 @@
   },
   "icu:EmojiPicker--empty": {
     "messageformat": "No emoji found",
-    "description": "Shown in the emoji picker when a search yields 0 results."
+    "description": "(Deleted 2025/10/08) Shown in the emoji picker when a search yields 0 results."
   },
   "icu:EmojiPicker--search-close": {
     "messageformat": "Close emoji search",
-    "description": "Button title to cancel the emoji search."
+    "description": "(Deleted 2025/10/08) Button title to cancel the emoji search."
   },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Search Emoji",
-    "description": "Shown as a placeholder inside the emoji picker search field."
+    "description": "(Deleted 2025/10/08) Shown as a placeholder inside the emoji picker search field."
   },
   "icu:EmojiPicker--skin-tone": {
     "messageformat": "Skin tone {tone}",
-    "description": "Shown as a tooltip over the emoji tone buttons."
+    "description": "(Deleted 2025/10/08) Shown as a tooltip over the emoji tone buttons."
   },
   "icu:EmojiPicker__button--recents": {
     "messageformat": "Recents",
-    "description": "Label for recents emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for recents emoji picker button"
   },
   "icu:EmojiPicker__button--emoji": {
     "messageformat": "Emoji",
-    "description": "Label for emoji emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for emoji emoji picker button"
   },
   "icu:EmojiPicker__button--animal": {
     "messageformat": "Animal",
-    "description": "Label for animal emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for animal emoji picker button"
   },
   "icu:EmojiPicker__button--food": {
     "messageformat": "Food",
-    "description": "Label for food emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for food emoji picker button"
   },
   "icu:EmojiPicker__button--activity": {
     "messageformat": "Activity",
-    "description": "Label for activity emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for activity emoji picker button"
   },
   "icu:EmojiPicker__button--travel": {
     "messageformat": "Travel",
-    "description": "Label for travel emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for travel emoji picker button"
   },
   "icu:EmojiPicker__button--object": {
     "messageformat": "Object",
-    "description": "Label for object emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for object emoji picker button"
   },
   "icu:EmojiPicker__button--symbol": {
     "messageformat": "Symbol",
-    "description": "Label for symbol emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for symbol emoji picker button"
   },
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Flag",
-    "description": "Label for flag emoji picker button"
+    "description": "(Deleted 2025/10/08) Label for flag emoji picker button"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji",
@@ -4770,7 +4770,7 @@
   },
   "icu:EmojiButton__label": {
     "messageformat": "Emoji",
-    "description": "Label for emoji button"
+    "description": "(Deleted 2025/10/08) Label for emoji button"
   },
   "icu:ErrorModal--title": {
     "messageformat": "Something went wrong!",
@@ -5990,7 +5990,7 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Your contacts will be able add you to this group.",
-    "description": "This is the modal content for confirming unblock of a group"
+    "description": "(Deleted 2025/10/08) This is the modal content for confirming unblock of a group"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Your contacts will be able to add you to this group.",
@@ -9326,10 +9326,6 @@
     "messageformat": "No Receipts",
     "description": "Title shown when there are no donation receipts"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details",
-    "description": "(Deleted 2025/09/03) Title of the donation receipt details modal"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Download receipt",
     "description": "Button text to download a donation receipt"
@@ -9639,6 +9635,6 @@
   },
   "icu:WhatsNew__7.74": {
     "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop.",
-    "description": "Release notes for 7.74 release."
+    "description": "(Deleted 2025/10/08) Release notes for 7.74 release."
   }
 }
