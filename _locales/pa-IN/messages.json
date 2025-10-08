@@ -1041,31 +1041,31 @@
     "messageformat": "ਜਾਣਕਾਰੀ"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "ਪੋਲ · ਇੱਕ ਵਿਕਲਪ ਚੁਣੋ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "ਪੋਲ · ਇੱਕ ਜਾਂ ਵੱਧ ਵਿਕਲਪ ਚੁਣੋ"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "ਪੋਲ · ਅੰਤਿਮ ਨਤੀਜੇ"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ਵੋਟਾਂ ਵੇਖੋ"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "ਤੁਸੀਂ ਵੋਟ ਪਾਈ"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ਪੋਲ ਦੇ ਵੇਰਵੇ"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ਸਵਾਲ"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ਵੋਟ} other {{count,number} ਵੋਟਾਂ}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "ਕੋਈ ਵੋਟ ਨਹੀਂ"
   },
   "icu:deleteConversation": {
     "messageformat": "ਮਿਟਾਓ"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "ਮੀਡੀਆ ਅਤੇ ਫਾਈਲਾਂ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "ਤੁਹਾਡੀ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਨਹੀਂ ਲੱਭੀ। Signal ਸਿਕਿਓਰ ਬੈਕਅੱਪ ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਰੀਨਿਊ ਕਰੋ।"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ਮਹੀਨਾ"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ਟੈਕਸਟ + {mediaDayCount,number} ਦਿਨ ਦਾ ਮੀਡੀਆ ਬੈਕਅੱਪ} other {ਟੈਕਸਟ + {mediaDayCount,number} ਦਿਨਾਂ ਦਾ ਮੀਡੀਆ ਬੈਕਅੱਪ}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "ਬੈਟਰੀ ਲਾਈਫ਼ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਲਈ ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਪ੍ਰਦਰਸ਼ਨ ਨਾਲ ਸੰਬੰਧਿਤ ਨਵੀਆਂ ਅਨੁਕੂਲਤਾਵਾਂ ਸ਼ਾਮਲ ਹਨ।"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop ਵਿੱਚ ਹੁਣ ਸੱਤ ਨਵੇਂ ਇਮੋਜੀ ਕਿਰਦਾਰ ਵਰਤਣ ਲਈ ਉਪਲਬਧ ਹਨ।"
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "Інформація"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Опитування · Оберіть один варіант"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Опитування · Можна обрати кілька варіантів"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Опитування · Результати"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Переглянути голоси"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Ви проголосували"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Підсумки опитування"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Запитання"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} голос} few {{count,number} голоси} many {{count,number} голосів} other {{count,number} голосу}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Голосів немає"
   },
   "icu:deleteConversation": {
     "messageformat": "Видалити"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Медіафайли й файли"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Передплату не знайдено. Поновіть її, щоб знову користуватися надійним резервним копіюванням від Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/місяць"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Текст + медіафайли за {mediaDayCount,number} минулий день} few {Текст + медіафайли за {mediaDayCount,number} минулі дні} many {Текст + медіафайли за {mediaDayCount,number} минулих днів} other {Текст + медіафайли за {mediaDayCount,number} минулого дня}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "У цьому оновленні ми додали нові способи оптимізації, щоб подовжити час роботи акумулятора, адже всім нам іноді не вистачає енергії."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Якраз під осінній настрій: тепер Signal Desktop підтримує емоджі «Дерево без листя» {leaflessTreeEmoji} (і ще шість нових емоджі Unicode 16.0)."
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "معلومات"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "استطلاع · اختر خيارًا واحدًا"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "استطلاع · اختِر واحدًا أو أكثر"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "استطلاع · النتائج النهائية"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "عرض الأصوات"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "قُمتَ بالتصويت"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "تفاصيل الاستطلاع"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سؤال"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, zero {{count,number} أصوات} one {{count,number} صوت} two {{count,number} صوتين} few {{count,number} أصوات} many {{count,number} صوت} other {{count,number} صوت}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "لا أصوات"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "ملفات الوسائط والملفات"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "تعذَّر العثور على اشتراكك. جدِّد لمتابعة استخدام النسخ الاحتياطية الآمنة لسيجنال."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/شهريًا"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} one {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} two {النسخ الاحتياطي للنص و{mediaDayCount,number} يومين من الوسائط} few {النسخ الاحتياطي للنص و{mediaDayCount,number} أيام من الوسائط} many {النسخ الاحتياطي للنص و{mediaDayCount,number} يومًا من الوسائط} other {النسخ الاحتياطي للنص و{mediaDayCount,number} يومٍ من الوسائط}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "يُقدِّم هذا التحديث تحسينات جديدة للأداء للمساعدة على تحسين حياة البطارية، لكي تكون أكثر جاهزية للمحادثات المشحونة عاطفيًا."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "يدعم تطبيق سيجنال Desktop الآن سبعة رموز تعبيرية جديدة."
   }
 }

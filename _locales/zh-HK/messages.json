@@ -1041,31 +1041,31 @@
     "messageformat": "資訊"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "投票 · 選擇一項"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "投票 · 選擇一項或更多"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "投票 · 最終結果"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "檢視投票"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "你投了票"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "投票詳情"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "問題"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} 個投票}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "沒有投票"
   },
   "icu:deleteConversation": {
     "messageformat": "刪除"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "媒體和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 安全備份」。"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "每月 {cost}"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {文字 + {mediaDayCount,number} 天的媒體備份}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "此更新引入了新的效能優化，有助於改善電池續航力，你也有更多電量去進行不限話題的聊天。"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "正值秋天，Signal 桌面版現在支援新的「無葉樹」表情符號{leaflessTreeEmoji} （以及 Unicode 16.0 中的其他六個新表情符號）。"
   }
 }

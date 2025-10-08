@@ -1041,31 +1041,31 @@
     "messageformat": "Informacje"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Ankieta · Wybierz jedną opcję"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Ankieta · Wybierz jedną lub więcej opcji"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Ankieta · Wyniki"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Wyświetl głosy"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Twój głos"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Szczegóły ankiety"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pytanie"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} głos} few {{count,number} głosy} many {{count,number} głosów} other {{count,number} głosu}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Brak głosów"
   },
   "icu:deleteConversation": {
     "messageformat": "Usuń"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Multimedia i pliki"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Nie znaleziono subskrypcji. Aby dalej korzystać z usługi bezpiecznych kopii zapasowych Signal, odnów subskrypcję."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost} miesięcznie"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe, w tym multimedia z ostatniego dnia} few {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} many {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} other {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "W tej wersji zoptymalizowaliśmy działanie aplikacji tak, aby zmniejszyć zużycie baterii. Mamy nadzieję, że oznacza to pozytywne doładowanie również dla Ciebie."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "W samą porę na jesień – nowe emoji „bezlistne drzewo” {leaflessTreeEmoji} (wraz z pozostałymi sześcioma nowymi emoji z Unicode 16.0) jest teraz dostępne w aplikacji Signal Desktop."
   }
 }

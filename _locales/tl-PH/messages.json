@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Poll · Pumili ng isa"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Poll · Pumili ng isa o higit pa"
   },
   "icu:PollMessage--FinalResults": {
     "messageformat": "Poll · Final results"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Tignan ang mga boto"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Bumoto ka"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Mga detalye ng poll"
   },
   "icu:PollVotesModal__questionLabel": {
     "messageformat": "Question"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} boto} other {{count,number} boto}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Walang boto"
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media at files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Hindi mahanap ang iyong subscription. Mag-renew para patuloy mong magamit ang Signal Secure Backups."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/buwan"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup ng text + media ng nakaraang {mediaDayCount,number} araw} other {Backup ng text + media ng nakaraang {mediaDayCount,number} araw}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Kasama sa update na ito ang bagong performance optimizations na makatutulong na pagandahin ang battery life mo."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Sinusuportahan na ng Signal Desktop ang pitong bagong emoji characters {leaflessTreeEmoji}."
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Sondazh · Zgjidh një"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Sondazh · Zgjidh një ose më shumë"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Sondazh · Rezultatet përfundimtare"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Shiko votat"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Ti votove"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Detajet e sondazhit"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pyetje"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} votë} other {{count,number} vota}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Asnjë votë"
   },
   "icu:deleteConversation": {
     "messageformat": "Fshije"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media dhe skedarë"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Abonimi nuk u gjet. Rinovo për të vazhduar përdorimin e \"Kopjeruajtjet e sigurta të Signal\"."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/muaj"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë} other {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Ky përditësim prezanton optimizime të reja të performancës për të ndihmuar në përmirësimin e jetëgjatësisë së baterisë."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Pikërisht në kohë për vjeshtën, figura e re \"Leafless Tree\" {leaflessTreeEmoji} (së bashku me gjashtë figurat e tjera të reja në Unicode 16.0) tani mbështeten në Signal Desktop."
   }
 }

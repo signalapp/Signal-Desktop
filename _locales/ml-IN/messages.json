@@ -1041,31 +1041,31 @@
     "messageformat": "വിവരം"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "പോൾ · ഒന്ന് തിരഞ്ഞെടുക്കുക"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "പോൾ · ഒന്നോ അതിലധികമോ തിരഞ്ഞെടുക്കുക"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "പോൾ · അന്തിമ ഫലങ്ങൾ"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "വോട്ടുകൾ കാണുക"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "നിങ്ങൾ വോട്ട് ചെയ്തു"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "പോൾ വിശദാംശങ്ങൾ"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ചോദ്യം"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} വോട്ട്} other {{count,number} വോട്ടുകൾ}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "വോട്ടുകളൊന്നുമില്ല"
   },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "മീഡിയയും ഫയലുകളും"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ കണ്ടെത്തിയില്ല. Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഉപയോഗിക്കുന്നത് തുടരാൻ പുതുക്കുക."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ മാസം"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്} other {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "ബാറ്ററി ലൈഫ് മെച്ചപ്പെടുത്താൻ സഹായിക്കുന്നതിന് ഈ അപ്‌ഡേറ്റ് പുതിയ പ്രകടന ഒപ്റ്റിമൈസേഷനുകൾ അവതരിപ്പിക്കുന്നു, അതിനാൽ കൂടുതൽ വൈകാരികമായ സംഭാഷണങ്ങൾക്ക് നിങ്ങൾക്ക് കൂടുതൽ ബാറ്ററി ചാർജ് ലഭിക്കും."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "ശരത്കാലത്തിന്റെ വരവോടെ, പുതിയ \"ലീഫ്‌ലെസ് ട്രീ\" ഇമോജി {leaflessTreeEmoji} (യൂണിക്കോഡ് 16.0 ലെ മറ്റ് ആറ് പുതിയ ഇമോജികൾക്കൊപ്പം) ഇപ്പോൾ Signal ഡെസ്‌ക്‌ടോപ്പിൽ പിന്തുണയ്ക്കുന്നു."
   }
 }

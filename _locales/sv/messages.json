@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Omröstning · Välj ett"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Omröstning · Välj ett eller flera"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Omröstning · Slutresultat"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Visa röster"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Du röstade"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Omröstningsdetaljer"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Fråga"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} röst} other {{count,number} röster}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Inga röster"
   },
   "icu:deleteConversation": {
     "messageformat": "Ta bort"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media och filer"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Ditt abonnemang hittades inte. Förnya för att fortsätta använda Säkerhetskopiering av Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/månad"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Säkerhetskopiering av textmeddelanden + {mediaDayCount,number} dags media} other {Säkerhetskopiering av textmeddelanden + {mediaDayCount,number} dagars media}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Den här uppdateringen innehåller nya prestandaoptimeringar som förbättrar batteritiden."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop har nu stöd för sju nya emojier."
   }
 }

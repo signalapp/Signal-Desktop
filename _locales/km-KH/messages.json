@@ -1041,31 +1041,31 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ ឬច្រើន"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "ការស្ទង់មតិ · លទ្ធផលចុងក្រោយ"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "មើលការបោះឆ្នោត"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "អ្នកបានបោះឆ្នោត"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ព័ត៌មានលម្អិតអំពីការស្ទង់មតិ"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "សំណួរ"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} សំឡេង}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "មេឌៀ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុកសុវត្ថិភាព Signal។"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ខែ"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {សារជាអក្សរ + ការបម្រុងទុកមេឌៀ {mediaDayCount,number} ថ្ងៃ}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "កំណែថ្មីនេះដាក់ឱ្យប្រើប្រាស់នូវការបង្កើនប្រសិទ្ធភាពថ្មីទៅលើការដំណើរការ ដើម្បីជួយបង្កើនអាយុកាលរបស់ថ្ម ដើម្បីឱ្យអ្នកនៅសល់ថ្មច្រើនទៀតសម្រាប់ការសន្ទនាដែលស៊ីអារម្មណ៍។"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "ទាន់ពេលល្មមសម្រាប់រដូវស្លឹកឈើជ្រុះ រូបអារម្មណ៍ \"ដើមឈើគ្មានស្លឹក\" {leaflessTreeEmoji} (រួមជាមួយរូបអារម្មណ៍ថ្មី 6 ផ្សេងទៀតនៅក្នុងយូនីកូដ 16.0) ឥឡូវនេះប្រើបាននៅក្នុង Signal Desktop ហើយ។"
   }
 }

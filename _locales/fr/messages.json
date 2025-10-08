@@ -612,7 +612,7 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Reçu sauvegardé"
+    "messageformat": "Reçu enregistré"
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Reçu non enregistré. Veuillez réessayer."
@@ -1041,31 +1041,31 @@
     "messageformat": "Infos"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Sondage · Sélectionnez une réponse"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Sondage · Sélectionnez au moins une réponse"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Sondage · Résultats finaux"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Afficher les votes"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Vous avez voté pour cette option"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Infos du sondage"
   },
   "icu:PollVotesModal__questionLabel": {
     "messageformat": "Question"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Aucun vote"
   },
   "icu:deleteConversation": {
     "messageformat": "Supprimer"
@@ -1893,7 +1893,7 @@
     "messageformat": "Impossible de supprimer le message"
   },
   "icu:editFailed": {
-    "messageformat": "Échec de la modification, cliquez pour en savoir plus"
+    "messageformat": "Échec de la modification. Cliquez pour en savoir plus."
   },
   "icu:sendPaused": {
     "messageformat": "Envoi mis en pause"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Médias et fichiers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Abonnement introuvable. Pour continuer d'utiliser les sauvegardes sécurisées Signal, nous vous invitons à renouveler votre abonnement."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mois"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Messages texte + {mediaDayCount,number} jour de médias} other {Messages texte + {mediaDayCount,number} jours de médias}}"
@@ -6679,7 +6679,7 @@
     "messageformat": "Ne communiquez pas vos informations personnelles à des inconnus."
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Sauvegarder des pièces jointes"
+    "messageformat": "Enregistrer les pièces jointes"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Les nouveautés"
@@ -6968,6 +6968,6 @@
     "messageformat": "De nouveaux gains de performance boostent l'autonomie de la batterie. Plus rien ne vous empêche de discuter pendant des heures !"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Les feuilles mortes se ramassent à la pelle... Et les émojis aussi ! L'émoji \"arbre sans feuilles\" {leaflessTreeEmoji} débarque donc sur Signal Desktop avec une pelletée de 6 autres émojis Unicode 16.0."
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "Teave"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Küsitlus · Vali üks"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Küsitlus · Vali üks või rohkem"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Küsitlus · Tulemused"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Vaata vastuseid"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Vastasid küsitlusele"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Küsitluse andmed"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Küsimus"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} hääl} other {{count,number} häält}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Vastuseid pole"
   },
   "icu:deleteConversation": {
     "messageformat": "Kustuta"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Meedia ja failid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Sinu tellimust ei leitud. Uuenda, et jätkata Signali turvaliste varukoopiate kasutamist."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/kuu"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Sõnumite + {mediaDayCount,number} päeva meedia varukoopia} other {Sõnumite + {mediaDayCount,number} päeva meedia varukoopia}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Selle värskendusega pakume uusi jõudluse optimeerimise viise, mis aitavad aku tööiga parandada."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop toetab nüüd seitset uut emojit."
   }
 }

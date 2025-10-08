@@ -1041,31 +1041,31 @@
     "messageformat": "Ақпарат"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Сауалнама · Біреуін таңдаңыз"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Сауалнама · Бір немесе бірнеше таңдау"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Сауалнама · Соңғы нәтижелер"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Дауыстарды көру"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Дауыс бердіңіз"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Сауалнама туралы мәлімет"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Сұрақ"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} дауыс} other {{count,number} дауыс}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Дауыстар жоқ"
   },
   "icu:deleteConversation": {
     "messageformat": "Жою"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Мультимедиа және файлдар"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Жазылымыңыз табылмады. Signal-дың қауіпсіз сақтық көшірмелерін пайдалану мүмкіндігін сақтау үшін жазылымды жаңартыңыз."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "айына {cost}"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі} other {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Бұл жаңа нұсқада батарея жұмысының ұзақтығын арттыруға көмектесетін өнімділікті оңтайландырудың жаңа мүмкіндіктері қамтылған. Енді эмоцияға толы әңгімелер кезінде батарея қуаты жеткілікті болады."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Осы күзде Signal Desktop-тан жаңа «Жапырақсыз ағаш» {leaflessTreeEmoji} эмодзиін (сонымен қатар Unicode 16.0 форматындағы басқа алты жаңа эмодзиді) пайдалана аласыз."
   }
 }

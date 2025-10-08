@@ -1041,31 +1041,31 @@
     "messageformat": "အချက်အလက်"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "စစ်တမ်း · တစ်ခုရွေးချယ်ပါ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "စစ်တမ်း · တစ်ခု သို့မဟုတ် တစ်ခုထက်ပို ရွေးချယ်ပါ"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "စစ်တမ်း · နောက်ဆုံးရလဒ်များ"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "မဲများကိုကြည့်ရန်"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "သင်မဲပေးခဲ့သည်"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "စစ်တမ်းအသေးစိတ်"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "မေးခွန်း"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} မဲ}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "မဲပေးထားခြင်းမရှိပါ"
   },
   "icu:deleteConversation": {
     "messageformat": "ဖျက်ရန်"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "မီဒီယာနှင့် ဖိုင်များ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal လုံခြုံရေးဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "တစ်လလျှင် {cost}"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {စာတို + {mediaDayCount,number} ရက် မီဒီယာဘက်ခ်အပ်}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "ဤအပ်ဒိတ်သည် ဘက်ထရီသက်တမ်းကို ပိုမိုကောင်းမွန်စေမည့် လုပ်ဆောင်မှုအသစ်ကို မိတ်ဆက်ပေးထားသည်။"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Destop သည် ယခုအခါ အီမိုဂျီအသစ် ခုနစ်ခု ပံ့ပိုးပေးထားပါသည်။"
   }
 }

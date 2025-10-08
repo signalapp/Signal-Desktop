@@ -1041,31 +1041,31 @@
     "messageformat": "Informazioni"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Sondaggio · Una risposta"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Sondaggio · Una o più risposte"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Sondaggio · Risultati finali"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Vedi voti"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Hai votato"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Dettagli del sondaggio"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Domanda"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} voto} other {{count,number} voti}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Nessun voto"
   },
   "icu:deleteConversation": {
     "messageformat": "Elimina"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media e file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Non è stato trovato il tuo abbonamento. Rinnovalo per continuare a usare i backup sicuri di Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mese"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup messaggi + media dell'ultimo {mediaDayCount,number} giorno} other {Backup messaggi + media degli ultimi {mediaDayCount,number} giorni}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Questo aggiornamento aggiunge delle nuove ottimizzazioni per le performance per aiutare a migliorare la durata della batteria, così non dovrai più andare in giro a chiedere un caricabatterie quando sei al telefono con i tuoi amici logorroici."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Giusto in tempo per l'autunno, Signal supporta la nuova emoji dell'albero senza foglie {leaflessTreeEmoji} (così come altre 6 emoji in Unicode 16.) su Signal Desktop."
   }
 }

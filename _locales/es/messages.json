@@ -1041,31 +1041,31 @@
     "messageformat": "Detalles"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Encuesta · Elige una opción"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Encuesta · Elige una o más opciones"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Encuesta · Resultados finales"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Ver votos"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Has votado"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Detalles de la encuesta"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pregunta"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} voto} other {{count,number} votos}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Sin votos"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Archivos multimedia y documentos"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
@@ -4539,7 +4539,7 @@
     "messageformat": "Recibe notificaciones si te mencionan en un chat silenciado"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Notificar siempre"
+    "messageformat": "Notificarme siempre"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
     "messageformat": "No notificar en chat silenciado"
@@ -5340,7 +5340,7 @@
     "messageformat": "No se ha encontrado tu suscripción. Renuévala para seguir usando Copias Seguras de Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mes"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Mensajes de texto + {mediaDayCount,number} día de archivos multimedia} other {Mensajes de texto + {mediaDayCount,number} días de archivos multimedia}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Esta actualización mejora el rendimiento y la duración de la batería, así siempre tendrás carga suficiente para las conversaciones cargadas de emociones."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Sabemos que este 2025 ya se siente largo… y agotador. Por eso, en Signal Desktop ya puedes usar los nuevos emojis de Unicode 16.0, incluida la cara con ojeras y seis más, ¡perfectos para sobrevivir la recta final del año!"
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "Részletek"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Szavazás · Válassz egyet"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Szavazás · Válassz ki legalább egyet"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Szavazás · Végeredmények"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Szavazatok megtekintése"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Szavaztál"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Szavazás részletei"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Kérdés"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} szavazat} other {{count,number} szavazat}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Nincs szavazat"
   },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Médiatartalmak és fájlok"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Az előfizetés nem található A Signal Biztonságos Biztonsági mentéseinek további használatához újítsd meg az előfizetésedet."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/hónap"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra} other {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Ez a frissítés új teljesítményoptimalizálási funkciókat vezet be az akkumulátor élettartamának javítása érdekében."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "A Signal Desktop mostantól hét új emoji karaktert támogat."
   }
 }

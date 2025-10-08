@@ -1041,31 +1041,31 @@
     "messageformat": "Informācija"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Aptauja · Izvēlieties vienu atbildi"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Aptauja · Izvēlieties vienu vai vairākas atbildes"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Aptauja · Gala rezultāti"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Skatīt balsojumu"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Jūs balsojāt"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Informācija par aptauju"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Jautājums"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, zero {{count,number} balsis} one {{count,number} balss} other {{count,number} balsis}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Nav balsu"
   },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Multivide un faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Jūsu abonements netika atrasts. Atjauniniet to, lai turpinātu izmantot Signal drošās rezerves kopijas."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mēnesī"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija} one {Teksta + {mediaDayCount,number} dienas multivides rezerves kopija} other {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Šis atjauninājums ietver jaunus veiktspējas uzlabojumus, kas paildzina akumulatora darbības laiku, tāpēc tagad jums būs vairāk laika garām un aizraujošām sarunām."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Sagaidot rudeni, Signal Desktop lietojumprogrammā ieviesām jaunu bezlapu koka emocijzīmi {leaflessTreeEmoji} (un vēl sešas citas Unicode 16.0 versijā iekļautas emocijzīmes)."
   }
 }

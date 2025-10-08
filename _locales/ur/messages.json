@@ -1041,31 +1041,31 @@
     "messageformat": "معلومات"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "پول · ایک منتخب کریں"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "پول · ایک یا زیادہ منتخب کریں"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "پول · حتمی نتائج"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ووٹس دیکھیں"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "آپ نے ووٹ دیا"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "پول کی تفصیلات"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوال"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ووٹ} other {{count,number} ووٹس}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "کوئی ووٹس نہیں ہیں"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف کریں"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "میڈیا اور فائلز"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "آپ کی سبسکرپشن نہیں ملی۔ Signal کے محفوظ بیک اپس کا استعمال جاری رکھنے کے لیے تجدید کریں۔"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost} ماہانہ"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ٹیکسٹ + {mediaDayCount,number} دن کے میڈیا کا بیک اپ} other {ٹیکسٹ + {mediaDayCount,number} دنوں کے میڈیا کا بیک اپ}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "یہ اپ ڈیٹ نئی کارکردگی کی بہتریاں متعارف کرواتی ہے تاکہ بیٹری لائف کو بہتر بنانے میں مدد کی جا سکے اور آپ کے پاس فُل جذباتی باتوں کے لیے بیٹری بھی فُل رہے۔"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "خزاں کا موسم بھی آ گیا ہے اور اس کے ساتھ ’’لیف لیس ٹری‘‘ ایموجی بھی {leaflessTreeEmoji} جسے (یونی کوڈ 16.0 میں چھ دوسرے نئے ایموجز کے ساتھ) Signal ڈیسک ٹاپ سپورٹ کرتا ہے۔"
   }
 }

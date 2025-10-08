@@ -1041,31 +1041,31 @@
     "messageformat": "ข้อมูล"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "โพล · เลือกหนึ่งข้อ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "โพล · เลือกคำตอบ (ตอบได้มากกว่าหนึ่งข้อ)"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "โพล · ผลสรุป"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ดูผลโหวต"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "คุณโหวตข้อนี้"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "รายละเอียดโพล"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "คำถาม"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {รวม {count,number} คะแนนโหวต}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "ยังไม่มีคะแนนโหวต"
   },
   "icu:deleteConversation": {
     "messageformat": "ลบ"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "ไฟล์สื่อและไฟล์อื่นๆ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดต่ออายุเพื่อการใช้งานแพ็กเกจสำรองข้อมูลที่ปลอดภัยของ Signal อย่างต่อเนื่อง"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/เดือน"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {สำรองข้อความ + สื่อจาก {mediaDayCount,number} วัน}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "รุ่นอัปเดตนี้มาพร้อมการอัปเกรดประสิทธิภาพให้ยอดเยี่ยมยิ่งกว่าเดิม ช่วยคุณประหยัดแบตฯ/พลังงานเพื่อการใช้งานแบบไร้สะดุด"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "เพิ่มความสามารถในการรองรับอีโมจิใหม่ทั้ง 7 ตัวบน Signal เดสก์ท็อป"
   }
 }

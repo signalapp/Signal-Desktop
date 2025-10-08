@@ -1041,31 +1041,31 @@
     "messageformat": "Informacija"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Apklausa · Pasirinkite vieną"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Apklausa · Pasirinkite vieną ar daugiau"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Apklausa · Galutiniai rezultatai"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Peržiūrėti balsus"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Jūs balsavote"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Apklausos informacija"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Klausimas"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} balsas} few {{count,number} balsai} many {{count,number} balso} other {{count,number} balsų}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Balsų nėra"
   },
   "icu:deleteConversation": {
     "messageformat": "Ištrinti"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Įrašai ir failai"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ saugiąsias atsargines kopijas."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mėnesį"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} few {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija} many {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} other {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Šiuo atnaujinimu pristatomi nauji našumo optimizavimai, padedantys prailginti akumuliatoriaus veikimo laiką."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "„Signal Desktop“ dabar palaiko septynis naujus jaustukus."
   }
 }

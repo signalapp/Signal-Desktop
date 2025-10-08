@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Polling · Pilih satu"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Polling · Pilih satu atau beberapa"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Polling · Hasil akhir"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Lihat suara"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Anda menjawab"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Detail polling"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pertanyaan"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} suara}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Belum ada suara"
   },
   "icu:deleteConversation": {
     "messageformat": "Hapus"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {{number,number} anggota}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media dan file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} anggota}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Langganan Anda tidak ditemukan. Perbarui langganan agar dapat terus menggunakan Signal Secure Backups."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/bulan"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Pencadangan pesan + media selama {mediaDayCount,number} hari}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Pada pembaruan kali ini kami meluncurkan model optimalisasi kinerja baterai baru. Fungsinya untuk meningkatkan daya tahan baterai."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop kini mendukung tujuh emoji baru, yaitu \"Pohon Tanpa Daun\" {leaflessTreeEmoji} serta enam emoji baru lain dalam Unicode 16.0."
   }
 }

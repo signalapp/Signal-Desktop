@@ -1041,31 +1041,31 @@
     "messageformat": "Bilgi"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Anket · Birini seç"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Anket · Bir veya daha fazlasını seç"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Anket · Nihai sonuçlar"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Oyları görüntüle"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Oyladın"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Anket detayları"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Soru"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} oy} other {{count,number} oy}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Oy yok"
   },
   "icu:deleteConversation": {
     "messageformat": "Sil"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Medya ve dosyalar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Aboneliğin bulunamadı. Signal Güvenli Yedeklemeleri kullanmaya devam etmek için yenile."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ay"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Metin + {mediaDayCount,number} günlük medya yedeklemesi} other {Metin + {mediaDayCount,number} günlük medya yedeklemesi}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Bu güncelleme, pil ömrünü iyileştirmeye yardımcı olmak için yeni performans optimizasyonları sunmaktadır."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop şimdi yedi adet yeni emoji karakterini destekliyor."
   }
 }

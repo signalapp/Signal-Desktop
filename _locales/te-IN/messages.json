@@ -1041,31 +1041,31 @@
     "messageformat": "సమాచారం"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "పోల్ · ఒకదాన్ని ఎంచుకోండి"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "పోల్ · ఒకటి లేదా అంతకంటే ఎక్కువ ఎంచుకోండి"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "పోల్ · తుది ఫలితాలు"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ఓట్లను వీక్షించండి"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "మీరు ఓటు వేశారు"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "పోల్ వివరాలు"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ప్రశ్న"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ఓటు} other {{count,number} ఓట్లు}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "ఓట్లు లేవు"
   },
   "icu:deleteConversation": {
     "messageformat": "తొలగించండి"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "మీడియా మరియు ఫైల్‌లు"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal సురక్షిత బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/నెల"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "బ్యాటరీ జీవితకాలాన్ని మెరుగుపరచడంలో సహాయపడటానికి ఈ అప్‌డేట్ కొత్త పనితీరు అనుకూలీకరణలను పరిచయం చేస్తుంది."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal డెస్క్‌టాప్ ఇప్పుడు ఏడు కొత్త ఎమోజీ క్యారెక్టర్‌లకు మద్దతు ఇస్తుంది."
   }
 }

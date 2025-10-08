@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Anketa · Izberite eno"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Anketa · Izberite eno ali več"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Anketa · Končni rezultati"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Ogled glasov"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Glasovali ste"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Podrobnosti ankete"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Vprašanje"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} glas} two {{count,number} glasova} few {{count,number} glasovi} other {{count,number} glasov}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Brez glasov"
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Mediji in datoteke"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Vaša naročnina ni bila najdena. Obnovite, če želite še naprej uporabljati Varne varnostne kopije."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mesec"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dne} two {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} few {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} other {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Ta posodobitev uvaja nove optimizacije delovanja, ki pomagajo izboljšati življenjsko dobo baterije."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop zdaj podira sedem novih emojijev."
   }
 }

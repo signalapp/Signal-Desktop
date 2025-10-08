@@ -1041,31 +1041,31 @@
     "messageformat": "اطلاعات"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "نظرسنجی · یک مورد را انتخاب کنید"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "نظرسنجی · یک یا چند مورد را انتخاب کنید"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "نظرسنجی · نتایج نهایی"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "مشاهده رأی‌ها"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "شما رأی دادید"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "جزئیات نظرسنجی"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوال"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {‏{count,number} رأی} other {‏{count,number} رأی}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "بدون رأی"
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "رسانه و فایل‌ها"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "اشتراک شما یافت نشد. برای ادامه استفاده از «پشتیبان‌گیری امن سیگنال»، تمدید کنید."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost} در ماه"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته} other {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "در این نسخه جدید، بهینه‌سازی‌های جدیدی در عملکرد اعمال کردیم تا عمر باتری را بهتر کند."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "سیگنال دسک‌تاپ اکنون از هفت ایموجی جدید پشتیبانی می‌کند."
   }
 }

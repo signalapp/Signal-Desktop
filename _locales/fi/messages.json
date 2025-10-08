@@ -1041,31 +1041,31 @@
     "messageformat": "Tietoja"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Kysely · Valitse yksi"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Kysely · Valitse yksi tai useampi"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Kysely · Lopulliset tulokset"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Näytä äänet"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Olet äänestänyt"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Kyselyn tiedot"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Kysymys"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ääni} other {{count,number} ääntä}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Ei ääniä"
   },
   "icu:deleteConversation": {
     "messageformat": "Poista"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media ja tiedostot"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Tilaustasi ei löydy. Uusi jatkaaksesi Signal Secure -varmuuskopioinnin käyttöä."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/kk"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta} other {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Tämä päivitys tuo mukanaan uusia suorituskyvyn optimointeja akun keston parantamiseksi."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop tukee nyt seitsemää uutta emojimerkkiä."
   }
 }

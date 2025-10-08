@@ -33,7 +33,7 @@
     "messageformat": "უკვე გაწევრიანებულია"
   },
   "icu:GroupListItem__message-pending": {
-    "messageformat": "წევრობა განხილვაშია"
+    "messageformat": "წევრობა განხილვის პროცესშია"
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "გაგზავნილი მედია-ფაილების ხარისხი"
@@ -54,7 +54,7 @@
     "messageformat": "პროგრამული უზრუნველყოფის გააზრება"
   },
   "icu:privacyPolicy": {
-    "messageformat": "წესების & კონფიდენციალურობის პოლიტიკა"
+    "messageformat": "პირობები & კონფიდენციალურობის პოლიტიკა"
   },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
@@ -198,7 +198,7 @@
     "messageformat": "მიახლოვება"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "მასშტაბირება"
+    "messageformat": "გადიდება"
   },
   "icu:viewMenuToggleFullScreen": {
     "messageformat": "სრულ ეკრანზე გადართვა"
@@ -294,7 +294,7 @@
     "messageformat": "ჩანართების დამალვა"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "მოხდა ხარვეზი"
+    "messageformat": "ხარვეზი დაფიქსირდა"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} წაუკითხავი"
@@ -390,7 +390,7 @@
     "messageformat": "ჩატის აპინვა"
   },
   "icu:unpinConversation": {
-    "messageformat": "ჩატისთვის პინის მოხსნა"
+    "messageformat": "ჩატისთვის პინის გაუქმება"
   },
   "icu:pinnedConversationsFull": {
     "messageformat": "მაქსიმუმ 4 ჩატის აპინვა შეგიძლია"
@@ -1041,31 +1041,31 @@
     "messageformat": "ინფორმაცია"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "გამოკითხვა · აირჩიე ერთი"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "გამოკითხვა · აირჩიე ერთი ან მეტი"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "გამოკითხვა · საბოლოო შედეგები"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ხმების ნახვა"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "შენი ხმა მიღებულია"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "გამოკითხვის დეტალები"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "კითხვა"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ხმა} other {{count,number} ხმა}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "ხმები არ მიუღია"
   },
   "icu:deleteConversation": {
     "messageformat": "წაშლა"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "მედია და სხვა ფაილები"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "შენი გამოწერა ვერ მოიძებნა. განაახლე, რომ Signal-ის უსაფრთხო სათადარიგო ასლების გამოყენება განაგრძო."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/თვეში"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი} other {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "ეს განახლება მოიცავს მუშაობის ახალ ოპტიმიზაციებს, რომლებიც დაგეხმარება ბატარეის მუშაობის გახანგრძლივებაში. ასე რომ, საუბრებისთვის უფრო მეტი ენერგია გექნება."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "საშემოდგომო, ახალი \"ფოთლებდაცვენილი ხის\" ემოჯი {leaflessTreeEmoji} (დანარჩენ ექვს ახალ ემოჯისთან ერთად Unicode 16.0-ში) ახლა უკვე Signal Desktop-ზე."
   }
 }

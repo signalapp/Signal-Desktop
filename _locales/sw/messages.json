@@ -1041,31 +1041,31 @@
     "messageformat": "Maelezo"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Kura ya maoni · Chagua Moja"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Kura ya maoni · Chagua moja au zaidi"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Kura ya maoni · Matokeo ya mwisho"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Tazama kura"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Umepiga kura"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Maelezo ya Kura"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Swali"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {Kura {count,number}} other {Kura {count,number}}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Hakuna kura"
   },
   "icu:deleteConversation": {
     "messageformat": "Futa"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Picha, video na faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Usajili wako haujapatikana. Sasisha ili uendelee kutumia Hifadhi Nakala ya Signal iliyo Salama."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mwezi"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}} other {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Sasisho hili linaleta uboreshaji mpya wa utendaji kazi ili kusaidia kuboresha muda wa matumizi ya betri, kwa hivyo utakuwa na malipo zaidi kwa mazungumzo yenye hisia."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Imefika kwa wakati muafaka katika majira ya kupukutika, emoji ya \"Mti Usio na Majani\" {leaflessTreeEmoji} (pamoja na emoji nyingine sita mpya katika Unicode 16.0) sasa zinatumika katika Signal Desktop."
   }
 }

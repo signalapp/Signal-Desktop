@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Galdeketa · Hautatu bat"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Galdeketa · Hautatu bat edo gehiago"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Galdeketa · Azken emaitzak"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Ikusi botoak"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Honen alde bozkatu duzu"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Galdeketaren xehetasunak"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Galdera"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} boto} other {{count,number} boto}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Ez dago botorik"
   },
   "icu:deleteConversation": {
     "messageformat": "Ezabatu"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Multimedia-edukia eta fitxategiak"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopia seguruak erabiltzen jarraitzeko."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/hilabete"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia} other {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Eguneratze honen bidez, errendimendua hobetu eta bateriaren iraupena luzatzen da."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Orain, Signal Desktop-ek zazpi emoji berri onartzen ditu."
   }
 }

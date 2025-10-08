@@ -1041,31 +1041,31 @@
     "messageformat": "Informații"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Sondaj · Selectează unul"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Sondaj · Selectează unul sau mai multe"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Sondaj · Rezultate finale"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Vezi voturile"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Ai votat"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Detaliile sondajului"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Întrebare"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} Vot} few {{count,number} Voturi} other {{count,number} de Voturi}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Niciun vot"
   },
   "icu:deleteConversation": {
     "messageformat": "Șterge"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media și fișiere"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește abonamentul, pentru a continua să utilizezi Backup-uri securizate Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/lună"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Această actualizare introduce noi optimizări de performanță pentru a îmbunătăți durata de viață a bateriei, astfel încât vei avea mai multă energie disponibilă pentru conversații încărcate emoțional."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Chiar la timp pentru toamnă, noul emoji „Copac fără frunze” {leaflessTreeEmoji} (împreună cu celelalte șase emoji noi din Unicode 16.0) este acum compatibil cu Signal Desktop."
   }
 }

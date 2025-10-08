@@ -1041,31 +1041,31 @@
     "messageformat": "מידע"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "סקר · יש לבחור 1"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "סקר · יש לבחור 1 או יותר"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "סקר · תוצאות סופיות"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "הצגת הצבעות"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "אפשרות שהצבעת לה"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "פרטי סקר"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "שאלה"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {הצבעה {count,number}} two {{count,number} הצבעות} many {{count,number} הצבעות} other {{count,number} הצבעות}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "אין הצבעות"
   },
   "icu:deleteConversation": {
     "messageformat": "מחיקה"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "מדיה וקבצים"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויים מאובטחים של Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/חודש"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {גיבוי טקסט + יום {mediaDayCount,number} של מדיה} two {גיבוי טקסט + יומיים של מדיה} many {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה} other {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "עדכון זה כולל אופטימיזציות חדשות לביצועים כדי לסייע בשיפור חיי הסוללה, כך שתהיה לך יותר טעינה זמינה לשיחות טעונות רגשית."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal לשולחן העבודה תומכת כעת בשבעה אימוג׳ים חדשים."
   }
 }

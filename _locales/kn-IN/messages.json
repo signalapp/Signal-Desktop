@@ -1041,31 +1041,31 @@
     "messageformat": "ಮಾಹಿತಿ"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದು ಅಥವಾ ಹೆಚ್ಚಿನದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಅಂತಿಮ ಫಲಿತಾಂಶಗಳು"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ವೋಟ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "ನೀವು ವೋಟ್ ಮಾಡಿದ್ದೀರಿ"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ಸಮೀಕ್ಷೆಯ ವಿವರಗಳು"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ಪ್ರಶ್ನೆ"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} ವೋಟ್} other {{count,number} ವೋಟ್‌ಗಳು}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
   "icu:deleteConversation": {
     "messageformat": "ಅಳಿಸಿ"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳು"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ತಿಂಗಳು"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ಪಠ್ಯ + {mediaDayCount,number} ದಿನದ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್} other {ಪಠ್ಯ + {mediaDayCount,number} ದಿನಗಳ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ಬ್ಯಾಟರಿ ಬಾಳಿಕೆಯನ್ನು ಸುಧಾರಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ಹೊಸ ಕಾರ್ಯಕ್ಷಮತೆ ಆಪ್ಟಿಮೈಸೇಶನ್‌ಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ಭಾವನಾತ್ಮಕವಾಗಿ ಉತ್ತೇಜಿತ ಸಂಭಾಷಣೆಗಳಿಗೆ ನಿಮಗೆ ಹೆಚ್ಚಿನ ಚಾರ್ಜ್ ಲಭ್ಯವಿರುತ್ತದೆ."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "ಶರತ್ಕಾಲದ ಸಮಯಕ್ಕೆ ಸರಿಯಾಗಿ, ಹೊಸ \"ಲೀಫ್‌ಲೆಸ್ ಟ್ರೀ\" ಎಮೋಜಿ {leaflessTreeEmoji} (ಯೂನಿಕೋಡ್ 16.0 ರಲ್ಲಿನ ಇತರ ಆರು ಹೊಸ ಎಮೋಜಿಗಳೊಂದಿಗೆ) ಈಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಬೆಂಬಲಿತವಾಗಿದೆ."
   }
 }

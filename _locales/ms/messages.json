@@ -1041,31 +1041,31 @@
     "messageformat": "Maklumat"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Undian · Pilih Satu"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Undian · Pilih satu atau lebih"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Undian · Keputusan akhir"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Lihat Undian"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Anda mengundi"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Butiran Undian"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Soalan"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} Undian}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Tiada Undian"
   },
   "icu:deleteConversation": {
     "messageformat": "Padam"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {{number,number} ahli}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media dan fail"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ahli}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Langganan anda tidak ditemui. Perbaharui untuk terus menggunakan Sandaran Selamat Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/bulan"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Teks + {mediaDayCount,number} hari sandaran media}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Kemas kini ini memperkenalkan pengoptimuman prestasi baharu untuk membantu meningkatkan hayat bateri."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop kini menyokong tujuh karakter emoji baharu."
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "தகவல்"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "வாக்கெடுப்பு · ஒன்றைத் தேர்ந்தெடுக்கவும்"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "வாக்கெடுப்பு · ஒன்று அல்லது அதற்கு மேற்பட்டவற்றைத் தேர்ந்தெடுங்கள்"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "வாக்கெடுப்பு · இறுதி முடிவுகள்"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "வாக்குகளைக் காண்க"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "நீங்கள் வாக்களித்துள்ளீர்கள்"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "வாக்கெடுப்பு விவரங்கள்"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "கேள்வி"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number}வாக்கு} other {{count,number}வாக்குகள்}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "வாக்குகள் இல்லை"
   },
   "icu:deleteConversation": {
     "messageformat": "நீக்கு"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "ஊடகம் மற்றும் கோப்புகள்"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகளைத் தொடர்ந்து உபயோகிக்கப் புதுப்பியுங்கள்."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/மாதம்"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {உரை + {mediaDayCount,number} நாள் ஊடகக் காப்புப்பிரதி} other {உரை + {mediaDayCount,number} நாட்கள் ஊடகக் காப்புப்பிரதி}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "இந்தப் புதுப்பிப்பானது பேட்டரி ஆயுளை மேம்படுத்த உதவும் புதிய செயல்திறன் உகந்ததாக்கல்களை அறிமுகப்படுத்துகிறது."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "சிக்னல் டெஸ்க்டாப் இப்போது இந்தப் புதிய பின்வரும் ஏழு எமோஜிகளை ஆதரிக்கிறது: {leaflessTreeEmoji}"
   }
 }

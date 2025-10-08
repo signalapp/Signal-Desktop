@@ -1041,31 +1041,31 @@
     "messageformat": "Информации"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Анкета · Изберете еден одговор"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Анкета · Изберете еден одговор или повеќе"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Анкета · Конечни резултати"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Прикажи гласови"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Гласавте"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Детали за анкетата"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Прашање"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} глас} other {{count,number} гласови}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Нема гласови"
   },
   "icu:deleteConversation": {
     "messageformat": "Избриши"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Медиумски датотеки и датотеки"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Вашата претплата не беше пронајдена. Обновете ја за да продолжите со користење на Безбедни резервни копии на Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/месец"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Текстуални пораки + резервни копии на медиумски датотеки од {mediaDayCount,number} ден} other {Текстуални пораки + резервни копии на медиумски датотеки од {mediaDayCount,number} дена}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Оваа верзија воведува нови оптимизации на перформансот за подобрување на траењето на батеријата."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop сега поддржува седум нови емотикони."
   }
 }

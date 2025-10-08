@@ -1041,31 +1041,31 @@
     "messageformat": "Bericht­details"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Peiling · Kies een optie"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Peiling · Kies een of meerdere opties"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Peiling · Eindresultaat"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Stemmen bekijken"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Je hebt gestemd"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Peilinggegevens"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Vraag"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} stem} other {{count,number} stemmen}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Geen stemmen"
   },
   "icu:deleteConversation": {
     "messageformat": "Verwijderen"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media en documenten"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Je abonnement is niet gevonden. Vernieuw je back-upabonnement om Signal Secure Backups te blijven gebruiken."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/maand"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekstberichten + {mediaDayCount,number} dag media} other {Tekstberichten + {mediaDayCount,number} dagen media}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Deze update introduceert nieuwe prestatie-optimalisaties om de levensduur van de batterij te verbeteren."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Net op tijd voor de herfst: deze nieuwe ‘Bladloze boom’-emoji {leaflessTreeEmoji} (samen met de andere zes nieuwe emoji in Unicode 16.0) wordt nu ondersteund in Signal Desktop."
   }
 }

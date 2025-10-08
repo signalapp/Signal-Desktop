@@ -1041,31 +1041,31 @@
     "messageformat": "ئۇچۇر"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "راي سىناش · بىرنى تاللاڭ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "راي سىناش · بىر ياكى بىرقانچىنى تاللاڭ"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "راي سىناش · ئاخىرقى نەتىجىلەر"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "بېلەتلەرنى كۆرۈش"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "بېلەت تاشلىدىڭىز"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "راي سىناش تەپسىلاتلىرى"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوئال"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} بېلەتلەر}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "بېلەت تاشلانمىدى"
   },
   "icu:deleteConversation": {
     "messageformat": "ئۆچۈر"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "مېدىيا ۋە ھۆججەتلەر"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "مۇشتەرىلىكىڭىز تېپىلمىدى. Signal بىخەتەر زاپاسلانمىللىرىنى داۋاملىق ئشلىتىش ئۈچۈن يېڭىلاڭ."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ئايلىق"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {تېكىست + {mediaDayCount,number} كۈن مېدىيا زاپاسلاش}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "بۇ قېتىملىق يېڭىلانما، باتارېيەنىڭ ئۆمرىنى ياخشىلاشقا ياردەم بېرىدىغان يېڭى ئىقتىدار ئەلالاشتۇرۇشنى تونۇشتۇرىدۇ. 7.73 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "كۈز پەسلىگە ئۈلگۈرتۈپ، يېڭى «يوپۇرماقسىز دەرەخ» emoji {leaflessTreeEmoji} (يۇنىكود 16.0 دىكى باشقا ئالتە يېڭى emoji بىلەن بىللە)نى ھازىر Signal ئۈستەليۈزى قوللايدۇ."
   }
 }

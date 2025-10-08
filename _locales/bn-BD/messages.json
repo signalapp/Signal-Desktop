@@ -1041,31 +1041,31 @@
     "messageformat": "তথ্য"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "জরিপ · একটি বেছে নিন"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "জরিপ · এক বা একাধিক বেছে নিন"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "জরিপ · চূড়ান্ত ফলাফল"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ভোট দেখুন"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "আপনি ভোট দিয়েছেন"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ভোটের বিস্তারিত"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "প্রশ্ন"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number}টি ভোট} other {{count,number}টি ভোট}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "কোনো ভোট নেই"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "মিডিয়া ও ফাইল"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "আপনার সাবস্ক্রিপশন পাওয়া যায়নি। Signal নিরাপদ ব্যাকআপ ব্যবহার চালিয়ে যেতে নবায়ন করুন।"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/মাস"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ} other {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "এই আপডেটে ব্যাটারির আয়ু বৃদ্ধি করতে নতুন পারফরম্যান্স অপ্টিমাইজেশন প্রবর্তন করা হয়েছে।"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "শরৎ শুরুর ঠিক আগে, নতুন \"পাতাবিহীন গাছ\" ইমোজি {leaflessTreeEmoji} (Unicode 16.0-এর অন্যান্য ছয়টি নতুন ইমোজির পাশাপাশি) এখন Signal Desktop-এ সমর্থিত হচ্ছে।"
   }
 }

@@ -1041,31 +1041,31 @@
     "messageformat": "정보"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "설문조사 · 하나 선택"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "설문조사 · 하나 이상 선택"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "설문조사 · 최종 결과"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "투표 결과 보기"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "투표했습니다."
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "설문조사 세부 정보"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "질문"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number}표}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "투표 없음"
   },
   "icu:deleteConversation": {
     "messageformat": "삭제"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "미디어 및 파일"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "구독 정보를 찾지 못했습니다. Signal 안전 백업을 계속 사용하려면 갱신하세요."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/월"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {텍스트 + {mediaDayCount,number}일간의 미디어 백업}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "이 업데이트는 새로운 성능 최적화를 도입하여 배터리 성능을 향상합니다."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal 데스크톱에서 이제 일곱 가지 새로운 이모지 캐릭터를 지원합니다."
   }
 }

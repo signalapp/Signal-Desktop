@@ -1041,31 +1041,31 @@
     "messageformat": "Info"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Anketa · Vyberte jednu možnosť"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Anketa · Vyberte jednu alebo viacero možností"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Anketa · Konečné výsledky"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Zobraziť hlasy"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Hlasovali ste"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Podrobnosti o ankete"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Otázka"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} hlas} few {{count,number} hlasy} many {{count,number} hlasu} other {{count,number} hlasov}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Žiadne hlasy"
   },
   "icu:deleteConversation": {
     "messageformat": "Vymazať"
@@ -4485,7 +4485,7 @@
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Médiá a súbory"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"
@@ -5340,7 +5340,7 @@
     "messageformat": "Predplatné sa nenašlo. Obnovte ho, aby ste mohli bezpečné Zálohy Signal používať aj naďalej."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mesiac"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Zálohovanie všetkých správ + médiá za posledný{mediaDayCount,number} deň} few {Zálohovanie všetkých správ + médiá za posledné {mediaDayCount,number} dni} many {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní} other {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní}}"
@@ -6968,6 +6968,6 @@
     "messageformat": "Táto aktualizácia prináša novú optimalizáciu výkonu, ktorá pomáha predĺžiť výdrž batérie."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop po novom obsahuje sedem nových emotikonov."
   }
 }
