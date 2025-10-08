@@ -4,10 +4,14 @@
 import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker.js';
 import { DataWriter } from '../../sql/Client.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.js';
+import {
+  getEmojiParentByKey,
+  getEmojiParentKeyByVariantKey,
+} from '../../components/fun/data/emojis.js';
 
 const { take, uniq } = lodash;
 
@@ -39,11 +43,16 @@ export const useEmojisActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function onUseEmoji({
-  shortName,
-}: EmojiPickDataType): ThunkAction<void, unknown, unknown, UseEmojiAction> {
+function onUseEmoji(
+  emojiSelection: FunEmojiSelection
+): ThunkAction<void, unknown, unknown, UseEmojiAction> {
   return async dispatch => {
     try {
+      const emojiParentKey = getEmojiParentKeyByVariantKey(
+        emojiSelection.variantKey
+      );
+      const emojiParent = getEmojiParentByKey(emojiParentKey);
+      const shortName = emojiParent.englishShortNameDefault;
       await updateEmojiUsage(shortName);
       dispatch(useEmoji(shortName));
     } catch (err) {

@@ -5,14 +5,11 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
 import { ThemeType, type LocalizerType } from '../types/Util.js';
-import type { Props as EmojiButtonPropsType } from './emoji/EmojiButton.js';
 import type { TextAttachmentType } from '../types/Attachment.js';
 import { Button, ButtonVariant } from './Button.js';
 import { ContextMenu } from './ContextMenu.js';
-import { EmojiButton } from './emoji/EmojiButton.js';
 import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.js';
 import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.js';
 import { Input } from './Input.js';
@@ -26,7 +23,6 @@ import {
   COLOR_WHITE_INT,
   getBackgroundColor,
 } from '../util/getStoryBackground.js';
-import { convertShortName } from './emoji/lib.js';
 import { objectMap } from '../util/objectMap.js';
 import { handleOutsideClick } from '../util/handleOutsideClick.js';
 import { Spinner } from './Spinner.js';
@@ -34,7 +30,6 @@ import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 import { getEmojiVariantByKey } from './fun/data/emojis.js';
 import { FunEmojiPickerButton } from './fun/FunButton.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 
 const { noop } = lodash;
@@ -50,11 +45,8 @@ export type PropsType = {
   linkPreview?: LinkPreviewForUIType;
   onClose: () => unknown;
   onDone: (textAttachment: TextAttachmentType) => unknown;
-  onUseEmoji: (_: EmojiPickDataType) => unknown;
-} & Pick<
-  EmojiButtonPropsType,
-  'onEmojiSkinToneDefaultChange' | 'recentEmojis' | 'emojiSkinToneDefault'
->;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => unknown;
+};
 
 enum LinkPreviewApplied {
   None = 'None',
@@ -145,10 +137,7 @@ export function TextStoryCreator({
   linkPreview,
   onClose,
   onDone,
-  onEmojiSkinToneDefaultChange,
-  onUseEmoji,
-  recentEmojis,
-  emojiSkinToneDefault,
+  onSelectEmoji,
 }: PropsType): JSX.Element {
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -350,20 +339,25 @@ export function TextStoryCreator({
     setEmojiPickerOpen(open);
   }, []);
 
-  const handleSelectEmoji = useCallback((emojiSelection: FunEmojiSelection) => {
-    const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
-    const emojiValue = emojiVariant.value;
+  const handleSelectEmoji = useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
+      const emojiValue = emojiVariant.value;
 
-    setText(originalText => {
-      const insertAt =
-        textEditorRef.current?.selectionEnd ?? originalText.length;
+      onSelectEmoji(emojiSelection);
 
-      const before = originalText.substr(0, insertAt);
-      const after = originalText.substr(insertAt, originalText.length);
+      setText(originalText => {
+        const insertAt =
+          textEditorRef.current?.selectionEnd ?? originalText.length;
 
-      return `${before}${emojiValue}${after}`;
-    });
-  }, []);
+        const before = originalText.substr(0, insertAt);
+        const after = originalText.substr(insertAt, originalText.length);
+
+        return `${before}${emojiValue}${after}`;
+      });
+    },
+    [onSelectEmoji]
+  );
 
   return (
     <FocusScope contain restoreFocus>
@@ -466,43 +460,16 @@ export function TextStoryCreator({
                 }}
                 type="button"
               />
-              {!isFunPickerEnabled() && (
-                <EmojiButton
-                  className="StoryCreator__emoji-button"
-                  i18n={i18n}
-                  onPickEmoji={data => {
-                    onUseEmoji(data);
-                    const emoji = convertShortName(
-                      data.shortName,
-                      data.skinTone
-                    );
-                    const insertAt =
-                      textEditorRef.current?.selectionEnd ?? text.length;
-                    setText(
-                      originalText =>
-                        `${originalText.substr(
-                          0,
-                          insertAt
-                        )}${emoji}${originalText.substr(insertAt, text.length)}`
-                    );
-                  }}
-                  recentEmojis={recentEmojis}
-                  emojiSkinToneDefault={emojiSkinToneDefault}
-                  onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-                />
-              )}
-              {isFunPickerEnabled() && (
-                <FunEmojiPicker
-                  open={emojiPickerOpen}
-                  onOpenChange={handleEmojiPickerOpenChange}
-                  placement="top"
-                  onSelectEmoji={handleSelectEmoji}
-                  theme={ThemeType.dark}
-                  closeOnSelect
-                >
-                  <FunEmojiPickerButton i18n={i18n} />
-                </FunEmojiPicker>
-              )}
+              <FunEmojiPicker
+                open={emojiPickerOpen}
+                onOpenChange={handleEmojiPickerOpenChange}
+                placement="top"
+                onSelectEmoji={handleSelectEmoji}
+                theme={ThemeType.dark}
+                closeOnSelect
+              >
+                <FunEmojiPickerButton i18n={i18n} />
+              </FunEmojiPicker>
             </div>
           ) : (
             <div className="StoryCreator__toolbar--space" />

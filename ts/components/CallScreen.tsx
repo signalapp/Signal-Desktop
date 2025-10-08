@@ -74,7 +74,6 @@ import {
 } from './CallingToast.js';
 import { handleOutsideClick } from '../util/handleOutsideClick.js';
 import { Spinner } from './Spinner.js';
-import type { Props as ReactionPickerProps } from './conversation/ReactionPicker.js';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker.js';
 import {
   CallingRaisedHandsList,
@@ -87,11 +86,12 @@ import {
 } from './CallReactionBurst.js';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
 import { assertDev, strictAssert } from '../util/assert.js';
-import { emojiToData } from './emoji/lib.js';
 import { CallingPendingParticipants } from './CallingPendingParticipants.js';
 import type { CallingImageDataCache } from './CallManager.js';
 import { FunStaticEmoji } from './fun/FunEmoji.js';
 import {
+  getEmojiParentByKey,
+  getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
@@ -143,7 +143,7 @@ export type PropsType = {
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
   setLocalAudioRemoteMuted: SetMutedByType;
-} & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
+};
 
 export const isInSpeakerView = (
   call: Pick<ActiveCallStateType, 'viewMode'> | undefined
@@ -214,7 +214,6 @@ export function CallScreen({
   isCallLinkAdmin,
   me,
   openSystemPreferencesAction,
-  renderEmojiPicker,
   renderReactionPicker,
   setGroupCallVideoRequest,
   sendGroupCallRaiseHand,
@@ -1081,7 +1080,6 @@ export function CallScreen({
                     value: emoji,
                   });
                 },
-                renderEmojiPicker,
               })}
             </div>
           )}
@@ -1336,8 +1334,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
       );
       // Normalize skin tone emoji to calculate burst threshold, but save original
       // value to show in the burst animation
-      const emojiData = emojiToData(value);
-      const normalizedValue = emojiData?.unified ?? value;
+      const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
+      const emojiParent = getEmojiParentByKey(emojiParentKey);
+      const normalizedValue = emojiParent.value;
       reactionsShown.current.set(key, {
         value: normalizedValue,
         originalValue: value,

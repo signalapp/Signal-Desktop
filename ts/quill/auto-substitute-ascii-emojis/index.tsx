@@ -6,12 +6,12 @@ import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 
 import { createLogger } from '../../logging/log.js';
-import type { EmojiData } from '../../components/emoji/lib.js';
+import type { EmojiParentKey } from '../../components/fun/data/emojis.js';
 import {
-  convertShortName,
-  convertShortNameToData,
-} from '../../components/emoji/lib.js';
-import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+  EMOJI_PARENT_KEY_CONSTANTS,
+  EmojiSkinTone,
+  getEmojiVariantByParentKeyAndSkinTone,
+} from '../../components/fun/data/emojis.js';
 
 const log = createLogger('index');
 
@@ -19,26 +19,28 @@ export type AutoSubstituteAsciiEmojisOptions = {
   emojiSkinToneDefault: EmojiSkinTone | null;
 };
 
-const emojiMap: Record<string, string> = {
-  ':-)': 'slightly_smiling_face',
-  ':-(': 'slightly_frowning_face',
-  ':-D': 'grinning',
-  ':-*': 'kissing_heart',
-  ':-P': 'stuck_out_tongue',
-  ':-p': 'stuck_out_tongue',
-  ":'(": 'cry',
-  ':-\\': 'confused',
-  ':-|': 'neutral_face',
-  ';-)': 'wink',
-  '(Y)': '+1',
-  '(N)': '-1',
-  '(y)': '+1',
-  '(n)': '-1',
-  '<3': 'heart',
-  '^_^': 'grin',
+type EmojiShortcutMap = Partial<Record<string, EmojiParentKey>>;
+
+const emojiShortcutMap: EmojiShortcutMap = {
+  ':-)': EMOJI_PARENT_KEY_CONSTANTS.SLIGHTLY_SMILING_FACE,
+  ':-(': EMOJI_PARENT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE,
+  ':-D': EMOJI_PARENT_KEY_CONSTANTS.GRINNING_FACE,
+  ':-*': EMOJI_PARENT_KEY_CONSTANTS.FACE_BLOWING_A_KISS,
+  ':-P': EMOJI_PARENT_KEY_CONSTANTS.FACE_WITH_STUCK_OUT_TONGUE,
+  ':-p': EMOJI_PARENT_KEY_CONSTANTS.FACE_WITH_STUCK_OUT_TONGUE,
+  ":'(": EMOJI_PARENT_KEY_CONSTANTS.CRYING_FACE,
+  ':-\\': EMOJI_PARENT_KEY_CONSTANTS.CONFUSED_FACE,
+  ':-|': EMOJI_PARENT_KEY_CONSTANTS.NEUTRAL_FACE,
+  ';-)': EMOJI_PARENT_KEY_CONSTANTS.WINKING_FACE,
+  '(Y)': EMOJI_PARENT_KEY_CONSTANTS.THUMBS_UP,
+  '(N)': EMOJI_PARENT_KEY_CONSTANTS.THUMBS_UP,
+  '(y)': EMOJI_PARENT_KEY_CONSTANTS.THUMBS_UP,
+  '(n)': EMOJI_PARENT_KEY_CONSTANTS.THUMBS_DOWN,
+  '<3': EMOJI_PARENT_KEY_CONSTANTS.RED_HEART,
+  '^_^': EMOJI_PARENT_KEY_CONSTANTS.GRINNING_FACE,
 };
 
-function buildRegexp(obj: Record<string, string>): RegExp {
+function buildRegexp(obj: EmojiShortcutMap): RegExp {
   const sanitizedKeys = Object.keys(obj).map(x =>
     x.replace(/([^a-zA-Z0-9])/g, '\\$1')
   );
@@ -46,7 +48,7 @@ function buildRegexp(obj: Record<string, string>): RegExp {
   return new RegExp(`(${sanitizedKeys.join('|')})$`);
 }
 
-const EMOJI_REGEXP = buildRegexp(emojiMap);
+const EMOJI_REGEXP = buildRegexp(emojiShortcutMap);
 
 export class AutoSubstituteAsciiEmojis {
   options: AutoSubstituteAsciiEmojisOptions;
@@ -101,15 +103,11 @@ export class AutoSubstituteAsciiEmojis {
     }
 
     const [, textEmoji] = match;
-    const emojiName = emojiMap[textEmoji];
+    const emojiParentKey = emojiShortcutMap[textEmoji];
 
-    const emojiData = convertShortNameToData(
-      emojiName,
-      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
-    );
-    if (emojiData) {
+    if (emojiParentKey != null) {
       this.insertEmoji(
-        emojiData,
+        emojiParentKey,
         range.index - textEmoji.length,
         textEmoji.length,
         textEmoji
@@ -118,20 +116,20 @@ export class AutoSubstituteAsciiEmojis {
   }
 
   insertEmoji(
-    emojiData: EmojiData,
+    emojiParentKey: EmojiParentKey,
     index: number,
     range: number,
     source: string
   ): void {
-    const emoji = convertShortName(
-      emojiData.short_name,
+    const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
+      emojiParentKey,
       this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
     );
     const delta = new Delta()
       .retain(index)
       .delete(range)
       .insert({
-        emoji: { value: emoji, source },
+        emoji: { value: emojiVariant.value, source },
       });
     this.quill.updateContents(delta, 'api');
     this.quill.setSelection(index + 1, 0);

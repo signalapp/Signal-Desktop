@@ -3,24 +3,20 @@
 
 import React, { useRef, useCallback, useState } from 'react';
 import type { LocalizerType } from '../types/I18N.js';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
 import type { InputApi } from './CompositionInput.js';
 import { CompositionInput } from './CompositionInput.js';
-import { EmojiButton } from './emoji/EmojiButton.js';
 import {
   hydrateRanges,
   type DraftBodyRanges,
   type HydratedBodyRangesType,
 } from '../types/BodyRange.js';
 import type { ThemeType } from '../types/Util.js';
-import type { Props as EmojiButtonProps } from './emoji/EmojiButton.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
 import * as grapheme from '../util/grapheme.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
 import type { EmojiSkinTone } from './fun/data/emojis.js';
 import { FunEmojiPickerButton } from './fun/FunButton.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 import type { GetConversationByIdType } from '../state/selectors/conversations.js';
 
 export type CompositionTextAreaProps = {
@@ -32,12 +28,13 @@ export type CompositionTextAreaProps = {
   placeholder?: string;
   whenToShowRemainingCount?: number;
   onScroll?: (ev: React.UIEvent<HTMLElement, UIEvent>) => void;
-  onPickEmoji: (e: EmojiPickDataType) => void;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onChange: (
     messageText: string,
     draftBodyRanges: HydratedBodyRangesType,
     caretLocation?: number | undefined
   ) => void;
+  emojiSkinToneDefault: EmojiSkinTone;
   onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;
   onSubmit: (
     message: string,
@@ -51,7 +48,7 @@ export type CompositionTextAreaProps = {
   draftText: string;
   theme: ThemeType;
   conversationSelector: GetConversationByIdType;
-} & Pick<EmojiButtonProps, 'recentEmojis' | 'emojiSkinToneDefault'>;
+};
 
 /**
  * Essentially an HTML textarea but with support for emoji picker and
@@ -69,15 +66,13 @@ export function CompositionTextArea({
   isFormattingEnabled,
   maxLength,
   onChange,
-  onPickEmoji,
+  onSelectEmoji,
   onScroll,
-  onEmojiSkinToneDefaultChange,
   onSubmit,
   onTextTooLong,
   ourConversationId,
   placeholder,
   platform,
-  recentEmojis,
   emojiSkinToneDefault,
   theme,
   whenToShowRemainingCount = Infinity,
@@ -88,25 +83,14 @@ export function CompositionTextArea({
     grapheme.count(draftText)
   );
 
-  const insertEmoji = useCallback(
-    (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onPickEmoji(e);
-      }
-    },
-    [inputApiRef, onPickEmoji]
-  );
-
   const handleSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      const data: EmojiPickDataType = {
-        shortName: emojiSelection.englishShortName,
-        skinTone: emojiSelection.skinTone,
-      };
-      insertEmoji(data);
+      if (inputApiRef.current) {
+        inputApiRef.current.insertEmoji(emojiSelection);
+        onSelectEmoji(emojiSelection);
+      }
     },
-    [insertEmoji]
+    [onSelectEmoji]
   );
 
   const focusTextEditInput = useCallback(() => {
@@ -182,7 +166,7 @@ export function CompositionTextArea({
         large={false}
         moduleClassName="CompositionTextArea__input"
         onEditorStateChange={handleChange}
-        onPickEmoji={onPickEmoji}
+        onSelectEmoji={onSelectEmoji}
         onScroll={onScroll}
         onSubmit={onSubmit}
         onTextTooLong={onTextTooLong}
@@ -205,27 +189,15 @@ export function CompositionTextArea({
         shouldHidePopovers={null}
       />
       <div className="CompositionTextArea__emoji">
-        {!isFunPickerEnabled() && (
-          <EmojiButton
-            i18n={i18n}
-            onClose={focusTextEditInput}
-            onPickEmoji={insertEmoji}
-            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-            recentEmojis={recentEmojis}
-            emojiSkinToneDefault={emojiSkinToneDefault}
-          />
-        )}
-        {isFunPickerEnabled() && (
-          <FunEmojiPicker
-            placement="bottom"
-            open={emojiPickerOpen}
-            onOpenChange={handleEmojiPickerOpenChange}
-            onSelectEmoji={handleSelectEmoji}
-            closeOnSelect={false}
-          >
-            <FunEmojiPickerButton i18n={i18n} />
-          </FunEmojiPicker>
-        )}
+        <FunEmojiPicker
+          placement="bottom"
+          open={emojiPickerOpen}
+          onOpenChange={handleEmojiPickerOpenChange}
+          onSelectEmoji={handleSelectEmoji}
+          closeOnSelect={false}
+        >
+          <FunEmojiPickerButton i18n={i18n} />
+        </FunEmojiPicker>
       </div>
       {maxLength !== undefined &&
         characterCount >= whenToShowRemainingCount && (

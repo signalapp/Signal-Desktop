@@ -117,7 +117,6 @@ const defaultMessageProps: TimelineMessagesProps = {
   previews: [],
   reactToMessage: action('default--reactToMessage'),
   readStatus: ReadStatus.Read,
-  renderEmojiPicker: () => <div />,
   renderReactionPicker: () => <div />,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   setMessageToEdit: action('setMessageToEdit'),

@@ -15,13 +15,6 @@ import type { imageToBlurHash } from '../util/imageToBlurHash.js';
 import { dropNull } from '../util/dropNull.js';
 import { Spinner } from './Spinner.js';
 import type {
-  Props as EmojiButtonProps,
-  EmojiButtonAPI,
-} from './emoji/EmojiButton.js';
-import { EmojiButton } from './emoji/EmojiButton.js';
-import type { Props as StickerButtonProps } from './stickers/StickerButton.js';
-import { StickerButton } from './stickers/StickerButton.js';
-import type {
   InputApi,
   Props as CompositionInputProps,
 } from './CompositionInput.js';
@@ -48,7 +41,6 @@ import type {
   PushPanelForConversationActionType,
   ShowConversationType,
 } from '../state/ducks/conversations.js';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
 import { isSameLinkPreview } from '../types/message/LinkPreviews.js';
 
@@ -56,7 +48,6 @@ import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileS
 import { MediaQualitySelector } from './MediaQualitySelector.js';
 import type { Props as QuoteProps } from './conversation/Quote.js';
 import { Quote } from './conversation/Quote.js';
-import { countStickers } from './stickers/lib.js';
 import {
   useAttachFileShortcut,
   useEditLastMessageSent,
@@ -69,7 +60,6 @@ import { usePrevious } from '../hooks/usePrevious.js';
 import { PanelType } from '../types/Panels.js';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.js';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
-import type { SmartCompositionRecordingProps } from '../state/smart/CompositionRecording.js';
 import SelectModeActions from './conversation/SelectModeActions.js';
 import type { ShowToastAction } from '../state/ducks/toast.js';
 import type { DraftEditMessageType } from '../model-types.d.ts';
@@ -84,9 +74,7 @@ import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGif
 import { strictAssert } from '../util/assert.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
 import type { EmojiSkinTone } from './fun/data/emojis.js';
-import type { StickerPackType, StickerType } from '../state/ducks/stickers.js';
 import { FunPickerButton } from './fun/FunButton.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -195,9 +183,7 @@ export type OwnProps = Readonly<{
   showConversation: ShowConversationType;
   startRecording: (id: string) => unknown;
   theme: ThemeType;
-  renderSmartCompositionRecording: (
-    props: SmartCompositionRecordingProps
-  ) => JSX.Element;
+  renderSmartCompositionRecording: () => JSX.Element;
   renderSmartCompositionRecordingDraft: (
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
@@ -212,11 +198,8 @@ export type OwnProps = Readonly<{
     props: SmartDraftGifMessageSendModalProps | null
   ) => void;
 
-  onPickEmoji: (e: EmojiPickDataType) => void;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
-  // StickerButton
-  installedPacks: ReadonlyArray<StickerPackType>;
-  recentStickers: ReadonlyArray<StickerType>;
 }>;
 
 export type Props = Pick<
@@ -231,27 +214,6 @@ export type Props = Pick<
   | 'sendCounter'
   | 'sortedGroupMembers'
 > &
-  Pick<
-    EmojiButtonProps,
-    | 'onPickEmoji'
-    | 'onEmojiSkinToneDefaultChange'
-    | 'recentEmojis'
-    | 'emojiSkinToneDefault'
-  > &
-  Pick<
-    StickerButtonProps,
-    | 'knownPacks'
-    | 'receivedPacks'
-    | 'installedPack'
-    | 'installedPacks'
-    | 'blessedPacks'
-    | 'recentStickers'
-    | 'clearInstalledStickerPack'
-    | 'showIntroduction'
-    | 'clearShowIntroduction'
-    | 'showPickerHint'
-    | 'clearShowPickerHint'
-  > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'showGV2MigrationDialog'> &
   Pick<GroupV2PendingApprovalActionsPropsType, 'cancelJoinRequest'> & {
@@ -317,24 +279,10 @@ export const CompositionArea = memo(function CompositionArea({
   ourConversationId,
   sendCounter,
   sortedGroupMembers,
-  // EmojiButton
-  onPickEmoji,
-  onEmojiSkinToneDefaultChange,
-  recentEmojis,
+  // FunPicker
+  onSelectEmoji,
   emojiSkinToneDefault,
-  // StickerButton
-  knownPacks,
-  receivedPacks,
-  installedPack,
-  installedPacks,
-  blessedPacks,
-  recentStickers,
-  clearInstalledStickerPack,
   sendStickerMessage,
-  showIntroduction,
-  clearShowIntroduction,
-  showPickerHint,
-  clearShowPickerHint,
   // Message Requests
   acceptedMessageRequest,
   areWePending,
@@ -383,7 +331,6 @@ export const CompositionArea = memo(function CompositionArea({
     AttachmentDraftType | undefined
   >();
   const inputApiRef = useRef<InputApi | undefined>();
-  const emojiButtonRef = useRef<EmojiButtonAPI | undefined>();
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
   const handleForceSend = useCallback(() => {
@@ -423,8 +370,6 @@ export const CompositionArea = memo(function CompositionArea({
       if (!canSend) {
         return false;
       }
-
-      emojiButtonRef.current?.close();
 
       if (editedMessageId) {
         sendEditedMessage(conversationId, {
@@ -524,14 +469,6 @@ export const CompositionArea = memo(function CompositionArea({
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 
-  const withStickers =
-    countStickers({
-      knownPacks,
-      blessedPacks,
-      installedPacks,
-      receivedPacks,
-    }) > 0;
-
   const previousMessageCompositionId = usePrevious(
     messageCompositionId,
     messageCompositionId
@@ -553,16 +490,6 @@ export const CompositionArea = memo(function CompositionArea({
     previousMessageCompositionId,
     previousSendCounter,
   ]);
-
-  const insertEmoji = useCallback(
-    (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onPickEmoji(e);
-      }
-    },
-    [inputApiRef, onPickEmoji]
-  );
 
   // We want to reset the state of Quill only if:
   //
@@ -627,12 +554,11 @@ export const CompositionArea = memo(function CompositionArea({
 
   const handleFunPickerSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      insertEmoji({
-        shortName: emojiSelection.englishShortName,
-        skinTone: emojiSelection.skinTone,
-      });
+      if (inputApiRef.current) {
+        inputApiRef.current.insertEmoji(emojiSelection);
+      }
     },
-    [insertEmoji]
+    []
   );
   const handleFunPickerSelectSticker = useCallback(
     (stickerSelection: FunStickerSelection) => {
@@ -720,34 +646,19 @@ export const CompositionArea = memo(function CompositionArea({
           {i18n('icu:CompositionArea__ConfirmGifSelection__Body')}
         </ConfirmationDialog>
       )}
-      {isFunPickerEnabled() && (
-        <div className="CompositionArea__button-cell">
-          <FunPicker
-            placement="top start"
-            open={funPickerOpen}
-            onOpenChange={handleFunPickerOpenChange}
-            onSelectEmoji={handleFunPickerSelectEmoji}
-            onSelectSticker={handleFunPickerSelectSticker}
-            onSelectGif={handleFunPickerSelectGif}
-            onAddStickerPack={handleFunPickerAddStickerPack}
-          >
-            <FunPickerButton i18n={i18n} />
-          </FunPicker>
-        </div>
-      )}
-      {!isFunPickerEnabled() && (
-        <div className="CompositionArea__button-cell">
-          <EmojiButton
-            emojiButtonApi={emojiButtonRef}
-            i18n={i18n}
-            onPickEmoji={insertEmoji}
-            onClose={() => setComposerFocus(conversationId)}
-            recentEmojis={recentEmojis}
-            emojiSkinToneDefault={emojiSkinToneDefault}
-            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-          />
-        </div>
-      )}
+      <div className="CompositionArea__button-cell">
+        <FunPicker
+          placement="top start"
+          open={funPickerOpen}
+          onOpenChange={handleFunPickerOpenChange}
+          onSelectEmoji={handleFunPickerSelectEmoji}
+          onSelectSticker={handleFunPickerSelectSticker}
+          onSelectGif={handleFunPickerSelectGif}
+          onAddStickerPack={handleFunPickerAddStickerPack}
+        >
+          <FunPickerButton i18n={i18n} />
+        </FunPicker>
+      </div>
       {showMediaQualitySelector ? (
         <div className="CompositionArea__button-cell">
           <MediaQualitySelector
@@ -821,36 +732,6 @@ export const CompositionArea = memo(function CompositionArea({
     </>
   ) : null;
 
-  const stickerButtonPlacement = large ? 'top-start' : 'top-end';
-  const stickerButtonFragment =
-    !isFunPickerEnabled() && !draftEditMessage && withStickers ? (
-      <div className="CompositionArea__button-cell">
-        <StickerButton
-          i18n={i18n}
-          knownPacks={knownPacks}
-          receivedPacks={receivedPacks}
-          installedPack={installedPack}
-          installedPacks={installedPacks}
-          blessedPacks={blessedPacks}
-          recentStickers={recentStickers}
-          clearInstalledStickerPack={clearInstalledStickerPack}
-          onClickAddPack={() =>
-            pushPanelForConversation({
-              type: PanelType.StickerManager,
-            })
-          }
-          onPickSticker={(packId, stickerId) =>
-            sendStickerMessage(conversationId, { packId, stickerId })
-          }
-          showIntroduction={showIntroduction}
-          clearShowIntroduction={clearShowIntroduction}
-          showPickerHint={showPickerHint}
-          clearShowPickerHint={clearShowPickerHint}
-          position={stickerButtonPlacement}
-        />
-      </div>
-    ) : null;
-
   // Listen for cmd/ctrl-shift-x to toggle large composition mode
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -875,10 +756,6 @@ export const CompositionArea = memo(function CompositionArea({
       document.removeEventListener('keydown', handler);
     };
   }, [platform, setLarge]);
-
-  const handleRecordingBeforeSend = useCallback(() => {
-    emojiButtonRef.current?.close();
-  }, [emojiButtonRef]);
 
   const handleEscape = useCallback(() => {
     if (linkPreviewResult) {
@@ -1060,9 +937,7 @@ export const CompositionArea = memo(function CompositionArea({
   }
 
   if (isRecording) {
-    return renderSmartCompositionRecording({
-      onBeforeSend: handleRecordingBeforeSend,
-    });
+    return renderSmartCompositionRecording();
   }
 
   if (draftAttachments.length === 1 && isVoiceMessage(draftAttachments[0])) {
@@ -1085,7 +960,6 @@ export const CompositionArea = memo(function CompositionArea({
             i18n={i18n}
             imageSrc={attachmentToEdit.url}
             imageToBlurHash={imageToBlurHash}
-            installedPacks={installedPacks}
             isCreatingStory={false}
             isFormattingEnabled={isFormattingEnabled}
             isSending={false}
@@ -1120,11 +994,10 @@ export const CompositionArea = memo(function CompositionArea({
                 true
               );
             }}
-            onPickEmoji={onPickEmoji}
+            onSelectEmoji={onSelectEmoji}
             onTextTooLong={onTextTooLong}
             ourConversationId={ourConversationId}
             platform={platform}
-            recentStickers={recentStickers}
             emojiSkinToneDefault={emojiSkinToneDefault}
             sortedGroupMembers={sortedGroupMembers}
           />
@@ -1213,7 +1086,7 @@ export const CompositionArea = memo(function CompositionArea({
             onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}
             onEditorStateChange={onEditorStateChange}
-            onPickEmoji={onPickEmoji}
+            onSelectEmoji={onSelectEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
             ourConversationId={ourConversationId}
@@ -1228,7 +1101,6 @@ export const CompositionArea = memo(function CompositionArea({
         </div>
         {!large ? (
           <>
-            {stickerButtonFragment}
             {!dirty ? micButtonFragment : null}
             {editMessageFragment}
             {attButton}
@@ -1243,7 +1115,6 @@ export const CompositionArea = memo(function CompositionArea({
           )}
         >
           {leftHandSideButtonsFragment}
-          {stickerButtonFragment}
           {attButton}
           {!dirty ? micButtonFragment : null}
           {editMessageFragment}

@@ -121,7 +121,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   blockClient: action('block-client'),
   cancelPresenting: action('cancel-presenting'),
   renderDeviceSelection: () => <div />,
-  renderEmojiPicker: () => <>EmojiPicker</>,
   renderReactionPicker: () => <div />,
   sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
   sendGroupCallReaction: action('send-group-call-reaction'),

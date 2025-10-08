@@ -10,11 +10,12 @@ import { Avatar } from '../Avatar.js';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
 import type { ConversationType } from '../../state/ducks/conversations.js';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import type { EmojiData } from '../emoji/lib.js';
-import { emojiToData } from '../emoji/lib.js';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling.js';
 import type { ThemeType } from '../../types/Util.js';
+import type { EmojiParentKey, EmojiVariantKey } from '../fun/data/emojis.js';
 import {
+  EMOJI_PARENT_KEY_CONSTANTS,
+  getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
@@ -23,7 +24,7 @@ import { strictAssert } from '../../util/assert.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.js';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.js';
 
-const { groupBy, mapValues, orderBy } = lodash;
+const { mapValues, orderBy } = lodash;
 
 export type Reaction = {
   emoji: string;
@@ -56,13 +57,13 @@ export type Props = OwnProps &
   Pick<AvatarProps, 'i18n'>;
 
 const DEFAULT_EMOJI_ORDER = [
-  'heart',
-  '+1',
-  '-1',
-  'joy',
-  'open_mouth',
-  'cry',
-  'rage',
+  EMOJI_PARENT_KEY_CONSTANTS.RED_HEART,
+  EMOJI_PARENT_KEY_CONSTANTS.THUMBS_UP,
+  EMOJI_PARENT_KEY_CONSTANTS.THUMBS_DOWN,
+  EMOJI_PARENT_KEY_CONSTANTS.FACE_WITH_TEARS_OF_JOY,
+  EMOJI_PARENT_KEY_CONSTANTS.FACE_WITH_OPEN_MOUTH,
+  EMOJI_PARENT_KEY_CONSTANTS.CRYING_FACE,
+  EMOJI_PARENT_KEY_CONSTANTS.ENRAGED_FACE,
 ];
 
 type ReactionCategory = {
@@ -72,7 +73,11 @@ type ReactionCategory = {
   index: number;
 };
 
-type ReactionWithEmojiData = Reaction & EmojiData;
+type ReactionWithEmojiData = Reaction &
+  Readonly<{
+    parentKey: EmojiParentKey;
+    variantKey: EmojiVariantKey;
+  }>;
 
 function ReactionViewerEmoji(props: {
   emojiVariantValue: string | undefined;
@@ -112,37 +117,32 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       () =>
         reactions
           .map(reaction => {
-            const emojiData = emojiToData(reaction.emoji);
-
-            if (!emojiData) {
-              return undefined;
+            if (!isEmojiVariantValue(reaction.emoji)) {
+              return null;
             }
-
-            return {
-              ...reaction,
-              ...emojiData,
-            };
+            const variantKey = getEmojiVariantKeyByValue(reaction.emoji);
+            const parentKey = getEmojiParentKeyByVariantKey(variantKey);
+            return { ...reaction, parentKey, variantKey };
           })
-          .filter(
-            (
-              reactionWithEmojiData
-            ): reactionWithEmojiData is ReactionWithEmojiData =>
-              Boolean(reactionWithEmojiData)
-          ),
+          .filter((data): data is ReactionWithEmojiData => {
+            return data != null;
+          }),
       [reactions]
     );
 
-    const groupedAndSortedReactions = React.useMemo(
-      () =>
-        mapValues(
-          {
-            all: reactionsWithEmojiData,
-            ...groupBy(reactionsWithEmojiData, 'short_name'),
-          },
-          groupedReactions => orderBy(groupedReactions, ['timestamp'], ['desc'])
-        ),
-      [reactionsWithEmojiData]
-    );
+    const groupedAndSortedReactions = React.useMemo(() => {
+      const groups = Object.groupBy(reactionsWithEmojiData, data => {
+        return data.parentKey;
+      });
+
+      return mapValues(
+        {
+          all: reactionsWithEmojiData,
+          ...groups,
+        },
+        groupedReactions => orderBy(groupedReactions, ['timestamp'], ['desc'])
+      );
+    }, [reactionsWithEmojiData]);
 
     const reactionCategories: Array<ReactionCategory> = React.useMemo(
       () =>
@@ -159,9 +159,9 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
               const localUserReaction = groupedReactions.find(r => r.from.isMe);
               const firstReaction = localUserReaction || groupedReactions[0];
               return {
-                id: firstReaction.short_name,
-                index: DEFAULT_EMOJI_ORDER.includes(firstReaction.short_name)
-                  ? DEFAULT_EMOJI_ORDER.indexOf(firstReaction.short_name)
+                id: firstReaction.parentKey,
+                index: DEFAULT_EMOJI_ORDER.includes(firstReaction.parentKey)
+                  ? DEFAULT_EMOJI_ORDER.indexOf(firstReaction.parentKey)
                   : Infinity,
                 emoji: firstReaction.emoji,
                 count: groupedReactions.length,

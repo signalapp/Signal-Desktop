@@ -31,7 +31,6 @@ import type {
 } from './Message.js';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore.js';
-import type { Props as ReactionPickerProps } from './ReactionPicker.js';
 import {
   useKeyboardShortcutsConditionally,
   useOpenContextMenu,
@@ -90,8 +89,7 @@ export type PropsActions = {
 
 export type Props = PropsData &
   PropsActions &
-  Omit<PropsHousekeeping, 'isAttachmentPending'> &
-  Pick<ReactionPickerProps, 'renderEmojiPicker'> & {
+  Omit<PropsHousekeeping, 'isAttachmentPending'> & {
     renderReactionPicker: (
       props: React.ComponentProps<typeof SmartReactionPicker>
     ) => JSX.Element;
@@ -123,7 +121,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     copyMessageText,
     pushPanelForConversation,
     reactToMessage,
-    renderEmojiPicker,
     renderReactionPicker,
     retryDeleteForEveryone,
     retryMessageSend,
@@ -343,7 +340,6 @@ export function TimelineMessage(props: Props): JSX.Element {
                       remove: emoji === selectedReaction,
                     });
                   },
-                  renderEmojiPicker,
                   messageEmojis,
                 })
               }
@@ -369,7 +365,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     renderReactionPicker,
     selectedReaction,
     reactToMessage,
-    renderEmojiPicker,
     toggleReactionPicker,
     id,
     messageEmojis,

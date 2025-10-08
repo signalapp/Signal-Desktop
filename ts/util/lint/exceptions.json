@@ -1164,13 +1164,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.tsx",
-    "line": "  const emojiButtonRef = useRef<EmojiButtonAPI | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-07-07T20:51:44.602Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/CompositionInput.tsx",
     "line": "  const callbacksRef = React.useRef(unstaleCallbacks);",
     "reasonCategory": "usageTrusted",
@@ -1909,21 +1902,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/emoji/EmojiButton.tsx",
-    "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-06-14T22:04:43.988Z",
-    "reasonDetail": "Handling outside click"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/emoji/EmojiButton.tsx",
-    "line": "  const popperRef = React.useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-01-18T22:32:43.901Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/fun/FunGif.tsx",
     "line": "  const ref = useRef<HTMLVideoElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2117,14 +2095,6 @@
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-07-17T19:33:27.401Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/stickers/StickerButton.tsx",
-    "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-06-14T22:04:43.988Z",
-    "reasonDetail": "Handling outside click"
   },
   {
     "rule": "React-useRef",

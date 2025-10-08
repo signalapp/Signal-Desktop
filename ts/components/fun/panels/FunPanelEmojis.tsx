@@ -48,12 +48,10 @@ import {
   FunSubNavListBox,
   FunSubNavListBoxItem,
 } from '../base/FunSubNav.js';
-import type { EmojiParentKey, EmojiVariantKey } from '../data/emojis.js';
+import type { EmojiVariantKey } from '../data/emojis.js';
 import {
   EmojiSkinTone,
-  emojiParentKeyConstant,
   EmojiPickerCategory,
-  emojiVariantConstant,
   getEmojiParentByKey,
   getEmojiPickerCategoryParentKeys,
   getEmojiVariantByParentKeyAndSkinTone,
@@ -61,7 +59,8 @@ import {
   isEmojiVariantKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
-  getEmojiSkinToneByVariantKey,
+  EMOJI_PARENT_KEY_CONSTANTS,
+  EMOJI_VARIANT_KEY_CONSTANTS,
 } from '../data/emojis.js';
 import { useFunEmojiSearch } from '../useFunEmojiSearch.js';
 import { FunKeyboard } from '../keyboard/FunKeyboard.js';
@@ -163,9 +162,6 @@ function getSelectedSection(
 
 export type FunEmojiSelection = Readonly<{
   variantKey: EmojiVariantKey;
-  parentKey: EmojiParentKey;
-  englishShortName: string;
-  skinTone: EmojiSkinTone;
 }>;
 
 export type FunPanelEmojisProps = Readonly<{
@@ -479,7 +475,9 @@ export function FunPanelEmojis({
                   <FunStaticEmoji
                     size={16}
                     role="presentation"
-                    emoji={emojiVariantConstant('\u{1F641}')}
+                    emoji={getEmojiVariantByKey(
+                      EMOJI_VARIANT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE
+                    )}
                   />
                 </FunResultsHeader>
               </FunResults>
@@ -656,10 +654,6 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     return getEmojiVariantByKey(props.value);
   }, [props.value]);
 
-  const skinTone = useMemo(() => {
-    return getEmojiSkinToneByVariantKey(emojiVariant.key);
-  }, [emojiVariant.key]);
-
   const handleClick = useCallback(
     (event: PointerEvent) => {
       if (emojiHasSkinToneVariants && emojiSkinToneDefault == null) {
@@ -668,9 +662,6 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       }
       const emojiSelection: FunEmojiSelection = {
         variantKey: emojiVariant.key,
-        parentKey: emojiParent.key,
-        englishShortName: emojiParent.englishShortNameDefault,
-        skinTone,
       };
       const shouldClose =
         event.nativeEvent.pointerType !== 'mouse' &&
@@ -681,9 +672,6 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       emojiHasSkinToneVariants,
       emojiSkinToneDefault,
       emojiVariant.key,
-      emojiParent.key,
-      emojiParent.englishShortNameDefault,
-      skinTone,
       onSelectEmoji,
     ]
   );
@@ -714,19 +702,11 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       onEmojiSkinToneDefaultChange(skinToneSelection);
       const emojiSelection: FunEmojiSelection = {
         variantKey: variant.key,
-        parentKey: emojiParent.key,
-        englishShortName: emojiParent.englishShortNameDefault,
-        skinTone: skinToneSelection,
       };
       const shouldClose = true;
       onSelectEmoji(emojiSelection, shouldClose);
     },
-    [
-      onEmojiSkinToneDefaultChange,
-      emojiParent.key,
-      emojiParent.englishShortNameDefault,
-      onSelectEmoji,
-    ]
+    [onEmojiSkinToneDefaultChange, emojiParent.key, onSelectEmoji]
   );
 
   const emojiName = useMemo(() => {
@@ -836,7 +816,7 @@ function SectionSkinToneHeaderPopover(
         </FunGridHeaderPopoverHeader>
         <FunSkinTonesList
           i18n={i18n}
-          emoji={emojiParentKeyConstant('\u{270B}')}
+          emoji={EMOJI_PARENT_KEY_CONSTANTS.RAISED_HAND}
           skinTone={null}
           onSelectSkinTone={handleSelectSkinTone}
         />

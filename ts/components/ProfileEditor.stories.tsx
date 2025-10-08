@@ -63,13 +63,11 @@ export default {
     usernameEditState: UsernameEditState.Editing,
     usernameLinkState: UsernameLinkState.Ready,
 
-    recentEmojis: [],
     emojiSkinToneDefault: EmojiSkinTone.None,
     userAvatarData: [],
     username: undefined,
 
     onProfileChanged: action('onProfileChanged'),
-    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     saveAttachment: action('saveAttachment'),
     setUsernameLinkColor: action('setUsernameLinkColor'),
     showToast: action('showToast'),
@@ -107,17 +105,12 @@ function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  const [emojiSkinToneDefault, setEmojiSkinToneDefault] = useState(
-    EmojiSkinTone.None
-  );
   const [editState, setEditState] = useState(args.editState);
 
   return (
     <ProfileEditor
       {...args}
       editState={editState}
-      emojiSkinToneDefault={emojiSkinToneDefault}
-      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       renderUsernameEditor={renderUsernameEditor}
       setEditState={setEditState}
     />

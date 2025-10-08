@@ -3,39 +3,24 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Button } from 'react-aria-components';
-import { convertShortName } from '../emoji/lib.js';
-import type { Props as EmojiPickerProps } from '../emoji/EmojiPicker.js';
 import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.js';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
-  ReactionPickerPickerMoreButton,
   ReactionPickerPickerStyle,
 } from '../ReactionPickerPicker.js';
-import type { EmojiSkinTone, EmojiVariantKey } from '../fun/data/emojis.js';
+import type { EmojiVariantKey } from '../fun/data/emojis.js';
 import { getEmojiVariantByKey } from '../fun/data/emojis.js';
 import { FunEmojiPicker } from '../fun/FunEmojiPicker.js';
 import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.js';
-import { isFunPickerEnabled } from '../fun/isFunPickerEnabled.js';
-
-export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
-  Pick<
-    EmojiPickerProps,
-    'onClickSettings' | 'onPickEmoji' | 'onEmojiSkinToneDefaultChange'
-  > & {
-    ref: React.Ref<HTMLDivElement>;
-  };
 
 export type OwnProps = {
   i18n: LocalizerType;
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
-  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
-  openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: ReadonlyArray<string>;
-  renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
   theme?: ThemeType;
   messageEmojis?: ReadonlyArray<EmojiVariantKey>;
 };
@@ -48,10 +33,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       i18n,
       onClose,
       onPick,
-      onEmojiSkinToneDefaultChange,
-      openCustomizePreferredReactionsModal,
       preferredReactionEmoji,
-      renderEmojiPicker,
       selected,
       style,
       theme,
@@ -80,14 +62,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       setEmojiPickerOpen(open);
     }, []);
 
-    // Handle EmojiPicker::onPickEmoji
-    const onPickEmoji: EmojiPickerProps['onPickEmoji'] = React.useCallback(
-      ({ shortName, skinTone: pickedSkinTone }) => {
-        onPick(convertShortName(shortName, pickedSkinTone));
-      },
-      [onPick]
-    );
-
     const onSelectEmoji = useCallback(
       (emojiSelection: FunEmojiSelection) => {
         const variant = getEmojiVariantByKey(emojiSelection.variantKey);
@@ -98,17 +72,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
 
     // Focus first button and restore focus on unmount
     const [focusRef] = useDelayedRestoreFocus();
-
-    if (!isFunPickerEnabled() && emojiPickerOpen) {
-      return renderEmojiPicker({
-        onClickSettings: openCustomizePreferredReactionsModal,
-        onClose,
-        onPickEmoji,
-        onEmojiSkinToneDefaultChange,
-        ref,
-        style,
-      });
-    }
 
     const otherSelected =
       selected != null && !preferredReactionEmoji.includes(selected);
@@ -149,32 +112,20 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
             title={i18n('icu:Reactions--remove')}
           />
         ) : (
-          <>
-            {isFunPickerEnabled() && (
-              <FunEmojiPicker
-                open={emojiPickerOpen}
-                onOpenChange={handleFunEmojiPickerOpenChange}
-                onSelectEmoji={onSelectEmoji}
-                theme={theme}
-                showCustomizePreferredReactionsButton
-                closeOnSelect
-                messageEmojis={messageEmojis}
-              >
-                <Button
-                  aria-label={i18n('icu:Reactions--more')}
-                  className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
-                />
-              </FunEmojiPicker>
-            )}
-            {!isFunPickerEnabled() && (
-              <ReactionPickerPickerMoreButton
-                i18n={i18n}
-                onClick={() => {
-                  setEmojiPickerOpen(true);
-                }}
-              />
-            )}
-          </>
+          <FunEmojiPicker
+            open={emojiPickerOpen}
+            onOpenChange={handleFunEmojiPickerOpenChange}
+            onSelectEmoji={onSelectEmoji}
+            theme={theme}
+            showCustomizePreferredReactionsButton
+            closeOnSelect
+            messageEmojis={messageEmojis}
+          >
+            <Button
+              aria-label={i18n('icu:Reactions--more')}
+              className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
+            />
+          </FunEmojiPicker>
         )}
       </ReactionPickerPicker>
     );

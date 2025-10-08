@@ -83,10 +83,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
 
   const handleSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      onUseEmoji({
-        shortName: emojiSelection.englishShortName,
-        skinTone: emojiSelection.skinTone,
-      });
+      onUseEmoji(emojiSelection);
     },
     [onUseEmoji]
   );

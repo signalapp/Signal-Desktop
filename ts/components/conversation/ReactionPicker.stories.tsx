@@ -6,28 +6,9 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props as ReactionPickerProps } from './ReactionPicker.js';
 import { ReactionPicker } from './ReactionPicker.js';
-import { EmojiPicker } from '../emoji/EmojiPicker.js';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants.js';
-import { EmojiSkinTone } from '../fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
-
-const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
-  onClose,
-  onPickEmoji,
-  onEmojiSkinToneDefaultChange,
-  ref,
-}) => (
-  <EmojiPicker
-    i18n={i18n}
-    emojiSkinToneDefault={EmojiSkinTone.None}
-    ref={ref}
-    onClose={onClose}
-    onPickEmoji={onPickEmoji}
-    onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-    wasInvokedFromKeyboard={false}
-  />
-);
 
 export default {
   title: 'Components/Conversation/ReactionPicker',
@@ -38,12 +19,7 @@ export function Base(): JSX.Element {
     <ReactionPicker
       i18n={i18n}
       onPick={action('onPick')}
-      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
-      openCustomizePreferredReactionsModal={action(
-        'openCustomizePreferredReactionsModal'
-      )}
       preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
-      renderEmojiPicker={renderEmojiPicker}
     />
   );
 }
@@ -57,14 +33,7 @@ export function SelectedReaction(): JSX.Element {
             i18n={i18n}
             selected={e}
             onPick={action('onPick')}
-            onEmojiSkinToneDefaultChange={action(
-              'onEmojiSkinToneDefaultChange'
-            )}
-            openCustomizePreferredReactionsModal={action(
-              'openCustomizePreferredReactionsModal'
-            )}
             preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
-            renderEmojiPicker={renderEmojiPicker}
           />
         </div>
       ))}

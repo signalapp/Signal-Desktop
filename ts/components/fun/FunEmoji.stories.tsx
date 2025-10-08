@@ -8,7 +8,7 @@ import type { FunStaticEmojiProps } from './FunEmoji.js';
 import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.js';
 import {
   _getAllEmojiVariantKeys,
-  emojiVariantConstant,
+  EMOJI_VARIANT_KEY_CONSTANTS,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
@@ -121,6 +121,10 @@ export function All(props: AllProps): JSX.Element {
   );
 }
 
+const FRIED_SHRIMP = getEmojiVariantByKey(
+  EMOJI_VARIANT_KEY_CONSTANTS.FRIED_SHRIMP
+);
+
 export function Inline(): JSX.Element {
   return (
     <div style={{ userSelect: 'none' }}>
@@ -128,7 +132,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={emojiVariantConstant('\u{1F364}')}
+          emoji={FRIED_SHRIMP}
         />{' '}
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
         voluptates, mollitia tempora alias libero repudiandae nesciunt. Deleniti
@@ -137,7 +141,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={emojiVariantConstant('\u{1F364}')}
+          emoji={FRIED_SHRIMP}
         />{' '}
         Consectetur quibusdam accusantium magni ipsum nemo eligendi quisquam
         dolor, recusandae vero dolore reiciendis doloribus ducimus officiis
@@ -146,7 +150,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={emojiVariantConstant('\u{1F364}')}
+          emoji={FRIED_SHRIMP}
         />
       </p>
     </div>

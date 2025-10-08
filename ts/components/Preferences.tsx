@@ -40,7 +40,7 @@ import { assertDev } from '../util/assert.js';
 import { I18n } from './I18n.js';
 import { FunSkinTonesList } from './fun/FunSkinTones.js';
 import {
-  emojiParentKeyConstant,
+  EMOJI_PARENT_KEY_CONSTANTS,
   type EmojiSkinTone,
 } from './fun/data/emojis.js';
 import {
@@ -1154,8 +1154,7 @@ export function Preferences({
               right={
                 <FunSkinTonesList
                   i18n={i18n}
-                  // Raised Hand
-                  emoji={emojiParentKeyConstant('\u{270B}')}
+                  emoji={EMOJI_PARENT_KEY_CONSTANTS.RAISED_HAND}
                   skinTone={emojiSkinToneDefault}
                   onSelectSkinTone={onEmojiSkinToneDefaultChange}
                 />

@@ -688,5 +688,8 @@
       "!node_modules/.cache",
       "sticker-creator/dist/**"
     ]
+  },
+  "volta": {
+    "node": "22.18.0"
   }
 }

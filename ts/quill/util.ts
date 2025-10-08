@@ -16,7 +16,11 @@ import type { EmojiBlot } from './emoji/blot.js';
 import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu.js';
 import { isNotNil } from '../util/isNotNil.js';
 import type { AciString } from '../types/ServiceId.js';
-import { emojiToData } from '../components/emoji/lib.js';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../components/fun/data/emojis.js';
 
 export type Matcher = (
   node: HTMLElement,
@@ -458,15 +462,17 @@ export const insertEmojiOps = (
 
       // eslint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
-        const [emoji] = match;
-        const emojiData = emojiToData(emoji);
-        if (emojiData) {
+        const [emojiMatch] = match;
+        if (isEmojiVariantValue(emojiMatch)) {
+          const variantKey = getEmojiVariantKeyByValue(emojiMatch);
+          const variant = getEmojiVariantByKey(variantKey);
+
           ops.push({ insert: text.slice(index, match.index), attributes });
           ops.push({
-            insert: { emoji: { value: emoji } },
+            insert: { emoji: { value: variant.value } },
             attributes: { ...existingAttributes, ...attributes },
           });
-          index = match.index + emoji.length;
+          index = match.index + variant.value.length;
         }
       }
 

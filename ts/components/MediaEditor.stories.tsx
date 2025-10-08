@@ -7,7 +7,6 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor.js';
 import { MediaEditor } from './MediaEditor.js';
-import { Stickers, installedPacks } from '../test-helpers/getStickerPacks.js';
 import { EmojiSkinTone } from './fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
@@ -24,15 +23,13 @@ export default {
     i18n,
     imageToBlurHash: input => Promise.resolve(input.toString()),
     imageSrc: IMAGE_2,
-    installedPacks,
     isFormattingEnabled: true,
     isSending: false,
     onClose: action('onClose'),
     onDone: action('onDone'),
-    onPickEmoji: action('onPickEmoji'),
+    onSelectEmoji: action('onSelectEmoji'),
     onTextTooLong: action('onTextTooLong'),
     platform: 'darwin',
-    recentStickers: [Stickers.wide, Stickers.tall, Stickers.abe],
     emojiSkinToneDefault: EmojiSkinTone.None,
   },
 } satisfies Meta<PropsType>;

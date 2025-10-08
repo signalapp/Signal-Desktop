@@ -7,7 +7,6 @@ import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
 import type { LocalizerType } from '../types/Util.js';
 
 export type Props = {
-  hasInstalledStickers: boolean;
   platform: string;
   readonly close: () => unknown;
   readonly i18n: LocalizerType;
@@ -363,7 +362,7 @@ function getCallingShortcuts(i18n: LocalizerType): Array<ShortcutType> {
 }
 
 export function ShortcutGuide(props: Props): JSX.Element {
-  const { i18n, close, hasInstalledStickers, platform } = props;
+  const { i18n, close, platform } = props;
   const isMacOS = platform === 'darwin';
 
   // Restore focus on teardown
@@ -395,13 +394,6 @@ export function ShortcutGuide(props: Props): JSX.Element {
             </div>
             <div className="module-shortcut-guide__section-list">
               {getNavigationShortcuts(i18n).map((shortcut, index) => {
-                if (
-                  !hasInstalledStickers &&
-                  shortcut.description === 'Keyboard--open-sticker-chooser'
-                ) {
-                  return null;
-                }
-
                 return renderShortcut(shortcut, index, isMacOS, i18n);
               })}
             </div>

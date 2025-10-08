@@ -20,10 +20,6 @@ import {
   getPlatform,
   getUserConversationId,
 } from '../selectors/user.js';
-import {
-  getInstalledStickerPacks,
-  getRecentStickers,
-} from '../selectors/stickers.js';
 import { getAddStoryData } from '../selectors/stories.js';
 import { getLinkPreview } from '../selectors/linkPreviews.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
@@ -39,9 +35,7 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
 import { useComposerActions } from '../ducks/composer.js';
 import { useConversationsActions } from '../ducks/conversations.js';
 import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useItemsActions } from '../ducks/items.js';
 import { useLinkPreviewActions } from '../ducks/linkPreviews.js';
-import { useRecentEmojis } from '../selectors/emojis.js';
 import { useStoriesActions } from '../ducks/stories.js';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.js';
 
@@ -78,10 +72,8 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   const groupStories = useSelector(getGroupStories);
   const hasSetMyStoriesPrivacy = useSelector(getHasSetMyStoriesPrivacy);
   const i18n = useSelector(getIntl);
-  const installedPacks = useSelector(getInstalledStickerPacks);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const me = useSelector(getMe);
-  const recentStickers = useSelector(getRecentStickers);
   const signalConnections = useSelector(getAllSignalConnections);
   const mostRecentActiveStoryTimestampByGroupOrDistributionList = useSelector(
     selectMostRecentActiveStoryTimestampByGroupOrDistributionList
@@ -97,13 +89,10 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
     file = addStoryData.file as File;
   }
 
-  const recentEmojis = useRecentEmojis();
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
-  const { setEmojiSkinToneDefault } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
   const { onTextTooLong } = useComposerActions();
-  const { onUseEmoji: onPickEmoji } = useEmojisActions();
 
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const platform = useSelector(getPlatform);
@@ -124,7 +113,6 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       hasFirstStoryPostExperience={!hasSetMyStoriesPrivacy}
       i18n={i18n}
       imageToBlurHash={imageToBlurHash}
-      installedPacks={installedPacks}
       isFormattingEnabled={isFormattingEnabled}
       isSending={isSending}
       linkPreview={linkPreview}
@@ -137,20 +125,16 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
-      onPickEmoji={onPickEmoji}
+      onSelectEmoji={onUseEmoji}
       onRemoveMembers={removeMembersFromDistributionList}
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
-      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={onTextTooLong}
-      onUseEmoji={onUseEmoji}
       onViewersUpdated={updateStoryViewers}
       ourConversationId={ourConversationId}
       platform={platform}
       processAttachment={processAttachment}
-      recentEmojis={recentEmojis}
-      recentStickers={recentStickers}
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}

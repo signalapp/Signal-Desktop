@@ -47,7 +47,6 @@ import type { LocalizerType } from '../types/Util.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { CallingToastProvider } from './CallingToast.js';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker.js';
-import type { Props as ReactionPickerProps } from './conversation/ReactionPicker.js';
 import { createLogger } from '../logging/log.js';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.js';
@@ -154,7 +153,7 @@ export type PropsType = {
   toggleSelfViewExpanded: () => unknown;
   toggleSettings: () => void;
   pauseVoiceNotePlayer: () => void;
-} & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
+};
 
 type ActiveCallManagerPropsType = {
   activeCall: ActiveCallType;
@@ -194,7 +193,6 @@ function ActiveCallManager({
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
-  renderEmojiPicker,
   renderReactionPicker,
   removeClient,
   selectPresentingSource,
@@ -478,7 +476,6 @@ function ActiveCallManager({
         isCallLinkAdmin={isCallLinkAdmin}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
-        renderEmojiPicker={renderEmojiPicker}
         renderReactionPicker={renderReactionPicker}
         sendGroupCallRaiseHand={sendGroupCallRaiseHand}
         sendGroupCallReaction={sendGroupCallReaction}
@@ -571,7 +568,6 @@ export function CallManager({
   playRingtone,
   removeClient,
   renderDeviceSelection,
-  renderEmojiPicker,
   renderReactionPicker,
   ringingCall,
   selectPresentingSource,
@@ -689,7 +685,6 @@ export function CallManager({
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
           removeClient={removeClient}
           renderDeviceSelection={renderDeviceSelection}
-          renderEmojiPicker={renderEmojiPicker}
           renderReactionPicker={renderReactionPicker}
           selectPresentingSource={selectPresentingSource}
           sendGroupCallRaiseHand={sendGroupCallRaiseHand}

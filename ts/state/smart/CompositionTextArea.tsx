@@ -38,7 +38,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   const platform = useSelector(getPlatform);
   const ourConversationId = useSelector(getUserConversationId);
 
-  const { onUseEmoji: onPickEmoji } = useEmojiActions();
+  const { onUseEmoji } = useEmojiActions();
   const { setEmojiSkinToneDefault } = useItemsActions();
   const { onTextTooLong } = useComposerActions();
 
@@ -53,7 +53,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
       i18n={i18n}
       isActive
       isFormattingEnabled={isFormattingEnabled}
-      onPickEmoji={onPickEmoji}
+      onSelectEmoji={onUseEmoji}
       onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={onTextTooLong}
       platform={platform}

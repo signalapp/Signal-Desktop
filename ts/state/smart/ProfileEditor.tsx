@@ -7,11 +7,9 @@ import type { MutableRefObject } from 'react';
 
 import { ProfileEditor } from '../../components/ProfileEditor.js';
 import { useConversationsActions } from '../ducks/conversations.js';
-import { useItemsActions } from '../ducks/items.js';
 import { useToastActions } from '../ducks/toast.js';
 import { useUsernameActions } from '../ducks/username.js';
 import { getMe, getProfileUpdateError } from '../selectors/conversations.js';
-import { selectRecentEmojis } from '../selectors/emojis.js';
 import {
   getEmojiSkinToneDefault,
   getHasCompletedUsernameLinkOnboarding,
@@ -58,7 +56,6 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
     getHasCompletedUsernameLinkOnboarding
   );
   const hasError = useSelector(getProfileUpdateError);
-  const recentEmojis = useSelector(selectRecentEmojis);
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const usernameCorrupted = useSelector(getUsernameCorrupted);
   const usernameEditState = useSelector(getUsernameEditState);
@@ -84,7 +81,6 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
     deleteUsername,
   } = useUsernameActions();
   const { showToast } = useToastActions();
-  const { setEmojiSkinToneDefault } = useItemsActions();
   const { changeLocation } = useNavActions();
 
   let errorDialog: JSX.Element | undefined;
@@ -139,10 +135,8 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
           markCompletedUsernameLinkOnboarding
         }
         onProfileChanged={myProfileChanged}
-        onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
         openUsernameReservationModal={openUsernameReservationModal}
         profileAvatarUrl={profileAvatarUrl}
-        recentEmojis={recentEmojis}
         renderUsernameEditor={renderUsernameEditor}
         replaceAvatar={replaceAvatar}
         resetUsernameLink={resetUsernameLink}

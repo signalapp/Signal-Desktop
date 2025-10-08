@@ -13,16 +13,13 @@ import lodash from 'lodash';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { LocalizerType } from '../types/Util.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
-import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
 import type { InputApi } from './CompositionInput.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import type { RenderEmojiPickerProps } from './conversation/ReactionPicker.js';
 import type { ReplyType, StorySendStateType } from '../types/Stories.js';
 import { StoryViewTargetType } from '../types/Stories.js';
 import { Avatar, AvatarSize } from './Avatar.js';
 import { CompositionInput } from './CompositionInput.js';
 import { ContactName } from './conversation/ContactName.js';
-import { EmojiButton } from './emoji/EmojiButton.js';
 import { Emojify } from './conversation/Emojify.js';
 import { Message, TextDirection } from './conversation/Message.js';
 import { MessageTimestamp } from './conversation/MessageTimestamp.js';
@@ -37,7 +34,6 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.js';
 import { ContextMenu } from './ContextMenu.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
 import type { EmojiSkinTone } from './fun/data/emojis.js';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
 import { FunEmojiPickerButton } from './fun/FunButton.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
@@ -113,13 +109,10 @@ export type PropsType = {
     bodyRanges: DraftBodyRanges,
     timestamp: number
   ) => unknown;
-  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   onTextTooLong: () => unknown;
-  onUseEmoji: (_: EmojiPickDataType) => unknown;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => unknown;
   ourConversationId: string | undefined;
   preferredReactionEmoji: ReadonlyArray<string>;
-  recentEmojis?: ReadonlyArray<string>;
-  renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
   showContactModal: (contactId: string, conversationId?: string) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
@@ -145,13 +138,10 @@ export function StoryViewsNRepliesModal({
   onClose,
   onReact,
   onReply,
-  onEmojiSkinToneDefaultChange,
   onTextTooLong,
-  onUseEmoji,
+  onSelectEmoji,
   ourConversationId,
   preferredReactionEmoji,
-  recentEmojis,
-  renderEmojiPicker,
   replies,
   showContactModal,
   emojiSkinToneDefault,
@@ -203,32 +193,11 @@ export function StoryViewsNRepliesModal({
     setEmojiPickerOpen(open);
   }, []);
 
-  const focusComposer = useCallback(() => {
+  const handleSelectEmoji = useCallback((emojiSelection: FunEmojiSelection) => {
     if (inputApiRef.current) {
-      inputApiRef.current.focus();
+      inputApiRef.current.insertEmoji(emojiSelection);
     }
-  }, [inputApiRef]);
-
-  const insertEmoji = useCallback(
-    (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onUseEmoji(e);
-      }
-    },
-    [inputApiRef, onUseEmoji]
-  );
-
-  const handleSelectEmoji = useCallback(
-    (emojiSelection: FunEmojiSelection) => {
-      const data: EmojiPickDataType = {
-        shortName: emojiSelection.englishShortName,
-        skinTone: emojiSelection.skinTone,
-      };
-      insertEmoji(data);
-    },
-    [insertEmoji]
-  );
+  }, []);
 
   let composerElement: JSX.Element | undefined;
 
@@ -271,9 +240,7 @@ export function StoryViewsNRepliesModal({
             }
             onReact(emoji);
           }}
-          onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
           preferredReactionEmoji={preferredReactionEmoji}
-          renderEmojiPicker={renderEmojiPicker}
           theme={ThemeType.dark}
         />
         <div className="StoryViewsNRepliesModal__compose-container">
@@ -290,7 +257,7 @@ export function StoryViewsNRepliesModal({
               onEditorStateChange={({ messageText }) => {
                 setMessageBodyText(messageText);
               }}
-              onPickEmoji={onUseEmoji}
+              onSelectEmoji={onSelectEmoji}
               onSubmit={(...args) => {
                 inputApiRef.current?.reset();
                 shouldScrollToBottomRef.current = true;
@@ -318,29 +285,16 @@ export function StoryViewsNRepliesModal({
               shouldHidePopovers={null}
               linkPreviewResult={null}
             >
-              {!isFunPickerEnabled() && (
-                <EmojiButton
-                  className="StoryViewsNRepliesModal__emoji-button"
-                  i18n={i18n}
-                  onPickEmoji={insertEmoji}
-                  onClose={focusComposer}
-                  recentEmojis={recentEmojis}
-                  emojiSkinToneDefault={emojiSkinToneDefault}
-                  onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-                />
-              )}
-              {isFunPickerEnabled() && (
-                <FunEmojiPicker
-                  open={emojiPickerOpen}
-                  onOpenChange={handleEmojiPickerOpenChange}
-                  onSelectEmoji={handleSelectEmoji}
-                  placement="top"
-                  theme={ThemeType.dark}
-                  closeOnSelect={false}
-                >
-                  <FunEmojiPickerButton i18n={i18n} />
-                </FunEmojiPicker>
-              )}
+              <FunEmojiPicker
+                open={emojiPickerOpen}
+                onOpenChange={handleEmojiPickerOpenChange}
+                onSelectEmoji={handleSelectEmoji}
+                placement="top"
+                theme={ThemeType.dark}
+                closeOnSelect={false}
+              >
+                <FunEmojiPickerButton i18n={i18n} />
+              </FunEmojiPicker>
             </CompositionInput>
           </div>
         </div>

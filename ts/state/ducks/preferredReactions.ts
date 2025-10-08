@@ -10,11 +10,13 @@ import { replaceIndex } from '../../util/replaceIndex.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
 import type { StateType as RootStateType } from '../reducer.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../../reactions/constants.js';
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.js';
 import { getEmojiSkinToneDefault } from '../selectors/items.js';
-import { convertShortName } from '../../components/emoji/lib.js';
-import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+import {
+  EmojiSkinTone,
+  getEmojiVariantByParentKeyAndSkinTone,
+} from '../../components/fun/data/emojis.js';
 
 const { omit } = lodash;
 
@@ -295,9 +297,13 @@ export function reducer(
         customizePreferredReactionsModal: {
           ...state.customizePreferredReactionsModal,
           draftPreferredReactions:
-            DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
-              convertShortName(shortName, emojiSkinTone)
-            ),
+            DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.map(parentKey => {
+              const variant = getEmojiVariantByParentKeyAndSkinTone(
+                parentKey,
+                emojiSkinTone
+              );
+              return variant.value;
+            }),
           selectedDraftEmojiIndex: undefined,
         },
       };

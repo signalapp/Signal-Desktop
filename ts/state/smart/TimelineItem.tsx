@@ -33,7 +33,6 @@ import { SmartContactName } from './ContactName.js';
 import { SmartUniversalTimerNotification } from './UniversalTimerNotification.js';
 import { isSameDay } from '../../util/timestamp.js';
 import { renderAudioAttachment } from './renderAudioAttachment.js';
-import { renderEmojiPicker } from './renderEmojiPicker.js';
 import { renderReactionPicker } from './renderReactionPicker.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.js';
 
@@ -188,7 +187,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       isTargeted={isTargeted}
       renderAudioAttachment={renderAudioAttachment}
       renderContact={renderContact}
-      renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
       renderUniversalTimerNotification={renderUniversalTimerNotification}
       shouldCollapseAbove={shouldCollapseAbove}

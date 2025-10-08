@@ -193,10 +193,8 @@ function renderProfileEditor({
         'markCompletedUsernameLinkOnboarding'
       )}
       onProfileChanged={action('onProfileChanged')}
-      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       openUsernameReservationModal={action('openUsernameReservationModal')}
       profileAvatarUrl={undefined}
-      recentEmojis={[]}
       renderUsernameEditor={() => <div />}
       replaceAvatar={action('replaceAvatar')}
       resetUsernameLink={action('resetUsernameLink')}
