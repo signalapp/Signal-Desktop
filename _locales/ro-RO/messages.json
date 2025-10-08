@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Introdu un nume de utilizator urmat de un punct și setul său de cifre."
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Prefixul țării"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Marchează ca necitit"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Selectează mesaje"
@@ -1041,31 +1068,31 @@
     "messageformat": "Informații"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Sondaj · Selectează unul"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Sondaj · Selectează unul sau mai multe"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Sondaj · Rezultate finale"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Vezi voturile"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Ai votat"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Detaliile sondajului"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Întrebare"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} Vot} few {{count,number} Voturi} other {{count,number} de Voturi}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Niciun vot"
   },
   "icu:deleteConversation": {
     "messageformat": "Șterge"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Utilizate Recent"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Rezultatele căutării"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Persoanele tale de contact vor putea să te adauge în acest grup."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblochează"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Media și fișiere"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește abonamentul, pentru a continua să utilizezi Backup-uri securizate Signal."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/lună"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Nu sunt chitanțe"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detalii"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Descarcă chitanța"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "Această actualizare introduce noi optimizări de performanță pentru a îmbunătăți durata de viață a bateriei, astfel încât vei avea mai multă energie disponibilă pentru conversații încărcate emoțional."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Chiar la timp pentru toamnă, noul emoji „Copac fără frunze” {leaflessTreeEmoji} (împreună cu celelalte șase emoji noi din Unicode 16.0) este acum compatibil cu Signal Desktop."
   }
 }

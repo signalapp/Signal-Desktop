@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "ユーザーネームの後ろに「.（ドット）」と、対になる数字を入力してください。"
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "国番号"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "未読にする"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "メッセージの選択"
@@ -1041,31 +1068,31 @@
     "messageformat": "詳細"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "1つ選んで投票してください"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "1つ以上選んで投票してください"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "最終投票結果"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "投票結果を表示する"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "あなたは投票済みです"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "投票の詳細"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "質問"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number}人が投票}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "投票なし"
   },
   "icu:deleteConversation": {
     "messageformat": "消去"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "検索結果"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "連絡先からこのグループに追加することができます。"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ブロックを解除"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "メディアとファイル"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalセキュアバックアップを引き続き使用するには、更新してください。"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/月"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {テキストと{mediaDayCount,number} 日間のメディアのバックアップ}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "領収書なし"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "詳細"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "領収書をダウンロードする"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "今回のアップデートでは、バッテリー持ちを上げる新しいパフォーマンス最適化を導入しました。"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktopが、7つの新しい絵文字に対応しました。"
   }
 }

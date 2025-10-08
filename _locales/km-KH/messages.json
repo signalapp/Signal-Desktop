@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "បញ្ចូលឈ្មោះអ្នកប្រើ រួចសញ្ញាចុចមួយ និងលេខពីរខ្ទង់។"
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "កូដប្រទេស"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "ដាក់ថាមិនបានអាន"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ជ្រើសរើសសារ"
@@ -1041,31 +1068,31 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ ឬច្រើន"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "ការស្ទង់មតិ · លទ្ធផលចុងក្រោយ"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "មើលការបោះឆ្នោត"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "អ្នកបានបោះឆ្នោត"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ព័ត៌មានលម្អិតអំពីការស្ទង់មតិ"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "សំណួរ"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} សំឡេង}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "លទ្ធផលស្វែងរក"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "ឈ្មោះទំនាក់ទំនងរបស់អ្នកនឹងអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះបាន។"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ឈប់ទប់ស្កាត់"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "មេឌៀ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុកសុវត្ថិភាព Signal។"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ខែ"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {សារជាអក្សរ + ការបម្រុងទុកមេឌៀ {mediaDayCount,number} ថ្ងៃ}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "មិនមានបង្កាន់ដៃ"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "លម្អិត"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "ទាញយកបង្កាន់ដៃ"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "កំណែថ្មីនេះដាក់ឱ្យប្រើប្រាស់នូវការបង្កើនប្រសិទ្ធភាពថ្មីទៅលើការដំណើរការ ដើម្បីជួយបង្កើនអាយុកាលរបស់ថ្ម ដើម្បីឱ្យអ្នកនៅសល់ថ្មច្រើនទៀតសម្រាប់ការសន្ទនាដែលស៊ីអារម្មណ៍។"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "ទាន់ពេលល្មមសម្រាប់រដូវស្លឹកឈើជ្រុះ រូបអារម្មណ៍ \"ដើមឈើគ្មានស្លឹក\" {leaflessTreeEmoji} (រួមជាមួយរូបអារម្មណ៍ថ្មី 6 ផ្សេងទៀតនៅក្នុងយូនីកូដ 16.0) ឥឡូវនេះប្រើបាននៅក្នុង Signal Desktop ហើយ។"
   }
 }

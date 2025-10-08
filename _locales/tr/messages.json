@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Bir kullanıcı adı ve ardından bir nokta ve sayı kümesi gir."
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Ülke kodu"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Okunmadı olarak işaretle"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Mesajları seç"
@@ -1041,31 +1068,31 @@
     "messageformat": "Bilgi"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Anket · Birini seç"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Anket · Bir veya daha fazlasını seç"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Anket · Nihai sonuçlar"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Oyları görüntüle"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Oyladın"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Anket detayları"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Soru"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} oy} other {{count,number} oy}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Oy yok"
   },
   "icu:deleteConversation": {
     "messageformat": "Sil"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Yakınlarda Kullanılmış"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Arama Sonuçları"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Kişilerin seni bu gruba ekleyebilir."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Engeli kaldır"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Medya ve dosyalar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "Aboneliğin bulunamadı. Signal Güvenli Yedeklemeleri kullanmaya devam etmek için yenile."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/ay"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Metin + {mediaDayCount,number} günlük medya yedeklemesi} other {Metin + {mediaDayCount,number} günlük medya yedeklemesi}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Alıcı yok"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detaylar"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Makbuz indir"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "Bu güncelleme, pil ömrünü iyileştirmeye yardımcı olmak için yeni performans optimizasyonları sunmaktadır."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Signal Desktop şimdi yedi adet yeni emoji karakterini destekliyor."
   }
 }

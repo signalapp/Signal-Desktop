@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "輸入用戶名稱，後面加一點同埋指定嘅配對數字。"
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "國碼"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "標記做未讀"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "揀選訊息"
@@ -1041,31 +1068,31 @@
     "messageformat": "詳細"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "投票 · 揀一項"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "投票 · 揀一項或者多項"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "投票 · 最後結果"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "睇吓投票"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "你投咗呢項"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "投票詳情"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "發問"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, other {{count,number} 個投票}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "未有人投票"
   },
   "icu:deleteConversation": {
     "messageformat": "刪除"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "最近用過"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "搵到嘅結果"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "您嘅聯絡人可以將您加入呢個群組。"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "解除封鎖"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "媒體同檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "搵唔到你嘅課金計劃。即刻續期嚟繼續用「Signal 安全備份」。"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "每月 {cost}"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {備份文字訊息 + {mediaDayCount,number} 日嘅媒體}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "冇收據"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "詳情"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "下載收據"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "呢次更新引入咗新嘅效能優化，幫助改善電池壽命。咁樣即使要同人傾密計都唔怕咁快無電啦。"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "秋風起啦，Signal 桌面版而家支援新嘅「無葉樹」表情符號{leaflessTreeEmoji} （同埋 Unicode 16.0 入面其他六個新嘅表情符號）。"
   }
 }

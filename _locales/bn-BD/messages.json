@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "একটি ব্যবহারকারীর নামের পরে একটি ডট ও একগুচ্ছ সংখ্যা লিখুন।"
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "দেশ কোড"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "পড়া হয়নি হিসাবে চিহ্নিত করুন"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ম্যাসেজ নির্বাচন করুন"
@@ -1041,31 +1068,31 @@
     "messageformat": "তথ্য"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "জরিপ · একটি বেছে নিন"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "জরিপ · এক বা একাধিক বেছে নিন"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "জরিপ · চূড়ান্ত ফলাফল"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "ভোট দেখুন"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "আপনি ভোট দিয়েছেন"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "ভোটের বিস্তারিত"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "প্রশ্ন"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number}টি ভোট} other {{count,number}টি ভোট}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "কোনো ভোট নেই"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "অনুসন্ধানের ফলাফল"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "আপনার কন্টাক্টরা আপনাকে এই গ্ৰুপে যোগ করতে পারবেন।"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "আনব্লক করুন"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "মিডিয়া ও ফাইল"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "আপনার সাবস্ক্রিপশন পাওয়া যায়নি। Signal নিরাপদ ব্যাকআপ ব্যবহার চালিয়ে যেতে নবায়ন করুন।"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/মাস"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ} other {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "রিসিপ্ট নেই"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "বিস্তারিত"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "রিসিপ্ট ডাউনলোড করুন"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "এই আপডেটে ব্যাটারির আয়ু বৃদ্ধি করতে নতুন পারফরম্যান্স অপ্টিমাইজেশন প্রবর্তন করা হয়েছে।"
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "শরৎ শুরুর ঠিক আগে, নতুন \"পাতাবিহীন গাছ\" ইমোজি {leaflessTreeEmoji} (Unicode 16.0-এর অন্যান্য ছয়টি নতুন ইমোজির পাশাপাশি) এখন Signal Desktop-এ সমর্থিত হচ্ছে।"
   }
 }

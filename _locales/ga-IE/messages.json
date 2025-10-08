@@ -281,6 +281,30 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Cuir isteach ainm úsáideora agus ponc, agus an tacar uimhreacha ina dhiaidh sin."
   },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "All"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "All chats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Mark all read"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Mute notifications"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Unmute all"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Cód Tíre"
   },
@@ -331,6 +355,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Sainigh mar neamhléite"
+  },
+  "icu:markRead": {
+    "messageformat": "Mark read"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Roghnaigh teachtaireachtaí"
@@ -1041,31 +1068,31 @@
     "messageformat": "Eolas"
   },
   "icu:PollMessage--SelectOne": {
-    "messageformat": "Poll · Select one"
+    "messageformat": "Suirbhé · Roghnaigh ceann amháin"
   },
   "icu:PollMessage--SelectMultiple": {
-    "messageformat": "Poll · Select one or more"
+    "messageformat": "Suirbhé · Roghnaigh ceann amháin nó tuilleadh"
   },
   "icu:PollMessage--FinalResults": {
-    "messageformat": "Poll · Final results"
+    "messageformat": "Suirbhé · Torthaí deiridh"
   },
   "icu:PollMessage__ViewVotesButton": {
-    "messageformat": "View votes"
+    "messageformat": "Féach ar na vótaí"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "You voted"
+    "messageformat": "Chaith tú vóta"
   },
   "icu:PollVotesModal__title": {
-    "messageformat": "Poll details"
+    "messageformat": "Sonraí an tsuirbhé"
   },
   "icu:PollVotesModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Ceist"
   },
   "icu:PollVotesModal__voteCount": {
-    "messageformat": "{count, plural, one {{count,number} vote} other {{count,number} votes}}"
+    "messageformat": "{count, plural, one {{count,number} Vóta} two {{count,number} Vóta} few {{count,number} Vóta} many {{count,number} Vóta} other {{count,number} Vóta}}"
   },
   "icu:PollVotesModal__noVotes": {
-    "messageformat": "No votes"
+    "messageformat": "Níl Aon Vótaí Ann"
   },
   "icu:deleteConversation": {
     "messageformat": "Scrios"
@@ -2593,6 +2620,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Úsáidte le Déanaí"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Add a sticker pack"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Torthaí Cuardaigh"
@@ -4478,6 +4508,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Beidh do theagmhálaithe in ann thú a chur leis an ngrúpa seo."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Your contacts will be able to add you to this group."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Bain an bac"
   },
@@ -4485,7 +4518,7 @@
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files"
+    "messageformat": "Meáin agus comhaid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
@@ -5340,7 +5373,7 @@
     "messageformat": "Ní bhfuarthas do shíntiús. Athnuaigh le leanúint le Cúltacaí Slána Signal a úsáid."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
-    "messageformat": "{cost} / month"
+    "messageformat": "{cost}/mí"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Téacs + {mediaDayCount,number} lá de chúltaca meán} two {Téacs + {mediaDayCount,number} lá de chúltaca meán} few {Téacs + {mediaDayCount,number} lá de chúltaca meán} many {Téacs + {mediaDayCount,number} lá de chúltaca meán} other {Téacs + {mediaDayCount,number} lá de chúltaca meán}}"
@@ -6732,9 +6765,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Níl aon admhálacha ann"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Mionsonraí"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Íoslódáil admháil"
   },
@@ -6968,6 +6998,6 @@
     "messageformat": "Tugtar isteach leis an nuashonrú seo optamú nua feidhmiúcháin mar chabhair le saolré an cheallra a fheabhsú, ionas go mbeadh luchtú breise agat do chomhráite mothúchánacha."
   },
   "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop."
+    "messageformat": "Tacaíonn Signal Desktop le seacht gcarachtar nua emoji."
   }
 }
