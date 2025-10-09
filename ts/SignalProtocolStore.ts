@@ -2386,7 +2386,7 @@ export class SignalProtocolStore extends EventEmitter {
     serviceId: ServiceIdString,
     verifiedStatus: number,
     publicKey: Uint8Array
-  ): Promise<boolean> {
+  ): Promise<{ shouldAddVerifiedChangedMessage: boolean }> {
     strictAssert(
       validateVerifiedStatus(verifiedStatus),
       `Invalid verified status: ${verifiedStatus}`
@@ -2436,23 +2436,27 @@ export class SignalProtocolStore extends EventEmitter {
           }
         }
 
+        // We only want to show a notification if the key is the same as before
+        if (hadEntry && !keyMatches) {
+          return { shouldAddVerifiedChangedMessage: false };
+        }
+
         // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
         if (
           verifiedStatus === VerifiedStatus.VERIFIED &&
           (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
         ) {
-          // Needs a notification.
-          return true;
+          return { shouldAddVerifiedChangedMessage: true };
         }
         if (
           verifiedStatus !== VerifiedStatus.VERIFIED &&
           hadEntry &&
           identityRecord?.verified === VerifiedStatus.VERIFIED
         ) {
-          // Needs a notification.
-          return true;
+          return { shouldAddVerifiedChangedMessage: true };
         }
-        return false;
+
+        return { shouldAddVerifiedChangedMessage: false };
       }
     );
   }

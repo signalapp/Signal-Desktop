@@ -1512,11 +1512,12 @@ export async function mergeContactRecord(
     }
     const newVerified = fromRecordVerified(identityState);
 
-    const needsNotification = await signalProtocolStore.updateIdentityAfterSync(
-      serviceId,
-      newVerified,
-      contactRecord.identityKey
-    );
+    const { shouldAddVerifiedChangedMessage } =
+      await signalProtocolStore.updateIdentityAfterSync(
+        serviceId,
+        newVerified,
+        contactRecord.identityKey
+      );
 
     if (verified !== newVerified) {
       details.push(
@@ -1528,7 +1529,7 @@ export async function mergeContactRecord(
     }
 
     const VERIFIED_ENUM = signalProtocolStore.VerifiedStatus;
-    if (needsNotification) {
+    if (shouldAddVerifiedChangedMessage) {
       details.push('adding a verified notification');
       await conversation.addVerifiedChange(
         conversation.id,
