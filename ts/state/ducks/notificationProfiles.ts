@@ -28,6 +28,7 @@ import {
   prepareForDisabledNotificationProfileSync,
   prepareForEnabledNotificationProfileSync,
 } from '../../services/storageRecordOps.js';
+import { storageServiceUploadJob } from '../../services/storage.js';
 import { SECOND } from '../../util/durations/constants.js';
 
 import type {
@@ -155,7 +156,7 @@ const updateStorageService = debounce(
       return;
     }
 
-    window.Signal.Services.storage.storageServiceUploadJob({
+    storageServiceUploadJob({
       reason,
     });
   },

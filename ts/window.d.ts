@@ -24,7 +24,6 @@ import type {
 import type { Receipt } from './types/Receipt.js';
 import type { ConversationController } from './ConversationController.js';
 import type { ReduxActions } from './state/types.js';
-import type * as StorageService from './services/storage.js';
 import type { BatcherType } from './util/batcher.js';
 import type { ScreenShareStatus } from './types/Calling.js';
 import type { MessageCache } from './services/MessageCache.js';
@@ -133,9 +132,9 @@ export type SignalCoreType = {
   DebugLogWindowProps?: DebugLogWindowPropsType;
   PermissionsWindowProps?: PermissionsWindowPropsType;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
+  // Only for development
   Services: {
-    storage: typeof StorageService;
-    // Only for development
+    storage: unknown;
     backups: unknown;
     calling: unknown;
     donations: unknown;
