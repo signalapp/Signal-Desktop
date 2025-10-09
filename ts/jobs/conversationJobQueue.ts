@@ -36,7 +36,10 @@ import { missingCaseError } from '../util/missingCaseError.js';
 import { explodePromise } from '../util/explodePromise.js';
 import type { Job } from './Job.js';
 import type { ParsedJob, StoredJob } from './types.js';
-import type SendMessage from '../textsecure/SendMessage.js';
+import {
+  type MessageSender,
+  messageSender,
+} from '../textsecure/SendMessage.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.js';
 import { sleeper } from '../util/sleeper.js';
@@ -267,7 +270,7 @@ export type ConversationQueueJobData = z.infer<
 export type ConversationQueueJobBundle = {
   isFinalAttempt: boolean;
   log: LoggerType;
-  messaging: SendMessage;
+  messaging: MessageSender;
   shouldContinue: boolean;
   timeRemaining: number;
   timestamp: number;
@@ -914,13 +917,8 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       throw missingCaseError(verificationData);
     }
 
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('messaging interface is not available!');
-    }
-
     const jobBundle: ConversationQueueJobBundle = {
-      messaging,
+      messaging: messageSender,
       isFinalAttempt,
       shouldContinue,
       timeRemaining,

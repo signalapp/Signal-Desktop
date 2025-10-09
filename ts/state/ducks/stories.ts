@@ -33,10 +33,10 @@ import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SendStatus } from '../../messages/MessageSendState.js';
 import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
 import {
-  areStoryViewReceiptsEnabled,
   StoryViewDirectionType,
   StoryViewModeType,
 } from '../../types/Stories.js';
+import { areStoryViewReceiptsEnabled } from '../../util/Settings.js';
 import { assertDev, strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.js';
@@ -83,6 +83,7 @@ import {
 import { ReceiptType } from '../../types/Receipt.js';
 import { cleanupMessages } from '../../util/cleanup.js';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { isEqual, pick } = lodash;
 
@@ -847,7 +848,7 @@ const getSelectedStoryDataForConversationId = (
   const state = getState();
   const { stories } = state.stories;
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const storiesByConversationId = stories.filter(
     item =>
       item.conversationId === conversationId &&

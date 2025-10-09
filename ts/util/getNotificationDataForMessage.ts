@@ -49,14 +49,15 @@ import {
   isConversationMerge,
   isMessageRequestResponse,
 } from '../state/selectors/message.js';
+import { getAuthor } from '../messages/sources.js';
 import {
-  getAuthor,
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
-} from '../messages/helpers.js';
+} from '../messages/payments.js';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.js';
 import { missingCaseError } from './missingCaseError.js';
 import { getUserConversationId } from '../state/selectors/user.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('getNotificationDataForMessage');
 
@@ -149,8 +150,8 @@ export function getNotificationDataForMessage(
 
     const changes = GroupChange.renderChange<string>(change, {
       i18n: window.i18n,
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-      ourPni: window.textsecure.storage.user.getCheckedPni(),
+      ourAci: itemStorage.user.getCheckedAci(),
+      ourPni: itemStorage.user.getCheckedPni(),
       renderContact: (conversationId: string) => {
         const conversation = window.ConversationController.get(conversationId);
         return conversation

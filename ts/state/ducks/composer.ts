@@ -69,7 +69,7 @@ import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessa
 import { writeDraftAttachment } from '../../util/writeDraftAttachment.js';
 import { getMessageById } from '../../messages/getMessageById.js';
 import { canReply, isNormalBubble } from '../selectors/message.js';
-import { getAuthorId } from '../../messages/helpers.js';
+import { getAuthorId } from '../../messages/sources.js';
 import { getConversationSelector } from '../selectors/conversations.js';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';

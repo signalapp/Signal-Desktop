@@ -10,6 +10,7 @@ import { getRegionCodeForNumber } from './libphonenumberUtil.js';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance.js';
 import { isDirectConversation } from './whatTypeOfConversation.js';
 import { getE164 } from './getE164.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 type TitleOptions = {
   isShort?: boolean;
@@ -161,7 +162,7 @@ export function renderNumber(e164: string): string | undefined {
   try {
     const parsedNumber = instance.parse(e164);
     const regionCode = getRegionCodeForNumber(e164);
-    if (regionCode === window.storage.get('regionCode')) {
+    if (regionCode === itemStorage.get('regionCode')) {
       return instance.format(parsedNumber, PhoneNumberFormat.NATIONAL);
     }
     return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);

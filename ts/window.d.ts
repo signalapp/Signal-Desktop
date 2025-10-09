@@ -10,8 +10,6 @@ import type PQueue from 'p-queue/dist.js';
 import type { assert } from 'chai';
 import type { MochaOptions } from 'mocha';
 
-import type { textsecure } from './textsecure/index.js';
-import type { Storage } from './textsecure/Storage.js';
 import type {
   ChallengeHandler,
   IPCRequest as IPCChallengeRequest,
@@ -186,7 +184,6 @@ declare global {
     preloadedImages: Array<HTMLImageElement>;
     setImmediate: typeof setImmediate;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
-    storage: Storage;
     systemTheme: SystemThemeType;
 
     Signal: SignalCoreType;
@@ -205,7 +202,6 @@ declare global {
     i18n: LocalizerType;
     // Note: used in background.html, and not type-checked
     startApp: () => void;
-    textsecure: typeof textsecure;
 
     // IPC
     IPC: IPCType;

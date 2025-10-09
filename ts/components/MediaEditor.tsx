@@ -12,7 +12,6 @@ import React, {
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
-import { useSelector } from 'react-redux';
 import lodash from 'lodash';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { ImageStateType } from '../mediaEditor/ImageStateType.js';
@@ -48,7 +47,6 @@ import { ThemeType } from '../types/Util.js';
 import { arrow } from '../util/keyboard.js';
 import { canvasToBytes } from '../util/canvasToBytes.js';
 import { loadImage } from '../util/loadImage.js';
-import { getConversationSelector } from '../state/selectors/conversations.js';
 import { hydrateRanges } from '../types/BodyRange.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory.js';
@@ -64,6 +62,7 @@ import type { FunStickerSelection } from './fun/panels/FunPanelStickers.js';
 import { drop } from '../util/drop.js';
 import type { FunTimeStickerStyle } from './fun/constants.js';
 import * as Errors from '../types/errors.js';
+import type { GetConversationByIdType } from '../state/selectors/conversations.js';
 
 const { get, has, noop } = lodash;
 
@@ -86,6 +85,7 @@ export type PropsType = {
   imageToBlurHash: typeof imageToBlurHash;
   onClose: () => unknown;
   onDone: (result: MediaEditorResultType) => unknown;
+  conversationSelector: GetConversationByIdType;
 } & Pick<
   CompositionInputProps,
   | 'draftText'
@@ -168,7 +168,8 @@ export function MediaEditor({
   ourConversationId,
   platform,
   sortedGroupMembers,
-  ...props
+  conversationSelector,
+  imageToBlurHash,
 }: PropsType): JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
@@ -179,7 +180,6 @@ export function MediaEditor({
   const [captionBodyRanges, setCaptionBodyRanges] =
     useState<DraftBodyRanges | null>(draftBodyRanges);
 
-  const conversationSelector = useSelector(getConversationSelector);
   const hydratedBodyRanges = useMemo(
     () => hydrateRanges(captionBodyRanges ?? undefined, conversationSelector),
     [captionBodyRanges, conversationSelector]
@@ -1408,7 +1408,7 @@ export function MediaEditor({
                       type: IMAGE_PNG,
                     });
 
-                    blurHash = await props.imageToBlurHash(blob);
+                    blurHash = await imageToBlurHash(blob);
                   } catch (err) {
                     onTryClose();
                     throw err;

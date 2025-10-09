@@ -34,6 +34,7 @@ import {
 } from '../../textsecure/Errors.js';
 import { shouldSendToConversation } from './shouldSendToConversation.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { isNumber } = lodash;
 
@@ -138,7 +139,7 @@ export async function sendProfileKey(
       log.error('No revision provided, but conversation is GroupV2');
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     if (!conversation.hasMember(ourAci)) {
       log.info(
         `We are not part of group ${conversation.idForLogging()}; refusing to send`

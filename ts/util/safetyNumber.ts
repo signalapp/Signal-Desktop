@@ -10,6 +10,7 @@ import { createLogger } from '../logging/log.js';
 import type { SafetyNumberType } from '../types/safetyNumber.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { isAciString } from './isAciString.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('safetyNumber');
 
@@ -25,8 +26,7 @@ export async function generateSafetyNumber(
   const logId = `generateSafetyNumbers(${contact.id})`;
   log.info(`${logId}: starting`);
 
-  const { storage } = window.textsecure;
-  const ourAci = storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const us = signalProtocolStore.getIdentityRecord(ourAci);
   const ourKeyBuffer = us ? us.publicKey : null;

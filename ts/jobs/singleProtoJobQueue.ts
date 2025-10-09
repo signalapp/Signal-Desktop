@@ -17,7 +17,10 @@ import { SignalService as Proto } from '../protobuf/index.js';
 import { handleMessageSend } from '../util/handleMessageSend.js';
 import { getSendOptions } from '../util/getSendOptions.js';
 import type { SingleProtoJobData } from '../textsecure/SendMessage.js';
-import { singleProtoJobDataSchema } from '../textsecure/SendMessage.js';
+import {
+  singleProtoJobDataSchema,
+  messageSender,
+} from '../textsecure/SendMessage.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -111,14 +114,9 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       syncMessage: isSyncMessage,
     });
 
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('messaging is not available!');
-    }
-
     try {
       await handleMessageSend(
-        messaging.sendIndividualProto({
+        messageSender.sendIndividualProto({
           contentHint,
           serviceId,
           options,

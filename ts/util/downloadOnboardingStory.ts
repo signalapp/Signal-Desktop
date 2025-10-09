@@ -11,8 +11,12 @@ import { ReadStatus } from '../messages/MessageReadStatus.js';
 import { SeenStatus } from '../MessageSeenStatus.js';
 import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists.js';
 import { saveNewMessageBatcher } from './messageBatcher.js';
-import { strictAssert } from './assert.js';
 import { incrementMessageCounter } from './incrementMessageCounter.js';
+import {
+  getOnboardingStoryManifest,
+  downloadOnboardingStories,
+} from '../textsecure/WebAPI.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('downloadOnboardingStory');
 
@@ -25,20 +29,14 @@ const log = createLogger('downloadOnboardingStory');
 // * If story has been viewed mark as viewed on AccountRecord.
 // * If we viewed it >24 hours ago, delete.
 export async function downloadOnboardingStory(): Promise<void> {
-  const { server } = window.textsecure;
-
-  strictAssert(server, 'server not initialized');
-
-  const hasViewedOnboardingStory = window.storage.get(
-    'hasViewedOnboardingStory'
-  );
+  const hasViewedOnboardingStory = itemStorage.get('hasViewedOnboardingStory');
 
   if (hasViewedOnboardingStory) {
     await findAndDeleteOnboardingStoryIfExists();
     return;
   }
 
-  const existingOnboardingStoryMessageIds = window.storage.get(
+  const existingOnboardingStoryMessageIds = itemStorage.get(
     'existingOnboardingStoryMessageIds'
   );
 
@@ -49,7 +47,7 @@ export async function downloadOnboardingStory(): Promise<void> {
 
   const userLocale = window.i18n.getLocale();
 
-  const manifest = await server.getOnboardingStoryManifest();
+  const manifest = await getOnboardingStoryManifest();
 
   log.info('got manifest version:', manifest.version);
 
@@ -58,7 +56,7 @@ export async function downloadOnboardingStory(): Promise<void> {
       ? manifest.languages[userLocale]
       : manifest.languages.en;
 
-  const imageBuffers = await server.downloadOnboardingStories(
+  const imageBuffers = await downloadOnboardingStories(
     manifest.version,
     imageFilenames
   );
@@ -112,7 +110,7 @@ export async function downloadOnboardingStory(): Promise<void> {
     storyMessages.map(message => saveNewMessageBatcher.add(message.attributes))
   );
 
-  await window.storage.put(
+  await itemStorage.put(
     'existingOnboardingStoryMessageIds',
     storyMessages.map(message => message.id)
   );

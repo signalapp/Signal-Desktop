@@ -14,8 +14,7 @@ import { ServiceIdKind } from '../../types/ServiceId.js';
 import { normalizeAci } from '../../util/normalizeAci.js';
 import { DataWriter } from '../../sql/Client.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.js';
-
-const { textsecure } = window;
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
   assert.isTrue(constantTimeEqual(a, b));
@@ -68,13 +67,13 @@ describe('Key generation', function (this: Mocha.Suite) {
     await signalProtocolStore.clearSignedPreKeysStore();
 
     const keyPair = generateKeyPair();
-    await textsecure.storage.put('identityKeyMap', {
+    await itemStorage.put('identityKeyMap', {
       [ourServiceId]: {
         pubKey: keyPair.publicKey.serialize(),
         privKey: keyPair.privateKey.serialize(),
       },
     });
-    await textsecure.storage.user.setAciAndDeviceId(ourServiceId, 1);
+    await itemStorage.user.setAciAndDeviceId(ourServiceId, 1);
 
     await signalProtocolStore.hydrateCaches();
   });
@@ -85,13 +84,12 @@ describe('Key generation', function (this: Mocha.Suite) {
     await signalProtocolStore.clearSignedPreKeysStore();
 
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   describe('the first time', () => {
     before(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const accountManager = new AccountManager({} as any);
+      const accountManager = new AccountManager();
       result = await accountManager._generateSingleUseKeys(
         ServiceIdKind.ACI,
         count
@@ -128,8 +126,7 @@ describe('Key generation', function (this: Mocha.Suite) {
   });
   describe('the second time', () => {
     before(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const accountManager = new AccountManager({} as any);
+      const accountManager = new AccountManager();
       result = await accountManager._generateSingleUseKeys(
         ServiceIdKind.ACI,
         count
@@ -166,8 +163,7 @@ describe('Key generation', function (this: Mocha.Suite) {
   });
   describe('the third time, after keys are confirmed', () => {
     before(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const accountManager = new AccountManager({} as any);
+      const accountManager = new AccountManager();
 
       await accountManager._confirmKeys(result, ServiceIdKind.ACI);
 

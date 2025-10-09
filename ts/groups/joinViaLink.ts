@@ -35,6 +35,7 @@ import { dropNull } from '../util/dropNull.js';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
 import { type Loadable, LoadingState } from '../util/loadable.js';
 import { missingCaseError } from '../util/missingCaseError.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('joinViaLink');
 
@@ -70,7 +71,7 @@ export async function joinViaLink(value: string): Promise<void> {
   const existingConversation =
     window.ConversationController.get(id) ||
     window.ConversationController.getByDerivedGroupV2Id(id);
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   if (existingConversation && existingConversation.hasMember(ourAci)) {
     log.warn(`${logId}: Already a member of group, opening conversation`);

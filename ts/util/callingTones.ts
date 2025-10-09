@@ -4,6 +4,7 @@
 import PQueue from 'p-queue';
 import { MINUTE } from './durations/index.js';
 import { Sound, SoundType } from './Sound.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
@@ -12,7 +13,7 @@ const ringtoneEventQueue = new PQueue({
 });
 
 function getCallRingtoneNotificationSetting(): boolean {
-  return window.storage.get('call-ringtone-notification', true);
+  return itemStorage.get('call-ringtone-notification', true);
 }
 
 class CallingTones {

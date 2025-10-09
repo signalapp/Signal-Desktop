@@ -8,7 +8,7 @@ import { v4 as generateUuid } from 'uuid';
 import { DataReader, DataWriter } from './sql/Client.js';
 import { createLogger } from './logging/log.js';
 import * as Errors from './types/errors.js';
-import { getAuthorId } from './messages/helpers.js';
+import { getAuthorId } from './messages/sources.js';
 import { maybeDeriveGroupV2Id } from './groups.js';
 import { assertDev, strictAssert } from './util/assert.js';
 import { drop } from './util/drop.js';
@@ -31,6 +31,8 @@ import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.js';
 import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation.js';
 import { getTitleNoDefault } from './util/getTitle.js';
 import * as StorageService from './services/storage.js';
+import textsecureUtils from './textsecure/Helpers.js';
+import { cdsLookup } from './textsecure/WebAPI.js';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.js';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats.js';
 import { isTestOrMockEnvironment } from './environment.js';
@@ -54,6 +56,7 @@ import type {
   AciString,
   PniString,
 } from './types/ServiceId.js';
+import { itemStorage } from './textsecure/Storage.js';
 
 const { debounce, pick, uniq, without } = lodash;
 
@@ -360,7 +363,7 @@ export class ConversationController {
     }
 
     const includeMuted =
-      window.storage.get('badge-count-muted-conversations') || false;
+      itemStorage.get('badge-count-muted-conversations') || false;
 
     const unreadStats = countAllConversationsUnreadStats(
       this.#_conversations.map(
@@ -383,7 +386,7 @@ export class ConversationController {
       { includeMuted }
     );
 
-    drop(window.storage.put('unreadCount', unreadStats.unreadCount));
+    drop(itemStorage.put('unreadCount', unreadStats.unreadCount));
 
     if (unreadStats.unreadCount > 0) {
       const total =
@@ -600,7 +603,7 @@ export class ConversationController {
       return null;
     }
 
-    const [id] = window.textsecure.utils.unencodeNumber(address);
+    const [id] = textsecureUtils.unencodeNumber(address);
     const conv = this.get(id);
 
     if (conv) {
@@ -611,9 +614,9 @@ export class ConversationController {
   }
 
   getOurConversationId(): string | undefined {
-    const e164 = window.textsecure.storage.user.getNumber();
-    const aci = window.textsecure.storage.user.getAci();
-    const pni = window.textsecure.storage.user.getPni();
+    const e164 = itemStorage.user.getNumber();
+    const aci = itemStorage.user.getAci();
+    const pni = itemStorage.user.getPni();
 
     if (!e164 && !aci && !pni) {
       return undefined;
@@ -685,7 +688,7 @@ export class ConversationController {
   }
 
   areWePrimaryDevice(): boolean {
-    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+    const ourDeviceId = itemStorage.user.getDeviceId();
 
     return ourDeviceId === 1;
   }
@@ -1590,7 +1593,7 @@ export class ConversationController {
   }
 
   migrateAvatarsForNonAcceptedConversations(): void {
-    if (window.storage.get('avatarsHaveBeenMigrated')) {
+    if (itemStorage.get('avatarsHaveBeenMigrated')) {
       return;
     }
     const conversations = this.getAll();
@@ -1634,11 +1637,11 @@ export class ConversationController {
     log.info(
       `unset avatars for ${numberOfConversationsMigrated} unaccepted conversations`
     );
-    drop(window.storage.put('avatarsHaveBeenMigrated', true));
+    drop(itemStorage.put('avatarsHaveBeenMigrated', true));
   }
 
   repairPinnedConversations(): void {
-    const pinnedIds = window.storage.get('pinnedConversationIds', []);
+    const pinnedIds = itemStorage.get('pinnedConversationIds', []);
 
     for (const id of pinnedIds) {
       const convo = this.get(id);
@@ -1676,10 +1679,8 @@ export class ConversationController {
 
   // For testing
   async _forgetE164(e164: string): Promise<void> {
-    const { server } = window.textsecure;
-    strictAssert(server, 'Server must be initialized');
     const { entries: serviceIdMap, transformedE164s } =
-      await getServiceIdsForE164s(server, [e164]);
+      await getServiceIdsForE164s(cdsLookup, [e164]);
 
     const e164ToUse = transformedE164s.get(e164) ?? e164;
     const pni = serviceIdMap.get(e164ToUse)?.pni;

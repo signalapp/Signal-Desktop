@@ -9,7 +9,7 @@ import { type AciString } from '../types/ServiceId.js';
 import type { ProcessedStoryContext } from '../textsecure/Types.d.ts';
 import { DataReader } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
-import { getAuthorId } from '../messages/helpers.js';
+import { getAuthorId } from '../messages/sources.js';
 
 const log = createLogger('findStoryMessage');
 

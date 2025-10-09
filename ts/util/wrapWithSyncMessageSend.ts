@@ -10,7 +10,10 @@ import { handleMessageSend } from './handleMessageSend.js';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
 import type { ConversationModel } from '../models/conversations.js';
 import type { SendTypesType } from './handleMessageSend.js';
-import type MessageSender from '../textsecure/SendMessage.js';
+import {
+  type MessageSender,
+  messageSender,
+} from '../textsecure/SendMessage.js';
 import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.js';
 
 const log = createLogger('wrapWithSyncMessageSend');
@@ -31,17 +34,16 @@ export async function wrapWithSyncMessageSend({
   timestamp: number;
 }): Promise<void> {
   const logId = `wrapWithSyncMessageSend(${parentLogId}, ${timestamp})`;
-  const sender = window.textsecure.messaging;
-  if (!sender) {
-    throw new Error(`${logId}: textsecure.messaging is not available!`);
-  }
 
   let response: CallbackResultType | undefined;
   let error: Error | undefined;
   let didSuccessfullySendOne = false;
 
   try {
-    response = await handleMessageSend(send(sender), { messageIds, sendType });
+    response = await handleMessageSend(send(messageSender), {
+      messageIds,
+      sendType,
+    });
     didSuccessfullySendOne = true;
   } catch (thrown) {
     if (thrown instanceof SendMessageProtoError) {
@@ -77,7 +79,7 @@ export async function wrapWithSyncMessageSend({
         syncMessage: true,
       });
       await handleMessageSend(
-        sender.sendSyncMessage({
+        messageSender.sendSyncMessage({
           destinationE164: conversation.get('e164'),
           destinationServiceId: conversation.getServiceId(),
           encodedDataMessage: dataMessage,

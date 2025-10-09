@@ -13,23 +13,12 @@ import { explodePromise } from './explodePromise.js';
 
 const log = createLogger('waitBatcher');
 
-declare global {
-  // We want to extend `window`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    waitBatchers: Array<BatcherType<any>>;
-    waitForAllWaitBatchers: () => Promise<unknown>;
-    flushAllWaitBatchers: () => Promise<unknown>;
-  }
-}
+let waitBatchers = new Array<BatcherType<unknown>>();
 
-window.waitBatchers = [];
-
-window.flushAllWaitBatchers = async () => {
+export const flushAllWaitBatchers = async (): Promise<void> => {
   log.info('flushAllWaitBatchers');
   try {
-    await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
+    await Promise.all(waitBatchers.map(item => item.flushAndWait()));
   } catch (error) {
     log.error(
       'flushAllWaitBatchers: Error flushing all',
@@ -38,10 +27,10 @@ window.flushAllWaitBatchers = async () => {
   }
 };
 
-window.waitForAllWaitBatchers = async () => {
+export const waitForAllWaitBatchers = async (): Promise<void> => {
   log.info('waitForAllWaitBatchers');
   try {
-    await Promise.all(window.waitBatchers.map(item => item.onIdle()));
+    await Promise.all(waitBatchers.map(item => item.onIdle()));
   } catch (error) {
     log.error(
       'waitForAllWaitBatchers: Error waiting for all',
@@ -155,9 +144,7 @@ export function createWaitBatcher<ItemType>(
   }
 
   function unregister() {
-    window.waitBatchers = window.waitBatchers.filter(
-      item => item !== waitBatcher
-    );
+    waitBatchers = waitBatchers.filter(item => item !== waitBatcher);
   }
 
   // Meant for a full shutdown of the queue
@@ -208,7 +195,7 @@ export function createWaitBatcher<ItemType>(
     pushNoopAndWait,
   };
 
-  window.waitBatchers.push(waitBatcher);
+  waitBatchers.push(waitBatcher as BatcherType<unknown>);
 
   return waitBatcher;
 }

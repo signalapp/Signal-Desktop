@@ -27,7 +27,7 @@ import {
 } from '../types/AttachmentBackup.js';
 import { isInCall as isInCallSelector } from '../state/selectors/calling.js';
 import { encryptAndUploadAttachment } from '../util/uploadAttachment.js';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { backupMediaBatch as doBackupMediaBatch } from '../textsecure/WebAPI.js';
 import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
@@ -165,7 +165,7 @@ class AttachmentPermanentlyMissingError extends Error {}
 
 type RunAttachmentBackupJobDependenciesType = {
   getAbsoluteAttachmentPath: typeof window.Signal.Migrations.getAbsoluteAttachmentPath;
-  backupMediaBatch?: WebAPIType['backupMediaBatch'];
+  backupMediaBatch?: typeof doBackupMediaBatch;
   backupsService: BackupsService;
   encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
   decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
@@ -181,7 +181,7 @@ export async function runAttachmentBackupJob(
     getAbsoluteAttachmentPath:
       window.Signal.Migrations.getAbsoluteAttachmentPath,
     backupsService,
-    backupMediaBatch: window.textsecure.server?.backupMediaBatch,
+    backupMediaBatch: doBackupMediaBatch,
     encryptAndUploadAttachment,
     decryptAttachmentV2ToSink,
   }

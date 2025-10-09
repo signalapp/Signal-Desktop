@@ -12,23 +12,29 @@ import {
   STORAGE_KEY,
 } from '../../services/retryPlaceholders.js';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('RetryPlaceholders', () => {
   const NOW = 1_000_000;
-  let clock: any;
+  let sandbox: sinon.SinonSandbox;
+
+  const storageMap = new Map<string, unknown>();
+  const storage = {
+    get: (key: string): unknown => storageMap.get(key),
+    put: async (key: string, value: unknown): Promise<void> => {
+      storageMap.set(key, value);
+    },
+  };
 
   beforeEach(async () => {
-    await window.storage.put(STORAGE_KEY, undefined as any);
+    storageMap.clear();
 
-    clock = sinon.useFakeTimers({
+    sandbox = sinon.createSandbox();
+    sandbox.useFakeTimers({
       now: NOW,
     });
   });
 
   afterEach(async () => {
-    await window.storage.remove(STORAGE_KEY);
-    clock.restore();
+    sandbox.restore();
   });
 
   function getDefaultItem(): RetryItemType {
@@ -47,21 +53,21 @@ describe('RetryPlaceholders', () => {
         getDefaultItem(),
         { ...getDefaultItem(), conversationId: 'conversation-id-2' },
       ];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
 
       assert.strictEqual(2, placeholders.getCount());
     });
     it('starts with no data if provided data fails to parse', async () => {
-      await window.storage.put(STORAGE_KEY, [
+      await storage.put(STORAGE_KEY, [
         { item: 'is wrong shape!' },
         { bad: 'is not good!' },
-      ] as any);
+      ]);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
 
       assert.strictEqual(0, placeholders.getCount());
     });
@@ -70,18 +76,18 @@ describe('RetryPlaceholders', () => {
   describe('#add', () => {
     it('adds one item', async () => {
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       await placeholders.add(getDefaultItem());
       assert.strictEqual(1, placeholders.getCount());
     });
 
     it('throws if provided data fails to parse', async () => {
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       await assert.isRejected(
         placeholders.add({
           item: 'is wrong shape!',
-        } as any),
+        } as unknown as RetryItemType),
         'Item did not match schema'
       );
     });
@@ -90,17 +96,17 @@ describe('RetryPlaceholders', () => {
   describe('#getNextToExpire', () => {
     it('returns nothing if no items', () => {
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(0, placeholders.getCount());
       assert.isUndefined(placeholders.getNextToExpire());
     });
     it('returns only item if just one item', async () => {
       const item = getDefaultItem();
       const items: Array<RetryItemType> = [item];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(1, placeholders.getCount());
       assert.deepEqual(item, placeholders.getNextToExpire());
     });
@@ -114,10 +120,10 @@ describe('RetryPlaceholders', () => {
         receivedAt: NOW + 10,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(older, placeholders.getNextToExpire());
 
@@ -143,10 +149,10 @@ describe('RetryPlaceholders', () => {
         receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual([], await placeholders.getExpiredAndRemove());
       assert.strictEqual(2, placeholders.getCount());
@@ -161,10 +167,10 @@ describe('RetryPlaceholders', () => {
         receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual([older], await placeholders.getExpiredAndRemove());
       assert.strictEqual(1, placeholders.getCount());
@@ -180,10 +186,10 @@ describe('RetryPlaceholders', () => {
         receivedAt: getDeltaIntoPast() - 900,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(
         [older, newer],
@@ -204,15 +210,15 @@ describe('RetryPlaceholders', () => {
         conversationId: 'conversation-id-2',
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       await placeholders.findByConversationAndMarkOpened('conversation-id-3');
       assert.strictEqual(2, placeholders.getCount());
 
-      const saveItems = window.storage.get(STORAGE_KEY);
+      const saveItems = storage.get(STORAGE_KEY);
       assert.deepEqual([older, newer], saveItems);
     });
     it('updates all items matching conversation', async () => {
@@ -232,15 +238,15 @@ describe('RetryPlaceholders', () => {
         receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [convo1a, convo1b, convo2a];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(3, placeholders.getCount());
       await placeholders.findByConversationAndMarkOpened('conversation-id-1');
       assert.strictEqual(3, placeholders.getCount());
 
-      const firstSaveItems = window.storage.get(STORAGE_KEY);
+      const firstSaveItems = storage.get(STORAGE_KEY);
       assert.deepEqual(
         [
           {
@@ -267,7 +273,7 @@ describe('RetryPlaceholders', () => {
       await placeholders.findByConversationAndMarkOpened('conversation-id-2');
       assert.strictEqual(4, placeholders.getCount());
 
-      const secondSaveItems = window.storage.get(STORAGE_KEY);
+      const secondSaveItems = storage.get(STORAGE_KEY);
       assert.deepEqual(
         [
           {
@@ -307,10 +313,10 @@ describe('RetryPlaceholders', () => {
         sentAt: NOW - 11,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.isUndefined(
         await placeholders.findByMessageAndRemove('conversation-id-1', sentAt)
@@ -331,10 +337,10 @@ describe('RetryPlaceholders', () => {
         sentAt,
       };
       const items: Array<RetryItemType> = [older, newer];
-      await window.storage.put(STORAGE_KEY, items);
+      await storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
-      placeholders.start(window.storage);
+      placeholders.start(storage);
       assert.strictEqual(2, placeholders.getCount());
       assert.deepEqual(
         newer,

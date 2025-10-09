@@ -58,6 +58,7 @@ import {
 import { isNotNil } from './isNotNil.js';
 import { getIdentifierHash } from '../Crypto.js';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { sortBy } = lodash;
 
@@ -91,7 +92,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     typingValues.map(({ senderId, timestamp }) => [senderId, timestamp])
   );
 
-  const ourAci = window.textsecure.storage.user.getAci();
+  const ourAci = itemStorage.user.getAci();
 
   const identifierHash = getIdentifierHash({
     aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,

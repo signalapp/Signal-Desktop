@@ -18,6 +18,7 @@ import { isSignalRoute } from './util/signalRoutes.js';
 import { strictAssert } from './util/assert.js';
 import { MessageModel } from './models/messages.js';
 import type { SocketStatuses } from './textsecure/SocketManager.js';
+import { itemStorage } from './textsecure/Storage.js';
 
 const log = createLogger('CI');
 
@@ -217,7 +218,7 @@ export function getCI({
     await AttachmentBackupManager.waitForIdle();
 
     // Remove the disclaimer from conversation hero for screenshot backup test
-    await window.storage.put('isRestoredFromBackup', true);
+    await itemStorage.put('isRestoredFromBackup', true);
   }
 
   function unlink() {
@@ -234,12 +235,9 @@ export function getCI({
 
   async function resetReleaseNotesFetcher() {
     await Promise.all([
-      window.textsecure.storage.put(
-        'releaseNotesVersionWatermark',
-        '7.0.0-alpha.1'
-      ),
-      window.textsecure.storage.put('releaseNotesPreviousManifestHash', ''),
-      window.textsecure.storage.put('releaseNotesNextFetchTime', Date.now()),
+      itemStorage.put('releaseNotesVersionWatermark', '7.0.0-alpha.1'),
+      itemStorage.put('releaseNotesPreviousManifestHash', ''),
+      itemStorage.put('releaseNotesNextFetchTime', Date.now()),
     ]);
   }
 

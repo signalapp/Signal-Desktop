@@ -13,7 +13,6 @@ import * as Settings from '../types/Settings.js';
 import { resolveUsernameByLinkBase64 } from '../services/username.js';
 import { isInCall } from '../state/selectors/calling.js';
 
-import { strictAssert } from './assert.js';
 import * as Registration from './registration.js';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId.js';
 import { createLogger } from '../logging/log.js';
@@ -32,6 +31,7 @@ import type {
   ThemeType,
 } from './preload.js';
 import { SystemTraySetting } from '../types/SystemTraySetting.js';
+import { putStickers } from '../textsecure/WebAPI.js';
 import OS from './os/osPreload.js';
 
 const { noop } = lodash;
@@ -438,8 +438,7 @@ export function createIPCEvents(
       manifest: Uint8Array,
       stickers: ReadonlyArray<Uint8Array>
     ): Promise<string> => {
-      strictAssert(window.textsecure.server, 'WebAPI must be available');
-      return window.textsecure.server.putStickers(manifest, stickers, () =>
+      return putStickers(manifest, stickers, () =>
         ipcRenderer.send('art-creator:onUploadProgress')
       );
     },

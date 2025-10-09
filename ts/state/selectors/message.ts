@@ -90,7 +90,10 @@ import {
 import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.js';
 
 import { getAccountSelector } from './accounts.js';
-import { getDefaultConversationColor } from './items.js';
+import {
+  getDefaultConversationColor,
+  getHasUnidentifiedDeliveryIndicators,
+} from './items.js';
 import {
   getConversationSelector,
   getSelectedMessageIds,
@@ -133,13 +136,9 @@ import { createLogger } from '../../logging/log.js';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.js';
 import { DAY, DurationInSeconds } from '../../util/durations/index.js';
 import { getStoryReplyText } from '../../util/getStoryReplyText.js';
-import type { MessageAttributesWithPaymentEvent } from '../../messages/helpers.js';
-import {
-  isIncoming,
-  isOutgoing,
-  messageHasPaymentEvent,
-  isStory,
-} from '../../messages/helpers.js';
+import type { MessageAttributesWithPaymentEvent } from '../../messages/payments.js';
+import { isIncoming, isOutgoing, isStory } from '../../messages/helpers.js';
+import { messageHasPaymentEvent } from '../../messages/payments.js';
 
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.js';
 import { isSignalConversation } from '../../util/isSignalConversation.js';
@@ -2270,6 +2269,7 @@ export const getMessageDetails = createSelector(
   getUserNumber,
   getSelectedMessageIds,
   getDefaultConversationColor,
+  getHasUnidentifiedDeliveryIndicators,
   (
     accountSelector,
     cachedConversationMemberColorsSelector,
@@ -2282,7 +2282,8 @@ export const getMessageDetails = createSelector(
     ourConversationId,
     ourNumber,
     selectedMessageIds,
-    defaultConversationColor
+    defaultConversationColor,
+    hasUnidentifiedDeliveryIndicators
   ): SmartMessageDetailPropsType | undefined => {
     if (!message || !ourConversationId) {
       return;
@@ -2362,11 +2363,6 @@ export const getMessageDetails = createSelector(
 
       return window.ConversationController.getConversationId(serviceId);
     });
-
-    const hasUnidentifiedDeliveryIndicators = window.storage.get(
-      'unidentifiedDeliveryIndicators',
-      false
-    );
 
     const contacts: ReadonlyArray<SmartMessageDetailContact> =
       conversationIds.map(id => {

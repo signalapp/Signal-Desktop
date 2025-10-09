@@ -22,11 +22,19 @@ import {
 } from '../types/Username.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
+import {
+  reserveUsername as doReserveUsername,
+  replaceUsernameLink,
+  confirmUsername as doConfirmUsername,
+  deleteUsername as doDeleteUsername,
+  resolveUsernameLink,
+} from '../textsecure/WebAPI.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
 import * as Bytes from '../Bytes.js';
 import { storageServiceUploadJob } from './storage.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('username');
 
@@ -64,11 +72,6 @@ export type ReserveUsernameResultType = Readonly<
 export async function reserveUsername(
   options: ReserveUsernameOptionsType
 ): Promise<ReserveUsernameResultType> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server interface is not available!');
-  }
-
   const { nickname, customDiscriminator, previousUsername, abortSignal } =
     options;
 
@@ -114,7 +117,7 @@ export async function reserveUsername(
 
     const hashes = candidates.map(username => usernames.hash(username));
 
-    const { usernameHash } = await server.reserveUsername({
+    const { usernameHash } = await doReserveUsername({
       hashes,
       abortSignal,
     });
@@ -229,13 +232,8 @@ export async function confirmUsername(
   reservation: UsernameReservationType,
   abortSignal?: AbortSignal
 ): Promise<ConfirmUsernameResult> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server interface is not available!');
-  }
-
   const { previousUsername, username } = reservation;
-  const previousLink = window.storage.get('usernameLink');
+  const previousLink = itemStorage.get('usernameLink');
 
   const me = window.ConversationController.getOurConversationOrThrow();
 
@@ -249,10 +247,10 @@ export async function confirmUsername(
     'username hash mismatch'
   );
 
-  const wasCorrupted = window.storage.get('usernameCorrupted');
+  const wasCorrupted = itemStorage.get('usernameCorrupted');
 
   try {
-    await window.storage.remove('usernameLink');
+    await itemStorage.remove('usernameLink');
 
     let serverIdString: string;
     let entropy: Uint8Array;
@@ -265,11 +263,10 @@ export async function confirmUsername(
       );
       ({ entropy } = updatedLink);
 
-      ({ usernameLinkHandle: serverIdString } =
-        await server.replaceUsernameLink({
-          encryptedUsername: updatedLink.encryptedUsername,
-          keepLinkHandle: true,
-        }));
+      ({ usernameLinkHandle: serverIdString } = await replaceUsernameLink({
+        encryptedUsername: updatedLink.encryptedUsername,
+        keepLinkHandle: true,
+      }));
     } else {
       log.info('confirmUsername: confirming and replacing link');
 
@@ -278,7 +275,7 @@ export async function confirmUsername(
 
       const proof = usernames.generateProof(username);
 
-      ({ usernameLinkHandle: serverIdString } = await server.confirmUsername({
+      ({ usernameLinkHandle: serverIdString } = await doConfirmUsername({
         hash,
         proof,
         encryptedUsername: newLink.encryptedUsername,
@@ -286,14 +283,14 @@ export async function confirmUsername(
       }));
     }
 
-    await window.storage.put('usernameLink', {
+    await itemStorage.put('usernameLink', {
       entropy,
       serverId: uuidToBytes(serverIdString),
     });
 
     await updateUsernameAndSyncProfile(username);
-    await window.storage.remove('usernameCorrupted');
-    await window.storage.remove('usernameLinkCorrupted');
+    await itemStorage.remove('usernameCorrupted');
+    await itemStorage.remove('usernameLinkCorrupted');
   } catch (error) {
     if (error instanceof HTTPError) {
       if (error.code === 413 || error.code === 429) {
@@ -320,29 +317,19 @@ export async function deleteUsername(
   previousUsername: string | undefined,
   abortSignal?: AbortSignal
 ): Promise<void> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server interface is not available!');
-  }
-
   const me = window.ConversationController.getOurConversationOrThrow();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
   }
 
-  await window.storage.remove('usernameLink');
-  await server.deleteUsername(abortSignal);
-  await window.storage.remove('usernameCorrupted');
+  await itemStorage.remove('usernameLink');
+  await doDeleteUsername(abortSignal);
+  await itemStorage.remove('usernameCorrupted');
   await updateUsernameAndSyncProfile(undefined);
 }
 
 export async function resetLink(username: string): Promise<void> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server interface is not available!');
-  }
-
   const me = window.ConversationController.getOurConversationOrThrow();
 
   if (me.get('username') !== username) {
@@ -351,19 +338,18 @@ export async function resetLink(username: string): Promise<void> {
 
   const { entropy, encryptedUsername } = usernames.createUsernameLink(username);
 
-  await window.storage.remove('usernameLink');
+  await itemStorage.remove('usernameLink');
 
-  const { usernameLinkHandle: serverIdString } =
-    await server.replaceUsernameLink({
-      encryptedUsername,
-      keepLinkHandle: false,
-    });
+  const { usernameLinkHandle: serverIdString } = await replaceUsernameLink({
+    encryptedUsername,
+    keepLinkHandle: false,
+  });
 
-  await window.storage.put('usernameLink', {
+  await itemStorage.put('usernameLink', {
     entropy,
     serverId: uuidToBytes(serverIdString),
   });
-  await window.storage.remove('usernameLinkCorrupted');
+  await itemStorage.remove('usernameLinkCorrupted');
 
   me.captureChange('usernameLink');
   storageServiceUploadJob({ reason: 'resetLink' });
@@ -390,18 +376,11 @@ export async function resolveUsernameByLink({
   entropy,
   serverId: serverIdBytes,
 }: ResolveUsernameByLinkOptionsType): Promise<string | undefined> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server interface is not available!');
-  }
-
   const serverId = bytesToUuid(serverIdBytes);
   strictAssert(serverId, 'Failed to re-encode server id as uuid');
 
-  strictAssert(window.textsecure.server, 'WebAPI must be available');
   try {
-    const { usernameLinkEncryptedValue } =
-      await server.resolveUsernameLink(serverId);
+    const { usernameLinkEncryptedValue } = await resolveUsernameLink(serverId);
 
     return usernames.decryptUsernameLink({
       entropy,

@@ -18,6 +18,7 @@ import { strictAssert } from '../util/assert.js';
 import { dropNull } from '../util/dropNull.js';
 import { DurationInSeconds } from '../util/durations/index.js';
 import { SIGNAL_ACI } from '../types/SignalConversation.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { pick } = lodash;
 
@@ -94,7 +95,7 @@ export function getStoryDataFromMessageAttributes(
   } else {
     log.error('getStoryDataFromMessageAttributes: undefined sourceDevice');
     // storage user.getDevice() should always produce a value after registration
-    const ourDeviceId = window.storage.user.getDeviceId() ?? -1;
+    const ourDeviceId = itemStorage.user.getDeviceId() ?? -1;
     if (message.type === 'outgoing') {
       sourceDevice = ourDeviceId;
     } else if (message.type === 'incoming') {

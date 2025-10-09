@@ -23,7 +23,7 @@ import {
 import { DataReader, DataWriter } from '../sql/Client.js';
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface.js';
 import { createLogger } from '../logging/log.js';
-import { getSourceServiceId } from '../messages/helpers.js';
+import { getSourceServiceId } from '../messages/sources.js';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
 import { getPropForTimestamp } from '../util/editHelpers.js';
@@ -34,7 +34,8 @@ import {
 import { drop } from '../util/drop.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { MessageModel } from '../models/messages.js';
-import { areStoryViewReceiptsEnabled } from '../types/Stories.js';
+import { areStoryViewReceiptsEnabled } from '../util/Settings.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { groupBy } = lodash;
 
@@ -395,12 +396,12 @@ const shouldDropReceipt = (
     case messageReceiptTypeSchema.Enum.Delivery:
       return false;
     case messageReceiptTypeSchema.Enum.Read:
-      return !window.storage.get('read-receipt-setting');
+      return !itemStorage.get('read-receipt-setting');
     case messageReceiptTypeSchema.Enum.View:
       if (isStory(message)) {
         return !areStoryViewReceiptsEnabled();
       }
-      return !window.storage.get('read-receipt-setting');
+      return !itemStorage.get('read-receipt-setting');
     default:
       throw missingCaseError(type);
   }
@@ -417,7 +418,7 @@ export async function forMessage(
     message
   )})`;
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const sourceServiceId = getSourceServiceId(message);
   if (ourAci !== sourceServiceId) {
     return [];

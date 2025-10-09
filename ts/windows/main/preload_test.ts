@@ -19,6 +19,7 @@ import { initializeMessageCounter } from '../../util/incrementMessageCounter.js'
 import { initializeRedux } from '../../state/initializeRedux.js';
 import * as Stickers from '../../types/Stickers.js';
 import { ThemeType } from '../../types/Util.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 chai.use(chaiAsPromised);
 
@@ -139,6 +140,8 @@ window.testUtilities = {
       },
       theme: ThemeType.dark,
     });
+
+    await itemStorage.fetch();
   },
 
   prepareTests() {

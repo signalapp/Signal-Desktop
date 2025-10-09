@@ -10,6 +10,7 @@ import protobufjs from 'protobufjs';
 import { strictAssert } from '../../util/assert.js';
 import { toAciObject } from '../../util/ServiceId.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { Reader } = protobufjs;
 
@@ -23,10 +24,10 @@ export async function validateBackup(
   fileSize: number,
   type: ValidationType
 ): Promise<void> {
-  const accountEntropy = window.storage.get('accountEntropyPool');
+  const accountEntropy = itemStorage.get('accountEntropyPool');
   strictAssert(accountEntropy, 'Account Entropy Pool not available');
 
-  const aci = toAciObject(window.storage.user.getCheckedAci());
+  const aci = toAciObject(itemStorage.user.getCheckedAci());
   const backupKey = new libsignal.MessageBackupKey({
     accountEntropy,
     aci,

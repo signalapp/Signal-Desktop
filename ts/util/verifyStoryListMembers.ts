@@ -6,6 +6,7 @@ import { isNotNil } from './isNotNil.js';
 import { updateIdentityKey } from '../services/profiles.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { postBatchIdentityCheck } from '../textsecure/WebAPI.js';
 import * as Bytes from '../Bytes.js';
 
 const log = createLogger('verifyStoryListMembers');
@@ -16,11 +17,6 @@ export async function verifyStoryListMembers(
   untrustedServiceIds: Set<ServiceIdString>;
   verifiedServiceIds: Set<ServiceIdString>;
 }> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('verifyStoryListMembers: server not available');
-  }
-
   const verifiedServiceIds = new Set<ServiceIdString>();
   const untrustedServiceIds = new Set<ServiceIdString>();
 
@@ -39,7 +35,7 @@ export async function verifyStoryListMembers(
     })
   );
 
-  const { elements: unverifiedServiceId } = await server.postBatchIdentityCheck(
+  const { elements: unverifiedServiceId } = await postBatchIdentityCheck(
     elements.filter(isNotNil)
   );
 

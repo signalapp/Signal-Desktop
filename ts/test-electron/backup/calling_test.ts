@@ -30,6 +30,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
 import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);
@@ -43,7 +44,7 @@ describe('backup/calling', () => {
   beforeEach(async () => {
     await DataWriter.removeAll();
     window.ConversationController.reset();
-    window.storage.reset();
+    itemStorage.reset();
 
     await setupBasics();
 

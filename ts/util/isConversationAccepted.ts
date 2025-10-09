@@ -6,6 +6,7 @@ import { SignalService as Proto } from '../protobuf/index.js';
 import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
 import { isInSystemContacts } from './isInSystemContacts.js';
 import { createLogger } from '../logging/log.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export type IsConversationAcceptedOptionsType = {
   ignoreEmptyConvo: boolean;
@@ -46,7 +47,7 @@ export function isConversationAccepted(
     profileSharing,
   } = conversationAttrs;
 
-  const ourAci = window.storage.user.getAci();
+  const ourAci = itemStorage.user.getAci();
   const hasRequestedToJoin =
     Boolean(ourAci) &&
     (pendingAdminApprovalV2 || []).some(item => item.aci === ourAci);

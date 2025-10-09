@@ -68,6 +68,7 @@ import {
 } from './textsecure/AccountManager.js';
 import { formatGroups, groupWhile } from './util/groupWhile.js';
 import { parseUnknown } from './util/schemas.js';
+import { itemStorage } from './textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -1811,7 +1812,7 @@ export class SignalProtocolStore extends EventEmitter {
   async lightSessionReset(qualifiedAddress: QualifiedAddress): Promise<void> {
     const id = qualifiedAddress.toString();
 
-    const sessionResets = window.storage.get(
+    const sessionResets = itemStorage.get(
       'sessionResets',
       {} as SessionResetsType
     );
@@ -1827,7 +1828,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     sessionResets[id] = Date.now();
-    await window.storage.put('sessionResets', sessionResets);
+    await itemStorage.put('sessionResets', sessionResets);
 
     try {
       const { serviceId } = qualifiedAddress;
@@ -1854,7 +1855,7 @@ export class SignalProtocolStore extends EventEmitter {
       // If we failed to queue the session reset, then we'll allow another attempt sooner
       //   than one hour from now.
       delete sessionResets[id];
-      await window.storage.put('sessionResets', sessionResets);
+      await itemStorage.put('sessionResets', sessionResets);
 
       log.error(
         `lightSessionReset/${id}: Encountered error`,
@@ -1945,7 +1946,7 @@ export class SignalProtocolStore extends EventEmitter {
     if (encodedAddress == null) {
       throw new Error('isTrustedIdentity: encodedAddress was undefined/null');
     }
-    const isOurIdentifier = window.textsecure.storage.user.isOurServiceId(
+    const isOurIdentifier = itemStorage.user.isOurServiceId(
       encodedAddress.serviceId
     );
 
@@ -2143,7 +2144,7 @@ export class SignalProtocolStore extends EventEmitter {
         );
 
         if (identityKeyChanged) {
-          const isOurIdentifier = window.textsecure.storage.user.isOurServiceId(
+          const isOurIdentifier = itemStorage.user.isOurServiceId(
             encodedAddress.serviceId
           );
 
@@ -2247,8 +2248,7 @@ export class SignalProtocolStore extends EventEmitter {
     const id = serviceId;
 
     // When saving a PNI identity - don't create a separate conversation
-    const serviceIdKind =
-      window.textsecure.storage.user.getOurServiceIdKind(serviceId);
+    const serviceIdKind = itemStorage.user.getOurServiceIdKind(serviceId);
     if (serviceIdKind !== ServiceIdKind.PNI) {
       window.ConversationController.getOrCreate(id, 'private');
     }
@@ -2565,8 +2565,6 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async removeOurOldPni(oldPni: PniString): Promise<void> {
-    const { storage } = window;
-
     log.info(`removeOurOldPni(${oldPni})`);
 
     // Update caches
@@ -2598,13 +2596,13 @@ export class SignalProtocolStore extends EventEmitter {
 
     // Update database
     await Promise.all([
-      storage.put(
+      itemStorage.put(
         'identityKeyMap',
-        omit(storage.get('identityKeyMap') || {}, oldPni)
+        omit(itemStorage.get('identityKeyMap') || {}, oldPni)
       ),
-      storage.put(
+      itemStorage.put(
         'registrationIdMap',
-        omit(storage.get('registrationIdMap') || {}, oldPni)
+        omit(itemStorage.get('registrationIdMap') || {}, oldPni)
       ),
       DataWriter.removePreKeysByServiceId(oldPni),
       DataWriter.removeSignedPreKeysByServiceId(oldPni),
@@ -2630,8 +2628,6 @@ export class SignalProtocolStore extends EventEmitter {
       ? KyberPreKeyRecord.deserialize(lastResortKyberPreKeyBytes)
       : undefined;
 
-    const { storage } = window;
-
     const pniPublicKey = identityKeyPair.publicKey.serialize();
     const pniPrivateKey = identityKeyPair.privateKey.serialize();
 
@@ -2641,21 +2637,21 @@ export class SignalProtocolStore extends EventEmitter {
 
     // Update database
     await Promise.all<void>([
-      storage.put('identityKeyMap', {
-        ...(storage.get('identityKeyMap') || {}),
+      itemStorage.put('identityKeyMap', {
+        ...(itemStorage.get('identityKeyMap') || {}),
         [pni]: {
           pubKey: pniPublicKey,
           privKey: pniPrivateKey,
         },
       }),
-      storage.put('registrationIdMap', {
-        ...(storage.get('registrationIdMap') || {}),
+      itemStorage.put('registrationIdMap', {
+        ...(itemStorage.get('registrationIdMap') || {}),
         [pni]: registrationId,
       }),
       (async () => {
         const newId = signedPreKey.id() + 1;
         log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
-        await storage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
+        await itemStorage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),
       this.storeSignedPreKey(
         pni,
@@ -2673,7 +2669,7 @@ export class SignalProtocolStore extends EventEmitter {
         }
         const newId = lastResortKyberPreKey.id() + 1;
         log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
-        await storage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
+        await itemStorage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),
       lastResortKyberPreKeyBytes && lastResortKyberPreKey
         ? this.storeKyberPreKeys(pni, [
@@ -2694,8 +2690,8 @@ export class SignalProtocolStore extends EventEmitter {
     await DataWriter.removeAll();
     await this.hydrateCaches();
 
-    window.storage.reset();
-    await window.storage.fetch();
+    itemStorage.reset();
+    await itemStorage.fetch();
 
     window.ConversationController.reset();
     await window.ConversationController.load();
@@ -2718,13 +2714,13 @@ export class SignalProtocolStore extends EventEmitter {
 
     await this.hydrateCaches();
 
-    window.storage.reset();
-    await window.storage.fetch();
+    itemStorage.reset();
+    await itemStorage.fetch();
   }
 
   signAlternateIdentity(): PniSignatureMessageType | undefined {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    const ourPni = window.textsecure.storage.user.getPni();
+    const ourAci = itemStorage.user.getCheckedAci();
+    const ourPni = itemStorage.user.getPni();
     if (!ourPni) {
       log.error('signAlternateIdentity: No local pni');
       return undefined;

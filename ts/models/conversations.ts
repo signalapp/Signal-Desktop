@@ -46,9 +46,17 @@ import type {
 import * as Stickers from '../types/Stickers.js';
 import { StorySendMode } from '../types/Stories.js';
 import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.js';
-import type { GroupV2InfoType } from '../textsecure/SendMessage.js';
+import {
+  type GroupV2InfoType,
+  messageSender,
+} from '../textsecure/SendMessage.js';
+import {
+  getAvatar as doGetAvatar,
+  cdsLookup,
+  checkAccountExistence,
+} from '../textsecure/WebAPI.js';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
 import type {
   CallbackResultType,
   PniSignatureMessageType,
@@ -223,11 +231,12 @@ import {
   waitThenRespondToGroupV2Migration,
 } from '../groups.js';
 import { safeSetTimeout } from '../util/timeout.js';
-import { getTypingIndicatorSetting } from '../types/Util.js';
+import { getTypingIndicatorSetting } from '../util/Settings.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
 import { maybeNotify } from '../messages/maybeNotify.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import * as Message from '../types/Message2.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -570,7 +579,7 @@ export class ConversationModel {
     const idLog = this.idForLogging();
 
     const us = window.ConversationController.getOurConversationOrThrow();
-    const serviceId = window.storage.user.getCheckedServiceId(serviceIdKind);
+    const serviceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
 
     // This user's pending state may have changed in the time between the user's
     //   button press and when we get here. It's especially important to check here
@@ -630,7 +639,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     return buildDeletePendingAdminApprovalMemberChange({
       group: this.attributes,
@@ -750,7 +759,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     return buildDeleteMemberChange({
       group: this.attributes,
@@ -945,19 +954,19 @@ export class ConversationModel {
 
     const serviceId = this.getServiceId();
     if (serviceId && isAciString(serviceId)) {
-      drop(window.storage.blocked.addBlockedServiceId(serviceId));
+      drop(itemStorage.blocked.addBlockedServiceId(serviceId));
       blocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      drop(window.storage.blocked.addBlockedNumber(e164));
+      drop(itemStorage.blocked.addBlockedNumber(e164));
       blocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      drop(window.storage.blocked.addBlockedGroup(groupId));
+      drop(itemStorage.blocked.addBlockedGroup(groupId));
       blocked = true;
     }
 
@@ -976,19 +985,19 @@ export class ConversationModel {
 
     const serviceId = this.getServiceId();
     if (serviceId && isAciString(serviceId)) {
-      drop(window.storage.blocked.removeBlockedServiceId(serviceId));
+      drop(itemStorage.blocked.removeBlockedServiceId(serviceId));
       unblocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      drop(window.storage.blocked.removeBlockedNumber(e164));
+      drop(itemStorage.blocked.removeBlockedNumber(e164));
       unblocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      drop(window.storage.blocked.removeBlockedGroup(groupId));
+      drop(itemStorage.blocked.removeBlockedGroup(groupId));
       unblocked = true;
     }
 
@@ -1219,10 +1228,6 @@ export class ConversationModel {
   }
 
   async fetchSMSOnlyUUID(): Promise<void> {
-    const { server } = window.textsecure;
-    if (!server) {
-      return;
-    }
     if (!this.isSMSOnly()) {
       return;
     }
@@ -1239,7 +1244,10 @@ export class ConversationModel {
       await updateConversationsWithUuidLookup({
         conversationController: window.ConversationController,
         conversations: [this],
-        server,
+        server: {
+          cdsLookup,
+          checkAccountExistence,
+        },
       });
     } finally {
       // No redux update here
@@ -1341,12 +1349,6 @@ export class ConversationModel {
   }
 
   async sendTypingMessage(isTyping: boolean): Promise<void> {
-    const { messaging } = window.textsecure;
-
-    if (!messaging) {
-      return;
-    }
-
     // We don't send typing messages to our other devices
     if (isMe(this.attributes)) {
       return;
@@ -1419,7 +1421,7 @@ export class ConversationModel {
         `sendTypingMessage(${this.idForLogging()}): sending ${content.isTyping}`
       );
 
-      const contentMessage = messaging.getTypingContentMessage(content);
+      const contentMessage = messageSender.getTypingContentMessage(content);
 
       const sendOptions = {
         ...(await getSendOptions(this.attributes)),
@@ -1427,7 +1429,7 @@ export class ConversationModel {
       };
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
-          messaging.sendMessageProtoAndWait({
+          messageSender.sendMessageProtoAndWait({
             contentHint: ContentHint.Implicit,
             groupId: undefined,
             options: sendOptions,
@@ -2574,8 +2576,8 @@ export class ConversationModel {
         }
 
         if (isLocalAction) {
-          const ourAci = window.textsecure.storage.user.getCheckedAci();
-          const ourPni = window.textsecure.storage.user.getPni();
+          const ourAci = itemStorage.user.getCheckedAci();
+          const ourPni = itemStorage.user.getPni();
           const ourConversation =
             window.ConversationController.getOurConversationOrThrow();
 
@@ -2657,7 +2659,7 @@ export class ConversationModel {
     inviteLinkPassword: string;
     approvalRequired: boolean;
   }): Promise<void> {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
     try {
@@ -2713,7 +2715,7 @@ export class ConversationModel {
   }
 
   async cancelJoinRequest(): Promise<void> {
-    const ourAci = window.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     const inviteLinkPassword = this.get('groupInviteLinkPassword');
     if (!inviteLinkPassword) {
@@ -2735,8 +2737,8 @@ export class ConversationModel {
       return;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    const ourPni = window.textsecure.storage.user.getPni();
+    const ourAci = itemStorage.user.getCheckedAci();
+    const ourPni = itemStorage.user.getPni();
 
     if (this.isMemberPending(ourAci)) {
       await this.modifyGroupV2({
@@ -3633,9 +3635,8 @@ export class ConversationModel {
       'Change number notification without service id'
     );
 
-    const { storage } = window.textsecure;
     if (
-      storage.user.getOurServiceIdKind(sourceServiceId) !==
+      itemStorage.user.getOurServiceIdKind(sourceServiceId) !==
       ServiceIdKind.Unknown
     ) {
       log.info(
@@ -4861,7 +4862,7 @@ export class ConversationModel {
       return undefined;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const theirAci = this.getAci();
     if (!theirAci) {
       return undefined;
@@ -4972,9 +4973,9 @@ export class ConversationModel {
     const { avatarUrl, decryptionKey, forceFetch } = options;
     if (isMe(this.attributes)) {
       if (avatarUrl) {
-        await window.storage.put('avatarUrl', avatarUrl);
+        await itemStorage.put('avatarUrl', avatarUrl);
       } else {
-        await window.storage.remove('avatarUrl');
+        await itemStorage.remove('avatarUrl');
       }
     }
 
@@ -4983,17 +4984,12 @@ export class ConversationModel {
       return;
     }
 
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('setProfileAvatar: Cannot fetch avatar when offline!');
-    }
-
     if (!this.getAccepted({ ignoreEmptyConvo: true }) && !forceFetch) {
       this.set({ remoteAvatarUrl: avatarUrl });
       return;
     }
 
-    const avatar = await messaging.getAvatar(avatarUrl);
+    const avatar = await doGetAvatar(avatarUrl);
 
     // If decryptionKey isn't provided, use the one from the model
     const modelProfileKey = this.get('profileKey');
@@ -5365,7 +5361,7 @@ export class ConversationModel {
 
   areWeAMember(): boolean {
     return (
-      !this.get('left') && this.hasMember(window.storage.user.getCheckedAci())
+      !this.get('left') && this.hasMember(itemStorage.user.getCheckedAci())
     );
   }
 
@@ -5693,7 +5689,7 @@ export class ConversationModel {
 
     log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
-      window.storage.get('pinnedConversationIds', new Array<string>())
+      itemStorage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.add(this.id);
@@ -5716,7 +5712,7 @@ export class ConversationModel {
     log.info('un-pinning', this.idForLogging());
 
     const pinnedConversationIds = new Set(
-      window.storage.get('pinnedConversationIds', new Array<string>())
+      itemStorage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.delete(this.id);
@@ -5728,7 +5724,7 @@ export class ConversationModel {
   }
 
   writePinnedConversations(pinnedConversationIds: Array<string>): void {
-    drop(window.storage.put('pinnedConversationIds', pinnedConversationIds));
+    drop(itemStorage.put('pinnedConversationIds', pinnedConversationIds));
 
     const myId = window.ConversationController.getOurConversationId();
     const me = window.ConversationController.get(myId);

@@ -24,6 +24,7 @@ import {
   EventKind as ProvisionEventKind,
   type EnvelopeType as ProvisionEnvelopeType,
 } from '../../textsecure/Provisioner.js';
+import { getProvisioningResource } from '../../textsecure/WebAPI.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
 import { createLogger } from '../../logging/log.js';
@@ -174,11 +175,12 @@ function startInstaller(): ThunkAction<
       'Unexpected step after START_INSTALLER'
     );
 
-    const { server } = window.textsecure;
-    strictAssert(server, 'Expected a server');
-
     if (!provisioner) {
-      provisioner = new Provisioner({ server });
+      provisioner = new Provisioner({
+        server: {
+          getProvisioningResource,
+        },
+      });
     }
 
     const cancel = provisioner.subscribe(event => {

@@ -3,7 +3,8 @@
 
 import { createLogger } from '../logging/log.js';
 
-import { getAuthor, isIncoming, isOutgoing } from './helpers.js';
+import { isIncoming, isOutgoing } from './helpers.js';
+import { getAuthor } from './sources.js';
 
 import type { ConversationModel } from '../models/conversations.js';
 import { getActiveProfile } from '../state/selectors/notificationProfiles.js';

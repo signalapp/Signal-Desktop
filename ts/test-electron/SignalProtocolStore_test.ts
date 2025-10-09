@@ -35,6 +35,7 @@ import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import { generateAci, generatePni } from '../types/ServiceId.js';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { clone } = lodash;
 
@@ -157,16 +158,16 @@ describe('SignalProtocolStore', () => {
     identityKey = IdentityKeyPair.generate();
     testKey = IdentityKeyPair.generate();
 
-    await window.storage.put('registrationIdMap', {
+    await itemStorage.put('registrationIdMap', {
       [ourAci]: 1337,
     });
-    await window.storage.put('identityKeyMap', {
+    await itemStorage.put('identityKeyMap', {
       [ourAci]: {
         privKey: identityKey.privateKey.serialize(),
         pubKey: identityKey.publicKey.serialize(),
       },
     });
-    await window.storage.fetch();
+    await itemStorage.fetch();
 
     window.ConversationController.reset();
     await window.ConversationController.load();
@@ -175,7 +176,7 @@ describe('SignalProtocolStore', () => {
 
   after(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   describe('getLocalRegistrationId', () => {

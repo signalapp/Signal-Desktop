@@ -16,19 +16,29 @@ import { Sessions, IdentityKeys } from '../LibSignalStores.js';
 import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
-import type { ServerKeysType, WebAPIType } from './WebAPI.js';
+import type {
+  getKeysForServiceId as doGetKeysForServiceId,
+  getKeysForServiceIdUnauth,
+  ServerKeysType,
+} from './WebAPI.js';
 import { createLogger } from '../logging/log.js';
 import { isRecord } from '../util/isRecord.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from './Storage.js';
 
 const log = createLogger('getKeysForServiceId');
 
+type ServerType = Readonly<{
+  getKeysForServiceId: typeof doGetKeysForServiceId;
+  getKeysForServiceIdUnauth: typeof getKeysForServiceIdUnauth;
+}>;
+
 export async function getKeysForServiceId(
   serviceId: ServiceIdString,
-  server: WebAPIType,
+  server: ServerType,
   devicesToUpdate: Array<number> | null,
   accessKey: string | null,
   groupSendToken: GroupSendToken | null
@@ -67,7 +77,7 @@ function isUnauthorizedError(error: unknown) {
 
 async function getServerKeys(
   serviceId: ServiceIdString,
-  server: WebAPIType,
+  server: ServerType,
   accessKey: string | null,
   groupSendToken: GroupSendToken | null
 ): Promise<{ accessKeyFailed: boolean; keys: ServerKeysType }> {
@@ -119,7 +129,7 @@ async function handleServerKeys(
   response: ServerKeysType,
   devicesToUpdate: Array<number> | null
 ): Promise<void> {
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const sessionStore = new Sessions({ ourServiceId: ourAci });
   const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
 

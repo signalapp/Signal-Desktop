@@ -30,8 +30,9 @@ export function isMe(
   conversationAttrs: Pick<ConversationAttributesType, 'e164' | 'serviceId'>
 ): boolean {
   const { e164, serviceId } = conversationAttrs;
-  const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourAci = window.textsecure.storage.user.getAci();
+  const us = window.ConversationController.getOurConversation();
+  const ourNumber = us?.get('e164');
+  const ourAci = us?.get('serviceId');
   return Boolean(
     (e164 && e164 === ourNumber) || (serviceId && serviceId === ourAci)
   );

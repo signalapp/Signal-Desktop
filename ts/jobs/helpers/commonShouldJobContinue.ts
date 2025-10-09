@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LoggerType } from '../../types/Logging.js';
+import { isOnline } from '../../textsecure/WebAPI.js';
 import { waitForOnline } from '../../util/waitForOnline.js';
 import { exponentialBackoffSleepTime } from '../../util/exponentialBackoff.js';
 import { isDone as isDeviceLinked } from '../../util/registration.js';
 import { sleeper } from '../../util/sleeper.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 export async function commonShouldJobContinue({
   attempt,
@@ -25,7 +27,7 @@ export async function commonShouldJobContinue({
 
   try {
     if (isDeviceLinked()) {
-      await waitForOnline({ timeout: timeRemaining });
+      await waitForOnline({ server: { isOnline }, timeout: timeRemaining });
     }
   } catch (err: unknown) {
     log.info("didn't come online in time, giving up");
@@ -33,7 +35,7 @@ export async function commonShouldJobContinue({
   }
 
   await new Promise<void>(resolve => {
-    window.storage.onready(resolve);
+    itemStorage.onready(resolve);
   });
 
   if (!isDeviceLinked()) {

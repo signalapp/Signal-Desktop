@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import type { WebAPIType } from './textsecure/WebAPI.js';
+import type { getConfig } from './textsecure/WebAPI.js';
 import { createLogger } from './logging/log.js';
 import type { AciString } from './types/ServiceId.js';
 import { parseIntOrThrow } from './util/parseIntOrThrow.js';
@@ -13,6 +13,7 @@ import { uuidToBytes } from './util/uuidToBytes.js';
 import { HashType } from './types/Crypto.js';
 import { getCountryCode } from './types/PhoneNumber.js';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
+import type { StorageInterface } from './types/Storage.d.ts';
 
 const { get, throttle } = lodash;
 
@@ -69,8 +70,15 @@ type ConfigListenersMapType = {
 let config: ConfigMapType = {};
 const listeners: ConfigListenersMapType = {};
 
-export function restoreRemoteConfigFromStorage(): void {
-  config = window.storage.get('remoteConfig') || {};
+export type OptionsType = Readonly<{
+  getConfig: typeof getConfig;
+  storage: Pick<StorageInterface, 'get' | 'put' | 'remove'>;
+}>;
+
+export function restoreRemoteConfigFromStorage({
+  storage,
+}: Pick<OptionsType, 'storage'>): void {
+  config = storage.get('remoteConfig') || {};
 }
 
 export function onChange(
@@ -86,17 +94,18 @@ export function onChange(
   };
 }
 
-export const _refreshRemoteConfig = async (
-  server: WebAPIType
-): Promise<void> => {
+export const _refreshRemoteConfig = async ({
+  getConfig,
+  storage,
+}: OptionsType): Promise<void> => {
   const now = Date.now();
-  const oldConfigHash = window.storage.get('remoteConfigHash');
+  const oldConfigHash = storage.get('remoteConfigHash');
 
   const {
     config: newConfig,
     serverTimestamp,
     configHash,
-  } = await server.getConfig(oldConfigHash);
+  } = await getConfig(oldConfigHash);
 
   const serverTimeSkew = serverTimestamp - now;
 
@@ -178,25 +187,25 @@ export const _refreshRemoteConfig = async (
   const remoteExpirationValue = getValue('desktop.clientExpiration');
   if (!remoteExpirationValue) {
     // If remote configuration fetch worked - we are not expired anymore.
-    if (window.storage.get('remoteBuildExpiration') != null) {
+    if (storage.get('remoteBuildExpiration') != null) {
       log.warn('Remote Config: clearing remote expiration on successful fetch');
     }
-    await window.storage.remove('remoteBuildExpiration');
+    await storage.remove('remoteBuildExpiration');
   } else {
     const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
       remoteExpirationValue
     );
     if (remoteBuildExpirationTimestamp) {
-      await window.storage.put(
+      await storage.put(
         'remoteBuildExpiration',
         remoteBuildExpirationTimestamp
       );
     }
   }
 
-  await window.storage.put('remoteConfig', config);
-  await window.storage.put('remoteConfigHash', configHash);
-  await window.storage.put('serverTimeSkew', serverTimeSkew);
+  await storage.put('remoteConfig', config);
+  await storage.put('remoteConfigHash', configHash);
+  await storage.put('serverTimeSkew', serverTimeSkew);
 };
 
 export const maybeRefreshRemoteConfig = throttle(
@@ -207,12 +216,12 @@ export const maybeRefreshRemoteConfig = throttle(
 );
 
 export async function forceRefreshRemoteConfig(
-  server: WebAPIType,
+  options: OptionsType,
   reason: string
 ): Promise<void> {
   log.info(`forceRefreshRemoteConfig: ${reason}`);
   maybeRefreshRemoteConfig.cancel();
-  await _refreshRemoteConfig(server);
+  await _refreshRemoteConfig(options);
 }
 
 export function isEnabled(

@@ -9,9 +9,10 @@ import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
 import { toAdminKeyBytes } from './callLinks.js';
 import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('sendCallLinkUpdateSync');
 
@@ -41,7 +42,7 @@ async function _sendCallLinkUpdateSync(
   log.info(`Sending CallLinkUpdate type=${type}`);
 
   try {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     const callLinkUpdate = new Proto.SyncMessage.CallLinkUpdate({
       type: protoType,

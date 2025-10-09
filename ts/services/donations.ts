@@ -45,6 +45,15 @@ import type {
 import { ToastType } from '../types/Toast.js';
 import { NavTab, SettingsPage } from '../types/Nav.js';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil.js';
+import {
+  createBoostPaymentIntent,
+  createPaymentMethodWithStripe,
+  confirmIntentWithStripe,
+  createBoostReceiptCredentials,
+  redeemReceipt,
+  isOnline,
+} from '../textsecure/WebAPI.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { createDonationReceipt } = DataWriter;
 
@@ -322,9 +331,9 @@ export async function _runDonationWorkflow(): Promise<void> {
         return;
       }
 
-      if (!window.textsecure.server?.isOnline()) {
+      if (!isOnline()) {
         log.info(`${logId}: We are not online; waiting until we are online`);
-        await waitForOnline();
+        await waitForOnline({ server: { isOnline } });
         log.info(`${logId}: We are back online; starting up again`);
       }
 
@@ -499,9 +508,6 @@ export async function _createPaymentIntent({
         `${logId}: existing workflow at type ${workflow.type} is not at type DONE, unable to create payment intent`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Creating new workflow`);
 
@@ -511,8 +517,7 @@ export async function _createPaymentIntent({
       level: 1,
       paymentMethod: 'CARD',
     };
-    const { clientSecret } =
-      await window.textsecure.server.createBoostPaymentIntent(payload);
+    const { clientSecret } = await createBoostPaymentIntent(payload);
     const paymentIntentId = clientSecret.split('_secret_')[0];
 
     log.info(`${logId}: Successfully transitioned to INTENT`);
@@ -546,16 +551,12 @@ export async function _createPaymentMethodForIntent(
         `${logId}: workflow at type ${workflow?.type} is not at type INTENT or INTENT_METHOD, unable to create payment method`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Starting`);
 
-    const { id: paymentMethodId } =
-      await window.textsecure.server.createPaymentMethodWithStripe({
-        cardDetail,
-      });
+    const { id: paymentMethodId } = await createPaymentMethodWithStripe({
+      cardDetail,
+    });
 
     log.info(`${logId}: Successfully transitioned to INTENT_METHOD`);
 
@@ -579,9 +580,6 @@ export async function _confirmPayment(
         `${logId}: workflow at type ${workflow?.type} is not at type INTENT_METHOD, unable to confirm payment`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Starting`);
 
@@ -603,8 +601,7 @@ export async function _confirmPayment(
       returnUrl,
     };
 
-    const { next_action: nextAction } =
-      await window.textsecure.server.confirmIntentWithStripe(options);
+    const { next_action: nextAction } = await confirmIntentWithStripe(options);
 
     if (nextAction && nextAction.type === 'redirect_to_url') {
       const { redirect_to_url: redirectDetails } = nextAction;
@@ -655,9 +652,6 @@ export async function _completeValidationRedirect(
         `${logId}: workflow at type ${workflow?.type} is not type INTENT_REDIRECT, unable to complete redirect`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Starting`);
 
@@ -686,9 +680,6 @@ export async function _getReceipt(
         `${logId}: workflow at type ${workflow?.type} not type INTENT_CONFIRMED, unable to get receipt`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Starting`);
 
@@ -709,10 +700,7 @@ export async function _getReceipt(
     //   credentialRequest for the same paymentIntentId
     let responseWithDetails;
     try {
-      responseWithDetails =
-        await window.textsecure.server.createBoostReceiptCredentials(
-          jsonPayload
-        );
+      responseWithDetails = await createBoostReceiptCredentials(jsonPayload);
     } catch (error) {
       if (error.code === 409) {
         // Save for the user's tax records even if something went wrong with credential
@@ -774,9 +762,6 @@ export async function _redeemReceipt(
         `${logId}: workflow at type ${workflow?.type} not type RECEIPT, unable to redeem receipt`
       );
     }
-    if (!window.textsecure.server) {
-      throw new Error(`${logId}: window.textsecure.server is not available!`);
-    }
 
     log.info(`${logId}: Starting`);
 
@@ -799,7 +784,7 @@ export async function _redeemReceipt(
       primary: false,
     };
 
-    await window.textsecure.server.redeemReceipt(jsonPayload);
+    await redeemReceipt(jsonPayload);
 
     // After the receipt credential, our profile will change to add new badges.
     // Refresh our profile to get new badges.
@@ -885,10 +870,10 @@ export function _saveWorkflowToRedux(
 
 export function _getWorkflowFromStorage(): DonationWorkflow | undefined {
   const logId = '_getWorkflowFromStorage';
-  const workflowJson = window.storage.get(WORKFLOW_STORAGE_KEY);
+  const workflowJson = itemStorage.get(WORKFLOW_STORAGE_KEY);
 
   if (!workflowJson) {
-    log.info(`${logId}: No workflow found in window.storage`);
+    log.info(`${logId}: No workflow found in storage`);
     return undefined;
   }
 
@@ -896,7 +881,7 @@ export function _getWorkflowFromStorage(): DonationWorkflow | undefined {
   const result = safeParseUnknown(donationWorkflowSchema, workflowData);
   if (!result.success) {
     log.error(
-      `${logId}: Workflow from window.storage was malformed: ${result.error.flatten()}`
+      `${logId}: Workflow from storage was malformed: ${result.error.flatten()}`
     );
     return undefined;
   }
@@ -907,7 +892,7 @@ export function _getWorkflowFromStorage(): DonationWorkflow | undefined {
     return undefined;
   }
 
-  log.info(`${logId}: Found existing workflow from window.storage`);
+  log.info(`${logId}: Found existing workflow from storage`);
   return workflow;
 }
 export async function _saveWorkflowToStorage(
@@ -916,7 +901,7 @@ export async function _saveWorkflowToStorage(
   const logId = `_saveWorkflowToStorage(${workflow?.id ? redactId(workflow.id) : 'NONE'}`;
   if (!workflow) {
     log.info(`${logId}: Clearing workflow`);
-    await window.storage.remove(WORKFLOW_STORAGE_KEY);
+    await itemStorage.remove(WORKFLOW_STORAGE_KEY);
     return;
   }
 
@@ -928,8 +913,8 @@ export async function _saveWorkflowToStorage(
     throw result.error;
   }
 
-  await window.storage.put(WORKFLOW_STORAGE_KEY, JSON.stringify(workflow));
-  log.info(`${logId}: Saved workflow to window.storage`);
+  await itemStorage.put(WORKFLOW_STORAGE_KEY, JSON.stringify(workflow));
+  log.info(`${logId}: Saved workflow to storage`);
 }
 
 async function saveReceipt(workflow: DonationWorkflow, logId: string) {

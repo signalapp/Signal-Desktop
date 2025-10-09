@@ -36,13 +36,17 @@ import type {
 
 import { SignalService as Proto } from '../protobuf/index.js';
 import { createLogger } from '../logging/log.js';
-import type MessageSender from '../textsecure/SendMessage.js';
+import {
+  type MessageSender,
+  messageSender,
+} from '../textsecure/SendMessage.js';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.js';
 import { drop } from './drop.js';
 import { conversationJobQueue } from '../jobs/conversationJobQueue.js';
 import { incrementMessageCounter } from './incrementMessageCounter.js';
 import { SECOND } from './durations/index.js';
 import { sleep } from './sleep.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isNumber, random } = lodash;
 
@@ -208,11 +212,6 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 
   log.info(`onRetryRequest/${logId}: Resending message`);
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error(`onRetryRequest/${logId}: messaging is not available!`);
-  }
-
   const { contentHint, messageIds, proto, timestamp, urgent } = sentProto;
 
   // Only applies to sender key sends in groups. See below for story distribution lists.
@@ -236,7 +235,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
       confirm,
       contentProto,
       logId,
-      messaging,
+      messaging: messageSender,
       requesterAci,
       timestamp,
     });
@@ -349,14 +348,14 @@ async function archiveSessionOnMatch({
   senderDevice,
 }: RetryRequestEventData): Promise<boolean> {
   const ourDeviceId = parseIntOrThrow(
-    window.textsecure.storage.user.getDeviceId(),
+    itemStorage.user.getDeviceId(),
     'archiveSessionOnMatch/getDeviceId'
   );
   if (ourDeviceId !== senderDevice || !ratchetKey) {
     return false;
   }
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const address = new QualifiedAddress(
     ourAci,
     Address.create(requesterAci, requesterDevice)
@@ -382,13 +381,6 @@ async function sendDistributionMessageOrNullMessage(
   const { groupId, requesterAci } = options;
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
-
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error(
-      `sendDistributionMessageOrNullMessage/${logId}: messaging is not available!`
-    );
-  }
 
   const conversation = window.ConversationController.getOrCreate(
     requesterAci,
@@ -586,13 +578,6 @@ async function maybeAddSenderKeyDistributionMessage({
     requestGroupId,
   });
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error(
-      `maybeAddSenderKeyDistributionMessage/${logId}: messaging is not available!`
-    );
-  }
-
   if (!conversation) {
     log.warn(
       `maybeAddSenderKeyDistributionMessage/${logId}: Unable to find conversation`
@@ -617,7 +602,7 @@ async function maybeAddSenderKeyDistributionMessage({
   const senderKeyInfo = conversation.get('senderKeyInfo');
   if (senderKeyInfo && senderKeyInfo.distributionId) {
     const protoWithDistributionMessage =
-      await messaging.getSenderKeyDistributionMessage(
+      await messageSender.getSenderKeyDistributionMessage(
         senderKeyInfo.distributionId,
         { throwIfNotInDatabase: true, timestamp }
       );
@@ -658,11 +643,6 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     contentHint,
     groupId: groupId ? `groupv2(${groupId})` : undefined,
   });
-
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error(`requestResend/${logId}: messaging is not available!`);
-  }
 
   // 1. Find the target conversation
 
@@ -719,7 +699,7 @@ function scheduleSessionReset(senderAci: AciString, senderDevice: number) {
 
   drop(
     lightSessionResetQueue.add(async () => {
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
+      const ourAci = itemStorage.user.getCheckedAci();
 
       await signalProtocolStore.lightSessionReset(
         new QualifiedAddress(ourAci, Address.create(senderAci, senderDevice))

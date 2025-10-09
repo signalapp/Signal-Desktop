@@ -27,6 +27,7 @@ import type { MessageAttributesType } from '../../model-types.js';
 import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.js';
 import { MY_STORY_ID } from '../../types/Stories.js';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -50,7 +51,7 @@ describe('backup/bubble messages', () => {
   beforeEach(async () => {
     await DataWriter._removeAllMessages();
     await DataWriter._removeAllConversations();
-    window.storage.reset();
+    itemStorage.reset();
 
     await setupBasics();
 

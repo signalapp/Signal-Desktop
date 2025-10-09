@@ -12,7 +12,7 @@ import { createLogger } from '../logging/log.js';
 import { isValidTapToView } from '../util/isValidTapToView.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
 import { eraseMessageContents } from '../util/cleanup.js';
-import { getSource, getSourceServiceId } from '../messages/helpers.js';
+import { getSource, getSourceServiceId } from '../messages/sources.js';
 import { isAciString } from '../util/isAciString.js';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.js';
 import { drop } from '../util/drop.js';

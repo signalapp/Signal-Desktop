@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { reportMessage, isOnline } from '../textsecure/WebAPI.js';
 import { drop } from '../util/drop.js';
 import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager.js';
 import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.js';
@@ -16,13 +16,18 @@ import { singleProtoJobQueue } from './singleProtoJobQueue.js';
 import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue.js';
 import { viewSyncJobQueue } from './viewSyncJobQueue.js';
 
+type ServerType = {
+  reportMessage: typeof reportMessage;
+  isOnline: typeof isOnline;
+};
+
 /**
  * Start all of the job queues. Should be called when the database is ready.
  */
 export function initializeAllJobQueues({
   server,
 }: {
-  server: WebAPIType;
+  server: ServerType;
 }): void {
   reportSpamJobQueue.initialize({ server });
 

@@ -21,6 +21,8 @@ import { createLogger } from '../../logging/log.js';
 import * as Bytes from '../../Bytes.js';
 import { strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
+import { waitForAllBatchers } from '../../util/batcher.js';
+import { flushAllWaitBatchers } from '../../util/waitBatcher.js';
 import { DelimitedStream } from '../../util/DelimitedStream.js';
 import { appendPaddingStream } from '../../util/logPadding.js';
 import { prependStream } from '../../util/prependStream.js';
@@ -86,6 +88,8 @@ import {
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.js';
 import { decipherWithAesKey } from '../../util/decipherWithAesKey.js';
 import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled.js';
+import { unlink as unlinkAccount } from '../../textsecure/WebAPI.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { ensureFile } = fsExtra;
 
@@ -195,7 +199,7 @@ export class BackupsService {
   public async downloadAndImport(
     options: DownloadOptionsType
   ): Promise<{ wasBackupImported: boolean }> {
-    const backupDownloadPath = window.storage.get('backupDownloadPath');
+    const backupDownloadPath = itemStorage.get('backupDownloadPath');
     if (!backupDownloadPath) {
       log.warn('backups.downloadAndImport: no backup download path, skipping');
       return { wasBackupImported: false };
@@ -203,7 +207,7 @@ export class BackupsService {
 
     log.info('backups.downloadAndImport: downloading...');
 
-    const ephemeralKey = window.storage.get('backupEphemeralKey');
+    const ephemeralKey = itemStorage.get('backupEphemeralKey');
 
     const absoluteDownloadPath =
       window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
@@ -281,10 +285,10 @@ export class BackupsService {
       break;
     }
 
-    await window.storage.remove('backupDownloadPath');
-    await window.storage.remove('backupEphemeralKey');
-    await window.storage.remove('backupTransitArchive');
-    await window.storage.put('isRestoredFromBackup', hasBackup);
+    await itemStorage.remove('backupDownloadPath');
+    await itemStorage.remove('backupEphemeralKey');
+    await itemStorage.remove('backupTransitArchive');
+    await itemStorage.put('isRestoredFromBackup', hasBackup);
 
     log.info('backups.downloadAndImport: done');
 
@@ -789,7 +793,7 @@ export class BackupsService {
           abortSignal: controller.signal,
         });
       } else {
-        let archive = window.storage.get('backupTransitArchive');
+        let archive = itemStorage.get('backupTransitArchive');
         if (archive == null) {
           const response = await this.api.getTransferArchive(controller.signal);
           if ('error' in response) {
@@ -812,7 +816,7 @@ export class BackupsService {
             cdn: response.cdn,
             key: response.key,
           };
-          await window.storage.put('backupTransitArchive', archive);
+          await itemStorage.put('backupTransitArchive', archive);
         }
 
         stream = await this.api.downloadEphemeral({
@@ -865,10 +869,10 @@ export class BackupsService {
       try {
         // Import and start writing to the DB. Make sure we are unlinked
         // if the import process is aborted due to error or restart.
-        const password = window.storage.get('password');
+        const password = itemStorage.get('password');
         strictAssert(password != null, 'Must be registered to import backup');
 
-        await window.storage.remove('password');
+        await itemStorage.remove('password');
 
         await this.importFromDisk(downloadPath, {
           ephemeralKey,
@@ -882,7 +886,7 @@ export class BackupsService {
         });
 
         // Restore password on success
-        await window.storage.put('password', password);
+        await itemStorage.put('password', password);
       } catch (e) {
         // Error or manual cancel during import; this is non-retriable
         if (e instanceof BackupInstallerError) {
@@ -1005,7 +1009,7 @@ export class BackupsService {
     });
 
     try {
-      await window.textsecure.server?.unlink();
+      await unlinkAccount();
     } catch (e) {
       log.warn(
         'Error while unlinking; this may be expected for the unlink operation',
@@ -1046,10 +1050,7 @@ export class BackupsService {
     await window.waitForEmptyEventQueue();
 
     // Make sure all batches are flushed
-    await Promise.all([
-      window.waitForAllBatchers(),
-      window.flushAllWaitBatchers(),
-    ]);
+    await Promise.all([waitForAllBatchers(), flushAllWaitBatchers()]);
   }
 
   public isImportRunning(): boolean {
@@ -1060,7 +1061,7 @@ export class BackupsService {
   }
 
   #getBackupTierFromStorage(): BackupLevel | null {
-    const backupTier = window.storage.get('backupTier');
+    const backupTier = itemStorage.get('backupTier');
     switch (backupTier) {
       case BackupLevel.Free:
         return BackupLevel.Free;
@@ -1086,7 +1087,7 @@ export class BackupsService {
       };
     }
 
-    await window.storage.put('cloudBackupStatus', result);
+    await itemStorage.put('cloudBackupStatus', result);
     return result;
   }
 
@@ -1115,7 +1116,7 @@ export class BackupsService {
         throw missingCaseError(backupTier);
     }
 
-    await window.storage.put('backupSubscriptionStatus', result);
+    await itemStorage.put('backupSubscriptionStatus', result);
     return result;
   }
 
@@ -1129,17 +1130,17 @@ export class BackupsService {
   async resetCachedData(): Promise<void> {
     this.api.clearCache();
     await this.credentials.clearCache();
-    await window.storage.remove('backupSubscriptionStatus');
-    await window.storage.remove('cloudBackupStatus');
+    await itemStorage.remove('backupSubscriptionStatus');
+    await itemStorage.remove('cloudBackupStatus');
     await this.refreshBackupAndSubscriptionStatus();
   }
 
   hasMediaBackups(): boolean {
-    return window.storage.get('backupTier') === BackupLevel.Paid;
+    return itemStorage.get('backupTier') === BackupLevel.Paid;
   }
 
   getCachedCloudBackupStatus(): BackupStatusType | undefined {
-    return window.storage.get('cloudBackupStatus');
+    return itemStorage.get('cloudBackupStatus');
   }
 
   async pickLocalBackupFolder(): Promise<string | undefined> {
@@ -1150,7 +1151,7 @@ export class BackupsService {
       return;
     }
 
-    drop(window.storage.put('localBackupFolder', snapshotDir));
+    drop(itemStorage.put('localBackupFolder', snapshotDir));
     return snapshotDir;
   }
 }

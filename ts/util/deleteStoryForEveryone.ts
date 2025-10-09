@@ -20,7 +20,6 @@ import { onStoryRecipientUpdate } from './onStoryRecipientUpdate.js';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
 import { getMessageById } from '../messages/getMessageById.js';
-import { strictAssert } from './assert.js';
 import { repeat, zipObject } from './iterables.js';
 import { isOlderThan } from './timestamp.js';
 
@@ -155,10 +154,6 @@ export async function deleteStoryForEveryone(
       recipient.distributionListIds.add(item.storyDistributionListId);
     });
   });
-
-  // Include the sync message with the updated storyMessageRecipients list
-  const sender = window.textsecure.messaging;
-  strictAssert(sender, 'messaging has to be initialized');
 
   const newStoryMessageRecipients: StoryMessageRecipientsType = [];
 

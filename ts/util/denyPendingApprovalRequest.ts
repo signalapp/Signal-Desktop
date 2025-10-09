@@ -8,6 +8,7 @@ import { createLogger } from '../logging/log.js';
 import { buildDeletePendingAdminApprovalMemberChange } from '../groups.js';
 import { getConversationIdForLogging } from './idForLogging.js';
 import { isMemberRequestingToJoin } from './groupMembershipUtils.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('denyPendingApprovalRequest');
 
@@ -28,7 +29,7 @@ export async function denyPendingApprovalRequest(
     return undefined;
   }
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   return buildDeletePendingAdminApprovalMemberChange({
     group: conversationAttributes,

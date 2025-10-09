@@ -41,6 +41,7 @@ import type {
   PushPanelForConversationActionType,
   ShowConversationType,
 } from '../state/ducks/conversations.js';
+import type { GetConversationByIdType } from '../state/selectors/conversations.js';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
 import { isSameLinkPreview } from '../types/message/LinkPreviews.js';
 
@@ -97,6 +98,7 @@ export type OwnProps = Readonly<{
     bodyRanges: DraftBodyRanges | undefined
   ) => HydratedBodyRangesType | undefined;
   conversationId: string;
+  conversationSelector: GetConversationByIdType;
   discardEditMessage: (id: string) => unknown;
   draftEditMessage: DraftEditMessageType | null;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
@@ -250,6 +252,8 @@ export const CompositionArea = memo(function CompositionArea({
   theme,
   setMuteExpiration,
 
+  // MediaEditor
+  conversationSelector,
   // AttachmentList
   draftAttachments,
   onClearAttachments,
@@ -963,6 +967,7 @@ export const CompositionArea = memo(function CompositionArea({
             isCreatingStory={false}
             isFormattingEnabled={isFormattingEnabled}
             isSending={false}
+            conversationSelector={conversationSelector}
             onClose={() => setAttachmentToEdit(undefined)}
             onDone={({
               caption,

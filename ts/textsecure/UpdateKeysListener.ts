@@ -8,6 +8,8 @@ import { ServiceIdKind } from '../types/ServiceId.js';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { HTTPError } from '../types/HTTPError.js';
+import { isOnline } from './WebAPI.js';
+import { itemStorage } from './Storage.js';
 
 const log = createLogger('UpdateKeysListener');
 
@@ -25,12 +27,12 @@ export class UpdateKeysListener {
 
   protected scheduleUpdateForNow(): void {
     const now = Date.now();
-    void window.textsecure.storage.put(UPDATE_TIME_STORAGE_KEY, now);
+    void itemStorage.put(UPDATE_TIME_STORAGE_KEY, now);
   }
 
   protected setTimeoutForNextRun(): void {
     const now = Date.now();
-    const time = window.textsecure.storage.get(UPDATE_TIME_STORAGE_KEY, now);
+    const time = itemStorage.get(UPDATE_TIME_STORAGE_KEY, now);
 
     log.info('Next update scheduled for', new Date(time).toISOString());
 
@@ -46,7 +48,7 @@ export class UpdateKeysListener {
   #scheduleNextUpdate(): void {
     const now = Date.now();
     const nextTime = now + UPDATE_INTERVAL;
-    void window.textsecure.storage.put(UPDATE_TIME_STORAGE_KEY, nextTime);
+    void itemStorage.put(UPDATE_TIME_STORAGE_KEY, nextTime);
   }
 
   async #run(): Promise<void> {
@@ -89,7 +91,7 @@ export class UpdateKeysListener {
   }
 
   #runWhenOnline() {
-    if (window.textsecure.server?.isOnline()) {
+    if (isOnline()) {
       void this.#run();
     } else {
       log.info('We are offline; will update keys when we are next online');

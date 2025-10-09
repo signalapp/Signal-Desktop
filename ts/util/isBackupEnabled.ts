@@ -5,9 +5,10 @@ import * as RemoteConfig from '../RemoteConfig.js';
 import { isTestOrMockEnvironment } from '../environment.js';
 import { isStagingServer } from './isStagingServer.js';
 import { isBeta, isNightly } from './version.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function areRemoteBackupsTurnedOn(): boolean {
-  return isBackupFeatureEnabled() && window.storage.get('backupTier') != null;
+  return isBackupFeatureEnabled() && itemStorage.get('backupTier') != null;
 }
 
 // Downloading from a remote backup is currently a test-only feature

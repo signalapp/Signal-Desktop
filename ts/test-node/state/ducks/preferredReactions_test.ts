@@ -14,6 +14,7 @@ import {
   reducer,
 } from '../../../state/ducks/preferredReactions.js';
 import { EmojiSkinTone } from '../../../components/fun/data/emojis.js';
+import { itemStorage } from '../../../textsecure/Storage.js';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>
@@ -254,7 +255,7 @@ describe('preferred reactions duck', () => {
     let oldConversationController: any;
 
     beforeEach(() => {
-      storagePutStub = sinonSandbox.stub(window.storage, 'put').resolves();
+      storagePutStub = sinonSandbox.stub(itemStorage, 'put').resolves();
 
       oldConversationController = window.ConversationController;
 

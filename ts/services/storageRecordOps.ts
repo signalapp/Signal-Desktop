@@ -97,12 +97,12 @@ import {
   fromPniUuidBytesOrUntaggedString,
 } from '../util/ServiceId.js';
 import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
-import { getLinkPreviewSetting } from '../types/LinkPreview.js';
 import {
+  getLinkPreviewSetting,
   getReadReceiptSetting,
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
-} from '../types/Util.js';
+} from '../util/Settings.js';
 import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.js';
 import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.js';
 import {
@@ -126,6 +126,8 @@ import {
   generateNotificationProfileId,
   normalizeNotificationProfileId,
 } from '../types/NotificationProfile-node.js';
+import { itemStorage } from '../textsecure/Storage.js';
+import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.js';
 
 const { isEqual } = lodash;
 
@@ -404,7 +406,7 @@ export function toAccountRecord(
   if (conversation.get('profileFamilyName')) {
     accountRecord.familyName = conversation.get('profileFamilyName') || '';
   }
-  const avatarUrl = window.storage.get('avatarUrl');
+  const avatarUrl = itemStorage.get('avatarUrl');
   if (avatarUrl !== undefined) {
     accountRecord.avatarUrlPath = avatarUrl;
   }
@@ -421,14 +423,12 @@ export function toAccountRecord(
   accountRecord.typingIndicators = getTypingIndicatorSetting();
   accountRecord.linkPreviews = getLinkPreviewSetting();
 
-  const preferContactAvatars = window.storage.get('preferContactAvatars');
+  const preferContactAvatars = itemStorage.get('preferContactAvatars');
   if (preferContactAvatars !== undefined) {
     accountRecord.preferContactAvatars = Boolean(preferContactAvatars);
   }
 
-  const rawPreferredReactionEmoji = window.storage.get(
-    'preferredReactionEmoji'
-  );
+  const rawPreferredReactionEmoji = itemStorage.get('preferredReactionEmoji');
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
     accountRecord.preferredReactionEmoji = rawPreferredReactionEmoji;
   }
@@ -441,7 +441,7 @@ export function toAccountRecord(
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     Proto.AccountRecord.PhoneNumberSharingMode;
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(
-    window.storage.get('phoneNumberSharingMode')
+    itemStorage.get('phoneNumberSharingMode')
   );
   switch (phoneNumberSharingMode) {
     case PhoneNumberSharingMode.Everybody:
@@ -458,7 +458,7 @@ export function toAccountRecord(
   }
 
   const phoneNumberDiscoverability = parsePhoneNumberDiscoverability(
-    window.storage.get('phoneNumberDiscoverability')
+    itemStorage.get('phoneNumberDiscoverability')
   );
   switch (phoneNumberDiscoverability) {
     case PhoneNumberDiscoverability.Discoverable:
@@ -471,7 +471,7 @@ export function toAccountRecord(
       throw missingCaseError(phoneNumberDiscoverability);
   }
 
-  const pinnedConversations = window.storage
+  const pinnedConversations = itemStorage
     .get('pinnedConversationIds', new Array<string>())
     .map(id => {
       const pinnedConversation = window.ConversationController.get(id);
@@ -530,15 +530,15 @@ export function toAccountRecord(
 
   accountRecord.pinnedConversations = pinnedConversations;
 
-  const subscriberId = window.storage.get('subscriberId');
+  const subscriberId = itemStorage.get('subscriberId');
   if (Bytes.isNotEmpty(subscriberId)) {
     accountRecord.donorSubscriberId = subscriberId;
   }
-  const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
+  const subscriberCurrencyCode = itemStorage.get('subscriberCurrencyCode');
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.donorSubscriberCurrencyCode = subscriberCurrencyCode;
   }
-  const donorSubscriptionManuallyCanceled = window.storage.get(
+  const donorSubscriptionManuallyCanceled = itemStorage.get(
     'donorSubscriptionManuallyCancelled'
   );
   if (typeof donorSubscriptionManuallyCanceled === 'boolean') {
@@ -547,33 +547,31 @@ export function toAccountRecord(
   }
 
   accountRecord.backupSubscriberData = generateBackupsSubscriberData();
-  const backupTier = window.storage.get('backupTier');
+  const backupTier = itemStorage.get('backupTier');
   if (backupTier) {
     accountRecord.backupTier = Long.fromNumber(backupTier);
   }
 
-  const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
+  const displayBadgesOnProfile = itemStorage.get('displayBadgesOnProfile');
   if (displayBadgesOnProfile !== undefined) {
     accountRecord.displayBadgesOnProfile = displayBadgesOnProfile;
   }
-  const keepMutedChatsArchived = window.storage.get('keepMutedChatsArchived');
+  const keepMutedChatsArchived = itemStorage.get('keepMutedChatsArchived');
   if (keepMutedChatsArchived !== undefined) {
     accountRecord.keepMutedChatsArchived = keepMutedChatsArchived;
   }
 
-  const hasSetMyStoriesPrivacy = window.storage.get('hasSetMyStoriesPrivacy');
+  const hasSetMyStoriesPrivacy = itemStorage.get('hasSetMyStoriesPrivacy');
   if (hasSetMyStoriesPrivacy !== undefined) {
     accountRecord.hasSetMyStoriesPrivacy = hasSetMyStoriesPrivacy;
   }
 
-  const hasViewedOnboardingStory = window.storage.get(
-    'hasViewedOnboardingStory'
-  );
+  const hasViewedOnboardingStory = itemStorage.get('hasViewedOnboardingStory');
   if (hasViewedOnboardingStory !== undefined) {
     accountRecord.hasViewedOnboardingStory = hasViewedOnboardingStory;
   }
 
-  const hasCompletedUsernameOnboarding = window.storage.get(
+  const hasCompletedUsernameOnboarding = itemStorage.get(
     'hasCompletedUsernameOnboarding'
   );
   if (hasCompletedUsernameOnboarding !== undefined) {
@@ -581,7 +579,7 @@ export function toAccountRecord(
       hasCompletedUsernameOnboarding;
   }
 
-  const hasSeenGroupStoryEducationSheet = window.storage.get(
+  const hasSeenGroupStoryEducationSheet = itemStorage.get(
     'hasSeenGroupStoryEducationSheet'
   );
   if (hasSeenGroupStoryEducationSheet !== undefined) {
@@ -589,12 +587,10 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
-  const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
+  const hasStoriesDisabled = itemStorage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
-  const storyViewReceiptsEnabled = window.storage.get(
-    'storyViewReceiptsEnabled'
-  );
+  const storyViewReceiptsEnabled = itemStorage.get('storyViewReceiptsEnabled');
   if (storyViewReceiptsEnabled !== undefined) {
     accountRecord.storyViewReceiptsEnabled = storyViewReceiptsEnabled
       ? Proto.OptionalBool.ENABLED
@@ -605,8 +601,8 @@ export function toAccountRecord(
 
   // Username link
   {
-    const color = window.storage.get('usernameLinkColor');
-    const linkData = window.storage.get('usernameLink');
+    const color = itemStorage.get('usernameLinkColor');
+    const linkData = itemStorage.get('usernameLink');
 
     if (linkData?.entropy.length && linkData?.serverId.length) {
       accountRecord.usernameLink = {
@@ -626,8 +622,8 @@ export function toAccountRecord(
     notificationProfileSyncDisabled;
 
   const override = notificationProfileSyncDisabled
-    ? window.storage.get('notificationProfileOverrideFromPrimary')
-    : window.storage.get('notificationProfileOverride');
+    ? itemStorage.get('notificationProfileOverrideFromPrimary')
+    : itemStorage.get('notificationProfileOverride');
 
   if (override?.disabledAtMs && override?.disabledAtMs > 0) {
     const overrideProto =
@@ -1358,7 +1354,7 @@ export async function mergeGroupV2Record(
       })
     );
   } else {
-    const isFirstSync = !window.storage.get('storageFetchComplete');
+    const isFirstSync = !itemStorage.get('storageFetchComplete');
     const dropInitialJoinMessage = isFirstSync;
 
     // We don't await this because this could take a very long time, waiting for queues to
@@ -1420,7 +1416,7 @@ export async function mergeContactRecord(
   }
 
   if (
-    window.storage.user.getOurServiceIdKind(serviceId) !== ServiceIdKind.Unknown
+    itemStorage.user.getOurServiceIdKind(serviceId) !== ServiceIdKind.Unknown
   ) {
     return { shouldDrop: true, details: ['our own uuid'] };
   }
@@ -1652,23 +1648,23 @@ export async function mergeAccountRecord(
 
   const updatedConversations = new Array<ConversationModel>();
 
-  await window.storage.put('read-receipt-setting', Boolean(readReceipts));
+  await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
 
   if (typeof sealedSenderIndicators === 'boolean') {
-    await window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
+    await itemStorage.put('sealedSenderIndicators', sealedSenderIndicators);
   }
 
   if (typeof typingIndicators === 'boolean') {
-    await window.storage.put('typingIndicators', typingIndicators);
+    await itemStorage.put('typingIndicators', typingIndicators);
   }
 
   if (typeof linkPreviews === 'boolean') {
-    await window.storage.put('linkPreviews', linkPreviews);
+    await itemStorage.put('linkPreviews', linkPreviews);
   }
 
   if (typeof preferContactAvatars === 'boolean') {
-    const previous = window.storage.get('preferContactAvatars');
-    await window.storage.put('preferContactAvatars', preferContactAvatars);
+    const previous = itemStorage.get('preferContactAvatars');
+    await itemStorage.put('preferContactAvatars', preferContactAvatars);
 
     if (Boolean(previous) !== Boolean(preferContactAvatars)) {
       await window.ConversationController.forceRerender();
@@ -1677,7 +1673,7 @@ export async function mergeAccountRecord(
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
     const localPreferredReactionEmoji =
-      window.storage.get('preferredReactionEmoji') || [];
+      itemStorage.get('preferredReactionEmoji') || [];
     if (!isEqual(localPreferredReactionEmoji, rawPreferredReactionEmoji)) {
       log.warn(
         'storageService: remote and local preferredReactionEmoji do not match',
@@ -1685,10 +1681,7 @@ export async function mergeAccountRecord(
         rawPreferredReactionEmoji.length
       );
     }
-    await window.storage.put(
-      'preferredReactionEmoji',
-      rawPreferredReactionEmoji
-    );
+    await itemStorage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
   }
 
   void setUniversalExpireTimer(
@@ -1716,7 +1709,7 @@ export async function mergeAccountRecord(
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
   }
-  await window.storage.put(
+  await itemStorage.put(
     'phoneNumberSharingMode',
     phoneNumberSharingModeToStore
   );
@@ -1724,7 +1717,7 @@ export async function mergeAccountRecord(
   const discoverability = unlistedPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
-  await window.storage.put('phoneNumberDiscoverability', discoverability);
+  await itemStorage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey && profileKey.byteLength > 0) {
     void ourProfileKeyService.set(profileKey);
@@ -1740,7 +1733,7 @@ export async function mergeAccountRecord(
       convo.get('id')
     );
 
-    const missingStoragePinnedConversationIds = window.storage
+    const missingStoragePinnedConversationIds = itemStorage
       .get('pinnedConversationIds', new Array<string>())
       .filter(id => !modelPinnedConversationIds.includes(id));
 
@@ -1835,23 +1828,23 @@ export async function mergeAccountRecord(
       updatedConversations.push(convo);
     });
 
-    await window.storage.put(
+    await itemStorage.put(
       'pinnedConversationIds',
       remotelyPinnedConversationIds
     );
   }
 
   if (Bytes.isNotEmpty(donorSubscriberId)) {
-    await window.storage.put('subscriberId', donorSubscriberId);
+    await itemStorage.put('subscriberId', donorSubscriberId);
   }
   if (typeof donorSubscriberCurrencyCode === 'string') {
-    await window.storage.put(
+    await itemStorage.put(
       'subscriberCurrencyCode',
       donorSubscriberCurrencyCode
     );
   }
   if (donorSubscriptionManuallyCancelled != null) {
-    await window.storage.put(
+    await itemStorage.put(
       'donorSubscriptionManuallyCancelled',
       donorSubscriptionManuallyCancelled
     );
@@ -1860,21 +1853,21 @@ export async function mergeAccountRecord(
   await saveBackupsSubscriberData(backupSubscriberData);
   await saveBackupTier(backupTier?.toNumber());
 
-  await window.storage.put(
+  await itemStorage.put(
     'displayBadgesOnProfile',
     Boolean(displayBadgesOnProfile)
   );
-  await window.storage.put(
+  await itemStorage.put(
     'keepMutedChatsArchived',
     Boolean(keepMutedChatsArchived)
   );
-  await window.storage.put(
+  await itemStorage.put(
     'hasSetMyStoriesPrivacy',
     Boolean(hasSetMyStoriesPrivacy)
   );
   {
     const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
-    await window.storage.put(
+    await itemStorage.put(
       'hasViewedOnboardingStory',
       hasViewedOnboardingStoryBool
     );
@@ -1888,7 +1881,7 @@ export async function mergeAccountRecord(
     const hasCompletedUsernameOnboardingBool = Boolean(
       hasCompletedUsernameOnboarding
     );
-    await window.storage.put(
+    await itemStorage.put(
       'hasCompletedUsernameOnboarding',
       hasCompletedUsernameOnboardingBool
     );
@@ -1897,23 +1890,23 @@ export async function mergeAccountRecord(
     const hasCompletedUsernameOnboardingBool = Boolean(
       hasSeenGroupStoryEducationSheet
     );
-    await window.storage.put(
+    await itemStorage.put(
       'hasSeenGroupStoryEducationSheet',
       hasCompletedUsernameOnboardingBool
     );
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
-    await window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
-    window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
+    await itemStorage.put('hasStoriesDisabled', hasStoriesDisabled);
+    onHasStoriesDisabledChange(hasStoriesDisabled);
   }
 
   switch (storyViewReceiptsEnabled) {
     case Proto.OptionalBool.ENABLED:
-      await window.storage.put('storyViewReceiptsEnabled', true);
+      await itemStorage.put('storyViewReceiptsEnabled', true);
       break;
     case Proto.OptionalBool.DISABLED:
-      await window.storage.put('storyViewReceiptsEnabled', false);
+      await itemStorage.put('storyViewReceiptsEnabled', false);
       break;
     case Proto.OptionalBool.UNSET:
     default:
@@ -1922,33 +1915,33 @@ export async function mergeAccountRecord(
   }
 
   if (usernameLink?.entropy?.length && usernameLink?.serverId?.length) {
-    const oldLink = window.storage.get('usernameLink');
+    const oldLink = itemStorage.get('usernameLink');
     if (
-      window.storage.get('usernameLinkCorrupted') &&
+      itemStorage.get('usernameLinkCorrupted') &&
       (!oldLink ||
         !Bytes.areEqual(usernameLink.entropy, oldLink.entropy) ||
         !Bytes.areEqual(usernameLink.serverId, oldLink.serverId))
     ) {
       details.push('clearing username link corruption');
-      await window.storage.remove('usernameLinkCorrupted');
+      await itemStorage.remove('usernameLinkCorrupted');
     }
 
     await Promise.all([
       usernameLink.color &&
-        window.storage.put('usernameLinkColor', usernameLink.color),
-      window.storage.put('usernameLink', {
+        itemStorage.put('usernameLinkColor', usernameLink.color),
+      itemStorage.put('usernameLink', {
         entropy: usernameLink.entropy,
         serverId: usernameLink.serverId,
       }),
     ]);
   } else {
     await Promise.all([
-      window.storage.remove('usernameLinkColor'),
-      window.storage.remove('usernameLink'),
+      itemStorage.remove('usernameLinkColor'),
+      itemStorage.remove('usernameLink'),
     ]);
   }
 
-  const previousSyncDisabled = window.storage.get(
+  const previousSyncDisabled = itemStorage.get(
     'notificationProfileSyncDisabled',
     false
   );
@@ -1992,7 +1985,7 @@ export async function mergeAccountRecord(
   }
 
   if (notificationProfileSyncDisabled) {
-    await window.storage.put(
+    await itemStorage.put(
       'notificationProfileOverrideFromPrimary',
       overrideToSave
     );
@@ -2007,11 +2000,11 @@ export async function mergeAccountRecord(
   const oldStorageVersion = conversation.get('storageVersion');
 
   if (
-    window.storage.get('usernameCorrupted') &&
+    itemStorage.get('usernameCorrupted') &&
     username !== conversation.get('username')
   ) {
     details.push('clearing username corruption');
-    await window.storage.remove('usernameCorrupted');
+    await itemStorage.remove('usernameCorrupted');
   }
 
   conversation.set({
@@ -2035,7 +2028,7 @@ export async function mergeAccountRecord(
       avatarUrl,
       decryptionKey: profileKey,
     });
-    await window.storage.put('avatarUrl', avatarUrl);
+    await itemStorage.put('avatarUrl', avatarUrl);
   }
 
   applyAvatarColor(conversation, accountRecord.avatarColor);
@@ -2692,7 +2685,7 @@ export function prepareForDisabledNotificationProfileSync(): {
   const logId = 'prepareForDisabledNotificationProfileSync';
   const state = window.reduxStore.getState();
   const { profiles } = state.notificationProfiles;
-  let newOverride: NotificationProfileOverride | undefined = window.storage.get(
+  let newOverride: NotificationProfileOverride | undefined = itemStorage.get(
     'notificationProfileOverride'
   );
 
@@ -2743,7 +2736,7 @@ export function prepareForEnabledNotificationProfileSync(): {
   const logId = 'prepareForEnabledNotificationProfileSync';
   const state = window.reduxStore.getState();
   const { profiles } = state.notificationProfiles;
-  let newOverride: NotificationProfileOverride | undefined = window.storage.get(
+  let newOverride: NotificationProfileOverride | undefined = itemStorage.get(
     'notificationProfileOverride'
   );
 

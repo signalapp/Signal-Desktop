@@ -29,7 +29,7 @@ import { handleEditMessage } from './handleEditMessage.js';
 import { isGroup } from './whatTypeOfConversation.js';
 import { isStory, isTapToView } from '../state/selectors/message.js';
 import { getOwn } from './getOwn.js';
-import { getSourceServiceId } from '../messages/helpers.js';
+import { getSourceServiceId } from '../messages/sources.js';
 import { missingCaseError } from './missingCaseError.js';
 import { reduce } from './iterables.js';
 import { strictAssert } from './assert.js';
@@ -46,6 +46,7 @@ import {
   handlePollTerminate,
   handlePollVote,
 } from '../messageModifiers/Polls.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isEqual } = lodash;
 
@@ -70,7 +71,7 @@ export async function modifyTargetMessage(
   const logId = `modifyTargetMessage/${getMessageIdForLogging(message.attributes)}`;
   const type = message.get('type');
   let changed = false;
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const sourceServiceId = getSourceServiceId(message.attributes);
 
   const syncDeletes = await DeletesForMe.forMessage(message.attributes);

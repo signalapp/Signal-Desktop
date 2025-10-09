@@ -50,6 +50,8 @@ function buildRegexp(obj: EmojiShortcutMap): RegExp {
 
 const EMOJI_REGEXP = buildRegexp(emojiShortcutMap);
 
+let isEnabled = true;
+
 export class AutoSubstituteAsciiEmojis {
   options: AutoSubstituteAsciiEmojisOptions;
 
@@ -72,8 +74,12 @@ export class AutoSubstituteAsciiEmojis {
     });
   }
 
+  static enable(value: boolean): void {
+    isEnabled = value;
+  }
+
   onTextChange(): void {
-    if (!window.storage.get('autoConvertEmoji', true)) {
+    if (!isEnabled) {
       return;
     }
 

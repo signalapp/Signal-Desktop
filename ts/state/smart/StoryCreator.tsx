@@ -7,13 +7,14 @@ import { ThemeType } from '../../types/Util.js';
 import { LinkPreviewSourceType } from '../../types/LinkPreview.js';
 import { StoryCreator } from '../../components/StoryCreator.js';
 import {
-  getAllSignalConnections,
   getCandidateContactsForNewGroup,
+  getConversationSelector,
   getGroupStories,
   getMe,
   getNonGroupStories,
   selectMostRecentActiveStoryTimestampByGroupOrDistributionList,
 } from '../selectors/conversations.js';
+import { getAllSignalConnections } from '../selectors/conversations-extra.js';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.js';
 import {
   getIntl,
@@ -64,6 +65,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   } = useStoryDistributionListsActions();
   const { toggleSignalConnectionsModal } = useGlobalModalActions();
 
+  const conversationSelector = useSelector(getConversationSelector);
   const ourConversationId = useSelector(getUserConversationId);
   const candidateConversations = useSelector(getCandidateContactsForNewGroup);
   const distributionLists = useSelector(getDistributionListsWithMembers);
@@ -104,6 +106,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   return (
     <StoryCreator
       candidateConversations={candidateConversations}
+      conversationSelector={conversationSelector}
       debouncedMaybeGrabLinkPreview={debouncedMaybeGrabLinkPreview}
       distributionLists={distributionLists}
       file={file}

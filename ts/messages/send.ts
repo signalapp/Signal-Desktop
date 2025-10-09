@@ -29,6 +29,7 @@ import {
 
 import type { CustomError, MessageAttributesType } from '../model-types.d.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import { messageSender } from '../textsecure/SendMessage.js';
 import type { MessageModel } from '../models/messages.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { SendStateByConversationId } from './MessageSendState.js';
@@ -343,11 +344,6 @@ export async function sendSyncMessage(
     return;
   }
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('sendSyncMessage: messaging not available!');
-  }
-
   // eslint-disable-next-line no-param-reassign
   message.syncPromise = message.syncPromise || Promise.resolve();
   const next = async () => {
@@ -410,7 +406,7 @@ export async function sendSyncMessage(
         };
 
     return handleMessageSend(
-      messaging.sendSyncMessage({
+      messageSender.sendSyncMessage({
         ...encodedContent,
         timestamp: targetTimestamp,
         destinationE164: conv.get('e164'),

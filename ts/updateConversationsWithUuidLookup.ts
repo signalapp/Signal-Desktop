@@ -3,10 +3,15 @@
 
 import type { ConversationController } from './ConversationController.js';
 import type { ConversationModel } from './models/conversations.js';
-import type { WebAPIType } from './textsecure/WebAPI.js';
+import type { cdsLookup, checkAccountExistence } from './textsecure/WebAPI.js';
 import { assertDev } from './util/assert.js';
 import { isNotNil } from './util/isNotNil.js';
 import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.js';
+
+export type ServerType = Readonly<{
+  cdsLookup: typeof cdsLookup;
+  checkAccountExistence: typeof checkAccountExistence;
+}>;
 
 export async function updateConversationsWithUuidLookup({
   conversationController,
@@ -18,7 +23,7 @@ export async function updateConversationsWithUuidLookup({
     'maybeMergeContacts' | 'get'
   >;
   conversations: ReadonlyArray<ConversationModel>;
-  server: Pick<WebAPIType, 'cdsLookup' | 'checkAccountExistence'>;
+  server: ServerType;
 }>): Promise<void> {
   const e164s = conversations
     .map(conversation => conversation.get('e164'))
@@ -28,7 +33,7 @@ export async function updateConversationsWithUuidLookup({
   }
 
   const { entries: serverLookup, transformedE164s } =
-    await getServiceIdsForE164s(server, e164s);
+    await getServiceIdsForE164s(server.cdsLookup, e164s);
 
   await Promise.all(
     conversations.map(async conversation => {

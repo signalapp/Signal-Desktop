@@ -18,6 +18,7 @@ import { replaceIndex } from '../../util/replaceIndex.js';
 import { storageServiceUploadJob } from '../../services/storage.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -289,7 +290,7 @@ function hideMyStoriesFrom(
       reason: 'storyDistributionLists/hideMyStoriesFrom',
     });
 
-    await window.storage.put('hasSetMyStoriesPrivacy', true);
+    await itemStorage.put('hasSetMyStoriesPrivacy', true);
 
     dispatch({
       type: HIDE_MY_STORIES_FROM,
@@ -336,7 +337,7 @@ function removeMembersFromDistributionList(
       toRemove = [];
 
       // The user has now configured My Stories
-      await window.storage.put('hasSetMyStoriesPrivacy', true);
+      await itemStorage.put('hasSetMyStoriesPrivacy', true);
     }
 
     await DataWriter.modifyStoryDistributionWithMembers(
@@ -404,7 +405,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
       storageServiceUploadJob({ reason: 'setMyStoriesToAllSignalConnections' });
     }
 
-    await window.storage.put('hasSetMyStoriesPrivacy', true);
+    await itemStorage.put('hasSetMyStoriesPrivacy', true);
 
     dispatch({
       type: RESET_MY_STORIES,
@@ -460,7 +461,7 @@ function updateStoryViewers(
     storageServiceUploadJob({ reason: 'updateStoryViewers' });
 
     if (listId === MY_STORY_ID) {
-      await window.storage.put('hasSetMyStoriesPrivacy', true);
+      await itemStorage.put('hasSetMyStoriesPrivacy', true);
     }
 
     dispatch({

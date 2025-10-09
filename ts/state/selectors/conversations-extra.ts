@@ -11,9 +11,11 @@ import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog.
 import type { ConversationVerificationData } from '../ducks/conversations.js';
 import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.js';
 import type { GetConversationByIdType } from './conversations.js';
+import { isSignalConnection } from '../../util/getSignalConnections.js';
 
 import { isGroup } from '../../util/whatTypeOfConversation.js';
 import {
+  getAllConversations,
   getConversationSelector,
   getConversationVerificationData,
 } from './conversations.js';
@@ -100,4 +102,13 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
 
     return conversations;
   }
+);
+
+// `isSignalConnection` accesses itemStorage to determine which conversation
+// is blocked so we can't export it in `conversations.ts` (which is imported
+// directly for some components)
+export const getAllSignalConnections = createSelector(
+  getAllConversations,
+  (conversations): ReturnType<typeof getAllConversations> =>
+    conversations.filter(isSignalConnection)
 );

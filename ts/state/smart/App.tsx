@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
+import { requestVerification as doRequestVerification } from '../../textsecure/WebAPI.js';
 import type { VerificationTransport } from '../../types/VerificationTransport.js';
 import { DataWriter } from '../../sql/Client.js';
 import { App } from '../../components/App.js';
@@ -9,7 +10,6 @@ import OS from '../../util/os/osMain.js';
 import { getConversation } from '../../util/getConversation.js';
 import { getChallengeURL } from '../../challenge.js';
 import { writeProfile } from '../../services/writeProfile.js';
-import { strictAssert } from '../../util/assert.js';
 import { SmartCallManager } from './CallManager.js';
 import { SmartGlobalModalContainer } from './GlobalModalContainer.js';
 import { SmartLightbox } from './Lightbox.js';
@@ -73,9 +73,7 @@ function requestVerification(
   captcha: string,
   transport: VerificationTransport
 ): Promise<{ sessionId: string }> {
-  const { server } = window.textsecure;
-  strictAssert(server !== undefined, 'WebAPI not available');
-  return server.requestVerification(number, captcha, transport);
+  return doRequestVerification(number, captcha, transport);
 }
 
 function registerSingleDevice(

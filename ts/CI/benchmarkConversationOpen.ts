@@ -17,6 +17,7 @@ import type { StatsType } from '../util/benchmark/stats.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { createLogger } from '../logging/log.js';
 import { postSaveUpdates } from '../util/cleanup.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('benchmarkConversationOpen');
 
@@ -45,7 +46,7 @@ export async function populateConversationWithMessages({
   const logId = 'benchmarkConversationOpen/populateConversationWithMessages';
   log.info(`${logId}: populating conversation`);
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const conversation = window.ConversationController.get(conversationId);
 
   strictAssert(

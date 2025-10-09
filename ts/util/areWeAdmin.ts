@@ -4,6 +4,7 @@
 import type { ConversationAttributesType } from '../model-types.js';
 import { SignalService as Proto } from '../protobuf/index.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function areWeAdmin(
   attributes: Pick<
@@ -17,7 +18,7 @@ export function areWeAdmin(
 
   const memberEnum = Proto.Member.Role;
   const members = attributes.membersV2 || [];
-  const ourAci = window.textsecure.storage.user.getAci();
+  const ourAci = itemStorage.user.getAci();
   const me = members.find(item => item.aci === ourAci);
   if (!me) {
     return false;

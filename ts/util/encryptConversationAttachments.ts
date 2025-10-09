@@ -11,6 +11,7 @@ import { AttachmentDisposition } from './getLocalAttachmentUrl.js';
 import { isNotNil } from './isNotNil.js';
 import { isSignalConversation } from './isSignalConversation.js';
 import { getConversationIdForLogging } from './idForLogging.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('encryptConversationAttachments');
 
@@ -174,7 +175,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
     // Just drop thumbnail reference. It is impossible to recover, and has
     // minimal UI impact.
     if (!path.startsWith('attachment://')) {
-      await window.storage.put('needOrphanedAttachmentCheck', true);
+      await itemStorage.put('needOrphanedAttachmentCheck', true);
       if (result.draftEditMessage) {
         result.draftEditMessage.attachmentThumbnail = undefined;
       }

@@ -40,6 +40,7 @@ import {
   explodePromise,
   type ExplodePromiseResultType,
 } from '../../util/explodePromise.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -107,7 +108,7 @@ describe('AttachmentDownloadManager', () => {
 
   beforeEach(async () => {
     await DataWriter.removeAll();
-    await window.storage.user.setAciAndDeviceId(generateAci(), 1);
+    await itemStorage.user.setAciAndDeviceId(generateAci(), 1);
 
     sandbox = sinon.createSandbox();
     clock = sandbox.useFakeTimers();
@@ -117,7 +118,7 @@ describe('AttachmentDownloadManager', () => {
     onLowDiskSpaceBackupImport = sandbox
       .stub()
       .callsFake(async () =>
-        window.storage.put('backupMediaDownloadPaused', true)
+        itemStorage.put('backupMediaDownloadPaused', true)
       );
     runJob = sandbox
       .stub<
@@ -162,7 +163,7 @@ describe('AttachmentDownloadManager', () => {
     await downloadManager?.stop();
     sandbox.restore();
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   async function addJob(
@@ -375,12 +376,12 @@ describe('AttachmentDownloadManager', () => {
 
     assert.strictEqual(runJob.callCount, 0);
     assert.strictEqual(onLowDiskSpaceBackupImport.callCount, 1);
-    assert.isTrue(window.storage.get('backupMediaDownloadPaused'));
+    assert.isTrue(itemStorage.get('backupMediaDownloadPaused'));
 
     statfs.callsFake(() =>
       Promise.resolve({ bavail: 100_000_000_000, bsize: 8 })
     );
-    await window.storage.put('backupMediaDownloadPaused', false);
+    await itemStorage.put('backupMediaDownloadPaused', false);
 
     await advanceTime(2 * MINUTE);
     assert.strictEqual(runJob.callCount, 1);
@@ -501,7 +502,7 @@ describe('AttachmentDownloadManager', () => {
   });
 
   it('only selects backup_import jobs if the mediaDownload is not paused', async () => {
-    await window.storage.put('backupMediaDownloadPaused', true);
+    await itemStorage.put('backupMediaDownloadPaused', true);
 
     const jobs = await addJobs(6, idx => ({
       source:
@@ -518,7 +519,7 @@ describe('AttachmentDownloadManager', () => {
     assertRunJobCalledWith([jobs[1], jobs[5], jobs[3]]);
 
     // resume backups
-    await window.storage.put('backupMediaDownloadPaused', false);
+    await itemStorage.put('backupMediaDownloadPaused', false);
     await advanceTime((downloadManager?.tickInterval ?? MINUTE) * 5);
     assertRunJobCalledWith([
       jobs[1],

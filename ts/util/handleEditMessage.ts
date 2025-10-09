@@ -28,6 +28,7 @@ import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
 import { modifyTargetMessage } from './modifyTargetMessage.js';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf.js';
 import { MessageModel } from '../models/messages.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('handleEditMessage');
 
@@ -54,7 +55,7 @@ export async function handleEditMessage(
 
   // Use local aci for outgoing messages and sourceServiceId for incoming.
   const senderAci = isOutgoing(mainMessage)
-    ? window.storage.user.getCheckedAci()
+    ? itemStorage.user.getCheckedAci()
     : mainMessage.sourceServiceId;
   if (!isAciString(senderAci)) {
     log.warn(`${idLog}: Cannot edit a message from PNI source`);
@@ -336,7 +337,7 @@ export async function handleEditMessage(
   drop(
     DataWriter.saveEditedMessage(
       mainMessageModel.attributes,
-      window.textsecure.storage.user.getCheckedAci(),
+      itemStorage.user.getCheckedAci(),
       {
         conversationId: editAttributes.conversationId,
         messageId: mainMessage.id,

@@ -32,6 +32,7 @@ import { DurationInSeconds } from './durations/index.js';
 import { sanitizeLinkPreview } from '../services/LinkPreview.js';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import { MessageModel } from '../models/messages.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('sendStoryMessage');
 
@@ -43,15 +44,6 @@ export async function sendStoryMessage(
 ): Promise<void> {
   if (getStoriesBlocked()) {
     log.warn('stories.sendStoryMessage: stories disabled, returning early');
-    return;
-  }
-
-  const { messaging } = window.textsecure;
-
-  if (!messaging) {
-    log.warn(
-      'stories.sendStoryMessage: messaging not available, returning early'
-    );
     return;
   }
 
@@ -188,9 +180,9 @@ export async function sendStoryMessage(
           seenStatus: SeenStatus.NotApplicable,
           sendStateByConversationId,
           sent_at: timestamp,
-          source: window.textsecure.storage.user.getNumber(),
-          sourceServiceId: window.textsecure.storage.user.getAci(),
-          sourceDevice: window.textsecure.storage.user.getDeviceId(),
+          source: itemStorage.user.getNumber(),
+          sourceServiceId: itemStorage.user.getAci(),
+          sourceDevice: itemStorage.user.getDeviceId(),
           storyDistributionListId: distributionList.id,
           timestamp,
           type: 'story',
@@ -295,9 +287,9 @@ export async function sendStoryMessage(
           seenStatus: SeenStatus.NotApplicable,
           sendStateByConversationId,
           sent_at: groupTimestamp,
-          source: window.textsecure.storage.user.getNumber(),
-          sourceServiceId: window.textsecure.storage.user.getAci(),
-          sourceDevice: window.textsecure.storage.user.getDeviceId(),
+          source: itemStorage.user.getNumber(),
+          sourceServiceId: itemStorage.user.getAci(),
+          sourceDevice: itemStorage.user.getDeviceId(),
           timestamp: groupTimestamp,
           type: 'story',
         });

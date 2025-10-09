@@ -53,6 +53,7 @@ import type {
 import type { ThemeType } from '../types/Util.js';
 import type { UserStateType } from './ducks/user.js';
 import type { ReduxInitData } from './initializeRedux.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function getInitialState(
   {
@@ -74,7 +75,7 @@ export function getInitialState(
   }: ReduxInitData,
   existingState?: StateType
 ): StateType {
-  const items = window.storage.getItemsState();
+  const items = itemStorage.getItemsState();
 
   const baseState: StateType = existingState ?? getEmptyState();
 
@@ -196,12 +197,12 @@ export function generateUserState({
   menuOptions: MenuOptionsType;
   theme: ThemeType;
 }): UserStateType {
-  const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourAci = window.textsecure.storage.user.getAci();
-  const ourPni = window.textsecure.storage.user.getPni();
+  const ourNumber = itemStorage.user.getNumber();
+  const ourAci = itemStorage.user.getAci();
+  const ourPni = itemStorage.user.getPni();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
-  const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+  const ourDeviceId = itemStorage.user.getDeviceId();
 
   let osName: 'windows' | 'macos' | 'linux' | undefined;
 
@@ -229,7 +230,7 @@ export function generateUserState({
     ourNumber,
     ourPni,
     platform: window.platform,
-    regionCode: window.storage.get('regionCode'),
+    regionCode: itemStorage.get('regionCode'),
     stickersPath: window.BasePaths.stickers,
     tempPath: window.BasePaths.temp,
     theme,

@@ -3,9 +3,20 @@
 
 import { type Readable } from 'node:stream';
 
-import { strictAssert } from '../../util/assert.js';
+import {
+  backupListMedia,
+  backupMediaBatch as doBackupMediaBatch,
+  getBackupFileHeaders,
+  getBackupInfo,
+  getBackupMediaUploadForm,
+  getBackupStream,
+  getBackupUploadForm,
+  getEphemeralBackupStream,
+  getSubscription,
+  getTransferArchive as doGetTransferArchive,
+  refreshBackup,
+} from '../../textsecure/WebAPI.js';
 import type {
-  WebAPIType,
   AttachmentUploadFormResponseType,
   GetBackupInfoResponseType,
   BackupMediaItemType,
@@ -24,6 +35,7 @@ import { uploadFile } from '../../util/uploadAttachment.js';
 import { HTTPError } from '../../types/HTTPError.js';
 import { createLogger } from '../../logging/log.js';
 import { toLogFormat } from '../../types/errors.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const log = createLogger('api');
 
@@ -55,13 +67,13 @@ export class BackupAPI {
         this.credentials.getHeadersForToday(type)
       )
     );
-    await Promise.all(headers.map(h => this.#server.refreshBackup(h)));
+    await Promise.all(headers.map(h => refreshBackup(h)));
   }
 
   public async getInfo(
     credentialType: BackupCredentialType
   ): Promise<GetBackupInfoResponseType> {
-    const backupInfo = await this.#server.getBackupInfo(
+    const backupInfo = await getBackupInfo(
       await this.credentials.getHeadersForToday(credentialType)
     );
     this.#cachedBackupInfo.set(credentialType, backupInfo);
@@ -88,7 +100,7 @@ export class BackupAPI {
   }
 
   public async upload(filePath: string, fileSize: number): Promise<void> {
-    const form = await this.#server.getBackupUploadForm(
+    const form = await getBackupUploadForm(
       await this.credentials.getHeadersForToday(BackupCredentialType.Messages)
     );
 
@@ -112,7 +124,7 @@ export class BackupAPI {
       BackupCredentialType.Messages
     );
 
-    return this.#server.getBackupStream({
+    return getBackupStream({
       cdn,
       backupDir,
       backupName,
@@ -136,7 +148,7 @@ export class BackupAPI {
     );
     try {
       const { 'content-length': size, 'last-modified': createdAt } =
-        await this.#server.getBackupFileHeaders({
+        await getBackupFileHeaders({
           cdn,
           backupDir,
           backupName,
@@ -156,7 +168,7 @@ export class BackupAPI {
   public async getTransferArchive(
     abortSignal: AbortSignal
   ): Promise<TransferArchiveType> {
-    return this.#server.getTransferArchive({
+    return doGetTransferArchive({
       abortSignal,
     });
   }
@@ -167,7 +179,7 @@ export class BackupAPI {
     onProgress,
     abortSignal,
   }: EphemeralDownloadOptionsType): Promise<Readable> {
-    return this.#server.getEphemeralBackupStream({
+    return getEphemeralBackupStream({
       cdn: archive.cdn,
       key: archive.key,
       downloadOffset,
@@ -177,7 +189,7 @@ export class BackupAPI {
   }
 
   public async getMediaUploadForm(): Promise<AttachmentUploadFormResponseType> {
-    return this.#server.getBackupMediaUploadForm(
+    return getBackupMediaUploadForm(
       await this.credentials.getHeadersForToday(BackupCredentialType.Media)
     );
   }
@@ -185,7 +197,7 @@ export class BackupAPI {
   public async backupMediaBatch(
     items: ReadonlyArray<BackupMediaItemType>
   ): Promise<BackupMediaBatchResponseType> {
-    return this.#server.backupMediaBatch({
+    return doBackupMediaBatch({
       headers: await this.credentials.getHeadersForToday(
         BackupCredentialType.Media
       ),
@@ -200,7 +212,7 @@ export class BackupAPI {
     cursor?: string;
     limit: number;
   }): Promise<BackupListMediaResponseType> {
-    return this.#server.backupListMedia({
+    return backupListMedia({
       headers: await this.credentials.getHeadersForToday(
         BackupCredentialType.Media
       ),
@@ -210,7 +222,7 @@ export class BackupAPI {
   }
 
   public async getSubscriptionInfo(): Promise<BackupsSubscriptionType> {
-    const subscriberId = window.storage.get('backupsSubscriberId');
+    const subscriberId = itemStorage.get('backupsSubscriberId');
     if (!subscriberId) {
       log.error('Backups.getSubscriptionInfo: missing subscriberId');
       return { status: 'not-found' };
@@ -218,7 +230,7 @@ export class BackupAPI {
 
     let subscriptionResponse: SubscriptionResponseType;
     try {
-      subscriptionResponse = await this.#server.getSubscription(subscriberId);
+      subscriptionResponse = await getSubscription(subscriberId);
     } catch (e) {
       log.warn(
         'Backups.getSubscriptionInfo: error fetching subscription',
@@ -268,12 +280,5 @@ export class BackupAPI {
 
   public clearCache(): void {
     this.#cachedBackupInfo.clear();
-  }
-
-  get #server(): WebAPIType {
-    const { server } = window.textsecure;
-    strictAssert(server, 'server not available');
-
-    return server;
   }
 }

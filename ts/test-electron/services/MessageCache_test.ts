@@ -9,17 +9,18 @@ import { strictAssert } from '../../util/assert.js';
 import { MessageCache } from '../../services/MessageCache.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { DataWriter } from '../../sql/Client.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 describe('MessageCache', () => {
   beforeEach(async () => {
     const ourAci = generateAci();
-    await window.textsecure.storage.put('uuid_id', `${ourAci}.1`);
+    await itemStorage.put('uuid_id', `${ourAci}.1`);
     await window.ConversationController.load();
   });
 
   afterEach(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   describe('findBySentAt', () => {

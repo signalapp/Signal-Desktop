@@ -19,6 +19,7 @@ import type { MIMEType } from '../types/MIME.js';
 import * as Bytes from '../Bytes.js';
 import { sha256 } from '../Crypto.js';
 import * as LinkPreview from '../types/LinkPreview.js';
+import { getLinkPreviewSetting } from '../util/Settings.js';
 import * as Stickers from '../types/Stickers.js';
 import * as VisualAttachment from '../types/VisualAttachment.js';
 import { createLogger } from '../logging/log.js';
@@ -41,6 +42,11 @@ import { drop } from '../util/drop.js';
 import { calling } from './calling.js';
 import { getKeyAndEpochFromCallLink } from '../util/callLinks.js';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
+import {
+  fetchLinkPreviewImage,
+  fetchLinkPreviewMetadata,
+} from '../textsecure/WebAPI.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { debounce, omit } = lodash;
 
@@ -75,13 +81,7 @@ function _maybeGrabLinkPreview(
 ): void {
   // Don't generate link previews if user has turned them off. When posting a
   // story we should return minimal (url-only) link previews.
-  if (!LinkPreview.getLinkPreviewSetting() && mode === 'conversation') {
-    return;
-  }
-
-  // Do nothing if we're offline
-  const { messaging } = window.textsecure;
-  if (!messaging) {
+  if (!getLinkPreviewSetting() && mode === 'conversation') {
     return;
   }
 
@@ -114,7 +114,7 @@ function _maybeGrabLinkPreview(
   drop(
     addLinkPreview(link, source, {
       conversationId,
-      disableFetch: !LinkPreview.getLinkPreviewSetting(),
+      disableFetch: !getLinkPreviewSetting(),
     })
   );
 }
@@ -256,7 +256,7 @@ export function getLinkPreviewForSend(
   message: string
 ): Array<LinkPreviewWithHydratedData> {
   // Don't generate link previews if user has turned them off
-  if (!window.storage.get('linkPreviews', false)) {
+  if (!itemStorage.get('linkPreviews', false)) {
     return [];
   }
 
@@ -306,12 +306,6 @@ async function getPreview(
   url: string,
   abortSignal: Readonly<AbortSignal>
 ): Promise<null | LinkPreviewResult> {
-  const { messaging } = window.textsecure;
-
-  if (!messaging) {
-    throw new Error('messaging is not available!');
-  }
-
   if (LinkPreview.isStickerPack(url)) {
     return getStickerPackPreview(url, abortSignal);
   }
@@ -327,10 +321,7 @@ async function getPreview(
     return null;
   }
 
-  const linkPreviewMetadata = await messaging.fetchLinkPreviewMetadata(
-    url,
-    abortSignal
-  );
+  const linkPreviewMetadata = await fetchLinkPreviewMetadata(url, abortSignal);
   if (!linkPreviewMetadata || abortSignal.aborted) {
     log.warn('aborted');
     return null;
@@ -345,10 +336,7 @@ async function getPreview(
       fetchedImage = null;
     } else {
       try {
-        const fullSizeImage = await messaging.fetchLinkPreviewImage(
-          image,
-          abortSignal
-        );
+        const fullSizeImage = await fetchLinkPreviewImage(image, abortSignal);
         if (abortSignal.aborted) {
           return null;
         }

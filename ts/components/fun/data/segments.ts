@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { strictAssert } from '../../../util/assert.js';
+import type { fetchBytesViaProxy } from '../../../textsecure/WebAPI.js';
 
 /** @internal Exported for testing */
 export const _SEGMENT_SIZE_BUCKETS: ReadonlyArray<number> = [
@@ -24,11 +25,10 @@ export type _SegmentRange = Readonly<{
 
 async function fetchContentLength(
   url: string,
+  doFetchBytesViaProxy: typeof fetchBytesViaProxy,
   signal?: AbortSignal
 ): Promise<number> {
-  const { messaging } = window.textsecure;
-  strictAssert(messaging, 'Missing window.textsecure.messaging');
-  const { response } = await messaging.server.fetchBytesViaProxy({
+  const { response } = await doFetchBytesViaProxy({
     url,
     method: 'HEAD',
     signal,
@@ -92,11 +92,10 @@ async function fetchSegment(
   url: string,
   segmentRange: _SegmentRange,
   contentLength: number,
+  doFetchBytesViaProxy: typeof fetchBytesViaProxy,
   signal?: AbortSignal
 ): Promise<ArrayBufferView> {
-  const { messaging } = window.textsecure;
-  strictAssert(messaging, 'Missing window.textsecure.messaging');
-  const { data, response } = await messaging.server.fetchBytesViaProxy({
+  const { data, response } = await doFetchBytesViaProxy({
     method: 'GET',
     url,
     signal,
@@ -140,14 +139,25 @@ async function fetchSegment(
 
 export async function fetchInSegments(
   url: string,
+  doFetchBytesViaProxy: typeof fetchBytesViaProxy,
   signal?: AbortSignal
 ): Promise<Blob> {
-  const contentLength = await fetchContentLength(url, signal);
+  const contentLength = await fetchContentLength(
+    url,
+    doFetchBytesViaProxy,
+    signal
+  );
   const segmentSize = _getSegmentSize(contentLength);
   const segmentRanges = _getSegmentRanges(contentLength, segmentSize);
   const segmentBuffers = await Promise.all(
     segmentRanges.map(segmentRange => {
-      return fetchSegment(url, segmentRange, contentLength, signal);
+      return fetchSegment(
+        url,
+        segmentRange,
+        contentLength,
+        doFetchBytesViaProxy,
+        signal
+      );
     })
   );
   return new Blob(segmentBuffers);

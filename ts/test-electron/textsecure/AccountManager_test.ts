@@ -20,6 +20,7 @@ import {
 } from '../../types/ServiceId.js';
 import { DAY } from '../../util/durations/index.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { range } = lodash;
 
@@ -27,7 +28,7 @@ const { range } = lodash;
 
 describe('AccountManager', () => {
   let sandbox: sinon.SinonSandbox;
-  let accountManager: AccountManager;
+  const accountManager = new AccountManager();
 
   const ourAci = generateAci();
   const ourPni = generatePni();
@@ -38,13 +39,10 @@ describe('AccountManager', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
 
-    const server: any = {};
-    accountManager = new AccountManager(server);
-
     sandbox
       .stub(signalProtocolStore, 'getIdentityKeyPair')
       .returns(identityKey);
-    const { user } = window.textsecure.storage;
+    const { user } = itemStorage;
     sandbox.stub(user, 'getAci').returns(ourAci);
     sandbox.stub(user, 'getPni').returns(ourPni);
     sandbox.stub(user, 'getServiceId').returns(ourAci);

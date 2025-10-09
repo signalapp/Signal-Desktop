@@ -157,6 +157,7 @@ import {
 } from '../../types/NotificationProfile.js';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.js';
 import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { isNumber } = lodash;
 
@@ -308,7 +309,7 @@ export class BackupImportStream extends Writable {
           throw new Error('Missing mediaRootBackupKey');
         }
 
-        await window.storage.put(
+        await itemStorage.put(
           'restoredBackupFirstAppVersion',
           info.firstAppVersion
         );
@@ -318,7 +319,7 @@ export class BackupImportStream extends Writable {
         if (!constantTimeEqual(theirKey, ourKey)) {
           // Use root key from integration test
           if (isTestEnvironment(getEnvironment())) {
-            await window.storage.put(
+            await itemStorage.put(
               'backupMediaRootKey',
               info.mediaRootBackupKey
             );
@@ -383,8 +384,8 @@ export class BackupImportStream extends Writable {
       await window.ConversationController.load();
       await window.ConversationController.checkForConflicts();
 
-      window.storage.reset();
-      await window.storage.fetch();
+      itemStorage.reset();
+      await itemStorage.fetch();
 
       // Load identity keys we just saved.
       await signalProtocolStore.hydrateCaches();
@@ -426,7 +427,7 @@ export class BackupImportStream extends Writable {
         { concurrency: MAX_CONCURRENCY }
       );
 
-      await window.storage.put(
+      await itemStorage.put(
         'pinnedConversationIds',
         this.#pinnedConversations
           .sort(([a], [b]) => {
@@ -724,10 +725,8 @@ export class BackupImportStream extends Writable {
     };
     this.#ourConversation = me;
 
-    const { storage } = window;
-
     strictAssert(Bytes.isNotEmpty(profileKey), 'Missing profile key');
-    await storage.put('profileKey', profileKey);
+    await itemStorage.put('profileKey', profileKey);
     this.#ourConversation.profileKey = Bytes.toBase64(profileKey);
     await this.#updateConversation(this.#ourConversation);
 
@@ -738,14 +737,14 @@ export class BackupImportStream extends Writable {
     if (usernameLink != null) {
       const { entropy, serverId, color } = usernameLink;
       if (Bytes.isNotEmpty(entropy) && Bytes.isNotEmpty(serverId)) {
-        await storage.put('usernameLink', {
+        await itemStorage.put('usernameLink', {
           entropy,
           serverId,
         });
       }
 
       // Same numeric value, no conversion needed
-      await storage.put('usernameLinkColor', color ?? 0);
+      await itemStorage.put('usernameLinkColor', color ?? 0);
     }
 
     if (givenName != null) {
@@ -755,19 +754,19 @@ export class BackupImportStream extends Writable {
       me.profileFamilyName = familyName;
     }
     if (avatarUrlPath != null) {
-      await storage.put('avatarUrl', avatarUrlPath);
+      await itemStorage.put('avatarUrl', avatarUrlPath);
     }
     if (donationSubscriberData != null) {
       const { subscriberId, currencyCode, manuallyCancelled } =
         donationSubscriberData;
       if (Bytes.isNotEmpty(subscriberId)) {
-        await storage.put('subscriberId', subscriberId);
+        await itemStorage.put('subscriberId', subscriberId);
       }
       if (currencyCode != null) {
-        await storage.put('subscriberCurrencyCode', currencyCode);
+        await itemStorage.put('subscriberCurrencyCode', currencyCode);
       }
       if (manuallyCancelled != null) {
-        await storage.put(
+        await itemStorage.put(
           'donorSubscriptionManuallyCancelled',
           manuallyCancelled
         );
@@ -776,88 +775,94 @@ export class BackupImportStream extends Writable {
 
     await saveBackupsSubscriberData(backupsSubscriberData);
 
-    await storage.put(
+    await itemStorage.put(
       'read-receipt-setting',
       accountSettings?.readReceipts === true
     );
-    await storage.put(
+    await itemStorage.put(
       'sealedSenderIndicators',
       accountSettings?.sealedSenderIndicators === true
     );
-    await storage.put(
+    await itemStorage.put(
       'typingIndicators',
       accountSettings?.typingIndicators === true
     );
-    await storage.put('linkPreviews', accountSettings?.linkPreviews === true);
-    await storage.put(
+    await itemStorage.put(
+      'linkPreviews',
+      accountSettings?.linkPreviews === true
+    );
+    await itemStorage.put(
       'preferContactAvatars',
       accountSettings?.preferContactAvatars === true
     );
     if (accountSettings?.universalExpireTimerSeconds) {
-      await storage.put(
+      await itemStorage.put(
         'universalExpireTimer',
         accountSettings.universalExpireTimerSeconds
       );
     }
-    await storage.put(
+    await itemStorage.put(
       'displayBadgesOnProfile',
       accountSettings?.displayBadgesOnProfile === true
     );
-    await storage.put(
+    await itemStorage.put(
       'keepMutedChatsArchived',
       accountSettings?.keepMutedChatsArchived === true
     );
-    await storage.put(
+    await itemStorage.put(
       'hasSetMyStoriesPrivacy',
       accountSettings?.hasSetMyStoriesPrivacy === true
     );
-    await storage.put(
+    await itemStorage.put(
       'hasViewedOnboardingStory',
       accountSettings?.hasViewedOnboardingStory === true
     );
-    await storage.put(
+    await itemStorage.put(
       'hasStoriesDisabled',
       accountSettings?.storiesDisabled === true
     );
 
     // an undefined value for storyViewReceiptsEnabled is semantically different from
     // false: it causes us to fallback to `read-receipt-setting`
-    await storage.put(
+    await itemStorage.put(
       'storyViewReceiptsEnabled',
       accountSettings?.storyViewReceiptsEnabled ?? undefined
     );
 
-    await storage.put(
+    await itemStorage.put(
       'hasCompletedUsernameOnboarding',
       accountSettings?.hasCompletedUsernameOnboarding === true
     );
-    await storage.put(
+    await itemStorage.put(
       'hasSeenGroupStoryEducationSheet',
       accountSettings?.hasSeenGroupStoryEducationSheet === true
     );
-    await storage.put(
+    await itemStorage.put(
       'preferredReactionEmoji',
       accountSettings?.preferredReactionEmoji || []
     );
     if (svrPin) {
-      await storage.put('svrPin', svrPin);
+      await itemStorage.put('svrPin', svrPin);
     }
 
     if (isTestOrMockEnvironment()) {
       // Only relevant for tests
-      await storage.put(
+      await itemStorage.put(
         'optimizeOnDeviceStorage',
         accountSettings?.optimizeOnDeviceStorage === true
       );
     }
 
     this.#backupTier = accountSettings?.backupTier?.toNumber();
-    await storage.put('backupTier', accountSettings?.backupTier?.toNumber());
+    await itemStorage.put(
+      'backupTier',
+      accountSettings?.backupTier?.toNumber()
+    );
 
     const { PhoneNumberSharingMode: BackupMode } = Backups.AccountData;
     switch (accountSettings?.phoneNumberSharingMode) {
       case BackupMode.EVERYBODY:
-        await storage.put(
+        await itemStorage.put(
           'phoneNumberSharingMode',
           PhoneNumberSharingMode.Everybody
         );
@@ -865,7 +870,7 @@ export class BackupImportStream extends Writable {
       case BackupMode.UNKNOWN:
       case BackupMode.NOBODY:
       default:
-        await storage.put(
+        await itemStorage.put(
           'phoneNumberSharingMode',
           PhoneNumberSharingMode.Nobody
         );
@@ -873,12 +878,12 @@ export class BackupImportStream extends Writable {
     }
 
     if (accountSettings?.notDiscoverableByPhoneNumber) {
-      await window.storage.put(
+      await itemStorage.put(
         'phoneNumberDiscoverability',
         PhoneNumberDiscoverability.NotDiscoverable
       );
     } else {
-      await window.storage.put(
+      await itemStorage.put(
         'phoneNumberDiscoverability',
         PhoneNumberDiscoverability.Discoverable
       );
@@ -893,32 +898,32 @@ export class BackupImportStream extends Writable {
     );
 
     if (defaultChatStyle.color != null) {
-      await window.storage.put('defaultConversationColor', {
+      await itemStorage.put('defaultConversationColor', {
         color: defaultChatStyle.color,
         customColorData: defaultChatStyle.customColorData,
       });
     }
 
     if (defaultChatStyle.wallpaperPhotoPointer != null) {
-      await window.storage.put(
+      await itemStorage.put(
         'defaultWallpaperPhotoPointer',
         defaultChatStyle.wallpaperPhotoPointer
       );
     }
     if (defaultChatStyle.wallpaperPreset != null) {
-      await window.storage.put(
+      await itemStorage.put(
         'defaultWallpaperPreset',
         defaultChatStyle.wallpaperPreset
       );
     }
     if (defaultChatStyle.dimWallpaperInDarkMode != null) {
-      await window.storage.put(
+      await itemStorage.put(
         'defaultDimWallpaperInDarkMode',
         defaultChatStyle.dimWallpaperInDarkMode
       );
     }
     if (defaultChatStyle.autoBubbleColor != null) {
-      await window.storage.put(
+      await itemStorage.put(
         'defaultAutoBubbleColor',
         defaultChatStyle.autoBubbleColor
       );
@@ -1031,10 +1036,10 @@ export class BackupImportStream extends Writable {
 
     if (contact.blocked) {
       if (serviceId) {
-        await window.storage.blocked.addBlockedServiceId(serviceId);
+        await itemStorage.blocked.addBlockedServiceId(serviceId);
       }
       if (e164) {
-        await window.storage.blocked.addBlockedNumber(e164);
+        await itemStorage.blocked.addBlockedNumber(e164);
       }
     }
 
@@ -1202,7 +1207,7 @@ export class BackupImportStream extends Writable {
       this.#pendingGroupAvatars.set(attrs.id, avatarUrl);
     }
     if (group.blocked) {
-      await window.storage.blocked.addBlockedGroup(groupId);
+      await itemStorage.blocked.addBlockedGroup(groupId);
     }
 
     return attrs;
@@ -3626,7 +3631,7 @@ export class BackupImportStream extends Writable {
       });
     }
 
-    await window.storage.put('customColors', customColors);
+    await itemStorage.put('customColors', customColors);
   }
 
   #fromChatStyle(chatStyle: Backups.IChatStyle | null | undefined): Omit<

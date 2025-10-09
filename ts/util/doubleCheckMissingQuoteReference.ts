@@ -8,10 +8,8 @@ import { hydrateStoryContext } from './hydrateStoryContext.js';
 import { getMessageIdForLogging } from './idForLogging.js';
 
 import { createLogger } from '../logging/log.js';
-import {
-  isQuoteAMatch,
-  shouldTryToCopyFromQuotedMessage,
-} from '../messages/helpers.js';
+import { isQuoteAMatch } from '../messages/quotes.js';
+import { shouldTryToCopyFromQuotedMessage } from '../messages/helpers.js';
 import { copyQuoteContentFromOriginal } from '../messages/copyQuote.js';
 import { queueUpdateMessage } from './messageBatcher.js';
 import { drop } from './drop.js';

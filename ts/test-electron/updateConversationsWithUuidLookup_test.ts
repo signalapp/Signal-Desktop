@@ -9,11 +9,13 @@ import sinon from 'sinon';
 import { DataWriter } from '../sql/Client.js';
 import { ConversationModel } from '../models/conversations.js';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
 import { generateAci, normalizeServiceId } from '../types/ServiceId.js';
 import { normalizeAci } from '../util/normalizeAci.js';
 
-import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.js';
+import {
+  updateConversationsWithUuidLookup,
+  type ServerType,
+} from '../updateConversationsWithUuidLookup.js';
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {
@@ -148,7 +150,7 @@ describe('updateConversationsWithUuidLookup', () => {
 
   let fakeCdsLookup: sinon.SinonStub;
   let fakeCheckAccountExistence: sinon.SinonStub;
-  let fakeServer: Pick<WebAPIType, 'cdsLookup' | 'checkAccountExistence'>;
+  let fakeServer: ServerType;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();

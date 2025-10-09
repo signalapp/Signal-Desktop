@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents.js';
-import MessageSender from '../../textsecure/SendMessage.js';
+import { MessageSender } from '../../textsecure/SendMessage.js';
 import { createLogger } from '../../logging/log.js';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import type { AttachmentType } from '../../types/Attachment.js';

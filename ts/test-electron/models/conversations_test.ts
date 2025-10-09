@@ -11,6 +11,7 @@ import { generateAci, generatePni } from '../../types/ServiceId.js';
 import { MessageModel } from '../../models/messages.js';
 import { DurationInSeconds } from '../../util/durations/index.js';
 import { ConversationModel } from '../../models/conversations.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {
@@ -20,12 +21,12 @@ describe('Conversations', () => {
 
   after(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   beforeEach(async () => {
     await DataWriter.removeAll();
-    await window.textsecure.storage.user.setCredentials({
+    await itemStorage.user.setCredentials({
       number: '+15550000000',
       aci: generateAci(),
       pni: generatePni(),

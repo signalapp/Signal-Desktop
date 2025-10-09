@@ -95,6 +95,11 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
 import { fetchMembershipProof, getMembershipList } from '../groups.js';
 import type { ProcessedEnvelope } from '../textsecure/Types.d.ts';
 import type { GetIceServersResultType } from '../textsecure/WebAPI.js';
+import {
+  callLinkCreateAuth,
+  getIceServers,
+  makeSfuRequest,
+} from '../textsecure/WebAPI.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.js';
 import { requestCameraPermissions } from '../util/callingPermissions.js';
@@ -148,11 +153,11 @@ import { isServiceIdString, isPniString } from '../types/ServiceId.js';
 import { isSignalConnection } from '../util/getSignalConnections.js';
 import { toAdminKeyBytes } from '../util/callLinks.js';
 import {
-  getCallLinkAuthCredentialPresentation,
   getRoomIdFromRootKey,
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
 } from '../util/callLinksRingrtc.js';
+import { getCallLinkAuthCredentialPresentation } from '../util/callLinks/zkgroup.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -166,6 +171,7 @@ import { getColorForCallLink } from '../util/getColorForCallLink.js';
 import OS from '../util/os/osMain.js';
 import { sleep } from '../util/sleep.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { uniqBy, noop, compact } = lodash;
 
@@ -246,35 +252,35 @@ export type SetPresentingOptionsType = Readonly<{
 }>;
 
 function getIncomingCallNotification(): boolean {
-  return window.storage.get('incoming-call-notification', true);
+  return itemStorage.get('incoming-call-notification', true);
 }
 function getAlwaysRelayCalls(): boolean {
-  return window.storage.get('always-relay-calls', false);
+  return itemStorage.get('always-relay-calls', false);
 }
 
 function getPreferredAudioInputDevice(): AudioDevice | undefined {
-  return window.storage.get('preferred-audio-input-device');
+  return itemStorage.get('preferred-audio-input-device');
 }
 async function setPreferredAudioInputDevice(
   device: AudioDevice
 ): Promise<void> {
-  await window.storage.put('preferred-audio-input-device', device);
+  await itemStorage.put('preferred-audio-input-device', device);
 }
 
 function getPreferredAudioOutputDevice(): AudioDevice | undefined {
-  return window.storage.get('preferred-audio-output-device');
+  return itemStorage.get('preferred-audio-output-device');
 }
 async function setPreferredAudioOutputDevice(
   device: AudioDevice
 ): Promise<void> {
-  await window.storage.put('preferred-audio-output-device', device);
+  await itemStorage.put('preferred-audio-output-device', device);
 }
 
 function getPreferredVideoInputDevice(): string | undefined {
-  return window.storage.get('preferred-video-input-device');
+  return itemStorage.get('preferred-video-input-device');
 }
 async function setPreferredVideoInputDevice(device: string): Promise<void> {
-  await window.storage.put('preferred-video-input-device', device);
+  await itemStorage.put('preferred-video-input-device', device);
 }
 
 function truncateForLogging(name: string | undefined): string | undefined {
@@ -563,7 +569,7 @@ export class CallingClass {
   }
 
   #attemptToGiveOurServiceIdToRingRtc(): void {
-    const ourAci = window.textsecure.storage.user.getAci();
+    const ourAci = itemStorage.user.getAci();
     if (!ourAci) {
       // This can happen if we're not linked. It's okay if we hit this case.
       return;
@@ -749,7 +755,7 @@ export class CallingClass {
 
     const sfuUrl = this._sfuUrl;
     const userId = Aci.parseFromServiceIdString(
-      window.textsecure.storage.user.getCheckedAci()
+      itemStorage.user.getCheckedAci()
     );
 
     const rootKey = CallLinkRootKey.generate();
@@ -764,14 +770,8 @@ export class CallingClass {
     const context = CreateCallLinkCredentialRequestContext.forRoomId(roomId);
     const requestBase64 = Bytes.toBase64(context.getRequest().serialize());
 
-    strictAssert(
-      window.textsecure.messaging,
-      'createCallLink(): We are offline'
-    );
     const { credential: credentialBase64 } =
-      await window.textsecure.messaging.server.callLinkCreateAuth(
-        requestBase64
-      );
+      await callLinkCreateAuth(requestBase64);
 
     const response = new CreateCallLinkCredentialResponse(
       Bytes.fromBase64(credentialBase64)
@@ -1763,7 +1763,7 @@ export class CallingClass {
       return;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const reason = `sendProfileKeysForAdhocCall(${roomId})`;
     peekInfo.devices.forEach(async device => {
       const aci = device.userId ? this.#formatUserId(device.userId) : null;
@@ -2883,8 +2883,6 @@ export class CallingClass {
       return;
     }
 
-    const { storage } = window.textsecure;
-
     const senderIdentityRecord =
       await signalProtocolStore.getOrMigrateIdentityRecord(remoteUserId);
     if (!senderIdentityRecord) {
@@ -2895,7 +2893,7 @@ export class CallingClass {
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.subarray(1); // Ignore the type header, it is not used.
 
-    const ourAci = storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     const receiverIdentityRecord =
       signalProtocolStore.getIdentityRecord(ourAci);
@@ -3167,7 +3165,7 @@ export class CallingClass {
       return;
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     if (conversation.get('left') || !conversation.hasMember(ourAci)) {
       log.warn(`${logId}: we left the group`);
@@ -3566,11 +3564,6 @@ export class CallingClass {
     headers: { [name: string]: string },
     body: Uint8Array | undefined
   ) {
-    if (!window.textsecure.messaging) {
-      RingRTC.httpRequestFailed(requestId, 'We are offline');
-      return;
-    }
-
     const httpMethod = RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD.get(method);
     if (httpMethod === undefined) {
       RingRTC.httpRequestFailed(
@@ -3582,12 +3575,7 @@ export class CallingClass {
 
     let result;
     try {
-      result = await window.textsecure.messaging.server.makeSfuRequest(
-        url,
-        httpMethod,
-        headers,
-        body
-      );
+      result = await makeSfuRequest(url, httpMethod, headers, body);
     } catch (err) {
       if (err.code !== -1) {
         // WebAPI treats certain response codes as errors, but RingRTC still needs to
@@ -3619,7 +3607,7 @@ export class CallingClass {
   }
 
   get #localDeviceId(): DeviceId | null {
-    return this.#parseDeviceId(window.textsecure.storage.user.getDeviceId());
+    return this.#parseDeviceId(itemStorage.user.getDeviceId());
   }
 
   #parseDeviceId(deviceId: number | string | undefined): DeviceId | null {
@@ -3669,12 +3657,7 @@ export class CallingClass {
     // Set the default cache expiration time to now + 0.
     let expirationTimestamp = currentTime;
 
-    // The messaging context should have already been checked before entering
-    // this function, so this should be a noop.
-    const { messaging } = window.textsecure;
-    strictAssert(messaging, 'textsecure messaging not available');
-
-    const iceServerConfig = await messaging.server.getIceServers();
+    const iceServerConfig = await getIceServers();
 
     // Advance the next expiration time to the minimum provided ttl value,
     // or if there were none, use 0 to disable the cache.
@@ -3711,10 +3694,6 @@ export class CallingClass {
   }
 
   async #handleStartCall(call: Call): Promise<boolean> {
-    if (!window.textsecure.messaging) {
-      log.error('CallingClass.handleStartCall: offline!');
-      return false;
-    }
     const conversation = window.ConversationController.get(call.remoteUserId);
     if (!conversation) {
       log.error(
@@ -3982,7 +3961,7 @@ export class CallingClass {
   ): Promise<void> {
     const shouldNotify =
       !window.SignalContext.activeWindowService.isActive() &&
-      window.storage.get('call-system-notification', true);
+      itemStorage.get('call-system-notification', true);
 
     if (!shouldNotify) {
       return;

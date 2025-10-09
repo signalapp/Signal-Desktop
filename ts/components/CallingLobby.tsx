@@ -21,7 +21,6 @@ import {
 import { CallMode } from '../types/CallDisposition.js';
 import type { CallingConversationType } from '../types/Calling.js';
 import type { LocalizerType } from '../types/Util.js';
-import { useIsOnline } from '../hooks/useIsOnline.js';
 import * as KeyboardLayout from '../services/keyboardLayout.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { useCallingToasts } from './CallingToast.js';
@@ -65,6 +64,7 @@ export type PropsType = {
   isAdhocJoinRequestPending: boolean;
   isConversationTooBigToRing: boolean;
   isCallFull?: boolean;
+  isOnline: boolean;
   me: Readonly<
     Pick<ConversationType, 'avatarUrl' | 'color' | 'id' | 'serviceId'>
   >;
@@ -94,6 +94,7 @@ export function CallingLobby({
   isAdhocJoinRequestPending,
   isCallFull = false,
   isConversationTooBigToRing,
+  isOnline,
   getIsSharingPhoneNumberWithEverybody,
   me,
   onCallCanceled,
@@ -153,8 +154,6 @@ export function CallingLobby({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [toggleVideo, toggleAudio]);
-
-  const isOnline = useIsOnline();
 
   const [isCallConnecting, setIsCallConnecting] = React.useState(
     isAdhocJoinRequestPending || false

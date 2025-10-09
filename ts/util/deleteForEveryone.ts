@@ -5,7 +5,7 @@ import type { DeleteAttributesType } from '../messageModifiers/Deletes.js';
 import type { MessageModel } from '../models/messages.js';
 import { createLogger } from '../logging/log.js';
 import { isMe } from './whatTypeOfConversation.js';
-import { getAuthorId } from '../messages/helpers.js';
+import { getAuthorId } from '../messages/sources.js';
 import { isStory } from '../state/selectors/message.js';
 import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.js';
 import { drop } from './drop.js';

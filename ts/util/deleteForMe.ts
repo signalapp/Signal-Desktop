@@ -17,6 +17,7 @@ import {
   findMatchingMessage,
   getMessageQueryFromTarget,
 } from './syncIdentifiers.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { last, sortBy } = lodash;
 
@@ -122,7 +123,7 @@ export async function applyDeleteAttachmentFromMessage(
     return true;
   }
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const attachments = message.get('attachments');
   if (!attachments || attachments.length === 0) {

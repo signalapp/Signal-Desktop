@@ -23,6 +23,7 @@ import {
 import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -77,7 +78,7 @@ describe('backup/groupv2/notifications', () => {
   beforeEach(async () => {
     await DataWriter.removeAll();
     window.ConversationController.reset();
-    window.storage.reset();
+    itemStorage.reset();
 
     await setupBasics();
 

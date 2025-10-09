@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { messageHasPaymentEvent } from '../messages/helpers.js';
+import { messageHasPaymentEvent } from '../messages/payments.js';
 import type { MessageAttributesType } from '../model-types.js';
 import {
   hasErrors,

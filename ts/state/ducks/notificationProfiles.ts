@@ -37,6 +37,7 @@ import type {
   NotificationProfileType,
 } from '../../types/NotificationProfile.js';
 import type { StateType } from '../reducer.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const log = createLogger('ducks/notificationProfiles');
 
@@ -149,7 +150,7 @@ export const useNotificationProfilesActions = (): BoundActionCreatorsMapObject<
 
 const updateStorageService = debounce(
   (reason: string, options: { force?: boolean } = {}) => {
-    const disabled = window.storage.get('notificationProfileSyncDisabled');
+    const disabled = itemStorage.get('notificationProfileSyncDisabled');
     if (disabled && !options.force) {
       return;
     }
@@ -223,7 +224,7 @@ function setIsSyncEnabled(
       return;
     }
 
-    // Because we can't update everything (window.storage and our redux slice), there is
+    // Because we can't update everything (itemStorage and our redux slice), there is
     // the risk of a flash of content on the list page when enabling/disabling sync. So
     // we set this loading flag and show something else until everything is ready.
     try {
@@ -232,14 +233,14 @@ function setIsSyncEnabled(
         payload: true,
       });
 
-      await window.storage.put('notificationProfileSyncDisabled', disabled);
+      await itemStorage.put('notificationProfileSyncDisabled', disabled);
       if (disabled) {
         if (!fromStorageService) {
-          const globalOverride = await window.storage.get(
+          const globalOverride = await itemStorage.get(
             'notificationProfileOverride'
           );
 
-          await window.storage.put(
+          await itemStorage.put(
             'notificationProfileOverrideFromPrimary',
             globalOverride
           );
@@ -254,14 +255,14 @@ function setIsSyncEnabled(
             newOverride,
           },
         });
-        await window.storage.put('notificationProfileOverride', newOverride);
+        await itemStorage.put('notificationProfileOverride', newOverride);
         await Promise.all(
           toAdd.map(async profile => {
             await DataWriter.createNotificationProfile(profile);
           })
         );
       } else {
-        await window.storage.put(
+        await itemStorage.put(
           'notificationProfileOverrideFromPrimary',
           undefined
         );
@@ -275,7 +276,7 @@ function setIsSyncEnabled(
             newOverride,
           },
         });
-        await window.storage.put('notificationProfileOverride', newOverride);
+        await itemStorage.put('notificationProfileOverride', newOverride);
         await Promise.all(
           toRemove.map(async profile => {
             await DataWriter.deleteNotificationProfileById(profile.id);
@@ -338,7 +339,7 @@ function setProfileOverride(
           endsAtMs,
         },
       };
-      await window.storage.put('notificationProfileOverride', newOverride);
+      await itemStorage.put('notificationProfileOverride', newOverride);
       dispatch({
         type: UPDATE_OVERRIDE,
         payload: newOverride,
@@ -353,7 +354,7 @@ function setProfileOverride(
       disabledAtMs: Date.now(),
       enabled: undefined,
     };
-    await window.storage.put('notificationProfileOverride', newOverride);
+    await itemStorage.put('notificationProfileOverride', newOverride);
     dispatch({
       type: UPDATE_OVERRIDE,
       payload: newOverride,
@@ -390,7 +391,7 @@ function updateOverride(
   return async dispatch => {
     const id = payload?.enabled?.profileId;
     const enabled = payload?.enabled;
-    await window.storage.put('notificationProfileOverride', payload);
+    await itemStorage.put('notificationProfileOverride', payload);
 
     const logId = `updateOverride/${id ? redactNotificationProfileId(id) : 'undefined'}/enabled=${enabled}`;
 

@@ -86,7 +86,7 @@ import type { EventHandler } from './EventTarget.js';
 import EventTarget from './EventTarget.js';
 import type { IncomingWebSocketRequest } from './WebsocketResources.js';
 import { ServerRequestType } from './WebsocketResources.js';
-import type { Storage } from './Storage.js';
+import { type Storage } from './Storage.js';
 import { WarnOnlyError } from './Errors.js';
 import * as Bytes from '../Bytes.js';
 import type {
@@ -3332,7 +3332,7 @@ export default class MessageReceiver
       signedPreKey,
       registrationId,
     });
-    await window.storage.user.setNumber(newE164);
+    await this.#storage.user.setNumber(newE164);
   }
 
   async #handleStickerPackOperation(
@@ -3862,7 +3862,7 @@ export default class MessageReceiver
     await this.#dispatchAndWait(logId, contactSync);
   }
 
-  // This function calls applyMessageRequestResponse before setting window.storage so
+  // This function calls applyMessageRequestResponse before setting storage so
   // proper before/after logic can be applied within that function.
   async #handleBlocked(
     envelope: ProcessedEnvelope,

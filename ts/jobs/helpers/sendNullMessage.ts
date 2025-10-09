@@ -22,20 +22,21 @@ import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
 } from '../../textsecure/Errors.js';
-import MessageSender from '../../textsecure/SendMessage.js';
+import { MessageSender } from '../../textsecure/SendMessage.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 async function clearResetsTracking(idForTracking: string | undefined) {
   if (!idForTracking) {
     return;
   }
 
-  const sessionResets = window.storage.get(
+  const sessionResets = itemStorage.get(
     'sessionResets',
     {} as SessionResetsType
   );
   delete sessionResets[idForTracking];
-  await window.storage.put('sessionResets', sessionResets);
+  await itemStorage.put('sessionResets', sessionResets);
 }
 
 export async function sendNullMessage(

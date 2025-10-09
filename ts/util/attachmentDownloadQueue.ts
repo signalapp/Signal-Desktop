@@ -13,6 +13,7 @@ import { isMoreRecentThan } from './timestamp.js';
 import { isNotNil } from './isNotNil.js';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
 import { postSaveUpdates } from './cleanup.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('attachmentDownloadQueue');
 
@@ -111,7 +112,7 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
     .filter(isNotNil);
 
   await DataWriter.saveMessages(messagesToSave, {
-    ourAci: window.storage.user.getCheckedAci(),
+    ourAci: itemStorage.user.getCheckedAci(),
     postSaveUpdates,
   });
 

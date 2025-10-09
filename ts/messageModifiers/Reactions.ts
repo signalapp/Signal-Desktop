@@ -15,12 +15,12 @@ import { DataReader, DataWriter } from '../sql/Client.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
 import {
-  getAuthor,
   isIncoming,
   isIncomingStory,
   isOutgoing,
   isOutgoingStory,
 } from '../messages/helpers.js';
+import { getAuthor } from '../messages/sources.js';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.js';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation.js';
 import {
@@ -45,6 +45,7 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue.js';
 import { maybeNotify } from '../messages/maybeNotify.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { maxBy } = lodash;
 
@@ -77,7 +78,7 @@ function remove(reaction: ReactionAttributesType): void {
 export function findReactionsForMessage(
   message: ReadonlyMessageAttributesType
 ): Array<ReactionAttributesType> {
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const matchingReactions = Array.from(reactionCache.values()).filter(
     reaction => {
       return isMessageAMatchForReaction({
@@ -106,7 +107,7 @@ async function findMessageForReaction({
   logId: string;
 }): Promise<MessageAttributesType | undefined> {
   const messages = await DataReader.getMessagesBySentAt(targetTimestamp);
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const matchingMessages = messages.filter(message =>
     isMessageAMatchForReaction({

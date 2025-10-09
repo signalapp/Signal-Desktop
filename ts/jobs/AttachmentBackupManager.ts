@@ -44,7 +44,7 @@ import {
   getMediaNameForAttachmentThumbnail,
 } from '../services/backups/util/mediaId.js';
 import { fromBase64, toBase64 } from '../Bytes.js';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { backupMediaBatch as doBackupMediaBatch } from '../textsecure/WebAPI.js';
 import type { AttachmentType } from '../types/Attachment.js';
 import {
   canAttachmentHaveThumbnail,
@@ -186,7 +186,7 @@ class FileNotFoundOnTransitTierError extends Error {}
 
 type RunAttachmentBackupJobDependenciesType = {
   getAbsoluteAttachmentPath: typeof window.Signal.Migrations.getAbsoluteAttachmentPath;
-  backupMediaBatch?: WebAPIType['backupMediaBatch'];
+  backupMediaBatch?: typeof doBackupMediaBatch;
   backupsService: BackupsService;
   encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
   decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
@@ -202,7 +202,7 @@ export async function runAttachmentBackupJob(
     getAbsoluteAttachmentPath:
       window.Signal.Migrations.getAbsoluteAttachmentPath,
     backupsService,
-    backupMediaBatch: window.textsecure.server?.backupMediaBatch,
+    backupMediaBatch: doBackupMediaBatch,
     encryptAndUploadAttachment,
     decryptAttachmentV2ToSink,
   }
@@ -574,7 +574,7 @@ async function copyToBackupTier({
   macKey: Uint8Array;
   aesKey: Uint8Array;
   dependencies: {
-    backupMediaBatch?: WebAPIType['backupMediaBatch'];
+    backupMediaBatch?: typeof doBackupMediaBatch;
     backupsService: BackupsService;
   };
 }): Promise<{ cdnNumberOnBackup: number }> {

@@ -14,10 +14,11 @@ import type { JOB_STATUS } from './JobQueue.js';
 import { JobQueue } from './JobQueue.js';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
 import { parseIntWithFallback } from '../util/parseIntWithFallback.js';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { reportMessage, isOnline } from '../textsecure/WebAPI.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { sleeper } from '../util/sleeper.js';
 import { parseUnknown } from '../util/schemas.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
@@ -37,10 +38,15 @@ const reportSpamJobDataSchema = z.object({
 
 export type ReportSpamJobData = z.infer<typeof reportSpamJobDataSchema>;
 
-export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
-  #server?: WebAPIType;
+type ServerType = Readonly<{
+  reportMessage: typeof reportMessage;
+  isOnline: typeof isOnline;
+}>;
 
-  public initialize({ server }: { server: WebAPIType }): void {
+export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
+  #server?: ServerType;
+
+  public initialize({ server }: { server: ServerType }): void {
     this.#server = server;
   }
 
@@ -55,7 +61,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     const { aci: senderAci, token, serverGuids } = data;
 
     await new Promise<void>(resolve => {
-      window.storage.onready(resolve);
+      itemStorage.onready(resolve);
     });
 
     if (!isDeviceLinked()) {
@@ -63,10 +69,10 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
       return undefined;
     }
 
-    await waitForOnline();
-
     const server = this.#server;
     strictAssert(server !== undefined, 'ReportSpamJobQueue not initialized');
+
+    await waitForOnline({ server });
 
     try {
       await Promise.all(

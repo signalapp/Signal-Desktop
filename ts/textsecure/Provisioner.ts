@@ -31,7 +31,7 @@ import {
   ServerRequestType,
 } from './WebsocketResources.js';
 import { ConnectTimeoutError } from './Errors.js';
-import { type WebAPIType } from './WebAPI.js';
+import type { getProvisioningResource } from './WebAPI.js';
 
 const log = createLogger('Provisioner');
 
@@ -45,7 +45,7 @@ export enum EventKind {
 }
 
 export type ProvisionerOptionsType = Readonly<{
-  server: WebAPIType;
+  server: { getProvisioningResource: typeof getProvisioningResource };
 }>;
 
 export type EnvelopeType = ProvisionDecryptResult;
@@ -107,7 +107,7 @@ const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
 
 export class Provisioner {
   readonly #subscribers = new Set<SubscriberType>();
-  readonly #server: WebAPIType;
+  readonly #server: { getProvisioningResource: typeof getProvisioningResource };
   readonly #retryBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   #sockets: Array<IWebSocketResource> = [];

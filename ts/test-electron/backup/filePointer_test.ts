@@ -21,6 +21,7 @@ import { generateKeys } from '../../AttachmentCrypto.js';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.js';
 import { strictAssert } from '../../util/assert.js';
 import { isValidAttachmentKey } from '../../types/Crypto.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 describe('convertFilePointerToAttachment', () => {
   const commonFilePointerProps = {
@@ -208,7 +209,7 @@ describe('getFilePointerForAttachment', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(window.storage, 'get').callsFake(key => {
+    sandbox.stub(itemStorage, 'get').callsFake(key => {
       if (key === 'masterKey') {
         return MASTER_KEY;
       }

@@ -12,6 +12,7 @@ import type {
 import { hydrateRanges } from '../../types/BodyRange.js';
 import { strictAssert } from '../../util/assert.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
+import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis/index.js';
 import { imageToBlurHash } from '../../util/imageToBlurHash.js';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
 import { isSignalConversation } from '../../util/isSignalConversation.js';
@@ -55,6 +56,7 @@ import { isShowingAnyModal } from '../selectors/globalModals.js';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import { isConversationMuted } from '../../util/isConversationMuted.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -219,6 +221,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const { showToast } = useToastActions();
   const { onEditorStateChange } = useComposerActions();
 
+  AutoSubstituteAsciiEmojis.enable(itemStorage.get('autoConvertEmoji', true));
+
   return (
     <CompositionArea
       // Base
@@ -243,6 +247,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       discardEditMessage={discardEditMessage}
       onCloseLinkPreview={onCloseLinkPreview}
       onEditorStateChange={onEditorStateChange}
+      // MediaEditor
+      conversationSelector={conversationSelector}
       // AudioCapture
       errorDialogAudioRecorderType={errorDialogAudioRecorderType ?? null}
       recordingState={recordingState}
@@ -262,7 +268,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       shouldSendHighQualityAttachments={
         shouldSendHighQualityAttachments !== undefined
           ? shouldSendHighQualityAttachments
-          : window.storage.get('sent-media-quality') === 'high'
+          : itemStorage.get('sent-media-quality') === 'high'
       }
       setMediaQualitySetting={setMediaQualitySetting}
       // StagedLinkPreview

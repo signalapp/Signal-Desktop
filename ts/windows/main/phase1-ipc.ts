@@ -37,6 +37,7 @@ import {
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue.js';
 import { isEnabled } from '../../RemoteConfig.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { groupBy, mapValues } = lodash;
 
@@ -253,7 +254,7 @@ ipc.on('additional-log-data-request', async event => {
     ? ourConversation.get('capabilities')
     : undefined;
 
-  const remoteConfig = window.storage.get('remoteConfig') || {};
+  const remoteConfig = itemStorage.get('remoteConfig') || {};
 
   let statistics;
   try {
@@ -289,8 +290,8 @@ ipc.on('additional-log-data-request', async event => {
     };
   }
 
-  const ourAci = window.textsecure.storage.user.getAci();
-  const ourPni = window.textsecure.storage.user.getPni();
+  const ourAci = itemStorage.user.getAci();
+  const ourPni = itemStorage.user.getPni();
 
   event.sender.send('additional-log-data-response', {
     capabilities: ourCapabilities || {},
@@ -304,7 +305,7 @@ ipc.on('additional-log-data-request', async event => {
       ...networkStatistics,
     },
     user: {
-      deviceId: window.textsecure.storage.user.getDeviceId(),
+      deviceId: itemStorage.user.getDeviceId(),
       uuid: ourAci,
       pni: ourPni,
       conversationId: ourConversation && ourConversation.id,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CDSResponseType } from '../textsecure/cds/Types.d.ts';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { cdsLookup } from '../textsecure/WebAPI.js';
 import type { AciString } from '../types/ServiceId.js';
 import { createLogger } from '../logging/log.js';
 import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
@@ -50,7 +50,7 @@ type ReturnType = CDSResponseType & {
 };
 
 export async function getServiceIdsForE164s(
-  server: Pick<WebAPIType, 'cdsLookup'>,
+  doCdsLookup: typeof cdsLookup,
   e164s: ReadonlyArray<string>
 ): Promise<ReturnType> {
   const expandedE164s = new Set(e164s);
@@ -105,7 +105,7 @@ export async function getServiceIdsForE164s(
     `getServiceIdsForE164s(${expandedE164sArray}): acis=${acisAndAccessKeys.length} ` +
       `accessKeys=${acisAndAccessKeys.length}`
   );
-  const response = await server.cdsLookup({
+  const response = await doCdsLookup({
     e164s: expandedE164sArray,
     acisAndAccessKeys,
     returnAcisWithoutUaks: false,

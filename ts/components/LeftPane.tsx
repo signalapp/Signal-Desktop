@@ -56,7 +56,7 @@ import {
 import { ContextMenu } from './ContextMenu.js';
 import type { UnreadStats } from '../util/countUnreadStats.js';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.js';
-import type { ServerAlertsType } from '../util/handleServerAlerts.js';
+import type { ServerAlertsType, ServerAlert } from '../types/ServerAlert.js';
 import { getServerAlertDialog } from './ServerAlerts.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import type { Location } from '../types/Nav.js';
@@ -118,6 +118,7 @@ export type PropsType = {
         mode: LeftPaneMode.SetGroupMetadata;
       } & LeftPaneSetGroupMetadataPropsType);
   getPreferredBadge: PreferredBadgeSelectorType;
+  getServerAlertToShow: (alerts: ServerAlertsType) => ServerAlert | null;
   i18n: LocalizerType;
   isMacOS: boolean;
   isNotificationProfileActive: boolean;
@@ -152,6 +153,7 @@ export type PropsType = {
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
+  saveAlerts: (alerts: ServerAlertsType) => Promise<void>;
   savePreferredLeftPaneWidth: (_: number) => void;
   searchInConversation: (conversationId: string) => unknown;
   setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
@@ -225,6 +227,7 @@ export function LeftPane({
   endConversationSearch,
   endSearch,
   getPreferredBadge,
+  getServerAlertToShow,
   hasExpiredDialog,
   hasFailedStorySends,
   hasNetworkDialog,
@@ -260,6 +263,7 @@ export function LeftPane({
   renderUpdateDialog,
   renderToastManager,
   resumeBackupMediaDownload,
+  saveAlerts,
   savePreferredLeftPaneWidth,
   searchInConversation,
   selectedConversationId,
@@ -628,6 +632,8 @@ export function LeftPane({
 
   const maybeServerAlert = getServerAlertDialog(
     serverAlerts,
+    getServerAlertToShow,
+    saveAlerts,
     commonDialogProps
   );
   // Yellow dialogs

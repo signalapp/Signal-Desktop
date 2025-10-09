@@ -19,7 +19,14 @@ import {
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
 } from '../selectors/items.js';
-import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage.js';
+import {
+  itemStorage,
+  DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
+} from '../../textsecure/Storage.js';
+import {
+  onHasStoriesDisabledChange,
+  setPhoneNumberDiscoverability,
+} from '../../textsecure/WebAPI.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.js';
 import { isBackupFeatureEnabled } from '../../util/isBackupEnabled.js';
 import { format } from '../../types/PhoneNumber.js';
@@ -42,7 +49,7 @@ import {
 } from '../../types/SystemTraySetting.js';
 import { calling } from '../../services/calling.js';
 import { drop } from '../../util/drop.js';
-import { assertDev, strictAssert } from '../../util/assert.js';
+import { assertDev } from '../../util/assert.js';
 import { backupsService } from '../../services/backups/index.js';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.js';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.js';
@@ -302,12 +309,12 @@ export function SmartPreferences(): JSX.Element | null {
   const isSyncSupported = !isPrimary;
 
   const [deviceName, setDeviceName] = React.useState(
-    window.textsecure.storage.user.getDeviceName()
+    itemStorage.user.getDeviceName()
   );
   useEffect(() => {
     let canceled = false;
     const onDeviceNameChanged = () => {
-      const value = window.textsecure.storage.user.getDeviceName();
+      const value = itemStorage.user.getDeviceName();
       if (canceled) {
         return;
       }
@@ -653,7 +660,7 @@ export function SmartPreferences(): JSX.Element | null {
     async value => {
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
-      window.textsecure.server?.onHasStoriesDisabledChange(value);
+      onHasStoriesDisabledChange(value);
       if (!value) {
         await deleteAllMyStories();
       }
@@ -690,8 +697,7 @@ export function SmartPreferences(): JSX.Element | null {
     'phoneNumberDiscoverability',
     PhoneNumberDiscoverability.NotDiscoverable,
     async (newValue: PhoneNumberDiscoverability) => {
-      strictAssert(window.textsecure.server, 'WebAPI must be available');
-      await window.textsecure.server.setPhoneNumberDiscoverability(
+      await setPhoneNumberDiscoverability(
         newValue === PhoneNumberDiscoverability.Discoverable
       );
       const account = window.ConversationController.getOurConversationOrThrow();
@@ -740,7 +746,7 @@ export function SmartPreferences(): JSX.Element | null {
     });
   };
 
-  const accountEntropyPool = window.storage.get('accountEntropyPool');
+  const accountEntropyPool = itemStorage.get('accountEntropyPool');
 
   return (
     <StrictMode>

@@ -27,6 +27,7 @@ import type { AciString } from '../types/ServiceId.js';
 import { isAciString } from './isAciString.js';
 import type { MessageModel } from '../models/messages.js';
 import { postSaveUpdates } from './cleanup.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isNumber, pick } = lodash;
 
@@ -172,7 +173,7 @@ export async function markConversationRead(
     await DataWriter.saveMessages(
       updatedMessages.map(msg => msg.attributes),
       {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
+        ourAci: itemStorage.user.getCheckedAci(),
         postSaveUpdates,
       }
     );

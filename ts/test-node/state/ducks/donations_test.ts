@@ -18,6 +18,21 @@ describe('donations duck', () => {
   const getEmptyRootState = (): StateType =>
     rootReducer(undefined, noopAction());
 
+  const storageMap = new Map<string, unknown>();
+  const storage = {
+    get: (key: string): unknown => storageMap.get(key),
+    put: async (key: string, value: unknown): Promise<void> => {
+      storageMap.set(key, value);
+    },
+    remove: async (key: string): Promise<void> => {
+      storageMap.delete(key);
+    },
+  };
+
+  beforeEach(() => {
+    storageMap.clear();
+  });
+
   describe('applyDonationBadge thunk', () => {
     let sandbox: sinon.SinonSandbox;
     let myProfileChangedStub: sinon.SinonStub;
@@ -36,9 +51,6 @@ describe('donations duck', () => {
     beforeEach(async () => {
       sandbox = sinon.createSandbox();
 
-      // Clear storage for each test
-      await window.storage.remove('displayBadgesOnProfile');
-
       // Mock myProfileChanged by replacing the function directly
       myProfileChangedStub = sandbox.stub().returns(() => Promise.resolve());
       originalMyProfileChanged = conversations.actions.myProfileChanged;
@@ -49,8 +61,6 @@ describe('donations duck', () => {
       // Restore original myProfileChanged
       conversations.actions.myProfileChanged = originalMyProfileChanged;
       sandbox.restore();
-      // Clean up storage
-      await window.storage.remove('displayBadgesOnProfile');
     });
 
     const createMeWithBadges = (
@@ -111,6 +121,7 @@ describe('donations duck', () => {
           badge,
           applyBadge,
           onComplete,
+          storage,
         })(dispatch, getState, null);
       };
 
@@ -139,7 +150,7 @@ describe('donations duck', () => {
           ]);
 
           // Verify storage was updated from false to true
-          assert.equal(window.storage.get('displayBadgesOnProfile'), true);
+          assert.equal(storage.get('displayBadgesOnProfile'), true);
 
           // Note: storageServiceUploadJob would be called here with
           // { reason: 'donation-badge-toggle' } but we can't spy on const exports
@@ -162,7 +173,7 @@ describe('donations duck', () => {
           sinon.assert.notCalled(myProfileChangedStub);
 
           // Verify storage was written with false (even though unchanged)
-          assert.equal(window.storage.get('displayBadgesOnProfile'), false);
+          assert.equal(storage.get('displayBadgesOnProfile'), false);
           // Note: storageServiceUploadJob would not be called here
 
           sinon.assert.calledOnceWithExactly(onComplete);
@@ -190,7 +201,7 @@ describe('donations duck', () => {
           ]);
 
           // Verify storage remains at true (no update needed)
-          assert.equal(window.storage.get('displayBadgesOnProfile'), true);
+          assert.equal(storage.get('displayBadgesOnProfile'), true);
           // Note: storageServiceUploadJob would not be called here (no change)
 
           sinon.assert.calledOnceWithExactly(onComplete);
@@ -212,7 +223,7 @@ describe('donations duck', () => {
           assert.deepEqual(profileData.badges, []);
 
           // Verify storage was updated from true to false
-          assert.equal(window.storage.get('displayBadgesOnProfile'), false);
+          assert.equal(storage.get('displayBadgesOnProfile'), false);
 
           sinon.assert.calledOnceWithExactly(onComplete);
         });
@@ -238,7 +249,7 @@ describe('donations duck', () => {
           ]);
 
           // Verify storage remains at true (no update needed)
-          assert.equal(window.storage.get('displayBadgesOnProfile'), true);
+          assert.equal(storage.get('displayBadgesOnProfile'), true);
 
           sinon.assert.calledOnceWithExactly(onComplete);
         });
@@ -257,7 +268,7 @@ describe('donations duck', () => {
           sinon.assert.notCalled(myProfileChangedStub);
 
           // Verify storage remains at true (no update needed)
-          assert.equal(window.storage.get('displayBadgesOnProfile'), true);
+          assert.equal(storage.get('displayBadgesOnProfile'), true);
 
           sinon.assert.calledOnceWithExactly(onComplete);
         });

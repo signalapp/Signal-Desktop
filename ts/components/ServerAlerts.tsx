@@ -2,11 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import {
-  getServerAlertToShow,
-  ServerAlert,
-  type ServerAlertsType,
-} from '../util/handleServerAlerts.js';
+import { ServerAlert, type ServerAlertsType } from '../types/ServerAlert.js';
 import type { WidthBreakpoint } from './_util.js';
 import type { LocalizerType } from '../types/I18N.js';
 import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog.js';
@@ -15,6 +11,8 @@ import { WarningIdlePrimaryDeviceDialog } from './WarningIdlePrimaryDeviceDialog
 
 export function getServerAlertDialog(
   alerts: ServerAlertsType | undefined,
+  getServerAlertToShow: (alerts: ServerAlertsType) => ServerAlert | null,
+  saveAlerts: (alerts: ServerAlertsType) => Promise<void>,
   dialogProps: {
     containerWidthBreakpoint: WidthBreakpoint;
     i18n: LocalizerType;
@@ -45,7 +43,7 @@ export function getServerAlertDialog(
         handleClose={
           isDismissable
             ? async () => {
-                await window.storage.put('serverAlerts', {
+                await saveAlerts({
                   ...alerts,
                   [ServerAlert.IDLE_PRIMARY_DEVICE]: {
                     ...alert,

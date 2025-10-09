@@ -3,7 +3,7 @@
 
 import { createLogger } from '../logging/log.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import MessageSender from './SendMessage.js';
+import { MessageSender } from './SendMessage.js';
 import { toLogFormat } from '../types/errors.js';
 
 const log = createLogger('syncRequests');

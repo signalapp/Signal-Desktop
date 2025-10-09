@@ -54,8 +54,17 @@ import type {
   GroupCredentialsType,
   GroupLogResponseType,
 } from './textsecure/WebAPI.js';
+import {
+  createGroup,
+  getGroup,
+  getGroupAvatar,
+  getGroupLog,
+  getGroupFromLink,
+  getExternalGroupCredential,
+  modifyGroup,
+  uploadGroupAvatar,
+} from './textsecure/WebAPI.js';
 import { HTTPError } from './types/HTTPError.js';
-import type MessageSender from './textsecure/SendMessage.js';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.js';
 import type { ConversationModel } from './models/conversations.js';
 import { getGroupSizeHardLimit } from './groups/limits.js';
@@ -106,6 +115,7 @@ import {
   isConversationAccepted,
   isTrustedContact,
 } from './util/isConversationAccepted.js';
+import { itemStorage } from './textsecure/Storage.js';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -212,8 +222,7 @@ export async function getPreJoinGroupInfo(
     logId: `getPreJoinInfo/groupv2(${data.id})`,
     publicParams: Bytes.toBase64(data.publicParams),
     secretParams: Bytes.toBase64(data.secretParams),
-    request: (sender, options) =>
-      sender.getGroupFromLink(inviteLinkPasswordBase64, options),
+    request: options => getGroupFromLink(inviteLinkPasswordBase64, options),
   });
 }
 
@@ -313,8 +322,7 @@ async function uploadAvatar(options: {
       logId: `uploadGroupAvatar/${logId}`,
       publicParams,
       secretParams,
-      request: (sender, requestOptions) =>
-        sender.uploadGroupAvatar(ciphertext, requestOptions),
+      request: requestOptions => uploadGroupAvatar(ciphertext, requestOptions),
     });
 
     return {
@@ -466,7 +474,7 @@ function buildGroupProto(
     return member;
   });
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const ourAciCipherTextBuffer = encryptServiceId(clientZkGroupCipher, ourAci);
 
@@ -533,7 +541,7 @@ export async function buildAddMembersChange(
   );
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const ourAciCipherTextBuffer = encryptServiceId(clientZkGroupCipher, ourAci);
 
   const now = Date.now();
@@ -1306,8 +1314,7 @@ async function uploadGroupChange({
     logId: `uploadGroupChange/${logId}`,
     publicParams: groupPublicParamsBase64,
     secretParams: groupSecretParamsBase64,
-    request: (sender, options) =>
-      sender.modifyGroup(actions, options, inviteLinkPassword),
+    request: options => modifyGroup(actions, options, inviteLinkPassword),
   });
 }
 
@@ -1565,18 +1572,11 @@ async function makeRequestWithCredentials<T>({
   logId: string;
   publicParams: string;
   secretParams: string;
-  request: (sender: MessageSender, options: GroupCredentialsType) => Promise<T>;
+  request: (options: GroupCredentialsType) => Promise<T>;
 }): Promise<T> {
   const groupCredentials = getCheckedGroupCredentialsForToday(
     `makeRequestWithCredentials/${logId}`
   );
-
-  const sender = window.textsecure.messaging;
-  if (!sender) {
-    throw new Error(
-      `makeRequestWithCredentials/${logId}: textsecure.messaging is not available!`
-    );
-  }
 
   log.info(`makeRequestWithCredentials/${logId}: starting`);
 
@@ -1587,7 +1587,7 @@ async function makeRequestWithCredentials<T>({
     serverPublicParamsBase64: window.getServerPublicParams(),
   });
 
-  return request(sender, todayOptions);
+  return request(todayOptions);
 }
 
 export async function fetchMembershipProof({
@@ -1611,7 +1611,7 @@ export async function fetchMembershipProof({
     logId: 'fetchMembershipProof',
     publicParams,
     secretParams,
-    request: (sender, options) => sender.getGroupMembershipToken(options),
+    request: options => getExternalGroupCredential(options),
   });
   return dropNull(response.token);
 }
@@ -1653,7 +1653,7 @@ export async function createGroupV2(
   const secretParams = Bytes.toBase64(fields.secretParams);
   const publicParams = Bytes.toBase64(fields.publicParams);
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const ourConversation =
     window.ConversationController.getOurConversationOrThrow();
@@ -1763,8 +1763,7 @@ export async function createGroupV2(
       logId: `createGroupV2/${logId}`,
       publicParams,
       secretParams,
-      request: (sender, requestOptions) =>
-        sender.createGroup(groupProto, requestOptions),
+      request: requestOptions => createGroup(groupProto, requestOptions),
     });
 
     const { groupSendEndorsementResponse } = groupResponse;
@@ -1936,7 +1935,7 @@ export async function hasV1GroupBeenMigrated(
       logId: `getGroup/${logId}`,
       publicParams: Bytes.toBase64(fields.publicParams),
       secretParams: Bytes.toBase64(fields.secretParams),
-      request: (sender, options) => sender.getGroup(options),
+      request: options => getGroup(options),
     });
     return true;
   } catch (error) {
@@ -2026,7 +2025,7 @@ export async function getGroupMigrationMembers(
     );
   }
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   let areWeMember = false;
   let areWeInvited = false;
@@ -2295,7 +2294,7 @@ export async function initiateMigrationToGroupV2(
           logId: `initiateMigrationToGroupV2/${logId}`,
           publicParams,
           secretParams,
-          request: (sender, options) => sender.createGroup(groupProto, options),
+          request: options => createGroup(groupProto, options),
         });
 
         groupSendEndorsementResponse =
@@ -2334,8 +2333,8 @@ export async function initiateMigrationToGroupV2(
         },
       });
 
-      if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-        await window.storage.blocked.addBlockedGroup(groupId);
+      if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
+        await itemStorage.blocked.addBlockedGroup(groupId);
       }
 
       // Save these most recent updates to conversation
@@ -2421,8 +2420,8 @@ export function buildMigrationBubble(
   previousGroupV1MembersIds: ReadonlyArray<string>,
   newAttributes: ConversationAttributesType
 ): GroupChangeMessageType {
-  const ourAci = window.storage.user.getCheckedAci();
-  const ourPni = window.storage.user.getPni();
+  const ourAci = itemStorage.user.getCheckedAci();
+  const ourPni = itemStorage.user.getPni();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
 
@@ -2583,7 +2582,7 @@ export async function respondToGroupV2Migration({
     );
   }
 
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const wereWePreviouslyAMember = conversation.hasMember(ourAci);
 
   // Derive GroupV2 fields
@@ -2637,8 +2636,8 @@ export async function respondToGroupV2Migration({
       logId: `getGroupLog/${logId}`,
       publicParams,
       secretParams,
-      request: (sender, options) =>
-        sender.getGroupLog(
+      request: options =>
+        getGroupLog(
           {
             startVersion: 0,
             includeFirstState: true,
@@ -2665,7 +2664,7 @@ export async function respondToGroupV2Migration({
           logId: `getGroup/${logId}`,
           publicParams,
           secretParams,
-          request: (sender, options) => sender.getGroup(options),
+          request: options => getGroup(options),
         });
         setLastSuccessfulGroupFetch(conversation.id, fetchedAt);
 
@@ -2678,15 +2677,15 @@ export async function respondToGroupV2Migration({
             `respondToGroupV2Migration/${logId}: Failed to access state endpoint; user is no longer part of group`
           );
 
-          if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-            await window.storage.blocked.addBlockedGroup(groupId);
+          if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
+            await itemStorage.blocked.addBlockedGroup(groupId);
           }
 
           if (wereWePreviouslyAMember) {
             log.info(
               `respondToGroupV2Migration/${logId}: Upgrading group with migration/removed events`
             );
-            const ourNumber = window.textsecure.storage.user.getNumber();
+            const ourNumber = itemStorage.user.getNumber();
             await updateGroup({
               conversation,
               receivedAt,
@@ -2817,8 +2816,8 @@ export async function respondToGroupV2Migration({
     },
   });
 
-  if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-    await window.storage.blocked.addBlockedGroup(groupId);
+  if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
+    await itemStorage.blocked.addBlockedGroup(groupId);
   }
 
   // Save these most recent updates to conversation
@@ -2979,8 +2978,8 @@ async function updateGroup(
   const logId = conversation.idForLogging();
 
   const { newAttributes, groupChangeMessages, newProfileKeys } = updates;
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
-  const ourPni = window.textsecure.storage.user.getPni();
+  const ourAci = itemStorage.user.getCheckedAci();
+  const ourPni = itemStorage.user.getPni();
 
   const wasMemberOrPending =
     conversation.hasMember(ourAci) ||
@@ -3287,7 +3286,7 @@ async function appendChangeMessages(
     `appendChangeMessages/${logId}: processing ${messages.length} messages`
   );
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   let lastMessage = await DataReader.getLastConversationMessage({
     conversationId: conversation.id,
@@ -3396,7 +3395,7 @@ async function getGroupUpdates({
 
   const currentRevision = group.revision;
   const isFirstFetch = !isNumber(group.revision);
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const isInitialCreationMessage = isFirstFetch && newRevision === 0;
   const weAreAwaitingApproval = (group.pendingAdminApprovalV2 || []).some(
@@ -3598,7 +3597,7 @@ async function updateGroupViaPreJoinInfo({
   group: ConversationAttributesType;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const { publicParams, secretParams } = group;
   if (!secretParams) {
@@ -3618,8 +3617,7 @@ async function updateGroupViaPreJoinInfo({
     logId: `getPreJoinInfo/${logId}`,
     publicParams,
     secretParams,
-    request: (sender, options) =>
-      sender.getGroupFromLink(inviteLinkPassword, options),
+    request: options => getGroupFromLink(inviteLinkPassword, options),
   });
 
   const approvalRequired =
@@ -3691,7 +3689,7 @@ async function updateGroupViaState({
     logId: `getGroup/${logId}`,
     publicParams,
     secretParams,
-    request: (sender, requestOptions) => sender.getGroup(requestOptions),
+    request: requestOptions => getGroup(requestOptions),
   });
   setLastSuccessfulGroupFetch(id, fetchedAt);
 
@@ -3925,8 +3923,8 @@ async function updateGroupViaLogs({
       secretParams,
 
       // eslint-disable-next-line no-loop-func
-      request: (sender, requestOptions) =>
-        sender.getGroupLog(
+      request: requestOptions =>
+        getGroupLog(
           {
             startVersion: revisionToFetch,
             includeFirstState,
@@ -4017,8 +4015,8 @@ async function generateLeftGroupChanges(
 ): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   log.info(`generateLeftGroupChanges/${logId}: Starting...`);
-  const ourAci = window.storage.user.getCheckedAci();
-  const ourPni = window.storage.user.getCheckedPni();
+  const ourAci = itemStorage.user.getCheckedAci();
+  const ourPni = itemStorage.user.getCheckedPni();
 
   const { masterKey, groupInviteLinkPassword } = group;
   let { revision } = group;
@@ -4217,7 +4215,7 @@ async function integrateGroupChange({
   }
 
   const isFirstFetch = !isNumber(group.revision);
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const weAreAwaitingApproval = (group.pendingAdminApprovalV2 || []).some(
     item => item.aci === ourAci
   );
@@ -4444,8 +4442,8 @@ function extractDiffs({
 }): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
-  const ourAci = window.storage.user.getCheckedAci();
-  const ourPni = window.storage.user.getPni();
+  const ourAci = itemStorage.user.getCheckedAci();
+  const ourPni = itemStorage.user.getPni();
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
   let areWeInGroup = false;
@@ -4821,7 +4819,7 @@ function extractDiffs({
         details: [
           {
             type: 'pending-add-one',
-            serviceId: window.storage.user.getCheckedServiceId(
+            serviceId: itemStorage.user.getCheckedServiceId(
               serviceIdKindInvitedToGroup
             ),
           },
@@ -4999,7 +4997,7 @@ async function applyGroupChange({
   sourceServiceId: ServiceIdString;
 }): Promise<GroupApplyChangeResultType> {
   const logId = idForLogging(group.groupId);
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
@@ -5561,14 +5559,7 @@ export async function decryptGroupAvatar(
   avatarKey: string,
   secretParamsBase64: string
 ): Promise<Uint8Array> {
-  const sender = window.textsecure.messaging;
-  if (!sender) {
-    throw new Error(
-      'decryptGroupAvatar: textsecure.messaging is not available!'
-    );
-  }
-
-  const ciphertext = await sender.getGroupAvatar(avatarKey);
+  const ciphertext = await getGroupAvatar(avatarKey);
   const clientZkGroupCipher = getClientZkGroupCipher(secretParamsBase64);
   const plaintext = decryptGroupBlob(clientZkGroupCipher, ciphertext);
   const blob = Proto.GroupAttributeBlob.decode(plaintext);
@@ -5786,7 +5777,7 @@ async function applyGroupState({
 
   // Optimization: we assume we have left the group unless we are found in members
   result.left = true;
-  const ourAci = window.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   // members
   const wasPreviouslyAMember = (result.membersV2 || []).some(

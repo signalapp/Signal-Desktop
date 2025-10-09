@@ -10,9 +10,9 @@ import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher.js';
 import * as durations from '../../util/durations/index.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { saveNewMessageBatcher } from '../../util/messageBatcher.js';
-import type { WebAPIType } from '../../textsecure/WebAPI.js';
 import type { CIType } from '../../CI.js';
 import type { ConversationModel } from '../../models/conversations.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const waitUntil = (
   condition: () => boolean,
@@ -76,7 +76,6 @@ describe('ReleaseNotesFetcher', () => {
 
   let sandbox = sinon.createSandbox();
   let clock: sinon.SinonFakeTimers | undefined;
-  let originalTextsecureServer: WebAPIType | undefined;
   let originalSignalCI: CIType | undefined;
 
   async function setupTest(options: TestSetupOptions = {}) {
@@ -122,13 +121,7 @@ describe('ReleaseNotesFetcher', () => {
     sandbox.stub(window.MessageCache, 'register').callsFake(message => message);
 
     // Save original values before modifying
-    originalTextsecureServer = window.textsecure.server;
     originalSignalCI = window.SignalCI;
-
-    // Initialize textsecure.server if needed
-    if (!window.textsecure.server) {
-      window.textsecure.server = {} as unknown as WebAPIType;
-    }
 
     // Stub server methods
     const serverStubs = {
@@ -158,8 +151,6 @@ describe('ReleaseNotesFetcher', () => {
         contentType: 'image/png',
       }),
     };
-
-    sandbox.stub(window.textsecure, 'server').value(serverStubs);
 
     // Stub other globals
     sandbox.stub(window.SignalContext, 'getI18nLocale').returns('en-US');
@@ -192,7 +183,7 @@ describe('ReleaseNotesFetcher', () => {
 
     // Helper to run fetcher and wait for completion
     const runFetcherAndWaitForCompletion = async () => {
-      await ReleaseNotesFetcher.init(events, isNewVersion);
+      await ReleaseNotesFetcher.init(serverStubs, events, isNewVersion);
 
       // Wait for SignalCI.handleEvent to be called
       const signalCI = window.SignalCI as unknown as {
@@ -204,45 +195,40 @@ describe('ReleaseNotesFetcher', () => {
     // Storage setup helper
     const setupStorage = async () => {
       // Set up storage values
-      await window.storage.put('chromiumRegistrationDone', '');
+      await itemStorage.put('chromiumRegistrationDone', '');
 
       if (storedVersionWatermark !== undefined) {
-        await window.textsecure.storage.put(
+        await itemStorage.put(
           VERSION_WATERMARK_STORAGE_KEY,
           storedVersionWatermark
         );
       } else {
-        await window.textsecure.storage.remove(VERSION_WATERMARK_STORAGE_KEY);
+        await itemStorage.remove(VERSION_WATERMARK_STORAGE_KEY);
       }
 
       if (storedPreviousManifestHash !== undefined) {
-        await window.textsecure.storage.put(
+        await itemStorage.put(
           PREVIOUS_MANIFEST_HASH_STORAGE_KEY,
           storedPreviousManifestHash
         );
       } else {
-        await window.textsecure.storage.remove(
-          PREVIOUS_MANIFEST_HASH_STORAGE_KEY
-        );
+        await itemStorage.remove(PREVIOUS_MANIFEST_HASH_STORAGE_KEY);
       }
 
       if (storedNextFetchTime !== undefined) {
-        await window.textsecure.storage.put(
-          NEXT_FETCH_TIME_STORAGE_KEY,
-          storedNextFetchTime
-        );
+        await itemStorage.put(NEXT_FETCH_TIME_STORAGE_KEY, storedNextFetchTime);
       } else {
-        await window.textsecure.storage.remove(NEXT_FETCH_TIME_STORAGE_KEY);
+        await itemStorage.remove(NEXT_FETCH_TIME_STORAGE_KEY);
       }
     };
 
     // Helper functions to get current storage values
     const getCurrentHash = () => {
-      return window.textsecure.storage.get(PREVIOUS_MANIFEST_HASH_STORAGE_KEY);
+      return itemStorage.get(PREVIOUS_MANIFEST_HASH_STORAGE_KEY);
     };
 
     const getCurrentWatermark = () => {
-      return window.textsecure.storage.get(VERSION_WATERMARK_STORAGE_KEY);
+      return itemStorage.get(VERSION_WATERMARK_STORAGE_KEY);
     };
 
     return {
@@ -281,11 +267,10 @@ describe('ReleaseNotesFetcher', () => {
     clock?.restore();
 
     // Restore original global values (even if they were undefined)
-    window.textsecure.server = originalTextsecureServer as WebAPIType;
     window.SignalCI = originalSignalCI as CIType;
 
     // Reset storage state
-    await window.storage.fetch();
+    await itemStorage.fetch();
 
     // Reset conversation controller for next test
     window.ConversationController.reset();
