@@ -8,6 +8,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { Sound, SoundType } from '../util/Sound.js';
 import { shouldHideExpiringMessageBody } from '../types/Settings.js';
+import { itemStorage as fallbackStorage } from '../textsecure/Storage.js';
 import OS from '../util/os/osMain.js';
 import { createLogger } from '../logging/log.js';
 import { makeEnumParser } from '../util/enum.js';
@@ -121,9 +122,9 @@ class NotificationService extends EventEmitter {
     }
 
     log.error(
-      'NotificationService not initialized. Falling back to window.storage, but you should fix this'
+      'NotificationService not initialized. Falling back to storage, but you should fix this'
     );
-    return window.storage;
+    return fallbackStorage;
   }
 
   #getI18n(): LocalizerType {

@@ -4,21 +4,29 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const { Crypto } = require('../ts/context/Crypto');
-const { setEnvironment, Environment } = require('../ts/environment');
-const { HourCyclePreference } = require('../ts/types/I18N');
+const { Crypto } = require('../ts/context/Crypto.js');
+const { setEnvironment, Environment } = require('../ts/environment.js');
+const { HourCyclePreference } = require('../ts/types/I18N.js');
+const { default: package } = require('../ts/util/packageJson.js');
 
 chai.use(chaiAsPromised);
 
 setEnvironment(Environment.Test, true);
-
-const storageMap = new Map();
 
 // To replicate logic we have on the client side
 global.window = {
   Date,
   performance,
   SignalContext: {
+    getVersion: () => package.version,
+    config: {
+      serverUrl: 'https://127.0.0.1:9',
+      storageUrl: 'https://127.0.0.1:9',
+      updatesUrl: 'https://127.0.0.1:9',
+      resourcesUrl: 'https://127.0.0.1:9',
+      certificateAuthority: package.certificateAuthority,
+      version: package.version,
+    },
     crypto: new Crypto(),
     getResolvedMessagesLocale: () => 'en',
     getResolvedMessagesLocaleDirection: () => 'ltr',
@@ -27,11 +35,6 @@ global.window = {
     getLocaleOverride: () => null,
   },
   i18n: key => `i18n(${key})`,
-  storage: {
-    get: key => storageMap.get(key),
-    put: async (key, value) => storageMap.set(key, value),
-    remove: async key => storageMap.clear(key),
-  },
 };
 
 // For ducks/network.getEmptyState()

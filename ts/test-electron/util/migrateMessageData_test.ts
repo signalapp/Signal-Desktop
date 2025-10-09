@@ -8,6 +8,7 @@ import type { MessageAttributesType } from '../../model-types.js';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { postSaveUpdates } from '../../util/cleanup.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 function composeMessage(timestamp: number): MessageAttributesType {
   return {
@@ -25,11 +26,11 @@ function composeMessage(timestamp: number): MessageAttributesType {
 describe('utils/migrateMessageData', async () => {
   before(async () => {
     await DataWriter.removeAll();
-    await window.storage.put('uuid_id', generateAci());
+    await itemStorage.put('uuid_id', generateAci());
   });
   after(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
   it('increments attempts for messages which fail to save', async () => {
     const messages = new Array(5)

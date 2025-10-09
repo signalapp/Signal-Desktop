@@ -38,19 +38,8 @@ import {
   toPniObject,
   toServiceIdObject,
 } from '../util/ServiceId.js';
-import type {
-  ChallengeType,
-  GetGroupLogOptionsType,
-  GroupCredentialsType,
-  GroupLogResponseType,
-  WebAPIType,
-} from './WebAPI.js';
 import createTaskWithTimeout from './TaskWithTimeout.js';
-import type {
-  CallbackResultType,
-  StorageServiceCallOptionsType,
-  StorageServiceCredentials,
-} from './Types.d.ts';
+import type { CallbackResultType } from './Types.d.ts';
 import type {
   SerializedCertificateType,
   SendLogCallbackType,
@@ -67,10 +56,6 @@ import { BodyRange } from '../types/BodyRange.js';
 import { HTTPError } from '../types/HTTPError.js';
 import type { RawBodyRange } from '../types/BodyRange.js';
 import type { StoryContextType } from '../types/Util.js';
-import type {
-  LinkPreviewImage,
-  LinkPreviewMetadata,
-} from '../linkPreviews/linkPreviewFetch.js';
 import { concat, isEmpty } from '../util/iterables.js';
 import type { SendTypesType } from '../util/handleMessageSend.js';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend.js';
@@ -110,6 +95,7 @@ import {
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.js';
 import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { itemStorage } from './Storage.js';
 
 const log = createLogger('SendMessage');
 
@@ -671,12 +657,12 @@ function addPniSignatureMessageToProto({
   };
 }
 
-export default class MessageSender {
+export class MessageSender {
   pendingMessages: {
     [id: string]: PQueue;
   };
 
-  constructor(public readonly server: WebAPIType) {
+  constructor() {
     this.pendingMessages = {};
   }
 
@@ -953,14 +939,14 @@ export default class MessageSender {
       );
     }
 
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const groupMembers = groupV2?.members || [];
 
     const blockedIdentifiers = new Set(
       concat(
-        window.storage.blocked.getBlockedServiceIds(),
-        window.storage.blocked.getBlockedNumbers()
+        itemStorage.blocked.getBlockedServiceIds(),
+        itemStorage.blocked.getBlockedNumbers()
       )
     );
 
@@ -1100,7 +1086,6 @@ export default class MessageSender {
       message: proto,
       options,
       sendLogCallback,
-      server: this.server,
       story,
       timestamp,
       urgent,
@@ -1310,7 +1295,7 @@ export default class MessageSender {
     storyMessage?: Proto.StoryMessage;
     storyMessageRecipients?: ReadonlyArray<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
   }>): Promise<CallbackResultType> {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const sentMessage = new Proto.SyncMessage.Sent();
     sentMessage.timestamp = Long.fromNumber(timestamp);
@@ -1398,7 +1383,7 @@ export default class MessageSender {
   }
 
   static getRequestBlockSyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.BLOCKED;
@@ -1420,7 +1405,7 @@ export default class MessageSender {
   }
 
   static getRequestConfigurationSyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.CONFIGURATION;
@@ -1442,7 +1427,7 @@ export default class MessageSender {
   }
 
   static getRequestContactSyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.CONTACTS;
@@ -1464,7 +1449,7 @@ export default class MessageSender {
   }
 
   static getFetchManifestSyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
     fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.STORAGE_MANIFEST;
@@ -1487,7 +1472,7 @@ export default class MessageSender {
   }
 
   static getFetchLocalProfileSyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
     fetchLatest.type = Proto.SyncMessage.FetchLatest.Type.LOCAL_PROFILE;
@@ -1510,7 +1495,7 @@ export default class MessageSender {
   }
 
   static getRequestKeySyncMessage(): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const request = new Proto.SyncMessage.Request();
     request.type = Proto.SyncMessage.Request.Type.KEYS;
@@ -1535,7 +1520,7 @@ export default class MessageSender {
   static getDeleteForMeSyncMessage(
     data: DeleteForMeSyncEventData
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const deleteForMe = new Proto.SyncMessage.DeleteForMe();
     const messageDeletes: Map<
@@ -1632,7 +1617,7 @@ export default class MessageSender {
     targetConversation: ConversationIdentifier,
     targetMessage: AddressableMessage
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = this.createSyncMessage();
     syncMessage.attachmentBackfillRequest = {
@@ -1658,7 +1643,7 @@ export default class MessageSender {
   static getClearCallHistoryMessage(
     latestCall: CallHistoryDetails
   ): SingleProtoJobData {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
       type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
       timestamp: Long.fromNumber(latestCall.timestamp),
@@ -1685,7 +1670,7 @@ export default class MessageSender {
   }
 
   static getDeleteCallEvent(callDetails: CallDetails): SingleProtoJobData {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const { mode } = callDetails;
     let status;
     if (mode === CallMode.Adhoc) {
@@ -1728,7 +1713,7 @@ export default class MessageSender {
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = MessageSender.createSyncMessage();
     syncMessage.read = [];
@@ -1761,7 +1746,7 @@ export default class MessageSender {
     }>,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = MessageSender.createSyncMessage();
     syncMessage.viewed = views.map(
@@ -1803,7 +1788,7 @@ export default class MessageSender {
       throw new Error('syncViewOnceOpen: Missing senderAci');
     }
 
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = MessageSender.createSyncMessage();
 
@@ -1836,7 +1821,7 @@ export default class MessageSender {
       groupIds: Array<Uint8Array>;
     }>
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = MessageSender.createSyncMessage();
 
@@ -1874,7 +1859,7 @@ export default class MessageSender {
       type: number;
     }>
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     const syncMessage = MessageSender.createSyncMessage();
 
@@ -1916,7 +1901,7 @@ export default class MessageSender {
       installed: boolean;
     }>
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
 
     const packOperations = operations.map(item => {
@@ -1954,7 +1939,7 @@ export default class MessageSender {
     state: number,
     identityKey: Readonly<Uint8Array>
   ): SingleProtoJobData {
-    const myAci = window.textsecure.storage.user.getCheckedAci();
+    const myAci = itemStorage.user.getCheckedAci();
 
     if (!destinationE164 && !destinationAci) {
       throw new Error('syncVerification: Neither e164 nor UUID were provided');
@@ -2224,8 +2209,8 @@ export default class MessageSender {
     timestamp: number;
     urgent: boolean;
   }>): Promise<CallbackResultType> {
-    const myE164 = window.textsecure.storage.user.getNumber();
-    const myAci = window.textsecure.storage.user.getAci();
+    const myE164 = itemStorage.user.getNumber();
+    const myAci = itemStorage.user.getAci();
     const serviceIds = recipients.filter(id => id !== myE164 && id !== myAci);
 
     if (serviceIds.length === 0) {
@@ -2282,9 +2267,9 @@ export default class MessageSender {
       timestamp,
     }: { throwIfNotInDatabase?: boolean; timestamp: number }
   ): Promise<Proto.Content> {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const ourDeviceId = parseIntOrThrow(
-      window.textsecure.storage.user.getDeviceId(),
+      itemStorage.user.getDeviceId(),
       'getSenderKeyDistributionMessage'
     );
 
@@ -2384,125 +2369,9 @@ export default class MessageSender {
       urgent,
     });
   }
-
-  // Simple pass-throughs
-
-  // Note: instead of updating these functions, or adding new ones, remove these and go
-  //   directly to window.textsecure.messaging.server.<function>
-
-  async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {
-    return this.server.getAvatar(path);
-  }
-
-  async getSticker(
-    packId: string,
-    stickerId: number
-  ): Promise<ReturnType<WebAPIType['getSticker']>> {
-    return this.server.getSticker(packId, stickerId);
-  }
-
-  async getStickerPackManifest(
-    packId: string
-  ): Promise<ReturnType<WebAPIType['getStickerPackManifest']>> {
-    return this.server.getStickerPackManifest(packId);
-  }
-
-  async createGroup(
-    group: Readonly<Proto.IGroup>,
-    options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.IGroupResponse> {
-    return this.server.createGroup(group, options);
-  }
-
-  async uploadGroupAvatar(
-    avatar: Readonly<Uint8Array>,
-    options: Readonly<GroupCredentialsType>
-  ): Promise<string> {
-    return this.server.uploadGroupAvatar(avatar, options);
-  }
-
-  async getGroup(
-    options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.IGroupResponse> {
-    return this.server.getGroup(options);
-  }
-
-  async getGroupFromLink(
-    groupInviteLink: string | undefined,
-    auth: Readonly<GroupCredentialsType>
-  ): Promise<Proto.GroupJoinInfo> {
-    return this.server.getGroupFromLink(groupInviteLink, auth);
-  }
-
-  async getGroupLog(
-    options: GetGroupLogOptionsType,
-    credentials: GroupCredentialsType
-  ): Promise<GroupLogResponseType> {
-    return this.server.getGroupLog(options, credentials);
-  }
-
-  async getGroupAvatar(key: string): Promise<Uint8Array> {
-    return this.server.getGroupAvatar(key);
-  }
-
-  async modifyGroup(
-    changes: Readonly<Proto.GroupChange.IActions>,
-    options: Readonly<GroupCredentialsType>,
-    inviteLinkBase64?: string
-  ): Promise<Proto.IGroupChangeResponse> {
-    return this.server.modifyGroup(changes, options, inviteLinkBase64);
-  }
-
-  async fetchLinkPreviewMetadata(
-    href: string,
-    abortSignal: AbortSignal
-  ): Promise<null | LinkPreviewMetadata> {
-    return this.server.fetchLinkPreviewMetadata(href, abortSignal);
-  }
-
-  async fetchLinkPreviewImage(
-    href: string,
-    abortSignal: AbortSignal
-  ): Promise<null | LinkPreviewImage> {
-    return this.server.fetchLinkPreviewImage(href, abortSignal);
-  }
-
-  async getStorageCredentials(): Promise<StorageServiceCredentials> {
-    return this.server.getStorageCredentials();
-  }
-
-  async getStorageManifest(
-    options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<Uint8Array> {
-    return this.server.getStorageManifest(options);
-  }
-
-  async getStorageRecords(
-    data: Readonly<Uint8Array>,
-    options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<Uint8Array> {
-    return this.server.getStorageRecords(data, options);
-  }
-
-  async modifyStorageRecords(
-    data: Readonly<Uint8Array>,
-    options: Readonly<StorageServiceCallOptionsType>
-  ): Promise<Uint8Array> {
-    return this.server.modifyStorageRecords(data, options);
-  }
-
-  async getGroupMembershipToken(
-    options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.IExternalGroupCredential> {
-    return this.server.getExternalGroupCredential(options);
-  }
-
-  public async sendChallengeResponse(
-    challengeResponse: Readonly<ChallengeType>
-  ): Promise<void> {
-    return this.server.sendChallengeResponse(challengeResponse);
-  }
 }
+
+export const messageSender = new MessageSender();
 
 // Helpers
 

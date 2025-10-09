@@ -188,7 +188,7 @@ import {
   getMessageIdForLogging,
 } from '../../util/idForLogging.js';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue.js';
-import MessageSender from '../../textsecure/SendMessage.js';
+import { MessageSender } from '../../textsecure/SendMessage.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.js';
 import type {
   DeleteForMeSyncEventData,
@@ -224,6 +224,7 @@ import {
 } from '../../types/ChatFolder.js';
 import { getCurrentChatFolders } from '../selectors/chatFolders.js';
 import { isConversationUnread } from '../../util/isConversationUnread.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const {
   chunk,
@@ -1837,7 +1838,7 @@ function setPinned(
   }
 
   if (value) {
-    const pinnedConversationIds = window.storage.get(
+    const pinnedConversationIds = itemStorage.get(
       'pinnedConversationIds',
       new Array<string>()
     );
@@ -2176,7 +2177,7 @@ export const markViewed = (messageId: string): void => {
     );
   } else {
     // Use our own ACI for syncing viewed state of an outgoing message.
-    senderAci = window.textsecure.storage.user.getCheckedAci();
+    senderAci = itemStorage.user.getCheckedAci();
   }
 
   drop(
@@ -3875,9 +3876,7 @@ function blockAndReportSpam(
     } else {
       try {
         await singleProtoJobQueue.add(
-          MessageSender.getBlockSync(
-            window.textsecure.storage.blocked.getBlockedData()
-          )
+          MessageSender.getBlockSync(itemStorage.blocked.getBlockedData())
         );
       } catch (error) {
         log.error(
@@ -3928,9 +3927,7 @@ function acceptConversation(
 
       try {
         await singleProtoJobQueue.add(
-          MessageSender.getBlockSync(
-            window.textsecure.storage.blocked.getBlockedData()
-          )
+          MessageSender.getBlockSync(itemStorage.blocked.getBlockedData())
         );
       } catch (error) {
         log.error(
@@ -4009,9 +4006,7 @@ function blockConversation(
 
       try {
         await singleProtoJobQueue.add(
-          MessageSender.getBlockSync(
-            window.textsecure.storage.blocked.getBlockedData()
-          )
+          MessageSender.getBlockSync(itemStorage.blocked.getBlockedData())
         );
       } catch (error) {
         log.error(
@@ -4854,7 +4849,7 @@ function onConversationOpened(
     );
     promises.push(conversation.throttledFetchSMSOnlyUUID());
 
-    const ourAci = window.textsecure.storage.user.getAci();
+    const ourAci = itemStorage.user.getAci();
     if (
       !isGroup(conversation.attributes) ||
       (ourAci && conversation.hasMember(ourAci))

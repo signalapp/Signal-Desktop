@@ -6,6 +6,7 @@ import type { ContactAvatarType } from '../types/Avatar.js';
 import { isMe } from './whatTypeOfConversation.js';
 import { isSignalConversation } from './isSignalConversation.js';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function hasAvatar(
   conversationAttrs: ConversationAttributesType
@@ -29,7 +30,7 @@ export function getAvatar(
 ): undefined | ContactAvatarType {
   const shouldShowProfileAvatar =
     isMe(conversationAttrs) ||
-    window.storage.get('preferContactAvatars') === false;
+    itemStorage.get('preferContactAvatars') === false;
   const avatar = shouldShowProfileAvatar
     ? conversationAttrs.profileAvatar || conversationAttrs.avatar
     : conversationAttrs.avatar || conversationAttrs.profileAvatar;

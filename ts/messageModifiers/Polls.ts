@@ -11,7 +11,8 @@ import { MessageModel } from '../models/messages.js';
 import { DataReader } from '../sql/Client.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
-import { getAuthor, isIncoming, isOutgoing } from '../messages/helpers.js';
+import { isIncoming, isOutgoing } from '../messages/helpers.js';
+import { getAuthor } from '../messages/sources.js';
 
 import { isSent } from '../messages/MessageSendState.js';
 import { getPropForTimestamp } from '../util/editHelpers.js';

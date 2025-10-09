@@ -12,20 +12,21 @@ import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup
 import { strictAssert } from '../../util/assert.js';
 import type { AciString } from '../../types/ServiceId.js';
 import { toAciObject } from '../../util/ServiceId.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const getMemoizedBackupKey = memoizee((accountEntropyPool: string) => {
   return AccountEntropyPool.deriveBackupKey(accountEntropyPool);
 });
 
 export function getBackupKey(): BackupKey {
-  const accountEntropyPool = window.storage.get('accountEntropyPool');
+  const accountEntropyPool = itemStorage.get('accountEntropyPool');
   strictAssert(accountEntropyPool, 'Account Entropy Pool not available');
 
   return getMemoizedBackupKey(accountEntropyPool);
 }
 
 export function getBackupMediaRootKey(): BackupKey {
-  const rootKey = window.storage.get('backupMediaRootKey');
+  const rootKey = itemStorage.get('backupMediaRootKey');
   strictAssert(rootKey, 'Media root key not available');
 
   return new BackupKey(rootKey);
@@ -39,7 +40,7 @@ const getMemoizedBackupSignatureKey = memoizee(
 
 export function getBackupSignatureKey(): PrivateKey {
   const backupKey = getBackupKey();
-  const aci = window.storage.user.getCheckedAci();
+  const aci = itemStorage.user.getCheckedAci();
   return getMemoizedBackupSignatureKey(backupKey, aci);
 }
 
@@ -51,7 +52,7 @@ const getMemoizedBackupMediaSignatureKey = memoizee(
 
 export function getBackupMediaSignatureKey(): PrivateKey {
   const rootKey = getBackupMediaRootKey();
-  const aci = window.storage.user.getCheckedAci();
+  const aci = itemStorage.user.getCheckedAci();
   return getMemoizedBackupMediaSignatureKey(rootKey, aci);
 }
 
@@ -74,7 +75,7 @@ export type BackupKeyMaterialType = Readonly<{
 export function getKeyMaterial(
   backupKey = getBackupKey()
 ): BackupKeyMaterialType {
-  const aci = window.storage.user.getCheckedAci();
+  const aci = itemStorage.user.getCheckedAci();
   return getMemoizedKeyMaterial(backupKey, aci);
 }
 
@@ -125,7 +126,7 @@ export function deriveBackupThumbnailTransitKeyMaterial(
 }
 
 export function getBackupId(): Uint8Array {
-  const aci = window.storage.user.getCheckedAci();
+  const aci = itemStorage.user.getCheckedAci();
   return getBackupKey().deriveBackupId(toAciObject(aci));
 }
 

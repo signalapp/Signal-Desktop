@@ -8,7 +8,9 @@ import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import * as LinkPreview from '../types/LinkPreview.js';
 
-import { getAuthor, isStory, messageHasPaymentEvent } from './helpers.js';
+import { isStory } from './helpers.js';
+import { getAuthor } from './sources.js';
+import { messageHasPaymentEvent } from './payments.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
 import { isNormalNumber } from '../util/isNormalNumber.js';
@@ -69,6 +71,7 @@ import type {
 import type { ServiceIdString } from '../types/ServiceId.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isNumber } = lodash;
 
@@ -294,7 +297,7 @@ export async function handleDataMessage(
       }
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const sender = window.ConversationController.lookupOrCreate({
       e164: source,
@@ -305,9 +308,9 @@ export async function handleDataMessage(
 
     // Drop if from blocked user. Only GroupV2 messages should need to be dropped here.
     const isBlocked =
-      (source && window.storage.blocked.isBlocked(source)) ||
+      (source && itemStorage.blocked.isBlocked(source)) ||
       (sourceServiceId &&
-        window.storage.blocked.isServiceIdBlocked(sourceServiceId));
+        itemStorage.blocked.isServiceIdBlocked(sourceServiceId));
     if (isBlocked) {
       log.info(
         `${idLog}: Dropping message from blocked sender. hasGroupV2Prop: ${hasGroupV2Prop}`
@@ -424,7 +427,7 @@ export async function handleDataMessage(
       const sendState = sendStateByConversationId[sender.id];
 
       const storyQuoteIsFromSelf =
-        candidateQuote.sourceServiceId === window.storage.user.getCheckedAci();
+        candidateQuote.sourceServiceId === itemStorage.user.getCheckedAci();
 
       if (!storyQuoteIsFromSelf) {
         return true;
@@ -563,7 +566,7 @@ export async function handleDataMessage(
         );
       }
 
-      const ourPni = window.textsecure.storage.user.getCheckedPni();
+      const ourPni = itemStorage.user.getCheckedPni();
       const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
       // eslint-disable-next-line no-param-reassign
@@ -726,8 +729,8 @@ export async function handleDataMessage(
         if (initialMessage.profileKey) {
           const { profileKey } = initialMessage;
           if (
-            source === window.textsecure.storage.user.getNumber() ||
-            sourceServiceId === window.textsecure.storage.user.getAci()
+            source === itemStorage.user.getNumber() ||
+            sourceServiceId === itemStorage.user.getAci()
           ) {
             conversation.set({ profileSharing: true });
           } else if (isDirectConversation(conversation.attributes)) {

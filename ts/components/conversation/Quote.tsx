@@ -24,10 +24,8 @@ import { getClassNamesFor } from '../../util/getClassNamesFor.js';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
 import { PaymentEventKind } from '../../types/Payment.js';
-import {
-  getPaymentEventNotificationText,
-  shouldTryToCopyFromQuotedMessage,
-} from '../../messages/helpers.js';
+import { getPaymentEventNotificationText } from '../../messages/payments.js';
+import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.js';
 import { RenderLocation } from './MessageTextRenderer.js';
 import type { QuotedAttachmentType } from '../../model-types.js';
 

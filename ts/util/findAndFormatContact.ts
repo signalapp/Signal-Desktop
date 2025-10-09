@@ -4,6 +4,7 @@
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { PLACEHOLDER_CONTACT_ID } from '../state/selectors/conversations.js';
 import { format, isValidNumber } from '../types/PhoneNumber.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const PLACEHOLDER_CONTACT: ConversationType = {
   acceptedMessageRequest: false,
@@ -27,7 +28,7 @@ export function findAndFormatContact(identifier?: string): ConversationType {
     return contactModel.format();
   }
 
-  const regionCode = window.storage.get('regionCode');
+  const regionCode = itemStorage.get('regionCode');
 
   if (!isValidNumber(identifier, { regionCode })) {
     return PLACEHOLDER_CONTACT;

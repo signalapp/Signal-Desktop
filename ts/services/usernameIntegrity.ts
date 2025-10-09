@@ -5,7 +5,7 @@ import pTimeout from 'p-timeout';
 import { usernames } from '@signalapp/libsignal-client';
 
 import * as Errors from '../types/errors.js';
-import { strictAssert } from '../util/assert.js';
+import { whoami } from '../textsecure/WebAPI.js';
 import { isDone as isRegistrationDone } from '../util/registration.js';
 import { getConversation } from '../util/getConversation.js';
 import { MINUTE, DAY } from '../util/durations/index.js';
@@ -20,6 +20,7 @@ import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
 import { runStorageServiceSyncJob } from './storage.js';
 import { writeProfile } from './writeProfile.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('usernameIntegrity');
 
@@ -42,10 +43,7 @@ class UsernameIntegrityService {
   }
 
   #scheduleCheck(): void {
-    const lastCheckTimestamp = window.storage.get(
-      'usernameLastIntegrityCheck',
-      0
-    );
+    const lastCheckTimestamp = itemStorage.get('usernameLastIntegrityCheck', 0);
     const delay = Math.max(0, lastCheckTimestamp + CHECK_INTERVAL - Date.now());
     if (delay === 0) {
       log.info('running the check immediately');
@@ -60,7 +58,7 @@ class UsernameIntegrityService {
     try {
       await storageJobQueue(() => this.#check());
       this.#backOff.reset();
-      await window.storage.put('usernameLastIntegrityCheck', Date.now());
+      await itemStorage.put('usernameLastIntegrityCheck', Date.now());
 
       this.#scheduleCheck();
     } catch (error) {
@@ -90,27 +88,20 @@ class UsernameIntegrityService {
       return;
     }
 
-    const { server } = window.textsecure;
-    if (!server) {
-      log.info('server interface is not available');
-      return;
-    }
-
-    strictAssert(window.textsecure.server, 'WebAPI must be available');
     const { usernameHash: remoteHash, usernameLinkHandle: remoteLink } =
-      await server.whoami();
+      await whoami();
 
     let failed = false;
 
     if (remoteHash !== Bytes.toBase64url(usernames.hash(username))) {
       log.error('remote username mismatch');
-      await window.storage.put('usernameCorrupted', true);
+      await itemStorage.put('usernameCorrupted', true);
       failed = true;
 
       // Intentional fall-through
     }
 
-    const link = window.storage.get('usernameLink');
+    const link = itemStorage.get('usernameLink');
     if (!link) {
       log.info('no username link');
       return;
@@ -118,7 +109,7 @@ class UsernameIntegrityService {
 
     if (remoteLink !== bytesToUuid(link.serverId)) {
       log.error('username link mismatch');
-      await window.storage.put('usernameLinkCorrupted', true);
+      await itemStorage.put('usernameLinkCorrupted', true);
       failed = true;
     }
 

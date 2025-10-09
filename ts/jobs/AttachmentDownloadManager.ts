@@ -76,6 +76,7 @@ import { isOlderThan } from '../util/timestamp.js';
 import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.js';
 import { JobCancelReason } from './types.js';
 import { isAbortError } from '../util/isAbortError.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { noop, omit, throttle } = lodash;
 
@@ -217,11 +218,11 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         : DEFAULT_RETRY_CONFIG,
     maxConcurrentJobs: MAX_CONCURRENT_JOBS,
     onLowDiskSpaceBackupImport: async bytesNeeded => {
-      if (!window.storage.get('backupMediaDownloadPaused')) {
+      if (!itemStorage.get('backupMediaDownloadPaused')) {
         await Promise.all([
-          window.storage.put('backupMediaDownloadPaused', true),
+          itemStorage.put('backupMediaDownloadPaused', true),
           // Show the banner to allow users to resume from the left pane
-          window.storage.put('backupMediaDownloadBannerDismissed', false),
+          itemStorage.put('backupMediaDownloadBannerDismissed', false),
         ]);
       }
       window.reduxActions.globalModals.showLowDiskSpaceBackupImportModal(
@@ -240,7 +241,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         return params.getNextJobs({
           limit,
           prioritizeMessageIds: [...this.#visibleTimelineMessages],
-          sources: window.storage.get('backupMediaDownloadPaused')
+          sources: itemStorage.get('backupMediaDownloadPaused')
             ? [
                 AttachmentDownloadSource.STANDARD,
                 AttachmentDownloadSource.BACKFILL,
@@ -396,8 +397,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
     if (freeDiskSpace <= this.#minimumFreeDiskSpace) {
       const remainingBackupBytesToDownload =
-        window.storage.get('backupMediaDownloadTotalBytes', 0) -
-        window.storage.get('backupMediaDownloadCompletedBytes', 0);
+        itemStorage.get('backupMediaDownloadTotalBytes', 0) -
+        itemStorage.get('backupMediaDownloadCompletedBytes', 0);
 
       log.info(
         'checkFreeDiskSpaceForBackupImport: insufficient disk space. ' +
@@ -424,14 +425,14 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
   static async start(): Promise<void> {
     await AttachmentDownloadManager.saveBatchedJobs();
-    await window.storage.put('attachmentDownloadManagerIdled', false);
+    await itemStorage.put('attachmentDownloadManagerIdled', false);
     await AttachmentDownloadManager.instance.start();
     drop(
       AttachmentDownloadManager.waitForIdle(async () => {
         await updateBackupMediaDownloadProgress(
           DataReader.getBackupAttachmentDownloadProgress
         );
-        await window.storage.put('attachmentDownloadManagerIdled', true);
+        await itemStorage.put('attachmentDownloadManagerIdled', true);
       })
     );
   }

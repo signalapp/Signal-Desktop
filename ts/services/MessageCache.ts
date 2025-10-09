@@ -17,6 +17,7 @@ import { postSaveUpdates } from '../util/cleanup.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { SendStateByConversationId } from '../messages/MessageSendState.js';
 import type { StoredJob } from '../jobs/types.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { throttle } = lodash;
 
@@ -48,7 +49,7 @@ export class MessageCache {
       message instanceof MessageModel ? message.attributes : message;
 
     return DataWriter.saveMessage(attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
+      ourAci: itemStorage.user.getCheckedAci(),
       postSaveUpdates,
       ...options,
     });

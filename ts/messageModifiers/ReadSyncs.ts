@@ -19,6 +19,7 @@ import { isAciString } from '../util/isAciString.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { markRead } from '../services/MessageUpdater.js';
 import { MessageModel } from '../models/messages.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('ReadSyncs');
 
@@ -62,7 +63,7 @@ async function maybeItIsAReactionReadSync(
 
   if (
     !readReaction ||
-    readReaction?.targetAuthorAci !== window.storage.user.getCheckedAci()
+    readReaction?.targetAuthorAci !== itemStorage.user.getCheckedAci()
   ) {
     log.info(
       `${logId} not found:`,

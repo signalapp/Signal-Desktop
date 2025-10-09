@@ -11,12 +11,19 @@ import {
 import { Readable } from 'node:stream';
 
 import EventTarget from './EventTarget.js';
-import type {
-  UploadKeysType,
-  UploadKyberPreKeyType,
-  UploadPreKeyType,
-  UploadSignedPreKeyType,
-  WebAPIType,
+import {
+  type UploadKeysType,
+  type UploadKyberPreKeyType,
+  type UploadPreKeyType,
+  type UploadSignedPreKeyType,
+  updateDeviceName,
+  getMyKeyCounts,
+  registerKeys,
+  startRegistration,
+  finishRegistration,
+  createAccount,
+  linkDevice,
+  authenticate,
 } from './WebAPI.js';
 import type {
   CompatPreKeyType,
@@ -73,6 +80,7 @@ import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.js';
 import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
 import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from './Storage.js';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -189,7 +197,7 @@ function getNextKeyId(
   kind: ServiceIdKind,
   keys: StorageKeyByServiceIdKind
 ): number {
-  const id = window.storage.get(keys[kind]);
+  const id = itemStorage.get(keys[kind]);
 
   if (isNumber(id)) {
     return id;
@@ -197,7 +205,7 @@ function getNextKeyId(
 
   // For PNI ids, start with existing ACI id
   if (kind === ServiceIdKind.PNI) {
-    return window.storage.get(keys[ServiceIdKind.ACI], STARTING_KEY_ID);
+    return itemStorage.get(keys[ServiceIdKind.ACI], STARTING_KEY_ID);
   }
 
   return STARTING_KEY_ID;
@@ -249,7 +257,7 @@ export default class AccountManager extends EventTarget {
 
   pendingQueue?: PQueue;
 
-  constructor(private readonly server: WebAPIType) {
+  constructor() {
     super();
 
     this.pending = Promise.resolve();
@@ -281,7 +289,7 @@ export default class AccountManager extends EventTarget {
   }
 
   async decryptDeviceName(base64: string): Promise<string> {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
     if (!identityKey) {
       throw new Error('decryptDeviceName: No identity key pair!');
@@ -309,15 +317,13 @@ export default class AccountManager extends EventTarget {
   }
 
   async maybeUpdateDeviceName(): Promise<void> {
-    const isNameEncrypted =
-      window.textsecure.storage.user.getDeviceNameEncrypted();
+    const isNameEncrypted = itemStorage.user.getDeviceNameEncrypted();
     if (isNameEncrypted) {
       return;
     }
-    const { storage } = window.textsecure;
-    const deviceName = storage.user.getDeviceName();
+    const deviceName = itemStorage.user.getDeviceName();
     const identityKeyPair = signalProtocolStore.getIdentityKeyPair(
-      storage.user.getCheckedAci()
+      itemStorage.user.getCheckedAci()
     );
     strictAssert(
       identityKeyPair !== undefined,
@@ -326,13 +332,13 @@ export default class AccountManager extends EventTarget {
     const base64 = this.encryptDeviceName(deviceName || '', identityKeyPair);
 
     if (base64) {
-      await this.server.updateDeviceName(base64);
-      await window.textsecure.storage.user.setDeviceNameEncrypted();
+      await updateDeviceName(base64);
+      await itemStorage.user.setDeviceNameEncrypted();
     }
   }
 
   async deviceNameIsEncrypted(): Promise<void> {
-    await window.textsecure.storage.user.setDeviceNameEncrypted();
+    await itemStorage.user.setDeviceNameEncrypted();
   }
 
   async registerSingleDevice(
@@ -397,10 +403,8 @@ export default class AccountManager extends EventTarget {
     serviceIdKind: ServiceIdKind,
     count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<Array<UploadPreKeyType>> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.generateNewPreKeys(${serviceIdKind})`;
-    const { storage } = window.textsecure;
 
     const startId = getNextKeyId(serviceIdKind, PRE_KEY_ID_KEY);
     log.info(`${logId}: Generating ${count} new keys starting at ${startId}`);
@@ -418,7 +422,7 @@ export default class AccountManager extends EventTarget {
 
     await Promise.all([
       signalProtocolStore.storePreKeys(ourServiceId, toSave),
-      storage.put(PRE_KEY_ID_KEY[serviceIdKind], startId + count),
+      itemStorage.put(PRE_KEY_ID_KEY[serviceIdKind], startId + count),
     ]);
 
     return toSave.map(key => ({
@@ -442,9 +446,7 @@ export default class AccountManager extends EventTarget {
       );
     }
 
-    const { storage } = window.textsecure;
-
-    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
 
     const toSave: Array<Omit<KyberPreKeyType, 'id'>> = [];
@@ -469,7 +471,7 @@ export default class AccountManager extends EventTarget {
 
     await Promise.all([
       signalProtocolStore.storeKyberPreKeys(ourServiceId, toSave),
-      storage.put(KYBER_KEY_ID_KEY[serviceIdKind], startId + count),
+      itemStorage.put(KYBER_KEY_ID_KEY[serviceIdKind], startId + count),
     ]);
 
     return toUpload;
@@ -481,11 +483,11 @@ export default class AccountManager extends EventTarget {
   ): Promise<void> {
     const logId = `maybeUpdateKeys(${serviceIdKind})`;
     await this.#queueTask(async () => {
-      const { storage } = window.textsecure;
       let identityKey: KeyPairType;
 
       try {
-        const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
+        const ourServiceId =
+          itemStorage.user.getCheckedServiceId(serviceIdKind);
         identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
       } catch (error) {
         if (serviceIdKind === ServiceIdKind.PNI) {
@@ -500,7 +502,7 @@ export default class AccountManager extends EventTarget {
       }
 
       const { count: preKeyCount, pqCount: kyberPreKeyCount } =
-        await this.server.getMyKeyCounts(serviceIdKind);
+        await getMyKeyCounts(serviceIdKind);
 
       let preKeys: Array<UploadPreKeyType> | undefined;
 
@@ -572,11 +574,11 @@ export default class AccountManager extends EventTarget {
         signedPreKey,
       };
 
-      await this.server.registerKeys(toUpload, serviceIdKind);
+      await registerKeys(toUpload, serviceIdKind);
       await this._confirmKeys(toUpload, serviceIdKind);
 
       const { count: updatedPreKeyCount, pqCount: updatedKyberPreKeyCount } =
-        await this.server.getMyKeyCounts(serviceIdKind);
+        await getMyKeyCounts(serviceIdKind);
       log.info(
         `${logId}: Successfully updated; ` +
           `server prekey count: ${updatedPreKeyCount}, ` +
@@ -591,11 +593,11 @@ export default class AccountManager extends EventTarget {
   }
 
   areKeysOutOfDate(serviceIdKind: ServiceIdKind): boolean {
-    const signedPreKeyTime = window.storage.get(
+    const signedPreKeyTime = itemStorage.get(
       SIGNED_PRE_KEY_UPDATE_TIME_KEY[serviceIdKind],
       0
     );
-    const lastResortKeyTime = window.storage.get(
+    const lastResortKeyTime = itemStorage.get(
       LAST_RESORT_KEY_UPDATE_TIME_KEY[serviceIdKind],
       0
     );
@@ -626,7 +628,7 @@ export default class AccountManager extends EventTarget {
     const key = await generateSignedPreKey(identityKey, signedKeyId);
     log.info(`${logId}: Saving new signed prekey`, key.keyId);
 
-    await window.textsecure.storage.put(
+    await itemStorage.put(
       SIGNED_PRE_KEY_ID_KEY[serviceIdKind],
       signedKeyId + 1
     );
@@ -638,8 +640,7 @@ export default class AccountManager extends EventTarget {
     serviceIdKind: ServiceIdKind,
     forceUpdate = false
   ): Promise<UploadSignedPreKeyType | undefined> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind}, ${ourServiceId})`;
 
@@ -657,12 +658,12 @@ export default class AccountManager extends EventTarget {
         `${logId}: ${confirmedKeys.length} confirmed keys, ` +
           `most recent was created ${lastUpdate}. No need to update.`
       );
-      const existing = window.storage.get(
+      const existing = itemStorage.get(
         SIGNED_PRE_KEY_UPDATE_TIME_KEY[serviceIdKind]
       );
       if (lastUpdate && !existing) {
         log.warn(`${logId}: Updating last update time to ${lastUpdate}`);
-        await window.storage.put(
+        await itemStorage.put(
           SIGNED_PRE_KEY_UPDATE_TIME_KEY[serviceIdKind],
           lastUpdate
         );
@@ -699,10 +700,7 @@ export default class AccountManager extends EventTarget {
     const record = await generateKyberPreKey(identityKey, keyId);
     log.info(`${logId}: Saving new last resort prekey`, keyId);
 
-    await window.textsecure.storage.put(
-      KYBER_KEY_ID_KEY[serviceIdKind],
-      kyberKeyId + 1
-    );
+    await itemStorage.put(KYBER_KEY_ID_KEY[serviceIdKind], kyberKeyId + 1);
 
     return record;
   }
@@ -711,8 +709,7 @@ export default class AccountManager extends EventTarget {
     serviceIdKind: ServiceIdKind,
     forceUpdate = false
   ): Promise<UploadKyberPreKeyType | undefined> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `maybeUpdateLastResortKyberKey(${serviceIdKind}, ${ourServiceId})`;
 
@@ -732,12 +729,12 @@ export default class AccountManager extends EventTarget {
         `${logId}: ${confirmedKeys.length} confirmed keys, ` +
           `most recent was created ${lastUpdate}. No need to update.`
       );
-      const existing = window.storage.get(
+      const existing = itemStorage.get(
         LAST_RESORT_KEY_UPDATE_TIME_KEY[serviceIdKind]
       );
       if (lastUpdate && !existing) {
         log.warn(`${logId}: Updating last update time to ${lastUpdate}`);
-        await window.storage.put(
+        await itemStorage.put(
           LAST_RESORT_KEY_UPDATE_TIME_KEY[serviceIdKind],
           lastUpdate
         );
@@ -759,8 +756,7 @@ export default class AccountManager extends EventTarget {
 
   // Exposed only for tests
   async _cleanSignedPreKeys(serviceIdKind: ServiceIdKind): Promise<void> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.cleanSignedPreKeys(${serviceIdKind})`;
 
     const allKeys = signalProtocolStore.loadSignedPreKeys(ourServiceId);
@@ -811,8 +807,7 @@ export default class AccountManager extends EventTarget {
 
   // Exposed only for tests
   async _cleanLastResortKeys(serviceIdKind: ServiceIdKind): Promise<void> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.cleanLastResortKeys(${serviceIdKind})`;
 
     const allKeys = signalProtocolStore.loadKyberPreKeys(ourServiceId, {
@@ -867,8 +862,7 @@ export default class AccountManager extends EventTarget {
 
   async _cleanPreKeys(serviceIdKind: ServiceIdKind): Promise<void> {
     const logId = `AccountManager.cleanPreKeys(${serviceIdKind})`;
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
 
     const preKeys = signalProtocolStore.loadPreKeys(ourServiceId);
     const toDelete: Array<number> = [];
@@ -894,8 +888,7 @@ export default class AccountManager extends EventTarget {
 
   async _cleanKyberPreKeys(serviceIdKind: ServiceIdKind): Promise<void> {
     const logId = `AccountManager.cleanKyberPreKeys(${serviceIdKind})`;
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
 
     const preKeys = signalProtocolStore.loadKyberPreKeys(ourServiceId, {
       isLastResort: false,
@@ -923,11 +916,11 @@ export default class AccountManager extends EventTarget {
 
   async #createAccount(options: CreateAccountOptionsType): Promise<void> {
     this.dispatchEvent(new Event('startRegistration'));
-    const registrationBaton = this.server.startRegistration();
+    const registrationBaton = startRegistration();
     try {
       await this.#doCreateAccount(options);
     } finally {
-      this.server.finishRegistration(registrationBaton);
+      finishRegistration(registrationBaton);
     }
     await this.#registrationDone();
   }
@@ -952,15 +945,14 @@ export default class AccountManager extends EventTarget {
       'Either master key or AEP is necessary for registration'
     );
 
-    const { storage } = window.textsecure;
     let password = Bytes.toBase64(getRandomBytes(16));
     password = password.substring(0, password.length - 2);
     const registrationId = generateRegistrationId();
     const pniRegistrationId = generateRegistrationId();
 
-    const previousNumber = storage.user.getNumber();
-    const previousACI = storage.user.getAci();
-    const previousPNI = storage.user.getPni();
+    const previousNumber = itemStorage.user.getNumber();
+    const previousACI = itemStorage.user.getAci();
+    const previousPNI = itemStorage.user.getPni();
 
     log.info(
       `createAccount: Number is ${number}, password has length: ${
@@ -1022,13 +1014,13 @@ export default class AccountManager extends EventTarget {
 
     if (previousUuids.length > 0) {
       await Promise.all([
-        storage.put(
+        itemStorage.put(
           'identityKeyMap',
-          omit(storage.get('identityKeyMap') || {}, previousUuids)
+          omit(itemStorage.get('identityKeyMap') || {}, previousUuids)
         ),
-        storage.put(
+        itemStorage.put(
           'registrationIdMap',
-          omit(storage.get('registrationIdMap') || {}, previousUuids)
+          omit(itemStorage.get('registrationIdMap') || {}, previousUuids)
         ),
       ]);
     }
@@ -1066,7 +1058,7 @@ export default class AccountManager extends EventTarget {
     };
 
     if (options.type === AccountType.Primary) {
-      const response = await this.server.createAccount({
+      const response = await createAccount({
         number,
         code: verificationCode,
         newPassword: password,
@@ -1095,7 +1087,7 @@ export default class AccountManager extends EventTarget {
       );
       await this.deviceNameIsEncrypted();
 
-      const response = await this.server.linkDevice({
+      const response = await linkDevice({
         number,
         verificationCode,
         encryptedDeviceName,
@@ -1135,10 +1127,13 @@ export default class AccountManager extends EventTarget {
     if (shouldDownloadBackup && cleanStart) {
       if (options.type === AccountType.Linked && options.ephemeralBackupKey) {
         log.info('createAccount: setting ephemeral key');
-        await storage.put('backupEphemeralKey', options.ephemeralBackupKey);
+        await itemStorage.put('backupEphemeralKey', options.ephemeralBackupKey);
       }
       log.info('createAccount: setting backup download path');
-      await storage.put('backupDownloadPath', getRelativePath(createName()));
+      await itemStorage.put(
+        'backupDownloadPath',
+        getRelativePath(createName())
+      );
     }
 
     // `setCredentials` needs to be called
@@ -1147,7 +1142,7 @@ export default class AccountManager extends EventTarget {
     // initializes the conversation for the given number (our number) which
     // calls out to the user storage API to get the stored UUID and number
     // information.
-    await storage.user.setCredentials({
+    await itemStorage.user.setCredentials({
       aci: ourAci,
       pni: ourPni,
       number,
@@ -1156,7 +1151,7 @@ export default class AccountManager extends EventTarget {
       password,
     });
 
-    await this.server.authenticate(storage.user.getWebAPICredentials());
+    await authenticate(itemStorage.user.getWebAPICredentials());
 
     // This needs to be done very early, because it changes how things are saved in the
     //   database. Your identity, for example, in the saveIdentityWithAttributes call
@@ -1188,7 +1183,7 @@ export default class AccountManager extends EventTarget {
       }),
     ]);
 
-    const identityKeyMap = storage.get('identityKeyMap') || {};
+    const identityKeyMap = itemStorage.get('identityKeyMap') || {};
 
     identityKeyMap[ourAci] = {
       pubKey: aciKeyPair.publicKey.serialize(),
@@ -1199,12 +1194,12 @@ export default class AccountManager extends EventTarget {
       privKey: pniKeyPair.privateKey.serialize(),
     };
 
-    const registrationIdMap = storage.get('registrationIdMap') || {};
+    const registrationIdMap = itemStorage.get('registrationIdMap') || {};
     registrationIdMap[ourAci] = registrationId;
     registrationIdMap[ourPni] = pniRegistrationId;
 
-    await storage.put('identityKeyMap', identityKeyMap);
-    await storage.put('registrationIdMap', registrationIdMap);
+    await itemStorage.put('identityKeyMap', identityKeyMap);
+    await itemStorage.put('registrationIdMap', registrationIdMap);
 
     await ourProfileKeyService.set(profileKey);
     const me = window.ConversationController.getOurConversationOrThrow();
@@ -1214,10 +1209,10 @@ export default class AccountManager extends EventTarget {
     await me.updateVerified();
 
     if (userAgent) {
-      await storage.put('userAgent', userAgent);
+      await itemStorage.put('userAgent', userAgent);
     }
     if (accountEntropyPool) {
-      await storage.put('accountEntropyPool', accountEntropyPool);
+      await itemStorage.put('accountEntropyPool', accountEntropyPool);
     } else {
       log.warn('createAccount: accountEntropyPool was missing!');
     }
@@ -1227,18 +1222,18 @@ export default class AccountManager extends EventTarget {
       derivedMasterKey = deriveMasterKey(accountEntropyPool);
     }
     if (Bytes.isNotEmpty(mediaRootBackupKey)) {
-      await storage.put('backupMediaRootKey', mediaRootBackupKey);
+      await itemStorage.put('backupMediaRootKey', mediaRootBackupKey);
     }
-    await storage.put('masterKey', Bytes.toBase64(derivedMasterKey));
-    await storage.put(
+    await itemStorage.put('masterKey', Bytes.toBase64(derivedMasterKey));
+    await itemStorage.put(
       'storageKey',
       Bytes.toBase64(deriveStorageServiceKey(derivedMasterKey))
     );
 
-    await storage.put('read-receipt-setting', Boolean(readReceipts));
+    await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
 
     const regionCode = getRegionCodeForNumber(number);
-    await storage.put('regionCode', regionCode);
+    await itemStorage.put('regionCode', regionCode);
     await signalProtocolStore.hydrateCaches();
 
     await signalProtocolStore.storeSignedPreKey(
@@ -1276,7 +1271,7 @@ export default class AccountManager extends EventTarget {
     const uploadKeys = async (kind: ServiceIdKind) => {
       try {
         const keys = await this._generateSingleUseKeys(kind);
-        await this.server.registerKeys(keys, kind);
+        await registerKeys(keys, kind);
       } catch (error) {
         if (kind === ServiceIdKind.PNI) {
           log.error(
@@ -1311,8 +1306,7 @@ export default class AccountManager extends EventTarget {
     }>,
     serviceIdKind: ServiceIdKind
   ): Promise<void> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.confirmKeys(${serviceIdKind})`;
 
     const updatedAt = Date.now();
@@ -1322,7 +1316,7 @@ export default class AccountManager extends EventTarget {
         ourServiceId,
         signedPreKey.keyId
       );
-      await window.storage.put(
+      await itemStorage.put(
         SIGNED_PRE_KEY_UPDATE_TIME_KEY[serviceIdKind],
         updatedAt
       );
@@ -1339,7 +1333,7 @@ export default class AccountManager extends EventTarget {
         ourServiceId,
         pqLastResortPreKey.keyId
       );
-      await window.storage.put(
+      await itemStorage.put(
         LAST_RESORT_KEY_UPDATE_TIME_KEY[serviceIdKind],
         updatedAt
       );
@@ -1353,8 +1347,7 @@ export default class AccountManager extends EventTarget {
     serviceIdKind: ServiceIdKind,
     count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<UploadKeysType> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = itemStorage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.generateKeys(${serviceIdKind}, ${ourServiceId})`;
 
     const preKeys = await this.#generateNewPreKeys(serviceIdKind, count);
@@ -1387,9 +1380,8 @@ export default class AccountManager extends EventTarget {
     keyMaterial?: PniKeyMaterialType
   ): Promise<void> {
     const logId = `AccountManager.setPni(${pni})`;
-    const { storage } = window.textsecure;
 
-    const oldPni = storage.user.getPni();
+    const oldPni = itemStorage.user.getPni();
     if (oldPni === pni && !keyMaterial) {
       return;
     }
@@ -1401,7 +1393,7 @@ export default class AccountManager extends EventTarget {
       await window.ConversationController.clearShareMyPhoneNumber();
     }
 
-    await storage.user.setPni(pni);
+    await itemStorage.user.setPni(pni);
 
     if (keyMaterial) {
       await signalProtocolStore.updateOurPniKeyMaterial(pni, keyMaterial);
@@ -1423,7 +1415,7 @@ export default class AccountManager extends EventTarget {
       );
 
       // PNI has changed and credentials are no longer valid
-      await storage.put('groupCredentials', []);
+      await itemStorage.put('groupCredentials', []);
     } else {
       log.warn(`${logId}: no key material`);
     }

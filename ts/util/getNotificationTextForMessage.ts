@@ -7,6 +7,7 @@ import { findAndFormatContact } from './findAndFormatContact.js';
 import { getNotificationDataForMessage } from './getNotificationDataForMessage.js';
 import { isConversationAccepted } from './isConversationAccepted.js';
 import { strictAssert } from './assert.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function getNotificationTextForMessage(
   attributes: ReadonlyMessageAttributesType
@@ -45,7 +46,7 @@ export function getNotificationTextForMessage(
       });
     }
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     if (
       attributes.type === 'incoming' &&

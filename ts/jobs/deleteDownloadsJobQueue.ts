@@ -14,6 +14,7 @@ import type { LoggerType } from '../types/Logging.js';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.js';
 import { DAY } from '../util/durations/index.js';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -42,7 +43,7 @@ export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     await new Promise<void>(resolve => {
-      window.storage.onready(resolve);
+      itemStorage.onready(resolve);
     });
 
     const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();

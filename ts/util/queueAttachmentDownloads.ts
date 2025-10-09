@@ -46,7 +46,10 @@ import {
 } from './attachmentDownloadQueue.js';
 import { queueUpdateMessage } from './messageBatcher.js';
 import type { LoggerType } from '../types/Logging.js';
-import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage.js';
+import {
+  itemStorage,
+  DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
+} from '../textsecure/Storage.js';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
 
@@ -143,7 +146,7 @@ export async function queueAttachmentDownloads(
     );
   }
 
-  const autoDownloadAttachment = window.storage.get(
+  const autoDownloadAttachment = itemStorage.get(
     'auto-download-attachment',
     DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
   );
@@ -549,7 +552,7 @@ export async function queueNormalAttachments({
 
       const { contentType } = attachment;
       if (!isManualDownload) {
-        const autoDownloadAttachment = window.storage.get(
+        const autoDownloadAttachment = itemStorage.get(
           'auto-download-attachment',
           DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
         );
@@ -664,7 +667,7 @@ async function queuePreviews({
       }
 
       if (!isManualDownload) {
-        const autoDownloadAttachment = window.storage.get(
+        const autoDownloadAttachment = itemStorage.get(
           'auto-download-attachment',
           DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
         );

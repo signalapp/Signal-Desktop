@@ -28,18 +28,19 @@ import { reducer as rootReducer } from '../../../state/reducer.js';
 import { dropNull } from '../../../util/dropNull.js';
 import { MessageModel } from '../../../models/messages.js';
 import { DataWriter } from '../../../sql/Client.js';
+import { itemStorage } from '../../../textsecure/Storage.js';
 
 describe('both/state/ducks/stories', () => {
   const ourAci = generateAci();
   const deviceId = 2;
 
   before(async () => {
-    await window.textsecure.storage.put('uuid_id', `${ourAci}.${deviceId}`);
+    await itemStorage.put('uuid_id', `${ourAci}.${deviceId}`);
   });
 
   after(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   const getEmptyRootState = () => ({

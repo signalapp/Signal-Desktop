@@ -167,7 +167,7 @@ export class ChallengeHandler {
 
         // The initialization order is following:
         //
-        // 1. `.load()` when the `window.storage` is ready
+        // 1. `.load()` when the `storage` is ready
         // 2. `.onOnline()` when we connected to the server
         //
         // Wait for `.onOnline()` to trigger the retries instead of triggering

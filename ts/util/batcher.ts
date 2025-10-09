@@ -12,22 +12,12 @@ import { drop } from './drop.js';
 
 const log = createLogger('batcher');
 
-declare global {
-  // We want to extend `window`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    batchers: Array<BatcherType<any>>;
-    waitForAllBatchers: () => Promise<unknown>;
-  }
-}
+let batchers = new Array<BatcherType<unknown>>();
 
-window.batchers = [];
-
-window.waitForAllBatchers = async () => {
+export const waitForAllBatchers = async (): Promise<void> => {
   log.info('waitForAllBatchers');
   try {
-    await Promise.all(window.batchers.map(item => item.flushAndWait()));
+    await Promise.all(batchers.map(item => item.flushAndWait()));
   } catch (error) {
     log.error(
       'waitForAllBatchers: error flushing all',
@@ -120,7 +110,7 @@ export function createBatcher<ItemType>(
   }
 
   function unregister() {
-    window.batchers = window.batchers.filter(item => item !== batcher);
+    batchers = batchers.filter(item => item !== batcher);
   }
 
   async function flushAndWait() {
@@ -146,7 +136,7 @@ export function createBatcher<ItemType>(
     unregister,
   };
 
-  window.batchers.push(batcher);
+  batchers.push(batcher as BatcherType<unknown>);
 
   return batcher;
 }

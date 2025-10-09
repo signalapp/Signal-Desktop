@@ -14,6 +14,7 @@ import * as Errors from '../types/errors.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { postSaveUpdates } from '../util/cleanup.js';
 import { createLogger } from '../logging/log.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isFunction, isNumber } = lodash;
 
@@ -117,7 +118,7 @@ export async function _migrateMessageData({
 
   const saveStartTime = Date.now();
 
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
   const { failedIndices: failedToSaveIndices } = await saveMessagesIndividually(
     upgradedMessages,
     {

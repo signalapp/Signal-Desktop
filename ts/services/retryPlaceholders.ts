@@ -49,13 +49,13 @@ export class RetryPlaceholders {
   #byConversation: ByConversationLookupType = {};
   #byMessage: ByMessageLookupType = new Map();
   #retryReceiptLifespan: number;
-  #storage: StorageInterface | undefined;
+  #storage: Pick<StorageInterface, 'get' | 'put'> | undefined;
 
   constructor(options: { retryReceiptLifespan?: number } = {}) {
     this.#retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
   }
 
-  start(storage: StorageInterface): void {
+  start(storage: Pick<StorageInterface, 'get' | 'put'>): void {
     if (this.#isStarted) {
       throw new Error('RetryPlaceholders: already started');
     }

@@ -10,6 +10,7 @@ import { MessageModel } from '../models/messages.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
 
+import { MessageSender } from '../textsecure/SendMessage.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { deletePackReference } from '../types/Stickers.js';
 import { isStory } from '../messages/helpers.js';
@@ -260,7 +261,7 @@ export async function maybeDeleteCall(
 
   if (!fromSync) {
     await singleProtoJobQueue.add(
-      window.textsecure.MessageSender.getDeleteCallEvent(callHistory)
+      MessageSender.getDeleteCallEvent(callHistory)
     );
   }
   await DataWriter.markCallHistoryDeleted(callId);

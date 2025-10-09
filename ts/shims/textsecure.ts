@@ -4,7 +4,7 @@
 import { createLogger } from '../logging/log.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
 import * as Errors from '../types/errors.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
 
 const log = createLogger('textsecure');
 

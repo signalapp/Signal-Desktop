@@ -9,7 +9,7 @@ import {
   getSource,
   getSourceDevice,
   getSourceServiceId,
-} from '../messages/helpers.js';
+} from '../messages/sources.js';
 import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation.js';
 import { getE164 } from './getE164.js';
 import type { ConversationType } from '../state/ducks/conversations.js';

@@ -10,6 +10,11 @@ import {
   parseContactsV2,
   type ContactDetailsWithAvatar,
 } from '../textsecure/ContactsParser.js';
+import {
+  isOnline,
+  getAttachment,
+  getAttachmentFromBackupTier,
+} from '../textsecure/WebAPI.js';
 import * as Conversation from '../types/Conversation.js';
 import * as Errors from '../types/errors.js';
 import type { ValidateConversationType } from '../model-types.d.ts';
@@ -20,12 +25,12 @@ import { createLogger } from '../logging/log.js';
 import { dropNull } from '../util/dropNull.js';
 import type { ProcessedAttachment } from '../textsecure/Types.js';
 import { downloadAttachment } from '../textsecure/downloadAttachment.js';
-import { strictAssert } from '../util/assert.js';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
 import { SECOND } from '../util/durations/index.js';
 import { AttachmentVariant } from '../types/Attachment.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import { waitForOnline } from '../util/waitForOnline.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { noop } = lodash;
 
@@ -107,12 +112,14 @@ const queue = new PQueue({ concurrency: 1 });
 async function downloadAndParseContactAttachment(
   contactAttachment: ProcessedAttachment
 ) {
-  strictAssert(window.textsecure.server, 'server must exist');
   let downloaded: ReencryptedAttachmentV2 | undefined;
   try {
     const abortController = new AbortController();
     downloaded = await downloadAttachment(
-      window.textsecure.server,
+      {
+        getAttachment,
+        getAttachmentFromBackupTier,
+      },
       { attachment: contactAttachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -152,10 +159,10 @@ async function doContactSync({
   while (contacts === undefined) {
     attempts += 1;
     try {
-      if (!window.textsecure.server?.isOnline()) {
+      if (!isOnline()) {
         log.info(`${logId}: We are not online; waiting until we are online`);
         // eslint-disable-next-line no-await-in-loop
-        await waitForOnline();
+        await waitForOnline({ server: { isOnline } });
         log.info(`${logId}: We are back online; starting up again`);
       }
 
@@ -263,7 +270,7 @@ async function doContactSync({
 
   await Promise.all(promises);
 
-  await window.storage.put('synced_at', Date.now());
+  await itemStorage.put('synced_at', Date.now());
   window.Whisper.events.emit('contactSync:complete');
   if (isInitialSync) {
     isInitialSync = false;

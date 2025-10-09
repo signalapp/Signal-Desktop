@@ -3,6 +3,7 @@
 
 import { DataWriter } from '../sql/Client.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
+import { putProfile, uploadAvatar } from '../textsecure/WebAPI.js';
 import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
 import { computeHash } from '../Crypto.js';
@@ -17,7 +18,8 @@ import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
 } from '../types/Avatar.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('writeProfile');
 
@@ -25,11 +27,6 @@ export async function writeProfile(
   conversation: ConversationType,
   options: AvatarUpdateOptionsType
 ): Promise<void> {
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server is not available!');
-  }
-
   // Before we write anything we request the user's profile so that we can
   // have an up-to-date paymentAddress to be able to include it when we write
   const model = window.ConversationController.get(conversation.id);
@@ -83,7 +80,7 @@ export async function writeProfile(
     conversation,
     avatarUpdate
   );
-  const avatarRequestHeaders = await server.putProfile(profileData);
+  const avatarRequestHeaders = await putProfile(profileData);
 
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
@@ -105,7 +102,7 @@ export async function writeProfile(
     newAvatar
   ) {
     log.info('uploading new avatar');
-    const avatarUrl = await server.uploadAvatar(
+    const avatarUrl = await uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );
@@ -125,12 +122,12 @@ export async function writeProfile(
       };
     }
 
-    await window.storage.put('avatarUrl', avatarUrl);
+    await itemStorage.put('avatarUrl', avatarUrl);
   } else if (rawAvatarPath) {
     log.info('removing avatar');
     await Promise.all([
       window.Signal.Migrations.deleteAttachmentData(rawAvatarPath),
-      window.storage.put('avatarUrl', undefined),
+      itemStorage.put('avatarUrl', undefined),
     ]);
 
     maybeProfileAvatarUpdate = { profileAvatar: undefined };

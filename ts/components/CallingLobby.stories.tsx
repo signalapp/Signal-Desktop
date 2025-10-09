@@ -70,6 +70,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     isAdhocJoinRequestPending: overrideProps.isAdhocJoinRequestPending ?? false,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
+    isOnline: true,
     getIsSharingPhoneNumberWithEverybody:
       overrideProps.getIsSharingPhoneNumberWithEverybody ?? (() => false),
     me:

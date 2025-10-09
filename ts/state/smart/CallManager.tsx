@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type {
   DirectIncomingCall,
@@ -51,6 +51,7 @@ import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybo
 import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { isLonelyGroup } from '../ducks/callingHelpers.js';
 import { getActiveProfile } from '../selectors/notificationProfiles.js';
+import { isOnline as isWebAPIOnline } from '../../textsecure/WebAPI.js';
 
 const { memoize } = lodash;
 
@@ -390,6 +391,24 @@ export const SmartCallManager = memo(function SmartCallManager() {
   const me = useSelector(getMe);
   const activeNotificationProfile = useSelector(getActiveProfile);
 
+  const [isOnline, setIsOnline] = useState(isWebAPIOnline() ?? false);
+
+  useEffect(() => {
+    const update = () => {
+      setIsOnline(isWebAPIOnline() ?? false);
+    };
+
+    update();
+
+    window.Whisper.events.on('online', update);
+    window.Whisper.events.on('offline', update);
+
+    return () => {
+      window.Whisper.events.off('online', update);
+      window.Whisper.events.off('offline', update);
+    };
+  }, []);
+
   const {
     approveUser,
     batchUserAction,
@@ -457,6 +476,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       hangUpActiveCall={hangUpActiveCall}
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
+      isOnline={isOnline}
       me={me}
       notifyForCall={notifyForCall}
       openSystemPreferencesAction={openSystemPreferencesAction}

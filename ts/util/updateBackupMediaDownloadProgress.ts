@@ -3,6 +3,7 @@
 
 import lodash from 'lodash';
 import type { BackupAttachmentDownloadProgress } from '../sql/Interface.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { throttle } = lodash;
 
@@ -13,8 +14,8 @@ export async function updateBackupMediaDownloadProgress(
     await getBackupAttachmentDownloadProgress();
 
   await Promise.all([
-    window.storage.put('backupMediaDownloadCompletedBytes', completedBytes),
-    window.storage.put('backupMediaDownloadTotalBytes', totalBytes),
+    itemStorage.put('backupMediaDownloadCompletedBytes', completedBytes),
+    itemStorage.put('backupMediaDownloadTotalBytes', totalBytes),
   ]);
 }
 

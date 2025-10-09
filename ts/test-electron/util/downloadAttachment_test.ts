@@ -10,10 +10,7 @@ import { IMAGE_PNG } from '../../types/MIME.js';
 import { downloadAttachment } from '../../util/downloadAttachment.js';
 import { MediaTier } from '../../types/AttachmentDownload.js';
 import { HTTPError } from '../../types/HTTPError.js';
-import {
-  getCdnNumberForBackupTier,
-  type downloadAttachment as downloadAttachmentFromServer,
-} from '../../textsecure/downloadAttachment.js';
+import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.js';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.js';
 import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.js';
 import {
@@ -21,10 +18,10 @@ import {
   AttachmentPermanentlyUndownloadableError,
 } from '../../types/Attachment.js';
 import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
-import type { WebAPIType } from '../../textsecure/WebAPI.js';
 import { toHex, toBase64 } from '../../Bytes.js';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
 import { getRandomBytes } from '../../Crypto.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { noop } = lodash;
 
@@ -43,21 +40,11 @@ describe('utils/downloadAttachment', () => {
   };
   const abortController = new AbortController();
 
-  let sandbox: sinon.SinonSandbox;
-  const fakeServer = {} as WebAPIType;
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(window, 'textsecure').value({ server: fakeServer });
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   function assertDownloadArgs(
-    actual: unknown,
-    expected: Parameters<typeof downloadAttachmentFromServer>
+    actual: Array<unknown>,
+    expected: Array<unknown>
   ) {
-    assert.deepStrictEqual(actual, expected);
+    assert.deepStrictEqual(actual.slice(1), expected);
   }
 
   it('downloads from transit tier first if no backup information', async () => {
@@ -78,7 +65,6 @@ describe('utils/downloadAttachment', () => {
     });
     assert.equal(stubDownload.callCount, 1);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -115,7 +101,6 @@ describe('utils/downloadAttachment', () => {
 
     assert.equal(stubDownload.callCount, 1);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -152,7 +137,6 @@ describe('utils/downloadAttachment', () => {
 
     assert.equal(stubDownload.callCount, 1);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -207,7 +191,6 @@ describe('utils/downloadAttachment', () => {
     });
     assert.equal(stubDownload.callCount, 1);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.BACKUP },
       {
         variant: AttachmentVariant.Default,
@@ -240,7 +223,6 @@ describe('utils/downloadAttachment', () => {
     });
     assert.equal(stubDownload.callCount, 2);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.BACKUP },
       {
         variant: AttachmentVariant.Default,
@@ -250,7 +232,6 @@ describe('utils/downloadAttachment', () => {
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
-      fakeServer,
       {
         attachment,
         mediaTier: MediaTier.STANDARD,
@@ -286,7 +267,6 @@ describe('utils/downloadAttachment', () => {
     });
     assert.equal(stubDownload.callCount, 2);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.BACKUP },
       {
         variant: AttachmentVariant.Default,
@@ -296,7 +276,6 @@ describe('utils/downloadAttachment', () => {
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -332,7 +311,6 @@ describe('utils/downloadAttachment', () => {
     );
     assert.equal(stubDownload.callCount, 2);
     assertDownloadArgs(stubDownload.getCall(0).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.BACKUP },
       {
         variant: AttachmentVariant.Default,
@@ -342,7 +320,6 @@ describe('utils/downloadAttachment', () => {
       },
     ]);
     assertDownloadArgs(stubDownload.getCall(1).args, [
-      fakeServer,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
@@ -360,7 +337,7 @@ describe('getCdnNumberForBackupTier', () => {
   beforeEach(async () => {
     await DataWriter.removeAll();
     sandbox = sinon.createSandbox();
-    sandbox.stub(window.storage, 'get').callsFake(key => {
+    sandbox.stub(itemStorage, 'get').callsFake(key => {
       if (key === 'masterKey') {
         return MASTER_KEY;
       }

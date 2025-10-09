@@ -16,6 +16,7 @@ import { SignalService as Proto } from '../protobuf/index.js';
 import * as Crypto from '../Crypto.js';
 import { toBase64 } from '../Bytes.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 describe('MessageReceiver', () => {
   const someAci = generateAci();
@@ -25,15 +26,15 @@ describe('MessageReceiver', () => {
   let oldDeviceId: number | undefined;
 
   beforeEach(async () => {
-    oldAci = window.storage.user.getAci();
-    oldDeviceId = window.storage.user.getDeviceId();
-    await window.storage.user.setAciAndDeviceId(generateAci(), 2);
+    oldAci = itemStorage.user.getAci();
+    oldDeviceId = itemStorage.user.getDeviceId();
+    await itemStorage.user.setAciAndDeviceId(generateAci(), 2);
     await signalProtocolStore.hydrateCaches();
   });
 
   afterEach(async () => {
     if (oldAci !== undefined && oldDeviceId !== undefined) {
-      await window.storage.user.setAciAndDeviceId(oldAci, oldDeviceId);
+      await itemStorage.user.setAciAndDeviceId(oldAci, oldDeviceId);
     }
     await signalProtocolStore.removeAllUnprocessed();
   });
@@ -44,7 +45,7 @@ describe('MessageReceiver', () => {
       fakeTrustRootPublicKey.set([5], 0); // first byte is the key type (5)
 
       const messageReceiver = new MessageReceiver({
-        storage: window.storage,
+        storage: itemStorage,
         serverTrustRoots: [toBase64(fakeTrustRootPublicKey)],
       });
 

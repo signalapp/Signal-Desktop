@@ -20,6 +20,9 @@ import { lookupConversationWithoutServiceId } from '../../util/lookupConversatio
 import { missingCaseError } from '../../util/missingCaseError.js';
 import { isDone as isRegistrationDone } from '../../util/registration.js';
 import { drop } from '../../util/drop.js';
+import type { ServerAlertsType } from '../../types/ServerAlert.js';
+import { getServerAlertToShow } from '../../util/handleServerAlerts.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 import { useCallingActions } from '../ducks/calling.js';
 import { useConversationsActions } from '../ducks/conversations.js';
 import {
@@ -293,6 +296,10 @@ function preloadConversation(conversationId: string): void {
   );
 }
 
+async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
+  await itemStorage.put('serverAlerts', alerts);
+}
+
 export const SmartLeftPane = memo(function SmartLeftPane({
   hasFailedStorySends,
   hasPendingUpdate,
@@ -417,6 +424,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       endConversationSearch={endConversationSearch}
       endSearch={endSearch}
       getPreferredBadge={getPreferredBadge}
+      getServerAlertToShow={getServerAlertToShow}
       hasExpiredDialog={hasExpiredDialog}
       hasFailedStorySends={hasFailedStorySends}
       hasNetworkDialog={hasNetworkDialog}
@@ -454,6 +462,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       renderUnsupportedOSDialog={renderUnsupportedOSDialog}
       renderUpdateDialog={renderUpdateDialog}
       resumeBackupMediaDownload={resumeBackupMediaDownload}
+      saveAlerts={saveAlerts}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       searchInConversation={searchInConversation}
       selectedConversationId={selectedConversationId}

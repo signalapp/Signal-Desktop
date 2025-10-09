@@ -32,8 +32,6 @@ export class Storage implements StorageInterface {
   constructor() {
     this.user = new User(this);
     this.blocked = new Blocked(this);
-
-    window.storage = this;
   }
 
   // `StorageInterface` implementation
@@ -140,3 +138,5 @@ export class Storage implements StorageInterface {
     callbacks.forEach(callback => callback());
   }
 }
+
+export const itemStorage = new Storage();

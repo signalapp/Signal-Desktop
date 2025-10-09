@@ -7,11 +7,12 @@ import { calculateExpirationTimestamp } from './expirationTimer.js';
 import { DAY } from './durations/index.js';
 import { cleanupMessages } from './cleanup.js';
 import { getMessageById } from '../messages/getMessageById.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('findAndDeleteOnboardingStoryIfExists');
 
 export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
-  const existingOnboardingStoryMessageIds = window.storage.get(
+  const existingOnboardingStoryMessageIds = itemStorage.get(
     'existingOnboardingStoryMessageIds'
   );
 
@@ -52,7 +53,7 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
     cleanupMessages,
   });
 
-  await window.storage.put('existingOnboardingStoryMessageIds', undefined);
+  await itemStorage.put('existingOnboardingStoryMessageIds', undefined);
 
   const signalConversation =
     await window.ConversationController.getOrCreateSignalConversation();

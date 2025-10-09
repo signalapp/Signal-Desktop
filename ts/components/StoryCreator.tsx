@@ -93,10 +93,12 @@ export type PropsType = {
     | 'onTextTooLong'
     | 'platform'
     | 'sortedGroupMembers'
+    | 'conversationSelector'
   >;
 
 export function StoryCreator({
   candidateConversations,
+  conversationSelector,
   debouncedMaybeGrabLinkPreview,
   distributionLists,
   file,
@@ -263,6 +265,7 @@ export function StoryCreator({
               isCreatingStory
               isFormattingEnabled={isFormattingEnabled}
               isSending={isSending}
+              conversationSelector={conversationSelector}
               onClose={onClose}
               onDone={({
                 contentType,

@@ -11,6 +11,7 @@ import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
 import type { ConversationModel } from '../../models/conversations.js';
 import type { MessageAttributesType } from '../../model-types.js';
 import { SendStatus } from '../../messages/MessageSendState.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 describe('isMessageAMatchForReaction', () => {
   let contactA: ConversationModel;
@@ -21,7 +22,7 @@ describe('isMessageAMatchForReaction', () => {
   const OUR_PNI = generatePni();
   beforeEach(async () => {
     await DataWriter.removeAll();
-    await window.textsecure.storage.user.setCredentials({
+    await itemStorage.user.setCredentials({
       number: '+15550000000',
       aci: OUR_ACI,
       pni: OUR_PNI,

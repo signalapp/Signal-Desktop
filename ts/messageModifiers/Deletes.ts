@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { getAuthorId } from '../messages/helpers.js';
+import { getAuthorId } from '../messages/sources.js';
 import { DataReader } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';

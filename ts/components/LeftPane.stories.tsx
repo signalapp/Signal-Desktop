@@ -33,7 +33,7 @@ import {
   useUuidFetchState,
 } from '../test-helpers/fakeLookupConversationWithoutServiceId.js';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem.js';
-import { ServerAlert } from '../util/handleServerAlerts.js';
+import { ServerAlert } from '../types/ServerAlert.js';
 import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.js';
 import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.js';
 
@@ -175,6 +175,17 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     endConversationSearch: action('endConversationSearch'),
     endSearch: action('endSearch'),
     getPreferredBadge: () => undefined,
+    getServerAlertToShow: alerts => {
+      if (alerts[ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]) {
+        return ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE;
+      }
+
+      if (alerts[ServerAlert.IDLE_PRIMARY_DEVICE]) {
+        return ServerAlert.IDLE_PRIMARY_DEVICE;
+      }
+
+      return null;
+    },
     hasFailedStorySends: false,
     hasPendingUpdate: false,
     i18n,
@@ -339,6 +350,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     selectedConversationId: undefined,
     targetedMessageId: undefined,
     openUsernameReservationModal: action('openUsernameReservationModal'),
+    saveAlerts: async () => action('saveAlerts')(),
     savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
     searchInConversation: action('searchInConversation'),
     setComposeSearchTerm: action('setComposeSearchTerm'),

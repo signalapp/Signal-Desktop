@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.js';
+import { getSubscriptionConfiguration } from '../textsecure/WebAPI.js';
 import type { OneTimeDonationHumanAmounts } from '../types/Donations.js';
 import { HOUR } from './durations/index.js';
 import { isInPast } from './timestamp.js';
@@ -23,12 +24,7 @@ export async function getCachedSubscriptionConfiguration(): Promise<Subscription
     return cachedSubscriptionConfig;
   }
 
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('getSubscriptionConfiguration: server is not available');
-  }
-
-  const response = await server.getSubscriptionConfiguration();
+  const response = await getSubscriptionConfiguration();
 
   cachedSubscriptionConfig = response;
   cachedSubscriptionConfigExpiresAt =

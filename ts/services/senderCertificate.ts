@@ -15,7 +15,7 @@ import { waitForOnline } from '../util/waitForOnline.js';
 import { createLogger } from '../logging/log.js';
 import type { StorageInterface } from '../types/Storage.d.ts';
 import * as Errors from '../types/errors.js';
-import type { WebAPIType } from '../textsecure/WebAPI.js';
+import type { isOnline, getSenderCertificate } from '../textsecure/WebAPI.js';
 import { safeParseUnknown } from '../util/schemas.js';
 
 const log = createLogger('senderCertificate');
@@ -27,9 +27,14 @@ function isWellFormed(data: unknown): data is SerializedCertificateType {
 // In case your clock is different from the server's, we "fake" expire certificates early.
 const CLOCK_SKEW_THRESHOLD = 15 * 60 * 1000;
 
+type ServerType = Readonly<{
+  isOnline: typeof isOnline;
+  getSenderCertificate: typeof getSenderCertificate;
+}>;
+
 // This is exported for testing.
 export class SenderCertificateService {
-  #server?: WebAPIType;
+  #server?: ServerType;
 
   #fetchPromises: Map<
     SenderCertificateMode,
@@ -44,7 +49,7 @@ export class SenderCertificateService {
     events,
     storage,
   }: {
-    server: WebAPIType;
+    server: ServerType;
     events?: Pick<typeof window.Whisper.events, 'on' | 'off'>;
     storage: StorageInterface;
   }): void {

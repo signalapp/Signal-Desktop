@@ -5,12 +5,12 @@ import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { StoriesSettingsModal } from '../../components/StoriesSettingsModal.js';
 import {
-  getAllSignalConnections,
   getCandidateContactsForNewGroup,
   getConversationByServiceIdSelector,
   getGroupStories,
   getMe,
 } from '../selectors/conversations.js';
+import { getAllSignalConnections } from '../selectors/conversations-extra.js';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.js';
 import { getIntl, getTheme } from '../selectors/user.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';

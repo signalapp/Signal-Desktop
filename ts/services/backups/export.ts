@@ -119,7 +119,7 @@ import { isAciString } from '../../util/isAciString.js';
 import { hslToRGBInt } from '../../util/hslToRGB.js';
 import type { AboutMe, LocalChatStyle } from './types.js';
 import { BackupType } from './types.js';
-import { messageHasPaymentEvent } from '../../messages/helpers.js';
+import { messageHasPaymentEvent } from '../../messages/payments.js';
 import {
   numberToAddressType,
   numberToPhoneType,
@@ -164,9 +164,12 @@ import { calculateLightness } from '../../util/getHSL.js';
 import { isSignalServiceId } from '../../util/isSignalConversation.js';
 import { isValidE164 } from '../../util/isValidE164.js';
 import { toDayOfWeekArray } from '../../types/NotificationProfile.js';
-import { getLinkPreviewSetting } from '../../types/LinkPreview.js';
-import { getTypingIndicatorSetting } from '../../types/Util.js';
+import {
+  getLinkPreviewSetting,
+  getTypingIndicatorSetting,
+} from '../../util/Settings.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { isNumber } = lodash;
 
@@ -377,7 +380,7 @@ export class BackupExportStream extends Readable {
         version: Long.fromNumber(BACKUP_VERSION),
         backupTimeMs: this.#backupTimeMs,
         mediaRootBackupKey: getBackupMediaRootKey().serialize(),
-        firstAppVersion: window.storage.get('restoredBackupFirstAppVersion'),
+        firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion'),
         currentAppVersion: `Desktop ${window.getVersion()}`,
       }).finish()
     );
@@ -535,7 +538,7 @@ export class BackupExportStream extends Readable {
     }
 
     const pinnedConversationIds =
-      window.storage.get('pinnedConversationIds') || [];
+      itemStorage.get('pinnedConversationIds') || [];
 
     for (const { attributes } of window.ConversationController.getAll()) {
       if (isGroupV1(attributes)) {
@@ -825,13 +828,9 @@ export class BackupExportStream extends Readable {
   }
 
   async #toAccountData(): Promise<Backups.IAccountData> {
-    const { storage } = window;
-
     const me = window.ConversationController.getOurConversationOrThrow();
 
-    const rawPreferredReactionEmoji = window.storage.get(
-      'preferredReactionEmoji'
-    );
+    const rawPreferredReactionEmoji = itemStorage.get('preferredReactionEmoji');
 
     let preferredReactionEmoji: Array<string> | undefined;
     if (canPreferredReactionEmojiBeSynced(rawPreferredReactionEmoji)) {
@@ -841,7 +840,7 @@ export class BackupExportStream extends Readable {
     const PHONE_NUMBER_SHARING_MODE_ENUM =
       Backups.AccountData.PhoneNumberSharingMode;
     const rawPhoneNumberSharingMode = parsePhoneNumberSharingMode(
-      storage.get('phoneNumberSharingMode')
+      itemStorage.get('phoneNumberSharingMode')
     );
     let phoneNumberSharingMode: Backups.AccountData.PhoneNumberSharingMode;
     switch (rawPhoneNumberSharingMode) {
@@ -856,63 +855,63 @@ export class BackupExportStream extends Readable {
         throw missingCaseError(rawPhoneNumberSharingMode);
     }
 
-    const usernameLink = storage.get('usernameLink');
+    const usernameLink = itemStorage.get('usernameLink');
 
-    const subscriberId = storage.get('subscriberId');
-    const currencyCode = storage.get('subscriberCurrencyCode');
+    const subscriberId = itemStorage.get('subscriberId');
+    const currencyCode = itemStorage.get('subscriberCurrencyCode');
 
     const backupsSubscriberData = generateBackupsSubscriberData();
-    const backupTier = storage.get('backupTier');
+    const backupTier = itemStorage.get('backupTier');
 
     return {
-      profileKey: storage.get('profileKey'),
+      profileKey: itemStorage.get('profileKey'),
       username: me.get('username') || null,
       usernameLink: usernameLink
         ? {
             ...usernameLink,
 
             // Same numeric value, no conversion needed
-            color: storage.get('usernameLinkColor'),
+            color: itemStorage.get('usernameLinkColor'),
           }
         : null,
       givenName: me.get('profileName'),
       familyName: me.get('profileFamilyName'),
-      avatarUrlPath: storage.get('avatarUrl'),
+      avatarUrlPath: itemStorage.get('avatarUrl'),
       backupsSubscriberData,
       donationSubscriberData:
         Bytes.isNotEmpty(subscriberId) && currencyCode
           ? {
               subscriberId,
               currencyCode,
-              manuallyCancelled: storage.get(
+              manuallyCancelled: itemStorage.get(
                 'donorSubscriptionManuallyCancelled',
                 false
               ),
             }
           : null,
-      svrPin: storage.get('svrPin'),
+      svrPin: itemStorage.get('svrPin'),
       accountSettings: {
-        readReceipts: storage.get('read-receipt-setting'),
-        sealedSenderIndicators: storage.get('sealedSenderIndicators'),
+        readReceipts: itemStorage.get('read-receipt-setting'),
+        sealedSenderIndicators: itemStorage.get('sealedSenderIndicators'),
         typingIndicators: getTypingIndicatorSetting(),
         linkPreviews: getLinkPreviewSetting(),
         notDiscoverableByPhoneNumber:
           parsePhoneNumberDiscoverability(
-            storage.get('phoneNumberDiscoverability')
+            itemStorage.get('phoneNumberDiscoverability')
           ) === PhoneNumberDiscoverability.NotDiscoverable,
-        preferContactAvatars: storage.get('preferContactAvatars'),
-        universalExpireTimerSeconds: storage.get('universalExpireTimer'),
+        preferContactAvatars: itemStorage.get('preferContactAvatars'),
+        universalExpireTimerSeconds: itemStorage.get('universalExpireTimer'),
         preferredReactionEmoji,
-        displayBadgesOnProfile: storage.get('displayBadgesOnProfile'),
-        keepMutedChatsArchived: storage.get('keepMutedChatsArchived'),
-        hasSetMyStoriesPrivacy: storage.get('hasSetMyStoriesPrivacy'),
-        hasViewedOnboardingStory: storage.get('hasViewedOnboardingStory'),
-        storiesDisabled: storage.get('hasStoriesDisabled'),
-        storyViewReceiptsEnabled: storage.get('storyViewReceiptsEnabled'),
-        hasCompletedUsernameOnboarding: storage.get(
+        displayBadgesOnProfile: itemStorage.get('displayBadgesOnProfile'),
+        keepMutedChatsArchived: itemStorage.get('keepMutedChatsArchived'),
+        hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy'),
+        hasViewedOnboardingStory: itemStorage.get('hasViewedOnboardingStory'),
+        storiesDisabled: itemStorage.get('hasStoriesDisabled'),
+        storyViewReceiptsEnabled: itemStorage.get('storyViewReceiptsEnabled'),
+        hasCompletedUsernameOnboarding: itemStorage.get(
           'hasCompletedUsernameOnboarding'
         ),
-        hasSeenGroupStoryEducationSheet: storage.get(
+        hasSeenGroupStoryEducationSheet: itemStorage.get(
           'hasSeenGroupStoryEducationSheet'
         ),
         phoneNumberSharingMode,
@@ -923,7 +922,11 @@ export class BackupExportStream extends Readable {
         backupTier: backupTier != null ? Long.fromNumber(backupTier) : null,
         // Test only values
         ...(isTestOrMockEnvironment()
-          ? { optimizeOnDeviceStorage: storage.get('optimizeOnDeviceStorage') }
+          ? {
+              optimizeOnDeviceStorage: itemStorage.get(
+                'optimizeOnDeviceStorage'
+              ),
+            }
           : {}),
       },
     };
@@ -1077,7 +1080,7 @@ export class BackupExportStream extends Readable {
         e164,
         username: convo.username,
         blocked: convo.serviceId
-          ? window.storage.blocked.isServiceIdBlocked(convo.serviceId)
+          ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
           : null,
         visibility,
         ...(convo.discoveredUnregisteredAt
@@ -1137,7 +1140,7 @@ export class BackupExportStream extends Readable {
         hideStory: convo.hideStory === true,
         storySendMode,
         blocked: convo.groupId
-          ? window.storage.blocked.isGroupBlocked(convo.groupId)
+          ? itemStorage.blocked.isGroupBlocked(convo.groupId)
           : false,
         avatarColor: toAvatarColor(convo.color),
         snapshot: {
@@ -3032,7 +3035,7 @@ export class BackupExportStream extends Readable {
   }
 
   #toCustomChatColors(): Array<Backups.ChatStyle.ICustomChatColor> {
-    const customColors = window.storage.get('customColors');
+    const customColors = itemStorage.get('customColors');
     if (!customColors) {
       return [];
     }
@@ -3096,16 +3099,16 @@ export class BackupExportStream extends Readable {
   }
 
   #toDefaultChatStyle(): Backups.IChatStyle | null {
-    const defaultColor = window.storage.get('defaultConversationColor');
-    const wallpaperPhotoPointer = window.storage.get(
+    const defaultColor = itemStorage.get('defaultConversationColor');
+    const wallpaperPhotoPointer = itemStorage.get(
       'defaultWallpaperPhotoPointer'
     );
-    const wallpaperPreset = window.storage.get('defaultWallpaperPreset');
-    const dimWallpaperInDarkMode = window.storage.get(
+    const wallpaperPreset = itemStorage.get('defaultWallpaperPreset');
+    const dimWallpaperInDarkMode = itemStorage.get(
       'defaultDimWallpaperInDarkMode',
       false
     );
-    const autoBubbleColor = window.storage.get('defaultAutoBubbleColor');
+    const autoBubbleColor = itemStorage.get('defaultAutoBubbleColor');
 
     return this.#toChatStyle({
       wallpaperPhotoPointer,

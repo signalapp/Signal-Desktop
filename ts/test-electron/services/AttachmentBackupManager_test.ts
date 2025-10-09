@@ -26,6 +26,7 @@ import { createName, getRelativePath } from '../../util/attachmentPath.js';
 import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
 import { SECOND } from '../../util/durations/index.js';
 import { HTTPError } from '../../types/HTTPError.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { ensureFile } = fsExtra;
 
@@ -115,8 +116,8 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
   beforeEach(async () => {
     await DataWriter.removeAll();
 
-    await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
-    await window.storage.put('backupMediaRootKey', getRandomBytes(32));
+    await itemStorage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
+    await itemStorage.put('backupMediaRootKey', getRandomBytes(32));
 
     sandbox = sinon.createSandbox();
     clock = sandbox.useFakeTimers();
@@ -169,7 +170,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     sandbox.restore();
     await backupManager?.stop();
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   async function addJobs(

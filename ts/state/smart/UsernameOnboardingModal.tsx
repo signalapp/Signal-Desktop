@@ -10,6 +10,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.js';
 import { useUsernameActions } from '../ducks/username.js';
 import { useNavActions } from '../ducks/nav.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../../types/Nav.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 export const SmartUsernameOnboardingModal = memo(
   function SmartUsernameOnboardingModal(): JSX.Element {
@@ -19,7 +20,7 @@ export const SmartUsernameOnboardingModal = memo(
     const { changeLocation } = useNavActions();
 
     const onNext = useCallback(async () => {
-      await window.storage.put('hasCompletedUsernameOnboarding', true);
+      await itemStorage.put('hasCompletedUsernameOnboarding', true);
       openUsernameReservationModal();
       changeLocation({
         tab: NavTab.Settings,
@@ -36,7 +37,7 @@ export const SmartUsernameOnboardingModal = memo(
     ]);
 
     const onSkip = useCallback(async () => {
-      await window.storage.put('hasCompletedUsernameOnboarding', true);
+      await itemStorage.put('hasCompletedUsernameOnboarding', true);
       toggleUsernameOnboarding();
     }, [toggleUsernameOnboarding]);
 

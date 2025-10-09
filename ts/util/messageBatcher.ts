@@ -7,6 +7,7 @@ import { DataWriter } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
 import { postSaveUpdates } from './cleanup.js';
 import { MessageModel } from '../models/messages.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('messageBatcher');
 
@@ -23,7 +24,7 @@ const updateMessageBatcher = createWaitBatcher<ReadonlyMessageAttributesType>({
     );
 
     await DataWriter.saveMessages(messagesToSave, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
+      ourAci: itemStorage.user.getCheckedAci(),
       postSaveUpdates,
     });
   },
@@ -64,7 +65,7 @@ export const saveNewMessageBatcher =
 
       await DataWriter.saveMessages(messagesToSave, {
         forceSave: true,
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
+        ourAci: itemStorage.user.getCheckedAci(),
         postSaveUpdates,
       });
     },

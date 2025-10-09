@@ -5,7 +5,6 @@ import * as moment from 'moment';
 // @ts-expect-error -- no types
 import 'moment/min/locales.min.js';
 
-import { textsecure } from '../../textsecure/index.js';
 import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.js';
 import { setup } from '../../signal.js';
 import { addSensitivePath } from '../../util/privacy.js';
@@ -13,13 +12,13 @@ import * as dns from '../../util/dns.js';
 import { createLogger } from '../../logging/log.js';
 import { SignalContext } from '../context.js';
 import * as Attachments from './attachments.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const log = createLogger('phase2-dependencies');
 
 initializeLogging();
 
 window.nodeSetImmediate = setImmediate;
-window.textsecure = textsecure;
 
 const { config } = window.SignalContext;
 
@@ -57,7 +56,7 @@ dns.setFallback(SignalContext.config.dnsFallback);
 
 window.Signal = setup({
   Attachments,
-  getRegionCode: () => window.storage.get('regionCode'),
+  getRegionCode: () => itemStorage.get('regionCode'),
   logger: log,
   userDataPath,
 });

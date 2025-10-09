@@ -11,6 +11,7 @@ import { explodePromise } from '../../util/explodePromise.js';
 import { SignalProtocolStore } from '../../SignalProtocolStore.js';
 import type { ConversationModel } from '../../models/conversations.js';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 import * as Bytes from '../../Bytes.js';
 import { cleanupMessages } from '../../util/cleanup.js';
 
@@ -29,25 +30,22 @@ describe('KeyChangeListener', () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
 
-    const { storage } = window.textsecure;
-
-    oldNumberId = storage.get('number_id');
-    oldUuidId = storage.get('uuid_id');
-    await storage.put('number_id', '+14155555556.2');
-    await storage.put('uuid_id', `${ourServiceId}.2`);
+    oldNumberId = itemStorage.get('number_id');
+    oldUuidId = itemStorage.get('uuid_id');
+    await itemStorage.put('number_id', '+14155555556.2');
+    await itemStorage.put('uuid_id', `${ourServiceId}.2`);
   });
 
   after(async () => {
     await DataWriter.removeAll();
 
-    const { storage } = window.textsecure;
-    await storage.fetch();
+    await itemStorage.fetch();
 
     if (oldNumberId) {
-      await storage.put('number_id', oldNumberId);
+      await itemStorage.put('number_id', oldNumberId);
     }
     if (oldUuidId) {
-      await storage.put('uuid_id', oldUuidId);
+      await itemStorage.put('uuid_id', oldUuidId);
     }
   });
 

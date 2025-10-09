@@ -100,6 +100,7 @@ export type PropsType = {
   ) => VideoFrameSource;
   getIsSharingPhoneNumberWithEverybody: () => boolean;
   getPresentingSources: () => void;
+  isOnline: boolean;
   ringingCall: DirectIncomingCall | GroupIncomingCall | null;
   renderDeviceSelection: () => JSX.Element;
   renderReactionPicker: (
@@ -187,6 +188,7 @@ function ActiveCallManager({
   denyUser,
   hangUpActiveCall,
   i18n,
+  isOnline,
   getIsSharingPhoneNumberWithEverybody,
   getGroupCallVideoFrameSource,
   getPresentingSources,
@@ -386,6 +388,7 @@ function ActiveCallManager({
           isAdhocJoinRequestPending={isAdhocJoinRequestPending}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
+          isOnline={isOnline}
           getIsSharingPhoneNumberWithEverybody={
             getIsSharingPhoneNumberWithEverybody
           }
@@ -560,6 +563,7 @@ export function CallManager({
   hangUpActiveCall,
   hasInitialLoadCompleted,
   i18n,
+  isOnline,
   getIsSharingPhoneNumberWithEverybody,
   me,
   notifyForCall,
@@ -677,6 +681,7 @@ export function CallManager({
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
           i18n={i18n}
+          isOnline={isOnline}
           getIsSharingPhoneNumberWithEverybody={
             getIsSharingPhoneNumberWithEverybody
           }

@@ -100,10 +100,7 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
 });
 
 COMMANDS.set('unread', (conversations, query) => {
-  const includeMuted =
-    /^(?:m|muted)$/i.test(query) ||
-    window.storage.get('badge-count-muted-conversations') ||
-    false;
+  const includeMuted = /^(?:m|muted)$/i.test(query) || false;
   return filterConversationsByUnread(conversations, includeMuted);
 });
 

@@ -30,6 +30,7 @@ import type {
 } from '../../types/Donations.js';
 import type { BadgeType } from '../../badges/types.js';
 import type { StateType as RootStateType } from '../reducer.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const log = createLogger('donations');
 
@@ -218,10 +219,14 @@ export function applyDonationBadge({
   badge,
   applyBadge,
   onComplete,
+  storage = itemStorage,
 }: {
   badge: BadgeType | undefined;
   applyBadge: boolean;
   onComplete: (error?: Error) => void;
+
+  // Only for testing
+  storage?: Pick<typeof itemStorage, 'get' | 'put'>;
 }): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
   return async (dispatch, getState) => {
     const me = getMe(getState());
@@ -302,15 +307,12 @@ export function applyDonationBadge({
       newDisplayBadgesOnProfile = false;
     }
 
-    const storageValue = window.storage.get('displayBadgesOnProfile');
+    const storageValue = storage.get('displayBadgesOnProfile');
     if (
       storageValue == null ||
       previousDisplayBadgesOnProfile !== newDisplayBadgesOnProfile
     ) {
-      await window.storage.put(
-        'displayBadgesOnProfile',
-        newDisplayBadgesOnProfile
-      );
+      await storage.put('displayBadgesOnProfile', newDisplayBadgesOnProfile);
       if (previousDisplayBadgesOnProfile !== newDisplayBadgesOnProfile) {
         storageServiceUploadJob({ reason: 'donation-badge-toggle' });
       }

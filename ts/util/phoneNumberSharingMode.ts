@@ -9,10 +9,11 @@ import {
 } from '../types/PhoneNumberSharingMode.js';
 import { missingCaseError } from './missingCaseError.js';
 import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export const isSharingPhoneNumberWithEverybody = (): boolean => {
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(
-    window.storage.get('phoneNumberSharingMode')
+    itemStorage.get('phoneNumberSharingMode')
   );
 
   switch (phoneNumberSharingMode) {

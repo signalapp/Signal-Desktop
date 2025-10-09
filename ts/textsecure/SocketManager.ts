@@ -46,7 +46,7 @@ import WebSocketResource, {
 import { ConnectTimeoutError } from './Errors.js';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
 import { connect as connectWebSocket } from './WebSocket.js';
-import { type ServerAlert } from '../util/handleServerAlerts.js';
+import type { ServerAlert } from '../types/ServerAlert.js';
 import { getUserLanguages } from '../util/userLanguages.js';
 
 const log = createLogger('SocketManager');
@@ -67,7 +67,6 @@ export type SocketManagerOptions = Readonly<{
   certificateAuthority: string;
   version: string;
   proxyUrl?: string;
-  hasStoriesDisabled: boolean;
 }>;
 
 type SocketStatusUpdate = { status: SocketStatus };
@@ -114,7 +113,7 @@ export class SocketManager extends EventListener {
   #isNavigatorOffline = false;
   #privIsOnline: boolean | undefined;
   #expirationReason: SocketExpirationReason | undefined;
-  #hasStoriesDisabled: boolean;
+  #hasStoriesDisabled: boolean | undefined;
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
 
@@ -123,8 +122,6 @@ export class SocketManager extends EventListener {
     private readonly options: SocketManagerOptions
   ) {
     super();
-
-    this.#hasStoriesDisabled = options.hasStoriesDisabled;
   }
 
   public getStatus(): SocketStatuses {
@@ -211,7 +208,7 @@ export class SocketManager extends EventListener {
       onReceivedAlerts: (alerts: Array<ServerAlert>) => {
         this.emit('serverAlerts', alerts);
       },
-      receiveStories: !this.#hasStoriesDisabled,
+      receiveStories: this.#hasStoriesDisabled === false,
       userLanguages,
       keepalive: { path: '/v1/keepalive' },
     });

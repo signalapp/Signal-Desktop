@@ -3,6 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import { isConversationMuted } from './isConversationMuted.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export function canConversationBeUnarchived(
   attrs: ConversationAttributesType
@@ -15,7 +16,7 @@ export function canConversationBeUnarchived(
     return true;
   }
 
-  if (window.storage.get('keepMutedChatsArchived') ?? false) {
+  if (itemStorage.get('keepMutedChatsArchived') ?? false) {
     return false;
   }
 

@@ -16,6 +16,7 @@ import {
   deriveProfileKeyVersion,
 } from './zkgroup.js';
 import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 export async function encryptProfileData(
   conversation: ConversationType,
@@ -79,7 +80,7 @@ export async function encryptProfileData(
     badgeIds: (badges || [])
       .filter(badge => 'isVisible' in badge && badge.isVisible)
       .map(({ id }) => id),
-    paymentAddress: window.storage.get('paymentAddress') || null,
+    paymentAddress: itemStorage.get('paymentAddress') || null,
     avatar: Boolean(newAvatar),
     sameAvatar,
     commitment: deriveProfileKeyCommitment(profileKey, serviceId),

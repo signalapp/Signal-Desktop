@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { StorageAccessType } from '../types/Storage.d.ts';
+import { itemStorage } from '../textsecure/Storage.js';
 
-// Matching window.storage.put API
+// Matching storage.put API
 export async function put<K extends keyof StorageAccessType>(
   key: K,
   value: StorageAccessType[K]
 ): Promise<void> {
-  await window.storage.put(key, value);
+  await itemStorage.put(key, value);
 }
 
 export async function remove(key: keyof StorageAccessType): Promise<void> {
-  await window.storage.remove(key);
+  await itemStorage.remove(key);
 }

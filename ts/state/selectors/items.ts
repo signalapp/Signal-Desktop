@@ -3,7 +3,6 @@
 
 import { createSelector } from 'reselect';
 
-import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer.js';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig.js';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.js';
 import type { StateType } from '../reducer.js';
@@ -55,7 +54,7 @@ export const getPinnedConversationIds = createSelector(
 export const getUniversalExpireTimer = createSelector(
   getItems,
   (state: ItemsStateType): DurationInSeconds =>
-    DurationInSeconds.fromSeconds(state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0)
+    DurationInSeconds.fromSeconds(state.universalExpireTimer || 0)
 );
 
 export const isRemoteConfigFlagEnabled = (
@@ -260,6 +259,13 @@ export const getShowStickerPickerHint = createSelector(
   getItems,
   (state: ItemsStateType): boolean => {
     return state.showStickerPickerHint ?? false;
+  }
+);
+
+export const getHasUnidentifiedDeliveryIndicators = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.unidentifiedDeliveryIndicators ?? false;
   }
 );
 

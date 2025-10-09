@@ -23,7 +23,13 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
 
-import type { WebAPIType, MessageType } from './WebAPI.js';
+import {
+  sendMessages,
+  sendMessagesUnauth,
+  getKeysForServiceId as doGetKeysForServiceId,
+  getKeysForServiceIdUnauth,
+} from './WebAPI.js';
+import type { MessageType } from './WebAPI.js';
 import type { SendMetadataType, SendOptionsType } from './SendMessage.js';
 import {
   OutgoingIdentityKeyError,
@@ -46,6 +52,7 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { isSignalServiceId } from '../util/isSignalConversation.js';
 import * as Bytes from '../Bytes.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from './Storage.js';
 
 const { reject } = lodash;
 
@@ -115,8 +122,6 @@ export function padMessage(messageBuffer: Uint8Array): Uint8Array {
 }
 
 export default class OutgoingMessage {
-  server: WebAPIType;
-
   timestamp: number;
 
   serviceIds: ReadonlyArray<ServiceIdString>;
@@ -161,7 +166,6 @@ export default class OutgoingMessage {
     message,
     options,
     sendLogCallback,
-    server,
     story,
     timestamp,
     urgent,
@@ -173,7 +177,6 @@ export default class OutgoingMessage {
     message: Proto.Content | Proto.DataMessage | PlaintextContent;
     options?: OutgoingMessageOptionsType;
     sendLogCallback?: SendLogCallbackType;
-    server: WebAPIType;
     story?: boolean;
     timestamp: number;
     urgent: boolean;
@@ -186,7 +189,6 @@ export default class OutgoingMessage {
       this.message = message;
     }
 
-    this.server = server;
     this.timestamp = timestamp;
     this.serviceIds = serviceIds;
     this.contentHint = contentHint;
@@ -274,7 +276,7 @@ export default class OutgoingMessage {
     recurse?: boolean
   ): () => Promise<void> {
     return async () => {
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
+      const ourAci = itemStorage.user.getCheckedAci();
       const deviceIds = await signalProtocolStore.getDeviceIds({
         ourServiceId: ourAci,
         serviceId,
@@ -304,7 +306,7 @@ export default class OutgoingMessage {
 
     const { accessKeyFailed } = await getKeysForServiceId(
       serviceId,
-      this.server,
+      { getKeysForServiceId: doGetKeysForServiceId, getKeysForServiceIdUnauth },
       updateDevices ?? null,
       accessKey,
       null
@@ -329,7 +331,7 @@ export default class OutgoingMessage {
     let promise;
 
     if (accessKey != null || groupSendToken != null) {
-      promise = this.server.sendMessagesUnauth(serviceId, jsonData, timestamp, {
+      promise = sendMessagesUnauth(serviceId, jsonData, timestamp, {
         accessKey,
         groupSendToken,
         online: this.online,
@@ -337,7 +339,7 @@ export default class OutgoingMessage {
         urgent: this.urgent,
       });
     } else {
-      promise = this.server.sendMessages(serviceId, jsonData, timestamp, {
+      promise = sendMessages(serviceId, jsonData, timestamp, {
         online: this.online,
         story: this.story,
         urgent: this.urgent,
@@ -429,9 +431,9 @@ export default class OutgoingMessage {
       senderCertificate != null;
 
     // We don't send to ourselves unless sealedSender is enabled
-    const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
+    const ourNumber = itemStorage.user.getNumber();
+    const ourAci = itemStorage.user.getCheckedAci();
+    const ourDeviceId = itemStorage.user.getDeviceId();
     if ((serviceId === ourNumber || serviceId === ourAci) && !sealedSender) {
       deviceIds = reject(
         deviceIds,
@@ -684,7 +686,7 @@ export default class OutgoingMessage {
     serviceId: ServiceIdString,
     deviceIdsToRemove: Array<number>
   ): Promise<void> {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     await Promise.all(
       deviceIdsToRemove.map(async deviceId => {
@@ -706,7 +708,7 @@ export default class OutgoingMessage {
     }
 
     try {
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
+      const ourAci = itemStorage.user.getCheckedAci();
       const deviceIds = await signalProtocolStore.getDeviceIds({
         ourServiceId: ourAci,
         serviceId,

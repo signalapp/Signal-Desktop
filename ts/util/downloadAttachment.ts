@@ -11,6 +11,10 @@ import {
   AttachmentPermanentlyUndownloadableError,
 } from '../types/Attachment.js';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.js';
+import {
+  getAttachment,
+  getAttachmentFromBackupTier,
+} from '../textsecure/WebAPI.js';
 import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
 import { createLogger } from '../logging/log.js';
@@ -54,11 +58,6 @@ export async function downloadAttachment({
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
   const logId = `${_logId}${variantForLogging}`;
 
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('window.textsecure.server is not available!');
-  }
-
   const isBackupable = hasRequiredInformationForBackup(attachment);
 
   const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
@@ -89,7 +88,10 @@ export async function downloadAttachment({
   if (mightBeOnBackupTierNow) {
     try {
       return await dependencies.downloadAttachmentFromServer(
-        server,
+        {
+          getAttachment,
+          getAttachmentFromBackupTier,
+        },
         { mediaTier: MediaTier.BACKUP, attachment },
         {
           logId,
@@ -140,7 +142,10 @@ export async function downloadAttachment({
 
   try {
     return await dependencies.downloadAttachmentFromServer(
-      server,
+      {
+        getAttachment,
+        getAttachmentFromBackupTier,
+      },
       { attachment, mediaTier: MediaTier.STANDARD },
       {
         logId,

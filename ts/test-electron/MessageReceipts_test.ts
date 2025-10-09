@@ -17,20 +17,21 @@ import {
   messageReceiptTypeSchema,
 } from '../messageModifiers/MessageReceipts.js';
 import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 describe('MessageReceipts', () => {
   let ourAci: AciString;
 
   beforeEach(async () => {
     ourAci = generateAci();
-    await window.textsecure.storage.put('uuid_id', `${ourAci}.1`);
-    await window.textsecure.storage.put('read-receipt-setting', true);
+    await itemStorage.put('uuid_id', `${ourAci}.1`);
+    await itemStorage.put('read-receipt-setting', true);
     await window.ConversationController.load();
   });
 
   afterEach(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   function generateReceipt(

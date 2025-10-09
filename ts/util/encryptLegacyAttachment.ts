@@ -12,6 +12,7 @@ import { DataWriter } from '../sql/Client.js';
 import { AttachmentDisposition } from './getLocalAttachmentUrl.js';
 import { drop } from './drop.js';
 import { MINUTE } from './durations/index.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('encryptLegacyAttachment');
 
@@ -92,7 +93,7 @@ async function doEncrypt<T extends Partial<AddressableAttachmentType>>(
     cleanup();
   } else if (!setCheck) {
     setCheck = true;
-    await window.storage.put('needOrphanedAttachmentCheck', true);
+    await itemStorage.put('needOrphanedAttachmentCheck', true);
     log.error('scheduling orphaned cleanup');
     cleanupTimeout = setTimeout(cleanup, 15 * MINUTE);
   }
@@ -106,6 +107,6 @@ function cleanup(): void {
   cleanupTimeout = undefined;
   setCheck = false;
   orphanedCount = 0;
-  drop(window.storage.remove('needOrphanedAttachmentCheck'));
+  drop(itemStorage.remove('needOrphanedAttachmentCheck'));
   drop(DataWriter.cleanupOrphanedAttachments());
 }

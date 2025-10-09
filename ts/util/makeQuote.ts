@@ -9,7 +9,7 @@ import type {
 import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
 import type { StickerType } from '../types/Stickers.js';
 import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.js';
-import { getAuthor } from '../messages/helpers.js';
+import { getAuthor } from '../messages/sources.js';
 import { getQuoteBodyText } from './getQuoteBodyText.js';
 import { isGIF } from './Attachment.js';
 import { isGiftBadge, isTapToView } from '../state/selectors/message.js';

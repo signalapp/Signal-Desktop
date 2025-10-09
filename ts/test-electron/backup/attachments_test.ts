@@ -42,6 +42,7 @@ import {
   getPlaintextHashForInMemoryAttachment,
 } from '../../AttachmentCrypto.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -55,7 +56,7 @@ describe('backup/attachments', () => {
 
   beforeEach(async () => {
     await DataWriter.removeAll();
-    window.storage.reset();
+    itemStorage.reset();
 
     window.ConversationController.reset();
 

@@ -12,6 +12,7 @@ import { DataWriter } from '../../sql/Client.js';
 import { generateAci, generatePni } from '../../types/ServiceId.js';
 import type { ConversationAttributesType } from '../../model-types.js';
 import { strictAssert } from '../../util/assert.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 function getGroupTestInfo() {
   const masterKey = getRandomBytes(32);
@@ -25,7 +26,7 @@ describe('backup/conversations', () => {
   beforeEach(async () => {
     await DataWriter._removeAllMessages();
     await DataWriter._removeAllConversations();
-    window.storage.reset();
+    itemStorage.reset();
 
     await setupBasics();
 
@@ -101,7 +102,7 @@ describe('backup/conversations', () => {
       }
     );
 
-    await window.storage.blocked.addBlockedGroup(blockedGroupInfo.groupId);
+    await itemStorage.blocked.addBlockedGroup(blockedGroupInfo.groupId);
 
     await symmetricRoundtripHarness([]);
 

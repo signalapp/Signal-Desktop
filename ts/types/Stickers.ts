@@ -36,6 +36,11 @@ import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.js';
 import { isPackIdValid, redactPackId } from '../util/Stickers.js';
 import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.js';
+import {
+  isOnline,
+  getSticker as doGetSticker,
+  getStickerPackManifest,
+} from '../textsecure/WebAPI.js';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 
@@ -423,12 +428,7 @@ async function downloadSticker(
   const { id, emoji } = proto;
   strictAssert(id != null, "Sticker id can't be null");
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
-  }
-
-  const ciphertext = await messaging.getSticker(packId, id);
+  const ciphertext = await doGetSticker(packId, id);
   const plaintext = decryptSticker(packKey, ciphertext);
 
   const sticker = ephemeral
@@ -543,12 +543,7 @@ export async function downloadEphemeralPack(
     };
     stickerPackAdded(placeholder);
 
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('messaging is not available!');
-    }
-
-    const ciphertext = await messaging.getStickerPackManifest(packId);
+    const ciphertext = await getStickerPackManifest(packId);
     const plaintext = decryptSticker(packKey, ciphertext);
     const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : null;
@@ -732,13 +727,8 @@ async function doDownloadStickerPack(
     return;
   }
 
-  const { server } = window.textsecure;
-  if (!server) {
-    throw new Error('server is not available!');
-  }
-
   // We don't count this as an attempt if we're offline
-  const attemptIncrement = server.isOnline() ? 1 : 0;
+  const attemptIncrement = isOnline() ? 1 : 0;
   const downloadAttempts =
     (existing ? existing.downloadAttempts || 0 : 0) + attemptIncrement;
   if (downloadAttempts > 3) {
@@ -780,12 +770,7 @@ async function doDownloadStickerPack(
     };
     stickerPackAdded(placeholder);
 
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('messaging is not available!');
-    }
-
-    const ciphertext = await messaging.getStickerPackManifest(packId);
+    const ciphertext = await getStickerPackManifest(packId);
     const plaintext = decryptSticker(packKey, ciphertext);
     const proto = Proto.StickerPack.decode(plaintext);
     const firstStickerProto = proto.stickers ? proto.stickers[0] : undefined;

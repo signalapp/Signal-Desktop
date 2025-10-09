@@ -12,7 +12,8 @@ import {
 } from '../messageModifiers/Reactions.js';
 import { ReactionSource } from './ReactionSource.js';
 import { getMessageById } from '../messages/getMessageById.js';
-import { getSourceServiceId, isStory } from '../messages/helpers.js';
+import { getSourceServiceId } from '../messages/sources.js';
+import { isStory } from '../messages/helpers.js';
 import { strictAssert } from '../util/assert.js';
 import { isDirectConversation } from '../util/whatTypeOfConversation.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.js';

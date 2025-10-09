@@ -12,7 +12,7 @@ import type {
 } from '../model-types.js';
 import type { AciString, PniString } from '../types/ServiceId.js';
 import { isPniString } from '../types/ServiceId.js';
-import { getAuthor } from '../messages/helpers.js';
+import { getAuthor } from '../messages/sources.js';
 import { createLogger } from '../logging/log.js';
 import type { ConversationModel } from '../models/conversations.js';
 import { DataReader } from '../sql/Client.js';

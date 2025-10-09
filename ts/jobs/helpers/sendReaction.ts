@@ -42,6 +42,7 @@ import type { LoggerType } from '../../types/Logging.js';
 import { sendToGroup } from '../../util/sendToGroup.js';
 import { hydrateStoryContext } from '../../util/hydrateStoryContext.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { isNumber } = lodash;
 
@@ -57,7 +58,7 @@ export async function sendReaction(
   data: ReactionJobData
 ): Promise<void> {
   const { messageId, revision } = data;
-  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   await window.ConversationController.load();
 

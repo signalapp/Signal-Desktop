@@ -8,7 +8,6 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.j
 import type { PropsType } from './CallingPreCallInfo.js';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
-import { getPlaceholderContact } from '../state/selectors/conversations.js';
 import { generateAci } from '../types/ServiceId.js';
 import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.js';
 import { callLinkToConversation } from '../util/callLinks.js';
@@ -27,7 +26,13 @@ const getDefaultGroupConversation = () =>
 const otherMembers = times(6, () => getDefaultConversation());
 
 const getUnknownContact = (): ConversationType => ({
-  ...getPlaceholderContact(),
+  acceptedMessageRequest: false,
+  badges: [],
+  id: '123',
+  type: 'direct',
+  title: i18n('icu:unknownContact'),
+  isMe: false,
+  sharedGroupNames: [],
   serviceId: generateAci(),
 });
 

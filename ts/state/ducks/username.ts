@@ -30,6 +30,7 @@ import { ToastType } from '../../types/Toast.js';
 import type { ToastActionType } from './toast.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 export type UsernameReservationStateType = ReadonlyDeep<{
   state: UsernameReservationState;
@@ -324,7 +325,7 @@ function markCompletedUsernameOnboarding(): ThunkAction<
   never
 > {
   return async () => {
-    await window.storage.put('hasCompletedUsernameOnboarding', true);
+    await itemStorage.put('hasCompletedUsernameOnboarding', true);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameOnboarding');
     storageServiceUploadJob({ reason: 'markCompletedUsernameOnboarding' });
@@ -338,7 +339,7 @@ function markCompletedUsernameLinkOnboarding(): ThunkAction<
   never
 > {
   return async () => {
-    await window.storage.put('hasCompletedUsernameLinkOnboarding', true);
+    await itemStorage.put('hasCompletedUsernameLinkOnboarding', true);
   };
 }
 
@@ -346,7 +347,7 @@ function setUsernameLinkColor(
   color: number
 ): ThunkAction<void, RootStateType, unknown, never> {
   return async () => {
-    await window.storage.put('usernameLinkColor', color);
+    await itemStorage.put('usernameLinkColor', color);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameLinkColor');
     storageServiceUploadJob({ reason: 'setUsernameLinkColor' });

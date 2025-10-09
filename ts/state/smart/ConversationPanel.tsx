@@ -36,6 +36,7 @@ import { focusableSelector } from '../../util/focusableSelectors.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
 import { useConversationsActions } from '../ducks/conversations.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -353,7 +354,7 @@ function PanelElement({
     return (
       <SmartPendingInvites
         conversationId={conversationId}
-        ourAci={window.storage.user.getCheckedAci()}
+        ourAci={itemStorage.user.getCheckedAci()}
       />
     );
   }

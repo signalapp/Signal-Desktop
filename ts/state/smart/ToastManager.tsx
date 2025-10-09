@@ -31,6 +31,7 @@ import { ToastManager } from '../../components/ToastManager.js';
 import type { WidthBreakpoint } from '../../components/_util.js';
 import { getToast } from '../selectors/toast.js';
 import { useDonationsActions } from '../ducks/donations.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -76,7 +77,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       type: MegaphoneType.UsernameOnboarding,
       onLearnMore: toggleUsernameOnboarding,
       onDismiss: () => {
-        drop(window.storage.put('hasCompletedUsernameOnboarding', true));
+        drop(itemStorage.put('hasCompletedUsernameOnboarding', true));
       },
     };
   }

@@ -30,7 +30,7 @@ import {
   type IntegrityCheckType,
 } from '../AttachmentCrypto.js';
 import type { ProcessedAttachment } from './Types.d.ts';
-import type { WebAPIType } from './WebAPI.js';
+import type { getAttachment, getAttachmentFromBackupTier } from './WebAPI.js';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
 import { createName, getRelativePath } from '../util/attachmentPath.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
@@ -108,8 +108,13 @@ export async function getCdnNumberForBackupTier(
   return backupCdnNumber;
 }
 
+type ServerType = Readonly<{
+  getAttachment: typeof getAttachment;
+  getAttachmentFromBackupTier: typeof getAttachmentFromBackupTier;
+}>;
+
 export async function downloadAttachment(
-  server: WebAPIType,
+  server: ServerType,
   {
     attachment,
     mediaTier,

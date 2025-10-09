@@ -8,11 +8,15 @@ import type {
 } from '../types/Attachment.js';
 import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.js';
 import { getRandomBytes } from '../Crypto.js';
-import { strictAssert } from './assert.js';
 import { backupsService } from '../services/backups/index.js';
 import { tusUpload } from './uploads/tusProtocol.js';
 import { defaultFileReader } from './uploads/uploads.js';
-import type { AttachmentUploadFormResponseType } from '../textsecure/WebAPI.js';
+import {
+  type AttachmentUploadFormResponseType,
+  getAttachmentUploadForm,
+  createFetchForAttachmentUpload,
+  putEncryptedAttachment,
+} from '../textsecure/WebAPI.js';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
@@ -28,9 +32,6 @@ const CDNS_SUPPORTING_TUS = new Set([3]);
 export async function uploadAttachment(
   attachment: AttachmentWithHydratedData
 ): Promise<UploadedAttachmentType> {
-  const { server } = window.textsecure;
-  strictAssert(server, 'WebAPI must be initialized');
-
   const keys = getRandomBytes(64);
   const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
 
@@ -86,16 +87,13 @@ export async function encryptAndUploadAttachment({
   cdnNumber: number;
   encrypted: EncryptedAttachmentV2;
 }> {
-  const { server } = window.textsecure;
-  strictAssert(server, 'WebAPI must be initialized');
-
   let uploadForm: AttachmentUploadFormResponseType;
   let absoluteCiphertextPath: string | undefined;
 
   try {
     switch (uploadType) {
       case 'standard':
-        uploadForm = await server.getAttachmentUploadForm();
+        uploadForm = await getAttachmentUploadForm();
         break;
       case 'backup':
         uploadForm = await backupsService.api.getMediaUploadForm();
@@ -139,11 +137,8 @@ export async function uploadFile({
   ciphertextFileSize: number;
   uploadForm: AttachmentUploadFormResponseType;
 }): Promise<void> {
-  const { server } = window.textsecure;
-  strictAssert(server, 'WebAPI must be initialized');
-
   if (CDNS_SUPPORTING_TUS.has(uploadForm.cdn)) {
-    const fetchFn = server.createFetchForAttachmentUpload(uploadForm);
+    const fetchFn = createFetchForAttachmentUpload(uploadForm);
     await tusUpload({
       endpoint: uploadForm.signedUploadLocation,
       // the upload form headers are already included in the created fetch function
@@ -155,7 +150,7 @@ export async function uploadFile({
       fetchFn,
     });
   } else {
-    await server.putEncryptedAttachment(
+    await putEncryptedAttachment(
       (start, end) => createReadStream(absoluteCiphertextPath, { start, end }),
       ciphertextFileSize,
       uploadForm

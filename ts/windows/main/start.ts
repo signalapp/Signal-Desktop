@@ -22,6 +22,7 @@ import type {
   CdsLookupOptionsType,
   GetIceServersResultType,
 } from '../../textsecure/WebAPI.js';
+import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.js';
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { initMessageCleanup } from '../../services/messageStateCleanup.js';
@@ -29,6 +30,7 @@ import { calling } from '../../services/calling.js';
 import { Environment, getEnvironment } from '../../environment.js';
 import { isProduction } from '../../util/version.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { has } = lodash;
 
@@ -60,8 +62,7 @@ if (
   window.SignalContext.config.devTools
 ) {
   const SignalDebug = {
-    cdsLookup: (options: CdsLookupOptionsType) =>
-      window.textsecure.server?.cdsLookup(options),
+    cdsLookup: (options: CdsLookupOptionsType) => cdsLookup(options),
     getSelectedConversation: () => {
       const conversationId =
         window.reduxStore.getState().conversations.selectedConversationId;
@@ -86,12 +87,12 @@ if (
     getReduxState: () => window.reduxStore.getState(),
     getSfuUrl: () => calling._sfuUrl,
     getIceServerOverride: () => calling._iceServerOverride,
-    getSocketStatus: () => window.textsecure.server?.getSocketStatus(),
-    getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),
+    getSocketStatus: () => getSocketStatus(),
+    getStorageItem: (name: keyof StorageAccessType) => itemStorage.get(name),
     putStorageItem: <K extends keyof StorageAccessType>(
       name: K,
       value: StorageAccessType[K]
-    ) => window.storage.put(name, value),
+    ) => itemStorage.put(name, value),
     setFlag: (name: keyof FeatureFlagType, value: boolean) => {
       if (!has(window.Flags, name)) {
         return;

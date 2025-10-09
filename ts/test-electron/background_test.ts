@@ -6,6 +6,7 @@ import lodash from 'lodash';
 
 import { isOverHourIntoPast, cleanupSessionResets } from '../background.js';
 import { DataWriter } from '../sql/Client.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { pick } = lodash;
 
@@ -26,13 +27,13 @@ describe('#isOverHourIntoPast', () => {
 describe('#cleanupSessionResets', () => {
   after(async () => {
     await DataWriter.removeAll();
-    await window.storage.fetch();
+    await itemStorage.fetch();
   });
 
   it('leaves empty object alone', async () => {
-    await window.storage.put('sessionResets', {});
+    await itemStorage.put('sessionResets', {});
     await cleanupSessionResets();
-    const actual = window.storage.get('sessionResets');
+    const actual = itemStorage.get('sessionResets');
 
     const expected = {};
     assert.deepEqual(actual, expected);
@@ -43,9 +44,9 @@ describe('#cleanupSessionResets', () => {
       two: Date.now(),
       three: Date.now() - 65 * 60 * 1000,
     };
-    await window.storage.put('sessionResets', startValue);
+    await itemStorage.put('sessionResets', startValue);
     await cleanupSessionResets();
-    const actual = window.storage.get('sessionResets');
+    const actual = itemStorage.get('sessionResets');
 
     const expected = pick(startValue, ['one', 'two']);
     assert.deepEqual(actual, expected);
@@ -55,9 +56,9 @@ describe('#cleanupSessionResets', () => {
       one: 0,
       two: Date.now(),
     };
-    await window.storage.put('sessionResets', startValue);
+    await itemStorage.put('sessionResets', startValue);
     await cleanupSessionResets();
-    const actual = window.storage.get('sessionResets');
+    const actual = itemStorage.get('sessionResets');
 
     const expected = pick(startValue, ['two']);
     assert.deepEqual(actual, expected);

@@ -69,6 +69,7 @@ import {
 import { MY_STORY_ID } from '../../../types/Stories.js';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
 import { strictAssert } from '../../../util/assert.js';
+import { itemStorage } from '../../../textsecure/Storage.js';
 
 const { times } = lodash;
 
@@ -2260,7 +2261,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isUndefined(
           nextState.conversationsByGroupId.jkl.conversationColor
         );
-        await window.storage.remove('defaultConversationColor');
+        await itemStorage.remove('defaultConversationColor');
       });
     });
 

@@ -5,6 +5,10 @@ import { z } from 'zod';
 import type { Simplify } from 'type-fest';
 import { strictAssert } from '../../../util/assert.js';
 import { parseUnknown } from '../../../util/schemas.js';
+import {
+  fetchJsonViaProxy,
+  fetchBytesViaProxy,
+} from '../../../textsecure/WebAPI.js';
 import { fetchInSegments } from './segments.js';
 
 const BASE_URL = 'https://tenor.googleapis.com/v2';
@@ -196,9 +200,6 @@ export async function tenor<Path extends keyof TenorEndpoints>(
   params: Omit<TenorEndpoints[Path]['params'], 'key'>,
   signal?: AbortSignal
 ): Promise<TenorEndpoints[Path]['response']> {
-  const { messaging } = window.textsecure;
-  strictAssert(messaging, 'Missing window.textsecure.messaging');
-
   const schema = ResponseSchemaMap[path];
   strictAssert(schema, 'Missing schema');
 
@@ -216,7 +217,7 @@ export async function tenor<Path extends keyof TenorEndpoints>(
     url.searchParams.set(key, param);
   }
 
-  const response = await messaging.server.fetchJsonViaProxy({
+  const response = await fetchJsonViaProxy({
     method: 'GET',
     url: url.toString(),
     signal,
@@ -229,5 +230,5 @@ export function tenorDownload(
   tenorCdnUrl: string,
   signal?: AbortSignal
 ): Promise<Blob> {
-  return fetchInSegments(tenorCdnUrl, signal);
+  return fetchInSegments(tenorCdnUrl, fetchBytesViaProxy, signal);
 }

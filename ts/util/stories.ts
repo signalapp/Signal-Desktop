@@ -1,14 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import { itemStorage } from '../textsecure/Storage.js';
+import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.js';
 
 export const getStoriesDisabled = (): boolean =>
-  window.storage.get('hasStoriesDisabled', false);
+  itemStorage.get('hasStoriesDisabled', false);
 
 export const setStoriesDisabled = async (value: boolean): Promise<void> => {
-  await window.storage.put('hasStoriesDisabled', value);
+  await itemStorage.put('hasStoriesDisabled', value);
   const account = window.ConversationController.getOurConversationOrThrow();
   account.captureChange('hasStoriesDisabled');
-  window.textsecure.server?.onHasStoriesDisabledChange(value);
+  onHasStoriesDisabledChange(value);
 };
 
 export const getStoriesBlocked = (): boolean => getStoriesDisabled();

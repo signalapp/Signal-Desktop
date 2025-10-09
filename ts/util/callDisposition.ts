@@ -49,7 +49,7 @@ import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus.js';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived.js';
 import type { ConversationAttributesType } from '../model-types.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
 import * as Bytes from '../Bytes.js';
 import type {
   CallDetails,
@@ -71,6 +71,7 @@ import { parsePartial, parseStrict } from './schemas.js';
 import { calling } from '../services/calling.js';
 import { cleanupMessages } from './cleanup.js';
 import { MessageModel } from '../models/messages.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { isEqual } = lodash;
 
@@ -1300,7 +1301,7 @@ async function updateRemoteCallHistory(
   );
 
   try {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const syncMessage = MessageSender.createSyncMessage();
 
     syncMessage.callEvent = getProtoForCallHistory(callHistory);
@@ -1452,7 +1453,7 @@ export async function markAllCallHistoryReadAndSync(
       `markAllCallHistoryReadAndSync: Marked ${count} call history messages read`
     );
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
 
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
       type: inConversation

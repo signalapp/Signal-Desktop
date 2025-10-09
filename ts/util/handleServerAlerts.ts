@@ -7,24 +7,10 @@ import { DAY, WEEK } from './durations/index.js';
 import { isNotNil } from './isNotNil.js';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
 import { safeSetTimeout } from './timeout.js';
+import { itemStorage } from '../textsecure/Storage.js';
+import { ServerAlert, type ServerAlertsType } from '../types/ServerAlert.js';
 
 const log = createLogger('handleServerAlerts');
-
-export enum ServerAlert {
-  CRITICAL_IDLE_PRIMARY_DEVICE = 'critical_idle_primary_device',
-  IDLE_PRIMARY_DEVICE = 'idle_primary_device',
-}
-
-export type ServerAlertsType = {
-  [ServerAlert.IDLE_PRIMARY_DEVICE]?: {
-    firstReceivedAt: number;
-    dismissedAt?: number;
-  };
-  [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]?: {
-    firstReceivedAt: number;
-    modalLastDismissedAt?: number;
-  };
-};
 
 export function parseServerAlertsFromHeader(
   headerValue: string
@@ -51,7 +37,7 @@ export function parseServerAlertsFromHeader(
 export async function handleServerAlerts(
   receivedAlerts: Array<ServerAlert>
 ): Promise<void> {
-  const existingAlerts = window.storage.get('serverAlerts') ?? {};
+  const existingAlerts = itemStorage.get('serverAlerts') ?? {};
   const existingAlertNames = new Set(Object.keys(existingAlerts));
 
   const now = Date.now();
@@ -79,7 +65,7 @@ export async function handleServerAlerts(
     log.info(`removed alerts: ${[...existingAlertNames].join(', ')}`);
   }
 
-  await window.storage.put('serverAlerts', newAlerts);
+  await itemStorage.put('serverAlerts', newAlerts);
 }
 
 export function getServerAlertToShow(
@@ -147,7 +133,7 @@ function maybeShowCriticalIdlePrimaryDeviceModal(
 }
 
 export async function onCriticalIdlePrimaryDeviceModalDismissed(): Promise<void> {
-  const existingAlerts = window.storage.get('serverAlerts') ?? {};
+  const existingAlerts = itemStorage.get('serverAlerts') ?? {};
   const existingAlert =
     existingAlerts[ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE];
 
@@ -163,7 +149,7 @@ export async function onCriticalIdlePrimaryDeviceModalDismissed(): Promise<void>
     modalLastDismissedAt: Date.now(),
   };
 
-  await window.storage.put('serverAlerts', {
+  await itemStorage.put('serverAlerts', {
     ...existingAlerts,
     [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]: newAlert,
   });

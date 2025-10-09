@@ -8,7 +8,7 @@ import type { ConversationType } from '../../state/ducks/conversations.js';
 import { SystemMessage } from './SystemMessage.js';
 import { Emojify } from './Emojify.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
-import { getPaymentEventDescription } from '../../messages/helpers.js';
+import { getPaymentEventDescription } from '../../messages/payments.js';
 
 export type PropsType = {
   event: AnyPaymentEvent;

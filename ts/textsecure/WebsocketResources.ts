@@ -59,10 +59,8 @@ import { AbortableProcess } from '../util/AbortableProcess.js';
 import type { WebAPICredentials } from './Types.js';
 import { NORMAL_DISCONNECT_CODE } from './SocketManager.js';
 import { parseUnknown } from '../util/schemas.js';
-import {
-  parseServerAlertsFromHeader,
-  type ServerAlert,
-} from '../util/handleServerAlerts.js';
+import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.js';
+import type { ServerAlert } from '../types/ServerAlert.js';
 
 const log = createLogger('WebsocketResources');
 

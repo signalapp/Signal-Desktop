@@ -96,7 +96,7 @@ import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalP
 import { handleOutsideClick } from '../../util/handleOutsideClick.js';
 import { isPaymentNotificationEvent } from '../../types/Payment.js';
 import type { AnyPaymentEvent } from '../../types/Payment.js';
-import { getPaymentEventDescription } from '../../messages/helpers.js';
+import { getPaymentEventDescription } from '../../messages/payments.js';
 import { PanelType } from '../../types/Panels.js';
 import { isPollReceiveEnabled } from '../../types/Polls.js';
 import type { PollWithResolvedVotersType } from '../../state/selectors/message.js';

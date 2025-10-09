@@ -23,7 +23,7 @@ import {
 } from '../jobs/conversationJobQueue.js';
 import { concat, filter, map, repeat, zipObject, find } from './iterables.js';
 import { getConversationIdForLogging } from './idForLogging.js';
-import { isQuoteAMatch } from '../messages/helpers.js';
+import { isQuoteAMatch } from '../messages/quotes.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { handleEditMessage } from './handleEditMessage.js';
 import { incrementMessageCounter } from './incrementMessageCounter.js';
@@ -34,6 +34,7 @@ import { strictAssert } from './assert.js';
 import { timeAndLogIfTooLong } from './timeAndLogIfTooLong.js';
 import { makeQuote } from './makeQuote.js';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('sendEditedMessage');
 
@@ -57,9 +58,6 @@ export async function sendEditedMessage(
     targetMessageId: string;
   }
 ): Promise<void> {
-  const { messaging } = window.textsecure;
-  strictAssert(messaging, 'messaging not available');
-
   const conversation = window.ConversationController.get(conversationId);
   strictAssert(conversation, 'no conversation found');
 
@@ -202,7 +200,7 @@ export async function sendEditedMessage(
   await handleEditMessage(targetMessage.attributes, {
     conversationId,
     fromId,
-    fromDevice: window.storage.user.getDeviceId() ?? 1,
+    fromDevice: itemStorage.user.getDeviceId() ?? 1,
     message: tmpMessage,
   });
 

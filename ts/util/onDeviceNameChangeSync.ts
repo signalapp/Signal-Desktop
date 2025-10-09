@@ -3,12 +3,14 @@
 
 import PQueue from 'p-queue';
 import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.js';
+import { getDevices } from '../textsecure/WebAPI.js';
 import { MINUTE } from './durations/index.js';
 import { strictAssert } from './assert.js';
 import { parseIntOrThrow } from './parseIntOrThrow.js';
 import { createLogger } from '../logging/log.js';
 import { toLogFormat } from '../types/errors.js';
 import { drop } from './drop.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('onDeviceNameChangeSync');
 
@@ -47,10 +49,9 @@ export async function maybeQueueDeviceNameFetch(): Promise<void> {
 }
 
 async function fetchAndUpdateDeviceName() {
-  strictAssert(window.textsecure.server, 'WebAPI must be initialized');
-  const { devices } = await window.textsecure.server.getDevices();
+  const { devices } = await getDevices();
   const localDeviceId = parseIntOrThrow(
-    window.textsecure.storage.user.getDeviceId(),
+    itemStorage.user.getDeviceId(),
     'fetchAndUpdateDeviceName: localDeviceId'
   );
   const ourDevice = devices.find(device => device.id === localDeviceId);
@@ -69,21 +70,20 @@ async function fetchAndUpdateDeviceName() {
       .getAccountManager()
       .decryptDeviceName(newNameEncrypted);
   } catch (e) {
-    const deviceNameWasEncrypted =
-      window.textsecure.storage.user.getDeviceNameEncrypted();
+    const deviceNameWasEncrypted = itemStorage.user.getDeviceNameEncrypted();
     log.error(
       `fetchAndUpdateDeviceName: failed to decrypt device name. Was encrypted local state: ${deviceNameWasEncrypted}`
     );
     return;
   }
 
-  const existingName = window.storage.user.getDeviceName();
+  const existingName = itemStorage.user.getDeviceName();
   if (newName === existingName) {
     log.info('fetchAndUpdateDeviceName: new name matches existing name');
     return;
   }
 
-  await window.storage.user.setDeviceName(newName);
+  await itemStorage.user.setDeviceName(newName);
   window.Whisper.events.emit('deviceNameChanged');
   log.info(
     'fetchAndUpdateDeviceName: successfully updated new device name locally'

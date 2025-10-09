@@ -33,7 +33,6 @@ import {
   getDefaultCallLinkConversation,
 } from '../test-helpers/fakeCallLink.js';
 import { allRemoteParticipants } from './CallScreen.stories.js';
-import { getPlaceholderContact } from '../state/selectors/conversations.js';
 
 const { i18n } = window.SignalContext;
 
@@ -51,13 +50,23 @@ const getConversation = () =>
     lastUpdated: Date.now(),
   });
 
+const placeHolderContact: ConversationType = {
+  acceptedMessageRequest: false,
+  badges: [],
+  id: '123',
+  type: 'direct',
+  title: i18n('icu:unknownContact'),
+  isMe: false,
+  sharedGroupNames: [],
+};
+
 const getUnknownContact = (): ConversationType => ({
-  ...getPlaceholderContact(),
+  ...placeHolderContact,
   serviceId: generateAci(),
 });
 
 const getUnknownParticipant = (): GroupCallRemoteParticipantType => ({
-  ...getPlaceholderContact(),
+  ...placeHolderContact,
   serviceId: generateAci(),
   aci: generateAci(),
   demuxId: Math.round(10000 * Math.random()),
@@ -105,6 +114,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   hangUpActiveCall: action('hang-up-active-call'),
   hasInitialLoadCompleted: true,
   i18n,
+  isOnline: true,
   ringingCall: null,
   callLink: storyProps.callLink ?? undefined,
   me: {
@@ -324,7 +334,7 @@ export function CallLinkLobbyParticipants1Unknown(): JSX.Element {
     <CallManager
       {...createProps({
         activeCall: getActiveCallForCallLink({
-          peekedParticipants: [getPlaceholderContact()],
+          peekedParticipants: [placeHolderContact],
         }),
         callLink: FAKE_CALL_LINK,
       })}

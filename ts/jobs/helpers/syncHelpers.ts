@@ -15,7 +15,10 @@ import { isRecord } from '../../util/isRecord.js';
 import { commonShouldJobContinue } from './commonShouldJobContinue.js';
 import { handleCommonJobRequestError } from './handleCommonJobRequestError.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
-import type SendMessage from '../../textsecure/SendMessage.js';
+import {
+  type MessageSender,
+  messageSender,
+} from '../../textsecure/SendMessage.js';
 
 const { chunk } = lodash;
 
@@ -132,24 +135,19 @@ export async function runSyncJob({
     syncMessage: true,
   });
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
-  }
-
   let doSync:
-    | SendMessage['syncReadMessages']
-    | SendMessage['syncView']
-    | SendMessage['syncViewOnceOpen'];
+    | MessageSender['syncReadMessages']
+    | MessageSender['syncView']
+    | MessageSender['syncViewOnceOpen'];
   switch (type) {
     case SyncTypeList.View:
-      doSync = messaging.syncView.bind(messaging);
+      doSync = messageSender.syncView.bind(messageSender);
       break;
     case SyncTypeList.Read:
-      doSync = messaging.syncReadMessages.bind(messaging);
+      doSync = messageSender.syncReadMessages.bind(messageSender);
       break;
     case SyncTypeList.ViewOnceOpen:
-      doSync = messaging.syncViewOnceOpen.bind(messaging);
+      doSync = messageSender.syncViewOnceOpen.bind(messageSender);
       break;
     default: {
       throw missingCaseError(type);

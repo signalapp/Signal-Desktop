@@ -6,7 +6,7 @@ import * as Errors from '../types/errors.js';
 import { createLogger } from '../logging/log.js';
 import { DataReader } from '../sql/Client.js';
 import { drop } from '../util/drop.js';
-import { getAuthorId } from '../messages/helpers.js';
+import { getAuthorId } from '../messages/sources.js';
 import { handleEditMessage } from '../util/handleEditMessage.js';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
 import {

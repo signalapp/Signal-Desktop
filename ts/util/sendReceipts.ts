@@ -13,6 +13,8 @@ import { missingCaseError } from './missingCaseError.js';
 import type { ConversationModel } from '../models/conversations.js';
 import { mapEmplace } from './mapEmplace.js';
 import { isSignalConversation } from './isSignalConversation.js';
+import { messageSender } from '../textsecure/SendMessage.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { chunk, map } = lodash;
 
@@ -49,12 +51,7 @@ export async function sendReceipts({
       throw missingCaseError(type);
   }
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
-  }
-
-  if (requiresUserSetting && !window.storage.get('read-receipt-setting')) {
+  if (requiresUserSetting && !itemStorage.get('read-receipt-setting')) {
     log.info('requires user setting. Not sending these receipts');
     return;
   }
@@ -154,7 +151,7 @@ export async function sendReceipts({
           const senderAci = sender.getCheckedAci('sendReceipts');
 
           await handleMessageSend(
-            messaging[methodName]({
+            messageSender[methodName]({
               senderAci,
               isDirectConversation,
               timestamps,

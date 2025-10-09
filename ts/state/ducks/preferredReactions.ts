@@ -17,6 +17,7 @@ import {
   EmojiSkinTone,
   getEmojiVariantByParentKeyAndSkinTone,
 } from '../../components/fun/data/emojis.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -183,10 +184,7 @@ function savePreferredReactions(): ThunkAction<
 
     dispatch({ type: SAVE_PREFERRED_REACTIONS_PENDING });
     try {
-      await window.storage.put(
-        'preferredReactionEmoji',
-        draftPreferredReactions
-      );
+      await itemStorage.put('preferredReactionEmoji', draftPreferredReactions);
       succeeded = true;
     } catch (err: unknown) {
       log.warn(Errors.toLogFormat(err));

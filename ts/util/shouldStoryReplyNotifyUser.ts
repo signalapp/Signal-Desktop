@@ -7,6 +7,7 @@ import { createLogger } from '../logging/log.js';
 import { DataReader } from '../sql/Client.js';
 import { isGroup } from './whatTypeOfConversation.js';
 import { isMessageUnread } from './isMessageUnread.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('shouldStoryReplyNotifyUser');
 
@@ -47,7 +48,7 @@ export async function shouldStoryReplyNotifyUser(
     return false;
   }
 
-  const ourAci = window.textsecure.storage.user.getAci();
+  const ourAci = itemStorage.user.getAci();
   const storySourceAci = matchedStory.sourceServiceId;
 
   const currentUserIdSource = storySourceAci === ourAci;

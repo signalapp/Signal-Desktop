@@ -25,6 +25,7 @@ import {
   OUR_ACI,
 } from './helpers.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
@@ -36,7 +37,7 @@ describe('backup/non-bubble messages', () => {
   beforeEach(async () => {
     await DataWriter._removeAllMessages();
     await DataWriter._removeAllConversations();
-    window.storage.reset();
+    itemStorage.reset();
 
     await setupBasics();
 

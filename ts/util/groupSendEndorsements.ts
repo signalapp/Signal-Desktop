@@ -33,6 +33,7 @@ import { DataReader } from '../sql/Client.js';
 import { maybeUpdateGroup } from '../groups.js';
 import * as Bytes from '../Bytes.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const { throttle } = lodash;
 
@@ -68,7 +69,7 @@ export function decodeGroupSendEndorsementResponse({
   const expiration = response.getExpiration().getTime() / 1000;
 
   const localUser = Aci.parseFromServiceIdString(
-    window.textsecure.storage.user.getCheckedAci()
+    itemStorage.user.getCheckedAci()
   );
 
   const groupSecretParams = new GroupSecretParams(
@@ -178,7 +179,7 @@ export class GroupSendEndorsementState {
     this.#logId = `GroupSendEndorsementState/groupv2(${data.combinedEndorsement.groupId})`;
     this.#combinedEndorsement = data.combinedEndorsement;
     this.#groupSecretParamsBase64 = groupSecretParamsBase64;
-    this.#ourAci = window.textsecure.storage.user.getCheckedAci();
+    this.#ourAci = itemStorage.user.getCheckedAci();
     for (const endorsement of data.memberEndorsements) {
       this.#memberEndorsements.set(endorsement.memberAci, endorsement);
       this.#memberEndorsementsAcis.add(endorsement.memberAci);
@@ -356,7 +357,7 @@ function validateGroupSendEndorsements(
 ): ValidationResult {
   // Check if we should have endorsements (pending members should not)
   if (state == null) {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     if (members.has(ourAci)) {
       return { valid: false, reason: 'missing all endorsements' };
     }

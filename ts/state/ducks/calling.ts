@@ -112,6 +112,8 @@ import {
 import { storageServiceUploadJob } from '../../services/storage.js';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.js';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.js';
+import { isOnline } from '../../textsecure/WebAPI.js';
+import { itemStorage } from '../../textsecure/Storage.js';
 
 const { omit } = lodash;
 
@@ -569,12 +571,7 @@ const doGroupCallPeek = ({
     // If we peek right after receiving the message, we may get outdated information.
     //   This is most noticeable when someone leaves. We add a delay and then make sure
     //   to only be peeking once.
-    const { server } = window.textsecure;
-    if (!server) {
-      log.error('doGroupCallPeek: no textsecure server');
-      return;
-    }
-    await Promise.all([sleep(1000), waitForOnline()]);
+    await Promise.all([sleep(1000), waitForOnline({ server: { isOnline } })]);
 
     let peekInfo = null;
     try {
@@ -2164,7 +2161,7 @@ function onOutgoingVideoCallInConversation(
     const call = getOwn(getState().calling.callsByConversation, conversationId);
 
     // Technically not necessary, but isAnybodyElseInGroupCall requires it
-    const ourAci = window.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     const isOngoingGroupCall =
       call &&
       ourAci &&

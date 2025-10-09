@@ -36,7 +36,6 @@ import type { AvatarDataType } from '../../types/Avatar.js';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
 import { normalizeServiceId } from '../../types/ServiceId.js';
 import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { isSignalConnection } from '../../util/getSignalConnections.js';
 import { sortByTitle } from '../../util/sortByTitle.js';
 import { DurationInSeconds } from '../../util/durations/index.js';
 import {
@@ -162,12 +161,6 @@ export const getConversationsByUsername = createSelector(
 export const getAllConversations = createSelector(
   getConversationLookup,
   (lookup): Array<ConversationType> => Object.values(lookup)
-);
-
-export const getAllSignalConnections = createSelector(
-  getAllConversations,
-  (conversations): Array<ConversationType> =>
-    conversations.filter(isSignalConnection)
 );
 
 export const getSafeConversationWithSameTitle = createSelector(

@@ -12,7 +12,8 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ConversationModel } from '../models/conversations.js';
 import type { CapabilitiesType } from '../types/Capabilities.d.ts';
 import type { ProfileType } from '../textsecure/WebAPI.js';
-import MessageSender from '../textsecure/SendMessage.js';
+import { getProfile, getProfileUnauth } from '../textsecure/WebAPI.js';
+import { MessageSender } from '../textsecure/SendMessage.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { DataWriter } from '../sql/Client.js';
 import { createLogger } from '../logging/log.js';
@@ -46,6 +47,7 @@ import {
 } from '../util/groupSendEndorsements.js';
 import { ProfileDecryptError } from '../types/errors.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
+import { itemStorage } from '../textsecure/Storage.js';
 
 const log = createLogger('profiles');
 
@@ -485,11 +487,6 @@ async function doGetProfile(
   const logId = groupId
     ? `getProfile(${c.idForLogging()} in groupv2(${groupId}))`
     : `getProfile(${c.idForLogging()})`;
-  const { messaging } = window.textsecure;
-  strictAssert(
-    messaging,
-    `${logId}: window.textsecure.messaging not available`
-  );
 
   const { updatesUrl } = window.SignalContext.config;
   strictAssert(
@@ -530,9 +527,9 @@ async function doGetProfile(
   let profile: ProfileType;
   try {
     if (request.accessKey != null || request.groupSendToken != null) {
-      profile = await messaging.server.getProfileUnauth(serviceId, request);
+      profile = await getProfileUnauth(serviceId, request);
     } else {
-      profile = await messaging.server.getProfile(serviceId, request);
+      profile = await getProfile(serviceId, request);
     }
   } catch (error) {
     if (error instanceof HTTPError) {
@@ -691,7 +688,7 @@ async function doGetProfile(
 
   // Step #: Save our own `paymentAddress` to Storage
   if (isFieldDefined(profile.paymentAddress) && isMe(c.attributes)) {
-    await window.storage.put('paymentAddress', profile.paymentAddress);
+    await itemStorage.put('paymentAddress', profile.paymentAddress);
   }
 
   // Step #: Save profile `capabilities` to conversation
@@ -708,7 +705,7 @@ async function doGetProfile(
 
     let hasChanged = false;
     const observedCapabilities = {
-      ...window.storage.get('observedCapabilities'),
+      ...itemStorage.get('observedCapabilities'),
     };
     const newKeys = new Array<string>();
     for (const key of OBSERVED_CAPABILITY_KEYS) {
@@ -726,7 +723,7 @@ async function doGetProfile(
       }
     }
 
-    await window.storage.put('observedCapabilities', observedCapabilities);
+    await itemStorage.put('observedCapabilities', observedCapabilities);
     if (hasChanged) {
       log.info(
         'getProfile: detected a capability flip, sending fetch profile',
@@ -865,7 +862,7 @@ export async function updateIdentityKey(
     log.info(`updateIdentityKey(${serviceId}): changed`);
     // save identity will close all sessions except for .1, so we
     // must close that one manually.
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = itemStorage.user.getCheckedAci();
     await signalProtocolStore.archiveSession(
       new QualifiedAddress(ourAci, new Address(serviceId, 1))
     );
