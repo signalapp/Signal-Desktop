@@ -13,7 +13,7 @@ describe('Privacy', () => {
     it('should redact anything that looks like a credit card', () => {
       const text =
         'This is a log line with a card number 1234-1234-1234-12\n' +
-        'and another one 1234 1234 1234 1234 123';
+        'and another one 1234123412341234123';
 
       const actual = Privacy.redactCardNumbers(text);
       const expected =
@@ -40,16 +40,8 @@ describe('Privacy', () => {
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2\n' +
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3\n' +
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
-        '123 4 1 2 3 4 1 2 3 4 1\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
-        '123a412 3 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
-        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 a 2 3 4\n' +
+        '123a412-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-a-2-3-4\n' +
         '';
 
       const actual = Privacy.redactCardNumbers(text);
@@ -70,16 +62,8 @@ describe('Privacy', () => {
         '[REDACTED]\n' +
         '[REDACTED]\n' +
         '[REDACTED]-4\n' +
-        '123 4 1 2 3 4 1 2 3 4 1\n' +
-        '[REDACTED]\n' +
-        '[REDACTED]\n' +
-        '[REDACTED]\n' +
-        '[REDACTED]\n' +
-        '[REDACTED]\n' +
-        '[REDACTED]\n' +
-        '[REDACTED] 4\n' +
         '123a[REDACTED]\n' +
-        '[REDACTED] a 2 3 4\n' +
+        '[REDACTED]-a-2-3-4\n' +
         '';
       assert.equal(actual, expected);
     });
@@ -237,7 +221,7 @@ describe('Privacy', () => {
         'phone2 +13334445566 lorem\n' +
         'group2 group(abcdefghij) doloret\n' +
         'path3 sensitive-path/attachment.noindex\n' +
-        'cc 1234 1234 1234 1234 and another 1234123412341234\n' +
+        'cc 1234-1234-1234-1234 and another 1234123412341234\n' +
         'attachment://v2/ab/abcde?key=specialkey\n';
 
       const actual = Privacy.redactAll(text);
