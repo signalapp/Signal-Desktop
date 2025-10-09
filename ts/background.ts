@@ -121,7 +121,7 @@ import type {
 import type { WebAPIType } from './textsecure/WebAPI.js';
 import * as KeyChangeListener from './textsecure/KeyChangeListener.js';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener.js';
-import { isDirectConversation } from './util/whatTypeOfConversation.js';
+import { isGroup } from './util/whatTypeOfConversation.js';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.js';
 import { createApp as createAppRoot } from './state/roots/createApp.js';
 import { AppViewType } from './state/ducks/app.js';
@@ -2248,20 +2248,25 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const ourAci = window.textsecure.storage.user.getAci();
-    const ourPni = window.textsecure.storage.user.getPni();
+    if (isGroup(conversation.attributes)) {
+      // We drop typing notifications in groups we're not a part of
+      if (!conversation.areWeAMember()) {
+        log.warn(
+          `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+        );
+        return;
+      }
 
-    // We drop typing notifications in groups we're not a part of
-    if (
-      !isDirectConversation(conversation.attributes) &&
-      !(ourAci && conversation.hasMember(ourAci)) &&
-      !(ourPni && conversation.hasMember(ourPni))
-    ) {
-      log.warn(
-        `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
-      );
-      return;
+      // We also drop typing notifications from users not part of the group
+      const serviceId = senderConversation.getServiceId();
+      if (!serviceId || !conversation.hasMember(serviceId)) {
+        log.warn(
+          `Received typing indicator for group ${conversation.idForLogging()} from a non-group member. Dropping.`
+        );
+        return;
+      }
     }
+
     if (conversation?.isBlocked()) {
       log.info(
         `onTyping: conversation ${conversation.idForLogging()} is blocked, dropping typing message`

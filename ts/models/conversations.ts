@@ -1388,6 +1388,13 @@ export class ConversationModel {
         return;
       }
 
+      if (!this.areWeAMember()) {
+        log.warn(
+          `sendTypingMessage(${this.idForLogging()}): not sending, we are not a member`
+        );
+        return;
+      }
+
       if (this.#lastIsTyping === undefined) {
         log.info(`sendTypingMessage(${this.idForLogging()}): ignoring`);
         return;
@@ -5354,6 +5361,12 @@ export class ConversationModel {
 
   areWeAdmin(): boolean {
     return areWeAdmin(this.attributes);
+  }
+
+  areWeAMember(): boolean {
+    return (
+      !this.get('left') && this.hasMember(window.storage.user.getCheckedAci())
+    );
   }
 
   getExpireTimerVersion(): number | undefined {

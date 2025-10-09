@@ -1986,9 +1986,7 @@ export async function isGroupEligibleToMigrate(
     return false;
   }
 
-  const ourAci = window.storage.user.getCheckedAci();
-  const areWeMember =
-    !conversation.get('left') && conversation.hasMember(ourAci);
+  const areWeMember = conversation.areWeAMember();
   if (!areWeMember) {
     return false;
   }
