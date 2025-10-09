@@ -710,12 +710,13 @@ describe('SignalProtocolStore', () => {
     it('should create an identity and set verified to DEFAULT', async () => {
       const newAci = generateAci();
 
-      const needsNotification = await store.updateIdentityAfterSync(
-        newAci,
-        store.VerifiedStatus.DEFAULT,
-        newIdentity
-      );
-      assert.isFalse(needsNotification);
+      const { shouldAddVerifiedChangedMessage } =
+        await store.updateIdentityAfterSync(
+          newAci,
+          store.VerifiedStatus.DEFAULT,
+          newIdentity
+        );
+      assert.isFalse(shouldAddVerifiedChangedMessage);
       assert.strictEqual(keychangeTriggered, 0);
 
       const identity = await DataReader.getIdentityKeyById(newAci);
@@ -729,12 +730,13 @@ describe('SignalProtocolStore', () => {
     it('should create an identity and set verified to VERIFIED', async () => {
       const newAci = generateAci();
 
-      const needsNotification = await store.updateIdentityAfterSync(
-        newAci,
-        store.VerifiedStatus.VERIFIED,
-        newIdentity
-      );
-      assert.isTrue(needsNotification);
+      const { shouldAddVerifiedChangedMessage } =
+        await store.updateIdentityAfterSync(
+          newAci,
+          store.VerifiedStatus.VERIFIED,
+          newIdentity
+        );
+      assert.isTrue(shouldAddVerifiedChangedMessage);
       assert.strictEqual(keychangeTriggered, 0);
 
       const identity = await DataReader.getIdentityKeyById(newAci);
@@ -746,12 +748,13 @@ describe('SignalProtocolStore', () => {
     });
 
     it('should update public key without verified change', async () => {
-      const needsNotification = await store.updateIdentityAfterSync(
-        theirAci,
-        store.VerifiedStatus.DEFAULT,
-        newIdentity
-      );
-      assert.isFalse(needsNotification);
+      const { shouldAddVerifiedChangedMessage } =
+        await store.updateIdentityAfterSync(
+          theirAci,
+          store.VerifiedStatus.DEFAULT,
+          newIdentity
+        );
+      assert.isFalse(shouldAddVerifiedChangedMessage);
       assert.strictEqual(keychangeTriggered, 1);
 
       const identity = await DataReader.getIdentityKeyById(theirAci);
@@ -763,12 +766,13 @@ describe('SignalProtocolStore', () => {
     });
 
     it('should update verified without public key change', async () => {
-      const needsNotification = await store.updateIdentityAfterSync(
-        theirAci,
-        store.VerifiedStatus.VERIFIED,
-        testKey.publicKey.serialize()
-      );
-      assert.isTrue(needsNotification);
+      const { shouldAddVerifiedChangedMessage } =
+        await store.updateIdentityAfterSync(
+          theirAci,
+          store.VerifiedStatus.VERIFIED,
+          testKey.publicKey.serialize()
+        );
+      assert.isTrue(shouldAddVerifiedChangedMessage);
       assert.strictEqual(keychangeTriggered, 0);
 
       const identity = await DataReader.getIdentityKeyById(theirAci);
