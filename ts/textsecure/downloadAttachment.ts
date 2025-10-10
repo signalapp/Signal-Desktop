@@ -12,6 +12,10 @@ import fsExtra from 'fs-extra';
 import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { strictAssert } from '../util/assert.js';
+import {
+  getAbsoluteDownloadsPath,
+  getAbsoluteAttachmentPath,
+} from '../util/migrations.js';
 import { hasRequiredInformationForBackup } from '../util/Attachment.js';
 import {
   AttachmentSizeError,
@@ -153,7 +157,7 @@ export async function downloadAttachment(
       : undefined;
 
   const absoluteDownloadPath = downloadPath
-    ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
+    ? getAbsoluteDownloadsPath(downloadPath)
     : undefined;
 
   let downloadOffset = 0;
@@ -313,8 +317,7 @@ export async function downloadAttachment(
             mediaTier === 'backup'
               ? getBackupMediaOuterEncryptionKeyMaterial(attachment)
               : undefined,
-          getAbsoluteAttachmentPath:
-            window.Signal.Migrations.getAbsoluteAttachmentPath,
+          getAbsoluteAttachmentPath,
         });
       }
       case AttachmentVariant.ThumbnailFromBackup: {
@@ -335,8 +338,7 @@ export async function downloadAttachment(
           ...thumbnailEncryptionKeys,
           outerEncryption:
             getBackupThumbnailOuterEncryptionKeyMaterial(attachment),
-          getAbsoluteAttachmentPath:
-            window.Signal.Migrations.getAbsoluteAttachmentPath,
+          getAbsoluteAttachmentPath,
         });
       }
       default: {
@@ -364,10 +366,8 @@ async function downloadToDisk({
   expectedCiphertextSize: number;
 }): Promise<{ absolutePath: string; downloadSize: number }> {
   const absoluteTargetPath = downloadPath
-    ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
-    : window.Signal.Migrations.getAbsoluteAttachmentPath(
-        getRelativePath(createName())
-      );
+    ? getAbsoluteDownloadsPath(downloadPath)
+    : getAbsoluteAttachmentPath(getRelativePath(createName()));
   await ensureFile(absoluteTargetPath);
   let writeStream: Writable;
   if (downloadPath) {

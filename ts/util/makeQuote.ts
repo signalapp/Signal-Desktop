@@ -16,6 +16,7 @@ import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
 import { createLogger } from '../logging/log.js';
 import { map, take, collect } from './iterables.js';
 import { strictAssert } from './assert.js';
+import { loadAttachmentData } from './migrations.js';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp.js';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
 import type { QuotedMessageForComposerType } from '../state/ducks/composer.js';
@@ -61,8 +62,6 @@ export async function getQuoteAttachment(
   preview?: ReadonlyArray<LinkPreviewType>,
   sticker?: StickerType
 ): Promise<Array<QuotedAttachmentType>> {
-  const { loadAttachmentData } = window.Signal.Migrations;
-
   if (attachments && attachments.length) {
     const attachmentsToUse = Array.from(take(attachments, 1));
     const isGIFQuote = isGIF(attachmentsToUse);

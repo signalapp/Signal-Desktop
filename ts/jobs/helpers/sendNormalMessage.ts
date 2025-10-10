@@ -15,6 +15,13 @@ import { getSendOptions } from '../../util/getSendOptions.js';
 import { handleMessageSend } from '../../util/handleMessageSend.js';
 import { findAndFormatContact } from '../../util/findAndFormatContact.js';
 import { uploadAttachment } from '../../util/uploadAttachment.js';
+import {
+  loadAttachmentData,
+  loadQuoteData,
+  loadPreviewData,
+  loadStickerData,
+  loadContactData,
+} from '../../util/migrations.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import { isSent } from '../../messages/MessageSendState.js';
 import { isOutgoing, canReact } from '../../state/selectors/message.js';
@@ -744,8 +751,6 @@ async function uploadSingleAttachment({
   message: MessageModel;
   targetTimestamp: number;
 }): Promise<UploadedAttachmentType> {
-  const { loadAttachmentData } = window.Signal.Migrations;
-
   const withData = await loadAttachmentData(attachment);
   const uploaded = await uploadAttachment(withData);
 
@@ -800,8 +805,6 @@ async function uploadLongMessageAttachment({
   message: MessageModel;
   targetTimestamp: number;
 }): Promise<UploadedAttachmentType> {
-  const { loadAttachmentData } = window.Signal.Migrations;
-
   const withData = await loadAttachmentData(attachment);
   const uploaded = await uploadAttachment(withData);
 
@@ -846,8 +849,6 @@ async function uploadMessageQuote({
   targetTimestamp: number;
   uploadQueue: PQueue;
 }): Promise<OutgoingQuoteType | undefined> {
-  const { loadQuoteData } = window.Signal.Migrations;
-
   // We don't update the caches here because (1) we expect the caches to be populated
   //   on initial send, so they should be there in the 99% case (2) if you're retrying
   //   a failed message across restarts, we don't touch the cache for simplicity. If
@@ -990,8 +991,6 @@ async function uploadMessagePreviews({
   targetTimestamp: number;
   uploadQueue: PQueue;
 }): Promise<Array<OutgoingLinkPreviewType> | undefined> {
-  const { loadPreviewData } = window.Signal.Migrations;
-
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
   const startingPreview = getPropForTimestamp({
@@ -1078,8 +1077,6 @@ async function uploadMessageSticker(
   message: MessageModel,
   uploadQueue: PQueue
 ): Promise<OutgoingStickerType | undefined> {
-  const { loadStickerData } = window.Signal.Migrations;
-
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
   const startingSticker = message.get('sticker');
@@ -1125,8 +1122,6 @@ async function uploadMessageContacts(
   message: MessageModel,
   uploadQueue: PQueue
 ): Promise<Array<EmbeddedContactWithUploadedAvatar> | undefined> {
-  const { loadContactData } = window.Signal.Migrations;
-
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
   const contacts = await loadContactData(message.get('contact'));

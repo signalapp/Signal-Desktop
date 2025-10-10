@@ -13,6 +13,7 @@ import { createLogger } from '../logging/log.js';
 import { ReadStatus } from '../messages/MessageReadStatus.js';
 import { DataWriter } from '../sql/Client.js';
 import { drop } from './drop.js';
+import { upgradeMessageSchema } from './migrations.js';
 import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
@@ -129,8 +130,9 @@ export async function handleEditMessage(
     return;
   }
 
-  const upgradedEditedMessageData =
-    await window.Signal.Migrations.upgradeMessageSchema(editAttributes.message);
+  const upgradedEditedMessageData = await upgradeMessageSchema(
+    editAttributes.message
+  );
 
   // Copies over the attachments from the main message if they're the same
   // and they have already been downloaded.

@@ -13,6 +13,7 @@ import type { AciString } from '../types/ServiceId.js';
 import * as Errors from '../types/errors.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { postSaveUpdates } from '../util/cleanup.js';
+import { upgradeMessageSchema as doUpgradeMessageSchema } from '../util/migrations.js';
 import { createLogger } from '../logging/log.js';
 import { itemStorage } from '../textsecure/Storage.js';
 
@@ -166,7 +167,7 @@ export async function migrateBatchOfMessages({
   return migrationQueue.add(() =>
     _migrateMessageData({
       numMessagesPerBatch,
-      upgradeMessageSchema: window.Signal.Migrations.upgradeMessageSchema,
+      upgradeMessageSchema: doUpgradeMessageSchema,
       getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
       saveMessagesIndividually: DataWriter.saveMessagesIndividually,
       incrementMessagesMigrationAttempts:

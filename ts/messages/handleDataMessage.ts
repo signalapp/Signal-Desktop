@@ -14,6 +14,7 @@ import { messageHasPaymentEvent } from './payments.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
 import { isNormalNumber } from '../util/isNormalNumber.js';
+import { upgradeMessageSchema } from '../util/migrations.js';
 import { getOwn } from '../util/getOwn.js';
 import {
   SendActionType,
@@ -87,7 +88,6 @@ export async function handleDataMessage(
   options: { data?: SentEventData } = {}
 ): Promise<void> {
   const { data } = options;
-  const { upgradeMessageSchema } = window.Signal.Migrations;
 
   // This function is called from the background script in a few scenarios:
   //   1. on an incoming message

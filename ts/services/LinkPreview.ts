@@ -20,6 +20,7 @@ import * as Bytes from '../Bytes.js';
 import { sha256 } from '../Crypto.js';
 import * as LinkPreview from '../types/LinkPreview.js';
 import { getLinkPreviewSetting } from '../util/Settings.js';
+import { readTempData, readStickerData } from '../util/migrations.js';
 import * as Stickers from '../types/Stickers.js';
 import * as VisualAttachment from '../types/VisualAttachment.js';
 import { createLogger } from '../logging/log.js';
@@ -473,8 +474,8 @@ async function getStickerPackPreview(
     const sticker = pack.stickers[coverStickerId];
     const data =
       pack.status === 'ephemeral'
-        ? await window.Signal.Migrations.readTempData(sticker)
-        : await window.Signal.Migrations.readStickerData(sticker);
+        ? await readTempData(sticker)
+        : await readStickerData(sticker);
 
     if (abortSignal.aborted) {
       return null;

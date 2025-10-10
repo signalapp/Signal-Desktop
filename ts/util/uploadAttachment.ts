@@ -26,6 +26,7 @@ import {
 import { missingCaseError } from './missingCaseError.js';
 import { uuidToBytes } from './uuidToBytes.js';
 import { isVisualMedia } from './Attachment.js';
+import { getAbsoluteAttachmentPath } from './migrations.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 
@@ -103,16 +104,13 @@ export async function encryptAndUploadAttachment({
     }
 
     const encrypted = await encryptAttachmentV2ToDisk({
-      getAbsoluteAttachmentPath:
-        window.Signal.Migrations.getAbsoluteAttachmentPath,
+      getAbsoluteAttachmentPath,
       keys,
       needIncrementalMac,
       plaintext,
     });
 
-    absoluteCiphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-      encrypted.path
-    );
+    absoluteCiphertextPath = getAbsoluteAttachmentPath(encrypted.path);
 
     await uploadFile({
       absoluteCiphertextPath,

@@ -17,6 +17,7 @@ import { deleteExternalFiles } from '../types/Conversation.js';
 import { createBatcher } from '../util/batcher.js';
 import { assertDev, softAssert } from '../util/assert.js';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec.js';
+import { deleteAttachmentData } from '../util/migrations.js';
 import { cleanDataForIpc } from './cleanDataForIpc.js';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
 import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.js';
@@ -553,7 +554,7 @@ async function removeConversation(id: string): Promise<void> {
   if (existing) {
     await writableChannel.removeConversation(id);
     await deleteExternalFiles(existing, {
-      deleteAttachmentData: window.Signal.Migrations.deleteAttachmentData,
+      deleteAttachmentData,
     });
   }
 }

@@ -29,6 +29,7 @@ import {
 } from '../../textsecure/WebAPI.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.js';
 import { isBackupFeatureEnabled } from '../../util/isBackupEnabled.js';
+import { saveAttachmentToDisk } from '../../util/migrations.js';
 import { format } from '../../types/PhoneNumber.js';
 import {
   getIntl,
@@ -924,7 +925,7 @@ export function SmartPreferences(): JSX.Element | null {
           zoomFactor={zoomFactor}
           donationReceipts={donationReceipts}
           internalAddDonationReceipt={internalAddDonationReceipt}
-          saveAttachmentToDisk={window.Signal.Migrations.saveAttachmentToDisk}
+          saveAttachmentToDisk={saveAttachmentToDisk}
           generateDonationReceiptBlob={generateDonationReceiptBlob}
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery

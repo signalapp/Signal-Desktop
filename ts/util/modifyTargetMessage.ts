@@ -33,6 +33,7 @@ import { getSourceServiceId } from '../messages/sources.js';
 import { missingCaseError } from './missingCaseError.js';
 import { reduce } from './iterables.js';
 import { strictAssert } from './assert.js';
+import { deleteAttachmentData, deleteDownloadData } from './migrations.js';
 import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
@@ -107,9 +108,8 @@ export async function modifyTargetMessage(
           {
             logId,
             shouldSave: false,
-            deleteAttachmentOnDisk:
-              window.Signal.Migrations.deleteAttachmentData,
-            deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
+            deleteAttachmentOnDisk: deleteAttachmentData,
+            deleteDownloadOnDisk: deleteDownloadData,
           }
         );
         if (result) {

@@ -18,6 +18,10 @@ import {
   downloadAttachment as downloadAttachmentUtil,
   isIncrementalMacVerificationError,
 } from '../util/downloadAttachment.js';
+import {
+  deleteDownloadData as doDeleteDownloadData,
+  processNewAttachment as doProcessNewAttachment,
+} from '../util/migrations.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { getValue } from '../RemoteConfig.js';
 
@@ -487,9 +491,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 }
 
 type DependenciesType = {
-  deleteDownloadData: typeof window.Signal.Migrations.deleteDownloadData;
+  deleteDownloadData: typeof doDeleteDownloadData;
   downloadAttachment: typeof downloadAttachmentUtil;
-  processNewAttachment: typeof window.Signal.Migrations.processNewAttachment;
+  processNewAttachment: typeof doProcessNewAttachment;
   runDownloadAttachmentJobInner: typeof runDownloadAttachmentJobInner;
 };
 
@@ -499,9 +503,9 @@ export async function runDownloadAttachmentJob({
   isLastAttempt,
   options,
   dependencies = {
-    deleteDownloadData: window.Signal.Migrations.deleteDownloadData,
+    deleteDownloadData: doDeleteDownloadData,
     downloadAttachment: downloadAttachmentUtil,
-    processNewAttachment: window.Signal.Migrations.processNewAttachment,
+    processNewAttachment: doProcessNewAttachment,
     runDownloadAttachmentJobInner,
   },
 }: {

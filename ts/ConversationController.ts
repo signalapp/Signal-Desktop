@@ -19,6 +19,10 @@ import {
   isGroupV2,
 } from './util/whatTypeOfConversation.js';
 import {
+  doesAttachmentExist,
+  deleteAttachmentData,
+} from './util/migrations.js';
+import {
   isServiceIdString,
   normalizePni,
   normalizeServiceId,
@@ -1610,8 +1614,6 @@ export class ConversationController {
         if (avatarPath || profileAvatarPath) {
           drop(
             (async () => {
-              const { doesAttachmentExist, deleteAttachmentData } =
-                window.Signal.Migrations;
               if (avatarPath && (await doesAttachmentExist(avatarPath))) {
                 await deleteAttachmentData(avatarPath);
               }

@@ -63,6 +63,7 @@ import type {
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { getConversationCallMode } from '../state/ducks/conversations.js';
 import { isMe } from '../util/whatTypeOfConversation.js';
+import { getAbsoluteTempPath } from '../util/migrations.js';
 import type {
   AvailableIODevicesType,
   CallEndedReason,
@@ -2507,7 +2508,7 @@ export class CallingClass {
         );
         url = result.url;
         absolutePath = result.path
-          ? window.Signal.Migrations.getAbsoluteTempPath(result.path)
+          ? getAbsoluteTempPath(result.path)
           : undefined;
       } else {
         const conversation = window.ConversationController.get(conversationId);

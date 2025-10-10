@@ -14,6 +14,14 @@ import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
 import type { MessageAttributesType } from '../model-types.js';
 import type { AttachmentType } from '../types/Attachment.js';
 import { deleteAllAttachmentFilesOnDisk } from '../util/Attachment.js';
+import {
+  getAbsoluteAttachmentPath,
+  getAbsoluteDownloadsPath,
+  getAbsoluteDraftPath,
+  deleteAttachmentData,
+  deleteDownloadData,
+  deleteExternalMessageFiles,
+} from '../util/migrations.js';
 import { strictAssert } from '../util/assert.js';
 
 const { emptyDir, ensureFile } = fsExtra;
@@ -24,11 +32,11 @@ function getAbsolutePath(
 ) {
   switch (type) {
     case 'attachment':
-      return window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+      return getAbsoluteAttachmentPath(path);
     case 'download':
-      return window.Signal.Migrations.getAbsoluteDownloadsPath(path);
+      return getAbsoluteDownloadsPath(path);
     case 'draft':
-      return window.Signal.Migrations.getAbsoluteDraftPath(path);
+      return getAbsoluteDraftPath(path);
     default:
       throw missingCaseError(type);
   }
@@ -118,8 +126,8 @@ describe('Attachment deletion', () => {
     await writeFiles(3, 'download');
 
     await deleteAllAttachmentFilesOnDisk({
-      deleteAttachmentOnDisk: window.Signal.Migrations.deleteAttachmentData,
-      deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
+      deleteAttachmentOnDisk: deleteAttachmentData,
+      deleteDownloadOnDisk: deleteDownloadData,
     })(composeAttachment());
 
     assert.strictEqual(attachmentIndex, 4);
@@ -135,8 +143,8 @@ describe('Attachment deletion', () => {
     attachment.copied = true;
 
     await deleteAllAttachmentFilesOnDisk({
-      deleteAttachmentOnDisk: window.Signal.Migrations.deleteAttachmentData,
-      deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
+      deleteAttachmentOnDisk: deleteAttachmentData,
+      deleteDownloadOnDisk: deleteDownloadData,
     })(attachment);
 
     assert.sameDeepMembers(listFiles('attachment'), [
@@ -241,7 +249,7 @@ describe('Attachment deletion', () => {
     await writeFiles(NUM_DOWNLOAD_FILES_IN_MESSAGE + 3, 'download');
     const message = composeMessageWithAllAttachments();
 
-    await window.Signal.Migrations.deleteExternalMessageFiles(message);
+    await deleteExternalMessageFiles(message);
 
     assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);
     assert.strictEqual(downloadIndex, NUM_DOWNLOAD_FILES_IN_MESSAGE);
@@ -268,7 +276,7 @@ describe('Attachment deletion', () => {
     strictAssert(quotedThumbnail, 'thumbnail exists');
     quotedThumbnail.copied = true;
 
-    await window.Signal.Migrations.deleteExternalMessageFiles(message);
+    await deleteExternalMessageFiles(message);
 
     assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);
     assert.strictEqual(downloadIndex, NUM_DOWNLOAD_FILES_IN_MESSAGE);

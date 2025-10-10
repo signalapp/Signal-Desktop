@@ -14,12 +14,7 @@ import {
   STICKERS_PATH,
   DRAFT_PATH,
 } from '../../util/basePaths.js';
-import { createLogger } from '../../logging/log.js';
 import { SignalContext } from '../context.js';
-import * as Attachments from './attachments.js';
-import { itemStorage } from '../../textsecure/Storage.js';
-
-const log = createLogger('phase2-dependencies');
 
 initializeLogging();
 
@@ -53,9 +48,4 @@ if (SignalContext.config.disableIPv6) {
 }
 dns.setFallback(SignalContext.config.dnsFallback);
 
-window.Signal = setup({
-  Attachments,
-  getRegionCode: () => itemStorage.get('regionCode'),
-  logger: log,
-  userDataPath: window.SignalContext.getPath('userData'),
-});
+window.Signal = setup();

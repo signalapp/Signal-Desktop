@@ -6,6 +6,7 @@ import type { ContactAvatarType } from '../types/Avatar.js';
 import { isMe } from './whatTypeOfConversation.js';
 import { isSignalConversation } from './isSignalConversation.js';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
+import { getAbsoluteAttachmentPath } from './migrations.js';
 import { itemStorage } from '../textsecure/Storage.js';
 
 export function hasAvatar(
@@ -64,7 +65,6 @@ export function getRawAvatarPath(
     return avatar.path;
   }
 
-  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
   return getAbsoluteAttachmentPath(avatar.path);
 }
 

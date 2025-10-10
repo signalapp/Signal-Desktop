@@ -8,6 +8,7 @@ import type { StateType } from '../reducer.js';
 import type { BadgesStateType } from '../ducks/badges.js';
 import type { BadgeType } from '../../badges/types.js';
 import { getOwn } from '../../util/getOwn.js';
+import { getAbsoluteBadgeImageFilePath } from '../../util/migrations.js';
 import type { ConversationType } from '../ducks/conversations.js';
 
 const { mapValues } = lodash;
@@ -25,9 +26,7 @@ export const getBadgesById = createSelector(getBadgeState, state =>
         imageFile.localPath
           ? {
               ...imageFile,
-              localPath: window.Signal.Migrations.getAbsoluteBadgeImageFilePath(
-                imageFile.localPath
-              ),
+              localPath: getAbsoluteBadgeImageFilePath(imageFile.localPath),
             }
           : imageFile
       )

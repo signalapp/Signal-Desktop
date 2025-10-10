@@ -17,6 +17,11 @@ import { isMoreRecentThan } from './util/timestamp.js';
 import { MINUTE, DurationInSeconds, SECOND } from './util/durations/index.js';
 import { drop } from './util/drop.js';
 import { dropNull } from './util/dropNull.js';
+import {
+  writeNewAttachmentData,
+  readAttachmentData,
+  deleteAttachmentData,
+} from './util/migrations.js';
 import type {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -1822,9 +1827,7 @@ export async function createGroupV2(
     try {
       avatarAttribute = {
         url: uploadedAvatar.key,
-        ...(await window.Signal.Migrations.writeNewAttachmentData(
-          uploadedAvatar.data
-        )),
+        ...(await writeNewAttachmentData(uploadedAvatar.data)),
         hash: uploadedAvatar.hash,
       };
     } catch (err) {
@@ -2232,8 +2235,7 @@ export async function initiateMigrationToGroupV2(
 
       const { avatar: currentAvatar } = conversation.attributes;
       if (currentAvatar?.path) {
-        const avatarData =
-          await window.Signal.Migrations.readAttachmentData(currentAvatar);
+        const avatarData = await readAttachmentData(currentAvatar);
         const { hash, key } = await uploadAvatar({
           logId,
           publicParams,
@@ -5597,9 +5599,7 @@ export async function applyNewAvatar(
     // Avatar has been dropped
     if (!newAvatarUrl && attributes.avatar) {
       if (attributes.avatar.path) {
-        await window.Signal.Migrations.deleteAttachmentData(
-          attributes.avatar.path
-        );
+        await deleteAttachmentData(attributes.avatar.path);
       }
       result.avatar = undefined;
     }
@@ -5646,11 +5646,9 @@ export async function applyNewAvatar(
       }
 
       if (attributes.avatar?.path) {
-        await window.Signal.Migrations.deleteAttachmentData(
-          attributes.avatar.path
-        );
+        await deleteAttachmentData(attributes.avatar.path);
       }
-      const local = await window.Signal.Migrations.writeNewAttachmentData(data);
+      const local = await writeNewAttachmentData(data);
       result.avatar = {
         url: avatarUrlToUse,
         ...local,
@@ -5663,7 +5661,7 @@ export async function applyNewAvatar(
       Errors.toLogFormat(error)
     );
     if (result.avatar && result.avatar.path) {
-      await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);
+      await deleteAttachmentData(result.avatar.path);
     }
     result.avatar = undefined;
   }

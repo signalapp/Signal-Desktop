@@ -10,6 +10,10 @@ import {
   doAttachmentsOnSameMessageMatch,
   isDownloaded,
 } from '../util/Attachment.js';
+import {
+  loadAttachmentData,
+  deleteAttachmentData,
+} from '../util/migrations.js';
 import { getMessageById } from '../messages/getMessageById.js';
 import { trimMessageWhitespace } from '../types/BodyRange.js';
 
@@ -84,8 +88,7 @@ export async function addAttachmentToMessage(
 
     try {
       if (attachment.path) {
-        const loaded =
-          await window.Signal.Migrations.loadAttachmentData(attachment);
+        const loaded = await loadAttachmentData(attachment);
         attachmentData = loaded.data;
       }
 
@@ -161,7 +164,7 @@ export async function addAttachmentToMessage(
       });
     } finally {
       if (attachment.path) {
-        await window.Signal.Migrations.deleteAttachmentData(attachment.path);
+        await deleteAttachmentData(attachment.path);
       }
       if (!handledAnywhere) {
         log.warn(

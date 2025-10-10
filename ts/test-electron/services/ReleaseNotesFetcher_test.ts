@@ -156,17 +156,6 @@ describe('ReleaseNotesFetcher', () => {
     sandbox.stub(window.SignalContext, 'getI18nLocale').returns('en-US');
     sandbox.stub(window, 'getVersion').returns(currentVersion);
 
-    sandbox.stub(window.Signal, 'Migrations').value({
-      writeNewAttachmentData: sandbox
-        .stub()
-        .resolves({ path: 'path/to/attachment' }),
-      processNewAttachment: sandbox.stub().resolves({
-        path: 'processed/path',
-        contentType: 'image/png',
-        size: 123,
-      }),
-    });
-
     // Mock Whisper events
     const fakeWhisperEvents = new EventEmitter();
     sandbox.stub(window.Whisper, 'events').value(fakeWhisperEvents);

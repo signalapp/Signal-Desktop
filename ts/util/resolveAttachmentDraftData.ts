@@ -3,6 +3,7 @@
 
 import { createLogger } from '../logging/log.js';
 import type { AttachmentType } from '../types/Attachment.js';
+import { readDraftData } from './migrations.js';
 
 const log = createLogger('resolveAttachmentDraftData');
 
@@ -17,7 +18,7 @@ export async function resolveAttachmentDraftData(
     return;
   }
 
-  const data = await window.Signal.Migrations.readDraftData(attachment);
+  const data = await readDraftData(attachment);
   if (data.byteLength !== attachment.size) {
     log.error(
       `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`

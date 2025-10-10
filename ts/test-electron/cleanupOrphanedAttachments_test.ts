@@ -10,6 +10,11 @@ import { dirname } from 'node:path';
 import { DataWriter } from '../sql/Client.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import {
+  getAbsoluteAttachmentPath,
+  getAbsoluteDownloadsPath,
+  getAbsoluteDraftPath,
+} from '../util/migrations.js';
+import {
   getDownloadsPath,
   getDraftPath,
   getPath,
@@ -27,11 +32,11 @@ function getAbsolutePath(
 ) {
   switch (type) {
     case 'attachment':
-      return window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+      return getAbsoluteAttachmentPath(path);
     case 'download':
-      return window.Signal.Migrations.getAbsoluteDownloadsPath(path);
+      return getAbsoluteDownloadsPath(path);
     case 'draft':
-      return window.Signal.Migrations.getAbsoluteDraftPath(path);
+      return getAbsoluteDraftPath(path);
     default:
       throw missingCaseError(type);
   }

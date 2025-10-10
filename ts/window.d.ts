@@ -24,7 +24,6 @@ import type { StateType } from './state/reducer.js';
 import type { CIType } from './CI.js';
 import type { IPCEventsType } from './util/createIPCEvents.js';
 import type { SignalContextType } from './windows/context.js';
-import type { initializeMigrations } from './signal.js';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.js';
 import type { WindowsNotificationData } from './services/notifications.js';
 import type { QueryStatsOptions } from './sql/main.js';
@@ -123,7 +122,6 @@ export type SignalCoreType = {
   SettingsWindowProps?: SettingsWindowPropsType;
 
   OS: OSType;
-  Migrations: ReturnType<typeof initializeMigrations>;
 
   // Only for debugging in Dev Tools
   Services?: {

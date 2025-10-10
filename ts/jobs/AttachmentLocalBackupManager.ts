@@ -12,6 +12,10 @@ import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { redactGenericText } from '../util/privacy.js';
 import {
+  getAbsoluteAttachmentPath,
+  getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath,
+} from '../util/migrations.js';
+import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
@@ -164,7 +168,7 @@ function getJobIdForLogging(job: CoreAttachmentLocalBackupJobType): string {
 class AttachmentPermanentlyMissingError extends Error {}
 
 type RunAttachmentBackupJobDependenciesType = {
-  getAbsoluteAttachmentPath: typeof window.Signal.Migrations.getAbsoluteAttachmentPath;
+  getAbsoluteAttachmentPath: typeof doGetAbsoluteAttachmentPath;
   backupMediaBatch?: typeof doBackupMediaBatch;
   backupsService: BackupsService;
   encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
@@ -178,8 +182,7 @@ export async function runAttachmentBackupJob(
     abortSignal: AbortSignal;
   },
   dependencies: RunAttachmentBackupJobDependenciesType = {
-    getAbsoluteAttachmentPath:
-      window.Signal.Migrations.getAbsoluteAttachmentPath,
+    getAbsoluteAttachmentPath: doGetAbsoluteAttachmentPath,
     backupsService,
     backupMediaBatch: doBackupMediaBatch,
     encryptAndUploadAttachment,
@@ -245,8 +248,7 @@ async function runAttachmentBackupJobInner(
   // TODO: Add check in local FS to prevent double backup
 
   // File is already encrypted with localKey, so we just have to copy it to the backup dir
-  const attachmentPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+  const attachmentPath = getAbsoluteAttachmentPath(path);
 
   // Set COPYFILE_FICLONE for Copy on Write (OS dependent, gracefully falls back to copy)
   await copyFile(

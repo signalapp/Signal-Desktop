@@ -9,6 +9,17 @@ import type { ConversationAttributesType } from '../model-types.d.ts';
 import { encryptLegacyAttachment } from './encryptLegacyAttachment.js';
 import { AttachmentDisposition } from './getLocalAttachmentUrl.js';
 import { isNotNil } from './isNotNil.js';
+import {
+  deleteAttachmentData,
+  deleteAvatar,
+  deleteDraftFile,
+  readAttachmentData,
+  readAvatarData,
+  readDraftData,
+  writeNewAttachmentData,
+  writeNewAvatarData,
+  writeNewDraftData,
+} from './migrations.js';
 import { isSignalConversation } from './isSignalConversation.js';
 import { getConversationIdForLogging } from './idForLogging.js';
 import { itemStorage } from '../textsecure/Storage.js';
@@ -74,18 +85,6 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
 
   const logId = getConversationIdForLogging(attributes);
   const result = { ...attributes };
-
-  const {
-    deleteAttachmentData,
-    deleteAvatar,
-    deleteDraftFile,
-    readAttachmentData,
-    readAvatarData,
-    readDraftData,
-    writeNewAttachmentData,
-    writeNewAvatarData,
-    writeNewDraftData,
-  } = window.Signal.Migrations;
 
   const cleanup: CleanupType = [];
 

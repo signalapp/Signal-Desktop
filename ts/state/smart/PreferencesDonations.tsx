@@ -20,6 +20,7 @@ import {
   getCachedSubscriptionConfiguration,
 } from '../../util/subscriptionConfiguration.js';
 import { drop } from '../../util/drop.js';
+import { saveAttachmentToDisk } from '../../util/migrations.js';
 import type { OneTimeDonationHumanAmounts } from '../../types/Donations.js';
 import {
   ONE_TIME_DONATION_CONFIG_ID,
@@ -80,7 +81,6 @@ export const SmartPreferencesDonations = memo(
       (state: StateType) => state.donations.receipts
     );
 
-    const { saveAttachmentToDisk } = window.Signal.Migrations;
     const { updateOrCreate } = useBadgesActions();
 
     // Function to fetch donation badge data

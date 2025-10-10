@@ -4,8 +4,6 @@
 import { v4 as generateGuid } from 'uuid';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import lodash from 'lodash';
-import * as sinon from 'sinon';
-import { join } from 'node:path';
 import { assert } from 'chai';
 
 import type { ConversationModel } from '../../models/conversations.js';
@@ -51,7 +49,6 @@ const CONTACT_A = generateAci();
 const NON_ROUNDTRIPPED_FIELDS = ['path', 'thumbnail', 'screenshot', 'localKey'];
 
 describe('backup/attachments', () => {
-  let sandbox: sinon.SinonSandbox;
   let contactA: ConversationModel;
 
   beforeEach(async () => {
@@ -69,27 +66,10 @@ describe('backup/attachments', () => {
     );
 
     await loadAllAndReinitializeRedux();
-
-    sandbox = sinon.createSandbox();
-    const getAbsoluteAttachmentPath = sandbox.stub(
-      window.Signal.Migrations,
-      'getAbsoluteAttachmentPath'
-    );
-    getAbsoluteAttachmentPath.callsFake(path => {
-      if (path === 'path/to/sticker') {
-        return join(__dirname, '../../../fixtures/kitten-3-64-64.jpg');
-      }
-      if (path === 'path/to/thumbnail') {
-        return join(__dirname, '../../../fixtures/kitten-3-64-64.jpg');
-      }
-      return getAbsoluteAttachmentPath.wrappedMethod(path);
-    });
   });
 
   afterEach(async () => {
     await DataWriter.removeAll();
-
-    sandbox.restore();
   });
 
   function composeAttachment(

@@ -32,6 +32,7 @@ import {
   getSendOptions,
   getSendOptionsForRecipients,
 } from '../../util/getSendOptions.js';
+import { loadPreviewData, loadAttachmentData } from '../../util/migrations.js';
 import { handleMessageSend } from '../../util/handleMessageSend.js';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.js';
@@ -164,9 +165,7 @@ export async function sendStory(
         };
       } else {
         const hydratedPreview = (
-          await window.Signal.Migrations.loadPreviewData([
-            localAttachment.preview,
-          ])
+          await loadPreviewData([localAttachment.preview])
         )[0];
 
         textAttachment = {
@@ -180,8 +179,7 @@ export async function sendStory(
         };
       }
     } else {
-      const hydratedAttachment =
-        await window.Signal.Migrations.loadAttachmentData(attachment);
+      const hydratedAttachment = await loadAttachmentData(attachment);
 
       fileAttachment = await uploadAttachment(hydratedAttachment);
     }

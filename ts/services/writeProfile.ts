@@ -11,6 +11,10 @@ import { encryptProfileData } from '../util/encryptProfileData.js';
 import { getProfile } from '../util/getProfile.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
 import { strictAssert } from '../util/assert.js';
+import {
+  writeNewAttachmentData,
+  deleteAttachmentData,
+} from '../util/migrations.js';
 import { isWhitespace } from '../util/whitespaceStringUtil.js';
 import { imagePathToBytes } from '../util/imagePathToBytes.js';
 import { getLocalAvatarUrl } from '../util/avatarUtils.js';
@@ -112,10 +116,8 @@ export async function writeProfile(
     if (hash !== avatarHash) {
       log.info('removing old avatar and saving the new one');
       const [local] = await Promise.all([
-        window.Signal.Migrations.writeNewAttachmentData(newAvatar),
-        rawAvatarPath
-          ? window.Signal.Migrations.deleteAttachmentData(rawAvatarPath)
-          : undefined,
+        writeNewAttachmentData(newAvatar),
+        rawAvatarPath ? deleteAttachmentData(rawAvatarPath) : undefined,
       ]);
       maybeProfileAvatarUpdate = {
         profileAvatar: { hash, ...local },
@@ -126,7 +128,7 @@ export async function writeProfile(
   } else if (rawAvatarPath) {
     log.info('removing avatar');
     await Promise.all([
-      window.Signal.Migrations.deleteAttachmentData(rawAvatarPath),
+      deleteAttachmentData(rawAvatarPath),
       itemStorage.put('avatarUrl', undefined),
     ]);
 

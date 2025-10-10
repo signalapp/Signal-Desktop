@@ -31,6 +31,11 @@ import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
 } from '../../util/getLocalAttachmentUrl.js';
+import {
+  deleteTempFile,
+  copyAttachmentIntoTempDirectory,
+  getAbsoluteAttachmentPath,
+} from '../../util/migrations.js';
 import { isTapToView, getPropsForAttachment } from '../selectors/message.js';
 import { SHOW_TOAST } from './toast.js';
 import { ToastType } from '../../types/Toast.js';
@@ -130,7 +135,7 @@ function closeLightbox(): ThunkAction<
         if (!item.attachment.path) {
           return;
         }
-        void window.Signal.Migrations.deleteTempFile(item.attachment.path);
+        void deleteTempFile(item.attachment.path);
       });
     }
 
@@ -193,9 +198,6 @@ function showLightboxForViewOnceMedia(
         `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} had no first attachment with path`
       );
     }
-
-    const { copyAttachmentIntoTempDirectory, getAbsoluteAttachmentPath } =
-      window.Signal.Migrations;
 
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
     const { path: tempPath } =

@@ -12,6 +12,11 @@ import protobuf from '../protobuf/wrap.js';
 import { createLogger } from '../logging/log.js';
 import * as Bytes from '../Bytes.js';
 import * as Errors from '../types/errors.js';
+import {
+  getAbsoluteAttachmentPath,
+  deleteAttachmentData,
+  readAttachmentData,
+} from '../util/migrations.js';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME.js';
 import { type AciString, generateAci } from '../types/ServiceId.js';
 import { SignalService as Proto } from '../protobuf/index.js';
@@ -54,8 +59,7 @@ describe('ContactsParser', () => {
 
         ({ path } = await encryptAttachmentV2ToDisk({
           keys,
-          getAbsoluteAttachmentPath:
-            window.Signal.Migrations.getAbsoluteAttachmentPath,
+          getAbsoluteAttachmentPath,
           needIncrementalMac: false,
           plaintext: { data },
         }));
@@ -73,7 +77,7 @@ describe('ContactsParser', () => {
         await Promise.all(contacts.map(contact => verifyContact(contact)));
       } finally {
         if (path) {
-          await window.Signal.Migrations.deleteAttachmentData(path);
+          await deleteAttachmentData(path);
         }
       }
     });
@@ -225,10 +229,8 @@ async function verifyContact(
 
   strictAssert(contact.avatar?.path, 'Avatar needs path');
 
-  const avatarBytes = await window.Signal.Migrations.readAttachmentData(
-    contact.avatar
-  );
-  await window.Signal.Migrations.deleteAttachmentData(contact.avatar.path);
+  const avatarBytes = await readAttachmentData(contact.avatar);
+  await deleteAttachmentData(contact.avatar.path);
 
   for (let j = 0; j < 255; j += 1) {
     assert.strictEqual(avatarBytes[j], j);
