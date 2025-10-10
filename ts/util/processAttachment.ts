@@ -28,7 +28,7 @@ const log = createLogger('processAttachment');
 
 export async function processAttachment(
   file: File,
-  options?: { generateScreenshot: boolean; flags: number | null }
+  options: { generateScreenshot: boolean; flags: number | null }
 ): Promise<InMemoryAttachmentDraftType | void> {
   const fileType = stringToMIMEType(file.type);
 

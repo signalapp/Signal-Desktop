@@ -1,17 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type Buffer } from 'node:buffer';
 import { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 
 export class MemoryStream extends InputStream {
   #offset = 0;
 
-  constructor(private readonly buffer: Buffer) {
+  constructor(private readonly buffer: Uint8Array) {
     super();
   }
 
-  public override async read(amount: number): Promise<Buffer> {
+  public override async read(amount: number): Promise<Uint8Array> {
     const result = this.buffer.subarray(this.#offset, this.#offset + amount);
     this.#offset += amount;
     return result;

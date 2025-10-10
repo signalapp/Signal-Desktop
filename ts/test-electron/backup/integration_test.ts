@@ -15,8 +15,8 @@ import { assert } from 'chai';
 import { clearData } from './helpers.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
 import { backupsService, BackupType } from '../../services/backups/index.js';
-import { MemoryStream } from '../../services/backups/util/MemoryStream.js';
 import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.js';
+import { MemoryStream } from '../../util/MemoryStream.js';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
 

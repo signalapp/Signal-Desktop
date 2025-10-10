@@ -2,23 +2,59 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { blobToArrayBuffer } from 'blob-util';
+import { sanitize } from '@signalapp/libsignal-client/dist/Mp4Sanitizer.js';
 import { v4 as generateUuid } from 'uuid';
 
 import { makeVideoScreenshot } from '../types/VisualAttachment.js';
 import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.js';
+import { toLogFormat } from '../types/errors.js';
 import type { InMemoryAttachmentDraftType } from '../types/Attachment.js';
+import { createLogger } from '../logging/log.js';
+import { MemoryStream } from './MemoryStream.js';
 import { fileToBytes } from './fileToBytes.js';
+
+const log = createLogger('handleVideoAttachment');
 
 export async function handleVideoAttachment(
   file: File,
-  options?: { generateScreenshot: boolean; flags: number | null }
+  options: {
+    generateScreenshot: boolean;
+    flags: number | null;
+  }
 ): Promise<InMemoryAttachmentDraftType> {
   const objectUrl = URL.createObjectURL(file);
   if (!objectUrl) {
     throw new Error('Failed to create object url for video!');
   }
   try {
-    const data = await fileToBytes(file);
+    let data = await fileToBytes(file);
+
+    if (file.type === 'video/mp4') {
+      try {
+        const result = await sanitize(
+          new MemoryStream(data),
+          BigInt(data.byteLength)
+        );
+        const metadata = result.getMetadata();
+
+        // If there is no metadata - mp4 is already in the fast state!
+        if (metadata != null) {
+          const dataLen = Number(result.getDataLen());
+          const dataOffset = Number(result.getDataOffset());
+          const sanitized = new Uint8Array(dataLen + metadata.byteLength);
+          sanitized.set(metadata, 0);
+          sanitized.set(
+            data.subarray(dataOffset, dataOffset + dataLen),
+            metadata.byteLength
+          );
+
+          data = sanitized;
+        }
+      } catch (error) {
+        log.warn(`Failed to mp4san video ${toLogFormat(error)}`);
+      }
+    }
+
     const attachment: InMemoryAttachmentDraftType = {
       contentType: stringToMIMEType(file.type),
       clientUuid: generateUuid(),
@@ -29,7 +65,7 @@ export async function handleVideoAttachment(
       size: data.byteLength,
     };
 
-    if (options?.generateScreenshot) {
+    if (options.generateScreenshot) {
       const screenshotContentType = IMAGE_PNG;
 
       const { blob: screenshotBlob, duration } = await makeVideoScreenshot({
@@ -43,7 +79,7 @@ export async function handleVideoAttachment(
       attachment.screenshotContentType = screenshotContentType;
     }
 
-    if (options?.flags != null) {
+    if (options.flags != null) {
       attachment.flags = options.flags;
     }
 
