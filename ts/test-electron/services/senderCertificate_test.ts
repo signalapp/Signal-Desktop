@@ -13,16 +13,17 @@ import {
   ServerCertificate,
 } from '@signalapp/libsignal-client';
 
-import * as durations from '../../util/durations/index.js';
 import { drop } from '../../util/drop.js';
 import * as Bytes from '../../Bytes.js';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage.js';
 
-import { SenderCertificateService } from '../../services/senderCertificate.js';
+import {
+  SENDER_CERTIFICATE_EXPIRATION_BUFFER,
+  SenderCertificateService,
+} from '../../services/senderCertificate.js';
+import { DAY } from '../../util/durations/constants.js';
 
 describe('SenderCertificateService', () => {
-  const FIFTEEN_MINUTES = 15 * durations.MINUTE;
-
   let fakeValidCertificate: SenderCertificate;
   let fakeValidEncodedCertificate: Uint8Array;
   let fakeValidCertificateExpiry: number;
@@ -50,7 +51,7 @@ describe('SenderCertificateService', () => {
       fakeTrustRoot.privateKey
     );
 
-    fakeValidCertificateExpiry = Date.now() + 604800000;
+    fakeValidCertificateExpiry = Date.now() + 7 * DAY;
     fakeValidCertificate = SenderCertificate.new(
       'aaaaaaaa-7000-11eb-b32a-33b8a8a487a6',
       null,
@@ -88,7 +89,7 @@ describe('SenderCertificateService', () => {
   describe('get', () => {
     it('returns valid yes-E164 certificates from storage if they exist', async () => {
       const cert = {
-        expires: Date.now() + 123456,
+        expires: fakeValidCertificateExpiry,
         serialized: new Uint8Array(2),
       };
       fakeStorage.get.withArgs('senderCertificate').returns(cert);
@@ -105,7 +106,7 @@ describe('SenderCertificateService', () => {
 
     it('returns valid no-E164 certificates from storage if they exist', async () => {
       const cert = {
-        expires: Date.now() + 123456,
+        expires: fakeValidCertificateExpiry,
         serialized: new Uint8Array(2),
       };
       fakeStorage.get.withArgs('senderCertificateNoE164').returns(cert);
@@ -124,12 +125,12 @@ describe('SenderCertificateService', () => {
       const service = initializeTestService();
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithE164), {
-        expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
+        expires: fakeValidCertificateExpiry,
         serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificate', {
-        expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
+        expires: fakeValidCertificateExpiry,
         serialized: Buffer.from(fakeValidEncodedCertificate),
       });
 
@@ -140,12 +141,12 @@ describe('SenderCertificateService', () => {
       const service = initializeTestService();
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithoutE164), {
-        expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
+        expires: fakeValidCertificateExpiry,
         serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificateNoE164', {
-        expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
+        expires: fakeValidCertificateExpiry,
         serialized: Buffer.from(fakeValidEncodedCertificate),
       });
 
@@ -156,7 +157,7 @@ describe('SenderCertificateService', () => {
       const service = initializeTestService();
 
       fakeStorage.get.withArgs('senderCertificate').returns({
-        expires: Date.now() - 1000,
+        expires: Date.now() + SENDER_CERTIFICATE_EXPIRATION_BUFFER - 1,
         serialized: new Uint8Array(2),
       });
 
