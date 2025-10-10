@@ -18,13 +18,14 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 const ALL_CHATS_PREDICATE = getChatFolderRecordPredicate('ALL', '', false);
 
 async function openChatFolderSettings(window: Page) {
-  const openSettingsBtn = window.locator(
-    '[data-testid="NavTabsItem--Settings"]'
-  );
-  const openChatsSettingsBtn = window.locator('.Preferences__button--chats');
-  const openChatFoldersSettingsBtn = window.locator(
-    '.Preferences__control:has-text("Add a chat folder")'
-  );
+  const openSettingsBtn = window.getByRole('tab', { name: 'Settings' });
+  const openChatsSettingsBtn = window
+    .getByRole('tabpanel', { name: 'Settings' })
+    .getByRole('navigation')
+    .getByRole('button', { name: 'Chats' });
+  const openChatFoldersSettingsBtn = window
+    .getByRole('group', { name: 'Chat folders' })
+    .getByRole('button', { name: 'Set up' });
 
   await openSettingsBtn.click();
   await openChatsSettingsBtn.click();
@@ -159,7 +160,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       await app.waitForManifestVersion(state.version);
 
       await expect(allGroupsListItem).toBeVisible();
-      await expect(allGroupsListItem).toHaveText(ALL_GROUPS_NAME);
+      await expect(allGroupsListItem).toContainText(ALL_GROUPS_NAME);
     }
 
     debug('updating "All Groups" chat folder via storage service');
@@ -185,7 +186,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
 
       await expect(allChatsListItem).toBeVisible();
       await expect(allGroupsListItem).toBeVisible();
-      await expect(allGroupsListItem).toHaveText(ALL_GROUPS_NAME_UPDATED);
+      await expect(allGroupsListItem).toContainText(ALL_GROUPS_NAME_UPDATED);
     }
 
     debug('removing "All Groups" chat folder via storage service');

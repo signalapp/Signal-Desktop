@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReactChild } from 'react';
+import type { ReactChild, ReactNode } from 'react';
 import React from 'react';
 
 import type { ToFindType } from './LeftPaneHelper.js';
@@ -14,11 +14,15 @@ import { LeftPaneHelper } from './LeftPaneHelper.js';
 import { getConversationInDirection } from './getConversationInDirection.js';
 import type { Row } from '../ConversationList.js';
 import { RowType } from '../ConversationList.js';
-import { NavSidebarEmpty } from '../NavSidebar.js';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
 import type { LocalizerType } from '../../types/Util.js';
 import { handleKeydownForSearch } from './handleKeydownForSearch.js';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
+import type { ChatFolder } from '../../types/ChatFolder.js';
+import { ChatFolderType } from '../../types/ChatFolder.js';
+import { AxoButton } from '../../axo/AxoButton.js';
+import { NavTab, SettingsPage, type Location } from '../../types/Nav.js';
+import { tw } from '../../axo/tw.js';
 
 const { last } = lodash;
 
@@ -32,6 +36,7 @@ export type LeftPaneInboxPropsType = {
   searchDisabled: boolean;
   searchTerm: string;
   searchConversation: undefined | ConversationType;
+  selectedChatFolder: ChatFolder | null;
   filterByUnread: boolean;
 };
 
@@ -45,6 +50,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   readonly #searchDisabled: boolean;
   readonly #searchTerm: string;
   readonly #searchConversation: undefined | ConversationType;
+  readonly #selectedChatFolder: ChatFolder | null;
   readonly #filterByUnread: boolean;
 
   constructor({
@@ -57,6 +63,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     searchDisabled,
     searchTerm,
     searchConversation,
+    selectedChatFolder,
     filterByUnread,
   }: Readonly<LeftPaneInboxPropsType>) {
     super();
@@ -70,6 +77,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.#searchDisabled = searchDisabled;
     this.#searchTerm = searchTerm;
     this.#searchConversation = searchConversation;
+    this.#selectedChatFolder = selectedChatFolder;
     this.#filterByUnread = filterByUnread;
   }
 
@@ -82,7 +90,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
         headerCount += 1;
       }
     }
-    const buttonCount = this.#archivedConversations.length ? 1 : 0;
+    const buttonCount = this.#shouldShowArchiveButton() ? 1 : 0;
     return (
       headerCount +
       this.#pinnedConversations.length +
@@ -139,21 +147,74 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     return renderLeftPaneChatFolders();
   }
 
-  override getBackgroundNode({
+  override getEmptyViewNode({
     i18n,
+    selectedChatFolder,
+    changeLocation,
   }: Readonly<{
     i18n: LocalizerType;
+    selectedChatFolder: ChatFolder | null;
+    changeLocation: (location: Location) => void;
   }>): ReactChild | null {
     if (this.getRowCount() === 0) {
+      if (selectedChatFolder?.folderType === ChatFolderType.CUSTOM) {
+        return (
+          <EmptyView>
+            <h3 className={tw('type-body-large text-label-primary')}>
+              {i18n('icu:LeftPane__EmptyView--WithSelectedChatFolder')}
+            </h3>
+            <AxoButton.Root
+              variant="floating-secondary"
+              size="medium"
+              onClick={() => {
+                changeLocation({
+                  tab: NavTab.Settings,
+                  details: {
+                    page: SettingsPage.EditChatFolder,
+                    chatFolderId: selectedChatFolder.id,
+                    previousLocation: {
+                      tab: NavTab.Chats,
+                    },
+                  },
+                });
+              }}
+            >
+              {i18n(
+                'icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings'
+              )}
+            </AxoButton.Root>
+          </EmptyView>
+        );
+      }
+
       return (
-        <NavSidebarEmpty
-          title={i18n('icu:emptyInbox__title')}
-          subtitle={i18n('icu:emptyInbox__subtitle')}
-        />
+        <EmptyView>
+          <h3 className={tw('type-title-medium text-label-secondary')}>
+            {i18n('icu:emptyInbox__title')}
+          </h3>
+          <p className={tw('type-body-medium text-label-secondary')}>
+            {i18n('icu:emptyInbox__subtitle')}
+          </p>
+        </EmptyView>
       );
     }
 
     return null;
+  }
+
+  #shouldShowArchiveButton(): boolean {
+    if (this.#archivedConversations.length === 0) {
+      return false;
+    }
+
+    if (
+      this.#selectedChatFolder != null &&
+      this.#selectedChatFolder.folderType !== ChatFolderType.ALL
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   getRow(rowIndex: number): undefined | Row {
@@ -202,7 +263,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     }
     index -= conversations.length;
 
-    if (index === 0 && archivedConversationsCount) {
+    if (index === 0 && this.#shouldShowArchiveButton()) {
       return {
         type: RowType.ArchiveButton,
         archivedConversationsCount,
@@ -296,4 +357,14 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   #hasNotPinned(): boolean {
     return this.#conversations.length !== 0;
   }
+}
+
+function EmptyView(props: { children: ReactNode }) {
+  return (
+    <div
+      className={tw('flex h-full flex-col items-center justify-center gap-3')}
+    >
+      {props.children}
+    </div>
+  );
 }

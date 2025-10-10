@@ -164,7 +164,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     debug('Click triple-dot button');
     await window.getByRole('button', { name: 'More Actions' }).click();
     await window
-      .getByRole('button', { name: 'Notification profile', exact: true })
+      .getByRole('menuitem', { name: 'Notification profile', exact: true })
       .click();
 
     debug('Click to add enabled=true override');

@@ -2094,6 +2094,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-10-09T23:03:57.441Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/preferences/donations/DonateInputAmount.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",

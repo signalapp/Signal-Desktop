@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactNode } from 'react';
 import React from 'react';
 import type { LocalizerType } from '../../../types/I18N.js';
 import { ConfirmationDialog } from '../../ConfirmationDialog.js';
@@ -8,7 +9,7 @@ import { ConfirmationDialog } from '../../ConfirmationDialog.js';
 export function DeleteChatFolderDialog(props: {
   i18n: LocalizerType;
   title: string;
-  description: string;
+  description: ReactNode;
   cancelText: string;
   deleteText: string;
   onConfirm: () => void;

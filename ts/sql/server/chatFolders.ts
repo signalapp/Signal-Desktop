@@ -11,6 +11,8 @@ import {
 import type { ReadableDB, WritableDB } from '../Interface.js';
 import { sql } from '../util.js';
 import { strictAssert } from '../../util/assert.js';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.js';
+import { isCurrentChatFolder } from '../../types/CurrentChatFolders.js';
 
 export type ChatFolderRow = Readonly<
   Omit<
@@ -71,17 +73,25 @@ export function getAllChatFolders(db: ReadableDB): ReadonlyArray<ChatFolder> {
 
 export function getCurrentChatFolders(
   db: ReadableDB
-): ReadonlyArray<ChatFolder> {
+): ReadonlyArray<CurrentChatFolder> {
   const [query, params] = sql`
     SELECT *
     FROM chatFolders
-    WHERE deletedAtTimestampMs IS 0
+    WHERE folderType IS NOT ${ChatFolderType.UNKNOWN}
+    AND deletedAtTimestampMs IS 0
     ORDER BY position ASC
   `;
   return db
     .prepare(query)
     .all<ChatFolderRow>(params)
-    .map(row => rowToChatFolder(row));
+    .map(row => {
+      const chatFolder = rowToChatFolder(row);
+      strictAssert(
+        isCurrentChatFolder(chatFolder),
+        `Query returned row that is not a current chat folder (${chatFolder.id})`
+      );
+      return chatFolder;
+    });
 }
 
 export function getChatFolder(

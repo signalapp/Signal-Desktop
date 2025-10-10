@@ -2130,7 +2130,7 @@ function TimePicker({
         <button
           className={classNames(
             tw(
-              'ms-3 p-0.5 leading-none outline-0 focus-visible:bg-background-overlay-secondary'
+              'ms-3 p-0.5 leading-none outline-0 focus-visible:bg-fill-selected'
             ),
             isDisabled ? tw('text-label-placeholder') : null
           )}

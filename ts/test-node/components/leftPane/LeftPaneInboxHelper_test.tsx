@@ -25,6 +25,7 @@ describe('LeftPaneInboxHelper', () => {
     searchDisabled: false,
     searchTerm: '',
     startSearchCounter: 0,
+    selectedChatFolder: null,
   };
 
   describe('getBackAction', () => {

@@ -13,20 +13,15 @@ import {
 import { DAY, HOUR, SECOND } from '../util/durations/index.js';
 import { formatTimestamp } from '../util/formatTimestamp.js';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
-import { tw } from '../axo/tw.js';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.js';
-import { AxoSymbol } from '../axo/AxoSymbol.js';
 
 export type Props = Readonly<{
   activeProfileId: NotificationProfileIdString | undefined;
   allProfiles: ReadonlyArray<NotificationProfileType>;
   currentOverride: NotificationProfileOverride | undefined;
   i18n: LocalizerType;
-  isOpen: boolean;
   loading: boolean;
-  onClose: () => void;
   onGoToSettings: () => void;
-  trigger: React.ReactNode;
   setProfileOverride: (
     id: NotificationProfileIdString,
     enabled: boolean,
@@ -52,11 +47,8 @@ export function NotificationProfilesMenu({
   allProfiles,
   currentOverride,
   i18n,
-  isOpen,
   loading,
-  onClose,
   onGoToSettings,
-  trigger,
   setProfileOverride,
 }: Props): JSX.Element {
   const enabledOverrideEndTime = currentOverride?.enabled?.endsAtMs;
@@ -111,103 +103,67 @@ export function NotificationProfilesMenu({
   }, []);
 
   return (
-    <AxoDropdownMenu.Root
-      open={isOpen}
-      onOpenChange={open => {
-        if (!open) {
-          onClose();
-        }
-      }}
-    >
-      <AxoDropdownMenu.Trigger>{trigger}</AxoDropdownMenu.Trigger>
-      <AxoDropdownMenu.Content>
-        <div className={tw('col-span-2 p-1.5')}>
-          <div className={tw('type-title-small text-label-primary')}>
-            {i18n('icu:NotificationProfileMenu--header')}
-          </div>
-          <div className={tw('type-caption text-label-secondary')}>
-            {enabledLabel}
-          </div>
-        </div>
-        {profilesToRender.length > 0 ? (
-          <AxoDropdownMenu.Separator />
-        ) : undefined}
-        {profilesToRender.map((profile, index) => {
-          const isActive = activeProfileId && profile.id === activeProfileId;
+    <>
+      <AxoDropdownMenu.Header
+        label={i18n('icu:NotificationProfileMenu--header')}
+        description={enabledLabel}
+      />
+      {profilesToRender.length > 0 ? <AxoDropdownMenu.Separator /> : undefined}
+      {profilesToRender.map((profile, index) => {
+        const isActive = activeProfileId && profile.id === activeProfileId;
 
-          return (
-            <React.Fragment key={profile.id}>
-              {index > 0 && (
-                <div
-                  key={`${profile.id}_separator`}
-                  role="separator"
-                  aria-orientation="horizontal"
-                  className={tw(
-                    'col-span-1 col-start-2 mx-0.5 my-1 border-t-[0.5px] border-border-primary'
-                  )}
+        return (
+          <React.Fragment key={profile.id}>
+            {index > 0 && <AxoDropdownMenu.ContentSeparator />}
+            <AxoDropdownMenu.CustomItem
+              key={profile.id}
+              leading={
+                <ProfileAvatar
+                  i18n={i18n}
+                  isActive={isActive}
+                  profile={profile}
+                  size="small"
                 />
-              )}
+              }
+              text={profile.name}
+              onSelect={event => {
+                event.preventDefault();
+                setProfileOverride(profile.id, !isActive);
+              }}
+            />
+            {isActive ? (
               <AxoDropdownMenu.Item
-                key={profile.id}
-                customIcon={
-                  <ProfileAvatar
-                    i18n={i18n}
-                    isActive={isActive}
-                    profile={profile}
-                    size="small"
-                  />
-                }
+                key={`${profile.id}_one-hour`}
                 onSelect={event => {
                   event.preventDefault();
-                  setProfileOverride(profile.id, !isActive);
+                  setProfileOverride(profile.id, true, Date.now() + HOUR);
                 }}
               >
-                {profile.name}
+                {i18n('icu:NotificationProfileMenu--for-one-hour')}
               </AxoDropdownMenu.Item>
-              {isActive ? (
-                <AxoDropdownMenu.Item
-                  key={`${profile.id}_one-hour`}
-                  onSelect={event => {
-                    event.preventDefault();
-                    setProfileOverride(profile.id, true, Date.now() + HOUR);
-                  }}
-                >
-                  {i18n('icu:NotificationProfileMenu--for-one-hour')}
-                </AxoDropdownMenu.Item>
-              ) : null}
-              {isActive ? (
-                <AxoDropdownMenu.Item
-                  key={`${profile.id}_until-time`}
-                  onSelect={event => {
-                    event.preventDefault();
-                    setProfileOverride(profile.id, true, targetTime);
-                  }}
-                >
-                  {i18n('icu:NotificationProfileMenu--until-time', {
-                    time: formatTimestamp(targetTime, {
-                      timeStyle: 'short',
-                    }),
-                  })}
-                </AxoDropdownMenu.Item>
-              ) : null}
-            </React.Fragment>
-          );
-        })}
-        <AxoDropdownMenu.Separator />
-        <AxoDropdownMenu.Item
-          onSelect={event => {
-            event.preventDefault();
-            onGoToSettings();
-          }}
-          customIcon={
-            <span className={tw('p-0.5 leading-0')}>
-              <AxoSymbol.Icon size={16} symbol="settings" label={null} />
-            </span>
-          }
-        >
-          {i18n('icu:NotificationProfileMenu--settings')}
-        </AxoDropdownMenu.Item>
-      </AxoDropdownMenu.Content>
-    </AxoDropdownMenu.Root>
+            ) : null}
+            {isActive ? (
+              <AxoDropdownMenu.Item
+                key={`${profile.id}_until-time`}
+                onSelect={event => {
+                  event.preventDefault();
+                  setProfileOverride(profile.id, true, targetTime);
+                }}
+              >
+                {i18n('icu:NotificationProfileMenu--until-time', {
+                  time: formatTimestamp(targetTime, {
+                    timeStyle: 'short',
+                  }),
+                })}
+              </AxoDropdownMenu.Item>
+            ) : null}
+          </React.Fragment>
+        );
+      })}
+      <AxoDropdownMenu.Separator />
+      <AxoDropdownMenu.Item onSelect={onGoToSettings} symbol="settings">
+        {i18n('icu:NotificationProfileMenu--settings')}
+      </AxoDropdownMenu.Item>
+    </>
   );
 }

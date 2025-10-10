@@ -3,7 +3,8 @@
 
 import type { ConversationType } from '../state/ducks/conversations.js';
 import { isConversationInChatFolder } from '../types/ChatFolder.js';
-import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.js';
+import type { ChatFolderId } from '../types/ChatFolder.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
 import { isConversationMuted } from './isConversationMuted.js';
 
 type MutableUnreadStats = {
@@ -150,11 +151,13 @@ export function countAllConversationsUnreadStats(
 }
 
 export function countAllChatFoldersUnreadStats(
-  sortedChatFolders: ReadonlyArray<ChatFolder>,
+  currentChatFolders: CurrentChatFolders,
   conversations: ReadonlyArray<ConversationPropsForUnreadStats>,
   options: UnreadStatsOptions
 ): AllChatFoldersUnreadStats {
   const results = new Map<ChatFolderId, MutableUnreadStats>();
+  const sortedChatFolders =
+    CurrentChatFolders.toSortedArray(currentChatFolders);
 
   for (const conversation of conversations) {
     // skip if we shouldn't count it

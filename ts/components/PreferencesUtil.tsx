@@ -64,7 +64,7 @@ export function SettingsControl({
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
-  description?: boolean;
+  description?: ReactNode;
 }): JSX.Element {
   const content = (
     <>
@@ -76,11 +76,13 @@ export function SettingsControl({
           )}
         />
       )}
-      <div className="Preferences__control--key">{left}</div>
+      <div className="Preferences__control--key">
+        {left}
+        {description ? (
+          <div className="Preferences__description">{description}</div>
+        ) : undefined}
+      </div>
       <div className="Preferences__control--value">{right}</div>
-      {description ? (
-        <div className="Preferences__control--value">{description}</div>
-      ) : undefined}
     </>
   );
 

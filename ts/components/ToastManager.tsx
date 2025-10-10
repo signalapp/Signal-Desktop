@@ -21,6 +21,8 @@ import type { LocalizerType } from '../types/Util.js';
 import type { AnyToast } from '../types/Toast.js';
 import type { AnyActionableMegaphone } from '../types/Megaphone.js';
 import type { Location } from '../types/Nav.js';
+import { I18n } from './I18n.js';
+import { UserText } from './UserText.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -183,6 +185,20 @@ export function renderToast({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:GroupV2--cannot-start-group-call')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ChatFolderCreated) {
+    return (
+      <Toast onClose={hideToast}>
+        <I18n
+          i18n={i18n}
+          id="icu:Toast--ChatFolderCreated"
+          components={{
+            chatFolderName: <UserText text={toast.parameters.chatFolderName} />,
+          }}
+        />
       </Toast>
     );
   }

@@ -72,7 +72,7 @@ import {
 } from '../../types/ChatFolder.js';
 import {
   getSelectedChatFolder,
-  getSortedChatFolders,
+  getCurrentChatFolders,
   getStableSelectedConversationIdInChatFolder,
 } from './chatFolders.js';
 import {
@@ -692,11 +692,11 @@ export const getAllConversationsUnreadStats = createSelector(
 
 export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadStats> =
   createSelector(
-    getSortedChatFolders,
+    getCurrentChatFolders,
     getAllConversations,
-    (sortedChatFolders, allConversations) => {
+    (currentChatFolders, allConversations) => {
       return countAllChatFoldersUnreadStats(
-        sortedChatFolders,
+        currentChatFolders,
         allConversations,
         {
           includeMuted: false,
@@ -707,10 +707,13 @@ export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadSta
 
 export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats> =
   createSelector(
-    getSortedChatFolders,
+    getCurrentChatFolders,
     getAllConversations,
-    (sortedChatFolders, allConversations) => {
-      return countAllChatFoldersMutedStats(sortedChatFolders, allConversations);
+    (currentChatFolders, allConversations) => {
+      return countAllChatFoldersMutedStats(
+        currentChatFolders,
+        allConversations
+      );
     }
   );
 

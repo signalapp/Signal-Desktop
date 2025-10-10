@@ -4,8 +4,8 @@ import React, { memo, useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LeftPaneChatFolders } from '../../components/leftPane/LeftPaneChatFolders.js';
 import {
+  getCurrentChatFolders,
   getSelectedChatFolder,
-  getSortedChatFolders,
 } from '../selectors/chatFolders.js';
 import { getIntl } from '../selectors/user.js';
 import {
@@ -26,7 +26,7 @@ import { useConversationsActions } from '../ducks/conversations.js';
 export const SmartLeftPaneChatFolders = memo(
   function SmartLeftPaneChatFolders() {
     const i18n = useSelector(getIntl);
-    const sortedChatFolders = useSelector(getSortedChatFolders);
+    const currentChatFolders = useSelector(getCurrentChatFolders);
     const allChatFoldersUnreadStats = useSelector(getAllChatFoldersUnreadStats);
     const allChatFoldersMutedStats = useSelector(getAllChatFoldersMutedStats);
     const selectedChatFolder = useSelector(getSelectedChatFolder);
@@ -62,7 +62,7 @@ export const SmartLeftPaneChatFolders = memo(
       <LeftPaneChatFolders
         i18n={i18n}
         navSidebarWidthBreakpoint={navSidebarWidthBreakpoint}
-        sortedChatFolders={sortedChatFolders}
+        currentChatFolders={currentChatFolders}
         allChatFoldersUnreadStats={allChatFoldersUnreadStats}
         allChatFoldersMutedStats={allChatFoldersMutedStats}
         selectedChatFolder={selectedChatFolder}

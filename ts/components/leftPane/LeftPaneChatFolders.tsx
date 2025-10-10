@@ -27,11 +27,13 @@ import type {
   MutedStats,
 } from '../../util/countMutedStats.js';
 import type { AxoSymbol } from '../../axo/AxoSymbol.js';
+import { UserText } from '../UserText.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
 
 export type LeftPaneChatFoldersProps = Readonly<{
   i18n: LocalizerType;
   navSidebarWidthBreakpoint: WidthBreakpoint | null;
-  sortedChatFolders: ReadonlyArray<ChatFolder>;
+  currentChatFolders: CurrentChatFolders;
   allChatFoldersUnreadStats: AllChatFoldersUnreadStats;
   allChatFoldersMutedStats: AllChatFoldersMutedStats;
   selectedChatFolder: ChatFolder | null;
@@ -60,7 +62,7 @@ function getChatFolderLabel(
   i18n: LocalizerType,
   chatFolder: ChatFolder,
   preferShort: boolean
-): string {
+): ReactNode {
   if (chatFolder.folderType === ChatFolderType.ALL) {
     if (preferShort) {
       return i18n('icu:LeftPaneChatFolders__ItemLabel--All--Short');
@@ -68,7 +70,7 @@ function getChatFolderLabel(
     return i18n('icu:LeftPaneChatFolders__ItemLabel--All');
   }
   if (chatFolder.folderType === ChatFolderType.CUSTOM) {
-    return chatFolder.name;
+    return <UserText text={chatFolder.name} />;
   }
   return '';
 }
@@ -86,7 +88,11 @@ function getChatFolderIconName(
 export function LeftPaneChatFolders(
   props: LeftPaneChatFoldersProps
 ): JSX.Element | null {
-  const { i18n, onSelectedChatFolderIdChange } = props;
+  const { i18n, currentChatFolders, onSelectedChatFolderIdChange } = props;
+
+  const sortedChatFolders = useMemo(() => {
+    return CurrentChatFolders.toSortedArray(currentChatFolders);
+  }, [currentChatFolders]);
 
   const handleValueChange = useCallback(
     (newValue: string | null) => {
@@ -104,7 +110,7 @@ export function LeftPaneChatFolders(
     });
   }, []);
 
-  if (props.sortedChatFolders.length < 2) {
+  if (!currentChatFolders.hasAnyCurrentCustomChatFolders) {
     return null;
   }
 
@@ -122,7 +128,7 @@ export function LeftPaneChatFolders(
             chevron="on-hover"
           />
           <AxoSelect.Content position="dropdown">
-            {props.sortedChatFolders.map(chatFolder => {
+            {sortedChatFolders.map(chatFolder => {
               const unreadStats =
                 props.allChatFoldersUnreadStats.get(chatFolder.id) ?? null;
               return (
@@ -154,7 +160,7 @@ export function LeftPaneChatFolders(
         value={props.selectedChatFolder?.id ?? null}
         onValueChange={handleValueChange}
       >
-        {props.sortedChatFolders.map(chatFolder => {
+        {sortedChatFolders.map(chatFolder => {
           const unreadStats =
             props.allChatFoldersUnreadStats.get(chatFolder.id) ?? null;
           const mutedStats =

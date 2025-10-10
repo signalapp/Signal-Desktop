@@ -5,7 +5,7 @@ import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper.js';
+import type { ToFindType } from './leftPane/LeftPaneHelper.js';
 import { FindDirection } from './leftPane/LeftPaneHelper.js';
 import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.js';
 import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.js';
@@ -53,7 +53,6 @@ import {
   NavSidebarActionButton,
   NavSidebarSearchHeader,
 } from './NavSidebar.js';
-import { ContextMenu } from './ContextMenu.js';
 import type { UnreadStats } from '../util/countUnreadStats.js';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.js';
 import type { ServerAlertsType, ServerAlert } from '../types/ServerAlert.js';
@@ -61,7 +60,9 @@ import { getServerAlertDialog } from './ServerAlerts.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import type { Location } from '../types/Nav.js';
 import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.js';
-import type { ExternalProps as NotificationProfilesMenuProps } from '../state/smart/NotificationProfilesMenu.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
+import type { ChatFolder } from '../types/ChatFolder.js';
+import { isChatFoldersEnabled } from '../types/ChatFolder.js';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.js';
 import { tw } from '../axo/tw.js';
 
@@ -77,6 +78,7 @@ export type PropsType = {
     downloadBannerDismissed: boolean;
   };
   otherTabsUnreadStats: UnreadStats;
+  hasAnyCurrentCustomChatFolders: boolean;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
@@ -123,6 +125,7 @@ export type PropsType = {
   isMacOS: boolean;
   isNotificationProfileActive: boolean;
   preferredWidthFromStorage: number;
+  selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
   targetedMessageId: undefined | string;
   challengeStatus: 'idle' | 'required' | 'pending';
@@ -150,6 +153,7 @@ export type PropsType = {
   endSearch: () => void;
   navTabsCollapsed: boolean;
   openUsernameReservationModal: () => void;
+  onChatFoldersOpenSettings: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
@@ -199,9 +203,7 @@ export type PropsType = {
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
   renderLeftPaneChatFolders: () => JSX.Element;
-  renderNotificationProfilesMenu: (
-    props: NotificationProfilesMenuProps
-  ) => JSX.Element;
+  renderNotificationProfilesMenu: () => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
@@ -228,6 +230,7 @@ export function LeftPane({
   endSearch,
   getPreferredBadge,
   getServerAlertToShow,
+  hasAnyCurrentCustomChatFolders,
   hasExpiredDialog,
   hasFailedStorySends,
   hasNetworkDialog,
@@ -242,6 +245,7 @@ export function LeftPane({
   isUpdateDownloaded,
   modeSpecificProps,
   navTabsCollapsed,
+  onChatFoldersOpenSettings,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
 
@@ -266,6 +270,7 @@ export function LeftPane({
   saveAlerts,
   savePreferredLeftPaneWidth,
   searchInConversation,
+  selectedChatFolder,
   selectedConversationId,
   targetedMessageId,
   toggleNavTabsCollapse,
@@ -320,7 +325,15 @@ export function LeftPane({
   //
   // Unfortunately, there's a little bit of repetition here because TypeScript isn't quite
   //   smart enough.
-  let helper: LeftPaneHelper<unknown>;
+  let helper:
+    | LeftPaneInboxHelper
+    | LeftPaneSearchHelper
+    | LeftPaneArchiveHelper
+    | LeftPaneComposeHelper
+    | LeftPaneFindByUsernameHelper
+    | LeftPaneFindByPhoneNumberHelper
+    | LeftPaneChooseGroupMembersHelper
+    | LeftPaneSetGroupMetadataHelper;
   let shouldRecomputeRowHeights: boolean;
   switch (modeSpecificProps.mode) {
     case LeftPaneMode.Inbox: {
@@ -523,9 +536,7 @@ export function LeftPane({
     startSearch,
   ]);
 
-  const backgroundNode = helper.getBackgroundNode({
-    i18n,
-  });
+  const isEmpty = helper.getRowCount() === 0;
 
   const preRowsNode = helper.getPreRowsNode({
     clearConversationSearch,
@@ -744,21 +755,6 @@ export function LeftPane({
 
   const hasDialogs = dialogs.length ? !hideHeader : false;
 
-  // The notification profile menu shows in two places - under its own icon and
-  // under the more actions context menu.
-  const [isNotificationProfilesMenuOpen, setIsNotificationProfilesMenuOpen] =
-    React.useState(false);
-  const [
-    isNotificationProfilesSubMenuOpen,
-    setIsNotificationProfilesSubMenuOpen,
-  ] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!isNotificationProfileActive) {
-      setIsNotificationProfilesMenuOpen(false);
-    }
-  }, [isNotificationProfileActive, setIsNotificationProfilesMenuOpen]);
-
   return (
     <NavSidebar
       title={i18n('icu:LeftPane--chats')}
@@ -775,76 +771,73 @@ export function LeftPane({
       renderToastManager={renderToastManager}
       actions={
         <>
-          {isNotificationProfileActive &&
-            renderNotificationProfilesMenu({
-              isOpen: isNotificationProfilesMenuOpen,
-              onClose: () => {
-                setIsNotificationProfilesMenuOpen(false);
-              },
-              trigger: (
+          {isNotificationProfileActive && (
+            <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Trigger>
                 <button
-                  className={tw(
-                    'rounded-sm focus:outline-none focus-visible:shadow-legacy-outline'
-                  )}
                   type="button"
-                  onClick={() => setIsNotificationProfilesMenuOpen(true)}
-                  onKeyUp={(event: React.KeyboardEvent<HTMLButtonElement>) => {
-                    if (event.code === 'Enter' || event.code === 'Space') {
-                      setIsNotificationProfilesMenuOpen(true);
-                    }
-                  }}
+                  className={tw(
+                    'rounded-full outline-0 outline-border-focused focused:outline-[2.5px]'
+                  )}
                 >
                   <ProfileAvatar i18n={i18n} size="medium-small" />
                 </button>
-              ),
-            })}
+              </AxoDropdownMenu.Trigger>
+              <AxoDropdownMenu.Content>
+                {renderNotificationProfilesMenu()}
+              </AxoDropdownMenu.Content>
+            </AxoDropdownMenu.Root>
+          )}
           <NavSidebarActionButton
             label={i18n('icu:newConversation')}
             icon={<span className="module-left-pane__startComposingIcon" />}
             onClick={startComposing}
           />
-          <ContextMenu
-            i18n={i18n}
-            menuOptions={[
-              {
-                label: i18n('icu:avatarMenuViewArchive'),
-                onClick: showArchivedConversations,
-              },
-              {
-                label: i18n('icu:NotificationProfileMenuItem'),
-                onClick: () => setIsNotificationProfilesSubMenuOpen(true),
-              },
-            ]}
-            popperOptions={{
-              placement: 'bottom',
-              strategy: 'absolute',
-            }}
-            portalToRoot
-          >
-            {({ onClick, onKeyDown, ref }) =>
-              renderNotificationProfilesMenu({
-                isOpen: isNotificationProfilesSubMenuOpen,
-                onClose: () => {
-                  setIsNotificationProfilesSubMenuOpen(false);
-                },
-                trigger: (
-                  <NavSidebarActionButton
-                    ref={ref}
-                    onClick={onClick}
-                    onKeyDown={onKeyDown}
-                    icon={
-                      <span className="module-left-pane__moreActionsIcon" />
-                    }
-                    label="More Actions"
-                  />
-                ),
-              })
-            }
-          </ContextMenu>
+          <AxoDropdownMenu.Root>
+            <AxoDropdownMenu.Trigger>
+              <NavSidebarActionButton
+                icon={<span className="module-left-pane__moreActionsIcon" />}
+                label="More Actions"
+              />
+            </AxoDropdownMenu.Trigger>
+            <AxoDropdownMenu.Content>
+              <AxoDropdownMenu.Item
+                symbol="archive"
+                onSelect={showArchivedConversations}
+              >
+                {i18n('icu:avatarMenuViewArchive')}
+              </AxoDropdownMenu.Item>
+              {isChatFoldersEnabled() && !hasAnyCurrentCustomChatFolders && (
+                <AxoDropdownMenu.Item
+                  symbol="folder"
+                  onSelect={onChatFoldersOpenSettings}
+                >
+                  {i18n('icu:LeftPane__MoreActionsMenu__AddChatFolder')}
+                </AxoDropdownMenu.Item>
+              )}
+              {isChatFoldersEnabled() && hasAnyCurrentCustomChatFolders && (
+                <AxoDropdownMenu.Item
+                  // TODO: This should be the "folder-settings" symbol
+                  // once it is added to the font
+                  symbol="folder"
+                  onSelect={onChatFoldersOpenSettings}
+                >
+                  {i18n('icu:LeftPane__MoreActionsMenu__FolderSettings')}
+                </AxoDropdownMenu.Item>
+              )}
+              <AxoDropdownMenu.Sub>
+                <AxoDropdownMenu.SubTrigger symbol="moon">
+                  {i18n('icu:NotificationProfileMenuItem')}
+                </AxoDropdownMenu.SubTrigger>
+                <AxoDropdownMenu.SubContent>
+                  {renderNotificationProfilesMenu()}
+                </AxoDropdownMenu.SubContent>
+              </AxoDropdownMenu.Sub>
+            </AxoDropdownMenu.Content>
+          </AxoDropdownMenu.Root>
         </>
       }
     >
-      {backgroundNode}
       <nav
         className={classNames(
           'module-left-pane',
@@ -907,74 +900,82 @@ export function LeftPane({
         ) : null}
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
-          <div className="module-left-pane__list--wrapper">
-            <div
-              aria-live="polite"
-              className="module-left-pane__list"
-              data-supertab
-              key={listKey}
-              role="presentation"
-              tabIndex={-1}
-            >
-              <ConversationList
-                key={modeSpecificProps.mode}
-                dimensions={measureSize ?? undefined}
-                getPreferredBadge={getPreferredBadge}
-                getRow={getRow}
-                i18n={i18n}
-                hasDialogPadding={hasDialogs}
-                onClickArchiveButton={showArchivedConversations}
-                onClickContactCheckbox={(
-                  conversationId: string,
-                  disabledReason: undefined | ContactCheckboxDisabledReason
-                ) => {
-                  switch (disabledReason) {
-                    case undefined:
-                      toggleConversationInChooseMembers(conversationId);
-                      break;
-                    case ContactCheckboxDisabledReason.AlreadyAdded:
-                    case ContactCheckboxDisabledReason.MaximumContactsSelected:
-                      // These are no-ops.
-                      break;
-                    default:
-                      throw missingCaseError(disabledReason);
+          {isEmpty &&
+            helper.getEmptyViewNode({
+              i18n,
+              selectedChatFolder,
+              changeLocation,
+            })}
+          {!isEmpty && (
+            <div className="module-left-pane__list--wrapper">
+              <div
+                aria-live="polite"
+                className="module-left-pane__list"
+                data-supertab
+                key={listKey}
+                role="presentation"
+                tabIndex={-1}
+              >
+                <ConversationList
+                  key={modeSpecificProps.mode}
+                  dimensions={measureSize ?? undefined}
+                  getPreferredBadge={getPreferredBadge}
+                  getRow={getRow}
+                  i18n={i18n}
+                  hasDialogPadding={hasDialogs}
+                  onClickArchiveButton={showArchivedConversations}
+                  onClickContactCheckbox={(
+                    conversationId: string,
+                    disabledReason: undefined | ContactCheckboxDisabledReason
+                  ) => {
+                    switch (disabledReason) {
+                      case undefined:
+                        toggleConversationInChooseMembers(conversationId);
+                        break;
+                      case ContactCheckboxDisabledReason.AlreadyAdded:
+                      case ContactCheckboxDisabledReason.MaximumContactsSelected:
+                        // These are no-ops.
+                        break;
+                      default:
+                        throw missingCaseError(disabledReason);
+                    }
+                  }}
+                  onClickClearFilterButton={() => {
+                    updateFilterByUnread(false);
+                  }}
+                  showUserNotFoundModal={showUserNotFoundModal}
+                  setIsFetchingUUID={setIsFetchingUUID}
+                  lookupConversationWithoutServiceId={
+                    lookupConversationWithoutServiceId
                   }
-                }}
-                onClickClearFilterButton={() => {
-                  updateFilterByUnread(false);
-                }}
-                showUserNotFoundModal={showUserNotFoundModal}
-                setIsFetchingUUID={setIsFetchingUUID}
-                lookupConversationWithoutServiceId={
-                  lookupConversationWithoutServiceId
-                }
-                showConversation={showConversation}
-                blockConversation={blockConversation}
-                onPreloadConversation={preloadConversation}
-                onSelectConversation={onSelectConversation}
-                onOutgoingAudioCallInConversation={
-                  onOutgoingAudioCallInConversation
-                }
-                onOutgoingVideoCallInConversation={
-                  onOutgoingVideoCallInConversation
-                }
-                removeConversation={removeConversation}
-                renderMessageSearchResult={renderMessageSearchResult}
-                renderConversationListItemContextMenu={
-                  renderConversationListItemContextMenu
-                }
-                rowCount={helper.getRowCount()}
-                scrollBehavior={scrollBehavior}
-                scrollToRowIndex={rowIndexToScrollTo}
-                scrollable={isScrollable}
-                shouldRecomputeRowHeights={shouldRecomputeRowHeights}
-                showChooseGroupMembers={showChooseGroupMembers}
-                showFindByUsername={showFindByUsername}
-                showFindByPhoneNumber={showFindByPhoneNumber}
-                theme={theme}
-              />
+                  showConversation={showConversation}
+                  blockConversation={blockConversation}
+                  onPreloadConversation={preloadConversation}
+                  onSelectConversation={onSelectConversation}
+                  onOutgoingAudioCallInConversation={
+                    onOutgoingAudioCallInConversation
+                  }
+                  onOutgoingVideoCallInConversation={
+                    onOutgoingVideoCallInConversation
+                  }
+                  removeConversation={removeConversation}
+                  renderMessageSearchResult={renderMessageSearchResult}
+                  renderConversationListItemContextMenu={
+                    renderConversationListItemContextMenu
+                  }
+                  rowCount={helper.getRowCount()}
+                  scrollBehavior={scrollBehavior}
+                  scrollToRowIndex={rowIndexToScrollTo}
+                  scrollable={isScrollable}
+                  shouldRecomputeRowHeights={shouldRecomputeRowHeights}
+                  showChooseGroupMembers={showChooseGroupMembers}
+                  showFindByUsername={showFindByUsername}
+                  showFindByPhoneNumber={showFindByPhoneNumber}
+                  theme={theme}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {footerContents && (
           <div className="module-left-pane__footer">{footerContents}</div>

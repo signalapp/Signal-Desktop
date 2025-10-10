@@ -4,7 +4,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem, useDragAndDrop } from 'react-aria-components';
-import { partition } from 'lodash';
+import { isEqual, partition } from 'lodash';
+import classNames from 'classnames';
 import type { LocalizerType } from '../../../types/I18N.js';
 import { PreferencesContent } from '../../Preferences.js';
 import { SettingsRow } from '../../PreferencesUtil.js';
@@ -19,19 +20,35 @@ import type {
   ChatFolderPreset,
   ChatFolder,
 } from '../../../types/ChatFolder.js';
-import { Button, ButtonVariant } from '../../Button.js';
 import { AxoContextMenu } from '../../../axo/AxoContextMenu.js';
 import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
 import { strictAssert } from '../../../util/assert.js';
 import { tw } from '../../../axo/tw.js';
-// import { showToast } from '../../state/ducks/toast';
+import { UserText } from '../../UserText.js';
+import { I18n } from '../../I18n.js';
+import { NavTab, SettingsPage, type Location } from '../../../types/Nav.js';
+import { AxoButton } from '../../../axo/AxoButton.js';
+import type { CurrentChatFolder } from '../../../types/CurrentChatFolders.js';
+import { CurrentChatFolders } from '../../../types/CurrentChatFolders.js';
+import {
+  ItemAvatar,
+  ItemBody,
+  itemButtonClassName,
+  itemClassName,
+  itemClickableClassName,
+  ItemContent,
+  ItemDescription,
+  ItemDragHandle,
+  itemListItemClassName,
+  ItemTitle,
+} from './PreferencesChatFolderItems.js';
 
 function moveChatFolders(
-  chatFolders: ReadonlyArray<ChatFolder>,
+  chatFolders: ReadonlyArray<CurrentChatFolder>,
   target: ChatFolderId,
   moving: Set<ChatFolderId>,
   position: 'before' | 'after'
-) {
+): ReadonlyArray<CurrentChatFolder> {
   const [toSplice, toInsert] = partition(chatFolders, chatFolder => {
     return !moving.has(chatFolder.id);
   });
@@ -49,16 +66,29 @@ function moveChatFolders(
   return toSplice.toSpliced(spliceIndex, 0, ...toInsert);
 }
 
+function hasChatFoldersOrderChanged(
+  sortedChatFolders: ReadonlyArray<ChatFolder>,
+  chatFoldersReordered: ReadonlyArray<ChatFolder>
+): boolean {
+  const a = sortedChatFolders.map(chatFolder => chatFolder.id);
+  const b = chatFoldersReordered.map(chatFolder => chatFolder.id);
+  return !isEqual(a, b);
+}
+
 export type PreferencesChatFoldersPageProps = Readonly<{
   i18n: LocalizerType;
-  onBack: () => void;
   onOpenEditChatFoldersPage: (chatFolderId: ChatFolderId | null) => void;
-  chatFolders: ReadonlyArray<ChatFolder>;
-  onCreateChatFolder: (params: ChatFolderParams) => void;
+  changeLocation: (location: Location) => void;
+  currentChatFolders: CurrentChatFolders;
+  onCreateChatFolder: (
+    params: ChatFolderParams,
+    showToastOnSuccess: boolean
+  ) => void;
   onDeleteChatFolder: (chatFolderId: ChatFolderId) => void;
   onUpdateChatFoldersPositions: (
     chatFolderIds: ReadonlyArray<ChatFolderId>
   ) => void;
+  previousLocation: Location | null;
   settingsPaneRef: MutableRefObject<HTMLDivElement | null>;
 }>;
 
@@ -70,14 +100,12 @@ export function PreferencesChatFoldersPage(
     onOpenEditChatFoldersPage,
     onDeleteChatFolder,
     onUpdateChatFoldersPositions,
-    chatFolders,
+    previousLocation,
+    changeLocation,
+    currentChatFolders,
   } = props;
   const [confirmDeleteChatFolder, setConfirmDeleteChatFolder] =
     useState<ChatFolder | null>(null);
-
-  // showToast(
-  //   i18n("icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast")
-  // )
 
   const handleChatFolderCreate = useCallback(() => {
     onOpenEditChatFoldersPage(null);
@@ -103,21 +131,46 @@ export function PreferencesChatFoldersPage(
     onDeleteChatFolder(confirmDeleteChatFolder.id);
   }, [confirmDeleteChatFolder, onDeleteChatFolder]);
 
-  const [chatFoldersReordered, setChatFoldersReordered] = useState(chatFolders);
+  const handleBack = useCallback(() => {
+    changeLocation(
+      previousLocation ?? {
+        tab: NavTab.Settings,
+        details: {
+          page: SettingsPage.Chats,
+        },
+      }
+    );
+  }, [changeLocation, previousLocation]);
+
+  const sortedChatFolders = useMemo(() => {
+    return CurrentChatFolders.toSortedArray(currentChatFolders);
+  }, [currentChatFolders]);
+
+  const [chatFoldersReordered, setChatFoldersReordered] =
+    useState(sortedChatFolders);
 
   useEffect(() => {
-    setChatFoldersReordered(chatFolders);
-  }, [chatFolders]);
+    setChatFoldersReordered(sortedChatFolders);
+  }, [sortedChatFolders]);
 
   const { dragAndDropHooks } = useDragAndDrop({
     getItems: () => {
-      return chatFolders.map(chatFolder => {
+      return sortedChatFolders.map(chatFolder => {
         return { 'signal-chat-folder-id': chatFolder.id.slice(-3) };
       });
+    },
+    getAllowedDropOperations() {
+      return ['move'];
     },
     acceptedDragTypes: ['signal-chat-folder-id'],
     getDropOperation: () => 'move',
     onDragEnd: () => {
+      if (
+        !hasChatFoldersOrderChanged(sortedChatFolders, chatFoldersReordered)
+      ) {
+        return;
+      }
+
       onUpdateChatFoldersPositions(
         chatFoldersReordered.map(chatFolder => {
           return chatFolder.id;
@@ -138,7 +191,9 @@ export function PreferencesChatFoldersPage(
       });
     },
     renderDropIndicator: () => {
-      return <div className={tw('h-12')} />;
+      return (
+        <div className={tw('-my-px h-0.5 rounded-full bg-fill-inverted')} />
+      );
     },
   });
 
@@ -177,13 +232,13 @@ export function PreferencesChatFoldersPage(
     ];
 
     const filtered = initial.filter(config => {
-      return !chatFolders.some(chatFolder => {
+      return !sortedChatFolders.some(chatFolder => {
         return matchesChatFolderPreset(chatFolder, config.preset);
       });
     });
 
     return filtered;
-  }, [i18n, chatFolders]);
+  }, [i18n, sortedChatFolders]);
 
   return (
     <>
@@ -193,7 +248,7 @@ export function PreferencesChatFoldersPage(
             type="button"
             aria-label={i18n('icu:goBack')}
             className="Preferences__back-icon"
-            onClick={props.onBack}
+            onClick={handleBack}
           />
         }
         contents={
@@ -209,15 +264,17 @@ export function PreferencesChatFoldersPage(
             >
               <button
                 type="button"
-                className="Preferences__ChatFolders__ChatSelection__Item Preferences__ChatFolders__ChatSelection__Item--Button"
+                className={classNames(itemClassName, itemButtonClassName)}
                 onClick={handleChatFolderCreate}
               >
-                <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--Add" />
-                <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                  {i18n(
-                    'icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton'
-                  )}
-                </span>
+                <ItemContent>
+                  <ItemAvatar kind="Add" />
+                  <ItemTitle>
+                    {i18n(
+                      'icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton'
+                    )}
+                  </ItemTitle>
+                </ItemContent>
               </button>
               <ListBox
                 selectionMode="single"
@@ -271,10 +328,17 @@ export function PreferencesChatFoldersPage(
           title={i18n(
             'icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title'
           )}
-          description={i18n(
-            'icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description',
-            { chatFolderTitle: confirmDeleteChatFolder.name }
-          )}
+          description={
+            <I18n
+              i18n={i18n}
+              id="icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description"
+              components={{
+                chatFolderTitle: (
+                  <UserText text={confirmDeleteChatFolder.name} />
+                ),
+              }}
+            />
+          }
           deleteText={i18n(
             'icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton'
           )}
@@ -289,8 +353,10 @@ export function PreferencesChatFoldersPage(
   );
 }
 
+export type ChatFolderPresetId = 'UnreadChats' | 'DirectChats' | 'GroupChats';
+
 type ChatFolderPresetItemConfig = Readonly<{
-  id: 'UnreadChats' | 'DirectChats' | 'GroupChats';
+  id: ChatFolderPresetId;
   title: string;
   description: string;
   preset: ChatFolderPreset;
@@ -299,7 +365,10 @@ type ChatFolderPresetItemConfig = Readonly<{
 type ChatFolderPresetItemProps = Readonly<{
   i18n: LocalizerType;
   config: ChatFolderPresetItemConfig;
-  onCreateChatFolder: (params: ChatFolderParams) => void;
+  onCreateChatFolder: (
+    params: ChatFolderParams,
+    showToastOnSuccess: boolean
+  ) => void;
 }>;
 
 function ChatFolderPresetItem(props: ChatFolderPresetItemProps) {
@@ -307,33 +376,30 @@ function ChatFolderPresetItem(props: ChatFolderPresetItemProps) {
   const { title, preset } = config;
 
   const handleCreateChatFolder = useCallback(() => {
-    onCreateChatFolder({ ...preset, name: title });
+    onCreateChatFolder({ ...preset, name: title }, true);
   }, [onCreateChatFolder, title, preset]);
 
   return (
     <li
       data-testid={`ChatFolderPreset--${props.config.id}`}
-      className="Preferences__ChatFolders__ChatSelection__Item"
+      className={itemClassName}
     >
-      <span
-        className={`Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--${props.config.id}`}
-      />
-      <span className="Preferences__ChatFolders__ChatSelection__ItemBody">
-        <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-          {props.config.title}
-        </span>
-        <span className="Preferences__ChatFolders__ChatSelection__ItemDescription">
-          {props.config.description}
-        </span>
-      </span>
-      <Button
-        variant={ButtonVariant.Secondary}
-        onClick={handleCreateChatFolder}
-      >
-        {i18n(
-          'icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton'
-        )}
-      </Button>
+      <ItemContent>
+        <ItemAvatar kind={props.config.id} />
+        <ItemBody>
+          <ItemTitle>{props.config.title}</ItemTitle>
+          <ItemDescription>{props.config.description}</ItemDescription>
+        </ItemBody>
+        <AxoButton.Root
+          size="medium"
+          variant="secondary"
+          onClick={handleCreateChatFolder}
+        >
+          {i18n(
+            'icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton'
+          )}
+        </AxoButton.Root>
+      </ItemContent>
     </li>
   );
 }
@@ -356,12 +422,19 @@ function ChatFolderListItem(props: {
         <ListBoxItem
           id={chatFolder.id}
           data-testid={`ChatFolder--${chatFolder.id}`}
-          className="Preferences__ChatFolders__ChatSelection__Item"
+          className={classNames(itemClassName, itemListItemClassName)}
         >
-          <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--Folder" />
-          {i18n(
-            'icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title'
-          )}
+          <ItemContent>
+            <ItemAvatar kind="Folder" />
+            <ItemBody>
+              <ItemTitle>
+                {i18n(
+                  'icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title'
+                )}
+              </ItemTitle>
+            </ItemBody>
+            <ItemDragHandle i18n={i18n} />
+          </ItemContent>
         </ListBoxItem>
       )}
 
@@ -371,6 +444,11 @@ function ChatFolderListItem(props: {
           data-testid={`ChatFolder--${chatFolder.id}`}
           textValue={props.chatFolder.name}
           onAction={handleClickChatFolder}
+          className={classNames(
+            itemClassName,
+            itemListItemClassName,
+            itemClickableClassName
+          )}
         >
           <ChatFolderListItemContextMenu
             i18n={i18n}
@@ -378,10 +456,15 @@ function ChatFolderListItem(props: {
             onChatFolderEdit={props.onChatFolderEdit}
             onChatFolderDelete={props.onChatFolderDelete}
           >
-            <div className="Preferences__ChatFolders__ChatSelection__Item Preferences__ChatFolders__ChatSelection__Item--Button">
-              <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--Folder" />
-              {props.chatFolder.name}
-            </div>
+            <ItemContent>
+              <ItemAvatar kind="Folder" />
+              <ItemBody>
+                <ItemTitle>
+                  <UserText text={props.chatFolder.name} />
+                </ItemTitle>
+              </ItemBody>
+              <ItemDragHandle i18n={i18n} />
+            </ItemContent>
           </ChatFolderListItemContextMenu>
         </ListBoxItem>
       )}

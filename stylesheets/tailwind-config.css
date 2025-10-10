@@ -54,7 +54,6 @@
   --color-background-primary:   light-dark(/*   */ #FFFFFF /*  */, /*   */ #1A1A1A /*  */);
   --color-background-secondary: light-dark(/*   */ #F6F6F6 /*  */, /*   */ #262626 /*  */);
   --color-background-overlay:   light-dark(--alpha(#000000 / 20%), --alpha(#000000 / 40%));
-  --color-background-overlay-secondary: light-dark(--alpha(#000000 / 15%), --alpha(#FFFFFF / 15%));
 
   /* Colors/Elevated Background */
   --color-elevated-background-primary:    light-dark(#FAFAFA, #2A2A2A);
@@ -146,7 +145,6 @@
       --color-background-primary:   light-dark(/*   */ #FFFFFF /*  */, /*   */ #121212 /*  */);
       --color-background-secondary: light-dark(/*   */ #F6F6F6 /*  */, /*   */ #1E1E1E /*  */);
       --color-background-overlay:   light-dark(--alpha(#000000 / 40%), --alpha(#000000 / 60%));
-      --color-background-overlay-secondary: light-dark(--alpha(#000000 / 15%), --alpha(#FFFFFF / 15%));
 
       /* Colors/Elevated Background */
       --color-elevated-background-primary:    light-dark(#FFFFFF, #222222);
@@ -312,8 +310,6 @@
 @theme {
   /* box-shadow */
   --shadow-*: initial; /* reset defaults */
-  --shadow-legacy-outline:
-      0 0 0 2px #2c6bed;
   --shadow-elevation-0:
     0 1px 2px 0 var(--color-shadow-elevation-1);
   --shadow-elevation-1:

@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.js';
 import { DialogExpiredBuild } from '../../components/DialogExpiredBuild.js';
@@ -116,8 +116,12 @@ import { useNavActions } from '../ducks/nav.js';
 import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.js';
 import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.js';
 import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.js';
+import {
+  getHasAnyCurrentCustomChatFolders,
+  getSelectedChatFolder,
+} from '../selectors/chatFolders.js';
+import { NavTab, SettingsPage } from '../../types/Nav.js';
 import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.js';
-import type { ExternalProps as NotificationProfilesMenuProps } from './NotificationProfilesMenu.js';
 import { getActiveProfile } from '../selectors/notificationProfiles.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
@@ -174,10 +178,8 @@ function renderToastManagerWithoutMegaphone(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-function renderNotificationProfilesMenu(
-  props: NotificationProfilesMenuProps
-): JSX.Element {
-  return <SmartNotificationProfilesMenu {...props} />;
+function renderNotificationProfilesMenu(): JSX.Element {
+  return <SmartNotificationProfilesMenu />;
 }
 
 const getModeSpecificProps = (
@@ -220,6 +222,7 @@ const getModeSpecificProps = (
         searchTerm: getQuery(state),
         startSearchCounter: getStartSearchCounter(state),
         filterByUnread: getFilterByUnread(state),
+        selectedChatFolder: getSelectedChatFolder(state),
         ...getLeftPaneLists(state),
       };
     case ComposerStep.StartDirectConversation:
@@ -310,6 +313,9 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const crashReportCount = useSelector(getCrashReportCount);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const hasAppExpired = useSelector(hasExpired);
+  const hasAnyCurrentCustomChatFolders = useSelector(
+    getHasAnyCurrentCustomChatFolders
+  );
   const hasNetworkDialog = useSelector(getHasNetworkDialog);
   const hasSearchQuery = useSelector(getHasSearchQuery);
   const hasUnsupportedOS = useSelector(isOSUnsupported);
@@ -320,6 +326,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const modeSpecificProps = useSelector(getModeSpecificProps);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
+  const selectedChatFolder = useSelector(getSelectedChatFolder);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const showArchived = useSelector(getShowArchived);
   const targetedMessage = useSelector(getTargetedMessage);
@@ -381,6 +388,18 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const { showUserNotFoundModal } = useGlobalModalActions();
   const { changeLocation } = useNavActions();
 
+  const handleChatFolderOpenSettings = useCallback(() => {
+    changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: SettingsPage.ChatFolders,
+        previousLocation: {
+          tab: NavTab.Chats,
+        },
+      },
+    });
+  }, [changeLocation]);
+
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
   if (hasAppExpired) {
@@ -425,6 +444,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       endSearch={endSearch}
       getPreferredBadge={getPreferredBadge}
       getServerAlertToShow={getServerAlertToShow}
+      hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
       hasExpiredDialog={hasExpiredDialog}
       hasFailedStorySends={hasFailedStorySends}
       hasNetworkDialog={hasNetworkDialog}
@@ -439,6 +459,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
       modeSpecificProps={modeSpecificProps}
       navTabsCollapsed={navTabsCollapsed}
+      onChatFoldersOpenSettings={handleChatFolderOpenSettings}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       openUsernameReservationModal={openUsernameReservationModal}
@@ -465,6 +486,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       saveAlerts={saveAlerts}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       searchInConversation={searchInConversation}
+      selectedChatFolder={selectedChatFolder}
       selectedConversationId={selectedConversationId}
       serverAlerts={serverAlerts}
       setChallengeStatus={setChallengeStatus}
