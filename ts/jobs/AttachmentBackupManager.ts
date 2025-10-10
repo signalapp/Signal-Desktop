@@ -17,6 +17,7 @@ import {
   type JobManagerJobResultType,
 } from './JobManager.js';
 import { strictAssert } from '../util/assert.js';
+import { getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath } from '../util/migrations.js';
 import {
   type BackupsService,
   backupsService,
@@ -185,7 +186,7 @@ class AttachmentPermanentlyMissingError extends Error {}
 class FileNotFoundOnTransitTierError extends Error {}
 
 type RunAttachmentBackupJobDependenciesType = {
-  getAbsoluteAttachmentPath: typeof window.Signal.Migrations.getAbsoluteAttachmentPath;
+  getAbsoluteAttachmentPath: typeof doGetAbsoluteAttachmentPath;
   backupMediaBatch?: typeof doBackupMediaBatch;
   backupsService: BackupsService;
   encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
@@ -199,8 +200,7 @@ export async function runAttachmentBackupJob(
     abortSignal: AbortSignal;
   },
   dependencies: RunAttachmentBackupJobDependenciesType = {
-    getAbsoluteAttachmentPath:
-      window.Signal.Migrations.getAbsoluteAttachmentPath,
+    getAbsoluteAttachmentPath: doGetAbsoluteAttachmentPath,
     backupsService,
     backupMediaBatch: doBackupMediaBatch,
     encryptAndUploadAttachment,

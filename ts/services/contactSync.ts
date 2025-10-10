@@ -20,6 +20,11 @@ import * as Errors from '../types/errors.js';
 import type { ValidateConversationType } from '../model-types.d.ts';
 import type { ConversationModel } from '../models/conversations.js';
 import { validateConversation } from '../util/validateConversation.js';
+import {
+  writeNewAttachmentData,
+  deleteAttachmentData,
+  doesAttachmentExist,
+} from '../util/migrations.js';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation.js';
 import { createLogger } from '../logging/log.js';
 import { dropNull } from '../util/dropNull.js';
@@ -55,8 +60,6 @@ async function updateConversationFromContactSync(
   sentAt: number
 ): Promise<void> {
   const logId = `updateConversationFromContactSync(${conversation.idForLogging()}`;
-  const { writeNewAttachmentData, deleteAttachmentData, doesAttachmentExist } =
-    window.Signal.Migrations;
 
   conversation.set({
     name: dropNull(details.name),
@@ -137,7 +140,7 @@ async function downloadAndParseContactAttachment(
     });
   } finally {
     if (downloaded?.path) {
-      await window.Signal.Migrations.deleteAttachmentData(downloaded.path);
+      await deleteAttachmentData(downloaded.path);
     }
   }
 }

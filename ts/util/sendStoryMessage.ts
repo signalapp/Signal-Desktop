@@ -28,6 +28,7 @@ import { incrementMessageCounter } from './incrementMessageCounter.js';
 import { isGroupV2 } from './whatTypeOfConversation.js';
 import { isNotNil } from './isNotNil.js';
 import { collect } from './iterables.js';
+import { loadPreviewData, upgradeMessageSchema } from './migrations.js';
 import { DurationInSeconds } from './durations/index.js';
 import { sanitizeLinkPreview } from '../services/LinkPreview.js';
 import type { DraftBodyRanges } from '../types/BodyRange.js';
@@ -139,7 +140,6 @@ export async function sendStoryMessage(
   const attachments: Array<AttachmentType> = [attachment];
 
   const linkPreview = attachment?.textAttachment?.preview;
-  const { loadPreviewData } = window.Signal.Migrations;
   const sanitizedLinkPreview = linkPreview
     ? sanitizeLinkPreview((await loadPreviewData([linkPreview]))[0])
     : undefined;
@@ -166,7 +166,7 @@ export async function sendStoryMessage(
 
         // Note: we use the same sent_at for these messages because we want de-duplication
         //   on the receiver side.
-        return window.Signal.Migrations.upgradeMessageSchema({
+        return upgradeMessageSchema({
           attachments,
           bodyRanges,
           conversationId: ourConversation.id,
@@ -272,27 +272,26 @@ export async function sendStoryMessage(
           }
         );
 
-      const messageAttributes =
-        await window.Signal.Migrations.upgradeMessageSchema({
-          attachments,
-          bodyRanges,
-          canReplyToStory: true,
-          conversationId: group.id,
-          expireTimer: DurationInSeconds.DAY,
-          expirationStartTimestamp: Date.now(),
-          id: generateUuid(),
-          readStatus: ReadStatus.Read,
-          received_at: incrementMessageCounter(),
-          received_at_ms: groupTimestamp,
-          seenStatus: SeenStatus.NotApplicable,
-          sendStateByConversationId,
-          sent_at: groupTimestamp,
-          source: itemStorage.user.getNumber(),
-          sourceServiceId: itemStorage.user.getAci(),
-          sourceDevice: itemStorage.user.getDeviceId(),
-          timestamp: groupTimestamp,
-          type: 'story',
-        });
+      const messageAttributes = await upgradeMessageSchema({
+        attachments,
+        bodyRanges,
+        canReplyToStory: true,
+        conversationId: group.id,
+        expireTimer: DurationInSeconds.DAY,
+        expirationStartTimestamp: Date.now(),
+        id: generateUuid(),
+        readStatus: ReadStatus.Read,
+        received_at: incrementMessageCounter(),
+        received_at_ms: groupTimestamp,
+        seenStatus: SeenStatus.NotApplicable,
+        sendStateByConversationId,
+        sent_at: groupTimestamp,
+        source: itemStorage.user.getNumber(),
+        sourceServiceId: itemStorage.user.getAci(),
+        sourceDevice: itemStorage.user.getDeviceId(),
+        timestamp: groupTimestamp,
+        type: 'story',
+      });
 
       groupV2MessagesByConversationId.set(group.id, messageAttributes);
     })

@@ -13,6 +13,7 @@ import {
   // eslint-disable-next-line import/no-restricted-paths
 } from '../components/IdenticonSVG.js';
 import { missingCaseError } from './missingCaseError.js';
+import { writeNewPlaintextTempData } from './migrations.js';
 
 const TARGET_MIME = 'image/png';
 
@@ -118,8 +119,7 @@ export function createIdenticon(
           }
 
           const data = new Uint8Array(arrayBuffer);
-          const path =
-            await window.Signal.Migrations.writeNewPlaintextTempData(data);
+          const path = await writeNewPlaintextTempData(data);
           resolve({ url, path });
         });
         reader.readAsArrayBuffer(blob);

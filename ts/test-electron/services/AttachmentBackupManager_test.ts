@@ -23,6 +23,7 @@ import { DataWriter } from '../../sql/Client.js';
 import { getRandomBytes } from '../../Crypto.js';
 import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.js';
 import { createName, getRelativePath } from '../../util/attachmentPath.js';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.js';
 import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
 import { SECOND } from '../../util/durations/index.js';
 import { HTTPError } from '../../types/HTTPError.js';
@@ -99,7 +100,6 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
   }
 
   before(async () => {
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
     const absolutePath = getAbsoluteAttachmentPath(RELATIVE_ATTACHMENT_PATH);
     await ensureFile(absolutePath);
     await DataWriter.ensureFilePermissions();
@@ -142,7 +142,6 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     });
     const decryptAttachmentV2ToSink = sinon.stub();
 
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
     const abortController = new AbortController();
     runJob = sandbox.stub().callsFake((job: AttachmentBackupJobType) => {
       return runAttachmentBackupJob(

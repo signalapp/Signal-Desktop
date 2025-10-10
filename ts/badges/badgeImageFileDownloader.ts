@@ -7,6 +7,7 @@ import { createLogger } from '../logging/log.js';
 import { MINUTE } from '../util/durations/index.js';
 import { missingCaseError } from '../util/missingCaseError.js';
 import { waitForOnline } from '../util/waitForOnline.js';
+import { writeNewBadgeImageFileData } from '../util/migrations.js';
 import { getBadgeImageFile, isOnline } from '../textsecure/WebAPI.js';
 
 const log = createLogger('badgeImageFileDownloader');
@@ -92,8 +93,7 @@ async function downloadBadgeImageFile(url: string): Promise<string> {
   await waitForOnline({ server: { isOnline }, timeout: 1 * MINUTE });
 
   const imageFileData = await getBadgeImageFile(url);
-  const localPath =
-    await window.Signal.Migrations.writeNewBadgeImageFileData(imageFileData);
+  const localPath = await writeNewBadgeImageFileData(imageFileData);
 
   await DataWriter.badgeImageFileDownloaded(url, localPath);
 

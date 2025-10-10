@@ -9,6 +9,7 @@ import {
   type ReencryptedAttachmentV2,
 } from '../AttachmentCrypto.js';
 import { strictAssert } from './assert.js';
+import { getAbsoluteAttachmentPath } from './migrations.js';
 
 const { isNumber } = lodash;
 
@@ -50,7 +51,6 @@ async function doDownloadFromLocalBackup(
     idForLogging: logId,
     keysBase64: localKey,
     size,
-    getAbsoluteAttachmentPath:
-      window.Signal.Migrations.getAbsoluteAttachmentPath,
+    getAbsoluteAttachmentPath,
   });
 }

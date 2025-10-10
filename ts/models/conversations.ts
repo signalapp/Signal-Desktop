@@ -17,6 +17,16 @@ import type {
 } from '../model-types.d.ts';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { getConversation } from '../util/getConversation.js';
+import {
+  copyAttachmentIntoTempDirectory,
+  deleteAttachmentData,
+  doesAttachmentExist,
+  getAbsoluteAttachmentPath,
+  getAbsoluteTempPath,
+  readStickerData,
+  upgradeMessageSchema,
+  writeNewAttachmentData,
+} from '../util/migrations.js';
 import { drop } from '../util/drop.js';
 import { isShallowEqual } from '../util/isShallowEqual.js';
 import { getInitials } from '../util/getInitials.js';
@@ -3840,8 +3850,6 @@ export class ConversationModel {
   }
 
   async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
-    const { readStickerData } = window.Signal.Migrations;
-
     const packData = Stickers.getStickerPack(packId);
     const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
@@ -4025,9 +4033,6 @@ export class ConversationModel {
       extraReduxActions?: () => void;
     } = {}
   ): Promise<MessageAttributesType | undefined> {
-    const { deleteAttachmentData, upgradeMessageSchema } =
-      window.Signal.Migrations;
-
     if (this.isGroupV1AndDisabled()) {
       return;
     }
@@ -4962,12 +4967,6 @@ export class ConversationModel {
     decryptionKey?: Uint8Array | null | undefined;
     forceFetch?: boolean;
   }): Promise<void> {
-    const {
-      deleteAttachmentData,
-      doesAttachmentExist,
-      writeNewAttachmentData,
-    } = window.Signal.Migrations;
-
     const { avatarUrl, decryptionKey, forceFetch } = options;
     if (isMe(this.attributes)) {
       if (avatarUrl) {
@@ -5471,8 +5470,6 @@ export class ConversationModel {
     url: string;
     absolutePath?: string;
   }> {
-    const { getAbsoluteTempPath } = window.Signal.Migrations;
-
     const saveToDisk = shouldSaveNotificationAvatarToDisk();
     const avatarUrl = getLocalAvatarUrl(this.attributes);
     if (avatarUrl) {
@@ -5494,13 +5491,6 @@ export class ConversationModel {
   }
 
   async #getTemporaryAvatarPath(): Promise<string | undefined> {
-    const {
-      copyAttachmentIntoTempDirectory,
-      deleteAttachmentData,
-      getAbsoluteAttachmentPath,
-      getAbsoluteTempPath,
-    } = window.Signal.Migrations;
-
     const avatar = getAvatar(this.attributes);
     if (avatar?.path == null) {
       return undefined;

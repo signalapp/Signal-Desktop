@@ -17,6 +17,13 @@ import { retryPlaceholders } from '../../services/retryPlaceholders.js';
 import { getOwn } from '../../util/getOwn.js';
 import { assertDev, strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
+import {
+  deleteAvatar,
+  writeNewAvatarData,
+  getUnusedFilename,
+  readAttachmentData,
+  saveAttachmentToDisk,
+} from '../../util/migrations.js';
 import type { DurationInSeconds } from '../../util/durations/index.js';
 import * as universalExpireTimer from '../../util/universalExpireTimer.js';
 import * as Attachment from '../../util/Attachment.js';
@@ -1631,7 +1638,7 @@ function deleteAvatarFromDisk(
 ): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     if (avatarData.imagePath) {
-      await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
+      await deleteAvatar(avatarData.imagePath);
     } else {
       log.info(
         'No path for avatarData. Removing from userAvatarData, but not disk'
@@ -2271,8 +2278,9 @@ function saveAvatarToDisk(
 
     strictAssert(conversationId, 'conversationId not provided');
 
-    const { path: imagePath, ...localImage } =
-      await window.Signal.Migrations.writeNewAvatarData(avatarData.buffer);
+    const { path: imagePath, ...localImage } = await writeNewAvatarData(
+      avatarData.buffer
+    );
 
     const avatars = await getAvatarsAndUpdateConversation(
       getState().conversations,
@@ -2882,8 +2890,9 @@ function composeSaveAvatarToDisk(
       throw new Error('No avatar Uint8Array provided');
     }
 
-    const { path: imagePath, ...localImage } =
-      await window.Signal.Migrations.writeNewAvatarData(avatarData.buffer);
+    const { path: imagePath, ...localImage } = await writeNewAvatarData(
+      avatarData.buffer
+    );
 
     dispatch({
       type: COMPOSE_ADD_AVATAR,
@@ -2901,7 +2910,7 @@ function composeDeleteAvatarFromDisk(
 ): ThunkAction<void, RootStateType, unknown, ComposeDeleteAvatarActionType> {
   return async dispatch => {
     if (avatarData.imagePath) {
-      await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
+      await deleteAvatar(avatarData.imagePath);
     } else {
       log.info(
         'No path for avatarData. Removing from userAvatarData, but not disk'
@@ -4105,9 +4114,6 @@ function saveAttachment(
       return;
     }
 
-    const { getUnusedFilename, readAttachmentData, saveAttachmentToDisk } =
-      window.Signal.Migrations;
-
     const fullPath = await Attachment.save({
       attachment,
       index: index + 1,
@@ -4179,9 +4185,6 @@ function saveAttachments(
     if (canceled || !dirPath) {
       return;
     }
-
-    const { getUnusedFilename, readAttachmentData, saveAttachmentToDisk } =
-      window.Signal.Migrations;
 
     let fullPath;
     let index = 0;

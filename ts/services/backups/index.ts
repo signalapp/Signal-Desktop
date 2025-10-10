@@ -22,6 +22,10 @@ import * as Bytes from '../../Bytes.js';
 import { strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
 import { TEMP_PATH } from '../../util/basePaths.js';
+import {
+  getAbsoluteDownloadsPath,
+  saveAttachmentToDisk,
+} from '../../util/migrations.js';
 import { waitForAllBatchers } from '../../util/batcher.js';
 import { flushAllWaitBatchers } from '../../util/waitBatcher.js';
 import { DelimitedStream } from '../../util/DelimitedStream.js';
@@ -210,8 +214,7 @@ export class BackupsService {
 
     const ephemeralKey = itemStorage.get('backupEphemeralKey');
 
-    const absoluteDownloadPath =
-      window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
+    const absoluteDownloadPath = getAbsoluteDownloadsPath(backupDownloadPath);
     let hasBackup = false;
 
     // eslint-disable-next-line no-constant-condition
@@ -520,8 +523,6 @@ export class BackupsService {
   // Test harness
   public async exportWithDialog(): Promise<void> {
     const { data } = await this.exportBackupData();
-
-    const { saveAttachmentToDisk } = window.Signal.Migrations;
 
     await saveAttachmentToDisk({
       name: 'backup.bin',

@@ -25,6 +25,7 @@ import { getMessageIdForLogging } from './idForLogging.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
 import { MINUTE } from './durations/index.js';
 import { drop } from './drop.js';
+import { deleteExternalMessageFiles } from './migrations.js';
 import { hydrateStoryContext } from './hydrateStoryContext.js';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.js';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.js';
@@ -208,7 +209,7 @@ async function cleanupStoryReplies(
 export async function deleteMessageData(
   message: MessageAttributesType
 ): Promise<void> {
-  await window.Signal.Migrations.deleteExternalMessageFiles(message);
+  await deleteExternalMessageFiles(message);
 
   if (isStory(message)) {
     await cleanupStoryReplies(message);

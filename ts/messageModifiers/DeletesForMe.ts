@@ -12,6 +12,10 @@ import type {
   AddressableMessage,
 } from '../textsecure/messageReceiverEvents.js';
 import {
+  deleteAttachmentData,
+  deleteDownloadData,
+} from '../util/migrations.js';
+import {
   deleteAttachmentFromMessage,
   deleteMessage,
 } from '../util/deleteForMe.js';
@@ -111,9 +115,8 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
             item.message,
             item.deleteAttachmentData,
             {
-              deleteAttachmentOnDisk:
-                window.Signal.Migrations.deleteAttachmentData,
-              deleteDownloadOnDisk: window.Signal.Migrations.deleteDownloadData,
+              deleteAttachmentOnDisk: deleteAttachmentData,
+              deleteDownloadOnDisk: deleteDownloadData,
               logId,
             }
           );

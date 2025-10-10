@@ -9,6 +9,7 @@ import { MessageModel } from '../models/messages.js';
 import { DataReader, DataWriter } from '../sql/Client.js';
 import { getMessageConversation } from '../util/getMessageConversation.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
+import { upgradeMessageSchema } from '../util/migrations.js';
 import { isNotNil } from '../util/isNotNil.js';
 import { isStory } from '../messages/helpers.js';
 import { getStoryDataFromMessageAttributes } from './storyLoader.js';
@@ -155,8 +156,7 @@ export class MessageCache {
       return;
     }
     const startingAttributes = message.attributes;
-    const upgradedAttributes =
-      await window.Signal.Migrations.upgradeMessageSchema(startingAttributes);
+    const upgradedAttributes = await upgradeMessageSchema(startingAttributes);
     if (startingAttributes !== upgradedAttributes) {
       message.set(upgradedAttributes);
     }

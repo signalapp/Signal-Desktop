@@ -11,6 +11,10 @@ import { createLogger } from '../logging/log.js';
 import * as Errors from '../types/errors.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { drop } from '../util/drop.js';
+import {
+  writeNewAttachmentData,
+  processNewAttachment,
+} from '../util/migrations.js';
 import { strictAssert } from '../util/assert.js';
 import type { MessageAttributesType } from '../model-types.js';
 import { ReadStatus } from '../messages/MessageReadStatus.js';
@@ -233,18 +237,15 @@ export class ReleaseNotesFetcher {
           }
 
           const localAttachment =
-            await window.Signal.Migrations.writeNewAttachmentData(
-              rawAttachmentData
-            );
+            await writeNewAttachmentData(rawAttachmentData);
 
-          const processedAttachment =
-            await window.Signal.Migrations.processNewAttachment(
-              {
-                ...localAttachment,
-                contentType: stringToMIMEType(contentType),
-              },
-              'attachment'
-            );
+          const processedAttachment = await processNewAttachment(
+            {
+              ...localAttachment,
+              contentType: stringToMIMEType(contentType),
+            },
+            'attachment'
+          );
 
           return { hydratedNote, processedAttachment };
         }

@@ -9,6 +9,7 @@ import {
 } from '../../../types/MIME.js';
 import { createLogger } from '../../../logging/log.js';
 import type { AttachmentType } from '../../../types/Attachment.js';
+import { getAbsoluteAttachmentPath } from '../../../util/migrations.js';
 import {
   hasRequiredInformationForBackup,
   hasRequiredInformationToDownloadFromTransitTier,
@@ -399,9 +400,7 @@ function getLocatorInfoForAttachment({
   if (isLocalBackup && isBackupable) {
     const attachmentExistsLocally =
       attachment.path != null &&
-      existsSync(
-        window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path)
-      );
+      existsSync(getAbsoluteAttachmentPath(attachment.path));
 
     if (attachmentExistsLocally && attachment.localKey) {
       locatorInfo.localKey = Bytes.fromBase64(attachment.localKey);

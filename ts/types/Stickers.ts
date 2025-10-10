@@ -30,6 +30,17 @@ import { SignalService as Proto } from '../protobuf/index.js';
 import { createLogger } from '../logging/log.js';
 import type { StickersStateType } from '../state/ducks/stickers.js';
 import { MINUTE } from '../util/durations/index.js';
+import {
+  processNewEphemeralSticker,
+  processNewSticker,
+  deleteTempFile,
+  getAbsoluteStickerPath,
+  copyStickerIntoAttachmentsDirectory,
+  readAttachmentData,
+  deleteSticker,
+  readStickerData,
+  writeNewStickerData,
+} from '../util/migrations.js';
 import { drop } from '../util/drop.js';
 import { isNotNil } from '../util/isNotNil.js';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
@@ -432,8 +443,8 @@ async function downloadSticker(
   const plaintext = decryptSticker(packKey, ciphertext);
 
   const sticker = ephemeral
-    ? await window.Signal.Migrations.processNewEphemeralSticker(plaintext)
-    : await window.Signal.Migrations.processNewSticker(plaintext);
+    ? await processNewEphemeralSticker(plaintext)
+    : await processNewSticker(plaintext);
 
   return {
     id,
@@ -493,7 +504,7 @@ export async function removeEphemeralPack(packId: string): Promise<void> {
 
   const stickers = values(existing.stickers);
   const paths = stickers.map(sticker => sticker.path);
-  await pMap(paths, window.Signal.Migrations.deleteTempFile, {
+  await pMap(paths, deleteTempFile, {
     concurrency: 3,
   });
 
@@ -1065,12 +1076,9 @@ export async function copyStickerToAttachments(
   }
 
   const { path: stickerPath } = sticker;
-  const absolutePath =
-    window.Signal.Migrations.getAbsoluteStickerPath(stickerPath);
+  const absolutePath = getAbsoluteStickerPath(stickerPath);
   const { path, size } =
-    await window.Signal.Migrations.copyStickerIntoAttachmentsDirectory(
-      absolutePath
-    );
+    await copyStickerIntoAttachmentsDirectory(absolutePath);
 
   const newSticker: AttachmentType = {
     ...sticker,
@@ -1080,7 +1088,7 @@ export async function copyStickerToAttachments(
     // Fall-back
     contentType: IMAGE_WEBP,
   };
-  const data = await window.Signal.Migrations.readAttachmentData(newSticker);
+  const data = await readAttachmentData(newSticker);
 
   const sniffedMimeType = sniffImageMimeType(data);
   if (sniffedMimeType) {
@@ -1131,7 +1139,7 @@ export async function deletePackReference(
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);
 
-  await pMap(paths, window.Signal.Migrations.deleteSticker, {
+  await pMap(paths, deleteSticker, {
     concurrency: 3,
   });
 }
@@ -1150,7 +1158,7 @@ async function deletePack(packId: string): Promise<void> {
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);
 
-  await pMap(paths, window.Signal.Migrations.deleteSticker, {
+  await pMap(paths, deleteSticker, {
     concurrency: 3,
   });
 }
@@ -1207,9 +1215,6 @@ async function encryptLegacySticker(
 ): Promise<
   { sticker: StickerFromDBType; cleanup: () => Promise<void> } | undefined
 > {
-  const { deleteSticker, readStickerData, writeNewStickerData } =
-    window.Signal.Migrations;
-
   const updated = await encryptLegacyAttachment(sticker, {
     logId: 'sticker',
     readAttachmentData: readStickerData,

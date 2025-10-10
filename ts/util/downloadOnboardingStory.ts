@@ -11,6 +11,7 @@ import { ReadStatus } from '../messages/MessageReadStatus.js';
 import { SeenStatus } from '../MessageSeenStatus.js';
 import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists.js';
 import { saveNewMessageBatcher } from './messageBatcher.js';
+import { writeNewAttachmentData, processNewAttachment } from './migrations.js';
 import { incrementMessageCounter } from './incrementMessageCounter.js';
 import {
   getOnboardingStoryManifest,
@@ -65,16 +66,13 @@ export async function downloadOnboardingStory(): Promise<void> {
 
   const attachments: Array<AttachmentType> = await Promise.all(
     imageBuffers.map(async data => {
-      const local = await window.Signal.Migrations.writeNewAttachmentData(data);
+      const local = await writeNewAttachmentData(data);
       const attachment: AttachmentType = {
         contentType: IMAGE_JPEG,
         ...local,
       };
 
-      return window.Signal.Migrations.processNewAttachment(
-        attachment,
-        'attachment'
-      );
+      return processNewAttachment(attachment, 'attachment');
     })
   );
 

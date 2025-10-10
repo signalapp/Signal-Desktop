@@ -8,6 +8,7 @@ import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
 } from './getLocalAttachmentUrl.js';
+import { getAbsoluteDraftPath } from './migrations.js';
 
 const log = createLogger('resolveDraftAttachmentOnDisk');
 
@@ -21,9 +22,7 @@ export function resolveDraftAttachmentOnDisk(
 
   if (attachment.screenshotPath) {
     // Legacy
-    url = window.Signal.Migrations.getAbsoluteDraftPath(
-      attachment.screenshotPath
-    );
+    url = getAbsoluteDraftPath(attachment.screenshotPath);
   } else if (attachment.screenshot?.path) {
     url = getLocalAttachmentUrl(attachment.screenshot, {
       disposition: AttachmentDisposition.Draft,

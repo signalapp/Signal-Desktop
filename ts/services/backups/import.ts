@@ -60,6 +60,7 @@ import type {
   QuotedMessageType,
 } from '../../model-types.d.ts';
 import { assertDev, strictAssert } from '../../util/assert.js';
+import { upgradeMessageSchema } from '../../util/migrations.js';
 import {
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
@@ -590,7 +591,7 @@ export class BackupImportStream extends Writable {
     attributes: MessageAttributesType
   ): Promise<MessageAttributesType> {
     try {
-      return await window.Signal.Migrations.upgradeMessageSchema(attributes);
+      return await upgradeMessageSchema(attributes);
     } catch (error) {
       log.error(
         `${this.#logId}: failed to migrate a message ${attributes.sent_at}, ` +

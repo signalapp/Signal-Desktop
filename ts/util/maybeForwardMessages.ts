@@ -18,6 +18,12 @@ import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact
 import type { DraftBodyRanges } from '../types/BodyRange.js';
 import type { StickerWithHydratedData } from '../types/Stickers.js';
 import { drop } from './drop.js';
+import {
+  loadAttachmentData,
+  loadContactData,
+  loadPreviewData,
+  loadStickerData,
+} from './migrations.js';
 import { toLogFormat } from '../types/errors.js';
 import {
   sortByMessageOrder,
@@ -76,13 +82,6 @@ export async function maybeForwardMessages(
 
   const sendMessageOptions = { dontClearDraft: true };
   const baseTimestamp = Date.now();
-
-  const {
-    loadAttachmentData,
-    loadContactData,
-    loadPreviewData,
-    loadStickerData,
-  } = window.Signal.Migrations;
 
   let timestampOffset = 0;
 

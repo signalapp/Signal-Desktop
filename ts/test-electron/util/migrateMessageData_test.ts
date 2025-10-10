@@ -8,6 +8,7 @@ import type { MessageAttributesType } from '../../model-types.js';
 import { DataReader, DataWriter } from '../../sql/Client.js';
 import { generateAci } from '../../types/ServiceId.js';
 import { postSaveUpdates } from '../../util/cleanup.js';
+import { upgradeMessageSchema } from '../../util/migrations.js';
 import { itemStorage } from '../../textsecure/Storage.js';
 
 function composeMessage(timestamp: number): MessageAttributesType {
@@ -51,7 +52,7 @@ describe('utils/migrateMessageData', async () => {
         if (message.id === CANNOT_UPGRADE_MESSAGE_ID) {
           throw new Error('upgrade failed');
         }
-        return window.Signal.Migrations.upgradeMessageSchema(message, ...rest);
+        return upgradeMessageSchema(message, ...rest);
       },
       getMessagesNeedingUpgrade: async (...args) => {
         const messagesToUpgrade = await DataReader.getMessagesNeedingUpgrade(
