@@ -325,7 +325,6 @@ export function MediaEditor({
         width: img.width,
       };
       setImageState(newImageState);
-      takeSnapshot('initial state', newImageState, canvas);
     };
     img.onerror = (
       event: Event | string,
@@ -587,6 +586,20 @@ export function MediaEditor({
     }
     drawFabricBackgroundImage({ fabricCanvas, image, imageState });
   }, [fabricCanvas, image, imageState]);
+
+  const initialSnapshotTaken = useRef(false);
+  useEffect(() => {
+    if (
+      !fabricCanvas ||
+      !fabricCanvas.backgroundImage ||
+      initialSnapshotTaken.current
+    ) {
+      return;
+    }
+
+    takeSnapshot('initial state', imageState, fabricCanvas);
+    initialSnapshotTaken.current = true;
+  }, [fabricCanvas, imageState, takeSnapshot]);
 
   const [canCrop, setCanCrop] = useState(false);
   const [cropAspectRatioLock, setCropAspectRatioLock] = useState(false);

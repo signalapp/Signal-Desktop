@@ -2327,5 +2327,12 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/MediaEditor.tsx",
+    "line": "  const initialSnapshotTaken = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-10-10T09:45:25.353Z"
   }
 ]
