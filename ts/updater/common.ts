@@ -310,7 +310,7 @@ export abstract class Updater {
       this.logger.info('safePoll: polling now');
       await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
     } catch (error) {
-      this.logger.error(`safePoll: ${Errors.toLogFormat(error)}`);
+      this.logger.warn(`safePoll: ${Errors.toLogFormat(error)}`);
     } finally {
       this.#schedulePoll();
     }
