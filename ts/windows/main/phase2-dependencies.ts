@@ -9,6 +9,11 @@ import { initialize as initializeLogging } from '../../logging/set_up_renderer_l
 import { setup } from '../../signal.js';
 import { addSensitivePath } from '../../util/privacy.js';
 import * as dns from '../../util/dns.js';
+import {
+  ATTACHMENTS_PATH,
+  STICKERS_PATH,
+  DRAFT_PATH,
+} from '../../util/basePaths.js';
 import { createLogger } from '../../logging/log.js';
 import { SignalContext } from '../context.js';
 import * as Attachments from './attachments.js';
@@ -36,15 +41,9 @@ moment.locale(
   localeOverride != null ? [localeOverride] : preferredSystemLocales
 );
 
-const userDataPath = SignalContext.getPath('userData');
-window.BasePaths = {
-  attachments: Attachments.getPath(userDataPath),
-  draft: Attachments.getDraftPath(userDataPath),
-  stickers: Attachments.getStickersPath(userDataPath),
-  temp: Attachments.getTempPath(userDataPath),
-};
-
-addSensitivePath(window.BasePaths.attachments);
+addSensitivePath(ATTACHMENTS_PATH);
+addSensitivePath(STICKERS_PATH);
+addSensitivePath(DRAFT_PATH);
 if (config.crashDumpsPath) {
   addSensitivePath(config.crashDumpsPath);
 }
@@ -58,5 +57,5 @@ window.Signal = setup({
   Attachments,
   getRegionCode: () => itemStorage.get('regionCode'),
   logger: log,
-  userDataPath,
+  userDataPath: window.SignalContext.getPath('userData'),
 });

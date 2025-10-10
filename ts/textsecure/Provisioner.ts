@@ -88,7 +88,6 @@ export type SubscriberType = Readonly<{
 export type PrepareLinkDataOptionsType = Readonly<{
   envelope: EnvelopeType;
   deviceName: string;
-  backupFile?: Uint8Array;
 }>;
 
 enum SocketState {
@@ -143,7 +142,6 @@ export class Provisioner {
   public static prepareLinkData({
     envelope,
     deviceName,
-    backupFile,
   }: PrepareLinkDataOptionsType): CreateLinkedDeviceOptionsType {
     const {
       number,
@@ -185,7 +183,6 @@ export class Provisioner {
         0,
         MAX_DEVICE_NAME_LENGTH
       ),
-      backupFile,
       userAgent,
       ourAci,
       ourPni,

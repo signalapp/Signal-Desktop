@@ -10,10 +10,7 @@ import type PQueue from 'p-queue/dist.js';
 import type { assert } from 'chai';
 import type { MochaOptions } from 'mocha';
 
-import type {
-  ChallengeHandler,
-  IPCRequest as IPCChallengeRequest,
-} from './challenge.js';
+import type { IPCRequest as IPCChallengeRequest } from './challenge.js';
 import type AccountManager from './textsecure/AccountManager.js';
 import type { OSType } from './util/os/shared.js';
 import type {
@@ -28,12 +25,9 @@ import type { BatcherType } from './util/batcher.js';
 import type { ScreenShareStatus } from './types/Calling.js';
 import type { MessageCache } from './services/MessageCache.js';
 import type { StateType } from './state/reducer.js';
-import type { Address } from './types/Address.js';
-import type { QualifiedAddress } from './types/QualifiedAddress.js';
 import type { CIType } from './CI.js';
 import type { IPCEventsType } from './util/createIPCEvents.js';
 import type { SignalContextType } from './windows/context.js';
-import type * as Message2 from './types/Message2.js';
 import type { initializeMigrations } from './signal.js';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.js';
 import type { WindowsNotificationData } from './services/notifications.js';
@@ -132,24 +126,18 @@ export type SignalCoreType = {
   DebugLogWindowProps?: DebugLogWindowPropsType;
   PermissionsWindowProps?: PermissionsWindowPropsType;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
-  // Only for development
-  Services: {
+  SettingsWindowProps?: SettingsWindowPropsType;
+
+  OS: OSType;
+  Migrations: ReturnType<typeof initializeMigrations>;
+
+  // Only for debugging in Dev Tools
+  Services?: {
     storage: unknown;
     backups: unknown;
     calling: unknown;
     donations: unknown;
   };
-  SettingsWindowProps?: SettingsWindowPropsType;
-  Migrations: ReturnType<typeof initializeMigrations>;
-  Types: {
-    Message: typeof Message2;
-    Address: typeof Address;
-    QualifiedAddress: typeof QualifiedAddress;
-  };
-  OS: OSType;
-  challengeHandler?: ChallengeHandler;
-
-  // Only for debugging in Dev Tools
   DataReader?: unknown;
   DataWriter?: unknown;
 };
@@ -211,14 +199,6 @@ declare global {
 
     // Feature Flags
     Flags: FeatureFlagType;
-
-    // Paths
-    BasePaths: {
-      attachments: string;
-      draft: string;
-      stickers: string;
-      temp: string;
-    };
 
     // Test only
     SignalCI?: CIType;

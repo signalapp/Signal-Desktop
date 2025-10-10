@@ -3,6 +3,7 @@
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import { initializeSchemaVersion } from '../types/Message2.js';
 import { createLogger } from '../logging/log.js';
 
 const log = createLogger('messages');
@@ -44,7 +45,7 @@ export class MessageModel {
     this.#_attributes = attributes;
 
     this.set(
-      window.Signal.Types.Message.initializeSchemaVersion({
+      initializeSchemaVersion({
         message: attributes,
         logger: log,
       }),

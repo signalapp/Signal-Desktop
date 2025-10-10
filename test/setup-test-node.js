@@ -18,6 +18,7 @@ global.window = {
   Date,
   performance,
   SignalContext: {
+    getPath: () => '/tmp',
     getVersion: () => package.version,
     config: {
       serverUrl: 'https://127.0.0.1:9',

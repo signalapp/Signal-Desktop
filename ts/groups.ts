@@ -10,7 +10,6 @@ import {
   getCheckedGroupCredentialsForToday,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher.js';
-import { storageServiceUploadJob } from './services/storage.js';
 import { DataReader, DataWriter } from './sql/Client.js';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64.js';
 import { assertDev, strictAssert } from './util/assert.js';
@@ -1854,9 +1853,7 @@ export async function createGroupV2(
     }
   );
 
-  await conversation.queueJob('storageServiceUploadJob', async () => {
-    await storageServiceUploadJob({ reason: 'createGroupV2' });
-  });
+  conversation.captureChange('createGroupV2');
 
   const timestamp = Date.now();
   const groupV2Info = conversation.getGroupV2Info({

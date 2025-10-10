@@ -10,6 +10,7 @@ import OS from '../../util/os/osMain.js';
 import { getConversation } from '../../util/getConversation.js';
 import { getChallengeURL } from '../../challenge.js';
 import { writeProfile } from '../../services/writeProfile.js';
+import { challengeHandler } from '../../services/challengeHandler.js';
 import { SmartCallManager } from './CallManager.js';
 import { SmartGlobalModalContainer } from './GlobalModalContainer.js';
 import { SmartLightbox } from './Lightbox.js';
@@ -60,10 +61,7 @@ function renderStoryViewer(closeView: () => unknown): JSX.Element {
 async function getCaptchaToken(): Promise<string> {
   const url = getChallengeURL('registration');
   document.location.href = url;
-  if (!window.Signal.challengeHandler) {
-    throw new Error('Captcha handler is not ready!');
-  }
-  return window.Signal.challengeHandler.requestCaptcha({
+  return challengeHandler.requestCaptcha({
     reason: 'standalone registration',
   });
 }

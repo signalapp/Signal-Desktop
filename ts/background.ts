@@ -28,8 +28,6 @@ import type { MenuOptionsType } from './types/menu.js';
 import { SocketStatus } from './types/SocketStatus.js';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.js';
 import { ThemeType } from './types/Util.js';
-import { ToastType } from './types/Toast.js';
-import { ChallengeHandler } from './challenge.js';
 import * as durations from './util/durations/index.js';
 import { drop } from './util/drop.js';
 import { explodePromise } from './util/explodePromise.js';
@@ -42,6 +40,7 @@ import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.js';
 import { lightSessionResetQueue } from './util/lightSessionResetQueue.js';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.js';
 import { IdleDetector } from './IdleDetector.js';
+import { challengeHandler } from './services/challengeHandler.js';
 import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
@@ -85,6 +84,7 @@ import {
   shutdownAllJobQueues,
 } from './jobs/initializeAllJobQueues.js';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.js';
+import { conversationJobQueue } from './jobs/conversationJobQueue.js';
 import { ourProfileKeyService } from './services/ourProfileKey.js';
 import { notificationService } from './services/notifications.js';
 import { areWeASubscriberService } from './services/areWeASubscriber.js';
@@ -146,7 +146,6 @@ import {
   registerCapabilities as doRegisterCapabilities,
   registerRequestHandler,
   reportMessage,
-  sendChallengeResponse,
   unregisterRequestHandler,
 } from './textsecure/WebAPI.js';
 import AccountManager from './textsecure/AccountManager.js';
@@ -204,7 +203,6 @@ import { startInteractionMode } from './services/InteractionMode.js';
 import { calling } from './services/calling.js';
 import { ReactionSource } from './reactions/ReactionSource.js';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.js';
-import { conversationJobQueue } from './jobs/conversationJobQueue.js';
 import { SeenStatus } from './MessageSeenStatus.js';
 import { MessageSender } from './textsecure/SendMessage.js';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate.js';
@@ -272,6 +270,7 @@ import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.js';
 import { initialize as initializeDonationService } from './services/donations.js';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.js';
+import { CURRENT_SCHEMA_VERSION, PRIVATE, GROUP } from './types/Message2.js';
 import { JobCancelReason } from './jobs/types.js';
 import { itemStorage } from './textsecure/Storage.js';
 
@@ -322,7 +321,6 @@ export async function startApp(): Promise<void> {
 
   // Initialize WebAPI as early as possible
   let messageReceiver: MessageReceiver | undefined;
-  let challengeHandler: ChallengeHandler | undefined;
   let routineProfileRefresher: RoutineProfileRefresher | undefined;
 
   ourProfileKeyService.initialize(itemStorage);
@@ -399,8 +397,6 @@ export async function startApp(): Promise<void> {
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { Message } = window.Signal.Types;
-
   log.info('page reloaded');
   log.info('environment:', getEnvironment());
 
@@ -434,6 +430,16 @@ export async function startApp(): Promise<void> {
 
   signalProtocolStore.on('removeAllData', () => {
     window.reduxActions.stories.removeAllStories();
+  });
+
+  signalProtocolStore.on('nullMessage', ({ conversationId, idForTracking }) => {
+    drop(
+      conversationJobQueue.add({
+        type: 'NullMessage',
+        conversationId,
+        idForTracking,
+      })
+    );
   });
 
   window.getSocketStatus = () => {
@@ -559,53 +565,9 @@ export async function startApp(): Promise<void> {
       drop(onExpiration('build'));
     });
 
-    challengeHandler = new ChallengeHandler({
-      storage: itemStorage,
-
-      startQueue(conversationId: string) {
-        conversationJobQueue.resolveVerificationWaiter(conversationId);
-      },
-
-      requestChallenge(request) {
-        if (window.SignalCI) {
-          window.SignalCI.handleEvent('challenge', request);
-          return;
-        }
-        window.sendChallengeRequest(request);
-      },
-
-      async sendChallengeResponse(data) {
-        await sendChallengeResponse(data);
-      },
-
-      onChallengeFailed() {
-        // TODO: DESKTOP-1530
-        // Display humanized `retryAfter`
-        window.reduxActions.toast.showToast({
-          toastType: ToastType.CaptchaFailed,
-        });
-      },
-
-      onChallengeSolved() {
-        window.reduxActions.toast.showToast({
-          toastType: ToastType.CaptchaSolved,
-        });
-      },
-
-      setChallengeStatus(challengeStatus) {
-        window.reduxActions.network.setChallengeStatus(challengeStatus);
-      },
-    });
-
     window.Whisper.events.on('challengeResponse', response => {
-      if (!challengeHandler) {
-        throw new Error('Expected challenge handler to be there');
-      }
-
       challengeHandler.onResponse(response);
     });
-
-    window.Signal.challengeHandler = challengeHandler;
 
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
@@ -1074,7 +1036,7 @@ export async function startApp(): Promise<void> {
     let isMigrationWithIndexComplete = false;
     let isIdleTaskProcessing = false;
     log.info(
-      `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
+      `Starting background data migration. Target version: ${CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
       const NUM_MESSAGES_PER_BATCH = 250;
@@ -1592,7 +1554,7 @@ export async function startApp(): Promise<void> {
         hasAppEverBeenRegistered,
       });
 
-      drop(challengeHandler?.onOffline());
+      drop(challengeHandler.onOffline());
       drop(AttachmentDownloadManager.stop());
       drop(AttachmentBackupManager.stop());
 
@@ -1923,7 +1885,6 @@ export async function startApp(): Promise<void> {
 
     drop(handleServerAlerts(getServerAlerts()));
 
-    strictAssert(challengeHandler, 'afterEveryAuthConnect: challengeHandler');
     drop(challengeHandler.onOnline());
 
     reconnectBackOff.reset();
@@ -2885,7 +2846,7 @@ export async function startApp(): Promise<void> {
       const groupV2 = window.ConversationController.get(id);
       if (groupV2) {
         return {
-          type: Message.GROUP,
+          type: GROUP,
           id: groupV2.id,
         };
       }
@@ -2894,7 +2855,7 @@ export async function startApp(): Promise<void> {
       const groupV1 = window.ConversationController.getByDerivedGroupV2Id(id);
       if (groupV1) {
         return {
-          type: Message.GROUP,
+          type: GROUP,
           id: groupV1.id,
         };
       }
@@ -2908,7 +2869,7 @@ export async function startApp(): Promise<void> {
       });
 
       return {
-        type: Message.GROUP,
+        type: GROUP,
         id: conversationId,
       };
     }
@@ -2924,7 +2885,7 @@ export async function startApp(): Promise<void> {
     );
 
     return {
-      type: Message.PRIVATE,
+      type: PRIVATE,
       id: conversation.id,
     };
   };
@@ -3204,7 +3165,7 @@ export async function startApp(): Promise<void> {
     messageDescriptor: MessageDescriptor
   ): boolean {
     if (message.groupCallUpdate) {
-      if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+      if (message.groupV2 && messageDescriptor.type === GROUP) {
         const conversationId = messageDescriptor.id;
         const callId =
           message.groupCallUpdate?.eraId != null

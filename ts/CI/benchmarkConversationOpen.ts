@@ -8,6 +8,7 @@ import { ReadStatus } from '../messages/MessageReadStatus.js';
 import { SendStatus } from '../messages/MessageSendState.js';
 import { DataWriter } from '../sql/Client.js';
 import { BodyRange } from '../types/BodyRange.js';
+import { CURRENT_SCHEMA_VERSION } from '../types/Message2.js';
 import { strictAssert } from '../util/assert.js';
 import { MINUTE } from '../util/durations/index.js';
 import { isOlderThan } from '../util/timestamp.js';
@@ -72,7 +73,7 @@ export async function populateConversationWithMessages({
       type: isIncoming ? 'incoming' : 'outgoing',
       timestamp,
       sent_at: timestamp,
-      schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
+      schemaVersion: CURRENT_SCHEMA_VERSION,
       received_at: incrementMessageCounter(),
       readStatus: isUnread ? ReadStatus.Unread : ReadStatus.Read,
       sourceServiceId: isIncoming

@@ -36,6 +36,7 @@ import { handleMessageSend } from '../../util/handleMessageSend.js';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.js';
 import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+import { challengeHandler } from '../../services/challengeHandler.js';
 import { sendContentMessageToGroup } from '../../util/sendToGroup.js';
 import { distributionListToSendTarget } from '../../util/distributionListToSendTarget.js';
 import { uploadAttachment } from '../../util/uploadAttachment.js';
@@ -446,7 +447,7 @@ export async function sendStory(
         //   conversationJobQueue.
         errors.forEach(error => {
           if (error instanceof SendMessageChallengeError) {
-            void window.Signal.challengeHandler?.register(
+            void challengeHandler.register(
               {
                 conversationId: conversation.id,
                 createdAt: Date.now(),

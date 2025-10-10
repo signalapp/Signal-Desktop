@@ -21,6 +21,7 @@ import { createLogger } from '../../logging/log.js';
 import * as Bytes from '../../Bytes.js';
 import { strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
+import { TEMP_PATH } from '../../util/basePaths.js';
 import { waitForAllBatchers } from '../../util/batcher.js';
 import { flushAllWaitBatchers } from '../../util/waitBatcher.js';
 import { DelimitedStream } from '../../util/DelimitedStream.js';
@@ -307,7 +308,7 @@ export class BackupsService {
     await this.#waitForEmptyQueues('backups.upload');
 
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
-    const filePath = join(window.BasePaths.temp, fileName);
+    const filePath = join(TEMP_PATH, fileName);
 
     const backupLevel = await this.credentials.getBackupLevel(
       BackupCredentialType.Media

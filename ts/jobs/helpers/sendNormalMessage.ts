@@ -34,6 +34,7 @@ import type { RawBodyRange } from '../../types/BodyRange.js';
 import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact.js';
 import type { StoryContextType } from '../../types/Util.js';
 import type { LoggerType } from '../../types/Logging.js';
+import { GROUP } from '../../types/Message2.js';
 import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
@@ -82,8 +83,6 @@ export async function sendNormalMessage(
   }: ConversationQueueJobBundle,
   data: NormalMessageSendJobData
 ): Promise<void> {
-  const { Message } = window.Signal.Types;
-
   const { messageId, revision, editedMessageTimestamp } = data;
   const message = await getMessageById(messageId);
   if (!message) {
@@ -306,7 +305,7 @@ export async function sendNormalMessage(
       const sendOptions = await getSendOptions(conversation.attributes);
 
       let innerPromise: Promise<CallbackResultType>;
-      if (conversationType === Message.GROUP) {
+      if (conversationType === GROUP) {
         // Note: this will happen for all old jobs queued beore 5.32.x
         if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
           log.error('No revision provided, but conversation is GroupV2');

@@ -54,6 +54,7 @@ import { isInPast } from '../util/timestamp.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
 import { FIBONACCI } from '../util/BackOff.js';
 import { parseUnknown } from '../util/schemas.js';
+import { challengeHandler } from '../services/challengeHandler.js';
 
 const globalLogger = createLogger('conversationJobQueue');
 
@@ -418,11 +419,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     const { conversationId, type } = data;
 
     if (shouldSendShowCaptcha(data.type)) {
-      strictAssert(
-        window.Signal.challengeHandler,
-        'conversationJobQueue.add: Missing challengeHandler!'
-      );
-      window.Signal.challengeHandler.maybeSolve({
+      challengeHandler.maybeSolve({
         conversationId,
         reason: `conversationJobQueue.add(${conversationId}, ${type})`,
       });
@@ -747,7 +744,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         );
 
         // We're starting to retry jobs; remove the challenge handler
-        drop(window.Signal.challengeHandler?.unregister(conversationId, logId));
+        drop(challengeHandler.unregister(conversationId, logId));
 
         this.#perConversationData.set(conversationId, {
           status: RETRY_STATUS.RUNNING,
@@ -824,7 +821,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
 
       const isChallengeRegistered =
-        window.Signal.challengeHandler?.isRegistered(conversationId);
+        challengeHandler.isRegistered(conversationId);
       if (!isChallengeRegistered) {
         this.#unblockConversationRetries(conversationId);
       }
@@ -834,7 +831,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           throw new Error("Shutting down, can't wait for captcha challenge.");
         }
 
-        window.Signal.challengeHandler?.maybeSolve({
+        challengeHandler.maybeSolve({
           conversationId,
           reason:
             'conversationJobQueue.run/addWaiter(' +
@@ -1013,7 +1010,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           const silent = !shouldSendShowCaptcha(type);
 
           drop(
-            window.Signal.challengeHandler?.register(
+            challengeHandler.register(
               {
                 conversationId,
                 createdAt: Date.now(),

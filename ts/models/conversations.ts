@@ -108,6 +108,7 @@ import { isNotNil } from '../util/isNotNil.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.js';
 import { storageServiceUploadJob } from '../services/storage.js';
+import { challengeHandler } from '../services/challengeHandler.js';
 import { getSendOptions } from '../util/getSendOptions.js';
 import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.js';
 import { isConversationAccepted } from '../util/isConversationAccepted.js';
@@ -1372,10 +1373,7 @@ export class ConversationModel {
 
     // If captchas are active, then we should drop typing messages because
     // they're less important and could overwhelm the queue.
-    if (
-      window.Signal.challengeHandler?.areAnyRegistered() &&
-      this.isSealedSenderDisabled()
-    ) {
+    if (challengeHandler.areAnyRegistered() && this.isSealedSenderDisabled()) {
       log.info(
         `sendTypingMessage(${this.idForLogging()}): Challenge is registered and can't send sealed, ignoring`
       );
