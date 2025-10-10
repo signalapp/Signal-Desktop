@@ -8,6 +8,8 @@ import { hydrateRanges } from '../types/BodyRange.js';
 import { isVoiceMessage } from './Attachment.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.js';
 
+const { i18n } = window.SignalContext;
+
 export function getDraftPreview(
   attributes: ConversationAttributesType
 ): DraftPreviewType {
@@ -27,23 +29,23 @@ export function getDraftPreview(
   if (draftAttachments.length > 0) {
     if (isVoiceMessage(draftAttachments[0])) {
       return {
-        text: window.i18n('icu:message--getNotificationText--voice-message'),
+        text: i18n('icu:message--getNotificationText--voice-message'),
         prefix: '🎤',
       };
     }
     return {
-      text: window.i18n('icu:Conversation--getDraftPreview--attachment'),
+      text: i18n('icu:Conversation--getDraftPreview--attachment'),
     };
   }
 
   const { quotedMessageId } = attributes;
   if (quotedMessageId) {
     return {
-      text: window.i18n('icu:Conversation--getDraftPreview--quote'),
+      text: i18n('icu:Conversation--getDraftPreview--quote'),
     };
   }
 
   return {
-    text: window.i18n('icu:Conversation--getDraftPreview--draft'),
+    text: i18n('icu:Conversation--getDraftPreview--draft'),
   };
 }

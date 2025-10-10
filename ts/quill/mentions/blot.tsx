@@ -11,6 +11,8 @@ import type { MentionBlotValue } from '../util.js';
 import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
+const { i18n } = window.SignalContext;
+
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
 
@@ -49,8 +51,8 @@ export class MentionBlot extends EmbedBlot {
 
     createRoot(mentionSpan).render(
       <StrictMode>
-        <AxoProvider dir={window.i18n.getLocaleDirection()}>
-          <FunEmojiLocalizationProvider i18n={window.i18n}>
+        <AxoProvider dir={i18n.getLocaleDirection()}>
+          <FunEmojiLocalizationProvider i18n={i18n}>
             <span className="module-composition-input__at-mention">
               <bdi>
                 @

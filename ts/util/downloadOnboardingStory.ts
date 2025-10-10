@@ -46,7 +46,7 @@ export async function downloadOnboardingStory(): Promise<void> {
     return;
   }
 
-  const userLocale = window.i18n.getLocale();
+  const userLocale = window.SignalContext.i18n.getLocale();
 
   const manifest = await getOnboardingStoryManifest();
 

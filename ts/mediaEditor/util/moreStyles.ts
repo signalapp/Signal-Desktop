@@ -9,7 +9,7 @@ function render(
   ctx.save();
 
   ctx.font = '11px Inter';
-  const text = window.i18n('icu:MediaEditor__clock-more-styles');
+  const text = window.SignalContext.i18n('icu:MediaEditor__clock-more-styles');
   const textMetrics = ctx.measureText(text);
 
   const boxHeight = textMetrics.fontBoundingBoxAscent * 2;

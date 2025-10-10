@@ -133,9 +133,10 @@ class NotificationService extends EventEmitter {
     }
 
     log.error(
-      'NotificationService not initialized. Falling back to window.i18n, but you should fix this'
+      'NotificationService not initialized. ' +
+        'Falling back to window.SignalContext.i18n, but you should fix this'
     );
-    return window.i18n;
+    return window.SignalContext.i18n;
   }
 
   /**

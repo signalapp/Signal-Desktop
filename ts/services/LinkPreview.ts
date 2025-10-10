@@ -52,6 +52,7 @@ import { itemStorage } from '../textsecure/Storage.js';
 const { debounce, omit } = lodash;
 
 const log = createLogger('LinkPreview');
+const { i18n } = window.SignalContext;
 
 const LINK_PREVIEW_TIMEOUT = 60 * SECOND;
 
@@ -544,8 +545,8 @@ async function getGroupPreview(
 
   const title =
     decryptGroupTitle(dropNull(result.title), secretParams) ||
-    window.i18n('icu:unknownGroup');
-  const description = window.i18n('icu:GroupV2--join--group-metadata--full', {
+    i18n('icu:unknownGroup');
+  const description = i18n('icu:GroupV2--join--group-metadata--full', {
     memberCount: result?.memberCount ?? 0,
   });
   let image: undefined | LinkPreviewImage;
@@ -603,9 +604,9 @@ async function getCallLinkPreview(
     url,
     title:
       callLinkState.name === ''
-        ? window.i18n('icu:calling__call-link-default-title')
+        ? i18n('icu:calling__call-link-default-title')
         : callLinkState.name,
-    description: window.i18n('icu:message--call-link-description'),
+    description: i18n('icu:message--call-link-description'),
     image: undefined,
     date: null,
   };

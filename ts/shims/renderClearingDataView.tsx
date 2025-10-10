@@ -15,9 +15,12 @@ export function renderClearingDataView(): void {
   strictAssert(appContainer != null, 'No #app-container');
   createRoot(appContainer).render(
     <StrictMode>
-      <AxoProvider dir={window.i18n.getLocaleDirection()}>
+      <AxoProvider dir={window.SignalContext.i18n.getLocaleDirection()}>
         <FunDefaultEnglishEmojiLocalizationProvider>
-          <ClearingData deleteAllData={deleteAllData} i18n={window.i18n} />
+          <ClearingData
+            deleteAllData={deleteAllData}
+            i18n={window.SignalContext.i18n}
+          />
         </FunDefaultEnglishEmojiLocalizationProvider>
       </AxoProvider>
     </StrictMode>

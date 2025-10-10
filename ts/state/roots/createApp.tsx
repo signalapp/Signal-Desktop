@@ -12,7 +12,7 @@ import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProv
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
 export const createApp = (store: Store): ReactElement => (
-  <AxoProvider dir={window.i18n.getLocaleDirection()}>
+  <AxoProvider dir={window.SignalContext.i18n.getLocaleDirection()}>
     <Provider store={store}>
       <SmartVoiceNotesPlaybackProvider>
         <SmartApp />

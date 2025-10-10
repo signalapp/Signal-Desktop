@@ -37,6 +37,7 @@ import OS from './os/osPreload.js';
 const { noop } = lodash;
 
 const log = createLogger('createIPCEvents');
+const { i18n } = window.SignalContext;
 
 export type IPCEventsValuesType = {
   // IPC-mediated
@@ -276,14 +277,14 @@ export function createIPCEvents(
           showConfirmationDialog({
             dialogName: 'closeConfirmation',
             onTopOfEverything: true,
-            cancelText: window.i18n(
+            cancelText: i18n(
               'icu:ConfirmationDialog__Title--close-requested-not-now'
             ),
             confirmStyle: 'negative',
-            title: window.i18n(
+            title: i18n(
               'icu:ConfirmationDialog__Title--in-call-close-requested'
             ),
-            okText: window.i18n('icu:close'),
+            okText: i18n('icu:close'),
             reject: () => reject(),
             resolve: () => resolve(),
           });
@@ -402,8 +403,8 @@ export function createIPCEvents(
           Errors.toLogFormat(error)
         );
         window.reduxActions.globalModals.showErrorModal({
-          title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
-          description: window.i18n('icu:GroupV2--join--general-join-failure'),
+          title: i18n('icu:GroupV2--join--general-join-failure--title'),
+          description: i18n('icu:GroupV2--join--general-join-failure'),
         });
       }
     },
@@ -448,7 +449,7 @@ export function createIPCEvents(
 
 function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
-    description: window.i18n('icu:unknown-sgnl-link'),
+    description: i18n('icu:unknown-sgnl-link'),
   });
 }
 

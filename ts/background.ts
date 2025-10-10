@@ -277,6 +277,7 @@ import { itemStorage } from './textsecure/Storage.js';
 const { isNumber, throttle } = lodash;
 
 const log = createLogger('background');
+const { i18n } = window.SignalContext;
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -313,7 +314,7 @@ export async function startApp(): Promise<void> {
 
   StartupQueue.initialize();
   notificationService.initialize({
-    i18n: window.i18n,
+    i18n,
     storage: itemStorage,
   });
 
@@ -477,7 +478,7 @@ export async function startApp(): Promise<void> {
 
   const cancelInitializationMessage = setAppLoadingScreenMessage(
     undefined,
-    window.i18n
+    i18n
   );
 
   const version = await DataReader.getItemById('version');
@@ -494,10 +495,10 @@ export async function startApp(): Promise<void> {
               dialogName: 'deleteOldIndexedDBData',
               noMouseClose: true,
               onTopOfEverything: true,
-              cancelText: window.i18n('icu:quit'),
+              cancelText: i18n('icu:quit'),
               confirmStyle: 'negative',
-              title: window.i18n('icu:deleteOldIndexedDBData'),
-              okText: window.i18n('icu:deleteOldData'),
+              title: i18n('icu:deleteOldIndexedDBData'),
+              okText: i18n('icu:deleteOldData'),
               reject: () => reject(),
               resolve: () => resolve(),
             });
@@ -1012,10 +1013,7 @@ export async function startApp(): Promise<void> {
       }
     }
 
-    setAppLoadingScreenMessage(
-      window.i18n('icu:optimizingApplication'),
-      window.i18n
-    );
+    setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
 
     if (newVersion || itemStorage.get('needOrphanedAttachmentCheck')) {
       await itemStorage.remove('needOrphanedAttachmentCheck');
@@ -1031,7 +1029,7 @@ export async function startApp(): Promise<void> {
       await Stickers.encryptLegacyStickers();
     }
 
-    setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
+    setAppLoadingScreenMessage(i18n('icu:loading'), i18n);
 
     let isMigrationWithIndexComplete = false;
     let isIdleTaskProcessing = false;

@@ -4,8 +4,8 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import '../sandboxedInit.js';
 import { CallingScreenSharingController } from '../../components/CallingScreenSharingController.js';
-import { i18n } from '../sandboxedInit.js';
 import { strictAssert } from '../../util/assert.js';
 import { drop } from '../../util/drop.js';
 import { parseEnvironment, setEnvironment } from '../../environment.js';
@@ -13,6 +13,7 @@ import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { ScreenShareWindowProps } = window.Signal;
+const { i18n } = window.SignalContext;
 
 strictAssert(ScreenShareWindowProps, 'window values not provided');
 
@@ -34,7 +35,9 @@ function render() {
 
   createRoot(app).render(
     <StrictMode>
-      <AxoProvider dir={i18n.getLocaleDirection()}>
+      <AxoProvider
+        dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
+      >
         <FunDefaultEnglishEmojiLocalizationProvider>
           <div className="App dark-theme">
             <CallingScreenSharingController

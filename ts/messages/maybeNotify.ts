@@ -39,6 +39,8 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
     return;
   }
 
+  const { i18n } = window.SignalContext;
+
   const { conversation, reaction } = args;
 
   let warrantsNotification: boolean;
@@ -79,12 +81,10 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
   const sender = reaction
     ? window.ConversationController.get(reaction.fromId)
     : getAuthor(args.message);
-  const senderName = sender
-    ? sender.getTitle()
-    : window.i18n('icu:unknownContact');
+  const senderName = sender ? sender.getTitle() : i18n('icu:unknownContact');
   const senderTitle = isMessageInDirectConversation
     ? senderName
-    : window.i18n('icu:notificationSenderInGroup', {
+    : i18n('icu:notificationSenderInGroup', {
         sender: senderName,
         group: conversation.getTitle(),
       });

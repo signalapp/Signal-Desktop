@@ -222,11 +222,11 @@ export function generateUserState({
   return {
     ...userEmptyState(),
     attachmentsPath: ATTACHMENTS_PATH,
-    i18n: window.i18n,
+    i18n: window.SignalContext.i18n,
     interactionMode: getInteractionMode(),
     isMainWindowFullScreen: mainWindowStats.isFullScreen,
     isMainWindowMaximized: mainWindowStats.isMaximized,
-    localeMessages: window.i18n.getLocaleMessages(),
+    localeMessages: window.SignalContext.i18n.getLocaleMessages(),
     menuOptions,
     osName,
     ourAci,

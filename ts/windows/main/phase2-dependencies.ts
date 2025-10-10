@@ -20,16 +20,16 @@ initializeLogging();
 
 window.nodeSetImmediate = setImmediate;
 
-const { config } = window.SignalContext;
+const { config, i18n } = window.SignalContext;
 
 const { resolvedTranslationsLocale, preferredSystemLocales, localeOverride } =
   config;
 
 moment.updateLocale(localeOverride ?? resolvedTranslationsLocale, {
   relativeTime: {
-    s: window.i18n('icu:timestamp_s'),
-    m: window.i18n('icu:timestamp_m'),
-    h: window.i18n('icu:timestamp_h'),
+    s: i18n('icu:timestamp_s'),
+    m: i18n('icu:timestamp_m'),
+    h: i18n('icu:timestamp_h'),
   },
 });
 moment.locale(

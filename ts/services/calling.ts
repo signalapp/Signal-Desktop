@@ -174,6 +174,8 @@ import { sleep } from '../util/sleep.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { itemStorage } from '../textsecure/Storage.js';
 
+const { i18n } = window.SignalContext;
+
 const { uniqBy, noop, compact } = lodash;
 
 const log = createLogger('calling');
@@ -2521,11 +2523,11 @@ export class CallingClass {
         conversationId,
         iconPath: absolutePath,
         iconUrl: url,
-        message: window.i18n('icu:calling__presenting--notification-body'),
+        message: i18n('icu:calling__presenting--notification-body'),
         type: NotificationType.IsPresenting,
         sentAt: 0,
         silent: true,
-        title: window.i18n('icu:calling__presenting--notification-title'),
+        title: i18n('icu:calling__presenting--notification-title'),
       });
     } else {
       ipcRenderer.send(
@@ -2592,13 +2594,13 @@ export class CallingClass {
         conversationId,
         iconPath: absolutePath,
         iconUrl: url,
-        message: window.i18n(
+        message: i18n(
           'icu:calling__presenting--reconnecting--notification-body'
         ),
         type: NotificationType.IsPresenting,
         sentAt: 0,
         silent: true,
-        title: window.i18n(
+        title: i18n(
           'icu:calling__presenting--reconnecting--notification-title'
         ),
       });
@@ -3922,7 +3924,7 @@ export class CallingClass {
       }
       case NotificationSetting.NoNameOrMessage: {
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-        notificationMessage = window.i18n(
+        notificationMessage = i18n(
           'icu:calling__call-notification__started-by-someone'
         );
         break;
@@ -3932,10 +3934,10 @@ export class CallingClass {
         notificationTitle =
           conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
         notificationMessage = creatorConversation
-          ? window.i18n('icu:calling__call-notification__started', {
+          ? i18n('icu:calling__call-notification__started', {
               name: creatorConversation.getTitle(),
             })
-          : window.i18n('icu:calling__call-notification__started-by-someone');
+          : i18n('icu:calling__call-notification__started-by-someone');
         const iconData = await conversation.getAvatarOrIdenticon();
         url = iconData.url;
         absolutePath = iconData.absolutePath;
@@ -4009,8 +4011,8 @@ export class CallingClass {
       iconPath: absolutePath,
       iconUrl: url,
       message: isVideoCall
-        ? window.i18n('icu:incomingVideoCall')
-        : window.i18n('icu:incomingAudioCall'),
+        ? i18n('icu:incomingVideoCall')
+        : i18n('icu:incomingAudioCall'),
       sentAt: 0,
       // The ringtone plays so we don't need sound for the notification
       silent: true,

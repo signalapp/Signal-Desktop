@@ -4,13 +4,14 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import '../sandboxedInit.js';
 import { PermissionsPopup } from '../../components/PermissionsPopup.js';
-import { i18n } from '../sandboxedInit.js';
 import { strictAssert } from '../../util/assert.js';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { PermissionsWindowProps } = window.Signal;
+const { i18n } = window.SignalContext;
 
 strictAssert(PermissionsWindowProps, 'window values not provided');
 
@@ -32,7 +33,9 @@ strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
   <StrictMode>
-    <AxoProvider dir={i18n.getLocaleDirection()}>
+    <AxoProvider
+      dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
+    >
       <FunDefaultEnglishEmojiLocalizationProvider>
         <PermissionsPopup
           i18n={i18n}
