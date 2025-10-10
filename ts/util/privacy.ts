@@ -27,7 +27,7 @@ const CALL_LINK_ROOT_KEY_PATTERN =
   /([A-Z]{4})-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}/gi;
 const ATTACHMENT_URL_KEY_PATTERN = /(attachment:\/\/[^\s]+key=)([^\s]+)/gi;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
-const CARD_NUMBER_PATTERN = /\d\d(\d[- ]?){11,16}\d/g;
+const CARD_NUMBER_PATTERN = /\d\d(\d[-]?){11,16}\d/g;
 
 export type RedactFunction = (value: string) => string;
 

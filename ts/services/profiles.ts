@@ -12,7 +12,11 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ConversationModel } from '../models/conversations.js';
 import type { CapabilitiesType } from '../types/Capabilities.d.ts';
 import type { ProfileType } from '../textsecure/WebAPI.js';
-import { getProfile, getProfileUnauth } from '../textsecure/WebAPI.js';
+import {
+  checkAccountExistence,
+  getProfile,
+  getProfileUnauth,
+} from '../textsecure/WebAPI.js';
 import { MessageSender } from '../textsecure/SendMessage.js';
 import type { ServiceIdString } from '../types/ServiceId.js';
 import { DataWriter } from '../sql/Client.js';
@@ -520,7 +524,6 @@ async function doGetProfile(
   });
   const { request } = options;
 
-  const isVersioned = request.profileKeyVersion != null;
   log.info(`${logId}: Fetching profile (${getFetchOptionsLabel(options)})`);
 
   // Step #: Fetch profile
@@ -577,14 +580,14 @@ async function doGetProfile(
 
       // Not Found
       if (error.code === 404) {
-        log.info(`${logId}: Profile not found`);
+        log.info(`${logId}: Profile not found; checking account existence`);
 
-        c.set({ profileLastFetchedAt: Date.now() });
-
-        if (!isVersioned || ignoreProfileKey) {
-          log.info(`${logId}: Marking conversation unregistered`);
+        const doesAccountExist = await checkAccountExistence(serviceId);
+        if (!doesAccountExist) {
           c.setUnregistered();
         }
+
+        c.set({ profileLastFetchedAt: Date.now() });
 
         return;
       }
@@ -790,8 +793,11 @@ async function doGetProfile(
         );
         isSuccessfullyDecrypted = false;
       }
+    } else {
+      log.warn(`${logId}: No key to decrypt 'name' field; skipping`);
     }
   } else {
+    log.warn(`${logId}: 'name' field missing; clearing profile name`);
     c.set({
       profileName: undefined,
       profileFamilyName: undefined,
