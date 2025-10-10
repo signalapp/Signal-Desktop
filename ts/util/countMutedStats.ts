@@ -4,9 +4,9 @@
 import type { ConversationType } from '../state/ducks/conversations.js';
 import {
   isConversationInChatFolder,
-  type ChatFolder,
   type ChatFolderId,
 } from '../types/ChatFolder.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
 import { isConversationMuted } from './isConversationMuted.js';
 
 type MutableMutedStats = {
@@ -30,10 +30,12 @@ export type ConversationPropsForMutedStats = Readonly<
 >;
 
 export function countAllChatFoldersMutedStats(
-  sortedChatFolders: ReadonlyArray<ChatFolder>,
+  currentChatFolders: CurrentChatFolders,
   conversations: ReadonlyArray<ConversationPropsForMutedStats>
 ): AllChatFoldersMutedStats {
   const results = new Map<ChatFolderId, MutableMutedStats>();
+  const sortedChatFolders =
+    CurrentChatFolders.toSortedArray(currentChatFolders);
 
   for (const conversation of conversations) {
     const isMuted = isConversationMuted(conversation);

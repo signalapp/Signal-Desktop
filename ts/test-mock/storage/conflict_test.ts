@@ -201,7 +201,7 @@ describe('storage service', function (this: Mocha.Suite) {
       await window.getByTestId('NavTabsItem--Stories').click();
 
       await window.locator('.StoriesTab__MoreActionsIcon').click();
-      await window.getByRole('button', { name: 'Story Privacy' }).click();
+      await window.getByRole('menuitem', { name: 'Story Privacy' }).click();
 
       await window
         .getByTestId('StoriesSettingsModal__list')

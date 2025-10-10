@@ -15,7 +15,6 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
-
 import { Button, ButtonVariant } from './Button.js';
 import { ChatColorPicker } from './ChatColorPicker.js';
 import { Checkbox } from './Checkbox.js';
@@ -53,12 +52,9 @@ import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider
 import { Avatar, AvatarSize } from './Avatar.js';
 import { NavSidebar } from './NavSidebar.js';
 import type { SettingsLocation } from '../types/Nav.js';
-import { SettingsPage, ProfileEditorPage, NavTab } from '../types/Nav.js';
+import { SettingsPage, ProfileEditorPage } from '../types/Nav.js';
 import { tw } from '../axo/tw.js';
-import { isBackupPage } from '../types/PreferencesBackupPage.js';
-import { isChatFoldersEnabled } from '../types/ChatFolder.js';
 import { FullWidthButton } from './PreferencesNotificationProfiles.js';
-
 import type { EmojiSkinTone } from './fun/data/emojis.js';
 import type { MediaDeviceSettings } from '../types/Calling.js';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
@@ -91,6 +87,7 @@ import type { UnreadStats } from '../util/countUnreadStats.js';
 import type { BadgeType } from '../badges/types.js';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
 import type { MessageAttributesType } from '../model-types.js';
+import { isBackupPage } from '../types/PreferencesBackupPage.js';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
 import type {
   PromptOSAuthReasonType,
@@ -98,8 +95,10 @@ import type {
 } from '../util/os/promptOSAuthMain.js';
 import type { DonationReceipt } from '../types/Donations.js';
 import type { ChatFolderId } from '../types/ChatFolder.js';
+import { isChatFoldersEnabled } from '../types/ChatFolder.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
+import { AxoButton } from '../axo/AxoButton.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
 
 const { isNumber, noop, partition } = lodash;
@@ -115,6 +114,7 @@ export type PropsDataType = {
   backupKeyViewed: boolean;
   backupLocalBackupsEnabled: boolean;
   localBackupFolder: string | undefined;
+  currentChatFoldersCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
   backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
@@ -126,6 +126,7 @@ export type PropsDataType = {
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
   emojiSkinToneDefault: EmojiSkinTone;
+  hasAnyCurrentCustomChatFolders: boolean;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
@@ -387,6 +388,7 @@ export function Preferences({
   backupLocalBackupsEnabled,
   badge,
   blockedCount,
+  currentChatFoldersCount,
   cloudBackupStatus,
   customColors,
   defaultConversationColor,
@@ -398,6 +400,7 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  hasAnyCurrentCustomChatFolders,
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
@@ -554,13 +557,10 @@ export function Preferences({
       setSettingsLocation({
         page: SettingsPage.EditChatFolder,
         chatFolderId,
-        previousLocation: {
-          tab: NavTab.Settings,
-          details: settingsLocation,
-        },
+        previousLocation: null,
       });
     },
-    [setSettingsLocation, settingsLocation]
+    [setSettingsLocation]
   );
 
   function closeLanguageDialog() {
@@ -1183,22 +1183,43 @@ export function Preferences({
           >
             <Control
               left={
-                <>
-                  <div>
-                    {i18n(
+                hasAnyCurrentCustomChatFolders
+                  ? i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
+                    )
+                  : i18n(
                       'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
-                    )}
-                  </div>
-                  <div className="Preferences__description">
-                    {i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
-                    )}
-                  </div>
-                </>
+                    )
               }
-              right={null}
-              onClick={() =>
-                setSettingsLocation({ page: SettingsPage.ChatFolders })
+              description={
+                hasAnyCurrentCustomChatFolders
+                  ? i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders',
+                      { chatFoldersCount: currentChatFoldersCount }
+                    )
+                  : i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
+                    )
+              }
+              right={
+                <AxoButton.Root
+                  size="medium"
+                  variant="secondary"
+                  onClick={() => {
+                    setSettingsLocation({
+                      page: SettingsPage.ChatFolders,
+                      previousLocation: null,
+                    });
+                  }}
+                >
+                  {hasAnyCurrentCustomChatFolders
+                    ? i18n(
+                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders'
+                      )
+                    : i18n(
+                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
+                      )}
+                </AxoButton.Root>
               }
             />
           </SettingsRow>
@@ -1984,7 +2005,7 @@ export function Preferences({
     );
   } else if (settingsLocation.page === SettingsPage.ChatFolders) {
     content = renderPreferencesChatFoldersPage({
-      onBack: () => setSettingsLocation({ page: SettingsPage.Chats }),
+      previousLocation: settingsLocation.previousLocation,
       onOpenEditChatFoldersPage: handleOpenEditChatFoldersPage,
       settingsPaneRef,
     });

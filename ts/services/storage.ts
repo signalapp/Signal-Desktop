@@ -96,8 +96,8 @@ import { isDone as isRegistrationDone } from '../util/registration.js';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
 import { isMockEnvironment } from '../environment.js';
 import { validateConversation } from '../util/validateConversation.js';
-import { hasAllChatsChatFolder } from '../types/ChatFolder.js';
 import type { ChatFolder } from '../types/ChatFolder.js';
+import { isCurrentAllChatFolder } from '../types/CurrentChatFolders.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.js';
 import { itemStorage } from '../textsecure/Storage.js';
 
@@ -1755,9 +1755,15 @@ async function processManifest(
         storageID: null,
         storageVersion: null,
       });
+
+      window.reduxActions.chatFolders.refetchChatFolders();
     });
 
-    if (!hasAllChatsChatFolder(chatFolders)) {
+    const hasCurrentAllChatFolder = chatFolders.some(chatFolder => {
+      return isCurrentAllChatFolder(chatFolder);
+    });
+
+    if (!hasCurrentAllChatFolder) {
       log.info(`process(${version}): creating all chats chat folder`);
       window.reduxActions.chatFolders.createAllChatsChatFolder();
     }

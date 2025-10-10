@@ -19,14 +19,14 @@ import type { RecentEmojiObjectType } from '../util/loadRecentEmojis.js';
 import type { StickersStateType } from './ducks/stickers.js';
 import type { GifsStateType } from './ducks/gifs.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.js';
-import type { ChatFolder } from '../types/ChatFolder.js';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.js';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
-  chatFolders: ReadonlyArray<ChatFolder>;
+  chatFolders: ReadonlyArray<CurrentChatFolder>;
   donations: DonationsStateType;
   gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;

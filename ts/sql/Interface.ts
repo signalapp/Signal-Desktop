@@ -60,6 +60,7 @@ import type { NotificationProfileType } from '../types/NotificationProfile.js';
 import type { DonationReceipt } from '../types/Donations.js';
 import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.js';
 import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.js';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -927,7 +928,7 @@ type ReadableInterface = {
   getDonationReceiptById(id: string): DonationReceipt | undefined;
 
   getAllChatFolders: () => ReadonlyArray<ChatFolder>;
-  getCurrentChatFolders: () => ReadonlyArray<ChatFolder>;
+  getCurrentChatFolders: () => ReadonlyArray<CurrentChatFolder>;
   getChatFolder: (id: ChatFolderId) => ChatFolder | null;
   hasAllChatsChatFolder: () => boolean;
   getOldestDeletedChatFolder: () => ChatFolder | null;

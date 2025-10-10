@@ -12,13 +12,13 @@ import {
 } from '../selectors/conversations.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import { useChatFolderActions } from '../ducks/chatFolders.js';
-import { getSortedChatFolders } from '../selectors/chatFolders.js';
-import { strictAssert } from '../../util/assert.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.js';
 import { useNavActions } from '../ducks/nav.js';
 import type { Location } from '../../types/Nav.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
 
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
-  previousLocation: Location;
+  previousLocation: Location | null;
   existingChatFolderId: PreferencesEditChatFolderPageProps['existingChatFolderId'];
   settingsPaneRef: PreferencesEditChatFolderPageProps['settingsPaneRef'];
 }>;
@@ -33,7 +33,7 @@ export function SmartPreferencesEditChatFolderPage(
   const conversations = useSelector(getAllComposableConversations);
   const conversationSelector = useSelector(getConversationSelector);
   const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
-  const chatFolders = useSelector(getSortedChatFolders);
+  const currentChatFolders = useSelector(getCurrentChatFolders);
   const { createChatFolder, updateChatFolder, deleteChatFolder } =
     useChatFolderActions();
   const { changeLocation } = useNavActions();
@@ -42,12 +42,12 @@ export function SmartPreferencesEditChatFolderPage(
     if (existingChatFolderId == null) {
       return CHAT_FOLDER_DEFAULTS;
     }
-    const found = chatFolders.find(chatFolder => {
-      return chatFolder.id === existingChatFolderId;
-    });
-    strictAssert(found, 'Unable to find chat folder');
-    return found;
-  }, [chatFolders, existingChatFolderId]);
+    return CurrentChatFolders.expect(
+      currentChatFolders,
+      existingChatFolderId,
+      'initChatFolderParams'
+    );
+  }, [currentChatFolders, existingChatFolderId]);
 
   return (
     <PreferencesEditChatFolderPage

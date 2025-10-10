@@ -50,6 +50,7 @@ import type {
 import type { AnyToast } from '../types/Toast.js';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.js';
 
@@ -287,9 +288,10 @@ function renderPreferencesChatFoldersPage(
   return (
     <PreferencesChatFoldersPage
       i18n={i18n}
-      onBack={props.onBack}
+      previousLocation={props.previousLocation}
       settingsPaneRef={props.settingsPaneRef}
-      chatFolders={[]}
+      changeLocation={action('changeLocation')}
+      currentChatFolders={CurrentChatFolders.createEmpty()}
       onOpenEditChatFoldersPage={props.onOpenEditChatFoldersPage}
       onCreateChatFolder={action('onCreateChatFolder')}
       onDeleteChatFolder={action('onDeletChatFolder')}
@@ -307,7 +309,7 @@ function renderPreferencesEditChatFolderPage(
       theme={ThemeType.light}
       previousLocation={{
         tab: NavTab.Settings,
-        details: { page: SettingsPage.ChatFolders },
+        details: { page: SettingsPage.ChatFolders, previousLocation: null },
       }}
       settingsPaneRef={props.settingsPaneRef}
       existingChatFolderId={props.existingChatFolderId}
@@ -406,11 +408,13 @@ export default {
     backupSubscriptionStatus: { status: 'off' },
     badge: undefined,
     blockedCount: 0,
+    currentChatFoldersCount: 0,
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
     deviceName: 'Work Windows ME',
     emojiSkinToneDefault: EmojiSkinTone.None,
     phoneNumber: '+1 555 123-4567',
+    hasAnyCurrentCustomChatFolders: false,
     hasAudioNotifications: true,
     hasAutoConvertEmoji: true,
     hasAutoDownloadUpdate: true,
@@ -651,17 +655,17 @@ Chats.args = {
 };
 export const ChatFolders = Template.bind({});
 ChatFolders.args = {
-  settingsLocation: { page: SettingsPage.ChatFolders },
+  settingsLocation: {
+    page: SettingsPage.ChatFolders,
+    previousLocation: null,
+  },
 };
 export const EditChatFolder = Template.bind({});
 EditChatFolder.args = {
   settingsLocation: {
     page: SettingsPage.EditChatFolder,
     chatFolderId: null,
-    previousLocation: {
-      tab: NavTab.Settings,
-      details: { page: SettingsPage.ChatFolders },
-    },
+    previousLocation: null,
   },
 };
 export const Calls = Template.bind({});

@@ -2,13 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-
+import classNames from 'classnames';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import type { ThemeType } from '../../../types/Util.js';
 import { Input } from '../../Input.js';
 import { Button, ButtonVariant } from '../../Button.js';
 import { ConfirmationDialog } from '../../ConfirmationDialog.js';
+import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.js';
+import { SettingsControl, SettingsRow } from '../../PreferencesUtil.js';
 import { PreferencesSelectChatsDialog } from '../PreferencesSelectChatsDialog.js';
-import { SettingsRow } from '../../PreferencesUtil.js';
-import { Checkbox } from '../../Checkbox.js';
 import { Avatar, AvatarSize } from '../../Avatar.js';
 import { PreferencesContent } from '../../Preferences.js';
 import {
@@ -17,27 +21,36 @@ import {
   isSameChatFolderParams,
   validateChatFolderParams,
 } from '../../../types/ChatFolder.js';
-import { strictAssert } from '../../../util/assert.js';
-import { parseStrict } from '../../../util/schemas.js';
-import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
-import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
-import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
-
-import type { ConversationType } from '../../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import type { ThemeType } from '../../../types/Util.js';
-import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.js';
 import type {
   ChatFolderId,
   ChatFolderParams,
 } from '../../../types/ChatFolder.js';
 import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
+import { strictAssert } from '../../../util/assert.js';
+import { parseStrict } from '../../../util/schemas.js';
+import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
+import { NavTab, SettingsPage } from '../../../types/Nav.js';
 import type { Location } from '../../../types/Nav.js';
+import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
+import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
+import { UserText } from '../../UserText.js';
+import { AxoSwitch } from '../../../axo/AxoSwitch.js';
+import { FunEmojiPickerButton } from '../../fun/FunButton.js';
+import { FunEmojiPicker } from '../../fun/FunEmojiPicker.js';
+import type { FunEmojiSelection } from '../../fun/panels/FunPanelEmojis.js';
+import { getEmojiVariantByKey } from '../../fun/data/emojis.js';
+import {
+  ItemAvatar,
+  ItemBody,
+  itemButtonClassName,
+  itemClassName,
+  ItemContent,
+  ItemTitle,
+} from './PreferencesChatFolderItems.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
-  previousLocation: Location;
+  previousLocation: Location | null;
   existingChatFolderId: ChatFolderId | null;
   initChatFolderParams: ChatFolderParams;
   changeLocation: (location: Location) => void;
@@ -47,7 +60,10 @@ export type PreferencesEditChatFolderPageProps = Readonly<{
   settingsPaneRef: MutableRefObject<HTMLDivElement | null>;
   conversationSelector: GetConversationByIdType;
   onDeleteChatFolder: (chatFolderId: ChatFolderId) => void;
-  onCreateChatFolder: (chatFolderParams: ChatFolderParams) => void;
+  onCreateChatFolder: (
+    chatFolderParams: ChatFolderParams,
+    showToastOnSuccess: boolean
+  ) => void;
   onUpdateChatFolder: (
     chatFolderId: ChatFolderId,
     chatFolderParams: ChatFolderParams
@@ -69,9 +85,12 @@ export function PreferencesEditChatFolderPage(
     conversationSelector,
   } = props;
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [chatFolderParams, setChatFolderParams] =
     useState(initChatFolderParams);
 
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [showInclusionsDialog, setShowInclusionsDialog] = useState(false);
   const [showExclusionsDialog, setShowExclusionsDialog] = useState(false);
   const [showDeleteFolderDialog, setShowDeleteFolderDialog] = useState(false);
@@ -103,6 +122,28 @@ export function PreferencesEditChatFolderPage(
     });
   }, []);
 
+  const handleSelectEmoji = useCallback((emojiSelection: FunEmojiSelection) => {
+    setChatFolderParams(prevParams => {
+      strictAssert(inputRef.current, 'Missing input ref');
+      const input = inputRef.current;
+      const { selectionStart, selectionEnd } = input;
+
+      const variant = getEmojiVariantByKey(emojiSelection.variantKey);
+      const emoji = variant.value;
+
+      let newName: string;
+      if (selectionStart == null || selectionEnd == null) {
+        newName = `${prevParams.name}${emoji}`;
+      } else {
+        const before = prevParams.name.slice(0, selectionStart);
+        const after = prevParams.name.slice(selectionEnd);
+        newName = `${before}${emoji}${after}`;
+      }
+
+      return { ...prevParams, name: newName };
+    });
+  }, []);
+
   const handleShowOnlyUnreadChange = useCallback((newValue: boolean) => {
     setChatFolderParams(prevParams => {
       return { ...prevParams, showOnlyUnread: newValue };
@@ -116,7 +157,15 @@ export function PreferencesEditChatFolderPage(
   }, []);
 
   const handleBack = useCallback(() => {
-    changeLocation(previousLocation);
+    changeLocation(
+      previousLocation ?? {
+        tab: NavTab.Settings,
+        details: {
+          page: SettingsPage.ChatFolders,
+          previousLocation: null,
+        },
+      }
+    );
   }, [changeLocation, previousLocation]);
 
   const handleDiscardAndBack = useCallback(() => {
@@ -131,7 +180,7 @@ export function PreferencesEditChatFolderPage(
     if (existingChatFolderId != null) {
       onUpdateChatFolder(existingChatFolderId, normalizedChatFolderParams);
     } else {
-      onCreateChatFolder(normalizedChatFolderParams);
+      onCreateChatFolder(normalizedChatFolderParams, false);
     }
 
     didSaveOrDiscardChangesRef.current = true;
@@ -233,6 +282,7 @@ export function PreferencesEditChatFolderPage(
               data-testid="EditChatFolderName"
             >
               <Input
+                ref={inputRef}
                 i18n={i18n}
                 value={chatFolderParams.name}
                 onChange={handleNameChange}
@@ -241,7 +291,16 @@ export function PreferencesEditChatFolderPage(
                 )}
                 maxLengthCount={CHAT_FOLDER_NAME_MAX_CHAR_LENGTH}
                 whenToShowRemainingCount={CHAT_FOLDER_NAME_MAX_CHAR_LENGTH - 10}
-              />
+              >
+                <FunEmojiPicker
+                  open={emojiPickerOpen}
+                  onOpenChange={setEmojiPickerOpen}
+                  onSelectEmoji={handleSelectEmoji}
+                  closeOnSelect
+                >
+                  <FunEmojiPickerButton i18n={i18n} />
+                </FunEmojiPicker>
+              </Input>
             </div>
           </SettingsRow>
           <SettingsRow
@@ -251,54 +310,67 @@ export function PreferencesEditChatFolderPage(
           >
             <button
               type="button"
-              className="Preferences__ChatFolders__ChatSelection__Item Preferences__ChatFolders__ChatSelection__Item--Button"
+              className={classNames(itemClassName, itemButtonClassName)}
               onClick={handleSelectInclusions}
             >
-              <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--Add" />
-              <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                {i18n(
-                  'icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton'
-                )}
-              </span>
+              <ItemContent>
+                <ItemAvatar kind="Add" />
+                <ItemBody>
+                  <ItemTitle>
+                    {i18n(
+                      'icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton'
+                    )}
+                  </ItemTitle>
+                </ItemBody>
+              </ItemContent>
             </button>
             <ul className="Preferences__ChatFolders__ChatSelection__List">
               {chatFolderParams.includeAllIndividualChats && (
-                <li className="Preferences__ChatFolders__ChatSelection__Item">
-                  <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--DirectChats" />
-                  <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                    {i18n(
-                      'icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats'
-                    )}
-                  </span>
+                <li className={itemClassName}>
+                  <ItemContent>
+                    <ItemAvatar kind="DirectChats" />
+                    <ItemBody>
+                      <ItemTitle>
+                        {i18n(
+                          'icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats'
+                        )}
+                      </ItemTitle>
+                    </ItemBody>
+                  </ItemContent>
                 </li>
               )}
               {chatFolderParams.includeAllGroupChats && (
-                <li className="Preferences__ChatFolders__ChatSelection__Item">
-                  <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--GroupChats" />
-                  <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                    {i18n(
-                      'icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats'
-                    )}
-                  </span>
+                <li className={itemClassName}>
+                  <ItemContent>
+                    <ItemAvatar kind="GroupChats" />
+                    <ItemBody>
+                      <ItemTitle>
+                        {i18n(
+                          'icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats'
+                        )}
+                      </ItemTitle>
+                    </ItemBody>
+                  </ItemContent>
                 </li>
               )}
               {chatFolderParams.includedConversationIds.map(conversationId => {
                 const conversation = conversationSelector(conversationId);
                 return (
-                  <li
-                    key={conversationId}
-                    className="Preferences__ChatFolders__ChatSelection__Item"
-                  >
-                    <Avatar
-                      i18n={i18n}
-                      conversationType={conversation.type}
-                      size={AvatarSize.THIRTY_SIX}
-                      badge={undefined}
-                      {...conversation}
-                    />
-                    <span className="Preferences__ChatFolders__ChatList__ItemTitle">
-                      {conversation.title}
-                    </span>
+                  <li key={conversationId} className={itemClassName}>
+                    <ItemContent>
+                      <Avatar
+                        i18n={i18n}
+                        conversationType={conversation.type}
+                        size={AvatarSize.THIRTY_SIX}
+                        badge={undefined}
+                        {...conversation}
+                      />
+                      <ItemBody>
+                        <ItemTitle>
+                          <UserText text={conversation.title} />
+                        </ItemTitle>
+                      </ItemBody>
+                    </ItemContent>
                   </li>
                 );
               })}
@@ -318,34 +390,39 @@ export function PreferencesEditChatFolderPage(
           >
             <button
               type="button"
-              className="Preferences__ChatFolders__ChatSelection__Item Preferences__ChatFolders__ChatSelection__Item--Button"
+              className={classNames(itemClassName, itemButtonClassName)}
               onClick={handleSelectExclusions}
             >
-              <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--Add" />
-              <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                {i18n(
-                  'icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton'
-                )}
-              </span>
+              <ItemContent>
+                <ItemAvatar kind="Add" />
+                <ItemBody>
+                  <ItemTitle>
+                    {i18n(
+                      'icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton'
+                    )}
+                  </ItemTitle>
+                </ItemBody>
+              </ItemContent>
             </button>
             <ul className="Preferences__ChatFolders__ChatSelection__List">
               {chatFolderParams.excludedConversationIds.map(conversationId => {
                 const conversation = conversationSelector(conversationId);
                 return (
-                  <li
-                    key={conversationId}
-                    className="Preferences__ChatFolders__ChatSelection__Item"
-                  >
-                    <Avatar
-                      i18n={i18n}
-                      conversationType={conversation.type}
-                      size={AvatarSize.THIRTY_SIX}
-                      badge={undefined}
-                      {...conversation}
-                    />
-                    <span className="Preferences__ChatFolders__ChatList__ItemTitle">
-                      {conversation.title}
-                    </span>
+                  <li key={conversationId} className={itemClassName}>
+                    <ItemContent>
+                      <Avatar
+                        i18n={i18n}
+                        conversationType={conversation.type}
+                        size={AvatarSize.THIRTY_SIX}
+                        badge={undefined}
+                        {...conversation}
+                      />
+                      <ItemBody>
+                        <ItemTitle>
+                          <UserText text={conversation.title} />
+                        </ItemTitle>
+                      </ItemBody>
+                    </ItemContent>
                   </li>
                 );
               })}
@@ -359,26 +436,30 @@ export function PreferencesEditChatFolderPage(
             </div>
           </SettingsRow>
           <SettingsRow>
-            <Checkbox
-              checked={chatFolderParams.showOnlyUnread}
-              label={i18n(
+            <SettingsControl
+              left={i18n(
                 'icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label'
               )}
               description={i18n(
                 'icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description'
               )}
-              moduleClassName="Preferences__checkbox"
-              name="showOnlyUnread"
-              onChange={handleShowOnlyUnreadChange}
+              right={
+                <AxoSwitch.Root
+                  checked={chatFolderParams.showOnlyUnread}
+                  onCheckedChange={handleShowOnlyUnreadChange}
+                />
+              }
             />
-            <Checkbox
-              checked={chatFolderParams.showMutedChats}
-              label={i18n(
+            <SettingsControl
+              left={i18n(
                 'icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label'
               )}
-              moduleClassName="Preferences__checkbox"
-              name="showMutedChats"
-              onChange={handleShowMutedChatsChange}
+              right={
+                <AxoSwitch.Root
+                  checked={chatFolderParams.showMutedChats}
+                  onCheckedChange={handleShowMutedChatsChange}
+                />
+              }
             />
           </SettingsRow>
           {props.existingChatFolderId != null && (

@@ -10,14 +10,20 @@ export type SettingsLocation = ReadonlyDeep<
       state: ProfileEditorPage;
     }
   | {
+      page: SettingsPage.ChatFolders;
+      previousLocation: Location | null;
+    }
+  | {
       page: SettingsPage.EditChatFolder;
       chatFolderId: ChatFolderId | null;
-      previousLocation: Location;
+      previousLocation: Location | null;
     }
   | {
       page: Exclude<
         SettingsPage,
-        SettingsPage.Profile | SettingsPage.EditChatFolder
+        | SettingsPage.Profile
+        | SettingsPage.ChatFolders
+        | SettingsPage.EditChatFolder
       >;
     }
 >;

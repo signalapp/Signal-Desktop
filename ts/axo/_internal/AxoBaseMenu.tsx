@@ -17,7 +17,7 @@ export namespace AxoBaseMenu {
     'forced-colors:text-[CanvasText]'
   );
 
-  const baseContentGridStyles = tw('grid grid-cols-[min-content_auto] p-1.5');
+  const baseContentGridStyles = tw('grid grid-cols-[min-content_1fr] p-1.5');
 
   // <Group/RadioGroup>
   const baseGroupStyles = tw('col-span-full grid grid-cols-subgrid');
@@ -253,6 +253,18 @@ export namespace AxoBaseMenu {
   export const selectLabelStyles = tw(baseLabelStyles);
 
   /**
+   * AxoBaseMenu: Header
+   */
+
+  export const menuHeaderStyles = tw('col-span-full col-start-1 p-1.5');
+  export const menuHeaderLabelStyles = tw(
+    'block truncate type-title-small text-label-primary'
+  );
+  export const menuHeaderDescriptionStyles = tw(
+    'block truncate type-caption text-label-secondary'
+  );
+
+  /**
    * AxoBaseMenu: CheckboxItem
    * -------------------------
    */
@@ -315,13 +327,17 @@ export namespace AxoBaseMenu {
     // N/A
   }>;
 
-  const baseSeparatorStyles = tw(
-    baseItemStyles,
-    'mx-0.5 my-1 border-t-[0.5px] border-border-primary'
-  );
+  const baseSeparatorStyles = tw('my-1 border-t-[0.5px] border-border-primary');
 
-  export const menuSeparatorStyles = tw(baseSeparatorStyles);
-  export const selectSeperatorStyles = tw(baseSeparatorStyles);
+  export const menuSeparatorStyles = tw(
+    'col-span-full col-start-1 mx-0.5',
+    baseSeparatorStyles
+  );
+  export const menuContentSeparatorStyles = tw(
+    'col-span-full col-start-2',
+    baseSeparatorStyles
+  );
+  export const selectSeperatorStyles = tw(baseItemStyles, baseSeparatorStyles);
 
   /**
    * AxoBaseMenu: Sub

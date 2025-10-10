@@ -225,12 +225,10 @@ import type { ConversationModel } from '../../models/conversations.js';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent.js';
 import { JobCancelReason } from '../../jobs/types.js';
 import type { ChatFolderId } from '../../types/ChatFolder.js';
-import {
-  isConversationInChatFolder,
-  lookupCurrentChatFolder,
-} from '../../types/ChatFolder.js';
+import { isConversationInChatFolder } from '../../types/ChatFolder.js';
 import { getCurrentChatFolders } from '../selectors/chatFolders.js';
 import { isConversationUnread } from '../../util/isConversationUnread.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
 import { itemStorage } from '../../textsecure/Storage.js';
 
 const {
@@ -1473,7 +1471,11 @@ function _getAllConversationsInChatFolder(
   chatFolderId: ChatFolderId
 ) {
   const currentChatFolders = getCurrentChatFolders(state);
-  const chatFolder = lookupCurrentChatFolder(currentChatFolders, chatFolderId);
+  const chatFolder = CurrentChatFolders.expect(
+    currentChatFolders,
+    chatFolderId,
+    '_getAllConversationsInChatFolder'
+  );
   const allConversations = getAllConversations(state);
   return allConversations.filter(conversation => {
     return isConversationInChatFolder(chatFolder, conversation);

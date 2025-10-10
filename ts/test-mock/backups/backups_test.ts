@@ -329,7 +329,7 @@ describe('backups', function (this: Mocha.Suite) {
 
         debug('Opening story privacy');
         await window.locator('.StoriesTab__MoreActionsIcon').click();
-        await window.getByRole('button', { name: 'Story Privacy' }).click();
+        await window.getByRole('menuitem', { name: 'Story Privacy' }).click();
         await expect(
           window.locator('.StoriesSettingsModal__overlay')
         ).toHaveCSS('opacity', '1');

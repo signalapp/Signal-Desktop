@@ -5,11 +5,8 @@ import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.js';
 import type { StateSelector } from '../types.js';
 import type { ChatFoldersState } from '../ducks/chatFolders.js';
-import type { CurrentChatFolders, ChatFolder } from '../../types/ChatFolder.js';
-import {
-  getSortedCurrentChatFolders,
-  lookupCurrentChatFolder,
-} from '../../types/ChatFolder.js';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
 
 export function getChatFoldersState(state: StateType): ChatFoldersState {
   return state.chatFolders;
@@ -20,22 +17,32 @@ export const getCurrentChatFolders: StateSelector<CurrentChatFolders> =
     return state.currentChatFolders;
   });
 
-export const getSortedChatFolders: StateSelector<ReadonlyArray<ChatFolder>> =
+export const getCurrentChatFoldersCount: StateSelector<number> = createSelector(
+  getCurrentChatFolders,
+  currentChatFolders => {
+    return CurrentChatFolders.size(currentChatFolders);
+  }
+);
+
+export const getHasAnyCurrentCustomChatFolders: StateSelector<boolean> =
   createSelector(getCurrentChatFolders, currentChatFolders => {
-    return getSortedCurrentChatFolders(currentChatFolders);
+    return currentChatFolders.hasAnyCurrentCustomChatFolders;
   });
 
-export const getSelectedChatFolder: StateSelector<ChatFolder | null> =
+export const getSelectedChatFolder: StateSelector<CurrentChatFolder | null> =
   createSelector(
     getChatFoldersState,
     getCurrentChatFolders,
     (state, currentChatFolders) => {
-      const selectedChatFolderId =
-        state.selectedChatFolderId ?? currentChatFolders.order.at(0);
+      const { selectedChatFolderId } = state;
       if (selectedChatFolderId == null) {
         return null;
       }
-      return lookupCurrentChatFolder(currentChatFolders, selectedChatFolderId);
+      return CurrentChatFolders.expect(
+        currentChatFolders,
+        selectedChatFolderId,
+        'getSelectedChatFolder'
+      );
     }
   );
 

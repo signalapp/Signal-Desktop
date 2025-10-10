@@ -1,5 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -11,12 +12,20 @@ export default {
   title: 'Axo/AxoDropdownMenu',
 } satisfies Meta;
 
+function Container(props: { children: ReactNode }) {
+  return (
+    <div className={tw('flex h-96 w-full items-center justify-center')}>
+      {props.children}
+    </div>
+  );
+}
+
 export function Basic(): JSX.Element {
   const [showBookmarks, setShowBookmarks] = useState(true);
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');
   return (
-    <div className={tw('flex h-96 w-full items-center justify-center')}>
+    <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
           <AxoButton.Root variant="secondary" size="medium">
@@ -96,6 +105,135 @@ export function Basic(): JSX.Element {
           </AxoDropdownMenu.RadioGroup>
         </AxoDropdownMenu.Content>
       </AxoDropdownMenu.Root>
-    </div>
+    </Container>
+  );
+}
+
+export function WithHeader(): JSX.Element {
+  return (
+    <Container>
+      <AxoDropdownMenu.Root>
+        <AxoDropdownMenu.Trigger>
+          <AxoButton.Root variant="secondary" size="medium">
+            Open Dropdown Menu
+          </AxoButton.Root>
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Header
+            label="Notification profile"
+            description="On"
+          />
+          <AxoDropdownMenu.Item onSelect={action('onSleep')}>
+            Sleep
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item onSelect={action('onWork')}>
+            Work
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Sub>
+            <AxoDropdownMenu.SubTrigger>Sub-menu</AxoDropdownMenu.SubTrigger>
+            <AxoDropdownMenu.SubContent>
+              <AxoDropdownMenu.Header
+                label="Notification profile"
+                description="On"
+              />
+              <AxoDropdownMenu.Item onSelect={action('onSleep')}>
+                Sleep
+              </AxoDropdownMenu.Item>
+              <AxoDropdownMenu.Item onSelect={action('onWork')}>
+                Work
+              </AxoDropdownMenu.Item>
+            </AxoDropdownMenu.SubContent>
+          </AxoDropdownMenu.Sub>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </Container>
+  );
+}
+
+const LONG_TEXT =
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nostrum, inventore quia tenetur sunt non ab fuga explicabo ullam tempore.';
+
+export function StressTestLongText(): JSX.Element {
+  const items = (
+    <>
+      <AxoDropdownMenu.Item onSelect={action('onSelect')}>
+        <strong>Item:</strong> {LONG_TEXT}
+      </AxoDropdownMenu.Item>
+      <AxoDropdownMenu.Item
+        symbol="megaphone"
+        keyboardShortcut="⌘["
+        onSelect={action('onSelect')}
+      >
+        <strong>Item:</strong> {LONG_TEXT}
+      </AxoDropdownMenu.Item>
+    </>
+  );
+
+  const checkboxItems = (
+    <>
+      <AxoDropdownMenu.CheckboxItem
+        checked={false}
+        onCheckedChange={action('onCheckedChange')}
+      >
+        <strong>CheckboxItem:</strong> {LONG_TEXT}
+      </AxoDropdownMenu.CheckboxItem>
+      <AxoDropdownMenu.CheckboxItem
+        symbol="megaphone"
+        keyboardShortcut="⌘["
+        checked={false}
+        onCheckedChange={action('onCheckedChange')}
+      >
+        <strong>CheckboxItem:</strong> {LONG_TEXT}
+      </AxoDropdownMenu.CheckboxItem>
+    </>
+  );
+  const content = (
+    <>
+      <AxoDropdownMenu.Header label={LONG_TEXT} description={LONG_TEXT} />
+      {items}
+      {checkboxItems}
+      <AxoDropdownMenu.RadioGroup
+        value="value"
+        onValueChange={action('onValueChange')}
+      >
+        <AxoDropdownMenu.RadioItem value="value">
+          <strong>RadioItem:</strong> {LONG_TEXT}
+        </AxoDropdownMenu.RadioItem>
+        <AxoDropdownMenu.RadioItem
+          symbol="megaphone"
+          keyboardShortcut="⌘["
+          value="value"
+        >
+          <strong>RadioItem:</strong> {LONG_TEXT}
+        </AxoDropdownMenu.RadioItem>
+      </AxoDropdownMenu.RadioGroup>
+      <AxoDropdownMenu.Separator />
+      <AxoDropdownMenu.Group>
+        <AxoDropdownMenu.Label>
+          <strong>Label:</strong> {LONG_TEXT}
+        </AxoDropdownMenu.Label>
+        {items}
+        {checkboxItems}
+      </AxoDropdownMenu.Group>
+    </>
+  );
+
+  return (
+    <Container>
+      <AxoDropdownMenu.Root>
+        <AxoDropdownMenu.Trigger>
+          <AxoButton.Root variant="secondary" size="medium">
+            Open Dropdown Menu
+          </AxoButton.Root>
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          {content}
+          <AxoDropdownMenu.Sub>
+            <AxoDropdownMenu.SubTrigger>{LONG_TEXT}</AxoDropdownMenu.SubTrigger>
+            <AxoDropdownMenu.SubContent>{content}</AxoDropdownMenu.SubContent>
+          </AxoDropdownMenu.Sub>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </Container>
   );
 }

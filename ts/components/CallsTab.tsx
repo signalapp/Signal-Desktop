@@ -17,7 +17,6 @@ import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
 } from '../state/ducks/calling.js';
-import { ContextMenu } from './ContextMenu.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
 import type { UnreadStats } from '../util/countUnreadStats.js';
 import type { WidthBreakpoint } from './_util.js';
@@ -25,6 +24,7 @@ import type { CallLinkType } from '../types/CallLink.js';
 import type { CallStateType } from '../state/selectors/calling.js';
 import type { StartCallData } from './ConfirmLeaveCallModal.js';
 import { I18n } from './I18n.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -235,33 +235,22 @@ export function CallsTab({
                       updateSidebarView(CallsTabSidebarView.NewCallView);
                     }}
                   />
-                  <ContextMenu
-                    i18n={i18n}
-                    menuOptions={[
-                      {
-                        icon: 'CallsTab__ClearCallHistoryIcon',
-                        label: i18n('icu:CallsTab__ClearCallHistoryLabel'),
-                        onClick: handleOpenClearCallHistoryDialog,
-                      },
-                    ]}
-                    popperOptions={{
-                      placement: 'bottom',
-                      strategy: 'absolute',
-                    }}
-                    portalToRoot
-                  >
-                    {({ onClick, onKeyDown, ref }) => {
-                      return (
-                        <NavSidebarActionButton
-                          ref={ref}
-                          onClick={onClick}
-                          onKeyDown={onKeyDown}
-                          icon={<span className="CallsTab__MoreActionsIcon" />}
-                          label={i18n('icu:CallsTab__MoreActionsLabel')}
-                        />
-                      );
-                    }}
-                  </ContextMenu>
+                  <AxoDropdownMenu.Root>
+                    <AxoDropdownMenu.Trigger>
+                      <NavSidebarActionButton
+                        icon={<span className="CallsTab__MoreActionsIcon" />}
+                        label={i18n('icu:CallsTab__MoreActionsLabel')}
+                      />
+                    </AxoDropdownMenu.Trigger>
+                    <AxoDropdownMenu.Content>
+                      <AxoDropdownMenu.Item
+                        symbol="trash"
+                        onSelect={handleOpenClearCallHistoryDialog}
+                      >
+                        {i18n('icu:CallsTab__ClearCallHistoryLabel')}
+                      </AxoDropdownMenu.Item>
+                    </AxoDropdownMenu.Content>
+                  </AxoDropdownMenu.Root>
                 </>
               )}
             </>

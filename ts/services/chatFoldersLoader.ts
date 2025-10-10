@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { DataReader } from '../sql/Client.js';
-import type { ChatFolder } from '../types/ChatFolder.js';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.js';
 import { strictAssert } from '../util/assert.js';
 
-let chatFolders: ReadonlyArray<ChatFolder>;
+let chatFolders: ReadonlyArray<CurrentChatFolder>;
 
 export async function loadChatFolders(): Promise<void> {
   chatFolders = await DataReader.getCurrentChatFolders();
 }
 
-export function getChatFoldersForRedux(): ReadonlyArray<ChatFolder> {
+export function getChatFoldersForRedux(): ReadonlyArray<CurrentChatFolder> {
   strictAssert(chatFolders != null, 'chatFolders has not been loaded');
   return chatFolders;
 }

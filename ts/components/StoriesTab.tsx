@@ -23,10 +23,10 @@ import { MyStories } from './MyStories.js';
 import { StoriesPane } from './StoriesPane.js';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar.js';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton.js';
-import { ContextMenu } from './ContextMenu.js';
 import { I18n } from './I18n.js';
 import type { WidthBreakpoint } from './_util.js';
 import type { UnreadStats } from '../util/countUnreadStats.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
 
 export type PropsType = {
   addStoryData: AddStoryData;
@@ -160,33 +160,22 @@ export function StoriesTab({
                 onAddStory={onAddStory}
                 showToast={showToast}
               />
-              <ContextMenu
-                i18n={i18n}
-                menuOptions={[
-                  {
-                    label: i18n('icu:StoriesSettings__context-menu'),
-                    onClick: showStoriesSettings,
-                  },
-                ]}
-                moduleClassName="Stories__pane__settings"
-                popperOptions={{
-                  placement: 'bottom',
-                  strategy: 'absolute',
-                }}
-                portalToRoot
-              >
-                {({ onClick, onKeyDown, ref }) => {
-                  return (
-                    <NavSidebarActionButton
-                      ref={ref}
-                      onClick={onClick}
-                      onKeyDown={onKeyDown}
-                      icon={<span className="StoriesTab__MoreActionsIcon" />}
-                      label={i18n('icu:StoriesTab__MoreActionsLabel')}
-                    />
-                  );
-                }}
-              </ContextMenu>
+              <AxoDropdownMenu.Root>
+                <AxoDropdownMenu.Trigger>
+                  <NavSidebarActionButton
+                    icon={<span className="StoriesTab__MoreActionsIcon" />}
+                    label={i18n('icu:StoriesTab__MoreActionsLabel')}
+                  />
+                </AxoDropdownMenu.Trigger>
+                <AxoDropdownMenu.Content>
+                  <AxoDropdownMenu.Item
+                    symbol="lock"
+                    onSelect={showStoriesSettings}
+                  >
+                    {i18n('icu:StoriesSettings__context-menu')}
+                  </AxoDropdownMenu.Item>
+                </AxoDropdownMenu.Content>
+              </AxoDropdownMenu.Root>
             </>
           }
         >

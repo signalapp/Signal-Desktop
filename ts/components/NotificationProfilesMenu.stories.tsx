@@ -15,6 +15,8 @@ import {
 import { DayOfWeek } from '../types/NotificationProfile.js';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.js';
 import { HOUR } from '../util/durations/index.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
+import { AxoButton } from '../axo/AxoButton.js';
 
 const { i18n } = window.SignalContext;
 
@@ -121,11 +123,8 @@ export default {
     allProfiles: threeProfiles,
     currentOverride: undefined,
     i18n,
-    isOpen: true,
-    onClose: action('onClose'),
     onGoToSettings: action('onGoToSettings'),
     setProfileOverride: action('setProfileOverride'),
-    trigger: <div>This is the trigger</div>,
   },
 } satisfies Meta<Props>;
 
@@ -135,7 +134,6 @@ function createProps(args: Partial<Props>) {
     allProfiles: threeProfiles,
     currentOverride: undefined,
     i18n,
-    onClose: action('onClose'),
     onGoToSettings: action('onGoToSettings'),
     setProfileOverride: action('setProfileOverride'),
     ...args,
@@ -144,7 +142,18 @@ function createProps(args: Partial<Props>) {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => {
-  return <NotificationProfilesMenu {...args} />;
+  return (
+    <AxoDropdownMenu.Root>
+      <AxoDropdownMenu.Trigger>
+        <AxoButton.Root size="medium" variant="secondary">
+          Open
+        </AxoButton.Root>
+      </AxoDropdownMenu.Trigger>
+      <AxoDropdownMenu.Content>
+        <NotificationProfilesMenu {...args} />
+      </AxoDropdownMenu.Content>
+    </AxoDropdownMenu.Root>
+  );
 };
 
 export const Default = Template.bind({});

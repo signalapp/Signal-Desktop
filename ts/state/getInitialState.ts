@@ -8,7 +8,10 @@ import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.
 import { getEmptyState as badgesEmptyState } from './ducks/badges.js';
 import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.js';
 import { getEmptyState as callingEmptyState } from './ducks/calling.js';
-import { getEmptyState as chatFoldersEmptyState } from './ducks/chatFolders.js';
+import {
+  getEmptyState as chatFoldersEmptyState,
+  getInitialChatFoldersState,
+} from './ducks/chatFolders.js';
 import { getEmptyState as composerEmptyState } from './ducks/composer.js';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations.js';
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.js';
@@ -45,7 +48,6 @@ import {
   STICKERS_PATH,
   TEMP_PATH,
 } from '../util/basePaths.js';
-import { toCurrentChatFolders } from '../types/ChatFolder.js';
 
 import type { StateType } from './reducer.js';
 import type { MainWindowStatsType } from '../windows/context.js';
@@ -96,10 +98,7 @@ export function getInitialState(
       ...callingEmptyState(),
       callLinks: makeLookup(callLinks, 'roomId'),
     },
-    chatFolders: {
-      ...chatFoldersEmptyState(),
-      currentChatFolders: toCurrentChatFolders(chatFolders),
-    },
+    chatFolders: getInitialChatFoldersState(chatFolders),
     donations,
     emojis: recentEmoji,
     gifs,

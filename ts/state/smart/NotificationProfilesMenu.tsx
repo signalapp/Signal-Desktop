@@ -16,17 +16,7 @@ import {
 import { useNavActions } from '../ducks/nav.js';
 import { NavTab, SettingsPage } from '../../types/Nav.js';
 
-export type ExternalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  trigger?: React.ReactNode;
-};
-
-export function SmartNotificationProfilesMenu({
-  isOpen,
-  onClose,
-  trigger,
-}: ExternalProps): JSX.Element {
+export function SmartNotificationProfilesMenu(): JSX.Element {
   const i18n = useSelector(getIntl);
 
   const allProfiles = useSelector(getProfiles);
@@ -52,12 +42,9 @@ export function SmartNotificationProfilesMenu({
       allProfiles={allProfiles}
       currentOverride={currentOverride}
       i18n={i18n}
-      isOpen={isOpen}
       loading={loading}
-      onClose={onClose}
       onGoToSettings={goToSettings}
       setProfileOverride={setProfileOverride}
-      trigger={trigger}
     />
   );
 }

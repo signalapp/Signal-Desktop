@@ -19,6 +19,7 @@ export enum ToastType {
   CannotOpenGiftBadgeIncoming = 'CannotOpenGiftBadgeIncoming',
   CannotOpenGiftBadgeOutgoing = 'CannotOpenGiftBadgeOutgoing',
   CannotStartGroupCall = 'CannotStartGroupCall',
+  ChatFolderCreated = 'ChatFolderCreated',
   ConversationArchived = 'ConversationArchived',
   ConversationMarkedUnread = 'ConversationMarkedUnread',
   ConversationRemoved = 'ConversationRemoved',
@@ -117,6 +118,10 @@ export type AnyToast =
   | { toastType: ToastType.CannotStartGroupCall }
   | { toastType: ToastType.CaptchaFailed }
   | { toastType: ToastType.CaptchaSolved }
+  | {
+      toastType: ToastType.ChatFolderCreated;
+      parameters: { chatFolderName: string };
+    }
   | {
       toastType: ToastType.ConversationArchived;
       parameters: { conversationId: string; wasPinned: boolean };

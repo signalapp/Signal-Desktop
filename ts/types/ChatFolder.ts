@@ -11,7 +11,6 @@ import * as grapheme from '../util/grapheme.js';
 import * as RemoteConfig from '../RemoteConfig.js';
 import { isAlpha, isBeta, isProduction } from '../util/version.js';
 import type { ConversationType } from '../state/ducks/conversations.js';
-import { strictAssert } from '../util/assert.js';
 import { isConversationUnread } from '../util/isConversationUnread.js';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
@@ -233,52 +232,4 @@ export function isConversationInChatFolder(
     _isConversationIncludedInChatFolder(chatFolder, conversation) &&
     !_isConversationExcludedFromChatFolder(chatFolder, conversation)
   );
-}
-
-export type CurrentChatFolders = Readonly<{
-  order: ReadonlyArray<ChatFolderId>;
-  lookup: Partial<Record<ChatFolderId, ChatFolder>>;
-}>;
-
-export function toCurrentChatFolders(
-  chatFolders: ReadonlyArray<ChatFolder>
-): CurrentChatFolders {
-  const order = chatFolders
-    .toSorted((a, b) => a.position - b.position)
-    .map(chatFolder => chatFolder.id);
-
-  const lookup: Record<ChatFolderId, ChatFolder> = {};
-  for (const chatFolder of chatFolders) {
-    lookup[chatFolder.id] = chatFolder;
-  }
-
-  return { order, lookup };
-}
-
-export function getSortedCurrentChatFolders(
-  currentChatFolders: CurrentChatFolders
-): ReadonlyArray<ChatFolder> {
-  return currentChatFolders.order.map(chatFolderId => {
-    return lookupCurrentChatFolder(currentChatFolders, chatFolderId);
-  });
-}
-
-export function lookupCurrentChatFolder(
-  currentChatFolders: CurrentChatFolders,
-  chatFolderId: ChatFolderId
-): ChatFolder {
-  const chatFolder = currentChatFolders.lookup[chatFolderId];
-  strictAssert(chatFolder != null, 'Missing chat folder');
-  return chatFolder;
-}
-
-export function hasAllChatsChatFolder(
-  chatFolders: ReadonlyArray<ChatFolder>
-): boolean {
-  return chatFolders.some(chatFolder => {
-    return (
-      chatFolder.folderType === ChatFolderType.ALL &&
-      chatFolder.deletedAtTimestampMs === 0
-    );
-  });
 }

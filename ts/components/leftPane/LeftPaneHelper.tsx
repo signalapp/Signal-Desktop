@@ -67,7 +67,7 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
-  getBackgroundNode(
+  getEmptyViewNode(
     _: Readonly<{
       i18n: LocalizerType;
     }>

@@ -101,6 +101,10 @@ import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditC
 import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
 import {
+  getCurrentChatFoldersCount,
+  getHasAnyCurrentCustomChatFolders,
+} from '../selectors/chatFolders.js';
+import {
   SmartNotificationProfilesCreateFlow,
   SmartNotificationProfilesHome,
 } from './PreferencesNotificationProfiles.js';
@@ -241,6 +245,10 @@ export function SmartPreferences(): JSX.Element | null {
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
   const badge = getPreferredBadge(me.badges);
+  const currentChatFoldersCount = useSelector(getCurrentChatFoldersCount);
+  const hasAnyCurrentCustomChatFolders = useSelector(
+    getHasAnyCurrentCustomChatFolders
+  );
 
   // The weird ones
 
@@ -774,6 +782,7 @@ export function SmartPreferences(): JSX.Element | null {
           backupLocalBackupsEnabled={backupLocalBackupsEnabled}
           badge={badge}
           blockedCount={blockedCount}
+          currentChatFoldersCount={currentChatFoldersCount}
           cloudBackupStatus={cloudBackupStatus}
           customColors={customColors}
           defaultConversationColor={defaultConversationColor}
@@ -790,6 +799,7 @@ export function SmartPreferences(): JSX.Element | null {
           getMessageSampleForSchemaVersion={
             DataReader.getMessageSampleForSchemaVersion
           }
+          hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
           hasAudioNotifications={hasAudioNotifications}
           hasAutoConvertEmoji={hasAutoConvertEmoji}
           hasAutoDownloadUpdate={hasAutoDownloadUpdate}

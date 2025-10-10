@@ -1357,29 +1357,47 @@ $secondary-text-color: light-dark(
   margin: 0;
 }
 
-.Preferences__ChatFolders__ChatSelection__Item--Button {
-  @include mixins.button-reset();
-  &:hover {
-    background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
-  }
-  @include mixins.keyboard-mode {
-    &:focus {
-      outline: 2px solid variables.$color-ultramarine;
-    }
+.Preferences__ChatFolders__ChatSelection__Item {
+  &[data-dragging='true'] {
+    opacity: 0%;
+    // delay making the item transparent until the browser has a chance to take
+    // a snapshot of the item before for the drag preview
+    transition: opacity 0ms linear;
+    transition-delay: 1ms;
   }
 }
 
-.Preferences__ChatFolders__ChatSelection__Item {
+.Preferences__ChatFolders__ChatSelection__Item--Button {
+  @include mixins.button-reset();
+  & {
+    width: 100%;
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__Item--Button,
+.Preferences__ChatFolders__ChatSelection__Item--ListItem {
+  outline: 0;
+}
+
+.Preferences__ChatFolders__ChatSelection__Item--Button,
+.Preferences__ChatFolders__ChatSelection__Item--Clickable {
+  &:hover .Preferences__ChatFolders__ChatSelection__ItemContent {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemContent {
   display: flex;
-  width: 100%;
   align-items: center;
   gap: 12px;
   padding-block: 8px;
   padding-inline: 24px;
   border-radius: 1px;
 
-  &[data-dragging='true'] {
-    opacity: 50%;
+  @include mixins.keyboard-mode {
+    .Preferences__ChatFolders__ChatSelection__Item:focus & {
+      outline: 2px solid variables.$color-ultramarine;
+    }
   }
 }
 

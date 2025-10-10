@@ -339,6 +339,14 @@
     "messageformat": "Archived Chats",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Add chat folder",
+    "description": "Chats Tab > Chats List > Header > More Actions > Menu Item > Add chat folder (when you don't have any chat folders)"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Folder settings",
+    "description": "Chats Tab > Chats List > Header > More Actions > Menu Item > Folder settings (when you have chat folders)"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Pinned",
     "description": "Shown as a header for pinned conversations in the left pane"
@@ -390,6 +398,14 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Enter a username followed by a dot and its set of numbers.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "No chats to display",
+    "description": "Left Pane > Inbox > Chat List > Empty View (when you have a custom chat folder selected)"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Folder Settings",
+    "description": "Left Pane > Inbox > Chat List > Empty View (when you have a custom chat folder selected) > Folder Settings Button"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "All",
@@ -871,6 +887,10 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Error saving receipt. Please try again.",
     "description": "Toast message shown when a donation receipt fails to save to disk"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} folder added",
+    "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "You can't select photos and videos along with files.",
@@ -1802,9 +1822,25 @@
     "messageformat": "Add a chat folder",
     "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Title"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Add or edit folders",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Title (with chat folders)"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list.",
     "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Description"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {# folder} other {# folders}}",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Description (with chat folders)"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Set up",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Manage",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button (with chat folders)"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Edit folder",
@@ -1850,6 +1886,10 @@
     "messageformat": "Create a folder",
     "description": "Preferences > Chat Folders Page > Folders > Create A Folder Button"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Drag to move chat folder",
+    "description": "Preferences > Chat Folders Page > Folders > Item > Drag Handle > Accessibility Label"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Suggested folders",
     "description": "Preferences > Chat Folders Page > Suggested Folders > Title"
@@ -1857,10 +1897,6 @@
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Add",
     "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added",
-    "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button > Toast"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Unread",

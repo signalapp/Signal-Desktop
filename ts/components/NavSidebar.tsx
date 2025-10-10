@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEventHandler, MouseEventHandler, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
@@ -19,27 +19,25 @@ import type { UnreadStats } from '../util/countUnreadStats.js';
 export const NavSidebarWidthBreakpointContext =
   createContext<WidthBreakpoint | null>(null);
 
-type NavSidebarActionButtonProps = {
-  icon: ReactNode;
-  label: ReactNode;
-  onClick: MouseEventHandler<HTMLButtonElement>;
-  onKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
-};
+type NavSidebarActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  Readonly<{
+    icon: ReactNode;
+    label: ReactNode;
+  }>;
 
 export const NavSidebarActionButton = React.forwardRef<
   HTMLButtonElement,
   NavSidebarActionButtonProps
 >(function NavSidebarActionButtonInner(
-  { icon, label, onClick, onKeyDown },
+  { icon, label, ...rest },
   ref
 ): JSX.Element {
   return (
     <button
+      {...rest}
       ref={ref}
       type="button"
       className="NavSidebar__ActionButton"
-      onClick={onClick}
-      onKeyDown={onKeyDown}
     >
       {icon}
       <span className="NavSidebar__ActionButtonLabel">{label}</span>
