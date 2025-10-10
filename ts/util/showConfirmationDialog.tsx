@@ -47,6 +47,8 @@ function removeConfirmationDialog() {
 export function showConfirmationDialog(
   options: ConfirmationDialogViewProps
 ): void {
+  const { i18n } = window.SignalContext;
+
   if (confirmationDialogRoot) {
     removeConfirmationDialog();
   }
@@ -61,7 +63,7 @@ export function showConfirmationDialog(
   confirmationDialogRoot = createRoot(confirmationDialogViewNode);
   confirmationDialogRoot.render(
     <StrictMode>
-      <AxoProvider dir={window.i18n.getLocaleDirection()}>
+      <AxoProvider dir={i18n.getLocaleDirection()}>
         <FunDefaultEnglishEmojiLocalizationProvider>
           <ConfirmationDialog
             dialogName={options.dialogName}
@@ -72,11 +74,11 @@ export function showConfirmationDialog(
                   options.resolve();
                 },
                 style: options.confirmStyle,
-                text: options.okText || window.i18n('icu:ok'),
+                text: options.okText || i18n('icu:ok'),
               },
             ]}
-            cancelText={options.cancelText || window.i18n('icu:cancel')}
-            i18n={window.i18n}
+            cancelText={options.cancelText || i18n('icu:cancel')}
+            i18n={i18n}
             onCancel={() => {
               if (options.reject) {
                 options.reject(

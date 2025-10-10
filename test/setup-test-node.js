@@ -18,6 +18,7 @@ global.window = {
   Date,
   performance,
   SignalContext: {
+    i18n: key => `i18n(${key})`,
     getPath: () => '/tmp',
     getVersion: () => package.version,
     config: {
@@ -35,7 +36,6 @@ global.window = {
     getPreferredSystemLocales: () => ['en'],
     getLocaleOverride: () => null,
   },
-  i18n: key => `i18n(${key})`,
 };
 
 // For ducks/network.getEmptyState()

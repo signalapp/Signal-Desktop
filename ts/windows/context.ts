@@ -35,6 +35,7 @@ export type MinimalSignalContextType = {
   getI18nAvailableLocales: () => ReadonlyArray<string>;
   getI18nLocale: LocalizerType['getLocale'];
   getI18nLocaleMessages: LocalizerType['getLocaleMessages'];
+  i18n: LocalizerType;
   getLocaleDisplayNames: () => Record<string, Record<string, string>>;
   getCountryDisplayNames: () => Record<string, Record<string, string>>;
   getResolvedMessagesLocaleDirection: () => LocaleDirection;
@@ -65,8 +66,6 @@ export type MinimalSignalContextType = {
 export type SignalContextType = {
   bytes: Bytes;
   crypto: Crypto;
-  i18n: LocalizerType;
-  renderWindow?: () => void;
   setIsCallActive: (isCallActive: boolean) => unknown;
   timers: Timers;
 } & MinimalSignalContextType;
@@ -83,4 +82,3 @@ export const SignalContext: SignalContextType = {
 };
 
 window.SignalContext = SignalContext;
-window.i18n = SignalContext.i18n;

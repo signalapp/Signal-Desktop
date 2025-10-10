@@ -25,7 +25,7 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<CallLinkType> = {
       item.name === ''
     ) {
       return removeDiacritics(
-        window.i18n('icu:calling__call-link-default-title')
+        window.SignalContext.i18n('icu:calling__call-link-default-title')
       );
     }
 

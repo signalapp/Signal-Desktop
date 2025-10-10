@@ -155,7 +155,6 @@ window.SignalContext = {
   _stopTrackingICUStrings: () => i18n.stopTrackingUsage(),
 };
 
-window.i18n = i18n;
 window.ConversationController = window.ConversationController || {};
 window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;

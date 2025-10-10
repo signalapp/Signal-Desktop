@@ -18,8 +18,11 @@ export function getAboutText(
     return text;
   }
 
-  return window.i18n('icu:message--getNotificationText--text-with-emoji', {
-    text,
-    emoji,
-  });
+  return window.SignalContext.i18n(
+    'icu:message--getNotificationText--text-with-emoji',
+    {
+      text,
+      emoji,
+    }
+  );
 }

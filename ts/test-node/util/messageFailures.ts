@@ -28,6 +28,7 @@ import type { MessageModel } from '../../models/messages.js';
 const { mapValues, pick } = lodash;
 
 const log = createLogger('messageFailures');
+const { i18n } = window.SignalContext;
 
 export async function saveErrorsOnMessage(
   message: MessageModel,
@@ -140,10 +141,10 @@ export function notifyStorySendFailed(message: MessageModel): void {
     conversationId,
     storyId: id,
     messageId: id,
-    senderTitle: conversation?.getTitle() ?? window.i18n('icu:Stories__mine'),
+    senderTitle: conversation?.getTitle() ?? i18n('icu:Stories__mine'),
     message: hasSuccessfulDelivery(message.attributes)
-      ? window.i18n('icu:Stories__failed-send--partial')
-      : window.i18n('icu:Stories__failed-send--full'),
+      ? i18n('icu:Stories__failed-send--partial')
+      : i18n('icu:Stories__failed-send--full'),
     isExpiringMessage: false,
     sentAt: timestamp,
     type: NotificationType.Message,

@@ -32,7 +32,7 @@ export function getMessageAuthorText(
 
   // if it's outgoing, it must be self-authored
   const selfAuthor = isOutgoing(messageAttributes)
-    ? window.i18n('icu:you')
+    ? window.SignalContext.i18n('icu:you')
     : undefined;
 
   if (selfAuthor) {

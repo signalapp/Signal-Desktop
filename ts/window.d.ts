@@ -13,11 +13,7 @@ import type { MochaOptions } from 'mocha';
 import type { IPCRequest as IPCChallengeRequest } from './challenge.js';
 import type AccountManager from './textsecure/AccountManager.js';
 import type { OSType } from './util/os/shared.js';
-import type {
-  LocalizerType,
-  SystemThemeType,
-  ThemeType,
-} from './types/Util.js';
+import type { SystemThemeType, ThemeType } from './types/Util.js';
 import type { Receipt } from './types/Receipt.js';
 import type { ConversationController } from './ConversationController.js';
 import type { ReduxActions } from './state/types.js';
@@ -33,8 +29,6 @@ import type { PropsPreloadType as PreferencesPropsType } from './components/Pref
 import type { WindowsNotificationData } from './services/notifications.js';
 import type { QueryStatsOptions } from './sql/main.js';
 import type { SocketStatuses } from './textsecure/SocketManager.js';
-
-export { Long } from 'long';
 
 export type IPCType = {
   addSetupMenuItems: () => void;
@@ -168,7 +162,6 @@ declare global {
     initialTheme?: ThemeType;
     nodeSetImmediate: typeof setImmediate;
     platform: string;
-    preloadedImages: Array<HTMLImageElement>;
     setImmediate: typeof setImmediate;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
     systemTheme: SystemThemeType;
@@ -186,7 +179,6 @@ declare global {
     Events: IPCEventsType;
     MessageCache: MessageCache;
     Whisper: WhisperType;
-    i18n: LocalizerType;
     // Note: used in background.html, and not type-checked
     startApp: () => void;
 

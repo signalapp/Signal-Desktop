@@ -4,13 +4,14 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import '../sandboxedInit.js';
 import { About } from '../../components/About.js';
-import { i18n } from '../sandboxedInit.js';
 import { strictAssert } from '../../util/assert.js';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
 import { AxoProvider } from '../../axo/AxoProvider.js';
 
 const { AboutWindowProps } = window.Signal;
+const { i18n } = window.SignalContext;
 
 strictAssert(AboutWindowProps, 'window values not provided');
 
@@ -19,7 +20,9 @@ strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
   <StrictMode>
-    <AxoProvider dir={i18n.getLocaleDirection()}>
+    <AxoProvider
+      dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
+    >
       <FunDefaultEnglishEmojiLocalizationProvider>
         <About
           closeAbout={() => window.SignalContext.executeMenuRole('close')}

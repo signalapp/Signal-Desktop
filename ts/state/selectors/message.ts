@@ -613,7 +613,10 @@ const getPropsForStoryReplyContext = (
       ? processQuoteAttachment(storyReplyContext.attachment)
       : undefined,
     storyId: storyReplyContext.messageId,
-    text: getStoryReplyText(window.i18n, storyReplyContext.attachment),
+    text: getStoryReplyText(
+      window.SignalContext.i18n,
+      storyReplyContext.attachment
+    ),
   };
 };
 

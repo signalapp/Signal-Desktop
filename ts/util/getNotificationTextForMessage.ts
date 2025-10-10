@@ -9,6 +9,8 @@ import { isConversationAccepted } from './isConversationAccepted.js';
 import { strictAssert } from './assert.js';
 import { itemStorage } from '../textsecure/Storage.js';
 
+const { i18n } = window.SignalContext;
+
 export function getNotificationTextForMessage(
   attributes: ReadonlyMessageAttributesType
 ): string {
@@ -24,7 +26,7 @@ export function getNotificationTextForMessage(
   );
 
   if (!isConversationAccepted(conversation.attributes)) {
-    return window.i18n('icu:message--getNotificationText--messageRequest');
+    return i18n('icu:message--getNotificationText--messageRequest');
   }
 
   if (attributes.storyReaction) {
@@ -32,7 +34,7 @@ export function getNotificationTextForMessage(
       const { profileName: name } = conversation.attributes;
 
       if (!name) {
-        return window.i18n(
+        return i18n(
           'icu:Quote__story-reaction-notification--outgoing--nameless',
           {
             emoji: attributes.storyReaction.emoji,
@@ -40,7 +42,7 @@ export function getNotificationTextForMessage(
         );
       }
 
-      return window.i18n('icu:Quote__story-reaction-notification--outgoing', {
+      return i18n('icu:Quote__story-reaction-notification--outgoing', {
         emoji: attributes.storyReaction.emoji,
         name,
       });
@@ -52,7 +54,7 @@ export function getNotificationTextForMessage(
       attributes.type === 'incoming' &&
       attributes.storyReaction.targetAuthorAci === ourAci
     ) {
-      return window.i18n('icu:Quote__story-reaction-notification--incoming', {
+      return i18n('icu:Quote__story-reaction-notification--incoming', {
         emoji: attributes.storyReaction.emoji,
       });
     }
@@ -61,7 +63,7 @@ export function getNotificationTextForMessage(
       return attributes.storyReaction.emoji;
     }
 
-    return window.i18n('icu:Quote__story-reaction--single');
+    return i18n('icu:Quote__story-reaction--single');
   }
 
   const result = applyRangesToText(
@@ -76,7 +78,7 @@ export function getNotificationTextForMessage(
   //   the `text`, which can contain emoji.)
   const shouldIncludeEmoji = Boolean(emoji) && !window.Signal.OS.isLinux();
   if (shouldIncludeEmoji) {
-    return window.i18n('icu:message--getNotificationText--text-with-emoji', {
+    return i18n('icu:message--getNotificationText--text-with-emoji', {
       text: result.body,
       emoji: emoji ?? '',
     });

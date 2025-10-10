@@ -254,7 +254,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     titleShortNoDefault: getTitle(attributes, { isShort: true }),
     typingContactIdTimestamps,
     searchableTitle: isMe(attributes)
-      ? window.i18n('icu:noteToSelf')
+      ? window.SignalContext.i18n('icu:noteToSelf')
       : getTitle(attributes),
     unreadCount: attributes.unreadCount || 0,
     unreadMentionsCount: attributes.unreadMentionsCount || 0,

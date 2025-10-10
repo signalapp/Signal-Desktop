@@ -28,6 +28,7 @@ export async function longRunningTaskWrapper<T>({
   task: () => Promise<T>;
   suppressErrorDialog?: boolean;
 }): Promise<T> {
+  const { i18n } = window.SignalContext;
   const idLog = `${name}/${idForLogging}`;
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
@@ -41,9 +42,9 @@ export async function longRunningTaskWrapper<T>({
     progressRoot = createRoot(progressNode);
     progressRoot.render(
       <StrictMode>
-        <AxoProvider dir={window.i18n.getLocaleDirection()}>
+        <AxoProvider dir={i18n.getLocaleDirection()}>
           <FunDefaultEnglishEmojiLocalizationProvider>
-            <ProgressModal i18n={window.i18n} />
+            <ProgressModal i18n={i18n} />
           </FunDefaultEnglishEmojiLocalizationProvider>
         </AxoProvider>
       </StrictMode>

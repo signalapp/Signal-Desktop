@@ -99,7 +99,7 @@ const mapStateToActiveCallProp = (
       return undefined;
     }
 
-    conversation = callLinkToConversation(callLink, window.i18n);
+    conversation = callLinkToConversation(callLink, window.SignalContext.i18n);
   } else {
     conversation = conversationSelector(activeCallState.conversationId);
   }

@@ -102,7 +102,7 @@ export const getPlaceholderContact = (): ConversationType => {
     badges: [],
     id: PLACEHOLDER_CONTACT_ID,
     type: 'direct',
-    title: window.i18n('icu:unknownContact'),
+    title: window.SignalContext.i18n('icu:unknownContact'),
     isMe: false,
     sharedGroupNames: [],
   };

@@ -58,7 +58,7 @@ export function DonationsErrorBoundary(
 
     if (window.reduxActions) {
       window.reduxActions.globalModals.showDebugLogErrorModal({
-        description: window.i18n(
+        description: window.SignalContext.i18n(
           'icu:DonationsErrorBoundary__DonationUnexpectedError'
         ),
       });

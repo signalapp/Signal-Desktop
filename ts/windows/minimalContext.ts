@@ -15,6 +15,7 @@ import { activeWindowService } from '../context/activeWindowService.js';
 import { config } from '../context/config.js';
 import { createNativeThemeListener } from '../context/createNativeThemeListener.js';
 import { createSetting } from '../util/preload.js';
+import { setupI18n } from '../util/setupI18n.js';
 import { environment } from '../context/environment.js';
 import {
   localeDisplayNames,
@@ -67,6 +68,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
+  i18n: setupI18n(config.resolvedTranslationsLocale, localeMessages),
   getLocaleDisplayNames: () => localeDisplayNames,
   getCountryDisplayNames: () => countryDisplayNames,
 

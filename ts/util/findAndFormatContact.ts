@@ -12,7 +12,7 @@ const PLACEHOLDER_CONTACT: ConversationType = {
   id: PLACEHOLDER_CONTACT_ID,
   isMe: false,
   sharedGroupNames: [],
-  title: window.i18n('icu:unknownContact'),
+  title: window.SignalContext.i18n('icu:unknownContact'),
   type: 'direct',
 };
 

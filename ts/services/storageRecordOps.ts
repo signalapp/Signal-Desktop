@@ -2797,7 +2797,7 @@ export function prepareForEnabledNotificationProfileSync(): {
       toRemove.push(local.profile);
       toAdd.push({
         ...local.profile,
-        name: window.i18n('icu:NotificationProfile--copy-label', {
+        name: window.SignalContext.i18n('icu:NotificationProfile--copy-label', {
           profileName: local.profile.name,
         }),
       });

@@ -17,6 +17,8 @@ type TitleOptions = {
   ignoreNickname?: boolean;
 };
 
+const { i18n } = window.SignalContext;
+
 export function getTitle(
   attributes: ConversationRenderInfoType,
   options?: TitleOptions
@@ -27,9 +29,9 @@ export function getTitle(
   }
 
   if (isDirectConversation(attributes)) {
-    return window.i18n('icu:unknownContact');
+    return i18n('icu:unknownContact');
   }
-  return window.i18n('icu:unknownGroup');
+  return i18n('icu:unknownGroup');
 }
 
 export function getTitleNoDefault(

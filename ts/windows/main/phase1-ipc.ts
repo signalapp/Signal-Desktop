@@ -43,11 +43,8 @@ const { groupBy, mapValues } = lodash;
 
 const log = createLogger('phase1-ipc');
 
-// It is important to call this as early as possible
-window.i18n = SignalContext.i18n;
-
 // We are comfortable doing this because we verified the type on the other side!
-const { config } = window.SignalContext;
+const { config } = SignalContext;
 
 // Flags for testing
 const Flags = {

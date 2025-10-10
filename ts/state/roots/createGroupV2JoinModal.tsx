@@ -21,7 +21,7 @@ export const createGroupV2JoinModal = (
 
   return (
     <Provider store={store}>
-      <FunEmojiLocalizationProvider i18n={window.i18n}>
+      <FunEmojiLocalizationProvider i18n={window.SignalContext.i18n}>
         <ModalHost modalName="createGroupV2JoinModal" onClose={onClose}>
           <SmartGroupV2JoinDialog {...props} />
         </ModalHost>
