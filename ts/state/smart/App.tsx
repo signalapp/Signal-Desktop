@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { requestVerification as doRequestVerification } from '../../textsecure/WebAPI.js';
+import { accountManager } from '../../textsecure/AccountManager.js';
 import type { VerificationTransport } from '../../types/VerificationTransport.js';
 import { DataWriter } from '../../sql/Client.js';
 import { App } from '../../components/App.js';
@@ -79,9 +80,7 @@ function registerSingleDevice(
   code: string,
   sessionId: string
 ): Promise<void> {
-  return window
-    .getAccountManager()
-    .registerSingleDevice(number, code, sessionId);
+  return accountManager.registerSingleDevice(number, code, sessionId);
 }
 
 function readyForUpdates(): void {

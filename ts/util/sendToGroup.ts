@@ -21,6 +21,7 @@ import {
   padMessage,
   SenderCertificateMode,
 } from '../textsecure/OutgoingMessage.js';
+import { accountManager } from '../textsecure/AccountManager.js';
 import { Address } from '../types/Address.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.js';
 import * as Errors from '../types/errors.js';
@@ -198,7 +199,6 @@ export async function sendContentMessageToGroup(
   } = options;
   const logId = sendTarget.idForLogging();
 
-  const accountManager = window.getAccountManager();
   if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
     log.warn(`${logId}: Keys are out of date; updating before send`);
     await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);

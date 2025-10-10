@@ -1405,3 +1405,5 @@ export default class AccountManager extends EventTarget {
     }
   }
 }
+
+export const accountManager = new AccountManager();

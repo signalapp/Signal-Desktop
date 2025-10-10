@@ -87,6 +87,7 @@ import EventTarget from './EventTarget.js';
 import type { IncomingWebSocketRequest } from './WebsocketResources.js';
 import { ServerRequestType } from './WebsocketResources.js';
 import { type Storage } from './Storage.js';
+import { accountManager } from './AccountManager.js';
 import { WarnOnlyError } from './Errors.js';
 import * as Bytes from '../Bytes.js';
 import type {
@@ -3325,8 +3326,7 @@ export default class MessageReceiver
     }
     this.#pniIdentityKeyCheckRequired = false;
 
-    const manager = window.getAccountManager();
-    await manager.setPni(updatedPni, {
+    await accountManager.setPni(updatedPni, {
       identityKeyPair,
       lastResortKyberPreKey: dropNull(lastResortKyberPreKey),
       signedPreKey,

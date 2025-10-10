@@ -24,6 +24,7 @@ import {
   EventKind as ProvisionEventKind,
   type EnvelopeType as ProvisionEnvelopeType,
 } from '../../textsecure/Provisioner.js';
+import { accountManager } from '../../textsecure/AccountManager.js';
 import { getProvisioningResource } from '../../textsecure/WebAPI.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
 import { useBoundActions } from '../../hooks/useBoundActions.js';
@@ -319,9 +320,6 @@ function finishInstall({
     const { baton } = state.installer;
     cancelByBaton.get(baton)?.();
     cancelByBaton.delete(baton);
-
-    const accountManager = window.getAccountManager();
-    strictAssert(accountManager, 'Expected an account manager');
 
     if (isLinkAndSync) {
       dispatch({ type: SHOW_BACKUP_IMPORT });

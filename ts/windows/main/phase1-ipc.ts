@@ -5,7 +5,6 @@ import EventEmitter from 'node:events';
 import { ipcRenderer as ipc } from 'electron';
 import * as semver from 'semver';
 import lodash, { throttle } from 'lodash';
-import PQueue from 'p-queue';
 
 import type { IPCType } from '../../window.d.ts';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback.js';
@@ -28,18 +27,10 @@ import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.js'
 import { isProduction } from '../../util/version.js';
 import { ToastType } from '../../types/Toast.js';
 import { ConversationController } from '../../ConversationController.js';
-import { createBatcher } from '../../util/batcher.js';
-import { ReceiptType } from '../../types/Receipt.js';
-import type { Receipt } from '../../types/Receipt.js';
-import { MINUTE } from '../../util/durations/index.js';
-import {
-  conversationJobQueue,
-  conversationQueueJobEnum,
-} from '../../jobs/conversationJobQueue.js';
 import { isEnabled } from '../../RemoteConfig.js';
 import { itemStorage } from '../../textsecure/Storage.js';
 
-const { groupBy, mapValues } = lodash;
+const { mapValues } = lodash;
 
 const log = createLogger('phase1-ipc');
 
@@ -62,28 +53,6 @@ window.RETRY_DELAY = false;
 
 window.Whisper = {
   events: new EventEmitter(),
-  deliveryReceiptQueue: new PQueue({
-    concurrency: 1,
-    timeout: MINUTE * 30,
-  }),
-  deliveryReceiptBatcher: createBatcher<Receipt>({
-    name: 'Whisper.deliveryReceiptBatcher',
-    wait: 500,
-    maxSize: 100,
-    processBatch: async deliveryReceipts => {
-      const groups = groupBy(deliveryReceipts, 'conversationId');
-      await Promise.all(
-        Object.keys(groups).map(async conversationId => {
-          await conversationJobQueue.add({
-            type: conversationQueueJobEnum.enum.Receipts,
-            conversationId,
-            receiptsType: ReceiptType.Delivery,
-            receipts: groups[conversationId],
-          });
-        })
-      );
-    },
-  }),
 };
 window.ConversationController = new ConversationController();
 window.platform = process.platform;

@@ -6,18 +6,14 @@
 import type EventEmitter from 'node:events';
 import type { Store } from 'redux';
 import type { SystemPreferences } from 'electron';
-import type PQueue from 'p-queue/dist.js';
 import type { assert } from 'chai';
 import type { MochaOptions } from 'mocha';
 
 import type { IPCRequest as IPCChallengeRequest } from './challenge.js';
-import type AccountManager from './textsecure/AccountManager.js';
 import type { OSType } from './util/os/shared.js';
 import type { SystemThemeType, ThemeType } from './types/Util.js';
-import type { Receipt } from './types/Receipt.js';
 import type { ConversationController } from './ConversationController.js';
 import type { ReduxActions } from './state/types.js';
-import type { BatcherType } from './util/batcher.js';
 import type { ScreenShareStatus } from './types/Calling.js';
 import type { MessageCache } from './services/MessageCache.js';
 import type { StateType } from './state/reducer.js';
@@ -140,7 +136,6 @@ declare global {
   interface Window {
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
-    getAccountManager: () => AccountManager;
     getAppInstance: () => string | undefined;
     getBuildCreation: () => number;
     getBuildExpiration: () => number;
@@ -234,7 +229,5 @@ declare global {
 }
 
 export type WhisperType = {
-  deliveryReceiptQueue: PQueue;
-  deliveryReceiptBatcher: BatcherType<Receipt>;
   events: EventEmitter;
 };

@@ -11,6 +11,7 @@ import { createLogger } from '../logging/log.js';
 import { toLogFormat } from '../types/errors.js';
 import { drop } from './drop.js';
 import { itemStorage } from '../textsecure/Storage.js';
+import { accountManager } from '../textsecure/AccountManager.js';
 
 const log = createLogger('onDeviceNameChangeSync');
 
@@ -66,9 +67,7 @@ async function fetchAndUpdateDeviceName() {
 
   let newName: string;
   try {
-    newName = await window
-      .getAccountManager()
-      .decryptDeviceName(newNameEncrypted);
+    newName = await accountManager.decryptDeviceName(newNameEncrypted);
   } catch (e) {
     const deviceNameWasEncrypted = itemStorage.user.getDeviceNameEncrypted();
     log.error(
