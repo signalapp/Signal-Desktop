@@ -10,6 +10,7 @@ import * as Errors from '../types/errors.js';
 import { HTTPError } from '../types/HTTPError.js';
 import { isOnline } from './WebAPI.js';
 import { itemStorage } from './Storage.js';
+import { accountManager } from './AccountManager.js';
 
 const log = createLogger('UpdateKeysListener');
 
@@ -54,8 +55,6 @@ export class UpdateKeysListener {
   async #run(): Promise<void> {
     log.info('Updating keys...');
     try {
-      const accountManager = window.getAccountManager();
-
       await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
 
       try {

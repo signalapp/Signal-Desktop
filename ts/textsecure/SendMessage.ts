@@ -96,6 +96,7 @@ import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.js';
 import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import { itemStorage } from './Storage.js';
+import { accountManager } from './AccountManager.js';
 
 const log = createLogger('SendMessage');
 
@@ -1057,7 +1058,6 @@ export class MessageSender {
     timestamp: number;
     urgent: boolean;
   }>): Promise<void> {
-    const accountManager = window.getAccountManager();
     try {
       if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
         log.warn(

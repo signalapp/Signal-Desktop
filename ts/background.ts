@@ -31,6 +31,7 @@ import { ThemeType } from './types/Util.js';
 import * as durations from './util/durations/index.js';
 import { drop } from './util/drop.js';
 import { explodePromise } from './util/explodePromise.js';
+import { deliveryReceiptQueue } from './util/deliveryReceipt.js';
 import type { ExplodePromiseResultType } from './util/explodePromise.js';
 import { isWindowDragElement } from './util/isWindowDragElement.js';
 import { assertDev, strictAssert } from './util/assert.js';
@@ -148,7 +149,7 @@ import {
   reportMessage,
   unregisterRequestHandler,
 } from './textsecure/WebAPI.js';
-import AccountManager from './textsecure/AccountManager.js';
+import { accountManager } from './textsecure/AccountManager.js';
 import * as KeyChangeListener from './textsecure/KeyChangeListener.js';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener.js';
 import { isGroup } from './util/whatTypeOfConversation.js';
@@ -353,8 +354,6 @@ export async function startApp(): Promise<void> {
   const onRetryRequestQueue = new PQueue({ concurrency: 1 });
   onRetryRequestQueue.pause();
 
-  window.Whisper.deliveryReceiptQueue.pause();
-
   if (window.platform === 'darwin') {
     window.addEventListener('dblclick', (event: Event) => {
       const target = event.target as HTMLElement;
@@ -421,8 +420,8 @@ export async function startApp(): Promise<void> {
     'lowKeys',
     throttle(
       async () => {
-        await window.getAccountManager().maybeUpdateKeys(ServiceIdKind.ACI);
-        await window.getAccountManager().maybeUpdateKeys(ServiceIdKind.PNI);
+        await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
+        await accountManager.maybeUpdateKeys(ServiceIdKind.PNI);
       },
       durations.MINUTE,
       { trailing: true, leading: false }
@@ -447,34 +446,25 @@ export async function startApp(): Promise<void> {
     return getSocketStatus();
   };
 
-  let accountManager: AccountManager;
-  window.getAccountManager = () => {
-    if (accountManager) {
-      return accountManager;
-    }
+  accountManager.addEventListener('startRegistration', () => {
+    pauseProcessing('startRegistration');
+    // We should already be logged out, but this ensures that the next time we connect
+    // to the auth socket it is from newly-registered credentials
+    drop(logout());
+    authSocketConnectCount = 0;
 
-    accountManager = new AccountManager();
-    accountManager.addEventListener('startRegistration', () => {
-      pauseProcessing('startRegistration');
-      // We should already be logged out, but this ensures that the next time we connect
-      // to the auth socket it is from newly-registered credentials
-      drop(logout());
-      authSocketConnectCount = 0;
+    backupReady.reject(new Error('startRegistration'));
+    backupReady = explodePromise();
+    registrationCompleted = explodePromise();
+  });
 
-      backupReady.reject(new Error('startRegistration'));
-      backupReady = explodePromise();
-      registrationCompleted = explodePromise();
-    });
+  accountManager.addEventListener('endRegistration', () => {
+    window.Whisper.events.emit('userChanged', false);
 
-    accountManager.addEventListener('endRegistration', () => {
-      window.Whisper.events.emit('userChanged', false);
-
-      drop(itemStorage.put('postRegistrationSyncsStatus', 'incomplete'));
-      registrationCompleted?.resolve();
-      drop(Registration.markDone());
-    });
-    return accountManager;
-  };
+    drop(itemStorage.put('postRegistrationSyncsStatus', 'incomplete'));
+    registrationCompleted?.resolve();
+    drop(Registration.markDone());
+  });
 
   const cancelInitializationMessage = setAppLoadingScreenMessage(
     undefined,
@@ -1826,9 +1816,8 @@ export async function startApp(): Promise<void> {
 
       drop(StorageService.reprocessUnknownFields());
 
-      const manager = window.getAccountManager();
       await Promise.all([
-        manager.maybeUpdateDeviceName(),
+        accountManager.maybeUpdateDeviceName(),
         itemStorage.user.removeSignalingKey(),
       ]);
     } catch (e) {
@@ -1912,7 +1901,7 @@ export async function startApp(): Promise<void> {
     lightSessionResetQueue.pause();
     onDecryptionErrorQueue.pause();
     onRetryRequestQueue.pause();
-    window.Whisper.deliveryReceiptQueue.pause();
+    deliveryReceiptQueue.pause();
     notificationService.disable();
   }
 
@@ -1923,7 +1912,7 @@ export async function startApp(): Promise<void> {
     lightSessionResetQueue.start();
     onDecryptionErrorQueue.start();
     onRetryRequestQueue.start();
-    window.Whisper.deliveryReceiptQueue.start();
+    deliveryReceiptQueue.start();
     notificationService.enable();
   }
 

@@ -15,6 +15,10 @@ import { DataWriter } from '../sql/Client.js';
 import { drop } from './drop.js';
 import { upgradeMessageSchema } from './migrations.js';
 import {
+  deliveryReceiptQueue,
+  deliveryReceiptBatcher,
+} from './deliveryReceipt.js';
+import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
   isVoiceMessage,
@@ -315,8 +319,8 @@ export async function handleEditMessage(
     // processing incoming messages to start sending outgoing delivery receipts.
     // The queue can be paused easily.
     drop(
-      window.Whisper.deliveryReceiptQueue.add(() => {
-        window.Whisper.deliveryReceiptBatcher.add({
+      deliveryReceiptQueue.add(() => {
+        deliveryReceiptBatcher.add({
           messageId: mainMessage.id,
           conversationId: editAttributes.conversationId,
           senderE164: editAttributes.message.source,

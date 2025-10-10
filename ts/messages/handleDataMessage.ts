@@ -12,6 +12,10 @@ import { isStory } from './helpers.js';
 import { getAuthor } from './sources.js';
 import { messageHasPaymentEvent } from './payments.js';
 import { getMessageIdForLogging } from '../util/idForLogging.js';
+import {
+  deliveryReceiptQueue,
+  deliveryReceiptBatcher,
+} from '../util/deliveryReceipt.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
 import { isNormalNumber } from '../util/isNormalNumber.js';
 import { upgradeMessageSchema } from '../util/migrations.js';
@@ -381,12 +385,12 @@ export async function handleDataMessage(
       //   processing incoming messages to start sending outgoing delivery receipts.
       //   The queue can be paused easily.
       drop(
-        window.Whisper.deliveryReceiptQueue.add(() => {
+        deliveryReceiptQueue.add(() => {
           strictAssert(
             isAciString(sourceServiceId),
             'Incoming message must be from ACI'
           );
-          window.Whisper.deliveryReceiptBatcher.add({
+          deliveryReceiptBatcher.add({
             messageId,
             conversationId,
             senderE164: source,
