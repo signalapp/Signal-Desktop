@@ -1500,6 +1500,18 @@ function groupCallEnded(
       });
       return;
     }
+    if (endedReason === GroupCallEndReason.HasMaxDevices) {
+      const i18n = getIntl(getState());
+      dispatch({
+        type: SHOW_ERROR_MODAL,
+        payload: {
+          title: i18n('icu:calling__has-max-devices--title'),
+          description: i18n('icu:calling__has-max-devices'),
+          buttonVariant: ButtonVariant.Primary,
+        },
+      });
+      return;
+    }
 
     dispatch({ type: GROUP_CALL_ENDED, payload });
   };
