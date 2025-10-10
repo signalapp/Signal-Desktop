@@ -40,6 +40,11 @@ import { getEmptyState as usernameEmptyState } from './ducks/username.js';
 import OS from '../util/os/osMain.js';
 import { getInteractionMode } from '../services/InteractionMode.js';
 import { makeLookup } from '../util/makeLookup.js';
+import {
+  ATTACHMENTS_PATH,
+  STICKERS_PATH,
+  TEMP_PATH,
+} from '../util/basePaths.js';
 import { toCurrentChatFolders } from '../types/ChatFolder.js';
 
 import type { StateType } from './reducer.js';
@@ -216,7 +221,7 @@ export function generateUserState({
 
   return {
     ...userEmptyState(),
-    attachmentsPath: window.BasePaths.attachments,
+    attachmentsPath: ATTACHMENTS_PATH,
     i18n: window.i18n,
     interactionMode: getInteractionMode(),
     isMainWindowFullScreen: mainWindowStats.isFullScreen,
@@ -231,8 +236,8 @@ export function generateUserState({
     ourPni,
     platform: window.platform,
     regionCode: itemStorage.get('regionCode'),
-    stickersPath: window.BasePaths.stickers,
-    tempPath: window.BasePaths.temp,
+    stickersPath: STICKERS_PATH,
+    tempPath: TEMP_PATH,
     theme,
     version: window.getVersion(),
   };

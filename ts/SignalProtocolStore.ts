@@ -61,7 +61,6 @@ import { QualifiedAddress } from './types/QualifiedAddress.js';
 import { createLogger } from './logging/log.js';
 import * as Errors from './types/errors.js';
 import { MINUTE } from './util/durations/index.js';
-import { conversationJobQueue } from './jobs/conversationJobQueue.js';
 import {
   KYBER_KEY_ID_KEY,
   SIGNED_PRE_KEY_ID_KEY,
@@ -1846,8 +1845,7 @@ export class SignalProtocolStore extends EventEmitter {
       await this.archiveSession(qualifiedAddress);
 
       // Enqueue a null message with newly-created session
-      await conversationJobQueue.add({
-        type: 'NullMessage',
+      this.emit('nullMessage', {
         conversationId: conversation.id,
         idForTracking: id,
       });
@@ -2812,6 +2810,14 @@ export class SignalProtocolStore extends EventEmitter {
   public override on(name: 'removeAllData', handler: () => unknown): this;
 
   public override on(
+    name: 'nullMessage',
+    handler: (options: {
+      conversationId: string;
+      idForTracking: string;
+    }) => unknown
+  ): this;
+
+  public override on(
     eventName: string | symbol,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (...args: Array<any>) => void
@@ -2828,6 +2834,14 @@ export class SignalProtocolStore extends EventEmitter {
   ): boolean;
 
   public override emit(name: 'removeAllData'): boolean;
+
+  public override emit(
+    name: 'nullMessage',
+    options: {
+      conversationId: string;
+      idForTracking: string;
+    }
+  ): boolean;
 
   public override emit(
     eventName: string | symbol,

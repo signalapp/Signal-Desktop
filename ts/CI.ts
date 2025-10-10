@@ -11,6 +11,7 @@ import { explodePromise } from './util/explodePromise.js';
 import { AccessType, ipcInvoke } from './sql/channels.js';
 import { backupsService } from './services/backups/index.js';
 import { notificationService } from './services/notifications.js';
+import { challengeHandler } from './services/challengeHandler.js';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.js';
 import { migrateAllMessages } from './messages/migrateMessageData.js';
 import { SECOND } from './util/durations/index.js';
@@ -154,7 +155,7 @@ export function getCI({
   }
 
   function solveChallenge(response: ChallengeResponseType): void {
-    window.Signal.challengeHandler?.onResponse(response);
+    challengeHandler.onResponse(response);
   }
 
   async function getMessagesBySentAt(sentAt: number) {

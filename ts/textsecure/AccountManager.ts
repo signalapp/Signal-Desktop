@@ -8,7 +8,6 @@ import {
   AccountEntropyPool,
   BackupKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
-import { Readable } from 'node:stream';
 
 import EventTarget from './EventTarget.js';
 import {
@@ -37,7 +36,6 @@ import * as Bytes from '../Bytes.js';
 import * as Errors from '../types/errors.js';
 import { isMockEnvironment } from '../environment.js';
 import { senderCertificateService } from '../services/senderCertificate.js';
-import { backupsService } from '../services/backups/index.js';
 import {
   decryptDeviceName,
   deriveAccessKey,
@@ -150,9 +148,6 @@ type CreateAccountSharedOptionsType = Readonly<{
   profileKey: Uint8Array;
   masterKey: Uint8Array | undefined;
   accountEntropyPool: string | undefined;
-
-  // Test-only
-  backupFile?: Uint8Array;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -936,7 +931,6 @@ export default class AccountManager extends EventTarget {
       mediaRootBackupKey,
       readReceipts,
       userAgent,
-      backupFile,
       accountEntropyPool,
     } = options;
 
@@ -974,7 +968,7 @@ export default class AccountManager extends EventTarget {
       !previousACI && previousNumber && previousNumber !== number;
 
     let cleanStart = !previousACI && !previousPNI && !previousNumber;
-    if (uuidChanged || numberChanged || backupFile !== undefined) {
+    if (uuidChanged || numberChanged) {
       if (uuidChanged) {
         log.warn(
           'createAccount: New uuid is different from old uuid; deleting all previous data'
@@ -983,12 +977,6 @@ export default class AccountManager extends EventTarget {
       if (numberChanged) {
         log.warn(
           'createAccount: New number is different from old number; deleting all previous data'
-        );
-      }
-      if (backupFile !== undefined) {
-        log.warn(
-          'createAccount: Restoring from backup; ' +
-            'deleting all previous data'
         );
       }
 
@@ -1289,10 +1277,6 @@ export default class AccountManager extends EventTarget {
       uploadKeys(ServiceIdKind.ACI),
       uploadKeys(ServiceIdKind.PNI),
     ]);
-
-    if (backupFile !== undefined) {
-      await backupsService.importBackup(() => Readable.from([backupFile]));
-    }
   }
 
   // Exposed only for testing

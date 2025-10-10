@@ -282,14 +282,12 @@ type FinishInstallOptionsType = ReadonlyDeep<{
   isLinkAndSync: boolean;
   deviceName: string;
   envelope?: ProvisionEnvelopeType;
-  backupFile?: Uint8Array;
 }>;
 
 function finishInstall({
   isLinkAndSync,
   envelope: providedEnvelope,
   deviceName,
-  backupFile,
 }: FinishInstallOptionsType): ThunkAction<
   void,
   RootStateType,
@@ -336,7 +334,6 @@ function finishInstall({
         Provisioner.prepareLinkData({
           envelope,
           deviceName,
-          backupFile,
         })
       );
       window.IPC.removeSetupMenuItems();

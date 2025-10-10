@@ -13,8 +13,6 @@ import { DataReader, DataWriter } from './sql/Client.js';
 import * as TypesAttachment from './util/Attachment.js';
 import * as VisualAttachment from './types/VisualAttachment.js';
 import * as MessageType from './types/Message2.js';
-import { Address } from './types/Address.js';
-import { QualifiedAddress } from './types/QualifiedAddress.js';
 
 // Processes / Services
 import { calling } from './services/calling.js';
@@ -453,23 +451,15 @@ export const setup = (options: {
     backups: backupsService,
   };
 
-  const Types = {
-    Message: MessageType,
-
-    // Mostly for debugging
-    Address,
-    QualifiedAddress,
-  };
-
   return {
     Migrations,
     OS,
-    Services,
-    Types,
 
     ...(isProduction(window.getVersion())
       ? {}
       : {
+          Services,
+
           DataReader,
           DataWriter,
         }),

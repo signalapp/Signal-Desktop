@@ -9,6 +9,7 @@ import { SignalService } from '../protobuf/index.js';
 import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
 import type { ProcessedQuote } from '../textsecure/Types.js';
 import { IMAGE_JPEG } from '../types/MIME.js';
+import { VERSION_NEEDED_FOR_DISPLAY } from '../types/Message2.js';
 import { strictAssert } from '../util/assert.js';
 import { getQuoteBodyText } from '../util/getQuoteBodyText.js';
 import { isQuoteAMatch } from './quotes.js';
@@ -135,10 +136,7 @@ export const copyQuoteContentFromOriginal = async (
   }
 
   try {
-    await messageCache.upgradeSchema(
-      message,
-      window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
-    );
+    await messageCache.upgradeSchema(message, VERSION_NEEDED_FOR_DISPLAY);
   } catch (error) {
     log.error(
       'Problem upgrading message quoted message from database',
