@@ -17,6 +17,7 @@ export function isSignalConnection(
     isDirectConversation(conversation) &&
     (conversation.profileSharing || isInSystemContacts(conversation)) &&
     conversation.serviceId !== undefined &&
+    conversation.removalStage == null &&
     ('isBlocked' in conversation
       ? !conversation.isBlocked
       : !isBlocked(conversation)) &&
