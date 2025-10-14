@@ -11,7 +11,7 @@ import {StatsRatesCalculator, StatsReport} from './stats_rates_calculator.js';
 import {StatsTable} from './stats_table.js';
 import {TabView} from './tab_view.js';
 import {UserMediaTable} from './user_media_table.js';
-import { i18n } from '../../ts/windows/sandboxedInit.js';
+import '../../ts/windows/sandboxedInit.js';
 
 let tabView = null;
 let peerConnectionUpdateTable = null;
@@ -153,6 +153,7 @@ function setRtcStatsInterval() {
 }
 
 function initialize() {
+  const { i18n } = window.SignalContext;
   let placeholderTitle = i18n('icu:callingDeveloperTools');
   let placeholderDescription = i18n('icu:callingDeveloperToolsDescription');
   $('placeholder-title').innerText = placeholderTitle;
