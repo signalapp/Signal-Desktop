@@ -4,6 +4,7 @@
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
+import Long from 'long';
 
 import * as Errors from '../../types/errors.js';
 import { strictAssert } from '../../util/assert.js';
@@ -33,6 +34,7 @@ import type {
   OutgoingStickerType,
 } from '../../textsecure/SendMessage.js';
 import type {
+  AttachmentDownloadableFromTransitTier,
   AttachmentType,
   UploadedAttachmentType,
 } from '../../types/Attachment.js';
@@ -74,6 +76,11 @@ import {
 } from '../../test-node/util/messageFailures.js';
 import { getMessageIdForLogging } from '../../util/idForLogging.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.js';
+import type { SignalService } from '../../protobuf/index.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { fromBase64 } from '../../Bytes.js';
+import { MIMETypeToString } from '../../types/MIME.js';
+import { canReuseExistingTransitCdnPointerForEditedMessage } from '../../util/Attachment.js';
 
 const { isNumber } = lodash;
 
@@ -220,7 +227,12 @@ export async function sendNormalMessage(
       sticker,
       storyMessage,
       storyContext,
-    } = await getMessageSendData({ log, message, targetTimestamp });
+    } = await getMessageSendData({
+      log,
+      message,
+      targetTimestamp,
+      isEditedMessageSend: editedMessageTimestamp != null,
+    });
 
     if (reaction) {
       strictAssert(
@@ -584,12 +596,14 @@ async function getMessageSendData({
   log,
   message,
   targetTimestamp,
+  isEditedMessageSend,
 }: Readonly<{
   log: LoggerType;
   message: MessageModel;
   targetTimestamp: number;
+  isEditedMessageSend: boolean;
 }>): Promise<{
-  attachments: Array<UploadedAttachmentType>;
+  attachments: Array<SignalService.IAttachmentPointer>;
   body: undefined | string;
   contact?: Array<EmbeddedContactWithUploadedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
@@ -652,15 +666,21 @@ async function getMessageSendData({
     storyMessage,
   ] = await Promise.all([
     uploadQueue.addAll(
-      preUploadAttachments.map(
-        attachment => () =>
-          uploadSingleAttachment({
-            attachment,
-            log,
-            message,
-            targetTimestamp,
-          })
-      )
+      preUploadAttachments.map(attachment => async () => {
+        if (isEditedMessageSend) {
+          if (canReuseExistingTransitCdnPointerForEditedMessage(attachment)) {
+            return convertAttachmentToPointer(attachment);
+          }
+          log.error('Unable to reuse attachment pointer for edited message');
+        }
+
+        return uploadSingleAttachment({
+          attachment,
+          log,
+          message,
+          targetTimestamp,
+        });
+      })
     ),
     uploadQueue.add(async () =>
       maybeLongAttachment
@@ -1257,4 +1277,48 @@ function didSendToEveryone({
       return isSent(sendState.status);
     }
   );
+}
+
+function convertAttachmentToPointer(
+  attachment: AttachmentDownloadableFromTransitTier
+): SignalService.IAttachmentPointer {
+  const {
+    cdnKey,
+    cdnNumber,
+    clientUuid,
+    key,
+    size,
+    digest,
+    incrementalMac,
+    chunkSize,
+    uploadTimestamp,
+    contentType,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+  } = attachment;
+
+  return {
+    cdnKey,
+    cdnNumber,
+    clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
+    key: fromBase64(key),
+    size,
+    digest: fromBase64(digest),
+    incrementalMac: incrementalMac ? fromBase64(incrementalMac) : undefined,
+    chunkSize,
+    uploadTimestamp: uploadTimestamp
+      ? Long.fromNumber(uploadTimestamp)
+      : undefined,
+    contentType: MIMETypeToString(contentType),
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+  };
 }

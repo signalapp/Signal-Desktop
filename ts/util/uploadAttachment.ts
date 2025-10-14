@@ -54,7 +54,6 @@ export async function uploadAttachment(
     cdnNumber,
     clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
     key: keys,
-    iv: encrypted.iv,
     size: attachment.data.byteLength,
     digest: encrypted.digest,
     plaintextHash: encrypted.plaintextHash,
@@ -69,7 +68,6 @@ export async function uploadAttachment(
     height,
     caption,
     blurHash,
-    isReencryptableToSameDigest: true,
   };
 }
 

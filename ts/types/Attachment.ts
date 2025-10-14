@@ -127,13 +127,11 @@ export type UploadedAttachmentType = Proto.IAttachmentPointer &
   Readonly<{
     // Required fields
     cdnKey: string;
-    iv: Uint8Array;
     key: Uint8Array;
     size: number;
     digest: Uint8Array;
     contentType: string;
     plaintextHash: string;
-    isReencryptableToSameDigest: true;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
