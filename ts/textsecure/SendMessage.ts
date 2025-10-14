@@ -189,7 +189,7 @@ export const singleProtoJobDataSchema = z.object({
 export type SingleProtoJobData = z.infer<typeof singleProtoJobDataSchema>;
 
 export type MessageOptionsType = {
-  attachments?: ReadonlyArray<UploadedAttachmentType>;
+  attachments?: ReadonlyArray<Proto.IAttachmentPointer>;
   body?: string;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
@@ -215,7 +215,7 @@ export type MessageOptionsType = {
   storyContext?: StoryContextType;
 };
 export type GroupSendOptionsType = {
-  attachments?: ReadonlyArray<UploadedAttachmentType>;
+  attachments?: ReadonlyArray<Proto.IAttachmentPointer>;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
   deletedForEveryoneTimestamp?: number;
@@ -235,7 +235,7 @@ export type GroupSendOptionsType = {
 };
 
 class Message {
-  attachments: ReadonlyArray<UploadedAttachmentType>;
+  attachments: ReadonlyArray<Proto.IAttachmentPointer>;
 
   body?: string;
 
@@ -1211,7 +1211,7 @@ export class MessageSender {
     urgent,
     includePniSignatureMessage,
   }: Readonly<{
-    attachments: ReadonlyArray<UploadedAttachmentType> | undefined;
+    attachments: ReadonlyArray<Proto.IAttachmentPointer> | undefined;
     bodyRanges?: ReadonlyArray<RawBodyRange>;
     contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
     contentHint: number;
