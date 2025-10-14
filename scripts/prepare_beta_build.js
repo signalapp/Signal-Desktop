@@ -33,6 +33,10 @@ const APP_ID_PATH = 'build.appId';
 const PRODUCTION_APP_ID = 'org.whispersystems.signal-desktop';
 const BETA_APP_ID = 'org.whispersystems.signal-desktop-beta';
 
+const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
+const PRODUCTION_WM_CLASS = 'signal';
+const BETA_WM_CLASS = 'signalbeta';
+
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
@@ -54,6 +58,7 @@ function checkValue(object, objectPath, expected) {
 checkValue(packageJson, NAME_PATH, PRODUCTION_NAME);
 checkValue(packageJson, PRODUCT_NAME_PATH, PRODUCTION_PRODUCT_NAME);
 checkValue(packageJson, APP_ID_PATH, PRODUCTION_APP_ID);
+checkValue(packageJson, STARTUP_WM_CLASS_PATH, PRODUCTION_WM_CLASS);
 checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 
 // -------
@@ -61,6 +66,7 @@ checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 _.set(packageJson, NAME_PATH, BETA_NAME);
 _.set(packageJson, PRODUCT_NAME_PATH, BETA_PRODUCT_NAME);
 _.set(packageJson, APP_ID_PATH, BETA_APP_ID);
+_.set(packageJson, STARTUP_WM_CLASS_PATH, BETA_WM_CLASS);
 _.set(packageJson, DESKTOP_NAME_PATH, BETA_DESKTOP_NAME);
 
 // -------

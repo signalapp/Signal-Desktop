@@ -519,6 +519,11 @@
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
+      "desktop": {
+        "entry": {
+          "StartupWMClass": "signal"
+        }
+      },
       "target": [
         "deb"
       ],
