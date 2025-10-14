@@ -6,7 +6,6 @@ import type { EditAttributesType } from '../messageModifiers/Edits.js';
 import type {
   EditHistoryType,
   MessageAttributesType,
-  QuotedMessageType,
 } from '../model-types.d.ts';
 import * as Edits from '../messageModifiers/Edits.js';
 import { createLogger } from '../logging/log.js';
@@ -162,23 +161,6 @@ export async function handleEditMessage(
     }
   }
 
-  let newAttachments = 0;
-  const nextEditedMessageAttachments =
-    upgradedEditedMessageData.attachments?.map(attachment => {
-      const existingAttachment = getCachedAttachmentBySignature(
-        attachmentSignatures,
-        attachment
-      );
-
-      if (existingAttachment) {
-        return existingAttachment;
-      }
-
-      newAttachments += 1;
-      return attachment;
-    });
-
-  let newPreviews = 0;
   const nextEditedMessagePreview = upgradedEditedMessageData.preview?.map(
     preview => {
       if (!preview.image) {
@@ -193,61 +175,27 @@ export async function handleEditMessage(
       if (existingPreviewImage) {
         return { ...preview, image: existingPreviewImage };
       }
-      newPreviews += 1;
+
+      log.info(`${idLog}: replaced preview`);
       return preview;
     }
   );
 
-  let newQuoteThumbnails = 0;
+  const editMessageHasQuote = Boolean(upgradedEditedMessageData.quote);
 
-  const { quote: upgradedQuote } = upgradedEditedMessageData;
-  let nextEditedMessageQuote: QuotedMessageType | undefined;
-  if (!upgradedQuote) {
-    if (mainMessage.quote) {
-      // Quote dropped
-      log.info(`${idLog}: dropping quote`);
-    }
-  } else if (!upgradedQuote.id || upgradedQuote.id === mainMessage.quote?.id) {
-    // Quote preserved
-    nextEditedMessageQuote = mainMessage.quote;
-  } else {
-    // Quote updated!
-    nextEditedMessageQuote = {
-      ...upgradedQuote,
-      attachments: upgradedQuote.attachments.map(attachment => {
-        if (!attachment.thumbnail) {
-          return attachment;
-        }
-
-        const existingQuoteAttachment = getCachedAttachmentBySignature(
-          quoteSignatures,
-          attachment.thumbnail
-        );
-
-        if (existingQuoteAttachment) {
-          return {
-            ...attachment,
-            thumbnail: existingQuoteAttachment.thumbnail,
-          };
-        }
-
-        newQuoteThumbnails += 1;
-        return attachment;
-      }),
-    };
+  if (!editMessageHasQuote && mainMessage.quote) {
+    log.info(`${idLog}: dropping quote`);
   }
 
-  log.info(
-    `${idLog}: editing message, added ${newAttachments} attachments, ` +
-      `${newPreviews} previews, ${newQuoteThumbnails} quote thumbnails`
-  );
-
   const editedMessage: EditHistoryType = {
-    attachments: nextEditedMessageAttachments,
+    // attachments are copied from main message
+    attachments: mainMessage.attachments,
     body: upgradedEditedMessageData.body,
     bodyAttachment: upgradedEditedMessageData.bodyAttachment,
     bodyRanges: upgradedEditedMessageData.bodyRanges,
     preview: nextEditedMessagePreview,
+    // quote can be removed but not modified
+    quote: editMessageHasQuote ? mainMessage.quote : undefined,
     sendStateByConversationId:
       upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
@@ -257,7 +205,6 @@ export async function handleEditMessage(
     readStatus: upgradedEditedMessageData.readStatus,
     unidentifiedDeliveryReceived:
       upgradedEditedMessageData.unidentifiedDeliveryReceived,
-    quote: nextEditedMessageQuote,
   };
 
   // The edit history works like a queue where the newest edits are at the top.
