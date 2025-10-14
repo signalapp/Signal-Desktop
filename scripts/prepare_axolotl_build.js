@@ -34,6 +34,10 @@ const APP_ID_PATH = 'build.appId';
 const PRODUCTION_APP_ID = 'org.whispersystems.signal-desktop';
 const AXOLOTL_APP_ID = 'org.whispersystems.signal-desktop-axolotl';
 
+const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
+const PRODUCTION_WM_CLASS = 'signal';
+const AXOLOTL_WM_CLASS = 'signalaxolotl';
+
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
@@ -55,6 +59,7 @@ function checkValue(object, objectPath, expected) {
 checkValue(packageJson, NAME_PATH, PRODUCTION_NAME);
 checkValue(packageJson, PRODUCT_NAME_PATH, PRODUCTION_PRODUCT_NAME);
 checkValue(packageJson, APP_ID_PATH, PRODUCTION_APP_ID);
+checkValue(packageJson, STARTUP_WM_CLASS_PATH, PRODUCTION_WM_CLASS);
 checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 
 // -------
@@ -62,6 +67,7 @@ checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 _.set(packageJson, NAME_PATH, AXOLOTL_NAME);
 _.set(packageJson, PRODUCT_NAME_PATH, AXOLOTL_PRODUCT_NAME);
 _.set(packageJson, APP_ID_PATH, AXOLOTL_APP_ID);
+_.set(packageJson, STARTUP_WM_CLASS_PATH, AXOLOTL_WM_CLASS);
 _.set(packageJson, DESKTOP_NAME_PATH, AXOLOTL_DESKTOP_NAME);
 
 // -------
