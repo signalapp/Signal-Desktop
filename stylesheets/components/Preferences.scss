@@ -1381,7 +1381,9 @@ $secondary-text-color: light-dark(
 
 .Preferences__ChatFolders__ChatSelection__Item--Button,
 .Preferences__ChatFolders__ChatSelection__Item--Clickable {
-  &:hover .Preferences__ChatFolders__ChatSelection__ItemContent {
+  cursor: pointer;
+  &:hover .Preferences__ChatFolders__ChatSelection__ItemContent,
+  .Preferences__ChatFolders__ChatSelection__ItemContent[data-state='open'] {
     background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
   }
 }
@@ -1392,7 +1394,7 @@ $secondary-text-color: light-dark(
   gap: 12px;
   padding-block: 8px;
   padding-inline: 24px;
-  border-radius: 1px;
+  border-radius: 8px;
 
   @include mixins.keyboard-mode {
     .Preferences__ChatFolders__ChatSelection__Item:focus & {
