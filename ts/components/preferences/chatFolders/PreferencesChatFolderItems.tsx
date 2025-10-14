@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React from 'react';
-import type { ReactNode } from 'react';
+import React, { forwardRef } from 'react';
+import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react';
 import { tw } from '../../../axo/tw.js';
 import type { LocalizerType } from '../../../types/I18N.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.js';
@@ -20,13 +20,20 @@ export const itemClickableClassName =
 export const itemButtonClassName =
   'Preferences__ChatFolders__ChatSelection__Item--Button';
 
-export function ItemContent(props: { children: ReactNode }): JSX.Element {
+export type ItemContentProps = HTMLAttributes<HTMLSpanElement>;
+
+export const ItemContent = forwardRef(function ItemContent(
+  props: ItemContentProps,
+  ref: ForwardedRef<HTMLSpanElement>
+): JSX.Element {
   return (
-    <span className="Preferences__ChatFolders__ChatSelection__ItemContent">
-      {props.children}
-    </span>
+    <span
+      ref={ref}
+      className="Preferences__ChatFolders__ChatSelection__ItemContent"
+      {...props}
+    />
   );
-}
+});
 
 export function ItemAvatar(props: {
   kind: 'Folder' | 'Add' | ChatFolderPresetId;
