@@ -242,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Arkiverede chats"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Add chat folder"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Folder settings"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Fastgjort"
   },
@@ -281,29 +287,35 @@
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Angiv et brugernavn efterfulgt af et punktum og de tilhørende tal."
   },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "No chats to display"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Folder Settings"
+  },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Alle"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alle chats"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Markér alle som læst"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Vis ikke notifikationer"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Slå lyd til på alle"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Slå lyd til på alle"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Rediger mappe"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landekode"
@@ -357,7 +369,7 @@
     "messageformat": "Markér som ulæst"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Markér som læst"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Vælg beskeder"
@@ -643,6 +655,9 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Fejl ved lagring af kvittering. Prøv igen."
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} folder added"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Du kan ikke vælge billeder og videoer sammen med filer."
@@ -1235,36 +1250,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Kan ikke downloade medie med engangsvisning"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Fil ikke tilgængelig"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Hele beskeden er ikke tilgængelig"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Mediet er ikke tilgængeligt"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Klistermærket er ikke tilgængeligt"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Stemmebeskeden er ikke tilgængelig"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Denne fil blev ikke overført fra din telefon, da denne enhed blev tilknyttet. Medier og filer, der er ældre end 45 dage, når enheder tilknyttes, kan ikke synkroniseres."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Hele teksten i denne besked blev ikke overført fra din telefon, da denne enhed blev tilknyttet. Lange beskeder, der er ældre end 45 dage gamle, når enheder tilknyttes, kan ikke synkroniseres."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Dette medie blev ikke overført fra din telefon, da denne enhed blev tilknyttet. Medier, der er ældre end 45 dage, når enheder tilknyttes, kan ikke synkroniseres."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Dette klistermærke blev ikke overført fra din telefon, da denne enhed blev tilknyttet. Medier og filer, der er ældre end 45 dage, når enheder tilknyttes, kan ikke synkroniseres."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Denne stemmebesked blev ikke overført fra din telefon, da denne enhed blev tilknyttet. Medier og filer, der er ældre end 45 dage, når enheder tilknyttes, kan ikke synkroniseres."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Medier med engangsvisning kan ikke længere downloades. Bed {name} om at sende mediet igen."
   },
@@ -1352,8 +1337,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Tilføj en chatmappe"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Add or edit folders"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organiser dine chats i mapper, og skift hurtigt mellem dem i din på din chatliste."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Set up"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Manage"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Rediger mappe"
@@ -1388,14 +1385,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Opret en mappe"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Drag to move chat folder"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Anbefalede mapper"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Tilføj"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Mappen {chatFolderTitle} er tilføjet"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Ulæst"
@@ -1594,6 +1591,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Fjernet fra opkald"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Call is full"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Alle, der deltager i dette opkald via linket, vil se dit navn og billede."
@@ -2622,7 +2625,7 @@
     "messageformat": "Senest brugte"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Tilføj en klistermærkepakke"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Søgeresultater"
@@ -4509,7 +4512,7 @@
     "messageformat": "Dine kontakter vil kunne føje dig til denne gruppe."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Dine kontakter vil kunne føje dig til denne gruppe."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Fjern blokering"
@@ -5351,6 +5354,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Notifikationsindhold"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Moon icon"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Copy of {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Notification profile"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Notification Profile"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "On until {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "For one hour"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Until {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Settings"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” on"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” off"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Notification profile now enabled"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Notification profile now disabled"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Notification profiles"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Set up"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Notification Profiles"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Continue"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Add or edit notification profiles"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Create profile"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Name your profile"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Name"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profile name"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Select an avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Work"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Sleep"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Driving"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Downtime"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Focus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Allowed notifications"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Allowed Notifications"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Add people or groups"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Exceptions"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Allow all calls"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Notify for all mentions"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Add a schedule"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Schedule"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Enable and edit your schedule to automate your notification profile."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Turn on automatically"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Schedule"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "From"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Until"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Open time picker"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Sunday"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Monday"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Tuesday"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Wednesday"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Thursday"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Friday"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Saturday"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profile Created"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Sun"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Mon"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Tue"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Wed"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Thu"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Fri"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sat"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Weekdays"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Weekends"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Daily"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiles"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sync across devices"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "New profile"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Delete profile"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Permanently delete this notification profile?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Delete"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Off"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Edit this profile's name"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} to {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Off"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Blokeret"
   },
@@ -5370,7 +5619,7 @@
     "messageformat": "Sikkerhedskopiering af tekst + alle medier"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Dit abonnement blev ikke fundet. Forny dit abonnement for at fortsætte med at bruge Sikre Signal-sikkerhedskopier."
+    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/måned"
@@ -6882,9 +7131,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en igangværende donation, der kræver bekræftelse."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donationen lykkedes, men vi kunne ikke opdatere dine badgeindstillinger"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donationen lykkedes, men vi kunne ikke opdatere dine badgeindstillinger"
   },
@@ -6994,10 +7240,7 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "Denne opdatering introducerer nye ydeevneoptimeringer, der forbedrer batterilevetiden, så du får mere strøm til rådighed til følelsesladede samtaler."
-  },
-  "icu:WhatsNew__7.74": {
-    "messageformat": "Lige i tide til efteråret er den nye \"bladløse træ\"-emoji {leaflessTreeEmoji} (sammen med de seks andre nye emojis i Unicode 16.0) nu understøttet i Signal Desktop."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
   }
 }
