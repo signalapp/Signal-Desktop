@@ -232,8 +232,11 @@ export function isEnabled(
   return get(reduxConfig ?? config, [name, 'enabled'], false);
 }
 
-export function getValue(name: ConfigKeyType): string | undefined {
-  return get(config, [name, 'value']);
+export function getValue(
+  name: ConfigKeyType, // when called from UI component, provide redux config (items.remoteConfig)
+  reduxConfig?: ConfigMapType
+): string | undefined {
+  return get(reduxConfig ?? config, [name, 'value']);
 }
 
 // See isRemoteConfigBucketEnabled in selectors/items.ts

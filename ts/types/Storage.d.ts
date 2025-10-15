@@ -232,7 +232,7 @@ export type StorageAccessType = {
 
   backupTier: number | undefined;
   cloudBackupStatus: BackupStatusType | undefined;
-  backupSubscriptionStatus: BackupsSubscriptionType;
+  backupSubscriptionStatus: BackupsSubscriptionType | undefined;
 
   backupKeyViewed: boolean;
   localBackupFolder: string | undefined;

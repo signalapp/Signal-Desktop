@@ -224,7 +224,7 @@ export class BackupAPI {
   public async getSubscriptionInfo(): Promise<BackupsSubscriptionType> {
     const subscriberId = itemStorage.get('backupsSubscriberId');
     if (!subscriberId) {
-      log.error('Backups.getSubscriptionInfo: missing subscriberId');
+      log.warn('Backups.getSubscriptionInfo: missing subscriberId');
       return { status: 'not-found' };
     }
 

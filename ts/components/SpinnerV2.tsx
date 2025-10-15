@@ -35,6 +35,10 @@ const SpinnerVariants = {
     bg: tw('stroke-none'),
     fg: tw('stroke-label-primary'),
   },
+  'no-background-light': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-border-primary'),
+  },
   brand: {
     bg: tw('stroke-fill-secondary'),
     fg: tw('stroke-border-selected'),

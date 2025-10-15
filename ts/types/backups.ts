@@ -47,13 +47,9 @@ export type BackupMediaDownloadStatusType = {
   isIdle: boolean;
 };
 
-export type BackupsSubscriptionType =
+export type BackupsSubscriptionType = (
   | {
-      status: 'off' | 'not-found' | 'expired';
-    }
-  | {
-      status: 'free';
-      mediaIncludedInBackupDurationDays: number;
+      status: 'not-found' | 'expired';
     }
   | (
       | {
@@ -66,7 +62,8 @@ export type BackupsSubscriptionType =
           expiryTimestamp?: number;
           cost?: SubscriptionCostType;
         }
-    );
+    )
+) & { lastFetchedAtMs?: number; isFetching?: boolean };
 
 export type LocalBackupMetadataVerificationType = {
   snapshotDir: string;
