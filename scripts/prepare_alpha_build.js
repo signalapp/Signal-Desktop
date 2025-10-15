@@ -43,7 +43,7 @@ const DESKTOP_NAME_PATH = 'desktopName';
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const ALPHA_DESKTOP_NAME = 'signalalpha.desktop';
+const ALPHA_DESKTOP_NAME = 'signal alpha.desktop';
 
 // -------
 

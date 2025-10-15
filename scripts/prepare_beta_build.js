@@ -35,14 +35,14 @@ const BETA_APP_ID = 'org.whispersystems.signal-desktop-beta';
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
 const PRODUCTION_WM_CLASS = 'signal';
-const BETA_WM_CLASS = 'signalbeta';
+const BETA_WM_CLASS = 'signal beta';
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const BETA_DESKTOP_NAME = 'signalbeta.desktop';
+const BETA_DESKTOP_NAME = 'signal beta.desktop';
 
 // -------
 
