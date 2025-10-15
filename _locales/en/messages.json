@@ -7441,7 +7441,7 @@
     "description": "Shown below the notification profile list; label for checkbox which controls whether notification profile behavior is always the same across all devices"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the the others.",
+    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others.",
     "description": "More details for the 'Sync across devices' setting"
   },
   "icu:NotificationProfiles--new": {
