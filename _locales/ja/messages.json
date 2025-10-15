@@ -282,28 +282,28 @@
     "messageformat": "ユーザーネームの後ろに「.（ドット）」と、対になる数字を入力してください。"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "すべて"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "すべてのチャット"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "すべて既読にする"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "通知をミュート"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "すべてミュート"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "すべてミュート"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "フォルダを編集する"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "国番号"
@@ -357,7 +357,7 @@
     "messageformat": "未読にする"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "既読にする"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "メッセージの選択"
@@ -2622,7 +2622,7 @@
     "messageformat": "最近使ったもの"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "ステッカーパックを追加"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "検索結果"
@@ -4509,7 +4509,7 @@
     "messageformat": "連絡先からこのグループに追加することができます。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "連絡先をこのグループに追加することができます。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ブロックを解除"

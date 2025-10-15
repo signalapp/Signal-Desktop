@@ -282,28 +282,28 @@
     "messageformat": "Anna käyttäjänimi, sen jälkeen piste ja käyttäjänimeen liittyvä numerosarja."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Kaikki"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Kaikki keskustelut"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Merkitse kaikki luetuiksi"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Mykistä ilmoitukset"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Poista mykistys kaikista"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Poista mykistys kaikista"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Muokkaa kansiota"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Maatunnus"
@@ -357,7 +357,7 @@
     "messageformat": "Merkitse lukemattomaksi"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Luettu"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Valitse viestit"
@@ -2622,7 +2622,7 @@
     "messageformat": "Äskettäin käytetyt"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Lisää tarrapaketti"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Hakutulokset"
@@ -4509,7 +4509,7 @@
     "messageformat": "Yhteystietosi voivat lisätä sinut takaisin tähän ryhmään."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Yhteystietosi voivat lisätä sinut takaisin tähän ryhmään."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Poista esto"

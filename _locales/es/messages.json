@@ -282,28 +282,28 @@
     "messageformat": "Introduce un alias seguido de un punto y su conjunto de números."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Todos"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Todos los chats"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Marcar todos como leídos"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Silenciar notificaciones"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Reactivar notificaciones"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Reactivar notificaciones"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editar carpeta"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Código de país"
@@ -357,7 +357,7 @@
     "messageformat": "Marcar como no leído"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Marcar como leído"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Seleccionar mensajes"
@@ -468,7 +468,7 @@
     "messageformat": "El número de seguridad que estás intentando verificar ha cambiado. Revisa tu nuevo número de seguridad con {name1}. Este cambio puede deberse a que alguien ha tratado de interceptar la comunicación o simplemente que {name2} ha reinstalado Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Es posible que las siguientes personas hayan reinstalado Signal o cambiado de dispositivo. Si lo deseas, haz clic sobre un destinatario para confirmar su nuevo número de seguridad."
+    "messageformat": "Es posible que las siguientes personas hayan reinstalado Signal o cambiado de dispositivo. Puedes hacer clic sobre un destinatario para confirmar su nuevo número de seguridad."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Enviar mensajes pendientes"
@@ -1647,7 +1647,7 @@
     "messageformat": "Reaccionar"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "No se puede realizar la llamada porque el grupo es demasiado grande."
+    "messageformat": "No se puede hacer la llamada porque el grupo es demasiado grande."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Desactivar sonido"
@@ -1833,7 +1833,7 @@
     "messageformat": "Abrir Ajustes del sistema"
   },
   "icu:calling__presenting--permission-cancel": {
-    "messageformat": "Ignorar"
+    "messageformat": "Cerrar"
   },
   "icu:alwaysRelayCallsDescription": {
     "messageformat": "Redirigir llamadas siempre"
@@ -1953,7 +1953,7 @@
     "messageformat": "Importando…"
   },
   "icu:syncFailed": {
-    "messageformat": "No se ha podido realizar la importación. Asegúrate de que tu equipo de escritorio y tu dispositivo móvil estén conectados a Internet."
+    "messageformat": "No se ha podido completar la importación. Asegúrate de que tu equipo de escritorio y tu dispositivo móvil estén conectados a Internet."
   },
   "icu:timestamp_s": {
     "messageformat": "ahora"
@@ -2130,7 +2130,7 @@
     "messageformat": "No se ha podido descargar"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Error en la descarga del archivo adjunto desde la copia de seguridad"
+    "messageformat": "No se ha podido descargar el archivo adjunto desde la copia de seguridad"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Solo puedes hacer cambios hasta 24 horas después del momento en que enviaste este mensaje."
@@ -2622,7 +2622,7 @@
     "messageformat": "Usados recientemente"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Añadir un paquete de stickers"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Resultados de la búsqueda"
@@ -4509,7 +4509,7 @@
     "messageformat": "Tus contactos podrán añadirte a este grupo."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Tus contactos podrán añadirte a este grupo."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desbloquear"
@@ -4818,7 +4818,7 @@
     "messageformat": "Revisar solicitud"
   },
   "icu:ContactSpoofingReviewDialog__description": {
-    "messageformat": "Si no sabes quién te ha enviado esta solicitud, revisa la siguiente lista de contactos y selecciona la opción que desees."
+    "messageformat": "Si no sabes quién te ha enviado esta solicitud, revisa la siguiente lista de contactos y selecciona la opción que quieras."
   },
   "icu:ContactSpoofingReviewDialog__possibly-unsafe-title": {
     "messageformat": "Solicitud"
@@ -4830,10 +4830,10 @@
     "messageformat": "Revisar participantes"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} participante del grupo tiene el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {{count,number} participantes del grupo tienen el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
+    "messageformat": "{count, plural, one {{count,number} participante del grupo tiene el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que quieras.} other {{count,number} participantes del grupo tienen el mismo nombre. Revisa la lista de participantes a continuación y selecciona la opción que quieras.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {Se ha encontrado {count,number} conflicto de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.} other {Se han encontrado {count,number} conflictos de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que desees.}}"
+    "messageformat": "{count, plural, one {Se ha encontrado {count,number} conflicto de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que quieras.} other {Se han encontrado {count,number} conflictos de nombre en este grupo. Revisa la lista de participantes a continuación y selecciona la opción que quieras.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "No tienes otros grupos en común"
@@ -4875,7 +4875,7 @@
     "messageformat": "Verificación completada."
   },
   "icu:verificationFailed": {
-    "messageformat": "No se ha podido realizar la verificación. Inténtalo de nuevo más tarde."
+    "messageformat": "No se ha podido completar la verificación. Inténtalo de nuevo más tarde."
   },
   "icu:deleteForEveryoneFailed": {
     "messageformat": "No se ha podido eliminar el mensaje para todos. Inténtalo de nuevo más tarde."
@@ -6445,7 +6445,7 @@
     "messageformat": "Más información"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Ignorar"
+    "messageformat": "Cerrar"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión del {OS} de tu equipo de escritorio. Para seguir usando Signal, actualiza el sistema operativo de tu equipo antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
@@ -6832,7 +6832,7 @@
     "messageformat": "El importe máximo de donación es de{formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Si sales de esta página, se eliminará los datos de tu tarjeta de crédito. ¿Quieres continuar?"
+    "messageformat": "Si sales de esta página, se eliminarán los datos de tu tarjeta de crédito. ¿Quieres continuar?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Eliminar datos"
@@ -6883,10 +6883,10 @@
     "messageformat": "Tienes una donación en curso pendiente de confirmación."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
+    "messageformat": "La donación se completó correctamente, pero no pudimos actualizar tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
+    "messageformat": "La donación se completó correctamente, pero no pudimos actualizar tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
     "messageformat": "Para actualizar los ajustes de tu insignia en tu dispositivo móvil, ve a Ajustes > Haz una donación a Signal > Insignias."
@@ -6910,7 +6910,7 @@
     "messageformat": "Error en la verificación"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "No se ha podido realizar la verificación adicional. Inténtalo de nuevo."
+    "messageformat": "No se ha podido completar la verificación adicional. Inténtalo de nuevo."
   },
   "icu:Donations__GenericError": {
     "messageformat": "Se ha producido un error con tu donación"

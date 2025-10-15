@@ -282,28 +282,28 @@
     "messageformat": "Въведете потребителско име, след което точка и неговия набор от числа."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Всички"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Всички чатове"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Маркиране на всички като прочетени"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Тих режим за известия"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Включване на звука на всички"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Включване на звука на всички"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Редактиране на папка"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Код на държавата"
@@ -357,7 +357,7 @@
     "messageformat": "Маркирай като непрочетени"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Маркиране като прочетено"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Избиране на съобщения"
@@ -2622,7 +2622,7 @@
     "messageformat": "Наскоро използвани"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Добави пакет със стикери"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Резултати от търсенето"
@@ -4509,7 +4509,7 @@
     "messageformat": "Контактите ви ще могат да ви добавят в тази група."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Контактите ви ще могат да ви добавят в тази група."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Отблокиране"

@@ -282,28 +282,28 @@
     "messageformat": "Ange ett användarnamn följt av en punkt och dess sifferkombination."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Alla"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alla chattar"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Markera alla som lästa"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Tysta aviseringar"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Slå på ljudet för alla"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Slå på ljudet för alla"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Redigera mapp"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landskod"
@@ -357,7 +357,7 @@
     "messageformat": "Markera som oläst"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Läst"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Markera meddelanden"
@@ -2622,7 +2622,7 @@
     "messageformat": "Nyligen använda"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Lägg till ett klistermärkepaket"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Sökresultat"
@@ -4509,7 +4509,7 @@
     "messageformat": "Dina kontakter kommer att kunna lägga till dig i den här gruppen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Dina kontakter kommer att kunna lägga till dig i den här gruppen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Avblockera"

@@ -282,28 +282,28 @@
     "messageformat": "Zadajte používateľské meno, za ním bodku a sadu čísel."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Všetky"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Všetky čety"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Označiť všetko ako prečítané"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Stlmiť upozornenia"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Zrušiť stlmenie pre všetky"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Zrušiť stlmenie pre všetky"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Upraviť priečinok"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Kód krajiny"
@@ -357,7 +357,7 @@
     "messageformat": "Označ ako neprečítané"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Označiť ako prečítané"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Vybrať správy"
@@ -2622,7 +2622,7 @@
     "messageformat": "Nedávno použité"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Pridať balík nálepiek"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Výsledky vyhľadávania"
@@ -4509,7 +4509,7 @@
     "messageformat": "Vaše kontakty vás budú môcť pridať do tejto skupiny."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Vaše kontakty vás budú môcť pridať do tejto skupiny."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokovať"

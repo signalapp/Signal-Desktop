@@ -282,28 +282,28 @@
     "messageformat": "એવું યુઝરનેમ દાખલ કરો જેમાં એક ડોટ અને નંબરોનો સમૂહ હોય."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "બધા"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "બધી ચેટ"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "બધાને વાંચેલા તરીકે માર્ક કરો"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "નોટિફિકેશન મ્યૂટ કરો"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "તમામ અનમ્યૂટ કરો"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "તમામ અનમ્યૂટ કરો"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ફોલ્ડરમાં ફેરફાર કરો"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "દેશનો કોડ"
@@ -357,7 +357,7 @@
     "messageformat": "ન વાંચેલ તરીકે માર્ક કરો"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "વાંચેલા તરીકે માર્ક કરો"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "મેસેજ પસંદ કરો"
@@ -2622,7 +2622,7 @@
     "messageformat": "તાજેતરમાં વપરાયેલ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "સ્ટીકર પેક ઉમેરો"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "શોધ પરિણામો"
@@ -4509,7 +4509,7 @@
     "messageformat": "તમારા સંપર્કો તમને આ ગ્રુપમાં ઉમેરી શકશે."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "તમારા સંપર્કો તમને આ ગ્રૂપમાં ઉમેરી શકશે."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "અનબ્લૉક કરો"

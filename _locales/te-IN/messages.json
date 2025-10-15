@@ -282,28 +282,28 @@
     "messageformat": "యూజర్‌నేమ్‌ పక్కన డాట్ మరియు అంకెల జతను ఎంటర్ చేయండి."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "అన్నీ"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "అన్ని చాట్స్"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "మార్క్ చేసినవన్నీ చదవండి"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "నోటిఫికేషన్లను మ్యూట్ చేయండి"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "అన్నీ అన్మ్యూట్ చేయండి"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "అన్నీ అన్మ్యూట్ చేయండి"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ఫోల్డర్‌ను సవరించండి"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "దేశం కోడ్"
@@ -357,7 +357,7 @@
     "messageformat": "చదవనట్లుగా గుర్తుపెట్టు"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "చదివినట్టు గుర్తుపెట్టు"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "సందేశాలు ఎంచుకోండి"
@@ -2622,7 +2622,7 @@
     "messageformat": "ఇటీవల ఉపయోగించబడింది"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "స్టిక్కర్ ప్యాక్ జోడించండి"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "శోధన ఫలితాలు"
@@ -4509,7 +4509,7 @@
     "messageformat": "మీ కాంటాక్ట్‌లు ఈ గ్రూప్‌కు జోడించబడతారు."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "మీ పరిచయాలు మిమ్మల్ని ఈ గ్రూప్‌కు జోడించగలరు."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "అన్‌బ్లాక్"

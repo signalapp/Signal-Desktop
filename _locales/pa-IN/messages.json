@@ -282,28 +282,28 @@
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਤੇ ਫਿਰ ਇੱਕ ਬਿੰਦੂ ਅਤੇ ਫਿਰ ਅੰਕਾਂ ਦਾ ਜੋੜਾ ਦਰਜ ਕਰੋ।"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ਸਾਰੀਆਂ"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "ਸਾਰਿਆਂ ਨੂੰ ਪੜ੍ਹਿਆ ਗਿਆ ਵਜੋਂ ਚਿੰਨ੍ਹਿਤ ਕਰੋ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "ਸੂਚਨਾਵਾਂ ਨੂੰ ਮਿਊਟ ਕਰੋ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ਸਭ ਨੂੰ ਅਣਮਿਊਟ ਕਰੋ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ਸਭ ਨੂੰ ਅਣਮਿਊਟ ਕਰੋ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ਫੋਲਡਰ ਨੂੰ ਸੋਧੋ"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "ਦੇਸ਼ ਦਾ ਕੋਡ"
@@ -357,7 +357,7 @@
     "messageformat": "ਨਾ-ਪੜ੍ਹੇ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "ਪੜ੍ਹਿਆ ਗਿਆ ਵਜੋਂ ਚਿੰਨ੍ਹਿਤ ਕਰੋ"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ਸੁਨੇਹੇ ਚੁਣੋ"
@@ -2622,7 +2622,7 @@
     "messageformat": "ਤਾਜ਼ਾ ਵਰਤੇ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "ਸਟਿੱਕਰ ਪੈਕ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ਖੋਜ ਦੇ ਨਤੀਜੇ"
@@ -4509,7 +4509,7 @@
     "messageformat": "ਤੁਹਾਡੇ ਸੰਪਰਕ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "ਤੁਹਾਡੇ ਸੰਪਰਕ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ਪਾਬੰਦੀ ਹਟਾਓ"

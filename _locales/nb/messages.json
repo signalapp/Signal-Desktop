@@ -282,28 +282,28 @@
     "messageformat": "Angi brukernavnet etterfulgt av et punktum og tallrekken."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Alle"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alle samtaler"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Merk alle som lest"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Deaktiver varsler"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Aktiver alle varsler"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Aktiver alle varsler"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Rediger mappe"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landskode"
@@ -357,7 +357,7 @@
     "messageformat": "Merk som ulest"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Merk som lest"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Velg meldinger"
@@ -2622,7 +2622,7 @@
     "messageformat": "Nylig brukt"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Legg til klistremerkepakke"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Søketreff"
@@ -4509,7 +4509,7 @@
     "messageformat": "Kontaktene dine vil kunne legge deg til i denne gruppen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Kontaktene dine vil kunne legge deg til i denne gruppen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Fjern blokkering"

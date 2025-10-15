@@ -282,28 +282,28 @@
     "messageformat": "كەينىدە بىر چېكىت ۋە بىر يۈرۈش نومۇر بار ئىشلەتكۈچى نامىنى كىرگۈزۈڭ."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ھەممىسى"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "بارلىق پاراڭلار"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
+    "messageformat": "+{maxCount,number}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "ھەممىسى ئوقۇلدى"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "ئۈنسىز ئۇقتۇرۇش"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ھەممە ئۈنسىزلىكنى بىكار قىلىڭ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ھەممە ئۈنسىزلىكنى بىكار قىلىڭ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ھۆججەت قىسقۇچنى تەھرىرلەش"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "دۆلەت كودى"
@@ -357,7 +357,7 @@
     "messageformat": "ئوقۇلمىدى"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "ئوقۇلدى"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ئۇچۇرلارنى تاللاش"
@@ -2622,7 +2622,7 @@
     "messageformat": "يېقىندا ئىشلىتىلدى"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "چاپلاق بوغچىسى قوشۇش"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ئىزدەش نەتىجىللىرى"
@@ -4509,7 +4509,7 @@
     "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "چەكلەشنى بىكار قىلىش"

@@ -282,28 +282,28 @@
     "messageformat": "사용자 이름 뒤에 마침표와 해당 세트 번호를 입력하세요."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "모두"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "모든 대화"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
+    "messageformat": "{maxCount,number}명 이상"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "모두 읽음으로 표시"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "알림 끄기"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "모든 알림 켜기"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "모든 알림 켜기"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "폴더 수정"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "국가 번호"
@@ -357,7 +357,7 @@
     "messageformat": "읽지 않은 대화로 표시하기"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "읽음으로 표시"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "메시지 선택"
@@ -2622,7 +2622,7 @@
     "messageformat": "최근 사용함"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "스티커 팩 추가하기"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "검색 결과"
@@ -4509,7 +4509,7 @@
     "messageformat": "내 연락처에 있는 사람이 나를 이 그룹에 추가할 수 있게 됩니다."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "내 연락처에 있는 사람이 나를 이 그룹에 추가할 수 있게 됩니다."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "차단 해제"

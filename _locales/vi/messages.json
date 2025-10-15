@@ -282,28 +282,28 @@
     "messageformat": "Nhập tên người dùng, sau đó là một dấu chấm và dãy số của tên người dùng."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Tất cả"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Tất cả cuộc trò chuyện"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Đánh dấu tất cả đã đọc"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Tắt tiếng thông báo"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Bỏ tắt tiếng tất cả"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Bỏ tắt tiếng tất cả"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Chỉnh sửa thư mục"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Mã quốc gia"
@@ -357,7 +357,7 @@
     "messageformat": "Đánh dấu chưa đọc"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Đánh dấu đã đọc"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Chọn tin nhắn"
@@ -2622,7 +2622,7 @@
     "messageformat": "Sử dụng gần đây"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Đã thêm bộ nhãn dán"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Kết quả tìm kiếm"
@@ -4509,7 +4509,7 @@
     "messageformat": "Các liên hệ của bạn sẽ được thêm vào nhóm này."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Các liên hệ sẽ có thể thêm bạn vào nhóm này."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Bỏ chặn"

@@ -39,7 +39,7 @@
     "messageformat": "មេឌៀគុណភាពល្អត្រូវបានផ្ញើចេញ"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "ការផ្ញើឯកសារមេឌៀដែលមានគុណភាពខ្ពស់នឹងអស់ទិន្នន័យអុីនធឺណិតច្រើន"
+    "messageformat": "ការផ្ញើមេឌៀដែលមានគុណភាពខ្ពស់នឹងអស់ទិន្នន័យអុីនធឺណិតកាន់តែច្រើន។"
   },
   "icu:Preferences__DonateTitle": {
     "messageformat": "ឧបត្ថម្ភទៅ Signal"
@@ -282,28 +282,28 @@
     "messageformat": "បញ្ចូលឈ្មោះអ្នកប្រើ រួចសញ្ញាចុចមួយ និងលេខពីរខ្ទង់។"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ទាំងអស់"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "ការជជែកទាំងអស់"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "សម្គាល់ថាបានអានទាំងអស់"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "បិទសំឡេងការជូនដំណឹង"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "បើកសំឡេងទាំងអស់"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "បើកសំឡេងទាំងអស់"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "កែថតឯកសារ"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "កូដប្រទេស"
@@ -357,7 +357,7 @@
     "messageformat": "ដាក់ថាមិនបានអាន"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "សម្គាល់ថាបានអាន"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ជ្រើសរើសសារ"
@@ -2622,7 +2622,7 @@
     "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "បញ្ចូលកញ្ចប់ស្ទីគ័រ"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "លទ្ធផលស្វែងរក"
@@ -4509,7 +4509,7 @@
     "messageformat": "ឈ្មោះទំនាក់ទំនងរបស់អ្នកនឹងអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះបាន។"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "ទំនាក់ទំនងរបស់អ្នកនឹងអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះបាន។"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ឈប់ទប់ស្កាត់"

@@ -282,28 +282,28 @@
     "messageformat": "ป้อนชื่อผู้ใช้แล้วตามด้วยจุดและชุดตัวเลข"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ทั้งหมด"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "แชททั้งหมด"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "ทำเครื่องหมายทั้งหมดว่าอ่านแล้ว"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "ปิดเสียงการแจ้งเตือน"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "เปิดการแจ้งเตือนทั้งหมด"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "เปิดการแจ้งเตือนทั้งหมด"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "แก้ไขโฟลเดอร์"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "รหัสประเทศ"
@@ -357,7 +357,7 @@
     "messageformat": "กาว่ายังไม่ได้อ่าน"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "ทำเครื่องหมายว่าอ่านแล้ว"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "เลือกข้อความ"
@@ -2622,7 +2622,7 @@
     "messageformat": "เพิ่งใช้"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "เพิ่มชุดสติกเกอร์"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ผลการค้นหา"
@@ -4509,7 +4509,7 @@
     "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "เลิกบล็อก"

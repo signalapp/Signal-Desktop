@@ -282,28 +282,28 @@
     "messageformat": "Wpisz nazwę użytkownika, kropkę i zestaw cyfr."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Wszystkie"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Wszystkie czaty"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Oznacz wszystkie jako odczytane"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Wycisz powiadomienia"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Wyłącz wyciszenie wszystkich"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Wyłącz wyciszenie wszystkich"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Edytuj folder"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Kod kraju"
@@ -357,7 +357,7 @@
     "messageformat": "Oznacz jako nieodczytane"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Oznacz jako odczytany"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Zaznacz wiadomości"
@@ -2046,7 +2046,7 @@
     "messageformat": "Zweryfikuj numer bezpieczeństwa"
   },
   "icu:safetyNumberChanged": {
-    "messageformat": "Numer bezpieczeństwa się zmienił"
+    "messageformat": "Macie nowy numer bezpieczeństwa"
   },
   "icu:safetyNumberChanges": {
     "messageformat": "Zmiana numeru bezpieczeństwa"
@@ -2622,7 +2622,7 @@
     "messageformat": "Ostatnio używane"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Dodaj pakiet naklejek"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Wyniki wyszukiwania"
@@ -4509,7 +4509,7 @@
     "messageformat": "Osoby z Twoich kontaktów będą mogły Cię dodać do tej grupy."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Osoby z Twoich kontaktów będą mogły dodać Cię do tej grupy."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokuj"

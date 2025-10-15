@@ -282,28 +282,28 @@
     "messageformat": "ஒரு புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர் பெயரை உள்ளிடவும்."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "அனைத்து"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "அனைத்து சாட்ஸ்"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "அனைத்தையும் படித்தாக குறியிடு"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "அறிவிப்புகளை ஒலியடக்கு"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "அனைத்தையும் ஒலியடக்கு"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "அனைத்தையும் ஒலியடக்கு"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "கோப்புறையைத் திருத்து"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "நாட்டின் குறியீடு"
@@ -357,7 +357,7 @@
     "messageformat": "படிக்கவில்லை என்று குறிக்க"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "படித்தாக குறியிடு"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "செய்திகளைத் தேர்ந்தெடுக்கவும்"
@@ -2622,7 +2622,7 @@
     "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "ஒரு ஸ்டிக்கர் பேக் சேர்க்கவும்"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "தேடல் முடிவுகள்"
@@ -4509,7 +4509,7 @@
     "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "தடைநீக்கு"

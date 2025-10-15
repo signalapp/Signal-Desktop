@@ -282,28 +282,28 @@
     "messageformat": "کوئی یوزر نیم درج کریں جس کے بعد نقطہ اور اس کے نمبرز کا سیٹ ہو۔"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "تمام"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "تمام چیٹس"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "تمام پڑھنے پر نشان لگائیں"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "اطلاعات کو خاموش کریں"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "سب کو غیر خاموش کریں"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "سب کو غیر خاموش کریں"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "فولڈر میں ترمیم کریں"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "ملک کا کوڈ"
@@ -357,7 +357,7 @@
     "messageformat": "اس کے اوپرنشان لگایں کہ پڑھا نیں ہوا"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "پڑھے ہوئے پر نشان لگائیں"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "میسجز منتخب کریں"
@@ -2622,7 +2622,7 @@
     "messageformat": "حالیہ استعمال شدہ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "اسٹیکر پیک شامل کریں"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "تلاش کے نتائج"
@@ -4509,7 +4509,7 @@
     "messageformat": "آپ کے روابط آپ کو اس گروپ میں شامل کرنے کے قابل ہوں گے۔"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "آپ کے رابطے آپ کو اس گروپ میں شامل کر لیں گے۔"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "اَن بلاک کریں"

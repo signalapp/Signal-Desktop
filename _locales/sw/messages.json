@@ -282,28 +282,28 @@
     "messageformat": "Ingiza jina la mtumiaji likifuatiwa na nukta na seti yake ya nambari."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Zote"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Magumzo yote"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
+    "messageformat": "+{maxCount,number}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Alamisha zote zilimesomwa"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Nyamazisha arifa"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Weka sauti"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Weka sauti"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Badili folda"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Code ya nchi"
@@ -357,7 +357,7 @@
     "messageformat": "Weka alama kuwa hujaisoma"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Nakili imesomwa"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Chagua jumbe"
@@ -2622,7 +2622,7 @@
     "messageformat": "Iliyotumiwa hivi majuzi"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Ongeza kifurushi cha vibandiko"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Tafuta Matokeo"
@@ -4509,7 +4509,7 @@
     "messageformat": "Wawasiliani wako wataweza kukuongeza kwenye kikundi hiki."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Wawasiliani wako wataweza kukuongeza kwenye kikundi hiki."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ondoa kizuizi"

@@ -282,28 +282,28 @@
     "messageformat": "Внесете корисничко име проследено со точка и низа броеви."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Сите"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Сите разговори"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Обележи сѐ како прочитано"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Исклучи известувања"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Вклучете известувања за сите"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Вклучете известувања за сите"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Изменете ја папката"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Повикувачки број на државата"
@@ -357,7 +357,7 @@
     "messageformat": "Обележи како непрочитани"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Обележи како прочитано"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Избери пораки"
@@ -2622,7 +2622,7 @@
     "messageformat": "Скорешни"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Додај пакет со стикери"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Резултати од пребарувањето"
@@ -4509,7 +4509,7 @@
     "messageformat": "Твоите контакти ќе можат да те додадат во оваа група."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Твоите контакти ќе можат да те додадат во оваа група."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Деблокирај"

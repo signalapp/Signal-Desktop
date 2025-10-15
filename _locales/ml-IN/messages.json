@@ -282,28 +282,28 @@
     "messageformat": "ഡോട്ടും തുടർന്ന് വരുന്ന സംഖ്യകളും ഉൾപ്പെടെയുള്ള ഉപയോക്തൃനാമം നൽകുക."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "എല്ലാം"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "എല്ലാ ചാറ്റുകളും"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "എല്ലാം വായിച്ചതായി കാണിക്കൂ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "അറിയിപ്പുകൾ മ്യൂട്ട് ചെയ്യുക"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "എല്ലാം അൺമ്യൂട്ട് ചെയ്യുക"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "എല്ലാം അൺമ്യൂട്ട് ചെയ്യുക"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "രാജ്യ കോഡ്"
@@ -357,7 +357,7 @@
     "messageformat": "വായിച്ചിട്ടില്ലെന്ന് കാണിക്കുക"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "വായിച്ചതായി കാണിക്കുക"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കൂ"
@@ -2622,7 +2622,7 @@
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "ഒരു സ്റ്റിക്കർ പായ്ക്ക് ചേർക്കുക"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "തിരയൽ ഫലങ്ങൾ"
@@ -4509,7 +4509,7 @@
     "messageformat": "നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാനാകും."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാനാകും."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "അൺബ്ലോക്ക് ചെയ്യുക"

@@ -282,28 +282,28 @@
     "messageformat": "შეიყვანე მომხმარებლის სახელი, რომელსაც მოჰყვება წერტილი და მისი რიცხვების ნაკრები."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ყველა"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "ყველა ჩატი"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "ყველას წაკითხულად მონიშვნა"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "სიახლეების გათიშვა"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ხმის ჩართვა ყველა ჩატისთვის"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ხმის ჩართვა ყველა ჩატისთვის"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "საქაღალდის რედაქტირება"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "ქვეყნის კოდი"
@@ -357,7 +357,7 @@
     "messageformat": "წაუკითხავად მონიშვნა"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "წაკითხულად მონიშვნა"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "შეტყობინების არჩევა"
@@ -2622,7 +2622,7 @@
     "messageformat": "ბოლოს გამოყენებული"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "სტიკერების ნაკრების დამატება"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ძიების შედეგები"
@@ -4509,7 +4509,7 @@
     "messageformat": "შენი კონტაქტები შეძლებენ ამ ჯგუფში დაგამატონ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "შენი კონტაქტები შეძლებენ ამ ჯგუფში დაგამატონ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "განბლოკვა"

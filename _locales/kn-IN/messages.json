@@ -282,28 +282,28 @@
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ ಬಳಿಕ ಒಂದು ಬಿಂದು ಮತ್ತು ಅದರ ಸಂಖ್ಯೆಗಳ ಸೆಟ್ ನಮೂದಿಸಿ."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "ಎಲ್ಲವೂ"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "ಎಲ್ಲ ಚಾಟ್ ಗಳು"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ಎಲ್ಲವನ್ನೂ ಅನ್ ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "ಎಲ್ಲವನ್ನೂ ಅನ್ ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ಫೋಲ್ಡರ್ ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "ದೇಶದ ಕೋಡ್"
@@ -357,7 +357,7 @@
     "messageformat": "ಓದಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತಿಸಿ"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
@@ -2622,7 +2622,7 @@
     "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಲಾಗಿದೆ"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಸೇರಿಸಿ"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ಹುಡುಕಾಟದ ಫಲಿತಾಂಶಗಳು"
@@ -4509,7 +4509,7 @@
     "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ನಿಮ್ಮನ್ನು ಸೇರಿಸಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಸಾಧ್ಯವಾಗುತ್ತದೆ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"

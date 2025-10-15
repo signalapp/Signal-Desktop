@@ -282,28 +282,28 @@
     "messageformat": "वापरकर्तानावानंतर एक पूर्णविराम आणि त्याच्या संख्याचा सेट प्रविष्ट करा."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "सर्व"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "सर्व चॅट्स"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "सर्व वाचले म्हणून चिन्हांकित करा"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "सूचना मूक करा"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "सर्व अनम्युट करा"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "सर्व अनम्युट करा"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "फोल्डर संपादित करा"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "देश कोड"
@@ -357,7 +357,7 @@
     "messageformat": "वाचले नाही अशी खुण करा"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "वाचले असे चिन्हांकित करा"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "संदेश निवडा"
@@ -2622,7 +2622,7 @@
     "messageformat": "अलीकडील वापरलेले"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "एक स्टिकर पॅक जोडा"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "शोध परिणाम"
@@ -4509,7 +4509,7 @@
     "messageformat": "आपले संपर्क आपणाला या गटात जोडण्यास सक्षम असतील."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "तुमचे संपर्क तुम्हाला या गटात समाविष्ट करू शकतील."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "अनवरोधित करा"

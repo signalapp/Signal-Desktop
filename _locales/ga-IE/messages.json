@@ -282,28 +282,28 @@
     "messageformat": "Cuir isteach ainm úsáideora agus ponc, agus an tacar uimhreacha ina dhiaidh sin."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Iad uile"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Gach comhrá"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Marcáil iad uile léite"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Balbhaigh fógraí"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Díbhalbhaigh gach rud"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Díbhalbhaigh gach rud"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Cuir fillteán in eagar"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Cód Tíre"
@@ -357,7 +357,7 @@
     "messageformat": "Sainigh mar neamhléite"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Marcáil léite"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Roghnaigh teachtaireachtaí"
@@ -2622,7 +2622,7 @@
     "messageformat": "Úsáidte le Déanaí"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Cuir beart greamán leis"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Torthaí Cuardaigh"
@@ -4509,7 +4509,7 @@
     "messageformat": "Beidh do theagmhálaithe in ann thú a chur leis an ngrúpa seo."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Beidh do theagmhálaithe in ann tú a chur leis an ngrúpa seo."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Bain an bac"

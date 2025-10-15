@@ -282,28 +282,28 @@
     "messageformat": "Аягында сандар жазылып, чекит коюлган колдонуучу атын киргизиңиз."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Баары"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Бардык маектер"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Баарын окулду деп белгилөө"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Билдирмелердин үнүн басуу"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Баарынын үнүн чыгаруу"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Баарынын үнүн чыгаруу"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Папканы оңдоо"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Өлкөнүн коду"
@@ -357,7 +357,7 @@
     "messageformat": "Окула элек деп белгилөө"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Окулду деп белгилөө"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Билдирүүлөрдү тандоо"
@@ -2622,7 +2622,7 @@
     "messageformat": "Жакында колдонулгандар"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Стикерлер топтомун кошуу"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Табылган нерселер"
@@ -4509,7 +4509,7 @@
     "messageformat": "Байланыштарыңыз сизди ушул топко кошо алышат."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Байланыштарыңыз сизди ушул топко кошо алышат."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Бөгөттөн чыгаруу"

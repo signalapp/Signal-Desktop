@@ -282,28 +282,28 @@
     "messageformat": "Introdu un nume de utilizator urmat de un punct și setul său de cifre."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Toate"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Toate conversațiile"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Marchează tot ca citit"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Notificări fără sunet"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Dezactivează sunetul pe toate"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Dezactivează sunetul pe toate"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editează dosarul"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Prefixul țării"
@@ -357,7 +357,7 @@
     "messageformat": "Marchează ca necitit"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Marchează ca citit"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Selectează mesaje"
@@ -2622,7 +2622,7 @@
     "messageformat": "Utilizate Recent"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Adaugă un pachet de autocolante"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Rezultatele căutării"
@@ -4509,7 +4509,7 @@
     "messageformat": "Persoanele tale de contact vor putea să te adauge în acest grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Persoanele tale de contact vor putea să te adauge în acest grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblochează"

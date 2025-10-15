@@ -282,28 +282,28 @@
     "messageformat": "请输入带有一个点和一组匹配数字的用户名。"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "全部"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "全部聊天"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "全部标为已读"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "静音通知"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "全部取消静音"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "全部取消静音"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "编辑文件夹"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "国家代码"
@@ -357,7 +357,7 @@
     "messageformat": "标记为未读"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "标为已读"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "选择消息"
@@ -2622,7 +2622,7 @@
     "messageformat": "最近使用"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "添加表情包"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "搜索结果"
@@ -4509,7 +4509,7 @@
     "messageformat": "您的联系人将可以把您添加到此群组。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "您的联系人将能把您添加到此群组。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "取消屏蔽"

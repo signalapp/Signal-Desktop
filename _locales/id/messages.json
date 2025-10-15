@@ -282,25 +282,25 @@
     "messageformat": "Masukkan nama pengguna diikuti dengan titik dan set angka."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Semua"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Semua chat"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Tandai semua sudah dibaca"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Bisukan notifikasi"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Bunyikan semua"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Bunyikan semua"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "Edit folder"
@@ -357,7 +357,7 @@
     "messageformat": "Tandai belum dibaca"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Tandai sudah dibaca"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Pilih pesan"
@@ -2622,7 +2622,7 @@
     "messageformat": "Terakhir Digunakan"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Tambahkan paket stiker"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Hasil Pencarian"
@@ -4509,7 +4509,7 @@
     "messageformat": "Kontak Anda dapat menambahkan Anda ke grup ini."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Anda bakal dapat ditambahkan ke grup ini oleh kontak Anda."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Buka blokir"

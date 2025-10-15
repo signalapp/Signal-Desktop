@@ -282,28 +282,28 @@
     "messageformat": "Voer 'n gebruikersnaam in gevolg deur 'n kolletjie en sy stel nommers."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Almal"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alle kletse"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Merk alles as gelees"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Demp kennisgewings"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Ontdemp almal"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Ontdemp almal"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Wysig vouer"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landkode"
@@ -357,7 +357,7 @@
     "messageformat": "Merk as ongelees"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Merk as gelees"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Selekteer boodskappe"
@@ -2622,7 +2622,7 @@
     "messageformat": "Onlangs gebruik"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Voeg ’n plakkerpakket by"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Soekresultate"
@@ -4509,7 +4509,7 @@
     "messageformat": "Jou kontakte sal jou by hierdie groep kan toevoeg."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Jou kontakte sal jou by hierdie groep kan voeg."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ontsper"

@@ -282,28 +282,28 @@
     "messageformat": "輸入用戶名稱，後面跟著一個點及其配對數字。"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "全部"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "所有聊天"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "全部標記為已讀"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "將通知設為靜音"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "全部取消靜音"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "全部取消靜音"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "編輯資料夾"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "國碼"
@@ -357,7 +357,7 @@
     "messageformat": "標註為未讀"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "標記為已讀"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "選取訊息"
@@ -2622,7 +2622,7 @@
     "messageformat": "最近使用"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "新增貼圖包"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "搜尋結果"
@@ -4509,7 +4509,7 @@
     "messageformat": "你的聯絡人將可把你新增至此群組。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "你的聯絡人將可把你新增至此群組。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "解除封鎖"

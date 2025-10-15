@@ -282,28 +282,28 @@
     "messageformat": "Vendos emrin e përdoruesit me pikën dhe numrat."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Të gjitha"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Të gjitha bisedat"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Shënoji krejt si të lexuar"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Hiqu zërin njoftimeve"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Hiq zërin për të gjithë"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Hiq zërin për të gjithë"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Përpuno dosjen"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Kod vendi"
@@ -357,7 +357,7 @@
     "messageformat": "Vëri shenjë si i lexuar"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Vëri shenjë si të lexuar"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Përzgjidh mesazhet"
@@ -2622,7 +2622,7 @@
     "messageformat": "Përdorur Së Fundi"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Shtoni një paketë ngjitësish"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Rezultatet e kërkimit"
@@ -4509,7 +4509,7 @@
     "messageformat": "Kontaktet mund të të shtojnë te ky grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Kontaktet mund të të shtojnë te ky grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Zhbllokoje"

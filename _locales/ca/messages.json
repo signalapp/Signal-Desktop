@@ -282,28 +282,28 @@
     "messageformat": "Introdueix un àlies seguit d'un punt i el seu conjunt de números."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Tot"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Tots els xats"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Marca-ho tot com a llegit"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Silencia les notificacions"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Reactivar tot"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Reactivar tot"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editar carpeta"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Codi de país"
@@ -357,7 +357,7 @@
     "messageformat": "Marca com a no llegit"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Marca'l com a llegit"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Seleccionar missatges"
@@ -2622,7 +2622,7 @@
     "messageformat": "Usat recentment"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Afegeix un paquet d'adhesius"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Resultats de la cerca"
@@ -4509,7 +4509,7 @@
     "messageformat": "Els teus contactes podran afegir-te a aquest grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Els teus contactes podran afegir-te a aquest grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desbloquejar"

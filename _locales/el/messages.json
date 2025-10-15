@@ -282,28 +282,28 @@
     "messageformat": "Γράψε ένα όνομα χρήστη, ακολουθούμενο από μια τελεία και το σύνολο αριθμών του."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Όλα"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Όλες οι συνομιλίες"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Σημείωση όλων ως αναγνωσμένα"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Σίγαση ειδοποιήσεων"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Αναίρεση σίγασης όλων"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Αναίρεση σίγασης όλων"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Επεξεργασία φακέλου"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Κωδικός χώρας"
@@ -357,7 +357,7 @@
     "messageformat": "Σημείωση ως μη αναγνωσμένα"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Σημείωση ως αναγνωσμένο"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Επιλογή μηνυμάτων"
@@ -2622,7 +2622,7 @@
     "messageformat": "Πρόσφατα χρησιμοποιημένα"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Προσθήκη πακέτου αυτοκολλήτων"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Αποτελέσματα αναζήτησης"
@@ -4509,7 +4509,7 @@
     "messageformat": "Οι επαφές σου θα μπορούν να σε προσθέσουν σε αυτήν την ομάδα."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Οι επαφές σου θα μπορούν να σε προσθέσουν σε αυτήν την ομάδα."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Κατάργηση αποκλεισμού"

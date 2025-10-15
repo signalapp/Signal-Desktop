@@ -282,28 +282,28 @@
     "messageformat": "Voer een gebruikersnaam in, gevolgd door een punt en de bijbehorende cijfercombinatie."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Alle"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alle chats"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Alles markeren als gelezen"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Meldingen dempen"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Niets dempen"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Niets dempen"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Map bewerken"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landcode"
@@ -357,7 +357,7 @@
     "messageformat": "Markeren als ongelezen"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Markeren als gelezen"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Berichten selecteren"
@@ -2622,7 +2622,7 @@
     "messageformat": "Onlangs gebruikt"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Voeg een stickerpakket toe"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Zoekresultaten"
@@ -4509,7 +4509,7 @@
     "messageformat": "Je contacten zullen je kunnen toevoegen aan deze groep."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Je contacten zullen je kunnen toevoegen aan deze groep."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblokkeren"

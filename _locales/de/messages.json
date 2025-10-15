@@ -282,28 +282,28 @@
     "messageformat": "Gib einen Nutzernamen gefolgt von einem Punkt und den dazugehörigen Ziffern ein."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Alle"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Alle Chats"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
+    "messageformat": "Über {maxCount,number}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Alle als  gelesen markieren"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Stummschalten"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Stummschaltung aufheben"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Stummschaltung aufheben"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Ordner bearbeiten"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landesvorwahl"
@@ -357,7 +357,7 @@
     "messageformat": "Als ungelesen markieren"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Gelesen"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Nachrichten auswählen"
@@ -2622,7 +2622,7 @@
     "messageformat": "Zuletzt verwendet"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Sticker-Set hinzufügen"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Suchergebnisse"
@@ -4509,7 +4509,7 @@
     "messageformat": "Deine Kontakte können dich zu dieser Gruppe hinzufügen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Deine Kontakte können dich zu dieser Gruppe hinzufügen."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Freigeben"

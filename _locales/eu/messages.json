@@ -282,28 +282,28 @@
     "messageformat": "Idatzi erabiltzaile-izen bat eta, jarraian, puntu bat eta hari dagokion zenbaki multzoa."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Denak"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Txat guztiak"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Irakurritako gisa markatu guztiak"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Desaktibatu jakinarazpenak"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Aktibatu guztien jakinarazpenak"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Aktibatu guztien jakinarazpenak"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editatu karpeta"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Herrialde kodea"
@@ -357,7 +357,7 @@
     "messageformat": "Irakurri gabe gisa markatu"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Markatu irakurritako gisa"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Hautatu mezuak"
@@ -2622,7 +2622,7 @@
     "messageformat": "Arestian erabilia"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Gehitu eranskailu paketea"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Bilaketa-emaitzak"
@@ -4509,7 +4509,7 @@
     "messageformat": "Kontaktuek berriro gehitu ahalko zaituzte talde honetan."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Kontaktuek berriro gehitu ahalko zaituzte talde honetan."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desblokeatu"

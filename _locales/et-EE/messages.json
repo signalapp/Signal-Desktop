@@ -282,28 +282,28 @@
     "messageformat": "Sisesta kasutajanimi koos punkti ja numbrikombinatsiooniga."
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "Kõik"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "Kõik vestlused"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "Märgi kõik loetuks"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "Vaigista teavitused"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Eemalda kõigilt vaigistus"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "Eemalda kõigilt vaigistus"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Muuda kausta"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Riigikood"
@@ -357,7 +357,7 @@
     "messageformat": "Märgi mitteloetuks"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "Märgi loetuks"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Vali sõnumid"
@@ -2622,7 +2622,7 @@
     "messageformat": "Hiljuti kasutatud"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "Lisa kleebiste komplekt"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Otsingu tulemused"
@@ -4509,7 +4509,7 @@
     "messageformat": "Sinu kontaktid saavad sind sellesse gruppi lisada."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "Sinu kontaktid saavad sind sellesse gruppi lisada."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Eemalda blokeering"

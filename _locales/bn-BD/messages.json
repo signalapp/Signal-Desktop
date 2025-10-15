@@ -282,28 +282,28 @@
     "messageformat": "একটি ব্যবহারকারীর নামের পরে একটি ডট ও একগুচ্ছ সংখ্যা লিখুন।"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
-    "messageformat": "All"
+    "messageformat": "সকল"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All": {
-    "messageformat": "All chats"
+    "messageformat": "সকল চ্যাট"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Mark all read"
+    "messageformat": "সমস্ত পড়া হয়েছে চিহ্নিত করুন"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
-    "messageformat": "Mute notifications"
+    "messageformat": "নোটিফিকেশন মিউট করুন"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "সব আনমিউট করুন"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Unmute all"
+    "messageformat": "সব আনমিউট করুন"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ফোল্ডার এডিট করুন"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "দেশ কোড"
@@ -357,7 +357,7 @@
     "messageformat": "পড়া হয়নি হিসাবে চিহ্নিত করুন"
   },
   "icu:markRead": {
-    "messageformat": "Mark read"
+    "messageformat": "পঠিত বলে সনাক্ত কর"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ম্যাসেজ নির্বাচন করুন"
@@ -2622,7 +2622,7 @@
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "Add a sticker pack"
+    "messageformat": "একটি স্টিকার প্যাক যোগ করুন"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "অনুসন্ধানের ফলাফল"
@@ -4509,7 +4509,7 @@
     "messageformat": "আপনার কন্টাক্টরা আপনাকে এই গ্ৰুপে যোগ করতে পারবেন।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
-    "messageformat": "Your contacts will be able to add you to this group."
+    "messageformat": "আপনার কন্টাক্টগণ আপনাকে এই গ্ৰুপে যোগ করতে পারবেন।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "আনব্লক করুন"
