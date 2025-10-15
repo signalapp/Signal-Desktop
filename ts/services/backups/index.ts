@@ -34,7 +34,7 @@ import { prependStream } from '../../util/prependStream.js';
 import { appendMacStream } from '../../util/appendMacStream.js';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac.js';
 import { missingCaseError } from '../../util/missingCaseError.js';
-import { DAY, HOUR, SECOND } from '../../util/durations/index.js';
+import { HOUR, SECOND } from '../../util/durations/index.js';
 import type { ExplodePromiseResultType } from '../../util/explodePromise.js';
 import { explodePromise } from '../../util/explodePromise.js';
 import type { RetryBackupImportValue } from '../../state/ducks/installer.js';
@@ -80,7 +80,6 @@ import {
 import { FileStream } from './util/FileStream.js';
 import { ToastType } from '../../types/Toast.js';
 import { isAdhoc, isNightly } from '../../util/version.js';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.js';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.js';
 import type { ValidateLocalBackupStructureResultType } from './util/localBackup.js';
 import {
@@ -1096,29 +1095,33 @@ export class BackupsService {
   async #fetchSubscriptionStatus(): Promise<
     BackupsSubscriptionType | undefined
   > {
+    const cachedBackupSubscriptionStatus = itemStorage.get(
+      'backupSubscriptionStatus'
+    );
     const backupTier = this.#getBackupTierFromStorage();
-    let result: BackupsSubscriptionType;
+    let result: BackupsSubscriptionType | undefined;
     switch (backupTier) {
       case null:
       case undefined:
-        result = {
-          status: 'off',
-        };
-        break;
       case BackupLevel.Free:
-        result = {
-          status: 'free',
-          mediaIncludedInBackupDurationDays: getMessageQueueTime() / DAY,
-        };
+        result = { status: 'not-found' };
         break;
       case BackupLevel.Paid:
+        await itemStorage.put('backupSubscriptionStatus', {
+          ...(cachedBackupSubscriptionStatus ?? { status: 'not-found' }),
+          isFetching: true,
+        });
         result = await this.api.getSubscriptionInfo();
         break;
       default:
         throw missingCaseError(backupTier);
     }
 
-    await itemStorage.put('backupSubscriptionStatus', result);
+    await itemStorage.put('backupSubscriptionStatus', {
+      ...result,
+      lastFetchedAtMs: Date.now(),
+      isFetching: false,
+    });
     return result;
   }
 

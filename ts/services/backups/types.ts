@@ -10,6 +10,15 @@ export enum BackupLevel {
   Paid = 201,
 }
 
+export function backupLevelFromNumber(
+  num: number | undefined
+): BackupLevel | null {
+  if (Object.values(BackupLevel).includes(num as BackupLevel)) {
+    return num as BackupLevel;
+  }
+  return null;
+}
+
 export type AboutMe = {
   aci: AciString;
   pni?: PniString;

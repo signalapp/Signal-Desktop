@@ -15,6 +15,8 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
+import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
+
 import { Button, ButtonVariant } from './Button.js';
 import { ChatColorPicker } from './ChatColorPicker.js';
 import { Checkbox } from './Checkbox.js';
@@ -111,8 +113,10 @@ export type PropsDataType = {
   accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFeatureEnabled: boolean;
+  backupFreeMediaDays: number;
   backupKeyViewed: boolean;
   backupLocalBackupsEnabled: boolean;
+  backupTier: BackupLevel | null;
   localBackupFolder: string | undefined;
   currentChatFoldersCount: number;
   cloudBackupStatus?: BackupStatusType;
@@ -383,7 +387,9 @@ export function Preferences({
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
+  backupFreeMediaDays,
   backupKeyViewed,
+  backupTier,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
   badge,
@@ -2188,7 +2194,9 @@ export function Preferences({
     const pageContents = (
       <PreferencesBackups
         accountEntropyPool={accountEntropyPool}
+        backupFreeMediaDays={backupFreeMediaDays}
         backupKeyViewed={backupKeyViewed}
+        backupTier={backupTier}
         backupSubscriptionStatus={backupSubscriptionStatus}
         backupMediaDownloadStatus={backupMediaDownloadStatus}
         cancelBackupMediaDownload={cancelBackupMediaDownload}

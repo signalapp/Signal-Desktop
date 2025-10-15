@@ -58,7 +58,7 @@ import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.js';
 import { writeProfile } from '../../services/writeProfile.js';
 import { getConversation } from '../../util/getConversation.js';
 import { waitForEvent } from '../../shims/events.js';
-import { MINUTE } from '../../util/durations/index.js';
+import { DAY, MINUTE } from '../../util/durations/index.js';
 import { sendSyncRequests } from '../../textsecure/syncRequests.js';
 import { SmartUpdateDialog } from './UpdateDialog.js';
 import { Preferences } from '../../components/Preferences.js';
@@ -110,6 +110,8 @@ import {
 } from './PreferencesNotificationProfiles.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.js';
 import { getProfiles } from '../selectors/notificationProfiles.js';
+import { backupLevelFromNumber } from '../../services/backups/types.js';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -552,6 +554,7 @@ export function SmartPreferences(): JSX.Element | null {
 
   const {
     backupSubscriptionStatus,
+    backupTier,
     cloudBackupStatus,
     localBackupFolder,
     backupMediaDownloadCompletedBytes,
@@ -576,6 +579,7 @@ export function SmartPreferences(): JSX.Element | null {
 
   const backupFeatureEnabled = isBackupFeatureEnabled(items.remoteConfig);
   const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
+  const backupFreeMediaDays = getMessageQueueTime(items.remoteConfig) / DAY;
 
   // Two-way items
 
@@ -770,9 +774,11 @@ export function SmartPreferences(): JSX.Element | null {
           availableSpeakers={availableSpeakers}
           backupFeatureEnabled={backupFeatureEnabled}
           backupKeyViewed={backupKeyViewed}
+          backupTier={backupLevelFromNumber(backupTier)}
           backupSubscriptionStatus={
-            backupSubscriptionStatus ?? { status: 'off' }
+            backupSubscriptionStatus ?? { status: 'not-found' }
           }
+          backupFreeMediaDays={backupFreeMediaDays}
           backupMediaDownloadStatus={{
             completedBytes: backupMediaDownloadCompletedBytes ?? 0,
             totalBytes: backupMediaDownloadTotalBytes ?? 0,

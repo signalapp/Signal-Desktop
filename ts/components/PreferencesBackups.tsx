@@ -10,14 +10,12 @@ import type {
   BackupStatusType,
 } from '../types/backups.js';
 import type { LocalizerType } from '../types/I18N.js';
-import { formatTimestamp } from '../util/formatTimestamp.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   LightIconLabel,
   SettingsRow,
 } from './PreferencesUtil.js';
-import { missingCaseError } from '../util/missingCaseError.js';
 import { Button, ButtonVariant } from './Button.js';
 import type { SettingsLocation } from '../types/Nav.js';
 import { SettingsPage } from '../types/Nav.js';
@@ -29,7 +27,11 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.js';
 import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings.js';
+import { BackupLevel } from '../services/backups/types.js';
+import {
+  BackupsDetailsPage,
+  renderSubscriptionDetails,
+} from './PreferencesBackupDetails.js';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -50,8 +52,10 @@ function isRemoteBackupsPage(page: SettingsPage) {
 }
 export function PreferencesBackups({
   accountEntropyPool,
+  backupFreeMediaDays,
   backupKeyViewed,
   backupSubscriptionStatus,
+  backupTier,
   cloudBackupStatus,
   i18n,
   isLocalBackupsEnabled,
@@ -72,8 +76,10 @@ export function PreferencesBackups({
   showToast,
 }: {
   accountEntropyPool: string | undefined;
+  backupFreeMediaDays: number;
   backupKeyViewed: boolean;
   backupSubscriptionStatus: BackupsSubscriptionType;
+  backupTier: BackupLevel | null;
   cloudBackupStatus?: BackupStatusType;
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
@@ -123,7 +129,7 @@ export function PreferencesBackups({
   }
 
   if (settingsLocation.page === SettingsPage.BackupsDetails) {
-    if (backupSubscriptionStatus.status === 'off') {
+    if (backupTier == null) {
       setSettingsLocation({ page: SettingsPage.Backups });
       return null;
     }
@@ -131,6 +137,8 @@ export function PreferencesBackups({
       <BackupsDetailsPage
         i18n={i18n}
         cloudBackupStatus={cloudBackupStatus}
+        backupTier={backupTier}
+        backupFreeMediaDays={backupFreeMediaDays}
         backupSubscriptionStatus={backupSubscriptionStatus}
         backupMediaDownloadStatus={backupMediaDownloadStatus}
         cancelBackupMediaDownload={cancelBackupMediaDownload}
@@ -169,7 +177,7 @@ export function PreferencesBackups({
   function renderRemoteBackups() {
     return (
       <>
-        {backupSubscriptionStatus.status === 'off' ? (
+        {backupTier == null ? (
           <SettingsRow className="Preferences--BackupsRow">
             <Control
               icon="Preferences__BackupsIcon"
@@ -196,13 +204,21 @@ export function PreferencesBackups({
               <div className="Preferences__two-thirds-flow">
                 <LightIconLabel icon="Preferences__BackupsIcon">
                   <label>
-                    {i18n('icu:Preferences--signal-backups')}{' '}
+                    {i18n('icu:Preferences--signal-backups')}
                     <div className="Preferences__description">
-                      {renderBackupsSubscriptionSummary({
-                        subscriptionStatus: backupSubscriptionStatus,
-                        i18n,
-                        locale,
-                      })}
+                      {backupTier === BackupLevel.Paid
+                        ? renderPaidBackupsSummary({
+                            subscriptionStatus: backupSubscriptionStatus,
+                            i18n,
+                            locale,
+                          })
+                        : null}
+                      {backupTier === BackupLevel.Free
+                        ? renderFreeBackupsSummary({
+                            i18n,
+                            backupFreeMediaDays,
+                          })
+                        : null}
                     </div>
                   </label>
                 </LightIconLabel>
@@ -317,281 +333,49 @@ export function PreferencesBackups({
   );
 }
 
-function getSubscriptionDetails({
-  i18n,
+export function renderPaidBackupsSummary({
   subscriptionStatus,
+  i18n,
   locale,
 }: {
-  i18n: LocalizerType;
   locale: string;
   subscriptionStatus: BackupsSubscriptionType;
-}): JSX.Element | null {
-  if (subscriptionStatus.status === 'active') {
-    return (
-      <>
-        {subscriptionStatus.cost ? (
-          <div className="Preferences--backups-summary__subscription-price">
-            {i18n('icu:Preferences--backup-subscription-monthly-cost', {
-              cost: new Intl.NumberFormat(locale, {
-                style: 'currency',
-                currency: subscriptionStatus.cost.currencyCode,
-                currencyDisplay: 'narrowSymbol',
-              }).format(subscriptionStatus.cost.amount),
-            })}
-          </div>
-        ) : null}
-        {subscriptionStatus.renewalTimestamp ? (
-          <div className="Preferences--backups-summary__renewal-date">
-            {i18n('icu:Preferences--backup-plan__renewal-date', {
-              date: formatTimestamp(subscriptionStatus.renewalTimestamp, {
-                dateStyle: 'medium',
-              }),
-            })}
-          </div>
-        ) : null}
-      </>
-    );
-  }
-  if (subscriptionStatus.status === 'pending-cancellation') {
-    return (
-      <>
-        <div className="Preferences--backups-summary__canceled">
-          {i18n('icu:Preferences--backup-plan__canceled')}
-        </div>
-        {subscriptionStatus.expiryTimestamp ? (
-          <div className="Preferences--backups-summary__expiry-date">
-            {i18n('icu:Preferences--backup-plan__expiry-date', {
-              date: formatTimestamp(subscriptionStatus.expiryTimestamp, {
-                dateStyle: 'medium',
-              }),
-            })}
-          </div>
-        ) : null}
-      </>
-    );
-  }
-
-  return null;
-}
-
-export function renderBackupsSubscriptionDetails({
-  subscriptionStatus,
-  i18n,
-  locale,
-}: {
-  locale: string;
-  subscriptionStatus?: BackupsSubscriptionType;
   i18n: LocalizerType;
 }): JSX.Element | null {
-  if (!subscriptionStatus) {
-    return null;
-  }
-
-  const { status } = subscriptionStatus;
-  switch (status) {
-    case 'off':
-      return null;
-    case 'active':
-    case 'pending-cancellation':
-      return (
-        <>
-          <div className="Preferences--backups-summary__status-container">
-            <div>
-              <div className="Preferences--backups-summary__type">
-                {i18n('icu:Preferences--backup-media-plan__description')}
-              </div>
-              <div className="Preferences--backups-summary__content">
-                {getSubscriptionDetails({ i18n, locale, subscriptionStatus })}
-              </div>
-            </div>
-            {subscriptionStatus.status === 'active' ? (
-              <div className="Preferences--backups-summary__icon Preferences--backups-summary__icon--active" />
-            ) : (
-              <div className="Preferences--backups-summary__icon Preferences--backups-summary__icon--inactive" />
-            )}
-          </div>
-          <div className="Preferences--backups-summary__note">
-            {i18n('icu:Preferences--backup-media-plan__note')}
-          </div>
-        </>
-      );
-    case 'free':
-      return (
-        <>
-          <div className="Preferences--backups-summary__status-container">
-            <div>
-              <div className="Preferences--backups-summary__type">
-                {i18n('icu:Preferences--backup-messages-plan__description', {
-                  mediaDayCount:
-                    subscriptionStatus.mediaIncludedInBackupDurationDays,
-                })}
-              </div>
-              <div className="Preferences--backups-summary__content">
-                {i18n(
-                  'icu:Preferences--backup-messages-plan__cost-description'
-                )}
-              </div>
-            </div>
-            <div className="Preferences--backups-summary__icon Preferences--backups-summary__icon--active" />
-          </div>
-          <div className="Preferences--backups-summary__note">
-            {i18n('icu:Preferences--backup-messages-plan__note')}
-          </div>
-        </>
-      );
-    case 'not-found':
-    case 'expired':
-      return (
-        <>
-          <div className="Preferences--backups-summary__status-container">
-            <div className="Preferences--backups-summary__content">
-              {i18n('icu:Preferences--backup-plan-not-found__description')}
-            </div>
-            <div className="Preferences--backups-summary__icon Preferences--backups-summary__icon--inactive" />
-          </div>
-          <div className="Preferences--backups-summary__note">
-            <div className="Preferences--backups-summary__note">
-              {i18n('icu:Preferences--backup-plan__not-found__note')}
-            </div>
-          </div>
-        </>
-      );
-    default:
-      throw missingCaseError(status);
-  }
-}
-
-export function renderBackupsSubscriptionSummary({
-  subscriptionStatus,
-  i18n,
-  locale,
-}: {
-  locale: string;
-  subscriptionStatus?: BackupsSubscriptionType;
-  i18n: LocalizerType;
-}): JSX.Element | null {
-  if (!subscriptionStatus) {
-    return null;
-  }
-
-  const { status } = subscriptionStatus;
-  switch (status) {
-    case 'off':
-      return null;
-    case 'active':
-    case 'pending-cancellation':
-      return (
-        <div className="Preferences--backups-summary__status-container">
-          <div>
-            <div className="Preferences--backups-summary__type">
-              {i18n('icu:Preferences--backup-media-plan__description')}
-            </div>
-            <div className="Preferences--backups-summary__content">
-              {getSubscriptionDetails({ i18n, locale, subscriptionStatus })}
-            </div>
-          </div>
-        </div>
-      );
-    case 'free':
-      return (
-        <div className="Preferences--backups-summary__status-container">
-          <div>
-            <div className="Preferences--backups-summary__type">
-              {i18n('icu:Preferences--backup-messages-plan__description', {
-                mediaDayCount:
-                  subscriptionStatus.mediaIncludedInBackupDurationDays,
-              })}
-            </div>
-            <div className="Preferences--backups-summary__content">
-              {i18n('icu:Preferences--backup-messages-plan__cost-description')}
-            </div>
-          </div>
-        </div>
-      );
-    case 'not-found':
-    case 'expired':
-      return (
-        <div className="Preferences--backups-summary__status-container">
-          <div className="Preferences--backups-summary__content">
-            {i18n('icu:Preferences--backup-plan-not-found__description')}
-          </div>
-        </div>
-      );
-    default:
-      throw missingCaseError(status);
-  }
-}
-
-function BackupsDetailsPage({
-  cloudBackupStatus,
-  backupSubscriptionStatus,
-  i18n,
-  locale,
-  cancelBackupMediaDownload,
-  pauseBackupMediaDownload,
-  resumeBackupMediaDownload,
-  backupMediaDownloadStatus,
-}: {
-  cloudBackupStatus?: BackupStatusType;
-  backupSubscriptionStatus: BackupsSubscriptionType;
-  i18n: LocalizerType;
-  locale: string;
-  cancelBackupMediaDownload: () => void;
-  pauseBackupMediaDownload: () => void;
-  resumeBackupMediaDownload: () => void;
-  backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
-}): JSX.Element {
-  const shouldShowMediaProgress =
-    backupMediaDownloadStatus &&
-    backupMediaDownloadStatus.completedBytes <
-      backupMediaDownloadStatus.totalBytes;
-
   return (
-    <>
-      <div className="Preferences--backups-summary__container">
-        {renderBackupsSubscriptionDetails({
-          subscriptionStatus: backupSubscriptionStatus,
-          i18n,
-          locale,
-        })}
+    <div className="Preferences--backups-summary__status-container">
+      <div>
+        <div className="Preferences--backups-summary__type">
+          {i18n('icu:Preferences--backup-media-plan__description')}
+        </div>
+        <div className="Preferences--backups-summary__content">
+          {renderSubscriptionDetails({ i18n, locale, subscriptionStatus })}
+        </div>
       </div>
+    </div>
+  );
+}
 
-      {cloudBackupStatus || shouldShowMediaProgress ? (
-        <SettingsRow
-          className="Preferences--backup-details"
-          title={i18n('icu:Preferences--backup-details__header')}
-        >
-          {cloudBackupStatus?.createdTimestamp ? (
-            <div className="Preferences--backup-details__row">
-              <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
-              <div
-                id="Preferences--backup-details__value"
-                className="Preferences--backup-details__value"
-              >
-                {/* TODO (DESKTOP-8509) */}
-                {i18n('icu:Preferences--backup-created-by-phone')}
-                <span className="Preferences--backup-details__value-divider" />
-                {formatTimestamp(cloudBackupStatus.createdTimestamp, {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                })}
-              </div>
-            </div>
-          ) : null}
-          {shouldShowMediaProgress && backupMediaDownloadStatus ? (
-            <div className="Preferences--backup-details__row">
-              <BackupMediaDownloadProgressSettings
-                {...backupMediaDownloadStatus}
-                handleCancel={cancelBackupMediaDownload}
-                handlePause={pauseBackupMediaDownload}
-                handleResume={resumeBackupMediaDownload}
-                i18n={i18n}
-              />
-            </div>
-          ) : null}
-        </SettingsRow>
-      ) : null}
-    </>
+export function renderFreeBackupsSummary({
+  backupFreeMediaDays,
+  i18n,
+}: {
+  backupFreeMediaDays: number;
+  i18n: LocalizerType;
+}): JSX.Element | null {
+  return (
+    <div className="Preferences--backups-summary__status-container">
+      <div>
+        <div className="Preferences--backups-summary__type">
+          {i18n('icu:Preferences--backup-messages-plan__description', {
+            mediaDayCount: backupFreeMediaDays,
+          })}
+        </div>
+        <div className="Preferences--backups-summary__content">
+          {i18n('icu:Preferences--backup-messages-plan__cost-description')}
+        </div>
+      </div>
+    </div>
   );
 }
 

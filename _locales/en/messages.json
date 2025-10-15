@@ -7513,7 +7513,7 @@
     "description": "Description of a backup plan that backups all of their messages (text) and media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups.",
+    "messageformat": "Your subscription was not found. Check your phone to view your backup details.",
     "description": "Description when a backup subscription used to exist but is not active"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
