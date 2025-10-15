@@ -36,14 +36,14 @@ const AXOLOTL_APP_ID = 'org.whispersystems.signal-desktop-axolotl';
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
 const PRODUCTION_WM_CLASS = 'signal';
-const AXOLOTL_WM_CLASS = 'signalaxolotl';
+const AXOLOTL_WM_CLASS = 'signal axolotl';
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const AXOLOTL_DESKTOP_NAME = 'signalaxolotl.desktop';
+const AXOLOTL_DESKTOP_NAME = 'signal axolotl.desktop';
 
 // -------
 
