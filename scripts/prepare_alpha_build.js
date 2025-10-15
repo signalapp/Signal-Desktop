@@ -36,7 +36,7 @@ const ALPHA_APP_ID = 'org.whispersystems.signal-desktop-alpha';
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
 const PRODUCTION_WM_CLASS = 'signal';
-const ALPHA_WM_CLASS = 'signalalpha';
+const ALPHA_WM_CLASS = 'signal alpha';
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
