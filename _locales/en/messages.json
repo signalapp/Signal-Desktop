@@ -9673,12 +9673,8 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations.",
-    "description": "(Deleted 2025/10/02) Release notes for 7.73 release"
-  },
-  "icu:WhatsNew__7.74": {
-    "messageformat": "Just in time for autumn, the new \"Leafless Tree\" emoji {leaflessTreeEmoji} (along with the other six new emoji in Unicode 16.0) are now supported in Signal Desktop.",
-    "description": "(Deleted 2025/10/08) Release notes for 7.74 release."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically.",
+    "description": " Release notes for 7.76 release"
   }
 }
