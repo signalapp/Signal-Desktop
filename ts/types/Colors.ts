@@ -26,8 +26,8 @@ export const AvatarColorMap = new Map([
   [
     'A130',
     {
-      bg: '#cde4cd',
-      fg: '#067906',
+      bg: '#cfe8cf',
+      fg: '#005a00',
     },
   ],
   [
@@ -69,7 +69,7 @@ export const AvatarColorMap = new Map([
     'A190',
     {
       bg: '#eae6d5',
-      fg: '#7d6f40',
+      fg: '#665930',
     },
   ],
   [
