@@ -74,6 +74,7 @@ import {
   deriveGroupID,
   deriveGroupSecretParams,
   deriveGroupPublicParams,
+  deriveAccessKeyFromProfileKey,
 } from '../../util/zkgroup.js';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
 import { generateMessageId } from '../../util/generateMessageId.js';
@@ -86,7 +87,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus.js';
 import { SendStatus } from '../../messages/MessageSendState.js';
 import type { SendStateByConversationId } from '../../messages/MessageSendState.js';
 import { SeenStatus } from '../../MessageSeenStatus.js';
-import { constantTimeEqual, deriveAccessKey } from '../../Crypto.js';
+import { constantTimeEqual } from '../../Crypto.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.js';
 import * as Bytes from '../../Bytes.js';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants.js';
@@ -989,7 +990,7 @@ export class BackupImportStream extends Writable {
         ? Bytes.toBase64(contact.profileKey)
         : undefined,
       accessKey: contact.profileKey
-        ? Bytes.toBase64(deriveAccessKey(contact.profileKey))
+        ? Bytes.toBase64(deriveAccessKeyFromProfileKey(contact.profileKey))
         : undefined,
       sealedSender: SEALED_SENDER.UNKNOWN,
       profileSharing: contact.profileSharing === true,

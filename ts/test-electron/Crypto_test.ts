@@ -25,7 +25,6 @@ import {
   deriveSecrets,
   encryptDeviceName,
   decryptDeviceName,
-  deriveAccessKey,
   getAccessKeyVerifier,
   verifyAccessKey,
   deriveMasterKeyFromGroupV1,
@@ -59,6 +58,7 @@ import {
 } from '../util/AttachmentCrypto.js';
 import { getPath } from '../windows/main/attachments.js';
 import { MediaTier } from '../types/AttachmentDownload.js';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.js';
 
 const { emptyDir } = fsExtra;
 
@@ -238,7 +238,7 @@ describe('Crypto', () => {
   describe('accessKey/profileKey', () => {
     it('verification roundtrips', () => {
       const profileKey = getRandomBytes(32);
-      const accessKey = deriveAccessKey(profileKey);
+      const accessKey = deriveAccessKeyFromProfileKey(profileKey);
 
       const verifier = getAccessKeyVerifier(accessKey);
 

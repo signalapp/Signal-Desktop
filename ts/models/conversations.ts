@@ -107,7 +107,6 @@ import {
   constantTimeEqual,
   decryptProfile,
   decryptProfileName,
-  deriveAccessKey,
   hashProfileKey,
 } from '../Crypto.js';
 import { decryptAttachmentV2 } from '../AttachmentCrypto.js';
@@ -194,7 +193,10 @@ import {
 import { imageToBlurHash } from '../util/imageToBlurHash.js';
 import { ReceiptType } from '../types/Receipt.js';
 import { getQuoteAttachment } from '../util/makeQuote.js';
-import { deriveProfileKeyVersion } from '../util/zkgroup.js';
+import {
+  deriveAccessKeyFromProfileKey,
+  deriveProfileKeyVersion,
+} from '../util/zkgroup.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
 import { generateMessageId } from '../util/generateMessageId.js';
 import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
@@ -5035,6 +5037,19 @@ export class ConversationModel {
       return false;
     }
 
+    let derivedAccessKey: Uint8Array;
+    try {
+      derivedAccessKey = deriveAccessKeyFromProfileKey(
+        Bytes.fromBase64(profileKey)
+      );
+    } catch (error) {
+      log.warn(
+        'setProfileKey: refusing to set invalid profile key',
+        Errors.toLogFormat(error)
+      );
+      return false;
+    }
+
     const oldProfileKey = this.get('profileKey');
 
     // profileKey is a string so we can compare it directly
@@ -5078,7 +5093,10 @@ export class ConversationModel {
     }
 
     // Don't trigger immediate profile fetches when syncing to remote storage
-    this.set({ profileKey }, { noTrigger: viaStorageServiceSync });
+    this.set(
+      { profileKey, accessKey: Bytes.toBase64(derivedAccessKey) },
+      { noTrigger: viaStorageServiceSync }
+    );
 
     // If our profile key was cleared above, we don't tell our linked devices about it.
     //   We want linked devices to tell us what it should be, instead of telling them to
@@ -5132,10 +5150,11 @@ export class ConversationModel {
       return;
     }
 
-    const profileKeyBuffer = Bytes.fromBase64(profileKey);
-    const accessKeyBuffer = deriveAccessKey(profileKeyBuffer);
-    const accessKey = Bytes.toBase64(accessKeyBuffer);
-    this.set({ accessKey });
+    this.set({
+      accessKey: Bytes.toBase64(
+        deriveAccessKeyFromProfileKey(Bytes.fromBase64(profileKey))
+      ),
+    });
   }
 
   deriveProfileKeyVersion(): string | undefined {

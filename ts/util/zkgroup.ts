@@ -125,6 +125,13 @@ export function deriveProfileKeyVersion(
   return profileKeyVersion.toString();
 }
 
+export function deriveAccessKeyFromProfileKey(
+  profileKeyBytes: Uint8Array
+): Uint8Array {
+  const profileKey = new ProfileKey(profileKeyBytes);
+  return profileKey.deriveAccessKey();
+}
+
 export function deriveGroupPublicParams(
   groupSecretParamsBuffer: Uint8Array
 ): Uint8Array {
