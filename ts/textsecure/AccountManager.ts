@@ -38,7 +38,6 @@ import { isMockEnvironment } from '../environment.js';
 import { senderCertificateService } from '../services/senderCertificate.js';
 import {
   decryptDeviceName,
-  deriveAccessKey,
   deriveStorageServiceKey,
   deriveMasterKey,
   encryptDeviceName,
@@ -79,6 +78,7 @@ import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
 import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.js';
 import { signalProtocolStore } from '../SignalProtocolStore.js';
 import { itemStorage } from './Storage.js';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.js';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -345,7 +345,7 @@ export default class AccountManager extends EventTarget {
       const aciKeyPair = generateKeyPair();
       const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
-      const accessKey = deriveAccessKey(profileKey);
+      const accessKey = deriveAccessKeyFromProfileKey(profileKey);
       const masterKey = getRandomBytes(MASTER_KEY_LENGTH);
       const accountEntropyPool = AccountEntropyPool.generate();
       const mediaRootBackupKey = BackupKey.generateRandom().serialize();

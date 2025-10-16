@@ -204,14 +204,6 @@ export function deriveStorageItemKey({
   );
 }
 
-export function deriveAccessKey(profileKey: Uint8Array): Uint8Array {
-  const iv = getZeroes(12);
-  const plaintext = getZeroes(16);
-  const accessKey = encryptAesGcm(profileKey, iv, plaintext);
-
-  return getFirstBytes(accessKey, 16);
-}
-
 export function getAccessKeyVerifier(accessKey: Uint8Array): Uint8Array {
   const plaintext = getZeroes(32);
 
