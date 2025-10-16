@@ -3,8 +3,8 @@
 
 const CI_CONFIG = JSON.parse(process.env.SIGNAL_CI_CONFIG || '');
 
-const config = require('./app/config').default;
+const config = require('./app/config.main.js').default;
 
 config.util.extendDeep(config, CI_CONFIG);
 
-require('./app/main');
+require('./app/main.main.js');

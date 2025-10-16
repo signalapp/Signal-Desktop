@@ -12,7 +12,7 @@ import { PendingInvites } from './PendingInvites.dom.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
 import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.js';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
 
 const { times } = lodash;
 

@@ -193,6 +193,8 @@ const rules = {
 const typescriptRules = {
   ...rules,
 
+  'local-rules/file-suffix': 'error',
+
   // Override brace style to enable typescript-specific syntax
   'brace-style': 'off',
   '@typescript-eslint/brace-style': [
@@ -370,7 +372,7 @@ module.exports = {
       },
     },
     {
-      files: ['ts/**/*_test.{ts,tsx}'],
+      files: ['ts/**/*_test.*.{ts,tsx}'],
       rules: {
         'func-names': 'off',
       },

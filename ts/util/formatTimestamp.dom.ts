@@ -77,7 +77,6 @@ export function getDateTimeFormatter(
   const locales =
     localeOverride != null ? [localeOverride] : preferredSystemLocales;
   const optionsWithPreferences = getOptionsWithPreferences(options);
-  console.error(locales);
   const cacheKey = getCacheKey(locales, optionsWithPreferences);
   const cachedFormatter = formatterCache.get(cacheKey);
   if (cachedFormatter) {

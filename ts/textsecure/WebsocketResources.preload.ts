@@ -52,7 +52,7 @@ import { strictAssert } from '../util/assert.std.js';
 import * as Errors from '../types/errors.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
-import * as Timers from '../Timers.dom.js';
+import * as Timers from '../Timers.preload.js';
 import type { IResource } from './WebSocket.preload.js';
 
 import { AbortableProcess } from '../util/AbortableProcess.std.js';

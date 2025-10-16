@@ -474,7 +474,12 @@ export class MainSQL {
   }
 
   #createWorker(): CreateWorkerResultType {
-    const scriptPath = join(app.getAppPath(), 'ts', 'sql', 'mainWorker.js');
+    const scriptPath = join(
+      app.getAppPath(),
+      'ts',
+      'sql',
+      'mainWorker.node.js'
+    );
 
     const worker = new Worker(scriptPath);
 

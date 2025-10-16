@@ -11,14 +11,14 @@ export {};
 
 if (config.environment === 'test') {
   console.log('Importing test infrastructure...');
-  require('./preload_test.js');
+  require('./preload_test.preload.js');
 }
 
 if (config.ciMode) {
   console.log(
     `Importing CI infrastructure; enabled in config, mode: ${config.ciMode}`
   );
-  const { getCI } = require('../../CI.js');
+  const { getCI } = require('../../CI.preload.js');
   window.SignalCI = getCI({
     deviceName: window.getTitle(),
     forceUnprocessed: config.ciForceUnprocessed,

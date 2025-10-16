@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
 import type { MediaItemType } from '../../../types/MediaItem.std.js';
 import { SignalService } from '../../../protobuf/index.std.js';
 import {

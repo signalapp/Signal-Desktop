@@ -15,7 +15,7 @@ import './phase0-devtools.node.js';
 import './phase1-ipc.preload.js';
 import '../preload.preload.js';
 import './phase2-dependencies.preload.js';
-import './phase3-post-signal.std.js';
+import './phase3-post-signal.preload.js';
 import './phase4-test.preload.js';
 
 import type {

@@ -4,7 +4,7 @@
 const fs = require('node:fs');
 const _ = require('lodash');
 
-const { isBeta } = require('../ts/util/version.js');
+const { isBeta } = require('../ts/util/version.std.js');
 const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow

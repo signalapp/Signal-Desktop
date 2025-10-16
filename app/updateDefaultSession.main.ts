@@ -8,7 +8,7 @@ import { v4 as generateUuid } from 'uuid';
 import OS from '../ts/util/os/osMain.node.js';
 import type { LoggerType } from '../ts/types/Logging.std.js';
 import { strictAssert } from '../ts/util/assert.std.js';
-import { type IpcResponseType } from '../ts/util/desktopCapturer.preload.js';
+import type { IpcResponseType } from '../ts/util/desktopCapturer.preload.js';
 
 const SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL = `https://updates.signal.org/desktop/hunspell_dictionaries/${process.versions.electron}/`;
 

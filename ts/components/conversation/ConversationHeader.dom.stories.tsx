@@ -11,7 +11,7 @@ import {
 } from '../../test-helpers/getDefaultConversation.std.js';
 import { getRandomColor } from '../../test-helpers/getRandomColor.std.js';
 import { DurationInSeconds } from '../../util/durations/index.std.js';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
 import type { PropsType } from './ConversationHeader.dom.js';
 import {
   ConversationHeader,

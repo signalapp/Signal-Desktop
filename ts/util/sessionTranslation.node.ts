@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import { signal } from '../protobuf/compiled.js';
+import { signal } from '../protobuf/compiled.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { deriveSecrets } from '../Crypto.node.js';
 

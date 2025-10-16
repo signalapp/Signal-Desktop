@@ -24,7 +24,7 @@ export function getHeicConverter(): (
     app.getAppPath(),
     'ts',
     'workers',
-    'heicConverterWorker.js'
+    'heicConverterWorker.node.js'
   );
   const worker = new Worker(scriptDir);
 

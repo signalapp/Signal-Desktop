@@ -4,10 +4,10 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const { Crypto } = require('../ts/context/Crypto.js');
-const { setEnvironment, Environment } = require('../ts/environment.js');
-const { HourCyclePreference } = require('../ts/types/I18N.js');
-const { default: package } = require('../ts/util/packageJson.js');
+const { Crypto } = require('../ts/context/Crypto.node.js');
+const { setEnvironment, Environment } = require('../ts/environment.std.js');
+const { HourCyclePreference } = require('../ts/types/I18N.std.js');
+const { default: package } = require('../ts/util/packageJson.node.js');
 
 chai.use(chaiAsPromised);
 

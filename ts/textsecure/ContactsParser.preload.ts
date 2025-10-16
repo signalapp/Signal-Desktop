@@ -5,7 +5,7 @@ import { Transform } from 'node:stream';
 
 import { createLogger } from '../logging/log.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
-import protobuf from '../protobuf/wrap.node.js';
+import protobuf from '../protobuf/wrap.std.js';
 import { DurationInSeconds } from '../util/durations/index.std.js';
 import {
   getAbsoluteAttachmentPath,

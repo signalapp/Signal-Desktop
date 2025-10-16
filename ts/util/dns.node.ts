@@ -7,6 +7,7 @@ import type {
   LookupAddress,
   lookup as nodeLookup,
 } from 'node:dns';
+// eslint-disable-next-line local-rules/file-suffix
 import * as electron from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';

@@ -238,7 +238,7 @@ let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
   try {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    const windowsNotifications = require('./WindowsNotifications.js');
+    const windowsNotifications = require('./WindowsNotifications.main.js');
     sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
   } catch (error) {
     log.error('Failed to initialize Windows Notifications:', error.stack);
@@ -730,7 +730,7 @@ async function createWindow() {
         __dirname,
         usePreloadBundle
           ? '../preload.wrapper.js'
-          : '../ts/windows/main/preload.js'
+          : '../ts/windows/main/preload.preload.js'
       ),
       spellcheck,
     },
@@ -1289,7 +1289,7 @@ async function showScreenShareWindow(sourceName: string | undefined) {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/screenShare/preload.js'),
+      preload: join(__dirname, '../bundles/screenShare/preload.preload.js'),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -1344,7 +1344,7 @@ async function showCallingDevToolsWindow() {
       sandbox: true,
       contextIsolation: true,
       nativeWindowOpen: true,
-      preload: join(__dirname, '../bundles/calling-tools/preload.js'),
+      preload: join(__dirname, '../bundles/calling-tools/preload.preload.js'),
     },
   };
 
@@ -1398,7 +1398,7 @@ async function showAbout() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/about/preload.js'),
+      preload: join(__dirname, '../bundles/about/preload.preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -1487,7 +1487,7 @@ async function showDebugLogWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/debuglog/preload.js'),
+      preload: join(__dirname, '../bundles/debuglog/preload.preload.js'),
     },
     parent: mainWindow,
   };
@@ -1546,7 +1546,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
         nodeIntegrationInWorker: false,
         sandbox: true,
         contextIsolation: true,
-        preload: join(__dirname, '../bundles/permissions/preload.js'),
+        preload: join(__dirname, '../bundles/permissions/preload.preload.js'),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -2246,7 +2246,7 @@ app.on('ready', async () => {
           nodeIntegration: false,
           sandbox: true,
           contextIsolation: true,
-          preload: join(__dirname, '../bundles/loading/preload.js'),
+          preload: join(__dirname, '../bundles/loading/preload.preload.js'),
         },
         icon: windowIcon,
       });
@@ -3305,7 +3305,10 @@ async function showStickerCreatorWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../ts/windows/sticker-creator/preload.js'),
+      preload: join(
+        __dirname,
+        '../ts/windows/sticker-creator/preload.preload.js'
+      ),
       nativeWindowOpen: true,
     },
   };

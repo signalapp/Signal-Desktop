@@ -10,7 +10,7 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import type { Props } from './CompositionInput.dom.js';
 import { CompositionInput } from './CompositionInput.dom.js';
 import { generateAci } from '../types/ServiceId.std.js';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 const { i18n } = window.SignalContext;

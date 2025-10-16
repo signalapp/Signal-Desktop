@@ -11,7 +11,7 @@ import { createLogger } from '../../../logging/log.std.js';
 import * as Bytes from '../../../Bytes.std.js';
 import * as Errors from '../../../types/errors.std.js';
 import { Signal } from '../../../protobuf/index.std.js';
-import protobuf from '../../../protobuf/wrap.node.js';
+import protobuf from '../../../protobuf/wrap.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
 import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
