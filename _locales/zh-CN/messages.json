@@ -242,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "已存档聊天"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Add chat folder"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Folder settings"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "已置顶"
   },
@@ -280,6 +286,12 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "请输入带有一个点和一组匹配数字的用户名。"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "No chats to display"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Folder Settings"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "全部"
@@ -643,6 +655,9 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "保存收据时出错。请重试。"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} folder added"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "您无法在选择文件的同时选择照片和视频。"
@@ -1235,36 +1250,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "无法下载阅后即焚媒体"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "文件不可用"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "完整消息不可用"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "媒体不可用"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "表情不可用"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "语音消息不可用"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "此设备链接时，此文件未从您的手机转移。设备链接时已存在超过 45 天的媒体和文件无法同步。"
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "此设备链接时，此消息的完整文本未从您的手机转移。设备链接时已存在超过 45 天的长文本消息无法同步。"
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "此设备链接时，此媒体未从您的手机转移。设备链接时已存在超过 45 天的媒体无法同步。"
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "此设备链接时，此表情未从您的手机转移。设备链接时已存在超过 45 天的媒体和文件无法同步。"
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "此设备链接时，此语音消息未从您的手机转移。设备链接时已存在超过 45 天的媒体和文件无法同步。"
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "此阅后即焚媒体已不可下载。您可以请{name}重发一遍。"
   },
@@ -1352,8 +1337,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "添加聊天文件夹"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Add or edit folders"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "您可以将聊天整理到文件夹中，并在聊天列表中快速切换。"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Set up"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Manage"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "编辑文件夹"
@@ -1388,14 +1385,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "创建文件夹"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Drag to move chat folder"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "建议的文件夹"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "添加"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "已添加{chatFolderTitle}文件夹"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "未读"
@@ -1594,6 +1591,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "被移除出通话"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Call is full"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "通过此链接加入通话的任何人都能看到您的名称和头像。"
@@ -5351,6 +5354,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "通知内容"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Moon icon"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Copy of {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Notification profile"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Notification Profile"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "On until {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "For one hour"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Until {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Settings"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” on"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” off"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Notification profile now enabled"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Notification profile now disabled"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Notification profiles"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Set up"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Notification Profiles"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Continue"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Add or edit notification profiles"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Create profile"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Name your profile"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Name"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profile name"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Select an avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Work"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Sleep"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Driving"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Downtime"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Focus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Allowed notifications"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Allowed Notifications"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Add people or groups"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Exceptions"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Allow all calls"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Notify for all mentions"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Add a schedule"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Schedule"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Enable and edit your schedule to automate your notification profile."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Turn on automatically"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Schedule"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "From"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Until"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Open time picker"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Sunday"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Monday"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Tuesday"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Wednesday"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Thursday"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Friday"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Saturday"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profile Created"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Sun"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Mon"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Tue"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Wed"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Thu"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Fri"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sat"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Weekdays"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Weekends"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Daily"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiles"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sync across devices"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "New profile"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Delete profile"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Permanently delete this notification profile?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Delete"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Off"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Edit this profile's name"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} to {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "On"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Off"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "已屏蔽"
   },
@@ -5370,7 +5619,7 @@
     "messageformat": "文本 + 所有媒体备份"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "未找到您的套餐。请续订以继续使用 Signal 安全备份。"
+    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/月"
@@ -6882,9 +7131,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "您正在进行的捐款需要确认。"
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "捐款成功，但我们无法更新您的徽章设置"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "捐款成功，但我们无法更新您的徽章设置"
   },
@@ -6994,10 +7240,7 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "此次更新进行了新的性能优化，有助于提升电池续航时间。"
-  },
-  "icu:WhatsNew__7.74": {
-    "messageformat": "Signal 桌面版现支持七个新的表情符号字符。"
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
   }
 }
