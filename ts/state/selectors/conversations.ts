@@ -68,6 +68,7 @@ import type {
   UnreadStats,
 } from '../../util/countUnreadStats.js';
 import {
+  isChatFoldersEnabled,
   isConversationInChatFolder,
   type ChatFolder,
 } from '../../types/ChatFolder.js';
@@ -433,6 +434,7 @@ export const _getLeftPaneLists = ({
     let conversation = values[i];
 
     if (
+      isChatFoldersEnabled() &&
       !_shouldIncludeInChatFolder(
         conversation,
         selectedChatFolder,
