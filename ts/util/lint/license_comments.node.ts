@@ -64,7 +64,7 @@ const FILES_TO_IGNORE = new Set(
     'js/calling-tools/timeline_graph_view.js',
     'js/calling-tools/user_media_table.js',
     'js/calling-tools/util.js',
-    'js/calling-tools/webrtc_internals.js',
+    'js/calling-tools/webrtc_internals.dom.js',
   ].map(
     // This makes sure the files are correct on Windows.
     path.normalize

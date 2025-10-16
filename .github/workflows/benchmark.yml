@@ -27,17 +27,17 @@ jobs:
           - backup
         include:
           - metric: startup
-            script: ts/test-mock/benchmarks/startup_bench.js
+            script: ts/test-mock/benchmarks/startup_bench.node.js
             runCount: 10
           - metric: send
-            script: ts/test-mock/benchmarks/send_bench.js
+            script: ts/test-mock/benchmarks/send_bench.node.js
             runCount: 100
           - metric: groupSend
-            script: ts/test-mock/benchmarks/group_send_bench.js
+            script: ts/test-mock/benchmarks/group_send_bench.node.js
             runCount: 100
             conversationSize: 500
           - metric: largeGroupSendWithBlocks
-            script: ts/test-mock/benchmarks/group_send_bench.js
+            script: ts/test-mock/benchmarks/group_send_bench.node.js
             runCount: 50
             conversationSize: 500
             groupSize: 500
@@ -45,20 +45,20 @@ jobs:
             blockedCount: 10
             discardCount: 2
           - metric: largeGroupSend
-            script: ts/test-mock/benchmarks/group_send_bench.js
+            script: ts/test-mock/benchmarks/group_send_bench.node.js
             runCount: 20
             conversationSize: 50
             groupSize: 500
             contactCount: 500
             discardCount: 2
           - metric: convoOpen
-            script: ts/test-mock/benchmarks/convo_open_bench.js
+            script: ts/test-mock/benchmarks/convo_open_bench.node.js
             runCount: 100
           - metric: callHistorySearch
-            script: ts/test-mock/benchmarks/call_history_search_bench.js
+            script: ts/test-mock/benchmarks/call_history_search_bench.node.js
             runCount: 100
           - metric: backup
-            script: ts/test-mock/benchmarks/backup_bench.js
+            script: ts/test-mock/benchmarks/backup_bench.node.js
 
     runs-on: ubuntu-22.04-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && (!github.event.schedule || github.ref == 'refs/heads/main') }}

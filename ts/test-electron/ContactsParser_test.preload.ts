@@ -15,7 +15,7 @@ import { pipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
 import fse from 'fs-extra';
 
-import protobuf from '../protobuf/wrap.node.js';
+import protobuf from '../protobuf/wrap.std.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from '../types/errors.std.js';

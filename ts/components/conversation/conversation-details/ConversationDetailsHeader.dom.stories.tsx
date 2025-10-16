@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
 import { getFakeBadges } from '../../../test-helpers/getFakeBadge.std.js';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import type { Props } from './ConversationDetailsHeader.dom.js';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.js';

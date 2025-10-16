@@ -27,7 +27,7 @@ import {
 } from '../test-helpers/getDefaultConversation.std.js';
 import { DialogType } from '../types/Dialogs.std.js';
 import { SocketStatus } from '../types/SocketStatus.std.js';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 import {
   makeFakeLookupConversationWithoutServiceId,
   useUuidFetchState,

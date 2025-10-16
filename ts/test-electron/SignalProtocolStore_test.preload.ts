@@ -15,7 +15,7 @@ import {
 import { v4 as generateUuid } from 'uuid';
 
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { signal } from '../protobuf/compiled.js';
+import { signal } from '../protobuf/compiled.std.js';
 import { sessionStructureToBytes } from '../util/sessionTranslation.node.js';
 import * as durations from '../util/durations/index.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';

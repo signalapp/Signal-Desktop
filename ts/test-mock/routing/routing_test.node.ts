@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// `window` use below is actually executed in the browser.
+// eslint-disable-next-line local-rules/file-suffix
 import { assert } from 'chai';
 
 import * as durations from '../../util/durations/index.std.js';

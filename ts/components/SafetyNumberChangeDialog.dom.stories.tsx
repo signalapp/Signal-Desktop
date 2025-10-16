@@ -7,7 +7,7 @@ import type { Meta } from '@storybook/react';
 import type { Props } from './SafetyNumberChangeDialog.dom.js';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
 import { MY_STORY_ID } from '../types/Stories.std.js';
 import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';

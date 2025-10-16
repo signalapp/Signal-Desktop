@@ -12,6 +12,7 @@ import {
 import { createLogger } from '../ts/logging/log.std.js';
 import { AUMID } from './startup_config.main.js';
 import type { WindowsNotificationData } from '../ts/services/notifications.preload.js';
+// eslint-disable-next-line local-rules/file-suffix
 import { renderWindowsToast } from './renderWindowsToast.dom.js';
 
 const log = createLogger('WindowsNotifications');

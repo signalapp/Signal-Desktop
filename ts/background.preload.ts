@@ -22,7 +22,7 @@ import createTaskWithTimeout, {
 } from './textsecure/TaskWithTimeout.std.js';
 import type { MessageAttributesType } from './model-types.d.ts';
 import * as Bytes from './Bytes.std.js';
-import * as Timers from './Timers.dom.js';
+import * as Timers from './Timers.preload.js';
 import * as indexedDb from './indexeddb.dom.js';
 import type { MenuOptionsType } from './types/menu.std.js';
 import { SocketStatus } from './types/SocketStatus.std.js';

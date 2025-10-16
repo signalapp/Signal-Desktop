@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// We use `window` below, but it is guarded by type checks
+// eslint-disable-next-line local-rules/file-suffix
 import pino from 'pino';
 import { LRUCache } from 'lru-cache';
 

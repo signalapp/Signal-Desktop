@@ -10,7 +10,7 @@ const log = createLogger('preload');
 window.preloadStartTime = Date.now();
 
 try {
-  require('./start.js');
+  require('./start.preload.js');
 } catch (error) {
   /* eslint-disable no-console */
   console.log('preload error!', error.stack);

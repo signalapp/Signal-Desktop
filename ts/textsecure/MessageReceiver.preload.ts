@@ -151,7 +151,7 @@ import type { SendTypesType } from '../util/handleMessageSend.preload.js';
 import { getStoriesBlocked } from '../util/stories.preload.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { chunk } from '../util/iterables.std.js';
-import { inspectUnknownFieldTags } from '../util/inspectProtobufs.node.js';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
 import { filterAndClean } from '../types/BodyRange.std.js';
 import {

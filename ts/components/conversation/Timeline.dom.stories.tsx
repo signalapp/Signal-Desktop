@@ -11,7 +11,7 @@ import type { PropsType } from './Timeline.dom.js';
 import { Timeline } from './Timeline.dom.js';
 import type { TimelineItemType } from './TimelineItem.dom.js';
 import { TimelineItem } from './TimelineItem.dom.js';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
 import { ConversationHero } from './ConversationHero.dom.js';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
 import { TypingBubble } from './TypingBubble.dom.js';

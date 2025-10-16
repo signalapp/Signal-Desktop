@@ -146,7 +146,7 @@ window.testUtilities = {
 
   prepareTests() {
     console.log('Preparing tests...');
-    const files = sync('../../test-{both,electron}/**/*_test.js', {
+    const files = sync('../../test-{both,electron}/**/*_test.*.js', {
       absolute: true,
       cwd: __dirname,
     });

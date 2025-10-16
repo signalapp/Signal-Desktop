@@ -138,9 +138,9 @@ jobs:
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
-        node ts/scripts/dd-installer-size.js macos-arm64
-        node ts/scripts/dd-installer-size.js macos-x64
-        node ts/scripts/dd-installer-size.js macos-universal
+        node ts/scripts/dd-installer-size.node.js macos-arm64
+        node ts/scripts/dd-installer-size.node.js macos-x64
+        node ts/scripts/dd-installer-size.node.js macos-universal
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
     - run: pnpm run test-release
@@ -224,7 +224,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.js linux
+      run: node ts/scripts/dd-installer-size.node.js linux
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
@@ -306,7 +306,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.js windows
+      run: node ts/scripts/dd-installer-size.node.js windows
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
@@ -496,4 +496,4 @@ jobs:
     - run: pnpm generate:phase-0
     - name: Run OS version check
       run: |
-        node ts/scripts/check-min-os-version.js
+        node ts/scripts/check-min-os-version.node.js

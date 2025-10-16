@@ -813,21 +813,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/axo/AriaClickable.tsx",
+    "path": "ts/axo/AriaClickable.dom.tsx",
     "line": "    const ref = useRef<HTMLButtonElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-28T23:36:44.974Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/axo/AriaClickable.tsx",
+    "path": "ts/axo/AriaClickable.dom.tsx",
     "line": "    const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-28T23:36:44.974Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/calling/useGetCallingFrameBuffer.ts",
+    "path": "ts/calling/useGetCallingFrameBuffer.std.ts",
     "line": "  const ref = useRef<Uint8Array | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-10-01T20:11:56Z",
@@ -835,7 +835,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AutoSizeInput.tsx",
+    "path": "ts/components/AutoSizeInput.dom.tsx",
     "line": "  const hiddenRef = useRef<HTMLSpanElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-11T16:58:57.146Z",
@@ -843,14 +843,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AutoSizeTextArea.tsx",
+    "path": "ts/components/AutoSizeTextArea.dom.tsx",
     "line": "  const ownRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-03-26T17:14:14.370Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarEditor.tsx",
+    "path": "ts/components/AvatarEditor.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-24T03:40:20.019Z",
@@ -858,7 +858,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarTextEditor.tsx",
+    "path": "ts/components/AvatarTextEditor.dom.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-04T18:18:09.236Z",
@@ -866,42 +866,42 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarTextEditor.tsx",
+    "path": "ts/components/AvatarTextEditor.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-04T22:02:17.074Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarTextEditor.tsx",
+    "path": "ts/components/AvatarTextEditor.dom.tsx",
     "line": "  const onDoneRef = useRef<DoneHandleType>(onDone);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-05T23:40:55.699Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AvatarUploadButton.tsx",
+    "path": "ts/components/AvatarUploadButton.dom.tsx",
     "line": "  const fileInputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-03T21:17:38.615Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallManager.tsx",
+    "path": "ts/components/CallManager.dom.tsx",
     "line": "  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-06T20:18:59.647Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallNeedPermissionScreen.tsx",
+    "path": "ts/components/CallNeedPermissionScreen.dom.tsx",
     "line": "  const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
+    "path": "ts/components/CallReactionBurst.dom.tsx",
     "line": "  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -909,7 +909,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
+    "path": "ts/components/CallReactionBurst.dom.tsx",
     "line": "  const burstsShown = useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -917,7 +917,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
+    "path": "ts/components/CallReactionBurst.dom.tsx",
     "line": "  const shownBursts = useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -925,7 +925,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurstEmoji.tsx",
+    "path": "ts/components/CallReactionBurstEmoji.dom.tsx",
     "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -933,7 +933,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const burstsShown = useRef<Map<string, number>>(new Map());",
     "reasonCategory": "sageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -941,7 +941,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const toastRegionRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-14T23:29:51.425Z",
@@ -949,7 +949,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const reactionPickerRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-14T23:29:51.425Z",
@@ -957,7 +957,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const burstRegionRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-12-21T11:13:56.623Z",
@@ -965,7 +965,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const reactionsShown = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
@@ -973,21 +973,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-16T22:59:06.336Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
+    "path": "ts/components/CallScreen.dom.tsx",
     "line": "  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-16T22:59:06.336Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPendingParticipants.tsx",
+    "path": "ts/components/CallingPendingParticipants.dom.tsx",
     "line": "  const expandedListRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-06-28T01:22:22.509Z",
@@ -995,7 +995,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPendingParticipants.tsx",
+    "path": "ts/components/CallingPendingParticipants.dom.tsx",
     "line": "  const lastParticipantRef = React.useRef<ConversationType | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2024-09-20T02:11:27.851Z",
@@ -1003,210 +1003,210 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPip.tsx",
+    "path": "ts/components/CallingPip.dom.tsx",
     "line": "  const videoContainerRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToast.tsx",
+    "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const shownToasts = React.useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-04T20:50:45.297Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToast.tsx",
+    "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const timeouts = React.useRef<Map<string, TimeoutType>>(new Map());",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-10T17:05:02.468Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToast.tsx",
+    "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const timeoutsStatus = React.useRef<'active' | 'paused'>('active');",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-10T17:05:02.468Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToast.tsx",
+    "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const toastsShown = useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-10T17:05:02.468Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToast.tsx",
+    "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const toastId = useRef<string>(uuid());",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-14T16:52:45.342Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToastManager.tsx",
+    "path": "ts/components/CallingToastManager.dom.tsx",
     "line": "  const toastRegionRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-26T13:57:41.860Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToastManager.tsx",
+    "path": "ts/components/CallingToastManager.dom.tsx",
     "line": "  const toastLastShownAt = useRef<number>(0);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-12T18:56:18.138Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToastManager.tsx",
+    "path": "ts/components/CallingToastManager.dom.tsx",
     "line": "  const handsForLastShownToast = useRef<Set<number>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-12T18:56:18.138Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const listRef = useRef<List>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-18T19:09:30.283Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const getCallHistoryGroupsCountRef = useRef(getCallHistoryGroupsCount);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-27T20:25:10.634Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const getCallHistoryGroupsRef = useRef(getCallHistoryGroups);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-11-27T20:25:10.634Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const peekQueueRef = useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const peekQueueArgsRef = useRef<Map<string, PeekNotConnectedGroupCallType>>(",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
+    "path": "ts/components/CallsList.preload.tsx",
     "line": "  const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-05-16T02:10:00.652Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CaptchaDialog.tsx",
+    "path": "ts/components/CaptchaDialog.dom.tsx",
     "line": "  const buttonRef = useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ChatColorPicker.tsx",
+    "path": "ts/components/ChatColorPicker.dom.tsx",
     "line": "  const menuRef = useRef<any | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.tsx",
+    "path": "ts/components/CompositionArea.dom.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-23T00:07:11.885Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.tsx",
+    "path": "ts/components/CompositionArea.dom.tsx",
     "line": "  const fileInputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-23T00:07:11.885Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const callbacksRef = React.useRef(unstaleCallbacks);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-04-21T21:35:38.757Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const emojiCompletionRef = React.useRef<EmojiCompletion>();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const mentionCompletionRef = React.useRef<MentionCompletion>();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const quillRef = React.useRef<Quill>();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const propsRef = React.useRef<Props>(props);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const memberRepositoryRef = React.useRef<MemberRepository>(",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
+    "path": "ts/components/CompositionInput.dom.tsx",
     "line": "  const canSendRef = React.useRef<boolean>(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-25T00:06:19.860Z",
@@ -1214,91 +1214,91 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionRecording.tsx",
+    "path": "ts/components/CompositionRecording.dom.tsx",
     "line": "  const startTime = useRef(Date.now());",
     "reasonCategory": "usageTrusted",
     "updated": "2023-02-26T23:17:41.234Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionRecording.tsx",
+    "path": "ts/components/CompositionRecording.dom.tsx",
     "line": "  const drift = useRef(0);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-02-26T23:20:28.848Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionRecordingDraft.tsx",
+    "path": "ts/components/CompositionRecordingDraft.dom.tsx",
     "line": "  const timeout = useRef<undefined | NodeJS.Timeout>(undefined);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-02-26T23:20:28.848Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CompositionTextArea.tsx",
+    "path": "ts/components/CompositionTextArea.dom.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-04-01T21:15:44.903Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ContactPills.tsx",
+    "path": "ts/components/ContactPills.dom.tsx",
     "line": "  const elRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ContextMenu.tsx",
+    "path": "ts/components/ContextMenu.dom.tsx",
     "line": "  const virtualElement = useRef<VirtualElement>(generateVirtualElement(0, 0));",
     "reasonCategory": "usageTrusted",
     "updated": "2022-08-19T17:09:38.534Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CustomizingPreferredReactionsModal.tsx",
+    "path": "ts/components/CustomizingPreferredReactionsModal.dom.tsx",
     "line": "  const pickerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-04-07T19:15:28.908Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/DirectCallRemoteParticipant.tsx",
+    "path": "ts/components/DirectCallRemoteParticipant.dom.tsx",
     "line": "  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/EditHistoryMessagesModal.tsx",
+    "path": "ts/components/EditHistoryMessagesModal.dom.tsx",
     "line": "  const containerElementRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-03-25T01:59:04.590Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ForwardMessagesModal.tsx",
+    "path": "ts/components/ForwardMessagesModal.dom.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GradientDial.tsx",
+    "path": "ts/components/GradientDial.dom.tsx",
     "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallOverflowArea.tsx",
+    "path": "ts/components/GroupCallOverflowArea.dom.tsx",
     "line": "  const overflowRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "path": "ts/components/GroupCallRemoteParticipant.dom.tsx",
     "line": "    const lastReceivedVideoAt = useRef(-Infinity);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-06-17T20:46:02.342Z",
@@ -1306,21 +1306,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "path": "ts/components/GroupCallRemoteParticipant.dom.tsx",
     "line": "    const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "path": "ts/components/GroupCallRemoteParticipant.dom.tsx",
     "line": "    const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "path": "ts/components/GroupCallRemoteParticipant.dom.tsx",
     "line": "    const imageDataRef = useRef<ImageData | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-12-10T23:24:31.237Z",
@@ -1328,14 +1328,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ImageOrBlurhash.tsx",
+    "path": "ts/components/ImageOrBlurhash.dom.tsx",
     "line": "  const ref = useRef<HTMLImageElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-05T17:07:11.678Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/IncomingCallBar.tsx",
+    "path": "ts/components/IncomingCallBar.dom.tsx",
     "line": "  const initialTitleRef = useRef<string>(title);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-16T20:52:11.043Z",
@@ -1343,77 +1343,77 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Input.tsx",
+    "path": "ts/components/Input.dom.tsx",
     "line": "    const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Input.tsx",
+    "path": "ts/components/Input.dom.tsx",
     "line": "    const valueOnKeydownRef = useRef<string>(value);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Input.tsx",
+    "path": "ts/components/Input.dom.tsx",
     "line": "    const selectionStartOnKeydownRef = useRef<number>(value.length);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/LeftPane.tsx",
+    "path": "ts/components/LeftPane.dom.tsx",
     "line": "  const measureRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-09T21:48:42.602Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/LeftPaneSearchInput.tsx",
+    "path": "ts/components/LeftPaneSearchInput.dom.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-02-11T20:49:03.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-23T18:39:37.081Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const imageRef = useRef<HTMLImageElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-24T00:03:36.061Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const animateRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const dragCacheRef = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const zoomCacheRef = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Lightbox.tsx",
+    "path": "ts/components/Lightbox.dom.tsx",
     "line": "  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-01-06T03:53:58.093Z",
@@ -1421,21 +1421,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ListView.tsx",
+    "path": "ts/components/ListView.dom.tsx",
     "line": "  const listRef = useRef<null | List>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-11-11T17:11:07.659Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/MediaEditor.tsx",
+    "path": "ts/components/MediaEditor.dom.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-09-11T20:19:18.681Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/MediaEditor.tsx",
+    "path": "ts/components/MediaEditor.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T22:29:15.758Z",
@@ -1443,7 +1443,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/MediaQualitySelector.tsx",
+    "path": "ts/components/MediaQualitySelector.dom.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-14T22:04:43.988Z",
@@ -1451,35 +1451,35 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Modal.tsx",
+    "path": "ts/components/Modal.dom.tsx",
     "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-05T00:22:31.660Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Modal.tsx",
+    "path": "ts/components/Modal.dom.tsx",
     "line": "  const bodyRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Modal.tsx",
+    "path": "ts/components/Modal.dom.tsx",
     "line": "  const bodyInnerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ModalContainer.tsx",
+    "path": "ts/components/ModalContainer.dom.tsx",
     "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-10-14T16:39:48.461Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ModalHost.tsx",
+    "path": "ts/components/ModalHost.dom.tsx",
     "line": "    const containerRef = React.useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-09-14T16:20:15.384Z",
@@ -1487,14 +1487,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Preferences.tsx",
+    "path": "ts/components/Preferences.dom.tsx",
     "line": "  const settingsPaneRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-04-21T02:12:22.352Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesDonateFlow.tsx",
+    "path": "ts/components/PreferencesDonateFlow.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-06-26T23:23:57.292Z",
@@ -1502,14 +1502,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesInternal.tsx",
+    "path": "ts/components/PreferencesInternal.dom.tsx",
     "line": "  const prevAbortControlerRef = useRef<AbortController | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-20T18:18:34.081Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesLocalBackups.tsx",
+    "path": "ts/components/PreferencesLocalBackups.dom.tsx",
     "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-30T22:48:14.420Z",
@@ -1517,7 +1517,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "path": "ts/components/PreferencesNotificationProfiles.dom.tsx",
     "line": "  const tryClose = React.useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-25T21:04:21.643Z",
@@ -1525,7 +1525,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "path": "ts/components/PreferencesNotificationProfiles.dom.tsx",
     "line": "  const selectedHour = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-09-05T21:41:09.931Z",
@@ -1533,7 +1533,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesNotificationProfiles.tsx",
+    "path": "ts/components/PreferencesNotificationProfiles.dom.tsx",
     "line": "  const selectedMinute = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-09-05T21:41:09.931Z",
@@ -1541,14 +1541,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ProfileEditor.tsx",
+    "path": "ts/components/ProfileEditor.dom.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ProfileEditor.tsx",
+    "path": "ts/components/ProfileEditor.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-24T03:23:25.769Z",
@@ -1556,7 +1556,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/QrCode.tsx",
+    "path": "ts/components/QrCode.dom.tsx",
     "line": "  const elRef = useRef<null | HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-01-04T21:43:17.517Z",
@@ -1564,49 +1564,49 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/SafetyTipsModal.tsx",
+    "path": "ts/components/SafetyTipsModal.dom.tsx",
     "line": "  const scrollEndTimer = useRef<NodeJS.Timeout | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-03-08T01:48:15.330Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Slider.tsx",
+    "path": "ts/components/Slider.dom.tsx",
     "line": "  const diff = useRef<number>(0);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Slider.tsx",
+    "path": "ts/components/Slider.dom.tsx",
     "line": "  const handleRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Slider.tsx",
+    "path": "ts/components/Slider.dom.tsx",
     "line": "  const sliderRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StandaloneRegistration.tsx",
+    "path": "ts/components/StandaloneRegistration.dom.tsx",
     "line": "  const elemRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-11-30T10:15:33.662Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StandaloneRegistration.tsx",
+    "path": "ts/components/StandaloneRegistration.dom.tsx",
     "line": "  const pluginRef = useRef<Iti | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-16T00:33:41.092Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoriesSettingsModal.tsx",
+    "path": "ts/components/StoriesSettingsModal.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T22:29:15.758Z",
@@ -1614,49 +1614,49 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryImage.tsx",
+    "path": "ts/components/StoryImage.dom.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-04-29T23:54:21.656Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryProgressSegment.tsx",
+    "path": "ts/components/StoryProgressSegment.dom.tsx",
     "line": "  const onFinishRef = useRef(onFinish);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-08-13T20:48:09.226Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "path": "ts/components/StoryViewsNRepliesModal.dom.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-02-15T17:57:06.507Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "path": "ts/components/StoryViewsNRepliesModal.dom.tsx",
     "line": "  const containerElementRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-08-04T00:52:01.080Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "path": "ts/components/StoryViewsNRepliesModal.dom.tsx",
     "line": "  const shouldScrollToBottomRef = useRef(true);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-10-05T18:51:56.411Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "path": "ts/components/StoryViewsNRepliesModal.dom.tsx",
     "line": "  const bottomRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-10-05T18:51:56.411Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "path": "ts/components/StoryViewsNRepliesModal.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T23:20:52.448Z",
@@ -1664,35 +1664,35 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextAttachment.tsx",
+    "path": "ts/components/TextAttachment.dom.tsx",
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-04-06T00:59:17.194Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextAttachment.tsx",
+    "path": "ts/components/TextAttachment.dom.tsx",
     "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextAttachment.tsx",
+    "path": "ts/components/TextAttachment.dom.tsx",
     "line": "    const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextStoryCreator.tsx",
+    "path": "ts/components/TextStoryCreator.dom.tsx",
     "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TextStoryCreator.tsx",
+    "path": "ts/components/TextStoryCreator.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T22:29:15.758Z",
@@ -1700,21 +1700,21 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Tooltip.tsx",
+    "path": "ts/components/Tooltip.dom.tsx",
     "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/Tooltip.tsx",
+    "path": "ts/components/Tooltip.dom.tsx",
     "line": "  const timeoutRef = useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-10T00:23:35.320Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/UsernameEditor.tsx",
+    "path": "ts/components/UsernameEditor.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-28T00:57:39.376Z",
@@ -1722,7 +1722,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/UsernameLinkEditor.tsx",
+    "path": "ts/components/UsernameLinkEditor.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-28T00:57:39.376Z",
@@ -1730,49 +1730,49 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/CallingNotification.tsx",
+    "path": "ts/components/conversation/CallingNotification.dom.tsx",
     "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-12-08T20:28:57.595Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/ConversationHeader.tsx",
+    "path": "ts/components/conversation/ConversationHeader.dom.tsx",
     "line": "  const menuTriggerRef = useRef<any>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-03-15T18:29:48.327Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/ConversationHeader.tsx",
+    "path": "ts/components/conversation/ConversationHeader.dom.tsx",
     "line": "  const headerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-03-15T18:29:48.327Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/GIF.tsx",
+    "path": "ts/components/conversation/GIF.dom.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/GroupDescription.tsx",
+    "path": "ts/components/conversation/GroupDescription.dom.tsx",
     "line": "  const textRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "path": "ts/components/conversation/InlineNotificationWrapper.dom.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-04-12T15:51:28.066Z"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
+    "path": "ts/components/conversation/Message.dom.tsx",
     "line": "    React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
@@ -1780,7 +1780,7 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
+    "path": "ts/components/conversation/Message.dom.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
@@ -1788,7 +1788,7 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
+    "path": "ts/components/conversation/Message.dom.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
@@ -1796,7 +1796,7 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
+    "path": "ts/components/conversation/Message.dom.tsx",
     "line": "  #metadataRef: React.RefObject<HTMLDivElement> = React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-06-30T22:12:49.259Z",
@@ -1804,7 +1804,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/Message.tsx",
+    "path": "ts/components/conversation/Message.dom.tsx",
     "line": "  const reactionsContainerRefMerger = useRef(createRefMerger());",
     "reasonCategory": "usageTrusted",
     "updated": "2025-06-05T12:55:51.245Z",
@@ -1812,7 +1812,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/MessageDetail.tsx",
+    "path": "ts/components/conversation/MessageDetail.dom.tsx",
     "line": "  const messageDetailRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-09-11T22:53:43.464Z",
@@ -1820,7 +1820,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/Quote.tsx",
+    "path": "ts/components/conversation/Quote.dom.tsx",
     "line": "  const imageRef = useRef(new Image());",
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-20T21:30:08.430Z",
@@ -1828,14 +1828,14 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/TimelineMessage.tsx",
+    "path": "ts/components/conversation/TimelineMessage.dom.tsx",
     "line": "  const menuTriggerRef = useRef<ContextMenuTriggerType | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-12-08T20:28:57.595Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/TypingBubble.tsx",
+    "path": "ts/components/conversation/TypingBubble.dom.tsx",
     "line": "  const prevTypingContactIds = React.useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2023-09-28T21:48:57.488Z",
@@ -1843,42 +1843,42 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/WaveformScrubber.tsx",
+    "path": "ts/components/conversation/WaveformScrubber.dom.tsx",
     "line": "  const waveformRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-02-26T23:20:28.848Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.tsx",
+    "path": "ts/components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.dom.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.dom.tsx",
     "line": "  const focusDescriptionRef = useRef<undefined | boolean>(",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.dom.tsx",
     "line": "  const startingTitleRef = useRef<string>(externalTitle);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.dom.tsx",
     "line": "  const startingAvatarUrlRef = useRef<undefined | string>(externalAvatarUrl);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.dom.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T23:20:52.448Z",
@@ -1886,7 +1886,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
@@ -1894,7 +1894,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
     "line": "  const loadingRef = useRef<boolean>(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-09-03T00:45:23.978Z",
@@ -1902,7 +1902,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
     "line": "  const intersectionObserver = useRef<IntersectionObserver | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-09-03T00:45:23.978Z",
@@ -1910,7 +1910,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
     "line": "  const scrollObserverRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-09-03T00:45:23.978Z",
@@ -1918,7 +1918,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
     "line": "  const tabViewRef = useRef<TabViews>(TabViews.Media);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-09-03T00:45:23.978Z",
@@ -1926,210 +1926,210 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
+    "path": "ts/components/fun/FunGif.dom.tsx",
     "line": "  const ref = useRef<HTMLVideoElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-03-21T23:22:07.920Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
+    "path": "ts/components/fun/FunGif.dom.tsx",
     "line": "  const timerRef = useRef<ReturnType<typeof setTimeout>>();",
     "reasonCategory": "usageTrusted",
     "updated": "2025-03-21T23:22:07.920Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
+    "path": "ts/components/fun/FunGif.dom.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-03-24T18:57:50.198Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunImage.tsx",
+    "path": "ts/components/fun/base/FunImage.dom.tsx",
     "line": "  const imageRef = useRef<HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunScroller.tsx",
+    "path": "ts/components/fun/base/FunScroller.dom.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunScroller.tsx",
+    "path": "ts/components/fun/base/FunScroller.dom.tsx",
     "line": "  const scrollerInnerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunScroller.tsx",
+    "path": "ts/components/fun/base/FunScroller.dom.tsx",
     "line": "  const observerRef = useRef<IntersectionObserver | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunScroller.tsx",
+    "path": "ts/components/fun/base/FunScroller.dom.tsx",
     "line": "  const onScrollChangeRef = useRef(props.onScrollSectionChange);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunScroller.tsx",
+    "path": "ts/components/fun/base/FunScroller.dom.tsx",
     "line": "  const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "path": "ts/components/fun/base/FunSubNav.dom.tsx",
     "line": "  const outerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "path": "ts/components/fun/base/FunSubNav.dom.tsx",
     "line": "  const innerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "path": "ts/components/fun/base/FunSubNav.dom.tsx",
     "line": "  const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunTooltip.tsx",
+    "path": "ts/components/fun/base/FunTooltip.dom.tsx",
     "line": "  const ref = useRef<HTMLButtonElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-30T20:26:57.154Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/data/infinite.ts",
+    "path": "ts/components/fun/data/infinite.std.ts",
     "line": "  const loaderRef = useRef(options.loader);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/data/infinite.ts",
+    "path": "ts/components/fun/data/infinite.std.ts",
     "line": "  const hasNextPageRef = useRef(options.hasNextPage);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/data/infinite.ts",
+    "path": "ts/components/fun/data/infinite.std.ts",
     "line": "  const querySignalRef = useRef<AbortSignal | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/data/infinite.ts",
+    "path": "ts/components/fun/data/infinite.std.ts",
     "line": "  const stateRef = useRef(state);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/keyboard/FunKeyboard.tsx",
+    "path": "ts/components/fun/keyboard/FunKeyboard.dom.tsx",
     "line": "  const keyboardRef = useRef(props.keyboard);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/keyboard/FunKeyboard.tsx",
+    "path": "ts/components/fun/keyboard/FunKeyboard.dom.tsx",
     "line": "  const onStateChangeRef = useRef(props.onStateChange);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/panels/FunPanelEmojis.tsx",
+    "path": "ts/components/fun/panels/FunPanelEmojis.dom.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/panels/FunPanelEmojis.tsx",
+    "path": "ts/components/fun/panels/FunPanelEmojis.dom.tsx",
     "line": "  const popoverTriggerRef = useRef<HTMLButtonElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-04-10T18:24:54.606Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/panels/FunPanelGifs.tsx",
+    "path": "ts/components/fun/panels/FunPanelGifs.dom.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/panels/FunPanelStickers.tsx",
+    "path": "ts/components/fun/panels/FunPanelStickers.dom.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.tsx",
+    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx",
     "line": "  const didSaveOrDiscardChangesRef = useRef(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-09-24T17:08:10.620Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.tsx",
+    "path": "ts/components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-10-09T23:03:57.441Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputAmount.tsx",
+    "path": "ts/components/preferences/donations/DonateInputAmount.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-08-01T20:31:42.993Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardCvc.tsx",
+    "path": "ts/components/preferences/donations/DonateInputCardCvc.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-07-17T19:33:27.401Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardExp.tsx",
+    "path": "ts/components/preferences/donations/DonateInputCardExp.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-07-17T19:33:27.401Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardNumber.tsx",
+    "path": "ts/components/preferences/donations/DonateInputCardNumber.dom.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-07-17T19:33:27.401Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useConfirmDiscard.tsx",
+    "path": "ts/hooks/useConfirmDiscard.dom.tsx",
     "line": "  const confirmDiscardPromise = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T22:29:15.758Z",
@@ -2137,126 +2137,126 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useIntersectionObserver.ts",
+    "path": "ts/hooks/useIntersectionObserver.std.ts",
     "line": "  const unobserveRef = useRef<(() => unknown) | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T20:16:37.959Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useIsMounted.ts",
+    "path": "ts/hooks/useIsMounted.std.ts",
     "line": "  const isMounted = useRef(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-04T20:50:45.297Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useNavBlocker.ts",
+    "path": "ts/hooks/useNavBlocker.std.ts",
     "line": "  const nameRef = useRef(name);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-09-24T17:08:10.620Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useNavBlocker.ts",
+    "path": "ts/hooks/useNavBlocker.std.ts",
     "line": "  const shouldBlockRef = useRef(shouldBlock);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-09-24T17:08:10.620Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/usePrevious.ts",
+    "path": "ts/hooks/usePrevious.std.ts",
     "line": "  const previousValueRef = useRef<T>(initialValue);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T20:16:37.959Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useRestoreFocus.ts",
+    "path": "ts/hooks/useRestoreFocus.dom.ts",
     "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useRestoreFocus.ts",
+    "path": "ts/hooks/useRestoreFocus.dom.ts",
     "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useRestoreFocus.ts",
+    "path": "ts/hooks/useRestoreFocus.dom.ts",
     "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-22T00:52:39.251Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useRestoreFocus.ts",
+    "path": "ts/hooks/useRestoreFocus.dom.ts",
     "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-22T00:52:39.251Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useScrollLock.tsx",
+    "path": "ts/hooks/useScrollLock.dom.tsx",
     "line": "  const onUserInterruptRef = useRef(onUserInterrupt);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-09-19T17:05:51.321Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": "  const sizeRef = useRef<Size | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": "  const onSizeChangeRef = useRef<SizeChangeHandler | void>(onSizeChange);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": "  const ref = useRef<any>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": " * const scrollerRef = useRef()",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": " * const scrollerInnerRef = useRef()",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": "  const scrollRef = useRef<Scroll | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/hooks/useSizeObserver.tsx",
+    "path": "ts/hooks/useSizeObserver.dom.tsx",
     "line": "  const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/quill/formatting/menu.tsx",
+    "path": "ts/quill/formatting/menu.dom.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-04-22T00:07:56.294Z",
@@ -2264,7 +2264,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/quill/formatting/menu.tsx",
+    "path": "ts/quill/formatting/menu.dom.tsx",
     "line": "  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
@@ -2272,7 +2272,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/quill/formatting/menu.tsx",
+    "path": "ts/quill/formatting/menu.dom.tsx",
     "line": "  const hoverTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
@@ -2280,7 +2280,7 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "ts/quill/signal-clipboard/util.ts",
+    "path": "ts/quill/signal-clipboard/util.dom.ts",
     "line": "    event.clipboardData?.setData('text/signal', container.innerHTML);",
     "reasonCategory": "regexMatchedSafeCode",
     "updated": "2023-06-02T00:37:19.861Z",
@@ -2288,42 +2288,42 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/state/smart/ChatsTab.tsx",
+    "path": "ts/state/smart/ChatsTab.preload.tsx",
     "line": "  const lastOpenedConversationId = useRef<string | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-25T17:37:23.002Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/state/smart/ConversationPanel.tsx",
+    "path": "ts/state/smart/ConversationPanel.preload.tsx",
     "line": "  const animateRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-13T23:34:39.367Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/state/smart/ConversationPanel.tsx",
+    "path": "ts/state/smart/ConversationPanel.preload.tsx",
     "line": "  const overlayRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-13T23:34:39.367Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/state/smart/ConversationPanel.tsx",
+    "path": "ts/state/smart/ConversationPanel.preload.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-13T23:34:39.367Z"
   },
   {
     "rule": "React-useRef",
-    "path": "ts/state/smart/ConversationPanel.tsx",
+    "path": "ts/state/smart/ConversationPanel.preload.tsx",
     "line": "  const wasAnimatedRef = useRef(wasAnimated);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-20T22:14:52.008Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "ts/windows/loading/start.ts",
+    "path": "ts/windows/loading/start.dom.ts",
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"

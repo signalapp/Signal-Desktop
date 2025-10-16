@@ -14,7 +14,7 @@ import type { ProxyAgent } from '../util/createProxyAgent.node.js';
 import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import { createLogger } from '../logging/log.std.js';
-import * as Timers from '../Timers.dom.js';
+import * as Timers from '../Timers.preload.js';
 import { ConnectTimeoutError } from './Errors.std.js';
 import { handleStatusCode, translateError } from './Utils.dom.js';
 

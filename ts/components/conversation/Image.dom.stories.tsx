@@ -9,7 +9,7 @@ import type { Props } from './Image.dom.js';
 import { CurveType, Image } from './Image.dom.js';
 import { IMAGE_PNG } from '../../types/MIME.std.js';
 import type { ThemeType } from '../../types/Util.std.js';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
 
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
 

@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
 import type { PropsType } from './MessageSearchResult.dom.js';

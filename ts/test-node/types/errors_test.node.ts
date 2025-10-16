@@ -14,7 +14,7 @@ describe('Errors', () => {
       assert.typeOf(error, 'Error');
 
       const formattedError = Errors.toLogFormat(error);
-      assert.include(formattedError, 'errors_test.js');
+      assert.include(formattedError, 'errors_test.node.js');
       assert.include(
         formattedError,
         APP_ROOT_PATH,
