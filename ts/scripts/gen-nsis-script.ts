@@ -11,7 +11,7 @@ import fs from 'node:fs';
 //
 // Make sure to sync up the values in `util/nsis` with upstream
 // `app-builder-lib`.
-import { REQUIRED_LANGUAGES, LCID } from '../util/nsis.js';
+import { REQUIRED_LANGUAGES, LCID } from '../util/nsis.std.js';
 
 const STRING_VARS = new Map([
   [

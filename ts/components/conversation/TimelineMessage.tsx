@@ -15,41 +15,41 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
-import { isDownloaded } from '../../util/Attachment.js';
-import type { LocalizerType } from '../../types/I18N.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.js';
-import { offsetDistanceModifier } from '../../util/popperUtil.js';
-import { StopPropagation } from '../StopPropagation.js';
-import { WidthBreakpoint } from '../_util.js';
-import { Message } from './Message.js';
-import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.js';
+import { isDownloaded } from '../../util/Attachment.std.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
+import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
+import { StopPropagation } from '../StopPropagation.dom.js';
+import { WidthBreakpoint } from '../_util.std.js';
+import { Message } from './Message.dom.js';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
 import type {
   Props as MessageProps,
   PropsActions as MessagePropsActions,
   PropsData as MessagePropsData,
   PropsHousekeeping,
-} from './Message.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
-import { doesMessageBodyOverflow } from './MessageBodyReadMore.js';
+} from './Message.dom.js';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
+import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.js';
 import {
   useKeyboardShortcutsConditionally,
   useOpenContextMenu,
   useToggleReactionPicker,
-} from '../../hooks/useKeyboardShortcuts.js';
-import { PanelType } from '../../types/Panels.js';
+} from '../../hooks/useKeyboardShortcuts.dom.js';
+import { PanelType } from '../../types/Panels.std.js';
 import type {
   DeleteMessagesPropsType,
   ForwardMessagesPayload,
-} from '../../state/ducks/globalModals.js';
-import { useScrollerLock } from '../../hooks/useScrollLock.js';
+} from '../../state/ducks/globalModals.preload.js';
+import { useScrollerLock } from '../../hooks/useScrollLock.dom.js';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,
   useHandleMessageContextMenu,
-} from './MessageContextMenu.js';
-import { ForwardMessagesModalType } from '../ForwardMessagesModal.js';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
-import { isNotNil } from '../../util/isNotNil.js';
+} from './MessageContextMenu.dom.js';
+import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.js';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
+import { isNotNil } from '../../util/isNotNil.std.js';
 
 const { noop } = lodash;
 

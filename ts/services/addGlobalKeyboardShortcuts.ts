@@ -1,15 +1,15 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as KeyboardLayout from './keyboardLayout.js';
-import { createLogger } from '../logging/log.js';
-import { PanelType } from '../types/Panels.js';
-import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments.js';
-import { drop } from '../util/drop.js';
-import { matchOrQueryFocusable } from '../util/focusableSelectors.js';
-import { getQuotedMessageSelector } from '../state/selectors/composer.js';
-import { removeLinkPreview } from './LinkPreview.js';
-import { ForwardMessagesModalType } from '../components/ForwardMessagesModal.js';
+import * as KeyboardLayout from './keyboardLayout.dom.js';
+import { createLogger } from '../logging/log.std.js';
+import { PanelType } from '../types/Panels.std.js';
+import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments.preload.js';
+import { drop } from '../util/drop.std.js';
+import { matchOrQueryFocusable } from '../util/focusableSelectors.std.js';
+import { getQuotedMessageSelector } from '../state/selectors/composer.preload.js';
+import { removeLinkPreview } from './LinkPreview.preload.js';
+import { ForwardMessagesModalType } from '../components/ForwardMessagesModal.dom.js';
 
 const log = createLogger('addGlobalKeyboardShortcuts');
 

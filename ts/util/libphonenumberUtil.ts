@@ -4,7 +4,7 @@
 import {
   instance as libphonenumber,
   PhoneNumberFormat,
-} from './libphonenumberInstance.js';
+} from './libphonenumberInstance.std.js';
 
 const FALLBACK_REGION_CODE = 'ZZ';
 

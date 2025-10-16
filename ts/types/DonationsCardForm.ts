@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import cardValidator from 'card-validator';
 import creditCardType from 'credit-card-type';
-import { strictAssert } from '../util/assert.js';
-import type { CardDetail } from './Donations.js';
+import { strictAssert } from '../util/assert.std.js';
+import type { CardDetail } from './Donations.std.js';
 
 export type CardFormat = Readonly<{
   _debugName: string;

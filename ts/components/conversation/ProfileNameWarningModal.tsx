@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { Modal } from '../Modal.js';
-import type { LocalizerType } from '../../types/Util.js';
+import { Modal } from '../Modal.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 
 export type PropsType = Readonly<{
   conversationType: 'group' | 'direct';

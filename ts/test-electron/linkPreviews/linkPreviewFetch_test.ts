@@ -6,13 +6,17 @@ import { Response } from 'node-fetch';
 import * as sinon from 'sinon';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../../types/MIME.js';
-import type { LoggerType } from '../../types/Logging.js';
+import {
+  IMAGE_JPEG,
+  IMAGE_WEBP,
+  stringToMIMEType,
+} from '../../types/MIME.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
-} from '../../linkPreviews/linkPreviewFetch.js';
+} from '../../linkPreviews/linkPreviewFetch.preload.js';
 
 async function readFixtureImage(filename: string): Promise<Uint8Array> {
   const result = await fs.promises.readFile(

@@ -4,27 +4,27 @@
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper.js';
-import type { Row } from '../ConversationList.js';
-import { RowType } from '../ConversationList.js';
-import type { ContactListItemConversationType } from '../conversationList/ContactListItem.js';
-import { DisappearingTimerSelect } from '../DisappearingTimerSelect.js';
-import type { LocalizerType } from '../../types/Util.js';
-import type { DurationInSeconds } from '../../util/durations/index.js';
-import { Alert } from '../Alert.js';
-import { AvatarEditor } from '../AvatarEditor.js';
-import { AvatarPreview } from '../AvatarPreview.js';
-import { Spinner } from '../Spinner.js';
-import { Button } from '../Button.js';
-import { Modal } from '../Modal.js';
-import { GroupTitleInput } from '../GroupTitleInput.js';
+import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
+import type { Row } from '../ConversationList.dom.js';
+import { RowType } from '../ConversationList.dom.js';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem.dom.js';
+import { DisappearingTimerSelect } from '../DisappearingTimerSelect.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { DurationInSeconds } from '../../util/durations/index.std.js';
+import { Alert } from '../Alert.dom.js';
+import { AvatarEditor } from '../AvatarEditor.dom.js';
+import { AvatarPreview } from '../AvatarPreview.dom.js';
+import { Spinner } from '../Spinner.dom.js';
+import { Button } from '../Button.dom.js';
+import { Modal } from '../Modal.dom.js';
+import { GroupTitleInput } from '../GroupTitleInput.dom.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../types/Avatar.js';
-import { AvatarColors } from '../../types/Colors.js';
+} from '../../types/Avatar.std.js';
+import { AvatarColors } from '../../types/Colors.std.js';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array;

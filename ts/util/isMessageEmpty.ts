@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { messageHasPaymentEvent } from '../messages/payments.js';
-import type { MessageAttributesType } from '../model-types.js';
+import { messageHasPaymentEvent } from '../messages/payments.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 import {
   hasErrors,
   isCallHistory,
@@ -22,7 +22,7 @@ import {
   isUniversalTimerNotification,
   isUnsupportedMessage,
   isVerifiedChange,
-} from '../state/selectors/message.js';
+} from '../state/selectors/message.preload.js';
 
 export function isMessageEmpty(attributes: MessageAttributesType): boolean {
   // Core message types - we check for all four because they can each stand alone

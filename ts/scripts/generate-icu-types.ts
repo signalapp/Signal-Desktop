@@ -7,12 +7,12 @@ import path from 'node:path';
 import ts from 'typescript';
 import prettier from 'prettier';
 
-import { getICUMessageParams } from '../util/getICUMessageParams.js';
-import type { ICUMessageParamType } from '../util/getICUMessageParams.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+import { getICUMessageParams } from '../util/getICUMessageParams.std.js';
+import type { ICUMessageParamType } from '../util/getICUMessageParams.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 import globalMessages from '../../_locales/en/messages.json';
 
-import { DELETED_REGEXP } from './constants.js';
+import { DELETED_REGEXP } from './constants.std.js';
 
 function translateParamType(
   param: ICUMessageParamType,

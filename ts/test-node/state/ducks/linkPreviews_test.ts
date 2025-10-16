@@ -7,8 +7,8 @@ import {
   actions,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/linkPreviews.js';
-import type { LinkPreviewForUIType } from '../../../types/message/LinkPreviews.js';
+} from '../../../state/ducks/linkPreviews.preload.js';
+import type { LinkPreviewForUIType } from '../../../types/message/LinkPreviews.std.js';
 
 describe('both/state/ducks/linkPreviews', () => {
   function getMockLinkPreview(): LinkPreviewForUIType {

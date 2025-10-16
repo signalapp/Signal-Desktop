@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { type ReactNode, useCallback, useEffect, useMemo } from 'react';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { LocalizerType } from '../../types/Util.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.js';
-import { Modal } from '../Modal.js';
-import { UserText } from '../UserText.js';
-import { SharedGroupNames } from '../SharedGroupNames.js';
-import { About } from './About.js';
-import { I18n } from '../I18n.js';
-import { canHaveNicknameAndNote } from '../../util/nicknames.js';
-import { Tooltip, TooltipPlacement } from '../Tooltip.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
+import { Modal } from '../Modal.dom.js';
+import { UserText } from '../UserText.dom.js';
+import { SharedGroupNames } from '../SharedGroupNames.dom.js';
+import { About } from './About.dom.js';
+import { I18n } from '../I18n.dom.js';
+import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
+import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (

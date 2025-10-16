@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { fromAdminKeyBytes } from './callLinks.js';
-import { fromEpochBytes, getRoomIdFromRootKey } from './callLinksRingrtc.js';
-import { strictAssert } from './assert.js';
-import { CallLinkUpdateSyncType } from '../types/CallLink.js';
-import { DataWriter } from '../sql/Client.js';
+import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { fromAdminKeyBytes } from './callLinks.std.js';
+import {
+  fromEpochBytes,
+  getRoomIdFromRootKey,
+} from './callLinksRingrtc.node.js';
+import { strictAssert } from './assert.std.js';
+import { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
 
 const log = createLogger('onCallLinkUpdateSync');
 

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.js';
+import { createLogger } from '../logging/log.std.js';
 // eslint-disable-next-line import/no-restricted-paths
-import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline.js';
+import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline.dom.js';
 // eslint-disable-next-line import/no-restricted-paths
-import type { TimelineItemType } from '../components/conversation/TimelineItem.js';
+import type { TimelineItemType } from '../components/conversation/TimelineItem.dom.js';
 // eslint-disable-next-line import/no-restricted-paths
-import { WidthBreakpoint } from '../components/_util.js';
-import { toLogFormat } from '../types/errors.js';
-import { MINUTE } from './durations/index.js';
-import { missingCaseError } from './missingCaseError.js';
-import { isSameDay } from './timestamp.js';
+import { WidthBreakpoint } from '../components/_util.std.js';
+import { toLogFormat } from '../types/errors.std.js';
+import { MINUTE } from './durations/index.std.js';
+import { missingCaseError } from './missingCaseError.std.js';
+import { isSameDay } from './timestamp.std.js';
 import type { LastMessageStatus } from '../model-types.d.ts';
 
 const { isNumber } = lodash;

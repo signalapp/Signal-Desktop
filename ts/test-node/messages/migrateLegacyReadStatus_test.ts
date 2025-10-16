@@ -5,9 +5,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 
-import { migrateLegacyReadStatus } from '../../messages/migrateLegacyReadStatus.js';
+import { migrateLegacyReadStatus } from '../../messages/migrateLegacyReadStatus.std.js';
 
 describe('migrateLegacyReadStatus', () => {
   it("doesn't migrate messages that already have the modern read state", () => {

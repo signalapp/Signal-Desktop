@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { Emojify } from './Emojify.js';
+import { Emojify } from './Emojify.dom.js';
 
 export type PropsType = {
   className?: string;

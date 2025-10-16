@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isRecord } from '../../util/isRecord.js';
-import { HTTPError } from '../../types/HTTPError.js';
-import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter.js';
+import { isRecord } from '../../util/isRecord.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
+import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter.std.js';
 
 export function findRetryAfterTimeFromError(
   err: unknown,

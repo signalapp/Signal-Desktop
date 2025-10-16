@@ -3,11 +3,11 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../../logging/log.js';
-import * as Bytes from '../../Bytes.js';
-import { isAciString } from '../../util/isAciString.js';
+import { createLogger } from '../../logging/log.std.js';
+import * as Bytes from '../../Bytes.std.js';
+import { isAciString } from '../../util/isAciString.std.js';
 import type { StorageInterface } from '../../types/Storage.d.ts';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
 
 const { without } = lodash;
 

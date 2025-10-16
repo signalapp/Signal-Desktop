@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
-import { sleep } from '../../util/sleep.js';
+import { sleep } from '../../util/sleep.std.js';
 
-import { constantTimeEqual } from '../../Crypto.js';
-import { OurProfileKeyService } from '../../services/ourProfileKey.js';
+import { constantTimeEqual } from '../../Crypto.node.js';
+import { OurProfileKeyService } from '../../services/ourProfileKey.std.js';
 
 const { noop } = lodash;
 

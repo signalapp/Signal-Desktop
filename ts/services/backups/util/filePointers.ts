@@ -6,40 +6,40 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../../../types/MIME.js';
-import { createLogger } from '../../../logging/log.js';
-import type { AttachmentType } from '../../../types/Attachment.js';
-import { getAbsoluteAttachmentPath } from '../../../util/migrations.js';
+} from '../../../types/MIME.std.js';
+import { createLogger } from '../../../logging/log.std.js';
+import type { AttachmentType } from '../../../types/Attachment.std.js';
+import { getAbsoluteAttachmentPath } from '../../../util/migrations.preload.js';
 import {
   hasRequiredInformationForBackup,
   hasRequiredInformationToDownloadFromTransitTier,
-} from '../../../util/Attachment.js';
-import { Backups, SignalService } from '../../../protobuf/index.js';
-import * as Bytes from '../../../Bytes.js';
+} from '../../../util/Attachment.std.js';
+import { Backups, SignalService } from '../../../protobuf/index.std.js';
+import * as Bytes from '../../../Bytes.std.js';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../../../util/timestampLongUtils.js';
-import { strictAssert } from '../../../util/assert.js';
+} from '../../../util/timestampLongUtils.std.js';
+import { strictAssert } from '../../../util/assert.std.js';
 import type {
   CoreAttachmentBackupJobType,
   PartialAttachmentLocalBackupJobType,
-} from '../../../types/AttachmentBackup.js';
+} from '../../../types/AttachmentBackup.std.js';
 import {
   type GetBackupCdnInfoType,
   getMediaIdFromMediaName,
   getMediaName,
-} from './mediaId.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import { bytesToUuid } from '../../../util/uuidToBytes.js';
-import { createName } from '../../../util/attachmentPath.js';
-import { generateAttachmentKeys } from '../../../AttachmentCrypto.js';
-import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup.js';
+} from './mediaId.preload.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { bytesToUuid } from '../../../util/uuidToBytes.std.js';
+import { createName } from '../../../util/attachmentPath.node.js';
+import { generateAttachmentKeys } from '../../../AttachmentCrypto.node.js';
+import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup.node.js';
 import {
   isValidAttachmentKey,
   isValidPlaintextHash,
-} from '../../../types/Crypto.js';
-import { isTestOrMockEnvironment } from '../../../environment.js';
+} from '../../../types/Crypto.std.js';
+import { isTestOrMockEnvironment } from '../../../environment.std.js';
 
 const log = createLogger('filePointers');
 

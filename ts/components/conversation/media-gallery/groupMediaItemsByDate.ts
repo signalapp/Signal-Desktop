@@ -3,8 +3,8 @@
 
 import moment from 'moment';
 import lodash from 'lodash';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
 
 const { compact, groupBy, sortBy } = lodash;
 

@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import type { NativeThemeState } from '../types/NativeThemeNotifier.d.ts';
-import { SystemThemeType } from '../types/Util.js';
+import { SystemThemeType } from '../types/Util.std.js';
 
 export type Callback = (change: NativeThemeState) => void;
 

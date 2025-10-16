@@ -4,30 +4,30 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
 import {
   GroupCallOverflowArea,
   OVERFLOW_PARTICIPANT_WIDTH,
-} from './GroupCallOverflowArea.js';
+} from './GroupCallOverflowArea.dom.js';
 import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
-} from '../types/Calling.js';
-import { CallViewMode } from '../types/Calling.js';
-import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.js';
-import type { LocalizerType } from '../types/Util.js';
-import { usePageVisibility } from '../hooks/usePageVisibility.js';
-import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio.js';
-import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { SECOND } from '../util/durations/index.js';
-import { filter, join } from '../util/iterables.js';
-import * as setUtil from '../util/setUtil.js';
-import { createLogger } from '../logging/log.js';
-import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.js';
-import { SizeObserver } from '../hooks/useSizeObserver.js';
-import { strictAssert } from '../util/assert.js';
-import type { CallingImageDataCache } from './CallManager.js';
+} from '../types/Calling.std.js';
+import { CallViewMode } from '../types/Calling.std.js';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { usePageVisibility } from '../hooks/usePageVisibility.dom.js';
+import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio.dom.js';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { SECOND } from '../util/durations/index.std.js';
+import { filter, join } from '../util/iterables.std.js';
+import * as setUtil from '../util/setUtil.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.js';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+import { strictAssert } from '../util/assert.std.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
 
 const { clamp, chunk, maxBy, flatten, noop } = lodash;
 

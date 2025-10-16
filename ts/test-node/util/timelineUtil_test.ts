@@ -5,15 +5,15 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import type { LastMessageStatus } from '../../model-types.d.ts';
-import { MINUTE, SECOND } from '../../util/durations/index.js';
-import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.js';
+import { MINUTE, SECOND } from '../../util/durations/index.std.js';
+import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.std.js';
 import {
   ScrollAnchor,
   areMessagesInSameGroup,
   getScrollAnchorBeforeUpdate,
   shouldCurrentMessageHideMetadata,
   TimelineMessageLoadingState,
-} from '../../util/timelineUtil.js';
+} from '../../util/timelineUtil.std.js';
 
 const { times } = lodash;
 

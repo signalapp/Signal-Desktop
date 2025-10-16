@@ -8,20 +8,20 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
 
-import { getClientZkAuthOperations } from '../util/zkgroup.js';
+import { getClientZkAuthOperations } from '../util/zkgroup.node.js';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI.js';
-import { getGroupCredentials } from '../textsecure/WebAPI.js';
-import { strictAssert } from '../util/assert.js';
-import * as durations from '../util/durations/index.js';
-import { BackOff } from '../util/BackOff.js';
-import { sleep } from '../util/sleep.js';
-import { toDayMillis } from '../util/timestamp.js';
-import { toTaggedPni } from '../types/ServiceId.js';
-import { toPniObject, toAciObject } from '../util/ServiceId.js';
-import { createLogger } from '../logging/log.js';
-import * as Bytes from '../Bytes.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { GroupCredentialType } from '../textsecure/WebAPI.preload.js';
+import { getGroupCredentials } from '../textsecure/WebAPI.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import * as durations from '../util/durations/index.std.js';
+import { BackOff } from '../util/BackOff.std.js';
+import { sleep } from '../util/sleep.std.js';
+import { toDayMillis } from '../util/timestamp.std.js';
+import { toTaggedPni } from '../types/ServiceId.std.js';
+import { toPniObject, toAciObject } from '../util/ServiceId.node.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { first, last, sortBy } = lodash;
 

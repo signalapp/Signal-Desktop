@@ -3,18 +3,18 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.js';
-import * as SingleServePromise from '../../services/singleServePromise.js';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.js';
-import { SafetyNumberChangeDialog } from '../../components/SafetyNumberChangeDialog.js';
-import { SmartSafetyNumberViewer } from './SafetyNumberViewer.js';
-import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.js';
-import { getSafetyNumberChangedBlockingData } from '../selectors/globalModals.js';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
+import * as SingleServePromise from '../../services/singleServePromise.std.js';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
+import { SafetyNumberChangeDialog } from '../../components/SafetyNumberChangeDialog.dom.js';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer.preload.js';
+import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra.preload.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.js';
+import { getSafetyNumberChangedBlockingData } from '../selectors/globalModals.std.js';
 
 function renderSafetyNumber({ contactID, onClose }: SafetyNumberProps) {
   return <SmartSafetyNumberViewer contactID={contactID} onClose={onClose} />;

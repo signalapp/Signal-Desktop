@@ -3,39 +3,40 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.js';
-import { DialogExpiredBuild } from '../../components/DialogExpiredBuild.js';
-import type { PropsType as LeftPanePropsType } from '../../components/LeftPane.js';
-import { LeftPane } from '../../components/LeftPane.js';
-import type { NavTabPanelProps } from '../../components/NavTabs.js';
-import type { WidthBreakpoint } from '../../components/_util.js';
+import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.dom.js';
+import { DialogExpiredBuild } from '../../components/DialogExpiredBuild.dom.js';
+import type { PropsType as LeftPanePropsType } from '../../components/LeftPane.dom.js';
+import { LeftPane } from '../../components/LeftPane.dom.js';
+import type { NavTabPanelProps } from '../../components/NavTabs.dom.js';
+import type { WidthBreakpoint } from '../../components/_util.std.js';
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits.js';
-import { LeftPaneMode } from '../../types/leftPane.js';
-import { getUsernameFromSearch } from '../../util/Username.js';
-import { getCountryDataForLocale } from '../../util/getCountryData.js';
-import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { isDone as isRegistrationDone } from '../../util/registration.js';
-import { drop } from '../../util/drop.js';
-import type { ServerAlertsType } from '../../types/ServerAlert.js';
-import { getServerAlertToShow } from '../../util/handleServerAlerts.js';
-import { itemStorage } from '../../textsecure/Storage.js';
-import { useCallingActions } from '../ducks/calling.js';
-import { useConversationsActions } from '../ducks/conversations.js';
+} from '../../groups/limits.dom.js';
+import { LeftPaneMode } from '../../types/leftPane.std.js';
+import { getUsernameFromSearch } from '../../util/Username.dom.js';
+import { getCountryDataForLocale } from '../../util/getCountryData.dom.js';
+import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { isDone as isRegistrationDone } from '../../util/registration.preload.js';
+import { drop } from '../../util/drop.std.js';
+import type { ServerAlertsType } from '../../types/ServerAlert.std.js';
+import { getServerAlertToShow } from '../../util/handleServerAlerts.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 import {
   ComposerStep,
   OneTimeModalState,
-} from '../ducks/conversationsEnums.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useItemsActions } from '../ducks/items.js';
-import { useNetworkActions } from '../ducks/network.js';
-import { useSearchActions } from '../ducks/search.js';
-import { useUsernameActions } from '../ducks/username.js';
-import type { StateType } from '../reducer.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
+} from '../ducks/conversationsEnums.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useItemsActions } from '../ducks/items.preload.js';
+import { useNetworkActions } from '../ducks/network.dom.js';
+import { useSearchActions } from '../ducks/search.preload.js';
+import { useUsernameActions } from '../ducks/username.preload.js';
+import type { StateType } from '../reducer.preload.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getComposeAvatarData,
   getComposeGroupAvatar,
@@ -59,9 +60,9 @@ import {
   hasGroupCreationError,
   isCreatingGroup,
   isEditingAvatar,
-} from '../selectors/conversations.js';
-import { getCrashReportCount } from '../selectors/crashReports.js';
-import { hasExpired } from '../selectors/expiration.js';
+} from '../selectors/conversations.dom.js';
+import { getCrashReportCount } from '../selectors/crashReports.std.js';
+import { hasExpired } from '../selectors/expiration.dom.js';
 import {
   getBackupMediaDownloadProgress,
   getNavTabsCollapsed,
@@ -69,12 +70,12 @@ import {
   getServerAlerts,
   getUsernameCorrupted,
   getUsernameLinkCorrupted,
-} from '../selectors/items.js';
+} from '../selectors/items.dom.js';
 import {
   getChallengeStatus,
   hasNetworkDialog as getHasNetworkDialog,
   getNetworkIsOnline,
-} from '../selectors/network.js';
+} from '../selectors/network.preload.js';
 import {
   getFilterByUnread,
   getHasSearchQuery,
@@ -85,44 +86,44 @@ import {
   getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
-} from '../selectors/search.js';
+} from '../selectors/search.dom.js';
 import {
   isUpdateDownloaded as getIsUpdateDownloaded,
   isOSUnsupported,
   isUpdateDialogVisible,
-} from '../selectors/updates.js';
+} from '../selectors/updates.std.js';
 import {
   getIntl,
   getIsMacOS,
   getRegionCode,
   getTheme,
-} from '../selectors/user.js';
-import { SmartCaptchaDialog } from './CaptchaDialog.js';
-import { SmartCrashReportDialog } from './CrashReportDialog.js';
-import { SmartMessageSearchResult } from './MessageSearchResult.js';
-import { SmartNetworkStatus } from './NetworkStatus.js';
-import { SmartRelinkDialog } from './RelinkDialog.js';
-import { SmartToastManager } from './ToastManager.js';
-import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.js';
-import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.js';
-import { SmartUpdateDialog } from './UpdateDialog.js';
+} from '../selectors/user.std.js';
+import { SmartCaptchaDialog } from './CaptchaDialog.preload.js';
+import { SmartCrashReportDialog } from './CrashReportDialog.preload.js';
+import { SmartMessageSearchResult } from './MessageSearchResult.preload.js';
+import { SmartNetworkStatus } from './NetworkStatus.preload.js';
+import { SmartRelinkDialog } from './RelinkDialog.dom.js';
+import { SmartToastManager } from './ToastManager.preload.js';
+import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.preload.js';
+import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.preload.js';
+import { SmartUpdateDialog } from './UpdateDialog.preload.js';
 import {
   cancelBackupMediaDownload,
   dismissBackupMediaDownloadBanner,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
-} from '../../util/backupMediaDownload.js';
-import { useNavActions } from '../ducks/nav.js';
-import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.js';
-import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.js';
-import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.js';
+} from '../../util/backupMediaDownload.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.preload.js';
+import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.preload.js';
+import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.dom.js';
 import {
   getHasAnyCurrentCustomChatFolders,
   getSelectedChatFolder,
-} from '../selectors/chatFolders.js';
-import { NavTab, SettingsPage } from '../../types/Nav.js';
-import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.js';
-import { getActiveProfile } from '../selectors/notificationProfiles.js';
+} from '../selectors/chatFolders.std.js';
+import { NavTab, SettingsPage } from '../../types/Nav.std.js';
+import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preload.js';
+import { getActiveProfile } from '../selectors/notificationProfiles.dom.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -308,6 +309,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   hasPendingUpdate,
   otherTabsUnreadStats,
 }: NavTabPanelProps) {
+  const version = window.SignalContext.getVersion();
   const challengeStatus = useSelector(getChallengeStatus);
   const composerStep = useSelector(getComposerStep);
   const crashReportCount = useSelector(getCrashReportCount);
@@ -455,6 +457,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       isMacOS={isMacOS}
       isOnline={isOnline}
       isNotificationProfileActive={isNotificationProfileActive}
+      isChatFoldersEnabled={isChatFoldersEnabled(version)}
       isUpdateDownloaded={isUpdateDownloaded}
       lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
       modeSpecificProps={modeSpecificProps}

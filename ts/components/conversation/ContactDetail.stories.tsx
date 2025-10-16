@@ -4,11 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ContactDetail.js';
-import { ContactDetail } from './ContactDetail.js';
-import { AddressType, ContactFormType } from '../../types/EmbeddedContact.js';
-import { IMAGE_GIF } from '../../types/MIME.js';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
+import type { Props } from './ContactDetail.dom.js';
+import { ContactDetail } from './ContactDetail.dom.js';
+import {
+  AddressType,
+  ContactFormType,
+} from '../../types/EmbeddedContact.std.js';
+import { IMAGE_GIF } from '../../types/MIME.std.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
 
 const { i18n } = window.SignalContext;
 

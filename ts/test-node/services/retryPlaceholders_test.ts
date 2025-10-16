@@ -4,13 +4,13 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { generateAci } from '../../types/ServiceId.js';
-import type { RetryItemType } from '../../services/retryPlaceholders.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import type { RetryItemType } from '../../services/retryPlaceholders.std.js';
 import {
   getDeltaIntoPast,
   RetryPlaceholders,
   STORAGE_KEY,
-} from '../../services/retryPlaceholders.js';
+} from '../../services/retryPlaceholders.std.js';
 
 describe('RetryPlaceholders', () => {
   const NOW = 1_000_000;

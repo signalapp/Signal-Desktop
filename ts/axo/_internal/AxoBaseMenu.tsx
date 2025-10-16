@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw.js';
-import { AxoSymbol } from '../AxoSymbol.js';
+import { tw } from '../tw.dom.js';
+import { AxoSymbol } from '../AxoSymbol.dom.js';
 
 export namespace AxoBaseMenu {
   // <Content/SubContent>

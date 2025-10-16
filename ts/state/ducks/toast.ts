@@ -4,10 +4,10 @@
 import { ipcRenderer } from 'electron';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
-import type { NoopActionType } from './noop.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
-import type { AnyToast } from '../../types/Toast.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import type { NoopActionType } from './noop.std.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import type { AnyToast } from '../../types/Toast.dom.js';
 
 // State
 

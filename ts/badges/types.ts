@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BadgeCategory } from './BadgeCategory.js';
-import type { BadgeImageTheme } from './BadgeImageTheme.js';
+import type { BadgeCategory } from './BadgeCategory.std.js';
+import type { BadgeImageTheme } from './BadgeImageTheme.std.js';
 
 type SomeoneElsesBadgeType = Readonly<{
   category: BadgeCategory;

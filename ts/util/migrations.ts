@@ -12,15 +12,15 @@ import {
   writeNewAttachmentData as doWriteNewAttachmentData,
   createDeleter,
   copyIntoAttachmentsDirectory,
-} from '../windows/main/attachments.js';
+} from '../windows/main/attachments.preload.js';
 import {
   getImageDimensions,
   makeImageThumbnail,
   makeObjectUrl,
   makeVideoScreenshot,
   revokeObjectUrl,
-} from '../types/VisualAttachment.js';
-import { loadData } from './Attachment.js';
+} from '../types/VisualAttachment.dom.js';
+import { loadData } from './Attachment.std.js';
 import {
   loadContactData as doLoadContactData,
   loadPreviewData as doLoadPreviewData,
@@ -31,16 +31,16 @@ import {
   deleteAllExternalFiles,
   createAttachmentLoader,
   upgradeSchema,
-} from '../types/Message2.js';
+} from '../types/Message2.preload.js';
 import type {
   AttachmentType,
   AddressableAttachmentType,
   LocalAttachmentV2Type,
-} from '../types/Attachment.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.js';
+} from '../types/Attachment.std.js';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { createLogger } from '../logging/log.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
@@ -49,7 +49,7 @@ import {
   TEMP_PATH,
   AVATARS_PATH,
   DOWNLOADS_PATH,
-} from './basePaths.js';
+} from './basePaths.preload.js';
 
 const logger = createLogger('migrations');
 

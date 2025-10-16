@@ -6,13 +6,13 @@ import { LRUCache } from 'lru-cache';
 import type {
   AddressableAttachmentType,
   LocalAttachmentV2Type,
-} from '../types/Attachment.js';
-import { createLogger } from '../logging/log.js';
-import { DataWriter } from '../sql/Client.js';
-import { AttachmentDisposition } from './getLocalAttachmentUrl.js';
-import { drop } from './drop.js';
-import { MINUTE } from './durations/index.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../types/Attachment.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { AttachmentDisposition } from './getLocalAttachmentUrl.std.js';
+import { drop } from './drop.std.js';
+import { MINUTE } from './durations/index.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('encryptLegacyAttachment');
 

@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import { strictAssert } from '../util/assert.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { times } = lodash;
 

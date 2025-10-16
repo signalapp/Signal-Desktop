@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { diffArraysAsSets } from '../../util/diffArraysAsSets.js';
+import { diffArraysAsSets } from '../../util/diffArraysAsSets.std.js';
 
 function assertMatch<T>({
   added,

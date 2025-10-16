@@ -3,10 +3,10 @@
 
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
-import { DNSFallbackSchema } from '../ts/types/DNSFallback.js';
-import type { DNSFallbackType } from '../ts/types/DNSFallback.js';
-import { parseUnknown } from '../ts/util/schemas.js';
-import { createLogger } from '../ts/logging/log.js';
+import { DNSFallbackSchema } from '../ts/types/DNSFallback.std.js';
+import type { DNSFallbackType } from '../ts/types/DNSFallback.std.js';
+import { parseUnknown } from '../ts/util/schemas.std.js';
+import { createLogger } from '../ts/logging/log.std.js';
 
 const log = createLogger('dns-fallback');
 

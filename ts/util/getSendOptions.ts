@@ -6,17 +6,17 @@ import type {
   SendIdentifierData,
   SendMetadataType,
   SendOptionsType,
-} from '../textsecure/SendMessage.js';
-import { getConversationMembers } from './getConversationMembers.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
-import { senderCertificateService } from '../services/senderCertificate.js';
-import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode.js';
-import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.js';
-import { SenderCertificateMode } from '../textsecure/OutgoingMessage.js';
-import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender.js';
-import { isNotNil } from './isNotNil.js';
-import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.js';
-import { missingCaseError } from './missingCaseError.js';
+} from '../textsecure/SendMessage.preload.js';
+import { getConversationMembers } from './getConversationMembers.dom.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
+import { senderCertificateService } from '../services/senderCertificate.preload.js';
+import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode.preload.js';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.preload.js';
+import { SenderCertificateMode } from '../textsecure/OutgoingMessage.preload.js';
+import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender.std.js';
+import { isNotNil } from './isNotNil.std.js';
+import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.preload.js';
+import { missingCaseError } from './missingCaseError.std.js';
 
 export async function getSendOptionsForRecipients(
   recipients: ReadonlyArray<string>,

@@ -1,19 +1,19 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageModel } from '../models/messages.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { AttachmentType } from '../types/Attachment.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { AttachmentType } from '../types/Attachment.std.js';
 
-import { createLogger } from '../logging/log.js';
-import * as MIME from '../types/MIME.js';
+import { createLogger } from '../logging/log.std.js';
+import * as MIME from '../types/MIME.std.js';
 
-import { DataWriter } from '../sql/Client.js';
-import { isMoreRecentThan } from './timestamp.js';
-import { isNotNil } from './isNotNil.js';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
-import { postSaveUpdates } from './cleanup.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { isMoreRecentThan } from './timestamp.std.js';
+import { isNotNil } from './isNotNil.std.js';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.js';
+import { postSaveUpdates } from './cleanup.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('attachmentDownloadQueue');
 

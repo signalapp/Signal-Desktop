@@ -5,16 +5,16 @@ import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../../../types/Util.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.js';
-import { Tooltip, TooltipPlacement } from '../../Tooltip.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
+import { Tooltip, TooltipPlacement } from '../../Tooltip.dom.js';
 
-import { PanelRow } from './PanelRow.js';
-import { PanelSection } from './PanelSection.js';
+import { PanelRow } from './PanelRow.dom.js';
+import { PanelSection } from './PanelSection.dom.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.js';
+} from './ConversationDetailsIcon.dom.js';
 
 export type Props = {
   acceptConversation: (id: string) => void;

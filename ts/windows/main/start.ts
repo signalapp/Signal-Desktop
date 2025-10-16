@@ -4,33 +4,33 @@
 import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
-import { createLogger } from '../../logging/log.js';
+import { createLogger } from '../../logging/log.std.js';
 
-import '../context.js';
+import '../context.preload.js';
 
 // Connect websocket early
-import '../../textsecure/preconnect.js';
+import '../../textsecure/preconnect.preload.js';
 
-import './phase0-devtools.js';
-import './phase1-ipc.js';
-import '../preload.js';
-import './phase2-dependencies.js';
-import './phase3-post-signal.js';
-import './phase4-test.js';
+import './phase0-devtools.node.js';
+import './phase1-ipc.preload.js';
+import '../preload.preload.js';
+import './phase2-dependencies.preload.js';
+import './phase3-post-signal.std.js';
+import './phase4-test.preload.js';
 
 import type {
   CdsLookupOptionsType,
   GetIceServersResultType,
-} from '../../textsecure/WebAPI.js';
-import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.js';
+} from '../../textsecure/WebAPI.preload.js';
+import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.js';
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import { initMessageCleanup } from '../../services/messageStateCleanup.js';
-import { calling } from '../../services/calling.js';
-import { Environment, getEnvironment } from '../../environment.js';
-import { isProduction } from '../../util/version.js';
-import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { initMessageCleanup } from '../../services/messageStateCleanup.preload.js';
+import { calling } from '../../services/calling.preload.js';
+import { Environment, getEnvironment } from '../../environment.std.js';
+import { isProduction } from '../../util/version.std.js';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { has } = lodash;
 

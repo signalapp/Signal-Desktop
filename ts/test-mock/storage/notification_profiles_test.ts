@@ -6,16 +6,16 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
 import Long from 'long';
 
-import * as Bytes from '../../Bytes.js';
-import * as durations from '../../util/durations/index.js';
-import { dropNull } from '../../util/dropNull.js';
-import { constantTimeEqual } from '../../Crypto.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.js';
-import { Bootstrap, debug } from './fixtures.js';
-import { typeIntoInput } from '../helpers.js';
+import * as Bytes from '../../Bytes.std.js';
+import * as durations from '../../util/durations/index.std.js';
+import { dropNull } from '../../util/dropNull.std.js';
+import { constantTimeEqual } from '../../Crypto.node.js';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
+import { Bootstrap, debug } from './fixtures.node.js';
+import { typeIntoInput } from '../helpers.node.js';
 
-import type { App } from './fixtures.js';
-import { DayOfWeek } from '../../types/NotificationProfile.js';
+import type { App } from './fixtures.node.js';
+import { DayOfWeek } from '../../types/NotificationProfile.std.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

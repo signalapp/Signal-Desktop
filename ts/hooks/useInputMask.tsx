@@ -9,7 +9,7 @@ import type { FormatterToken, Formatter } from '@signalapp/minimask';
 import type { RefObject } from 'react';
 import { useEffect } from 'react';
 import creditCardType from 'credit-card-type';
-import { strictAssert } from '../util/assert.js';
+import { strictAssert } from '../util/assert.std.js';
 
 export function useInputMask(
   inputRef: RefObject<HTMLInputElement>,

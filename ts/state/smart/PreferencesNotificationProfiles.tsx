@@ -5,25 +5,25 @@ import React, { memo } from 'react';
 import type { MutableRefObject } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl, getTheme } from '../selectors/user.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
 import {
   NotificationProfilesCreateFlow,
   NotificationProfilesHome,
-} from '../../components/PreferencesNotificationProfiles.js';
+} from '../../components/PreferencesNotificationProfiles.dom.js';
 import {
   getAllComposableConversations,
   getConversationSelector,
-} from '../selectors/conversations.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { useNotificationProfilesActions } from '../ducks/notificationProfiles.js';
+} from '../selectors/conversations.dom.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { useNotificationProfilesActions } from '../ducks/notificationProfiles.preload.js';
 import {
   getActiveProfile,
   getLoading,
   getProfiles,
-} from '../selectors/notificationProfiles.js';
-import type { SettingsLocation } from '../../types/Nav.js';
-import { getItems } from '../selectors/items.js';
-import { useItemsActions } from '../ducks/items.js';
+} from '../selectors/notificationProfiles.dom.js';
+import type { SettingsLocation } from '../../types/Nav.std.js';
+import { getItems } from '../selectors/items.dom.js';
+import { useItemsActions } from '../ducks/items.preload.js';
 
 export type ExternalProps = {
   contentsRef: MutableRefObject<HTMLDivElement | null>;

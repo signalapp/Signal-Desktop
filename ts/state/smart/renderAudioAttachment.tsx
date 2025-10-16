@@ -3,9 +3,9 @@
 
 import type { ReactElement } from 'react';
 import React from 'react';
-import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext.js';
-import type { Props as MessageAudioProps } from './MessageAudio.js';
-import { SmartMessageAudio } from './MessageAudio.js';
+import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext.dom.js';
+import type { Props as MessageAudioProps } from './MessageAudio.preload.js';
+import { SmartMessageAudio } from './MessageAudio.preload.js';
 
 type AudioAttachmentProps = Omit<MessageAudioProps, 'computePeaks'>;
 

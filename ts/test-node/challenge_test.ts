@@ -7,9 +7,9 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import * as sinon from 'sinon';
 
-import { STORAGE_KEY, ChallengeHandler } from '../challenge.js';
-import type { RegisteredChallengeType } from '../challenge.js';
-import { DAY, SECOND } from '../util/durations/index.js';
+import { STORAGE_KEY, ChallengeHandler } from '../challenge.dom.js';
+import type { RegisteredChallengeType } from '../challenge.dom.js';
+import { DAY, SECOND } from '../util/durations/index.std.js';
 
 const { noop } = lodash;
 

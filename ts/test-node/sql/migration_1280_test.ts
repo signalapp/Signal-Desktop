@@ -3,15 +3,15 @@
 
 import { assert } from 'chai';
 
-import { type WritableDB } from '../../sql/Interface.js';
-import { Migrations as Proto } from '../../protobuf/index.js';
-import { generateAci } from '../../types/ServiceId.js';
+import { type WritableDB } from '../../sql/Interface.std.js';
+import { Migrations as Proto } from '../../protobuf/index.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 import {
   createDB,
   updateToVersion,
   insertData,
   getTableData,
-} from './helpers.js';
+} from './helpers.node.js';
 
 describe('SQL/updateToSchemaVersion1280', () => {
   let db: WritableDB;

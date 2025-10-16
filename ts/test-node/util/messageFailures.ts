@@ -3,27 +3,25 @@
 
 import lodash from 'lodash';
 
-import type { CustomError } from '../../textsecure/Types.js';
+import type { CustomError } from '../../textsecure/Types.d.ts';
 
-import type { MessageAttributesType } from '../../model-types.js';
-import { createLogger } from '../../logging/log.js';
-import * as Errors from '../../types/errors.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { NotificationType } from '../../types/notifications.std.js';
 import {
   getChangesForPropAtTimestamp,
   getPropForTimestamp,
-} from '../../util/editHelpers.js';
+} from '../../util/editHelpers.std.js';
 import {
   isSent,
   SendActionType,
   sendStateReducer,
   someRecipientSendStatus,
-} from '../../messages/MessageSendState.js';
-import { isStory } from '../../messages/helpers.js';
-import {
-  notificationService,
-  NotificationType,
-} from '../../services/notifications.js';
-import type { MessageModel } from '../../models/messages.js';
+} from '../../messages/MessageSendState.std.js';
+import { isStory } from '../../messages/helpers.std.js';
+import { notificationService } from '../../services/notifications.preload.js';
+import type { MessageModel } from '../../models/messages.preload.js';
 
 const { mapValues, pick } = lodash;
 

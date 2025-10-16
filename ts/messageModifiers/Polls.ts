@@ -1,25 +1,25 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId.js';
+import type { AciString } from '../types/ServiceId.std.js';
 import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { MessagePollVoteType } from '../types/Polls.js';
-import { MessageModel } from '../models/messages.js';
-import { DataReader } from '../sql/Client.js';
-import * as Errors from '../types/errors.js';
-import { createLogger } from '../logging/log.js';
-import { isIncoming, isOutgoing } from '../messages/helpers.js';
-import { getAuthor } from '../messages/sources.js';
+import type { MessagePollVoteType } from '../types/Polls.dom.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { DataReader } from '../sql/Client.preload.js';
+import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
+import { getAuthor } from '../messages/sources.preload.js';
 
-import { isSent } from '../messages/MessageSendState.js';
-import { getPropForTimestamp } from '../util/editHelpers.js';
-import { isMe } from '../util/whatTypeOfConversation.js';
+import { isSent } from '../messages/MessageSendState.std.js';
+import { getPropForTimestamp } from '../util/editHelpers.std.js';
+import { isMe } from '../util/whatTypeOfConversation.dom.js';
 
-import { strictAssert } from '../util/assert.js';
-import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { strictAssert } from '../util/assert.std.js';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 
 const log = createLogger('Polls');
 

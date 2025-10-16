@@ -5,17 +5,17 @@ import lodash from 'lodash';
 import pMap from 'p-map';
 import PQueue from 'p-queue';
 
-import { CURRENT_SCHEMA_VERSION } from '../types/Message2.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { MINUTE } from '../util/durations/index.js';
+import { CURRENT_SCHEMA_VERSION } from '../types/Message2.preload.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { MINUTE } from '../util/durations/index.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { AciString } from '../types/ServiceId.js';
-import * as Errors from '../types/errors.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { postSaveUpdates } from '../util/cleanup.js';
-import { upgradeMessageSchema as doUpgradeMessageSchema } from '../util/migrations.js';
-import { createLogger } from '../logging/log.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import * as Errors from '../types/errors.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { postSaveUpdates } from '../util/cleanup.preload.js';
+import { upgradeMessageSchema as doUpgradeMessageSchema } from '../util/migrations.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { isFunction, isNumber } = lodash;
 

@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.js';
-import { DataReader } from '../sql/Client.js';
-import { MessageModel } from '../models/messages.js';
+import { createLogger } from '../logging/log.std.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { MessageModel } from '../models/messages.preload.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import * as Errors from '../types/errors.js';
+import * as Errors from '../types/errors.std.js';
 
 const log = createLogger('getMessagesById');
 

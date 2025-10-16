@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getInitials } from '../../util/getInitials.js';
+import { getInitials } from '../../util/getInitials.std.js';
 
 describe('getInitials', () => {
   it('returns undefined when passed undefined', () => {

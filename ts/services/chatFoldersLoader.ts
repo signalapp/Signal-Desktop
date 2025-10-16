@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client.js';
-import type { CurrentChatFolder } from '../types/CurrentChatFolders.js';
-import { strictAssert } from '../util/assert.js';
+import { DataReader } from '../sql/Client.preload.js';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 let chatFolders: ReadonlyArray<CurrentChatFolder>;
 

@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MessageTimestamp.js';
-import { MessageTimestamp } from './MessageTimestamp.js';
+import type { Props } from './MessageTimestamp.dom.js';
+import { MessageTimestamp } from './MessageTimestamp.dom.js';
 
 const { i18n } = window.SignalContext;
 

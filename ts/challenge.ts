@@ -12,18 +12,18 @@
 // are not immediately retried, however, until `.onOnline()` is called from
 // when we are actually online.
 
-import { assertDev } from './util/assert.js';
-import { isOlderThan } from './util/timestamp.js';
-import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.js';
-import { missingCaseError } from './util/missingCaseError.js';
+import { assertDev } from './util/assert.std.js';
+import { isOlderThan } from './util/timestamp.std.js';
+import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.std.js';
+import { missingCaseError } from './util/missingCaseError.std.js';
 import type { StorageInterface } from './types/Storage.d.ts';
-import * as Errors from './types/errors.js';
-import { HTTPError } from './types/HTTPError.js';
-import type { SendMessageChallengeData } from './textsecure/Errors.js';
-import { createLogger } from './logging/log.js';
-import { drop } from './util/drop.js';
-import { findRetryAfterTimeFromError } from './jobs/helpers/findRetryAfterTimeFromError.js';
-import { MINUTE } from './util/durations/index.js';
+import * as Errors from './types/errors.std.js';
+import { HTTPError } from './types/HTTPError.std.js';
+import type { SendMessageChallengeData } from './textsecure/Errors.std.js';
+import { createLogger } from './logging/log.std.js';
+import { drop } from './util/drop.std.js';
+import { findRetryAfterTimeFromError } from './jobs/helpers/findRetryAfterTimeFromError.std.js';
+import { MINUTE } from './util/durations/index.std.js';
 
 const log = createLogger('challenge');
 

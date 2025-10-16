@@ -3,22 +3,22 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { StoriesSettingsModal } from '../../components/StoriesSettingsModal.js';
+import { StoriesSettingsModal } from '../../components/StoriesSettingsModal.dom.js';
 import {
   getCandidateContactsForNewGroup,
   getConversationByServiceIdSelector,
   getGroupStories,
   getMe,
-} from '../selectors/conversations.js';
-import { getAllSignalConnections } from '../selectors/conversations-extra.js';
-import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { getHasStoryViewReceiptSetting } from '../selectors/items.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.js';
-import { useStoriesActions } from '../ducks/stories.js';
-import { useConversationsActions } from '../ducks/conversations.js';
+} from '../selectors/conversations.dom.js';
+import { getAllSignalConnections } from '../selectors/conversations-extra.preload.js';
+import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.dom.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { getHasStoryViewReceiptSetting } from '../selectors/items.dom.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.js';
+import { useStoriesActions } from '../ducks/stories.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export const SmartStoriesSettingsModal = memo(
   function SmartStoriesSettingsModal() {

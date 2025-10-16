@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
-import type { LocalizerType } from '../types/I18N.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { LocalDeleteWarningModal } from './LocalDeleteWarningModal.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { LocalDeleteWarningModal } from './LocalDeleteWarningModal.dom.js';
 
 export function DeleteMessagesConfirmationDialog({
   i18n,

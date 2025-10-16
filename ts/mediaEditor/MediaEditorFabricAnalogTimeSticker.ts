@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls.js';
-import { getAnalogTime } from '../util/getAnalogTime.js';
-import { strictAssert } from '../util/assert.js';
-import { moreStyles } from './util/moreStyles.js';
+import { customFabricObjectControls } from './util/customFabricObjectControls.dom.js';
+import { getAnalogTime } from '../util/getAnalogTime.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { moreStyles } from './util/moreStyles.dom.js';
 
 const { get } = lodash;
 

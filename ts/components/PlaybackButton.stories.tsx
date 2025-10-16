@@ -5,11 +5,11 @@ import React, { useContext } from 'react';
 import type { CSSProperties } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { ButtonProps } from './PlaybackButton.js';
-import { PlaybackButton } from './PlaybackButton.js';
+import type { ButtonProps } from './PlaybackButton.dom.js';
+import { PlaybackButton } from './PlaybackButton.dom.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
-import { ThemeType } from '../types/Util.js';
-import { AUDIO_MP3 } from '../types/MIME.js';
+import { ThemeType } from '../types/Util.std.js';
+import { AUDIO_MP3 } from '../types/MIME.std.js';
 
 export default {
   title: 'components/PlaybackButton',

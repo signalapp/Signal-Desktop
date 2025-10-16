@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 
-import { startTimeTravelDetector } from '../../util/startTimeTravelDetector.js';
+import { startTimeTravelDetector } from '../../util/startTimeTravelDetector.std.js';
 
 describe('startTimeTravelDetector', () => {
   let sandbox: sinon.SinonSandbox;

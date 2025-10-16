@@ -5,18 +5,18 @@ import type { Meta } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './SendStoryModal.js';
-import { SendStoryModal } from './SendStoryModal.js';
+import type { PropsType } from './SendStoryModal.dom.js';
+import { SendStoryModal } from './SendStoryModal.dom.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.js';
+} from '../test-helpers/getDefaultConversation.std.js';
 import {
   getMyStories,
   getFakeDistributionListsWithMembers,
-} from '../test-helpers/getFakeDistributionLists.js';
-import { VIDEO_MP4 } from '../types/MIME.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+} from '../test-helpers/getFakeDistributionLists.std.js';
+import { VIDEO_MP4 } from '../types/MIME.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
 
 const { i18n } = window.SignalContext;
 

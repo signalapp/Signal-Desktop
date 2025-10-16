@@ -6,30 +6,30 @@ import React, { useState } from 'react';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { createLogger } from '../../logging/log.js';
-import { I18n } from '../I18n.js';
+import { createLogger } from '../../logging/log.std.js';
+import { I18n } from '../I18n.dom.js';
 import type {
   LocalizerType,
   ICUJSXMessageParamsByKeyType,
-} from '../../types/Util.js';
+} from '../../types/Util.std.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../../types/ServiceId.js';
-import { GroupDescriptionText } from '../GroupDescriptionText.js';
-import { Button, ButtonSize, ButtonVariant } from '../Button.js';
-import { SystemMessage } from './SystemMessage.js';
+} from '../../types/ServiceId.std.js';
+import { GroupDescriptionText } from '../GroupDescriptionText.dom.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
+import { SystemMessage } from './SystemMessage.dom.js';
 
 import type {
   GroupV2ChangeType,
   GroupV2ChangeDetailType,
-} from '../../types/groups.ts';
+} from '../../types/groups.std.js';
 
-import type { SmartContactRendererType } from '../../groupChange.js';
-import { renderChange } from '../../groupChange.js';
-import { Modal } from '../Modal.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import type { SmartContactRendererType } from '../../groupChange.std.js';
+import { renderChange } from '../../groupChange.std.js';
+import { Modal } from '../Modal.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
 
 const { get } = lodash;
 

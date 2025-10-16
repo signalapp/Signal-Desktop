@@ -5,66 +5,68 @@ import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { ToFindType } from './leftPane/LeftPaneHelper.js';
-import { FindDirection } from './leftPane/LeftPaneHelper.js';
-import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.js';
-import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.js';
-import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper.js';
-import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper.js';
-import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper.js';
-import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper.js';
-import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper.js';
-import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper.js';
-import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper.js';
-import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper.js';
-import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper.js';
-import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper.js';
-import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper.js';
-import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper.js';
-import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper.js';
-import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper.js';
+import type { ToFindType } from './leftPane/LeftPaneHelper.dom.js';
+import { FindDirection } from './leftPane/LeftPaneHelper.dom.js';
+import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.dom.js';
+import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.dom.js';
+import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper.dom.js';
+import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper.dom.js';
+import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper.dom.js';
+import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper.dom.js';
+import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper.dom.js';
+import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper.dom.js';
+import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper.dom.js';
+import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper.dom.js';
+import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.js';
+import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.js';
+import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.js';
+import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.js';
+import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.js';
+import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.js';
 
-import { LeftPaneMode } from '../types/leftPane.js';
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import { ScrollBehavior } from '../types/Util.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import type { DurationInSeconds } from '../util/durations/index.js';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.js';
-import * as KeyboardLayout from '../services/keyboardLayout.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.js';
-import type { ShowConversationType } from '../state/ducks/conversations.js';
-import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.js';
+import { LeftPaneMode } from '../types/leftPane.std.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import { ScrollBehavior } from '../types/Util.std.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import type { DurationInSeconds } from '../util/durations/index.std.js';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.js';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.js';
+import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
+import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.js';
 
-import { ConversationList } from './ConversationList.js';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.js';
-import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.js';
-import { LeftPaneBanner } from './LeftPaneBanner.js';
+import { ConversationList } from './ConversationList.dom.js';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
+import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.dom.js';
+import { LeftPaneBanner } from './LeftPaneBanner.dom.js';
 
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar.js';
-import { useSizeObserver } from '../hooks/useSizeObserver.js';
+} from '../types/Avatar.std.js';
+import { useSizeObserver } from '../hooks/useSizeObserver.dom.js';
 import {
   NavSidebar,
   NavSidebarActionButton,
   NavSidebarSearchHeader,
-} from './NavSidebar.js';
-import type { UnreadStats } from '../util/countUnreadStats.js';
-import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.js';
-import type { ServerAlertsType, ServerAlert } from '../types/ServerAlert.js';
-import { getServerAlertDialog } from './ServerAlerts.js';
-import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
-import type { Location } from '../types/Nav.js';
-import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
-import type { ChatFolder } from '../types/ChatFolder.js';
-import { isChatFoldersEnabled } from '../types/ChatFolder.js';
-import { ProfileAvatar } from './PreferencesNotificationProfiles.js';
-import { tw } from '../axo/tw.js';
+} from './NavSidebar.dom.js';
+import type { UnreadStats } from '../util/countUnreadStats.std.js';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.js';
+import type {
+  ServerAlertsType,
+  ServerAlert,
+} from '../types/ServerAlert.std.js';
+import { getServerAlertDialog } from './ServerAlerts.dom.js';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
+import type { Location } from '../types/Nav.std.js';
+import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.dom.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
+import type { ChatFolder } from '../types/ChatFolder.std.js';
+import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 const { isNumber } = lodash;
 
@@ -124,6 +126,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isMacOS: boolean;
   isNotificationProfileActive: boolean;
+  isChatFoldersEnabled: boolean;
   preferredWidthFromStorage: number;
   selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
@@ -241,6 +244,7 @@ export function LeftPane({
   lookupConversationWithoutServiceId,
   isMacOS,
   isNotificationProfileActive,
+  isChatFoldersEnabled,
   isOnline,
   isUpdateDownloaded,
   modeSpecificProps,
@@ -807,7 +811,7 @@ export function LeftPane({
               >
                 {i18n('icu:avatarMenuViewArchive')}
               </AxoDropdownMenu.Item>
-              {isChatFoldersEnabled() && !hasAnyCurrentCustomChatFolders && (
+              {isChatFoldersEnabled && !hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   symbol="folder"
                   onSelect={onChatFoldersOpenSettings}
@@ -815,7 +819,7 @@ export function LeftPane({
                   {i18n('icu:LeftPane__MoreActionsMenu__AddChatFolder')}
                 </AxoDropdownMenu.Item>
               )}
-              {isChatFoldersEnabled() && hasAnyCurrentCustomChatFolders && (
+              {isChatFoldersEnabled && hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   // TODO: This should be the "folder-settings" symbol
                   // once it is added to the font

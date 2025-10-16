@@ -4,9 +4,9 @@
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import type { PropsType } from './ProfileChangeNotification.js';
-import { ProfileChangeNotification } from './ProfileChangeNotification.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './ProfileChangeNotification.dom.js';
+import { ProfileChangeNotification } from './ProfileChangeNotification.dom.js';
 
 const { i18n } = window.SignalContext;
 

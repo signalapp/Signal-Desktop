@@ -6,9 +6,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationErrorModal.js';
-import { DonationErrorModal } from './DonationErrorModal.js';
-import { donationErrorTypeSchema } from '../types/Donations.js';
+import type { PropsType } from './DonationErrorModal.dom.js';
+import { DonationErrorModal } from './DonationErrorModal.dom.js';
+import { donationErrorTypeSchema } from '../types/Donations.std.js';
 
 const { i18n } = window.SignalContext;
 

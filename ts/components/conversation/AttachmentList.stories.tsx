@@ -7,17 +7,17 @@ import type { Meta } from '@storybook/react';
 import type {
   AttachmentDraftType,
   AttachmentForUIType,
-} from '../../types/Attachment.js';
-import type { Props } from './AttachmentList.js';
-import { AttachmentList } from './AttachmentList.js';
+} from '../../types/Attachment.std.js';
+import type { Props } from './AttachmentList.dom.js';
+import { AttachmentList } from './AttachmentList.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_GIF,
   IMAGE_JPEG,
   VIDEO_MP4,
   stringToMIMEType,
-} from '../../types/MIME.js';
-import { fakeDraftAttachment } from '../../test-helpers/fakeAttachment.js';
+} from '../../types/MIME.std.js';
+import { fakeDraftAttachment } from '../../test-helpers/fakeAttachment.std.js';
 
 const { i18n } = window.SignalContext;
 

@@ -5,7 +5,7 @@ import type { BuildResult } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';
 
-import { build } from '../util/packageJson.js';
+import { build } from '../util/packageJson.node.js';
 
 export async function afterAllArtifactBuild({
   platformToTargets,

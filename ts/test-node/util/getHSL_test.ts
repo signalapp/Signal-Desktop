@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getHSL } from '../../util/getHSL.js';
+import { getHSL } from '../../util/getHSL.std.js';
 
 describe('getHSL', () => {
   it('returns expected lightness values', () => {

@@ -19,47 +19,50 @@ import { v4 as getGuid } from 'uuid';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
-import { missingCaseError } from '../util/missingCaseError.js';
-import { getTempPath, getUpdateCachePath } from '../../app/attachments.js';
-import { markShouldNotQuit, markShouldQuit } from '../../app/window_state.js';
-import { DialogType } from '../types/Dialogs.js';
-import * as Errors from '../types/errors.js';
-import { strictAssert } from '../util/assert.js';
-import { drop } from '../util/drop.js';
-import * as durations from '../util/durations/index.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { getTempPath, getUpdateCachePath } from '../../app/attachments.node.js';
+import {
+  markShouldNotQuit,
+  markShouldQuit,
+} from '../../app/window_state.std.js';
+import { DialogType } from '../types/Dialogs.std.js';
+import * as Errors from '../types/errors.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { drop } from '../util/drop.std.js';
+import * as durations from '../util/durations/index.std.js';
 import {
   isAlpha,
   isAxolotl,
   isBeta,
   isNotUpdatable,
   isStaging,
-} from '../util/version.js';
-import { isPathInside } from '../util/isPathInside.js';
+} from '../util/version.std.js';
+import { isPathInside } from '../util/isPathInside.node.js';
 
-import { version as packageVersion } from '../util/packageJson.js';
+import { version as packageVersion } from '../util/packageJson.node.js';
 
 import {
   getSignatureFileName,
   hexToBinary,
   verifySignature,
-} from './signature.js';
+} from './signature.node.js';
 import {
   download as downloadDifferentialData,
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
   prepareDownload as prepareDifferentialDownload,
-} from './differential.js';
-import { getGotOptions } from './got.js';
+} from './differential.node.js';
+import { getGotOptions } from './got.node.js';
 import {
   checkIntegrity,
   gracefulRename,
   gracefulRmRecursive,
   isTimeToUpdate,
-} from './util.js';
+} from './util.node.js';
 
-import type { LoggerType } from '../types/Logging.js';
-import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.js';
-import type { MainSQL } from '../sql/main.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.node.js';
+import type { MainSQL } from '../sql/main.main.js';
 
 const { pathExists } = fsExtra;
 

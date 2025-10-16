@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback } from 'react';
-import { Modal } from './Modal.js';
-import { Button, ButtonSize } from './Button.js';
-import { I18n } from './I18n.js';
-import type { LocalizerType } from '../types/Util.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonSize } from './Button.dom.js';
+import { I18n } from './I18n.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
 
 export type DonationPrivacyInformationModalProps = {
   i18n: LocalizerType;

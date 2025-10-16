@@ -4,12 +4,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { formatFileSize } from '../../util/formatFileSize.js';
-import { SpinnerV2 } from '../SpinnerV2.js';
+import { formatFileSize } from '../../util/formatFileSize.std.js';
+import { SpinnerV2 } from '../SpinnerV2.dom.js';
 
-import type { AttachmentForUIType } from '../../types/Attachment.js';
-import type { LocalizerType } from '../../types/I18N.js';
-import { isKeyboardActivation } from '../../hooks/useKeyboardShortcuts.js';
+import type { AttachmentForUIType } from '../../types/Attachment.std.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
+import { isKeyboardActivation } from '../../hooks/useKeyboardShortcuts.dom.js';
 
 export type PropsType = {
   attachments: ReadonlyArray<AttachmentForUIType>;

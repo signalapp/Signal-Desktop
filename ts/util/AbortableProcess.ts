@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-restricted-syntax */
 
-import { explodePromise } from './explodePromise.js';
+import { explodePromise } from './explodePromise.std.js';
 
 export interface IController {
   abort(): void;

@@ -3,7 +3,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { DELETED_REGEXP } from './constants.js';
+import { DELETED_REGEXP } from './constants.std.js';
 
 const rootDir = path.resolve(__dirname, '..', '..');
 const messagesPath = path.join(rootDir, '_locales/en/messages.json');

@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback, useRef } from 'react';
-import { useComputePeaks } from '../hooks/useComputePeaks.js';
-import type { LocalizerType } from '../types/Util.js';
-import { WaveformScrubber } from './conversation/WaveformScrubber.js';
-import { PlaybackButton } from './PlaybackButton.js';
-import { RecordingComposer } from './RecordingComposer.js';
-import { createLogger } from '../logging/log.js';
-import type { Size } from '../hooks/useSizeObserver.js';
-import { SizeObserver } from '../hooks/useSizeObserver.js';
+import { useComputePeaks } from '../hooks/useComputePeaks.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { WaveformScrubber } from './conversation/WaveformScrubber.dom.js';
+import { PlaybackButton } from './PlaybackButton.dom.js';
+import { RecordingComposer } from './RecordingComposer.dom.js';
+import { createLogger } from '../logging/log.std.js';
+import type { Size } from '../hooks/useSizeObserver.dom.js';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
 
 const log = createLogger('CompositionRecordingDraft');
 

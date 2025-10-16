@@ -5,35 +5,35 @@ import lodash from 'lodash';
 import {
   groupSendEndorsementsDataSchema,
   toGroupSendToken,
-} from '../types/GroupSendEndorsements.js';
+} from '../types/GroupSendEndorsements.std.js';
 import type {
   GroupSendCombinedEndorsementRecord,
   GroupSendMemberEndorsementRecord,
   GroupSendToken,
   GroupSendEndorsementsData,
-} from '../types/GroupSendEndorsements.js';
-import { devDebugger, strictAssert } from './assert.js';
+} from '../types/GroupSendEndorsements.std.js';
+import { devDebugger, strictAssert } from './assert.std.js';
 import {
   GroupSecretParams,
   GroupSendEndorsement,
   GroupSendEndorsementsResponse,
   ServerPublicParams,
-} from './zkgroup.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { fromAciObject } from '../types/ServiceId.js';
-import { createLogger } from '../logging/log.js';
-import type { GroupV2MemberType } from '../model-types.js';
-import { DurationInSeconds, MINUTE } from './durations/index.js';
-import { ToastType } from '../types/Toast.js';
-import * as Errors from '../types/errors.js';
-import { isTestOrMockEnvironment } from '../environment.js';
-import { isNightly } from './version.js';
-import { parseStrict } from './schemas.js';
-import { DataReader } from '../sql/Client.js';
-import { maybeUpdateGroup } from '../groups.js';
-import * as Bytes from '../Bytes.js';
-import { isGroupV2 } from './whatTypeOfConversation.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './zkgroup.node.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { fromAciObject } from '../types/ServiceId.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { GroupV2MemberType } from '../model-types.d.ts';
+import { DurationInSeconds, MINUTE } from './durations/index.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import * as Errors from '../types/errors.std.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
+import { isNightly } from './version.std.js';
+import { parseStrict } from './schemas.std.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { maybeUpdateGroup } from '../groups.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import { isGroupV2 } from './whatTypeOfConversation.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { throttle } = lodash;
 

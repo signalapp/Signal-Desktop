@@ -3,13 +3,13 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './CallingAudioIndicator.js';
+import type { Props } from './CallingAudioIndicator.dom.js';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator.js';
-import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.js';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.js';
+} from './CallingAudioIndicator.dom.js';
+import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.std.js';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.js';
 
 export default {
   title: 'Components/CallingAudioIndicator',

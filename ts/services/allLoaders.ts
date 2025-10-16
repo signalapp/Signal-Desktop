@@ -2,45 +2,48 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // loader services
-import { getBadgesForRedux, loadBadges } from './badgeLoader.js';
+import { getBadgesForRedux, loadBadges } from './badgeLoader.preload.js';
 import {
   getCallsHistoryForRedux,
   getCallsHistoryUnreadCountForRedux,
   loadCallHistory,
-} from './callHistoryLoader.js';
-import { getCallLinksForRedux, loadCallLinks } from './callLinksLoader.js';
+} from './callHistoryLoader.preload.js';
+import {
+  getCallLinksForRedux,
+  loadCallLinks,
+} from './callLinksLoader.preload.js';
 import {
   getDistributionListsForRedux,
   loadDistributionLists,
-} from './distributionListLoader.js';
+} from './distributionListLoader.preload.js';
 import {
   getDonationsForRedux,
   loadDonationReceipts,
-} from './donationsLoader.js';
-import { getStoriesForRedux, loadStories } from './storyLoader.js';
-import { getUserDataForRedux, loadUserData } from './userLoader.js';
+} from './donationsLoader.preload.js';
+import { getStoriesForRedux, loadStories } from './storyLoader.preload.js';
+import { getUserDataForRedux, loadUserData } from './userLoader.dom.js';
 import {
   loadCachedProfiles as loadNotificationProfiles,
   getCachedProfiles as getNotificationProfiles,
-} from './notificationProfilesService.js';
+} from './notificationProfilesService.preload.js';
 
 // old-style loaders
 import {
   getEmojiReducerState,
   loadRecentEmojis,
-} from '../util/loadRecentEmojis.js';
+} from '../util/loadRecentEmojis.preload.js';
 import {
   load as loadStickers,
   getInitialState as getStickersReduxState,
-} from '../types/Stickers.js';
+} from '../types/Stickers.preload.js';
 
-import { type ReduxInitData } from '../state/initializeRedux.js';
-import { reinitializeRedux } from '../state/reinitializeRedux.js';
-import { getGifsStateForRedux, loadGifsState } from './gifsLoader.js';
+import { type ReduxInitData } from '../state/initializeRedux.preload.js';
+import { reinitializeRedux } from '../state/reinitializeRedux.preload.js';
+import { getGifsStateForRedux, loadGifsState } from './gifsLoader.preload.js';
 import {
   getChatFoldersForRedux,
   loadChatFolders,
-} from './chatFoldersLoader.js';
+} from './chatFoldersLoader.preload.js';
 
 export async function loadAll(): Promise<void> {
   await Promise.all([

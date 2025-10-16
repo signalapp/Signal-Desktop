@@ -7,12 +7,12 @@ import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import { SignalService } from '../../protobuf/index.js';
-import { ConversationColors } from '../../types/Colors.js';
-import type { AudioAttachmentProps } from './Message.js';
-import type { Props } from './TimelineMessage.js';
-import { TimelineMessage } from './TimelineMessage.js';
-import { TextDirection } from './Message.js';
+import { SignalService } from '../../protobuf/index.std.js';
+import { ConversationColors } from '../../types/Colors.std.js';
+import type { AudioAttachmentProps } from './Message.dom.js';
+import type { Props } from './TimelineMessage.dom.js';
+import { TimelineMessage } from './TimelineMessage.dom.js';
+import { TextDirection } from './Message.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -23,26 +23,26 @@ import {
   stringToMIMEType,
   IMAGE_GIF,
   VIDEO_QUICKTIME,
-} from '../../types/MIME.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { MessageAudio } from './MessageAudio.js';
-import { computePeaks } from '../VoiceNotesPlaybackContext.js';
-import { pngUrl } from '../../storybook/Fixtures.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { WidthBreakpoint } from '../_util.js';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.js';
-import { ContactFormType } from '../../types/EmbeddedContact.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
-import { generateAci } from '../../types/ServiceId.js';
+} from '../../types/MIME.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { MessageAudio } from './MessageAudio.dom.js';
+import { computePeaks } from '../VoiceNotesPlaybackContext.dom.js';
+import { pngUrl } from '../../storybook/Fixtures.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { WidthBreakpoint } from '../_util.std.js';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
+import { ContactFormType } from '../../types/EmbeddedContact.std.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../../test-helpers/fakeAttachment.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
-import { ThemeType } from '../../types/Util.js';
-import { BadgeCategory } from '../../badges/BadgeCategory.js';
-import { PaymentEventKind } from '../../types/Payment.js';
+} from '../../test-helpers/fakeAttachment.std.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
+import { ThemeType } from '../../types/Util.std.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
+import { PaymentEventKind } from '../../types/Payment.std.js';
 
 const { isBoolean, noop } = lodash;
 

@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { HTTPError } from '../../../types/HTTPError.js';
-import * as durations from '../../../util/durations/index.js';
-import { drop } from '../../../util/drop.js';
+import { HTTPError } from '../../../types/HTTPError.std.js';
+import * as durations from '../../../util/durations/index.std.js';
+import { drop } from '../../../util/drop.std.js';
 
-import { sleepForRateLimitRetryAfterTime } from '../../../jobs/helpers/sleepForRateLimitRetryAfterTime.js';
+import { sleepForRateLimitRetryAfterTime } from '../../../jobs/helpers/sleepForRateLimitRetryAfterTime.std.js';
 
 describe('sleepFor413RetryAfterTimeIfApplicable', () => {
   const createLogger = () => ({ info: sinon.spy() });

@@ -41,26 +41,26 @@ import type {
   ChatServiceListener,
   ConnectionEventsListener,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
-import type { EventHandler } from './EventTarget.js';
-import EventTarget from './EventTarget.js';
+import type { EventHandler } from './EventTarget.std.js';
+import EventTarget from './EventTarget.std.js';
 
-import * as durations from '../util/durations/index.js';
-import { dropNull } from '../util/dropNull.js';
-import { drop } from '../util/drop.js';
-import { isOlderThan } from '../util/timestamp.js';
-import { strictAssert } from '../util/assert.js';
-import * as Errors from '../types/errors.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import * as Timers from '../Timers.js';
-import type { IResource } from './WebSocket.js';
+import * as durations from '../util/durations/index.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { drop } from '../util/drop.std.js';
+import { isOlderThan } from '../util/timestamp.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import * as Errors from '../types/errors.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Timers from '../Timers.dom.js';
+import type { IResource } from './WebSocket.preload.js';
 
-import { AbortableProcess } from '../util/AbortableProcess.js';
-import type { WebAPICredentials } from './Types.js';
-import { NORMAL_DISCONNECT_CODE } from './SocketManager.js';
-import { parseUnknown } from '../util/schemas.js';
-import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.js';
-import type { ServerAlert } from '../types/ServerAlert.js';
+import { AbortableProcess } from '../util/AbortableProcess.std.js';
+import type { WebAPICredentials } from './Types.d.ts';
+import { NORMAL_DISCONNECT_CODE } from './SocketManager.preload.js';
+import { parseUnknown } from '../util/schemas.std.js';
+import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.js';
+import type { ServerAlert } from '../types/ServerAlert.std.js';
 
 const log = createLogger('WebsocketResources');
 

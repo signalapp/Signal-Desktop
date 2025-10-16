@@ -7,27 +7,30 @@ import { join } from 'node:path';
 import { createWriteStream } from 'node:fs';
 import fsExtra from 'fs-extra';
 
-import * as Bytes from '../../Bytes.js';
+import * as Bytes from '../../Bytes.std.js';
 import {
   AttachmentBackupManager,
   FILE_NOT_FOUND_ON_TRANSIT_TIER_STATUS,
   runAttachmentBackupJob,
-} from '../../jobs/AttachmentBackupManager.js';
+} from '../../jobs/AttachmentBackupManager.preload.js';
 import type {
   AttachmentBackupJobType,
   CoreAttachmentBackupJobType,
   StandardAttachmentBackupJobType,
   ThumbnailAttachmentBackupJobType,
-} from '../../types/AttachmentBackup.js';
-import { DataWriter } from '../../sql/Client.js';
-import { getRandomBytes } from '../../Crypto.js';
-import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.js';
-import { createName, getRelativePath } from '../../util/attachmentPath.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.js';
-import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto.js';
-import { SECOND } from '../../util/durations/index.js';
-import { HTTPError } from '../../types/HTTPError.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../types/AttachmentBackup.std.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import { getRandomBytes } from '../../Crypto.node.js';
+import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.std.js';
+import { createName, getRelativePath } from '../../util/attachmentPath.node.js';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
+import {
+  encryptAttachmentV2,
+  generateKeys,
+} from '../../AttachmentCrypto.node.js';
+import { SECOND } from '../../util/durations/index.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { ensureFile } = fsExtra;
 

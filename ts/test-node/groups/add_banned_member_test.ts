@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 
-import { generateAci } from '../../types/ServiceId.js';
-import { _maybeBuildAddBannedMemberActions } from '../../groups.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { _maybeBuildAddBannedMemberActions } from '../../groups.preload.js';
 import {
   getClientZkGroupCipher,
   decryptServiceId,
-} from '../../util/zkgroup.js';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
+} from '../../util/zkgroup.node.js';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
 
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';
 

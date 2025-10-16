@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // eslint-disable-next-line import/no-restricted-paths
-import { getEmojifyData } from '../components/fun/data/emojis.js';
+import { getEmojifyData } from '../components/fun/data/emojis.std.js';
 
 type FontSizes = {
   diameter: number;

@@ -4,11 +4,11 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.js';
-import { generateAci } from '../../types/ServiceId.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 
-import type { MessageAttributesType } from '../../model-types.js';
-import { postSaveUpdates } from '../../util/cleanup.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { postSaveUpdates } from '../../util/cleanup.preload.js';
 
 const { _getAllMessages, getNearbyMessageFromDeletedSet } = DataReader;
 const { saveMessages, _removeAllMessages } = DataWriter;

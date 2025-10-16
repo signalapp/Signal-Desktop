@@ -4,19 +4,19 @@
 import type { ReactNode } from 'react';
 import React, { useCallback } from 'react';
 
-import { isBeta } from '../util/version.js';
-import { DialogType } from '../types/Dialogs.js';
+import { isBeta } from '../util/version.std.js';
+import { DialogType } from '../types/Dialogs.std.js';
 import {
   PRODUCTION_DOWNLOAD_URL,
   BETA_DOWNLOAD_URL,
-} from '../types/support.js';
-import { I18n } from './I18n.js';
-import { LeftPaneDialog } from './LeftPaneDialog.js';
-import { formatFileSize } from '../util/formatFileSize.js';
+} from '../types/support.std.js';
+import { I18n } from './I18n.dom.js';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
+import { formatFileSize } from '../util/formatFileSize.std.js';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { DismissOptions } from './LeftPaneDialog.js';
-import type { WidthBreakpoint } from './_util.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { DismissOptions } from './LeftPaneDialog.dom.js';
+import type { WidthBreakpoint } from './_util.std.js';
 
 function contactSupportLink(parts: ReactNode): JSX.Element {
   return (

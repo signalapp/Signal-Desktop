@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 
-import { strictAssert } from '../util/assert.js';
-import { DataWriter } from '../sql/Client.js';
+import { strictAssert } from '../util/assert.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
 
-import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.js';
-import { generateAci, generatePni } from '../types/ServiceId.js';
-import type { SafeCombineConversationsParams } from '../ConversationController.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
+} from '../types/ServiceId.std.js';
+import { generateAci, generatePni } from '../types/ServiceId.std.js';
+import type { SafeCombineConversationsParams } from '../ConversationController.preload.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 
 const ACI_1 = generateAci();
 const ACI_2 = generateAci();

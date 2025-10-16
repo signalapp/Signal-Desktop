@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../../logging/log.js';
-import { getHSL } from './color.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { toLogFormat } from '../../types/errors.js';
+import { createLogger } from '../../logging/log.std.js';
+import { getHSL } from './color.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { toLogFormat } from '../../types/errors.std.js';
 
 const log = createLogger('getTextStyleAttributes');
 

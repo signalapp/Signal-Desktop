@@ -4,13 +4,13 @@
 import * as React from 'react';
 import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallRemoteParticipant.js';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
-import { FRAME_BUFFER_SIZE } from '../calling/constants.js';
-import { generateAci } from '../types/ServiceId.js';
-import type { CallingImageDataCache } from './CallManager.js';
-import { MINUTE } from '../util/durations/index.js';
+import type { PropsType } from './GroupCallRemoteParticipant.dom.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.std.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
+import { MINUTE } from '../util/durations/index.std.js';
 
 const { memoize } = lodash;
 

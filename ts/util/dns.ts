@@ -11,10 +11,10 @@ import * as electron from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';
 
-import { strictAssert } from './assert.js';
-import { drop } from './drop.js';
-import type { DNSFallbackType } from '../types/DNSFallback.js';
-import { SECOND } from './durations/index.js';
+import { strictAssert } from './assert.std.js';
+import { drop } from './drop.std.js';
+import type { DNSFallbackType } from '../types/DNSFallback.std.js';
+import { SECOND } from './durations/index.std.js';
 
 const LOOKUP_TIMEOUT_MS = 5 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();

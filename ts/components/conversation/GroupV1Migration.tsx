@@ -3,15 +3,15 @@
 
 import * as React from 'react';
 
-import { Button, ButtonSize, ButtonVariant } from '../Button.js';
-import { SystemMessage } from './SystemMessage.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { I18n } from '../I18n.js';
-import { ContactName } from './ContactName.js';
-import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog.js';
-import { createLogger } from '../../logging/log.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { I18n } from '../I18n.dom.js';
+import { ContactName } from './ContactName.dom.js';
+import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog.dom.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const log = createLogger('GroupV1Migration');
 

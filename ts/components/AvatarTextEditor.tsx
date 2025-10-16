@@ -11,19 +11,19 @@ import React, {
 } from 'react';
 import lodash from 'lodash';
 
-import * as grapheme from '../util/grapheme.js';
-import { AvatarColorPicker } from './AvatarColorPicker.js';
-import { AvatarColors } from '../types/Colors.js';
-import type { AvatarDataType } from '../types/Avatar.js';
-import { AvatarModalButtons } from './AvatarModalButtons.js';
-import { BetterAvatarBubble } from './BetterAvatarBubble.js';
-import type { LocalizerType } from '../types/Util.js';
-import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
-import { createAvatarData } from '../util/createAvatarData.js';
+import * as grapheme from '../util/grapheme.std.js';
+import { AvatarColorPicker } from './AvatarColorPicker.dom.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import type { AvatarDataType } from '../types/Avatar.std.js';
+import { AvatarModalButtons } from './AvatarModalButtons.dom.js';
+import { BetterAvatarBubble } from './BetterAvatarBubble.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.js';
+import { createAvatarData } from '../util/createAvatarData.std.js';
 import {
   getFittedFontSize,
   getFontSizes,
-} from '../util/avatarTextSizeCalculator.js';
+} from '../util/avatarTextSizeCalculator.std.js';
 
 const { noop } = lodash;
 

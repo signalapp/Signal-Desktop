@@ -4,7 +4,7 @@
 import * as React from 'react';
 import type { Moment } from 'moment';
 import moment from 'moment';
-import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid.js';
+import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid.std.js';
 
 type Props = {
   date?: null | number;

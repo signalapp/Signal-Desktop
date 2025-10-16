@@ -7,10 +7,10 @@ import createDebug from 'debug';
 import Long from 'long';
 import type { Page } from 'playwright';
 import assert from 'node:assert';
-import * as durations from '../../util/durations/index.js';
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { acceptConversation } from '../helpers.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { acceptConversation } from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:edit');
 

@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from './os/promptOSAuthMain.js';
+} from './os/promptOSAuthMain.main.js';
 
 export async function promptOSAuth(
   reason: PromptOSAuthReasonType

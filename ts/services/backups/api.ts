@@ -15,7 +15,7 @@ import {
   getSubscription,
   getTransferArchive as doGetTransferArchive,
   refreshBackup,
-} from '../../textsecure/WebAPI.js';
+} from '../../textsecure/WebAPI.preload.js';
 import type {
   AttachmentUploadFormResponseType,
   GetBackupInfoResponseType,
@@ -24,18 +24,18 @@ import type {
   BackupListMediaResponseType,
   TransferArchiveType,
   SubscriptionResponseType,
-} from '../../textsecure/WebAPI.js';
-import type { BackupCredentials } from './credentials.js';
+} from '../../textsecure/WebAPI.preload.js';
+import type { BackupCredentials } from './credentials.preload.js';
 import {
   BackupCredentialType,
   type BackupsSubscriptionType,
   type SubscriptionCostType,
-} from '../../types/backups.js';
-import { uploadFile } from '../../util/uploadAttachment.js';
-import { HTTPError } from '../../types/HTTPError.js';
-import { createLogger } from '../../logging/log.js';
-import { toLogFormat } from '../../types/errors.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../types/backups.node.js';
+import { uploadFile } from '../../util/uploadAttachment.preload.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { toLogFormat } from '../../types/errors.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const log = createLogger('api');
 

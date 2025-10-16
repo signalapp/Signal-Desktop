@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Lightbox.js';
-import { Lightbox } from './Lightbox.js';
-import type { MediaItemType } from '../types/MediaItem.js';
+import type { PropsType } from './Lightbox.dom.js';
+import { Lightbox } from './Lightbox.dom.js';
+import type { MediaItemType } from '../types/MediaItem.std.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -15,9 +15,9 @@ import {
   VIDEO_QUICKTIME,
   stringToMIMEType,
   type MIMEType,
-} from '../types/MIME.js';
+} from '../types/MIME.std.js';
 
-import { fakeAttachment } from '../test-helpers/fakeAttachment.js';
+import { fakeAttachment } from '../test-helpers/fakeAttachment.std.js';
 
 const { noop } = lodash;
 

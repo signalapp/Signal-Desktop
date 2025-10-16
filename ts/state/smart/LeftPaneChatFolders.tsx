@@ -2,26 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { LeftPaneChatFolders } from '../../components/leftPane/LeftPaneChatFolders.js';
+import { LeftPaneChatFolders } from '../../components/leftPane/LeftPaneChatFolders.dom.js';
 import {
   getCurrentChatFolders,
   getSelectedChatFolder,
-} from '../selectors/chatFolders.js';
-import { getIntl } from '../selectors/user.js';
+} from '../selectors/chatFolders.std.js';
+import { getIntl } from '../selectors/user.std.js';
 import {
   getAllChatFoldersMutedStats,
   getAllChatFoldersUnreadStats,
-} from '../selectors/conversations.js';
-import { useChatFolderActions } from '../ducks/chatFolders.js';
-import { NavSidebarWidthBreakpointContext } from '../../components/NavSidebar.js';
-import { useNavActions } from '../ducks/nav.js';
-import { NavTab, SettingsPage } from '../../types/Nav.js';
-import {
-  isChatFoldersEnabled,
-  type ChatFolderId,
-} from '../../types/ChatFolder.js';
-import { getSelectedLocation } from '../selectors/nav.js';
-import { useConversationsActions } from '../ducks/conversations.js';
+} from '../selectors/conversations.dom.js';
+import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
+import { NavSidebarWidthBreakpointContext } from '../../components/NavSidebar.dom.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import { NavTab, SettingsPage } from '../../types/Nav.std.js';
+import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
+import type { ChatFolderId } from '../../types/ChatFolder.std.js';
+import { getSelectedLocation } from '../selectors/nav.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export const SmartLeftPaneChatFolders = memo(
   function SmartLeftPaneChatFolders() {
@@ -54,7 +52,8 @@ export const SmartLeftPaneChatFolders = memo(
       [changeLocation, location]
     );
 
-    if (!isChatFoldersEnabled()) {
+    const version = window.SignalContext.getVersion();
+    if (!isChatFoldersEnabled(version)) {
       return null;
     }
 

@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './InstallScreenLinkInProgressStep.js';
-import { InstallScreenLinkInProgressStep } from './InstallScreenLinkInProgressStep.js';
+import type { Props } from './InstallScreenLinkInProgressStep.dom.js';
+import { InstallScreenLinkInProgressStep } from './InstallScreenLinkInProgressStep.dom.js';
 
 const { i18n } = window.SignalContext;
 

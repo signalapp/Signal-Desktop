@@ -9,49 +9,53 @@ import PQueue from 'p-queue';
 import { IdentityChange } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 import type { CapabilitiesType } from '../types/Capabilities.d.ts';
-import type { ProfileType } from '../textsecure/WebAPI.js';
+import type { ProfileType } from '../textsecure/WebAPI.preload.js';
 import {
   checkAccountExistence,
   getProfile,
   getProfileUnauth,
-} from '../textsecure/WebAPI.js';
-import { MessageSender } from '../textsecure/SendMessage.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { DataWriter } from '../sql/Client.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import * as Bytes from '../Bytes.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { isRecord } from '../util/isRecord.js';
-import { sleep } from '../util/sleep.js';
-import { MINUTE, SECOND } from '../util/durations/index.js';
+} from '../textsecure/WebAPI.preload.js';
+import { MessageSender } from '../textsecure/SendMessage.preload.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { isRecord } from '../util/isRecord.std.js';
+import { sleep } from '../util/sleep.std.js';
+import { MINUTE, SECOND } from '../util/durations/index.std.js';
 import {
   generateProfileKeyCredentialRequest,
   getClientZkProfileOperations,
   handleProfileKeyCredential,
-} from '../util/zkgroup.js';
-import { isMe } from '../util/whatTypeOfConversation.js';
-import { parseBadgesFromServer } from '../badges/parseBadgesFromServer.js';
-import { strictAssert } from '../util/assert.js';
-import { drop } from '../util/drop.js';
-import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import { SEALED_SENDER } from '../types/SealedSender.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { Address } from '../types/Address.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto.js';
-import type { ConversationLastProfileType } from '../model-types.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+} from '../util/zkgroup.node.js';
+import { isMe } from '../util/whatTypeOfConversation.dom.js';
+import { parseBadgesFromServer } from '../badges/parseBadgesFromServer.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { drop } from '../util/drop.std.js';
+import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
+import { SEALED_SENDER } from '../types/SealedSender.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { Address } from '../types/Address.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import {
+  trimForDisplay,
+  verifyAccessKey,
+  decryptProfile,
+} from '../Crypto.node.js';
+import type { ConversationLastProfileType } from '../model-types.d.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
-} from '../util/groupSendEndorsements.js';
-import { ProfileDecryptError } from '../types/errors.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../util/groupSendEndorsements.preload.js';
+import { ProfileDecryptError } from '../types/errors.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('profiles');
 

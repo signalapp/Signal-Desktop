@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { InMemoryQueues } from '../../../jobs/helpers/InMemoryQueues.js';
+import { InMemoryQueues } from '../../../jobs/helpers/InMemoryQueues.std.js';
 
 describe('InMemoryQueues', () => {
   describe('get', () => {

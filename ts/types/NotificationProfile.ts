@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 
-import { DAY, HOUR, MINUTE } from '../util/durations/index.js';
-import { strictAssert } from '../util/assert.js';
+import { DAY, HOUR, MINUTE } from '../util/durations/index.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
-import type { StorageServiceFieldsType } from '../sql/Interface.js';
+import type { StorageServiceFieldsType } from '../sql/Interface.std.js';
 
 const { isNumber, orderBy } = lodash;
 

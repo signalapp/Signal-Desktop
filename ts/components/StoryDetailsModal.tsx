@@ -2,25 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import type { StorySendStateType, StoryViewType } from '../types/Stories.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ContactName } from './conversation/ContactName.js';
-import { ContextMenu } from './ContextMenu.js';
-import { I18n } from './I18n.js';
-import { Modal } from './Modal.js';
-import { SendStatus } from '../messages/MessageSendState.js';
-import { Theme } from '../util/theme.js';
-import { formatDateTimeLong } from '../util/timestamp.js';
-import { DurationInSeconds } from '../util/durations/index.js';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import { ThemeType } from '../types/Util.js';
-import { Time } from './Time.js';
-import { groupBy } from '../util/mapUtil.js';
-import { format as formatRelativeTime } from '../util/expirationTimer.js';
-import { formatFileSize } from '../util/formatFileSize.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import type {
+  StorySendStateType,
+  StoryViewType,
+} from '../types/Stories.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { I18n } from './I18n.dom.js';
+import { Modal } from './Modal.dom.js';
+import { SendStatus } from '../messages/MessageSendState.std.js';
+import { Theme } from '../util/theme.std.js';
+import { formatDateTimeLong } from '../util/formatTimestamp.dom.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
+import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.preload.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import { Time } from './Time.dom.js';
+import { groupBy } from '../util/mapUtil.std.js';
+import { format as formatRelativeTime } from '../util/expirationTimer.std.js';
+import { formatFileSize } from '../util/formatFileSize.std.js';
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;

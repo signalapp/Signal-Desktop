@@ -5,8 +5,8 @@ import type {
   MessageFormatElement,
   Location,
 } from '@formatjs/icu-messageformat-parser';
-import type { Visitor } from './traverse.js';
-import { traverse } from './traverse.js';
+import type { Visitor } from './traverse.std.js';
+import { traverse } from './traverse.std.js';
 
 export type Element = MessageFormatElement;
 export type { Location };

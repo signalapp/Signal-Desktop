@@ -5,9 +5,9 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './MediaEditor.js';
-import { MediaEditor } from './MediaEditor.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
+import type { PropsType } from './MediaEditor.dom.js';
+import { MediaEditor } from './MediaEditor.dom.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 const { i18n } = window.SignalContext;
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';

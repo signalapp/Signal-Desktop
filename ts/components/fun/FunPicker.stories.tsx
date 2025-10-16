@@ -3,13 +3,16 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
-import { type ComponentMeta } from '../../storybook/types.js';
-import { packs, recentStickers } from '../stickers/mocks.js';
-import type { FunPickerProps } from './FunPicker.js';
-import { FunPicker } from './FunPicker.js';
-import { FunProvider } from './FunProvider.js';
-import { MOCK_GIFS_PAGINATED_ONE_PAGE, MOCK_RECENT_EMOJIS } from './mocks.js';
-import { EmojiSkinTone } from './data/emojis.js';
+import { type ComponentMeta } from '../../storybook/types.std.js';
+import { packs, recentStickers } from '../stickers/mocks.std.js';
+import type { FunPickerProps } from './FunPicker.dom.js';
+import { FunPicker } from './FunPicker.dom.js';
+import { FunProvider } from './FunProvider.dom.js';
+import {
+  MOCK_GIFS_PAGINATED_ONE_PAGE,
+  MOCK_RECENT_EMOJIS,
+} from './mocks.dom.js';
+import { EmojiSkinTone } from './data/emojis.std.js';
 
 const { i18n } = window.SignalContext;
 

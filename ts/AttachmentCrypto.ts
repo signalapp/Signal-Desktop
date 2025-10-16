@@ -26,7 +26,7 @@ import {
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { isAbsolute } from 'node:path';
 
-import { createLogger } from './logging/log.js';
+import { createLogger } from './logging/log.std.js';
 import {
   HashType,
   CipherType,
@@ -36,24 +36,24 @@ import {
   DIGEST_LENGTH,
   ATTACHMENT_MAC_LENGTH,
   AES_KEY_LENGTH,
-} from './types/Crypto.js';
-import { constantTimeEqual } from './Crypto.js';
-import { createName, getRelativePath } from './util/attachmentPath.js';
-import { appendPaddingStream } from './util/logPadding.js';
-import { prependStream } from './util/prependStream.js';
-import { appendMacStream } from './util/appendMacStream.js';
-import { finalStream } from './util/finalStream.js';
-import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.js';
-import { trimPadding } from './util/trimPadding.js';
-import { assertDev, strictAssert } from './util/assert.js';
-import * as Errors from './types/errors.js';
-import { isNotNil } from './util/isNotNil.js';
-import { missingCaseError } from './util/missingCaseError.js';
-import { getEnvironment, Environment } from './environment.js';
-import { isNotEmpty, toBase64, toHex } from './Bytes.js';
-import { decipherWithAesKey } from './util/decipherWithAesKey.js';
-import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.js';
-import { MediaTier } from './types/AttachmentDownload.js';
+} from './types/Crypto.std.js';
+import { constantTimeEqual } from './Crypto.node.js';
+import { createName, getRelativePath } from './util/attachmentPath.node.js';
+import { appendPaddingStream } from './util/logPadding.node.js';
+import { prependStream } from './util/prependStream.node.js';
+import { appendMacStream } from './util/appendMacStream.node.js';
+import { finalStream } from './util/finalStream.node.js';
+import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.node.js';
+import { trimPadding } from './util/trimPadding.node.js';
+import { assertDev, strictAssert } from './util/assert.std.js';
+import * as Errors from './types/errors.std.js';
+import { isNotNil } from './util/isNotNil.std.js';
+import { missingCaseError } from './util/missingCaseError.std.js';
+import { getEnvironment, Environment } from './environment.std.js';
+import { isNotEmpty, toBase64, toHex } from './Bytes.std.js';
+import { decipherWithAesKey } from './util/decipherWithAesKey.node.js';
+import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.std.js';
+import { MediaTier } from './types/AttachmentDownload.std.js';
 
 const { ensureFile } = fsExtra;
 

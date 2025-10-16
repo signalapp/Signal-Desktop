@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './CompositionRecordingDraft.js';
-import { CompositionRecordingDraft } from './CompositionRecordingDraft.js';
+import type { Props } from './CompositionRecordingDraft.dom.js';
+import { CompositionRecordingDraft } from './CompositionRecordingDraft.dom.js';
 
 const { i18n } = window.SignalContext;
 

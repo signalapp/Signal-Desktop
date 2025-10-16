@@ -3,17 +3,17 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { MiniPlayer, PlayerState } from '../../components/MiniPlayer.js';
-import type { Props as DumbProps } from '../../components/MiniPlayer.js';
+import { MiniPlayer, PlayerState } from '../../components/MiniPlayer.dom.js';
+import type { Props as DumbProps } from '../../components/MiniPlayer.dom.js';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
-} from '../ducks/audioPlayer.js';
+} from '../ducks/audioPlayer.preload.js';
 import {
   selectAudioPlayerActive,
   selectVoiceNoteTitle,
-} from '../selectors/audioPlayer.js';
-import { getIntl } from '../selectors/user.js';
+} from '../selectors/audioPlayer.preload.js';
+import { getIntl } from '../selectors/user.std.js';
 
 type Props = Pick<DumbProps, 'shouldFlow'>;
 

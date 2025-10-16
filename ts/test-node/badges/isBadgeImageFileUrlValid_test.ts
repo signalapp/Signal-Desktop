@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isBadgeImageFileUrlValid } from '../../badges/isBadgeImageFileUrlValid.js';
+import { isBadgeImageFileUrlValid } from '../../badges/isBadgeImageFileUrlValid.std.js';
 
 describe('isBadgeImageFileUrlValid', () => {
   const UPDATES_URL = 'https://updates2.signal.org/desktop';

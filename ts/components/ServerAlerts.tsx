@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { ServerAlert, type ServerAlertsType } from '../types/ServerAlert.js';
-import type { WidthBreakpoint } from './_util.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog.js';
-import { strictAssert } from '../util/assert.js';
-import { WarningIdlePrimaryDeviceDialog } from './WarningIdlePrimaryDeviceDialog.js';
+import {
+  ServerAlert,
+  type ServerAlertsType,
+} from '../types/ServerAlert.std.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { CriticalIdlePrimaryDeviceDialog } from './CriticalIdlePrimaryDeviceDialog.dom.js';
+import { strictAssert } from '../util/assert.std.js';
+import { WarningIdlePrimaryDeviceDialog } from './WarningIdlePrimaryDeviceDialog.dom.js';
 
 export function getServerAlertDialog(
   alerts: ServerAlertsType | undefined,

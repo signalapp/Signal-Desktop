@@ -10,11 +10,14 @@ import type { Page } from 'playwright';
 import assert from 'node:assert';
 import Long from 'long';
 
-import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.js';
-import * as durations from '../../util/durations/index.js';
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { sendTextMessage, getTimelineMessageWithText } from '../helpers.js';
+import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.std.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import {
+  sendTextMessage,
+  getTimelineMessageWithText,
+} from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:backfill');
 

@@ -7,15 +7,15 @@ import {
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../../types/CallDisposition.js';
+} from '../../../types/CallDisposition.std.js';
 import type {
   CallStatus,
   CallHistoryGroup,
-} from '../../../types/CallDisposition.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import { formatDate, formatTime } from '../../../util/timestamp.js';
-import { PanelSection } from './PanelSection.js';
-import { getDirectCallNotificationText } from '../../../util/callingNotification.js';
+} from '../../../types/CallDisposition.std.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import { formatDate, formatTime } from '../../../util/formatTimestamp.dom.js';
+import { PanelSection } from './PanelSection.dom.js';
+import { getDirectCallNotificationText } from '../../../util/callingNotification.std.js';
 
 function describeCallHistory(
   i18n: LocalizerType,

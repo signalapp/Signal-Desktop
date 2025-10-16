@@ -3,7 +3,7 @@
 
 /* eslint-disable global-require */
 
-import { createLogger } from '../../logging/log.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const log = createLogger('preload');
 

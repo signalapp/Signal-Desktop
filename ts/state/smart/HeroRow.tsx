@@ -2,25 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { PanelType } from '../../types/Panels.js';
-import { ConversationHero } from '../../components/conversation/ConversationHero.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getHasStoriesSelector } from '../selectors/stories2.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
+import { PanelType } from '../../types/Panels.std.js';
+import { ConversationHero } from '../../components/conversation/ConversationHero.dom.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
   getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.js';
+} from '../selectors/conversations.dom.js';
 import {
   type ConversationType,
   useConversationsActions,
-} from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useStoriesActions } from '../ducks/stories.js';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+} from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useStoriesActions } from '../ducks/stories.preload.js';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 
 type SmartHeroRowProps = Readonly<{
   id: string;

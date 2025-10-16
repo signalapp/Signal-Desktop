@@ -9,8 +9,8 @@ import {
 import lodash from 'lodash';
 import type { RefObject } from 'react';
 import { useCallback, useMemo } from 'react';
-import { strictAssert } from '../../../util/assert.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
 
 const { chunk, groupBy } = lodash;
 

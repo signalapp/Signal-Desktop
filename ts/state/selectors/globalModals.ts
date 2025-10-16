@@ -3,9 +3,9 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.js';
-import type { GlobalModalsStateType } from '../ducks/globalModals.js';
-import { UsernameOnboardingState } from '../../types/globalModals.js';
+import type { StateType } from '../reducer.preload.js';
+import type { GlobalModalsStateType } from '../ducks/globalModals.preload.js';
+import { UsernameOnboardingState } from '../../types/globalModals.std.js';
 
 export const getGlobalModalsState = (state: StateType): GlobalModalsStateType =>
   state.globalModals;

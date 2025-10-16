@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AvatarColorType } from './Colors.js';
-import type { AddressableAttachmentType } from './Attachment.js';
-import { strictAssert } from '../util/assert.js';
+import type { AvatarColorType } from './Colors.std.js';
+import type { AddressableAttachmentType } from './Attachment.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 export const PersonalAvatarIcons = [
   'abstract_01',

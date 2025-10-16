@@ -5,13 +5,13 @@ import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PropsType } from './ContactModal.js';
-import { ContactModal } from './ContactModal.js';
-import { HasStories } from '../../types/Stories.js';
-import { ThemeType } from '../../types/Util.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { getFakeBadges } from '../../test-helpers/getFakeBadge.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PropsType } from './ContactModal.dom.js';
+import { ContactModal } from './ContactModal.dom.js';
+import { HasStories } from '../../types/Stories.std.js';
+import { ThemeType } from '../../types/Util.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.js';
 
 const { i18n } = window.SignalContext;
 

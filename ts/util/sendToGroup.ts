@@ -14,30 +14,33 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
-import { signalProtocolStore, GLOBAL_ZONE } from '../SignalProtocolStore.js';
-import { senderCertificateService } from '../services/senderCertificate.js';
-import type { SendLogCallbackType } from '../textsecure/OutgoingMessage.js';
+import {
+  signalProtocolStore,
+  GLOBAL_ZONE,
+} from '../SignalProtocolStore.preload.js';
+import { senderCertificateService } from '../services/senderCertificate.preload.js';
+import type { SendLogCallbackType } from '../textsecure/OutgoingMessage.preload.js';
 import {
   padMessage,
   SenderCertificateMode,
-} from '../textsecure/OutgoingMessage.js';
-import { accountManager } from '../textsecure/AccountManager.js';
-import { Address } from '../types/Address.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import * as Errors from '../types/errors.js';
-import { DataWriter } from '../sql/Client.js';
-import { getValue } from '../RemoteConfig.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { ServiceIdKind } from '../types/ServiceId.js';
-import * as Bytes from '../Bytes.js';
-import { isRecord } from './isRecord.js';
+} from '../textsecure/OutgoingMessage.preload.js';
+import { accountManager } from '../textsecure/AccountManager.preload.js';
+import { Address } from '../types/Address.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import * as Errors from '../types/errors.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { getValue } from '../RemoteConfig.dom.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { ServiceIdKind } from '../types/ServiceId.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { isRecord } from './isRecord.std.js';
 
-import { isOlderThan } from './timestamp.js';
+import { isOlderThan } from './timestamp.std.js';
 import type {
   GroupSendOptionsType,
   SendOptionsType,
-} from '../textsecure/SendMessage.js';
-import { messageSender } from '../textsecure/SendMessage.js';
+} from '../textsecure/SendMessage.preload.js';
+import { messageSender } from '../textsecure/SendMessage.preload.js';
 import {
   ConnectTimeoutError,
   IncorrectSenderKeyAuthError,
@@ -45,20 +48,27 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
-} from '../textsecure/Errors.js';
-import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores.js';
-import type { ConversationModel } from '../models/conversations.js';
+} from '../textsecure/Errors.std.js';
+import {
+  IdentityKeys,
+  SenderKeys,
+  Sessions,
+} from '../LibSignalStores.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 import type { DeviceType, CallbackResultType } from '../textsecure/Types.d.ts';
-import { getKeysForServiceId } from '../textsecure/getKeysForServiceId.js';
+import { getKeysForServiceId } from '../textsecure/getKeysForServiceId.preload.js';
 import type {
   ConversationAttributesType,
   SenderKeyInfoType,
 } from '../model-types.d.ts';
-import type { SendTypesType } from './handleMessageSend.js';
-import { handleMessageSend, shouldSaveProto } from './handleMessageSend.js';
-import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { parseIntOrThrow } from './parseIntOrThrow.js';
+import type { SendTypesType } from './handleMessageSend.preload.js';
+import {
+  handleMessageSend,
+  shouldSaveProto,
+} from './handleMessageSend.preload.js';
+import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { parseIntOrThrow } from './parseIntOrThrow.std.js';
 import {
   sendWithSenderKey,
   getKeysForServiceId as doGetKeysForServiceId,
@@ -66,21 +76,21 @@ import {
   multiRecipient200ResponseSchema,
   multiRecipient409ResponseSchema,
   multiRecipient410ResponseSchema,
-} from '../textsecure/WebAPI.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+} from '../textsecure/WebAPI.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 
-import { strictAssert } from './assert.js';
-import { createLogger } from '../logging/log.js';
-import { waitForAll } from './waitForAll.js';
-import type { GroupSendEndorsementState } from './groupSendEndorsements.js';
+import { strictAssert } from './assert.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { waitForAll } from './waitForAll.std.js';
+import type { GroupSendEndorsementState } from './groupSendEndorsements.preload.js';
 import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
-} from './groupSendEndorsements.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
-import { isAciString } from './isAciString.js';
-import { safeParseStrict, safeParseUnknown } from './schemas.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './groupSendEndorsements.preload.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import { isAciString } from './isAciString.std.js';
+import { safeParseStrict, safeParseUnknown } from './schemas.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { differenceWith, omit } = lodash;
 

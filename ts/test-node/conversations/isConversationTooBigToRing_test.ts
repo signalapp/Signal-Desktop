@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
-import { generateAci } from '../../types/ServiceId.js';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.js';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.js';
 
 const { times } = lodash;
 

@@ -4,13 +4,13 @@
 import type {
   DonationWorkflow,
   HumanDonationAmount,
-} from '../types/Donations.js';
-import { donationStateSchema } from '../types/Donations.js';
+} from '../types/Donations.std.js';
+import { donationStateSchema } from '../types/Donations.std.js';
 import {
   brandStripeDonationAmount,
   toHumanDonationAmount,
-} from './currency.js';
-import { missingCaseError } from './missingCaseError.js';
+} from './currency.dom.js';
+import { missingCaseError } from './missingCaseError.std.js';
 
 // Donation where we started backend processing, but did not redeem a badge yet.
 // Note we skip workflows in the INTENT state because it requires user confirmation

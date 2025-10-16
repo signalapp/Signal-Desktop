@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { offsetDistanceModifier } from '../../util/popperUtil.js';
-import { Tooltip, TooltipPlacement } from '../Tooltip.js';
+import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
+import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
 
-import type { LocalizerType } from '../../types/I18N.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
 
 type Props = {
   i18n: LocalizerType;

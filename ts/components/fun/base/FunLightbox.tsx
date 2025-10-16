@@ -3,7 +3,7 @@
 import type { ReactNode, RefObject } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { strictAssert } from '../../../util/assert.js';
+import { strictAssert } from '../../../util/assert.std.js';
 
 /**
  * Tracks the current `data-key` that has a long-press/long-focus

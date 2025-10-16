@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { SignalService as Proto } from '../protobuf/index.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { buildDeletePendingMemberChange } from '../groups.js';
-import { createLogger } from '../logging/log.js';
-import { getConversationIdForLogging } from './idForLogging.js';
-import { isMemberPending } from './groupMembershipUtils.js';
-import { isNotNil } from './isNotNil.js';
+import type { SignalService as Proto } from '../protobuf/index.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { buildDeletePendingMemberChange } from '../groups.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { getConversationIdForLogging } from './idForLogging.preload.js';
+import { isMemberPending } from './groupMembershipUtils.preload.js';
+import { isNotNil } from './isNotNil.std.js';
 
 const log = createLogger('removePendingMember');
 

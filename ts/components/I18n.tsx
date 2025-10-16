@@ -6,8 +6,8 @@ import React from 'react';
 import type {
   LocalizerType,
   ICUJSXMessageParamsByKeyType,
-} from '../types/Util.js';
-import { strictAssert } from '../util/assert.js';
+} from '../types/Util.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */

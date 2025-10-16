@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.js';
-import { constantTimeEqual } from '../Crypto.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { whoami, getKeysForServiceId } from '../textsecure/WebAPI.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { createLogger } from '../logging/log.std.js';
+import { constantTimeEqual } from '../Crypto.node.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { whoami, getKeysForServiceId } from '../textsecure/WebAPI.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('checkOurPniIdentityKey');
 

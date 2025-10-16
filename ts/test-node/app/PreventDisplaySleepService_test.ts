@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import type { PowerSaveBlocker } from 'electron';
 
-import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepService.js';
+import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepService.std.js';
 
 describe('PreventDisplaySleepService', () => {
   class FakePowerSaveBlocker implements PowerSaveBlocker {

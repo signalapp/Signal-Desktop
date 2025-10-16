@@ -3,10 +3,10 @@
 
 import type { FC } from 'react';
 import React, { createContext, memo, useContext } from 'react';
-import type { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
-import { assert, unreachable } from './_internal/assert.js';
-import { AxoDropdownMenu } from './AxoDropdownMenu.js';
-import { AxoContextMenu } from './AxoContextMenu.js';
+import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
+import { assert, unreachable } from './_internal/assert.dom.js';
+import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
+import { AxoContextMenu } from './AxoContextMenu.dom.js';
 
 const Namespace = 'AxoMenuBuilder';
 

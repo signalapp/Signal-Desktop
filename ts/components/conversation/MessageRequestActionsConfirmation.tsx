@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { ContactNameData } from './ContactName.js';
-import { ContactName } from './ContactName.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { I18n } from '../I18n.js';
-import type { LocalizerType } from '../../types/Util.js';
+import type { ContactNameData } from './ContactName.dom.js';
+import { ContactName } from './ContactName.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { I18n } from '../I18n.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 
 export enum MessageRequestState {
   blocking,

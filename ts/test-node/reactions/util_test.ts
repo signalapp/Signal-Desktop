@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 import lodash from 'lodash';
 import type { MessageReactionType } from '../../model-types.d.ts';
-import { isEmpty } from '../../util/iterables.js';
+import { isEmpty } from '../../util/iterables.std.js';
 
 import {
   addOutgoingReaction,
@@ -13,7 +13,7 @@ import {
   getUnsentConversationIds,
   markOutgoingReactionFailed,
   markOutgoingReactionSent,
-} from '../../reactions/util.js';
+} from '../../reactions/util.std.js';
 
 const { omit } = lodash;
 

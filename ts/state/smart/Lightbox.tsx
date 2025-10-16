@@ -3,13 +3,13 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Lightbox } from '../../components/Lightbox.js';
-import { getConversationSelector } from '../selectors/conversations.js';
-import { getIntl } from '../selectors/user.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useLightboxActions } from '../ducks/lightbox.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
+import { Lightbox } from '../../components/Lightbox.dom.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useLightboxActions } from '../ducks/lightbox.preload.js';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
 import {
   getIsViewOnce,
   getMedia,
@@ -18,7 +18,7 @@ import {
   getPlaybackDisabled,
   getSelectedIndex,
   shouldShowLightbox,
-} from '../selectors/lightbox.js';
+} from '../selectors/lightbox.std.js';
 
 export const SmartLightbox = memo(function SmartLightbox() {
   const i18n = useSelector(getIntl);

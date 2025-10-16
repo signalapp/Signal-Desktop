@@ -3,12 +3,12 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.js';
+import type { StateType } from '../reducer.preload.js';
 import type {
   ComposerStateType,
   QuotedMessageForComposerType,
-} from '../ducks/composer.js';
-import { getComposerStateForConversation } from '../ducks/composer.js';
+} from '../ducks/composer.preload.js';
+import { getComposerStateForConversation } from '../ducks/composer.preload.js';
 
 export const getComposerState = (state: StateType): ComposerStateType =>
   state.composer;

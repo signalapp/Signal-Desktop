@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useCallingActions } from '../ducks/calling.js';
-import { getCallLinkSelector } from '../selectors/calling.js';
-import { createLogger } from '../../logging/log.js';
-import { getIntl } from '../selectors/user.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { getCallLinkAddNameModalRoomId } from '../selectors/globalModals.js';
-import { strictAssert } from '../../util/assert.js';
-import { isCallLinkAdmin } from '../../types/CallLink.js';
-import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { getCallLinkSelector } from '../selectors/calling.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getCallLinkAddNameModalRoomId } from '../selectors/globalModals.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isCallLinkAdmin } from '../../types/CallLink.std.js';
+import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal.dom.js';
 
 const log = createLogger('CallLinkAddNameModal');
 

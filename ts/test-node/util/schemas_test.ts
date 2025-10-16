@@ -9,7 +9,7 @@ import {
   parseStrict,
   parseUnknown,
   SchemaParseError,
-} from '../../util/schemas.js';
+} from '../../util/schemas.std.js';
 
 describe('schemas', () => {
   const schema = z.object({ prop: z.literal('value') });

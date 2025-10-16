@@ -4,9 +4,9 @@ import React from 'react';
 import {
   CallLinkRestrictions,
   toCallLinkRestrictions,
-} from '../types/CallLink.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { Select } from './Select.js';
+} from '../types/CallLink.std.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { Select } from './Select.dom.js';
 
 export type CallLinkRestrictionsSelectProps = Readonly<{
   disabled?: boolean;

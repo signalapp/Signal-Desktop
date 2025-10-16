@@ -10,11 +10,11 @@ import {
   getTableData,
   insertData,
   updateToVersion,
-} from './helpers.js';
-import type { ServiceIdString } from '../../types/ServiceId.js';
-import { normalizePni } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
-import type { WritableDB, PreKeyType } from '../../sql/Interface.js';
+} from './helpers.node.js';
+import type { ServiceIdString } from '../../types/ServiceId.std.js';
+import { normalizePni } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
+import type { WritableDB, PreKeyType } from '../../sql/Interface.std.js';
 
 const { range } = lodash;
 

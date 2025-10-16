@@ -8,9 +8,9 @@ import {
   requestVerification as requestVerificationWindowsUcv,
 } from '@signalapp/windows-ucv';
 
-import { createLogger } from '../../logging/log.js';
-import OS from './osMain.js';
-import { missingCaseError } from '../missingCaseError.js';
+import { createLogger } from '../../logging/log.std.js';
+import OS from './osMain.node.js';
+import { missingCaseError } from '../missingCaseError.std.js';
 
 const log = createLogger('promptOSAuthMain');
 

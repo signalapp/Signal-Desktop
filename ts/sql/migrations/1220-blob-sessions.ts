@@ -3,14 +3,14 @@
 import assert from 'node:assert';
 import z from 'zod';
 import type { Database } from '@signalapp/sqlcipher';
-import type { LoggerType } from '../../types/Logging.js';
-import * as Errors from '../../types/errors.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import * as Errors from '../../types/errors.std.js';
 import {
   sessionRecordToProtobuf,
   sessionStructureToBytes,
-} from '../../util/sessionTranslation.js';
-import { getOwn } from '../../util/getOwn.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
+} from '../../util/sessionTranslation.node.js';
+import { getOwn } from '../../util/getOwn.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
 
 export const version = 1220;
 

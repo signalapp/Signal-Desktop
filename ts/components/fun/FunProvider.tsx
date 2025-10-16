@@ -7,20 +7,23 @@ import React, {
   useContext,
   useState,
 } from 'react';
-import { strictAssert } from '../../util/assert.js';
-import type { LocalizerType } from '../../types/I18N.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
 import type {
   StickerPackType,
   StickerType,
-} from '../../state/ducks/stickers.js';
-import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.js';
-import type { FunGifSelection, GifType } from './panels/FunPanelGifs.js';
-import { FunPickerTabKey } from './constants.js';
-import type { fetchGifsFeatured, fetchGifsSearch } from './data/gifs.js';
-import type { tenorDownload } from './data/tenor.js';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis.js';
-import type { FunStickerSelection } from './panels/FunPanelStickers.js';
-import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.js';
+} from '../../state/ducks/stickers.preload.js';
+import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.std.js';
+import type { FunGifSelection, GifType } from './panels/FunPanelGifs.dom.js';
+import { FunPickerTabKey } from './constants.dom.js';
+import type {
+  fetchGifsFeatured,
+  fetchGifsSearch,
+} from './data/gifs.preload.js';
+import type { tenorDownload } from './data/tenor.preload.js';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.js';
+import type { FunStickerSelection } from './panels/FunPanelStickers.dom.js';
+import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.dom.js';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;

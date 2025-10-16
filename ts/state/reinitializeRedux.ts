@@ -3,12 +3,12 @@
 
 import type { UnknownAction } from 'redux';
 
-import { createLogger } from '../logging/log.js';
-import { getInitialState } from './getInitialState.js';
-import { reducer as normalReducer } from './reducer.js';
+import { createLogger } from '../logging/log.std.js';
+import { getInitialState } from './getInitialState.preload.js';
+import { reducer as normalReducer } from './reducer.preload.js';
 
-import type { StateType } from './reducer.js';
-import type { ReduxInitData } from './initializeRedux.js';
+import type { StateType } from './reducer.preload.js';
+import type { ReduxInitData } from './initializeRedux.preload.js';
 
 const log = createLogger('reinitializeRedux');
 

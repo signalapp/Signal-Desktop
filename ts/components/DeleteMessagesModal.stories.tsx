@@ -5,8 +5,8 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import DeleteMessagesModal from './DeleteMessagesModal.js';
-import type { DeleteMessagesModalProps } from './DeleteMessagesModal.js';
+import DeleteMessagesModal from './DeleteMessagesModal.dom.js';
+import type { DeleteMessagesModalProps } from './DeleteMessagesModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { FunSticker, type FunStickerProps } from './FunSticker.js';
+import { FunSticker, type FunStickerProps } from './FunSticker.dom.js';
 
 export default {
   title: 'Components/Fun/FunSticker',

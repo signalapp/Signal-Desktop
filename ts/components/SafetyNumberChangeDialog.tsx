@@ -5,25 +5,25 @@ import * as React from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
-import { Avatar, AvatarSize } from './Avatar.js';
-import type { ActionSpec } from './ConfirmationDialog.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { InContactsIcon } from './InContactsIcon.js';
-import { Modal } from './Modal.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import type { ActionSpec } from './ConfirmationDialog.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { InContactsIcon } from './InContactsIcon.dom.js';
+import { Modal } from './Modal.dom.js';
 
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import type { LocalizerType } from '../types/Util.js';
-import { ThemeType } from '../types/Util.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { ContextMenu } from './ContextMenu.js';
-import { Theme } from '../util/theme.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { MY_STORY_ID } from '../types/Stories.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import { UserText } from './UserText.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { MY_STORY_ID } from '../types/Stories.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import { UserText } from './UserText.dom.js';
 
 const { noop } = lodash;
 

@@ -4,34 +4,34 @@
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { StateType as RootStateType } from '../reducer.js';
+import type { StateType as RootStateType } from '../reducer.preload.js';
 import {
   type InstallScreenBackupError,
   InstallScreenBackupStep,
   InstallScreenStep,
   InstallScreenError,
   InstallScreenQRCodeError,
-} from '../../types/InstallScreen.js';
-import * as Errors from '../../types/errors.js';
-import { type Loadable, LoadingState } from '../../util/loadable.js';
-import { isRecord } from '../../util/isRecord.js';
-import { strictAssert } from '../../util/assert.js';
-import * as Registration from '../../util/registration.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { HTTPError } from '../../types/HTTPError.js';
+} from '../../types/InstallScreen.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { type Loadable, LoadingState } from '../../util/loadable.std.js';
+import { isRecord } from '../../util/isRecord.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import * as Registration from '../../util/registration.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
 import {
   Provisioner,
   EventKind as ProvisionEventKind,
   type EnvelopeType as ProvisionEnvelopeType,
-} from '../../textsecure/Provisioner.js';
-import { accountManager } from '../../textsecure/AccountManager.js';
-import { getProvisioningResource } from '../../textsecure/WebAPI.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
-import { createLogger } from '../../logging/log.js';
-import { backupsService } from '../../services/backups/index.js';
-import OS from '../../util/os/osMain.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.js';
+} from '../../textsecure/Provisioner.preload.js';
+import { accountManager } from '../../textsecure/AccountManager.preload.js';
+import { getProvisioningResource } from '../../textsecure/WebAPI.preload.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { backupsService } from '../../services/backups/index.preload.js';
+import OS from '../../util/os/osMain.node.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 
 const log = createLogger('installer');
 

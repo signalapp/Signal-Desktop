@@ -4,45 +4,45 @@
 import lodash from 'lodash';
 import React, { memo, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.js';
+import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.dom.js';
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
-import type { CallHistoryGroup } from '../../types/CallDisposition.js';
-import { assertDev } from '../../util/assert.js';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+} from '../../groups/limits.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
+import type { CallHistoryGroup } from '../../types/CallDisposition.std.js';
+import { assertDev } from '../../util/assert.std.js';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
   getBadgesSelector,
   getPreferredBadgeSelector,
-} from '../selectors/badges.js';
-import { getActiveCallState } from '../selectors/calling.js';
+} from '../selectors/badges.preload.js';
+import { getActiveCallState } from '../selectors/calling.std.js';
 import {
   getAllComposableConversations,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
   getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.js';
+} from '../selectors/conversations.dom.js';
 import {
   getAreWeASubscriber,
   getDefaultConversationColor,
-} from '../selectors/items.js';
-import { getSelectedNavTab } from '../selectors/nav.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.js';
-import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.js';
-import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.js';
-import { SmartConfirmAdditionsModal } from './ConfirmAdditionsModal.js';
-import type { ConversationType } from '../ducks/conversations.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useCallingActions } from '../ducks/calling.js';
-import { useSearchActions } from '../ducks/search.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
-import { drop } from '../../util/drop.js';
-import { DataReader } from '../../sql/Client.js';
+} from '../selectors/items.dom.js';
+import { getSelectedNavTab } from '../selectors/nav.preload.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.js';
+import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.preload.js';
+import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.dom.js';
+import { SmartConfirmAdditionsModal } from './ConfirmAdditionsModal.dom.js';
+import type { ConversationType } from '../ducks/conversations.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { useSearchActions } from '../ducks/search.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
+import { drop } from '../../util/drop.std.js';
+import { DataReader } from '../../sql/Client.preload.js';
 
 const { sortBy } = lodash;
 

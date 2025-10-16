@@ -7,11 +7,11 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../../types/Calling.js';
-import { CallMode } from '../../types/CallDisposition.js';
+} from '../../types/Calling.std.js';
+import { CallMode } from '../../types/CallDisposition.std.js';
 
-import type { CallingConversationType } from '../../types/Calling.js';
-import type { AciString } from '../../types/ServiceId.js';
+import type { CallingConversationType } from '../../types/Calling.std.js';
+import type { AciString } from '../../types/ServiceId.std.js';
 import type {
   DirectCallStateType,
   CallsByConversationType,
@@ -19,7 +19,7 @@ import type {
   GroupCallStateType,
   GroupCallParticipantInfoType,
   ActiveCallStateType,
-} from './calling.js';
+} from './calling.preload.js';
 
 export const MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE = 8;
 

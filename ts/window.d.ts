@@ -9,21 +9,21 @@ import type { SystemPreferences } from 'electron';
 import type { assert } from 'chai';
 import type { MochaOptions } from 'mocha';
 
-import type { IPCRequest as IPCChallengeRequest } from './challenge.js';
-import type { OSType } from './util/os/shared.js';
-import type { SystemThemeType, ThemeType } from './types/Util.js';
-import type { ConversationController } from './ConversationController.js';
-import type { ReduxActions } from './state/types.js';
-import type { ScreenShareStatus } from './types/Calling.js';
-import type { MessageCache } from './services/MessageCache.js';
-import type { StateType } from './state/reducer.js';
-import type { CIType } from './CI.js';
-import type { IPCEventsType } from './util/createIPCEvents.js';
-import type { SignalContextType } from './windows/context.js';
-import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.js';
-import type { WindowsNotificationData } from './services/notifications.js';
-import type { QueryStatsOptions } from './sql/main.js';
-import type { SocketStatuses } from './textsecure/SocketManager.js';
+import type { IPCRequest as IPCChallengeRequest } from './challenge.dom.js';
+import type { OSType } from './util/os/shared.std.js';
+import type { SystemThemeType, ThemeType } from './types/Util.std.js';
+import type { ConversationController } from './ConversationController.preload.js';
+import type { ReduxActions } from './state/types.std.js';
+import type { ScreenShareStatus } from './types/Calling.std.js';
+import type { MessageCache } from './services/MessageCache.preload.js';
+import type { StateType } from './state/reducer.preload.js';
+import type { CIType } from './CI.preload.js';
+import type { IPCEventsType } from './util/createIPCEvents.preload.js';
+import type { SignalContextType } from './windows/context.preload.js';
+import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.dom.js';
+import type { WindowsNotificationData } from './services/notifications.preload.js';
+import type { QueryStatsOptions } from './sql/main.main.js';
+import type { SocketStatuses } from './textsecure/SocketManager.preload.js';
 
 export type IPCType = {
   addSetupMenuItems: () => void;

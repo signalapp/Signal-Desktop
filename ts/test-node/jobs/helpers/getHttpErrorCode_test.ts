@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getHttpErrorCode } from '../../../jobs/helpers/getHttpErrorCode.js';
+import { getHttpErrorCode } from '../../../jobs/helpers/getHttpErrorCode.std.js';
 
 describe('getHttpErrorCode', () => {
   it('returns -1 if not passed an object', () => {

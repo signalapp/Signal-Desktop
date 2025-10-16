@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.js';
-import { getMediaGalleryState } from '../selectors/mediaGallery.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useLightboxActions } from '../ducks/lightbox.js';
-import { useMediaGalleryActions } from '../ducks/mediaGallery.js';
+import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.dom.js';
+import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useLightboxActions } from '../ducks/lightbox.preload.js';
+import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
 
 export type PropsType = {
   conversationId: string;

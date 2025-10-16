@@ -4,39 +4,39 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './LeftPane.js';
-import { LeftPane } from './LeftPane.js';
-import { CaptchaDialog } from './CaptchaDialog.js';
-import { CrashReportDialog } from './CrashReportDialog.js';
-import { ToastManager } from './ToastManager.js';
-import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus.js';
-import { DialogExpiredBuild } from './DialogExpiredBuild.js';
-import { DialogNetworkStatus } from './DialogNetworkStatus.js';
-import { DialogRelink } from './DialogRelink.js';
-import type { PropsType as DialogUpdatePropsType } from './DialogUpdate.js';
-import { DialogUpdate } from './DialogUpdate.js';
-import { UnsupportedOSDialog } from './UnsupportedOSDialog.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { MessageSearchResult } from './conversationList/MessageSearchResult.js';
-import { DurationInSeconds, DAY } from '../util/durations/index.js';
-import { LeftPaneMode } from '../types/leftPane.js';
-import { ThemeType } from '../types/Util.js';
+import type { PropsType } from './LeftPane.dom.js';
+import { LeftPane } from './LeftPane.dom.js';
+import { CaptchaDialog } from './CaptchaDialog.dom.js';
+import { CrashReportDialog } from './CrashReportDialog.dom.js';
+import { ToastManager } from './ToastManager.dom.js';
+import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus.dom.js';
+import { DialogExpiredBuild } from './DialogExpiredBuild.dom.js';
+import { DialogNetworkStatus } from './DialogNetworkStatus.dom.js';
+import { DialogRelink } from './DialogRelink.dom.js';
+import type { PropsType as DialogUpdatePropsType } from './DialogUpdate.dom.js';
+import { DialogUpdate } from './DialogUpdate.dom.js';
+import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { MessageSearchResult } from './conversationList/MessageSearchResult.dom.js';
+import { DurationInSeconds, DAY } from '../util/durations/index.std.js';
+import { LeftPaneMode } from '../types/leftPane.std.js';
+import { ThemeType } from '../types/Util.std.js';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../test-helpers/getDefaultConversation.js';
-import { DialogType } from '../types/Dialogs.js';
-import { SocketStatus } from '../types/SocketStatus.js';
+} from '../test-helpers/getDefaultConversation.std.js';
+import { DialogType } from '../types/Dialogs.std.js';
+import { SocketStatus } from '../types/SocketStatus.std.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
 import {
   makeFakeLookupConversationWithoutServiceId,
   useUuidFetchState,
-} from '../test-helpers/fakeLookupConversationWithoutServiceId.js';
-import type { GroupListItemConversationType } from './conversationList/GroupListItem.js';
-import { ServerAlert } from '../types/ServerAlert.js';
-import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.js';
-import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
+} from '../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.js';
+import { ServerAlert } from '../types/ServerAlert.std.js';
+import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.dom.js';
+import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.dom.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
 
 const { i18n } = window.SignalContext;
 
@@ -207,6 +207,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     usernameLinkCorrupted: false,
     isUpdateDownloaded,
     isNotificationProfileActive: false,
+    isChatFoldersEnabled: true,
     navTabsCollapsed: false,
 
     setChallengeStatus: action('setChallengeStatus'),

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import type { StateType } from '../reducer.js';
-import type { StateSelector } from '../types.js';
-import type { ChatFoldersState } from '../ducks/chatFolders.js';
-import type { CurrentChatFolder } from '../../types/CurrentChatFolders.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
+import type { StateType } from '../reducer.preload.js';
+import type { StateSelector } from '../types.std.js';
+import type { ChatFoldersState } from '../ducks/chatFolders.preload.js';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 
 export function getChatFoldersState(state: StateType): ChatFoldersState {
   return state.chatFolders;

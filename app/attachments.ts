@@ -9,18 +9,18 @@ import fastGlob from 'fast-glob';
 import fse from 'fs-extra';
 import lodash from 'lodash';
 import normalizePath from 'normalize-path';
-import { isPathInside } from '../ts/util/isPathInside.js';
-import { DAY } from '../ts/util/durations/index.js';
-import { isOlderThan } from '../ts/util/timestamp.js';
-import { isNotNil } from '../ts/util/isNotNil.js';
+import { isPathInside } from '../ts/util/isPathInside.node.js';
+import { DAY } from '../ts/util/durations/index.std.js';
+import { isOlderThan } from '../ts/util/timestamp.std.js';
+import { isNotNil } from '../ts/util/isNotNil.std.js';
 import {
   generateKeys,
   decryptAttachmentV2ToSink,
   encryptAttachmentV2ToDisk,
-} from '../ts/AttachmentCrypto.js';
-import type { LocalAttachmentV2Type } from '../ts/types/Attachment.js';
-import * as Errors from '../ts/types/errors.js';
-import { createLogger } from '../ts/logging/log.js';
+} from '../ts/AttachmentCrypto.node.js';
+import type { LocalAttachmentV2Type } from '../ts/types/Attachment.std.js';
+import * as Errors from '../ts/types/errors.std.js';
+import { createLogger } from '../ts/logging/log.std.js';
 
 const { map, isString } = lodash;
 

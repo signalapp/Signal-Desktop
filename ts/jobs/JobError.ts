@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.std.js';
 
 /**
  * An error that wraps job errors.

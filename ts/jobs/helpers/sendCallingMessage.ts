@@ -3,32 +3,32 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { getSendOptions } from '../../util/getSendOptions.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
 import {
   isDirectConversation,
   isGroup,
-} from '../../util/whatTypeOfConversation.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+} from '../../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
+} from './handleMultipleSendErrors.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
   ConversationQueueJobBundle,
   CallingMessageJobData,
-} from '../conversationJobQueue.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+} from '../conversationJobQueue.preload.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
-import { sendContentMessageToGroup } from '../../util/sendToGroup.js';
-import * as Bytes from '../../Bytes.js';
-import { getValidRecipients } from './getValidRecipients.js';
+} from '../../textsecure/Errors.std.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
+import * as Bytes from '../../Bytes.std.js';
+import { getValidRecipients } from './getValidRecipients.dom.js';
 
 export async function sendCallingMessage(
   conversation: ConversationModel,

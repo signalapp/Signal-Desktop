@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { DonateInputCardCvc } from './DonateInputCardCvc.js';
-import type { DonateInputCardCvcProps } from './DonateInputCardCvc.js';
-import type { ComponentMeta } from '../../../storybook/types.js';
+import { DonateInputCardCvc } from './DonateInputCardCvc.dom.js';
+import type { DonateInputCardCvcProps } from './DonateInputCardCvc.dom.js';
+import type { ComponentMeta } from '../../../storybook/types.std.js';
 
 export default {
   component: DonateInputCardCvc,

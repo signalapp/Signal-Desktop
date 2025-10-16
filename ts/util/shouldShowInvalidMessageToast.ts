@@ -1,18 +1,18 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.js';
-import { hasExpired } from '../state/selectors/expiration.js';
-import { isOSUnsupported } from '../state/selectors/updates.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { hasExpired } from '../state/selectors/expiration.dom.js';
+import { isOSUnsupported } from '../state/selectors/updates.std.js';
 
-import type { AnyToast } from '../types/Toast.js';
-import { ToastType } from '../types/Toast.js';
+import type { AnyToast } from '../types/Toast.dom.js';
+import { ToastType } from '../types/Toast.dom.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './whatTypeOfConversation.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 

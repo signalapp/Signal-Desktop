@@ -8,12 +8,17 @@ import type {
   WritableDB,
   ReadableDB,
   MessageType,
-} from '../../sql/Interface.js';
-import { sql, jsonToObject } from '../../sql/util.js';
-import { createDB, insertData, updateToVersion, explain } from './helpers.js';
+} from '../../sql/Interface.std.js';
+import { sql, jsonToObject } from '../../sql/util.std.js';
+import {
+  createDB,
+  insertData,
+  updateToVersion,
+  explain,
+} from './helpers.node.js';
 
-import type { MessageAttributesType } from '../../model-types.js';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
 
 /* eslint-disable camelcase */
 

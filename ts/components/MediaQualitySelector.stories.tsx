@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './MediaQualitySelector.js';
-import { MediaQualitySelector } from './MediaQualitySelector.js';
+import type { PropsType } from './MediaQualitySelector.dom.js';
+import { MediaQualitySelector } from './MediaQualitySelector.dom.js';
 
 export default {
   title: 'Components/MediaQualitySelector',

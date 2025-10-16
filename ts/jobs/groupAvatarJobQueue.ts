@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
-import type { LoggerType } from '../types/Logging.js';
-import { applyNewAvatar } from '../groups.js';
-import { isGroupV2 } from '../util/whatTypeOfConversation.js';
-import { DataWriter } from '../sql/Client.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { applyNewAvatar } from '../groups.preload.js';
+import { isGroupV2 } from '../util/whatTypeOfConversation.dom.js';
+import { DataWriter } from '../sql/Client.preload.js';
 
-import type { JOB_STATUS } from './JobQueue.js';
-import { JobQueue } from './JobQueue.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
-import { parseUnknown } from '../util/schemas.js';
+import type { JOB_STATUS } from './JobQueue.std.js';
+import { JobQueue } from './JobQueue.std.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
+import { parseUnknown } from '../util/schemas.std.js';
 
 const groupAvatarJobDataSchema = z.object({
   conversationId: z.string(),

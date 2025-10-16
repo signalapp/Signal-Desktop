@@ -3,21 +3,21 @@
 
 import React, { type ReactNode, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import type { Props as AvatarProps } from '../Avatar.js';
-import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.js';
-import { ContactName } from './ContactName.js';
-import { About } from './About.js';
-import { GroupDescription } from './GroupDescription.js';
-import { SharedGroupNames } from '../SharedGroupNames.js';
-import { GroupMembersNames } from '../GroupMembersNames.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { HasStories } from '../../types/Stories.js';
-import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.js';
-import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.js';
-import { StoryViewModeType } from '../../types/Stories.js';
-import { Button, ButtonVariant } from '../Button.js';
-import { SafetyTipsModal } from '../SafetyTipsModal.js';
-import { I18n } from '../I18n.js';
+import type { Props as AvatarProps } from '../Avatar.dom.js';
+import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.js';
+import { ContactName } from './ContactName.dom.js';
+import { About } from './About.dom.js';
+import { GroupDescription } from './GroupDescription.dom.js';
+import { SharedGroupNames } from '../SharedGroupNames.dom.js';
+import { GroupMembersNames } from '../GroupMembersNames.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { HasStories } from '../../types/Stories.std.js';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.js';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.js';
+import { StoryViewModeType } from '../../types/Stories.std.js';
+import { Button, ButtonVariant } from '../Button.dom.js';
+import { SafetyTipsModal } from '../SafetyTipsModal.dom.js';
+import { I18n } from '../I18n.dom.js';
 
 export type Props = {
   about?: string;

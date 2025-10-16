@@ -7,20 +7,20 @@ import lodash from 'lodash';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
-import type { LoggerType } from '../../types/Logging.js';
-import { strictAssert } from '../../util/assert.js';
-import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId.js';
-import { isAciString } from '../../util/isAciString.js';
-import * as Bytes from '../../Bytes.js';
-import { UUID_BYTE_SIZE } from '../../types/Crypto.js';
-import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId.std.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import * as Bytes from '../../Bytes.std.js';
+import { UUID_BYTE_SIZE } from '../../types/Crypto.std.js';
+import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes.std.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import type {
   CDSRequestOptionsType,
   CDSResponseEntryType,
   CDSResponseType,
 } from './Types.d.ts';
-import { RateLimitedError } from './RateLimitedError.js';
+import { RateLimitedError } from './RateLimitedError.std.js';
 
 const { noop } = lodash;
 

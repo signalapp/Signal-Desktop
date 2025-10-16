@@ -11,28 +11,28 @@ import type {
   MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
   UserNotFoundModalStateType,
-} from '../state/ducks/globalModals.js';
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import { UsernameOnboardingState } from '../types/globalModals.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+} from '../state/ducks/globalModals.preload.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import { UsernameOnboardingState } from '../types/globalModals.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 
-import { ButtonVariant } from './Button.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { SignalConnectionsModal } from './SignalConnectionsModal.js';
-import { WhatsNewModal } from './WhatsNewModal.js';
-import { MediaPermissionsModal } from './MediaPermissionsModal.js';
-import type { StartCallData } from './ConfirmLeaveCallModal.js';
+import { ButtonVariant } from './Button.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { SignalConnectionsModal } from './SignalConnectionsModal.dom.js';
+import { WhatsNewModal } from './WhatsNewModal.dom.js';
+import { MediaPermissionsModal } from './MediaPermissionsModal.dom.js';
+import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
 import {
   TapToViewNotAvailableModal,
   type DataPropsType as TapToViewNotAvailablePropsType,
-} from './TapToViewNotAvailableModal.js';
+} from './TapToViewNotAvailableModal.dom.js';
 import {
   BackfillFailureModal,
   type DataPropsType as BackfillFailureModalPropsType,
-} from './BackfillFailureModal.js';
-import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.js';
-import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.js';
-import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.js';
+} from './BackfillFailureModal.dom.js';
+import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
+import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
+import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.

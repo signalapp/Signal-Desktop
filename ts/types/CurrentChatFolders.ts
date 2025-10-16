@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert.js';
-import { ChatFolderType } from './ChatFolder.js';
-import type { ChatFolder, ChatFolderId } from './ChatFolder.js';
+import { strictAssert } from '../util/assert.std.js';
+import { ChatFolderType } from './ChatFolder.std.js';
+import type { ChatFolder, ChatFolderId } from './ChatFolder.std.js';
 
 export type CurrentChatFolder = ChatFolder &
   Readonly<{

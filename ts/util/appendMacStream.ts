@@ -5,7 +5,7 @@ import { createHmac } from 'node:crypto';
 import { Transform } from 'node:stream';
 import type { Duplex } from 'node:stream';
 
-import { HashType } from '../types/Crypto.js';
+import { HashType } from '../types/Crypto.std.js';
 
 export const MAC_KEY_SIZE = 32;
 

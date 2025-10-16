@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { UUID_BYTE_SIZE } from '../types/Crypto.js';
-import { createLogger } from '../logging/log.js';
-import * as Bytes from '../Bytes.js';
+import { UUID_BYTE_SIZE } from '../types/Crypto.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Bytes from '../Bytes.std.js';
 
 const { chunk } = lodash;
 

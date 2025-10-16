@@ -5,22 +5,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 
-import type { AttachmentForUIType } from '../../types/Attachment.js';
+import type { AttachmentForUIType } from '../../types/Attachment.std.js';
 import {
   hasNotResolved,
   getImageDimensionsForTimeline,
   defaultBlurHash,
   isDownloadable,
-} from '../../util/Attachment.js';
-import * as Errors from '../../types/errors.js';
-import { createLogger } from '../../logging/log.js';
-import { useReducedMotion } from '../../hooks/useReducedMotion.js';
-import { AttachmentDetailPill } from './AttachmentDetailPill.js';
-import { getSpinner } from './Image.js';
-import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.js';
-import { isAbortError } from '../../util/isAbortError.js';
+} from '../../util/Attachment.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
+import { AttachmentDetailPill } from './AttachmentDetailPill.dom.js';
+import { getSpinner } from './Image.dom.js';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.dom.js';
+import { isAbortError } from '../../util/isAbortError.std.js';
 
 const log = createLogger('GIF');
 

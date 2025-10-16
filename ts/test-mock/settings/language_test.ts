@@ -6,9 +6,9 @@ import createDebug from 'debug';
 import type { Locator } from 'playwright/test';
 import { expect } from 'playwright/test';
 import { writeFile } from 'node:fs/promises';
-import * as durations from '../../util/durations/index.js';
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
 
 export const debug = createDebug('mock:test:language');
 

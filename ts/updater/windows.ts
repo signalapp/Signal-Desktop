@@ -9,7 +9,7 @@ import { readdir as readdirCallback, unlink as unlinkCallback } from 'node:fs';
 import { app } from 'electron';
 import pify from 'pify';
 
-import { Updater } from './common.js';
+import { Updater } from './common.main.js';
 
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);

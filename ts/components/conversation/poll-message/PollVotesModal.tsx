@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { tw } from '../../../axo/tw.js';
-import { Modal } from '../../Modal.js';
-import { Avatar, AvatarSize } from '../../Avatar.js';
-import { ContactName } from '../ContactName.js';
-import type { LocalizerType } from '../../../types/Util.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { Modal } from '../../Modal.dom.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
+import { ContactName } from '../ContactName.dom.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
   PollVoteWithUserType,
   PollWithResolvedVotersType,
-} from '../../../state/selectors/message.js';
+} from '../../../state/selectors/message.preload.js';
 
 type PollVotesModalProps = {
   i18n: LocalizerType;

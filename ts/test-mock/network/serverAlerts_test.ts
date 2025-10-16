@@ -4,10 +4,10 @@ import createDebug from 'debug';
 import type { Page } from 'playwright';
 import { StorageState, type PrimaryDevice } from '@signalapp/mock-server';
 
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { getLeftPane } from '../helpers.js';
-import { MINUTE } from '../../util/durations/index.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { getLeftPane } from '../helpers.node.js';
+import { MINUTE } from '../../util/durations/index.std.js';
 
 export const debug = createDebug('mock:test:serverAlerts');
 

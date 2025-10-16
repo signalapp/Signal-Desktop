@@ -5,9 +5,9 @@
 import assert from 'node:assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 
-import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.js';
-import { stats } from '../../util/benchmark/stats.js';
-import { sleep } from '../../util/sleep.js';
+import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.js';
+import { stats } from '../../util/benchmark/stats.std.js';
+import { sleep } from '../../util/sleep.std.js';
 
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds

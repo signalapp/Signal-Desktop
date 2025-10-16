@@ -4,9 +4,9 @@
 import React from 'react';
 import lodash from 'lodash';
 
-import { I18n } from './I18n.js';
-import type { LocalizerType } from '../types/Util.js';
-import { UserText } from './UserText.js';
+import { I18n } from './I18n.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { UserText } from './UserText.dom.js';
 
 const { take } = lodash;
 

@@ -3,14 +3,14 @@
 import type { CSSProperties, ForwardedRef } from 'react';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from '@react-spring/web';
-import { SpinnerV2 } from '../SpinnerV2.js';
-import { strictAssert } from '../../util/assert.js';
-import type { Loadable } from '../../util/loadable.js';
-import { LoadingState } from '../../util/loadable.js';
-import { useIntent } from './base/FunImage.js';
-import { createLogger } from '../../logging/log.js';
-import * as Errors from '../../types/errors.js';
-import { isAbortError } from '../../util/isAbortError.js';
+import { SpinnerV2 } from '../SpinnerV2.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { Loadable } from '../../util/loadable.std.js';
+import { LoadingState } from '../../util/loadable.std.js';
+import { useIntent } from './base/FunImage.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { isAbortError } from '../../util/isAbortError.std.js';
 
 const log = createLogger('FunGif');
 

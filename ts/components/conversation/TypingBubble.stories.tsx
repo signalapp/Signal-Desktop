@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import type { TypingBubblePropsType } from './TypingBubble.js';
-import { TypingBubble } from './TypingBubble.js';
-import { AvatarColors } from '../../types/Colors.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
-import { ThemeType } from '../../types/Util.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import type { TypingBubblePropsType } from './TypingBubble.dom.js';
+import { TypingBubble } from './TypingBubble.dom.js';
+import { AvatarColors } from '../../types/Colors.std.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
+import { ThemeType } from '../../types/Util.std.js';
 
 const { times } = lodash;
 

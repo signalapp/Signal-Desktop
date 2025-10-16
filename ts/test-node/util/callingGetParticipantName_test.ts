@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getParticipantName } from '../../util/callingGetParticipantName.js';
+import { getParticipantName } from '../../util/callingGetParticipantName.std.js';
 
 describe('getParticipantName', () => {
   it('returns the first name if available', () => {

@@ -3,18 +3,18 @@
 
 import lodash from 'lodash';
 
-import type { LoggerType } from '../../types/Logging.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
-import { isNotNil } from '../../util/isNotNil.js';
-import { assertDev } from '../../util/assert.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
+import { isNotNil } from '../../util/isNotNil.std.js';
+import { assertDev } from '../../util/assert.std.js';
 import {
   TableIterator,
   getCountFromTable,
   jsonToObject,
   objectToJSON,
-} from '../util.js';
-import type { WritableDB } from '../Interface.js';
+} from '../util.std.js';
+import type { WritableDB } from '../Interface.std.js';
 
 const { omit } = lodash;
 

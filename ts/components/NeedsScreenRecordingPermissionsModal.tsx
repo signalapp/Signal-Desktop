@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util.js';
-import { Theme } from '../util/theme.js';
-import { Modal } from './Modal.js';
-import { Button, ButtonVariant } from './Button.js';
-import { tw } from '../axo/tw.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Theme } from '../util/theme.std.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 type PropsType = {
   i18n: LocalizerType;

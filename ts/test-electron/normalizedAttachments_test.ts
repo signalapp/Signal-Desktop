@@ -4,27 +4,27 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import * as Bytes from '../Bytes.js';
+import * as Bytes from '../Bytes.std.js';
 import type {
   EphemeralAttachmentFields,
   ScreenshotType,
   AttachmentType,
   ThumbnailType,
   BackupThumbnailType,
-} from '../types/Attachment.js';
+} from '../types/Attachment.std.js';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   LONG_MESSAGE,
-} from '../types/MIME.js';
-import type { MessageAttributesType } from '../model-types.js';
-import { generateAci } from '../types/ServiceId.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { SeenStatus } from '../MessageSeenStatus.js';
-import { DataWriter, DataReader } from '../sql/Client.js';
-import { strictAssert } from '../util/assert.js';
-import { HOUR, MINUTE } from '../util/durations/index.js';
+} from '../types/MIME.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { generateAci } from '../types/ServiceId.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { DataWriter, DataReader } from '../sql/Client.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import { HOUR, MINUTE } from '../util/durations/index.std.js';
 
 const CONTACT_A = generateAci();
 const contactAConversationId = generateGuid();

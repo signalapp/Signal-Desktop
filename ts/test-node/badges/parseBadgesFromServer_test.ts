@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import { BadgeCategory } from '../../badges/BadgeCategory.js';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.js';
 
-import { parseBadgesFromServer } from '../../badges/parseBadgesFromServer.js';
+import { parseBadgesFromServer } from '../../badges/parseBadgesFromServer.std.js';
 
 const { omit } = lodash;
 

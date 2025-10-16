@@ -8,19 +8,19 @@ import { existsSync } from 'node:fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
-import { isPathInside } from '../../util/isPathInside.js';
-import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.js';
-import OS from '../../util/os/osMain.js';
-import { getRelativePath, createName } from '../../util/attachmentPath.js';
-import { toHex } from '../../Bytes.js';
-import { getRandomBytes } from '../../Crypto.js';
-import { createLogger } from '../../logging/log.js';
+import { isPathInside } from '../../util/isPathInside.node.js';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.node.js';
+import OS from '../../util/os/osMain.node.js';
+import { getRelativePath, createName } from '../../util/attachmentPath.node.js';
+import { toHex } from '../../Bytes.std.js';
+import { getRandomBytes } from '../../Crypto.node.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const { isString, isTypedArray } = lodash;
 
 const log = createLogger('attachments');
 
-export * from '../../../app/attachments.js';
+export * from '../../../app/attachments.node.js';
 
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;

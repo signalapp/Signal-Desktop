@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.js';
-import { I18n } from './I18n.js';
-import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { I18n } from './I18n.dom.js';
+import { Modal } from './Modal.dom.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

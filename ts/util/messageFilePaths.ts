@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.js';
-import type { AttachmentType } from '../types/Attachment.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { AttachmentType } from '../types/Attachment.std.js';
 
 export function getFilePathsOwnedByAttachment(attachment: AttachmentType): {
   externalAttachments: Set<string>;

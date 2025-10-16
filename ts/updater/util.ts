@@ -6,11 +6,11 @@ import { createReadStream } from 'node:fs';
 import { rename, rm } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 
-import type { LoggerType } from '../types/Logging.js';
-import * as Errors from '../types/errors.js';
-import { SECOND, MINUTE, HOUR } from '../util/durations/index.js';
-import { sleep } from '../util/sleep.js';
-import { isOlderThan } from '../util/timestamp.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import * as Errors from '../types/errors.std.js';
+import { SECOND, MINUTE, HOUR } from '../util/durations/index.std.js';
+import { sleep } from '../util/sleep.std.js';
+import { isOlderThan } from '../util/timestamp.std.js';
 
 export type CheckIntegrityResultType = Readonly<
   | {

@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId.js';
-import type { LoggerType } from '../types/Logging.js';
-import { createLogger } from '../logging/log.js';
-import { isAciString } from './isAciString.js';
-import { strictAssert } from './assert.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { isAciString } from './isAciString.std.js';
+import { strictAssert } from './assert.std.js';
 
 const log = createLogger('normalizeAci');
 

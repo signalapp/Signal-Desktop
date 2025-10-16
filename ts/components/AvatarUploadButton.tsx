@@ -5,8 +5,8 @@ import type { ChangeEventHandler } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.js';
-import { processImageFile } from '../util/processImageFile.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { processImageFile } from '../util/processImageFile.dom.js';
 
 const { noop } = lodash;
 

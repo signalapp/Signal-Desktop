@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import type { MyStoryType, StoryViewType } from '../types/Stories.js';
+import type { MyStoryType, StoryViewType } from '../types/Stories.std.js';
 import {
   ResolvedSendStatus,
   StoryViewTargetType,
   StoryViewModeType,
-} from '../types/Stories.js';
-import type { LocalizerType } from '../types/Util.js';
-import { ThemeType } from '../types/Util.js';
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { ContextMenu } from './ContextMenu.js';
-import { MessageTimestamp } from './conversation/MessageTimestamp.js';
-import { StoryDistributionListName } from './StoryDistributionListName.js';
-import { StoryImage } from './StoryImage.js';
-import { Theme } from '../util/theme.js';
-import { resolveStorySendStatus } from '../util/resolveStorySendStatus.js';
-import { useRetryStorySend } from '../hooks/useRetryStorySend.js';
-import { NavSidebar } from './NavSidebar.js';
-import type { WidthBreakpoint } from './_util.js';
-import type { UnreadStats } from '../util/countUnreadStats.js';
+} from '../types/Stories.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
+import { StoryDistributionListName } from './StoryDistributionListName.dom.js';
+import { StoryImage } from './StoryImage.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { resolveStorySendStatus } from '../util/resolveStorySendStatus.std.js';
+import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.js';
+import { NavSidebar } from './NavSidebar.dom.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import type { UnreadStats } from '../util/countUnreadStats.std.js';
 
 export type PropsType = {
   i18n: LocalizerType;

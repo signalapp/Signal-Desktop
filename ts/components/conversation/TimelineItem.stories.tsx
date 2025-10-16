@@ -4,17 +4,17 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { DurationInSeconds } from '../../util/durations/index.js';
-import type { PropsType as TimelineItemProps } from './TimelineItem.js';
-import { TimelineItem } from './TimelineItem.js';
-import { UniversalTimerNotification } from './UniversalTimerNotification.js';
-import { CallMode } from '../../types/CallDisposition.js';
-import { AvatarColors } from '../../types/Colors.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { WidthBreakpoint } from '../_util.js';
-import { ThemeType } from '../../types/Util.js';
-import { PaymentEventKind } from '../../types/Payment.js';
-import { ErrorBoundary } from './ErrorBoundary.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
+import type { PropsType as TimelineItemProps } from './TimelineItem.dom.js';
+import { TimelineItem } from './TimelineItem.dom.js';
+import { UniversalTimerNotification } from './UniversalTimerNotification.dom.js';
+import { CallMode } from '../../types/CallDisposition.std.js';
+import { AvatarColors } from '../../types/Colors.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { WidthBreakpoint } from '../_util.std.js';
+import { ThemeType } from '../../types/Util.std.js';
+import { PaymentEventKind } from '../../types/Payment.std.js';
+import { ErrorBoundary } from './ErrorBoundary.dom.js';
 
 const { i18n } = window.SignalContext;
 

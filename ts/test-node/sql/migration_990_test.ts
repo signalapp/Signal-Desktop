@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 
-import type { WritableDB } from '../../sql/Interface.js';
+import type { WritableDB } from '../../sql/Interface.std.js';
 import {
   createDB,
   updateToVersion,
   insertData,
   getTableData,
-} from './helpers.js';
+} from './helpers.node.js';
 
 describe('SQL/updateToSchemaVersion990', () => {
   let db: WritableDB;

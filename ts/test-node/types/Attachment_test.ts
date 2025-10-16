@@ -3,19 +3,19 @@
 
 import { assert } from 'chai';
 
-import * as Attachment from '../../util/Attachment.js';
+import * as Attachment from '../../util/Attachment.std.js';
 import type {
   LocalAttachmentV2Type,
   AttachmentType,
-} from '../../types/Attachment.js';
-import * as MIME from '../../types/MIME.js';
-import { SignalService } from '../../protobuf/index.js';
-import * as Bytes from '../../Bytes.js';
-import { createLogger } from '../../logging/log.js';
+} from '../../types/Attachment.std.js';
+import * as MIME from '../../types/MIME.std.js';
+import { SignalService } from '../../protobuf/index.std.js';
+import * as Bytes from '../../Bytes.std.js';
+import { createLogger } from '../../logging/log.std.js';
 
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
-import { DAY } from '../../util/durations/index.js';
-import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
+import { DAY } from '../../util/durations/index.std.js';
+import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem.std.js';
 
 const logger = createLogger('Attachment_test');
 

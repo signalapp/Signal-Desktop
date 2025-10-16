@@ -4,21 +4,21 @@
 import lodash from 'lodash';
 import { LRUCache } from 'lru-cache';
 
-import { createLogger } from '../logging/log.js';
-import { MessageModel } from '../models/messages.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { getMessageConversation } from '../util/getMessageConversation.js';
-import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
-import { upgradeMessageSchema } from '../util/migrations.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { isStory } from '../messages/helpers.js';
-import { getStoryDataFromMessageAttributes } from './storyLoader.js';
-import { postSaveUpdates } from '../util/cleanup.js';
+import { createLogger } from '../logging/log.std.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { getMessageConversation } from '../util/getMessageConversation.dom.js';
+import { getSenderIdentifier } from '../util/getSenderIdentifier.dom.js';
+import { upgradeMessageSchema } from '../util/migrations.preload.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { isStory } from '../messages/helpers.std.js';
+import { getStoryDataFromMessageAttributes } from './storyLoader.preload.js';
+import { postSaveUpdates } from '../util/cleanup.preload.js';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { SendStateByConversationId } from '../messages/MessageSendState.js';
-import type { StoredJob } from '../jobs/types.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
+import type { StoredJob } from '../jobs/types.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { throttle } = lodash;
 

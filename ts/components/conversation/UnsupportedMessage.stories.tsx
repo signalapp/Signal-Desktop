@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { ContactType, Props } from './UnsupportedMessage.js';
-import { UnsupportedMessage } from './UnsupportedMessage.js';
+import type { ContactType, Props } from './UnsupportedMessage.dom.js';
+import { UnsupportedMessage } from './UnsupportedMessage.dom.js';
 
 const { i18n } = window.SignalContext;
 

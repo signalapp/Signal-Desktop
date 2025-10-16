@@ -3,7 +3,7 @@
 
 import type { BackupLevel } from '@signalapp/libsignal-client/dist/zkgroup/index.js';
 import { BackupCredentialType } from '@signalapp/libsignal-client/dist/zkgroup/index.js';
-import type { GetBackupCDNCredentialsResponseType } from '../textsecure/WebAPI.js';
+import type { GetBackupCDNCredentialsResponseType } from '../textsecure/WebAPI.preload.js';
 
 export { BackupCredentialType };
 

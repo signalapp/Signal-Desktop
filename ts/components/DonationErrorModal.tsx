@@ -4,13 +4,13 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 
-import { missingCaseError } from '../util/missingCaseError.js';
-import { donationErrorTypeSchema } from '../types/Donations.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { donationErrorTypeSchema } from '../types/Donations.std.js';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { DonationErrorType } from '../types/Donations.js';
-import { Button } from './Button.js';
-import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { DonationErrorType } from '../types/Donations.std.js';
+import { Button } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
 
 export type PropsType = {
   i18n: LocalizerType;

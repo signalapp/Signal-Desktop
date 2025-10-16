@@ -21,20 +21,20 @@ import {
   ServiceIdKind,
   loadCertificates,
 } from '@signalapp/mock-server';
-import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.js';
-import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.js';
-import { drop } from '../util/drop.js';
-import { regress } from '../util/benchmark/stats.js';
-import type { RendererConfigType } from '../types/RendererConfig.js';
-import type { MIMEType } from '../types/MIME.js';
-import { App } from './playwright.js';
-import { CONTACT_COUNT } from './benchmarks/fixtures.js';
-import { strictAssert } from '../util/assert.js';
+import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.std.js';
+import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.std.js';
+import { drop } from '../util/drop.std.js';
+import { regress } from '../util/benchmark/stats.std.js';
+import type { RendererConfigType } from '../types/RendererConfig.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
+import { App } from './playwright.node.js';
+import { CONTACT_COUNT } from './benchmarks/fixtures.node.js';
+import { strictAssert } from '../util/assert.std.js';
 import {
   encryptAttachmentV2,
   generateAttachmentKeys,
-} from '../AttachmentCrypto.js';
-import { isVideoTypeSupported } from '../util/GoogleChrome.js';
+} from '../AttachmentCrypto.node.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.std.js';
 
 export { App };
 

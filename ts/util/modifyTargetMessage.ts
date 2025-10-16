@@ -3,51 +3,54 @@
 
 import lodash from 'lodash';
 import PQueue from 'p-queue';
-import type { ConversationModel } from '../models/conversations.js';
-import type { MessageModel } from '../models/messages.js';
-import type { SendStateByConversationId } from '../messages/MessageSendState.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 
-import * as Edits from '../messageModifiers/Edits.js';
-import { createLogger } from '../logging/log.js';
-import * as Deletes from '../messageModifiers/Deletes.js';
-import * as DeletesForMe from '../messageModifiers/DeletesForMe.js';
-import * as MessageReceipts from '../messageModifiers/MessageReceipts.js';
-import * as Reactions from '../messageModifiers/Reactions.js';
-import * as ReadSyncs from '../messageModifiers/ReadSyncs.js';
-import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs.js';
-import * as ViewSyncs from '../messageModifiers/ViewSyncs.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { SeenStatus } from '../MessageSeenStatus.js';
+import * as Edits from '../messageModifiers/Edits.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Deletes from '../messageModifiers/Deletes.preload.js';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe.preload.js';
+import * as MessageReceipts from '../messageModifiers/MessageReceipts.preload.js';
+import * as Reactions from '../messageModifiers/Reactions.preload.js';
+import * as ReadSyncs from '../messageModifiers/ReadSyncs.preload.js';
+import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs.preload.js';
+import * as ViewSyncs from '../messageModifiers/ViewSyncs.preload.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
 import {
   SendActionType,
   sendStateReducer,
-} from '../messages/MessageSendState.js';
-import { canConversationBeUnarchived } from './canConversationBeUnarchived.js';
-import { deleteForEveryone } from './deleteForEveryone.js';
-import { drop } from './drop.js';
-import { handleEditMessage } from './handleEditMessage.js';
-import { isGroup } from './whatTypeOfConversation.js';
-import { isStory, isTapToView } from '../state/selectors/message.js';
-import { getOwn } from './getOwn.js';
-import { getSourceServiceId } from '../messages/sources.js';
-import { missingCaseError } from './missingCaseError.js';
-import { reduce } from './iterables.js';
-import { strictAssert } from './assert.js';
-import { deleteAttachmentData, deleteDownloadData } from './migrations.js';
+} from '../messages/MessageSendState.std.js';
+import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.js';
+import { deleteForEveryone } from './deleteForEveryone.preload.js';
+import { drop } from './drop.std.js';
+import { handleEditMessage } from './handleEditMessage.preload.js';
+import { isGroup } from './whatTypeOfConversation.dom.js';
+import { isStory, isTapToView } from '../state/selectors/message.preload.js';
+import { getOwn } from './getOwn.std.js';
+import { getSourceServiceId } from '../messages/sources.preload.js';
+import { missingCaseError } from './missingCaseError.std.js';
+import { reduce } from './iterables.std.js';
+import { strictAssert } from './assert.std.js';
+import {
+  deleteAttachmentData,
+  deleteDownloadData,
+} from './migrations.preload.js';
 import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
-} from './deleteForMe.js';
-import { getMessageIdForLogging } from './idForLogging.js';
-import { markViewOnceMessageViewed } from '../services/MessageUpdater.js';
-import { handleReaction } from '../messageModifiers/Reactions.js';
+} from './deleteForMe.preload.js';
+import { getMessageIdForLogging } from './idForLogging.preload.js';
+import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.js';
+import { handleReaction } from '../messageModifiers/Reactions.preload.js';
 import {
   drainCachedTerminatesForMessage as drainCachedPollTerminatesForMessage,
   drainCachedVotesForMessage as drainCachedPollVotesForMessage,
   handlePollTerminate,
   handlePollVote,
-} from '../messageModifiers/Polls.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../messageModifiers/Polls.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { isEqual } = lodash;
 

@@ -5,9 +5,9 @@ import os from 'node:os';
 import Sinon from 'sinon';
 import { assert } from 'chai';
 
-import { getOSFunctions } from '../../util/os/shared.js';
-import * as Settings from '../../types/Settings.js';
-import { SystemTraySetting } from '../../types/SystemTraySetting.js';
+import { getOSFunctions } from '../../util/os/shared.std.js';
+import * as Settings from '../../types/Settings.std.js';
+import { SystemTraySetting } from '../../types/SystemTraySetting.std.js';
 
 describe('Settings', () => {
   let sandbox: Sinon.SinonSandbox;

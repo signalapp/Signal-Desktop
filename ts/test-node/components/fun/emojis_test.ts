@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
-import { getEmojifyData } from '../../../components/fun/data/emojis.js';
+import { getEmojifyData } from '../../../components/fun/data/emojis.std.js';
 
 describe('getEmojifyData', () => {
   function check(text: string, emojiCount: number, isEmojiOnlyText: boolean) {

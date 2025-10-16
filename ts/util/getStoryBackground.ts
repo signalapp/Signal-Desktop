@@ -4,7 +4,7 @@
 import type {
   AttachmentType,
   TextAttachmentType,
-} from '../types/Attachment.js';
+} from '../types/Attachment.std.js';
 
 const COLOR_BLACK_ALPHA_90 = 'rgba(0, 0, 0, 0.9)';
 export const COLOR_BLACK_INT = 4278190080;

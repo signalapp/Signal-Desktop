@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentMeta } from '../storybook/types.js';
-import type { Props } from './CallNeedPermissionScreen.js';
-import { CallNeedPermissionScreen } from './CallNeedPermissionScreen.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
+import type { Props } from './CallNeedPermissionScreen.dom.js';
+import { CallNeedPermissionScreen } from './CallNeedPermissionScreen.dom.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 
 const { i18n } = window.SignalContext;
 

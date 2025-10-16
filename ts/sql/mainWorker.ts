@@ -3,11 +3,14 @@
 
 import { parentPort } from 'node:worker_threads';
 
-import type { WrappedWorkerRequest, WrappedWorkerResponse } from './main.js';
-import type { WritableDB } from './Interface.js';
-import { initialize, DataReader, DataWriter, removeDB } from './Server.js';
-import { SqliteErrorKind, parseSqliteError } from './errors.js';
-import { sqlLogger as logger } from './sqlLogger.js';
+import type {
+  WrappedWorkerRequest,
+  WrappedWorkerResponse,
+} from './main.main.js';
+import type { WritableDB } from './Interface.std.js';
+import { initialize, DataReader, DataWriter, removeDB } from './Server.node.js';
+import { SqliteErrorKind, parseSqliteError } from './errors.std.js';
+import { sqlLogger as logger } from './sqlLogger.node.js';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');

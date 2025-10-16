@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ImageOrBlurhash.js';
-import { ImageOrBlurhash } from './ImageOrBlurhash.js';
+import type { Props } from './ImageOrBlurhash.dom.js';
+import { ImageOrBlurhash } from './ImageOrBlurhash.dom.js';
 
 export default {
   title: 'Components/ImageOrBlurhash',

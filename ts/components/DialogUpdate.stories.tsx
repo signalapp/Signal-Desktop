@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DialogUpdate.js';
-import { DialogUpdate } from './DialogUpdate.js';
-import { DialogType } from '../types/Dialogs.js';
-import { WidthBreakpoint } from './_util.js';
-import { SECOND } from '../util/durations/index.js';
-import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.js';
+import type { PropsType } from './DialogUpdate.dom.js';
+import { DialogUpdate } from './DialogUpdate.dom.js';
+import { DialogType } from '../types/Dialogs.std.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { SECOND } from '../util/durations/index.std.js';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.js';
 
 const { i18n } = window.SignalContext;
 

@@ -5,14 +5,14 @@ import React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallOverflowArea.js';
-import { GroupCallOverflowArea } from './GroupCallOverflowArea.js';
-import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
-import { FRAME_BUFFER_SIZE } from '../calling/constants.js';
-import { generateAci } from '../types/ServiceId.js';
-import type { CallingImageDataCache } from './CallManager.js';
-import { MINUTE } from '../util/durations/index.js';
+import type { PropsType } from './GroupCallOverflowArea.dom.js';
+import { GroupCallOverflowArea } from './GroupCallOverflowArea.dom.js';
+import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.std.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
+import { MINUTE } from '../util/durations/index.std.js';
 
 const { memoize, times } = lodash;
 

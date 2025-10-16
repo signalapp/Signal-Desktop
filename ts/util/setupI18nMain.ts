@@ -4,17 +4,20 @@
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import type { ReactNode } from 'react';
-import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N.js';
+import type {
+  LocaleMessageType,
+  LocaleMessagesType,
+} from '../types/I18N.std.js';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   LocalizerOptions,
-} from '../types/Util.js';
-import { strictAssert } from './assert.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { Environment, getEnvironment } from '../environment.js';
-import { bidiIsolate, bidiStrip } from './unicodeBidi.js';
+} from '../types/Util.std.js';
+import { strictAssert } from './assert.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { Environment, getEnvironment } from '../environment.std.js';
+import { bidiIsolate, bidiStrip } from './unicodeBidi.std.js';
 
 const log = createLogger('setupI18nMain');
 
@@ -30,6 +33,8 @@ export function isLocaleMessageType(
 
 export type SetupI18nOptionsType = Readonly<{
   renderEmojify: (parts: ReadonlyArray<unknown>) => ReactNode;
+  getLocaleDirection: LocalizerType['getLocaleDirection'];
+  getHourCyclePreference: LocalizerType['getHourCyclePreference'];
 }>;
 
 export function createCachedIntl(
@@ -111,7 +116,11 @@ function filterLegacyMessages(
 export function setupI18n(
   locale: string,
   messages: LocaleMessagesType,
-  { renderEmojify }: SetupI18nOptionsType
+  {
+    renderEmojify,
+    getLocaleDirection,
+    getHourCyclePreference,
+  }: SetupI18nOptionsType
 ): LocalizerType {
   if (!locale) {
     throw new Error('i18n: locale parameter is required');
@@ -122,6 +131,8 @@ export function setupI18n(
 
   const intl = createCachedIntl(locale, filterLegacyMessages(messages), {
     renderEmojify,
+    getLocaleDirection,
+    getHourCyclePreference,
   });
 
   let usedStrings: Map<string, string> | undefined;
@@ -150,12 +161,8 @@ export function setupI18n(
   };
   localizer.getLocale = () => locale;
   localizer.getLocaleMessages = () => messages;
-  localizer.getLocaleDirection = () => {
-    return window.SignalContext.getResolvedMessagesLocaleDirection();
-  };
-  localizer.getHourCyclePreference = () => {
-    return window.SignalContext.getHourCyclePreference();
-  };
+  localizer.getLocaleDirection = getLocaleDirection;
+  localizer.getHourCyclePreference = getHourCyclePreference;
 
   // Storybook
   localizer.trackUsage = () => {

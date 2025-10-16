@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import type { DonationReceipt } from '../types/Donations.js';
-import type { LocalizerType } from '../types/Util.js';
-import { strictAssert } from './assert.js';
-import { getDateTimeFormatter } from './formatTimestamp.js';
-import { isStagingServer } from './isStagingServer.js';
-import { getHumanDonationAmount, toHumanCurrencyString } from './currency.js';
+import type { DonationReceipt } from '../types/Donations.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { strictAssert } from './assert.std.js';
+import { getDateTimeFormatter } from './formatTimestamp.dom.js';
+import { isStagingServer } from './isStagingServer.dom.js';
+import {
+  getHumanDonationAmount,
+  toHumanCurrencyString,
+} from './currency.dom.js';
 
 const SCALING_FACTOR = 4.17;
 

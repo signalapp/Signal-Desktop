@@ -2,28 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { CallHistoryGroup } from '../types/CallDisposition.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { CallHistoryGroupPanelSection } from './conversation/conversation-details/CallHistoryGroupPanelSection.js';
-import { PanelSection } from './conversation/conversation-details/PanelSection.js';
+import type { CallHistoryGroup } from '../types/CallDisposition.std.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { CallHistoryGroupPanelSection } from './conversation/conversation-details/CallHistoryGroupPanelSection.dom.js';
+import { PanelSection } from './conversation/conversation-details/PanelSection.dom.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './conversation/conversation-details/ConversationDetailsIcon.js';
-import { PanelRow } from './conversation/conversation-details/PanelRow.js';
-import type { CallLinkRestrictions, CallLinkType } from '../types/CallLink.js';
-import { linkCallRoute } from '../util/signalRoutes.js';
-import { drop } from '../util/drop.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.js';
-import { copyCallLink } from '../util/copyLinksWithToast.js';
-import { getColorForCallLink } from '../util/getColorForCallLink.js';
-import { isCallLinkAdmin } from '../types/CallLink.js';
-import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.js';
-import { offsetDistanceModifier } from '../util/popperUtil.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.js';
+} from './conversation/conversation-details/ConversationDetailsIcon.dom.js';
+import { PanelRow } from './conversation/conversation-details/PanelRow.dom.js';
+import type {
+  CallLinkRestrictions,
+  CallLinkType,
+} from '../types/CallLink.std.js';
+import { linkCallRoute } from '../util/signalRoutes.std.js';
+import { drop } from '../util/drop.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
+import { copyCallLink } from '../util/copyLinksWithToast.dom.js';
+import { getColorForCallLink } from '../util/getColorForCallLink.std.js';
+import { isCallLinkAdmin } from '../types/CallLink.std.js';
+import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.js';
+import { offsetDistanceModifier } from '../util/popperUtil.std.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;

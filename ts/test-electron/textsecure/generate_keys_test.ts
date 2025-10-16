@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 
-import { constantTimeEqual } from '../../Crypto.js';
-import { generateKeyPair } from '../../Curve.js';
+import { constantTimeEqual } from '../../Crypto.node.js';
+import { generateKeyPair } from '../../Curve.node.js';
 import type {
   UploadKeysType,
   UploadPreKeyType,
-} from '../../textsecure/WebAPI.js';
-import AccountManager from '../../textsecure/AccountManager.js';
-import { ServiceIdKind } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
-import { DataWriter } from '../../sql/Client.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../textsecure/WebAPI.preload.js';
+import AccountManager from '../../textsecure/AccountManager.preload.js';
+import { ServiceIdKind } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
   assert.isTrue(constantTimeEqual(a, b));

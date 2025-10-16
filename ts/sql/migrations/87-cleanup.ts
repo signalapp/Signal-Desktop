@@ -3,9 +3,9 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import { cleanKeys } from './920-clean-more-keys.js';
-import type { LoggerType } from '../../types/Logging.js';
-import { sqlFragment } from '../util.js';
+import { cleanKeys } from './920-clean-more-keys.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { sqlFragment } from '../util.std.js';
 
 // Note: for many users, this is not what ran for them as migration 87. You can see that
 //   migration here: https://github.com/signalapp/Signal-Desktop/commit/671e16ae1f869627f355113d6397ccb62d5461d2

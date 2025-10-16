@@ -4,50 +4,50 @@
 import lodash from 'lodash';
 
 import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
-import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.js';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.std.js';
 import type {
   LinkPreviewImage,
   LinkPreviewResult,
   LinkPreviewSourceType,
   MaybeGrabLinkPreviewOptionsType,
   AddLinkPreviewOptionsType,
-} from '../types/LinkPreview.js';
-import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch.js';
-import * as Errors from '../types/errors.js';
-import type { StickerPackType as StickerPackDBType } from '../sql/Interface.js';
-import type { MIMEType } from '../types/MIME.js';
-import * as Bytes from '../Bytes.js';
-import { sha256 } from '../Crypto.js';
-import * as LinkPreview from '../types/LinkPreview.js';
-import { getLinkPreviewSetting } from '../util/Settings.js';
-import { readTempData, readStickerData } from '../util/migrations.js';
-import * as Stickers from '../types/Stickers.js';
-import * as VisualAttachment from '../types/VisualAttachment.js';
-import { createLogger } from '../logging/log.js';
+} from '../types/LinkPreview.std.js';
+import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch.preload.js';
+import * as Errors from '../types/errors.std.js';
+import type { StickerPackType as StickerPackDBType } from '../sql/Interface.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { sha256 } from '../Crypto.node.js';
+import * as LinkPreview from '../types/LinkPreview.std.js';
+import { getLinkPreviewSetting } from '../util/Settings.preload.js';
+import { readTempData, readStickerData } from '../util/migrations.preload.js';
+import * as Stickers from '../types/Stickers.preload.js';
+import * as VisualAttachment from '../types/VisualAttachment.dom.js';
+import { createLogger } from '../logging/log.std.js';
 import {
   parseGroupLink,
   deriveGroupFields,
   getPreJoinGroupInfo,
   decryptGroupTitle,
   decryptGroupAvatar,
-} from '../groups.js';
-import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME.js';
-import { SECOND } from '../util/durations/index.js';
-import { autoScale } from '../util/handleImageAttachment.js';
-import { dropNull } from '../util/dropNull.js';
-import { fileToBytes } from '../util/fileToBytes.js';
-import { imageToBlurHash } from '../util/imageToBlurHash.js';
-import { maybeParseUrl } from '../util/url.js';
-import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
-import { drop } from '../util/drop.js';
-import { calling } from './calling.js';
-import { getKeyAndEpochFromCallLink } from '../util/callLinks.js';
-import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
+} from '../groups.preload.js';
+import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME.std.js';
+import { SECOND } from '../util/durations/index.std.js';
+import { autoScale } from '../util/handleImageAttachment.preload.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { fileToBytes } from '../util/fileToBytes.std.js';
+import { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
+import { maybeParseUrl } from '../util/url.std.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
+import { drop } from '../util/drop.std.js';
+import { calling } from './calling.preload.js';
+import { getKeyAndEpochFromCallLink } from '../util/callLinks.std.js';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.js';
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
-} from '../textsecure/WebAPI.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../textsecure/WebAPI.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { debounce, omit } = lodash;
 

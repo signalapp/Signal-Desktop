@@ -3,11 +3,11 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { UnsupportedOSDialog } from '../../components/UnsupportedOSDialog.js';
-import { getIntl } from '../selectors/user.js';
-import { getExpirationTimestamp } from '../selectors/expiration.js';
-import type { WidthBreakpoint } from '../../components/_util.js';
-import OS from '../../util/os/osMain.js';
+import { UnsupportedOSDialog } from '../../components/UnsupportedOSDialog.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getExpirationTimestamp } from '../selectors/expiration.dom.js';
+import type { WidthBreakpoint } from '../../components/_util.std.js';
+import OS from '../../util/os/osMain.node.js';
 
 export type PropsType = Readonly<{
   type: 'warning' | 'error';

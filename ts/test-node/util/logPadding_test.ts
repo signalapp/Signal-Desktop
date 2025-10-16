@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import { Readable } from 'node:stream';
 
-import { appendPaddingStream } from '../../util/logPadding.js';
-import { logPadSize } from '../../util/logPadSize.js';
+import { appendPaddingStream } from '../../util/logPadding.node.js';
+import { logPadSize } from '../../util/logPadSize.std.js';
 
 const BUCKET_SIZES = [
   541, 568, 596, 626, 657, 690, 725, 761, 799, 839, 881, 925, 972, 1020, 1071,

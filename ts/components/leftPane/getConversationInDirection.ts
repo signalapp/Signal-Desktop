@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
-import { isConversationUnread } from '../../util/isConversationUnread.js';
-import type { ToFindType } from './LeftPaneHelper.js';
-import { FindDirection } from './LeftPaneHelper.js';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.dom.js';
+import { isConversationUnread } from '../../util/isConversationUnread.std.js';
+import type { ToFindType } from './LeftPaneHelper.dom.js';
+import { FindDirection } from './LeftPaneHelper.dom.js';
 
 const { find: findFirst, findLast, first, last } = lodash;
 

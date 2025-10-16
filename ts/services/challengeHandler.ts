@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ChallengeHandler } from '../challenge.js';
-import { itemStorage } from '../textsecure/Storage.js';
-import { sendChallengeResponse as doSendChallengeResponse } from '../textsecure/WebAPI.js';
-import { conversationJobQueue } from '../jobs/conversationJobQueue.js';
-import { ToastType } from '../types/Toast.js';
+import { ChallengeHandler } from '../challenge.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import { sendChallengeResponse as doSendChallengeResponse } from '../textsecure/WebAPI.preload.js';
+import { conversationJobQueue } from '../jobs/conversationJobQueue.preload.js';
+import { ToastType } from '../types/Toast.dom.js';
 
 export const challengeHandler = new ChallengeHandler({
   storage: itemStorage,

@@ -3,42 +3,42 @@
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationType } from '../../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import type { ThemeType } from '../../../types/Util.js';
-import { Input } from '../../Input.js';
-import { Button, ButtonVariant } from '../../Button.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.js';
-import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.js';
-import { SettingsControl, SettingsRow } from '../../PreferencesUtil.js';
-import { PreferencesSelectChatsDialog } from '../PreferencesSelectChatsDialog.js';
-import { Avatar, AvatarSize } from '../../Avatar.js';
-import { PreferencesContent } from '../../Preferences.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import type { ThemeType } from '../../../types/Util.std.js';
+import { Input } from '../../Input.dom.js';
+import { Button, ButtonVariant } from '../../Button.dom.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
+import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.dom.js';
+import { SettingsControl, SettingsRow } from '../../PreferencesUtil.dom.js';
+import { PreferencesSelectChatsDialog } from '../PreferencesSelectChatsDialog.dom.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
+import { PreferencesContent } from '../../Preferences.dom.js';
 import {
   CHAT_FOLDER_NAME_MAX_CHAR_LENGTH,
   ChatFolderParamsSchema,
   isSameChatFolderParams,
   validateChatFolderParams,
-} from '../../../types/ChatFolder.js';
+} from '../../../types/ChatFolder.std.js';
 import type {
   ChatFolderId,
   ChatFolderParams,
-} from '../../../types/ChatFolder.js';
-import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
-import { strictAssert } from '../../../util/assert.js';
-import { parseStrict } from '../../../util/schemas.js';
-import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.js';
-import { NavTab, SettingsPage } from '../../../types/Nav.js';
-import type { Location } from '../../../types/Nav.js';
-import { useNavBlocker } from '../../../hooks/useNavBlocker.js';
-import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.js';
-import { UserText } from '../../UserText.js';
-import { AxoSwitch } from '../../../axo/AxoSwitch.js';
-import { FunEmojiPickerButton } from '../../fun/FunButton.js';
-import { FunEmojiPicker } from '../../fun/FunEmojiPicker.js';
-import type { FunEmojiSelection } from '../../fun/panels/FunPanelEmojis.js';
-import { getEmojiVariantByKey } from '../../fun/data/emojis.js';
+} from '../../../types/ChatFolder.std.js';
+import type { GetConversationByIdType } from '../../../state/selectors/conversations.dom.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { parseStrict } from '../../../util/schemas.std.js';
+import { BeforeNavigateResponse } from '../../../services/BeforeNavigate.std.js';
+import { NavTab, SettingsPage } from '../../../types/Nav.std.js';
+import type { Location } from '../../../types/Nav.std.js';
+import { useNavBlocker } from '../../../hooks/useNavBlocker.std.js';
+import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.dom.js';
+import { UserText } from '../../UserText.dom.js';
+import { AxoSwitch } from '../../../axo/AxoSwitch.dom.js';
+import { FunEmojiPickerButton } from '../../fun/FunButton.dom.js';
+import { FunEmojiPicker } from '../../fun/FunEmojiPicker.dom.js';
+import type { FunEmojiSelection } from '../../fun/panels/FunPanelEmojis.dom.js';
+import { getEmojiVariantByKey } from '../../fun/data/emojis.std.js';
 import {
   ItemAvatar,
   ItemBody,
@@ -46,7 +46,7 @@ import {
   itemClassName,
   ItemContent,
   ItemTitle,
-} from './PreferencesChatFolderItems.js';
+} from './PreferencesChatFolderItems.dom.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;

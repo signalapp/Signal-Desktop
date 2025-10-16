@@ -4,22 +4,22 @@
 import React, { useState, useCallback, useRef } from 'react';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.js';
-import { Modal } from './Modal.js';
-import { Button, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
-} from './ReactionPickerPicker.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.js';
+} from './ReactionPickerPicker.dom.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.std.js';
 import {
   EmojiSkinTone,
   getEmojiVariantByKey,
   getEmojiVariantByParentKeyAndSkinTone,
-} from './fun/data/emojis.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
+} from './fun/data/emojis.std.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 
 const { isEqual } = lodash;
 

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoSwitch } from './AxoSwitch.js';
-import { tw } from './tw.js';
+import { AxoSwitch } from './AxoSwitch.dom.js';
+import { tw } from './tw.dom.js';
 
 export default {
   title: 'Axo/AxoSwitch',

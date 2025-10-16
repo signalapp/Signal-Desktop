@@ -8,12 +8,12 @@ import {
   getPeerIdFromConversation,
   getCallIdFromEra,
   getGroupCallMeta,
-} from '../../util/callDisposition.js';
+} from '../../util/callDisposition.preload.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
+} from '../../test-helpers/getDefaultConversation.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
 
 const MOCK_ERA = 'abc';
 const MOCK_CALL_ID = '16919744041952114874';

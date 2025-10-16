@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import { Button, ButtonVariant } from './Button.js';
-import { Modal } from './Modal.js';
-import { I18n } from './I18n.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
-import type { LocalizerType } from '../types/Util.js';
-import { SAFETY_NUMBER_URL } from '../types/support.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
+import { I18n } from './I18n.dom.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { SAFETY_NUMBER_URL } from '../types/support.std.js';
 
 export type PropsType = {
   i18n: LocalizerType;

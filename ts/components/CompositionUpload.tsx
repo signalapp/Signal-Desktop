@@ -4,14 +4,17 @@
 import type { ChangeEventHandler } from 'react';
 import React, { forwardRef } from 'react';
 
-import type { AttachmentDraftType } from '../types/Attachment.js';
-import { isVideoAttachment, isImageAttachment } from '../util/Attachment.js';
-import type { LocalizerType } from '../types/Util.js';
+import type { AttachmentDraftType } from '../types/Attachment.std.js';
+import {
+  isVideoAttachment,
+  isImageAttachment,
+} from '../util/Attachment.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
 
 import {
   getSupportedImageTypes,
   getSupportedVideoTypes,
-} from '../util/GoogleChrome.js';
+} from '../util/GoogleChrome.std.js';
 
 export type PropsType = {
   conversationId: string;

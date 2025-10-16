@@ -7,29 +7,29 @@ import sinon from 'sinon';
 import type {
   ConversationType,
   MessageType,
-} from '../../../state/ducks/conversations.js';
-import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations.js';
-import { noopAction } from '../../../state/ducks/noop.js';
-import type { MessageSearchResultType } from '../../../state/ducks/search.js';
-import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search.js';
-import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user.js';
+} from '../../../state/ducks/conversations.preload.js';
+import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations.preload.js';
+import { noopAction } from '../../../state/ducks/noop.std.js';
+import type { MessageSearchResultType } from '../../../state/ducks/search.preload.js';
+import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search.preload.js';
+import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user.preload.js';
 import {
   getIsSearching,
   getIsSearchingGlobally,
   getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
-} from '../../../state/selectors/search.js';
-import { makeLookup } from '../../../util/makeLookup.js';
-import { generateAci } from '../../../types/ServiceId.js';
+} from '../../../state/selectors/search.dom.js';
+import { makeLookup } from '../../../util/makeLookup.std.js';
+import { generateAci } from '../../../types/ServiceId.std.js';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../../../test-helpers/getDefaultConversation.js';
-import { ReadStatus } from '../../../messages/MessageReadStatus.js';
+} from '../../../test-helpers/getDefaultConversation.std.js';
+import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
 
-import type { StateType } from '../../../state/reducer.js';
-import { reducer as rootReducer } from '../../../state/reducer.js';
+import type { StateType } from '../../../state/reducer.preload.js';
+import { reducer as rootReducer } from '../../../state/reducer.preload.js';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;

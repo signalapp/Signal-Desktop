@@ -6,11 +6,14 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { getFakeBadge, getFakeBadges } from '../test-helpers/getFakeBadge.js';
-import { repeat, zipObject } from '../util/iterables.js';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme.js';
-import type { PropsType } from './BadgeDialog.js';
-import { BadgeDialog } from './BadgeDialog.js';
+import {
+  getFakeBadge,
+  getFakeBadges,
+} from '../test-helpers/getFakeBadge.std.js';
+import { repeat, zipObject } from '../util/iterables.std.js';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.js';
+import type { PropsType } from './BadgeDialog.dom.js';
+import { BadgeDialog } from './BadgeDialog.dom.js';
 
 const { i18n } = window.SignalContext;
 

@@ -4,11 +4,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '../sandboxedInit.js';
-import { PermissionsPopup } from '../../components/PermissionsPopup.js';
-import { strictAssert } from '../../util/assert.js';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
-import { AxoProvider } from '../../axo/AxoProvider.js';
+import '../sandboxedInit.dom.js';
+import { PermissionsPopup } from '../../components/PermissionsPopup.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.js';
+import { AxoProvider } from '../../axo/AxoProvider.dom.js';
 
 const { PermissionsWindowProps } = window.Signal;
 const { i18n } = window.SignalContext;

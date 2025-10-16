@@ -4,15 +4,15 @@
 import lodash from 'lodash';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { TypingBubble } from '../../components/conversation/TypingBubble.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { useTimelineItem } from '../selectors/timeline.js';
+import { TypingBubble } from '../../components/conversation/TypingBubble.dom.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   getConversationSelector,
   getConversationMessagesSelector,
-} from '../selectors/conversations.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
+} from '../selectors/conversations.dom.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 
 const { last } = lodash;
 

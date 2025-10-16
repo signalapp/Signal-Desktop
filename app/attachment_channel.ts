@@ -23,30 +23,30 @@ import { pathExists } from 'fs-extra';
 import {
   type DecryptAttachmentToSinkOptionsType,
   decryptAttachmentV2ToSink,
-} from '../ts/AttachmentCrypto.js';
-import * as Bytes from '../ts/Bytes.js';
-import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.js';
-import type { MainSQL } from '../ts/sql/main.js';
+} from '../ts/AttachmentCrypto.node.js';
+import * as Bytes from '../ts/Bytes.std.js';
+import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.std.js';
+import type { MainSQL } from '../ts/sql/main.main.js';
 import {
   APPLICATION_OCTET_STREAM,
   MIMETypeToString,
   stringToMIMEType,
-} from '../ts/types/MIME.js';
-import * as Errors from '../ts/types/errors.js';
+} from '../ts/types/MIME.std.js';
+import * as Errors from '../ts/types/errors.std.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../ts/util/GoogleChrome.js';
-import { strictAssert } from '../ts/util/assert.js';
-import { drop } from '../ts/util/drop.js';
-import { SECOND } from '../ts/util/durations/index.js';
-import { isPathInside } from '../ts/util/isPathInside.js';
-import { missingCaseError } from '../ts/util/missingCaseError.js';
-import { safeParseInteger } from '../ts/util/numbers.js';
-import { parseLoose } from '../ts/util/schemas.js';
-import { sleep } from '../ts/util/sleep.js';
-import { toWebStream } from '../ts/util/toWebStream.js';
-import { createLogger } from '../ts/logging/log.js';
+} from '../ts/util/GoogleChrome.std.js';
+import { strictAssert } from '../ts/util/assert.std.js';
+import { drop } from '../ts/util/drop.std.js';
+import { SECOND } from '../ts/util/durations/index.std.js';
+import { isPathInside } from '../ts/util/isPathInside.node.js';
+import { missingCaseError } from '../ts/util/missingCaseError.std.js';
+import { safeParseInteger } from '../ts/util/numbers.std.js';
+import { parseLoose } from '../ts/util/schemas.std.js';
+import { sleep } from '../ts/util/sleep.std.js';
+import { toWebStream } from '../ts/util/toWebStream.node.js';
+import { createLogger } from '../ts/logging/log.std.js';
 import {
   deleteAll as deleteAllAttachments,
   deleteAllBadges,
@@ -64,7 +64,7 @@ import {
   getPath,
   getStickersPath,
   getTempPath,
-} from './attachments.js';
+} from './attachments.node.js';
 
 const { isNumber } = lodash;
 

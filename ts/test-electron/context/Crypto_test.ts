@@ -11,7 +11,7 @@ import {
   sign,
   encrypt,
   decrypt,
-} from '../../Crypto.js';
+} from '../../Crypto.node.js';
 
 describe('SignalContext.Crypto', () => {
   describe('hash', () => {

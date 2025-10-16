@@ -4,7 +4,7 @@
 
 import type Long from 'long';
 
-import { InstallScreenBackupError } from '../../types/InstallScreen.js';
+import { InstallScreenBackupError } from '../../types/InstallScreen.std.js';
 
 export class BackupInstallerError extends Error {
   constructor(

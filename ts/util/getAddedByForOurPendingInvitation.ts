@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function getAddedByForOurPendingInvitation(
   conversation: ConversationType

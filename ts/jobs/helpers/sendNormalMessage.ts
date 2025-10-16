@@ -6,81 +6,85 @@ import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
 import Long from 'long';
 
-import * as Errors from '../../types/errors.js';
-import { strictAssert } from '../../util/assert.js';
-import type { MessageModel } from '../../models/messages.js';
-import { getMessageById } from '../../messages/getMessageById.js';
-import type { ConversationModel } from '../../models/conversations.js';
-import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation.js';
-import { getSendOptions } from '../../util/getSendOptions.js';
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { findAndFormatContact } from '../../util/findAndFormatContact.js';
-import { uploadAttachment } from '../../util/uploadAttachment.js';
+import * as Errors from '../../types/errors.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { MessageModel } from '../../models/messages.preload.js';
+import { getMessageById } from '../../messages/getMessageById.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
+import {
+  isGroup,
+  isGroupV2,
+  isMe,
+} from '../../util/whatTypeOfConversation.dom.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { findAndFormatContact } from '../../util/findAndFormatContact.preload.js';
+import { uploadAttachment } from '../../util/uploadAttachment.preload.js';
 import {
   loadAttachmentData,
   loadQuoteData,
   loadPreviewData,
   loadStickerData,
   loadContactData,
-} from '../../util/migrations.js';
+} from '../../util/migrations.preload.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import { isSent } from '../../messages/MessageSendState.js';
-import { isOutgoing, canReact } from '../../state/selectors/message.js';
+import { isSent } from '../../messages/MessageSendState.std.js';
+import { isOutgoing, canReact } from '../../state/selectors/message.preload.js';
 import type {
   ReactionType,
   OutgoingQuoteType,
   OutgoingQuoteAttachmentType,
   OutgoingLinkPreviewType,
   OutgoingStickerType,
-} from '../../textsecure/SendMessage.js';
+} from '../../textsecure/SendMessage.preload.js';
 import type {
   AttachmentDownloadableFromTransitTier,
   AttachmentType,
   UploadedAttachmentType,
-} from '../../types/Attachment.js';
-import { copyCdnFields } from '../../util/attachments.js';
-import type { RawBodyRange } from '../../types/BodyRange.js';
-import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact.js';
-import type { StoryContextType } from '../../types/Util.js';
-import type { LoggerType } from '../../types/Logging.js';
-import { GROUP } from '../../types/Message2.js';
+} from '../../types/Attachment.std.js';
+import { copyCdnFields } from '../../util/attachments.preload.js';
+import type { RawBodyRange } from '../../types/BodyRange.std.js';
+import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact.std.js';
+import type { StoryContextType } from '../../types/Util.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { GROUP } from '../../types/Message2.preload.js';
 import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
-} from '../conversationJobQueue.js';
+} from '../conversationJobQueue.preload.js';
 import type { QuotedMessageType } from '../../model-types.d.ts';
 
-import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.js';
-import { sendToGroup } from '../../util/sendToGroup.js';
-import type { DurationInSeconds } from '../../util/durations/index.js';
-import type { ServiceIdString } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
+import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import type { DurationInSeconds } from '../../util/durations/index.std.js';
+import type { ServiceIdString } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
 import {
   getPropForTimestamp,
   getTargetOfThisEditTimestamp,
   getChangesForPropAtTimestamp,
-} from '../../util/editHelpers.js';
-import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
+} from '../../util/editHelpers.std.js';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   isBodyTooLong,
   MAX_BODY_ATTACHMENT_BYTE_LENGTH,
   trimBody,
-} from '../../util/longAttachment.js';
+} from '../../util/longAttachment.std.js';
 import {
   markFailed,
   saveErrorsOnMessage,
-} from '../../test-node/util/messageFailures.js';
-import { getMessageIdForLogging } from '../../util/idForLogging.js';
-import { send, sendSyncMessageOnly } from '../../messages/send.js';
-import type { SignalService } from '../../protobuf/index.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import { fromBase64 } from '../../Bytes.js';
-import { MIMETypeToString } from '../../types/MIME.js';
-import { canReuseExistingTransitCdnPointerForEditedMessage } from '../../util/Attachment.js';
+} from '../../test-node/util/messageFailures.preload.js';
+import { getMessageIdForLogging } from '../../util/idForLogging.preload.js';
+import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
+import type { SignalService } from '../../protobuf/index.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { fromBase64 } from '../../Bytes.std.js';
+import { MIMETypeToString } from '../../types/MIME.std.js';
+import { canReuseExistingTransitCdnPointerForEditedMessage } from '../../util/Attachment.std.js';
 
 const { isNumber } = lodash;
 

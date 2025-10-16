@@ -6,19 +6,19 @@ import * as sinon from 'sinon';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ReduxActions } from '../../../state/types.js';
+import type { ReduxActions } from '../../../state/types.std.js';
 import {
   actions,
   getComposerStateForConversation,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/composer.js';
-import { noopAction } from '../../../state/ducks/noop.js';
-import { reducer as rootReducer } from '../../../state/reducer.js';
+} from '../../../state/ducks/composer.preload.js';
+import { noopAction } from '../../../state/ducks/noop.std.js';
+import { reducer as rootReducer } from '../../../state/reducer.preload.js';
 
-import { IMAGE_JPEG } from '../../../types/MIME.js';
-import type { AttachmentDraftType } from '../../../types/Attachment.js';
-import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.js';
+import { IMAGE_JPEG } from '../../../types/MIME.std.js';
+import type { AttachmentDraftType } from '../../../types/Attachment.std.js';
+import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.std.js';
 
 const { noop } = lodash;
 

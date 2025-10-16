@@ -3,23 +3,23 @@
 
 import React, { useState, useCallback } from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import type { UpdatesStateType } from '../../state/ducks/updates.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { UpdatesStateType } from '../../state/ducks/updates.preload.js';
 import {
   InstallScreenStep,
   InstallScreenBackupStep,
   InstallScreenBackupError,
-} from '../../types/InstallScreen.js';
-import { formatFileSize } from '../../util/formatFileSize.js';
-import { TitlebarDragArea } from '../TitlebarDragArea.js';
-import { ProgressBar } from '../ProgressBar.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.js';
-import { roundFractionForProgressBar } from '../../util/numbers.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support.js';
-import { I18n } from '../I18n.js';
-import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.js';
+} from '../../types/InstallScreen.std.js';
+import { formatFileSize } from '../../util/formatFileSize.std.js';
+import { TitlebarDragArea } from '../TitlebarDragArea.dom.js';
+import { ProgressBar } from '../ProgressBar.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.js';
+import { roundFractionForProgressBar } from '../../util/numbers.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support.std.js';
+import { I18n } from '../I18n.dom.js';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.js';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.

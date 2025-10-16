@@ -1,26 +1,26 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { getSendOptions } from '../../util/getSendOptions.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
+} from './handleMultipleSendErrors.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
   ConversationQueueJobBundle,
   SavedProtoJobData,
-} from '../conversationJobQueue.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+} from '../conversationJobQueue.preload.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import * as Bytes from '../../Bytes.js';
+} from '../../textsecure/Errors.std.js';
+import * as Bytes from '../../Bytes.std.js';
 
 export async function sendSavedProto(
   conversation: ConversationModel,

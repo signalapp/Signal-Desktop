@@ -3,22 +3,25 @@
 
 import { SenderCertificate } from '@signalapp/libsignal-client';
 
-import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.js';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.preload.js';
 import {
   SenderCertificateMode,
   serializedCertificateSchema,
-} from '../textsecure/OutgoingMessage.js';
-import * as Bytes from '../Bytes.js';
-import { assertDev } from '../util/assert.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { waitForOnline } from '../util/waitForOnline.js';
-import { createLogger } from '../logging/log.js';
+} from '../textsecure/OutgoingMessage.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import { assertDev } from '../util/assert.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
+import { createLogger } from '../logging/log.std.js';
 import type { StorageInterface } from '../types/Storage.d.ts';
-import * as Errors from '../types/errors.js';
-import type { isOnline, getSenderCertificate } from '../textsecure/WebAPI.js';
-import { safeParseUnknown } from '../util/schemas.js';
-import { isInFuture } from '../util/timestamp.js';
-import { HOUR } from '../util/durations/constants.js';
+import * as Errors from '../types/errors.std.js';
+import type {
+  isOnline,
+  getSenderCertificate,
+} from '../textsecure/WebAPI.preload.js';
+import { safeParseUnknown } from '../util/schemas.std.js';
+import { isInFuture } from '../util/timestamp.std.js';
+import { HOUR } from '../util/durations/constants.std.js';
 
 const log = createLogger('senderCertificate');
 

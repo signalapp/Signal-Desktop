@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { PublicKey, Fingerprint } from '@signalapp/libsignal-client';
-import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 
-import { assertDev } from './assert.js';
-import { uuidToBytes } from './uuidToBytes.js';
-import { createLogger } from '../logging/log.js';
-import type { SafetyNumberType } from '../types/safetyNumber.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { isAciString } from './isAciString.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { assertDev } from './assert.std.js';
+import { uuidToBytes } from './uuidToBytes.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { SafetyNumberType } from '../types/safetyNumber.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { isAciString } from './isAciString.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('safetyNumber');
 

@@ -6,14 +6,14 @@ import type { Group, PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, ServiceIdKind, StorageState } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.js';
+import * as durations from '../../util/durations/index.std.js';
 import {
   parseAndFormatPhoneNumber,
   PhoneNumberFormat,
-} from '../../util/libphonenumberInstance.js';
-import { Bootstrap } from '../bootstrap.js';
-import type { App } from '../bootstrap.js';
-import { acceptConversation, expectSystemMessages } from '../helpers.js';
+} from '../../util/libphonenumberInstance.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../bootstrap.node.js';
+import { acceptConversation, expectSystemMessages } from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:gv2');
 

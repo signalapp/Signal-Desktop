@@ -4,12 +4,16 @@
 import { assert } from 'chai';
 import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
-import * as durations from '../../util/durations/index.js';
-import type { App } from './fixtures.js';
-import { Bootstrap, debug, getCallLinkRecordPredicate } from './fixtures.js';
-import { createCallLink } from '../helpers.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import { MY_STORY_ID } from '../../types/Stories.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from './fixtures.node.js';
+import {
+  Bootstrap,
+  debug,
+  getCallLinkRecordPredicate,
+} from './fixtures.node.js';
+import { createCallLink } from '../helpers.node.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { MY_STORY_ID } from '../../types/Stories.std.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

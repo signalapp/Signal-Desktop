@@ -5,13 +5,13 @@ import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { expect, fn, within, userEvent } from '@storybook/test';
-import type { AvatarColorType } from '../types/Colors.js';
-import type { Props } from './Avatar.js';
-import { Avatar, AvatarBlur, AvatarSize } from './Avatar.js';
-import { AvatarColors } from '../types/Colors.js';
-import { HasStories } from '../types/Stories.js';
-import { ThemeType } from '../types/Util.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.js';
+import type { AvatarColorType } from '../types/Colors.std.js';
+import type { Props } from './Avatar.dom.js';
+import { Avatar, AvatarBlur, AvatarSize } from './Avatar.dom.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import { HasStories } from '../types/Stories.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
 
 const { i18n } = window.SignalContext;
 

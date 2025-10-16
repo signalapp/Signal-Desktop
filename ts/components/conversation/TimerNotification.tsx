@@ -4,13 +4,13 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import { ContactName } from './ContactName.js';
-import { SystemMessage } from './SystemMessage.js';
-import { I18n } from '../I18n.js';
-import type { LocalizerType } from '../../types/Util.js';
-import * as expirationTimer from '../../util/expirationTimer.js';
-import type { DurationInSeconds } from '../../util/durations/index.js';
-import { createLogger } from '../../logging/log.js';
+import { ContactName } from './ContactName.dom.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import { I18n } from '../I18n.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import * as expirationTimer from '../../util/expirationTimer.std.js';
+import type { DurationInSeconds } from '../../util/durations/index.std.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const log = createLogger('TimerNotification');
 

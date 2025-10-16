@@ -12,7 +12,7 @@ import { basename, dirname, join, resolve as resolvePath } from 'node:path';
 
 import pify from 'pify';
 
-import { sign, verify } from './curve.js';
+import { sign, verify } from './curve.node.js';
 
 const readFile = pify(readFileCallback);
 const writeFile = pify(writeFileCallback);

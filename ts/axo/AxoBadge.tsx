@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC } from 'react';
 import React, { memo, useMemo } from 'react';
-import { AxoSymbol } from './AxoSymbol.js';
-import type { TailwindStyles } from './tw.js';
-import { tw } from './tw.js';
-import { unreachable } from './_internal/assert.js';
+import { AxoSymbol } from './AxoSymbol.dom.js';
+import type { TailwindStyles } from './tw.dom.js';
+import { tw } from './tw.dom.js';
+import { unreachable } from './_internal/assert.dom.js';
 
 const Namespace = 'AxoBadge';
 

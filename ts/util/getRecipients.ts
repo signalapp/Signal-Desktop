@@ -5,11 +5,11 @@ import lodash from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { getConversationMembers } from './getConversationMembers.js';
-import { getSendTarget } from './getSendTarget.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
-import { isNotNil } from './isNotNil.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { getConversationMembers } from './getConversationMembers.dom.js';
+import { getSendTarget } from './getSendTarget.std.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
+import { isNotNil } from './isNotNil.std.js';
 
 const { compact, uniq } = lodash;
 

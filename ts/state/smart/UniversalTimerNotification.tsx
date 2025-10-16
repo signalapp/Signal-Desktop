@@ -3,9 +3,9 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { UniversalTimerNotification } from '../../components/conversation/UniversalTimerNotification.js';
-import { getIntl } from '../selectors/user.js';
-import { getUniversalExpireTimer } from '../selectors/items.js';
+import { UniversalTimerNotification } from '../../components/conversation/UniversalTimerNotification.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getUniversalExpireTimer } from '../selectors/items.dom.js';
 
 export const SmartUniversalTimerNotification = memo(
   function SmartUniversalTimerNotification() {

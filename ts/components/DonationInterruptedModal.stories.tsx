@@ -6,8 +6,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationInterruptedModal.js';
-import { DonationInterruptedModal } from './DonationInterruptedModal.js';
+import type { PropsType } from './DonationInterruptedModal.dom.js';
+import { DonationInterruptedModal } from './DonationInterruptedModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

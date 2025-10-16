@@ -5,23 +5,30 @@ import lodash from 'lodash';
 import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
 import { LRUCache } from 'lru-cache';
-import { createLogger } from './logging/log.js';
+import { createLogger } from './logging/log.std.js';
 import {
   getCheckedGroupCredentialsForToday,
   maybeFetchNewCredentials,
-} from './services/groupCredentialFetcher.js';
-import { DataReader, DataWriter } from './sql/Client.js';
-import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64.js';
-import { assertDev, strictAssert } from './util/assert.js';
-import { isMoreRecentThan } from './util/timestamp.js';
-import { MINUTE, DurationInSeconds, SECOND } from './util/durations/index.js';
-import { drop } from './util/drop.js';
-import { dropNull } from './util/dropNull.js';
+} from './services/groupCredentialFetcher.preload.js';
+import { DataReader, DataWriter } from './sql/Client.preload.js';
+import {
+  toWebSafeBase64,
+  fromWebSafeBase64,
+} from './util/webSafeBase64.std.js';
+import { assertDev, strictAssert } from './util/assert.std.js';
+import { isMoreRecentThan } from './util/timestamp.std.js';
+import {
+  MINUTE,
+  DurationInSeconds,
+  SECOND,
+} from './util/durations/index.std.js';
+import { drop } from './util/drop.std.js';
+import { dropNull } from './util/dropNull.std.js';
 import {
   writeNewAttachmentData,
   readAttachmentData,
   deleteAttachmentData,
-} from './util/migrations.js';
+} from './util/migrations.preload.js';
 import type {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -48,16 +55,16 @@ import {
   getClientZkGroupCipher,
   getClientZkProfileOperations,
   verifyNotarySignature,
-} from './util/zkgroup.js';
+} from './util/zkgroup.node.js';
 import {
   computeHash,
   deriveMasterKeyFromGroupV1,
   getRandomBytes,
-} from './Crypto.js';
+} from './Crypto.node.js';
 import type {
   GroupCredentialsType,
   GroupLogResponseType,
-} from './textsecure/WebAPI.js';
+} from './textsecure/WebAPI.preload.js';
 import {
   createGroup,
   getGroup,
@@ -67,59 +74,59 @@ import {
   getExternalGroupCredential,
   modifyGroup,
   uploadGroupAvatar,
-} from './textsecure/WebAPI.js';
-import { HTTPError } from './types/HTTPError.js';
-import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.js';
-import type { ConversationModel } from './models/conversations.js';
-import { getGroupSizeHardLimit } from './groups/limits.js';
+} from './textsecure/WebAPI.preload.js';
+import { HTTPError } from './types/HTTPError.std.js';
+import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.preload.js';
+import type { ConversationModel } from './models/conversations.preload.js';
+import { getGroupSizeHardLimit } from './groups/limits.dom.js';
 import {
   isGroupV1 as getIsGroupV1,
   isGroupV2 as getIsGroupV2,
   isGroupV2,
   isMe,
-} from './util/whatTypeOfConversation.js';
-import * as Bytes from './Bytes.js';
-import type { AvatarDataType } from './types/Avatar.js';
-import type { GroupV2ChangeDetailType } from './types/groups.ts';
+} from './util/whatTypeOfConversation.dom.js';
+import * as Bytes from './Bytes.std.js';
+import type { AvatarDataType } from './types/Avatar.std.js';
+import type { GroupV2ChangeDetailType } from './types/groups.std.js';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from './types/ServiceId.js';
+} from './types/ServiceId.std.js';
 import {
   ServiceIdKind,
   isPniString,
   isServiceIdString,
-} from './types/ServiceId.js';
-import { isAciString } from './util/isAciString.js';
-import * as Errors from './types/errors.js';
-import { SignalService as Proto } from './protobuf/index.js';
-import { isNotNil } from './util/isNotNil.js';
-import { isAccessControlEnabled } from './groups/util.js';
+} from './types/ServiceId.std.js';
+import { isAciString } from './util/isAciString.std.js';
+import * as Errors from './types/errors.std.js';
+import { SignalService as Proto } from './protobuf/index.std.js';
+import { isNotNil } from './util/isNotNil.std.js';
+import { isAccessControlEnabled } from './groups/util.std.js';
 
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from './jobs/conversationJobQueue.js';
-import { ReadStatus } from './messages/MessageReadStatus.js';
-import { SeenStatus } from './MessageSeenStatus.js';
-import { incrementMessageCounter } from './util/incrementMessageCounter.js';
-import { sleep } from './util/sleep.js';
-import { groupInvitesRoute } from './util/signalRoutes.js';
+} from './jobs/conversationJobQueue.preload.js';
+import { ReadStatus } from './messages/MessageReadStatus.std.js';
+import { SeenStatus } from './MessageSeenStatus.std.js';
+import { incrementMessageCounter } from './util/incrementMessageCounter.preload.js';
+import { sleep } from './util/sleep.std.js';
+import { groupInvitesRoute } from './util/signalRoutes.std.js';
 import {
   decodeGroupSendEndorsementResponse,
   validateGroupSendEndorsementsExpiration,
-} from './util/groupSendEndorsements.js';
-import { getProfile } from './util/getProfile.js';
-import { generateMessageId } from './util/generateMessageId.js';
-import { postSaveUpdates } from './util/cleanup.js';
-import { MessageModel } from './models/messages.js';
-import { areWePending } from './util/groupMembershipUtils.js';
+} from './util/groupSendEndorsements.preload.js';
+import { getProfile } from './util/getProfile.preload.js';
+import { generateMessageId } from './util/generateMessageId.node.js';
+import { postSaveUpdates } from './util/cleanup.preload.js';
+import { MessageModel } from './models/messages.preload.js';
+import { areWePending } from './util/groupMembershipUtils.preload.js';
 import {
   isConversationAccepted,
   isTrustedContact,
-} from './util/isConversationAccepted.js';
-import { itemStorage } from './textsecure/Storage.js';
+} from './util/isConversationAccepted.preload.js';
+import { itemStorage } from './textsecure/Storage.preload.js';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -128,7 +135,7 @@ const log = createLogger('groups');
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
-export { joinViaLink } from './groups/joinViaLink.js';
+export { joinViaLink } from './groups/joinViaLink.preload.js';
 
 export type GroupFields = {
   readonly id: Uint8Array;

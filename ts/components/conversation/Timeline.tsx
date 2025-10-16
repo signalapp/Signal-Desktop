@@ -10,45 +10,45 @@ import type { ReadonlyDeep } from 'type-fest';
 import {
   ScrollDownButton,
   ScrollDownButtonVariant,
-} from './ScrollDownButton.js';
+} from './ScrollDownButton.dom.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { assertDev, strictAssert } from '../../util/assert.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.js';
-import { WidthBreakpoint } from '../_util.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { assertDev, strictAssert } from '../../util/assert.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.js';
+import { WidthBreakpoint } from '../_util.std.js';
 
-import { ErrorBoundary } from './ErrorBoundary.js';
-import { I18n } from '../I18n.js';
-import { TimelineWarning } from './TimelineWarning.js';
-import { TimelineWarnings } from './TimelineWarnings.js';
-import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.js';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.js';
-import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.js';
-import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.js';
-import { TimelineFloatingHeader } from './TimelineFloatingHeader.js';
+import { ErrorBoundary } from './ErrorBoundary.dom.js';
+import { I18n } from '../I18n.dom.js';
+import { TimelineWarning } from './TimelineWarning.dom.js';
+import { TimelineWarnings } from './TimelineWarnings.dom.js';
+import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.dom.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.preload.js';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.js';
+import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.std.js';
+import { TimelineFloatingHeader } from './TimelineFloatingHeader.dom.js';
 import {
   getScrollAnchorBeforeUpdate,
   getWidthBreakpoint,
   ScrollAnchor,
   TimelineMessageLoadingState,
   UnreadIndicatorPlacement,
-} from '../../util/timelineUtil.js';
+} from '../../util/timelineUtil.std.js';
 import {
   getScrollBottom,
   scrollToBottom,
   setScrollBottom,
-} from '../../util/scrollUtil.js';
-import { LastSeenIndicator } from './LastSeenIndicator.js';
-import { MINUTE, SECOND } from '../../util/durations/index.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.js';
+} from '../../util/scrollUtil.std.js';
+import { LastSeenIndicator } from './LastSeenIndicator.dom.js';
+import { MINUTE, SECOND } from '../../util/durations/index.std.js';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 import {
   createScrollerLock,
   ScrollerLockContext,
-} from '../../hooks/useScrollLock.js';
+} from '../../hooks/useScrollLock.dom.js';
 
 const { first, get, isNumber, last, throttle } = lodash;
 

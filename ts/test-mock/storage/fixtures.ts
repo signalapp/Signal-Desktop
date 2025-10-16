@@ -14,13 +14,13 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import type { BootstrapOptions } from '../bootstrap.js';
-import { MY_STORY_ID } from '../../types/Stories.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import { artAddStickersRoute } from '../../util/signalRoutes.js';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.js';
+import { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import type { BootstrapOptions } from '../bootstrap.node.js';
+import { MY_STORY_ID } from '../../types/Stories.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { artAddStickersRoute } from '../../util/signalRoutes.std.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
 
 const { range } = lodash;
 

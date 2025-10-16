@@ -38,22 +38,22 @@ import {
   SenderKeys,
   Sessions,
   SignedPreKeys,
-} from '../LibSignalStores.js';
-import { createName } from '../util/attachmentPath.js';
-import { assertDev, strictAssert } from '../util/assert.js';
-import type { BatcherType } from '../util/batcher.js';
-import { createBatcher } from '../util/batcher.js';
-import { drop } from '../util/drop.js';
-import { dropNull } from '../util/dropNull.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
-import { Zone } from '../util/Zone.js';
-import * as durations from '../util/durations/index.js';
-import { DurationInSeconds } from '../util/durations/index.js';
-import { Address } from '../types/Address.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
-import type { ServiceIdString, AciString } from '../types/ServiceId.js';
+} from '../LibSignalStores.preload.js';
+import { createName } from '../util/attachmentPath.node.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import type { BatcherType } from '../util/batcher.std.js';
+import { createBatcher } from '../util/batcher.std.js';
+import { drop } from '../util/drop.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import { Zone } from '../util/Zone.std.js';
+import * as durations from '../util/durations/index.std.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
+import { Address } from '../types/Address.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
+import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
 import {
   fromPniObject,
   isPniString,
@@ -63,33 +63,33 @@ import {
   normalizeServiceId,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.js';
-import { normalizeAci } from '../util/normalizeAci.js';
-import { isAciString } from '../util/isAciString.js';
-import { calling } from '../services/calling.js';
-import { retryPlaceholders } from '../services/retryPlaceholders.js';
-import * as Errors from '../types/errors.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
+} from '../types/ServiceId.std.js';
+import { normalizeAci } from '../util/normalizeAci.std.js';
+import { isAciString } from '../util/isAciString.std.js';
+import { calling } from '../services/calling.preload.js';
+import { retryPlaceholders } from '../services/retryPlaceholders.std.js';
+import * as Errors from '../types/errors.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 
-import { SignalService as Proto } from '../protobuf/index.js';
-import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.js';
 
-import createTaskWithTimeout from './TaskWithTimeout.js';
+import createTaskWithTimeout from './TaskWithTimeout.std.js';
 import {
   processAttachment,
   processDataMessage,
   processGroupV2Context,
   processPreview,
-} from './processDataMessage.js';
-import { processSyncMessage } from './processSyncMessage.js';
-import type { EventHandler } from './EventTarget.js';
-import EventTarget from './EventTarget.js';
-import type { IncomingWebSocketRequest } from './WebsocketResources.js';
-import { ServerRequestType } from './WebsocketResources.js';
-import { type Storage } from './Storage.js';
-import { accountManager } from './AccountManager.js';
-import { WarnOnlyError } from './Errors.js';
-import * as Bytes from '../Bytes.js';
+} from './processDataMessage.preload.js';
+import { processSyncMessage } from './processSyncMessage.node.js';
+import type { EventHandler } from './EventTarget.std.js';
+import EventTarget from './EventTarget.std.js';
+import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
+import { ServerRequestType } from './WebsocketResources.preload.js';
+import { type Storage } from './Storage.preload.js';
+import { accountManager } from './AccountManager.preload.js';
+import { WarnOnlyError } from './Errors.std.js';
+import * as Bytes from '../Bytes.std.js';
 import type {
   IRequestHandler,
   ProcessedAttachment,
@@ -109,7 +109,7 @@ import type {
   AddressableMessage,
   ReadSyncEventData,
   ViewSyncEventData,
-} from './messageReceiverEvents.js';
+} from './messageReceiverEvents.std.js';
 import {
   AttachmentBackfillResponseSyncEvent,
   CallEventSyncEvent,
@@ -142,36 +142,36 @@ import {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './messageReceiverEvents.js';
-import { createLogger } from '../logging/log.js';
-import { diffArraysAsSets } from '../util/diffArraysAsSets.js';
-import { generateBlurHash } from '../util/generateBlurHash.js';
-import { TEXT_ATTACHMENT } from '../types/MIME.js';
-import type { SendTypesType } from '../util/handleMessageSend.js';
-import { getStoriesBlocked } from '../util/stories.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { chunk } from '../util/iterables.js';
-import { inspectUnknownFieldTags } from '../util/inspectProtobufs.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
-import { filterAndClean } from '../types/BodyRange.js';
+} from './messageReceiverEvents.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { diffArraysAsSets } from '../util/diffArraysAsSets.std.js';
+import { generateBlurHash } from '../util/generateBlurHash.std.js';
+import { TEXT_ATTACHMENT } from '../types/MIME.std.js';
+import type { SendTypesType } from '../util/handleMessageSend.preload.js';
+import { getStoriesBlocked } from '../util/stories.preload.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { chunk } from '../util/iterables.std.js';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs.node.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
+import { filterAndClean } from '../types/BodyRange.std.js';
 import {
   getCallEventForProto,
   getCallLogEventForProto,
-} from '../util/callDisposition.js';
-import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.js';
-import { CallLinkUpdateSyncType } from '../types/CallLink.js';
-import { bytesToUuid } from '../util/uuidToBytes.js';
-import { isBodyTooLong } from '../util/longAttachment.js';
+} from '../util/callDisposition.preload.js';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.js';
+import { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
+import { bytesToUuid } from '../util/uuidToBytes.std.js';
+import { isBodyTooLong } from '../util/longAttachment.std.js';
 import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId.js';
+} from '../util/ServiceId.node.js';
 import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
-} from '../types/MessageRequestResponseEvent.js';
+} from '../types/MessageRequestResponseEvent.std.js';
 
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 

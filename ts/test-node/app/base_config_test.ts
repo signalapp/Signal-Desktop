@@ -9,8 +9,8 @@ import fsExtra from 'fs-extra';
 import { v4 as generateGuid } from 'uuid';
 import { assert } from 'chai';
 
-import type { ConfigType } from '../../../app/base_config.js';
-import { start } from '../../../app/base_config.js';
+import type { ConfigType } from '../../../app/base_config.node.js';
+import { start } from '../../../app/base_config.node.js';
 
 const { pathExists, readJsonSync } = fsExtra;
 

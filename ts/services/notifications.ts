@@ -6,17 +6,18 @@ import lodash from 'lodash';
 import EventEmitter from 'node:events';
 import { v4 as getGuid } from 'uuid';
 
-import { Sound, SoundType } from '../util/Sound.js';
-import { shouldHideExpiringMessageBody } from '../types/Settings.js';
-import { itemStorage as fallbackStorage } from '../textsecure/Storage.js';
-import OS from '../util/os/osMain.js';
-import { createLogger } from '../logging/log.js';
-import { makeEnumParser } from '../util/enum.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { toLogFormat } from '../types/errors.js';
+import { Sound, SoundType } from '../util/Sound.std.js';
+import { shouldHideExpiringMessageBody } from '../types/Settings.std.js';
+import { itemStorage as fallbackStorage } from '../textsecure/Storage.preload.js';
+import OS from '../util/os/osMain.node.js';
+import { createLogger } from '../logging/log.std.js';
+import { makeEnumParser } from '../util/enum.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { toLogFormat } from '../types/errors.std.js';
 import type { StorageInterface } from '../types/Storage.d.ts';
-import type { LocalizerType } from '../types/Util.js';
-import { drop } from '../util/drop.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { NotificationType } from '../types/notifications.std.js';
+import { drop } from '../util/drop.std.js';
 
 const { debounce } = lodash;
 
@@ -54,13 +55,6 @@ export type WindowsNotificationData = {
   token: string;
   type: NotificationType;
 };
-export enum NotificationType {
-  IncomingCall = 'IncomingCall',
-  IncomingGroupCall = 'IncomingGroupCall',
-  IsPresenting = 'IsPresenting',
-  Message = 'Message',
-  Reaction = 'Reaction',
-}
 
 // The keys and values don't match here. This is because the values correspond to old
 //   setting names. In the future, we may wish to migrate these to match.

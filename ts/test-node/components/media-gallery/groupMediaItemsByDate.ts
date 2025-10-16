@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { IMAGE_JPEG } from '../../../types/MIME.js';
-import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate.js';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import { fakeAttachment } from '../../../test-helpers/fakeAttachment.js';
+import { IMAGE_JPEG } from '../../../types/MIME.std.js';
+import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate.std.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import { fakeAttachment } from '../../../test-helpers/fakeAttachment.std.js';
 
 const { shuffle } = lodash;
 

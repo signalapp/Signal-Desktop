@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { DataWriter } from '../sql/Client.js';
-import { createLogger } from '../logging/log.js';
-import { MINUTE } from '../util/durations/index.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { waitForOnline } from '../util/waitForOnline.js';
-import { writeNewBadgeImageFileData } from '../util/migrations.js';
-import { getBadgeImageFile, isOnline } from '../textsecure/WebAPI.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { MINUTE } from '../util/durations/index.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
+import { writeNewBadgeImageFileData } from '../util/migrations.preload.js';
+import { getBadgeImageFile, isOnline } from '../textsecure/WebAPI.preload.js';
 
 const log = createLogger('badgeImageFileDownloader');
 

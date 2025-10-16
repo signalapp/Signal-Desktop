@@ -4,18 +4,18 @@
 import React, { useCallback } from 'react';
 
 import moment from 'moment';
-import { formatFileSize } from '../../../util/formatFileSize.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import type { LocalizerType } from '../../../types/Util.js';
-import { SpinnerV2 } from '../../SpinnerV2.js';
-import { tw } from '../../../axo/tw.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.js';
-import { FileThumbnail } from '../../FileThumbnail.js';
+import { formatFileSize } from '../../../util/formatFileSize.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
+import { SpinnerV2 } from '../../SpinnerV2.dom.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import { FileThumbnail } from '../../FileThumbnail.dom.js';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
-} from '../../../hooks/useAttachmentStatus.js';
+} from '../../../hooks/useAttachmentStatus.std.js';
 
 export type Props = {
   i18n: LocalizerType;

@@ -5,17 +5,17 @@ import React, { useEffect, useRef } from 'react';
 
 import moment from 'moment';
 
-import type { ItemClickEvent } from './types/ItemClickEvent.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.js';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.js';
-import { AttachmentSection } from './AttachmentSection.js';
-import { EmptyState } from './EmptyState.js';
-import { Tabs } from '../../Tabs.js';
-import { groupMediaItemsByDate } from './groupMediaItemsByDate.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import { usePrevious } from '../../../hooks/usePrevious.js';
-import type { AttachmentType } from '../../../types/Attachment.js';
+import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.preload.js';
+import { AttachmentSection } from './AttachmentSection.dom.js';
+import { EmptyState } from './EmptyState.dom.js';
+import { Tabs } from '../../Tabs.dom.js';
+import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { usePrevious } from '../../../hooks/usePrevious.std.js';
+import type { AttachmentType } from '../../../types/Attachment.std.js';
 
 enum TabViews {
   Media = 'Media',

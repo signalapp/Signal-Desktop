@@ -2,29 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem.js';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem.dom.js';
 
-import type { StateType } from '../reducer.js';
+import type { StateType } from '../reducer.preload.js';
 import {
   getConversationSelector,
   getTargetedMessage,
   getSelectedMessageIds,
   getMessages,
   getCachedConversationMemberColorsSelector,
-} from './conversations.js';
-import { getAccountSelector } from './accounts.js';
+} from './conversations.dom.js';
+import { getAccountSelector } from './accounts.std.js';
 import {
   getRegionCode,
   getUserConversationId,
   getUserNumber,
   getUserACI,
   getUserPNI,
-} from './user.js';
-import { getDefaultConversationColor } from './items.js';
-import { getActiveCall, getCallSelector } from './calling.js';
-import { getPropsForBubble } from './message.js';
-import { getCallHistorySelector } from './callHistory.js';
-import { useProxySelector } from '../../hooks/useProxySelector.js';
+} from './user.std.js';
+import { getDefaultConversationColor } from './items.dom.js';
+import { getActiveCall, getCallSelector } from './calling.std.js';
+import { getPropsForBubble } from './message.preload.js';
+import { getCallHistorySelector } from './callHistory.std.js';
+import { useProxySelector } from '../../hooks/useProxySelector.std.js';
 
 const getTimelineItem = (
   state: StateType,

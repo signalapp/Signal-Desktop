@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FormEvent, KeyboardEvent } from 'react';
 import React, { memo, useCallback, useRef } from 'react';
-import { CC_EXP_FORMATTER, useInputMask } from '../../../hooks/useInputMask.js';
-import { CardExpirationError } from '../../../types/DonationsCardForm.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import type { LocalizerType } from '../../../types/I18N.js';
+import {
+  CC_EXP_FORMATTER,
+  useInputMask,
+} from '../../../hooks/useInputMask.dom.js';
+import { CardExpirationError } from '../../../types/DonationsCardForm.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
 
 export function getCardExpirationErrorMessage(
   i18n: LocalizerType,

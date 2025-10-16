@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EmojiPickerCategory } from './data/emojis.js';
-import type { StickerPackType } from '../../state/ducks/stickers.js';
+import { EmojiPickerCategory } from './data/emojis.std.js';
+import type { StickerPackType } from '../../state/ducks/stickers.preload.js';
 
 export enum FunPickerTabKey {
   Emoji = 'Emoji',

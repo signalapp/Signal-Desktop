@@ -9,25 +9,25 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import type { LocaleEmojiListType } from '../../types/emoji.js';
-import { createLogger } from '../../logging/log.js';
-import * as Errors from '../../types/errors.js';
-import { drop } from '../../util/drop.js';
+import type { LocaleEmojiListType } from '../../types/emoji.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { drop } from '../../util/drop.std.js';
 import {
   getEmojiDefaultEnglishLocalizerIndex,
   getEmojiDefaultEnglishSearchIndex,
-} from './data/emojis.js';
+} from './data/emojis.std.js';
 import {
   createFunEmojiLocalizerIndex,
   type FunEmojiLocalizerIndex,
-} from './useFunEmojiLocalizer.js';
+} from './useFunEmojiLocalizer.dom.js';
 import {
   createFunEmojiSearchIndex,
   type FunEmojiSearchIndex,
-} from './useFunEmojiSearch.js';
-import type { LocalizerType } from '../../types/I18N.js';
-import { strictAssert } from '../../util/assert.js';
-import { isTestOrMockEnvironment } from '../../environment.js';
+} from './useFunEmojiSearch.dom.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isTestOrMockEnvironment } from '../../environment.std.js';
 
 const log = createLogger('FunEmojiLocalizationProvider');
 

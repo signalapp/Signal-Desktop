@@ -9,7 +9,7 @@ import lodashFp from 'lodash/fp.js';
 import lodash from 'lodash';
 
 import type { ExtendedStorageID } from '../types/StorageService.d.ts';
-import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 const { escapeRegExp, isString, isRegExp } = lodash;

@@ -1,15 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../../util/assert.js';
-import type { EmojiParentKey, EmojiVariantKey } from './data/emojis.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { EmojiParentKey, EmojiVariantKey } from './data/emojis.std.js';
 import {
   EmojiSkinTone,
   getEmojiParentKeyByEnglishShortName,
   getEmojiVariantKeyByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
-} from './data/emojis.js';
-import type { GifsPaginated } from './data/gifs.js';
+} from './data/emojis.std.js';
+import type { GifsPaginated } from './data/gifs.preload.js';
 
 function getEmoji(input: string): EmojiParentKey {
   strictAssert(

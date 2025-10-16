@@ -3,38 +3,38 @@
 
 import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { SmartStoryCreator } from './StoryCreator.js';
-import { SmartToastManager } from './ToastManager.js';
-import type { WidthBreakpoint } from '../../components/_util.js';
-import { StoriesTab } from '../../components/StoriesTab.js';
-import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize.js';
-import type { ConfigKeyType } from '../../RemoteConfig.js';
-import { getMe } from '../selectors/conversations.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { SmartStoryCreator } from './StoryCreator.preload.js';
+import { SmartToastManager } from './ToastManager.preload.js';
+import type { WidthBreakpoint } from '../../components/_util.std.js';
+import { StoriesTab } from '../../components/StoriesTab.dom.js';
+import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize.std.js';
+import type { ConfigKeyType } from '../../RemoteConfig.dom.js';
+import { getMe } from '../selectors/conversations.dom.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getHasStoryViewReceiptSetting,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
   getRemoteConfig,
-} from '../selectors/items.js';
+} from '../selectors/items.dom.js';
 import {
   getAddStoryData,
   getHasAnyFailedStorySends,
   getSelectedStoryData,
   getStories,
-} from '../selectors/stories.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useStoriesActions } from '../ducks/stories.js';
-import { useToastActions } from '../ducks/toast.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
-import { useItemsActions } from '../ducks/items.js';
-import { getHasPendingUpdate } from '../selectors/updates.js';
-import { getOtherTabsUnreadStats } from '../selectors/nav.js';
-import { getIsStoriesSettingsVisible } from '../selectors/globalModals.js';
-import type { StoryViewType } from '../../types/Stories.js';
-import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.js';
+} from '../selectors/stories.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useStoriesActions } from '../ducks/stories.preload.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
+import { useItemsActions } from '../ducks/items.preload.js';
+import { getHasPendingUpdate } from '../selectors/updates.std.js';
+import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
+import { getIsStoriesSettingsVisible } from '../selectors/globalModals.std.js';
+import type { StoryViewType } from '../../types/Stories.std.js';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.js';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;

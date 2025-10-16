@@ -3,18 +3,18 @@
 
 import type { WebAPICredentials } from '../Types.d.ts';
 
-import { strictAssert } from '../../util/assert.js';
+import { strictAssert } from '../../util/assert.std.js';
 import type { StorageInterface } from '../../types/Storage.d.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../../types/ServiceId.js';
-import { ServiceIdKind, isPniString } from '../../types/ServiceId.js';
-import { isAciString } from '../../util/isAciString.js';
-import { createLogger } from '../../logging/log.js';
+} from '../../types/ServiceId.std.js';
+import { ServiceIdKind, isPniString } from '../../types/ServiceId.std.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import { createLogger } from '../../logging/log.std.js';
 
-import Helpers from '../Helpers.js';
+import Helpers from '../Helpers.std.js';
 
 const log = createLogger('User');
 

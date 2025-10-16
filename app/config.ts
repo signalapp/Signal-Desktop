@@ -11,8 +11,8 @@ import {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
-} from '../ts/environment.js';
-import { createLogger } from '../ts/logging/log.js';
+} from '../ts/environment.std.js';
+import { createLogger } from '../ts/logging/log.std.js';
 
 const log = createLogger('config');
 

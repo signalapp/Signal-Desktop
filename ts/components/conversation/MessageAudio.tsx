@@ -7,24 +7,24 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
 
-import type { LocalizerType } from '../../types/Util.js';
-import type { AttachmentForUIType } from '../../types/Attachment.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
-import { isDownloaded } from '../../util/Attachment.js';
-import type { DirectionType } from './Message.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { AttachmentForUIType } from '../../types/Attachment.std.js';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
+import { isDownloaded } from '../../util/Attachment.std.js';
+import type { DirectionType } from './Message.dom.js';
 
-import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.js';
-import { MessageMetadata } from './MessageMetadata.js';
-import { createLogger } from '../../logging/log.js';
-import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.js';
-import { PlaybackRateButton } from '../PlaybackRateButton.js';
-import { PlaybackButton } from '../PlaybackButton.js';
-import { WaveformScrubber } from './WaveformScrubber.js';
-import { useComputePeaks } from '../../hooks/useComputePeaks.js';
-import { durationToPlaybackText } from '../../util/durationToPlaybackText.js';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.js';
-import { formatFileSize } from '../../util/formatFileSize.js';
+import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.dom.js';
+import { MessageMetadata } from './MessageMetadata.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.preload.js';
+import { PlaybackRateButton } from '../PlaybackRateButton.dom.js';
+import { PlaybackButton } from '../PlaybackButton.dom.js';
+import { WaveformScrubber } from './WaveformScrubber.dom.js';
+import { useComputePeaks } from '../../hooks/useComputePeaks.dom.js';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.js';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
+import { formatFileSize } from '../../util/formatFileSize.std.js';
 
 const { noop } = lodash;
 

@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { isConversationInChatFolder } from '../types/ChatFolder.js';
-import type { ChatFolderId } from '../types/ChatFolder.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
-import { isConversationMuted } from './isConversationMuted.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { isConversationInChatFolder } from '../types/ChatFolder.std.js';
+import type { ChatFolderId } from '../types/ChatFolder.std.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
+import { isConversationMuted } from './isConversationMuted.std.js';
 
 type MutableUnreadStats = {
   /**

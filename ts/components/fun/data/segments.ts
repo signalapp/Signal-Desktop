@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { strictAssert } from '../../../util/assert.js';
-import type { fetchBytesViaProxy } from '../../../textsecure/WebAPI.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import type { fetchBytesViaProxy } from '../../../textsecure/WebAPI.preload.js';
 
 /** @internal Exported for testing */
 export const _SEGMENT_SIZE_BUCKETS: ReadonlyArray<number> = [

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { Switch } from 'radix-ui';
-import { tw } from './tw.js';
-import { AxoSymbol } from './AxoSymbol.js';
+import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.js';
 
 const Namespace = 'AxoSwitch';
 

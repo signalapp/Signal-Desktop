@@ -5,11 +5,11 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
-import type { LocalizerType } from '../types/Util.js';
-import { CurveType, Image } from './conversation/Image.js';
-import { isImageAttachment } from '../util/Attachment.js';
-import { getSafeDomain } from '../types/LinkPreview.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { CurveType, Image } from './conversation/Image.dom.js';
+import { isImageAttachment } from '../util/Attachment.std.js';
+import { getSafeDomain } from '../types/LinkPreview.std.js';
 
 const { unescape } = lodash;
 

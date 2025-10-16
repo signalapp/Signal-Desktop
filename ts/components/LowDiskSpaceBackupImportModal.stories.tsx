@@ -5,8 +5,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { type ComponentProps } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.js';
-import { MEBIBYTE } from '../types/AttachmentSize.js';
+import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
+import { MEBIBYTE } from '../types/AttachmentSize.std.js';
 
 const { i18n } = window.SignalContext;
 

@@ -8,15 +8,15 @@ import { animated } from '@react-spring/web';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { FocusScope } from 'react-aria';
-import type { ModalConfigType } from '../hooks/useAnimated.js';
-import type { Theme } from '../util/theme.js';
-import { assertDev } from '../util/assert.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.js';
-import { themeClassName } from '../util/theme.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
-import { createLogger } from '../logging/log.js';
+import type { ModalConfigType } from '../hooks/useAnimated.dom.js';
+import type { Theme } from '../util/theme.std.js';
+import { assertDev } from '../util/assert.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { themeClassName } from '../util/theme.std.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
+import { createLogger } from '../logging/log.std.js';
 
 const { noop } = lodash;
 

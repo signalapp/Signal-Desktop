@@ -11,9 +11,9 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-} from '../../types/MIME.js';
+} from '../../types/MIME.std.js';
 
-import { sniffImageMimeType } from '../../util/sniffImageMimeType.js';
+import { sniffImageMimeType } from '../../util/sniffImageMimeType.std.js';
 
 describe('sniffImageMimeType', () => {
   const fixture = (filename: string): Promise<Buffer> => {

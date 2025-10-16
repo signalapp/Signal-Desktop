@@ -7,10 +7,10 @@ import { v4 as generateUuid } from 'uuid';
 import lodash from 'lodash';
 
 import type { SetOptional } from 'type-fest';
-import type { LoggerType } from '../../types/Logging.js';
-import { jsonToObject, sql } from '../util.js';
-import { getOurUuid } from './41-uuid-keys.js';
-import type { CallHistoryDetails } from '../../types/CallDisposition.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { jsonToObject, sql } from '../util.std.js';
+import { getOurUuid } from './41-uuid-keys.std.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
 import {
   DirectCallStatus,
   CallDirection,
@@ -18,16 +18,16 @@ import {
   GroupCallStatus,
   callHistoryDetailsSchema,
   CallMode,
-} from '../../types/CallDisposition.js';
+} from '../../types/CallDisposition.std.js';
 import type {
   WritableDB,
   MessageType,
   ConversationType,
-} from '../Interface.js';
-import { strictAssert } from '../../util/assert.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { isAciString } from '../../util/isAciString.js';
-import { safeParseStrict } from '../../util/schemas.js';
+} from '../Interface.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import { safeParseStrict } from '../../util/schemas.std.js';
 
 const { isObject } = lodash;
 

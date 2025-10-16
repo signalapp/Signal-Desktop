@@ -6,36 +6,36 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import { Avatar, AvatarSize } from '../Avatar.js';
-import { ContactName } from './ContactName.js';
-import { ContextMenu } from '../ContextMenu.js';
-import { Time } from '../Time.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { ContactName } from './ContactName.dom.js';
+import { ContextMenu } from '../ContextMenu.dom.js';
+import { Time } from '../Time.dom.js';
 import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
-} from './Message.js';
-import { Message } from './Message.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { groupBy } from '../../util/mapUtil.js';
-import type { ContactNameColorType } from '../../types/Colors.js';
+} from './Message.dom.js';
+import { Message } from './Message.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { groupBy } from '../../util/mapUtil.std.js';
+import type { ContactNameColorType } from '../../types/Colors.std.js';
 import {
   SendStatus,
   type VisibleSendStatus,
-} from '../../messages/MessageSendState.js';
-import { WidthBreakpoint } from '../_util.js';
-import { createLogger } from '../../logging/log.js';
-import { formatDateTimeLong } from '../../util/timestamp.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
-import { format as formatRelativeTime } from '../../util/expirationTimer.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { PanelRow } from './conversation-details/PanelRow.js';
-import { PanelSection } from './conversation-details/PanelSection.js';
+} from '../../messages/MessageSendState.std.js';
+import { WidthBreakpoint } from '../_util.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { formatDateTimeLong } from '../../util/formatTimestamp.dom.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
+import { format as formatRelativeTime } from '../../util/expirationTimer.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { PanelRow } from './conversation-details/PanelRow.dom.js';
+import { PanelSection } from './conversation-details/PanelSection.dom.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './conversation-details/ConversationDetailsIcon.js';
+} from './conversation-details/ConversationDetailsIcon.dom.js';
 
 const { noop } = lodash;
 

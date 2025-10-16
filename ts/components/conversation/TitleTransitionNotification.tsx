@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { I18n } from '../I18n.dom.js';
 
-import { SystemMessage } from './SystemMessage.js';
-import { UserText } from '../UserText.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import { UserText } from '../UserText.dom.js';
 
 export type PropsData = {
   oldTitle: string;

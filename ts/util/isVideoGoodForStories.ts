@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import MP4Box from 'mp4box';
-import { VIDEO_MP4, isVideo } from '../types/MIME.js';
-import { KIBIBYTE, getRenderDetailsForLimit } from '../types/AttachmentSize.js';
-import { explodePromise } from './explodePromise.js';
+import { VIDEO_MP4, isVideo } from '../types/MIME.std.js';
+import {
+  KIBIBYTE,
+  getRenderDetailsForLimit,
+} from '../types/AttachmentSize.std.js';
+import { explodePromise } from './explodePromise.std.js';
 
 const MAX_VIDEO_DURATION_IN_SEC = 30;
 

@@ -1,17 +1,17 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { readFileSync, unlinkSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { createCipheriv } from 'node:crypto';
 import { PassThrough } from 'node:stream';
 import fsExtra from 'fs-extra';
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.js';
-import * as Bytes from '../Bytes.js';
-import * as Curve from '../Curve.js';
+import * as Bytes from '../Bytes.std.js';
+import * as Curve from '../Curve.node.js';
 import {
   PaddedLengths,
   encryptProfileItemWithPadding,
@@ -38,7 +38,7 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
   CipherType,
-} from '../Crypto.js';
+} from '../Crypto.node.js';
 import {
   _generateAttachmentIv,
   decryptAttachmentV2,
@@ -47,24 +47,21 @@ import {
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
   decryptAttachmentV2ToSink,
-} from '../AttachmentCrypto.js';
-import type { AciString, PniString } from '../types/ServiceId.js';
-import { createTempDir, deleteTempDir } from '../updater/common.js';
-import { getAbsoluteAttachmentPath } from '../util/migrations.js';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
+} from '../AttachmentCrypto.node.js';
+import type { AciString, PniString } from '../types/ServiceId.std.js';
+import { getAbsoluteAttachmentPath } from '../util/migrations.preload.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
 import {
   getAesCbcCiphertextSize,
   getAttachmentCiphertextSize,
-} from '../util/AttachmentCrypto.js';
-import { getPath } from '../windows/main/attachments.js';
-import { MediaTier } from '../types/AttachmentDownload.js';
-import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.js';
+} from '../util/AttachmentCrypto.std.js';
+import { getPath } from '../windows/main/attachments.preload.js';
+import { MediaTier } from '../types/AttachmentDownload.std.js';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
 
 const { emptyDir } = fsExtra;
 
 const { isNumber } = lodash;
-
-const log = createLogger('Crypto_test');
 
 const GHOST_KITTY_HASH =
   '7bc77f27d92d00b4a1d57c480ca86dacc43d57bc318339c92119d1fbf6b557a5';
@@ -554,12 +551,10 @@ describe('Crypto', () => {
     let tempDir: string;
 
     beforeEach(async () => {
-      tempDir = await createTempDir();
+      tempDir = mkdtempSync(join(tmpdir(), 'Signal'));
     });
     afterEach(async () => {
-      if (tempDir) {
-        await deleteTempDir(log, tempDir);
-      }
+      await fsExtra.remove(tempDir);
     });
 
     it('v1 roundtrips (memory only)', () => {

@@ -18,11 +18,11 @@ import {
   DISCARD_COUNT,
   GROUP_DELIVERY_RECEIPTS,
   BLOCKED_COUNT,
-} from './fixtures.js';
-import { stats } from '../../util/benchmark/stats.js';
-import { sleep } from '../../util/sleep.js';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers.js';
-import { MINUTE } from '../../util/durations/index.js';
+} from './fixtures.node.js';
+import { stats } from '../../util/benchmark/stats.std.js';
+import { sleep } from '../../util/sleep.std.js';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.js';
+import { MINUTE } from '../../util/durations/index.std.js';
 
 const LAST_MESSAGE = 'start sending messages now';
 

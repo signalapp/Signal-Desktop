@@ -1,25 +1,28 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
 } from '../model-types.d.ts';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
-import type { StickerType } from '../types/Stickers.js';
-import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.js';
-import { getAuthor } from '../messages/sources.js';
-import { getQuoteBodyText } from './getQuoteBodyText.js';
-import { isGIF } from './Attachment.js';
-import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
-import { createLogger } from '../logging/log.js';
-import { map, take, collect } from './iterables.js';
-import { strictAssert } from './assert.js';
-import { loadAttachmentData } from './migrations.js';
-import { getMessageSentTimestamp } from './getMessageSentTimestamp.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
-import type { QuotedMessageForComposerType } from '../state/ducks/composer.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
+import type { StickerType } from '../types/Stickers.preload.js';
+import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.std.js';
+import { getAuthor } from '../messages/sources.preload.js';
+import { getQuoteBodyText } from './getQuoteBodyText.std.js';
+import { isGIF } from './Attachment.std.js';
+import {
+  isGiftBadge,
+  isTapToView,
+} from '../state/selectors/message.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { map, take, collect } from './iterables.std.js';
+import { strictAssert } from './assert.std.js';
+import { loadAttachmentData } from './migrations.preload.js';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp.std.js';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
+import type { QuotedMessageForComposerType } from '../state/ducks/composer.preload.js';
 
 const log = createLogger('makeQuote');
 

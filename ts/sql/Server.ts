@@ -15,41 +15,41 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import lodash from 'lodash';
 
-import { parseBadgeCategory } from '../badges/BadgeCategory.js';
+import { parseBadgeCategory } from '../badges/BadgeCategory.std.js';
 import {
   parseBadgeImageTheme,
   type BadgeImageTheme,
-} from '../badges/BadgeImageTheme.js';
-import type { BadgeImageType, BadgeType } from '../badges/types.js';
-import type { StoredJob } from '../jobs/types.js';
-import { formatCountForLogging } from '../logging/formatCountForLogging.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
+} from '../badges/BadgeImageTheme.std.js';
+import type { BadgeImageType, BadgeType } from '../badges/types.std.js';
+import type { StoredJob } from '../jobs/types.std.js';
+import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import type {
   GroupV2MemberType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import type { ReactionType } from '../types/Reactions.js';
-import { ReactionReadStatus } from '../types/Reactions.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.js';
-import { isServiceIdString } from '../types/ServiceId.js';
-import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import * as Errors from '../types/errors.js';
-import { assertDev, strictAssert } from '../util/assert.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { combineNames } from '../util/combineNames.js';
-import { consoleLogger } from '../util/consoleLogger.js';
+import type { ReactionType } from '../types/Reactions.std.js';
+import { ReactionReadStatus } from '../types/Reactions.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+import { isServiceIdString } from '../types/ServiceId.std.js';
+import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import * as Errors from '../types/errors.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { combineNames } from '../util/combineNames.std.js';
+import { consoleLogger } from '../util/consoleLogger.std.js';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
   type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
-} from '../util/dropNull.js';
-import { isNormalNumber } from '../util/isNormalNumber.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
-import { updateSchema } from './migrations/index.js';
-import type { JSONRows } from './util.js';
+} from '../util/dropNull.std.js';
+import { isNormalNumber } from '../util/isNormalNumber.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import { updateSchema } from './migrations/index.node.js';
+import type { JSONRows } from './util.std.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -70,32 +70,32 @@ import {
   sqlJoin,
   QueryFragment,
   convertOptionalBooleanToInteger,
-} from './util.js';
+} from './util.std.js';
 import {
   hydrateMessage,
   hydrateMessages,
   convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
-} from './hydration.js';
+} from './hydration.std.js';
 
-import { SeenStatus } from '../MessageSeenStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
 import {
   attachmentBackupJobSchema,
   type AttachmentBackupJobType,
-} from '../types/AttachmentBackup.js';
+} from '../types/AttachmentBackup.std.js';
 import {
   attachmentDownloadJobSchema,
   type MessageAttachmentType,
   type AttachmentDownloadJobType,
-} from '../types/AttachmentDownload.js';
+} from '../types/AttachmentDownload.std.js';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition.js';
+} from '../types/CallDisposition.std.js';
 import {
   CallDirection,
   CallHistoryFilterStatus,
@@ -106,21 +106,21 @@ import {
   GroupCallStatus,
   callHistoryDetailsSchema,
   callHistoryGroupSchema,
-} from '../types/CallDisposition.js';
-import { redactGenericText } from '../util/privacy.js';
+} from '../types/CallDisposition.std.js';
+import { redactGenericText } from '../util/privacy.node.js';
 import {
   parseLoose,
   parseStrict,
   parseUnknown,
   safeParseUnknown,
-} from '../util/schemas.js';
+} from '../util/schemas.std.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.js';
-import type { SyncTaskType } from '../util/syncTasks.js';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.js';
+} from '../util/search.std.js';
+import type { SyncTaskType } from '../util/syncTasks.preload.js';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.js';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
@@ -191,13 +191,13 @@ import type {
   BackupAttachmentDownloadProgress,
   GetMessagesBetweenOptions,
   MaybeStaleCallHistory,
-} from './Interface.js';
+} from './Interface.std.js';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
-} from './Interface.js';
+} from './Interface.std.js';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -222,21 +222,21 @@ import {
   updateCallLinkState,
   updateCallLinkStateAndEpoch,
   updateDefunctCallLink,
-} from './server/callLinks.js';
+} from './server/callLinks.node.js';
 import {
   _deleteAllDonationReceipts,
   createDonationReceipt,
   deleteDonationReceiptById,
   getAllDonationReceipts,
   getDonationReceiptById,
-} from './server/donationReceipts.js';
+} from './server/donationReceipts.std.js';
 import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
-} from './server/groupSendEndorsements.js';
+} from './server/groupSendEndorsements.std.js';
 import {
   getAllChatFolders,
   getCurrentChatFolders,
@@ -251,21 +251,21 @@ import {
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
-} from './server/chatFolders.js';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
-import type { GifType } from '../components/fun/panels/FunPanelGifs.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.js';
-import * as durations from '../util/durations/index.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import { isFile, isVisualMedia } from '../util/Attachment.js';
-import { generateMessageId } from '../util/generateMessageId.js';
+} from './server/chatFolders.std.js';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
+import * as durations from '../util/durations/index.std.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import { isFile, isVisualMedia } from '../util/Attachment.std.js';
+import { generateMessageId } from '../util/generateMessageId.node.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.js';
-import { sqlLogger } from './sqlLogger.js';
-import { permissiveMessageAttachmentSchema } from './server/messageAttachments.js';
-import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.js';
+} from '../types/Colors.std.js';
+import { sqlLogger } from './sqlLogger.node.js';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
+import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
 
 const {
   forEach,

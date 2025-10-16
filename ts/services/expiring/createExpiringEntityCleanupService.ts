@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { getEnvironment, isTestEnvironment } from '../../environment.js';
-import { createLogger } from '../../logging/log.js';
-import * as Errors from '../../types/errors.js';
-import { strictAssert } from '../../util/assert.js';
-import { drop } from '../../util/drop.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { longTimeoutAsync } from '../../util/timeout.js';
+import { getEnvironment, isTestEnvironment } from '../../environment.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { drop } from '../../util/drop.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { longTimeoutAsync } from '../../util/timeout.std.js';
 
 const parentLog = createLogger('ExpiringEntityCleanupService');
 

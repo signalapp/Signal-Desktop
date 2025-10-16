@@ -7,9 +7,9 @@ import { join } from 'node:path';
 import z from 'zod';
 import prettier from 'prettier';
 
-import type { OptionalResourceType } from '../types/OptionalResource.js';
-import { OptionalResourcesDictSchema } from '../types/OptionalResource.js';
-import { parseUnknown } from '../util/schemas.js';
+import type { OptionalResourceType } from '../types/OptionalResource.std.js';
+import { OptionalResourcesDictSchema } from '../types/OptionalResource.std.js';
+import { parseUnknown } from '../util/schemas.std.js';
 
 const MANIFEST_URL =
   'https://updates.signal.org/dynamic/android/emoji/search/manifest.json';

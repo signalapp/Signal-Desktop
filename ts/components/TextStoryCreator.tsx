@@ -5,32 +5,32 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
-import { ThemeType, type LocalizerType } from '../types/Util.js';
-import type { TextAttachmentType } from '../types/Attachment.js';
-import { Button, ButtonVariant } from './Button.js';
-import { ContextMenu } from './ContextMenu.js';
-import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.js';
-import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.js';
-import { Input } from './Input.js';
-import { Slider } from './Slider.js';
-import { StoryLinkPreview } from './StoryLinkPreview.js';
-import { TextAttachment } from './TextAttachment.js';
-import { Theme, themeClassName } from '../util/theme.js';
-import { getRGBA, getRGBANumber } from '../mediaEditor/util/color.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
+import { ThemeType, type LocalizerType } from '../types/Util.std.js';
+import type { TextAttachmentType } from '../types/Attachment.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.std.js';
+import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.std.js';
+import { Input } from './Input.dom.js';
+import { Slider } from './Slider.dom.js';
+import { StoryLinkPreview } from './StoryLinkPreview.dom.js';
+import { TextAttachment } from './TextAttachment.dom.js';
+import { Theme, themeClassName } from '../util/theme.std.js';
+import { getRGBA, getRGBANumber } from '../mediaEditor/util/color.std.js';
 import {
   COLOR_BLACK_INT,
   COLOR_WHITE_INT,
   getBackgroundColor,
-} from '../util/getStoryBackground.js';
-import { objectMap } from '../util/objectMap.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
-import { Spinner } from './Spinner.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
-import { getEmojiVariantByKey } from './fun/data/emojis.js';
-import { FunEmojiPickerButton } from './fun/FunButton.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+} from '../util/getStoryBackground.std.js';
+import { objectMap } from '../util/objectMap.std.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import { getEmojiVariantByKey } from './fun/data/emojis.std.js';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 
 const { noop } = lodash;
 

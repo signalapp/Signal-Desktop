@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { isGroupV2 } from './whatTypeOfConversation.js';
+import { isGroupV2 } from './whatTypeOfConversation.dom.js';
 
 export function canBeAnnouncementGroup(
   conversationAttrs: Pick<

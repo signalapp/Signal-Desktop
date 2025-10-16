@@ -3,12 +3,12 @@
 
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../ts/types/I18N.js';
+import type { LocalizerType } from '../ts/types/I18N.std.js';
 import type {
   MenuListType,
   MenuOptionsType,
   MenuActionsType,
-} from '../ts/types/menu.js';
+} from '../ts/types/menu.std.js';
 
 const { isString } = lodash;
 

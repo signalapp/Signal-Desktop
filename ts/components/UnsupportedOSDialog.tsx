@@ -4,13 +4,13 @@
 import React from 'react';
 import moment from 'moment';
 
-import type { LocalizerType } from '../types/Util.js';
-import { UNSUPPORTED_OS_URL } from '../types/support.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import type { WidthBreakpoint } from './_util.js';
-import { I18n } from './I18n.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { UNSUPPORTED_OS_URL } from '../types/support.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import { I18n } from './I18n.dom.js';
 
-import { LeftPaneDialog } from './LeftPaneDialog.js';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;

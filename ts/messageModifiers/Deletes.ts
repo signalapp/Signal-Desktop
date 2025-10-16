@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { getAuthorId } from '../messages/sources.js';
-import { DataReader } from '../sql/Client.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { deleteForEveryone } from '../util/deleteForEveryone.js';
-import { drop } from '../util/drop.js';
-import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.js';
-import { MessageModel } from '../models/messages.js';
+import { getAuthorId } from '../messages/sources.preload.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { deleteForEveryone } from '../util/deleteForEveryone.preload.js';
+import { drop } from '../util/drop.std.js';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.js';
+import { MessageModel } from '../models/messages.preload.js';
 
 const log = createLogger('Deletes');
 

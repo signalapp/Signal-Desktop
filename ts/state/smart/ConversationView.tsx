@@ -3,19 +3,19 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { ConversationPanel } from './ConversationPanel.js';
-import { ConversationView } from '../../components/conversation/ConversationView.js';
-import { SmartCompositionArea } from './CompositionArea.js';
-import { SmartConversationHeader } from './ConversationHeader.js';
-import { SmartTimeline } from './Timeline.js';
+import { ConversationPanel } from './ConversationPanel.preload.js';
+import { ConversationView } from '../../components/conversation/ConversationView.dom.js';
+import { SmartCompositionArea } from './CompositionArea.preload.js';
+import { SmartConversationHeader } from './ConversationHeader.preload.js';
+import { SmartTimeline } from './Timeline.preload.js';
 import {
   getActivePanel,
   getIsPanelAnimating,
   getSelectedMessageIds,
-} from '../selectors/conversations.js';
-import { useComposerActions } from '../ducks/composer.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { isShowingAnyModal } from '../selectors/globalModals.js';
+} from '../selectors/conversations.dom.js';
+import { useComposerActions } from '../ducks/composer.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { isShowingAnyModal } from '../selectors/globalModals.std.js';
 
 function renderCompositionArea(conversationId: string) {
   return <SmartCompositionArea id={conversationId} />;

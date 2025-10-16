@@ -15,8 +15,8 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
 } from '../model-types.d.ts';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { getConversation } from '../util/getConversation.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { getConversation } from '../util/getConversation.preload.js';
 import {
   copyAttachmentIntoTempDirectory,
   deleteAttachmentData,
@@ -26,47 +26,47 @@ import {
   readStickerData,
   upgradeMessageSchema,
   writeNewAttachmentData,
-} from '../util/migrations.js';
-import { drop } from '../util/drop.js';
-import { isShallowEqual } from '../util/isShallowEqual.js';
-import { getInitials } from '../util/getInitials.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
-import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage.js';
-import type { ProfileNameChangeType } from '../util/getStringForProfileChange.js';
-import type { AttachmentType, ThumbnailType } from '../types/Attachment.js';
-import { toDayMillis } from '../util/timestamp.js';
-import { areWeAdmin } from '../util/areWeAdmin.js';
-import { isBlocked } from '../util/isBlocked.js';
-import { getAboutText } from '../util/getAboutText.js';
+} from '../util/migrations.preload.js';
+import { drop } from '../util/drop.std.js';
+import { isShallowEqual } from '../util/isShallowEqual.std.js';
+import { getInitials } from '../util/getInitials.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
+import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage.preload.js';
+import type { ProfileNameChangeType } from '../util/getStringForProfileChange.std.js';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.js';
+import { toDayMillis } from '../util/timestamp.std.js';
+import { areWeAdmin } from '../util/areWeAdmin.preload.js';
+import { isBlocked } from '../util/isBlocked.preload.js';
+import { getAboutText } from '../util/getAboutText.dom.js';
 import {
   getAvatar,
   getRawAvatarPath,
   getLocalAvatarUrl,
-} from '../util/avatarUtils.js';
-import { getDraftPreview } from '../util/getDraftPreview.js';
-import { hasDraft } from '../util/hasDraft.js';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.js';
-import * as Conversation from '../types/Conversation.js';
+} from '../util/avatarUtils.preload.js';
+import { getDraftPreview } from '../util/getDraftPreview.preload.js';
+import { hasDraft } from '../util/hasDraft.std.js';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
+import * as Conversation from '../types/Conversation.node.js';
 import type {
   StickerType,
   StickerWithHydratedData,
-} from '../types/Stickers.js';
-import * as Stickers from '../types/Stickers.js';
-import { StorySendMode } from '../types/Stories.js';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.js';
+} from '../types/Stickers.preload.js';
+import * as Stickers from '../types/Stickers.preload.js';
+import { StorySendMode } from '../types/Stories.std.js';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.std.js';
 import {
   type GroupV2InfoType,
   messageSender,
-} from '../textsecure/SendMessage.js';
+} from '../textsecure/SendMessage.preload.js';
 import {
   getAvatar as doGetAvatar,
   cdsLookup,
   checkAccountExistence,
-} from '../textsecure/WebAPI.js';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
-import { MessageSender } from '../textsecure/SendMessage.js';
+} from '../textsecure/WebAPI.preload.js';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
+import { MessageSender } from '../textsecure/SendMessage.preload.js';
 import type {
   CallbackResultType,
   PniSignatureMessageType,
@@ -74,53 +74,53 @@ import type {
 import type {
   ConversationType,
   DraftPreviewType,
-} from '../state/ducks/conversations.js';
+} from '../state/ducks/conversations.preload.js';
 import type {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.js';
-import { strictAssert } from '../util/assert.js';
-import { isConversationMuted } from '../util/isConversationMuted.js';
-import { isConversationSMSOnly } from '../util/isConversationSMSOnly.js';
+} from '../types/Colors.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { isConversationMuted } from '../util/isConversationMuted.std.js';
+import { isConversationSMSOnly } from '../util/isConversationSMSOnly.std.js';
 import {
   isConversationEverUnregistered,
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
-} from '../util/isConversationUnregistered.js';
-import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
-import { isValidE164 } from '../util/isValidE164.js';
-import type { MIMEType } from '../types/MIME.js';
-import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME.js';
+} from '../util/isConversationUnregistered.dom.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
+import { isValidE164 } from '../util/isValidE164.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
+import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME.std.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.js';
+} from '../types/ServiceId.std.js';
 import {
   ServiceIdKind,
   normalizeServiceId,
   normalizePni,
-} from '../types/ServiceId.js';
-import { isAciString } from '../util/isAciString.js';
+} from '../types/ServiceId.std.js';
+import { isAciString } from '../util/isAciString.std.js';
 import {
   constantTimeEqual,
   decryptProfile,
   decryptProfileName,
   hashProfileKey,
-} from '../Crypto.js';
-import { decryptAttachmentV2 } from '../AttachmentCrypto.js';
-import * as Bytes from '../Bytes.js';
-import type { DraftBodyRanges } from '../types/BodyRange.js';
-import { migrateColor } from '../util/migrateColor.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.js';
-import { storageServiceUploadJob } from '../services/storage.js';
-import { challengeHandler } from '../services/challengeHandler.js';
-import { getSendOptions } from '../util/getSendOptions.js';
-import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.js';
-import { isConversationAccepted } from '../util/isConversationAccepted.js';
+} from '../Crypto.node.js';
+import { decryptAttachmentV2 } from '../AttachmentCrypto.node.js';
+import * as Bytes from '../Bytes.std.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.js';
+import { migrateColor } from '../util/migrateColor.node.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.preload.js';
+import { storageServiceUploadJob } from '../services/storage.preload.js';
+import { challengeHandler } from '../services/challengeHandler.preload.js';
+import { getSendOptions } from '../util/getSendOptions.preload.js';
+import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.preload.js';
+import { isConversationAccepted } from '../util/isConversationAccepted.preload.js';
 import {
   getNumber,
   getProfileName,
@@ -129,96 +129,106 @@ import {
   hasNumberTitle,
   hasUsernameTitle,
   canHaveUsername,
-} from '../util/getTitle.js';
-import { markConversationRead } from '../util/markConversationRead.js';
-import { handleMessageSend } from '../util/handleMessageSend.js';
-import { getConversationMembers } from '../util/getConversationMembers.js';
-import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { SendStatus } from '../messages/MessageSendState.js';
+} from '../util/getTitle.preload.js';
+import { markConversationRead } from '../util/markConversationRead.preload.js';
+import { handleMessageSend } from '../util/handleMessageSend.preload.js';
+import { getConversationMembers } from '../util/getConversationMembers.dom.js';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.dom.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { SendStatus } from '../messages/MessageSendState.std.js';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews.js';
-import { MINUTE, SECOND, DurationInSeconds } from '../util/durations/index.js';
-import { concat, filter, map, repeat, zipObject } from '../util/iterables.js';
-import * as universalExpireTimer from '../util/universalExpireTimer.js';
-import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions.js';
+} from '../types/message/LinkPreviews.std.js';
+import {
+  MINUTE,
+  SECOND,
+  DurationInSeconds,
+} from '../util/durations/index.std.js';
+import {
+  concat,
+  filter,
+  map,
+  repeat,
+  zipObject,
+} from '../util/iterables.std.js';
+import * as universalExpireTimer from '../util/universalExpireTimer.preload.js';
+import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions.std.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
-} from '../util/whatTypeOfConversation.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+} from '../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 import {
   getMessagePropStatus,
   hasErrors,
   isIncoming,
   isStory,
-} from '../state/selectors/message.js';
-import { getPreloadedConversationId } from '../state/selectors/conversations.js';
+} from '../state/selectors/message.preload.js';
+import { getPreloadedConversationId } from '../state/selectors/conversations.dom.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.js';
-import { getProfile } from '../util/getProfile.js';
-import { SEALED_SENDER } from '../types/SealedSender.js';
-import { createIdenticon } from '../util/createIdenticon.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { isMessageUnread } from '../util/isMessageUnread.js';
-import type { SenderKeyTargetType } from '../util/sendToGroup.js';
+} from '../jobs/conversationJobQueue.preload.js';
+import { getProfile } from '../util/getProfile.preload.js';
+import { SEALED_SENDER } from '../types/SealedSender.std.js';
+import { createIdenticon } from '../util/createIdenticon.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { isMessageUnread } from '../util/isMessageUnread.std.js';
+import type { SenderKeyTargetType } from '../util/sendToGroup.preload.js';
 import {
   resetSenderKey,
   sendContentMessageToGroup,
-} from '../util/sendToGroup.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import { TimelineMessageLoadingState } from '../util/timelineUtil.js';
-import { SeenStatus } from '../MessageSeenStatus.js';
-import { getConversationIdForLogging } from '../util/idForLogging.js';
-import { getSendTarget } from '../util/getSendTarget.js';
-import { getRecipients } from '../util/getRecipients.js';
-import { validateConversation } from '../util/validateConversation.js';
-import { isSignalConversation } from '../util/isSignalConversation.js';
-import { removePendingMember } from '../util/removePendingMember.js';
+} from '../util/sendToGroup.preload.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
+import { TimelineMessageLoadingState } from '../util/timelineUtil.std.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { getConversationIdForLogging } from '../util/idForLogging.preload.js';
+import { getSendTarget } from '../util/getSendTarget.std.js';
+import { getRecipients } from '../util/getRecipients.dom.js';
+import { validateConversation } from '../util/validateConversation.dom.js';
+import { isSignalConversation } from '../util/isSignalConversation.dom.js';
+import { removePendingMember } from '../util/removePendingMember.preload.js';
 import {
   isMember,
   isMemberAwaitingApproval,
   isMemberBanned,
   isMemberPending,
   isMemberRequestingToJoin,
-} from '../util/groupMembershipUtils.js';
-import { imageToBlurHash } from '../util/imageToBlurHash.js';
-import { ReceiptType } from '../types/Receipt.js';
-import { getQuoteAttachment } from '../util/makeQuote.js';
+} from '../util/groupMembershipUtils.preload.js';
+import { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
+import { ReceiptType } from '../types/Receipt.std.js';
+import { getQuoteAttachment } from '../util/makeQuote.preload.js';
 import {
   deriveAccessKeyFromProfileKey,
   deriveProfileKeyVersion,
-} from '../util/zkgroup.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
-import { generateMessageId } from '../util/generateMessageId.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
-import { downscaleOutgoingAttachment } from '../util/attachments.js';
+} from '../util/zkgroup.node.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
+import { generateMessageId } from '../util/generateMessageId.node.js';
+import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import { downscaleOutgoingAttachment } from '../util/attachments.preload.js';
 import {
   MessageRequestResponseSource,
   type MessageRequestResponseInfo,
   MessageRequestResponseEvent,
-} from '../types/MessageRequestResponseEvent.js';
-import type { AddressableMessage } from '../textsecure/messageReceiverEvents.js';
+} from '../types/MessageRequestResponseEvent.std.js';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents.std.js';
 import {
   getConversationIdentifier,
   getAddressableMessage,
-} from '../util/syncIdentifiers.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { getCallHistorySelector } from '../state/selectors/callHistory.js';
-import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus.js';
-import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes.js';
-import { getIsInitialContactSync } from '../services/contactSync.js';
-import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads.js';
-import { cleanupMessages } from '../util/cleanup.js';
-import { MessageModel } from './messages.js';
+} from '../util/syncIdentifiers.preload.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { getCallHistorySelector } from '../state/selectors/callHistory.std.js';
+import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus.std.js';
+import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes.preload.js';
+import { getIsInitialContactSync } from '../services/contactSync.preload.js';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads.preload.js';
+import { cleanupMessages } from '../util/cleanup.preload.js';
+import { MessageModel } from './messages.preload.js';
 import {
   applyNewAvatar,
   buildAccessControlAddFromInviteLinkChange,
@@ -242,14 +252,14 @@ import {
   modifyGroupV2,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
-} from '../groups.js';
-import { safeSetTimeout } from '../util/timeout.js';
-import { getTypingIndicatorSetting } from '../util/Settings.js';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.js';
-import { maybeNotify } from '../messages/maybeNotify.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import * as Message from '../types/Message2.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../groups.preload.js';
+import { safeSetTimeout } from '../util/timeout.std.js';
+import { getTypingIndicatorSetting } from '../util/Settings.preload.js';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
+import { maybeNotify } from '../messages/maybeNotify.preload.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import * as Message from '../types/Message2.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 

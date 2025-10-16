@@ -6,12 +6,12 @@ import { stub } from 'sinon';
 import type { MenuItemConstructorOptions } from 'electron';
 import type pino from 'pino';
 
-import type { CreateTemplateOptionsType } from '../../../app/menu.js';
-import { createTemplate } from '../../../app/menu.js';
-import { load as loadLocale } from '../../../app/locale.js';
-import type { MenuListType } from '../../types/menu.js';
-import type { LoggerType } from '../../types/Logging.js';
-import { HourCyclePreference } from '../../types/I18N.js';
+import type { CreateTemplateOptionsType } from '../../../app/menu.std.js';
+import { createTemplate } from '../../../app/menu.std.js';
+import { load as loadLocale } from '../../../app/locale.main.js';
+import type { MenuListType } from '../../types/menu.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { HourCyclePreference } from '../../types/I18N.std.js';
 
 const forceUpdate = stub();
 const openArtCreator = stub();

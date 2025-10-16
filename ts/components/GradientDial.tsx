@@ -4,8 +4,8 @@
 import type { CSSProperties, KeyboardEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { arrow } from '../util/keyboard.js';
-import type { LocalizerType } from '../types/Util.js';
+import { arrow } from '../util/keyboard.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
 
 export enum KnobType {
   start = 'start',

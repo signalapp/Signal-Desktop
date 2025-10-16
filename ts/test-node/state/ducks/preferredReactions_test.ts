@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import type { StateType } from '../../../state/reducer.js';
-import { reducer as rootReducer } from '../../../state/reducer.js';
-import { noopAction } from '../../../state/ducks/noop.js';
+import type { StateType } from '../../../state/reducer.preload.js';
+import { reducer as rootReducer } from '../../../state/reducer.preload.js';
+import { noopAction } from '../../../state/ducks/noop.std.js';
 
-import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions.js';
+import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions.preload.js';
 import {
   actions,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/preferredReactions.js';
-import { EmojiSkinTone } from '../../../components/fun/data/emojis.js';
-import { itemStorage } from '../../../textsecure/Storage.js';
+} from '../../../state/ducks/preferredReactions.preload.js';
+import { EmojiSkinTone } from '../../../components/fun/data/emojis.std.js';
+import { itemStorage } from '../../../textsecure/Storage.preload.js';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>

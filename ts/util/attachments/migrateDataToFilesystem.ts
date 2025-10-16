@@ -5,8 +5,8 @@ import lodash from 'lodash';
 import type {
   AttachmentType,
   LocalAttachmentV2Type,
-} from '../../types/Attachment.js';
-import type { LoggerType } from '../../types/Logging.js';
+} from '../../types/Attachment.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 
 const { isFunction, isTypedArray, isUndefined, omit } = lodash;
 

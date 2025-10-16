@@ -22,16 +22,16 @@ import { join } from 'node:path';
 import { read as readLastLines } from 'read-last-lines';
 import split2 from 'split2';
 
-import type { LoggerType } from '../types/Logging.js';
-import * as Errors from '../types/errors.js';
-import { createRotatingPinoDest } from '../util/rotatingPinoDest.js';
-import { redactAll } from '../util/privacy.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import * as Errors from '../types/errors.std.js';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.js';
+import { redactAll } from '../util/privacy.node.js';
 
-import { setPinoDestination, log, setOnLogCallback } from './log.js';
+import { setPinoDestination, log, setOnLogCallback } from './log.std.js';
 
-import type { FetchLogIpcData, LogEntryType } from './shared.js';
-import { LogLevel, isLogEntry } from './shared.js';
-import { isProduction } from '../util/version.js';
+import type { FetchLogIpcData, LogEntryType } from './shared.std.js';
+import { LogLevel, isLogEntry } from './shared.std.js';
+import { isProduction } from '../util/version.std.js';
 
 const { filter, flatten, map, pick, sortBy } = lodash;
 

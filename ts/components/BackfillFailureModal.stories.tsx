@@ -3,12 +3,12 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './BackfillFailureModal.js';
+import type { PropsType } from './BackfillFailureModal.dom.js';
 import {
   BackfillFailureModal,
   BackfillFailureKind,
-} from './BackfillFailureModal.js';
-import type { ComponentMeta } from '../storybook/types.js';
+} from './BackfillFailureModal.dom.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
 
 const { i18n } = window.SignalContext;
 

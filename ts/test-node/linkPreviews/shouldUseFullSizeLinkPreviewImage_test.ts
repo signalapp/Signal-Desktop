@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { VIDEO_MP4 } from '../../types/MIME.js';
+import { VIDEO_MP4 } from '../../types/MIME.std.js';
 
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
 
-import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.js';
+import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
 
 describe('shouldUseFullSizeLinkPreviewImage', () => {
   const baseLinkPreview = {

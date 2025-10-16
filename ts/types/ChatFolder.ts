@@ -2,16 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import type { Simplify } from 'type-fest';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.js';
-import * as grapheme from '../util/grapheme.js';
-import * as RemoteConfig from '../RemoteConfig.js';
-import { isAlpha, isBeta, isProduction } from '../util/version.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { isConversationUnread } from '../util/isConversationUnread.js';
+import * as grapheme from '../util/grapheme.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { isConversationUnread } from '../util/isConversationUnread.std.js';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
 
@@ -153,34 +146,6 @@ function isSameConversationIds(
   b: ReadonlyArray<string>
 ): boolean {
   return new Set(a).symmetricDifference(new Set(b)).size === 0;
-}
-
-export function isChatFoldersEnabled(): boolean {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    isMockEnvironment()
-  ) {
-    return true;
-  }
-
-  const version = window.getVersion?.();
-
-  if (version != null) {
-    if (isProduction(version)) {
-      return RemoteConfig.isEnabled('desktop.chatFolders.prod');
-    }
-    if (isBeta(version)) {
-      return RemoteConfig.isEnabled('desktop.chatFolders.beta');
-    }
-    if (isAlpha(version)) {
-      return RemoteConfig.isEnabled('desktop.chatFolders.alpha');
-    }
-  }
-
-  return false;
 }
 
 type ConversationPropsForChatFolder = Pick<

@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.js';
-import type { DraftPreviewType } from '../state/ducks/conversations.js';
-import { findAndFormatContact } from './findAndFormatContact.js';
-import { hydrateRanges } from '../types/BodyRange.js';
-import { isVoiceMessage } from './Attachment.js';
-import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { DraftPreviewType } from '../state/ducks/conversations.preload.js';
+import { findAndFormatContact } from './findAndFormatContact.preload.js';
+import { hydrateRanges } from '../types/BodyRange.std.js';
+import { isVoiceMessage } from './Attachment.std.js';
+import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
 
 const { i18n } = window.SignalContext;
 

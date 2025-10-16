@@ -1,14 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../../../util/assert.js';
-import type { GifType } from '../panels/FunPanelGifs.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import type { GifType } from '../panels/FunPanelGifs.dom.js';
 import type {
   TenorContentFormat,
   TenorNextCursor,
   TenorResponseResult,
-} from './tenor.js';
-import { tenor, isTenorTailCursor } from './tenor.js';
+} from './tenor.preload.js';
+import { tenor, isTenorTailCursor } from './tenor.preload.js';
 
 const PREVIEW_CONTENT_FORMAT: TenorContentFormat = 'tinymp4';
 const ATTACHMENT_CONTENT_FORMAT: TenorContentFormat = 'mp4';

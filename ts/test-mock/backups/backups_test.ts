@@ -11,25 +11,25 @@ import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import Long from 'long';
 
-import * as Bytes from '../../Bytes.js';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
-import { MY_STORY_ID } from '../../types/Stories.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { generateBackup } from '../../test-helpers/generateBackup.js';
-import { IMAGE_JPEG } from '../../types/MIME.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import * as durations from '../../util/durations/index.js';
-import type { App } from '../playwright.js';
-import { Bootstrap, type LinkOptionsType } from '../bootstrap.js';
+import * as Bytes from '../../Bytes.std.js';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.js';
+import { MY_STORY_ID } from '../../types/Stories.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { generateBackup } from '../../test-helpers/generateBackup.node.js';
+import { IMAGE_JPEG } from '../../types/MIME.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap, type LinkOptionsType } from '../bootstrap.node.js';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
-} from '../helpers.js';
-import { toBase64 } from '../../Bytes.js';
-import { strictAssert } from '../../util/assert.js';
-import { BackupLevel } from '../../services/backups/types.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.js';
+} from '../helpers.node.js';
+import { toBase64 } from '../../Bytes.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { BackupLevel } from '../../services/backups/types.std.js';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
 
 export const debug = createDebug('mock:test:backups');
 

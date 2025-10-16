@@ -7,12 +7,12 @@ import { basename, join } from 'node:path';
 import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump.js';
 import z from 'zod';
 
-import type { LoggerType } from '../ts/types/Logging.js';
-import * as Errors from '../ts/types/errors.js';
-import { isProduction } from '../ts/util/version.js';
-import { isNotNil } from '../ts/util/isNotNil.js';
-import OS from '../ts/util/os/osMain.js';
-import { parseUnknown } from '../ts/util/schemas.js';
+import type { LoggerType } from '../ts/types/Logging.std.js';
+import * as Errors from '../ts/types/errors.std.js';
+import { isProduction } from '../ts/util/version.std.js';
+import { isNotNil } from '../ts/util/isNotNil.std.js';
+import OS from '../ts/util/os/osMain.node.js';
+import { parseUnknown } from '../ts/util/schemas.std.js';
 
 const { realpath, readdir, readFile, unlink, stat } = fsExtra;
 

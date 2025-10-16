@@ -1,14 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
-import type { ParsedSignalRoute } from '../../util/signalRoutes.js';
+import type { ParsedSignalRoute } from '../../util/signalRoutes.std.js';
 import {
   isSignalRoute,
   parseSignalRoute,
   toSignalRouteAppUrl,
   toSignalRouteUrl,
   toSignalRouteWebUrl,
-} from '../../util/signalRoutes.js';
+} from '../../util/signalRoutes.std.js';
 
 describe('signalRoutes', () => {
   type CheckConfig = {

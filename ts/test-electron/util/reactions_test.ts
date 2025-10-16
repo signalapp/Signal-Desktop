@@ -3,15 +3,15 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { DataWriter } from '../../sql/Client.js';
-import { generateAci, generatePni } from '../../types/ServiceId.js';
-import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions.js';
-import { generateMessageId } from '../../util/generateMessageId.js';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
-import type { ConversationModel } from '../../models/conversations.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { SendStatus } from '../../messages/MessageSendState.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import { generateAci, generatePni } from '../../types/ServiceId.std.js';
+import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions.preload.js';
+import { generateMessageId } from '../../util/generateMessageId.node.js';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 describe('isMessageAMatchForReaction', () => {
   let contactA: ConversationModel;

@@ -4,16 +4,16 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import type { WindowsNotificationData } from '../ts/services/notifications';
+import type { WindowsNotificationData } from '../ts/services/notifications.preload.js';
 
-import { NotificationType } from '../ts/services/notifications';
-import { missingCaseError } from '../ts/util/missingCaseError';
+import { NotificationType } from '../ts/types/notifications.std.js';
+import { missingCaseError } from '../ts/util/missingCaseError.std.js';
 import {
   cancelPresentingRoute,
   showConversationRoute,
   showWindowRoute,
   startCallLobbyRoute,
-} from '../ts/util/signalRoutes';
+} from '../ts/util/signalRoutes.std.js';
 
 function pathToUri(path: string) {
   return `file:///${encodeURI(path.replace(/\\/g, '/'))}`;

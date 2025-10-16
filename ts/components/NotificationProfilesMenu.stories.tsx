@@ -6,17 +6,17 @@ import { shuffle } from 'lodash';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { NotificationProfilesMenu } from './NotificationProfilesMenu.js';
-import type { Props } from './NotificationProfilesMenu.js';
+import { NotificationProfilesMenu } from './NotificationProfilesMenu.dom.js';
+import type { Props } from './NotificationProfilesMenu.dom.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.js';
-import { DayOfWeek } from '../types/NotificationProfile.js';
-import type { NotificationProfileIdString } from '../types/NotificationProfile.js';
-import { HOUR } from '../util/durations/index.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
-import { AxoButton } from '../axo/AxoButton.js';
+} from '../test-helpers/getDefaultConversation.std.js';
+import { DayOfWeek } from '../types/NotificationProfile.std.js';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
+import { HOUR } from '../util/durations/index.std.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const { i18n } = window.SignalContext;
 

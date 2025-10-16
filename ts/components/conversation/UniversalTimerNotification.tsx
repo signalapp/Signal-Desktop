@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { SystemMessage } from './SystemMessage.js';
-import type { LocalizerType } from '../../types/Util.js';
-import * as expirationTimer from '../../util/expirationTimer.js';
-import type { DurationInSeconds } from '../../util/durations/index.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import * as expirationTimer from '../../util/expirationTimer.std.js';
+import type { DurationInSeconds } from '../../util/durations/index.std.js';
 
 export type Props = {
   i18n: LocalizerType;

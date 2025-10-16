@@ -3,42 +3,48 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { GroupV2ChangeType } from './types/groups.ts';
-import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.js';
-import type { CustomColorType, ConversationColorType } from './types/Colors.js';
-import type { SendMessageChallengeData } from './textsecure/Errors.js';
-import type { ProfileNameChangeType } from './util/getStringForProfileChange.js';
+import type { GroupV2ChangeType } from './types/groups.std.js';
+import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.js';
+import type {
+  CustomColorType,
+  ConversationColorType,
+} from './types/Colors.std.js';
+import type { SendMessageChallengeData } from './textsecure/Errors.std.js';
+import type { ProfileNameChangeType } from './util/getStringForProfileChange.std.js';
 import type { CapabilitiesType } from './types/Capabilities.d.ts';
-import type { ReadStatus } from './messages/MessageReadStatus.js';
-import type { SendStateByConversationId } from './messages/MessageSendState.js';
-import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.js';
+import type { ReadStatus } from './messages/MessageReadStatus.std.js';
+import type { SendStateByConversationId } from './messages/MessageSendState.std.js';
+import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.std.js';
 
-import type { AttachmentDraftType, AttachmentType } from './util/Attachment.js';
-import type { EmbeddedContactType } from './types/EmbeddedContact.js';
-import { SignalService as Proto } from './protobuf/index.js';
-import type { AvatarDataType, ContactAvatarType } from './types/Avatar.js';
+import type {
+  AttachmentDraftType,
+  AttachmentType,
+} from './util/Attachment.std.js';
+import type { EmbeddedContactType } from './types/EmbeddedContact.std.js';
+import { SignalService as Proto } from './protobuf/index.std.js';
+import type { AvatarDataType, ContactAvatarType } from './types/Avatar.std.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from './types/ServiceId.js';
-import type { StoryDistributionIdString } from './types/StoryDistributionId.js';
-import type { SeenStatus } from './MessageSeenStatus.js';
-import type { GiftBadgeStates } from './types/GiftBadgeStates.js';
-import type { LinkPreviewType } from './types/message/LinkPreviews.js';
+} from './types/ServiceId.std.js';
+import type { StoryDistributionIdString } from './types/StoryDistributionId.std.js';
+import type { SeenStatus } from './MessageSeenStatus.std.js';
+import type { GiftBadgeStates } from './types/GiftBadgeStates.std.js';
+import type { LinkPreviewType } from './types/message/LinkPreviews.std.js';
 
-import type { StickerType } from './types/Stickers.js';
-import type { StorySendMode } from './types/Stories.js';
-import type { MIMEType } from './types/MIME.js';
-import type { DurationInSeconds } from './util/durations/index.js';
-import type { AnyPaymentEvent } from './types/Payment.js';
-import type { PollMessageAttribute } from './types/Polls.js';
+import type { StickerType } from './types/Stickers.preload.js';
+import type { StorySendMode } from './types/Stories.std.js';
+import type { MIMEType } from './types/MIME.std.js';
+import type { DurationInSeconds } from './util/durations/index.std.js';
+import type { AnyPaymentEvent } from './types/Payment.std.js';
+import type { PollMessageAttribute } from './types/Polls.dom.js';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
-import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.js';
-import type { QuotedMessageForComposerType } from './state/ducks/composer.js';
-import type { SEALED_SENDER } from './types/SealedSender.js';
+import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.std.js';
+import type { QuotedMessageForComposerType } from './state/ducks/composer.preload.js';
+import type { SEALED_SENDER } from './types/SealedSender.std.js';
 
 export type LastMessageStatus =
   | 'paused'

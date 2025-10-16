@@ -7,26 +7,26 @@ import type {
   StickerPackStatusType,
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
-} from '../../sql/Interface.js';
-import { DataReader, DataWriter } from '../../sql/Client.js';
+} from '../../sql/Interface.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import type {
   ActionSourceType,
   RecentStickerType,
-} from '../../types/Stickers.js';
+} from '../../types/Stickers.preload.js';
 import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
-} from '../../types/Stickers.js';
-import { drop } from '../../util/drop.js';
-import { storageServiceUploadJob } from '../../services/storage.js';
-import { sendStickerPackSync } from '../../shims/textsecure.js';
-import { trigger } from '../../shims/events.js';
-import { ERASE_STORAGE_SERVICE } from './user.js';
-import type { EraseStorageServiceStateAction } from './user.js';
+} from '../../types/Stickers.preload.js';
+import { drop } from '../../util/drop.std.js';
+import { storageServiceUploadJob } from '../../services/storage.preload.js';
+import { sendStickerPackSync } from '../../shims/textsecure.preload.js';
+import { trigger } from '../../shims/events.dom.js';
+import { ERASE_STORAGE_SERVICE } from './user.preload.js';
+import type { EraseStorageServiceStateAction } from './user.preload.js';
 
-import type { NoopActionType } from './noop.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
+import type { NoopActionType } from './noop.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 
 const { omit, reject } = lodash;
 

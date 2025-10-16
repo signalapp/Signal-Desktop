@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from './constants.js';
-import { isValidReactionEmoji } from './isValidReactionEmoji.js';
+import { createLogger } from '../logging/log.std.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from './constants.std.js';
+import { isValidReactionEmoji } from './isValidReactionEmoji.std.js';
 import {
   getEmojiVariantByParentKeyAndSkinTone,
   type EmojiSkinTone,
-} from '../components/fun/data/emojis.js';
+} from '../components/fun/data/emojis.std.js';
 
 const { times } = lodash;
 

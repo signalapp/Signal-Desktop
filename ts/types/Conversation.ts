@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ContactAvatarType } from './Avatar.js';
-import type { LocalAttachmentV2Type } from './Attachment.js';
-import { computeHash } from '../Crypto.js';
-import { createLogger } from '../logging/log.js';
+import type { ContactAvatarType } from './Avatar.std.js';
+import type { LocalAttachmentV2Type } from './Attachment.std.js';
+import { computeHash } from '../Crypto.node.js';
+import { createLogger } from '../logging/log.std.js';
 
 const log = createLogger('Conversation');
 

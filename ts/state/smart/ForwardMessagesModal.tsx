@@ -3,33 +3,33 @@
 
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { ForwardMessagesPropsType } from '../ducks/globalModals.js';
-import { createLogger } from '../../logging/log.js';
-import { ForwardMessagesModal } from '../../components/ForwardMessagesModal.js';
-import { LinkPreviewSourceType } from '../../types/LinkPreview.js';
-import * as Errors from '../../types/errors.js';
-import { getAllComposableConversations } from '../selectors/conversations.js';
-import { getIntl, getTheme, getRegionCode } from '../selectors/user.js';
-import { getLinkPreview } from '../selectors/linkPreviews.js';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { maybeForwardMessages } from '../../util/maybeForwardMessages.js';
+import type { ForwardMessagesPropsType } from '../ducks/globalModals.preload.js';
+import { createLogger } from '../../logging/log.std.js';
+import { ForwardMessagesModal } from '../../components/ForwardMessagesModal.dom.js';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { getAllComposableConversations } from '../selectors/conversations.dom.js';
+import { getIntl, getTheme, getRegionCode } from '../selectors/user.std.js';
+import { getLinkPreview } from '../selectors/linkPreviews.std.js';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { maybeForwardMessages } from '../../util/maybeForwardMessages.preload.js';
 import {
   maybeGrabLinkPreview,
   resetLinkPreview,
-} from '../../services/LinkPreview.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useLinkPreviewActions } from '../ducks/linkPreviews.js';
-import { SmartCompositionTextArea } from './CompositionTextArea.js';
-import { useToastActions } from '../ducks/toast.js';
-import { isDownloaded } from '../../util/Attachment.js';
-import { getMessageById } from '../../messages/getMessageById.js';
-import { strictAssert } from '../../util/assert.js';
+} from '../../services/LinkPreview.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useLinkPreviewActions } from '../ducks/linkPreviews.preload.js';
+import { SmartCompositionTextArea } from './CompositionTextArea.preload.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { isDownloaded } from '../../util/Attachment.std.js';
+import { getMessageById } from '../../messages/getMessageById.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
 import type {
   ForwardMessageData,
   MessageForwardDraft,
-} from '../../types/ForwardDraft.js';
-import { getForwardMessagesProps } from '../selectors/globalModals.js';
+} from '../../types/ForwardDraft.std.js';
+import { getForwardMessagesProps } from '../selectors/globalModals.std.js';
 
 const log = createLogger('ForwardMessagesModal');
 

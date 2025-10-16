@@ -7,22 +7,22 @@ import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
 import lodash from 'lodash';
 
-import { SignalService as Proto } from '../protobuf/index.js';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.js';
-import { UsernameLinkState } from '../state/ducks/usernameEnums.js';
-import { ToastType } from '../types/Toast.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
-import type { LocalizerType } from '../types/Util.js';
-import { IMAGE_PNG } from '../types/MIME.js';
-import { strictAssert } from '../util/assert.js';
-import { drop } from '../util/drop.js';
-import { splitText } from '../util/splitText.js';
-import { loadImage } from '../util/loadImage.js';
-import { Button, ButtonVariant } from './Button.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { Spinner } from './Spinner.js';
-import { BrandedQRCode } from './BrandedQRCode.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.preload.js';
+import { UsernameLinkState } from '../state/ducks/usernameEnums.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { IMAGE_PNG } from '../types/MIME.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { drop } from '../util/drop.std.js';
+import { splitText } from '../util/splitText.std.js';
+import { loadImage } from '../util/loadImage.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import { BrandedQRCode } from './BrandedQRCode.dom.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 
 const { noop } = lodash;
 

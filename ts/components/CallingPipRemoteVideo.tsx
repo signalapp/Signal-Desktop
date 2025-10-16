@@ -4,34 +4,34 @@
 import React, { useEffect } from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.js';
-import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.js';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.js';
-import type { LocalizerType } from '../types/Util.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
 import {
   GroupCallJoinState,
   type ActiveCallType,
   type GroupCallRemoteParticipantType,
   type GroupCallVideoRequest,
-} from '../types/Calling.js';
-import { CallMode } from '../types/CallDisposition.js';
-import { AvatarColors } from '../types/Colors.js';
-import type { SetRendererCanvasType } from '../state/ducks/calling.js';
-import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.js';
-import { MAX_FRAME_HEIGHT } from '../calling/constants.js';
-import { usePageVisibility } from '../hooks/usePageVisibility.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.js';
-import { isReconnecting } from '../util/callingIsReconnecting.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
-import { assertDev } from '../util/assert.js';
-import type { CallingImageDataCache } from './CallManager.js';
+} from '../types/Calling.std.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.js';
+import { MAX_FRAME_HEIGHT } from '../calling/constants.std.js';
+import { usePageVisibility } from '../hooks/usePageVisibility.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.js';
+import { isReconnecting } from '../util/callingIsReconnecting.std.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
+import { assertDev } from '../util/assert.std.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
 import {
   PIP_MAXIMUM_HEIGHT_MULTIPLIER,
   PIP_MINIMUM_HEIGHT_MULTIPLIER,
   PIP_WIDTH_NORMAL,
-} from './CallingPip.js';
+} from './CallingPip.dom.js';
 
 const { clamp, isNumber, maxBy } = lodash;
 

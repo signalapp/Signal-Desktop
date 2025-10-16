@@ -1,13 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client.js';
-import { strictAssert } from '../util/assert.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { strictAssert } from '../util/assert.std.js';
 
-import { _getWorkflowFromStorage } from './donations.js';
+import { _getWorkflowFromStorage } from './donations.preload.js';
 
-import type { DonationReceipt } from '../types/Donations.js';
-import type { DonationsStateType } from '../state/ducks/donations.js';
+import type { DonationReceipt } from '../types/Donations.std.js';
+import type { DonationsStateType } from '../state/ducks/donations.preload.js';
 
 let donationReceipts: Array<DonationReceipt> | undefined;
 

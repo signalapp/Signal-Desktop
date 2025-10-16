@@ -4,16 +4,16 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ConversationDetailsMembershipList } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList.js';
-import { assertDev } from '../../util/assert.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+import { ConversationDetailsMembershipList } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList.dom.js';
+import { assertDev } from '../../util/assert.std.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
-} from '../selectors/conversations.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
+} from '../selectors/conversations.dom.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 
 export type PropsType = {
   conversationId: string;

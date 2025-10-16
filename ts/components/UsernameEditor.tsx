@@ -11,29 +11,29 @@ import React, {
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { UsernameReservationType } from '../types/Username.js';
-import { ToastType } from '../types/Toast.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { UsernameReservationType } from '../types/Username.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 import {
   getNickname,
   getDiscriminator,
   isCaseChange,
-} from '../types/Username.js';
+} from '../types/Username.std.js';
 import {
   UsernameReservationState,
   UsernameReservationError,
-} from '../state/ducks/usernameEnums.js';
-import type { ReserveUsernameOptionsType } from '../state/ducks/username.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
+} from '../state/ducks/usernameEnums.std.js';
+import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
 
-import { AutoSizeInput } from './AutoSizeInput.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { Input } from './Input.js';
-import { Spinner } from './Spinner.js';
-import { Modal } from './Modal.js';
-import { Button, ButtonVariant } from './Button.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+import { AutoSizeInput } from './AutoSizeInput.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { Input } from './Input.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 
 const { noop } = lodash;
 

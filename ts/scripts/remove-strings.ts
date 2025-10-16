@@ -7,9 +7,9 @@ import fs from 'node:fs/promises';
 import pLimit from 'p-limit';
 import path from 'node:path';
 
-import { MONTH } from '../util/durations/index.js';
-import { isOlderThan } from '../util/timestamp.js';
-import { DELETED_REGEXP } from './constants.js';
+import { MONTH } from '../util/durations/index.std.js';
+import { isOlderThan } from '../util/timestamp.std.js';
+import { DELETED_REGEXP } from './constants.std.js';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');

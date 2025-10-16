@@ -3,13 +3,13 @@
 
 import React, { memo, useState } from 'react';
 import { Checkbox } from 'radix-ui';
-import { tw } from '../../../axo/tw.js';
-import { AxoButton } from '../../../axo/AxoButton.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.js';
-import type { DirectionType } from '../Message.js';
-import type { PollWithResolvedVotersType } from '../../../state/selectors/message.js';
-import type { LocalizerType } from '../../../types/Util.js';
-import { PollVotesModal } from './PollVotesModal.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { AxoButton } from '../../../axo/AxoButton.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import type { DirectionType } from '../Message.dom.js';
+import type { PollWithResolvedVotersType } from '../../../state/selectors/message.preload.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
+import { PollVotesModal } from './PollVotesModal.dom.js';
 
 function VotedCheckmark({
   isIncoming,

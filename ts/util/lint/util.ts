@@ -5,7 +5,7 @@ import fsExtra from 'fs-extra';
 
 import lodash from 'lodash';
 
-import type { ExceptionType } from './types.js';
+import type { ExceptionType } from './types.std.js';
 
 const { readJsonSync, writeJsonSync } = fsExtra;
 

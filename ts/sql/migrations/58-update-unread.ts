@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/sqlcipher';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { SeenStatus } from '../../MessageSeenStatus.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { SeenStatus } from '../../MessageSeenStatus.std.js';
 
 export default function updateToSchemaVersion58(db: Database): void {
   db.exec(

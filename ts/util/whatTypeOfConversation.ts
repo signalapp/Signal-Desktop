@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import * as Bytes from '../Bytes.js';
-import { createLogger } from '../logging/log.js';
-import { ID_V1_LENGTH, ID_LENGTH } from '../types/groups.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { ID_V1_LENGTH, ID_LENGTH } from '../types/groups.std.js';
 
 const log = createLogger('whatTypeOfConversation');
 

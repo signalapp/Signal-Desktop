@@ -3,16 +3,16 @@
 
 import lodash from 'lodash';
 
-import type { getConfig } from './textsecure/WebAPI.js';
-import { createLogger } from './logging/log.js';
-import type { AciString } from './types/ServiceId.js';
-import { parseIntOrThrow } from './util/parseIntOrThrow.js';
-import { HOUR } from './util/durations/index.js';
-import * as Bytes from './Bytes.js';
-import { uuidToBytes } from './util/uuidToBytes.js';
-import { HashType } from './types/Crypto.js';
-import { getCountryCode } from './types/PhoneNumber.js';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
+import type { getConfig } from './textsecure/WebAPI.preload.js';
+import { createLogger } from './logging/log.std.js';
+import type { AciString } from './types/ServiceId.std.js';
+import { parseIntOrThrow } from './util/parseIntOrThrow.std.js';
+import { HOUR } from './util/durations/index.std.js';
+import * as Bytes from './Bytes.std.js';
+import { uuidToBytes } from './util/uuidToBytes.std.js';
+import { HashType } from './types/Crypto.std.js';
+import { getCountryCode } from './types/PhoneNumber.std.js';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.js';
 import type { StorageInterface } from './types/Storage.d.ts';
 
 const { get, throttle } = lodash;

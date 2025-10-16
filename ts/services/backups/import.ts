@@ -13,44 +13,44 @@ import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type Long from 'long';
 
-import { Backups, SignalService } from '../../protobuf/index.js';
-import { DataReader, DataWriter } from '../../sql/Client.js';
+import { Backups, SignalService } from '../../protobuf/index.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
   type IdentityKeyType,
-} from '../../sql/Interface.js';
-import { createLogger } from '../../logging/log.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.js';
-import { StorySendMode, MY_STORY_ID } from '../../types/Stories.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
-import * as LinkPreview from '../../types/LinkPreview.js';
+} from '../../sql/Interface.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
+import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
+import * as LinkPreview from '../../types/LinkPreview.std.js';
 import {
   fromAciObject,
   fromPniObject,
   fromServiceIdObject,
-} from '../../types/ServiceId.js';
-import { isStoryDistributionId } from '../../types/StoryDistributionId.js';
-import * as Errors from '../../types/errors.js';
-import { PaymentEventKind } from '../../types/Payment.js';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.js';
+} from '../../types/ServiceId.std.js';
+import { isStoryDistributionId } from '../../types/StoryDistributionId.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { PaymentEventKind } from '../../types/Payment.std.js';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import {
   ContactFormType,
   AddressType as ContactAddressType,
-} from '../../types/EmbeddedContact.js';
+} from '../../types/EmbeddedContact.std.js';
 import {
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
   createPacksFromBackup,
   type StickerPackPointerType,
-} from '../../types/Stickers.js';
+} from '../../types/Stickers.preload.js';
 import type {
   ConversationColorType,
   CustomColorsItemType,
   CustomColorType,
   CustomColorDataType,
-} from '../../types/Colors.js';
-import { SEALED_SENDER } from '../../types/SealedSender.js';
+} from '../../types/Colors.std.js';
+import { SEALED_SENDER } from '../../types/SealedSender.std.js';
 import type {
   ConversationAttributesType,
   CustomError,
@@ -59,61 +59,61 @@ import type {
   EditHistoryType,
   QuotedMessageType,
 } from '../../model-types.d.ts';
-import { assertDev, strictAssert } from '../../util/assert.js';
-import { upgradeMessageSchema } from '../../util/migrations.js';
+import { assertDev, strictAssert } from '../../util/assert.std.js';
+import { upgradeMessageSchema } from '../../util/migrations.preload.js';
 import {
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
   getTimestampOrUndefinedFromLong,
-} from '../../util/timestampLongUtils.js';
-import { MAX_SAFE_DATE } from '../../util/timestamp.js';
-import { DurationInSeconds, SECOND } from '../../util/durations/index.js';
-import { calculateExpirationTimestamp } from '../../util/expirationTimer.js';
-import { dropNull } from '../../util/dropNull.js';
+} from '../../util/timestampLongUtils.std.js';
+import { MAX_SAFE_DATE } from '../../util/timestamp.std.js';
+import { DurationInSeconds, SECOND } from '../../util/durations/index.std.js';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
+import { dropNull } from '../../util/dropNull.std.js';
 import {
   deriveGroupID,
   deriveGroupSecretParams,
   deriveGroupPublicParams,
   deriveAccessKeyFromProfileKey,
-} from '../../util/zkgroup.js';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
-import { generateMessageId } from '../../util/generateMessageId.js';
-import { isAciString } from '../../util/isAciString.js';
-import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.js';
-import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.js';
-import { bytesToUuid } from '../../util/uuidToBytes.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { SendStatus } from '../../messages/MessageSendState.js';
-import type { SendStateByConversationId } from '../../messages/MessageSendState.js';
-import { SeenStatus } from '../../MessageSeenStatus.js';
-import { constantTimeEqual } from '../../Crypto.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.js';
-import * as Bytes from '../../Bytes.js';
-import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants.js';
-import { UnsupportedBackupVersion } from './errors.js';
-import type { AboutMe, LocalChatStyle } from './types.js';
-import { BackupType } from './types.js';
-import { getBackupMediaRootKey } from './crypto.js';
-import type { GroupV2ChangeDetailType } from '../../types/groups.ts';
-import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.js';
-import { isNotNil } from '../../util/isNotNil.js';
-import { isGroup } from '../../util/whatTypeOfConversation.js';
-import { rgbIntToHSL } from '../../util/rgbToHSL.js';
+} from '../../util/zkgroup.node.js';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
+import { generateMessageId } from '../../util/generateMessageId.node.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.js';
+import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.std.js';
+import { bytesToUuid } from '../../util/uuidToBytes.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { SendStatus } from '../../messages/MessageSendState.std.js';
+import type { SendStateByConversationId } from '../../messages/MessageSendState.std.js';
+import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import { constantTimeEqual } from '../../Crypto.node.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
+import * as Bytes from '../../Bytes.std.js';
+import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants.std.js';
+import { UnsupportedBackupVersion } from './errors.std.js';
+import type { AboutMe, LocalChatStyle } from './types.std.js';
+import { BackupType } from './types.std.js';
+import { getBackupMediaRootKey } from './crypto.preload.js';
+import type { GroupV2ChangeDetailType } from '../../types/groups.std.js';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.preload.js';
+import { isNotNil } from '../../util/isNotNil.std.js';
+import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
+import { rgbIntToHSL } from '../../util/rgbToHSL.std.js';
 import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
-} from './util/filePointers.js';
+} from './util/filePointers.preload.js';
 import {
   filterAndClean,
   trimMessageWhitespace,
-} from '../../types/BodyRange.js';
+} from '../../types/BodyRange.std.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../../types/MIME.js';
-import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue.js';
-import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.js';
+} from '../../types/MIME.std.js';
+import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue.preload.js';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -121,45 +121,48 @@ import {
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../types/CallDisposition.js';
-import type { CallHistoryDetails } from '../../types/CallDisposition.js';
-import { CallLinkRestrictions, isCallLinkAdmin } from '../../types/CallLink.js';
-import type { CallLinkType } from '../../types/CallLink.js';
-import type { RawBodyRange } from '../../types/BodyRange.js';
+} from '../../types/CallDisposition.std.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
+import {
+  CallLinkRestrictions,
+  isCallLinkAdmin,
+} from '../../types/CallLink.std.js';
+import type { CallLinkType } from '../../types/CallLink.std.js';
+import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import {
   fromAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
-} from '../../util/callLinks.js';
+} from '../../util/callLinks.std.js';
 import {
   getRoomIdFromRootKey,
   fromEpochBytes,
-} from '../../util/callLinksRingrtc.js';
-import { loadAllAndReinitializeRedux } from '../allLoaders.js';
+} from '../../util/callLinksRingrtc.node.js';
+import { loadAllAndReinitializeRedux } from '../allLoaders.preload.js';
 import {
   startBackupMediaDownload,
   resetBackupMediaDownloadStats,
-} from '../../util/backupMediaDownload.js';
+} from '../../util/backupMediaDownload.preload.js';
 import {
   getEnvironment,
   isTestEnvironment,
   isTestOrMockEnvironment,
-} from '../../environment.js';
-import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads.js';
-import { isAdhoc, isNightly } from '../../util/version.js';
-import { ToastType } from '../../types/Toast.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.js';
-import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData.js';
-import { postSaveUpdates } from '../../util/cleanup.js';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews.js';
-import { MessageModel } from '../../models/messages.js';
+} from '../../environment.std.js';
+import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads.std.js';
+import { isAdhoc, isNightly } from '../../util/version.std.js';
+import { ToastType } from '../../types/Toast.dom.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
+import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.js';
+import { postSaveUpdates } from '../../util/cleanup.preload.js';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews.std.js';
+import { MessageModel } from '../../models/messages.preload.js';
 import {
   DEFAULT_PROFILE_COLOR,
   fromDayOfWeekArray,
   type NotificationProfileType,
-} from '../../types/NotificationProfile.js';
-import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.js';
-import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../types/NotificationProfile.std.js';
+import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
+import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { isNumber } = lodash;
 

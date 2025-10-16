@@ -3,15 +3,15 @@
 
 import { assert } from 'chai';
 
-import type { RecipientsByConversation } from '../../state/ducks/stories.js';
-import type { ServiceIdString } from '../../types/ServiceId.js';
+import type { RecipientsByConversation } from '../../state/ducks/stories.preload.js';
+import type { ServiceIdString } from '../../types/ServiceId.std.js';
 
-import { generateAci } from '../../types/ServiceId.js';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.js';
 import {
   getAllServiceIds,
   filterServiceIds,
-} from '../../util/blockSendUntilConversationsAreVerified.js';
+} from '../../util/blockSendUntilConversationsAreVerified.dom.js';
 
 describe('both/util/blockSendUntilConversationsAreVerified', () => {
   const SERVICE_ID_1 = generateAci();

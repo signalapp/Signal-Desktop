@@ -7,12 +7,12 @@ import { URL } from 'node:url';
 import type { LookupOptions, LookupAddress } from 'node:dns';
 import { lookup } from 'node:dns/promises';
 
-import { createLogger } from '../logging/log.js';
-import { happyEyeballs } from './createHTTPSAgent.js';
-import type { ConnectOptionsType } from './createHTTPSAgent.js';
-import { explodePromise } from './explodePromise.js';
-import { SECOND } from './durations/index.js';
-import { drop } from './drop.js';
+import { createLogger } from '../logging/log.std.js';
+import { happyEyeballs } from './createHTTPSAgent.node.js';
+import type { ConnectOptionsType } from './createHTTPSAgent.node.js';
+import { explodePromise } from './explodePromise.std.js';
+import { SECOND } from './durations/index.std.js';
+import { drop } from './drop.std.js';
 
 const log = createLogger('createProxyAgent');
 

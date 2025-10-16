@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocalizerType } from '../types/Util.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 

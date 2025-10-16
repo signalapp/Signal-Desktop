@@ -7,9 +7,9 @@ import lodash from 'lodash';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { LocalizerType } from '../types/Util.js';
-import { useRefMerger } from '../hooks/useRefMerger.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { useRefMerger } from '../hooks/useRefMerger.std.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
 
 const { noop } = lodash;
 

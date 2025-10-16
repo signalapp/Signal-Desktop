@@ -5,21 +5,21 @@
 
 import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
 import type { KeyPairType } from './Types.d.ts';
-import * as Bytes from '../Bytes.js';
+import * as Bytes from '../Bytes.std.js';
 import {
   decryptAes256CbcPkcsPadding,
   deriveSecrets,
   verifyHmacSha256,
-} from '../Crypto.js';
+} from '../Crypto.node.js';
 import {
   calculateAgreement,
   createKeyPair,
   generateKeyPair,
-} from '../Curve.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { strictAssert } from '../util/assert.js';
-import { dropNull } from '../util/dropNull.js';
-import { normalizeAci } from '../util/normalizeAci.js';
+} from '../Curve.node.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { normalizeAci } from '../util/normalizeAci.std.js';
 import {
   type AciString,
   type PniString,
@@ -28,7 +28,7 @@ import {
   isUntaggedPniString,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId.js';
+} from '../types/ServiceId.std.js';
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;

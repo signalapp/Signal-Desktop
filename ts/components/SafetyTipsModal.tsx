@@ -3,10 +3,10 @@
 import type { UIEvent } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import type { LocalizerType } from '../types/I18N.js';
-import { Modal } from './Modal.js';
-import { Button, ButtonVariant } from './Button.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
 
 export type SafetyTipsModalProps = Readonly<{
   i18n: LocalizerType;

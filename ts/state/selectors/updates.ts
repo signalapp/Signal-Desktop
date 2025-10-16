@@ -3,10 +3,10 @@
 
 import { createSelector } from 'reselect';
 
-import { DialogType } from '../../types/Dialogs.js';
+import { DialogType } from '../../types/Dialogs.std.js';
 
-import type { StateType } from '../reducer.js';
-import type { UpdatesStateType } from '../ducks/updates.js';
+import type { StateType } from '../reducer.preload.js';
+import type { UpdatesStateType } from '../ducks/updates.preload.js';
 
 export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;

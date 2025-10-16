@@ -4,26 +4,26 @@
 import semver from 'semver';
 import lodash from 'lodash';
 
-import * as durations from '../util/durations/index.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
-import * as Registration from '../util/registration.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { drop } from '../util/drop.js';
+import * as durations from '../util/durations/index.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import * as Registration from '../util/registration.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { drop } from '../util/drop.std.js';
 import {
   writeNewAttachmentData,
   processNewAttachment,
-} from '../util/migrations.js';
-import { strictAssert } from '../util/assert.js';
-import type { MessageAttributesType } from '../model-types.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
-import { SeenStatus } from '../MessageSeenStatus.js';
-import { saveNewMessageBatcher } from '../util/messageBatcher.js';
-import { generateMessageId } from '../util/generateMessageId.js';
-import type { RawBodyRange } from '../types/BodyRange.js';
-import { BodyRange } from '../types/BodyRange.js';
+} from '../util/migrations.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { saveNewMessageBatcher } from '../util/messageBatcher.preload.js';
+import { generateMessageId } from '../util/generateMessageId.node.js';
+import type { RawBodyRange } from '../types/BodyRange.std.js';
+import { BodyRange } from '../types/BodyRange.std.js';
 import type {
   ReleaseNotesManifestResponseType,
   ReleaseNoteResponseType,
@@ -33,12 +33,12 @@ import type {
   getReleaseNoteImageAttachment as doGetReleaseNoteImageAttachment,
   getReleaseNotesManifest as doGetReleaseNotesManifest,
   getReleaseNotesManifestHash as doGetReleaseNotesManifestHash,
-} from '../textsecure/WebAPI.js';
-import type { WithRequiredProperties } from '../types/Util.js';
-import { MessageModel } from '../models/messages.js';
-import { stringToMIMEType } from '../types/MIME.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../textsecure/WebAPI.preload.js';
+import type { WithRequiredProperties } from '../types/Util.std.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { stringToMIMEType } from '../types/MIME.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { last } = lodash;
 

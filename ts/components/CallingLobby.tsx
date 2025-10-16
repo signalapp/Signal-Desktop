@@ -7,27 +7,27 @@ import { FocusScope } from 'react-aria';
 import type {
   SetLocalAudioType,
   SetLocalVideoType,
-} from '../state/ducks/calling.js';
-import { CallingButton, CallingButtonType } from './CallingButton.js';
-import { TooltipPlacement } from './Tooltip.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.js';
-import { CallParticipantCount } from './CallParticipantCount.js';
-import { CallingHeader } from './CallingHeader.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.js';
+} from '../state/ducks/calling.preload.js';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
+import { TooltipPlacement } from './Tooltip.dom.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import { CallParticipantCount } from './CallParticipantCount.dom.js';
+import { CallingHeader } from './CallingHeader.dom.js';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
 import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
-} from './CallingLobbyJoinButton.js';
-import { CallMode } from '../types/CallDisposition.js';
-import type { CallingConversationType } from '../types/Calling.js';
-import type { LocalizerType } from '../types/Util.js';
-import * as KeyboardLayout from '../services/keyboardLayout.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { useCallingToasts } from './CallingToast.js';
-import { CallingButtonToastsContainer } from './CallingToastManager.js';
-import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.js';
-import { Button, ButtonVariant } from './Button.js';
-import { SpinnerV2 } from './SpinnerV2.js';
+} from './CallingLobbyJoinButton.dom.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import type { CallingConversationType } from '../types/Calling.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { useCallingToasts } from './CallingToast.dom.js';
+import { CallingButtonToastsContainer } from './CallingToastManager.dom.js';
+import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { SpinnerV2 } from './SpinnerV2.dom.js';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;

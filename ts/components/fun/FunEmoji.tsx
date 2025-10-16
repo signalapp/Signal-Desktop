@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
 import MANIFEST from '../../../build/jumbomoji.json';
-import type { EmojiVariantData } from './data/emojis.js';
-import type { FunImageAriaProps } from './types.js';
+import type { EmojiVariantData } from './data/emojis.std.js';
+import type { FunImageAriaProps } from './types.dom.js';
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
 export const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';

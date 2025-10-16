@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import type { ItemClickEvent } from './types/ItemClickEvent.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.js';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import { DocumentListItem } from './DocumentListItem.js';
-import { MediaGridItem } from './MediaGridItem.js';
-import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import { tw } from '../../../axo/tw.js';
+import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import { DocumentListItem } from './DocumentListItem.dom.js';
+import { MediaGridItem } from './MediaGridItem.dom.js';
+import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { tw } from '../../../axo/tw.dom.js';
 
 export type Props = {
   header?: string;

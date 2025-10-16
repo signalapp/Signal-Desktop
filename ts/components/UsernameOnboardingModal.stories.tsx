@@ -5,8 +5,8 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './UsernameOnboardingModal.js';
-import { UsernameOnboardingModal } from './UsernameOnboardingModal.js';
+import type { PropsType } from './UsernameOnboardingModal.dom.js';
+import { UsernameOnboardingModal } from './UsernameOnboardingModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

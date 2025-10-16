@@ -3,13 +3,13 @@
 
 import React, { useEffect } from 'react';
 
-import { LeftPaneDialog } from './LeftPaneDialog.js';
-import { Spinner } from './Spinner.js';
-import type { LocalizerType } from '../types/Util.js';
-import { SocketStatus } from '../types/SocketStatus.js';
-import type { NetworkStateType } from '../state/ducks/network.js';
-import type { WidthBreakpoint } from './_util.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { SocketStatus } from '../types/SocketStatus.std.js';
+import type { NetworkStateType } from '../state/ducks/network.dom.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
 
 const FIVE_SECONDS = 5 * 1000;
 

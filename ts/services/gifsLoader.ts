@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { DataReader } from '../sql/Client.js';
-import type { GifsStateType } from '../state/ducks/gifs.js';
-import { MAX_RECENT_GIFS } from '../state/ducks/gifs.js';
-import { strictAssert } from '../util/assert.js';
+import { DataReader } from '../sql/Client.preload.js';
+import type { GifsStateType } from '../state/ducks/gifs.preload.js';
+import { MAX_RECENT_GIFS } from '../state/ducks/gifs.preload.js';
+import { strictAssert } from '../util/assert.std.js';
 
 let state: GifsStateType;
 

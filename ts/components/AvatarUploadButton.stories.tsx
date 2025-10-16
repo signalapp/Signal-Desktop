@@ -5,8 +5,8 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarUploadButton.js';
-import { AvatarUploadButton } from './AvatarUploadButton.js';
+import type { PropsType } from './AvatarUploadButton.dom.js';
+import { AvatarUploadButton } from './AvatarUploadButton.dom.js';
 
 const { i18n } = window.SignalContext;
 

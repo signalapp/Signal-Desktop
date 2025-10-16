@@ -4,13 +4,13 @@
 import type { IpcMainEvent } from 'electron';
 import { ipcMain as ipc } from 'electron';
 
-import { createLogger } from '../logging/log.js';
+import { createLogger } from '../logging/log.std.js';
 import type {
   IPCRequest,
   IPCResponse,
   ChallengeResponse,
-} from '../challenge.js';
-import { getEnvironment, Environment } from '../environment.js';
+} from '../challenge.dom.js';
+import { getEnvironment, Environment } from '../environment.std.js';
 
 const log = createLogger('challengeMain');
 

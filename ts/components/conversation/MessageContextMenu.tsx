@@ -4,8 +4,8 @@
 import React, { type RefObject } from 'react';
 import { ContextMenu, MenuItem } from 'react-contextmenu';
 import ReactDOM from 'react-dom';
-import type { LocalizerType } from '../../types/I18N.js';
-import type { InteractionModeType } from '../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
+import type { InteractionModeType } from '../../state/ducks/conversations.preload.js';
 
 export type ContextMenuTriggerType = {
   handleContextClick: (

@@ -5,7 +5,7 @@
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState } from '@signalapp/mock-server';
 
-import { Bootstrap } from './fixtures.js';
+import { Bootstrap } from './fixtures.node.js';
 
 const CONTACT_COUNT = 1000;
 

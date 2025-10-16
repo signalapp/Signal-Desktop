@@ -4,17 +4,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl } from '../selectors/user.js';
-import { NotificationProfilesMenu } from '../../components/NotificationProfilesMenu.js';
-import { useNotificationProfilesActions } from '../ducks/notificationProfiles.js';
+import { getIntl } from '../selectors/user.std.js';
+import { NotificationProfilesMenu } from '../../components/NotificationProfilesMenu.dom.js';
+import { useNotificationProfilesActions } from '../ducks/notificationProfiles.preload.js';
 import {
   getActiveProfile,
   getLoading,
   getOverride,
   getProfiles,
-} from '../selectors/notificationProfiles.js';
-import { useNavActions } from '../ducks/nav.js';
-import { NavTab, SettingsPage } from '../../types/Nav.js';
+} from '../selectors/notificationProfiles.dom.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 
 export function SmartNotificationProfilesMenu(): JSX.Element {
   const i18n = useSelector(getIntl);

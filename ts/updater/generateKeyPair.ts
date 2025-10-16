@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
-import * as Errors from '../types/errors.js';
-import { getCliOptions } from './common.js';
-import { keyPair } from './curve.js';
-import { writeHexToPath } from './signature.js';
+import * as Errors from '../types/errors.std.js';
+import { getCliOptions } from './common.main.js';
+import { keyPair } from './curve.node.js';
+import { writeHexToPath } from './signature.node.js';
 
 const OPTIONS = [
   {

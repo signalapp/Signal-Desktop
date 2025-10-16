@@ -6,8 +6,8 @@ import lodash from 'lodash';
 import type {
   HydratedBodyRangeMention,
   BodyRange,
-} from '../../types/BodyRange.js';
-import { AtMention } from './AtMention.js';
+} from '../../types/BodyRange.std.js';
+import { AtMention } from './AtMention.dom.js';
 
 const { sortBy } = lodash;
 

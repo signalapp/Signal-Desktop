@@ -4,25 +4,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors.js';
+import type { AvatarColorType } from '../types/Colors.std.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar.js';
-import { AvatarIconEditor } from './AvatarIconEditor.js';
-import { AvatarModalButtons } from './AvatarModalButtons.js';
-import { AvatarPreview } from './AvatarPreview.js';
-import { AvatarTextEditor } from './AvatarTextEditor.js';
-import { AvatarUploadButton } from './AvatarUploadButton.js';
-import { BetterAvatar } from './BetterAvatar.js';
-import type { LocalizerType } from '../types/Util.js';
-import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
-import { createAvatarData } from '../util/createAvatarData.js';
-import { isSameAvatarData } from '../util/isSameAvatarData.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+} from '../types/Avatar.std.js';
+import { AvatarIconEditor } from './AvatarIconEditor.dom.js';
+import { AvatarModalButtons } from './AvatarModalButtons.dom.js';
+import { AvatarPreview } from './AvatarPreview.dom.js';
+import { AvatarTextEditor } from './AvatarTextEditor.dom.js';
+import { AvatarUploadButton } from './AvatarUploadButton.dom.js';
+import { BetterAvatar } from './BetterAvatar.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.js';
+import { createAvatarData } from '../util/createAvatarData.std.js';
+import { isSameAvatarData } from '../util/isSameAvatarData.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 
 const { isEqual } = lodash;
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { groupWhile, formatGroups } from '../../util/groupWhile.js';
+import { groupWhile, formatGroups } from '../../util/groupWhile.std.js';
 
 describe('groupWhile/formatGroups', () => {
   function check(

@@ -14,8 +14,8 @@ import {
   getStickersPath,
   getTempPath,
   getUpdateCachePath,
-} from './attachments.js';
-import { createLogger } from '../ts/logging/log.js';
+} from './attachments.node.js';
+import { createLogger } from '../ts/logging/log.std.js';
 
 const log = createLogger('protocol_filter');
 

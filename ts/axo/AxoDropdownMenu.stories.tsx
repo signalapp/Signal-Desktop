@@ -4,9 +4,9 @@ import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { AxoDropdownMenu } from './AxoDropdownMenu.js';
-import { AxoButton } from './AxoButton.js';
-import { tw } from './tw.js';
+import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
+import { AxoButton } from './AxoButton.dom.js';
+import { tw } from './tw.dom.js';
 
 export default {
   title: 'Axo/AxoDropdownMenu',

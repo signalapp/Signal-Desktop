@@ -7,8 +7,8 @@ import { LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   _analyzeSenderKeyDevices,
   _shouldFailSend,
-} from '../../util/sendToGroup.js';
-import { generateAci } from '../../types/ServiceId.js';
+} from '../../util/sendToGroup.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 
 import type { DeviceType } from '../../textsecure/Types.d.ts';
 import {
@@ -22,8 +22,8 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import { HTTPError } from '../../types/HTTPError.js';
+} from '../../textsecure/Errors.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
 
 describe('sendToGroup', () => {
   const serviceIdOne = generateAci();

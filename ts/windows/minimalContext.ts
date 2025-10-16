@@ -4,27 +4,27 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { MenuOptionsType } from '../types/menu.js';
-import type { LocaleEmojiListType } from '../types/emoji.js';
-import { LocaleEmojiListSchema } from '../types/emoji.js';
+import type { MenuOptionsType } from '../types/menu.std.js';
+import type { LocaleEmojiListType } from '../types/emoji.std.js';
+import { LocaleEmojiListSchema } from '../types/emoji.std.js';
 import type {
   MainWindowStatsType,
   MinimalSignalContextType,
-} from './context.js';
-import { activeWindowService } from '../context/activeWindowService.js';
-import { config } from '../context/config.js';
-import { createNativeThemeListener } from '../context/createNativeThemeListener.js';
-import { createSetting } from '../util/preload.js';
-import { setupI18n } from '../util/setupI18n.js';
-import { environment } from '../context/environment.js';
+} from './context.preload.js';
+import { activeWindowService } from '../context/activeWindowService.preload.js';
+import { config } from '../context/config.preload.js';
+import { createNativeThemeListener } from '../context/createNativeThemeListener.std.js';
+import { createSetting } from '../util/preload.preload.js';
+import { setupI18n } from '../util/setupI18n.dom.js';
+import { environment } from '../context/environment.preload.js';
 import {
   localeDisplayNames,
   countryDisplayNames,
   localeMessages,
-} from '../context/localeMessages.js';
-import { waitForSettingsChange } from '../context/waitForSettingsChange.js';
-import { isTestOrMockEnvironment } from '../environment.js';
-import { parseUnknown } from '../util/schemas.js';
+} from '../context/localeMessages.preload.js';
+import { waitForSettingsChange } from '../context/waitForSettingsChange.preload.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
+import { parseUnknown } from '../util/schemas.std.js';
 
 const emojiListCache = new Map<string, LocaleEmojiListType>();
 

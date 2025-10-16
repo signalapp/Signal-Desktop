@@ -4,10 +4,10 @@
 import type { Ref } from 'react';
 import React, { forwardRef, memo } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user.js';
-import { getPreferredReactionEmoji } from '../selectors/items.js';
-import type { Props as InternalProps } from '../../components/conversation/ReactionPicker.js';
-import { ReactionPicker } from '../../components/conversation/ReactionPicker.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getPreferredReactionEmoji } from '../selectors/items.dom.js';
+import type { Props as InternalProps } from '../../components/conversation/ReactionPicker.dom.js';
+import { ReactionPicker } from '../../components/conversation/ReactionPicker.dom.js';
 
 type ExternalProps = Omit<
   InternalProps,

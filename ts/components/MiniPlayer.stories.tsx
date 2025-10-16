@@ -3,8 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MiniPlayer.js';
-import { MiniPlayer, PlayerState } from './MiniPlayer.js';
+import type { Props } from './MiniPlayer.dom.js';
+import { MiniPlayer, PlayerState } from './MiniPlayer.dom.js';
 
 const { i18n } = window.SignalContext;
 

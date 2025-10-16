@@ -4,36 +4,39 @@
 import lodash from 'lodash';
 import type { z } from 'zod';
 
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import * as LinkPreview from '../types/LinkPreview.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import * as LinkPreview from '../types/LinkPreview.std.js';
 
-import { isStory } from './helpers.js';
-import { getAuthor } from './sources.js';
-import { messageHasPaymentEvent } from './payments.js';
-import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { isStory } from './helpers.std.js';
+import { getAuthor } from './sources.preload.js';
+import { messageHasPaymentEvent } from './payments.std.js';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 import {
   deliveryReceiptQueue,
   deliveryReceiptBatcher,
-} from '../util/deliveryReceipt.js';
-import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
-import { isNormalNumber } from '../util/isNormalNumber.js';
-import { upgradeMessageSchema } from '../util/migrations.js';
-import { getOwn } from '../util/getOwn.js';
+} from '../util/deliveryReceipt.preload.js';
+import { getSenderIdentifier } from '../util/getSenderIdentifier.dom.js';
+import { isNormalNumber } from '../util/isNormalNumber.std.js';
+import { upgradeMessageSchema } from '../util/migrations.preload.js';
+import { getOwn } from '../util/getOwn.std.js';
 import {
   SendActionType,
   sendStateReducer,
   SendStatus,
-} from './MessageSendState.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { eraseMessageContents } from '../util/cleanup.js';
+} from './MessageSendState.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { eraseMessageContents } from '../util/cleanup.preload.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
-} from '../util/whatTypeOfConversation.js';
-import { respondToGroupV2Migration, maybeUpdateGroup } from '../groups.js';
-import { generateMessageId } from '../util/generateMessageId.js';
+} from '../util/whatTypeOfConversation.dom.js';
+import {
+  respondToGroupV2Migration,
+  maybeUpdateGroup,
+} from '../groups.preload.js';
+import { generateMessageId } from '../util/generateMessageId.node.js';
 import {
   hasErrors,
   isEndSession,
@@ -41,42 +44,42 @@ import {
   isGroupUpdate,
   isTapToView,
   isUnsupportedMessage,
-} from '../state/selectors/message.js';
-import { drop } from '../util/drop.js';
-import { strictAssert } from '../util/assert.js';
-import { isAciString } from '../util/isAciString.js';
-import { copyFromQuotedMessage } from './copyQuote.js';
-import { findStoryMessages } from '../util/findStoryMessage.js';
-import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { normalizeServiceId } from '../types/ServiceId.js';
-import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.js';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.js';
-import { isMessageEmpty } from '../util/isMessageEmpty.js';
-import { isValidTapToView } from '../util/isValidTapToView.js';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.js';
-import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+} from '../state/selectors/message.preload.js';
+import { drop } from '../util/drop.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { isAciString } from '../util/isAciString.std.js';
+import { copyFromQuotedMessage } from './copyQuote.preload.js';
+import { findStoryMessages } from '../util/findStoryMessage.preload.js';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { normalizeServiceId } from '../types/ServiceId.std.js';
+import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.std.js';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
+import { isMessageEmpty } from '../util/isMessageEmpty.preload.js';
+import { isValidTapToView } from '../util/isValidTapToView.std.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
+import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
+import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage.js';
-import { saveAndNotify } from './saveAndNotify.js';
-import { MessageModel } from '../models/messages.js';
-import { safeParsePartial } from '../util/schemas.js';
-import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.js';
+} from '../util/modifyTargetMessage.preload.js';
+import { saveAndNotify } from './saveAndNotify.preload.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { safeParsePartial } from '../util/schemas.std.js';
+import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.dom.js';
 
-import type { SentEventData } from '../textsecure/messageReceiverEvents.js';
+import type { SentEventData } from '../textsecure/messageReceiverEvents.std.js';
 import type {
   ProcessedDataMessage,
   ProcessedUnidentifiedDeliveryStatus,
-} from '../textsecure/Types.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
-import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../textsecure/Types.d.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
+import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { isNumber } = lodash;
 

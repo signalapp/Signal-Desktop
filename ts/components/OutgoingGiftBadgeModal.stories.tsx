@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './OutgoingGiftBadgeModal.js';
-import { OutgoingGiftBadgeModal } from './OutgoingGiftBadgeModal.js';
-import { BadgeCategory } from '../badges/BadgeCategory.js';
+import type { PropsType } from './OutgoingGiftBadgeModal.dom.js';
+import { OutgoingGiftBadgeModal } from './OutgoingGiftBadgeModal.dom.js';
+import { BadgeCategory } from '../badges/BadgeCategory.std.js';
 
 const { i18n } = window.SignalContext;
 

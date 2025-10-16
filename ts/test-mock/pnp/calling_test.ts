@@ -6,10 +6,10 @@ import chaiAsPromised from 'chai-as-promised';
 import { type PrimaryDevice, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.js';
-import { Bootstrap } from '../bootstrap.js';
-import type { App } from '../bootstrap.js';
-import { acceptConversation } from '../helpers.js';
+import * as durations from '../../util/durations/index.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../bootstrap.node.js';
+import { acceptConversation } from '../helpers.node.js';
 
 chai.use(chaiAsPromised);
 

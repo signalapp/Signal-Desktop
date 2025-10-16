@@ -6,13 +6,13 @@ import * as sinon from 'sinon';
 import { EventEmitter } from 'node:events';
 import { v4 as uuid } from 'uuid';
 
-import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher.js';
-import * as durations from '../../util/durations/index.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { saveNewMessageBatcher } from '../../util/messageBatcher.js';
-import type { CIType } from '../../CI.js';
-import type { ConversationModel } from '../../models/conversations.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher.preload.js';
+import * as durations from '../../util/durations/index.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { saveNewMessageBatcher } from '../../util/messageBatcher.preload.js';
+import type { CIType } from '../../CI.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const waitUntil = (
   condition: () => boolean,

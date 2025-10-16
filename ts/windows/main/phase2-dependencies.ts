@@ -5,16 +5,16 @@ import * as moment from 'moment';
 // @ts-expect-error -- no types
 import 'moment/min/locales.min.js';
 
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.js';
-import { setup } from '../../signal.js';
-import { addSensitivePath } from '../../util/privacy.js';
-import * as dns from '../../util/dns.js';
+import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.preload.js';
+import { setup } from '../../signal.preload.js';
+import { addSensitivePath } from '../../util/privacy.node.js';
+import * as dns from '../../util/dns.node.js';
 import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
   DRAFT_PATH,
-} from '../../util/basePaths.js';
-import { SignalContext } from '../context.js';
+} from '../../util/basePaths.preload.js';
+import { SignalContext } from '../context.preload.js';
 
 initializeLogging();
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ServiceIdString } from '../types/ServiceId.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
 
 export function getSendTarget({
   serviceId,

@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ContactName.js';
-import { ContactName } from './ContactName.js';
-import { ContactNameColors } from '../../types/Colors.js';
+import type { PropsType } from './ContactName.dom.js';
+import { ContactName } from './ContactName.dom.js';
+import { ContactNameColors } from '../../types/Colors.std.js';
 
 export default {
   title: 'Components/Conversation/ContactName',

@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isTestOrMockEnvironment } from '../environment.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
 
 /**
  * Left-to-Right Isolate

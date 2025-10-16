@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { findBestMatchingAudioDeviceIndex } from '../../calling/findBestMatchingDevice.js';
+import { findBestMatchingAudioDeviceIndex } from '../../calling/findBestMatchingDevice.std.js';
 
 describe('"find best matching device" helpers', () => {
   describe('findBestMatchingAudioDeviceIndex', () => {

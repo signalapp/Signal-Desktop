@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EventEmitter from 'node:events';
-import { createLogger } from './logging/log.js';
-import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.js';
+import { createLogger } from './logging/log.std.js';
+import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.std.js';
 
 const log = createLogger('IdleDetector');
 

@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MandatoryProfileSharingActions.js';
-import { MandatoryProfileSharingActions } from './MandatoryProfileSharingActions.js';
+import type { Props } from './MandatoryProfileSharingActions.dom.js';
+import { MandatoryProfileSharingActions } from './MandatoryProfileSharingActions.dom.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.js';
+} from '../../test-helpers/getDefaultConversation.std.js';
 
 const { i18n } = window.SignalContext;
 

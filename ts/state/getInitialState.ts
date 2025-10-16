@@ -1,66 +1,66 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getEmptyState as accountsEmptyState } from './ducks/accounts.js';
-import { getEmptyState as appEmptyState } from './ducks/app.js';
-import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.js';
-import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.js';
-import { getEmptyState as badgesEmptyState } from './ducks/badges.js';
-import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.js';
-import { getEmptyState as callingEmptyState } from './ducks/calling.js';
+import { getEmptyState as accountsEmptyState } from './ducks/accounts.preload.js';
+import { getEmptyState as appEmptyState } from './ducks/app.preload.js';
+import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.preload.js';
+import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.preload.js';
+import { getEmptyState as badgesEmptyState } from './ducks/badges.preload.js';
+import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.preload.js';
+import { getEmptyState as callingEmptyState } from './ducks/calling.preload.js';
 import {
   getEmptyState as chatFoldersEmptyState,
   getInitialChatFoldersState,
-} from './ducks/chatFolders.js';
-import { getEmptyState as composerEmptyState } from './ducks/composer.js';
-import { getEmptyState as conversationsEmptyState } from './ducks/conversations.js';
-import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.js';
-import { getEmptyState as donationsEmptyState } from './ducks/donations.js';
-import { getEmptyState as emojiEmptyState } from './ducks/emojis.js';
-import { getEmptyState as expirationEmptyState } from './ducks/expiration.js';
-import { getEmptyState as gifsEmptyState } from './ducks/gifs.js';
-import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals.js';
-import { getEmptyState as inboxEmptyState } from './ducks/inbox.js';
-import { getEmptyState as installerEmptyState } from './ducks/installer.js';
-import { getEmptyState as itemsEmptyState } from './ducks/items.js';
-import { getEmptyState as lightboxEmptyState } from './ducks/lightbox.js';
-import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews.js';
-import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.js';
-import { getEmptyState as navEmptyState } from './ducks/nav.js';
-import { getEmptyState as networkEmptyState } from './ducks/network.js';
-import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles.js';
-import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.js';
-import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.js';
-import { getEmptyState as searchEmptyState } from './ducks/search.js';
-import { getEmptyState as stickersEmptyState } from './ducks/stickers.js';
-import { getEmptyState as storiesEmptyState } from './ducks/stories.js';
-import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.js';
-import { getEmptyState as toastEmptyState } from './ducks/toast.js';
-import { getEmptyState as updatesEmptyState } from './ducks/updates.js';
-import { getEmptyState as userEmptyState } from './ducks/user.js';
-import { getEmptyState as usernameEmptyState } from './ducks/username.js';
+} from './ducks/chatFolders.preload.js';
+import { getEmptyState as composerEmptyState } from './ducks/composer.preload.js';
+import { getEmptyState as conversationsEmptyState } from './ducks/conversations.preload.js';
+import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.preload.js';
+import { getEmptyState as donationsEmptyState } from './ducks/donations.preload.js';
+import { getEmptyState as emojiEmptyState } from './ducks/emojis.preload.js';
+import { getEmptyState as expirationEmptyState } from './ducks/expiration.std.js';
+import { getEmptyState as gifsEmptyState } from './ducks/gifs.preload.js';
+import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals.preload.js';
+import { getEmptyState as inboxEmptyState } from './ducks/inbox.std.js';
+import { getEmptyState as installerEmptyState } from './ducks/installer.preload.js';
+import { getEmptyState as itemsEmptyState } from './ducks/items.preload.js';
+import { getEmptyState as lightboxEmptyState } from './ducks/lightbox.preload.js';
+import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews.preload.js';
+import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.preload.js';
+import { getEmptyState as navEmptyState } from './ducks/nav.std.js';
+import { getEmptyState as networkEmptyState } from './ducks/network.dom.js';
+import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles.preload.js';
+import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.preload.js';
+import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
+import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
+import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js';
+import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js';
+import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js';
+import { getEmptyState as toastEmptyState } from './ducks/toast.preload.js';
+import { getEmptyState as updatesEmptyState } from './ducks/updates.preload.js';
+import { getEmptyState as userEmptyState } from './ducks/user.preload.js';
+import { getEmptyState as usernameEmptyState } from './ducks/username.preload.js';
 
-import OS from '../util/os/osMain.js';
-import { getInteractionMode } from '../services/InteractionMode.js';
-import { makeLookup } from '../util/makeLookup.js';
+import OS from '../util/os/osMain.node.js';
+import { getInteractionMode } from '../services/InteractionMode.dom.js';
+import { makeLookup } from '../util/makeLookup.std.js';
 import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
   TEMP_PATH,
-} from '../util/basePaths.js';
+} from '../util/basePaths.preload.js';
 
-import type { StateType } from './reducer.js';
-import type { MainWindowStatsType } from '../windows/context.js';
-import type { ConversationsStateType } from './ducks/conversations.js';
-import type { MenuOptionsType } from '../types/menu.js';
+import type { StateType } from './reducer.preload.js';
+import type { MainWindowStatsType } from '../windows/context.preload.js';
+import type { ConversationsStateType } from './ducks/conversations.preload.js';
+import type { MenuOptionsType } from '../types/menu.std.js';
 import type {
   StoryDistributionListDataType,
   StoryDistributionListStateType,
-} from './ducks/storyDistributionLists.js';
-import type { ThemeType } from '../types/Util.js';
-import type { UserStateType } from './ducks/user.js';
-import type { ReduxInitData } from './initializeRedux.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './ducks/storyDistributionLists.preload.js';
+import type { ThemeType } from '../types/Util.std.js';
+import type { UserStateType } from './ducks/user.preload.js';
+import type { ReduxInitData } from './initializeRedux.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function getInitialState(
   {

@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import lodash from 'lodash';
 import { once } from 'node:events';
 
-import { getStreamWithTimeout } from '../../util/getStreamWithTimeout.js';
+import { getStreamWithTimeout } from '../../util/getStreamWithTimeout.node.js';
 
 const { noop } = lodash;
 

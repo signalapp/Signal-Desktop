@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { itemStorage } from '../textsecure/Storage.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function getLinkPreviewSetting(): boolean {
   return itemStorage.get('linkPreviews', false);

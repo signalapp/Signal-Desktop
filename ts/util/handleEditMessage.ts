@@ -1,38 +1,38 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.js';
-import type { EditAttributesType } from '../messageModifiers/Edits.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { EditAttributesType } from '../messageModifiers/Edits.preload.js';
 import type {
   EditHistoryType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import * as Edits from '../messageModifiers/Edits.js';
-import { createLogger } from '../logging/log.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { DataWriter } from '../sql/Client.js';
-import { drop } from './drop.js';
-import { upgradeMessageSchema } from './migrations.js';
+import * as Edits from '../messageModifiers/Edits.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { drop } from './drop.std.js';
+import { upgradeMessageSchema } from './migrations.preload.js';
 import {
   deliveryReceiptQueue,
   deliveryReceiptBatcher,
-} from './deliveryReceipt.js';
+} from './deliveryReceipt.preload.js';
 import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
   isVoiceMessage,
-} from './Attachment.js';
-import { isAciString } from './isAciString.js';
-import { getMessageIdForLogging } from './idForLogging.js';
-import { hasErrors } from '../state/selectors/message.js';
-import { isIncoming, isOutgoing } from '../messages/helpers.js';
-import { isDirectConversation } from './whatTypeOfConversation.js';
-import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.js';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
-import { modifyTargetMessage } from './modifyTargetMessage.js';
-import { isMessageNoteToSelf } from './isMessageNoteToSelf.js';
-import { MessageModel } from '../models/messages.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './Attachment.std.js';
+import { isAciString } from './isAciString.std.js';
+import { getMessageIdForLogging } from './idForLogging.preload.js';
+import { hasErrors } from '../state/selectors/message.preload.js';
+import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.std.js';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.js';
+import { modifyTargetMessage } from './modifyTargetMessage.preload.js';
+import { isMessageNoteToSelf } from './isMessageNoteToSelf.dom.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('handleEditMessage');
 

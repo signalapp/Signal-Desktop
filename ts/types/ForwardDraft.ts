@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadonlyMessageAttributesType } from '../model-types.js';
-import type { AttachmentForUIType } from './Attachment.js';
-import { isVoiceMessage, isDownloaded } from '../util/Attachment.js';
-import type { HydratedBodyRangesType } from './BodyRange.js';
-import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { AttachmentForUIType } from './Attachment.std.js';
+import { isVoiceMessage, isDownloaded } from '../util/Attachment.std.js';
+import type { HydratedBodyRangesType } from './BodyRange.std.js';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
 
 const { orderBy } = lodash;
 

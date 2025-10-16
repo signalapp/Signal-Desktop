@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
-import { strictAssert } from '../../util/assert.js';
+import { strictAssert } from '../../util/assert.std.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../../components/fun/data/emojis.js';
+} from '../../components/fun/data/emojis.std.js';
 import {
   createStaticEmojiBlot,
   FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji.js';
+} from '../../components/fun/FunEmoji.dom.js';
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
 // ts/components/fun/FunEmoji.tsx

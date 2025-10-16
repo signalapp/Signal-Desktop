@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { I18n } from './I18n.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { I18n } from './I18n.dom.js';
 
 const BACKUP_AND_RESTORE_SUPPORT_PAGE =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';

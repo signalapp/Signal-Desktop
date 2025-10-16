@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useCallback, useState } from 'react';
-import type { LocalizerType } from '../types/I18N.js';
-import type { InputApi } from './CompositionInput.js';
-import { CompositionInput } from './CompositionInput.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import type { InputApi } from './CompositionInput.dom.js';
+import { CompositionInput } from './CompositionInput.dom.js';
 import {
   hydrateRanges,
   type DraftBodyRanges,
   type HydratedBodyRangesType,
-} from '../types/BodyRange.js';
-import type { ThemeType } from '../types/Util.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import * as grapheme from '../util/grapheme.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
-import type { EmojiSkinTone } from './fun/data/emojis.js';
-import { FunEmojiPickerButton } from './fun/FunButton.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.js';
+} from '../types/BodyRange.std.js';
+import type { ThemeType } from '../types/Util.std.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import * as grapheme from '../util/grapheme.std.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import type { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
+import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
 
 export type CompositionTextAreaProps = {
   bodyRanges: HydratedBodyRangesType | null;

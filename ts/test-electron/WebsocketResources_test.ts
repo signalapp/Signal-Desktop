@@ -13,12 +13,12 @@ import EventEmitter from 'node:events';
 import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
-import { dropNull } from '../util/dropNull.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 
 import WebSocketResource, {
   ServerRequestType,
-} from '../textsecure/WebsocketResources.js';
+} from '../textsecure/WebsocketResources.preload.js';
 
 describe('WebSocket-Resource', () => {
   class FakeSocket extends EventEmitter {

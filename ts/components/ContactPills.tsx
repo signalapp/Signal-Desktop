@@ -5,8 +5,8 @@ import type { ReactNode } from 'react';
 import React, { useRef, useEffect, Children } from 'react';
 import classNames from 'classnames';
 
-import { usePrevious } from '../hooks/usePrevious.js';
-import { scrollToBottom } from '../util/scrollUtil.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { scrollToBottom } from '../util/scrollUtil.std.js';
 
 type PropsType = {
   moduleClassName?: string;

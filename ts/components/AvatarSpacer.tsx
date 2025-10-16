@@ -3,7 +3,7 @@
 
 import type { ReactElement } from 'react';
 import React from 'react';
-import type { AvatarSize } from './Avatar.js';
+import type { AvatarSize } from './Avatar.dom.js';
 
 export function AvatarSpacer({
   size,

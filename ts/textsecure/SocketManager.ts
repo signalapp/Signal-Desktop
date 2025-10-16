@@ -15,39 +15,39 @@ import EventListener from 'node:events';
 import type { IncomingMessage } from 'node:http';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import type { AbortableProcess } from '../util/AbortableProcess.js';
-import { strictAssert } from '../util/assert.js';
-import { explodePromise } from '../util/explodePromise.js';
+import type { AbortableProcess } from '../util/AbortableProcess.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
 import {
   BackOff,
   EXTENDED_FIBONACCI_TIMEOUTS,
   FIBONACCI_TIMEOUTS,
-} from '../util/BackOff.js';
-import * as durations from '../util/durations/index.js';
-import { drop } from '../util/drop.js';
-import type { ProxyAgent } from '../util/createProxyAgent.js';
-import { createProxyAgent } from '../util/createProxyAgent.js';
-import { type SocketInfo, SocketStatus } from '../types/SocketStatus.js';
-import { HTTPError } from '../types/HTTPError.js';
-import * as Errors from '../types/errors.js';
-import * as Bytes from '../Bytes.js';
-import { createLogger } from '../logging/log.js';
+} from '../util/BackOff.std.js';
+import * as durations from '../util/durations/index.std.js';
+import { drop } from '../util/drop.std.js';
+import type { ProxyAgent } from '../util/createProxyAgent.node.js';
+import { createProxyAgent } from '../util/createProxyAgent.node.js';
+import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import * as Errors from '../types/errors.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.js';
 
 import type {
   IncomingWebSocketRequest,
   IWebSocketResource,
   WebSocketResourceOptions,
-} from './WebsocketResources.js';
+} from './WebsocketResources.preload.js';
 import WebSocketResource, {
   connectAuthenticatedLibsignal,
   connectUnauthenticatedLibsignal,
   ServerRequestType,
-} from './WebsocketResources.js';
-import { ConnectTimeoutError } from './Errors.js';
+} from './WebsocketResources.preload.js';
+import { ConnectTimeoutError } from './Errors.std.js';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
-import { connect as connectWebSocket } from './WebSocket.js';
-import type { ServerAlert } from '../types/ServerAlert.js';
-import { getUserLanguages } from '../util/userLanguages.js';
+import { connect as connectWebSocket } from './WebSocket.preload.js';
+import type { ServerAlert } from '../types/ServerAlert.std.js';
+import { getUserLanguages } from '../util/userLanguages.std.js';
 
 const log = createLogger('SocketManager');
 

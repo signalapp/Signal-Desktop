@@ -3,13 +3,13 @@
 
 import React, { useCallback } from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import { SystemMessage } from './SystemMessage.js';
-import { Emojify } from './Emojify.js';
-import type { ProfileNameChangeType } from '../../util/getStringForProfileChange.js';
-import { getStringForProfileChange } from '../../util/getStringForProfileChange.js';
-import { Button, ButtonSize, ButtonVariant } from '../Button.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import { Emojify } from './Emojify.dom.js';
+import type { ProfileNameChangeType } from '../../util/getStringForProfileChange.std.js';
+import { getStringForProfileChange } from '../../util/getStringForProfileChange.std.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
 
 export type PropsType = {
   change: ProfileNameChangeType;
