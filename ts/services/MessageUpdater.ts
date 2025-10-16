@@ -2,20 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { MessageModel } from '../models/messages.js';
-import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus.js';
-import { notificationService } from './notifications.js';
-import { SeenStatus } from '../MessageSeenStatus.js';
-import { queueUpdateMessage } from '../util/messageBatcher.js';
-import * as Errors from '../types/errors.js';
-import { createLogger } from '../logging/log.js';
-import { isValidTapToView } from '../util/isValidTapToView.js';
-import { getMessageIdForLogging } from '../util/idForLogging.js';
-import { eraseMessageContents } from '../util/cleanup.js';
-import { getSource, getSourceServiceId } from '../messages/sources.js';
-import { isAciString } from '../util/isAciString.js';
-import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.js';
-import { drop } from '../util/drop.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import {
+  ReadStatus,
+  maxReadStatus,
+} from '../messages/MessageReadStatus.std.js';
+import { notificationService } from './notifications.preload.js';
+import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { queueUpdateMessage } from '../util/messageBatcher.preload.js';
+import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { isValidTapToView } from '../util/isValidTapToView.std.js';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+import { eraseMessageContents } from '../util/cleanup.preload.js';
+import { getSource, getSourceServiceId } from '../messages/sources.preload.js';
+import { isAciString } from '../util/isAciString.std.js';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.preload.js';
+import { drop } from '../util/drop.std.js';
 
 const log = createLogger('MessageUpdater');
 

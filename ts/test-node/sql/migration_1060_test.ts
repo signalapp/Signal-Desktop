@@ -8,19 +8,24 @@ import {
   dequeueOldestSyncTasks,
   removeSyncTaskById,
   saveSyncTasks,
-} from '../../sql/Server.js';
+} from '../../sql/Server.node.js';
 import type {
   WritableDB,
   ReadableDB,
   MessageType,
-} from '../../sql/Interface.js';
-import { sql, jsonToObject } from '../../sql/util.js';
-import { insertData, updateToVersion, createDB, explain } from './helpers.js';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types.js';
-import { WEEK } from '../../util/durations/index.js';
+} from '../../sql/Interface.std.js';
+import { sql, jsonToObject } from '../../sql/util.std.js';
+import {
+  insertData,
+  updateToVersion,
+  createDB,
+  explain,
+} from './helpers.node.js';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types.std.js';
+import { WEEK } from '../../util/durations/index.std.js';
 
-import type { MessageAttributesType } from '../../model-types.js';
-import type { SyncTaskType } from '../../util/syncTasks.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { SyncTaskType } from '../../util/syncTasks.preload.js';
 
 /* eslint-disable camelcase */
 

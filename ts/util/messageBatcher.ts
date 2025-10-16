@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { createWaitBatcher } from './waitBatcher.js';
-import { DataWriter } from '../sql/Client.js';
-import { createLogger } from '../logging/log.js';
-import { postSaveUpdates } from './cleanup.js';
-import { MessageModel } from '../models/messages.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { createWaitBatcher } from './waitBatcher.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { postSaveUpdates } from './cleanup.preload.js';
+import { MessageModel } from '../models/messages.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('messageBatcher');
 

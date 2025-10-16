@@ -12,11 +12,14 @@ import {
 } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import { assert } from 'chai';
 
-import { clearData } from './helpers.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
-import { backupsService, BackupType } from '../../services/backups/index.js';
-import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.js';
-import { MemoryStream } from '../../util/MemoryStream.js';
+import { clearData } from './helpers.preload.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
+import {
+  backupsService,
+  BackupType,
+} from '../../services/backups/index.preload.js';
+import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.preload.js';
+import { MemoryStream } from '../../util/MemoryStream.node.js';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
 

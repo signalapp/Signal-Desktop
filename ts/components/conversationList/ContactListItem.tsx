@@ -4,20 +4,20 @@
 import type { FunctionComponent } from 'react';
 import React, { useMemo, useState } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { BadgeType } from '../../badges/types.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import { ContactName } from '../conversation/ContactName.js';
-import { About } from '../conversation/About.js';
-import { ListTile } from '../ListTile.js';
-import { Avatar, AvatarSize } from '../Avatar.js';
-import { ContextMenu } from '../ContextMenu.js';
-import { I18n } from '../I18n.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { InContactsIcon } from '../InContactsIcon.js';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { BadgeType } from '../../badges/types.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { ContactName } from '../conversation/ContactName.dom.js';
+import { About } from '../conversation/About.dom.js';
+import { ListTile } from '../ListTile.dom.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { ContextMenu } from '../ContextMenu.dom.js';
+import { I18n } from '../I18n.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import { InContactsIcon } from '../InContactsIcon.dom.js';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,

@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingPendingParticipants.js';
-import { CallingPendingParticipants } from './CallingPendingParticipants.js';
-import { allRemoteParticipants } from './CallScreen.stories.js';
+import type { PropsType } from './CallingPendingParticipants.dom.js';
+import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
+import { allRemoteParticipants } from './CallScreen.dom.stories.js';
 
 const { i18n } = window.SignalContext;
 

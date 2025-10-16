@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './BrandedQRCode.js';
-import { BrandedQRCode } from './BrandedQRCode.js';
+import type { PropsType } from './BrandedQRCode.dom.js';
+import { BrandedQRCode } from './BrandedQRCode.dom.js';
 
 export default {
   title: 'Components/BrandedQRCode',

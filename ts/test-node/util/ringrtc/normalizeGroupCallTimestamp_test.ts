@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { normalizeGroupCallTimestamp } from '../../../util/ringrtc/normalizeGroupCallTimestamp.js';
+import { normalizeGroupCallTimestamp } from '../../../util/ringrtc/normalizeGroupCallTimestamp.std.js';
 
 describe('normalizeGroupCallTimestamp', () => {
   it('returns undefined if passed a string that cannot be parsed as a number', () => {

@@ -3,13 +3,13 @@
 
 import { existsSync } from 'node:fs';
 import lodash from 'lodash';
-import type { BackupableAttachmentType } from '../types/Attachment.js';
+import type { BackupableAttachmentType } from '../types/Attachment.std.js';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto.js';
-import { strictAssert } from './assert.js';
-import { getAbsoluteAttachmentPath } from './migrations.js';
+} from '../AttachmentCrypto.node.js';
+import { strictAssert } from './assert.std.js';
+import { getAbsoluteAttachmentPath } from './migrations.preload.js';
 
 const { isNumber } = lodash;
 

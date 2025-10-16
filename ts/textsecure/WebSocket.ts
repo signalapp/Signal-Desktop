@@ -5,18 +5,18 @@ import ws from 'websocket';
 import type { connection as WebSocket } from 'websocket';
 import type { IncomingMessage } from 'node:http';
 
-import { AbortableProcess } from '../util/AbortableProcess.js';
-import { strictAssert } from '../util/assert.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { getUserAgent } from '../util/getUserAgent.js';
-import * as durations from '../util/durations/index.js';
-import type { ProxyAgent } from '../util/createProxyAgent.js';
-import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { createLogger } from '../logging/log.js';
-import * as Timers from '../Timers.js';
-import { ConnectTimeoutError } from './Errors.js';
-import { handleStatusCode, translateError } from './Utils.js';
+import { AbortableProcess } from '../util/AbortableProcess.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { getUserAgent } from '../util/getUserAgent.node.js';
+import * as durations from '../util/durations/index.std.js';
+import type { ProxyAgent } from '../util/createProxyAgent.node.js';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Timers from '../Timers.dom.js';
+import { ConnectTimeoutError } from './Errors.std.js';
+import { handleStatusCode, translateError } from './Utils.dom.js';
 
 const { client: WebSocketClient } = ws;
 

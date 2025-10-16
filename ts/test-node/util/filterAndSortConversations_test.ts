@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 
 const { pick } = lodash;
 

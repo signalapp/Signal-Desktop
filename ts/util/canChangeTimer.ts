@@ -1,14 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { areWeAdmin } from './areWeAdmin.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { areWeAdmin } from './areWeAdmin.preload.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation.js';
+} from './whatTypeOfConversation.dom.js';
 
 export function canChangeTimer(
   attributes: ConversationAttributesType

@@ -2,31 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { ChatsTab } from '../../components/ChatsTab.js';
-import type { SmartConversationViewProps } from './ConversationView.js';
-import { SmartConversationView } from './ConversationView.js';
-import { SmartMiniPlayer } from './MiniPlayer.js';
-import { SmartLeftPane } from './LeftPane.js';
-import type { NavTabPanelProps } from '../../components/NavTabs.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { getIntl } from '../selectors/user.js';
-import { usePrevious } from '../../hooks/usePrevious.js';
-import { TargetedMessageSource } from '../ducks/conversationsEnums.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useToastActions } from '../ducks/toast.js';
-import { strictAssert } from '../../util/assert.js';
-import { isStagingServer } from '../../util/isStagingServer.js';
-import { ToastType } from '../../types/Toast.js';
-import { getNavTabsCollapsed } from '../selectors/items.js';
-import { useItemsActions } from '../ducks/items.js';
-import { getHasAnyFailedStorySends } from '../selectors/stories.js';
-import { getHasPendingUpdate } from '../selectors/updates.js';
-import { getOtherTabsUnreadStats } from '../selectors/nav.js';
+import { ChatsTab } from '../../components/ChatsTab.dom.js';
+import type { SmartConversationViewProps } from './ConversationView.preload.js';
+import { SmartConversationView } from './ConversationView.preload.js';
+import { SmartMiniPlayer } from './MiniPlayer.preload.js';
+import { SmartLeftPane } from './LeftPane.preload.js';
+import type { NavTabPanelProps } from '../../components/NavTabs.dom.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getIntl } from '../selectors/user.std.js';
+import { usePrevious } from '../../hooks/usePrevious.std.js';
+import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isStagingServer } from '../../util/isStagingServer.dom.js';
+import { ToastType } from '../../types/Toast.dom.js';
+import { getNavTabsCollapsed } from '../selectors/items.dom.js';
+import { useItemsActions } from '../ducks/items.preload.js';
+import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
+import { getHasPendingUpdate } from '../selectors/updates.std.js';
+import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
 import {
   getSelectedConversationId,
   getTargetedMessage,
   getTargetedMessageSource,
-} from '../selectors/conversations.js';
+} from '../selectors/conversations.dom.js';
 
 function renderConversationView(props: SmartConversationViewProps) {
   return <SmartConversationView {...props} />;

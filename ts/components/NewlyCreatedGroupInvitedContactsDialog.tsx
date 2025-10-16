@@ -4,13 +4,13 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import { I18n } from './I18n.js';
-import { ContactName } from './conversation/ContactName.js';
-import { GroupDialog } from './GroupDialog.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import { I18n } from './I18n.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import { GroupDialog } from './GroupDialog.dom.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
 
 export type PropsType = {
   contacts: Array<ConversationType>;

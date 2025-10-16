@@ -5,9 +5,9 @@ import React, { type ComponentProps } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.js';
-import { KIBIBYTE } from '../types/AttachmentSize.js';
-import { WidthBreakpoint } from './_util.js';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.js';
+import { KIBIBYTE } from '../types/AttachmentSize.std.js';
+import { WidthBreakpoint } from './_util.std.js';
 
 const { i18n } = window.SignalContext;
 

@@ -7,75 +7,75 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-} from '../types/BodyRange.js';
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.js';
-import { RecordingState } from '../types/AudioRecorder.js';
-import type { imageToBlurHash } from '../util/imageToBlurHash.js';
-import { dropNull } from '../util/dropNull.js';
-import { Spinner } from './Spinner.js';
+} from '../types/BodyRange.std.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.js';
+import { RecordingState } from '../types/AudioRecorder.std.js';
+import type { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { Spinner } from './Spinner.dom.js';
 import type {
   InputApi,
   Props as CompositionInputProps,
-} from './CompositionInput.js';
-import { CompositionInput } from './CompositionInput.js';
-import type { Props as MessageRequestActionsProps } from './conversation/MessageRequestActions.js';
-import { MessageRequestActions } from './conversation/MessageRequestActions.js';
-import type { PropsType as GroupV1DisabledActionsPropsType } from './conversation/GroupV1DisabledActions.js';
-import { GroupV1DisabledActions } from './conversation/GroupV1DisabledActions.js';
-import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './conversation/GroupV2PendingApprovalActions.js';
-import { GroupV2PendingApprovalActions } from './conversation/GroupV2PendingApprovalActions.js';
-import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner.js';
-import { AttachmentList } from './conversation/AttachmentList.js';
+} from './CompositionInput.dom.js';
+import { CompositionInput } from './CompositionInput.dom.js';
+import type { Props as MessageRequestActionsProps } from './conversation/MessageRequestActions.dom.js';
+import { MessageRequestActions } from './conversation/MessageRequestActions.dom.js';
+import type { PropsType as GroupV1DisabledActionsPropsType } from './conversation/GroupV1DisabledActions.dom.js';
+import { GroupV1DisabledActions } from './conversation/GroupV1DisabledActions.dom.js';
+import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './conversation/GroupV2PendingApprovalActions.dom.js';
+import { GroupV2PendingApprovalActions } from './conversation/GroupV2PendingApprovalActions.dom.js';
+import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner.dom.js';
+import { AttachmentList } from './conversation/AttachmentList.dom.js';
 import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
-} from '../types/Attachment.js';
-import { isImageAttachment, isVoiceMessage } from '../util/Attachment.js';
-import type { AciString } from '../types/ServiceId.js';
-import { AudioCapture } from './conversation/AudioCapture.js';
-import { CompositionUpload } from './CompositionUpload.js';
+} from '../types/Attachment.std.js';
+import { isImageAttachment, isVoiceMessage } from '../util/Attachment.std.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import { AudioCapture } from './conversation/AudioCapture.dom.js';
+import { CompositionUpload } from './CompositionUpload.dom.js';
 import type {
   ConversationRemovalStage,
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
-} from '../state/ducks/conversations.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.js';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
-import { isSameLinkPreview } from '../types/message/LinkPreviews.js';
+} from '../state/ducks/conversations.preload.js';
+import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
+import { isSameLinkPreview } from '../types/message/LinkPreviews.std.js';
 
-import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions.js';
-import { MediaQualitySelector } from './MediaQualitySelector.js';
-import type { Props as QuoteProps } from './conversation/Quote.js';
-import { Quote } from './conversation/Quote.js';
+import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions.dom.js';
+import { MediaQualitySelector } from './MediaQualitySelector.dom.js';
+import type { Props as QuoteProps } from './conversation/Quote.dom.js';
+import { Quote } from './conversation/Quote.dom.js';
 import {
   useAttachFileShortcut,
   useEditLastMessageSent,
   useKeyboardShortcutsConditionally,
-} from '../hooks/useKeyboardShortcuts.js';
-import { MediaEditor } from './MediaEditor.js';
-import { isImageTypeSupported } from '../util/GoogleChrome.js';
-import * as KeyboardLayout from '../services/keyboardLayout.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { PanelType } from '../types/Panels.js';
-import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
-import SelectModeActions from './conversation/SelectModeActions.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
+} from '../hooks/useKeyboardShortcuts.dom.js';
+import { MediaEditor } from './MediaEditor.dom.js';
+import { isImageTypeSupported } from '../util/GoogleChrome.std.js';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { PanelType } from '../types/Panels.std.js';
+import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import SelectModeActions from './conversation/SelectModeActions.dom.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
 import type { DraftEditMessageType } from '../model-types.d.ts';
-import type { ForwardMessagesPayload } from '../state/ducks/globalModals.js';
-import { ForwardMessagesModalType } from './ForwardMessagesModal.js';
-import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle.js';
-import { FunPicker } from './fun/FunPicker.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
-import type { FunStickerSelection } from './fun/panels/FunPanelStickers.js';
-import type { FunGifSelection } from './fun/panels/FunPanelGifs.js';
-import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.js';
-import { strictAssert } from '../util/assert.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import type { EmojiSkinTone } from './fun/data/emojis.js';
-import { FunPickerButton } from './fun/FunButton.js';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.js';
+import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.js';
+import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle.dom.js';
+import { FunPicker } from './fun/FunPicker.dom.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.js';
+import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.js';
+import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import type { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { FunPickerButton } from './fun/FunButton.dom.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ContactAvatarType } from '../types/Avatar.js';
-import { isMe } from './whatTypeOfConversation.js';
-import { isSignalConversation } from './isSignalConversation.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
-import { getAbsoluteAttachmentPath } from './migrations.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { ContactAvatarType } from '../types/Avatar.std.js';
+import { isMe } from './whatTypeOfConversation.dom.js';
+import { isSignalConversation } from './isSignalConversation.dom.js';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
+import { getAbsoluteAttachmentPath } from './migrations.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function hasAvatar(
   conversationAttrs: ConversationAttributesType

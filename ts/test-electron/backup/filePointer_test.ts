@@ -7,21 +7,21 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 
-import { Backups } from '../../protobuf/index.js';
+import { Backups } from '../../protobuf/index.std.js';
 
 import {
   getFilePointerForAttachment,
   convertFilePointerToAttachment,
-} from '../../services/backups/util/filePointers.js';
-import { IMAGE_PNG } from '../../types/MIME.js';
-import * as Bytes from '../../Bytes.js';
-import type { AttachmentType } from '../../types/Attachment.js';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.js';
-import { generateKeys } from '../../AttachmentCrypto.js';
-import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.js';
-import { strictAssert } from '../../util/assert.js';
-import { isValidAttachmentKey } from '../../types/Crypto.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../services/backups/util/filePointers.preload.js';
+import { IMAGE_PNG } from '../../types/MIME.std.js';
+import * as Bytes from '../../Bytes.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.js';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.preload.js';
+import { generateKeys } from '../../AttachmentCrypto.node.js';
+import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isValidAttachmentKey } from '../../types/Crypto.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 describe('convertFilePointerToAttachment', () => {
   const commonFilePointerProps = {

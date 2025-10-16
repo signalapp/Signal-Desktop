@@ -4,14 +4,14 @@
 import { assert } from 'chai';
 import { v7 as generateUuid } from 'uuid';
 
-import { DataWriter } from '../../sql/Client.js';
-import { SendStatus } from '../../messages/MessageSendState.js';
-import { IMAGE_PNG } from '../../types/MIME.js';
-import { generateAci, generatePni } from '../../types/ServiceId.js';
-import { MessageModel } from '../../models/messages.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
-import { ConversationModel } from '../../models/conversations.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import { SendStatus } from '../../messages/MessageSendState.std.js';
+import { IMAGE_PNG } from '../../types/MIME.std.js';
+import { generateAci, generatePni } from '../../types/ServiceId.std.js';
+import { MessageModel } from '../../models/messages.preload.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
+import { ConversationModel } from '../../models/conversations.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {

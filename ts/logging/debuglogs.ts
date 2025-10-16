@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
-import type { FetchLogIpcData, LogEntryType } from './shared.js';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.std.js';
+import type { FetchLogIpcData, LogEntryType } from './shared.std.js';
 import {
   LogLevel,
   getLogLevelString,
   isFetchLogIpcData,
   isLogEntry,
   levelMaxLength,
-} from './shared.js';
-import { redactAll } from '../util/privacy.js';
-import { getEnvironment } from '../environment.js';
+} from './shared.std.js';
+import { redactAll } from '../util/privacy.node.js';
+import { getEnvironment } from '../environment.std.js';
 
 const { memoize, sortBy } = lodash;
 

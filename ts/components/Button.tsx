@@ -10,9 +10,9 @@ import type {
 import React from 'react';
 import classNames from 'classnames';
 
-import type { Theme } from '../util/theme.js';
-import { assertDev } from '../util/assert.js';
-import { themeClassName } from '../util/theme.js';
+import type { Theme } from '../util/theme.std.js';
+import { assertDev } from '../util/assert.std.js';
+import { themeClassName } from '../util/theme.std.js';
 
 export enum ButtonSize {
   Large,

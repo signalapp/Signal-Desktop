@@ -3,17 +3,17 @@
 
 import { useSelector } from 'react-redux';
 import React, { memo } from 'react';
-import { DialogUpdate } from '../../components/DialogUpdate.js';
-import { getIntl } from '../selectors/user.js';
-import type { WidthBreakpoint } from '../../components/_util.js';
-import { useUpdatesActions } from '../ducks/updates.js';
+import { DialogUpdate } from '../../components/DialogUpdate.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import type { WidthBreakpoint } from '../../components/_util.std.js';
+import { useUpdatesActions } from '../ducks/updates.preload.js';
 import {
   getUpdateDialogType,
   getUpdateDownloadSize,
   getUpdateDownloadedSize,
   getUpdateVersion,
-} from '../selectors/updates.js';
-import { DialogType } from '../../types/Dialogs.js';
+} from '../selectors/updates.std.js';
+import { DialogType } from '../../types/Dialogs.std.js';
 
 type SmartUpdateDialogProps = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;

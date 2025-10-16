@@ -5,7 +5,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { type ComponentProps } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.js';
+import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

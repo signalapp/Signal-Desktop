@@ -5,15 +5,15 @@ import { assert } from 'chai';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
-import * as durations from '../../util/durations/index.js';
-import { Bootstrap } from '../bootstrap.js';
-import type { App } from '../bootstrap.js';
-import { ReceiptType } from '../../types/Receipt.js';
+import * as durations from '../../util/durations/index.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../bootstrap.node.js';
+import { ReceiptType } from '../../types/Receipt.std.js';
 import {
   acceptConversation,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.js';
+} from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 

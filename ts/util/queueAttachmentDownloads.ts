@@ -1,24 +1,24 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.js';
-import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME.js';
-import { getMessageIdForLogging } from './idForLogging.js';
+import { createLogger } from '../logging/log.std.js';
+import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME.std.js';
+import { getMessageIdForLogging } from './idForLogging.preload.js';
 import {
   copyStickerToAttachments,
   savePackMetadata,
   getStickerPackStatus,
-} from '../types/Stickers.js';
-import { DataWriter } from '../sql/Client.js';
+} from '../types/Stickers.preload.js';
+import { DataWriter } from '../sql/Client.preload.js';
 
-import type { AttachmentType, ThumbnailType } from '../types/Attachment.js';
-import type { EmbeddedContactType } from '../types/EmbeddedContact.js';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.js';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.js';
 import type {
   EditHistoryType,
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d.ts';
-import * as Errors from '../types/errors.js';
+import * as Errors from '../types/errors.std.js';
 import {
   isDownloading,
   isDownloaded,
@@ -27,29 +27,29 @@ import {
   getCachedAttachmentBySignature,
   cacheAttachmentBySignature,
   getUndownloadedAttachmentSignature,
-} from './Attachment.js';
-import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.js';
-import type { StickerType } from '../types/Stickers.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
-import { strictAssert } from './assert.js';
-import { isNotNil } from './isNotNil.js';
-import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.js';
-import { AttachmentDownloadSource } from '../sql/Interface.js';
-import type { MessageModel } from '../models/messages.js';
-import type { ConversationModel } from '../models/conversations.js';
-import { isOutgoing, isStory } from '../messages/helpers.js';
-import { shouldDownloadStory } from './shouldDownloadStory.js';
-import { hasAttachmentDownloads } from './hasAttachmentDownloads.js';
+} from './Attachment.std.js';
+import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.js';
+import type { StickerType } from '../types/Stickers.preload.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
+import { strictAssert } from './assert.std.js';
+import { isNotNil } from './isNotNil.std.js';
+import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.preload.js';
+import { AttachmentDownloadSource } from '../sql/Interface.std.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { isOutgoing, isStory } from '../messages/helpers.std.js';
+import { shouldDownloadStory } from './shouldDownloadStory.preload.js';
+import { hasAttachmentDownloads } from './hasAttachmentDownloads.std.js';
 import {
   addToAttachmentDownloadQueue,
   shouldUseAttachmentDownloadQueue,
-} from './attachmentDownloadQueue.js';
-import { queueUpdateMessage } from './messageBatcher.js';
-import type { LoggerType } from '../types/Logging.js';
+} from './attachmentDownloadQueue.preload.js';
+import { queueUpdateMessage } from './messageBatcher.preload.js';
+import type { LoggerType } from '../types/Logging.std.js';
 import {
   itemStorage,
   DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
-} from '../textsecure/Storage.js';
+} from '../textsecure/Storage.preload.js';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
 

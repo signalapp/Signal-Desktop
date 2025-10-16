@@ -4,10 +4,10 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { Theme } from '../util/theme.js';
-import { Button } from './Button.js';
-import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { Theme } from '../util/theme.std.js';
+import { Button } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
 
 export type PropsType = {
   body: ReactNode;

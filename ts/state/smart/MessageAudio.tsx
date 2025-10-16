@@ -3,24 +3,24 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { MessageAudio } from '../../components/conversation/MessageAudio.js';
-import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio.js';
-import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.js';
+import { MessageAudio } from '../../components/conversation/MessageAudio.dom.js';
+import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio.dom.js';
+import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
-} from '../ducks/audioPlayer.js';
+} from '../ducks/audioPlayer.preload.js';
 import {
   selectAudioPlayerActive,
   selectVoiceNoteAndConsecutive,
-} from '../selectors/audioPlayer.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { getUserConversationId } from '../selectors/user.js';
-import { createLogger } from '../../logging/log.js';
+} from '../selectors/audioPlayer.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { getUserConversationId } from '../selectors/user.std.js';
+import { createLogger } from '../../logging/log.std.js';
 import {
   getConversationByIdSelector,
   getSelectedConversationId,
-} from '../selectors/conversations.js';
+} from '../selectors/conversations.dom.js';
 
 const log = createLogger('MessageAudio');
 

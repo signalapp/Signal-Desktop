@@ -3,7 +3,7 @@
 
 import memoizee from 'memoizee';
 
-import { map, size, take, join } from './iterables.js';
+import { map, size, take, join } from './iterables.std.js';
 
 const getSegmenter = memoizee((): Intl.Segmenter => new Intl.Segmenter());
 

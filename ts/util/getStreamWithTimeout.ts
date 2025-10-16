@@ -4,9 +4,9 @@
 import { Transform } from 'node:stream';
 import type { Readable } from 'node:stream';
 
-import * as Bytes from '../Bytes.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
-import { explodePromise } from './explodePromise.js';
+import * as Bytes from '../Bytes.std.js';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
+import { explodePromise } from './explodePromise.std.js';
 
 export type OptionsType = Readonly<{
   name: string;

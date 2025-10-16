@@ -11,10 +11,10 @@ import {
   LogLevel as SignalClientLogLevel,
 } from '@signalapp/libsignal-client';
 
-import { setPinoDestination, log } from './log.js';
-import * as Errors from '../types/errors.js';
-import { createRotatingPinoDest } from '../util/rotatingPinoDest.js';
-import { redactAll } from '../util/privacy.js';
+import { setPinoDestination, log } from './log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.js';
+import { redactAll } from '../util/privacy.node.js';
 
 let isInitialized = false;
 let shouldRestart = false;

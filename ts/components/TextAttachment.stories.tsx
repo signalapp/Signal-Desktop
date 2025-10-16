@@ -4,8 +4,8 @@
 import React from 'react';
 
 import type { Meta } from '@storybook/react';
-import { TextAttachment } from './TextAttachment.js';
-import type { PropsType } from './TextAttachment.js';
+import { TextAttachment } from './TextAttachment.dom.js';
+import type { PropsType } from './TextAttachment.dom.js';
 
 const { i18n } = window.SignalContext;
 

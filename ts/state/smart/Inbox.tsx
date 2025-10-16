@@ -3,24 +3,24 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Inbox } from '../../components/Inbox.js';
-import { isNightly } from '../../util/version.js';
-import { getIntl } from '../selectors/user.js';
-import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.js';
-import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions.js';
-import type { SmartNavTabsProps } from './NavTabs.js';
-import { SmartNavTabs } from './NavTabs.js';
-import { SmartStoriesTab } from './StoriesTab.js';
-import { SmartCallsTab } from './CallsTab.js';
-import { useItemsActions } from '../ducks/items.js';
-import { getNavTabsCollapsed } from '../selectors/items.js';
-import { SmartChatsTab } from './ChatsTab.js';
-import { getHasInitialLoadCompleted } from '../selectors/app.js';
+import { Inbox } from '../../components/Inbox.dom.js';
+import { isNightly } from '../../util/version.std.js';
+import { getIntl } from '../selectors/user.std.js';
+import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.preload.js';
+import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions.std.js';
+import type { SmartNavTabsProps } from './NavTabs.preload.js';
+import { SmartNavTabs } from './NavTabs.preload.js';
+import { SmartStoriesTab } from './StoriesTab.preload.js';
+import { SmartCallsTab } from './CallsTab.preload.js';
+import { useItemsActions } from '../ducks/items.preload.js';
+import { getNavTabsCollapsed } from '../selectors/items.dom.js';
+import { SmartChatsTab } from './ChatsTab.preload.js';
+import { getHasInitialLoadCompleted } from '../selectors/app.std.js';
 import {
   getInboxEnvelopeTimestamp,
   getInboxFirstEnvelopeTimestamp,
-} from '../selectors/inbox.js';
-import { SmartPreferences } from './Preferences.js';
+} from '../selectors/inbox.std.js';
+import { SmartPreferences } from './Preferences.preload.js';
 
 function renderChatsTab() {
   return <SmartChatsTab />;

@@ -5,18 +5,18 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 
-import { generateSafetyNumber } from '../../util/safetyNumber.js';
-import type { SafetyNumberType } from '../../types/safetyNumber.js';
-import type { ConversationType } from './conversations.js';
+import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
+import type { SafetyNumberType } from '../../types/safetyNumber.std.js';
+import type { ConversationType } from './conversations.preload.js';
 import {
   reloadProfiles,
   toggleVerification,
-} from '../../shims/contactVerification.js';
-import { createLogger } from '../../logging/log.js';
-import * as Errors from '../../types/errors.js';
-import type { StateType as RootStateType } from '../reducer.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
+} from '../../shims/contactVerification.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.js';
+import type { StateType as RootStateType } from '../reducer.preload.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 
 const { omit } = lodash;
 

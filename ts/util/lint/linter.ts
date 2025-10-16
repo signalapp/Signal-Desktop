@@ -8,9 +8,14 @@ import normalizePath from 'normalize-path';
 import pMap from 'p-map';
 import FastGlob from 'fast-glob';
 
-import type { ExceptionType, RuleType } from './types.js';
-import { REASONS } from './types.js';
-import { ENCODING, loadJSON, sortExceptions, writeExceptions } from './util.js';
+import type { ExceptionType, RuleType } from './types.std.js';
+import { REASONS } from './types.std.js';
+import {
+  ENCODING,
+  loadJSON,
+  sortExceptions,
+  writeExceptions,
+} from './util.node.js';
 
 const ALL_REASONS = REASONS.join('|');
 

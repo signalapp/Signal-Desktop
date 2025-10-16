@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { createWaitBatcher } from '../../util/waitBatcher.js';
-import { drop } from '../../util/drop.js';
-import { sleep } from '../../util/sleep.js';
+import { createWaitBatcher } from '../../util/waitBatcher.std.js';
+import { drop } from '../../util/drop.std.js';
+import { sleep } from '../../util/sleep.std.js';
 
 describe('waitBatcher', () => {
   let processBatch: sinon.SinonSpy;

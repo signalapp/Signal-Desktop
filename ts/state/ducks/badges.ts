@@ -4,13 +4,13 @@
 import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { DataWriter } from '../../sql/Client.js';
-import type { StateType as RootStateType } from '../reducer.js';
-import type { BadgeType, BadgeImageType } from '../../badges/types.js';
-import { getOwn } from '../../util/getOwn.js';
-import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import type { StateType as RootStateType } from '../reducer.preload.js';
+import type { BadgeType, BadgeImageType } from '../../badges/types.std.js';
+import { getOwn } from '../../util/getOwn.std.js';
+import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader.preload.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 
 const { isEqual, mapValues } = lodash;
 

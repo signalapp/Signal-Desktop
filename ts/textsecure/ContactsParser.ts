@@ -3,26 +3,26 @@
 
 import { Transform } from 'node:stream';
 
-import { createLogger } from '../logging/log.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import protobuf from '../protobuf/wrap.js';
-import { DurationInSeconds } from '../util/durations/index.js';
+import { createLogger } from '../logging/log.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import protobuf from '../protobuf/wrap.node.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
 import {
   getAbsoluteAttachmentPath,
   writeNewAttachmentData,
   deleteAttachmentData,
-} from '../util/migrations.js';
-import type { ContactAvatarType } from '../types/Avatar.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import type { AciString } from '../types/ServiceId.js';
-import { computeHash } from '../Crypto.js';
-import { dropNull } from '../util/dropNull.js';
-import { fromAciUuidBytesOrString } from '../util/ServiceId.js';
-import * as Bytes from '../Bytes.js';
-import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.js';
+} from '../util/migrations.preload.js';
+import type { ContactAvatarType } from '../types/Avatar.std.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import { computeHash } from '../Crypto.node.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { fromAciUuidBytesOrString } from '../util/ServiceId.node.js';
+import * as Bytes from '../Bytes.std.js';
+import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.js';
 
 import Avatar = Proto.ContactDetails.IAvatar;
-import { stringToMIMEType } from '../types/MIME.js';
+import { stringToMIMEType } from '../types/MIME.std.js';
 
 const log = createLogger('ContactsParser');
 

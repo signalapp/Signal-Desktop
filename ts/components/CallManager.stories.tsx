@@ -4,35 +4,35 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallManager.js';
-import { CallManager } from './CallManager.js';
+import type { PropsType } from './CallManager.dom.js';
+import { CallManager } from './CallManager.dom.js';
 import {
   CallEndedReason,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.js';
-import { CallMode } from '../types/CallDisposition.js';
+} from '../types/Calling.std.js';
+import { CallMode } from '../types/CallDisposition.std.js';
 import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,
-} from '../types/Calling.js';
+} from '../types/Calling.std.js';
 import type {
   ConversationType,
   ConversationTypeType,
-} from '../state/ducks/conversations.js';
-import { AvatarColors } from '../types/Colors.js';
-import { generateAci } from '../types/ServiceId.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
-import { StorySendMode } from '../types/Stories.js';
+} from '../state/ducks/conversations.preload.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
+import { StorySendMode } from '../types/Stories.std.js';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getDefaultCallLinkConversation,
-} from '../test-helpers/fakeCallLink.js';
-import { allRemoteParticipants } from './CallScreen.stories.js';
+} from '../test-helpers/fakeCallLink.std.js';
+import { allRemoteParticipants } from './CallScreen.dom.stories.js';
 
 const { i18n } = window.SignalContext;
 

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { EventEmitter } from 'node:events';
 
-import { wrapEventEmitterOnce as once } from '../../util/wrapEventEmitterOnce.js';
+import { wrapEventEmitterOnce as once } from '../../util/wrapEventEmitterOnce.node.js';
 
 describe('wrapEventEmitterOnce', () => {
   let ee: EventEmitter;

@@ -3,26 +3,26 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { getSendOptionsForRecipients } from '../../util/getSendOptions.js';
-import { isGroupV2 } from '../../util/whatTypeOfConversation.js';
+import { getSendOptionsForRecipients } from '../../util/getSendOptions.preload.js';
+import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.js';
-import * as Bytes from '../../Bytes.js';
-import { strictAssert } from '../../util/assert.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+} from './handleMultipleSendErrors.std.js';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
+import * as Bytes from '../../Bytes.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
-import type { GroupV2InfoType } from '../../textsecure/SendMessage.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { GroupV2InfoType } from '../../textsecure/SendMessage.preload.js';
 import type {
   GroupUpdateJobData,
   ConversationQueueJobBundle,
-} from '../conversationJobQueue.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
-import { sendToGroup } from '../../util/sendToGroup.js';
-import { getValidRecipients } from './getValidRecipients.js';
+} from '../conversationJobQueue.preload.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
+import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import { getValidRecipients } from './getValidRecipients.dom.js';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers

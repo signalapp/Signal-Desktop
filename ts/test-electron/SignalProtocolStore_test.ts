@@ -14,28 +14,31 @@ import {
 } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../sql/Client.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { signal } from '../protobuf/compiled.js';
-import { sessionStructureToBytes } from '../util/sessionTranslation.js';
-import * as durations from '../util/durations/index.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { Zone } from '../util/Zone.js';
+import { sessionStructureToBytes } from '../util/sessionTranslation.node.js';
+import * as durations from '../util/durations/index.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { Zone } from '../util/Zone.std.js';
 
-import * as Bytes from '../Bytes.js';
-import { getRandomBytes, constantTimeEqual } from '../Crypto.js';
+import * as Bytes from '../Bytes.std.js';
+import { getRandomBytes, constantTimeEqual } from '../Crypto.node.js';
 import {
   clampPrivateKey,
   setPublicKeyTypeByte,
   generateSignedPreKey,
   generateKyberPreKey,
-} from '../Curve.js';
-import type { SignalProtocolStore } from '../SignalProtocolStore.js';
-import { GLOBAL_ZONE, signalProtocolStore } from '../SignalProtocolStore.js';
-import { Address } from '../types/Address.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import { generateAci, generatePni } from '../types/ServiceId.js';
+} from '../Curve.node.js';
+import type { SignalProtocolStore } from '../SignalProtocolStore.preload.js';
+import {
+  GLOBAL_ZONE,
+  signalProtocolStore,
+} from '../SignalProtocolStore.preload.js';
+import { Address } from '../types/Address.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import { generateAci, generatePni } from '../types/ServiceId.std.js';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
-import { itemStorage } from '../textsecure/Storage.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { clone } = lodash;
 

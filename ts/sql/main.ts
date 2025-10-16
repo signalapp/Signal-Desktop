@@ -6,15 +6,15 @@ import { Worker } from 'node:worker_threads';
 import { format } from 'node:util';
 import { app } from 'electron';
 
-import { strictAssert } from '../util/assert.js';
-import { explodePromise } from '../util/explodePromise.js';
-import type { LoggerType } from '../types/Logging.js';
-import * as Errors from '../types/errors.js';
-import { SqliteErrorKind } from './errors.js';
+import { strictAssert } from '../util/assert.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import * as Errors from '../types/errors.std.js';
+import { SqliteErrorKind } from './errors.std.js';
 import type {
   ServerReadableDirectInterface,
   ServerWritableDirectInterface,
-} from './Interface.js';
+} from './Interface.std.js';
 
 const MIN_TRACE_DURATION = 40;
 

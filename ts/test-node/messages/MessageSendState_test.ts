@@ -9,7 +9,7 @@ import type {
   SendAction,
   SendState,
   SendStateByConversationId,
-} from '../../messages/MessageSendState.js';
+} from '../../messages/MessageSendState.std.js';
 import {
   SendActionType,
   SendStatus,
@@ -24,7 +24,7 @@ import {
   sendStateReducer,
   someRecipientSendStatus,
   someSendStatus,
-} from '../../messages/MessageSendState.js';
+} from '../../messages/MessageSendState.std.js';
 
 const { sampleSize, times } = lodash;
 

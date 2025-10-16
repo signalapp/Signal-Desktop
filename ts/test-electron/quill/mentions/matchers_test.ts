@@ -5,12 +5,12 @@ import { assert } from 'chai';
 import type { RefObject } from 'react';
 import { Delta } from '@signalapp/quill-cjs';
 
-import type { AciString } from '../../../types/ServiceId.js';
-import { generateAci } from '../../../types/ServiceId.js';
-import { matchMention } from '../../../quill/mentions/matchers.js';
-import { MemberRepository } from '../../../quill/memberRepository.js';
-import type { ConversationType } from '../../../state/ducks/conversations.js';
-import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation.js';
+import type { AciString } from '../../../types/ServiceId.std.js';
+import { generateAci } from '../../../types/ServiceId.std.js';
+import { matchMention } from '../../../quill/mentions/matchers.std.js';
+import { MemberRepository } from '../../../quill/memberRepository.std.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
+import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation.std.js';
 
 const ACI_1 = generateAci();
 

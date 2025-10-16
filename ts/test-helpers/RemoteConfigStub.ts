@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { _refreshRemoteConfig } from '../RemoteConfig.js';
-import type { RemoteConfigResponseType } from '../textsecure/WebAPI.js';
+import { _refreshRemoteConfig } from '../RemoteConfig.dom.js';
+import type { RemoteConfigResponseType } from '../textsecure/WebAPI.preload.js';
 
 export async function updateRemoteConfig(
   newConfig: Array<{ name: string; value: string }>

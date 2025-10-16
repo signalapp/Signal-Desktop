@@ -6,13 +6,13 @@ import classNames from 'classnames';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations.js';
-import type { LocalizerType } from '../types/Util.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { SearchInput } from './SearchInput.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.js';
-import { Theme } from '../util/theme.js';
+} from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { SearchInput } from './SearchInput.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
+import { Theme } from '../util/theme.std.js';
 
 type BasePropsType = {
   clearConversationSearch: () => void;

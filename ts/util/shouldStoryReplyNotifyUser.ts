@@ -1,13 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.js';
-import { DataReader } from '../sql/Client.js';
-import { isGroup } from './whatTypeOfConversation.js';
-import { isMessageUnread } from './isMessageUnread.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { createLogger } from '../logging/log.std.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { isGroup } from './whatTypeOfConversation.dom.js';
+import { isMessageUnread } from './isMessageUnread.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('shouldStoryReplyNotifyUser');
 

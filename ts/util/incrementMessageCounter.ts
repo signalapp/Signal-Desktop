@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 
-import { strictAssert } from './assert.js';
-import { safeParseInteger } from './numbers.js';
-import { DataReader } from '../sql/Client.js';
-import { createLogger } from '../logging/log.js';
+import { strictAssert } from './assert.std.js';
+import { safeParseInteger } from './numbers.std.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.js';
 
 const { debounce, isNumber } = lodash;
 

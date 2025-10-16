@@ -3,15 +3,15 @@
 
 import type { CallLinkRootKey } from '@signalapp/ringrtc';
 import { Aci } from '@signalapp/libsignal-client';
-import { getCheckedCallLinkAuthCredentialsForToday } from '../../services/groupCredentialFetcher.js';
-import { itemStorage } from '../../textsecure/Storage.js';
-import type { CallLinkAuthCredentialPresentation } from '../zkgroup.js';
-import * as durations from '../durations/index.js';
+import { getCheckedCallLinkAuthCredentialsForToday } from '../../services/groupCredentialFetcher.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import type { CallLinkAuthCredentialPresentation } from '../zkgroup.node.js';
+import * as durations from '../durations/index.std.js';
 import {
   CallLinkAuthCredential,
   CallLinkSecretParams,
   GenericServerPublicParams,
-} from '../zkgroup.js';
+} from '../zkgroup.node.js';
 
 export async function getCallLinkAuthCredentialPresentation(
   callLinkRootKey: CallLinkRootKey

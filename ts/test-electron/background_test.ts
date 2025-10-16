@@ -4,9 +4,12 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { isOverHourIntoPast, cleanupSessionResets } from '../background.js';
-import { DataWriter } from '../sql/Client.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import {
+  isOverHourIntoPast,
+  cleanupSessionResets,
+} from '../background.preload.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { pick } = lodash;
 

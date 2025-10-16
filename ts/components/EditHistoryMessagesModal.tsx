@@ -4,18 +4,18 @@
 import React, { useCallback, useState, useRef } from 'react';
 import lodash from 'lodash';
 
-import type { AttachmentType } from '../types/Attachment.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { MessagePropsType } from '../state/selectors/message.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import { Message, TextDirection } from './conversation/Message.js';
-import { Modal } from './Modal.js';
-import { WidthBreakpoint } from './_util.js';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.js';
-import { useTheme } from '../hooks/useTheme.js';
-import { isSameDay } from '../util/timestamp.js';
-import { TimelineDateHeader } from './conversation/TimelineDateHeader.js';
-import { drop } from '../util/drop.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { MessagePropsType } from '../state/selectors/message.preload.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import { Message, TextDirection } from './conversation/Message.dom.js';
+import { Modal } from './Modal.dom.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
+import { useTheme } from '../hooks/useTheme.dom.js';
+import { isSameDay } from '../util/timestamp.std.js';
+import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.js';
+import { drop } from '../util/drop.std.js';
 
 const { noop } = lodash;
 

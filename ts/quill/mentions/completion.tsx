@@ -11,15 +11,15 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { Avatar, AvatarSize } from '../../components/Avatar.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { MemberType, MemberRepository } from '../memberRepository.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { matchBlotTextPartitions } from '../util.js';
-import type { MentionBlotValue } from '../util.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.js';
-import { sameWidthModifier } from '../../util/popperUtil.js';
-import { UserText } from '../../components/UserText.js';
+import { Avatar, AvatarSize } from '../../components/Avatar.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { MemberType, MemberRepository } from '../memberRepository.std.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { matchBlotTextPartitions } from '../util.dom.js';
+import type { MentionBlotValue } from '../util.dom.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
+import { sameWidthModifier } from '../../util/popperUtil.std.js';
+import { UserText } from '../../components/UserText.dom.js';
 
 export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;

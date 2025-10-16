@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import { assertDev } from '../../util/assert.js';
+import { assertDev } from '../../util/assert.std.js';
 
 type Props = {
   peaks: ReadonlyArray<number>;

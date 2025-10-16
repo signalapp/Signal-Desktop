@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import emojiRegex from 'emoji-regex';
-import { strictAssert } from '../../../util/assert.js';
-import { parseUnknown } from '../../../util/schemas.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { parseUnknown } from '../../../util/schemas.std.js';
 import type {
   FunEmojiSearchIndex,
   FunEmojiSearchIndexEntry,
-} from '../useFunEmojiSearch.js';
-import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.js';
-import { removeDiacritics } from '../../../util/removeDiacritics.js';
+} from '../useFunEmojiSearch.dom.js';
+import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.js';
+import { removeDiacritics } from '../../../util/removeDiacritics.std.js';
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires

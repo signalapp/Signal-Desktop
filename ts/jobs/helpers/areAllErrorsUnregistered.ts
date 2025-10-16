@@ -5,8 +5,8 @@ import type { ConversationAttributesType } from '../../model-types.d.ts';
 import {
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import { isGroup } from '../../util/whatTypeOfConversation.js';
+} from '../../textsecure/Errors.std.js';
+import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
 
 export function areAllErrorsUnregistered(
   conversation: ConversationAttributesType,

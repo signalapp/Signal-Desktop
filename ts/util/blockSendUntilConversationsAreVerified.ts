@@ -1,16 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.js';
-import { createLogger } from '../logging/log.js';
-import { explodePromise } from './explodePromise.js';
+import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { explodePromise } from './explodePromise.std.js';
 import type {
   RecipientsByConversation,
   RecipientEntry,
-} from '../state/ducks/stories.js';
-import { isNotNil } from './isNotNil.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { waitForAll } from './waitForAll.js';
+} from '../state/ducks/stories.preload.js';
+import { isNotNil } from './isNotNil.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { waitForAll } from './waitForAll.std.js';
 
 const log = createLogger('blockSendUntilConversationsAreVerified');
 

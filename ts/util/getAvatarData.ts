@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AvatarDataType } from '../types/Avatar.js';
-import { getDefaultAvatars } from '../types/Avatar.js';
-import { isDirectConversation } from './whatTypeOfConversation.js';
+import type { AvatarDataType } from '../types/Avatar.std.js';
+import { getDefaultAvatars } from '../types/Avatar.std.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
 export function getAvatarData(

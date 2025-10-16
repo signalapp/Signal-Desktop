@@ -11,35 +11,35 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
-import type { BadgeType } from '../../badges/types.js';
+import type { BadgeType } from '../../badges/types.std.js';
 import {
   useKeyboardShortcuts,
   useStartCallShortcuts,
-} from '../../hooks/useKeyboardShortcuts.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.js';
-import type { ConversationTypeType } from '../../state/ducks/conversations.js';
-import type { HasStories } from '../../types/Stories.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
-import * as expirationTimer from '../../util/expirationTimer.js';
-import { getMuteOptions } from '../../util/getMuteOptions.js';
-import { isConversationMuted } from '../../util/isConversationMuted.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { Alert } from '../Alert.js';
-import { Avatar, AvatarSize } from '../Avatar.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { DisappearingTimeDialog } from '../DisappearingTimeDialog.js';
-import { InContactsIcon } from '../InContactsIcon.js';
-import { UserText } from '../UserText.js';
-import type { ContactNameData } from './ContactName.js';
+} from '../../hooks/useKeyboardShortcuts.dom.js';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
+import type { ConversationTypeType } from '../../state/ducks/conversations.preload.js';
+import type { HasStories } from '../../types/Stories.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
+import * as expirationTimer from '../../util/expirationTimer.std.js';
+import { getMuteOptions } from '../../util/getMuteOptions.std.js';
+import { isConversationMuted } from '../../util/isConversationMuted.std.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { Alert } from '../Alert.dom.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.js';
+import { InContactsIcon } from '../InContactsIcon.dom.js';
+import { UserText } from '../UserText.dom.js';
+import type { ContactNameData } from './ContactName.dom.js';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation.js';
-import type { MinimalConversation } from '../../hooks/useMinimalConversation.js';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip.js';
-import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.js';
+} from './MessageRequestActionsConfirmation.dom.js';
+import type { MinimalConversation } from '../../hooks/useMinimalConversation.std.js';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
+import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
 
 function HeaderInfoTitle({
   name,

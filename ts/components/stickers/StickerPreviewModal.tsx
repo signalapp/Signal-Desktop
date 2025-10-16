@@ -4,14 +4,14 @@
 import * as React from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import type { LocalizerType } from '../../types/Util.js';
-import type { StickerPackType } from '../../state/ducks/stickers.js';
-import { Spinner } from '../Spinner.js';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
-import { Modal } from '../Modal.js';
-import { Button, ButtonVariant } from '../Button.js';
-import { UserText } from '../UserText.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { StickerPackType } from '../../state/ducks/stickers.preload.js';
+import { Spinner } from '../Spinner.dom.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
+import { Modal } from '../Modal.dom.js';
+import { Button, ButtonVariant } from '../Button.dom.js';
+import { UserText } from '../UserText.dom.js';
 
 const { isNumber, range } = lodash;
 

@@ -1,10 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.js';
-import { sql } from '../util.js';
-import type { WritableDB } from '../Interface.js';
-import { getOurUuid } from './41-uuid-keys.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { sql } from '../util.std.js';
+import type { WritableDB } from '../Interface.std.js';
+import { getOurUuid } from './41-uuid-keys.std.js';
 
 export default function updateToSchemaVersion1020(
   db: WritableDB,

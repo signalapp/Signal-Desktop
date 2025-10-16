@@ -4,9 +4,9 @@
 import { animated, useSpring } from '@react-spring/web';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
-import { useReducedMotion } from '../hooks/useReducedMotion.js';
-import type { AttachmentForUIType } from '../types/Attachment.js';
-import { SpinnerV2 } from './SpinnerV2.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import type { AttachmentForUIType } from '../types/Attachment.std.js';
+import { SpinnerV2 } from './SpinnerV2.dom.js';
 
 const SPRING_CONFIG = {
   mass: 0.5,

@@ -4,37 +4,37 @@
 import type { ReactNode } from 'react';
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { FunProvider } from '../../components/fun/FunProvider.js';
-import { getIntl } from '../selectors/user.js';
-import { selectRecentEmojis } from '../selectors/emojis.js';
-import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.js';
+import { FunProvider } from '../../components/fun/FunProvider.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { selectRecentEmojis } from '../selectors/emojis.std.js';
+import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.js';
 import {
   getInstalledStickerPacks,
   getRecentStickers,
-} from '../selectors/stickers.js';
-import { strictAssert } from '../../util/assert.js';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis.js';
+} from '../selectors/stickers.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { EmojiSkinTone } from '../../components/fun/data/emojis.std.js';
 import {
   getEmojiParentKeyByEnglishShortName,
   isEmojiEnglishShortName,
-} from '../../components/fun/data/emojis.js';
+} from '../../components/fun/data/emojis.std.js';
 import {
   getEmojiSkinToneDefault,
   getShowStickerPickerHint,
-} from '../selectors/items.js';
-import { useItemsActions } from '../ducks/items.js';
-import { useGifsActions } from '../ducks/gifs.js';
+} from '../selectors/items.dom.js';
+import { useItemsActions } from '../ducks/items.preload.js';
+import { useGifsActions } from '../ducks/gifs.preload.js';
 import {
   fetchGifsFeatured,
   fetchGifsSearch,
-} from '../../components/fun/data/gifs.js';
-import { tenorDownload } from '../../components/fun/data/tenor.js';
-import { usePreferredReactionsActions } from '../ducks/preferredReactions.js';
-import { useEmojisActions } from '../ducks/emojis.js';
-import { useStickersActions } from '../ducks/stickers.js';
-import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.js';
-import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.js';
-import { getRecentGifs } from '../selectors/gifs.js';
+} from '../../components/fun/data/gifs.preload.js';
+import { tenorDownload } from '../../components/fun/data/tenor.preload.js';
+import { usePreferredReactionsActions } from '../ducks/preferredReactions.preload.js';
+import { useEmojisActions } from '../ducks/emojis.preload.js';
+import { useStickersActions } from '../ducks/stickers.preload.js';
+import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.dom.js';
+import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.js';
+import { getRecentGifs } from '../selectors/gifs.std.js';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;

@@ -4,11 +4,11 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { generateAci } from '../../types/ServiceId.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 import {
   _isGroupChangeMessageBounceable,
   _mergeGroupChangeMessages,
-} from '../../groups.js';
+} from '../../groups.preload.js';
 
 describe('group message merging', () => {
   const defaultMessage = {

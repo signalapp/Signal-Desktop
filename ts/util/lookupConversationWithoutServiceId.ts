@@ -3,16 +3,19 @@
 
 import { usernames, LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.js';
-import { createLogger } from '../logging/log.js';
-import type { AciString } from '../types/ServiceId.js';
-import { getAccountForUsername, cdsLookup } from '../textsecure/WebAPI.js';
-import * as Errors from '../types/errors.js';
-import { ToastType } from '../types/Toast.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { strictAssert } from './assert.js';
-import type { UUIDFetchStateKeyType } from './uuidFetchState.js';
-import { getServiceIdsForE164s } from './getServiceIdsForE164s.js';
+import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import {
+  getAccountForUsername,
+  cdsLookup,
+} from '../textsecure/WebAPI.preload.js';
+import * as Errors from '../types/errors.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { strictAssert } from './assert.std.js';
+import type { UUIDFetchStateKeyType } from './uuidFetchState.std.js';
+import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.js';
 
 const log = createLogger('lookupConversationWithoutServiceId');
 

@@ -12,25 +12,25 @@ import React, {
 import classNames from 'classnames';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import type { GroupCallRemoteParticipantType } from '../types/Calling.js';
-import type { LocalizerType } from '../types/Util.js';
-import { AvatarColors } from '../types/Colors.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.js';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { I18n } from './I18n.js';
-import { ContactName } from './conversation/ContactName.js';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver.js';
-import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.js';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.js';
-import { Theme } from '../util/theme.js';
-import { isOlderThan } from '../util/timestamp.js';
-import type { CallingImageDataCache } from './CallManager.js';
-import { usePrevious } from '../hooks/usePrevious.js';
+} from './CallingAudioIndicator.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { I18n } from './I18n.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver.std.js';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.js';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.js';
+import { Theme } from '../util/theme.std.js';
+import { isOlderThan } from '../util/timestamp.std.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
 
 const { debounce, noop } = lodash;
 

@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 
-import { getFakeBadge } from '../../../test-helpers/getFakeBadge.js';
-import { repeat, zipObject } from '../../../util/iterables.js';
-import { BadgeImageTheme } from '../../../badges/BadgeImageTheme.js';
+import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.js';
+import { repeat, zipObject } from '../../../util/iterables.std.js';
+import { BadgeImageTheme } from '../../../badges/BadgeImageTheme.std.js';
 
-import type { BadgesStateType } from '../../../state/ducks/badges.js';
-import { actions, reducer } from '../../../state/ducks/badges.js';
+import type { BadgesStateType } from '../../../state/ducks/badges.preload.js';
+import { actions, reducer } from '../../../state/ducks/badges.preload.js';
 
 describe('both/state/ducks/badges', () => {
   describe('badgeImageFileDownloaded', () => {

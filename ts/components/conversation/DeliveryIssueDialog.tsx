@@ -3,16 +3,16 @@
 
 import * as React from 'react';
 
-import { Button, ButtonSize, ButtonVariant } from '../Button.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import { Modal } from '../Modal.js';
-import { I18n } from '../I18n.js';
-import { Emojify } from './Emojify.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { Modal } from '../Modal.dom.js';
+import { I18n } from '../I18n.dom.js';
+import { Emojify } from './Emojify.dom.js';
 
-import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
 
-import type { LocalizerType } from '../../types/Util.js';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
 
 export type PropsType = {
   i18n: LocalizerType;

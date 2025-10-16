@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import type {
   ExpiringEntity,
   ExpiringEntityCleanupService,
-} from '../../../services/expiring/createExpiringEntityCleanupService.js';
-import { createExpiringEntityCleanupService } from '../../../services/expiring/createExpiringEntityCleanupService.js';
+} from '../../../services/expiring/createExpiringEntityCleanupService.std.js';
+import { createExpiringEntityCleanupService } from '../../../services/expiring/createExpiringEntityCleanupService.std.js';
 
 function waitForMicrotasks() {
   return new Promise<void>(resolve => {

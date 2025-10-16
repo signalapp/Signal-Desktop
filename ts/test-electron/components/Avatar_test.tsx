@@ -3,7 +3,10 @@
 
 import { assert } from 'chai';
 
-import { _getBadgeSize, _getBadgePlacement } from '../../components/Avatar.js';
+import {
+  _getBadgeSize,
+  _getBadgePlacement,
+} from '../../components/Avatar.dom.js';
 
 describe('<Avatar>', () => {
   describe('_getBadgeSize', () => {

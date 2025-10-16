@@ -7,7 +7,7 @@ import {
   Environment,
   isTestEnvironment,
   parseEnvironment,
-} from '../environment.js';
+} from '../environment.std.js';
 
 describe('environment utilities', () => {
   describe('parseEnvironment', () => {

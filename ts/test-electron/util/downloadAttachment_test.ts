@@ -5,23 +5,23 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
 
-import { DataWriter } from '../../sql/Client.js';
-import { IMAGE_PNG } from '../../types/MIME.js';
-import { downloadAttachment } from '../../util/downloadAttachment.js';
-import { MediaTier } from '../../types/AttachmentDownload.js';
-import { HTTPError } from '../../types/HTTPError.js';
-import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.js';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.js';
-import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.js';
+import { DataWriter } from '../../sql/Client.preload.js';
+import { IMAGE_PNG } from '../../types/MIME.std.js';
+import { downloadAttachment } from '../../util/downloadAttachment.preload.js';
+import { MediaTier } from '../../types/AttachmentDownload.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
+import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.preload.js';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.preload.js';
+import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.preload.js';
 import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../../types/Attachment.js';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
-import { toHex, toBase64 } from '../../Bytes.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
-import { getRandomBytes } from '../../Crypto.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../types/Attachment.std.js';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
+import { toHex, toBase64 } from '../../Bytes.std.js';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
+import { getRandomBytes } from '../../Crypto.node.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { noop } = lodash;
 

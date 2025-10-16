@@ -4,7 +4,7 @@
 import { useState, useCallback } from 'react';
 import type { SpringValues } from '@react-spring/web';
 import { useChain, useSpring, useSpringRef } from '@react-spring/web';
-import { useReducedMotion } from './useReducedMotion.js';
+import { useReducedMotion } from './useReducedMotion.dom.js';
 
 export type ModalConfigType = {
   opacity: number;

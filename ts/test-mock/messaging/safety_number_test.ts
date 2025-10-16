@@ -5,17 +5,17 @@ import createDebug from 'debug';
 import { StorageState, Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { MINUTE } from '../../util/durations/index.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import { MY_STORY_ID } from '../../types/Stories.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { MINUTE } from '../../util/durations/index.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { MY_STORY_ID } from '../../types/Stories.std.js';
 import {
   clickOnConversation,
   typeIntoInput,
   expectSystemMessages,
   waitForEnabledComposer,
-} from '../helpers.js';
+} from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:safetyNumber');
 

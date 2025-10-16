@@ -9,10 +9,10 @@ import {
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
-import { strictAssert } from '../../util/assert.js';
-import type { AciString } from '../../types/ServiceId.js';
-import { toAciObject } from '../../util/ServiceId.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { AciString } from '../../types/ServiceId.std.js';
+import { toAciObject } from '../../util/ServiceId.node.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const getMemoizedBackupKey = memoizee((accountEntropyPool: string) => {
   return AccountEntropyPool.deriveBackupKey(accountEntropyPool);

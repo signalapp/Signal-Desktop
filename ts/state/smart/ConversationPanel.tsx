@@ -11,32 +11,32 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
-import type { PanelRenderType } from '../../types/Panels.js';
-import { createLogger } from '../../logging/log.js';
-import { PanelType } from '../../types/Panels.js';
-import { toLogFormat } from '../../types/errors.js';
-import { SmartAllMedia } from './AllMedia.js';
-import { SmartChatColorPicker } from './ChatColorPicker.js';
-import { SmartContactDetail } from './ContactDetail.js';
-import { SmartConversationDetails } from './ConversationDetails.js';
-import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings.js';
-import { SmartGV1Members } from './GV1Members.js';
-import { SmartGroupLinkManagement } from './GroupLinkManagement.js';
-import { SmartGroupV2Permissions } from './GroupV2Permissions.js';
-import { SmartMessageDetail } from './MessageDetail.js';
-import { SmartPendingInvites } from './PendingInvites.js';
-import { SmartStickerManager } from './StickerManager.js';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.js';
-import { getIntl } from '../selectors/user.js';
+import type { PanelRenderType } from '../../types/Panels.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { PanelType } from '../../types/Panels.std.js';
+import { toLogFormat } from '../../types/errors.std.js';
+import { SmartAllMedia } from './AllMedia.preload.js';
+import { SmartChatColorPicker } from './ChatColorPicker.preload.js';
+import { SmartContactDetail } from './ContactDetail.preload.js';
+import { SmartConversationDetails } from './ConversationDetails.preload.js';
+import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings.preload.js';
+import { SmartGV1Members } from './GV1Members.preload.js';
+import { SmartGroupLinkManagement } from './GroupLinkManagement.preload.js';
+import { SmartGroupV2Permissions } from './GroupV2Permissions.preload.js';
+import { SmartMessageDetail } from './MessageDetail.preload.js';
+import { SmartPendingInvites } from './PendingInvites.preload.js';
+import { SmartStickerManager } from './StickerManager.preload.js';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
+import { getIntl } from '../selectors/user.std.js';
 import {
   getPanelInformation,
   getWasPanelAnimated,
-} from '../selectors/conversations.js';
-import { focusableSelector } from '../../util/focusableSelectors.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useReducedMotion } from '../../hooks/useReducedMotion.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../selectors/conversations.dom.js';
+import { focusableSelector } from '../../util/focusableSelectors.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const log = createLogger('ConversationPanel');
 

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { cleanDataForIpc } from '../../sql/cleanDataForIpc.js';
+import { cleanDataForIpc } from '../../sql/cleanDataForIpc.std.js';
 
 const { noop } = lodash;
 

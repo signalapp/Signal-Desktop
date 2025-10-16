@@ -3,17 +3,17 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Button } from 'react-aria-components';
-import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
-} from '../ReactionPickerPicker.js';
-import type { EmojiVariantKey } from '../fun/data/emojis.js';
-import { getEmojiVariantByKey } from '../fun/data/emojis.js';
-import { FunEmojiPicker } from '../fun/FunEmojiPicker.js';
-import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.js';
+} from '../ReactionPickerPicker.dom.js';
+import type { EmojiVariantKey } from '../fun/data/emojis.std.js';
+import { getEmojiVariantByKey } from '../fun/data/emojis.std.js';
+import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.js';
+import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.js';
 
 export type OwnProps = {
   i18n: LocalizerType;

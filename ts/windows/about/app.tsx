@@ -4,11 +4,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '../sandboxedInit.js';
-import { About } from '../../components/About.js';
-import { strictAssert } from '../../util/assert.js';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.js';
-import { AxoProvider } from '../../axo/AxoProvider.js';
+import '../sandboxedInit.dom.js';
+import { About } from '../../components/About.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.js';
+import { AxoProvider } from '../../axo/AxoProvider.dom.js';
 
 const { AboutWindowProps } = window.Signal;
 const { i18n } = window.SignalContext;

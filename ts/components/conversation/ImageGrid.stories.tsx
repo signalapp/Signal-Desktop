@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ImageGrid.js';
-import { ImageGrid } from './ImageGrid.js';
+import type { Props } from './ImageGrid.dom.js';
+import { ImageGrid } from './ImageGrid.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -13,11 +13,11 @@ import {
   IMAGE_WEBP,
   VIDEO_MP4,
   stringToMIMEType,
-} from '../../types/MIME.js';
-import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.js';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
-import { strictAssert } from '../../util/assert.js';
-import { isDownloadable } from '../../util/Attachment.js';
+} from '../../types/MIME.std.js';
+import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.std.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isDownloadable } from '../../util/Attachment.std.js';
 
 const { i18n } = window.SignalContext;
 

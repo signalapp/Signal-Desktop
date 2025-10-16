@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EMOJI_PARENT_KEY_CONSTANTS } from '../components/fun/data/emojis.js';
+import { EMOJI_PARENT_KEY_CONSTANTS } from '../components/fun/data/emojis.std.js';
 
 export const DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS = [
   EMOJI_PARENT_KEY_CONSTANTS.RED_HEART,

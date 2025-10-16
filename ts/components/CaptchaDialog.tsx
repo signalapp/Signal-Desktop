@@ -3,10 +3,10 @@
 
 import React, { useRef, useState } from 'react';
 
-import type { LocalizerType } from '../types/Util.js';
-import { Button, ButtonVariant } from './Button.js';
-import { Modal } from './Modal.js';
-import { Spinner } from './Spinner.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
+import { Spinner } from './Spinner.dom.js';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

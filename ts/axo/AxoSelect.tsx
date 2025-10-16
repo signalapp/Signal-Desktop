@@ -3,11 +3,11 @@
 import React, { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
-import { AxoSymbol } from './AxoSymbol.js';
-import type { TailwindStyles } from './tw.js';
-import { tw } from './tw.js';
-import { ExperimentalAxoBadge } from './AxoBadge.js';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.js';
+import type { TailwindStyles } from './tw.dom.js';
+import { tw } from './tw.dom.js';
+import { ExperimentalAxoBadge } from './AxoBadge.dom.js';
 
 const Namespace = 'AxoSelect';
 

@@ -3,12 +3,12 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './TapToViewNotAvailableModal.js';
+import type { PropsType } from './TapToViewNotAvailableModal.dom.js';
 import {
   TapToViewNotAvailableModal,
   TapToViewNotAvailableType,
-} from './TapToViewNotAvailableModal.js';
-import type { ComponentMeta } from '../storybook/types.js';
+} from './TapToViewNotAvailableModal.dom.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
 
 const { i18n } = window.SignalContext;
 

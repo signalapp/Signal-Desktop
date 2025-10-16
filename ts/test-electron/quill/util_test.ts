@@ -7,9 +7,9 @@ import {
   getDeltaToRemoveStaleMentions,
   getTextAndRangesFromOps,
   getDeltaToRestartMention,
-} from '../../quill/util.js';
-import { BodyRange } from '../../types/BodyRange.js';
-import { generateAci } from '../../types/ServiceId.js';
+} from '../../quill/util.dom.js';
+import { BodyRange } from '../../types/BodyRange.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

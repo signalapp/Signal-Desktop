@@ -7,19 +7,19 @@ import React, { useState } from 'react';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
-import type { PropsType } from './ProfileEditor.js';
+import type { PropsType } from './ProfileEditor.dom.js';
 
-import { ProfileEditorPage } from '../types/Nav.js';
-import { ProfileEditor } from './ProfileEditor.js';
-import { UsernameEditor } from './UsernameEditor.js';
+import { ProfileEditorPage } from '../types/Nav.std.js';
+import { ProfileEditor } from './ProfileEditor.dom.js';
+import { UsernameEditor } from './UsernameEditor.dom.js';
 import {
   UsernameEditState,
   UsernameLinkState,
   UsernameReservationState,
-} from '../state/ducks/usernameEnums.js';
-import { getRandomColor } from '../test-helpers/getRandomColor.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
+} from '../state/ducks/usernameEnums.std.js';
+import { getRandomColor } from '../test-helpers/getRandomColor.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 const { i18n } = window.SignalContext;
 

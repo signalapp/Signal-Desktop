@@ -5,8 +5,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './LocalDeleteWarningModal.js';
-import { LocalDeleteWarningModal } from './LocalDeleteWarningModal.js';
+import type { PropsType } from './LocalDeleteWarningModal.dom.js';
+import { LocalDeleteWarningModal } from './LocalDeleteWarningModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

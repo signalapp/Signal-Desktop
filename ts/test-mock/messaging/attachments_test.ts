@@ -8,18 +8,18 @@ import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import * as path from 'node:path';
 import { readFile } from 'node:fs/promises';
 
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
 import {
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
-} from '../helpers.js';
-import * as durations from '../../util/durations/index.js';
-import { strictAssert } from '../../util/assert.js';
-import { VIDEO_MP4 } from '../../types/MIME.js';
-import { toBase64 } from '../../Bytes.js';
+} from '../helpers.node.js';
+import * as durations from '../../util/durations/index.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { VIDEO_MP4 } from '../../types/MIME.std.js';
+import { toBase64 } from '../../Bytes.std.js';
 
 export const debug = createDebug('mock:test:attachments');
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { createSupportUrl } from '../../util/createSupportUrl.js';
+import { createSupportUrl } from '../../util/createSupportUrl.std.js';
 
 describe('createSupportUrl', () => {
   it('returns support url for "en" locale', () => {

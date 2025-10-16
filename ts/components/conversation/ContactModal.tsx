@@ -7,30 +7,30 @@ import type { ReactNode } from 'react';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations.js';
-import type { BadgeType } from '../../badges/types.js';
-import type { HasStories } from '../../types/Stories.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.js';
-import { StoryViewModeType } from '../../types/Stories.js';
-import { createLogger } from '../../logging/log.js';
-import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.js';
-import { AvatarLightbox } from '../AvatarLightbox.js';
-import { BadgeDialog } from '../BadgeDialog.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { Modal } from '../Modal.js';
-import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { UserText } from '../UserText.js';
-import { Button, ButtonIconType, ButtonVariant } from '../Button.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { InContactsIcon } from '../InContactsIcon.js';
-import { canHaveNicknameAndNote } from '../../util/nicknames.js';
-import { getThemeByThemeType } from '../../util/theme.js';
+} from '../../state/ducks/conversations.preload.js';
+import type { BadgeType } from '../../badges/types.std.js';
+import type { HasStories } from '../../types/Stories.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.js';
+import { StoryViewModeType } from '../../types/Stories.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
+import { AvatarLightbox } from '../AvatarLightbox.dom.js';
+import { BadgeDialog } from '../BadgeDialog.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { Modal } from '../Modal.dom.js';
+import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { UserText } from '../UserText.dom.js';
+import { Button, ButtonIconType, ButtonVariant } from '../Button.dom.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import { InContactsIcon } from '../InContactsIcon.dom.js';
+import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
+import { getThemeByThemeType } from '../../util/theme.std.js';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from './InAnotherCallTooltip.js';
+} from './InAnotherCallTooltip.dom.js';
 
 const log = createLogger('ContactModal');
 

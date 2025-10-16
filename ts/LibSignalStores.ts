@@ -26,13 +26,13 @@ import {
   SessionStore,
   SignedPreKeyStore,
 } from '@signalapp/libsignal-client';
-import { Address } from './types/Address.js';
-import { QualifiedAddress } from './types/QualifiedAddress.js';
-import type { ServiceIdString } from './types/ServiceId.js';
-import { normalizeServiceId } from './types/ServiceId.js';
-import { signalProtocolStore } from './SignalProtocolStore.js';
+import { Address } from './types/Address.std.js';
+import { QualifiedAddress } from './types/QualifiedAddress.std.js';
+import type { ServiceIdString } from './types/ServiceId.std.js';
+import { normalizeServiceId } from './types/ServiceId.std.js';
+import { signalProtocolStore } from './SignalProtocolStore.preload.js';
 
-import type { Zone } from './util/Zone.js';
+import type { Zone } from './util/Zone.std.js';
 
 const { isNumber } = lodash;
 

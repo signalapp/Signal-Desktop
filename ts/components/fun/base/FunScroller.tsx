@@ -18,8 +18,8 @@ import {
   isScrollAtTop,
   isScrollOverflowVertical,
   useScrollObserver,
-} from '../../../hooks/useSizeObserver.js';
-import { strictAssert } from '../../../util/assert.js';
+} from '../../../hooks/useSizeObserver.dom.js';
+import { strictAssert } from '../../../util/assert.std.js';
 
 const { maxBy } = lodash;
 

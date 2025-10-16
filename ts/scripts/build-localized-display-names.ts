@@ -4,8 +4,8 @@
 import { parse } from 'csv-parse';
 import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { _getAvailableLocales } from '../../app/locale.js';
-import { parseUnknown } from '../util/schemas.js';
+import { _getAvailableLocales } from '../../app/locale.main.js';
+import { parseUnknown } from '../util/schemas.std.js';
 
 const type = process.argv[2];
 if (type !== 'countries' && type !== 'locales') {

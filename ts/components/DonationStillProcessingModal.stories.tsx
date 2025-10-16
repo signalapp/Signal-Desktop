@@ -6,8 +6,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationStillProcessingModal.js';
-import { DonationStillProcessingModal } from './DonationStillProcessingModal.js';
+import type { PropsType } from './DonationStillProcessingModal.dom.js';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

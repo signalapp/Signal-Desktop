@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DialogRelink.js';
-import { DialogRelink } from './DialogRelink.js';
-import { WidthBreakpoint } from './_util.js';
-import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.js';
+import type { PropsType } from './DialogRelink.dom.js';
+import { DialogRelink } from './DialogRelink.dom.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.js';
 
 const { i18n } = window.SignalContext;
 

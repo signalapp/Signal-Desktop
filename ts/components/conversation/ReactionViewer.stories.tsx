@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ReactionViewer.js';
-import { ReactionViewer } from './ReactionViewer.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { ThemeType } from '../../types/Util.js';
+import type { Props } from './ReactionViewer.dom.js';
+import { ReactionViewer } from './ReactionViewer.dom.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { ThemeType } from '../../types/Util.std.js';
 
 const { i18n } = window.SignalContext;
 

@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.js';
-import { sleeper } from '../../util/sleeper.js';
-import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { sleeper } from '../../util/sleeper.std.js';
+import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError.std.js';
 
 export async function sleepForRateLimitRetryAfterTime({
   err,

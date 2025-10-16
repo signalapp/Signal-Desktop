@@ -4,16 +4,16 @@
 import type { Database } from '@signalapp/sqlcipher';
 import lodash from 'lodash';
 
-import type { LoggerType } from '../../types/Logging.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../../types/ServiceId.js';
-import { normalizeServiceId, normalizePni } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
-import type { JSONWithUnknownFields } from '../../types/Util.js';
-import { isNotNil } from '../../util/isNotNil.js';
+} from '../../types/ServiceId.std.js';
+import { normalizeServiceId, normalizePni } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
+import type { JSONWithUnknownFields } from '../../types/Util.std.js';
+import { isNotNil } from '../../util/isNotNil.std.js';
 
 const { omit } = lodash;
 

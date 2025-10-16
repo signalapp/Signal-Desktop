@@ -6,35 +6,35 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { getIntl, getTheme, getUserNumber } from '../selectors/user.js';
-import { getMe } from '../selectors/conversations.js';
-import { PreferencesDonations } from '../../components/PreferencesDonations.js';
-import type { SettingsLocation } from '../../types/Nav.js';
-import { useDonationsActions } from '../ducks/donations.js';
-import type { StateType } from '../reducer.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.js';
-import { useToastActions } from '../ducks/toast.js';
+import { getIntl, getTheme, getUserNumber } from '../selectors/user.std.js';
+import { getMe } from '../selectors/conversations.dom.js';
+import { PreferencesDonations } from '../../components/PreferencesDonations.dom.js';
+import type { SettingsLocation } from '../../types/Nav.std.js';
+import { useDonationsActions } from '../ducks/donations.preload.js';
+import type { StateType } from '../reducer.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
+import { useToastActions } from '../ducks/toast.preload.js';
 import {
   getDonationHumanAmounts,
   getCachedSubscriptionConfiguration,
-} from '../../util/subscriptionConfiguration.js';
-import { drop } from '../../util/drop.js';
-import { saveAttachmentToDisk } from '../../util/migrations.js';
-import type { OneTimeDonationHumanAmounts } from '../../types/Donations.js';
+} from '../../util/subscriptionConfiguration.preload.js';
+import { drop } from '../../util/drop.std.js';
+import { saveAttachmentToDisk } from '../../util/migrations.preload.js';
+import type { OneTimeDonationHumanAmounts } from '../../types/Donations.std.js';
 import {
   ONE_TIME_DONATION_CONFIG_ID,
   BOOST_ID,
-} from '../../types/Donations.js';
-import { phoneNumberToCurrencyCode } from '../../services/donations.js';
+} from '../../types/Donations.std.js';
+import { phoneNumberToCurrencyCode } from '../../services/donations.preload.js';
 import {
   getPreferredBadgeSelector,
   getBadgesById,
-} from '../selectors/badges.js';
-import { parseBoostBadgeListFromServer } from '../../badges/parseBadgesFromServer.js';
-import { createLogger } from '../../logging/log.js';
-import { useBadgesActions } from '../ducks/badges.js';
-import { getNetworkIsOnline } from '../selectors/network.js';
+} from '../selectors/badges.preload.js';
+import { parseBoostBadgeListFromServer } from '../../badges/parseBadgesFromServer.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { useBadgesActions } from '../ducks/badges.preload.js';
+import { getNetworkIsOnline } from '../selectors/network.preload.js';
 
 const log = createLogger('SmartPreferencesDonations');
 

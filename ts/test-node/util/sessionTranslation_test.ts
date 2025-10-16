@@ -6,9 +6,9 @@
 import { assert } from 'chai';
 import Long from 'long';
 
-import * as Bytes from '../../Bytes.js';
-import type { LocalUserDataType } from '../../util/sessionTranslation.js';
-import { sessionRecordToProtobuf } from '../../util/sessionTranslation.js';
+import * as Bytes from '../../Bytes.std.js';
+import type { LocalUserDataType } from '../../util/sessionTranslation.node.js';
+import { sessionRecordToProtobuf } from '../../util/sessionTranslation.node.js';
 
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));
 

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getLanguages } from '../../../app/spell_check.js';
+import { getLanguages } from '../../../app/spell_check.main.js';
 
 describe('SpellCheck', () => {
   describe('getLanguages', () => {

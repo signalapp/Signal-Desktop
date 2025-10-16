@@ -4,26 +4,26 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { EmojiCompletion } from '../../../quill/emoji/completion.js';
+import { EmojiCompletion } from '../../../quill/emoji/completion.dom.js';
 import type {
   EmojiCompletionOptions,
   InsertEmojiOptionsType,
-} from '../../../quill/emoji/completion.js';
+} from '../../../quill/emoji/completion.dom.js';
 import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   EmojiSkinTone,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
-} from '../../../components/fun/data/emojis.js';
+} from '../../../components/fun/data/emojis.std.js';
 import {
   _createFunEmojiSearch,
   createFunEmojiSearchIndex,
-} from '../../../components/fun/useFunEmojiSearch.js';
+} from '../../../components/fun/useFunEmojiSearch.dom.js';
 import {
   _createFunEmojiLocalizer,
   createFunEmojiLocalizerIndex,
-} from '../../../components/fun/useFunEmojiLocalizer.js';
-import type { LocaleEmojiListType } from '../../../types/emoji.js';
+} from '../../../components/fun/useFunEmojiLocalizer.dom.js';
+import type { LocaleEmojiListType } from '../../../types/emoji.std.js';
 
 const EMOJI_VARIANTS = {
   SMILE: getEmojiVariantByKey(

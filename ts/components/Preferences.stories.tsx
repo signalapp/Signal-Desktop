@@ -7,53 +7,58 @@ import type { MutableRefObject } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
-import { Preferences } from './Preferences.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
-import { DAY, DurationInSeconds, HOUR, WEEK } from '../util/durations/index.js';
-import { DialogUpdate } from './DialogUpdate.js';
-import { DialogType } from '../types/Dialogs.js';
-import { ThemeType } from '../types/Util.js';
+import { Preferences } from './Preferences.dom.js';
+import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.js';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import {
+  DAY,
+  DurationInSeconds,
+  HOUR,
+  WEEK,
+} from '../util/durations/index.std.js';
+import { DialogUpdate } from './DialogUpdate.dom.js';
+import { DialogType } from '../types/Dialogs.std.js';
+import { ThemeType } from '../types/Util.std.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.js';
-import { ProfileEditor } from './ProfileEditor.js';
+} from '../test-helpers/getDefaultConversation.std.js';
+import { ProfileEditor } from './ProfileEditor.dom.js';
 import {
   UsernameEditState,
   UsernameLinkState,
-} from '../state/ducks/usernameEnums.js';
-import type { SettingsLocation } from '../types/Nav.js';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.js';
-import { PreferencesDonations } from './PreferencesDonations.js';
-import { strictAssert } from '../util/assert.js';
-import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.js';
-import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.js';
-import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.js';
+} from '../state/ducks/usernameEnums.std.js';
+import type { SettingsLocation } from '../types/Nav.std.js';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.js';
+import { PreferencesDonations } from './PreferencesDonations.dom.js';
+import { strictAssert } from '../util/assert.std.js';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.js';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.js';
 import {
   NotificationProfilesHome,
   NotificationProfilesCreateFlow,
-} from './PreferencesNotificationProfiles.js';
-import { DayOfWeek } from '../types/NotificationProfile.js';
+} from './PreferencesNotificationProfiles.dom.js';
+import { DayOfWeek } from '../types/NotificationProfile.std.js';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { PropsType } from './Preferences.js';
-import type { WidthBreakpoint } from './_util.js';
-import type { MessageAttributesType } from '../model-types.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { PropsType } from './Preferences.dom.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   DonationReceipt,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.js';
-import type { AnyToast } from '../types/Toast.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
-import type { NotificationProfileIdString } from '../types/NotificationProfile.js';
-import { BackupLevel } from '../services/backups/types.js';
+} from '../types/Donations.std.js';
+import type { AnyToast } from '../types/Toast.dom.js';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
+import { BackupLevel } from '../services/backups/types.std.js';
 
 const { shuffle } = lodash;
 
@@ -404,6 +409,7 @@ export default {
     availableMicrophones,
     availableSpeakers,
     backupFeatureEnabled: false,
+    chatFoldersFeatureEnabled: true,
     backupFreeMediaDays: 45,
     backupKeyViewed: false,
     backupLocalBackupsEnabled: false,

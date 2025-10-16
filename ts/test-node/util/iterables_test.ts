@@ -20,7 +20,7 @@ import {
   size,
   take,
   zipObject,
-} from '../../util/iterables.js';
+} from '../../util/iterables.std.js';
 
 describe('iterable utilities', () => {
   describe('isIterable', () => {

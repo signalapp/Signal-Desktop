@@ -3,7 +3,7 @@
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
 import React, { forwardRef, memo, useCallback } from 'react';
 import { ToggleGroup } from 'radix-ui';
-import { ExperimentalAxoBaseSegmentedControl } from './_internal/AxoBaseSegmentedControl.js';
+import { ExperimentalAxoBaseSegmentedControl } from './_internal/AxoBaseSegmentedControl.dom.js';
 
 const Namespace = 'AxoSegmentedControl';
 

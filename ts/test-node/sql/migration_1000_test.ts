@@ -4,11 +4,11 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { jsonToObject, sql } from '../../sql/util.js';
-import { createDB, updateToVersion } from './helpers.js';
-import type { WritableDB, MessageType } from '../../sql/Interface.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { SeenStatus } from '../../MessageSeenStatus.js';
+import { jsonToObject, sql } from '../../sql/util.std.js';
+import { createDB, updateToVersion } from './helpers.node.js';
+import type { WritableDB, MessageType } from '../../sql/Interface.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { SeenStatus } from '../../MessageSeenStatus.std.js';
 
 describe('SQL/updateToSchemaVersion1000', () => {
   let db: WritableDB;

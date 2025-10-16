@@ -7,11 +7,11 @@ import lodash from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import type { StrictModifiers } from '@popperjs/core';
 import { createPortal } from 'react-dom';
-import type { Theme } from '../util/theme.js';
-import { themeClassName } from '../util/theme.js';
-import { refMerger } from '../util/refMerger.js';
-import { offsetDistanceModifier } from '../util/popperUtil.js';
-import { getInteractionMode } from '../services/InteractionMode.js';
+import type { Theme } from '../util/theme.std.js';
+import { themeClassName } from '../util/theme.std.js';
+import { refMerger } from '../util/refMerger.std.js';
+import { offsetDistanceModifier } from '../util/popperUtil.std.js';
+import { getInteractionMode } from '../services/InteractionMode.dom.js';
 
 const { noop } = lodash;
 

@@ -6,14 +6,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
 
-import { TypingAnimation } from './TypingAnimation.js';
-import { Avatar } from '../Avatar.js';
+import { TypingAnimation } from './TypingAnimation.dom.js';
+import { Avatar } from '../Avatar.dom.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { drop } from '../../util/drop.js';
-import { useReducedMotion } from '../../hooks/useReducedMotion.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { drop } from '../../util/drop.std.js';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 
 const MAX_AVATARS_COUNT = 3;
 

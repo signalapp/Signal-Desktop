@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { DonateInputCardExp } from './DonateInputCardExp.js';
-import type { DonateInputCardExpProps } from './DonateInputCardExp.js';
-import type { ComponentMeta } from '../../../storybook/types.js';
+import { DonateInputCardExp } from './DonateInputCardExp.dom.js';
+import type { DonateInputCardExpProps } from './DonateInputCardExp.dom.js';
+import type { ComponentMeta } from '../../../storybook/types.std.js';
 
 const { i18n } = window.SignalContext;
 

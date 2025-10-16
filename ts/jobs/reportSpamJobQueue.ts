@@ -2,23 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
-import * as durations from '../util/durations/index.js';
-import { strictAssert } from '../util/assert.js';
-import { waitForOnline } from '../util/waitForOnline.js';
-import { isDone as isDeviceLinked } from '../util/registration.js';
-import type { LoggerType } from '../types/Logging.js';
-import { aciSchema } from '../types/ServiceId.js';
-import { map } from '../util/iterables.js';
+import * as durations from '../util/durations/index.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
+import { isDone as isDeviceLinked } from '../util/registration.preload.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { aciSchema } from '../types/ServiceId.std.js';
+import { map } from '../util/iterables.std.js';
 
-import type { JOB_STATUS } from './JobQueue.js';
-import { JobQueue } from './JobQueue.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.js';
-import { parseIntWithFallback } from '../util/parseIntWithFallback.js';
-import type { reportMessage, isOnline } from '../textsecure/WebAPI.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { sleeper } from '../util/sleeper.js';
-import { parseUnknown } from '../util/schemas.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { JOB_STATUS } from './JobQueue.std.js';
+import { JobQueue } from './JobQueue.std.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
+import { parseIntWithFallback } from '../util/parseIntWithFallback.std.js';
+import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { sleeper } from '../util/sleeper.std.js';
+import { parseUnknown } from '../util/schemas.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([

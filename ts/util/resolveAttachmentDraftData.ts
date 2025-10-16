@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import { readDraftData } from './migrations.js';
+import { createLogger } from '../logging/log.std.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import { readDraftData } from './migrations.preload.js';
 
 const log = createLogger('resolveAttachmentDraftData');
 

@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { DurationInSeconds } from '../../util/durations/index.js';
-import type { Props } from './TimerNotification.js';
-import { TimerNotification } from './TimerNotification.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
+import type { Props } from './TimerNotification.dom.js';
+import { TimerNotification } from './TimerNotification.dom.js';
 
 const { i18n } = window.SignalContext;
 

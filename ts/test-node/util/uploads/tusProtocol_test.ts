@@ -8,9 +8,9 @@ import {
   _tusGetCurrentOffsetRequest,
   _tusResumeUploadRequest,
   tusUpload,
-} from '../../../util/uploads/tusProtocol.js';
-import { TestServer, body } from './helpers.js';
-import { toLogFormat } from '../../../types/errors.js';
+} from '../../../util/uploads/tusProtocol.node.js';
+import { TestServer, body } from './helpers.node.js';
+import { toLogFormat } from '../../../types/errors.std.js';
 
 describe('tusProtocol', () => {
   describe('_getUploadMetadataHeader', () => {

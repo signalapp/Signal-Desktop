@@ -5,9 +5,9 @@
 
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import { parseRetryAfter } from '../util/parseRetryAfter.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import type { HTTPError } from '../types/HTTPError.js';
+import { parseRetryAfter } from '../util/parseRetryAfter.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { HTTPError } from '../types/HTTPError.std.js';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
 
 import type { CallbackResultType } from './Types.d.ts';

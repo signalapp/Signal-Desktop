@@ -5,9 +5,9 @@ import React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { Button } from './Button.js';
-import type { ModalPropsType } from './Modal.js';
-import { Modal } from './Modal.js';
+import { Button } from './Button.dom.js';
+import type { ModalPropsType } from './Modal.dom.js';
+import { Modal } from './Modal.dom.js';
 
 const { noop } = lodash;
 

@@ -1,26 +1,24 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.js';
+import { createLogger } from '../logging/log.std.js';
 
-import { isIncoming, isOutgoing } from './helpers.js';
-import { getAuthor } from './sources.js';
+import { isIncoming, isOutgoing } from './helpers.std.js';
+import { getAuthor } from './sources.preload.js';
 
-import type { ConversationModel } from '../models/conversations.js';
-import { getActiveProfile } from '../state/selectors/notificationProfiles.js';
-import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.js';
-import { isMessageUnread } from '../util/isMessageUnread.js';
-import { isDirectConversation } from '../util/whatTypeOfConversation.js';
-import { hasExpiration } from '../types/Message2.js';
-import {
-  notificationService,
-  NotificationType,
-} from '../services/notifications.js';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions.js';
-import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.js';
-import { ReactionSource } from '../reactions/ReactionSource.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { getActiveProfile } from '../state/selectors/notificationProfiles.dom.js';
+import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.std.js';
+import { NotificationType } from '../types/notifications.std.js';
+import { isMessageUnread } from '../util/isMessageUnread.std.js';
+import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
+import { hasExpiration } from '../types/Message2.preload.js';
+import { notificationService } from '../services/notifications.preload.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions.preload.js';
+import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.preload.js';
+import { ReactionSource } from '../reactions/ReactionSource.std.js';
 
 const log = createLogger('maybeNotify');
 

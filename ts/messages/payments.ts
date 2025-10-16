@@ -3,11 +3,11 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import { PaymentEventKind } from '../types/Payment.js';
-import type { AnyPaymentEvent } from '../types/Payment.js';
-import type { LocalizerType } from '../types/Util.js';
+import { PaymentEventKind } from '../types/Payment.std.js';
+import type { AnyPaymentEvent } from '../types/Payment.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { missingCaseError } from '../util/missingCaseError.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 
 export type MessageAttributesWithPaymentEvent = ReadonlyMessageAttributesType &
   ReadonlyDeep<{

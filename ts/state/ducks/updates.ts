@@ -3,12 +3,12 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
-import { useBoundActions } from '../../hooks/useBoundActions.js';
-import * as updateIpc from '../../shims/updateIpc.js';
-import { DialogType } from '../../types/Dialogs.js';
-import { DAY } from '../../util/durations/index.js';
-import type { StateType as RootStateType } from '../reducer.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import * as updateIpc from '../../shims/updateIpc.preload.js';
+import { DialogType } from '../../types/Dialogs.std.js';
+import { DAY } from '../../util/durations/index.std.js';
+import type { StateType as RootStateType } from '../reducer.preload.js';
 
 // State
 

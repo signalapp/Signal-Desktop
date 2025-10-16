@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
-import { createLogger } from '../logging/log.js';
+import { createLogger } from '../logging/log.std.js';
 
 const log = createLogger('handleOutsideClick');
 

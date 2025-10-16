@@ -4,7 +4,7 @@
 import { readdir, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import pMap from 'p-map';
-import { isLocaleMessageType } from '../util/setupI18nMain.js';
+import { isLocaleMessageType } from '../util/setupI18nMain.std.js';
 
 async function compact({
   sourceDir,

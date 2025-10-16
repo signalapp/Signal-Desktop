@@ -6,28 +6,31 @@ import React, { useRef, useState, useEffect } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
-import * as MIME from '../../types/MIME.js';
-import * as GoogleChrome from '../../util/GoogleChrome.js';
+import * as MIME from '../../types/MIME.std.js';
+import * as GoogleChrome from '../../util/GoogleChrome.std.js';
 
-import { MessageBody } from './MessageBody.js';
-import type { AttachmentType, ThumbnailType } from '../../types/Attachment.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
-import type { LocalizerType } from '../../types/Util.js';
+import { MessageBody } from './MessageBody.dom.js';
+import type {
+  AttachmentType,
+  ThumbnailType,
+} from '../../types/Attachment.std.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.js';
-import { ContactName } from './ContactName.js';
-import { Emojify } from './Emojify.js';
-import { TextAttachment } from '../TextAttachment.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.js';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.js';
-import type { AnyPaymentEvent } from '../../types/Payment.js';
-import { PaymentEventKind } from '../../types/Payment.js';
-import { getPaymentEventNotificationText } from '../../messages/payments.js';
-import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.js';
-import { RenderLocation } from './MessageTextRenderer.js';
-import type { QuotedAttachmentType } from '../../model-types.js';
+} from '../../types/Colors.std.js';
+import { ContactName } from './ContactName.dom.js';
+import { Emojify } from './Emojify.dom.js';
+import { TextAttachment } from '../TextAttachment.dom.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
+import type { AnyPaymentEvent } from '../../types/Payment.std.js';
+import { PaymentEventKind } from '../../types/Payment.std.js';
+import { getPaymentEventNotificationText } from '../../messages/payments.std.js';
+import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.std.js';
+import { RenderLocation } from './MessageTextRenderer.dom.js';
+import type { QuotedAttachmentType } from '../../model-types.d.ts';
 
 const { noop } = lodash;
 

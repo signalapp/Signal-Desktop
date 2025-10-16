@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import type { PropsType } from './GroupV1Migration.js';
-import { GroupV1Migration } from './GroupV1Migration.js';
-import { ThemeType } from '../../types/Util.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './GroupV1Migration.dom.js';
+import { GroupV1Migration } from './GroupV1Migration.dom.js';
+import { ThemeType } from '../../types/Util.std.js';
 
 const { i18n } = window.SignalContext;
 

@@ -4,12 +4,12 @@
 
 import createDebug from 'debug';
 
-import { Bootstrap } from '../bootstrap.js';
+import { Bootstrap } from '../bootstrap.node.js';
 
 export const debug = createDebug('mock:benchmarks');
 
 export { Bootstrap };
-export { App } from '../playwright.js';
+export { App } from '../playwright.node.js';
 
 export const RUN_COUNT = process.env.RUN_COUNT
   ? parseInt(process.env.RUN_COUNT, 10)

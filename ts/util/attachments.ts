@@ -3,17 +3,17 @@
 
 import { blobToArrayBuffer } from 'blob-util';
 
-import { createLogger } from '../logging/log.js';
-import { scaleImageToLevel } from './scaleImageToLevel.js';
-import { dropNull } from './dropNull.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
+import { createLogger } from '../logging/log.std.js';
+import { scaleImageToLevel } from './scaleImageToLevel.preload.js';
+import { dropNull } from './dropNull.std.js';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
 import type {
   AttachmentType,
   UploadedAttachmentType,
-} from '../types/Attachment.js';
-import { canBeTranscoded } from './Attachment.js';
-import * as Errors from '../types/errors.js';
-import * as Bytes from '../Bytes.js';
+} from '../types/Attachment.std.js';
+import { canBeTranscoded } from './Attachment.std.js';
+import * as Errors from '../types/errors.std.js';
+import * as Bytes from '../Bytes.std.js';
 
 const log = createLogger('attachments');
 

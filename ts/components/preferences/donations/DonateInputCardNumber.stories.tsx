@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { DonateInputCardNumber } from './DonateInputCardNumber.js';
-import type { DonateInputCardNumberProps } from './DonateInputCardNumber.js';
-import type { ComponentMeta } from '../../../storybook/types.js';
+import { DonateInputCardNumber } from './DonateInputCardNumber.dom.js';
+import type { DonateInputCardNumberProps } from './DonateInputCardNumber.dom.js';
+import type { ComponentMeta } from '../../../storybook/types.std.js';
 
 export default {
   component: DonateInputCardNumber,

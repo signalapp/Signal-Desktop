@@ -4,16 +4,16 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { strictAssert } from '../util/assert.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { BadgeType } from '../badges/types.js';
-import { BadgeCategory } from '../badges/BadgeCategory.js';
-import { Modal } from './Modal.js';
-import { Button, ButtonSize } from './Button.js';
-import { BadgeDescription } from './BadgeDescription.js';
-import { BadgeImage } from './BadgeImage.js';
-import { BadgeCarouselIndex } from './BadgeCarouselIndex.js';
-import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.js';
+import { strictAssert } from '../util/assert.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { BadgeType } from '../badges/types.std.js';
+import { BadgeCategory } from '../badges/BadgeCategory.std.js';
+import { Modal } from './Modal.dom.js';
+import { Button, ButtonSize } from './Button.dom.js';
+import { BadgeDescription } from './BadgeDescription.dom.js';
+import { BadgeImage } from './BadgeImage.dom.js';
+import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.js';
+import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.dom.js';
 
 export type PropsType = Readonly<{
   areWeASubscriber: boolean;

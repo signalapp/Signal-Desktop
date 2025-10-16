@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import type { SplitTextOptionsType } from '../../util/splitText.js';
-import { splitText } from '../../util/splitText.js';
+import type { SplitTextOptionsType } from '../../util/splitText.std.js';
+import { splitText } from '../../util/splitText.std.js';
 
 describe('splitText', () => {
   describe('grapheme granularity', () => {

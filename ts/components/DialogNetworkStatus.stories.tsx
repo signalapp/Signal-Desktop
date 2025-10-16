@@ -5,11 +5,11 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DialogNetworkStatus.js';
-import { DialogNetworkStatus } from './DialogNetworkStatus.js';
-import { SocketStatus } from '../types/SocketStatus.js';
-import { WidthBreakpoint } from './_util.js';
-import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.js';
+import type { PropsType } from './DialogNetworkStatus.dom.js';
+import { DialogNetworkStatus } from './DialogNetworkStatus.dom.js';
+import { SocketStatus } from '../types/SocketStatus.std.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.js';
 
 const { i18n } = window.SignalContext;
 

@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 
-import type { StateType } from '../../../state/reducer.js';
-import type { UserStateType } from '../../../state/ducks/user.js';
-import { getEmptyState } from '../../../state/ducks/user.js';
+import type { StateType } from '../../../state/reducer.preload.js';
+import type { UserStateType } from '../../../state/ducks/user.preload.js';
+import { getEmptyState } from '../../../state/ducks/user.preload.js';
 
-import { getIsNightly, getIsBeta } from '../../../state/selectors/user.js';
+import { getIsNightly, getIsBeta } from '../../../state/selectors/user.std.js';
 
 describe('both/state/selectors/user', () => {
   function getRootState(

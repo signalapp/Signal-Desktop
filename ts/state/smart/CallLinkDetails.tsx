@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { CallHistoryGroup } from '../../types/CallDisposition.js';
-import { getIntl } from '../selectors/user.js';
-import { CallLinkDetails } from '../../components/CallLinkDetails.js';
+import type { CallHistoryGroup } from '../../types/CallDisposition.std.js';
+import { getIntl } from '../selectors/user.std.js';
+import { CallLinkDetails } from '../../components/CallLinkDetails.dom.js';
 import {
   getActiveCallState,
   getAdhocCallSelector,
   getCallLinkSelector,
-} from '../selectors/calling.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useCallingActions } from '../ducks/calling.js';
-import { strictAssert } from '../../util/assert.js';
-import type { CallLinkRestrictions } from '../../types/CallLink.js';
+} from '../selectors/calling.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { CallLinkRestrictions } from '../../types/CallLink.std.js';
 import {
   isAnybodyInGroupCall,
   isGroupCallActiveOnServer,
-} from '../ducks/callingHelpers.js';
+} from '../ducks/callingHelpers.std.js';
 
 export type SmartCallLinkDetailsProps = Readonly<{
   roomId: string;

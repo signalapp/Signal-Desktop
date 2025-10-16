@@ -14,61 +14,61 @@ import React, {
 } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
-import { FunItemButton } from '../base/FunItem.js';
+import { FunItemButton } from '../base/FunItem.dom.js';
 import {
   FunPanel,
   FunPanelBody,
   FunPanelFooter,
   FunPanelHeader,
-} from '../base/FunPanel.js';
-import { FunScroller } from '../base/FunScroller.js';
-import { FunSearch } from '../base/FunSearch.js';
+} from '../base/FunPanel.dom.js';
+import { FunScroller } from '../base/FunScroller.dom.js';
+import { FunSearch } from '../base/FunSearch.dom.js';
 import {
   FunSubNav,
   FunSubNavIcon,
   FunSubNavListBox,
   FunSubNavListBoxItem,
-} from '../base/FunSubNav.js';
+} from '../base/FunSubNav.dom.js';
 import {
   FunWaterfallContainer,
   FunWaterfallItem,
-} from '../base/FunWaterfall.js';
-import type { FunGifsSection } from '../constants.js';
-import { FunGifsCategory, FunSectionCommon } from '../constants.js';
-import { FunKeyboard } from '../keyboard/FunKeyboard.js';
-import type { WaterfallKeyboardState } from '../keyboard/WaterfallKeyboardDelegate.js';
-import { WaterfallKeyboardDelegate } from '../keyboard/WaterfallKeyboardDelegate.js';
-import { useInfiniteQuery } from '../data/infinite.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import { strictAssert } from '../../../util/assert.js';
-import type { GifsPaginated } from '../data/gifs.js';
-import { drop } from '../../../util/drop.js';
-import { useFunContext } from '../FunProvider.js';
+} from '../base/FunWaterfall.dom.js';
+import type { FunGifsSection } from '../constants.dom.js';
+import { FunGifsCategory, FunSectionCommon } from '../constants.dom.js';
+import { FunKeyboard } from '../keyboard/FunKeyboard.dom.js';
+import type { WaterfallKeyboardState } from '../keyboard/WaterfallKeyboardDelegate.dom.js';
+import { WaterfallKeyboardDelegate } from '../keyboard/WaterfallKeyboardDelegate.dom.js';
+import { useInfiniteQuery } from '../data/infinite.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import type { GifsPaginated } from '../data/gifs.preload.js';
+import { drop } from '../../../util/drop.std.js';
+import { useFunContext } from '../FunProvider.dom.js';
 import {
   FunResults,
   FunResultsButton,
   FunResultsFigure,
   FunResultsHeader,
   FunResultsSpinner,
-} from '../base/FunResults.js';
-import { FunStaticEmoji } from '../FunEmoji.js';
+} from '../base/FunResults.dom.js';
+import { FunStaticEmoji } from '../FunEmoji.dom.js';
 import {
   FunLightboxPortal,
   FunLightboxBackdrop,
   FunLightboxDialog,
   FunLightboxProvider,
   useFunLightboxKey,
-} from '../base/FunLightbox.js';
-import type { tenorDownload } from '../data/tenor.js';
-import { FunGif } from '../FunGif.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import { isAbortError } from '../../../util/isAbortError.js';
-import { createLogger } from '../../../logging/log.js';
-import * as Errors from '../../../types/errors.js';
+} from '../base/FunLightbox.dom.js';
+import type { tenorDownload } from '../data/tenor.preload.js';
+import { FunGif } from '../FunGif.dom.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import { isAbortError } from '../../../util/isAbortError.std.js';
+import { createLogger } from '../../../logging/log.std.js';
+import * as Errors from '../../../types/errors.std.js';
 import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   getEmojiVariantByKey,
-} from '../data/emojis.js';
+} from '../data/emojis.std.js';
 
 const log = createLogger('FunPanelGifs');
 

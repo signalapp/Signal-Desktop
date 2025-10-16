@@ -6,12 +6,12 @@ import * as sinon from 'sinon';
 import {
   RowType,
   _testHeaderText,
-} from '../../../components/ConversationList.js';
-import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+} from '../../../components/ConversationList.dom.js';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.dom.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
 
-import type { LeftPaneInboxPropsType } from '../../../components/leftPane/LeftPaneInboxHelper.js';
-import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper.js';
+import type { LeftPaneInboxPropsType } from '../../../components/leftPane/LeftPaneInboxHelper.dom.js';
+import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper.dom.js';
 
 describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {

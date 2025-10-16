@@ -1,22 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { ProfileRequestDataType } from '../textsecure/WebAPI.js';
-import { assertDev } from './assert.js';
-import * as Bytes from '../Bytes.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ProfileRequestDataType } from '../textsecure/WebAPI.preload.js';
+import { assertDev } from './assert.std.js';
+import * as Bytes from '../Bytes.std.js';
 import {
   PaddedLengths,
   encryptProfile,
   encryptProfileItemWithPadding,
-} from '../Crypto.js';
-import type { AvatarUpdateType } from '../types/Avatar.js';
+} from '../Crypto.node.js';
+import type { AvatarUpdateType } from '../types/Avatar.std.js';
 import {
   deriveProfileKeyCommitment,
   deriveProfileKeyVersion,
-} from './zkgroup.js';
-import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from './zkgroup.node.js';
+import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export async function encryptProfileData(
   conversation: ConversationType,

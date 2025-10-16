@@ -4,8 +4,8 @@
 import { ipcRenderer } from 'electron';
 import pTimeout from 'p-timeout';
 
-import { beforeRestart } from '../logging/set_up_renderer_logging.js';
-import * as durations from './durations/index.js';
+import { beforeRestart } from '../logging/set_up_renderer_logging.preload.js';
+import * as durations from './durations/index.std.js';
 
 export function deleteAllLogs(): Promise<void> {
   // Restart logging again when the file stream close

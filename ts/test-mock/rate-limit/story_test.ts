@@ -5,11 +5,11 @@ import { assert } from 'chai';
 import createDebug from 'debug';
 import { Proto, StorageState } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.js';
-import { uuidToBytes } from '../../util/uuidToBytes.js';
-import { MY_STORY_ID } from '../../types/Stories.js';
-import { Bootstrap } from '../bootstrap.js';
-import type { App } from '../bootstrap.js';
+import * as durations from '../../util/durations/index.std.js';
+import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { MY_STORY_ID } from '../../types/Stories.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../bootstrap.node.js';
 
 export const debug = createDebug('mock:test:rate-limit');
 

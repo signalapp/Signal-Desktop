@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import './wrap.js';
+import './wrap.node.js';
 
 import {
   signal as Signal,

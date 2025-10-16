@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './AboutContactModal.js';
-import { AboutContactModal } from './AboutContactModal.js';
-import { type ComponentMeta } from '../../storybook/types.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import type { PropsType } from './AboutContactModal.dom.js';
+import { AboutContactModal } from './AboutContactModal.dom.js';
+import { type ComponentMeta } from '../../storybook/types.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
 
 const { i18n } = window.SignalContext;
 

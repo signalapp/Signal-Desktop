@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.js';
-import { getStoryDistributionListName } from '../types/Stories.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import { UserText } from './UserText.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { getStoryDistributionListName } from '../types/Stories.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import { UserText } from './UserText.dom.js';
 
 type PropsType = {
   i18n: LocalizerType;

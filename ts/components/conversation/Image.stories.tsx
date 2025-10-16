@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { pngUrl } from '../../storybook/Fixtures.js';
-import type { Props } from './Image.js';
-import { CurveType, Image } from './Image.js';
-import { IMAGE_PNG } from '../../types/MIME.js';
-import type { ThemeType } from '../../types/Util.js';
+import { pngUrl } from '../../storybook/Fixtures.std.js';
+import type { Props } from './Image.dom.js';
+import { CurveType, Image } from './Image.dom.js';
+import { IMAGE_PNG } from '../../types/MIME.std.js';
+import type { ThemeType } from '../../types/Util.std.js';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
 
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
 
 const { i18n } = window.SignalContext;
 

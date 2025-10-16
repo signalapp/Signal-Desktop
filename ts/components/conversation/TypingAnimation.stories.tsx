@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './TypingAnimation.js';
-import { TypingAnimation } from './TypingAnimation.js';
+import type { Props } from './TypingAnimation.dom.js';
+import { TypingAnimation } from './TypingAnimation.dom.js';
 
 const { i18n } = window.SignalContext;
 

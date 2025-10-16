@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { LastMessageType } from '../state/ducks/conversations.js';
-import { dropNull } from './dropNull.js';
-import { findAndFormatContact } from './findAndFormatContact.js';
-import { hydrateRanges } from '../types/BodyRange.js';
-import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.js';
+import type { LastMessageType } from '../state/ducks/conversations.preload.js';
+import { dropNull } from './dropNull.std.js';
+import { findAndFormatContact } from './findAndFormatContact.preload.js';
+import { hydrateRanges } from '../types/BodyRange.std.js';
+import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
 
 export function getLastMessage(
   conversationAttrs: ConversationAttributesType

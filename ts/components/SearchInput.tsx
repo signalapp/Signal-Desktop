@@ -9,8 +9,8 @@ import type {
 } from 'react';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/Util.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
 
 export type PropTypes = Readonly<{
   children?: ReactNode;

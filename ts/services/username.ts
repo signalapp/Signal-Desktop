@@ -7,34 +7,34 @@ import {
   ErrorCode,
 } from '@signalapp/libsignal-client';
 
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import { strictAssert } from '../util/assert.js';
-import { sleep } from '../util/sleep.js';
-import { getMinNickname, getMaxNickname } from '../util/Username.js';
-import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes.js';
-import type { UsernameReservationType } from '../types/Username.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import { sleep } from '../util/sleep.std.js';
+import { getMinNickname, getMaxNickname } from '../util/Username.dom.js';
+import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes.std.js';
+import type { UsernameReservationType } from '../types/Username.std.js';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
   getNickname,
   getDiscriminator,
   isCaseChange,
-} from '../types/Username.js';
-import * as Errors from '../types/errors.js';
-import { createLogger } from '../logging/log.js';
-import { MessageSender } from '../textsecure/SendMessage.js';
+} from '../types/Username.std.js';
+import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { MessageSender } from '../textsecure/SendMessage.preload.js';
 import {
   reserveUsername as doReserveUsername,
   replaceUsernameLink,
   confirmUsername as doConfirmUsername,
   deleteUsername as doDeleteUsername,
   resolveUsernameLink,
-} from '../textsecure/WebAPI.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
-import * as Bytes from '../Bytes.js';
-import { storageServiceUploadJob } from './storage.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../textsecure/WebAPI.preload.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { storageServiceUploadJob } from './storage.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('username');
 

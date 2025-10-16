@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import type { StateType } from '../reducer.js';
+import type { StateType } from '../reducer.preload.js';
 
 const getInboxState = (state: StateType) => state.inbox;
 

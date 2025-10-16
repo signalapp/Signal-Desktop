@@ -8,10 +8,10 @@ import { StorageState } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
 import type { Page } from 'playwright';
 import { promisify } from 'node:util';
-import * as durations from '../../util/durations/index.js';
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { runTurnInContainer, tearDownTurnContainer } from './helpers.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { runTurnInContainer, tearDownTurnContainer } from './helpers.node.js';
 
 const FIXTURES = join(__dirname, '..', '..', '..', 'fixtures');
 const VIRTUAL_AUDIO = join(

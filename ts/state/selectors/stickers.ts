@@ -4,21 +4,21 @@
 import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
-import type { RecentStickerType } from '../../types/Stickers.js';
+import type { RecentStickerType } from '../../types/Stickers.preload.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../../util/getLocalAttachmentUrl.js';
+} from '../../util/getLocalAttachmentUrl.std.js';
 import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
-} from '../../sql/Interface.js';
-import type { StateType } from '../reducer.js';
+} from '../../sql/Interface.std.js';
+import type { StateType } from '../reducer.preload.js';
 import type {
   StickersStateType,
   StickerPackType,
   StickerType,
-} from '../ducks/stickers.js';
+} from '../ducks/stickers.preload.js';
 
 const { compact, filter, map, orderBy, reject, sortBy, values } = lodash;
 

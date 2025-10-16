@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
-import type { ConfigKeyType } from '../RemoteConfig.js';
-import { getValue } from '../RemoteConfig.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import type { ConfigKeyType } from '../RemoteConfig.dom.js';
+import { getValue } from '../RemoteConfig.dom.js';
 
 const { isNumber } = lodash;
 

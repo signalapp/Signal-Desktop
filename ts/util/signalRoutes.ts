@@ -8,10 +8,10 @@ import 'urlpattern-polyfill';
 // eslint-disable-next-line import/enforce-node-protocol-usage
 import { URL as NodeURL } from 'url';
 import { z } from 'zod';
-import { strictAssert } from './assert.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { parsePartial, parseUnknown, safeParseUnknown } from './schemas.js';
+import { strictAssert } from './assert.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { parsePartial, parseUnknown, safeParseUnknown } from './schemas.std.js';
 
 const log = createLogger('signalRoutes');
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { reduce } from './iterables.js';
+import { reduce } from './iterables.std.js';
 
 /**
  * Like Lodash's `groupBy`, but returns a `Map`.

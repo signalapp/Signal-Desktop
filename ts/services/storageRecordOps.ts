@@ -5,72 +5,72 @@ import lodash, { omit, partition, without } from 'lodash';
 import Long from 'long';
 
 import { ServiceId } from '@signalapp/libsignal-client';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto.js';
-import * as Bytes from '../Bytes.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto.node.js';
+import * as Bytes from '../Bytes.std.js';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
-} from '../groups.js';
-import { assertDev, strictAssert } from '../util/assert.js';
-import { dropNull } from '../util/dropNull.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { isNotNil } from '../util/isNotNil.js';
+} from '../groups.preload.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../types/PhoneNumberSharingMode.js';
+} from '../types/PhoneNumberSharingMode.std.js';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../util/phoneNumberDiscoverability.js';
-import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.js';
-import type { ConversationModel } from '../models/conversations.js';
+} from '../util/phoneNumberDiscoverability.std.js';
+import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.node.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../util/timestampLongUtils.js';
-import { canHaveUsername } from '../util/getTitle.js';
+} from '../util/timestampLongUtils.std.js';
+import { canHaveUsername } from '../util/getTitle.preload.js';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
-} from '../util/universalExpireTimer.js';
-import { ourProfileKeyService } from './ourProfileKey.js';
+} from '../util/universalExpireTimer.preload.js';
+import { ourProfileKeyService } from './ourProfileKey.std.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../util/whatTypeOfConversation.js';
-import { DurationInSeconds } from '../util/durations/index.js';
-import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
+} from '../util/whatTypeOfConversation.dom.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
 import {
   ServiceIdKind,
   normalizeServiceId,
   toUntaggedPni,
-} from '../types/ServiceId.js';
-import { isAciString } from '../util/isAciString.js';
-import * as Stickers from '../types/Stickers.js';
+} from '../types/ServiceId.std.js';
+import { isAciString } from '../util/isAciString.std.js';
+import * as Stickers from '../types/Stickers.preload.js';
 import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
-} from '../sql/Interface.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories.js';
-import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.js';
-import { downloadOnboardingStory } from '../util/downloadOnboardingStory.js';
-import { drop } from '../util/drop.js';
-import { redactExtendedStorageID } from '../util/privacy.js';
+} from '../sql/Interface.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.std.js';
+import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.preload.js';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory.preload.js';
+import { drop } from '../util/drop.std.js';
+import { redactExtendedStorageID } from '../util/privacy.node.js';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink.js';
+} from '../types/CallLink.std.js';
 import {
   callLinkFromRecord,
   fromEpochBytes,
@@ -78,16 +78,16 @@ import {
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
   toEpochBytes,
-} from '../util/callLinksRingrtc.js';
-import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.js';
-import { isOlderThan } from '../util/timestamp.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
+} from '../util/callLinksRingrtc.node.js';
+import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.js';
+import { isOlderThan } from '../util/timestamp.std.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.js';
 import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
   saveBackupTier,
-} from '../util/backupSubscriptionData.js';
+} from '../util/backupSubscriptionData.preload.js';
 import {
   toAciObject,
   toPniObject,
@@ -95,39 +95,42 @@ import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
+} from '../util/ServiceId.node.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
 import {
   getLinkPreviewSetting,
   getReadReceiptSetting,
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
-} from '../util/Settings.js';
-import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.js';
-import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.js';
+} from '../util/Settings.preload.js';
+import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.std.js';
+import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.std.js';
 import {
   CHAT_FOLDER_DELETED_POSITION,
   ChatFolderType,
-} from '../types/ChatFolder.js';
-import { deriveGroupID, deriveGroupSecretParams } from '../util/zkgroup.js';
-import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
+} from '../types/ChatFolder.std.js';
+import {
+  deriveGroupID,
+  deriveGroupSecretParams,
+} from '../util/zkgroup.node.js';
+import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.preload.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import type {
   NotificationProfileOverride,
   NotificationProfileType,
-} from '../types/NotificationProfile.js';
+} from '../types/NotificationProfile.std.js';
 import {
   DEFAULT_PROFILE_COLOR,
   fromDayOfWeekArray,
   redactNotificationProfileId,
   toDayOfWeekArray,
-} from '../types/NotificationProfile.js';
+} from '../types/NotificationProfile.std.js';
 import {
   generateNotificationProfileId,
   normalizeNotificationProfileId,
-} from '../types/NotificationProfile-node.js';
-import { itemStorage } from '../textsecure/Storage.js';
-import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.js';
+} from '../types/NotificationProfile-node.node.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
 
 const { isEqual } = lodash;
 

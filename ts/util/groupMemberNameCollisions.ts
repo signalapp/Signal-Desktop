@@ -3,11 +3,11 @@
 
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { groupBy, map, filter } from './iterables.js';
-import { getOwn } from './getOwn.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { isConversationNameKnown } from './isConversationNameKnown.js';
-import { isInSystemContacts } from './isInSystemContacts.js';
+import { groupBy, map, filter } from './iterables.std.js';
+import { getOwn } from './getOwn.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { isConversationNameKnown } from './isConversationNameKnown.std.js';
+import { isInSystemContacts } from './isInSystemContacts.std.js';
 
 const { mapValues, pickBy } = lodash;
 

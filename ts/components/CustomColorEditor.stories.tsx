@@ -6,8 +6,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CustomColorEditor.js';
-import { CustomColorEditor } from './CustomColorEditor.js';
+import type { PropsType } from './CustomColorEditor.dom.js';
+import { CustomColorEditor } from './CustomColorEditor.dom.js';
 
 export default {
   title: 'Components/CustomColorEditor',

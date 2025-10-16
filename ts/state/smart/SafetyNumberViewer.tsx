@@ -3,12 +3,12 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.js';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.js';
-import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.js';
-import { getConversationSelector } from '../selectors/conversations.js';
-import { getIntl } from '../selectors/user.js';
-import { useSafetyNumberActions } from '../ducks/safetyNumber.js';
+import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.dom.js';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.std.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useSafetyNumberActions } from '../ducks/safetyNumber.preload.js';
 
 export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
   contactID,

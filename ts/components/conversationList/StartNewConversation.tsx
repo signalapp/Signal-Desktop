@@ -4,17 +4,17 @@
 import type { FunctionComponent } from 'react';
 import React, { useCallback, useState } from 'react';
 
-import { ButtonVariant } from '../Button.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.js';
-import { ListTile } from '../ListTile.js';
-import { Avatar, AvatarSize } from '../Avatar.js';
-import { Spinner } from '../Spinner.js';
+import { ButtonVariant } from '../Button.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.js';
+import { ListTile } from '../ListTile.dom.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { Spinner } from '../Spinner.dom.js';
 
-import type { ParsedE164Type } from '../../util/libphonenumberInstance.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
-import type { LocalizerType } from '../../types/Util.js';
-import type { ShowConversationType } from '../../state/ducks/conversations.js';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.std.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { ShowConversationType } from '../../state/ducks/conversations.preload.js';
 
 type PropsData = {
   phoneNumber: ParsedE164Type;

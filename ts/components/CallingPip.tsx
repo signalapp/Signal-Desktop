@@ -7,25 +7,25 @@ import lodash from 'lodash';
 
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 
-import { missingCaseError } from '../util/missingCaseError.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
-import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting.js';
-import { CallMode } from '../types/CallDisposition.js';
-import { TooltipPlacement } from './Tooltip.js';
-import { CallingButton, CallingButtonType } from './CallingButton.js';
-import { CallingPipRemoteVideo } from './CallingPipRemoteVideo.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
+import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting.std.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import { TooltipPlacement } from './Tooltip.dom.js';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
+import { CallingPipRemoteVideo } from './CallingPipRemoteVideo.dom.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
 
-import type { LocalizerType } from '../types/Util.js';
+import type { LocalizerType } from '../types/Util.std.js';
 import type {
   ActiveCallType,
   GroupCallVideoRequest,
-} from '../types/Calling.js';
-import type { SetRendererCanvasType } from '../state/ducks/calling.js';
-import type { CallingImageDataCache } from './CallManager.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { AvatarColors } from '../types/Colors.js';
+} from '../types/Calling.std.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { AvatarColors } from '../types/Colors.std.js';
 
 const { minBy, debounce, noop } = lodash;
 

@@ -6,10 +6,10 @@ import type { ConversationAttributesType } from '../model-types.d.ts';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../types/PhoneNumberSharingMode.js';
-import { missingCaseError } from './missingCaseError.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../types/PhoneNumberSharingMode.std.js';
+import { missingCaseError } from './missingCaseError.std.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export const isSharingPhoneNumberWithEverybody = (): boolean => {
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(

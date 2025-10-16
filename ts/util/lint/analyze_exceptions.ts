@@ -4,8 +4,8 @@
 import lodash from 'lodash';
 import { join } from 'node:path';
 
-import type { ExceptionType } from './types.js';
-import { loadJSON } from './util.js';
+import type { ExceptionType } from './types.std.js';
+import { loadJSON } from './util.node.js';
 
 const { fromPairs, groupBy, map } = lodash;
 

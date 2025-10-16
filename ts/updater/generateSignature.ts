@@ -7,10 +7,10 @@ import { readdir as readdirCallback } from 'node:fs';
 
 import pify from 'pify';
 
-import * as Errors from '../types/errors.js';
-import { getCliOptions } from './common.js';
-import { writeSignature } from './signature.js';
-import { version as packageVersion } from '../util/packageJson.js';
+import * as Errors from '../types/errors.std.js';
+import { getCliOptions } from './common.main.js';
+import { writeSignature } from './signature.node.js';
+import { version as packageVersion } from '../util/packageJson.node.js';
 
 const readdir = pify(readdirCallback);
 

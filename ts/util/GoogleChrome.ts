@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type * as MIME from '../types/MIME.js';
+import type * as MIME from '../types/MIME.std.js';
 
 type MIMETypeSupportMap = Record<string, boolean>;
 

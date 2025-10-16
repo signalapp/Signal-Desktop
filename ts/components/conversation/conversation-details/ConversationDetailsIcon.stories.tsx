@@ -4,11 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetailsIcon.js';
+import type { Props } from './ConversationDetailsIcon.dom.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.js';
+} from './ConversationDetailsIcon.dom.js';
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetailIcon',

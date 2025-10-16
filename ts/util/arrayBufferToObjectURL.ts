@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MIMEType } from '../types/MIME.js';
+import type { MIMEType } from '../types/MIME.std.js';
 
 export const arrayBufferToObjectURL = ({
   data,

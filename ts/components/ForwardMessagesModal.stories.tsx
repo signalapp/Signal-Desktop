@@ -4,18 +4,18 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { AttachmentForUIType } from '../types/Attachment.js';
-import type { PropsType } from './ForwardMessagesModal.js';
+import type { AttachmentForUIType } from '../types/Attachment.std.js';
+import type { PropsType } from './ForwardMessagesModal.dom.js';
 import {
   ForwardMessagesModal,
   ForwardMessagesModalType,
-} from './ForwardMessagesModal.js';
-import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+} from './ForwardMessagesModal.dom.js';
+import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
-import { CompositionTextArea } from './CompositionTextArea.js';
-import type { MessageForwardDraft } from '../types/ForwardDraft.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
+import { CompositionTextArea } from './CompositionTextArea.dom.js';
+import type { MessageForwardDraft } from '../types/ForwardDraft.std.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 const createAttachment = (
   props: Partial<AttachmentForUIType> = {}

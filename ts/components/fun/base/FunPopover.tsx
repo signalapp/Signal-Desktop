@@ -6,7 +6,7 @@ import type { Placement } from 'react-aria';
 import { Dialog, Popover } from 'react-aria-components';
 import classNames from 'classnames';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { ThemeType } from '../../../types/Util.js';
+import { ThemeType } from '../../../types/Util.std.js';
 
 export type FunPopoverProps = Readonly<{
   placement?: Placement;

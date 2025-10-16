@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { WidthBreakpoint } from '../components/_util.js';
+import { WidthBreakpoint } from '../components/_util.std.js';
 
 type PropsType = {
   children?: React.ReactNode;

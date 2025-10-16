@@ -4,21 +4,21 @@
 import type { Database } from '@signalapp/sqlcipher';
 import * as z from 'zod';
 
-import type { LoggerType } from '../../types/Logging.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 import {
   messageAttachmentTypeSchema,
   type AttachmentDownloadJobType,
   type MessageAttachmentType,
-} from '../../types/AttachmentDownload.js';
-import type { AttachmentType } from '../../types/Attachment.js';
-import { jsonToObject, objectToJSON, sql } from '../util.js';
-import { AttachmentDownloadSource } from '../Interface.js';
-import { parsePartial } from '../../util/schemas.js';
-import { MIMETypeSchema } from '../../types/MIME.js';
+} from '../../types/AttachmentDownload.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.js';
+import { jsonToObject, objectToJSON, sql } from '../util.std.js';
+import { AttachmentDownloadSource } from '../Interface.std.js';
+import { parsePartial } from '../../util/schemas.std.js';
+import { MIMETypeSchema } from '../../types/MIME.std.js';
 import {
   jobManagerJobSchema,
   type JobManagerJobType,
-} from '../../jobs/JobManager.js';
+} from '../../jobs/JobManager.std.js';
 
 export type _AttachmentDownloadJobTypeV1030 = {
   attachment: AttachmentType;

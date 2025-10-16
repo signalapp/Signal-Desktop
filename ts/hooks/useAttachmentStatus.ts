@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentForUIType } from '../types/Attachment.js';
-import { getUrl } from '../util/Attachment.js';
-import { MediaTier } from '../types/AttachmentDownload.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.js';
-import { useDelayedValue } from './useDelayedValue.js';
+import type { AttachmentForUIType } from '../types/Attachment.std.js';
+import { getUrl } from '../util/Attachment.std.js';
+import { MediaTier } from '../types/AttachmentDownload.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.js';
+import { useDelayedValue } from './useDelayedValue.std.js';
 
 const TRANSITION_DELAY = 200;
 

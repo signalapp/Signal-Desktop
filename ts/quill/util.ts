@@ -9,18 +9,21 @@ import type {
   DisplayNode,
   DraftBodyRange,
   DraftBodyRanges,
-} from '../types/BodyRange.js';
-import { BodyRange } from '../types/BodyRange.js';
-import type { MentionBlot } from './mentions/blot.js';
-import type { EmojiBlot } from './emoji/blot.js';
-import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu.js';
-import { isNotNil } from '../util/isNotNil.js';
-import type { AciString } from '../types/ServiceId.js';
+} from '../types/BodyRange.std.js';
+import { BodyRange } from '../types/BodyRange.std.js';
+import type { MentionBlot } from './mentions/blot.dom.js';
+import type { EmojiBlot } from './emoji/blot.dom.js';
+import {
+  isNewlineOnlyOp,
+  QuillFormattingStyle,
+} from './formatting/menu.dom.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import type { AciString } from '../types/ServiceId.std.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../components/fun/data/emojis.js';
+} from '../components/fun/data/emojis.std.js';
 
 export type Matcher = (
   node: HTMLElement,

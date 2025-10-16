@@ -5,12 +5,12 @@ import type {
   ConversationAttributesType,
   ConversationRenderInfoType,
 } from '../model-types.d.ts';
-import { combineNames } from './combineNames.js';
-import { getRegionCodeForNumber } from './libphonenumberUtil.js';
-import { instance, PhoneNumberFormat } from './libphonenumberInstance.js';
-import { isDirectConversation } from './whatTypeOfConversation.js';
-import { getE164 } from './getE164.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import { combineNames } from './combineNames.std.js';
+import { getRegionCodeForNumber } from './libphonenumberUtil.std.js';
+import { instance, PhoneNumberFormat } from './libphonenumberInstance.std.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
+import { getE164 } from './getE164.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 type TitleOptions = {
   isShort?: boolean;

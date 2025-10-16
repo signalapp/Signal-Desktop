@@ -9,7 +9,7 @@ import {
   getBadgesPath,
   getAvatarsPath,
   getDownloadsPath,
-} from '../windows/main/attachments.js';
+} from '../windows/main/attachments.preload.js';
 
 const userDataPath = window.SignalContext.getPath('userData');
 

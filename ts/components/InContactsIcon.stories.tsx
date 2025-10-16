@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './InContactsIcon.js';
-import { InContactsIcon } from './InContactsIcon.js';
+import type { PropsType } from './InContactsIcon.dom.js';
+import { InContactsIcon } from './InContactsIcon.dom.js';
 
 const { i18n } = window.SignalContext;
 

@@ -14,12 +14,12 @@ import chaiAsPromised from 'chai-as-promised';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { reporters, type MochaOptions } from 'mocha';
 
-import { initMessageCleanup } from '../../services/messageStateCleanup.js';
-import { initializeMessageCounter } from '../../util/incrementMessageCounter.js';
-import { initializeRedux } from '../../state/initializeRedux.js';
-import * as Stickers from '../../types/Stickers.js';
-import { ThemeType } from '../../types/Util.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { initMessageCleanup } from '../../services/messageStateCleanup.preload.js';
+import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.js';
+import { initializeRedux } from '../../state/initializeRedux.preload.js';
+import * as Stickers from '../../types/Stickers.preload.js';
+import { ThemeType } from '../../types/Util.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 chai.use(chaiAsPromised);
 

@@ -4,37 +4,37 @@
 import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { getSendOptions } from '../../util/getSendOptions.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+} from '../../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+} from './handleMultipleSendErrors.std.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
   ConversationQueueJobBundle,
   ProfileKeyJobData,
-} from '../conversationJobQueue.js';
+} from '../conversationJobQueue.preload.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import type { ConversationAttributesType } from '../../model-types.d.ts';
 import {
   OutgoingIdentityKeyError,
   SendMessageChallengeError,
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import { shouldSendToConversation } from './shouldSendToConversation.js';
-import { sendToGroup } from '../../util/sendToGroup.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../textsecure/Errors.std.js';
+import { shouldSendToConversation } from './shouldSendToConversation.preload.js';
+import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { isNumber } = lodash;
 

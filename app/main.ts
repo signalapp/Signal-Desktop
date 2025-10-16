@@ -35,100 +35,106 @@ import { z } from 'zod';
 import {
   version as packageVersion,
   productName,
-} from '../ts/util/packageJson.js';
-import * as GlobalErrors from './global_errors.js';
-import { setup as setupCrashReports } from './crashReports.js';
-import { setup as setupSpellChecker } from './spell_check.js';
-import { getDNSFallback } from './dns-fallback.js';
-import { redactAll, addSensitivePath } from '../ts/util/privacy.js';
-import { createSupportUrl } from '../ts/util/createSupportUrl.js';
-import { missingCaseError } from '../ts/util/missingCaseError.js';
-import { strictAssert } from '../ts/util/assert.js';
-import { drop } from '../ts/util/drop.js';
-import type { ThemeSettingType } from '../ts/types/StorageUIKeys.js';
-import { ThemeType } from '../ts/types/Util.js';
-import * as Errors from '../ts/types/errors.js';
-import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.js';
-import { createLogger } from '../ts/logging/log.js';
-import * as debugLog from '../ts/logging/debuglogs.js';
-import * as uploadDebugLog from '../ts/logging/uploadDebugLog.js';
-import { explodePromise } from '../ts/util/explodePromise.js';
+} from '../ts/util/packageJson.node.js';
+import * as GlobalErrors from './global_errors.main.js';
+import { setup as setupCrashReports } from './crashReports.main.js';
+import { setup as setupSpellChecker } from './spell_check.main.js';
+import { getDNSFallback } from './dns-fallback.node.js';
+import { redactAll, addSensitivePath } from '../ts/util/privacy.node.js';
+import { createSupportUrl } from '../ts/util/createSupportUrl.std.js';
+import { missingCaseError } from '../ts/util/missingCaseError.std.js';
+import { strictAssert } from '../ts/util/assert.std.js';
+import { drop } from '../ts/util/drop.std.js';
+import type { ThemeSettingType } from '../ts/types/StorageUIKeys.std.js';
+import { ThemeType } from '../ts/types/Util.std.js';
+import * as Errors from '../ts/types/errors.std.js';
+import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.std.js';
+import { createLogger } from '../ts/logging/log.std.js';
+import * as debugLog from '../ts/logging/debuglogs.node.js';
+import * as uploadDebugLog from '../ts/logging/uploadDebugLog.node.js';
+import { explodePromise } from '../ts/util/explodePromise.std.js';
 
-import './startup_config.js';
+import './startup_config.main.js';
 
-import type { RendererConfigType } from '../ts/types/RendererConfig.js';
+import type { RendererConfigType } from '../ts/types/RendererConfig.std.js';
 import {
   directoryConfigSchema,
   rendererConfigSchema,
-} from '../ts/types/RendererConfig.js';
-import config from './config.js';
+} from '../ts/types/RendererConfig.std.js';
+import config from './config.main.js';
 import {
   Environment,
   getEnvironment,
   isTestEnvironment,
-} from '../ts/environment.js';
+} from '../ts/environment.std.js';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory. (see requestSingleInstanceLock below)
-import * as userConfig from './user_config.js';
+import * as userConfig from './user_config.main.js';
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-import * as attachments from './attachments.js';
-import * as attachmentChannel from './attachment_channel.js';
-import * as bounce from '../ts/services/bounce.js';
-import * as updater from '../ts/updater/index.js';
-import { updateDefaultSession } from './updateDefaultSession.js';
-import { PreventDisplaySleepService } from './PreventDisplaySleepService.js';
-import { SystemTrayService, focusAndForceToTop } from './SystemTrayService.js';
-import { SystemTraySettingCache } from './SystemTraySettingCache.js';
-import { OptionalResourceService } from './OptionalResourceService.js';
-import { EmojiService } from './EmojiService.js';
+import * as attachments from './attachments.node.js';
+import * as attachmentChannel from './attachment_channel.main.js';
+import * as bounce from '../ts/services/bounce.main.js';
+import * as updater from '../ts/updater/index.main.js';
+import { updateDefaultSession } from './updateDefaultSession.main.js';
+import { PreventDisplaySleepService } from './PreventDisplaySleepService.std.js';
+import {
+  SystemTrayService,
+  focusAndForceToTop,
+} from './SystemTrayService.main.js';
+import { SystemTraySettingCache } from './SystemTraySettingCache.node.js';
+import { OptionalResourceService } from './OptionalResourceService.main.js';
+import { EmojiService } from './EmojiService.main.js';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
-} from '../ts/types/SystemTraySetting.js';
+} from '../ts/types/SystemTraySetting.std.js';
 import {
   getDefaultSystemTraySetting,
   isSystemTraySupported,
   isContentProtectionEnabledByDefault,
-} from '../ts/types/Settings.js';
-import * as ephemeralConfig from './ephemeral_config.js';
-import * as mainProcessLogging from '../ts/logging/main_process_logging.js';
-import { MainSQL } from '../ts/sql/main.js';
-import * as sqlChannels from './sql_channel.js';
-import * as windowState from './window_state.js';
-import type { CreateTemplateOptionsType } from './menu.js';
-import { createTemplate } from './menu.js';
-import { installFileHandler, installWebHandler } from './protocol_filter.js';
-import OS from '../ts/util/os/osMain.js';
-import { isNightly, isProduction } from '../ts/util/version.js';
-import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary.js';
-import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow.js';
-import { ChallengeMainHandler } from '../ts/main/challengeMain.js';
-import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.js';
-import { PowerChannel } from '../ts/main/powerChannel.js';
-import { SettingsChannel } from '../ts/main/settingsChannel.js';
-import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.js';
-import { getHeicConverter } from '../ts/workers/heicConverterMain.js';
+} from '../ts/types/Settings.std.js';
+import * as ephemeralConfig from './ephemeral_config.main.js';
+import * as mainProcessLogging from '../ts/logging/main_process_logging.main.js';
+import { MainSQL } from '../ts/sql/main.main.js';
+import * as sqlChannels from './sql_channel.main.js';
+import * as windowState from './window_state.std.js';
+import type { CreateTemplateOptionsType } from './menu.std.js';
+import { createTemplate } from './menu.std.js';
+import {
+  installFileHandler,
+  installWebHandler,
+} from './protocol_filter.node.js';
+import OS from '../ts/util/os/osMain.node.js';
+import { isNightly, isProduction } from '../ts/util/version.std.js';
+import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary.std.js';
+import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow.std.js';
+import { ChallengeMainHandler } from '../ts/main/challengeMain.main.js';
+import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.main.js';
+import { PowerChannel } from '../ts/main/powerChannel.main.js';
+import { SettingsChannel } from '../ts/main/settingsChannel.main.js';
+import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.std.js';
+import { getHeicConverter } from '../ts/workers/heicConverterMain.main.js';
 
-import type { LocaleDirection, LocaleType } from './locale.js';
-import { load as loadLocale } from './locale.js';
+import type { LocaleDirection, LocaleType } from './locale.main.js';
+import { load as loadLocale } from './locale.main.js';
 
-import { HourCyclePreference } from '../ts/types/I18N.js';
-import { ScreenShareStatus } from '../ts/types/Calling.js';
-import type { ParsedSignalRoute } from '../ts/util/signalRoutes.js';
-import { parseSignalRoute } from '../ts/util/signalRoutes.js';
-import * as dns from '../ts/util/dns.js';
-import { ZoomFactorService } from '../ts/services/ZoomFactorService.js';
-import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.js';
-import { SafeStorageDecryptionError } from '../ts/types/SafeStorageDecryptionError.js';
-import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.js';
-import { getOwn } from '../ts/util/getOwn.js';
-import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.js';
-import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.js';
-import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.js';
+import { HourCyclePreference } from '../ts/types/I18N.std.js';
+import { ScreenShareStatus } from '../ts/types/Calling.std.js';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes.std.js';
+import { parseSignalRoute } from '../ts/util/signalRoutes.std.js';
+import * as dns from '../ts/util/dns.node.js';
+import { ZoomFactorService } from '../ts/services/ZoomFactorService.main.js';
+import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.std.js';
+import { SafeStorageDecryptionError } from '../ts/types/SafeStorageDecryptionError.std.js';
+import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.std.js';
+import { getOwn } from '../ts/util/getOwn.std.js';
+import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
+import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
+import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;

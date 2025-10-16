@@ -5,17 +5,17 @@ import createDebug from 'debug';
 import { expect } from 'playwright/test';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import * as path from 'node:path';
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
 import {
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
-} from '../helpers.js';
-import * as durations from '../../util/durations/index.js';
-import { strictAssert } from '../../util/assert.js';
-import type { SignalService } from '../../protobuf/index.js';
+} from '../helpers.node.js';
+import * as durations from '../../util/durations/index.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { SignalService } from '../../protobuf/index.std.js';
 
 const debug = createDebug('mock:test:lightbox');
 

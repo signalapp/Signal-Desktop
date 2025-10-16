@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { contextBridge, ipcRenderer } from 'electron';
-import { ScreenShareStatus } from '../../types/Calling.js';
-import { MinimalSignalContext } from '../minimalContext.js';
+import { ScreenShareStatus } from '../../types/Calling.std.js';
+import { MinimalSignalContext } from '../minimalContext.preload.js';
 
 const params = new URLSearchParams(document.location.search);
 

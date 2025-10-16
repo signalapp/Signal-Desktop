@@ -6,8 +6,8 @@ import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation.js';
-import { isServiceIdString } from '../types/ServiceId.js';
+} from './whatTypeOfConversation.dom.js';
+import { isServiceIdString } from '../types/ServiceId.std.js';
 
 export function validateConversation(
   attributes: ValidateConversationType

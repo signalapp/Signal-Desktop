@@ -3,10 +3,10 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { SeenStatus } from '../../MessageSeenStatus.js';
-import { strictAssert } from '../../util/assert.js';
-import { sql, sqlConstant } from '../util.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { sql, sqlConstant } from '../util.std.js';
 
 const READ_STATUS_UNREAD = sqlConstant(ReadStatus.Unread);
 const READ_STATUS_READ = sqlConstant(ReadStatus.Read);

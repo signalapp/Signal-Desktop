@@ -4,14 +4,14 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
-import { SendMessageProtoError } from '../../../textsecure/Errors.js';
-import { HTTPError } from '../../../types/HTTPError.js';
-import { SECOND } from '../../../util/durations/index.js';
+import { SendMessageProtoError } from '../../../textsecure/Errors.std.js';
+import { HTTPError } from '../../../types/HTTPError.std.js';
+import { SECOND } from '../../../util/durations/index.std.js';
 
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from '../../../jobs/helpers/handleMultipleSendErrors.js';
+} from '../../../jobs/helpers/handleMultipleSendErrors.std.js';
 
 const { noop, omit } = lodash;
 

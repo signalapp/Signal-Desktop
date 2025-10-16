@@ -1,15 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AvatarColorType } from '../types/Colors.js';
-import { AvatarColorMap } from '../types/Colors.js';
-import type { AvatarDataType } from '../types/Avatar.js';
-import { canvasToBytes } from './canvasToBytes.js';
-import { getFittedFontSize } from './avatarTextSizeCalculator.js';
+import type { AvatarColorType } from '../types/Colors.std.js';
+import { AvatarColorMap } from '../types/Colors.std.js';
+import type { AvatarDataType } from '../types/Avatar.std.js';
+import { canvasToBytes } from './canvasToBytes.std.js';
+import { getFittedFontSize } from './avatarTextSizeCalculator.std.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from './getLocalAttachmentUrl.js';
+} from './getLocalAttachmentUrl.std.js';
 
 const CANVAS_SIZE = 1024;
 

@@ -3,20 +3,23 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.js';
-import type { QuotedMessageType } from '../model-types.js';
-import { SignalService } from '../protobuf/index.js';
-import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
-import type { ProcessedQuote } from '../textsecure/Types.js';
-import { IMAGE_JPEG } from '../types/MIME.js';
-import { VERSION_NEEDED_FOR_DISPLAY } from '../types/Message2.js';
-import { strictAssert } from '../util/assert.js';
-import { getQuoteBodyText } from '../util/getQuoteBodyText.js';
-import { isQuoteAMatch } from './quotes.js';
-import { messageHasPaymentEvent } from './payments.js';
-import * as Errors from '../types/errors.js';
-import type { MessageModel } from '../models/messages.js';
-import { isDownloadable } from '../util/Attachment.js';
+import { createLogger } from '../logging/log.std.js';
+import type { QuotedMessageType } from '../model-types.d.ts';
+import { SignalService } from '../protobuf/index.std.js';
+import {
+  isGiftBadge,
+  isTapToView,
+} from '../state/selectors/message.preload.js';
+import type { ProcessedQuote } from '../textsecure/Types.d.ts';
+import { IMAGE_JPEG } from '../types/MIME.std.js';
+import { VERSION_NEEDED_FOR_DISPLAY } from '../types/Message2.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import { getQuoteBodyText } from '../util/getQuoteBodyText.std.js';
+import { isQuoteAMatch } from './quotes.preload.js';
+import { messageHasPaymentEvent } from './payments.std.js';
+import * as Errors from '../types/errors.std.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import { isDownloadable } from '../util/Attachment.std.js';
 
 const { omit } = lodash;
 

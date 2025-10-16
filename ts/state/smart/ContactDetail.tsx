@@ -4,13 +4,13 @@
 import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Props as ContactDetailProps } from '../../components/conversation/ContactDetail.js';
-import { ContactDetail } from '../../components/conversation/ContactDetail.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { getMessages } from '../selectors/conversations.js';
-import { getIntl, getRegionCode } from '../selectors/user.js';
-import { embeddedContactSelector } from '../../types/EmbeddedContact.js';
-import { getAccountSelector } from '../selectors/accounts.js';
+import type { Props as ContactDetailProps } from '../../components/conversation/ContactDetail.dom.js';
+import { ContactDetail } from '../../components/conversation/ContactDetail.dom.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { getMessages } from '../selectors/conversations.dom.js';
+import { getIntl, getRegionCode } from '../selectors/user.std.js';
+import { embeddedContactSelector } from '../../types/EmbeddedContact.std.js';
+import { getAccountSelector } from '../selectors/accounts.std.js';
 
 export type OwnProps = Pick<ContactDetailProps, 'messageId'>;
 

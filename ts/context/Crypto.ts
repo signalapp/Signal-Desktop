@@ -5,9 +5,9 @@ import { Buffer } from 'node:buffer';
 import type { Decipher } from 'node:crypto';
 import crypto from 'node:crypto';
 
-import { strictAssert } from '../util/assert.js';
-import type { HashType } from '../types/Crypto.js';
-import { CipherType } from '../types/Crypto.js';
+import { strictAssert } from '../util/assert.std.js';
+import type { HashType } from '../types/Crypto.std.js';
+import { CipherType } from '../types/Crypto.std.js';
 
 const AUTH_TAG_SIZE = 16;
 

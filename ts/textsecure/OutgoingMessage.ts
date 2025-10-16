@@ -28,31 +28,34 @@ import {
   sendMessagesUnauth,
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,
-} from './WebAPI.js';
-import type { MessageType } from './WebAPI.js';
-import type { SendMetadataType, SendOptionsType } from './SendMessage.js';
+} from './WebAPI.preload.js';
+import type { MessageType } from './WebAPI.preload.js';
+import type {
+  SendMetadataType,
+  SendOptionsType,
+} from './SendMessage.preload.js';
 import {
   OutgoingIdentityKeyError,
   OutgoingMessageError,
   SendMessageNetworkError,
   SendMessageChallengeError,
   UnregisteredUserError,
-} from './Errors.js';
+} from './Errors.std.js';
 import type { CallbackResultType, CustomError } from './Types.d.ts';
-import { Address } from '../types/Address.js';
-import * as Errors from '../types/errors.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.js';
-import { getKeysForServiceId } from './getKeysForServiceId.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
-import { isSignalServiceId } from '../util/isSignalConversation.js';
-import * as Bytes from '../Bytes.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { itemStorage } from './Storage.js';
+import { Address } from '../types/Address.std.js';
+import * as Errors from '../types/errors.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
+import { getKeysForServiceId } from './getKeysForServiceId.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import { isSignalServiceId } from '../util/isSignalConversation.dom.js';
+import * as Bytes from '../Bytes.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { itemStorage } from './Storage.preload.js';
 
 const { reject } = lodash;
 

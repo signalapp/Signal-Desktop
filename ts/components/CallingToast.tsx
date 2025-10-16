@@ -14,11 +14,11 @@ import { createPortal } from 'react-dom';
 import { useTransition, animated } from '@react-spring/web';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
-import { useIsMounted } from '../hooks/useIsMounted.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { difference } from '../util/setUtil.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { useIsMounted } from '../hooks/useIsMounted.std.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { difference } from '../util/setUtil.std.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
 
 const DEFAULT_LIFETIME = 5000;
 const DEFAULT_TRANSITION_FROM = {

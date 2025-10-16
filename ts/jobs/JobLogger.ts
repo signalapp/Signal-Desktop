@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../types/Logging.js';
-import type { ParsedJob } from './types.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import type { ParsedJob } from './types.std.js';
 
 export class JobLogger implements LoggerType {
   #id: string;

@@ -8,10 +8,10 @@ import { Buffer } from 'node:buffer';
 import z from 'zod';
 import prettier from 'prettier';
 
-import type { OptionalResourceType } from '../types/OptionalResource.js';
-import { OptionalResourcesDictSchema } from '../types/OptionalResource.js';
-import { parseUnknown } from '../util/schemas.js';
-import { utf16ToEmoji } from '../util/utf16ToEmoji.js';
+import type { OptionalResourceType } from '../types/OptionalResource.std.js';
+import { OptionalResourcesDictSchema } from '../types/OptionalResource.std.js';
+import { parseUnknown } from '../util/schemas.std.js';
+import { utf16ToEmoji } from '../util/utf16ToEmoji.node.js';
 
 const VERSION = 12;
 

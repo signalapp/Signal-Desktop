@@ -3,10 +3,10 @@
 
 import config from 'config';
 import { app } from 'electron';
-import type { Updater, UpdaterOptionsType } from './common.js';
-import { MacOSUpdater } from './macos.js';
-import { WindowsUpdater } from './windows.js';
-import { initLinux } from './linux.js';
+import type { Updater, UpdaterOptionsType } from './common.main.js';
+import { MacOSUpdater } from './macos.main.js';
+import { WindowsUpdater } from './windows.main.js';
+import { initLinux } from './linux.main.js';
 
 let initialized = false;
 

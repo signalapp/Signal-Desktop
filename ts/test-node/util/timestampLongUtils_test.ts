@@ -10,8 +10,8 @@ import {
   getTimestampOrUndefinedFromLong,
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
-} from '../../util/timestampLongUtils.js';
-import { MAX_SAFE_DATE } from '../../util/timestamp.js';
+} from '../../util/timestampLongUtils.std.js';
+import { MAX_SAFE_DATE } from '../../util/timestamp.std.js';
 
 describe('getSafeLongFromTimestamp', () => {
   it('returns zero when passed undefined', () => {

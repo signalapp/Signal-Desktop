@@ -5,31 +5,31 @@ import lodash from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
-import { strictAssert } from '../util/assert.js';
-import { dropNull } from '../util/dropNull.js';
-import { makeLookup } from '../util/makeLookup.js';
-import { maybeParseUrl } from '../util/url.js';
-import { getMessagesById } from '../messages/getMessagesById.js';
-import * as Bytes from '../Bytes.js';
-import * as Errors from './errors.js';
-import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.js';
-import { IMAGE_WEBP } from './MIME.js';
-import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
+import { strictAssert } from '../util/assert.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { makeLookup } from '../util/makeLookup.std.js';
+import { maybeParseUrl } from '../util/url.std.js';
+import { getMessagesById } from '../messages/getMessagesById.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import * as Errors from './errors.std.js';
+import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.js';
+import { IMAGE_WEBP } from './MIME.std.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
-} from './Attachment.js';
+} from './Attachment.std.js';
 import type {
   StickerType as StickerFromDBType,
   StickerPackType,
   StickerPackStatusType,
   UninstalledStickerPackType,
-} from '../sql/Interface.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import type { StickersStateType } from '../state/ducks/stickers.js';
-import { MINUTE } from '../util/durations/index.js';
+} from '../sql/Interface.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { StickersStateType } from '../state/ducks/stickers.preload.js';
+import { MINUTE } from '../util/durations/index.std.js';
 import {
   processNewEphemeralSticker,
   processNewSticker,
@@ -40,18 +40,18 @@ import {
   deleteSticker,
   readStickerData,
   writeNewStickerData,
-} from '../util/migrations.js';
-import { drop } from '../util/drop.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
-import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.js';
-import { isPackIdValid, redactPackId } from '../util/Stickers.js';
-import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.js';
+} from '../util/migrations.preload.js';
+import { drop } from '../util/drop.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.js';
+import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.std.js';
+import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 import {
   isOnline,
   getSticker as doGetSticker,
   getStickerPackManifest,
-} from '../textsecure/WebAPI.js';
+} from '../textsecure/WebAPI.preload.js';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 

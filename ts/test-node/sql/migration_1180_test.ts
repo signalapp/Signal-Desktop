@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import type { WritableDB } from '../../sql/Interface.js';
-import { createDB, updateToVersion, explain } from './helpers.js';
-import { jsonToObject, objectToJSON, sql } from '../../sql/util.js';
-import { IMAGE_BMP } from '../../types/MIME.js';
-import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.js';
+import type { WritableDB } from '../../sql/Interface.std.js';
+import { createDB, updateToVersion, explain } from './helpers.node.js';
+import { jsonToObject, objectToJSON, sql } from '../../sql/util.std.js';
+import { IMAGE_BMP } from '../../types/MIME.std.js';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.std.js';
 
 const { omit } = lodash;
 

@@ -4,15 +4,18 @@
 import type { ReactNode } from 'react';
 import React, { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
-import { Modal } from './Modal.js';
-import type { LocalizerType } from '../types/I18N.js';
-import type { CallLinkRestrictions, CallLinkType } from '../types/CallLink.js';
-import { linkCallRoute } from '../util/signalRoutes.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { getColorForCallLink } from '../util/getColorForCallLink.js';
-import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.js';
-import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.js';
+import { Modal } from './Modal.dom.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import type {
+  CallLinkRestrictions,
+  CallLinkType,
+} from '../types/CallLink.std.js';
+import { linkCallRoute } from '../util/signalRoutes.std.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { getColorForCallLink } from '../util/getColorForCallLink.std.js';
+import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.js';
+import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.js';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',

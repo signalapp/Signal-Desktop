@@ -13,56 +13,56 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
 import lodash from 'lodash';
-import type { DraftBodyRanges } from '../types/BodyRange.js';
-import type { ImageStateType } from '../mediaEditor/ImageStateType.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.js';
+import type { ImageStateType } from '../mediaEditor/ImageStateType.std.js';
 import type {
   InputApi,
   Props as CompositionInputProps,
-} from './CompositionInput.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { MIMEType } from '../types/MIME.js';
-import type { imageToBlurHash } from '../util/imageToBlurHash.js';
-import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker.js';
-import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect.js';
-import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorFabricDigitalTimeSticker.js';
-import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText.js';
-import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush.js';
-import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker.js';
-import { fabricEffectListener } from '../mediaEditor/fabricEffectListener.js';
-import { getRGBA, getHSL } from '../mediaEditor/util/color.js';
+} from './CompositionInput.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
+import type { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
+import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker.dom.js';
+import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect.dom.js';
+import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorFabricDigitalTimeSticker.dom.js';
+import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText.dom.js';
+import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush.dom.js';
+import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker.dom.js';
+import { fabricEffectListener } from '../mediaEditor/fabricEffectListener.std.js';
+import { getRGBA, getHSL } from '../mediaEditor/util/color.std.js';
 import {
   getTextStyleAttributes,
   TextStyle,
-} from '../mediaEditor/util/getTextStyleAttributes.js';
-import { createLogger } from '../logging/log.js';
-import { Button, ButtonVariant } from './Button.js';
-import { CompositionInput } from './CompositionInput.js';
-import { ContextMenu } from './ContextMenu.js';
-import { IMAGE_PNG } from '../types/MIME.js';
-import { SizeObserver } from '../hooks/useSizeObserver.js';
-import { Slider } from './Slider.js';
-import { Spinner } from './Spinner.js';
-import { Theme } from '../util/theme.js';
-import { ThemeType } from '../types/Util.js';
-import { arrow } from '../util/keyboard.js';
-import { canvasToBytes } from '../util/canvasToBytes.js';
-import { loadImage } from '../util/loadImage.js';
-import { hydrateRanges } from '../types/BodyRange.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
-import { useFabricHistory } from '../mediaEditor/useFabricHistory.js';
-import { usePortal } from '../hooks/usePortal.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
+} from '../mediaEditor/util/getTextStyleAttributes.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { CompositionInput } from './CompositionInput.dom.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { IMAGE_PNG } from '../types/MIME.std.js';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+import { Slider } from './Slider.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import { arrow } from '../util/keyboard.dom.js';
+import { canvasToBytes } from '../util/canvasToBytes.std.js';
+import { loadImage } from '../util/loadImage.std.js';
+import { hydrateRanges } from '../types/BodyRange.std.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import { useFabricHistory } from '../mediaEditor/useFabricHistory.dom.js';
+import { usePortal } from '../hooks/usePortal.dom.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
 import {
   FunEmojiPickerButton,
   FunStickerPickerButton,
-} from './fun/FunButton.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
-import { FunStickerPicker } from './fun/FunStickerPicker.js';
-import type { FunStickerSelection } from './fun/panels/FunPanelStickers.js';
-import { drop } from '../util/drop.js';
-import type { FunTimeStickerStyle } from './fun/constants.js';
-import * as Errors from '../types/errors.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.js';
+} from './fun/FunButton.dom.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import { FunStickerPicker } from './fun/FunStickerPicker.dom.js';
+import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.js';
+import { drop } from '../util/drop.std.js';
+import type { FunTimeStickerStyle } from './fun/constants.dom.js';
+import * as Errors from '../types/errors.std.js';
+import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
 
 const { get, has, noop } = lodash;
 

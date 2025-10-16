@@ -3,7 +3,7 @@
 
 import type { RefCallback } from 'react';
 import { createContext, useContext, useMemo, useState } from 'react';
-import { assert } from './assert.js';
+import { assert } from './assert.dom.js';
 
 type AriaLabellingContextType = Readonly<{
   labelRef: RefCallback<HTMLElement>;

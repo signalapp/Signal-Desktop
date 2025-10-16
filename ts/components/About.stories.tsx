@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentMeta } from '../storybook/types.js';
-import type { AboutProps } from './About.js';
-import { About } from './About.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
+import type { AboutProps } from './About.dom.js';
+import { About } from './About.dom.js';
 
 const { i18n } = window.SignalContext;
 

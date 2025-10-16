@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString, AciString, PniString } from './ServiceId.js';
+import type { ServiceIdString, AciString, PniString } from './ServiceId.std.js';
 
 export const ID_V1_LENGTH = 16;
 export const ID_LENGTH = 32;

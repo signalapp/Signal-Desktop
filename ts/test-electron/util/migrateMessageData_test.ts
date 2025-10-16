@@ -3,13 +3,13 @@
 
 import assert from 'node:assert';
 import { v7 as uuid } from 'uuid';
-import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { DataReader, DataWriter } from '../../sql/Client.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { postSaveUpdates } from '../../util/cleanup.js';
-import { upgradeMessageSchema } from '../../util/migrations.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData.preload.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { postSaveUpdates } from '../../util/cleanup.preload.js';
+import { upgradeMessageSchema } from '../../util/migrations.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 function composeMessage(timestamp: number): MessageAttributesType {
   return {

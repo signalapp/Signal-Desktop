@@ -4,13 +4,13 @@
 import React from 'react';
 import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
-import type { PropsType } from './CallingPreCallInfo.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { generateAci } from '../types/ServiceId.js';
-import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.js';
-import { callLinkToConversation } from '../util/callLinks.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './CallingPreCallInfo.dom.js';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.std.js';
+import { callLinkToConversation } from '../util/callLinks.std.js';
 
 const { times } = lodash;
 

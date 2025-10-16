@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './QrCode.js';
-import { QrCode } from './QrCode.js';
+import type { PropsType } from './QrCode.dom.js';
+import { QrCode } from './QrCode.dom.js';
 
 export default {
   title: 'Components/QrCode',

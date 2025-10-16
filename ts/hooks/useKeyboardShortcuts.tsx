@@ -4,11 +4,11 @@
 import { useCallback, useEffect } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
-import * as KeyboardLayout from '../services/keyboardLayout.js';
-import { getHasPanelOpen } from '../state/selectors/conversations.js';
-import { isInFullScreenCall } from '../state/selectors/calling.js';
-import { isShowingAnyModal } from '../state/selectors/globalModals.js';
-import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu.js';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
+import { getHasPanelOpen } from '../state/selectors/conversations.dom.js';
+import { isInFullScreenCall } from '../state/selectors/calling.std.js';
+import { isShowingAnyModal } from '../state/selectors/globalModals.std.js';
+import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu.dom.js';
 
 const { get } = lodash;
 

@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentDraftType } from '../types/Attachment.js';
-import { DataWriter } from '../sql/Client.js';
-import { strictAssert } from './assert.js';
-import { deleteDraftAttachment } from './deleteDraftAttachment.js';
+import type { AttachmentDraftType } from '../types/Attachment.std.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { strictAssert } from './assert.std.js';
+import { deleteDraftAttachment } from './deleteDraftAttachment.preload.js';
 
 export async function clearConversationDraftAttachments(
   conversationId: string,

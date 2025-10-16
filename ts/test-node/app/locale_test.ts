@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { stub } from 'sinon';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-import { load, _getAvailableLocales } from '../../../app/locale.js';
-import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check.js';
-import { HourCyclePreference } from '../../types/I18N.js';
+import { load, _getAvailableLocales } from '../../../app/locale.main.js';
+import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check.main.js';
+import { HourCyclePreference } from '../../types/I18N.std.js';
 
 describe('locale', async () => {
   describe('load', () => {

@@ -6,9 +6,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
 import fse from 'fs-extra';
-import * as Attachments from '../../windows/main/attachments.js';
-import * as Bytes from '../../Bytes.js';
-import { createName, getRelativePath } from '../../util/attachmentPath.js';
+import * as Attachments from '../../windows/main/attachments.preload.js';
+import * as Bytes from '../../Bytes.std.js';
+import { createName, getRelativePath } from '../../util/attachmentPath.node.js';
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;

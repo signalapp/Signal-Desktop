@@ -3,10 +3,13 @@
 import React, { useMemo } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { Button } from 'react-aria-components';
-import type { LocalizerType } from '../../types/I18N.js';
-import { type EmojiVariantKey, getEmojiVariantByKey } from './data/emojis.js';
-import { FunStaticEmoji } from './FunEmoji.js';
-import { useFunEmojiLocalizer } from './useFunEmojiLocalizer.js';
+import type { LocalizerType } from '../../types/I18N.std.js';
+import {
+  type EmojiVariantKey,
+  getEmojiVariantByKey,
+} from './data/emojis.std.js';
+import { FunStaticEmoji } from './FunEmoji.dom.js';
+import { useFunEmojiLocalizer } from './useFunEmojiLocalizer.dom.js';
 
 /**
  * Fun Picker Button

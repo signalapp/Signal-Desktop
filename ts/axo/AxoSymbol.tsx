@@ -4,15 +4,15 @@ import type { FC } from 'react';
 import React, { memo, useMemo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
-import { tw } from './tw.js';
+import { tw } from './tw.dom.js';
 import {
   getAxoSymbolIcon,
   getAxoSymbolInlineGlyph,
-} from './_internal/AxoSymbolDefs.generated.js';
+} from './_internal/AxoSymbolDefs.generated.std.js';
 import type {
   AxoSymbolIconName,
   AxoSymbolInlineGlyphName,
-} from './_internal/AxoSymbolDefs.generated.js';
+} from './_internal/AxoSymbolDefs.generated.std.js';
 
 const { useDirection } = Direction;
 

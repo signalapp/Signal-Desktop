@@ -5,7 +5,7 @@ import { readFile, writeFile, readdir, readlink } from 'node:fs/promises';
 import { join, basename } from 'node:path';
 import pMap from 'p-map';
 
-import { drop } from '../util/drop.js';
+import { drop } from '../util/drop.std.js';
 
 async function main(): Promise<void> {
   const source = process.argv[2];

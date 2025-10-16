@@ -4,8 +4,8 @@
 import lodash from 'lodash';
 
 import { signal } from '../protobuf/compiled.js';
-import * as Bytes from '../Bytes.js';
-import { deriveSecrets } from '../Crypto.js';
+import * as Bytes from '../Bytes.std.js';
+import { deriveSecrets } from '../Crypto.node.js';
 
 const { get, isFinite, isInteger, isString } = lodash;
 

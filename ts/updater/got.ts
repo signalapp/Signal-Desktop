@@ -5,11 +5,11 @@ import type { StrictOptions as GotOptions } from 'got';
 import config from 'config';
 import { Agent as HTTPAgent } from 'node:http';
 
-import { version } from '../util/packageJson.js';
-import { getUserAgent } from '../util/getUserAgent.js';
-import * as durations from '../util/durations/index.js';
-import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
-import { createProxyAgent } from '../util/createProxyAgent.js';
+import { version } from '../util/packageJson.node.js';
+import { getUserAgent } from '../util/getUserAgent.node.js';
+import * as durations from '../util/durations/index.std.js';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
+import { createProxyAgent } from '../util/createProxyAgent.node.js';
 
 export const GOT_CONNECT_TIMEOUT = durations.MINUTE;
 export const GOT_LOOKUP_TIMEOUT = durations.MINUTE;

@@ -8,12 +8,12 @@ import {
   dequeueOldestSyncTasks,
   saveSyncTasks,
   incrementAllSyncTaskAttempts,
-} from '../../sql/Server.js';
-import { sql } from '../../sql/util.js';
-import type { WritableDB } from '../../sql/Interface.js';
-import { updateToVersion, createDB, explain } from './helpers.js';
+} from '../../sql/Server.node.js';
+import { sql } from '../../sql/util.std.js';
+import type { WritableDB } from '../../sql/Interface.std.js';
+import { updateToVersion, createDB, explain } from './helpers.node.js';
 
-import type { SyncTaskType } from '../../util/syncTasks.js';
+import type { SyncTaskType } from '../../util/syncTasks.preload.js';
 
 describe('SQL/updateToSchemaVersion1330', () => {
   let db: WritableDB;

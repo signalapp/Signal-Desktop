@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 
-import { LatestQueue } from '../../util/LatestQueue.js';
+import { LatestQueue } from '../../util/LatestQueue.std.js';
 
 describe('LatestQueue', () => {
   it('if the queue is empty, new tasks are started immediately', done => {

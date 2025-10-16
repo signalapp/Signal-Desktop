@@ -3,16 +3,16 @@
 
 import { assert } from 'chai';
 
-import * as Bytes from '../../Bytes.js';
+import * as Bytes from '../../Bytes.std.js';
 import {
   trimForDisplay,
   getRandomBytes,
   decryptProfileName,
   decryptProfile,
-} from '../../Crypto.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { encryptProfileData } from '../../util/encryptProfileData.js';
+} from '../../Crypto.node.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { encryptProfileData } from '../../util/encryptProfileData.preload.js';
 
 describe('encryptProfileData', () => {
   let keyBuffer: Uint8Array;

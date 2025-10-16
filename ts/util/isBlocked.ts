@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.js';
-import { isAciString } from './isAciString.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { isAciString } from './isAciString.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function isBlocked(
   attributes: Pick<ConversationAttributesType, 'e164' | 'groupId' | 'serviceId'>

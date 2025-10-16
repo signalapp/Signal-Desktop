@@ -5,11 +5,14 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { ProfileEditor } from '../../components/ProfileEditor.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useToastActions } from '../ducks/toast.js';
-import { useUsernameActions } from '../ducks/username.js';
-import { getMe, getProfileUpdateError } from '../selectors/conversations.js';
+import { ProfileEditor } from '../../components/ProfileEditor.dom.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { useUsernameActions } from '../ducks/username.preload.js';
+import {
+  getMe,
+  getProfileUpdateError,
+} from '../selectors/conversations.dom.js';
 import {
   getEmojiSkinToneDefault,
   getHasCompletedUsernameLinkOnboarding,
@@ -17,20 +20,20 @@ import {
   getUsernameLink,
   getUsernameLinkColor,
   getUsernameLinkCorrupted,
-} from '../selectors/items.js';
-import { getIntl } from '../selectors/user.js';
+} from '../selectors/items.dom.js';
+import { getIntl } from '../selectors/user.std.js';
 import {
   getUsernameEditState,
   getUsernameLinkState,
-} from '../selectors/username.js';
-import { SmartUsernameEditor } from './UsernameEditor.js';
-import { getSelectedLocation } from '../selectors/nav.js';
-import { useNavActions } from '../ducks/nav.js';
-import { NavTab, SettingsPage } from '../../types/Nav.js';
+} from '../selectors/username.std.js';
+import { SmartUsernameEditor } from './UsernameEditor.preload.js';
+import { getSelectedLocation } from '../selectors/nav.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 
-import type { ProfileEditorPage } from '../../types/Nav.js';
-import type { SmartUsernameEditorProps } from './UsernameEditor.js';
-import { ConfirmationDialog } from '../../components/ConfirmationDialog.js';
+import type { ProfileEditorPage } from '../../types/Nav.std.js';
+import type { SmartUsernameEditorProps } from './UsernameEditor.preload.js';
+import { ConfirmationDialog } from '../../components/ConfirmationDialog.dom.js';
 
 function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;

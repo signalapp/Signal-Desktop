@@ -15,88 +15,94 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
 
-import { GLOBAL_ZONE, signalProtocolStore } from '../SignalProtocolStore.js';
-import { DataWriter } from '../sql/Client.js';
-import type { ConversationModel } from '../models/conversations.js';
-import { assertDev, strictAssert } from '../util/assert.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
-import { Address } from '../types/Address.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.js';
-import { SenderKeys } from '../LibSignalStores.js';
+import {
+  GLOBAL_ZONE,
+  signalProtocolStore,
+} from '../SignalProtocolStore.preload.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import { Address } from '../types/Address.std.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
+import { SenderKeys } from '../LibSignalStores.preload.js';
 import type {
   TextAttachmentType,
   UploadedAttachmentType,
-} from '../types/Attachment.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+} from '../types/Attachment.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
 import {
   ServiceIdKind,
   serviceIdSchema,
   isPniString,
-} from '../types/ServiceId.js';
+} from '../types/ServiceId.std.js';
 import {
   toAciObject,
   toPniObject,
   toServiceIdObject,
-} from '../util/ServiceId.js';
-import createTaskWithTimeout from './TaskWithTimeout.js';
+} from '../util/ServiceId.node.js';
+import createTaskWithTimeout from './TaskWithTimeout.std.js';
 import type { CallbackResultType } from './Types.d.ts';
 import type {
   SerializedCertificateType,
   SendLogCallbackType,
-} from './OutgoingMessage.js';
-import OutgoingMessage from './OutgoingMessage.js';
-import * as Bytes from '../Bytes.js';
-import { getRandomBytes } from '../Crypto.js';
+} from './OutgoingMessage.preload.js';
+import OutgoingMessage from './OutgoingMessage.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import { getRandomBytes } from '../Crypto.node.js';
 import {
   MessageError,
   SendMessageProtoError,
   NoSenderKeyError,
-} from './Errors.js';
-import { BodyRange } from '../types/BodyRange.js';
-import { HTTPError } from '../types/HTTPError.js';
-import type { RawBodyRange } from '../types/BodyRange.js';
-import type { StoryContextType } from '../types/Util.js';
-import { concat, isEmpty } from '../util/iterables.js';
-import type { SendTypesType } from '../util/handleMessageSend.js';
-import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend.js';
-import type { DurationInSeconds } from '../util/durations/index.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.js';
+} from './Errors.std.js';
+import { BodyRange } from '../types/BodyRange.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import type { RawBodyRange } from '../types/BodyRange.std.js';
+import type { StoryContextType } from '../types/Util.std.js';
+import { concat, isEmpty } from '../util/iterables.std.js';
+import type { SendTypesType } from '../util/handleMessageSend.preload.js';
+import {
+  shouldSaveProto,
+  sendTypesEnum,
+} from '../util/handleMessageSend.preload.js';
+import type { DurationInSeconds } from '../util/durations/index.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.std.js';
 import {
   numberToPhoneType,
   numberToEmailType,
   numberToAddressType,
-} from '../types/EmbeddedContact.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { drop } from '../util/drop.js';
+} from '../types/EmbeddedContact.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { drop } from '../util/drop.std.js';
 import type {
   ConversationIdentifier,
   DeleteForMeSyncEventData,
   DeleteMessageSyncTarget,
   AddressableMessage,
-} from './messageReceiverEvents.js';
-import { getConversationFromTarget } from '../util/syncIdentifiers.js';
+} from './messageReceiverEvents.std.js';
+import { getConversationFromTarget } from '../util/syncIdentifiers.preload.js';
 import type {
   CallDetails,
   CallHistoryDetails,
-} from '../types/CallDisposition.js';
+} from '../types/CallDisposition.std.js';
 import {
   AdhocCallStatus,
   DirectCallStatus,
   GroupCallStatus,
   CallMode,
-} from '../types/CallDisposition.js';
+} from '../types/CallDisposition.std.js';
 import {
   getBytesForPeerId,
   getCallIdForProto,
   getProtoForCallHistory,
-} from '../util/callDisposition.js';
-import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
-import { itemStorage } from './Storage.js';
-import { accountManager } from './AccountManager.js';
+} from '../util/callDisposition.preload.js';
+import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import { itemStorage } from './Storage.preload.js';
+import { accountManager } from './AccountManager.preload.js';
 
 const log = createLogger('SendMessage');
 

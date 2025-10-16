@@ -6,7 +6,7 @@ import assert from 'node:assert';
 import { join } from 'node:path';
 import { _electron as electron } from 'playwright';
 
-import { productName, name } from '../util/packageJson.js';
+import { productName, name } from '../util/packageJson.node.js';
 
 const ENVIRONMENT = 'production';
 const RELEASE_DIR = join(__dirname, '..', '..', 'release');

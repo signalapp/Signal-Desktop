@@ -4,13 +4,13 @@
 import React from 'react';
 import type { FunctionComponent } from 'react';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.js';
-import { AvatarColors } from '../../types/Colors.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.js';
-import { ListTile } from '../ListTile.js';
-import { Avatar, AvatarSize } from '../Avatar.js';
-import { Spinner } from '../Spinner.js';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { AvatarColors } from '../../types/Colors.std.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.js';
+import { ListTile } from '../ListTile.dom.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { Spinner } from '../Spinner.dom.js';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.js';
 
 export type PropsDataType = {
   username: string;

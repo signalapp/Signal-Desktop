@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import { getExtensionForDisplay } from '../util/Attachment.js';
-import { isFileDangerous } from '../util/isFileDangerous.js';
-import { tw } from '../axo/tw.js';
+import { getExtensionForDisplay } from '../util/Attachment.std.js';
+import { isFileDangerous } from '../util/isFileDangerous.std.js';
+import { tw } from '../axo/tw.dom.js';
 
 export type PropsType = Readonly<Parameters<typeof getExtensionForDisplay>[0]>;
 

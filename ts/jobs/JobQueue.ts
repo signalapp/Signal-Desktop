@@ -5,17 +5,17 @@ import PQueue from 'p-queue';
 import { v7 as uuid } from 'uuid';
 import lodash from 'lodash';
 
-import { Job } from './Job.js';
-import { JobError } from './JobError.js';
-import type { ParsedJob, StoredJob, JobQueueStore } from './types.js';
-import { assertDev } from '../util/assert.js';
-import { createLogger } from '../logging/log.js';
-import { JobLogger } from './JobLogger.js';
-import * as Errors from '../types/errors.js';
-import type { LoggerType } from '../types/Logging.js';
-import { drop } from '../util/drop.js';
-import { sleep } from '../util/sleep.js';
-import { SECOND } from '../util/durations/index.js';
+import { Job } from './Job.std.js';
+import { JobError } from './JobError.std.js';
+import type { ParsedJob, StoredJob, JobQueueStore } from './types.std.js';
+import { assertDev } from '../util/assert.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { JobLogger } from './JobLogger.std.js';
+import * as Errors from '../types/errors.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { drop } from '../util/drop.std.js';
+import { sleep } from '../util/sleep.std.js';
+import { SECOND } from '../util/durations/index.std.js';
 
 const { noop } = lodash;
 

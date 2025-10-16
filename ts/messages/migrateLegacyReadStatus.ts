@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { ReadStatus } from './MessageReadStatus.js';
+import { ReadStatus } from './MessageReadStatus.std.js';
 
 export function migrateLegacyReadStatus(
   message: Readonly<Pick<MessageAttributesType, 'readStatus'>>

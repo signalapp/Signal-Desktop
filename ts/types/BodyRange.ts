@@ -5,18 +5,18 @@
 
 import lodash from 'lodash';
 
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { isNotNil } from '../util/isNotNil.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.js';
-import { assertDev } from '../util/assert.js';
-import type { AciString } from './ServiceId.js';
-import { normalizeAci } from '../util/normalizeAci.js';
+} from '../util/search.std.js';
+import { assertDev } from '../util/assert.std.js';
+import type { AciString } from './ServiceId.std.js';
+import { normalizeAci } from '../util/normalizeAci.std.js';
 
 const { isEqual, isNumber, omit, orderBy, partition } = lodash;
 

@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { IntlShape } from 'react-intl';
-import type { AciString } from './ServiceId.js';
-import type { LocaleDirection } from '../../app/locale.js';
+import type { AciString } from './ServiceId.std.js';
+import type { LocaleDirection } from '../../app/locale.main.js';
 import type {
   ICUJSXMessageParamsByKeyType,
   ICUStringMessageParamsByKeyType,
 } from '../../build/ICUMessageParams.d.ts';
 
-import type { HourCyclePreference, LocaleMessagesType } from './I18N.js';
+import type { HourCyclePreference, LocaleMessagesType } from './I18N.std.js';
 
 export type StoryContextType = {
   authorAci?: AciString;

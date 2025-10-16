@@ -11,11 +11,11 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
-import * as grapheme from '../util/grapheme.js';
-import type { LocalizerType } from '../types/Util.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.js';
-import { useRefMerger } from '../hooks/useRefMerger.js';
-import { byteLength } from '../Bytes.js';
+import * as grapheme from '../util/grapheme.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { useRefMerger } from '../hooks/useRefMerger.std.js';
+import { byteLength } from '../Bytes.std.js';
 
 export type PropsType = {
   autoFocus?: boolean;

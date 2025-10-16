@@ -3,16 +3,16 @@
 
 import { createSelector } from 'reselect';
 
-import { type LocalizerType, ThemeType } from '../../types/Util.js';
-import type { AciString, PniString } from '../../types/ServiceId.js';
-import type { LocaleMessagesType } from '../../types/I18N.js';
-import type { MenuOptionsType } from '../../types/menu.js';
+import { type LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { AciString, PniString } from '../../types/ServiceId.std.js';
+import type { LocaleMessagesType } from '../../types/I18N.std.js';
+import type { MenuOptionsType } from '../../types/menu.std.js';
 
-import type { StateType } from '../reducer.js';
-import type { CallingStateType } from '../ducks/calling.js';
-import type { UserStateType } from '../ducks/user.js';
+import type { StateType } from '../reducer.preload.js';
+import type { CallingStateType } from '../ducks/calling.preload.js';
+import type { UserStateType } from '../ducks/user.preload.js';
 
-import { isNightly, isBeta } from '../../util/version.js';
+import { isNightly, isBeta } from '../../util/version.std.js';
 
 export const getUser = (state: StateType): UserStateType => state.user;
 

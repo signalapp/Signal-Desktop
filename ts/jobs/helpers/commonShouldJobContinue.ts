@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.js';
-import { isOnline } from '../../textsecure/WebAPI.js';
-import { waitForOnline } from '../../util/waitForOnline.js';
-import { exponentialBackoffSleepTime } from '../../util/exponentialBackoff.js';
-import { isDone as isDeviceLinked } from '../../util/registration.js';
-import { sleeper } from '../../util/sleeper.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { isOnline } from '../../textsecure/WebAPI.preload.js';
+import { waitForOnline } from '../../util/waitForOnline.dom.js';
+import { exponentialBackoffSleepTime } from '../../util/exponentialBackoff.std.js';
+import { isDone as isDeviceLinked } from '../../util/registration.preload.js';
+import { sleeper } from '../../util/sleeper.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 export async function commonShouldJobContinue({
   attempt,

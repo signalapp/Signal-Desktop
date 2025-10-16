@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { isInSystemContacts } from './isInSystemContacts.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { isInSystemContacts } from './isInSystemContacts.std.js';
 
 export function getE164(
   attributes: Pick<

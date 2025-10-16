@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { isGroupV2 } from './whatTypeOfConversation.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { isGroupV2 } from './whatTypeOfConversation.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function areWeAdmin(
   attributes: Pick<

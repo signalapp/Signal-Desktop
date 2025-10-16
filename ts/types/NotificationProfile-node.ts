@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Note: this is a dangerous import; it will break storybook
-import { getRandomBytes } from '../Crypto.js';
+import { getRandomBytes } from '../Crypto.node.js';
 
-import * as Bytes from '../Bytes.js';
-import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.js';
 
-import { NOTIFICATION_PROFILE_ID_LENGTH } from './NotificationProfile.js';
+import { NOTIFICATION_PROFILE_ID_LENGTH } from './NotificationProfile.std.js';
 
-import type { NotificationProfileIdString } from './NotificationProfile.js';
-import type { LoggerType } from './Logging.js';
+import type { NotificationProfileIdString } from './NotificationProfile.std.js';
+import type { LoggerType } from './Logging.std.js';
 
 const log = createLogger('NotificationProfile-node');
 

@@ -6,15 +6,15 @@ import { action } from '@storybook/addon-actions';
 import {
   DraftGifMessageSendModal,
   type DraftGifMessageSendModalProps,
-} from './DraftGifMessageSendModal.js';
-import { ThemeType } from '../types/Util.js';
-import { CompositionTextArea } from './CompositionTextArea.js';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
-import { LoadingState } from '../util/loadable.js';
-import { VIDEO_MP4 } from '../types/MIME.js';
-import { drop } from '../util/drop.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+} from './DraftGifMessageSendModal.dom.js';
+import { ThemeType } from '../types/Util.std.js';
+import { CompositionTextArea } from './CompositionTextArea.dom.js';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { LoadingState } from '../util/loadable.std.js';
+import { VIDEO_MP4 } from '../types/MIME.std.js';
+import { drop } from '../util/drop.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 
 const { i18n } = window.SignalContext;
 

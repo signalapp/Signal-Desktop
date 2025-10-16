@@ -8,30 +8,30 @@ import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.js';
-import type { LocalizerType } from '../types/I18N.js';
+} from '../types/backups.node.js';
+import type { LocalizerType } from '../types/I18N.std.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   LightIconLabel,
   SettingsRow,
-} from './PreferencesUtil.js';
-import { Button, ButtonVariant } from './Button.js';
-import type { SettingsLocation } from '../types/Nav.js';
-import { SettingsPage } from '../types/Nav.js';
-import { I18n } from './I18n.js';
-import { PreferencesLocalBackups } from './PreferencesLocalBackups.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
+} from './PreferencesUtil.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import type { SettingsLocation } from '../types/Nav.std.js';
+import { SettingsPage } from '../types/Nav.std.js';
+import { I18n } from './I18n.dom.js';
+import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { BackupLevel } from '../services/backups/types.js';
+} from '../util/os/promptOSAuthMain.main.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { BackupLevel } from '../services/backups/types.std.js';
 import {
   BackupsDetailsPage,
   renderSubscriptionDetails,
-} from './PreferencesBackupDetails.js';
+} from './PreferencesBackupDetails.dom.js';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';

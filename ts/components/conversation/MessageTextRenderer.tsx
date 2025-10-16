@@ -7,25 +7,25 @@ import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import lodash from 'lodash';
 
-import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.js';
+import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.dom.js';
 import type {
   BodyRangesForDisplayType,
   DisplayNode,
   HydratedBodyRangeMention,
   RangeNode,
-} from '../../types/BodyRange.js';
+} from '../../types/BodyRange.std.js';
 import {
   BodyRange,
   insertRange,
   collapseRangeTree,
   groupContiguousSpoilers,
-} from '../../types/BodyRange.js';
-import { AtMention } from './AtMention.js';
-import { isLinkSneaky } from '../../types/LinkPreview.js';
-import { Emojify } from './Emojify.js';
-import { AddNewLines } from './AddNewLines.js';
-import type { LocalizerType } from '../../types/Util.js';
-import type { FunJumboEmojiSize } from '../fun/FunEmoji.js';
+} from '../../types/BodyRange.std.js';
+import { AtMention } from './AtMention.dom.js';
+import { isLinkSneaky } from '../../types/LinkPreview.std.js';
+import { Emojify } from './Emojify.dom.js';
+import { AddNewLines } from './AddNewLines.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { FunJumboEmojiSize } from '../fun/FunEmoji.dom.js';
 
 const { sortBy } = lodash;
 

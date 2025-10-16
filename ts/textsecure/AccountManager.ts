@@ -9,7 +9,7 @@ import {
   BackupKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
-import EventTarget from './EventTarget.js';
+import EventTarget from './EventTarget.std.js';
 import {
   type UploadKeysType,
   type UploadKyberPreKeyType,
@@ -23,7 +23,7 @@ import {
   createAccount,
   linkDevice,
   authenticate,
-} from './WebAPI.js';
+} from './WebAPI.preload.js';
 import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
@@ -31,11 +31,11 @@ import type {
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d.ts';
-import createTaskWithTimeout from './TaskWithTimeout.js';
-import * as Bytes from '../Bytes.js';
-import * as Errors from '../types/errors.js';
-import { isMockEnvironment } from '../environment.js';
-import { senderCertificateService } from '../services/senderCertificate.js';
+import createTaskWithTimeout from './TaskWithTimeout.std.js';
+import * as Bytes from '../Bytes.std.js';
+import * as Errors from '../types/errors.std.js';
+import { isMockEnvironment } from '../environment.std.js';
+import { senderCertificateService } from '../services/senderCertificate.preload.js';
 import {
   decryptDeviceName,
   deriveStorageServiceKey,
@@ -43,42 +43,42 @@ import {
   encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
-} from '../Crypto.js';
+} from '../Crypto.node.js';
 import {
   generateKeyPair,
   generateKyberPreKey,
   generatePreKey,
   generateSignedPreKey,
-} from '../Curve.js';
+} from '../Curve.node.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.js';
+} from '../types/ServiceId.std.js';
 import {
   isUntaggedPniString,
   normalizePni,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.js';
-import { normalizeAci } from '../util/normalizeAci.js';
-import { drop } from '../util/drop.js';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp.js';
-import { ourProfileKeyService } from '../services/ourProfileKey.js';
-import { strictAssert } from '../util/assert.js';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { createLogger } from '../logging/log.js';
-import type { StorageAccessType } from '../types/Storage.js';
-import { getRelativePath, createName } from '../util/attachmentPath.js';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
-import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { itemStorage } from './Storage.js';
-import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.js';
+} from '../types/ServiceId.std.js';
+import { normalizeAci } from '../util/normalizeAci.std.js';
+import { drop } from '../util/drop.std.js';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.js';
+import { ourProfileKeyService } from '../services/ourProfileKey.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { StorageAccessType } from '../types/Storage.d.ts';
+import { getRelativePath, createName } from '../util/attachmentPath.node.js';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
+import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { itemStorage } from './Storage.preload.js';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
 
 const { isNumber, omit, orderBy } = lodash;
 

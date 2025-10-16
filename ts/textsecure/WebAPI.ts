@@ -23,54 +23,57 @@ import type {
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 
-import { assertDev, strictAssert } from '../util/assert.js';
-import * as durations from '../util/durations/index.js';
-import type { ExplodePromiseResultType } from '../util/explodePromise.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { getUserAgent } from '../util/getUserAgent.js';
-import { getTimeoutStream } from '../util/getStreamWithTimeout.js';
-import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64.js';
-import { getBasicAuth } from '../util/getBasicAuth.js';
-import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
-import { createProxyAgent } from '../util/createProxyAgent.js';
-import type { ProxyAgent } from '../util/createProxyAgent.js';
-import type { FetchFunctionType } from '../util/uploads/tusProtocol.js';
-import { VerificationTransport } from '../types/VerificationTransport.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import * as durations from '../util/durations/index.std.js';
+import type { ExplodePromiseResultType } from '../util/explodePromise.std.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { getUserAgent } from '../util/getUserAgent.node.js';
+import { getTimeoutStream } from '../util/getStreamWithTimeout.node.js';
+import {
+  toWebSafeBase64,
+  fromWebSafeBase64,
+} from '../util/webSafeBase64.std.js';
+import { getBasicAuth } from '../util/getBasicAuth.std.js';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
+import { createProxyAgent } from '../util/createProxyAgent.node.js';
+import type { ProxyAgent } from '../util/createProxyAgent.node.js';
+import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.js';
+import { VerificationTransport } from '../types/VerificationTransport.std.js';
 import type {
   CapabilitiesType,
   CapabilitiesUploadType,
 } from '../types/Capabilities.d.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
-import { ZERO_ACCESS_KEY } from '../types/SealedSender.js';
-import { toLogFormat } from '../types/errors.js';
-import { isPackIdValid, redactPackId } from '../util/Stickers.js';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
+import { toLogFormat } from '../types/errors.std.js';
+import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
 import type {
   ServiceIdString,
   AciString,
   UntaggedPniString,
-} from '../types/ServiceId.js';
+} from '../types/ServiceId.std.js';
 import {
   ServiceIdKind,
   serviceIdSchema,
   aciSchema,
   untaggedPniSchema,
-} from '../types/ServiceId.js';
-import type { BackupPresentationHeadersType } from '../types/backups.js';
-import { HTTPError } from '../types/HTTPError.js';
-import * as Bytes from '../Bytes.js';
-import { getRandomBytes, randomInt } from '../Crypto.js';
-import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.js';
-import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.js';
+} from '../types/ServiceId.std.js';
+import type { BackupPresentationHeadersType } from '../types/backups.node.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { getRandomBytes, randomInt } from '../Crypto.node.js';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.js';
+import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.js';
 
 import {
   SocketManager,
   type SocketStatuses,
   type SocketExpirationReason,
-} from './SocketManager.js';
+} from './SocketManager.preload.js';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
-import { CDSI } from './cds/CDSI.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.js';
+import { CDSI } from './cds/CDSI.node.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.dom.js';
 
 import type {
   WebAPICredentials,
@@ -78,34 +81,37 @@ import type {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from './Types.d.ts';
-import { handleStatusCode, translateError } from './Utils.js';
-import { createLogger } from '../logging/log.js';
-import { maybeParseUrl, urlPathFromComponents } from '../util/url.js';
-import { HOUR, MINUTE, SECOND } from '../util/durations/index.js';
-import { safeParseNumber } from '../util/numbers.js';
-import type { IWebSocketResource } from './WebsocketResources.js';
-import { getLibsignalNet } from './preconnect.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { handleStatusCode, translateError } from './Utils.dom.js';
+import { createLogger } from '../logging/log.std.js';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
+import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
+import { safeParseNumber } from '../util/numbers.std.js';
+import type { IWebSocketResource } from './WebsocketResources.preload.js';
+import { getLibsignalNet } from './preconnect.preload.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
   parseUnknown,
   safeParseUnknown,
   type Schema,
-} from '../util/schemas.js';
+} from '../util/schemas.std.js';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
-} from '../services/profiles.js';
-import { ToastType } from '../types/Toast.js';
-import { isProduction } from '../util/version.js';
-import type { ServerAlert } from '../types/ServerAlert.js';
-import { isAbortError } from '../util/isAbortError.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { drop } from '../util/drop.js';
-import { subscriptionConfigurationCurrencyZod } from '../types/Donations.js';
-import type { StripeDonationAmount, CardDetail } from '../types/Donations.js';
-import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.js';
-import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.js';
-import type { JobCancelReason } from '../jobs/types.js';
+} from '../services/profiles.preload.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { isProduction } from '../util/version.std.js';
+import type { ServerAlert } from '../types/ServerAlert.std.js';
+import { isAbortError } from '../util/isAbortError.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { drop } from '../util/drop.std.js';
+import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
+import type {
+  StripeDonationAmount,
+  CardDetail,
+} from '../types/Donations.std.js';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
+import type { JobCancelReason } from '../jobs/types.std.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 

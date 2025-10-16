@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import { parseRawSyncDataArray } from '../../../jobs/helpers/syncHelpers.js';
-import { generateAci } from '../../../types/ServiceId.js';
+import { parseRawSyncDataArray } from '../../../jobs/helpers/syncHelpers.preload.js';
+import { generateAci } from '../../../types/ServiceId.std.js';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

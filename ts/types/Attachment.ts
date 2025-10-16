@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
-import type { MIMEType } from './MIME.js';
-import type { WithOptionalProperties, WithRequiredProperties } from './Util.js';
-import type { SignalService as Proto } from '../protobuf/index.js';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
+import type { MIMEType } from './MIME.std.js';
+import type {
+  WithOptionalProperties,
+  WithRequiredProperties,
+} from './Util.std.js';
+import type { SignalService as Proto } from '../protobuf/index.std.js';
 
 export type ThumbnailType = EphemeralAttachmentFields & {
   size: number;

@@ -2,29 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useState } from 'react';
-import type { LocalizerType } from '../types/I18N.js';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar.js';
-import { CallsList } from './CallsList.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.js';
+import { CallsList } from './CallsList.preload.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type {
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../types/CallDisposition.js';
-import { CallsNewCall } from './CallsNewCallButton.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
+} from '../types/CallDisposition.std.js';
+import { CallsNewCall } from './CallsNewCallButton.dom.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
 import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
-} from '../state/ducks/calling.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import type { UnreadStats } from '../util/countUnreadStats.js';
-import type { WidthBreakpoint } from './_util.js';
-import type { CallLinkType } from '../types/CallLink.js';
-import type { CallStateType } from '../state/selectors/calling.js';
-import type { StartCallData } from './ConfirmLeaveCallModal.js';
-import { I18n } from './I18n.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.js';
+} from '../state/ducks/calling.preload.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import type { UnreadStats } from '../util/countUnreadStats.std.js';
+import type { WidthBreakpoint } from './_util.std.js';
+import type { CallLinkType } from '../types/CallLink.std.js';
+import type { CallStateType } from '../state/selectors/calling.std.js';
+import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
+import { I18n } from './I18n.dom.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
 
 enum CallsTabSidebarView {
   CallsListView,

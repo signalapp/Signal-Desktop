@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
 import * as React from 'react';
-import type { ComponentMeta } from '../storybook/types.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import {
   NotePreviewModal,
   type NotePreviewModalProps,
-} from './NotePreviewModal.js';
+} from './NotePreviewModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

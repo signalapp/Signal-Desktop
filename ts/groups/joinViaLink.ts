@@ -4,17 +4,17 @@
 import { createRoot, type Root } from 'react-dom/client';
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.js';
-import type { PreJoinConversationType } from '../state/ducks/conversations.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import type { PreJoinConversationType } from '../state/ducks/conversations.preload.js';
 
-import { DataWriter } from '../sql/Client.js';
-import * as Bytes from '../Bytes.js';
-import * as Errors from '../types/errors.js';
-import { createLogger } from '../logging/log.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import type { ContactAvatarType } from '../types/Avatar.js';
-import { ToastType } from '../types/Toast.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import type { ContactAvatarType } from '../types/Avatar.std.js';
+import { ToastType } from '../types/Toast.dom.js';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -24,19 +24,19 @@ import {
   idForLogging,
   LINK_VERSION_ERROR,
   parseGroupLink,
-} from '../groups.js';
-import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.js';
-import { explodePromise } from '../util/explodePromise.js';
-import { deleteAttachmentData } from '../util/migrations.js';
-import { isAccessControlEnabled } from './util.js';
-import { isGroupV1 } from '../util/whatTypeOfConversation.js';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.js';
-import { sleep } from '../util/sleep.js';
-import { dropNull } from '../util/dropNull.js';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.js';
-import { type Loadable, LoadingState } from '../util/loadable.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../groups.preload.js';
+import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.dom.js';
+import { explodePromise } from '../util/explodePromise.std.js';
+import { deleteAttachmentData } from '../util/migrations.preload.js';
+import { isAccessControlEnabled } from './util.std.js';
+import { isGroupV1 } from '../util/whatTypeOfConversation.dom.js';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.dom.js';
+import { sleep } from '../util/sleep.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.js';
+import { type Loadable, LoadingState } from '../util/loadable.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('joinViaLink');
 const { i18n } = window.SignalContext;

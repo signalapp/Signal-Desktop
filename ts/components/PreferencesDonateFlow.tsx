@@ -11,13 +11,13 @@ import React, {
 } from 'react';
 
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/Util.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
-import { Button, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
 import {
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
-} from '../types/Donations.js';
+} from '../types/Donations.std.js';
 import type {
   CardDetail,
   DonationErrorType,
@@ -25,12 +25,12 @@ import type {
   HumanDonationAmount,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.js';
+} from '../types/Donations.std.js';
 import type {
   CardCvcError,
   CardExpirationError,
   CardNumberError,
-} from '../types/DonationsCardForm.js';
+} from '../types/DonationsCardForm.std.js';
 import {
   cardFormToCardDetail,
   getCardFormSettings,
@@ -39,7 +39,7 @@ import {
   parseCardExpiration,
   parseCardForm,
   parseCardNumber,
-} from '../types/DonationsCardForm.js';
+} from '../types/DonationsCardForm.std.js';
 import {
   brandHumanDonationAmount,
   type CurrencyFormatResult,
@@ -48,28 +48,28 @@ import {
   parseCurrencyString,
   toHumanCurrencyString,
   toStripeDonationAmount,
-} from '../util/currency.js';
-import { PreferencesContent } from './Preferences.js';
-import type { SubmitDonationType } from '../state/ducks/donations.js';
-import { Select } from './Select.js';
+} from '../util/currency.dom.js';
+import { PreferencesContent } from './Preferences.dom.js';
+import type { SubmitDonationType } from '../state/ducks/donations.preload.js';
+import { Select } from './Select.dom.js';
 import {
   DonateInputCardNumber,
   getCardNumberErrorMessage,
-} from './preferences/donations/DonateInputCardNumber.js';
+} from './preferences/donations/DonateInputCardNumber.dom.js';
 import {
   DonateInputCardExp,
   getCardExpirationErrorMessage,
-} from './preferences/donations/DonateInputCardExp.js';
+} from './preferences/donations/DonateInputCardExp.dom.js';
 import {
   DonateInputCardCvc,
   getCardCvcErrorMessage,
-} from './preferences/donations/DonateInputCardCvc.js';
-import { I18n } from './I18n.js';
-import { strictAssert } from '../util/assert.js';
-import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.js';
-import { DonateInputAmount } from './preferences/donations/DonateInputAmount.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.js';
-import { offsetDistanceModifier } from '../util/popperUtil.js';
+} from './preferences/donations/DonateInputCardCvc.dom.js';
+import { I18n } from './I18n.dom.js';
+import { strictAssert } from '../util/assert.std.js';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.js';
+import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
+import { offsetDistanceModifier } from '../util/popperUtil.std.js';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 

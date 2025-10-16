@@ -7,19 +7,19 @@ import { readFile, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { createLogger } from '../../../logging/log.js';
-import * as Bytes from '../../../Bytes.js';
-import * as Errors from '../../../types/errors.js';
-import { Signal } from '../../../protobuf/index.js';
-import protobuf from '../../../protobuf/wrap.js';
-import { strictAssert } from '../../../util/assert.js';
-import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.js';
-import type { LocalBackupMetadataVerificationType } from '../../../types/backups.js';
+import { createLogger } from '../../../logging/log.std.js';
+import * as Bytes from '../../../Bytes.std.js';
+import * as Errors from '../../../types/errors.std.js';
+import { Signal } from '../../../protobuf/index.std.js';
+import protobuf from '../../../protobuf/wrap.node.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
+import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
 import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
-} from '../constants.js';
-import { explodePromise } from '../../../util/explodePromise.js';
+} from '../constants.std.js';
+import { explodePromise } from '../../../util/explodePromise.std.js';
 
 const log = createLogger('localBackup');
 

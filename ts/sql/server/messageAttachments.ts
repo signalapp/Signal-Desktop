@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { convertUndefinedToNull } from '../../util/dropNull.js';
-import { messageAttachmentTypeSchema } from '../../types/AttachmentDownload.js';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME.js';
-import type { MessageAttachmentDBType } from '../Interface.js';
+import { convertUndefinedToNull } from '../../util/dropNull.std.js';
+import { messageAttachmentTypeSchema } from '../../types/AttachmentDownload.std.js';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.js';
+import type { MessageAttachmentDBType } from '../Interface.std.js';
 
 const permissiveStringOrNull = z
   .string()

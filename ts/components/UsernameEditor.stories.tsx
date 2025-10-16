@@ -5,14 +5,14 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import type { UsernameReservationType } from '../types/Username.js';
+import type { UsernameReservationType } from '../types/Username.std.js';
 
-import type { PropsType } from './UsernameEditor.js';
-import { UsernameEditor } from './UsernameEditor.js';
+import type { PropsType } from './UsernameEditor.dom.js';
+import { UsernameEditor } from './UsernameEditor.dom.js';
 import {
   UsernameReservationState as State,
   UsernameReservationError,
-} from '../state/ducks/usernameEnums.js';
+} from '../state/ducks/usernameEnums.std.js';
 
 const { i18n } = window.SignalContext;
 

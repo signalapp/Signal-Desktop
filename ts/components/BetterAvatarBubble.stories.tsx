@@ -6,9 +6,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.js';
-import type { PropsType } from './BetterAvatarBubble.js';
-import { BetterAvatarBubble } from './BetterAvatarBubble.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import type { PropsType } from './BetterAvatarBubble.dom.js';
+import { BetterAvatarBubble } from './BetterAvatarBubble.dom.js';
 
 const { i18n } = window.SignalContext;
 

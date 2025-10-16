@@ -7,13 +7,16 @@ import { v4 as generateUuid } from 'uuid';
 import { readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { missingCaseError } from '../util/missingCaseError.js';
-import { getDownloadsPath, getPath } from '../windows/main/attachments.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import {
+  getDownloadsPath,
+  getPath,
+} from '../windows/main/attachments.preload.js';
 
-import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import { deleteAllAttachmentFilesOnDisk } from '../util/Attachment.js';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import { deleteAllAttachmentFilesOnDisk } from '../util/Attachment.std.js';
 import {
   getAbsoluteAttachmentPath,
   getAbsoluteDownloadsPath,
@@ -21,8 +24,8 @@ import {
   deleteAttachmentData,
   deleteDownloadData,
   deleteExternalMessageFiles,
-} from '../util/migrations.js';
-import { strictAssert } from '../util/assert.js';
+} from '../util/migrations.preload.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { emptyDir, ensureFile } = fsExtra;
 

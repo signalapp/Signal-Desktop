@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.js';
-import { itemStorage } from '../textsecure/Storage.js';
-import type { ConversationModel } from '../models/conversations.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { isIncoming, isOutgoing, isStory } from './helpers.js';
+import { createLogger } from '../logging/log.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { isIncoming, isOutgoing, isStory } from './helpers.std.js';
 
 const log = createLogger('messages/sources');
 

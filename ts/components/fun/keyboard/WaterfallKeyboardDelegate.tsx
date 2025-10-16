@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import lodash from 'lodash';
-import { strictAssert } from '../../../util/assert.js';
-import { KeyboardDelegate } from './FunKeyboard.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { KeyboardDelegate } from './FunKeyboard.dom.js';
 
 const { findLast, maxBy } = lodash;
 

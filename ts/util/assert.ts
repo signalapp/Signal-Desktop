@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getEnvironment, Environment } from '../environment.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
+import { getEnvironment, Environment } from '../environment.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
 
 const log = createLogger('assert');
 

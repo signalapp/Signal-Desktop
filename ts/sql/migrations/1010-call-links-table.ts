@@ -3,7 +3,7 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import { sql } from '../util.js';
+import { sql } from '../util.std.js';
 
 export default function updateToSchemaVersion1010(db: Database): void {
   const [createTable] = sql`

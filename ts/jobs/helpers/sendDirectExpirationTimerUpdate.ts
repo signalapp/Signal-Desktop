@@ -3,28 +3,28 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { getSendOptions } from '../../util/getSendOptions.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
 import {
   isDirectConversation,
   isMe,
-} from '../../util/whatTypeOfConversation.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+} from '../../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+} from './handleMultipleSendErrors.std.js';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
   ExpirationTimerUpdateJobData,
   ConversationQueueJobBundle,
-} from '../conversationJobQueue.js';
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
+} from '../conversationJobQueue.preload.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,

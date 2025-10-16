@@ -7,24 +7,24 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ContactName } from './conversation/ContactName.js';
-import { InContactsIcon } from './InContactsIcon.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import { InContactsIcon } from './InContactsIcon.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
 import type {
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
-} from '../state/ducks/calling.js';
-import { Button, ButtonVariant } from './Button.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
-import { Theme } from '../util/theme.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.js';
-import { drop } from '../util/drop.js';
+} from '../state/ducks/calling.preload.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import { drop } from '../util/drop.std.js';
 
 const { noop } = lodash;
 

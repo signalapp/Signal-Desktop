@@ -3,7 +3,7 @@
 
 import * as Path from 'node:path';
 import { assert } from 'chai';
-import * as Errors from '../../types/errors.js';
+import * as Errors from '../../types/errors.std.js';
 
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 

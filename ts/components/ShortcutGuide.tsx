@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
-import type { LocalizerType } from '../types/Util.js';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
 
 export type Props = {
   platform: string;

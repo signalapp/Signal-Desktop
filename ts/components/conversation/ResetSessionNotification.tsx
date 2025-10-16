@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import { SystemMessage } from './SystemMessage.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { SystemMessage } from './SystemMessage.dom.js';
 
 export type Props = {
   i18n: LocalizerType;

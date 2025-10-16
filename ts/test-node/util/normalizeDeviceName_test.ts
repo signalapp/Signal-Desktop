@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { normalizeDeviceName } from '../../util/normalizeDeviceName.js';
+import { normalizeDeviceName } from '../../util/normalizeDeviceName.std.js';
 
 describe('normalizeDeviceName', () => {
   it('leaves normal device names untouched', () => {

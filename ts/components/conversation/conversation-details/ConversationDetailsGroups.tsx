@@ -5,15 +5,15 @@ import React from 'react';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../../state/ducks/conversations.js';
-import type { LocalizerType } from '../../../types/Util.js';
-import { Avatar, AvatarSize } from '../../Avatar.js';
+} from '../../../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.js';
-import { PanelRow } from './PanelRow.js';
-import { PanelSection } from './PanelSection.js';
+} from './ConversationDetailsIcon.dom.js';
+import { PanelRow } from './PanelRow.dom.js';
+import { PanelSection } from './PanelSection.dom.js';
 
 type Props = {
   contactId: string;

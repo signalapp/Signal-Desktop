@@ -3,12 +3,12 @@
 
 import { Delta } from '@signalapp/quill-cjs';
 
-import { insertEmojiOps } from '../util.js';
-import type { Matcher } from '../util.js';
+import { insertEmojiOps } from '../util.dom.js';
+import type { Matcher } from '../util.dom.js';
 import {
   FUN_INLINE_EMOJI_CLASS,
   FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji.js';
+} from '../../components/fun/FunEmoji.dom.js';
 
 export const matchEmojiImage: Matcher = (
   node,

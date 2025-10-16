@@ -5,10 +5,10 @@ import React, { memo, useCallback, useRef } from 'react';
 import {
   CC_NUMBER_FORMATTER,
   useInputMask,
-} from '../../../hooks/useInputMask.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import { CardNumberError } from '../../../types/DonationsCardForm.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
+} from '../../../hooks/useInputMask.dom.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import { CardNumberError } from '../../../types/DonationsCardForm.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
 
 export function getCardNumberErrorMessage(
   i18n: LocalizerType,

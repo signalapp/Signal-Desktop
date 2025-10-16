@@ -13,20 +13,20 @@ import { VisuallyHidden } from 'react-aria';
 import type {
   StickerPackType,
   StickerType,
-} from '../../../state/ducks/stickers.js';
-import type { LocalizerType } from '../../../types/I18N.js';
-import { strictAssert } from '../../../util/assert.js';
+} from '../../../state/ducks/stickers.preload.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import { strictAssert } from '../../../util/assert.std.js';
 import type {
   FunStickersPackSection,
   FunStickersSection,
   FunTimeStickerStyle,
-} from '../constants.js';
+} from '../constants.dom.js';
 import {
   FunSectionCommon,
   FunStickersSectionBase,
   FunTimeStickerStylesOrder,
   toFunStickersPackSection,
-} from '../constants.js';
+} from '../constants.dom.js';
 import {
   FunGridCell,
   FunGridContainer,
@@ -35,16 +35,16 @@ import {
   FunGridRow,
   FunGridRowGroup,
   FunGridScrollerSection,
-} from '../base/FunGrid.js';
-import { FunItemButton } from '../base/FunItem.js';
+} from '../base/FunGrid.dom.js';
+import { FunItemButton } from '../base/FunItem.dom.js';
 import {
   FunPanel,
   FunPanelBody,
   FunPanelFooter,
   FunPanelHeader,
-} from '../base/FunPanel.js';
-import { FunScroller } from '../base/FunScroller.js';
-import { FunSearch } from '../base/FunSearch.js';
+} from '../base/FunPanel.dom.js';
+import { FunScroller } from '../base/FunScroller.dom.js';
+import { FunSearch } from '../base/FunSearch.dom.js';
 import {
   FunSubNav,
   FunSubNavButton,
@@ -54,37 +54,37 @@ import {
   FunSubNavListBox,
   FunSubNavListBoxItem,
   FunSubNavScroller,
-} from '../base/FunSubNav.js';
+} from '../base/FunSubNav.dom.js';
 import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   type EmojiParentKey,
   getEmojiParentKeyByValue,
   getEmojiVariantByKey,
   isEmojiParentValue,
-} from '../data/emojis.js';
-import { FunKeyboard } from '../keyboard/FunKeyboard.js';
-import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate.js';
-import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate.js';
+} from '../data/emojis.std.js';
+import { FunKeyboard } from '../keyboard/FunKeyboard.dom.js';
+import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate.dom.js';
+import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate.dom.js';
 import type {
   CellKey,
   CellLayoutNode,
   GridSectionNode,
-} from '../virtual/useFunVirtualGrid.js';
-import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid.js';
-import { useFunContext } from '../FunProvider.js';
-import { FunResults, FunResultsHeader } from '../base/FunResults.js';
-import { FunStaticEmoji } from '../FunEmoji.js';
+} from '../virtual/useFunVirtualGrid.dom.js';
+import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid.dom.js';
+import { useFunContext } from '../FunProvider.dom.js';
+import { FunResults, FunResultsHeader } from '../base/FunResults.dom.js';
+import { FunStaticEmoji } from '../FunEmoji.dom.js';
 import {
   FunLightboxPortal,
   FunLightboxBackdrop,
   FunLightboxDialog,
   FunLightboxProvider,
   useFunLightboxKey,
-} from '../base/FunLightbox.js';
-import { FunSticker } from '../FunSticker.js';
-import { getAnalogTime } from '../../../util/getAnalogTime.js';
-import { getDateTimeFormatter } from '../../../util/formatTimestamp.js';
-import { useFunEmojiSearch } from '../useFunEmojiSearch.js';
+} from '../base/FunLightbox.dom.js';
+import { FunSticker } from '../FunSticker.dom.js';
+import { getAnalogTime } from '../../../util/getAnalogTime.std.js';
+import { getDateTimeFormatter } from '../../../util/formatTimestamp.dom.js';
+import { useFunEmojiSearch } from '../useFunEmojiSearch.dom.js';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;

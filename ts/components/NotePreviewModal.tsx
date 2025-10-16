@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { Button, ButtonVariant } from './Button.js';
-import { Modal } from './Modal.js';
-import { Linkify } from './conversation/Linkify.js';
-import type { RenderTextCallbackType } from '../types/Util.js';
-import { Emojify } from './conversation/Emojify.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
+import { Linkify } from './conversation/Linkify.dom.js';
+import type { RenderTextCallbackType } from '../types/Util.std.js';
+import { Emojify } from './conversation/Emojify.dom.js';
 
 export type NotePreviewModalProps = Readonly<{
   conversation: ConversationType;

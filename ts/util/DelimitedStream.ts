@@ -3,7 +3,7 @@
 
 import { Transform } from 'node:stream';
 
-import { missingCaseError } from './missingCaseError.js';
+import { missingCaseError } from './missingCaseError.std.js';
 
 enum State {
   Prefix = 'Prefix',

@@ -5,21 +5,21 @@ import type { ComponentProps } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl } from '../selectors/user.js';
-import { getUpdatesState } from '../selectors/updates.js';
-import { getInstallerState } from '../selectors/installer.js';
-import { useInstallerActions } from '../ducks/installer.js';
-import { useUpdatesActions } from '../ducks/updates.js';
-import { hasExpired as hasExpiredSelector } from '../selectors/expiration.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { backupsService } from '../../services/backups/index.js';
-import { InstallScreen } from '../../components/InstallScreen.js';
-import { WidthBreakpoint } from '../../components/_util.js';
-import { InstallScreenStep } from '../../types/InstallScreen.js';
-import OS from '../../util/os/osMain.js';
-import { isStagingServer } from '../../util/isStagingServer.js';
-import { createLogger } from '../../logging/log.js';
-import { SmartToastManager } from './ToastManager.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getUpdatesState } from '../selectors/updates.std.js';
+import { getInstallerState } from '../selectors/installer.std.js';
+import { useInstallerActions } from '../ducks/installer.preload.js';
+import { useUpdatesActions } from '../ducks/updates.preload.js';
+import { hasExpired as hasExpiredSelector } from '../selectors/expiration.dom.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { backupsService } from '../../services/backups/index.preload.js';
+import { InstallScreen } from '../../components/InstallScreen.dom.js';
+import { WidthBreakpoint } from '../../components/_util.std.js';
+import { InstallScreenStep } from '../../types/InstallScreen.std.js';
+import OS from '../../util/os/osMain.node.js';
+import { isStagingServer } from '../../util/isStagingServer.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import { SmartToastManager } from './ToastManager.preload.js';
 
 const log = createLogger('InstallScreen');
 

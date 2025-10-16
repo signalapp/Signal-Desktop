@@ -4,8 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../../Spinner.js';
-import { bemGenerator } from './util.js';
+import { Spinner } from '../../Spinner.dom.js';
+import { bemGenerator } from './util.std.js';
 
 export enum IconType {
   'approveAllMembers' = 'approveAllMembers',

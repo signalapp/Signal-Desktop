@@ -5,10 +5,10 @@ import { assert } from 'chai';
 import createDebug from 'debug';
 import { EnvelopeType, StorageState } from '@signalapp/mock-server';
 
-import type { App } from '../playwright.js';
-import * as durations from '../../util/durations/index.js';
-import { Bootstrap } from '../bootstrap.js';
-import { sleep } from '../../util/sleep.js';
+import type { App } from '../playwright.node.js';
+import * as durations from '../../util/durations/index.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { sleep } from '../../util/sleep.std.js';
 
 export const debug = createDebug('mock:test:retries');
 

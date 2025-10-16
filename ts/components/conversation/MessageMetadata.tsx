@@ -5,19 +5,19 @@ import type { ReactChild } from 'react';
 import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../../types/Util.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.js';
-import type { DirectionType } from './Message.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { ExpireTimer } from './ExpireTimer.js';
-import { MessageTimestamp } from './MessageTimestamp.js';
-import { PanelType } from '../../types/Panels.js';
-import { Spinner } from '../Spinner.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.js';
-import { refMerger } from '../../util/refMerger.js';
-import type { Size } from '../../hooks/useSizeObserver.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
+import type { DirectionType } from './Message.dom.js';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { ExpireTimer } from './ExpireTimer.dom.js';
+import { MessageTimestamp } from './MessageTimestamp.dom.js';
+import { PanelType } from '../../types/Panels.std.js';
+import { Spinner } from '../Spinner.dom.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
+import { refMerger } from '../../util/refMerger.std.js';
+import type { Size } from '../../hooks/useSizeObserver.dom.js';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 
 type PropsType = {
   deletedForEveryone?: boolean;

@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './UsernameMegaphone.js';
-import { UsernameMegaphone } from './UsernameMegaphone.js';
-import { type ComponentMeta } from '../storybook/types.js';
+import type { PropsType } from './UsernameMegaphone.dom.js';
+import { UsernameMegaphone } from './UsernameMegaphone.dom.js';
+import { type ComponentMeta } from '../storybook/types.std.js';
 
 const { i18n } = window.SignalContext;
 

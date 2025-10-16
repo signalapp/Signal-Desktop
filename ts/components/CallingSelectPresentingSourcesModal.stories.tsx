@@ -5,8 +5,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingSelectPresentingSourcesModal.js';
-import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal.js';
+import type { PropsType } from './CallingSelectPresentingSourcesModal.dom.js';
+import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

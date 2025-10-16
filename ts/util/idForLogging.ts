@@ -9,10 +9,13 @@ import {
   getSource,
   getSourceDevice,
   getSourceServiceId,
-} from '../messages/sources.js';
-import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation.js';
-import { getE164 } from './getE164.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
+} from '../messages/sources.preload.js';
+import {
+  isDirectConversation,
+  isGroupV2,
+} from './whatTypeOfConversation.dom.js';
+import { getE164 } from './getE164.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 
 export function getMessageIdForLogging(
   message: Pick<

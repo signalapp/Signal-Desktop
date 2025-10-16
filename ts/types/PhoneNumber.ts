@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from './errors.js';
+import {
+  instance,
+  PhoneNumberFormat,
+} from '../util/libphonenumberInstance.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from './errors.std.js';
 
 const log = createLogger('PhoneNumber');
 

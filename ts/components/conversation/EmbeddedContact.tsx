@@ -5,14 +5,14 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
 
-import type { LocalizerType } from '../../types/Util.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './contactUtil.js';
+} from './contactUtil.dom.js';
 
 export type Props = {
   contact: ReadonlyDeep<EmbeddedContactForUIType>;

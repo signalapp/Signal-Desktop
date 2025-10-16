@@ -1,12 +1,15 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CallMode } from '../types/CallDisposition.js';
-import type { ActiveCallType, ActiveGroupCallType } from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import type {
+  ActiveCallType,
+  ActiveGroupCallType,
+} from '../types/Calling.std.js';
 import type {
   DirectCallStateType,
   GroupCallStateType,
-} from '../state/ducks/calling.js';
+} from '../state/ducks/calling.preload.js';
 
 export function isGroupOrAdhocActiveCall(
   activeCall: ActiveCallType | undefined

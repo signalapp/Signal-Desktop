@@ -11,17 +11,17 @@ import { readFile } from 'node:fs/promises';
 import { join as pathJoin, relative as pathRelative } from 'node:path';
 import chalk from 'chalk';
 import { deepEqual } from 'node:assert';
-import type { Rule } from './utils/rule.js';
+import type { Rule } from './utils/rule.std.js';
 
-import icuPrefix from './rules/icuPrefix.js';
-import wrapEmoji from './rules/wrapEmoji.js';
-import onePlural from './rules/onePlural.js';
-import noLegacyVariables from './rules/noLegacyVariables.js';
-import noNestedChoice from './rules/noNestedChoice.js';
-import noOffset from './rules/noOffset.js';
-import noOneChoice from './rules/noOneChoice.js';
-import noOrdinal from './rules/noOrdinal.js';
-import pluralPound from './rules/pluralPound.js';
+import icuPrefix from './rules/icuPrefix.std.js';
+import wrapEmoji from './rules/wrapEmoji.std.js';
+import onePlural from './rules/onePlural.std.js';
+import noLegacyVariables from './rules/noLegacyVariables.std.js';
+import noNestedChoice from './rules/noNestedChoice.std.js';
+import noOffset from './rules/noOffset.std.js';
+import noOneChoice from './rules/noOneChoice.std.js';
+import noOrdinal from './rules/noOrdinal.std.js';
+import pluralPound from './rules/pluralPound.std.js';
 
 const RULES = [
   icuPrefix,

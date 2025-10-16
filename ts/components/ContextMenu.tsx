@@ -9,11 +9,11 @@ import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import lodash from 'lodash';
 
-import type { Theme } from '../util/theme.js';
-import type { LocalizerType } from '../types/Util.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.js';
-import { themeClassName } from '../util/theme.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
+import type { Theme } from '../util/theme.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { themeClassName } from '../util/theme.std.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
 
 const { noop } = lodash;
 

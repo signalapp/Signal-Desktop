@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DeliveryIssueDialog.js';
-import { DeliveryIssueDialog } from './DeliveryIssueDialog.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import type { PropsType } from './DeliveryIssueDialog.dom.js';
+import { DeliveryIssueDialog } from './DeliveryIssueDialog.dom.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
 
 const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();

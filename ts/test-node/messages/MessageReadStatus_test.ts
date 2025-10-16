@@ -3,7 +3,10 @@
 
 import { assert } from 'chai';
 
-import { ReadStatus, maxReadStatus } from '../../messages/MessageReadStatus.js';
+import {
+  ReadStatus,
+  maxReadStatus,
+} from '../../messages/MessageReadStatus.std.js';
 
 describe('message read status utilities', () => {
   describe('maxReadStatus', () => {

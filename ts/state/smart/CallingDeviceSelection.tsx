@@ -3,8 +3,8 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { CallingDeviceSelection } from '../../components/CallingDeviceSelection.js';
-import { getIntl } from '../selectors/user.js';
+import { CallingDeviceSelection } from '../../components/CallingDeviceSelection.dom.js';
+import { getIntl } from '../selectors/user.std.js';
 import {
   getAvailableCameras,
   getAvailableMicrophones,
@@ -12,8 +12,8 @@ import {
   getSelectedCamera,
   getSelectedMicrophone,
   getSelectedSpeaker,
-} from '../selectors/calling.js';
-import { useCallingActions } from '../ducks/calling.js';
+} from '../selectors/calling.std.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
 
 export const SmartCallingDeviceSelection = memo(
   function SmartCallingDeviceSelection() {

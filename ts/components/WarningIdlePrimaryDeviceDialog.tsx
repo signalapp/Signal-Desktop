@@ -7,10 +7,10 @@ import {
   LeftPaneDialog,
   LeftPaneDialogIcon,
   LeftPaneDialogIconBackground,
-} from './LeftPaneDialog.js';
-import { WidthBreakpoint } from './_util.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
+} from './LeftPaneDialog.dom.js';
+import { WidthBreakpoint } from './_util.std.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
 
 export type Props = {
   containerWidthBreakpoint: WidthBreakpoint;

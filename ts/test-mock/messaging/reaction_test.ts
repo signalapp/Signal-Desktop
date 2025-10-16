@@ -7,17 +7,17 @@ import { type Page } from 'playwright';
 import { expect } from 'playwright/test';
 import { assert } from 'chai';
 
-import type { App } from '../playwright.js';
-import { Bootstrap } from '../bootstrap.js';
-import { MINUTE } from '../../util/durations/index.js';
-import { strictAssert } from '../../util/assert.js';
+import type { App } from '../playwright.node.js';
+import { Bootstrap } from '../bootstrap.node.js';
+import { MINUTE } from '../../util/durations/index.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 import {
   clickOnConversation,
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
   createGroup,
-} from '../helpers.js';
+} from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:reactions');
 

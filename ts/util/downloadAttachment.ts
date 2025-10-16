@@ -4,26 +4,26 @@ import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   hasRequiredInformationForBackup,
   wasImportedFromLocalBackup,
-} from './Attachment.js';
+} from './Attachment.std.js';
 import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../types/Attachment.js';
-import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.js';
+} from '../types/Attachment.std.js';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.preload.js';
 import {
   getAttachment,
   getAttachmentFromBackupTier,
-} from '../textsecure/WebAPI.js';
-import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.js';
-import { MediaTier } from '../types/AttachmentDownload.js';
-import { createLogger } from '../logging/log.js';
-import { HTTPError } from '../types/HTTPError.js';
-import { toLogFormat } from '../types/errors.js';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
-import * as RemoteConfig from '../RemoteConfig.js';
-import { ToastType } from '../types/Toast.js';
-import { isAbortError } from './isAbortError.js';
+} from '../textsecure/WebAPI.preload.js';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.preload.js';
+import { MediaTier } from '../types/AttachmentDownload.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { HTTPError } from '../types/HTTPError.std.js';
+import { toLogFormat } from '../types/errors.std.js';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
+import * as RemoteConfig from '../RemoteConfig.dom.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { isAbortError } from './isAbortError.std.js';
 
 const log = createLogger('downloadAttachment');
 

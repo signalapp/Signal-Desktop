@@ -9,28 +9,33 @@ import type { ReadonlyDeep } from 'type-fest';
 // Note: nothing imported here can come back and require Client.ts, and that includes
 // their imports too. That circularity causes problems. Anything that would do that needs
 // to be passed in, like cleanupMessages below.
-import * as Bytes from '../Bytes.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
+import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
 
-import { deleteExternalFiles } from '../types/Conversation.js';
-import { createBatcher } from '../util/batcher.js';
-import { assertDev, softAssert } from '../util/assert.js';
-import { mapObjectWithSpec } from '../util/mapObjectWithSpec.js';
-import { deleteAttachmentData } from '../util/migrations.js';
-import { cleanDataForIpc } from './cleanDataForIpc.js';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout.js';
-import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.js';
-import { formatJobForInsert } from '../jobs/formatJobForInsert.js';
-import { AccessType, ipcInvoke, doShutdown, removeDB } from './channels.js';
-import { getMessageIdForLogging } from '../util/idForLogging.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
-import { generateSnippetAroundMention } from '../util/search.js';
-import { drop } from '../util/drop.js';
+import { deleteExternalFiles } from '../types/Conversation.node.js';
+import { createBatcher } from '../util/batcher.std.js';
+import { assertDev, softAssert } from '../util/assert.std.js';
+import { mapObjectWithSpec } from '../util/mapObjectWithSpec.std.js';
+import { deleteAttachmentData } from '../util/migrations.preload.js';
+import { cleanDataForIpc } from './cleanDataForIpc.std.js';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
+import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.std.js';
+import { formatJobForInsert } from '../jobs/formatJobForInsert.std.js';
+import {
+  AccessType,
+  ipcInvoke,
+  doShutdown,
+  removeDB,
+} from './channels.preload.js';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
+import { generateSnippetAroundMention } from '../util/search.std.js';
+import { drop } from '../util/drop.std.js';
 
-import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.js';
-import type { StoredJob } from '../jobs/types.js';
+import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+import type { StoredJob } from '../jobs/types.std.js';
 import type {
   ClientInterfaceWrap,
   AdjacentMessagesByConversationOptionsType,
@@ -61,14 +66,14 @@ import type {
   StoredKyberPreKeyType,
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
-} from './Interface.js';
-import { AttachmentDownloadSource } from './Interface.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.js';
+} from './Interface.std.js';
+import { AttachmentDownloadSource } from './Interface.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.std.js';
 import {
   throttledUpdateBackupMediaDownloadProgress,
   updateBackupMediaDownloadProgress,
-} from '../util/updateBackupMediaDownloadProgress.js';
+} from '../util/updateBackupMediaDownloadProgress.preload.js';
 
 const { groupBy, isTypedArray, last, map, omit } = lodash;
 

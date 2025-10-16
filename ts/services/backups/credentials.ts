@@ -12,50 +12,50 @@ import {
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import lodashFp from 'lodash/fp.js';
 
-import * as Bytes from '../../Bytes.js';
-import { createLogger } from '../../logging/log.js';
-import { strictAssert } from '../../util/assert.js';
-import { drop } from '../../util/drop.js';
-import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.js';
+import * as Bytes from '../../Bytes.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { drop } from '../../util/drop.std.js';
+import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.std.js';
 import {
   DAY,
   DurationInSeconds,
   HOUR,
   MINUTE,
-} from '../../util/durations/index.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
+} from '../../util/durations/index.std.js';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff.std.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
 import {
   type BackupCdnReadCredentialType,
   type BackupCredentialWrapperType,
   type BackupPresentationHeadersType,
   type BackupSignedPresentationType,
   BackupCredentialType,
-} from '../../types/backups.js';
-import { toLogFormat } from '../../types/errors.js';
-import { HTTPError } from '../../types/HTTPError.js';
+} from '../../types/backups.node.js';
+import { toLogFormat } from '../../types/errors.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
 import type {
   GetBackupCredentialsResponseType,
   GetBackupCDNCredentialsResponseType,
-} from '../../textsecure/WebAPI.js';
+} from '../../textsecure/WebAPI.preload.js';
 import {
   setBackupSignatureKey,
   getBackupCDNCredentials,
   getBackupCredentials,
   setBackupId,
-} from '../../textsecure/WebAPI.js';
+} from '../../textsecure/WebAPI.preload.js';
 import {
   getBackupKey,
   getBackupMediaRootKey,
   getBackupSignatureKey,
   getBackupMediaSignatureKey,
-} from './crypto.js';
-import { isTestOrMockEnvironment } from '../../environment.js';
+} from './crypto.preload.js';
+import { isTestOrMockEnvironment } from '../../environment.std.js';
 import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
-} from '../../util/isBackupEnabled.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../util/isBackupEnabled.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { throttle } = lodashFp;
 

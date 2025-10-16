@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SECOND, MINUTE } from './durations/index.js';
-import { isNormalNumber } from './isNormalNumber.js';
+import { SECOND, MINUTE } from './durations/index.std.js';
+import { isNormalNumber } from './isNormalNumber.std.js';
 
 const DEFAULT_RETRY_AFTER = MINUTE;
 const MINIMAL_RETRY_AFTER = SECOND;

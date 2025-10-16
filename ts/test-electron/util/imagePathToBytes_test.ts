@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import path from 'node:path';
 
-import { imagePathToBytes } from '../../util/imagePathToBytes.js';
+import { imagePathToBytes } from '../../util/imagePathToBytes.dom.js';
 
 describe('imagePathToBytes', () => {
   it('converts an image to an Bytes', async () => {

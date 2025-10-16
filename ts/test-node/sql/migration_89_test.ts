@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { jsonToObject, sql } from '../../sql/util.js';
+import { jsonToObject, sql } from '../../sql/util.std.js';
 import {
   CallMode,
   CallDirection,
@@ -12,17 +12,17 @@ import {
   DirectCallStatus,
   GroupCallStatus,
   callHistoryDetailsSchema,
-} from '../../types/CallDisposition.js';
-import type { CallHistoryDetails } from '../../types/CallDisposition.js';
+} from '../../types/CallDisposition.std.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
 import type {
   CallHistoryDetailsFromDiskType,
   MessageWithCallHistoryDetails,
-} from '../../sql/migrations/89-call-history.js';
-import { getCallIdFromEra } from '../../util/callDisposition.js';
-import { isValidUuid } from '../../util/isValidUuid.js';
-import { createDB, updateToVersion } from './helpers.js';
-import type { WritableDB, MessageType } from '../../sql/Interface.js';
-import { parsePartial } from '../../util/schemas.js';
+} from '../../sql/migrations/89-call-history.node.js';
+import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
+import { isValidUuid } from '../../util/isValidUuid.std.js';
+import { createDB, updateToVersion } from './helpers.node.js';
+import type { WritableDB, MessageType } from '../../sql/Interface.std.js';
+import { parsePartial } from '../../util/schemas.std.js';
 
 describe('SQL/updateToSchemaVersion89', () => {
   let db: WritableDB;

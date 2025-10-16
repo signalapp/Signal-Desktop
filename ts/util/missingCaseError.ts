@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { reallyJsonStringify } from './reallyJsonStringify.js';
+import { reallyJsonStringify } from './reallyJsonStringify.std.js';
 
 // `missingCaseError` is useful for compile-time checking that all `case`s in
 // a `switch` statement have been handled, e.g.

@@ -6,9 +6,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationVerificationModal.js';
-import { DonationVerificationModal } from './DonationVerificationModal.js';
-import { SECOND } from '../util/durations/index.js';
+import type { PropsType } from './DonationVerificationModal.dom.js';
+import { DonationVerificationModal } from './DonationVerificationModal.dom.js';
+import { SECOND } from '../util/durations/index.std.js';
 
 const { i18n } = window.SignalContext;
 

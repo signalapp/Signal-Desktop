@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util.js';
-import type { UsernameOnboardingActionableMegaphoneType } from '../types/Megaphone.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { UsernameOnboardingActionableMegaphoneType } from '../types/Megaphone.std.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
 
 export type PropsType = {
   i18n: LocalizerType;

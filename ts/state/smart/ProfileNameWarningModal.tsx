@@ -3,10 +3,10 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user.js';
-import { getGlobalModalsState } from '../selectors/globalModals.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { ProfileNameWarningModal } from '../../components/conversation/ProfileNameWarningModal.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getGlobalModalsState } from '../selectors/globalModals.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { ProfileNameWarningModal } from '../../components/conversation/ProfileNameWarningModal.dom.js';
 
 export const SmartProfileNameWarningModal = memo(
   function SmartProfileNameWarningModal() {

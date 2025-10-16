@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
 
 export type AboutProps = Readonly<{
   closeAbout: () => unknown;

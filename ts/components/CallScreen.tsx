@@ -16,91 +16,94 @@ import type {
   SetLocalVideoType,
   SetRendererCanvasType,
   SetMutedByType,
-} from '../state/ducks/calling.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { CallingHeader, getCallViewIconClassname } from './CallingHeader.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.js';
-import { CallingButton, CallingButtonType } from './CallingButton.js';
-import { Button, ButtonVariant } from './Button.js';
-import { TooltipPlacement } from './Tooltip.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.js';
+} from '../state/ducks/calling.preload.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import {
+  CallingHeader,
+  getCallViewIconClassname,
+} from './CallingHeader.dom.js';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { TooltipPlacement } from './Tooltip.dom.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
 import type {
   ActiveCallType,
   ActiveCallReactionsType,
   ConversationsByDemuxIdType,
   GroupCallVideoRequest,
-} from '../types/Calling.js';
+} from '../types/Calling.std.js';
 import {
   CALLING_REACTIONS_LIFETIME,
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.js';
-import { CallMode } from '../types/CallDisposition.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { AvatarColors } from '../types/Colors.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
+} from '../types/Calling.std.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import {
   CallingButtonToastsContainer,
   useScreenSharingStoppedToast,
-} from './CallingToastManager.js';
-import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.js';
-import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants.js';
-import { CallParticipantCount } from './CallParticipantCount.js';
-import type { LocalizerType } from '../types/Util.js';
-import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import * as KeyboardLayout from '../services/keyboardLayout.js';
+} from './CallingToastManager.dom.js';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.js';
+import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants.dom.js';
+import { CallParticipantCount } from './CallParticipantCount.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
 import {
   usePresenter,
   useActivateSpeakerViewOnPresenting,
-} from '../hooks/useActivateSpeakerViewOnPresenting.js';
+} from '../hooks/useActivateSpeakerViewOnPresenting.std.js';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator.js';
+} from './CallingAudioIndicator.dom.js';
 import {
   useActiveCallShortcuts,
   useKeyboardShortcuts,
-} from '../hooks/useKeyboardShortcuts.js';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.js';
-import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.js';
-import { usePrevious } from '../hooks/usePrevious.js';
+} from '../hooks/useKeyboardShortcuts.dom.js';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.js';
+import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.std.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
 import {
   CallingToastProvider,
   PersistentCallingToast,
   useCallingToasts,
-} from './CallingToast.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.js';
-import { Spinner } from './Spinner.js';
-import type { SmartReactionPicker } from '../state/smart/ReactionPicker.js';
+} from './CallingToast.dom.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker.dom.js';
 import {
   CallingRaisedHandsList,
   CallingRaisedHandsListButton,
-} from './CallingRaisedHandsList.js';
-import type { CallReactionBurstType } from './CallReactionBurst.js';
+} from './CallingRaisedHandsList.dom.js';
+import type { CallReactionBurstType } from './CallReactionBurst.dom.js';
 import {
   CallReactionBurstProvider,
   useCallReactionBursts,
-} from './CallReactionBurst.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
-import { assertDev, strictAssert } from '../util/assert.js';
-import { CallingPendingParticipants } from './CallingPendingParticipants.js';
-import type { CallingImageDataCache } from './CallManager.js';
-import { FunStaticEmoji } from './fun/FunEmoji.js';
+} from './CallReactionBurst.dom.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
+import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
+import type { CallingImageDataCache } from './CallManager.dom.js';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis.js';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.js';
+} from './fun/data/emojis.std.js';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
 import {
   BeforeNavigateResponse,
   beforeNavigateService,
-} from '../services/BeforeNavigate.js';
+} from '../services/BeforeNavigate.std.js';
 
 const { isEqual, noop } = lodash;
 

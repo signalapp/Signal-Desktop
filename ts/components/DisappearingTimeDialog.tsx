@@ -3,11 +3,11 @@
 
 import React, { useState } from 'react';
 
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { Select } from './Select.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { Theme } from '../util/theme.js';
-import { DurationInSeconds } from '../util/durations/index.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { Select } from './Select.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { Theme } from '../util/theme.std.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
 
 const CSS_MODULE = 'module-disappearing-time-dialog';
 

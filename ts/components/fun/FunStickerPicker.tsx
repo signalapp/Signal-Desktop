@@ -4,13 +4,13 @@ import type { ReactNode } from 'react';
 import React, { memo, useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
-import { FunPopover } from './base/FunPopover.js';
-import type { FunStickerSelection } from './panels/FunPanelStickers.js';
-import { FunPanelStickers } from './panels/FunPanelStickers.js';
-import { useFunContext } from './FunProvider.js';
-import type { ThemeType } from '../../types/Util.js';
-import { FunErrorBoundary } from './base/FunErrorBoundary.js';
-import type { FunTimeStickerStyle } from './constants.js';
+import { FunPopover } from './base/FunPopover.dom.js';
+import type { FunStickerSelection } from './panels/FunPanelStickers.dom.js';
+import { FunPanelStickers } from './panels/FunPanelStickers.dom.js';
+import { useFunContext } from './FunProvider.dom.js';
+import type { ThemeType } from '../../types/Util.std.js';
+import { FunErrorBoundary } from './base/FunErrorBoundary.dom.js';
+import type { FunTimeStickerStyle } from './constants.dom.js';
 
 export type FunStickerPickerProps = Readonly<{
   open: boolean;

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as Username from '../../util/Username.js';
+import * as Username from '../../util/Username.dom.js';
 
 describe('Username', () => {
   describe('getUsernameFromSearch', () => {

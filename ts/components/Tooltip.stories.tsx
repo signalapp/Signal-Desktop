@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Tooltip.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.js';
-import { Theme } from '../util/theme.js';
+import type { PropsType } from './Tooltip.dom.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
+import { Theme } from '../util/theme.std.js';
 
 export default {
   title: 'Components/Tooltip',

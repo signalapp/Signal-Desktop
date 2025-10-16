@@ -4,27 +4,27 @@
 import React, { useCallback } from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { formatFileSize } from '../../../util/formatFileSize.js';
-import { formatDuration } from '../../../util/formatDuration.js';
-import { missingCaseError } from '../../../util/missingCaseError.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.js';
-import type { MediaItemType } from '../../../types/MediaItem.js';
-import type { AttachmentForUIType } from '../../../types/Attachment.js';
+import { formatFileSize } from '../../../util/formatFileSize.std.js';
+import { formatDuration } from '../../../util/formatDuration.std.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
+import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
 import {
   getAlt,
   getUrl,
   defaultBlurHash,
   isGIF,
   isVideoAttachment,
-} from '../../../util/Attachment.js';
-import { ImageOrBlurhash } from '../../ImageOrBlurhash.js';
-import { SpinnerV2 } from '../../SpinnerV2.js';
-import { tw } from '../../../axo/tw.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.js';
+} from '../../../util/Attachment.std.js';
+import { ImageOrBlurhash } from '../../ImageOrBlurhash.dom.js';
+import { SpinnerV2 } from '../../SpinnerV2.dom.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
-} from '../../../hooks/useAttachmentStatus.js';
+} from '../../../hooks/useAttachmentStatus.std.js';
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;

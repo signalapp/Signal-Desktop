@@ -7,23 +7,23 @@ import lodash from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 import { List } from 'react-virtualized';
 import classNames from 'classnames';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { LocalizerType } from '../types/I18N.js';
-import { SearchInput } from './SearchInput.js';
-import { filterAndSortConversations } from '../util/filterAndSortConversations.js';
-import { NavSidebarSearchHeader } from './NavSidebar.js';
-import { ListTile } from './ListTile.js';
-import { strictAssert } from '../util/assert.js';
-import { UserText } from './UserText.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { I18n } from './I18n.js';
-import { SizeObserver } from '../hooks/useSizeObserver.js';
-import { CallType } from '../types/CallDisposition.js';
-import type { CallsTabSelectedView } from './CallsTab.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { SearchInput } from './SearchInput.dom.js';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.std.js';
+import { NavSidebarSearchHeader } from './NavSidebar.dom.js';
+import { ListTile } from './ListTile.dom.js';
+import { strictAssert } from '../util/assert.std.js';
+import { UserText } from './UserText.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { I18n } from './I18n.dom.js';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+import { CallType } from '../types/CallDisposition.std.js';
+import type { CallsTabSelectedView } from './CallsTab.preload.js';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from './conversation/InAnotherCallTooltip.js';
+} from './conversation/InAnotherCallTooltip.dom.js';
 
 const { partition } = lodash;
 

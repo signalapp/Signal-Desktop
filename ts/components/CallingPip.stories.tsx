@@ -5,23 +5,23 @@ import * as React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { PropsType } from './CallingPip.js';
-import { CallingPip } from './CallingPip.js';
-import type { ActiveDirectCallType } from '../types/Calling.js';
+import { AvatarColors } from '../types/Colors.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { PropsType } from './CallingPip.dom.js';
+import { CallingPip } from './CallingPip.dom.js';
+import type { ActiveDirectCallType } from '../types/Calling.std.js';
 import {
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.js';
-import { CallMode } from '../types/CallDisposition.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
-import { MINUTE } from '../util/durations/index.js';
-import type { SetRendererCanvasType } from '../state/ducks/calling.js';
-import { createCallParticipant } from '../test-helpers/createCallParticipant.js';
+} from '../types/Calling.std.js';
+import { CallMode } from '../types/CallDisposition.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
+import { MINUTE } from '../util/durations/index.std.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
+import { createCallParticipant } from '../test-helpers/createCallParticipant.std.js';
 
 const { times } = lodash;
 

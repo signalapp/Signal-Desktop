@@ -3,17 +3,17 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { MyStoryType, StoryViewType } from '../types/Stories.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { HasStories, ResolvedSendStatus } from '../types/Stories.js';
-import { MessageTimestamp } from './conversation/MessageTimestamp.js';
-import { StoriesAddStoryButton } from './StoriesAddStoryButton.js';
-import { StoryImage } from './StoryImage.js';
-import { getAvatarColor } from '../types/Colors.js';
-import { reduceStorySendStatus } from '../util/resolveStorySendStatus.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { MyStoryType, StoryViewType } from '../types/Stories.std.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { HasStories, ResolvedSendStatus } from '../types/Stories.std.js';
+import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
+import { StoriesAddStoryButton } from './StoriesAddStoryButton.dom.js';
+import { StoryImage } from './StoryImage.dom.js';
+import { getAvatarColor } from '../types/Colors.std.js';
+import { reduceStorySendStatus } from '../util/resolveStorySendStatus.std.js';
 
 export type PropsType = {
   i18n: LocalizerType;

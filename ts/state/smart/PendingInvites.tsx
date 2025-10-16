@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { PendingInvites } from '../../components/conversation/conversation-details/PendingInvites.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { PendingInvites } from '../../components/conversation/conversation-details/PendingInvites.dom.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
-} from '../selectors/conversations.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.js';
-import { assertDev } from '../../util/assert.js';
-import type { AciString } from '../../types/ServiceId.js';
-import { useConversationsActions } from '../ducks/conversations.js';
+} from '../selectors/conversations.dom.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
+import { assertDev } from '../../util/assert.std.js';
+import type { AciString } from '../../types/ServiceId.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export type SmartPendingInvitesProps = {
   conversationId: string;

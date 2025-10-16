@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getClassNamesFor } from '../../util/getClassNamesFor.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
 
 describe('getClassNamesFor', () => {
   it('returns a function', () => {

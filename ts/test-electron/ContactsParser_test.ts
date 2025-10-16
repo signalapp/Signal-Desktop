@@ -2,36 +2,42 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { createReadStream, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  createReadStream,
+  unlinkSync,
+  writeFileSync,
+  mkdtempSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
 import { v4 as generateGuid } from 'uuid';
 import { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
+import fse from 'fs-extra';
 
-import protobuf from '../protobuf/wrap.js';
-import { createLogger } from '../logging/log.js';
-import * as Bytes from '../Bytes.js';
-import * as Errors from '../types/errors.js';
+import protobuf from '../protobuf/wrap.node.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Bytes from '../Bytes.std.js';
+import * as Errors from '../types/errors.std.js';
 import {
   getAbsoluteAttachmentPath,
   deleteAttachmentData,
   readAttachmentData,
-} from '../util/migrations.js';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME.js';
-import { type AciString, generateAci } from '../types/ServiceId.js';
-import { SignalService as Proto } from '../protobuf/index.js';
+} from '../util/migrations.preload.js';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.js';
+import { type AciString, generateAci } from '../types/ServiceId.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 import {
   ParseContactsTransform,
   parseContactsV2,
-} from '../textsecure/ContactsParser.js';
-import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.js';
-import { createTempDir, deleteTempDir } from '../updater/common.js';
-import { strictAssert } from '../util/assert.js';
-import { toAciObject } from '../util/ServiceId.js';
+} from '../textsecure/ContactsParser.preload.js';
+import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.js';
+import { strictAssert } from '../util/assert.std.js';
+import { toAciObject } from '../util/ServiceId.node.js';
 import {
   generateKeys,
   encryptAttachmentV2ToDisk,
-} from '../AttachmentCrypto.js';
+} from '../AttachmentCrypto.node.js';
 
 const log = createLogger('ContactsParser_test');
 
@@ -43,10 +49,10 @@ describe('ContactsParser', () => {
   let tempDir: string;
 
   beforeEach(async () => {
-    tempDir = await createTempDir();
+    tempDir = mkdtempSync(join(tmpdir(), 'Signal'));
   });
   afterEach(async () => {
-    await deleteTempDir(log, tempDir);
+    await fse.remove(tempDir);
   });
 
   describe('parseContactsV2', () => {

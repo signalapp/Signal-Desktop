@@ -4,12 +4,12 @@
 import Fuse from 'fuse.js';
 import lodash from 'lodash';
 
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { AciString } from '../types/ServiceId.js';
-import { isAciString } from '../util/isAciString.js';
-import { filter, map } from '../util/iterables.js';
-import { removeDiacritics } from '../util/removeDiacritics.js';
-import { isNotNil } from '../util/isNotNil.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import { isAciString } from '../util/isAciString.std.js';
+import { filter, map } from '../util/iterables.std.js';
+import { removeDiacritics } from '../util/removeDiacritics.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 
 const { get } = lodash;
 

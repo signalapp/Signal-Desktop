@@ -4,8 +4,8 @@
 
 import lodash from 'lodash';
 
-import type { ReadableDB, WritableDB } from './Interface.js';
-import type { LoggerType } from '../types/Logging.js';
+import type { ReadableDB, WritableDB } from './Interface.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
 
 const { isNumber, last } = lodash;
 

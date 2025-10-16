@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { MINUTE } from '../util/durations/index.js';
+import { MINUTE } from '../util/durations/index.std.js';
 
 const listeners = new Set<() => void>();
 

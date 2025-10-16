@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import type {
   StickerPackType,
   StickerType,
-} from '../../state/ducks/stickers.js';
+} from '../../state/ducks/stickers.preload.js';
 
 const { sample } = lodash;
 

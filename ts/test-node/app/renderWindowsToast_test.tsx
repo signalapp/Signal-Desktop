@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import { renderWindowsToast } from '../../../app/renderWindowsToast.js';
-import { NotificationType } from '../../services/notifications.js';
+import { renderWindowsToast } from '../../../app/renderWindowsToast.dom.js';
+import { NotificationType } from '../../types/notifications.std.js';
 
 describe('renderWindowsToast', () => {
   it('handles toast with image', () => {

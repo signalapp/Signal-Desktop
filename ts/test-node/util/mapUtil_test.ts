@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { groupBy, isEqual } from '../../util/mapUtil.js';
+import { groupBy, isEqual } from '../../util/mapUtil.std.js';
 
 describe('map utilities', () => {
   describe('groupBy', () => {

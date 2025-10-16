@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './PhoneNumberDiscoveryNotification.js';
-import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.js';
+import type { PropsType } from './PhoneNumberDiscoveryNotification.dom.js';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.dom.js';
 
 const { i18n } = window.SignalContext;
 

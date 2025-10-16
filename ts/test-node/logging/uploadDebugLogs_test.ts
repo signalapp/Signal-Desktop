@@ -8,9 +8,9 @@ import FormData from 'form-data';
 import * as util from 'node:util';
 import * as zlib from 'node:zlib';
 
-import * as durations from '../../util/durations/index.js';
-import { upload } from '../../logging/uploadDebugLog.js';
-import { createLogger } from '../../logging/log.js';
+import * as durations from '../../util/durations/index.std.js';
+import { upload } from '../../logging/uploadDebugLog.node.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const logger = createLogger('uploadDebugLogs_test');
 

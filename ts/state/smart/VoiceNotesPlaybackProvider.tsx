@@ -3,23 +3,23 @@
 
 import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import type { VoiceNotesPlaybackProps } from '../../components/VoiceNotesPlaybackContext.js';
-import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext.js';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer.js';
+import type { VoiceNotesPlaybackProps } from '../../components/VoiceNotesPlaybackContext.dom.js';
+import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext.dom.js';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
-} from '../ducks/audioPlayer.js';
-import { globalMessageAudio } from '../../services/globalMessageAudio.js';
-import { strictAssert } from '../../util/assert.js';
-import { drop } from '../../util/drop.js';
-import { createLogger } from '../../logging/log.js';
-import { Sound, SoundType } from '../../util/Sound.js';
-import { getConversations } from '../selectors/conversations.js';
-import { SeenStatus } from '../../MessageSeenStatus.js';
-import { markViewed } from '../ducks/conversations.js';
-import * as Errors from '../../types/errors.js';
-import { usePrevious } from '../../hooks/usePrevious.js';
+} from '../ducks/audioPlayer.preload.js';
+import { globalMessageAudio } from '../../services/globalMessageAudio.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { drop } from '../../util/drop.std.js';
+import { createLogger } from '../../logging/log.std.js';
+import { Sound, SoundType } from '../../util/Sound.std.js';
+import { getConversations } from '../selectors/conversations.dom.js';
+import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import { markViewed } from '../ducks/conversations.preload.js';
+import * as Errors from '../../types/errors.std.js';
+import { usePrevious } from '../../hooks/usePrevious.std.js';
 
 const log = createLogger('VoiceNotesPlaybackProvider');
 

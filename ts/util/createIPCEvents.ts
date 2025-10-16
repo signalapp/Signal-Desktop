@@ -6,33 +6,36 @@ import type { SystemPreferences } from 'electron';
 import lodash from 'lodash';
 
 import type { ZoomFactorType } from '../types/Storage.d.ts';
-import * as Errors from '../types/errors.js';
-import * as Stickers from '../types/Stickers.js';
-import * as Settings from '../types/Settings.js';
+import * as Errors from '../types/errors.std.js';
+import * as Stickers from '../types/Stickers.preload.js';
+import * as Settings from '../types/Settings.std.js';
 
-import { resolveUsernameByLinkBase64 } from '../services/username.js';
-import { isInCall } from '../state/selectors/calling.js';
+import { resolveUsernameByLinkBase64 } from '../services/username.preload.js';
+import { isInCall } from '../state/selectors/calling.std.js';
 
-import * as Registration from './registration.js';
-import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId.js';
-import { createLogger } from '../logging/log.js';
+import * as Registration from './registration.preload.js';
+import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId.preload.js';
+import { createLogger } from '../logging/log.std.js';
 import {
   type NotificationClickData,
   notificationService,
-} from '../services/notifications.js';
-import { joinViaLink } from '../groups.js';
-import { StoryViewModeType, StoryViewTargetType } from '../types/Stories.js';
-import { isValidE164 } from './isValidE164.js';
-import { fromWebSafeBase64 } from './webSafeBase64.js';
-import { showConfirmationDialog } from './showConfirmationDialog.js';
+} from '../services/notifications.preload.js';
+import { joinViaLink } from '../groups.preload.js';
+import {
+  StoryViewModeType,
+  StoryViewTargetType,
+} from '../types/Stories.std.js';
+import { isValidE164 } from './isValidE164.std.js';
+import { fromWebSafeBase64 } from './webSafeBase64.std.js';
+import { showConfirmationDialog } from './showConfirmationDialog.dom.js';
 import type {
   EphemeralSettings,
   SettingsValuesType,
   ThemeType,
-} from './preload.js';
-import { SystemTraySetting } from '../types/SystemTraySetting.js';
-import { putStickers } from '../textsecure/WebAPI.js';
-import OS from './os/osPreload.js';
+} from './preload.preload.js';
+import { SystemTraySetting } from '../types/SystemTraySetting.std.js';
+import { putStickers } from '../textsecure/WebAPI.preload.js';
+import OS from './os/osPreload.preload.js';
 
 const { noop } = lodash;
 

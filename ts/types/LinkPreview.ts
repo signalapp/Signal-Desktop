@@ -8,18 +8,18 @@ import lodash from 'lodash';
 import nodeUrl from 'url';
 import LinkifyIt from 'linkify-it';
 
-import { maybeParseUrl } from '../util/url.js';
-import { replaceEmojiWithSpaces } from '../util/emoji.js';
-import { count } from '../util/grapheme.js';
+import { maybeParseUrl } from '../util/url.std.js';
+import { replaceEmojiWithSpaces } from '../util/emoji.std.js';
+import { count } from '../util/grapheme.std.js';
 
-import type { AttachmentWithHydratedData } from './Attachment.js';
+import type { AttachmentWithHydratedData } from './Attachment.std.js';
 import {
   artAddStickersRoute,
   groupInvitesRoute,
   linkCallRoute,
-} from '../util/signalRoutes.js';
-import type { Backups } from '../protobuf/index.js';
-import type { LinkPreviewType } from './message/LinkPreviews.js';
+} from '../util/signalRoutes.std.js';
+import type { Backups } from '../protobuf/index.std.js';
+import type { LinkPreviewType } from './message/LinkPreviews.std.js';
 
 const { isNumber, compact, isEmpty, range } = lodash;
 

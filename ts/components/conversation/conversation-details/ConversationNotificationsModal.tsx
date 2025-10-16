@@ -4,12 +4,12 @@
 import React, { useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import type { LocalizerType } from '../../../types/Util.js';
-import { getMuteOptions } from '../../../util/getMuteOptions.js';
-import { parseIntOrThrow } from '../../../util/parseIntOrThrow.js';
-import { CircleCheckbox, Variant } from '../../CircleCheckbox.js';
-import { Modal } from '../../Modal.js';
-import { Button, ButtonVariant } from '../../Button.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
+import { getMuteOptions } from '../../../util/getMuteOptions.std.js';
+import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.js';
+import { CircleCheckbox, Variant } from '../../CircleCheckbox.dom.js';
+import { Modal } from '../../Modal.dom.js';
+import { Button, ButtonVariant } from '../../Button.dom.js';
 
 type PropsType = {
   i18n: LocalizerType;

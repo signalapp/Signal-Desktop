@@ -18,9 +18,9 @@ import React, {
 } from 'react';
 import type { Transition } from 'framer-motion';
 import { motion } from 'framer-motion';
-import type { TailwindStyles } from '../tw.js';
-import { tw } from '../tw.js';
-import { ExperimentalAxoBadge } from '../AxoBadge.js';
+import type { TailwindStyles } from '../tw.dom.js';
+import { tw } from '../tw.dom.js';
+import { ExperimentalAxoBadge } from '../AxoBadge.dom.js';
 
 const Namespace = 'AxoBaseSegmentedControl';
 

@@ -3,10 +3,10 @@
 
 import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
-import { ListTile } from './ListTile.js';
-import type { Props } from './ListTile.js';
-import { CircleCheckbox } from './CircleCheckbox.js';
-import { UserText } from './UserText.js';
+import { ListTile } from './ListTile.dom.js';
+import type { Props } from './ListTile.dom.js';
+import { CircleCheckbox } from './CircleCheckbox.dom.js';
+import { UserText } from './UserText.dom.js';
 
 export default {
   title: 'Components/ListTile',

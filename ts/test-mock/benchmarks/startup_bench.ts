@@ -4,8 +4,8 @@
 import { ReceiptType } from '@signalapp/mock-server';
 import lodash from 'lodash';
 
-import { debug, Bootstrap, MAX_CYCLES } from './fixtures.js';
-import { type RegressionSample } from '../bootstrap.js';
+import { debug, Bootstrap, MAX_CYCLES } from './fixtures.node.js';
+import { type RegressionSample } from '../bootstrap.node.js';
 
 const { omit } = lodash;
 

@@ -6,10 +6,10 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.js';
-import type { PropsType } from './CustomizingPreferredReactionsModal.js';
-import { CustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.js';
-import { EmojiSkinTone } from './fun/data/emojis.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.js';
+import type { PropsType } from './CustomizingPreferredReactionsModal.dom.js';
+import { CustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.dom.js';
+import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 const { i18n } = window.SignalContext;
 

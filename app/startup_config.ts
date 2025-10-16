@@ -3,9 +3,9 @@
 
 import { app } from 'electron';
 
-import { name } from '../ts/util/packageJson.js';
-import { createLogger } from '../ts/logging/log.js';
-import * as GlobalErrors from './global_errors.js';
+import { name } from '../ts/util/packageJson.node.js';
+import { createLogger } from '../ts/logging/log.std.js';
+import * as GlobalErrors from './global_errors.main.js';
 
 const log = createLogger('startup_config');
 

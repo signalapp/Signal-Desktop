@@ -5,11 +5,14 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoriesTab.js';
-import { StoriesTab } from './StoriesTab.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
-import { getFakeMyStory, getFakeStory } from '../test-helpers/getFakeStory.js';
-import * as durations from '../util/durations/index.js';
+import type { PropsType } from './StoriesTab.dom.js';
+import { StoriesTab } from './StoriesTab.dom.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import {
+  getFakeMyStory,
+  getFakeStory,
+} from '../test-helpers/getFakeStory.dom.js';
+import * as durations from '../util/durations/index.std.js';
 
 const { i18n } = window.SignalContext;
 

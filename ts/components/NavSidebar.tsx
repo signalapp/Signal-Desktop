@@ -5,16 +5,16 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
-import { NavTabsToggle } from './NavTabs.js';
-import type { LocalizerType } from '../types/I18N.js';
+import { NavTabsToggle } from './NavTabs.dom.js';
+import type { LocalizerType } from '../types/I18N.std.js';
 import {
   MAX_WIDTH,
   MIN_FULL_WIDTH,
   MIN_WIDTH,
   getWidthFromPreferredWidth,
-} from '../util/leftPaneWidth.js';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.js';
-import type { UnreadStats } from '../util/countUnreadStats.js';
+} from '../util/leftPaneWidth.std.js';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.js';
+import type { UnreadStats } from '../util/countUnreadStats.std.js';
 
 export const NavSidebarWidthBreakpointContext =
   createContext<WidthBreakpoint | null>(null);

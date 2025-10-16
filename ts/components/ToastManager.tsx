@@ -5,24 +5,24 @@ import classNames from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import { SECOND } from '../util/durations/index.js';
-import { Toast } from './Toast.js';
-import { WidthBreakpoint } from './_util.js';
-import { UsernameMegaphone } from './UsernameMegaphone.js';
-import { assertDev } from '../util/assert.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { ToastType } from '../types/Toast.js';
-import { MegaphoneType } from '../types/Megaphone.js';
-import { NavTab, SettingsPage } from '../types/Nav.js';
-import { AxoSymbol } from '../axo/AxoSymbol.js';
-import { tw } from '../axo/tw.js';
+import { SECOND } from '../util/durations/index.std.js';
+import { Toast } from './Toast.dom.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { UsernameMegaphone } from './UsernameMegaphone.dom.js';
+import { assertDev } from '../util/assert.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { MegaphoneType } from '../types/Megaphone.std.js';
+import { NavTab, SettingsPage } from '../types/Nav.std.js';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
-import type { LocalizerType } from '../types/Util.js';
-import type { AnyToast } from '../types/Toast.js';
-import type { AnyActionableMegaphone } from '../types/Megaphone.js';
-import type { Location } from '../types/Nav.js';
-import { I18n } from './I18n.js';
-import { UserText } from './UserText.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { AnyToast } from '../types/Toast.dom.js';
+import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
+import type { Location } from '../types/Nav.std.js';
+import { I18n } from './I18n.dom.js';
+import { UserText } from './UserText.dom.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;

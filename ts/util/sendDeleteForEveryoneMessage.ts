@@ -2,24 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.js';
-import * as Errors from '../types/errors.js';
-import { DAY } from './durations/index.js';
-import { createLogger } from '../logging/log.js';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.js';
+import * as Errors from '../types/errors.std.js';
+import { DAY } from './durations/index.std.js';
+import { createLogger } from '../logging/log.std.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.js';
-import { deleteForEveryone } from './deleteForEveryone.js';
+} from '../jobs/conversationJobQueue.preload.js';
+import { deleteForEveryone } from './deleteForEveryone.preload.js';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
-} from './idForLogging.js';
-import { getMessageById } from '../messages/getMessageById.js';
-import { getRecipientConversationIds } from './getRecipientConversationIds.js';
-import { getRecipients } from './getRecipients.js';
-import { repeat, zipObject } from './iterables.js';
-import { isMe } from './whatTypeOfConversation.js';
+} from './idForLogging.preload.js';
+import { getMessageById } from '../messages/getMessageById.preload.js';
+import { getRecipientConversationIds } from './getRecipientConversationIds.dom.js';
+import { getRecipients } from './getRecipients.dom.js';
+import { repeat, zipObject } from './iterables.std.js';
+import { isMe } from './whatTypeOfConversation.dom.js';
 
 const log = createLogger('sendDeleteForEveryoneMessage');
 

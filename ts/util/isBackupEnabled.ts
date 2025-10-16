@@ -1,11 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as RemoteConfig from '../RemoteConfig.js';
-import { isTestOrMockEnvironment } from '../environment.js';
-import { isStagingServer } from './isStagingServer.js';
-import { isBeta, isNightly } from './version.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import * as RemoteConfig from '../RemoteConfig.dom.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
+import { isStagingServer } from './isStagingServer.dom.js';
+import { isBeta, isNightly } from './version.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function areRemoteBackupsTurnedOn(): boolean {
   return isBackupFeatureEnabled() && itemStorage.get('backupTier') != null;

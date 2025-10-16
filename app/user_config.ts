@@ -5,9 +5,9 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { app } from 'electron';
 
-import { start } from './base_config.js';
-import config from './config.js';
-import * as Errors from '../ts/types/errors.js';
+import { start } from './base_config.node.js';
+import config from './config.main.js';
+import * as Errors from '../ts/types/errors.std.js';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development

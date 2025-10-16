@@ -7,19 +7,19 @@ import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
-import * as Bytes from './Bytes.js';
-import { Crypto } from './context/Crypto.js';
-import { calculateAgreement, generateKeyPair } from './Curve.js';
-import { HashType, CipherType } from './types/Crypto.js';
-import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.js';
-import { ProfileDecryptError } from './types/errors.js';
-import { getBytesSubarray } from './util/uuidToBytes.js';
-import { logPadSize } from './util/logPadSize.js';
-import { Environment, getEnvironment } from './environment.js';
-import { toWebSafeBase64 } from './util/webSafeBase64.js';
+import * as Bytes from './Bytes.std.js';
+import { Crypto } from './context/Crypto.node.js';
+import { calculateAgreement, generateKeyPair } from './Curve.node.js';
+import { HashType, CipherType } from './types/Crypto.std.js';
+import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.std.js';
+import { ProfileDecryptError } from './types/errors.std.js';
+import { getBytesSubarray } from './util/uuidToBytes.std.js';
+import { logPadSize } from './util/logPadSize.std.js';
+import { Environment, getEnvironment } from './environment.std.js';
+import { toWebSafeBase64 } from './util/webSafeBase64.std.js';
 
-import type { AciString, PniString } from './types/ServiceId.js';
-import type { AvatarColorType } from './types/Colors.js';
+import type { AciString, PniString } from './types/ServiceId.std.js';
+import type { AvatarColorType } from './types/Colors.std.js';
 
 const { sample } = lodash;
 

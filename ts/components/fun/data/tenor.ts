@@ -3,13 +3,13 @@
 
 import { z } from 'zod';
 import type { Simplify } from 'type-fest';
-import { strictAssert } from '../../../util/assert.js';
-import { parseUnknown } from '../../../util/schemas.js';
+import { strictAssert } from '../../../util/assert.std.js';
+import { parseUnknown } from '../../../util/schemas.std.js';
 import {
   fetchJsonViaProxy,
   fetchBytesViaProxy,
-} from '../../../textsecure/WebAPI.js';
-import { fetchInSegments } from './segments.js';
+} from '../../../textsecure/WebAPI.preload.js';
+import { fetchInSegments } from './segments.std.js';
 
 const BASE_URL = 'https://tenor.googleapis.com/v2';
 const API_KEY = 'AIzaSyBt6SUfSsCQic2P2VkNkLjsGI7HGWZI95g';

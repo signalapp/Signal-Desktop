@@ -10,17 +10,17 @@ import type { ConnectionOptions } from 'node:tls';
 import { callbackify, promisify } from 'node:util';
 import pTimeout from 'p-timeout';
 
-import { createLogger } from '../logging/log.js';
+import { createLogger } from '../logging/log.std.js';
 import {
   electronLookup as electronLookupWithCb,
   interleaveAddresses,
-} from './dns.js';
-import { strictAssert } from './assert.js';
-import { parseIntOrThrow } from './parseIntOrThrow.js';
-import { sleep } from './sleep.js';
-import { SECOND } from './durations/index.js';
-import { dropNull } from './dropNull.js';
-import { explodePromise } from './explodePromise.js';
+} from './dns.node.js';
+import { strictAssert } from './assert.std.js';
+import { parseIntOrThrow } from './parseIntOrThrow.std.js';
+import { sleep } from './sleep.std.js';
+import { SECOND } from './durations/index.std.js';
+import { dropNull } from './dropNull.std.js';
+import { explodePromise } from './explodePromise.std.js';
 
 const log = createLogger('createHTTPSAgent');
 

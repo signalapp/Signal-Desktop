@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
 
 describe('isInSystemContacts', () => {
   it('returns true for direct conversations that have a `name` property', () => {

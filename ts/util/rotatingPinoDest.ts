@@ -4,8 +4,8 @@
 import fs from 'node:fs';
 import pino from 'pino';
 
-import { DAY, SECOND } from './durations/index.js';
-import { isMoreRecentThan } from './timestamp.js';
+import { DAY, SECOND } from './durations/index.std.js';
+import { isMoreRecentThan } from './timestamp.std.js';
 
 export const DEFAULT_MAX_ROTATIONS = 3;
 

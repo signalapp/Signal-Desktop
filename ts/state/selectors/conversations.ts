@@ -4,8 +4,8 @@
 import memoizee from 'memoizee';
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
-import type { StateType } from '../reducer.js';
-import type { StateSelector } from '../types.js';
+import type { StateType } from '../reducer.preload.js';
+import type { StateSelector } from '../types.std.js';
 import type {
   ConversationLookupType,
   ConversationMessageType,
@@ -16,72 +16,75 @@ import type {
   MessagesByConversationType,
   MessageTimestamps,
   PreJoinConversationType,
-} from '../ducks/conversations.js';
-import type { StoriesStateType, StoryDataType } from '../ducks/stories.js';
+} from '../ducks/conversations.preload.js';
+import type {
+  StoriesStateType,
+  StoryDataType,
+} from '../ducks/stories.preload.js';
 import {
   ComposerStep,
   OneTimeModalState,
   ConversationVerificationState,
-} from '../ducks/conversationsEnums.js';
-import { getOwn } from '../../util/getOwn.js';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState.js';
-import { deconstructLookup } from '../../util/deconstructLookup.js';
-import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.js';
-import { assertDev } from '../../util/assert.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
-import type { ContactNameColorType } from '../../types/Colors.js';
-import { ContactNameColors } from '../../types/Colors.js';
-import type { AvatarDataType } from '../../types/Avatar.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
-import { normalizeServiceId } from '../../types/ServiceId.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.js';
-import { sortByTitle } from '../../util/sortByTitle.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
+} from '../ducks/conversationsEnums.std.js';
+import { getOwn } from '../../util/getOwn.std.js';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.js';
+import { deconstructLookup } from '../../util/deconstructLookup.std.js';
+import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.dom.js';
+import { assertDev } from '../../util/assert.std.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
+import type { ContactNameColorType } from '../../types/Colors.std.js';
+import { ContactNameColors } from '../../types/Colors.std.js';
+import type { AvatarDataType } from '../../types/Avatar.std.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
+import { normalizeServiceId } from '../../types/ServiceId.std.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import { sortByTitle } from '../../util/sortByTitle.std.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.js';
-import { isGroupInStoryMode } from '../../util/isGroupInStoryMode.js';
+} from '../../util/whatTypeOfConversation.dom.js';
+import { isGroupInStoryMode } from '../../util/isGroupInStoryMode.std.js';
 
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
   getUserNumber,
-} from './user.js';
-import { getPinnedConversationIds } from './items.js';
-import { createLogger } from '../../logging/log.js';
-import { TimelineMessageLoadingState } from '../../util/timelineUtil.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
-import { reduce } from '../../util/iterables.js';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.js';
-import type { PanelRenderType } from '../../types/Panels.js';
-import type { HasStories } from '../../types/Stories.js';
-import { getHasStoriesSelector } from './stories2.js';
-import { canEditMessage } from '../../util/canEditMessage.js';
-import { isOutgoing } from '../../messages/helpers.js';
+} from './user.std.js';
+import { getPinnedConversationIds } from './items.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
+import { reduce } from '../../util/iterables.std.js';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
+import type { PanelRenderType } from '../../types/Panels.std.js';
+import type { HasStories } from '../../types/Stories.std.js';
+import { getHasStoriesSelector } from './stories2.dom.js';
+import { canEditMessage } from '../../util/canEditMessage.dom.js';
+import { isOutgoing } from '../../messages/helpers.std.js';
 import type {
   AllChatFoldersUnreadStats,
   UnreadStats,
-} from '../../util/countUnreadStats.js';
+} from '../../util/countUnreadStats.std.js';
 import {
-  isChatFoldersEnabled,
-  isConversationInChatFolder,
   type ChatFolder,
-} from '../../types/ChatFolder.js';
+  isConversationInChatFolder,
+} from '../../types/ChatFolder.std.js';
+import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import {
   getSelectedChatFolder,
   getCurrentChatFolders,
   getStableSelectedConversationIdInChatFolder,
-} from './chatFolders.js';
+} from './chatFolders.std.js';
 import {
   countAllChatFoldersUnreadStats,
   countAllConversationsUnreadStats,
-} from '../../util/countUnreadStats.js';
-import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.js';
-import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.js';
+} from '../../util/countUnreadStats.std.js';
+import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
+import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 
 const { isNumber, pick } = lodash;
 
@@ -427,7 +430,7 @@ export const _getLeftPaneLists = ({
     let conversation = values[i];
 
     if (
-      isChatFoldersEnabled() &&
+      isChatFoldersEnabled(window.SignalContext.getVersion()) &&
       !_shouldIncludeInChatFolder(
         conversation,
         selectedChatFolder,

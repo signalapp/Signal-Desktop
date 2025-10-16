@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { isAbortError } from '../util/isAbortError.js';
+import { isAbortError } from '../util/isAbortError.std.js';
 
 const { noop } = lodash;
 

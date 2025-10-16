@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { createBatcher } from '../../util/batcher.js';
-import { sleep } from '../../util/sleep.js';
+import { createBatcher } from '../../util/batcher.std.js';
+import { sleep } from '../../util/sleep.std.js';
 
 describe('batcher', () => {
   it('should schedule a full batch', async () => {

@@ -5,7 +5,7 @@ import React from 'react';
 import { FocusScope } from 'react-aria';
 import classNames from 'classnames';
 import { Button, Dialog, Header, Popover } from 'react-aria-components';
-import { FunScrollerSection } from './FunScroller.js';
+import { FunScrollerSection } from './FunScroller.dom.js';
 
 /**
  * Grid Container

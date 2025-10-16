@@ -3,19 +3,19 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { CompositionRecordingDraft } from '../../components/CompositionRecordingDraft.js';
-import type { AttachmentDraftType } from '../../types/Attachment.js';
+import { CompositionRecordingDraft } from '../../components/CompositionRecordingDraft.dom.js';
+import type { AttachmentDraftType } from '../../types/Attachment.std.js';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
-} from '../ducks/audioPlayer.js';
-import { useComposerActions } from '../ducks/composer.js';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer.js';
+} from '../ducks/audioPlayer.preload.js';
+import { useComposerActions } from '../ducks/composer.preload.js';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
 import {
   getConversationByIdSelector,
   getSelectedConversationId,
-} from '../selectors/conversations.js';
-import { getIntl } from '../selectors/user.js';
+} from '../selectors/conversations.dom.js';
+import { getIntl } from '../selectors/user.std.js';
 
 export type SmartCompositionRecordingDraftProps = {
   voiceNoteAttachment: AttachmentDraftType;

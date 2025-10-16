@@ -13,7 +13,7 @@ import {
   LTR_OVERRIDE,
   RTL_EMBEDDING,
   RTL_OVERRIDE,
-} from '../../util/unicodeBidi.js';
+} from '../../util/unicodeBidi.std.js';
 
 function debugUnicode(text: string) {
   return text

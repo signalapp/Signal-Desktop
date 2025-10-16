@@ -5,22 +5,22 @@ import React from 'react';
 import classNames from 'classnames';
 
 import lodash from 'lodash';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ContactName } from './conversation/ContactName.js';
-import { InContactsIcon } from './InContactsIcon.js';
-import type { CallLinkType } from '../types/CallLink.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { sortByTitle } from '../util/sortByTitle.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { ModalHost } from './ModalHost.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.js';
-import type { RemoveClientType } from '../state/ducks/calling.js';
-import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.js';
-import { Button } from './Button.js';
-import { Modal } from './Modal.js';
-import { Theme } from '../util/theme.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import { InContactsIcon } from './InContactsIcon.dom.js';
+import type { CallLinkType } from '../types/CallLink.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { sortByTitle } from '../util/sortByTitle.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { ModalHost } from './ModalHost.dom.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
+import type { RemoveClientType } from '../state/ducks/calling.preload.js';
+import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.js';
+import { Button } from './Button.dom.js';
+import { Modal } from './Modal.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 
 const { partition } = lodash;
 

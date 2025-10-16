@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as RemoteConfig from '../RemoteConfig.js';
-import { parseIntWithFallback } from './parseIntWithFallback.js';
+import * as RemoteConfig from '../RemoteConfig.dom.js';
+import { parseIntWithFallback } from './parseIntWithFallback.std.js';
 
 export function getMaxNickname(): number {
   return parseIntWithFallback(

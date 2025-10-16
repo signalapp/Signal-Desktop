@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import { itemStorage } from '../textsecure/Storage.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 // Matching storage.put API
 export async function put<K extends keyof StorageAccessType>(

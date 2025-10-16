@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { assert } from 'chai';
-import type { MessageAttributesType } from '../../model-types.js';
-import type { AttachmentType } from '../../types/Attachment.js';
-import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.js';
-import { generateMessageId } from '../../util/generateMessageId.js';
-import { ensureBodyAttachmentsAreSeparated } from '../../util/queueAttachmentDownloads.js';
-import { createLogger } from '../../logging/log.js';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { AttachmentType } from '../../types/Attachment.std.js';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.std.js';
+import { generateMessageId } from '../../util/generateMessageId.node.js';
+import { ensureBodyAttachmentsAreSeparated } from '../../util/queueAttachmentDownloads.preload.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const logger = createLogger('queueAttachmentDownloads_test');
 

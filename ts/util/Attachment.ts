@@ -3,42 +3,38 @@
 
 import moment from 'moment';
 import lodash from 'lodash';
-import { blobToArrayBuffer } from 'blob-util';
 
 import type {
   AttachmentType,
-  LocalAttachmentV2Type,
   AddressableAttachmentType,
   AttachmentForUIType,
   AttachmentWithHydratedData,
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
   LocallySavedAttachment,
-} from '../types/Attachment.js';
-import type { LoggerType } from '../types/Logging.js';
-import { createLogger } from '../logging/log.js';
-import * as MIME from '../types/MIME.js';
-import { toLogFormat } from '../types/errors.js';
-import { SignalService } from '../protobuf/index.js';
-import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome.js';
-import type { LocalizerType } from '../types/Util.js';
-import { ThemeType } from '../types/Util.js';
-import * as GoogleChrome from './GoogleChrome.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import type { MessageStatusType } from '../types/message/MessageStatus.js';
-import { isMoreRecentThan } from './timestamp.js';
-import { DAY } from './durations/index.js';
-import { getMessageQueueTime } from './getMessageQueueTime.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.js';
+} from '../types/Attachment.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as MIME from '../types/MIME.std.js';
+import { SignalService } from '../protobuf/index.std.js';
+import {
+  isImageTypeSupported,
+  isVideoTypeSupported,
+} from './GoogleChrome.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { ThemeType } from '../types/Util.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import type { MessageStatusType } from '../types/message/MessageStatus.std.js';
+import { isMoreRecentThan } from './timestamp.std.js';
+import { DAY } from './durations/index.std.js';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from '../types/Crypto.js';
-import { missingCaseError } from './missingCaseError.js';
-import type { MakeVideoScreenshotResultType } from '../types/VisualAttachment.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.js';
-import { getFilePathsOwnedByAttachment } from './messageFilePaths.js';
+} from '../types/Crypto.std.js';
+import { missingCaseError } from './missingCaseError.std.js';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
+import { getFilePathsOwnedByAttachment } from './messageFilePaths.std.js';
 
 const {
   isNumber,
@@ -232,181 +228,6 @@ export function deleteAllAttachmentFilesOnDisk({
     );
     await Promise.all([...result.externalDownloads].map(deleteDownloadOnDisk));
   };
-}
-
-const THUMBNAIL_SIZE = 150;
-const THUMBNAIL_CONTENT_TYPE = MIME.IMAGE_PNG;
-
-export async function captureDimensionsAndScreenshot(
-  attachment: AttachmentType,
-  options: { generateThumbnail: boolean },
-  params: {
-    writeNewAttachmentData: (
-      data: Uint8Array
-    ) => Promise<LocalAttachmentV2Type>;
-    makeObjectUrl: (
-      data: Uint8Array | ArrayBuffer,
-      contentType: MIME.MIMEType
-    ) => string;
-    revokeObjectUrl: (path: string) => void;
-    getImageDimensions: (params: {
-      objectUrl: string;
-      logger: LoggerType;
-    }) => Promise<{
-      width: number;
-      height: number;
-    }>;
-    makeImageThumbnail: (params: {
-      size: number;
-      objectUrl: string;
-      contentType: MIME.MIMEType;
-      logger: LoggerType;
-    }) => Promise<Blob>;
-    makeVideoScreenshot: (params: {
-      objectUrl: string;
-      contentType: MIME.MIMEType;
-      logger: LoggerType;
-    }) => Promise<MakeVideoScreenshotResultType>;
-    logger: LoggerType;
-  }
-): Promise<AttachmentType> {
-  const { contentType } = attachment;
-
-  const {
-    writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
-    getImageDimensions: getImageDimensionsFromURL,
-    makeImageThumbnail,
-    makeVideoScreenshot,
-    logger,
-  } = params;
-
-  if (
-    !GoogleChrome.isImageTypeSupported(contentType) &&
-    !GoogleChrome.isVideoTypeSupported(contentType)
-  ) {
-    return attachment;
-  }
-
-  // If the attachment hasn't been downloaded yet, we won't have a path
-  if (!attachment.path) {
-    return attachment;
-  }
-
-  const localUrl = getLocalAttachmentUrl(attachment);
-
-  if (GoogleChrome.isImageTypeSupported(contentType)) {
-    try {
-      const { width, height } = await getImageDimensionsFromURL({
-        objectUrl: localUrl,
-        logger,
-      });
-      let thumbnail: LocalAttachmentV2Type | undefined;
-
-      if (options.generateThumbnail) {
-        const thumbnailBuffer = await blobToArrayBuffer(
-          await makeImageThumbnail({
-            size: THUMBNAIL_SIZE,
-            objectUrl: localUrl,
-            contentType: THUMBNAIL_CONTENT_TYPE,
-            logger,
-          })
-        );
-
-        thumbnail = await writeNewAttachmentData(
-          new Uint8Array(thumbnailBuffer)
-        );
-      }
-
-      return {
-        ...attachment,
-        width,
-        height,
-        thumbnail: thumbnail
-          ? {
-              ...thumbnail,
-              contentType: THUMBNAIL_CONTENT_TYPE,
-              width: THUMBNAIL_SIZE,
-              height: THUMBNAIL_SIZE,
-            }
-          : undefined,
-      };
-    } catch (error) {
-      logger.error(
-        'captureDimensionsAndScreenshot:',
-        'error processing image; skipping screenshot generation',
-        toLogFormat(error)
-      );
-      return attachment;
-    }
-  }
-
-  let screenshotObjectUrl: string | undefined;
-  try {
-    const { blob, duration } = await makeVideoScreenshot({
-      objectUrl: localUrl,
-      contentType: THUMBNAIL_CONTENT_TYPE,
-      logger,
-    });
-    const screenshotBuffer = await blobToArrayBuffer(blob);
-    screenshotObjectUrl = makeObjectUrl(
-      screenshotBuffer,
-      THUMBNAIL_CONTENT_TYPE
-    );
-    const { width, height } = await getImageDimensionsFromURL({
-      objectUrl: screenshotObjectUrl,
-      logger,
-    });
-    const screenshot = await writeNewAttachmentData(
-      new Uint8Array(screenshotBuffer)
-    );
-
-    let thumbnail: LocalAttachmentV2Type | undefined;
-    if (options.generateThumbnail) {
-      const thumbnailBuffer = await blobToArrayBuffer(
-        await makeImageThumbnail({
-          size: THUMBNAIL_SIZE,
-          objectUrl: screenshotObjectUrl,
-          contentType: THUMBNAIL_CONTENT_TYPE,
-          logger,
-        })
-      );
-
-      thumbnail = await writeNewAttachmentData(new Uint8Array(thumbnailBuffer));
-    }
-
-    return {
-      ...attachment,
-      duration,
-      screenshot: {
-        ...screenshot,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        width,
-        height,
-      },
-      thumbnail: thumbnail
-        ? {
-            ...thumbnail,
-            contentType: THUMBNAIL_CONTENT_TYPE,
-            width: THUMBNAIL_SIZE,
-            height: THUMBNAIL_SIZE,
-          }
-        : undefined,
-      width,
-      height,
-    };
-  } catch (error) {
-    logger.error(
-      'captureDimensionsAndScreenshot: error processing video; skipping screenshot generation',
-      toLogFormat(error)
-    );
-    return attachment;
-  } finally {
-    if (screenshotObjectUrl !== undefined) {
-      revokeObjectUrl(screenshotObjectUrl);
-    }
-  }
 }
 
 // UI-focused functions
@@ -1024,37 +845,6 @@ export function getCachedAttachmentBySignature<T>(
     }
   }
   return undefined;
-}
-
-// Extend range in case the attachment is actually still there (this function is meant to
-// be optimistic)
-const BUFFER_TIME_ON_TRANSIT_TIER = 5 * DAY;
-
-export function mightStillBeOnTransitTier(
-  attachment: Pick<AttachmentType, 'cdnKey' | 'cdnNumber' | 'uploadTimestamp'>
-): boolean {
-  if (!attachment.cdnKey) {
-    return false;
-  }
-  if (attachment.cdnNumber == null) {
-    return false;
-  }
-
-  if (!attachment.uploadTimestamp) {
-    // Let's be conservative and still assume it might be downloadable
-    return true;
-  }
-
-  if (
-    isMoreRecentThan(
-      attachment.uploadTimestamp,
-      getMessageQueueTime() + BUFFER_TIME_ON_TRANSIT_TIER
-    )
-  ) {
-    return true;
-  }
-
-  return false;
 }
 
 export function hasRequiredInformationForBackup(

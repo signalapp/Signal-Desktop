@@ -17,91 +17,90 @@ import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 
-import { Button, ButtonVariant } from './Button.js';
-import { ChatColorPicker } from './ChatColorPicker.js';
-import { Checkbox } from './Checkbox.js';
-import { WidthBreakpoint } from './_util.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.js';
-import { Select } from './Select.js';
-import { Spinner } from './Spinner.js';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { ChatColorPicker } from './ChatColorPicker.dom.js';
+import { Checkbox } from './Checkbox.dom.js';
+import { WidthBreakpoint } from './_util.std.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
+import { Select } from './Select.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
-} from '../util/expirationTimer.js';
-import { DurationInSeconds } from '../util/durations/index.js';
-import { focusableSelector } from '../util/focusableSelectors.js';
-import { Modal } from './Modal.js';
-import { SearchInput } from './SearchInput.js';
-import { removeDiacritics } from '../util/removeDiacritics.js';
-import { assertDev } from '../util/assert.js';
-import { I18n } from './I18n.js';
-import { FunSkinTonesList } from './fun/FunSkinTones.js';
-import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.js';
+} from '../util/expirationTimer.std.js';
+import { DurationInSeconds } from '../util/durations/index.std.js';
+import { focusableSelector } from '../util/focusableSelectors.std.js';
+import { Modal } from './Modal.dom.js';
+import { SearchInput } from './SearchInput.dom.js';
+import { removeDiacritics } from '../util/removeDiacritics.std.js';
+import { assertDev } from '../util/assert.std.js';
+import { I18n } from './I18n.dom.js';
+import { FunSkinTonesList } from './fun/FunSkinTones.dom.js';
+import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   SettingsRadio,
   SettingsRow,
-} from './PreferencesUtil.js';
-import { PreferencesBackups } from './PreferencesBackups.js';
-import { PreferencesInternal } from './PreferencesInternal.js';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { NavSidebar } from './NavSidebar.js';
-import type { SettingsLocation } from '../types/Nav.js';
-import { SettingsPage, ProfileEditorPage } from '../types/Nav.js';
-import { tw } from '../axo/tw.js';
-import { FullWidthButton } from './PreferencesNotificationProfiles.js';
-import type { EmojiSkinTone } from './fun/data/emojis.js';
-import type { MediaDeviceSettings } from '../types/Calling.js';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
+} from './PreferencesUtil.dom.js';
+import { PreferencesBackups } from './PreferencesBackups.dom.js';
+import { PreferencesInternal } from './PreferencesInternal.dom.js';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { NavSidebar } from './NavSidebar.dom.js';
+import type { SettingsLocation } from '../types/Nav.std.js';
+import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
+import { tw } from '../axo/tw.dom.js';
+import { FullWidthButton } from './PreferencesNotificationProfiles.dom.js';
+import type { EmojiSkinTone } from './fun/data/emojis.std.js';
+import type { MediaDeviceSettings } from '../types/Calling.std.js';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.js';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
 } from '../types/Storage.d.ts';
-import type { ThemeSettingType } from '../types/StorageUIKeys.js';
-import type { AnyToast } from '../types/Toast.js';
-import { ToastType } from '../types/Toast.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ThemeSettingType } from '../types/StorageUIKeys.std.js';
+import type { AnyToast } from '../types/Toast.dom.js';
+import { ToastType } from '../types/Toast.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
-} from '../types/Colors.js';
+} from '../types/Colors.std.js';
 import type {
   LocalizerType,
   SentMediaQualityType,
   ThemeType,
-} from '../types/Util.js';
+} from '../types/Util.std.js';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.js';
-import type { UnreadStats } from '../util/countUnreadStats.js';
-import type { BadgeType } from '../badges/types.js';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
-import type { MessageAttributesType } from '../model-types.js';
-import { isBackupPage } from '../types/PreferencesBackupPage.js';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
+} from '../types/backups.node.js';
+import type { UnreadStats } from '../util/countUnreadStats.std.js';
+import type { BadgeType } from '../badges/types.std.js';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { isBackupPage } from '../types/PreferencesBackupPage.std.js';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.js';
-import type { DonationReceipt } from '../types/Donations.js';
-import type { ChatFolderId } from '../types/ChatFolder.js';
-import { isChatFoldersEnabled } from '../types/ChatFolder.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.js';
-import { AxoButton } from '../axo/AxoButton.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.js';
+} from '../util/os/promptOSAuthMain.main.js';
+import type { DonationReceipt } from '../types/Donations.std.js';
+import type { ChatFolderId } from '../types/ChatFolder.std.js';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -118,6 +117,7 @@ export type PropsDataType = {
   backupLocalBackupsEnabled: boolean;
   backupTier: BackupLevel | null;
   localBackupFolder: string | undefined;
+  chatFoldersFeatureEnabled: boolean;
   currentChatFoldersCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
@@ -384,6 +384,7 @@ export function Preferences({
   availableSpeakers,
   backupFeatureEnabled,
   backupMediaDownloadStatus,
+  chatFoldersFeatureEnabled,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
@@ -1181,7 +1182,7 @@ export function Preferences({
             />
           </SettingsRow>
         </SettingsRow>
-        {isChatFoldersEnabled() && (
+        {chatFoldersFeatureEnabled && (
           <SettingsRow
             title={i18n(
               'icu:Preferences__ChatsPage__ChatFoldersSection__Title'

@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { itemStorage } from '../textsecure/Storage.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export async function markEverDone(): Promise<void> {
   await itemStorage.put('chromiumRegistrationDoneEver', '');

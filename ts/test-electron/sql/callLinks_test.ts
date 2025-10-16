@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 
-import { DataReader, DataWriter } from '../../sql/Client.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../../test-helpers/fakeCallLink.js';
+} from '../../test-helpers/fakeCallLink.std.js';
 
 const { getCallLinkByRoomId } = DataReader;
 const { removeAll, insertCallLink, insertOrUpdateCallLinkFromSync } =

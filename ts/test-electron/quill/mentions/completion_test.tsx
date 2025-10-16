@@ -9,17 +9,17 @@ import type Quill from '@signalapp/quill-cjs';
 import type Keyboard from '@signalapp/quill-cjs/modules/keyboard.js';
 
 import type { MutableRefObject } from 'react';
-import type { MentionCompletionOptions } from '../../../quill/mentions/completion.js';
-import { MentionCompletion } from '../../../quill/mentions/completion.js';
-import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { MentionCompletionOptions } from '../../../quill/mentions/completion.dom.js';
+import { MentionCompletion } from '../../../quill/mentions/completion.dom.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import {
   MemberRepository,
   _toMembers,
-} from '../../../quill/memberRepository.js';
-import type { MemberType } from '../../../quill/memberRepository.js';
-import { ThemeType } from '../../../types/Util.js';
-import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation.js';
-import { setupI18n } from '../../../util/setupI18n.js';
+} from '../../../quill/memberRepository.std.js';
+import type { MemberType } from '../../../quill/memberRepository.std.js';
+import { ThemeType } from '../../../types/Util.std.js';
+import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation.std.js';
+import { setupI18n } from '../../../util/setupI18n.dom.js';
 
 type MiniLeafBlot = {
   value: () => string;

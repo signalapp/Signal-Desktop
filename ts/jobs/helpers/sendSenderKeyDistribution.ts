@@ -1,26 +1,26 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleMessageSend } from '../../util/handleMessageSend.js';
-import { getSendOptions } from '../../util/getSendOptions.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.js';
+} from './handleMultipleSendErrors.std.js';
 
-import type { ConversationModel } from '../../models/conversations.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
   ConversationQueueJobBundle,
   SenderKeyDistributionJobData,
-} from '../conversationJobQueue.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+} from '../conversationJobQueue.preload.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import {
   NoSenderKeyError,
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.js';
-import { shouldSendToConversation } from './shouldSendToConversation.js';
+} from '../../textsecure/Errors.std.js';
+import { shouldSendToConversation } from './shouldSendToConversation.preload.js';
 
 // Note: in regular scenarios, sender keys are sent as part of a group send. This job type
 //   is only used in decryption error recovery scenarios.

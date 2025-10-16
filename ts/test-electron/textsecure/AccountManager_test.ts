@@ -5,9 +5,9 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import * as sinon from 'sinon';
 
-import { getRandomBytes } from '../../Crypto.js';
-import { generateKeyPair } from '../../Curve.js';
-import AccountManager from '../../textsecure/AccountManager.js';
+import { getRandomBytes } from '../../Crypto.node.js';
+import { generateKeyPair } from '../../Curve.node.js';
+import AccountManager from '../../textsecure/AccountManager.preload.js';
 import type {
   KyberPreKeyType,
   OuterSignedPrekeyType,
@@ -17,10 +17,10 @@ import {
   ServiceIdKind,
   generateAci,
   generatePni,
-} from '../../types/ServiceId.js';
-import { DAY } from '../../util/durations/index.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../types/ServiceId.std.js';
+import { DAY } from '../../util/durations/index.std.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { range } = lodash;
 

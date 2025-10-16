@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 
-import { ProgressBar } from './ProgressBar.js';
-import type { ComponentMeta } from '../storybook/types.js';
+import { ProgressBar } from './ProgressBar.dom.js';
+import type { ComponentMeta } from '../storybook/types.std.js';
 
 type Props = React.ComponentProps<typeof ProgressBar>;
 export default {

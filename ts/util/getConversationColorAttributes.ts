@@ -5,8 +5,8 @@ import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
-} from '../types/Colors.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
+} from '../types/Colors.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 
 export function getConversationColorAttributes(
   conversationColors: Pick<

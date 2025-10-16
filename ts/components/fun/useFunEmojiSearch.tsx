@@ -3,16 +3,16 @@
 import Fuse from 'fuse.js';
 import lodash from 'lodash';
 import { useMemo } from 'react';
-import type { EmojiParentKey } from './data/emojis.js';
+import type { EmojiParentKey } from './data/emojis.std.js';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
   isEmojiParentValueDeprecated,
   normalizeShortNameCompletionQuery,
-} from './data/emojis.js';
-import type { LocaleEmojiListType } from '../../types/emoji.js';
-import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.js';
+} from './data/emojis.std.js';
+import type { LocaleEmojiListType } from '../../types/emoji.std.js';
+import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.dom.js';
 
 const { sortBy } = lodash;
 

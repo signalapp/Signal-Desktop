@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from '../util/durations/index.js';
-import { isEnabled } from '../RemoteConfig.js';
-import { MessageCache } from './MessageCache.js';
+import * as durations from '../util/durations/index.std.js';
+import { isEnabled } from '../RemoteConfig.dom.js';
+import { MessageCache } from './MessageCache.preload.js';
 
 const TEN_MINUTES = 10 * durations.MINUTE;
 

@@ -5,15 +5,15 @@
 
 import { createSelector } from 'reselect';
 
-import { getNotificationProfileSyncDisabled } from './items.js';
+import { getNotificationProfileSyncDisabled } from './items.dom.js';
 
-import type { StateType } from '../reducer.js';
-import type { NotificationProfilesStateType } from '../ducks/notificationProfiles.js';
+import type { StateType } from '../reducer.preload.js';
+import type { NotificationProfilesStateType } from '../ducks/notificationProfiles.preload.js';
 import type {
   NextProfileEvent,
   NotificationProfileOverride,
   NotificationProfileType,
-} from '../../types/NotificationProfile.js';
+} from '../../types/NotificationProfile.std.js';
 
 export const getNotificationProfileData = (
   state: StateType

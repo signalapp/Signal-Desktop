@@ -3,36 +3,36 @@
 
 import lodash from 'lodash';
 
-import { filter, map } from '../util/iterables.js';
-import { isNotNil } from '../util/isNotNil.js';
-import { SendMessageProtoError } from '../textsecure/Errors.js';
-import { getOwn } from '../util/getOwn.js';
-import { isGroup } from '../util/whatTypeOfConversation.js';
-import { handleMessageSend } from '../util/handleMessageSend.js';
-import { getSendOptions } from '../util/getSendOptions.js';
-import { createLogger } from '../logging/log.js';
+import { filter, map } from '../util/iterables.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
+import { SendMessageProtoError } from '../textsecure/Errors.std.js';
+import { getOwn } from '../util/getOwn.std.js';
+import { isGroup } from '../util/whatTypeOfConversation.dom.js';
+import { handleMessageSend } from '../util/handleMessageSend.preload.js';
+import { getSendOptions } from '../util/getSendOptions.preload.js';
+import { createLogger } from '../logging/log.std.js';
 import {
   getPropForTimestamp,
   getChangesForPropAtTimestamp,
-} from '../util/editHelpers.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
+} from '../util/editHelpers.std.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
 import {
   notifyStorySendFailed,
   saveErrorsOnMessage,
-} from '../test-node/util/messageFailures.js';
-import { isCustomError } from './helpers.js';
+} from '../test-node/util/messageFailures.preload.js';
+import { isCustomError } from './helpers.std.js';
 import {
   SendActionType,
   isSent,
   sendStateReducer,
-} from './MessageSendState.js';
+} from './MessageSendState.std.js';
 
 import type { CustomError, MessageAttributesType } from '../model-types.d.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import { messageSender } from '../textsecure/SendMessage.js';
-import type { MessageModel } from '../models/messages.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import type { SendStateByConversationId } from './MessageSendState.js';
+import { messageSender } from '../textsecure/SendMessage.preload.js';
+import type { MessageModel } from '../models/messages.preload.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { SendStateByConversationId } from './MessageSendState.std.js';
 
 const { noop, union } = lodash;
 

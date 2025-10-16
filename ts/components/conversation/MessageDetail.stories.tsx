@@ -4,15 +4,15 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsData as MessageDataPropsType } from './Message.js';
-import { TextDirection } from './Message.js';
-import type { Props } from './MessageDetail.js';
-import { MessageDetail } from './MessageDetail.js';
-import { SendStatus } from '../../messages/MessageSendState.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
-import { ThemeType } from '../../types/Util.js';
+import type { PropsData as MessageDataPropsType } from './Message.dom.js';
+import { TextDirection } from './Message.dom.js';
+import type { Props } from './MessageDetail.dom.js';
+import { MessageDetail } from './MessageDetail.dom.js';
+import { SendStatus } from '../../messages/MessageSendState.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
+import { ThemeType } from '../../types/Util.std.js';
 
 const { i18n } = window.SignalContext;
 

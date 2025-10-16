@@ -4,26 +4,26 @@
 import type {
   ConversationIdentifier,
   AddressableMessage,
-} from '../textsecure/messageReceiverEvents.js';
+} from '../textsecure/messageReceiverEvents.std.js';
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
   MessageAttributesType,
-} from '../model-types.js';
-import type { AciString, PniString } from '../types/ServiceId.js';
-import { isPniString } from '../types/ServiceId.js';
-import { getAuthor } from '../messages/sources.js';
-import { createLogger } from '../logging/log.js';
-import type { ConversationModel } from '../models/conversations.js';
-import { DataReader } from '../sql/Client.js';
+} from '../model-types.d.ts';
+import type { AciString, PniString } from '../types/ServiceId.std.js';
+import { isPniString } from '../types/ServiceId.std.js';
+import { getAuthor } from '../messages/sources.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { DataReader } from '../sql/Client.preload.js';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
-} from './idForLogging.js';
-import { isGroup, isGroupV2 } from './whatTypeOfConversation.js';
-import { getMessageSentTimestampSet } from './getMessageSentTimestampSet.js';
-import { isAciString } from './isAciString.js';
-import { missingCaseError } from './missingCaseError.js';
+} from './idForLogging.preload.js';
+import { isGroup, isGroupV2 } from './whatTypeOfConversation.dom.js';
+import { getMessageSentTimestampSet } from './getMessageSentTimestampSet.std.js';
+import { isAciString } from './isAciString.std.js';
+import { missingCaseError } from './missingCaseError.std.js';
 
 const log = createLogger('syncIdentifiers');
 

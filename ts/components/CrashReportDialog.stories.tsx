@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CrashReportDialog.js';
-import { CrashReportDialog } from './CrashReportDialog.js';
-import { sleep } from '../util/sleep.js';
+import type { PropsType } from './CrashReportDialog.dom.js';
+import { CrashReportDialog } from './CrashReportDialog.dom.js';
+import { sleep } from '../util/sleep.std.js';
 
 export default {
   title: 'Components/CrashReportDialog',

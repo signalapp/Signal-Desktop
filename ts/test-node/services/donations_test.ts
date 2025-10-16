@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { phoneNumberToCurrencyCode } from '../../services/donations.js';
+import { phoneNumberToCurrencyCode } from '../../services/donations.preload.js';
 
 describe('donations', () => {
   describe('phoneNumberToCurrency', () => {

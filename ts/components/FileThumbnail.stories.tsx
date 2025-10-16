@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { FileThumbnail } from './FileThumbnail.js';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME.js';
+import { FileThumbnail } from './FileThumbnail.dom.js';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.js';
 
 export default {
   title: 'FileThumbnail',

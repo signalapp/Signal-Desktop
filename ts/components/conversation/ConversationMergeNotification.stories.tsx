@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ConversationMergeNotification.js';
-import { ConversationMergeNotification } from './ConversationMergeNotification.js';
+import type { PropsType } from './ConversationMergeNotification.dom.js';
+import { ConversationMergeNotification } from './ConversationMergeNotification.dom.js';
 
 const { i18n } = window.SignalContext;
 

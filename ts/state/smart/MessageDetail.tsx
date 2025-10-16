@@ -4,25 +4,25 @@
 import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.js';
-import { MessageDetail } from '../../components/conversation/MessageDetail.js';
-import { getContactNameColorSelector } from '../selectors/conversations.js';
+import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.js';
+import { MessageDetail } from '../../components/conversation/MessageDetail.dom.js';
+import { getContactNameColorSelector } from '../selectors/conversations.dom.js';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
   getPlatform,
-} from '../selectors/user.js';
-import { getMessageDetails } from '../selectors/message.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { renderAudioAttachment } from './renderAudioAttachment.js';
-import { useAccountsActions } from '../ducks/accounts.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useLightboxActions } from '../ducks/lightbox.js';
-import { useStoriesActions } from '../ducks/stories.js';
+} from '../selectors/user.std.js';
+import { getMessageDetails } from '../selectors/message.preload.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
+import { useAccountsActions } from '../ducks/accounts.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useLightboxActions } from '../ducks/lightbox.preload.js';
+import { useStoriesActions } from '../ducks/stories.preload.js';
 
-export type { Contact } from '../../components/conversation/MessageDetail.js';
+export type { Contact } from '../../components/conversation/MessageDetail.dom.js';
 export type OwnProps = Pick<
   MessageDetailProps,
   'contacts' | 'errors' | 'message' | 'receivedAt'

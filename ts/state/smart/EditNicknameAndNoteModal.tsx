@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getConversationSelector } from '../selectors/conversations.js';
-import { getEditNicknameAndNoteModalProps } from '../selectors/globalModals.js';
-import { strictAssert } from '../../util/assert.js';
-import { EditNicknameAndNoteModal } from '../../components/EditNicknameAndNoteModal.js';
-import { getIntl } from '../selectors/user.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import type { NicknameAndNote } from '../ducks/conversations.js';
-import { useConversationsActions } from '../ducks/conversations.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getEditNicknameAndNoteModalProps } from '../selectors/globalModals.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { EditNicknameAndNoteModal } from '../../components/EditNicknameAndNoteModal.dom.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import type { NicknameAndNote } from '../ducks/conversations.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export const SmartEditNicknameAndNoteModal = memo(
   function SmartEditNicknameAndNoteModal(): JSX.Element {

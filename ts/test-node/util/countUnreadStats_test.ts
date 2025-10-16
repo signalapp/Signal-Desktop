@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
-import { countConversationUnreadStats } from '../../util/countUnreadStats.js';
+import { countConversationUnreadStats } from '../../util/countUnreadStats.std.js';
 import type {
   UnreadStats,
   ConversationPropsForUnreadStats,
-} from '../../util/countUnreadStats.js';
+} from '../../util/countUnreadStats.std.js';
 
 function getFutureMutedTimestamp() {
   return Date.now() + 12345;

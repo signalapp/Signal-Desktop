@@ -3,8 +3,8 @@
 
 import lodash from 'lodash';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { isDirectConversation } from './whatTypeOfConversation.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 
 const { compact } = lodash;
 

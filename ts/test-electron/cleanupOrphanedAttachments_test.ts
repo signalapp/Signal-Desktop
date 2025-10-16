@@ -7,22 +7,22 @@ import { v4 as generateUuid } from 'uuid';
 import { readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { DataWriter } from '../sql/Client.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 import {
   getAbsoluteAttachmentPath,
   getAbsoluteDownloadsPath,
   getAbsoluteDraftPath,
-} from '../util/migrations.js';
+} from '../util/migrations.preload.js';
 import {
   getDownloadsPath,
   getDraftPath,
   getPath,
-} from '../windows/main/attachments.js';
+} from '../windows/main/attachments.preload.js';
 
-import { generateAci } from '../types/ServiceId.js';
-import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
-import type { MessageAttributesType } from '../model-types.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 
 const { emptyDir, ensureFile } = fsExtra;
 

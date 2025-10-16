@@ -7,12 +7,12 @@ import {
   CHAT_FOLDER_DELETED_POSITION,
   CHAT_FOLDER_DEFAULTS,
   ChatFolderType,
-} from '../../types/ChatFolder.js';
-import type { ReadableDB, WritableDB } from '../Interface.js';
-import { sql } from '../util.js';
-import { strictAssert } from '../../util/assert.js';
-import type { CurrentChatFolder } from '../../types/CurrentChatFolders.js';
-import { isCurrentChatFolder } from '../../types/CurrentChatFolders.js';
+} from '../../types/ChatFolder.std.js';
+import type { ReadableDB, WritableDB } from '../Interface.std.js';
+import { sql } from '../util.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
+import { isCurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
 
 export type ChatFolderRow = Readonly<
   Omit<

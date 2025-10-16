@@ -6,12 +6,12 @@ import { useState } from 'react';
 import type {
   UUIDFetchStateType,
   UUIDFetchStateKeyType,
-} from '../util/uuidFetchState.js';
-import type { lookupConversationWithoutServiceId } from '../util/lookupConversationWithoutServiceId.js';
-import { sleep } from '../util/sleep.js';
-import * as durations from '../util/durations/index.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { getDefaultConversation } from './getDefaultConversation.js';
+} from '../util/uuidFetchState.std.js';
+import type { lookupConversationWithoutServiceId } from '../util/lookupConversationWithoutServiceId.preload.js';
+import { sleep } from '../util/sleep.std.js';
+import * as durations from '../util/durations/index.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { getDefaultConversation } from './getDefaultConversation.std.js';
 
 const VALID_IDENTIFIERS = new Set<UUIDFetchStateKeyType>([
   'e164:+12125551234',

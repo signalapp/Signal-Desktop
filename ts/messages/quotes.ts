@@ -7,7 +7,7 @@ import type {
   ReadonlyMessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d.ts';
-import { getSourceServiceId } from './sources.js';
+import { getSourceServiceId } from './sources.preload.js';
 
 export function isQuoteAMatch(
   message: ReadonlyMessageAttributesType | null | undefined,

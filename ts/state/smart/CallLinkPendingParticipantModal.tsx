@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { CallLinkPendingParticipantModal } from '../../components/CallLinkPendingParticipantModal.js';
-import { useCallingActions } from '../ducks/calling.js';
-import { getIntl } from '../selectors/user.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { getConversationSelector } from '../selectors/conversations.js';
-import { getCallLinkPendingParticipantContactId } from '../selectors/globalModals.js';
-import { strictAssert } from '../../util/assert.js';
+import { CallLinkPendingParticipantModal } from '../../components/CallLinkPendingParticipantModal.dom.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getCallLinkPendingParticipantContactId } from '../selectors/globalModals.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 export const SmartCallLinkPendingParticipantModal = memo(
   function SmartCallLinkPendingParticipantModal(): JSX.Element | null {

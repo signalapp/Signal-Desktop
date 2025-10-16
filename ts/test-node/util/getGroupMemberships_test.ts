@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { normalizeAci } from '../../util/normalizeAci.js';
-import type { ServiceIdString } from '../../types/ServiceId.js';
-import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { normalizeAci } from '../../util/normalizeAci.std.js';
+import type { ServiceIdString } from '../../types/ServiceId.std.js';
+import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.std.js';
 
-import { getGroupMemberships } from '../../util/getGroupMemberships.js';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 
 describe('getGroupMemberships', () => {
   const normalConversation1 = getDefaultConversationWithServiceId();

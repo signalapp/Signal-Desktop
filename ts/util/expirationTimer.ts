@@ -4,8 +4,8 @@
 import humanizeDuration from 'humanize-duration';
 import type { Unit } from 'humanize-duration';
 import lodash from 'lodash';
-import type { LocalizerType } from '../types/Util.js';
-import { SECOND, DurationInSeconds } from './durations/index.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { SECOND, DurationInSeconds } from './durations/index.std.js';
 
 const { isNumber } = lodash;
 

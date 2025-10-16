@@ -5,14 +5,14 @@ import casual from 'casual';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { generateAci } from '../types/ServiceId.js';
-import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.js';
-import { getRandomColor } from './getRandomColor.js';
-import { ConversationColors } from '../types/Colors.js';
-import { StorySendMode } from '../types/Stories.js';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { generateAci } from '../types/ServiceId.std.js';
+import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.dom.js';
+import { getRandomColor } from './getRandomColor.std.js';
+import { ConversationColors } from '../types/Colors.std.js';
+import { StorySendMode } from '../types/Stories.std.js';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.js';
 
 const { sample } = lodash;
 

@@ -4,14 +4,14 @@
 import type { ReactElement } from 'react';
 import React, { useCallback, useState } from 'react';
 
-import { Button, ButtonSize, ButtonVariant } from '../Button.js';
-import { SystemMessage } from './SystemMessage.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { LocalizerType } from '../../types/Util.js';
-import { I18n } from '../I18n.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { I18n } from '../I18n.dom.js';
 
-import { DeliveryIssueDialog } from './DeliveryIssueDialog.js';
-import { UserText } from '../UserText.js';
+import { DeliveryIssueDialog } from './DeliveryIssueDialog.dom.js';
+import { UserText } from '../UserText.dom.js';
 
 export type PropsDataType = {
   sender?: ConversationType;

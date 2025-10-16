@@ -4,25 +4,28 @@
 import * as React from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { ContactName } from './ContactName.js';
-import type { Props as AvatarProps } from '../Avatar.js';
-import { Avatar } from '../Avatar.js';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
-import { useEscapeHandling } from '../../hooks/useEscapeHandling.js';
-import type { ThemeType } from '../../types/Util.js';
-import type { EmojiParentKey, EmojiVariantKey } from '../fun/data/emojis.js';
+import { ContactName } from './ContactName.dom.js';
+import type { Props as AvatarProps } from '../Avatar.dom.js';
+import { Avatar } from '../Avatar.dom.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.js';
+import type { ThemeType } from '../../types/Util.std.js';
+import type {
+  EmojiParentKey,
+  EmojiVariantKey,
+} from '../fun/data/emojis.std.js';
 import {
   EMOJI_PARENT_KEY_CONSTANTS,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.js';
-import { strictAssert } from '../../util/assert.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.js';
+} from '../fun/data/emojis.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
 
 const { mapValues, orderBy } = lodash;
 

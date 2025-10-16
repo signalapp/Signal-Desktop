@@ -6,11 +6,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
-import type { AttachmentType } from '../types/Attachment.js';
-import type { LocalizerType } from '../types/Util.js';
-import { Spinner } from './Spinner.js';
-import { TextAttachment } from './TextAttachment.js';
-import { ThemeType } from '../types/Util.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Spinner } from './Spinner.dom.js';
+import { TextAttachment } from './TextAttachment.dom.js';
+import { ThemeType } from '../types/Util.std.js';
 import {
   defaultBlurHash,
   hasFailed,
@@ -18,12 +18,12 @@ import {
   isDownloaded,
   isDownloading,
   isGIF,
-} from '../util/Attachment.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.js';
-import { isVideoTypeSupported } from '../util/GoogleChrome.js';
-import { createLogger } from '../logging/log.js';
-import * as Errors from '../types/errors.js';
-import { isAbortError } from '../util/isAbortError.js';
+} from '../util/Attachment.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.std.js';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import { isAbortError } from '../util/isAbortError.std.js';
 
 const log = createLogger('StoryImage');
 

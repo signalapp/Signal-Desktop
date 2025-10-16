@@ -3,20 +3,20 @@
 
 import React, { useMemo } from 'react';
 
-import { CurveType, Image } from './Image.js';
-import { StagedGenericAttachment } from './StagedGenericAttachment.js';
-import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.js';
-import type { LocalizerType } from '../../types/Util.js';
+import { CurveType, Image } from './Image.dom.js';
+import { StagedGenericAttachment } from './StagedGenericAttachment.dom.js';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.dom.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 import type {
   AttachmentForUIType,
   AttachmentDraftType,
-} from '../../types/Attachment.js';
+} from '../../types/Attachment.std.js';
 import {
   areAllAttachmentsVisual,
   canDisplayImage,
   isImageAttachment,
   isVideoAttachment,
-} from '../../util/Attachment.js';
+} from '../../util/Attachment.std.js';
 
 export type Props<T extends AttachmentForUIType | AttachmentDraftType> =
   Readonly<{

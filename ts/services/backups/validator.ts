@@ -7,10 +7,10 @@ import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import type { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 import protobufjs from 'protobufjs';
 
-import { strictAssert } from '../../util/assert.js';
-import { toAciObject } from '../../util/ServiceId.js';
-import { missingCaseError } from '../../util/missingCaseError.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { toAciObject } from '../../util/ServiceId.node.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { Reader } = protobufjs;
 

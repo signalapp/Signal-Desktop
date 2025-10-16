@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { arePinnedConversationsEqual } from '../../util/arePinnedConversationsEqual.js';
-import { SignalService as Proto } from '../../protobuf/index.js';
+import { arePinnedConversationsEqual } from '../../util/arePinnedConversationsEqual.node.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 
 import PinnedConversation = Proto.AccountRecord.IPinnedConversation;
 

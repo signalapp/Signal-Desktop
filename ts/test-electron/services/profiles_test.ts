@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { sleep } from '../../util/sleep.js';
-import { MINUTE } from '../../util/durations/index.js';
-import { drop } from '../../util/drop.js';
+import { sleep } from '../../util/sleep.std.js';
+import { MINUTE } from '../../util/durations/index.std.js';
+import { drop } from '../../util/drop.std.js';
 
-import { ProfileService } from '../../services/profiles.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { HTTPError } from '../../types/HTTPError.js';
+import { ProfileService } from '../../services/profiles.preload.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { HTTPError } from '../../types/HTTPError.std.js';
 
 describe('util/profiles', () => {
   const SERVICE_ID_1 = generateAci();

@@ -6,21 +6,21 @@ import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 
 import type { RowType } from '@signalapp/sqlcipher';
-import type { LocalizerType } from '../types/I18N.js';
-import { toLogFormat } from '../types/errors.js';
-import { formatFileSize } from '../util/formatFileSize.js';
-import { SECOND } from '../util/durations/index.js';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
-import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil.js';
-import { Button, ButtonVariant } from './Button.js';
-import { Spinner } from './Spinner.js';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { DonationReceipt } from '../types/Donations.js';
-import { createLogger } from '../logging/log.js';
-import { isStagingServer } from '../util/isStagingServer.js';
-import { getHumanDonationAmount } from '../util/currency.js';
-import { AutoSizeTextArea } from './AutoSizeTextArea.js';
+import type { LocalizerType } from '../types/I18N.std.js';
+import { toLogFormat } from '../types/errors.std.js';
+import { formatFileSize } from '../util/formatFileSize.std.js';
+import { SECOND } from '../util/durations/index.std.js';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.js';
+import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil.dom.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { Spinner } from './Spinner.dom.js';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { DonationReceipt } from '../types/Donations.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { isStagingServer } from '../util/isStagingServer.dom.js';
+import { getHumanDonationAmount } from '../util/currency.dom.js';
+import { AutoSizeTextArea } from './AutoSizeTextArea.dom.js';
 
 const log = createLogger('PreferencesInternal');
 

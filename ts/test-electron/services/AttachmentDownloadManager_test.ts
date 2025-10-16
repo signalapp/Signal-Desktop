@@ -8,39 +8,39 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import type { StatsFs } from 'node:fs';
 
-import * as MIME from '../../types/MIME.js';
+import * as MIME from '../../types/MIME.std.js';
 import {
   AttachmentDownloadManager,
   runDownloadAttachmentJob,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
-} from '../../jobs/AttachmentDownloadManager.js';
+} from '../../jobs/AttachmentDownloadManager.preload.js';
 import {
   type AttachmentDownloadJobType,
   AttachmentDownloadUrgency,
   MediaTier,
-} from '../../types/AttachmentDownload.js';
-import { DataReader, DataWriter } from '../../sql/Client.js';
-import { DAY, MINUTE, MONTH } from '../../util/durations/index.js';
+} from '../../types/AttachmentDownload.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import { DAY, MINUTE, MONTH } from '../../util/durations/index.std.js';
 import {
   type AttachmentType,
   AttachmentVariant,
-} from '../../types/Attachment.js';
-import { strictAssert } from '../../util/assert.js';
-import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.js';
-import { AttachmentDownloadSource } from '../../sql/Interface.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
-import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.js';
-import { MEBIBYTE } from '../../types/AttachmentSize.js';
-import { generateAci } from '../../types/ServiceId.js';
-import { toBase64, toHex } from '../../Bytes.js';
-import { getRandomBytes } from '../../Crypto.js';
-import { JobCancelReason } from '../../jobs/types.js';
+} from '../../types/Attachment.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.preload.js';
+import { AttachmentDownloadSource } from '../../sql/Interface.std.js';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
+import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.js';
+import { MEBIBYTE } from '../../types/AttachmentSize.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { toBase64, toHex } from '../../Bytes.std.js';
+import { getRandomBytes } from '../../Crypto.node.js';
+import { JobCancelReason } from '../../jobs/types.std.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../../util/explodePromise.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../../util/explodePromise.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { omit } = lodash;
 

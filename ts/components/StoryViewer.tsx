@@ -5,54 +5,54 @@ import { FocusScope } from 'react-aria';
 import type { UIEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import type { DraftBodyRanges } from '../types/BodyRange.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { ContextMenuOptionType } from './ContextMenu.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { ContextMenuOptionType } from './ContextMenu.dom.js';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
-} from '../state/ducks/conversations.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
-import type { ReplyStateType, StoryViewType } from '../types/Stories.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories.js';
-import { createLogger } from '../logging/log.js';
-import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.js';
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
-import { ContextMenu } from './ContextMenu.js';
-import { I18n } from './I18n.js';
-import { MessageTimestamp } from './conversation/MessageTimestamp.js';
-import { SendStatus } from '../messages/MessageSendState.js';
-import { Spinner } from './Spinner.js';
-import { StoryDetailsModal } from './StoryDetailsModal.js';
-import { StoryDistributionListName } from './StoryDistributionListName.js';
-import { StoryImage } from './StoryImage.js';
+} from '../state/ducks/conversations.preload.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import type { ReplyStateType, StoryViewType } from '../types/Stories.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { ContextMenu } from './ContextMenu.dom.js';
+import { I18n } from './I18n.dom.js';
+import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
+import { SendStatus } from '../messages/MessageSendState.std.js';
+import { Spinner } from './Spinner.dom.js';
+import { StoryDetailsModal } from './StoryDetailsModal.dom.js';
+import { StoryDistributionListName } from './StoryDistributionListName.dom.js';
+import { StoryImage } from './StoryImage.dom.js';
 import {
   ResolvedSendStatus,
   StoryViewDirectionType,
   StoryViewModeType,
   StoryViewTargetType,
-} from '../types/Stories.js';
-import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.js';
-import { Theme } from '../util/theme.js';
-import { ToastType } from '../types/Toast.js';
-import { getAvatarColor } from '../types/Colors.js';
-import { getStoryBackground } from '../util/getStoryBackground.js';
-import { getStoryDuration } from '../util/getStoryDuration.js';
-import { isVideoAttachment } from '../util/Attachment.js';
-import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.js';
-import { useRetryStorySend } from '../hooks/useRetryStorySend.js';
-import { resolveStorySendStatus } from '../util/resolveStorySendStatus.js';
-import { strictAssert } from '../util/assert.js';
-import { MessageBody } from './conversation/MessageBody.js';
-import { RenderLocation } from './conversation/MessageTextRenderer.js';
-import { arrow } from '../util/keyboard.js';
-import { StoryProgressSegment } from './StoryProgressSegment.js';
-import type { EmojiSkinTone } from './fun/data/emojis.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
+} from '../types/Stories.std.js';
+import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.js';
+import { Theme } from '../util/theme.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { getAvatarColor } from '../types/Colors.std.js';
+import { getStoryBackground } from '../util/getStoryBackground.std.js';
+import { getStoryDuration } from '../util/getStoryDuration.dom.js';
+import { isVideoAttachment } from '../util/Attachment.std.js';
+import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice.std.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.js';
+import { resolveStorySendStatus } from '../util/resolveStorySendStatus.std.js';
+import { strictAssert } from '../util/assert.std.js';
+import { MessageBody } from './conversation/MessageBody.dom.js';
+import { RenderLocation } from './conversation/MessageTextRenderer.dom.js';
+import { arrow } from '../util/keyboard.dom.js';
+import { StoryProgressSegment } from './StoryProgressSegment.dom.js';
+import type { EmojiSkinTone } from './fun/data/emojis.std.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 
 const log = createLogger('StoryViewer');
 

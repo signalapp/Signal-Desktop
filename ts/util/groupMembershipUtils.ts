@@ -3,10 +3,13 @@
 
 import isNumber from 'lodash/isNumber.js';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ServiceIdString, AciString } from '../types/ServiceId.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation.js';
-import { itemStorage } from '../textsecure/Storage.js';
+import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import {
+  isDirectConversation,
+  isGroupV2,
+} from './whatTypeOfConversation.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function isMemberPending(
   conversationAttrs: Pick<

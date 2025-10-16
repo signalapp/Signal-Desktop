@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import type { ConversationType } from '../../state/ducks/conversations.js';
-import { SystemMessage } from './SystemMessage.js';
-import { Emojify } from './Emojify.js';
-import type { AnyPaymentEvent } from '../../types/Payment.js';
-import { getPaymentEventDescription } from '../../messages/payments.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { SystemMessage } from './SystemMessage.dom.js';
+import { Emojify } from './Emojify.dom.js';
+import type { AnyPaymentEvent } from '../../types/Payment.std.js';
+import { getPaymentEventDescription } from '../../messages/payments.std.js';
 
 export type PropsType = {
   event: AnyPaymentEvent;

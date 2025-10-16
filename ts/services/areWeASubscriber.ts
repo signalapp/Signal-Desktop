@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { StorageInterface } from '../types/Storage.d.ts';
-import type { getHasSubscription, isOnline } from '../textsecure/WebAPI.js';
-import { LatestQueue } from '../util/LatestQueue.js';
-import { waitForOnline } from '../util/waitForOnline.js';
+import type {
+  getHasSubscription,
+  isOnline,
+} from '../textsecure/WebAPI.preload.js';
+import { LatestQueue } from '../util/LatestQueue.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
 
 // This is only exported for testing.
 export class AreWeASubscriberService {

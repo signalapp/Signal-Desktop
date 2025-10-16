@@ -3,8 +3,8 @@
 
 import emojiRegex from 'emoji-regex';
 
-import { assertDev } from './assert.js';
-import { take } from './iterables.js';
+import { assertDev } from './assert.std.js';
+import { take } from './iterables.std.js';
 
 const REGEXP = emojiRegex();
 const MAX_EMOJI_TO_MATCH = 5000;

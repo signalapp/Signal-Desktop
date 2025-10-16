@@ -3,10 +3,10 @@
 
 import React, { useState } from 'react';
 
-import { Button, ButtonVariant } from './Button.js';
-import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.js';
-import type { LocalizerType } from '../types/Util.js';
-import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.dom.js';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { Modal } from './Modal.dom.js';
 
 export type PropsType = {
   hasChanges: boolean;

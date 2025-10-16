@@ -4,63 +4,66 @@
 import type { Database, RowType } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from '../util/assert.js';
+import { strictAssert } from '../util/assert.std.js';
 
 import type {
   ConversationAttributesType,
   MessageAttributesType,
   SenderKeyInfoType,
 } from '../model-types.d.ts';
-import type { StoredJob } from '../jobs/types.js';
-import type { ReactionType, ReactionReadStatus } from '../types/Reactions.js';
+import type { StoredJob } from '../jobs/types.std.js';
+import type {
+  ReactionType,
+  ReactionReadStatus,
+} from '../types/Reactions.std.js';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.js';
+} from '../types/Colors.std.js';
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import type { BytesToStrings } from '../types/Util.js';
-import type { QualifiedAddressStringType } from '../types/QualifiedAddress.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { BytesToStrings } from '../types/Util.std.js';
+import type { QualifiedAddressStringType } from '../types/QualifiedAddress.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.js';
-import type { BadgeType } from '../badges/types.js';
-import type { ReadStatus } from '../messages/MessageReadStatus.js';
-import type { RawBodyRange } from '../types/BodyRange.js';
-import type { MessageTimestamps } from '../state/ducks/conversations.js';
+} from '../types/ServiceId.std.js';
+import type { BadgeType } from '../badges/types.std.js';
+import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import type { RawBodyRange } from '../types/BodyRange.std.js';
+import type { MessageTimestamps } from '../state/ducks/conversations.preload.js';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition.js';
+} from '../types/CallDisposition.std.js';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
   DefunctCallLinkType,
-} from '../types/CallLink.js';
+} from '../types/CallLink.std.js';
 import type {
   AttachmentDownloadJobType,
   MessageAttachmentType,
-} from '../types/AttachmentDownload.js';
+} from '../types/AttachmentDownload.std.js';
 import type {
   GroupSendEndorsementsData,
   GroupSendMemberEndorsementRecord,
-} from '../types/GroupSendEndorsements.js';
-import type { SyncTaskType } from '../util/syncTasks.js';
-import type { AttachmentBackupJobType } from '../types/AttachmentBackup.js';
-import type { AttachmentType } from '../types/Attachment.js';
-import type { MediaItemMessageType } from '../types/MediaItem.js';
-import type { GifType } from '../components/fun/panels/FunPanelGifs.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.js';
-import type { DonationReceipt } from '../types/Donations.js';
-import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.js';
-import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.js';
-import type { CurrentChatFolder } from '../types/CurrentChatFolders.js';
+} from '../types/GroupSendEndorsements.std.js';
+import type { SyncTaskType } from '../util/syncTasks.preload.js';
+import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { MediaItemMessageType } from '../types/MediaItem.std.js';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
+import type { DonationReceipt } from '../types/Donations.std.js';
+import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.node.js';
+import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.std.js';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };

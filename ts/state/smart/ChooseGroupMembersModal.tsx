@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { strictAssert } from '../../util/assert.js';
-import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.js';
-import { getUsernameFromSearch } from '../../util/Username.js';
-import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.js';
-import { getIntl, getTheme, getRegionCode } from '../selectors/user.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.js';
+import { getUsernameFromSearch } from '../../util/Username.dom.js';
+import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.dom.js';
+import { getIntl, getTheme, getRegionCode } from '../selectors/user.std.js';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
   getMe,
-} from '../selectors/conversations.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
+} from '../selectors/conversations.dom.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 
 export type SmartChooseGroupMembersModalPropsType = Readonly<{
   conversationIdsAlreadyInGroup: Set<string>;

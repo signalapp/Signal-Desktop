@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './CircleCheckbox.js';
-import { CircleCheckbox, Variant } from './CircleCheckbox.js';
+import type { Props } from './CircleCheckbox.dom.js';
+import { CircleCheckbox, Variant } from './CircleCheckbox.dom.js';
 
 const createProps = (): Props => ({
   checked: false,

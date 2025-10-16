@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../../types/Util.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 
 export type Props = {
   i18n: LocalizerType;

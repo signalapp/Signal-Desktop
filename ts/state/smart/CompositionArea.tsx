@@ -3,25 +3,25 @@
 
 import React, { useCallback, useMemo, memo } from 'react';
 import { useSelector } from 'react-redux';
-import { CompositionArea } from '../../components/CompositionArea.js';
-import { useContactNameData } from '../../components/conversation/ContactName.js';
+import { CompositionArea } from '../../components/CompositionArea.dom.js';
+import { useContactNameData } from '../../components/conversation/ContactName.dom.js';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-} from '../../types/BodyRange.js';
-import { hydrateRanges } from '../../types/BodyRange.js';
-import { strictAssert } from '../../util/assert.js';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
-import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis/index.js';
-import { imageToBlurHash } from '../../util/imageToBlurHash.js';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
-import { isSignalConversation } from '../../util/isSignalConversation.js';
+} from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../types/BodyRange.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
+import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis/index.dom.js';
+import { imageToBlurHash } from '../../util/imageToBlurHash.dom.js';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   getErrorDialogAudioRecorderType,
   getRecordingState,
-} from '../selectors/audioRecorder.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { getComposerStateForConversationIdSelector } from '../selectors/composer.js';
+} from '../selectors/audioRecorder.std.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { getComposerStateForConversationIdSelector } from '../selectors/composer.preload.js';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
@@ -30,33 +30,33 @@ import {
   getMessages,
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
-} from '../selectors/conversations.js';
+} from '../selectors/conversations.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
   getTextFormattingEnabled,
-} from '../selectors/items.js';
-import { canForward, getPropsForQuote } from '../selectors/message.js';
+} from '../selectors/items.dom.js';
+import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
 import {
   getIntl,
   getPlatform,
   getTheme,
   getUserConversationId,
-} from '../selectors/user.js';
-import { SmartCompositionRecording } from './CompositionRecording.js';
-import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.js';
-import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft.js';
-import { useComposerActions } from '../ducks/composer.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { useAudioRecorderActions } from '../ducks/audioRecorder.js';
-import { useEmojisActions } from '../ducks/emojis.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { useToastActions } from '../ducks/toast.js';
-import { isShowingAnyModal } from '../selectors/globalModals.js';
-import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
-import { isConversationMuted } from '../../util/isConversationMuted.js';
-import { itemStorage } from '../../textsecure/Storage.js';
+} from '../selectors/user.std.js';
+import { SmartCompositionRecording } from './CompositionRecording.preload.js';
+import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.preload.js';
+import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft.preload.js';
+import { useComposerActions } from '../ducks/composer.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useAudioRecorderActions } from '../ducks/audioRecorder.preload.js';
+import { useEmojisActions } from '../ducks/emojis.preload.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { isShowingAnyModal } from '../selectors/globalModals.std.js';
+import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
+import { isConversationMuted } from '../../util/isConversationMuted.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;

@@ -4,9 +4,9 @@
 import createDebug from 'debug';
 import Long from 'long';
 
-import type { App } from '../playwright.js';
-import * as durations from '../../util/durations/index.js';
-import { Bootstrap } from '../bootstrap.js';
+import type { App } from '../playwright.node.js';
+import * as durations from '../../util/durations/index.std.js';
+import { Bootstrap } from '../bootstrap.node.js';
 
 export const debug = createDebug('mock:test:readSync');
 

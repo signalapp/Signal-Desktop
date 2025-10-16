@@ -3,8 +3,8 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { getRecipients } from './getRecipients.js';
-import { strictAssert } from './assert.js';
+import { getRecipients } from './getRecipients.dom.js';
+import { strictAssert } from './assert.std.js';
 
 // Recipients includes only the people we'll actually send to for this conversation
 export function getRecipientConversationIds(

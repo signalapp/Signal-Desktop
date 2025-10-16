@@ -5,8 +5,8 @@ import * as React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetailsActions.js';
-import { ConversationDetailsActions } from './ConversationDetailsActions.js';
+import type { Props } from './ConversationDetailsActions.dom.js';
+import { ConversationDetailsActions } from './ConversationDetailsActions.dom.js';
 
 const { isBoolean } = lodash;
 

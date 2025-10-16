@@ -3,14 +3,14 @@
 import React, { memo, useId } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
-import { AxoSymbol } from './AxoSymbol.js';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
-import { tw } from './tw.js';
+import { AxoSymbol } from './AxoSymbol.dom.js';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
+import { tw } from './tw.dom.js';
 import {
   AriaLabellingProvider,
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
-} from './_internal/AriaLabellingContext.js';
+} from './_internal/AriaLabellingContext.dom.js';
 
 const Namespace = 'AxoDropdownMenu';
 

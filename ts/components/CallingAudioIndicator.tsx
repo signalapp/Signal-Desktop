@@ -6,8 +6,8 @@ import type { ReactElement } from 'react';
 import React, { useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
-import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 
 export const SPEAKING_LINGER_MS = 200;
 const BASE_CLASS_NAME = 'CallingAudioIndicator';

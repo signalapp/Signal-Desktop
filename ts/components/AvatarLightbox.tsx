@@ -4,10 +4,10 @@
 import React from 'react';
 import lodash from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors.js';
-import { AvatarPreview } from './AvatarPreview.js';
-import { Lightbox } from './Lightbox.js';
-import type { LocalizerType } from '../types/Util.js';
+import type { AvatarColorType } from '../types/Colors.std.js';
+import { AvatarPreview } from './AvatarPreview.dom.js';
+import { Lightbox } from './Lightbox.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
 
 const { noop } = lodash;
 

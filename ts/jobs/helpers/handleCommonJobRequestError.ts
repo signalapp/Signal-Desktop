@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.js';
-import { sleepForRateLimitRetryAfterTime } from './sleepForRateLimitRetryAfterTime.js';
-import { getHttpErrorCode } from './getHttpErrorCode.js';
+import type { LoggerType } from '../../types/Logging.std.js';
+import { sleepForRateLimitRetryAfterTime } from './sleepForRateLimitRetryAfterTime.std.js';
+import { getHttpErrorCode } from './getHttpErrorCode.std.js';
 
 export async function handleCommonJobRequestError({
   err,

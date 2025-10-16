@@ -6,7 +6,7 @@ import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { BufferWriter } from 'protobufjs';
 
-import { DelimitedStream } from '../../util/DelimitedStream.js';
+import { DelimitedStream } from '../../util/DelimitedStream.node.js';
 
 describe('DelimitedStream', () => {
   function collect(out: Array<string>): Writable {

@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.js';
-import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.js';
-import { getIntl, getTheme } from '../selectors/user.js';
-import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.js';
+import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
+import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
+import { getIntl, getTheme } from '../selectors/user.std.js';
+import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.js';
 import {
   getAllComposableConversations,
   getConversationSelector,
-} from '../selectors/conversations.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.js';
-import { useChatFolderActions } from '../ducks/chatFolders.js';
-import { getCurrentChatFolders } from '../selectors/chatFolders.js';
-import { useNavActions } from '../ducks/nav.js';
-import type { Location } from '../../types/Nav.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.js';
+} from '../selectors/conversations.dom.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import type { Location } from '../../types/Nav.std.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
   previousLocation: Location | null;

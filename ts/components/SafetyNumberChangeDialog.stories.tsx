@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './SafetyNumberChangeDialog.js';
-import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { Props } from './SafetyNumberChangeDialog.dom.js';
+import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.js';
-import { MY_STORY_ID } from '../types/Stories.js';
-import { generateStoryDistributionId } from '../types/StoryDistributionId.js';
+import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
+import { MY_STORY_ID } from '../types/Stories.std.js';
+import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
 
 const { i18n } = window.SignalContext;
 

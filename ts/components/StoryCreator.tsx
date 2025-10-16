@@ -5,23 +5,23 @@ import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 
 import { createPortal } from 'react-dom';
-import type { AttachmentType } from '../types/Attachment.js';
-import type { LinkPreviewSourceType } from '../types/LinkPreview.js';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import type { PropsType as SendStoryModalPropsType } from './SendStoryModal.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
-import type { imageToBlurHash } from '../util/imageToBlurHash.js';
-import type { PropsType as MediaEditorPropsType } from './MediaEditor.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
+import type { LinkPreviewSourceType } from '../types/LinkPreview.std.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import type { PropsType as SendStoryModalPropsType } from './SendStoryModal.dom.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import type { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
+import type { PropsType as MediaEditorPropsType } from './MediaEditor.dom.js';
 
-import { TEXT_ATTACHMENT } from '../types/MIME.js';
-import { isVideoAttachment } from '../util/Attachment.js';
-import { SendStoryModal } from './SendStoryModal.js';
+import { TEXT_ATTACHMENT } from '../types/MIME.std.js';
+import { isVideoAttachment } from '../util/Attachment.std.js';
+import { SendStoryModal } from './SendStoryModal.dom.js';
 
-import { MediaEditor } from './MediaEditor.js';
-import { TextStoryCreator } from './TextStoryCreator.js';
-import type { DraftBodyRanges } from '../types/BodyRange.js';
-import type { processAttachment } from '../util/processAttachment.js';
+import { MediaEditor } from './MediaEditor.dom.js';
+import { TextStoryCreator } from './TextStoryCreator.dom.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.js';
+import type { processAttachment } from '../util/processAttachment.preload.js';
 
 const { get, has } = lodash;
 

@@ -5,28 +5,28 @@ import { createReadStream } from 'node:fs';
 import type {
   AttachmentWithHydratedData,
   UploadedAttachmentType,
-} from '../types/Attachment.js';
-import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.js';
-import { getRandomBytes } from '../Crypto.js';
-import { backupsService } from '../services/backups/index.js';
-import { tusUpload } from './uploads/tusProtocol.js';
-import { defaultFileReader } from './uploads/uploads.js';
+} from '../types/Attachment.std.js';
+import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.std.js';
+import { getRandomBytes } from '../Crypto.node.js';
+import { backupsService } from '../services/backups/index.preload.js';
+import { tusUpload } from './uploads/tusProtocol.node.js';
+import { defaultFileReader } from './uploads/uploads.node.js';
 import {
   type AttachmentUploadFormResponseType,
   getAttachmentUploadForm,
   createFetchForAttachmentUpload,
   putEncryptedAttachment,
-} from '../textsecure/WebAPI.js';
+} from '../textsecure/WebAPI.preload.js';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
   safeUnlink,
   type PlaintextSourceType,
-} from '../AttachmentCrypto.js';
-import { missingCaseError } from './missingCaseError.js';
-import { uuidToBytes } from './uuidToBytes.js';
-import { isVisualMedia } from './Attachment.js';
-import { getAbsoluteAttachmentPath } from './migrations.js';
+} from '../AttachmentCrypto.node.js';
+import { missingCaseError } from './missingCaseError.std.js';
+import { uuidToBytes } from './uuidToBytes.std.js';
+import { isVisualMedia } from './Attachment.std.js';
+import { getAbsoluteAttachmentPath } from './migrations.preload.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 

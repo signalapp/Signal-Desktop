@@ -3,9 +3,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { useEscapeHandling } from '../../hooks/useEscapeHandling.js';
-import { getSuggestedFilename } from '../../util/Attachment.js';
-import { IMAGE_PNG, type MIMEType } from '../../types/MIME.js';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.js';
+import { getSuggestedFilename } from '../../util/Attachment.std.js';
+import { IMAGE_PNG, type MIMEType } from '../../types/MIME.std.js';
 
 export type PropsType = {
   conversationId: string;

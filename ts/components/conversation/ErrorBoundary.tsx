@@ -4,9 +4,9 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.js';
-import * as Errors from '../../types/errors.js';
-import { createLogger } from '../../logging/log.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import * as Errors from '../../types/errors.std.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const log = createLogger('ErrorBoundary');
 

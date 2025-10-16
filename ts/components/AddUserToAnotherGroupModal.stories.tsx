@@ -5,12 +5,12 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import type { Props } from './AddUserToAnotherGroupModal.js';
+import type { Props } from './AddUserToAnotherGroupModal.dom.js';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.js';
-import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.js';
+} from '../test-helpers/getDefaultConversation.std.js';
+import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.dom.js';
 
 const { i18n } = window.SignalContext;
 

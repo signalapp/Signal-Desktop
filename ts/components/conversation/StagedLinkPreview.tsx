@@ -5,17 +5,17 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import { CurveType, Image } from './Image.js';
-import { LinkPreviewDate } from './LinkPreviewDate.js';
+import { CurveType, Image } from './Image.dom.js';
+import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
 
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
-import type { LocalizerType } from '../../types/Util.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.js';
-import { isImageAttachment } from '../../util/Attachment.js';
-import { isCallLink } from '../../types/LinkPreview.js';
-import { Avatar } from '../Avatar.js';
-import { getColorForCallLink } from '../../util/getColorForCallLink.js';
-import { getKeyFromCallLink } from '../../util/callLinks.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
+import { isImageAttachment } from '../../util/Attachment.std.js';
+import { isCallLink } from '../../types/LinkPreview.std.js';
+import { Avatar } from '../Avatar.dom.js';
+import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
+import { getKeyFromCallLink } from '../../util/callLinks.std.js';
 
 const { unescape } = lodash;
 

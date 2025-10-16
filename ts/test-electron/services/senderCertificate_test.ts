@@ -13,15 +13,15 @@ import {
   ServerCertificate,
 } from '@signalapp/libsignal-client';
 
-import { drop } from '../../util/drop.js';
-import * as Bytes from '../../Bytes.js';
-import { SenderCertificateMode } from '../../textsecure/OutgoingMessage.js';
+import { drop } from '../../util/drop.std.js';
+import * as Bytes from '../../Bytes.std.js';
+import { SenderCertificateMode } from '../../textsecure/OutgoingMessage.preload.js';
 
 import {
   SENDER_CERTIFICATE_EXPIRATION_BUFFER,
   SenderCertificateService,
-} from '../../services/senderCertificate.js';
-import { DAY } from '../../util/durations/constants.js';
+} from '../../services/senderCertificate.preload.js';
+import { DAY } from '../../util/durations/constants.std.js';
 
 describe('SenderCertificateService', () => {
   let fakeValidCertificate: SenderCertificate;

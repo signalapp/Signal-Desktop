@@ -4,38 +4,41 @@
 import PQueue from 'p-queue';
 import lodash from 'lodash';
 
-import { DataWriter } from '../sql/Client.js';
-import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents.std.js';
 import {
   parseContactsV2,
   type ContactDetailsWithAvatar,
-} from '../textsecure/ContactsParser.js';
+} from '../textsecure/ContactsParser.preload.js';
 import {
   isOnline,
   getAttachment,
   getAttachmentFromBackupTier,
-} from '../textsecure/WebAPI.js';
-import * as Conversation from '../types/Conversation.js';
-import * as Errors from '../types/errors.js';
+} from '../textsecure/WebAPI.preload.js';
+import * as Conversation from '../types/Conversation.node.js';
+import * as Errors from '../types/errors.std.js';
 import type { ValidateConversationType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.js';
-import { validateConversation } from '../util/validateConversation.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { validateConversation } from '../util/validateConversation.dom.js';
 import {
   writeNewAttachmentData,
   deleteAttachmentData,
   doesAttachmentExist,
-} from '../util/migrations.js';
-import { isDirectConversation, isMe } from '../util/whatTypeOfConversation.js';
-import { createLogger } from '../logging/log.js';
-import { dropNull } from '../util/dropNull.js';
-import type { ProcessedAttachment } from '../textsecure/Types.js';
-import { downloadAttachment } from '../textsecure/downloadAttachment.js';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.js';
-import { SECOND } from '../util/durations/index.js';
-import { AttachmentVariant } from '../types/Attachment.js';
-import { MediaTier } from '../types/AttachmentDownload.js';
-import { waitForOnline } from '../util/waitForOnline.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../util/migrations.preload.js';
+import {
+  isDirectConversation,
+  isMe,
+} from '../util/whatTypeOfConversation.dom.js';
+import { createLogger } from '../logging/log.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import type { ProcessedAttachment } from '../textsecure/Types.d.ts';
+import { downloadAttachment } from '../textsecure/downloadAttachment.preload.js';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
+import { SECOND } from '../util/durations/index.std.js';
+import { AttachmentVariant } from '../types/Attachment.std.js';
+import { MediaTier } from '../types/AttachmentDownload.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { noop } = lodash;
 

@@ -6,11 +6,11 @@ import lodash from 'lodash';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations.js';
-import { I18n } from './I18n.js';
-import type { LocalizerType, ThemeType } from '../types/Util.js';
-import { Modal } from './Modal.js';
-import { ConversationListItem } from './conversationList/ConversationListItem.js';
+} from '../state/ducks/conversations.preload.js';
+import { I18n } from './I18n.dom.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+import { Modal } from './Modal.dom.js';
+import { ConversationListItem } from './conversationList/ConversationListItem.dom.js';
 
 const { noop } = lodash;
 

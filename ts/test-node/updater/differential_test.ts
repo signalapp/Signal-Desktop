@@ -7,16 +7,16 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 
-import { strictAssert } from '../../util/assert.js';
-import * as durations from '../../util/durations/index.js';
-import { getGotOptions } from '../../updater/got.js';
+import { strictAssert } from '../../util/assert.std.js';
+import * as durations from '../../util/durations/index.std.js';
+import { getGotOptions } from '../../updater/got.node.js';
 import {
   computeDiff,
   getBlockMapFileName,
   prepareDownload,
   isValidPreparedData,
   download,
-} from '../../updater/differential.js';
+} from '../../updater/differential.node.js';
 
 const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
 const CRLF = '\r\n';

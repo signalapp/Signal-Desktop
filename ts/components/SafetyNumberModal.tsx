@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.js';
-import { Modal } from './Modal.js';
-import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer.js';
-import { SafetyNumberViewer } from './SafetyNumberViewer.js';
-import { SafetyNumberNotReady } from './SafetyNumberNotReady.js';
+import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.js';
+import { Modal } from './Modal.dom.js';
+import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer.dom.js';
+import { SafetyNumberViewer } from './SafetyNumberViewer.dom.js';
+import { SafetyNumberNotReady } from './SafetyNumberNotReady.dom.js';
 
 type PropsType = {
   toggleSafetyNumberModal: () => unknown;

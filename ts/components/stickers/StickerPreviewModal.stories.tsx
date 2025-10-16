@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StickerPreviewModal.js';
-import { StickerPreviewModal } from './StickerPreviewModal.js';
+import type { Props } from './StickerPreviewModal.dom.js';
+import { StickerPreviewModal } from './StickerPreviewModal.dom.js';
 import {
   landscapeGreenUrl,
   portraitTealUrl,
   squareStickerUrl,
-} from '../../storybook/Fixtures.js';
+} from '../../storybook/Fixtures.std.js';
 
 const { i18n } = window.SignalContext;
 

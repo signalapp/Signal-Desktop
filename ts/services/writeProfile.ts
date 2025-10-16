@@ -1,29 +1,29 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataWriter } from '../sql/Client.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { putProfile, uploadAvatar } from '../textsecure/WebAPI.js';
-import * as Errors from '../types/errors.js';
-import { createLogger } from '../logging/log.js';
-import { computeHash } from '../Crypto.js';
-import { encryptProfileData } from '../util/encryptProfileData.js';
-import { getProfile } from '../util/getProfile.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
-import { strictAssert } from '../util/assert.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { putProfile, uploadAvatar } from '../textsecure/WebAPI.preload.js';
+import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { computeHash } from '../Crypto.node.js';
+import { encryptProfileData } from '../util/encryptProfileData.preload.js';
+import { getProfile } from '../util/getProfile.preload.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
+import { strictAssert } from '../util/assert.std.js';
 import {
   writeNewAttachmentData,
   deleteAttachmentData,
-} from '../util/migrations.js';
-import { isWhitespace } from '../util/whitespaceStringUtil.js';
-import { imagePathToBytes } from '../util/imagePathToBytes.js';
-import { getLocalAvatarUrl } from '../util/avatarUtils.js';
+} from '../util/migrations.preload.js';
+import { isWhitespace } from '../util/whitespaceStringUtil.std.js';
+import { imagePathToBytes } from '../util/imagePathToBytes.dom.js';
+import { getLocalAvatarUrl } from '../util/avatarUtils.preload.js';
 import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
-} from '../types/Avatar.js';
-import { MessageSender } from '../textsecure/SendMessage.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../types/Avatar.std.js';
+import { MessageSender } from '../textsecure/SendMessage.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('writeProfile');
 

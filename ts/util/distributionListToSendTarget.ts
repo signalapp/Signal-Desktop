@@ -1,12 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString } from '../types/ServiceId.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
 import type { SenderKeyInfoType } from '../model-types.d.ts';
-import { DataWriter } from '../sql/Client.js';
-import type { StoryDistributionType } from '../sql/Interface.js';
-import type { SenderKeyTargetType } from './sendToGroup.js';
-import { isNotNil } from './isNotNil.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import type { StoryDistributionType } from '../sql/Interface.std.js';
+import type { SenderKeyTargetType } from './sendToGroup.preload.js';
+import { isNotNil } from './isNotNil.std.js';
 
 export function distributionListToSendTarget(
   distributionList: StoryDistributionType,

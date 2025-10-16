@@ -7,13 +7,13 @@ import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './StoryImage.js';
-import { StoryImage } from './StoryImage.js';
+import type { PropsType } from './StoryImage.dom.js';
+import { StoryImage } from './StoryImage.dom.js';
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../test-helpers/fakeAttachment.js';
-import { VIDEO_MP4 } from '../types/MIME.js';
+} from '../test-helpers/fakeAttachment.std.js';
+import { VIDEO_MP4 } from '../types/MIME.std.js';
 
 const { noop } = lodash;
 

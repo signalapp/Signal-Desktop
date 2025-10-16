@@ -5,10 +5,10 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import moment from 'moment';
 
-import { Modal } from './Modal.js';
-import { I18n } from './I18n.js';
-import type { LocalizerType } from '../types/Util.js';
-import { tw } from '../axo/tw.js';
+import { Modal } from './Modal.dom.js';
+import { I18n } from './I18n.dom.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { tw } from '../axo/tw.dom.js';
 
 export type PropsType = {
   hideWhatsNewModal: () => unknown;

@@ -3,11 +3,11 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { useCallingActions } from '../ducks/calling.js';
-import { getIntl } from '../selectors/user.js';
-import { useGlobalModalActions } from '../ducks/globalModals.js';
-import { getConfirmLeaveCallModalState } from '../selectors/globalModals.js';
-import { ConfirmLeaveCallModal } from '../../components/ConfirmLeaveCallModal.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
+import { getIntl } from '../selectors/user.std.js';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getConfirmLeaveCallModalState } from '../selectors/globalModals.std.js';
+import { ConfirmLeaveCallModal } from '../../components/ConfirmLeaveCallModal.dom.js';
 
 export const SmartConfirmLeaveCallModal = memo(
   function SmartConfirmLeaveCallModal(): JSX.Element | null {

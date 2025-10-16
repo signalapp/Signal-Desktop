@@ -4,14 +4,14 @@
 import type { FC } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user.js';
-import { getConversationByIdSelector } from '../selectors/conversations.js';
-import { LeftPaneConversationListItemContextMenu } from '../../components/leftPane/LeftPaneConversationListItemContextMenu.js';
-import { strictAssert } from '../../util/assert.js';
-import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.js';
-import { useConversationsActions } from '../ducks/conversations.js';
-import { getLocalDeleteWarningShown } from '../selectors/items.js';
-import { useItemsActions } from '../ducks/items.js';
+import { getIntl } from '../selectors/user.std.js';
+import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
+import { LeftPaneConversationListItemContextMenu } from '../../components/leftPane/LeftPaneConversationListItemContextMenu.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.dom.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { getLocalDeleteWarningShown } from '../selectors/items.dom.js';
+import { useItemsActions } from '../ducks/items.preload.js';
 
 export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversationListItemContextMenuProps> =
   memo(function SmartLeftPaneConversationListItemContextMenu(props) {

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useRef } from 'react';
-import { useRefMerger } from '../../hooks/useRefMerger.js';
-import type { LocalizerType } from '../../types/Util.js';
-import { durationToPlaybackText } from '../../util/durationToPlaybackText.js';
-import { Waveform } from './Waveform.js';
-import { arrow } from '../../util/keyboard.js';
+import { useRefMerger } from '../../hooks/useRefMerger.std.js';
+import type { LocalizerType } from '../../types/Util.std.js';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.js';
+import { Waveform } from './Waveform.dom.js';
+import { arrow } from '../../util/keyboard.dom.js';
 
 type Props = Readonly<{
   i18n: LocalizerType;

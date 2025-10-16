@@ -3,19 +3,19 @@
 
 import type * as client from '@signalapp/libsignal-client';
 
-import type { SignalService as Proto } from '../protobuf/index.js';
-import type { IncomingWebSocketRequest } from './WebsocketResources.js';
+import type { SignalService as Proto } from '../protobuf/index.std.js';
+import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../types/ServiceId.js';
-import type { TextAttachmentType } from '../types/Attachment.js';
-import type { GiftBadgeStates } from '../types/GiftBadgeStates.js';
-import type { MIMEType } from '../types/MIME.js';
-import type { DurationInSeconds } from '../util/durations/index.js';
-import type { AnyPaymentEvent } from '../types/Payment.js';
-import type { RawBodyRange } from '../types/BodyRange.js';
+} from '../types/ServiceId.std.js';
+import type { TextAttachmentType } from '../types/Attachment.std.js';
+import type { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
+import type { DurationInSeconds } from '../util/durations/index.std.js';
+import type { AnyPaymentEvent } from '../types/Payment.std.js';
+import type { RawBodyRange } from '../types/BodyRange.std.js';
 
 export {
   IdentityKeyType,
@@ -30,7 +30,7 @@ export {
   SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
-} from '../sql/Interface.ts';
+} from '../sql/Interface.std.js';
 
 export type StorageServiceCallOptionsType = {
   credentials?: StorageServiceCredentials;

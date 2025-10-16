@@ -6,7 +6,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 
-import { isNotNil } from '../util/isNotNil.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 
 const resolve4 = promisify(resolve4Cb);
 const resolve6 = promisify(resolve6Cb);

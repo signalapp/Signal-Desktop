@@ -5,13 +5,13 @@
 import type { PublicKey } from '@signalapp/libsignal-client';
 import { z } from 'zod';
 
-import type { SignalService as Proto } from '../protobuf/index.js';
+import type { SignalService as Proto } from '../protobuf/index.std.js';
 import {
   type ServiceIdString,
   type AciString,
   isPniString,
-} from '../types/ServiceId.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+} from '../types/ServiceId.std.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
 import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
@@ -21,9 +21,9 @@ import type {
 import type {
   CallEventDetails,
   CallLogEventDetails,
-} from '../types/CallDisposition.js';
-import type { CallLinkUpdateSyncType } from '../types/CallLink.js';
-import { isAciString } from '../util/isAciString.js';
+} from '../types/CallDisposition.std.js';
+import type { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
+import { isAciString } from '../util/isAciString.std.js';
 
 export class EmptyEvent extends Event {
   constructor() {

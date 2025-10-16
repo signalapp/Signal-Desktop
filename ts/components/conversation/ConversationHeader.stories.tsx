@@ -8,17 +8,17 @@ import type { Meta } from '@storybook/react';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.js';
-import { getRandomColor } from '../../test-helpers/getRandomColor.js';
-import { DurationInSeconds } from '../../util/durations/index.js';
+} from '../../test-helpers/getDefaultConversation.std.js';
+import { getRandomColor } from '../../test-helpers/getRandomColor.std.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
-import type { PropsType } from './ConversationHeader.js';
+import type { PropsType } from './ConversationHeader.dom.js';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
-} from './ConversationHeader.js';
-import { gifUrl } from '../../storybook/Fixtures.js';
-import { ThemeType } from '../../types/Util.js';
+} from './ConversationHeader.dom.js';
+import { gifUrl } from '../../storybook/Fixtures.std.js';
+import { ThemeType } from '../../types/Util.std.js';
 
 export default {
   title: 'Components/Conversation/ConversationHeader',

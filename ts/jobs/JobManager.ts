@@ -1,22 +1,22 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as z from 'zod';
-import { MINUTE, SECOND } from '../util/durations/index.js';
+import { MINUTE, SECOND } from '../util/durations/index.std.js';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
-import { drop } from '../util/drop.js';
-import { createLogger } from '../logging/log.js';
-import { missingCaseError } from '../util/missingCaseError.js';
+} from '../util/explodePromise.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import { drop } from '../util/drop.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
 import {
   type ExponentialBackoffOptionsType,
   exponentialBackoffSleepTime,
-} from '../util/exponentialBackoff.js';
-import * as Errors from '../types/errors.js';
-import { sleep } from '../util/sleep.js';
-import type { JobCancelReason } from './types.js';
+} from '../util/exponentialBackoff.std.js';
+import * as Errors from '../types/errors.std.js';
+import { sleep } from '../util/sleep.std.js';
+import type { JobCancelReason } from './types.std.js';
 
 const log = createLogger('JobManager');
 

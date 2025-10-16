@@ -4,20 +4,20 @@
 import { v4 as uuid } from 'uuid';
 import { assert } from 'chai';
 
-import { type AciString, generateAci } from '../types/ServiceId.js';
-import type { MessageAttributesType } from '../model-types.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
-import { SendStatus } from '../messages/MessageSendState.js';
+import { type AciString, generateAci } from '../types/ServiceId.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { SendStatus } from '../messages/MessageSendState.std.js';
 import type {
   MessageReceiptAttributesType,
   MessageReceiptType,
-} from '../messageModifiers/MessageReceipts.js';
+} from '../messageModifiers/MessageReceipts.preload.js';
 import {
   onReceipt,
   messageReceiptTypeSchema,
-} from '../messageModifiers/MessageReceipts.js';
-import { ReadStatus } from '../messages/MessageReadStatus.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../messageModifiers/MessageReceipts.preload.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 describe('MessageReceipts', () => {
   let ourAci: AciString;

@@ -4,17 +4,17 @@
 import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-import { Avatar, AvatarSize } from './Avatar.js';
-import { ContactName } from './conversation/ContactName.js';
-import type { ConversationsByDemuxIdType } from '../types/Calling.js';
-import type { ServiceIdString } from '../types/ServiceId.js';
-import type { LocalizerType } from '../types/Util.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { ModalHost } from './ModalHost.js';
-import { drop } from '../util/drop.js';
-import { createLogger } from '../logging/log.js';
-import { usePrevious } from '../hooks/usePrevious.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { Avatar, AvatarSize } from './Avatar.dom.js';
+import { ContactName } from './conversation/ContactName.dom.js';
+import type { ConversationsByDemuxIdType } from '../types/Calling.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { ModalHost } from './ModalHost.dom.js';
+import { drop } from '../util/drop.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
 
 const log = createLogger('CallingRaisedHandsList');
 

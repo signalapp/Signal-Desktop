@@ -3,8 +3,8 @@
 
 import type { ReactNode } from 'react';
 import React from 'react';
-import type { LocalizerType } from '../../../types/I18N.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.js';
+import type { LocalizerType } from '../../../types/I18N.std.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
 
 export function DeleteChatFolderDialog(props: {
   i18n: LocalizerType;

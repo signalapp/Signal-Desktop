@@ -6,7 +6,7 @@ import type { AfterPackContext } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';
 
-import { build } from '../util/packageJson.js';
+import { build } from '../util/packageJson.node.js';
 
 export async function afterSign({
   appOutDir,

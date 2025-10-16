@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type Fuse from 'fuse.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.js';
-import { removeDiacritics } from './removeDiacritics.js';
-import type { CallLinkType } from '../types/CallLink.js';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
+import { removeDiacritics } from './removeDiacritics.std.js';
+import type { CallLinkType } from '../types/CallLink.std.js';
 
 // Based on parameters in filterAndSortConversations
 const FUSE_OPTIONS: Fuse.IFuseOptions<CallLinkType> = {

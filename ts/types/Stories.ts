@@ -1,16 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from './Attachment.js';
-import type { HydratedBodyRangesType } from './BodyRange.js';
-import type { LocalizerType } from './Util.js';
-import type { ContactNameColorType } from './Colors.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import type { ReadStatus } from '../messages/MessageReadStatus.js';
-import type { SendStatus } from '../messages/MessageSendState.js';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.js';
-import type { ServiceIdString } from './ServiceId.js';
-import type { StoryDistributionIdString } from './StoryDistributionId.js';
+import type { AttachmentType } from './Attachment.std.js';
+import type { HydratedBodyRangesType } from './BodyRange.std.js';
+import type { LocalizerType } from './Util.std.js';
+import type { ContactNameColorType } from './Colors.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import type { SendStatus } from '../messages/MessageSendState.std.js';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.js';
+import type { ServiceIdString } from './ServiceId.std.js';
+import type { StoryDistributionIdString } from './StoryDistributionId.std.js';
 
 export type ReplyType = {
   author: Pick<

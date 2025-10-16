@@ -12,28 +12,28 @@ import React, {
 import lodash from 'lodash';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../types/I18N.js';
+import type { LocalizerType } from '../types/I18N.std.js';
 import {
   FlowingSettingsControl as FlowingControl,
   SettingsRow,
-} from './PreferencesUtil.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.js';
+} from './PreferencesUtil.dom.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
 import {
   getOSAuthErrorString,
   SIGNAL_BACKUPS_LEARN_MORE_URL,
-} from './PreferencesBackups.js';
-import { I18n } from './I18n.js';
-import type { SettingsLocation } from '../types/Nav.js';
-import { SettingsPage } from '../types/Nav.js';
-import { ToastType } from '../types/Toast.js';
-import type { ShowToastAction } from '../state/ducks/toast.js';
-import { Modal } from './Modal.js';
-import { strictAssert } from '../util/assert.js';
+} from './PreferencesBackups.dom.js';
+import { I18n } from './I18n.dom.js';
+import type { SettingsLocation } from '../types/Nav.std.js';
+import { SettingsPage } from '../types/Nav.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+import { Modal } from './Modal.dom.js';
+import { strictAssert } from '../util/assert.std.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.js';
-import { ConfirmationDialog } from './ConfirmationDialog.js';
+} from '../util/os/promptOSAuthMain.main.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 
 const { noop } = lodash;
 

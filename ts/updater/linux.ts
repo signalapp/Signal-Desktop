@@ -8,11 +8,11 @@ import { app, ipcMain } from 'electron';
 import { extractFile } from '@electron/asar';
 import z from 'zod';
 
-import { markShouldQuit } from '../../app/window_state.js';
-import type { LoggerType } from '../types/Logging.js';
-import { DialogType } from '../types/Dialogs.js';
-import * as Errors from '../types/errors.js';
-import type { UpdaterOptionsType } from './common.js';
+import { markShouldQuit } from '../../app/window_state.std.js';
+import type { LoggerType } from '../types/Logging.std.js';
+import { DialogType } from '../types/Dialogs.std.js';
+import * as Errors from '../types/errors.std.js';
+import type { UpdaterOptionsType } from './common.main.js';
 
 const MIN_UBUNTU_VERSION = '22.04';
 

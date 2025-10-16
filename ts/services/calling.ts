@@ -53,17 +53,17 @@ import { Aci } from '@signalapp/libsignal-client';
 import {
   CanvasVideoRenderer,
   GumVideoCapturer,
-} from '../calling/VideoSupport.js';
-import type { GumVideoCaptureOptions } from '../calling/VideoSupport.js';
+} from '../calling/VideoSupport.preload.js';
+import type { GumVideoCaptureOptions } from '../calling/VideoSupport.preload.js';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
   GroupCallPeekInfoType,
-} from '../state/ducks/calling.js';
-import type { ConversationType } from '../state/ducks/conversations.js';
-import { getConversationCallMode } from '../state/ducks/conversations.js';
-import { isMe } from '../util/whatTypeOfConversation.js';
-import { getAbsoluteTempPath } from '../util/migrations.js';
+} from '../state/ducks/calling.preload.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { getConversationCallMode } from '../state/ducks/conversations.preload.js';
+import { isMe } from '../util/whatTypeOfConversation.dom.js';
+import { getAbsoluteTempPath } from '../util/migrations.preload.js';
 import type {
   AvailableIODevicesType,
   CallEndedReason,
@@ -71,39 +71,39 @@ import type {
   IceServerCacheType,
   MediaDeviceSettings,
   PresentedSource,
-} from '../types/Calling.js';
+} from '../types/Calling.std.js';
 import {
   GroupCallConnectionState,
   GroupCallJoinState,
   ScreenShareStatus,
-} from '../types/Calling.js';
-import { CallMode, LocalCallEvent } from '../types/CallDisposition.js';
+} from '../types/Calling.std.js';
+import { CallMode, LocalCallEvent } from '../types/CallDisposition.std.js';
 import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
-} from '../calling/findBestMatchingDevice.js';
-import { normalizeAci } from '../util/normalizeAci.js';
-import { isAciString } from '../util/isAciString.js';
-import * as Errors from '../types/errors.js';
-import type { ConversationModel } from '../models/conversations.js';
-import * as Bytes from '../Bytes.js';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.js';
-import { drop } from '../util/drop.js';
-import { dropNull } from '../util/dropNull.js';
-import { getOwn } from '../util/getOwn.js';
-import * as durations from '../util/durations/index.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
-import { fetchMembershipProof, getMembershipList } from '../groups.js';
+} from '../calling/findBestMatchingDevice.std.js';
+import { normalizeAci } from '../util/normalizeAci.std.js';
+import { isAciString } from '../util/isAciString.std.js';
+import * as Errors from '../types/errors.std.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import * as Bytes from '../Bytes.std.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
+import { drop } from '../util/drop.std.js';
+import { dropNull } from '../util/dropNull.std.js';
+import { getOwn } from '../util/getOwn.std.js';
+import * as durations from '../util/durations/index.std.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import { fetchMembershipProof, getMembershipList } from '../groups.preload.js';
 import type { ProcessedEnvelope } from '../textsecure/Types.d.ts';
-import type { GetIceServersResultType } from '../textsecure/WebAPI.js';
+import type { GetIceServersResultType } from '../textsecure/WebAPI.preload.js';
 import {
   callLinkCreateAuth,
   getIceServers,
   makeSfuRequest,
-} from '../textsecure/WebAPI.js';
-import { missingCaseError } from '../util/missingCaseError.js';
-import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.js';
-import { requestCameraPermissions } from '../util/callingPermissions.js';
+} from '../textsecure/WebAPI.preload.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.std.js';
+import { requestCameraPermissions } from '../util/callingPermissions.dom.js';
 import {
   AUDIO_LEVEL_INTERVAL_MS,
   REQUESTED_VIDEO_WIDTH,
@@ -114,20 +114,19 @@ import {
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
-} from '../calling/constants.js';
-import { callingMessageToProto } from '../util/callingMessageToProto.js';
-import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.js';
-import { SignalService as Proto } from '../protobuf/index.js';
-import { DataReader, DataWriter } from '../sql/Client.js';
+} from '../calling/constants.std.js';
+import { callingMessageToProto } from '../util/callingMessageToProto.node.js';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import {
   notificationService,
   NotificationSetting,
   FALLBACK_NOTIFICATION_TITLE,
-  NotificationType,
   shouldSaveNotificationAvatarToDisk,
-} from './notifications.js';
-import { createLogger } from '../logging/log.js';
-import { assertDev, strictAssert } from '../util/assert.js';
+} from './notifications.preload.js';
+import { createLogger } from '../logging/log.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.js';
 import {
   formatLocalDeviceState,
   formatPeekInfo,
@@ -147,32 +146,33 @@ import {
   updateAdhocCallHistory,
   getCallIdFromEra,
   getCallDetailsForAdhocCall,
-} from '../util/callDisposition.js';
-import { isNormalNumber } from '../util/isNormalNumber.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.js';
-import { isServiceIdString, isPniString } from '../types/ServiceId.js';
-import { isSignalConnection } from '../util/getSignalConnections.js';
-import { toAdminKeyBytes } from '../util/callLinks.js';
+} from '../util/callDisposition.preload.js';
+import { isNormalNumber } from '../util/isNormalNumber.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+import { isServiceIdString, isPniString } from '../types/ServiceId.std.js';
+import { NotificationType } from '../types/notifications.std.js';
+import { isSignalConnection } from '../util/getSignalConnections.preload.js';
+import { toAdminKeyBytes } from '../util/callLinks.std.js';
 import {
   getRoomIdFromRootKey,
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
-} from '../util/callLinksRingrtc.js';
-import { getCallLinkAuthCredentialPresentation } from '../util/callLinks/zkgroup.js';
+} from '../util/callLinksRingrtc.node.js';
+import { getCallLinkAuthCredentialPresentation } from '../util/callLinks/zkgroup.preload.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.js';
-import type { CallLinkType, CallLinkStateType } from '../types/CallLink.js';
-import { CallLinkRestrictions } from '../types/CallLink.js';
-import { getConversationIdForLogging } from '../util/idForLogging.js';
-import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync.js';
-import { createIdenticon } from '../util/createIdenticon.js';
-import { getColorForCallLink } from '../util/getColorForCallLink.js';
-import OS from '../util/os/osMain.js';
-import { sleep } from '../util/sleep.js';
-import { signalProtocolStore } from '../SignalProtocolStore.js';
-import { itemStorage } from '../textsecure/Storage.js';
+} from '../jobs/conversationJobQueue.preload.js';
+import type { CallLinkType, CallLinkStateType } from '../types/CallLink.std.js';
+import { CallLinkRestrictions } from '../types/CallLink.std.js';
+import { getConversationIdForLogging } from '../util/idForLogging.preload.js';
+import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync.preload.js';
+import { createIdenticon } from '../util/createIdenticon.preload.js';
+import { getColorForCallLink } from '../util/getColorForCallLink.std.js';
+import OS from '../util/os/osMain.node.js';
+import { sleep } from '../util/sleep.std.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { i18n } = window.SignalContext;
 

@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString } from '../types/ServiceId.js';
-import { isMoreRecentThan, isOlderThan } from './timestamp.js';
-import { HOUR } from './durations/index.js';
-import { getMessageQueueTime } from './getMessageQueueTime.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { isMoreRecentThan, isOlderThan } from './timestamp.std.js';
+import { HOUR } from './durations/index.std.js';
+import { getMessageQueueTime } from './getMessageQueueTime.dom.js';
 
 const SIX_HOURS = 6 * HOUR;
 

@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 
-import * as durations from '../../util/durations/index.js';
-import type { Bootstrap, App } from '../bootstrap.js';
+import * as durations from '../../util/durations/index.std.js';
+import type { Bootstrap, App } from '../bootstrap.node.js';
 import {
   artAddStickersRoute,
   showConversationRoute,
-} from '../../util/signalRoutes.js';
+} from '../../util/signalRoutes.std.js';
 import {
   initStorage,
   STICKER_PACKS,
   storeStickerPacks,
-} from '../storage/fixtures.js';
-import { strictAssert } from '../../util/assert.js';
+} from '../storage/fixtures.node.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 describe('routing', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

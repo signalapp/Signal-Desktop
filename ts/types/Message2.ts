@@ -4,31 +4,31 @@
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Contact from './EmbeddedContact.js';
+import * as Contact from './EmbeddedContact.std.js';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
-} from './Attachment.js';
+} from './Attachment.std.js';
 import {
-  captureDimensionsAndScreenshot,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
   shouldGenerateThumbnailForAttachmentType,
-} from '../util/Attachment.js';
-import type { MakeVideoScreenshotResultType } from './VisualAttachment.js';
-import * as Errors from './errors.js';
-import * as SchemaVersion from './SchemaVersion.js';
+} from '../util/Attachment.std.js';
+import { captureDimensionsAndScreenshot } from '../util/captureDimensionsAndScreenshot.dom.js';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment.dom.js';
+import * as Errors from './errors.std.js';
+import * as SchemaVersion from './SchemaVersion.std.js';
 
-import { LONG_MESSAGE } from './MIME.js';
-import type * as MIME from './MIME.js';
-import type { LoggerType } from './Logging.js';
+import { LONG_MESSAGE } from './MIME.std.js';
+import type * as MIME from './MIME.std.js';
+import type { LoggerType } from './Logging.std.js';
 import type {
   EmbeddedContactType,
   EmbeddedContactWithHydratedAvatar,
-} from './EmbeddedContact.js';
+} from './EmbeddedContact.std.js';
 
 import type {
   MessageAttributesType,
@@ -38,19 +38,22 @@ import type {
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from './message/LinkPreviews.js';
-import type { StickerType, StickerWithHydratedData } from './Stickers.js';
-import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.js';
+} from './message/LinkPreviews.std.js';
+import type {
+  StickerType,
+  StickerWithHydratedData,
+} from './Stickers.preload.js';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../util/getLocalAttachmentUrl.js';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
-import { deepClone } from '../util/deepClone.js';
-import * as Bytes from '../Bytes.js';
-import { isBodyTooLong } from '../util/longAttachment.js';
-import type { MessageAttachmentType } from './AttachmentDownload.js';
-import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.js';
+} from '../util/getLocalAttachmentUrl.std.js';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.js';
+import { deepClone } from '../util/deepClone.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { isBodyTooLong } from '../util/longAttachment.std.js';
+import type { MessageAttachmentType } from './AttachmentDownload.std.js';
+import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
 
 const { isFunction, isObject, identity } = lodash;
 
