@@ -168,7 +168,12 @@ $inline-emoji-container-name: inline-emoji;
   margin-bottom: round(-0.4em + 1px, 1px);
   vertical-align: baseline;
   content-visibility: auto;
-  user-select: none;
+  // We want to inherit here since most usage of <Emojify> should not be
+  // selectable, but in cases like messages, conversation titles/descriptions,
+  // etc we want emoji to be selectable within the surrounding text.
+  // If the root `.FunInlineEmoji` element isn't selectable, then selection
+  // can't start on the emoji itself.
+  user-select: inherit;
 }
 
 .FunEmojiSelectionText {
