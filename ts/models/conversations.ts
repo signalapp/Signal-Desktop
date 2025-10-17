@@ -3849,7 +3849,11 @@ export class ConversationModel {
     return getQuoteAttachment(attachments, preview, sticker);
   }
 
-  async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
+  async sendStickerMessage(
+    packId: string,
+    stickerId: number,
+    quote?: QuotedMessageType
+  ): Promise<void> {
     const packData = Stickers.getStickerPack(packId);
     const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
@@ -3905,6 +3909,7 @@ export class ConversationModel {
           body: undefined,
           attachments: [],
           sticker,
+          quote,
         },
         { dontClearDraft: true }
       )
