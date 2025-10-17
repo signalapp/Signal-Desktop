@@ -17,7 +17,7 @@ import {
   FlowingSettingsControl as FlowingControl,
   SettingsRow,
 } from './PreferencesUtil.dom.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
+import { ButtonVariant } from './Button.dom.js';
 import {
   getOSAuthErrorString,
   SIGNAL_BACKUPS_LEARN_MORE_URL,
@@ -34,6 +34,7 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.main.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const { noop } = lodash;
 
@@ -129,12 +130,13 @@ export function PreferencesLocalBackups({
               'Preferences__one-third-flow--align-right'
             )}
           >
-            <Button
+            <AxoButton.Root
+              variant="secondary"
+              size="large"
               onClick={pickLocalBackupFolder}
-              variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__local-backups-folder__change')}
-            </Button>
+            </AxoButton.Root>
           </div>
         </FlowingControl>
         <FlowingControl>
@@ -153,9 +155,13 @@ export function PreferencesLocalBackups({
               'Preferences__one-third-flow--align-right'
             )}
           >
-            <Button
-              className="Preferences--BackupsAuthButton"
+            <AxoButton.Root
+              variant="secondary"
+              size="large"
               disabled={isAuthPending}
+              experimentalSpinner={
+                isAuthPending ? { 'aria-label': i18n('icu:loading') } : null
+              }
               onClick={async () => {
                 setAuthError(undefined);
 
@@ -173,10 +179,9 @@ export function PreferencesLocalBackups({
                   setIsAuthPending(false);
                 }
               }}
-              variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__view-key')}
-            </Button>
+            </AxoButton.Root>
           </div>
         </FlowingControl>
       </SettingsRow>
@@ -226,9 +231,13 @@ function LocalBackupsSetupFolderPicker({
         <div className="Preferences--LocalBackupsSetupScreenBody Preferences--LocalBackupsSetupScreenBody--folder">
           {i18n('icu:Preferences--local-backups-setup-folder-description')}
         </div>
-        <Button onClick={pickLocalBackupFolder} variant={ButtonVariant.Primary}>
+        <AxoButton.Root
+          variant="primary"
+          size="large"
+          onClick={pickLocalBackupFolder}
+        >
           {i18n('icu:Preferences__button--choose-folder')}
-        </Button>
+        </AxoButton.Root>
       </div>
     </div>
   );
@@ -295,23 +304,23 @@ function LocalBackupsBackupKeyViewer({
     );
     if (step === 'view') {
       footerRight = (
-        <Button
-          className="Preferences--LocalBackupsSetupScreenFooterButton"
+        <AxoButton.Root
+          variant="primary"
+          size="large"
           onClick={() => setStep('confirm')}
-          variant={ButtonVariant.Primary}
         >
           {i18n('icu:Preferences--local-backups-setup-next')}
-        </Button>
+        </AxoButton.Root>
       );
     } else {
       footerRight = (
-        <Button
-          className="Preferences--LocalBackupsSetupScreenFooterButton"
+        <AxoButton.Root
+          variant="primary"
+          size="large"
           onClick={onBackupKeyViewed}
-          variant={ButtonVariant.Primary}
         >
           {i18n('icu:Preferences--local-backups-view-backup-key-done')}
-        </Button>
+        </AxoButton.Root>
       );
     }
   } else {
@@ -320,23 +329,23 @@ function LocalBackupsBackupKeyViewer({
       'icu:Preferences--local-backups-confirm-backup-key-description'
     );
     footerLeft = (
-      <button
-        className="Preferences--LocalBackupsSetupScreenFooterSeeKeyButton"
+      <AxoButton.Root
+        variant="borderless-primary"
+        size="large"
         onClick={() => setStep('view')}
-        type="button"
       >
         {i18n('icu:Preferences--local-backups-see-backup-key-again')}
-      </button>
+      </AxoButton.Root>
     );
     footerRight = (
-      <Button
-        className="Preferences--LocalBackupsSetupScreenFooterButton"
+      <AxoButton.Root
+        variant="primary"
+        size="large"
         disabled={!isBackupKeyConfirmed}
         onClick={() => setStep('caution')}
-        variant={ButtonVariant.Primary}
       >
         {i18n('icu:Preferences--local-backups-setup-next')}
-      </Button>
+      </AxoButton.Root>
     );
   }
 
@@ -348,14 +357,15 @@ function LocalBackupsBackupKeyViewer({
           modalName="CallingAdhocCallInfo.UnknownContactInfo"
           moduleClassName="Preferences--LocalBackupsConfirmKeyModal"
           modalFooter={
-            <Button
-              className="Preferences--LocalBackupsConfirmKeyModalButton"
+            <AxoButton.Root
+              variant="primary"
+              size="large"
               onClick={onBackupKeyViewed}
             >
               {i18n(
                 'icu:Preferences__local-backups-confirm-key-modal-continue'
               )}
-            </Button>
+            </AxoButton.Root>
           }
           onClose={() => setStep('confirm')}
           padded={false}
@@ -391,14 +401,14 @@ function LocalBackupsBackupKeyViewer({
         </div>
         {isStepViewOrReference && (
           <div className="Preferences--LocalBackupsSetupScreenPaneContent">
-            <Button
-              className="Preferences--LocalBackupsSetupScreenCopyButton"
+            <AxoButton.Root
+              variant="secondary"
+              size="small"
+              symbol="copy"
               onClick={onCopyBackupKey}
-              size={ButtonSize.Small}
-              variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__local-backups-copy-key')}
-            </Button>
+            </AxoButton.Root>
           </div>
         )}
       </div>

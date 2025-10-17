@@ -26,7 +26,6 @@ import {
 } from '../state/ducks/usernameEnums.std.js';
 import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.js';
 import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-
 import { AutoSizeInput } from './AutoSizeInput.dom.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { Input } from './Input.dom.js';
@@ -34,6 +33,7 @@ import { Spinner } from './Spinner.dom.js';
 import { Modal } from './Modal.dom.js';
 import { Button, ButtonVariant } from './Button.dom.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const { noop } = lodash;
 
@@ -382,20 +382,25 @@ export function UsernameEditor({
         </button>
       </div>
       <div className="UsernameEditor__button-footer">
-        <Button
+        <AxoButton.Root
+          variant="secondary"
+          size="large"
           disabled={isConfirming}
           onClick={onCancel}
-          variant={ButtonVariant.Secondary}
         >
           {i18n('icu:cancel')}
-        </Button>
-        <Button disabled={!canSave} onClick={onSave}>
-          {isConfirming ? (
-            <Spinner size="20px" svgSize="small" direction="on-avatar" />
-          ) : (
-            i18n('icu:save')
-          )}
-        </Button>
+        </AxoButton.Root>
+        <AxoButton.Root
+          variant="primary"
+          size="large"
+          disabled={!canSave}
+          onClick={onSave}
+          experimentalSpinner={
+            isConfirming ? { 'aria-label': i18n('icu:loading') } : null
+          }
+        >
+          {i18n('icu:save')}
+        </AxoButton.Root>
       </div>
 
       {confirmDiscardModal}

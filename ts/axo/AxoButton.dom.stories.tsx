@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {
@@ -9,6 +9,7 @@ import {
   AxoButton,
 } from './AxoButton.dom.js';
 import { tw } from './tw.dom.js';
+import { AxoSwitch } from './AxoSwitch.dom.js';
 
 export default {
   title: 'Axo/AxoButton',
@@ -87,5 +88,48 @@ export function Basic(): JSX.Element {
         );
       })}
     </div>
+  );
+}
+
+export function Spinner(): JSX.Element {
+  const sizes = _getAllAxoButtonSizes();
+  const variants = _getAllAxoButtonVariants();
+
+  const [loading, setLoading] = useState(true);
+
+  function handleClick() {
+    setLoading(true);
+  }
+
+  return (
+    <>
+      <div className={tw('mb-4 flex gap-2')}>
+        <AxoSwitch.Root checked={loading} onCheckedChange={setLoading} />
+        <span>Loading</span>
+      </div>
+      <div className={tw('flex flex-col gap-2')}>
+        {sizes.map(size => {
+          return (
+            <div key={size} className={tw('flex gap-2')}>
+              {variants.map(variant => {
+                return (
+                  <AxoButton.Root
+                    variant={variant}
+                    size={size}
+                    disabled={loading}
+                    experimentalSpinner={
+                      loading ? { 'aria-label': 'Loading' } : null
+                    }
+                    onClick={handleClick}
+                  >
+                    Save
+                  </AxoButton.Root>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }

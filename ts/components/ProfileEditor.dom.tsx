@@ -15,7 +15,7 @@ import type { MutableRefObject } from 'react';
 import { AvatarColors } from '../types/Colors.std.js';
 import { AvatarEditor } from './AvatarEditor.dom.js';
 import { AvatarPreview } from './AvatarPreview.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
+import { ButtonVariant } from './Button.dom.js';
 import { Input } from './Input.dom.js';
 import { PanelRow } from './conversation/conversation-details/PanelRow.dom.js';
 import { UsernameEditState } from '../state/ducks/usernameEnums.std.js';
@@ -68,6 +68,7 @@ import type { ShowToastAction } from '../state/ducks/toast.preload.js';
 import type { EmojiParentKey, EmojiVariantKey } from './fun/data/emojis.std.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 type ProfileEditorData = {
   firstName: string;
@@ -407,10 +408,12 @@ export function ProfileEditor({
           value={stagedProfile.familyName}
         />
         <div className="ProfileEditor__button-footer">
-          <Button onClick={handleBack} variant={ButtonVariant.Secondary}>
+          <AxoButton.Root variant="secondary" size="large" onClick={handleBack}>
             {i18n('icu:cancel')}
-          </Button>
-          <Button
+          </AxoButton.Root>
+          <AxoButton.Root
+            variant="primary"
+            size="large"
             disabled={shouldDisableSave}
             onClick={() => {
               if (!stagedProfile.firstName) {
@@ -428,7 +431,7 @@ export function ProfileEditor({
             }}
           >
             {i18n('icu:save')}
-          </Button>
+          </AxoButton.Root>
         </div>
       </>
     );
@@ -513,10 +516,12 @@ export function ProfileEditor({
         })}
 
         <div className="ProfileEditor__button-footer">
-          <Button onClick={handleBack} variant={ButtonVariant.Secondary}>
+          <AxoButton.Root variant="secondary" size="large" onClick={handleBack}>
             {i18n('icu:cancel')}
-          </Button>
-          <Button
+          </AxoButton.Root>
+          <AxoButton.Root
+            variant="primary"
+            size="large"
             disabled={shouldDisableSave}
             onClick={() => {
               setFullBio({
@@ -531,7 +536,7 @@ export function ProfileEditor({
             }}
           >
             {i18n('icu:save')}
-          </Button>
+          </AxoButton.Root>
         </div>
       </>
     );
@@ -714,15 +719,15 @@ export function ProfileEditor({
           }}
         />
         <div className="ProfileEditor__EditPhotoContainer">
-          <Button
+          <AxoButton.Root
             onClick={() => {
               setEditState(ProfileEditorPage.BetterAvatar);
             }}
-            variant={ButtonVariant.Secondary}
-            className="ProfileEditor__EditPhoto"
+            variant="secondary"
+            size="small"
           >
             {i18n('icu:ProfileEditor--edit-photo')}
-          </Button>
+          </AxoButton.Root>
         </div>
         <PanelRow
           className="ProfileEditor__row"

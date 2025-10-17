@@ -819,10 +819,6 @@ $secondary-text-color: light-dark(
   }
 }
 
-.Preferences--BackupsAuthButton[disabled] {
-  cursor: auto;
-}
-
 .Preferences--BackupsRow {
   padding-block: 8px;
   margin-block-start: 8px;
@@ -915,31 +911,13 @@ $secondary-text-color: light-dark(
 }
 
 .Preferences--LocalBackupsSetupScreenPane-top {
+  flex-grow: 0;
   min-height: 154px;
 }
 
 .Preferences--LocalBackupsSetupScreenPaneContent {
   display: block;
   width: 100%;
-}
-
-.Preferences--LocalBackupsSetupScreenCopyButton {
-  @include mixins.font-body-small;
-  padding-inline: 15px 21px;
-  font-weight: 500;
-  vertical-align: text-top;
-
-  &::before {
-    content: '';
-    display: inline-block;
-    height: 16px;
-    width: 16px;
-    margin-inline-end: 6px;
-    @include mixins.color-svg(
-      '../images/icons/v3/copy/copy-compact.svg',
-      variables.$color-black
-    );
-  }
 }
 
 .Preferences--LocalBackupsSetupScreenPane-footer {
@@ -958,30 +936,14 @@ $secondary-text-color: light-dark(
   justify-content: right;
 }
 
-.Preferences--LocalBackupsSetupScreenFooterSeeKeyButton {
-  @include mixins.font-body-1-bold;
-  padding-block: 0;
-  padding-inline: 0;
-  background: none;
-  border: none;
-  outline: none;
-  color: variables.$color-ultramarine;
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      outline: 2px solid variables.$color-ultramarine;
-    }
-  }
-}
-
-.Preferences--LocalBackupsSetupScreenFooterButton {
-  padding-inline: 34px;
-}
-
 .Preferences--LocalBackupsSetupScreenBody {
   @include mixins.font-body-1;
   margin-block: 8px;
   color: $secondary-text-color;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .Preferences--LocalBackupsSetupScreenBody--folder {
@@ -1080,237 +1042,6 @@ $secondary-text-color: light-dark(
   @include mixins.font-body-1;
   margin-block: 8px 32px;
   color: $secondary-text-color;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalButton {
-  padding-inline: 32px;
-}
-
-.Preferences--LocalBackupsConfirmKeyModal .module-Modal__button-footer {
-  justify-content: center;
-}
-
-.Preferences__BackupsIcon {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/signal_backups/signal_backups.svg',
-      variables.$color-gray-75
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/signal_backups/signal_backups.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
-.Preferences__LocalBackupsIcon {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/device/device-laptop.svg',
-      variables.$color-gray-75
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/device/device-laptop.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
-.Preferences--LocalBackupsSetupScreen {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.Preferences--LocalBackupsSetupScreenHeader {
-  @include mixins.font-title-2;
-  margin-block: 8px;
-}
-
-.Preferences--LocalBackupsSetupScreenPane {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.Preferences--LocalBackupsSetupScreenPane-top {
-  flex-grow: 0;
-  min-height: 154px;
-}
-
-.Preferences--LocalBackupsSetupScreenPaneContent {
-  display: block;
-  width: 100%;
-}
-
-.Preferences--LocalBackupsSetupScreenCopyButton {
-  @include mixins.font-body-small;
-  padding-inline: 15px 21px;
-  font-weight: 500;
-  vertical-align: text-top;
-
-  &::before {
-    content: '';
-    display: inline-block;
-    height: 16px;
-    width: 16px;
-    margin-inline-end: 6px;
-    @include mixins.color-svg(
-      '../images/icons/v3/copy/copy-compact.svg',
-      variables.$color-black
-    );
-  }
-}
-
-.Preferences--LocalBackupsSetupScreenPane-footer {
-  flex-direction: row;
-  flex-grow: 0;
-  flex-shrink: 1;
-}
-
-.Preferences--LocalBackupsSetupScreenFooterSection {
-  display: flex;
-  flex-grow: 1;
-}
-
-.Preferences--LocalBackupsSetupScreenFooterSection-right {
-  justify-content: right;
-}
-
-.Preferences--LocalBackupsSetupScreenFooterSeeKeyButton {
-  @include mixins.font-body-1-bold;
-  padding-block: 0;
-  padding-inline: 0;
-  background: none;
-  border: none;
-  outline: none;
-  color: variables.$color-ultramarine;
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      outline: 2px solid variables.$color-ultramarine;
-    }
-  }
-}
-
-.Preferences--LocalBackupsSetupScreenFooterButton {
-  padding-inline: 34px;
-}
-
-.Preferences--LocalBackupsSetupScreenBody {
-  @include mixins.font-body-1;
-  margin-block: 8px;
-  color: $secondary-text-color;
-}
-
-.Preferences--LocalBackupsSetupScreenBody a {
-  text-decoration: none;
-}
-
-.Preferences--LocalBackupsSetupScreenBody--folder {
-  margin-block-end: 57px;
-}
-
-.Preferences--LocalBackupsBackupKey {
-  width: 274px;
-  height: 201px;
-  padding-block: 28px;
-  padding-inline: 36px;
-  margin-block: 28px 20px;
-  background: variables.$color-gray-02;
-  border-radius: 12px;
-  border-width: 0;
-  outline: none;
-  color: variables.$color-gray-90;
-  font-family: variables.$monospace;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 36.128px;
-  letter-spacing: 0.624px;
-  overflow: hidden;
-  resize: none;
-  word-break: break-all;
-  text-transform: uppercase;
-
-  &::placeholder {
-    color: variables.$color-gray-45;
-    text-transform: none;
-  }
-}
-
-.Preferences--LocalBackupsSetupIcon {
-  display: inline-flex;
-  width: 64px;
-  height: 64px;
-  border-radius: 64px;
-  background: variables.$color-ultramarine-pale;
-  align-items: center;
-  justify-content: center;
-
-  &::before {
-    height: 38px;
-    width: 38px;
-    content: '';
-  }
-}
-
-.Preferences--LocalBackupsSetupIcon-folder {
-  margin-block-start: 60px;
-  margin-block-end: 12px;
-
-  &::before {
-    @include mixins.color-svg(
-      '../images/icons/v3/folder/folder.svg',
-      variables.$color-ultramarine-logo
-    );
-  }
-}
-
-.Preferences--LocalBackupsSetupIcon-key {
-  &::before {
-    @include mixins.color-svg(
-      '../images/icons/v3/key/key.svg',
-      variables.$color-ultramarine-logo
-    );
-  }
-}
-
-.Preferences--LocalBackupsSetupIcon-lock {
-  &::before {
-    @include mixins.color-svg(
-      '../images/icons/v3/lock/lock.svg',
-      variables.$color-ultramarine-logo
-    );
-  }
-}
-
-.Preferences--LocalBackupsConfirmKeyModal {
-  padding-block: 36px 20px;
-  padding-inline: 32px;
-  text-align: center;
-}
-
-.Preferences--LocalBackupsConfirmKeyModal__body {
-  padding: 0;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalTitle {
-  @include mixins.font-title-medium;
-  margin-block: 12px;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalBody {
-  @include mixins.font-body-1;
-  margin-block: 8px 32px;
-  color: $secondary-text-color;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalButton {
-  padding-inline: 32px;
 }
 
 .Preferences--LocalBackupsConfirmKeyModal .module-Modal__button-footer {

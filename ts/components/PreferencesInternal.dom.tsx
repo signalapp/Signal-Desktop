@@ -12,8 +12,6 @@ import { formatFileSize } from '../util/formatFileSize.std.js';
 import { SECOND } from '../util/durations/index.std.js';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.js';
 import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Spinner } from './Spinner.dom.js';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { DonationReceipt } from '../types/Donations.std.js';
@@ -21,6 +19,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isStagingServer } from '../util/isStagingServer.dom.js';
 import { getHumanDonationAmount } from '../util/currency.dom.js';
 import { AutoSizeTextArea } from './AutoSizeTextArea.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const log = createLogger('PreferencesInternal');
 
@@ -240,17 +239,19 @@ export function PreferencesInternal({
               'Preferences__one-third-flow--align-right'
             )}
           >
-            <Button
-              variant={ButtonVariant.Secondary}
+            <AxoButton.Root
+              variant="secondary"
+              size="large"
               onClick={validateBackup}
               disabled={isValidationPending}
+              experimentalSpinner={
+                isValidationPending
+                  ? { 'aria-label': i18n('icu:loading') }
+                  : null
+              }
             >
-              {isValidationPending ? (
-                <Spinner size="22px" svgSize="small" />
-              ) : (
-                i18n('icu:Preferences__internal__validate-backup')
-              )}
-            </Button>
+              {i18n('icu:Preferences__internal__validate-backup')}
+            </AxoButton.Root>
           </div>
         </FlowingSettingsControl>
 
@@ -274,17 +275,17 @@ export function PreferencesInternal({
               'Preferences__one-third-flow--align-right'
             )}
           >
-            <Button
-              variant={ButtonVariant.Secondary}
+            <AxoButton.Root
+              variant="secondary"
+              size="large"
               onClick={exportLocalBackup}
               disabled={isExportPending}
+              experimentalSpinner={
+                isExportPending ? { 'aria-label': i18n('icu:loading') } : null
+              }
             >
-              {isExportPending ? (
-                <Spinner size="22px" svgSize="small" />
-              ) : (
-                i18n('icu:Preferences__internal__export-local-backup')
-              )}
-            </Button>
+              {i18n('icu:Preferences__internal__export-local-backup')}
+            </AxoButton.Root>
           </div>
         </FlowingSettingsControl>
 
@@ -306,8 +307,9 @@ export function PreferencesInternal({
               'Preferences__one-third-flow--align-right'
             )}
           >
-            <Button
-              variant={ButtonVariant.Secondary}
+            <AxoButton.Root
+              variant="secondary"
+              size="large"
               onClick={async () => {
                 setMessageCountBySchemaVersion(
                   await getMessageCountBySchemaVersion()
@@ -317,7 +319,7 @@ export function PreferencesInternal({
               disabled={isExportPending}
             >
               Fetch data
-            </Button>
+            </AxoButton.Root>
           </div>
         </FlowingSettingsControl>
 
@@ -400,12 +402,13 @@ export function PreferencesInternal({
                 'Preferences__one-third-flow--align-right'
               )}
             >
-              <Button
-                variant={ButtonVariant.Secondary}
+              <AxoButton.Root
+                variant="secondary"
+                size="large"
                 onClick={handleAddTestReceipt}
               >
                 Add Test Receipt
-              </Button>
+              </AxoButton.Root>
             </div>
           </FlowingSettingsControl>
 
@@ -450,17 +453,19 @@ export function PreferencesInternal({
                         {receipt.id.substring(0, 8)}...
                       </td>
                       <td style={{ padding: '8px' }}>
-                        <Button
-                          variant={ButtonVariant.Secondary}
+                        <AxoButton.Root
+                          variant="secondary"
+                          size="large"
                           onClick={() => handleGenerateReceipt(receipt)}
                           disabled={isGeneratingReceipt}
+                          experimentalSpinner={
+                            isGeneratingReceipt
+                              ? { 'aria-label': i18n('icu:loading') }
+                              : null
+                          }
                         >
-                          {isGeneratingReceipt ? (
-                            <Spinner size="16px" svgSize="small" />
-                          ) : (
-                            'Download'
-                          )}
-                        </Button>
+                          Download
+                        </AxoButton.Root>
                       </td>
                     </tr>
                   ))}
@@ -486,12 +491,13 @@ export function PreferencesInternal({
             placeholder="SELECT * FROM items"
             moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
           />
-          <Button
-            variant={ButtonVariant.Destructive}
+          <AxoButton.Root
+            variant="destructive"
+            size="large"
             onClick={handleReadOnlySqlInputSubmit}
           >
             Run Query
-          </Button>
+          </AxoButton.Root>
           {readOnlySqlResults != null && (
             <AutoSizeTextArea
               i18n={i18n}

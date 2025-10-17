@@ -392,12 +392,3 @@
   justify-content: center;
   margin-block-end: 16px;
 }
-
-.ProfileEditor__EditPhoto {
-  @include mixins.font-subtitle;
-
-  padding-block: 5px;
-  padding-inline: 10px;
-  border-radius: 14px;
-  font-weight: 600;
-}
