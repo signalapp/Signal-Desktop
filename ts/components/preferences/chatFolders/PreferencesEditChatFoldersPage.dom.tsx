@@ -8,7 +8,6 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import type { ThemeType } from '../../../types/Util.std.js';
 import { Input } from '../../Input.dom.js';
-import { Button, ButtonVariant } from '../../Button.dom.js';
 import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
 import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.dom.js';
 import { SettingsControl, SettingsRow } from '../../PreferencesUtil.dom.js';
@@ -47,6 +46,7 @@ import {
   ItemContent,
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.js';
+import { AxoButton } from '../../../axo/AxoButton.dom.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
@@ -550,19 +550,21 @@ export function PreferencesEditChatFolderPage(
       title={i18n('icu:Preferences__EditChatFolderPage__Title')}
       actions={
         <>
-          <Button
-            variant={ButtonVariant.Secondary}
+          <AxoButton.Root
+            size="large"
+            variant="secondary"
             onClick={handleDiscardAndBack}
           >
             {i18n('icu:Preferences__EditChatFolderPage__CancelButton')}
-          </Button>
-          <Button
-            variant={ButtonVariant.Primary}
+          </AxoButton.Root>
+          <AxoButton.Root
+            size="large"
+            variant="primary"
             onClick={handleSaveChangesAndBack}
             disabled={!(isChanged && isValid)}
           >
             {i18n('icu:Preferences__EditChatFolderPage__SaveButton')}
-          </Button>
+          </AxoButton.Root>
         </>
       }
     />

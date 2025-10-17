@@ -13,7 +13,6 @@ import React, {
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
 import {
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
@@ -70,6 +69,7 @@ import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.
 import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.js';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 import { offsetDistanceModifier } from '../util/popperUtil.std.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
@@ -516,14 +516,14 @@ function AmountPicker({
   }
 
   const continueButton = (
-    <Button
-      className="PreferencesDonations__PrimaryButton"
+    <AxoButton.Root
+      variant={isOnline ? 'primary' : 'secondary'}
+      size="large"
       disabled={!isContinueEnabled}
       onClick={handleContinueClicked}
-      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
     >
       {i18n('icu:DonateFlow__continue')}
-    </Button>
+    </AxoButton.Root>
   );
 
   let continueButtonWithTooltip: JSX.Element | undefined;
@@ -759,16 +759,16 @@ function CardForm({
   }, [handleDonateClicked, isDonateDisabled]);
 
   const donateButton = (
-    <Button
-      className="PreferencesDonations__PrimaryButton"
+    <AxoButton.Root
       disabled={isDonateDisabled}
       onClick={handleDonateClicked}
-      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
+      variant={isOnline ? 'primary' : 'secondary'}
+      size="large"
     >
       {i18n('icu:PreferencesDonations__donate-button-with-amount', {
         formattedCurrencyAmount,
       })}
-    </Button>
+    </AxoButton.Root>
   );
 
   return (

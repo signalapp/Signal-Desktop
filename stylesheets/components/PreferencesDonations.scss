@@ -42,10 +42,6 @@
     }
   }
 
-  &__donate-button {
-    margin-block-end: 32px;
-  }
-
   &__separator {
     width: 100%;
     height: 0.5px;
@@ -464,15 +460,6 @@
       }
     }
   }
-}
-
-.PreferencesDonations__PrimaryButton {
-  @include mixins.font-body-2;
-  padding-block: 5px;
-  padding-inline: 12px;
-  font-weight: 400;
-  border: 0.5px solid variables.$color-black-alpha-16;
-  border-radius: 6px;
 }
 
 .PreferencesDonations__badge-list {

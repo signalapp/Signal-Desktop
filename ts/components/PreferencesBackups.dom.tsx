@@ -16,7 +16,7 @@ import {
   LightIconLabel,
   SettingsRow,
 } from './PreferencesUtil.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
+import { ButtonVariant } from './Button.dom.js';
 import type { SettingsLocation } from '../types/Nav.std.js';
 import { SettingsPage } from '../types/Nav.std.js';
 import { I18n } from './I18n.dom.js';
@@ -27,6 +27,7 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.main.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 import { BackupLevel } from '../services/backups/types.std.js';
 import {
   BackupsDetailsPage,
@@ -230,14 +231,15 @@ export function PreferencesBackups({
                   'Preferences__one-third-flow--align-right'
                 )}
               >
-                <Button
+                <AxoButton.Root
+                  variant="secondary"
+                  size="large"
                   onClick={() =>
                     setSettingsLocation({ page: SettingsPage.BackupsDetails })
                   }
-                  variant={ButtonVariant.Secondary}
                 >
                   {i18n('icu:Preferences__button--manage')}
-                </Button>
+                </AxoButton.Root>
               </div>
             </FlowingControl>
           </SettingsRow>
@@ -273,8 +275,9 @@ export function PreferencesBackups({
                 'Preferences__one-third-flow--align-right'
               )}
             >
-              <Button
-                className="Preferences--BackupsAuthButton"
+              <AxoButton.Root
+                variant="secondary"
+                size="large"
                 disabled={isAuthPending}
                 onClick={async () => {
                   setAuthError(undefined);
@@ -294,12 +297,11 @@ export function PreferencesBackups({
 
                   setSettingsLocation({ page: SettingsPage.LocalBackups });
                 }}
-                variant={ButtonVariant.Secondary}
               >
                 {isLocalBackupsSetup
                   ? i18n('icu:Preferences__button--manage')
                   : i18n('icu:Preferences__button--set-up')}
-              </Button>
+              </AxoButton.Root>
             </div>
           </FlowingControl>
         </SettingsRow>

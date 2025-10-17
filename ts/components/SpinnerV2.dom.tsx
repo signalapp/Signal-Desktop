@@ -43,6 +43,26 @@ const SpinnerVariants = {
     bg: tw('stroke-fill-secondary'),
     fg: tw('stroke-border-selected'),
   },
+  'axo-button-spinner-secondary': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-label-primary'),
+  },
+  'axo-button-spinner-on-color': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-label-primary-on-color'),
+  },
+  'axo-button-spinner-primary': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-color-label-primary'),
+  },
+  'axo-button-spinner-affirmative': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-color-label-affirmative'),
+  },
+  'axo-button-spinner-destructive': {
+    bg: tw('stroke-none'),
+    fg: tw('stroke-color-label-destructive'),
+  },
 } as const satisfies Record<string, SpinnerVariantStyles>;
 
 export type SpinnerVariant = keyof typeof SpinnerVariants;
@@ -81,6 +101,7 @@ export function SpinnerV2({
     return (
       <svg
         className={tw('fill-none')}
+        aria-label={ariaLabel}
         width={sizeInPixels}
         height={sizeInPixels}
       >

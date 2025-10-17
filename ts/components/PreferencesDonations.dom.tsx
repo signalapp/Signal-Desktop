@@ -55,6 +55,8 @@ import type { AvatarUpdateOptionsType } from '../types/Avatar.std.js';
 import { drop } from '../util/drop.std.js';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.js';
 import { getInProgressDonation } from '../util/donations.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 const { groupBy, sortBy } = lodash;
 
@@ -234,15 +236,16 @@ function DonationsHome({
   const hasReceipts = donationReceipts.length > 0;
 
   const donateButton = (
-    <Button
-      className="PreferencesDonations__PrimaryButton PreferencesDonations__donate-button"
-      disabled={!isOnline}
-      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
-      size={ButtonSize.Medium}
-      onClick={handleDonateButtonClicked}
-    >
-      {i18n('icu:PreferencesDonations__donate-button')}
-    </Button>
+    <span className={tw('mb-8')}>
+      <AxoButton.Root
+        variant={isOnline ? 'primary' : 'secondary'}
+        size="medium"
+        disabled={!isOnline}
+        onClick={handleDonateButtonClicked}
+      >
+        {i18n('icu:PreferencesDonations__donate-button')}
+      </AxoButton.Root>
+    </span>
   );
 
   return (

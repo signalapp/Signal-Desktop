@@ -16,8 +16,6 @@ import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
-
-import { Button, ButtonVariant } from './Button.dom.js';
 import { ChatColorPicker } from './ChatColorPicker.dom.js';
 import { Checkbox } from './Checkbox.dom.js';
 import { WidthBreakpoint } from './_util.std.js';
@@ -26,7 +24,6 @@ import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
 import { Select } from './Select.dom.js';
-import { Spinner } from './Spinner.dom.js';
 import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
@@ -949,21 +946,23 @@ export function Preferences({
             }
             modalFooter={
               <>
-                <Button
-                  variant={ButtonVariant.Secondary}
+                <AxoButton.Root
+                  variant="secondary"
+                  size="large"
                   onClick={closeLanguageDialog}
                 >
                   {i18n('icu:cancel')}
-                </Button>
-                <Button
-                  variant={ButtonVariant.Primary}
+                </AxoButton.Root>
+                <AxoButton.Root
+                  variant="primary"
+                  size="large"
                   disabled={selectedLanguageLocale === localeOverride}
                   onClick={() => {
                     setLanguageDialog(LanguageDialog.Confirmation);
                   }}
                 >
                   {i18n('icu:Preferences__LanguageModal__Set')}
-                </Button>
+                </AxoButton.Root>
               </>
             }
           >
@@ -1210,7 +1209,7 @@ export function Preferences({
               }
               right={
                 <AxoButton.Root
-                  size="medium"
+                  size="large"
                   variant="secondary"
                   onClick={() => {
                     setSettingsLocation({
@@ -1254,12 +1253,13 @@ export function Preferences({
               }
               right={
                 <div className="Preferences__right-button">
-                  <Button
-                    aria-label={
-                      nowSyncing ? i18n('icu:syncing') : i18n('icu:syncNow')
-                    }
-                    aria-live="polite"
+                  <AxoButton.Root
+                    variant="secondary"
+                    size="large"
                     disabled={nowSyncing}
+                    experimentalSpinner={
+                      nowSyncing ? { 'aria-label': i18n('icu:syncing') } : null
+                    }
                     onClick={async () => {
                       setShowSyncFailed(false);
                       setNowSyncing(true);
@@ -1272,14 +1272,9 @@ export function Preferences({
                         setNowSyncing(false);
                       }
                     }}
-                    variant={ButtonVariant.SecondaryAffirmative}
                   >
-                    {nowSyncing ? (
-                      <Spinner svgSize="small" />
-                    ) : (
-                      i18n('icu:syncNow')
-                    )}
-                  </Button>
+                    {i18n('icu:syncNow')}
+                  </AxoButton.Root>
                 </div>
               }
             />
@@ -1558,11 +1553,9 @@ export function Preferences({
                 </>
               }
               right={
-                <Button
-                  testId="OnboardNotificationProfiles"
-                  aria-label={i18n('icu:NotificationProfiles--setup')}
-                  aria-live="polite"
-                  variant={ButtonVariant.SecondaryAffirmative}
+                <AxoButton.Root
+                  variant="secondary"
+                  size="large"
                   onClick={() =>
                     setSettingsLocation({
                       page: SettingsPage.NotificationProfilesHome,
@@ -1570,7 +1563,7 @@ export function Preferences({
                   }
                 >
                   {i18n('icu:NotificationProfiles--setup')}
-                </Button>
+                </AxoButton.Root>
               }
             />
           </SettingsRow>
@@ -1610,12 +1603,13 @@ export function Preferences({
                 'Preferences__one-third-flow--align-right'
               )}
             >
-              <Button
+              <AxoButton.Root
+                variant="secondary"
+                size="large"
                 onClick={() => setSettingsLocation({ page: SettingsPage.PNP })}
-                variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__pnp__row--button')}
-              </Button>
+              </AxoButton.Root>
             </div>
           </FlowingControl>
         </SettingsRow>
@@ -1767,20 +1761,21 @@ export function Preferences({
               )}
             >
               {hasStoriesDisabled ? (
-                <Button
+                <AxoButton.Root
                   onClick={() => onHasStoriesDisabledChanged(false)}
-                  variant={ButtonVariant.Secondary}
+                  variant="secondary"
+                  size="large"
                 >
                   {i18n('icu:Preferences__turn-stories-on')}
-                </Button>
+                </AxoButton.Root>
               ) : (
-                <Button
-                  className="Preferences__stories-off"
+                <AxoButton.Root
                   onClick={() => setConfirmStoriesOff(true)}
-                  variant={ButtonVariant.SecondaryDestructive}
+                  variant="subtle-destructive"
+                  size="large"
                 >
                   {i18n('icu:Preferences__turn-stories-off')}
-                </Button>
+                </AxoButton.Root>
               )}
             </div>
           </FlowingControl>
@@ -1807,12 +1802,13 @@ export function Preferences({
                 'Preferences__one-third-flow--align-right'
               )}
             >
-              <Button
+              <AxoButton.Root
+                variant="subtle-destructive"
+                size="large"
                 onClick={() => setConfirmDelete(true)}
-                variant={ButtonVariant.SecondaryDestructive}
               >
                 {i18n('icu:clearDataButton')}
-              </Button>
+              </AxoButton.Root>
             </div>
           </FlowingControl>
         </SettingsRow>

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-
-import { Button, ButtonVariant } from './Button.dom.js';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.dom.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { Modal } from './Modal.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 export type PropsType = {
   hasChanges: boolean;
@@ -27,7 +26,9 @@ export function AvatarModalButtons({
 
   return (
     <Modal.ButtonFooter>
-      <Button
+      <AxoButton.Root
+        variant="secondary"
+        size="large"
         onClick={() => {
           if (hasChanges) {
             setConfirmDiscardAction(() => onCancel);
@@ -35,13 +36,17 @@ export function AvatarModalButtons({
             onCancel();
           }
         }}
-        variant={ButtonVariant.Secondary}
       >
         {i18n('icu:cancel')}
-      </Button>
-      <Button disabled={!hasChanges} onClick={onSave}>
+      </AxoButton.Root>
+      <AxoButton.Root
+        variant="primary"
+        size="large"
+        disabled={!hasChanges}
+        onClick={onSave}
+      >
         {i18n('icu:save')}
-      </Button>
+      </AxoButton.Root>
       {confirmDiscardAction && (
         <ConfirmDiscardDialog
           i18n={i18n}

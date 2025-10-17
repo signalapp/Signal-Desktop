@@ -214,7 +214,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('saving username');
     let state = await phone.expectStorageState('consistency check');
-    await profileEditor.locator('.module-Button >> "Save"').click();
+    await profileEditor.getByRole('button', { name: 'Save' }).click();
 
     debug('checking the username is saved');
     {

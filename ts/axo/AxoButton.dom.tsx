@@ -6,11 +6,13 @@ import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { assert } from './_internal/assert.dom.js';
+import type { SpinnerVariant } from '../components/SpinnerV2.dom.js';
+import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
 
 const Namespace = 'AxoButton';
 
 const baseAxoButtonStyles = tw(
-  'flex items-center-safe justify-center-safe gap-1 truncate rounded-full select-none',
+  'relative inline-flex items-center-safe justify-center-safe rounded-full select-none',
   'outline-0 outline-border-focused focused:outline-[2.5px]',
   'forced-colors:border'
 );
@@ -126,9 +128,9 @@ const AxoButtonVariants = {
 };
 
 const AxoButtonSizes = {
-  large: tw('px-4 py-2 type-body-medium font-medium'),
-  medium: tw('px-3 py-1.5 type-body-medium font-medium'),
-  small: tw('px-2 py-1 type-body-small font-medium'),
+  large: tw('min-w-16 px-4 py-2 type-body-medium font-medium'),
+  medium: tw('min-w-14 px-3 py-1.5 type-body-medium font-medium'),
+  small: tw('min-w-12 px-2 py-1 type-body-small font-medium'),
 } as const satisfies Record<string, TailwindStyles>;
 
 type BaseButtonAttrs = Omit<
@@ -147,21 +149,82 @@ export function _getAllAxoButtonSizes(): ReadonlyArray<AxoButtonSize> {
   return Object.keys(AxoButtonSizes) as Array<AxoButtonSize>;
 }
 
+const AxoButtonSpinnerVariants: Record<AxoButtonVariant, SpinnerVariant> = {
+  primary: 'axo-button-spinner-on-color',
+  secondary: 'axo-button-spinner-secondary',
+  affirmative: 'axo-button-spinner-on-color',
+  destructive: 'axo-button-spinner-on-color',
+  'subtle-primary': 'axo-button-spinner-primary',
+  'subtle-affirmative': 'axo-button-spinner-affirmative',
+  'subtle-destructive': 'axo-button-spinner-destructive',
+  'floating-primary': 'axo-button-spinner-primary',
+  'floating-secondary': 'axo-button-spinner-secondary',
+  'floating-affirmative': 'axo-button-spinner-affirmative',
+  'floating-destructive': 'axo-button-spinner-destructive',
+  'borderless-primary': 'axo-button-spinner-primary',
+  'borderless-secondary': 'axo-button-spinner-secondary',
+  'borderless-affirmative': 'axo-button-spinner-affirmative',
+  'borderless-destructive': 'axo-button-spinner-destructive',
+};
+
+const AxoButtonSpinnerSizes: Record<
+  AxoButtonSize,
+  { size: number; strokeWidth: number }
+> = {
+  large: { size: 20, strokeWidth: 2 },
+  medium: { size: 20, strokeWidth: 2 },
+  small: { size: 16, strokeWidth: 1.5 },
+};
+
+type ExperimentalButtonSpinnerProps = Readonly<{
+  buttonVariant: AxoButtonVariant;
+  buttonSize: AxoButtonSize;
+  'aria-label': string;
+}>;
+
+function ExperimentalButtonSpinner(
+  props: ExperimentalButtonSpinnerProps
+): JSX.Element {
+  const variant = AxoButtonSpinnerVariants[props.buttonVariant];
+  const sizeConfig = AxoButtonSpinnerSizes[props.buttonSize];
+  return (
+    <span className={tw('absolute inset-0 flex items-center justify-center')}>
+      <SpinnerV2
+        size={sizeConfig.size}
+        strokeWidth={sizeConfig.strokeWidth}
+        variant={variant}
+        value="indeterminate"
+        ariaLabel={props['aria-label']}
+      />
+    </span>
+  );
+}
+
 export namespace AxoButton {
   export type Variant = AxoButtonVariant;
   export type Size = AxoButtonSize;
+
   export type RootProps = BaseButtonAttrs &
     Readonly<{
       variant: AxoButtonVariant;
       size: AxoButtonSize;
       symbol?: AxoSymbol.InlineGlyphName;
       arrow?: boolean;
+      experimentalSpinner?: { 'aria-label': string } | null;
       children: ReactNode;
     }>;
 
   export const Root: FC<RootProps> = memo(
     forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
-      const { variant, size, symbol, arrow, children, ...rest } = props;
+      const {
+        variant,
+        size,
+        symbol,
+        arrow,
+        experimentalSpinner,
+        children,
+        ...rest
+      } = props;
       const variantStyles = assert(
         AxoButtonVariants[variant],
         `${Namespace}: Invalid variant ${variant}`
@@ -170,6 +233,7 @@ export namespace AxoButton {
         AxoButtonSizes[size],
         `${Namespace}: Invalid size ${size}`
       );
+
       return (
         <button
           ref={ref}
@@ -177,12 +241,26 @@ export namespace AxoButton {
           className={tw(variantStyles, sizeStyles)}
           {...rest}
         >
-          {symbol != null && (
-            <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
-          )}
-          {children}
-          {arrow && (
-            <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+          <span
+            className={tw(
+              'flex shrink grow items-center-safe justify-center-safe gap-1 truncate',
+              experimentalSpinner != null ? 'opacity-0' : null
+            )}
+          >
+            {symbol != null && (
+              <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
+            )}
+            {children}
+            {arrow && (
+              <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+            )}
+          </span>
+          {experimentalSpinner != null && (
+            <ExperimentalButtonSpinner
+              buttonVariant={variant}
+              buttonSize={size}
+              aria-label={experimentalSpinner['aria-label']}
+            />
           )}
         </button>
       );
