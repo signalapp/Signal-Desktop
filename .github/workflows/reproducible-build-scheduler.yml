@@ -9,7 +9,7 @@ on:
         type: boolean
         description: 'Ignore version cache and reproduce the latest builds'
         required: true
-        default: true
+        default: false
   schedule:
     - cron: '0 12 * * *'
 jobs:
@@ -74,12 +74,6 @@ jobs:
         else
           echo "result=false" >> $GITHUB_OUTPUT
         fi
-
-    - name: Clone Desktop git repo to check git tag
-      if: steps.should-run.outputs.result == 'true'
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-      with:
-        ref: ${{ steps.latest-version.outputs.tag }}
 
     - name: Run workflow Reproducible Build using REST API
       if: steps.should-run.outputs.result == 'true'
