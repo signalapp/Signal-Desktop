@@ -96,19 +96,17 @@ export function getCurrentChatFolders(
 
 export function getChatFolder(
   db: ReadableDB,
-  id: ChatFolderId
+  chatFolderId: ChatFolderId
 ): ChatFolder | null {
-  return db.transaction(() => {
-    const [query, params] = sql`
-      SELECT * FROM chatFolders
-      WHERE id = ${id};
-    `;
-    const row = db.prepare(query).get<ChatFolderRow>(params);
-    if (row == null) {
-      return null;
-    }
-    return rowToChatFolder(row);
-  })();
+  const [query, params] = sql`
+    SELECT * FROM chatFolders
+    WHERE id = ${chatFolderId};
+  `;
+  const row = db.prepare(query).get<ChatFolderRow>(params);
+  if (row == null) {
+    return null;
+  }
+  return rowToChatFolder(row);
 }
 
 function _insertChatFolder(db: WritableDB, chatFolder: ChatFolder): void {
@@ -224,30 +222,63 @@ export function upsertAllChatsChatFolderFromSync(
 }
 
 export function updateChatFolder(db: WritableDB, chatFolder: ChatFolder): void {
+  const chatFolderRow = chatFolderToRow(chatFolder);
+  const [chatFolderQuery, chatFolderParams] = sql`
+    UPDATE chatFolders
+    SET
+      id = ${chatFolderRow.id},
+      folderType = ${chatFolderRow.folderType},
+      name = ${chatFolderRow.name},
+      position = ${chatFolderRow.position},
+      showOnlyUnread = ${chatFolderRow.showOnlyUnread},
+      showMutedChats = ${chatFolderRow.showMutedChats},
+      includeAllIndividualChats = ${chatFolderRow.includeAllIndividualChats},
+      includeAllGroupChats = ${chatFolderRow.includeAllGroupChats},
+      includedConversationIds = ${chatFolderRow.includedConversationIds},
+      excludedConversationIds = ${chatFolderRow.excludedConversationIds},
+      deletedAtTimestampMs = ${chatFolderRow.deletedAtTimestampMs},
+      storageID = ${chatFolderRow.storageID},
+      storageVersion = ${chatFolderRow.storageVersion},
+      storageUnknownFields = ${chatFolderRow.storageUnknownFields},
+      storageNeedsSync = ${chatFolderRow.storageNeedsSync}
+    WHERE
+      id = ${chatFolderRow.id}
+  `;
+  db.prepare(chatFolderQuery).run(chatFolderParams);
+}
+
+export function updateChatFolderToggleChat(
+  db: WritableDB,
+  chatFolderId: ChatFolderId,
+  conversationId: string,
+  toggle: boolean
+): void {
   return db.transaction(() => {
-    const chatFolderRow = chatFolderToRow(chatFolder);
-    const [chatFolderQuery, chatFolderParams] = sql`
-      UPDATE chatFolders
-      SET
-        id = ${chatFolderRow.id},
-        folderType = ${chatFolderRow.folderType},
-        name = ${chatFolderRow.name},
-        position = ${chatFolderRow.position},
-        showOnlyUnread = ${chatFolderRow.showOnlyUnread},
-        showMutedChats = ${chatFolderRow.showMutedChats},
-        includeAllIndividualChats = ${chatFolderRow.includeAllIndividualChats},
-        includeAllGroupChats = ${chatFolderRow.includeAllGroupChats},
-        includedConversationIds = ${chatFolderRow.includedConversationIds},
-        excludedConversationIds = ${chatFolderRow.excludedConversationIds},
-        deletedAtTimestampMs = ${chatFolderRow.deletedAtTimestampMs},
-        storageID = ${chatFolderRow.storageID},
-        storageVersion = ${chatFolderRow.storageVersion},
-        storageUnknownFields = ${chatFolderRow.storageUnknownFields},
-        storageNeedsSync = ${chatFolderRow.storageNeedsSync}
-      WHERE
-        id = ${chatFolderRow.id}
-    `;
-    db.prepare(chatFolderQuery).run(chatFolderParams);
+    const chatFolder = getChatFolder(db, chatFolderId);
+    strictAssert(
+      chatFolder != null,
+      `Missing chat folder for id: ${chatFolderId}`
+    );
+
+    const included = new Set<string>(chatFolder.includedConversationIds);
+    const excluded = new Set<string>(chatFolder.excludedConversationIds);
+
+    if (toggle) {
+      // add
+      included.add(conversationId);
+      excluded.delete(conversationId);
+    } else {
+      // remove
+      included.delete(conversationId);
+      excluded.add(conversationId);
+    }
+
+    updateChatFolder(db, {
+      ...chatFolder,
+      includedConversationIds: Array.from(included),
+      excludedConversationIds: Array.from(excluded),
+      storageNeedsSync: true,
+    });
   })();
 }
 

@@ -189,6 +189,34 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.ChatFolderAddedChat) {
+    return (
+      <Toast onClose={hideToast}>
+        <I18n
+          i18n={i18n}
+          id="icu:Toast--ChatFolderAddedChat"
+          components={{
+            chatFolderName: <UserText text={toast.parameters.chatFolderName} />,
+          }}
+        />
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ChatFolderRemovedChat) {
+    return (
+      <Toast onClose={hideToast}>
+        <I18n
+          i18n={i18n}
+          id="icu:Toast--ChatFolderRemovedChat"
+          components={{
+            chatFolderName: <UserText text={toast.parameters.chatFolderName} />,
+          }}
+        />
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ChatFolderCreated) {
     return (
       <Toast onClose={hideToast}>

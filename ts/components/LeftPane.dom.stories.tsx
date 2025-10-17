@@ -338,6 +338,9 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       <LeftPaneConversationListItemContextMenu
         i18n={i18n}
         conversation={getDefaultConversation()}
+        selectedChatFolder={null}
+        currentChatFolders={CurrentChatFolders.createEmpty()}
+        isActivelySearching={false}
         onMarkUnread={action('onMarkUnread')}
         onMarkRead={action('onMarkRead')}
         onPin={action('onPin')}
@@ -346,6 +349,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onArchive={action('onArchive')}
         onUnarchive={action('onUnarchive')}
         onDelete={action('onDelete')}
+        onChatFolderOpenCreatePage={action('onChatFolderOpenCreatePage')}
+        onChatFolderToggleChat={action('onChatFolderToggleChat')}
         localDeleteWarningShown={false}
         setLocalDeleteWarningShown={action('setLocalDeleteWarningShown')}
       >

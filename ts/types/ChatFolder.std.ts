@@ -153,6 +153,11 @@ type ConversationPropsForChatFolder = Pick<
   'type' | 'id' | 'unreadCount' | 'markedUnread' | 'muteExpiresAt'
 >;
 
+export type ChatFolderConversationFilterOptions = Readonly<{
+  ignoreShowOnlyUnread?: boolean;
+  ignoreShowMutedChats?: boolean;
+}>;
+
 function _isConversationIncludedInChatFolder(
   chatFolder: ChatFolder,
   conversation: ConversationPropsForChatFolder
@@ -171,13 +176,18 @@ function _isConversationIncludedInChatFolder(
 
 function _isConversationExcludedFromChatFolder(
   chatFolder: ChatFolder,
-  conversation: ConversationPropsForChatFolder
+  conversation: ConversationPropsForChatFolder,
+  options: ChatFolderConversationFilterOptions
 ): boolean {
-  if (chatFolder.showOnlyUnread && !isConversationUnread(conversation)) {
-    return true; // not unread, only showing unread
+  if (!options.ignoreShowOnlyUnread) {
+    if (chatFolder.showOnlyUnread && !isConversationUnread(conversation)) {
+      return true; // not unread, only showing unread
+    }
   }
-  if (!chatFolder.showMutedChats && (conversation.muteExpiresAt ?? 0) > 0) {
-    return true; // muted, not showing muted chats
+  if (!options.ignoreShowMutedChats) {
+    if (!chatFolder.showMutedChats && (conversation.muteExpiresAt ?? 0) > 0) {
+      return true; // muted, not showing muted chats
+    }
   }
   if (chatFolder.excludedConversationIds.includes(conversation.id)) {
     return true; // is excluded by id
@@ -187,7 +197,8 @@ function _isConversationExcludedFromChatFolder(
 
 export function isConversationInChatFolder(
   chatFolder: ChatFolder,
-  conversation: ConversationPropsForChatFolder
+  conversation: ConversationPropsForChatFolder,
+  options: ChatFolderConversationFilterOptions = {}
 ): boolean {
   if (chatFolder.folderType === ChatFolderType.ALL) {
     return true;
@@ -195,6 +206,6 @@ export function isConversationInChatFolder(
 
   return (
     _isConversationIncludedInChatFolder(chatFolder, conversation) &&
-    !_isConversationExcludedFromChatFolder(chatFolder, conversation)
+    !_isConversationExcludedFromChatFolder(chatFolder, conversation, options)
   );
 }

@@ -246,6 +246,7 @@ import {
   createAllChatsChatFolder,
   upsertAllChatsChatFolderFromSync,
   updateChatFolder,
+  updateChatFolderToggleChat,
   markChatFolderDeleted,
   getOldestDeletedChatFolder,
   updateChatFolderPositions,
@@ -710,10 +711,11 @@ export const DataWriter: ServerWritableInterface = {
   createAllChatsChatFolder,
   upsertAllChatsChatFolderFromSync,
   updateChatFolder,
-  markChatFolderDeleted,
-  deleteExpiredChatFolders,
+  updateChatFolderToggleChat,
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
+  markChatFolderDeleted,
+  deleteExpiredChatFolders,
 
   removeAll,
   removeAllConfiguration,
@@ -8047,7 +8049,7 @@ function eraseStorageServiceState(db: WritableDB): void {
       storageID = null,
       storageVersion = null,
       storageUnknownFields = null,
-      storageNeedsSync = 0; 
+      storageNeedsSync = 0;
 
     -- Notification Profiles
     UPDATE notificationProfiles

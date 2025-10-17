@@ -5069,7 +5069,8 @@ button.module-calling-participants-list__contact {
         }
       }
 
-      &:hover:not(:disabled, &--disabled, &--is-selected) {
+      &:hover:not(:disabled, &--disabled, &--is-selected),
+      &[data-state='open'] {
         background-color: light-dark(
           variables.$color-gray-05,
           variables.$color-gray-75

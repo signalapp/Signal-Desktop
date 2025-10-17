@@ -172,6 +172,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
                   details: {
                     page: SettingsPage.EditChatFolder,
                     chatFolderId: selectedChatFolder.id,
+                    initChatFolderParams: null,
                     previousLocation: {
                       tab: NavTab.Chats,
                     },
