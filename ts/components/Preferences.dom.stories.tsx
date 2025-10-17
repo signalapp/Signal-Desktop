@@ -674,6 +674,7 @@ EditChatFolder.args = {
   settingsLocation: {
     page: SettingsPage.EditChatFolder,
     chatFolderId: null,
+    initChatFolderParams: null,
     previousLocation: null,
   },
 };

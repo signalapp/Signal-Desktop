@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
 import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
+import type { ChatFolderParams } from '../../types/ChatFolder.std.js';
 import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.js';
 import {
   getAllComposableConversations,
@@ -20,13 +21,14 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
   previousLocation: Location | null;
   existingChatFolderId: PreferencesEditChatFolderPageProps['existingChatFolderId'];
+  initChatFolderParams: ChatFolderParams | null;
   settingsPaneRef: PreferencesEditChatFolderPageProps['settingsPaneRef'];
 }>;
 
 export function SmartPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
 ): JSX.Element {
-  const { existingChatFolderId } = props;
+  const { existingChatFolderId, initChatFolderParams } = props;
 
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
@@ -38,23 +40,23 @@ export function SmartPreferencesEditChatFolderPage(
     useChatFolderActions();
   const { changeLocation } = useNavActions();
 
-  const initChatFolderParams = useMemo(() => {
+  const initChatFolderParamsOrCurrentChatFolder = useMemo(() => {
     if (existingChatFolderId == null) {
-      return CHAT_FOLDER_DEFAULTS;
+      return initChatFolderParams ?? CHAT_FOLDER_DEFAULTS;
     }
     return CurrentChatFolders.expect(
       currentChatFolders,
       existingChatFolderId,
       'initChatFolderParams'
     );
-  }, [currentChatFolders, existingChatFolderId]);
+  }, [currentChatFolders, existingChatFolderId, initChatFolderParams]);
 
   return (
     <PreferencesEditChatFolderPage
       i18n={i18n}
       previousLocation={props.previousLocation}
       existingChatFolderId={props.existingChatFolderId}
-      initChatFolderParams={initChatFolderParams}
+      initChatFolderParams={initChatFolderParamsOrCurrentChatFolder}
       changeLocation={changeLocation}
       conversations={conversations}
       preferredBadgeSelector={preferredBadgeSelector}

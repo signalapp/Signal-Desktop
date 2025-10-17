@@ -15,6 +15,20 @@ import { isAlpha } from '../../util/version.std.js';
 import { drop } from '../../util/drop.std.js';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
 import { getMuteOptions } from '../../util/getMuteOptions.std.js';
+import {
+  CHAT_FOLDER_DEFAULTS,
+  ChatFolderType,
+  isConversationInChatFolder,
+} from '../../types/ChatFolder.std.js';
+import type {
+  ChatFolderParams,
+  ChatFolder,
+  ChatFolderId,
+} from '../../types/ChatFolder.std.js';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { UserText } from '../UserText.dom.js';
+import { isConversationMuted } from '../../util/isConversationMuted.std.js';
 
 function isEnabled() {
   const env = getEnvironment();
@@ -38,9 +52,18 @@ function isEnabled() {
   return false;
 }
 
+export type ChatFolderToggleChat = (
+  chatFolderId: ChatFolderId,
+  conversationId: string,
+  toggle: boolean
+) => void;
+
 export type LeftPaneConversationListItemContextMenuProps = Readonly<{
   i18n: LocalizerType;
   conversation: ConversationType;
+  selectedChatFolder: ChatFolder | null;
+  currentChatFolders: CurrentChatFolders;
+  isActivelySearching: boolean;
   onMarkUnread: (conversationId: string) => void;
   onMarkRead: (conversationId: string) => void;
   onPin: (conversationId: string) => void;
@@ -49,6 +72,8 @@ export type LeftPaneConversationListItemContextMenuProps = Readonly<{
   onArchive: (conversationId: string) => void;
   onUnarchive: (conversationId: string) => void;
   onDelete: (conversationId: string) => void;
+  onChatFolderOpenCreatePage: (initChatFolderParams: ChatFolderParams) => void;
+  onChatFolderToggleChat: ChatFolderToggleChat;
   localDeleteWarningShown: boolean;
   setLocalDeleteWarningShown: () => void;
   children: ReactNode;
@@ -59,6 +84,7 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
     const {
       i18n,
       conversation,
+      selectedChatFolder,
       onMarkUnread,
       onMarkRead,
       onPin,
@@ -67,9 +93,19 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       onArchive,
       onUnarchive,
       onDelete,
+      onChatFolderOpenCreatePage,
+      onChatFolderToggleChat,
     } = props;
 
     const { id: conversationId, muteExpiresAt } = conversation;
+    const selectedChatFolderId = selectedChatFolder?.id ?? null;
+
+    const isSelectedChatFolderAllChats = useMemo(() => {
+      return (
+        selectedChatFolder == null ||
+        selectedChatFolder.folderType === ChatFolderType.ALL
+      );
+    }, [selectedChatFolder]);
 
     const muteOptions = useMemo(() => {
       return getMuteOptions(muteExpiresAt, i18n);
@@ -125,6 +161,21 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       onDelete(conversationId);
     }, [onDelete, conversationId]);
 
+    const handleChatFolderCreateNew = useCallback(() => {
+      onChatFolderOpenCreatePage({
+        ...CHAT_FOLDER_DEFAULTS,
+        includedConversationIds: [conversationId],
+      });
+    }, [onChatFolderOpenCreatePage, conversationId]);
+
+    const handleChatFolderRemoveChat = useCallback(() => {
+      strictAssert(
+        selectedChatFolderId != null,
+        'Missing selectedChatFolderId'
+      );
+      onChatFolderToggleChat(selectedChatFolderId, conversationId, false);
+    }, [onChatFolderToggleChat, selectedChatFolderId, conversationId]);
+
     return (
       <>
         <AxoContextMenu.Root>
@@ -175,6 +226,42 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
                 })}
               </AxoContextMenu.SubContent>
             </AxoContextMenu.Sub>
+            {!props.isActivelySearching &&
+              isSelectedChatFolderAllChats &&
+              props.currentChatFolders.hasAnyCurrentCustomChatFolders && (
+                <AxoContextMenu.Sub>
+                  <AxoContextMenu.SubTrigger symbol="folder">
+                    {i18n(
+                      'icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem'
+                    )}
+                  </AxoContextMenu.SubTrigger>
+                  <AxoContextMenu.SubContent>
+                    <ContextMenuChatFolderToggleChatsSubMenu
+                      currentChatFolders={props.currentChatFolders}
+                      conversation={conversation}
+                      onChatFolderToggleChat={props.onChatFolderToggleChat}
+                    />
+                    <AxoContextMenu.Item
+                      symbol="plus"
+                      onSelect={handleChatFolderCreateNew}
+                    >
+                      {i18n(
+                        'icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem'
+                      )}
+                    </AxoContextMenu.Item>
+                  </AxoContextMenu.SubContent>
+                </AxoContextMenu.Sub>
+              )}
+            {!props.isActivelySearching && !isSelectedChatFolderAllChats && (
+              <AxoContextMenu.Item
+                symbol="folder"
+                onSelect={handleChatFolderRemoveChat}
+              >
+                {i18n(
+                  'icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem'
+                )}
+              </AxoContextMenu.Item>
+            )}
             {!conversation.isArchived && (
               <AxoContextMenu.Item symbol="archive" onSelect={handleArchive}>
                 {i18n('icu:archiveConversation')}
@@ -271,5 +358,75 @@ function ContextMenuCopyTextItem(props: {
     <AxoContextMenu.Item symbol="copy" onSelect={handleSelect}>
       {props.children}
     </AxoContextMenu.Item>
+  );
+}
+
+function ContextMenuChatFolderToggleChatsSubMenu(props: {
+  currentChatFolders: CurrentChatFolders;
+  conversation: ConversationType;
+  onChatFolderToggleChat: ChatFolderToggleChat;
+}) {
+  const { currentChatFolders } = props;
+
+  const sortedAndFilteredChatFolders = useMemo(() => {
+    return CurrentChatFolders.toSortedArray(currentChatFolders).filter(
+      chatFolder => {
+        return chatFolder.folderType === ChatFolderType.CUSTOM;
+      }
+    );
+  }, [currentChatFolders]);
+
+  return (
+    <>
+      {sortedAndFilteredChatFolders.map(chatFolder => {
+        return (
+          <ContextMenuChatFolderToggleChatItem
+            key={chatFolder.id}
+            chatFolder={chatFolder}
+            conversation={props.conversation}
+            onChatFolderToggleChat={props.onChatFolderToggleChat}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function ContextMenuChatFolderToggleChatItem(props: {
+  chatFolder: ChatFolder;
+  conversation: ConversationType;
+  onChatFolderToggleChat: ChatFolderToggleChat;
+}) {
+  const { chatFolder, conversation, onChatFolderToggleChat } = props;
+  const chatFolderId = chatFolder.id;
+  const conversationId = conversation.id;
+
+  const checked = useMemo(() => {
+    return isConversationInChatFolder(chatFolder, conversation, {
+      ignoreShowOnlyUnread: true,
+      ignoreShowMutedChats: true,
+    });
+  }, [chatFolder, conversation]);
+
+  const isExcludedByMute = useMemo(() => {
+    return !chatFolder.showMutedChats && isConversationMuted(conversation);
+  }, [chatFolder, conversation]);
+
+  const handleCheckedChange = useCallback(
+    (value: boolean) => {
+      onChatFolderToggleChat(chatFolderId, conversationId, value);
+    },
+    [onChatFolderToggleChat, chatFolderId, conversationId]
+  );
+
+  return (
+    <AxoContextMenu.CheckboxItem
+      symbol="folder"
+      checked={checked}
+      disabled={checked || isExcludedByMute}
+      onCheckedChange={handleCheckedChange}
+    >
+      <UserText text={chatFolder.name} />
+    </AxoContextMenu.CheckboxItem>
   );
 }

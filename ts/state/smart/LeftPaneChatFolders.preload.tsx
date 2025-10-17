@@ -45,6 +45,7 @@ export const SmartLeftPaneChatFolders = memo(
           details: {
             page: SettingsPage.EditChatFolder,
             chatFolderId,
+            initChatFolderParams: null,
             previousLocation: location,
           },
         });

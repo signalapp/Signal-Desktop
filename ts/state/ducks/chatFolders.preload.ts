@@ -207,6 +207,41 @@ function updateSelectedChangeFolderId(
   };
 }
 
+function updateChatFolderToggleChat(
+  chatFolderId: ChatFolderId,
+  conversationId: string,
+  toggle: boolean,
+  showToastOnSuccess: boolean
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async (dispatch, getState) => {
+    const currentChatFolders = getCurrentChatFolders(getState());
+    const chatFolder = CurrentChatFolders.expect(
+      currentChatFolders,
+      chatFolderId,
+      'updateChatFolderToggleChat'
+    );
+
+    await DataWriter.updateChatFolderToggleChat(
+      chatFolderId,
+      conversationId,
+      toggle
+    );
+    storageServiceUploadJob({ reason: 'toggleChatFolderChat' });
+    dispatch(_refetchChatFolders());
+
+    if (showToastOnSuccess) {
+      dispatch(
+        showToast({
+          toastType: toggle
+            ? ToastType.ChatFolderAddedChat
+            : ToastType.ChatFolderRemovedChat,
+          parameters: { chatFolderName: chatFolder.name },
+        })
+      );
+    }
+  };
+}
+
 export const actions = {
   refetchChatFolders,
   createChatFolder,
@@ -215,6 +250,7 @@ export const actions = {
   deleteChatFolder,
   updateChatFoldersPositions,
   updateSelectedChangeFolderId,
+  updateChatFolderToggleChat,
 };
 
 export const useChatFolderActions = (): BoundActionCreatorsMapObject<

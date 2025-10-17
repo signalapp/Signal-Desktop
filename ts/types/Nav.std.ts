@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ChatFolderId } from './ChatFolder.std.js';
+import type { ChatFolderId, ChatFolderParams } from './ChatFolder.std.js';
 
 export type SettingsLocation = ReadonlyDeep<
   | {
@@ -16,6 +16,7 @@ export type SettingsLocation = ReadonlyDeep<
   | {
       page: SettingsPage.EditChatFolder;
       chatFolderId: ChatFolderId | null;
+      initChatFolderParams: ChatFolderParams | null;
       previousLocation: Location | null;
     }
   | {

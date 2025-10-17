@@ -561,6 +561,7 @@ export function Preferences({
       setSettingsLocation({
         page: SettingsPage.EditChatFolder,
         chatFolderId,
+        initChatFolderParams: null,
         previousLocation: null,
       });
     },
@@ -2017,6 +2018,7 @@ export function Preferences({
       previousLocation: settingsLocation.previousLocation,
       settingsPaneRef,
       existingChatFolderId: settingsLocation.chatFolderId,
+      initChatFolderParams: settingsLocation.initChatFolderParams,
     });
   } else if (settingsLocation.page === SettingsPage.PNP) {
     let sharingDescription: string;

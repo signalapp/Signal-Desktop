@@ -61,6 +61,16 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.CaptchaFailed };
     case ToastType.CaptchaSolved:
       return { toastType: ToastType.CaptchaSolved };
+    case ToastType.ChatFolderAddedChat:
+      return {
+        toastType: ToastType.ChatFolderCreated,
+        parameters: { chatFolderName: 'Friends' },
+      };
+    case ToastType.ChatFolderRemovedChat:
+      return {
+        toastType: ToastType.ChatFolderCreated,
+        parameters: { chatFolderName: 'Friends' },
+      };
     case ToastType.ChatFolderCreated:
       return {
         toastType: ToastType.ChatFolderCreated,

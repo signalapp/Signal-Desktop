@@ -439,6 +439,18 @@
     "messageformat": "Edit folder",
     "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Right-Click Context Menu > Open settings for current chat folder"
   },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Add to folder",
+    "description": "Left Pane > Inbox > Chat List > Chat > Right-Click Context Menu > Add to folder (only when in 'All chats')"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Create folder",
+    "description": "Left Pane > Inbox > Chat List > Chat > Right-Click Context Menu > Add to folder (only when in 'All chats') > Create folder"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Remove from folder",
+    "description": "Left Pane > Inbox > Chat List > Chat > Right-Click Context Menu > Remove from folder (only when in custom chat folder)"
+  },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Country code",
     "description": "Placeholder displayed as default value of country code select element"
@@ -887,6 +899,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Error saving receipt. Please try again.",
     "description": "Toast message shown when a donation receipt fails to save to disk"
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”",
+    "description": "Toast message show when a chat folder has a new chat added to it (via chats list context menu)"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”",
+    "description": "Toast message show when a chat folder has a chat removed from it (via chats list context menu)"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} folder added",

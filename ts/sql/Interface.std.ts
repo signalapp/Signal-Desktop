@@ -1269,6 +1269,11 @@ type WritableInterface = {
   createAllChatsChatFolder: () => ChatFolder;
   upsertAllChatsChatFolderFromSync: (chatFolder: ChatFolder) => void;
   updateChatFolder: (chatFolder: ChatFolder) => void;
+  updateChatFolderToggleChat: (
+    chatFolderId: ChatFolderId,
+    conversationId: string,
+    toggle: boolean
+  ) => void;
   updateChatFolderPositions: (chatFolders: ReadonlyArray<ChatFolder>) => void;
   updateChatFolderDeletedAtTimestampMsFromSync: (
     chatFolderId: ChatFolderId,
