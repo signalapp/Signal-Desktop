@@ -650,7 +650,7 @@ function sendStickerMessage(
   unknown,
   NoopActionType | ShowToastActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('sendStickerMessage: No conversation found');
@@ -679,7 +679,24 @@ function sendStickerMessage(
       }
 
       const { packId, stickerId } = options;
-      void conversation.sendStickerMessage(packId, stickerId);
+      // If there's an active quote in the composer, include it so the sticker is sent as a proper reply
+      const state = getState();
+      const conversationComposerState = getComposerStateForConversation(
+        state.composer,
+        conversationId
+      );
+      const quote = conversationComposerState.quotedMessage?.quote;
+
+      void conversation.sendStickerMessage(packId, stickerId, quote);
+
+      // Clear the quote in the composer after we initiate the send, to mirror text/GIF behavior
+      if (quote) {
+        setQuoteByMessageId(conversationId, undefined)(
+          dispatch,
+          getState,
+          undefined
+        );
+      }
     } catch (error) {
       log.error('clickSend error:', Errors.toLogFormat(error));
     }
