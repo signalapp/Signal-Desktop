@@ -25,6 +25,7 @@ import {
   ComposerStep,
   OneTimeModalState,
   ConversationVerificationState,
+  type TargetedMessageSource,
 } from '../ducks/conversationsEnums.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.js';
@@ -223,7 +224,7 @@ export const getTargetedMessage = createSelector(
 );
 export const getTargetedMessageSource = createSelector(
   getConversations,
-  (state: ConversationsStateType): string | undefined => {
+  (state: ConversationsStateType): TargetedMessageSource | undefined => {
     return state.targetedMessageSource;
   }
 );

@@ -197,6 +197,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     markMessageRead,
     reviewConversationNameCollision,
     scrollToOldestUnreadMention,
+    setCenterMessage,
     setIsNearBottom,
     targetMessage,
   } = useConversationsActions();
@@ -290,6 +291,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       scrollToIndex={scrollToIndex}
       scrollToIndexCounter={scrollToIndexCounter}
       scrollToOldestUnreadMention={scrollToOldestUnreadMention}
+      setCenterMessage={setCenterMessage}
       setIsNearBottom={setIsNearBottom}
       shouldShowMiniPlayer={shouldShowMiniPlayer}
       targetedMessageId={targetedMessageId}

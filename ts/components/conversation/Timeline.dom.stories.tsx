@@ -274,6 +274,7 @@ const actions = () => ({
   clearInvitedServiceIdsForNewlyCreatedGroup: action(
     'clearInvitedServiceIdsForNewlyCreatedGroup'
   ),
+  setCenterMessage: action('setCenterMessage'),
   setIsNearBottom: action('setIsNearBottom'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),
