@@ -507,6 +507,10 @@ export type MessagesByConversationType = ReadonlyDeep<{
   [key: string]: ConversationMessageType | undefined;
 }>;
 
+export type LastCenterMessageByConversationType = ReadonlyDeep<{
+  [key: string]: string;
+}>;
+
 export type PreJoinConversationType = ReadonlyDeep<{
   avatar?: {
     loading?: boolean;
@@ -617,6 +621,8 @@ export type ConversationsStateType = ReadonlyDeep<{
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
+
+  lastCenterMessageByConversation: LastCenterMessageByConversationType;
 
   // Map of conversation IDs to a boolean indicating whether an avatar download
   // was requested
@@ -941,6 +947,13 @@ export type SetMessageLoadingStateActionType = ReadonlyDeep<{
     messageLoadingState: undefined | TimelineMessageLoadingState;
   };
 }>;
+export type SetCenterMessageActionType = ReadonlyDeep<{
+  type: 'SET_CENTER_MESSAGE';
+  payload: {
+    conversationId: string;
+    messageId: string | undefined;
+  };
+}>;
 export type SetIsNearBottomActionType = ReadonlyDeep<{
   type: 'SET_NEAR_BOTTOM';
   payload: {
@@ -1129,6 +1142,7 @@ export type ConversationActionType =
   | SetPendingRequestedAvatarDownloadActionType
   | SetProfileUpdateErrorActionType
   | TargetedConversationChangedActionType
+  | SetCenterMessageActionType
   | SetComposeGroupAvatarActionType
   | SetComposeGroupExpireTimerActionType
   | SetComposeGroupNameActionType
@@ -1252,6 +1266,7 @@ export const actions = {
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
+  setCenterMessage,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
   setComposeGroupName,
@@ -3398,6 +3413,18 @@ function setMessageLoadingState(
     },
   };
 }
+function setCenterMessage(
+  conversationId: string,
+  messageId: string | undefined
+): SetCenterMessageActionType {
+  return {
+    type: 'SET_CENTER_MESSAGE',
+    payload: {
+      conversationId,
+      messageId,
+    },
+  };
+}
 function setIsNearBottom(
   conversationId: string,
   isNearBottom: boolean
@@ -5044,6 +5071,7 @@ export function getEmptyState(): ConversationsStateType {
     conversationsByGroupId: {},
     conversationsByUsername: {},
     verificationDataByConversation: {},
+    lastCenterMessageByConversation: {},
     messagesByConversation: {},
     messagesLookup: {},
     targetedMessage: undefined,
@@ -6294,6 +6322,30 @@ export function reducer(
       },
     };
   }
+  if (action.type === 'SET_CENTER_MESSAGE') {
+    const { payload } = action;
+    const { conversationId, messageId } = payload;
+    const { lastCenterMessageByConversation } = state;
+
+    const existingCenterMessageId: string | undefined =
+      lastCenterMessageByConversation[conversationId];
+    if (existingCenterMessageId === messageId) {
+      return state;
+    }
+
+    const nextLastCenterMessageByConversation: LastCenterMessageByConversationType =
+      messageId
+        ? {
+            ...lastCenterMessageByConversation,
+            [conversationId]: messageId,
+          }
+        : omit(lastCenterMessageByConversation, conversationId);
+
+    return {
+      ...state,
+      lastCenterMessageByConversation: nextLastCenterMessageByConversation,
+    };
+  }
   if (action.type === 'SET_NEAR_BOTTOM') {
     const { payload } = action;
     const { conversationId, isNearBottom } = payload;
@@ -6659,12 +6711,19 @@ export function reducer(
     const { conversationId, messageId, switchToAssociatedView } = payload;
 
     let conversation: ConversationType | undefined;
+    let lastCenterMessageId: string | undefined;
 
     if (conversationId) {
       conversation = getOwn(state.conversationLookup, conversationId);
       if (!conversation) {
         log.error(`Unknown conversation selected, id: [${conversationId}]`);
         return state;
+      }
+
+      // Restore scroll position if there are no unread messages.
+      if (conversation.unreadCount === 0) {
+        lastCenterMessageId =
+          state.lastCenterMessageByConversation[conversationId];
       }
     }
 
@@ -6676,8 +6735,10 @@ export function reducer(
           : undefined,
       hasContactSpoofingReview: false,
       selectedConversationId: conversationId,
-      targetedMessage: messageId,
-      targetedMessageSource: TargetedMessageSource.NavigateToMessage,
+      targetedMessage: messageId ?? lastCenterMessageId,
+      targetedMessageSource: messageId
+        ? TargetedMessageSource.NavigateToMessage
+        : TargetedMessageSource.Reset,
     };
 
     if (switchToAssociatedView && conversation) {

@@ -162,7 +162,11 @@ export type PropsActionsType = {
   ) => unknown;
   markMessageRead: (conversationId: string, messageId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
-  setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
+  setCenterMessage: (
+    conversationId: string,
+    messageId: string | undefined
+  ) => void;
+  setIsNearBottom: (conversationId: string, isNearBottom: boolean) => void;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   reviewConversationNameCollision: () => void;
@@ -203,6 +207,7 @@ export class Timeline extends React.Component<
   readonly #atBottomDetectorRef = React.createRef<HTMLDivElement>();
   readonly #lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   #intersectionObserver?: IntersectionObserver;
+  #intersectionRatios: Map<Element, number> = new Map();
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
   #maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
@@ -385,7 +390,7 @@ export class Timeline extends React.Component<
     //   this another way, but this approach works.)
     this.#intersectionObserver?.disconnect();
 
-    const intersectionRatios = new Map<Element, number>();
+    this.#intersectionRatios = new Map();
 
     this.props.updateVisibleMessages?.([]);
     const intersectionObserverCallback: IntersectionObserverCallback =
@@ -394,7 +399,7 @@ export class Timeline extends React.Component<
         //   (which should match DOM order). We don't want to delete anything from our map
         //   because we don't want the order to change at all.
         entries.forEach(entry => {
-          intersectionRatios.set(entry.target, entry.intersectionRatio);
+          this.#intersectionRatios.set(entry.target, entry.intersectionRatio);
         });
 
         let newIsNearBottom = false;
@@ -402,7 +407,7 @@ export class Timeline extends React.Component<
         let newestPartiallyVisible: undefined | Element;
         let newestFullyVisible: undefined | Element;
         const visibleMessageIds: Array<string> = [];
-        for (const [element, intersectionRatio] of intersectionRatios) {
+        for (const [element, intersectionRatio] of this.#intersectionRatios) {
           if (intersectionRatio === 0) {
             continue;
           }
@@ -516,6 +521,41 @@ export class Timeline extends React.Component<
     this.#intersectionObserver.observe(atBottomDetectorEl);
   }
 
+  #getCenterMessageId(): string | undefined {
+    const containerEl = this.#containerRef.current;
+    if (!containerEl) {
+      return;
+    }
+
+    const containerElRectTop = containerEl.getBoundingClientRect().top;
+    const containerElMidline = containerEl.clientHeight / 2;
+    const atBottomDetectorEl = this.#atBottomDetectorRef.current;
+
+    let centerMessageId: undefined | string;
+    for (const [element, intersectionRatio] of this.#intersectionRatios) {
+      if (intersectionRatio === 0) {
+        continue;
+      }
+
+      if (element === atBottomDetectorEl) {
+        return;
+      }
+
+      const messageId = getMessageIdFromElement(element);
+      if (!messageId) {
+        continue;
+      }
+
+      const relativeTop =
+        element.getBoundingClientRect().top - containerElRectTop;
+      if (!centerMessageId || relativeTop < containerElMidline) {
+        centerMessageId = messageId;
+      }
+    }
+
+    return centerMessageId;
+  }
+
   #markNewestBottomVisibleMessageRead = throttle((messageId?: string): void => {
     const { id, markMessageRead } = this.props;
     const messageIdToMarkRead =
@@ -586,6 +626,8 @@ export class Timeline extends React.Component<
   }
 
   public override componentWillUnmount(): void {
+    const { id, setCenterMessage, updateVisibleMessages } = this.props;
+
     window.SignalContext.activeWindowService.unregisterForActive(
       this.#markNewestBottomVisibleMessageReadAfterDelay
     );
@@ -593,7 +635,8 @@ export class Timeline extends React.Component<
     this.#markNewestBottomVisibleMessageRead.cancel();
     this.#intersectionObserver?.disconnect();
     this.#cleanupGroupCallPeekTimeouts();
-    this.props.updateVisibleMessages?.([]);
+    updateVisibleMessages?.([]);
+    setCenterMessage(id, this.#getCenterMessageId());
   }
 
   public override getSnapshotBeforeUpdate(

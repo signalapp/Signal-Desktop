@@ -21,7 +21,10 @@ import {
   getTheme,
   getPlatform,
 } from '../selectors/user.std.js';
-import { getTargetedMessage } from '../selectors/conversations.dom.js';
+import {
+  getTargetedMessage,
+  getTargetedMessageSource,
+} from '../selectors/conversations.dom.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   areMessagesInSameGroup,
@@ -35,6 +38,7 @@ import { isSameDay } from '../../util/timestamp.std.js';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
 import { renderReactionPicker } from './renderReactionPicker.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
+import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
@@ -82,8 +86,11 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const previousItem = useTimelineItem(previousMessageId, conversationId);
   const nextItem = useTimelineItem(nextMessageId, conversationId);
   const targetedMessage = useSelector(getTargetedMessage);
+  const targetedMessageSource = useSelector(getTargetedMessageSource);
   const isTargeted = Boolean(
-    targetedMessage && messageId === targetedMessage.id
+    targetedMessage &&
+      messageId === targetedMessage.id &&
+      targetedMessageSource !== TargetedMessageSource.Reset
   );
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
 
