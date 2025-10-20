@@ -30,7 +30,7 @@ RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 
 # Back to normal, verification back on
 RUN apt update
-RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar xz-utils
+RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar xz-utils rpm
 
 # ---
 

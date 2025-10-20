@@ -13,11 +13,26 @@
 # ./build.sh public
 # SOURCE_DATE_EPOCH=123 ./build.sh test
 
+set -exo pipefail
+
+if command -v podman &> /dev/null
+then
+    CONTAINER_CLI="podman"
+elif command -v docker &> /dev/null
+then
+    CONTAINER_CLI="docker"
+else
+    echo "Error: Neither Podman nor Docker is installed. Please install one to proceed." >&2
+    exit 1
+fi
+
+echo "Using container runtime: $CONTAINER_CLI"
+
 # First we prepare the docker container in which our build scripts will run. This container includes
 # all build dependencies at specific versions.
 # We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
 if [ -z "${SKIP_DOCKER_BUILD}" ]; then
-  docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+  $CONTAINER_CLI build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
 else
   echo "Skipping docker build step because SKIP_DOCKER_BUILD was set"
 fi
@@ -46,12 +61,44 @@ fi
 # arg to select the build type (e.g. "public"). The container runs docker-entrypoint.sh.
 # After the process is finished, the resulting package is located in the ./release/ directory.
 # npm cache set to tmp to fix permissions issues.
-docker run --rm \
-  -v "$(pwd)":/project \
-  -w /project \
-  --user "$(id -u):$(id -g)" \
-  -e NPM_CONFIG_CACHE=/tmp/.npm-cache \
-  -e PNPM_HOME=/tmp/.pnpm-home \
-  -e SOURCE_DATE_EPOCH=$source_date_epoch \
-  -e BUILD_TARGETS=$BUILD_TARGETS \
-  signal-desktop $1
+
+HOST_UID="$(id -u)"
+HOST_GID="$(id -g)"
+BASE_VOLUME_ARG="-v $(pwd):/project"
+ARGS=(
+    run
+    --rm
+    -v
+    $(pwd):/project
+    -w /project
+    -e NPM_CONFIG_CACHE=/tmp/.npm-cache
+    -e PNPM_HOME=/tmp/.pnpm-home
+    -e SOURCE_DATE_EPOCH=$source_date_epoch
+    -e BUILD_TARGETS=$BUILD_TARGETS
+    signal-desktop $1
+)
+
+if [ "$CONTAINER_CLI" == "podman" ]; then
+  echo "Applying Podman (Rootless/SELinux) adjustments..."
+
+  VOLUME_INDEX=""
+  for i in "${!ARGS[@]}"; do
+      if [[ "${ARGS[i]}" == "-v" ]]; then
+          VOLUME_INDEX="$i"
+          break
+      fi
+  done
+  
+  # Append the :Z context directly to the element at the next index.
+  VOLUME_INDEX=$(($VOLUME_INDEX + 1))
+  echo "DEBUG :::${i}:::"
+  ARGS[$VOLUME_INDEX]="${ARGS[$VOLUME_INDEX]}:Z"
+elif [ "$CONTAINER_CLI" == "docker" ]; then
+    echo "Applying Docker adjustments..."
+
+    DOCKER_USER_ARG="--user=$HOST_UID:$HOST_GID"
+    ARGS=( "${ARGS[0]}" "${ARGS[1]}" "$DOCKER_USER_ARG" "${ARGS[@]:2}" )
+fi
+
+echo "Executing: $CONTAINER_CLI ${ARGS[*]}"
+exec "$CONTAINER_CLI" "${ARGS[@]}"

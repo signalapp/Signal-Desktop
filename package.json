@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.77.0-alpha.1",
+  "version": "7.78.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -527,7 +527,8 @@
         }
       },
       "target": [
-        "deb"
+        "deb",
+        "rpm"
       ],
       "icon": "build/icons/png",
       "publish": [],
@@ -539,6 +540,20 @@
             "org.signalapp.*.policy"
           ]
         }
+      ]
+    },
+    "rpm": {
+      "depends": [
+        "libnotify",
+        "libXtst",
+        "nss",
+        "alsa-lib",
+        "pulseaudio-libs",
+        "libXScrnSaver",
+        "glibc >= 2.31",
+        "gtk3",
+        "mesa-libgbm",
+        "libxcb"
       ]
     },
     "deb": {
