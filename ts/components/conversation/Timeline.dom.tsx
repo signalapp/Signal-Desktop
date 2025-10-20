@@ -614,7 +614,18 @@ export class Timeline extends React.Component<
       '<Timeline> mounted without some refs'
     );
 
-    this.#updateIntersectionObserver();
+    if (containerEl) {
+      this.setState(
+        {
+          widthBreakpoint: getWidthBreakpoint(containerEl.offsetWidth),
+        },
+        () => {
+          this.#updateIntersectionObserver();
+        }
+      );
+    } else {
+      this.#updateIntersectionObserver();
+    }
 
     window.SignalContext.activeWindowService.registerForActive(
       this.#markNewestBottomVisibleMessageReadAfterDelay

@@ -129,21 +129,6 @@ const { drop, take, unescape } = lodash;
 
 const log = createLogger('Message');
 
-const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
-const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
-const GUESS_METADATA_WIDTH_SMS_SIZE = 18;
-const GUESS_METADATA_WIDTH_EDITED_SIZE = 40;
-const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
-  delivered: 24,
-  error: 24,
-  paused: 18,
-  'partial-sent': 24,
-  read: 24,
-  sending: 18,
-  sent: 24,
-  viewed: 24,
-};
-
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
@@ -646,7 +631,7 @@ export class Message extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      metadataWidth: this.#guessMetadataWidth(),
+      metadataWidth: 0,
 
       expiring: false,
       expired: false,
@@ -732,6 +717,10 @@ export class Message extends React.PureComponent<Props, State> {
     this.startTargetedTimer();
     this.#startDeleteForEveryoneTimerIfApplicable();
     this.startGiftBadgeInterval();
+
+    if (this.#metadataRef.current) {
+      this.#updateMetadataWidth(this.#metadataRef.current.offsetWidth);
+    }
 
     const { isTargeted } = this.props;
     if (isTargeted) {
@@ -886,40 +875,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return MetadataPlacement.InlineWithText;
-  }
-
-  /**
-   * A lot of the time, we add an invisible inline spacer for messages. This spacer is the
-   * same size as the message metadata. Unfortunately, we don't know how wide it is until
-   * we render it.
-   *
-   * This will probably guess wrong, but it's valuable to get close to the real value
-   * because it can reduce layout jumpiness.
-   */
-  #guessMetadataWidth(): number {
-    const { direction, expirationLength, isSMS, status, isEditedMessage } =
-      this.props;
-
-    let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
-
-    if (isEditedMessage) {
-      result += GUESS_METADATA_WIDTH_EDITED_SIZE;
-    }
-
-    const hasExpireTimer = Boolean(expirationLength);
-    if (hasExpireTimer) {
-      result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
-    }
-
-    if (isSMS) {
-      result += GUESS_METADATA_WIDTH_SMS_SIZE;
-    }
-
-    if (direction === 'outgoing' && status) {
-      result += GUESS_METADATA_WIDTH_OUTGOING_SIZE[status];
-    }
-
-    return result;
   }
 
   public startTargetedTimer(): void {
