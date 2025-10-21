@@ -31,6 +31,11 @@ import { Environment, getEnvironment } from '../../environment.std.js';
 import { isProduction } from '../../util/version.std.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.js';
+import {
+  isPollSendEnabled,
+  type PollCreateType,
+} from '../../types/Polls.dom.js';
 
 const { has } = lodash;
 
@@ -117,6 +122,18 @@ if (
     },
     setRtcStatsInterval: (intervalMillis: number) =>
       calling.setAllRtcStatsInterval(intervalMillis),
+    sendPollInSelectedConversation: async (poll: PollCreateType) => {
+      if (!isPollSendEnabled()) {
+        throw new Error('Poll sending is not enabled');
+      }
+      const conversationId =
+        window.reduxStore.getState().conversations.selectedConversationId;
+      const conversation = window.ConversationController.get(conversationId);
+      if (!conversation) {
+        throw new Error('No conversation selected');
+      }
+      await enqueuePollCreateForSend(conversation, poll);
+    },
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
           benchmarkConversationOpen,

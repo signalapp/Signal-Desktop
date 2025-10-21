@@ -46,6 +46,7 @@ import { copyCdnFields } from '../../util/attachments.preload.js';
 import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact.std.js';
 import type { StoryContextType } from '../../types/Util.std.js';
+import type { PollCreateType } from '../../types/Polls.dom.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { GROUP } from '../../types/Message2.preload.js';
 import type {
@@ -231,6 +232,7 @@ export async function sendNormalMessage(
       sticker,
       storyMessage,
       storyContext,
+      poll,
     } = await getMessageSendData({
       log,
       message,
@@ -317,6 +319,7 @@ export async function sendNormalMessage(
           : undefined,
         timestamp: targetTimestamp,
         reaction,
+        pollCreate: poll,
       });
       messageSendPromise = sendSyncMessageOnly(message, {
         dataMessage,
@@ -362,6 +365,7 @@ export async function sendNormalMessage(
                 sticker,
                 storyContext,
                 reaction,
+                pollCreate: poll,
                 targetTimestampForEdit: editedMessageTimestamp
                   ? targetOfThisEditTimestamp
                   : undefined,
@@ -619,6 +623,7 @@ async function getMessageSendData({
   reaction: ReactionType | undefined;
   storyMessage?: MessageModel;
   storyContext?: StoryContextType;
+  poll?: PollCreateType;
 }> {
   const storyId = message.get('storyId');
 
@@ -761,6 +766,7 @@ async function getMessageSendData({
           timestamp: storyMessage.get('sent_at'),
         }
       : undefined,
+    poll: message.get('poll'),
   };
 }
 
