@@ -359,6 +359,10 @@ export type PropsActions = {
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   retryMessageSend: (messageId: string) => unknown;
+  sendPollVote: (params: {
+    messageId: string;
+    optionIndexes: ReadonlyArray<number>;
+  }) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
@@ -2019,12 +2023,18 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderPoll(): JSX.Element | null {
-    const { poll, direction, i18n } = this.props;
+    const { poll, direction, i18n, id } = this.props;
     if (!poll || !isPollReceiveEnabled()) {
       return null;
     }
     return (
-      <PollMessageContents poll={poll} direction={direction} i18n={i18n} />
+      <PollMessageContents
+        poll={poll}
+        direction={direction}
+        i18n={i18n}
+        messageId={id}
+        sendPollVote={this.props.sendPollVote}
+      />
     );
   }
 

@@ -98,6 +98,7 @@ export type PropsReduxActions = Pick<
   | 'openGiftBadge'
   | 'pushPanelForConversation'
   | 'retryMessageSend'
+  | 'sendPollVote'
   | 'saveAttachment'
   | 'saveAttachments'
   | 'showContactModal'
@@ -146,6 +147,7 @@ export function MessageDetail({
   platform,
   pushPanelForConversation,
   retryMessageSend,
+  sendPollVote,
   renderAudioAttachment,
   saveAttachment,
   saveAttachments,
@@ -354,6 +356,7 @@ export function MessageDetail({
             platform={platform}
             pushPanelForConversation={pushPanelForConversation}
             retryMessageSend={retryMessageSend}
+            sendPollVote={sendPollVote}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
             saveAttachments={saveAttachments}

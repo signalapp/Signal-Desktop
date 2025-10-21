@@ -101,7 +101,7 @@ import {
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
 import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
-import type { PollCreateType } from '../types/Polls.dom.js';
+import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.js';
 import { itemStorage } from './Storage.preload.js';
 import { accountManager } from './AccountManager.preload.js';
 
@@ -215,6 +215,7 @@ export type MessageOptionsType = {
   recipients: ReadonlyArray<ServiceIdString>;
   sticker?: OutgoingStickerType;
   reaction?: ReactionType;
+  pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
   deletedForEveryoneTimestamp?: number;
   targetTimestampForEdit?: number;
@@ -240,8 +241,14 @@ export type GroupSendOptionsType = {
   sticker?: OutgoingStickerType;
   storyContext?: StoryContextType;
   timestamp: number;
+  pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
 };
+
+export type PollVoteBuildOptions = Required<
+  Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollVote'>
+> &
+  Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
 
 class Message {
   attachments: ReadonlyArray<Proto.IAttachmentPointer>;
@@ -291,6 +298,8 @@ class Message {
 
   storyContext?: StoryContextType;
 
+  pollVote?: OutgoingPollVote;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -313,6 +322,8 @@ class Message {
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.groupCallUpdate = options.groupCallUpdate;
     this.storyContext = options.storyContext;
+    // Polls
+    this.pollVote = options.pollVote;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -784,6 +795,84 @@ export class MessageSender {
     return Proto.DataMessage.encode(dataMessage).finish();
   }
 
+  createDataMessageProtoForPollVote({
+    groupV2,
+    timestamp,
+    profileKey,
+    expireTimer,
+    expireTimerVersion,
+    pollVote,
+  }: PollVoteBuildOptions): Proto.DataMessage {
+    const dataMessage = new Proto.DataMessage();
+    dataMessage.timestamp = Long.fromNumber(timestamp);
+
+    const groupContext = new Proto.GroupContextV2();
+    groupContext.masterKey = groupV2.masterKey;
+    groupContext.revision = groupV2.revision;
+    dataMessage.groupV2 = groupContext;
+
+    if (typeof expireTimer !== 'undefined') {
+      dataMessage.expireTimer = expireTimer;
+    }
+    if (typeof expireTimerVersion !== 'undefined') {
+      dataMessage.expireTimerVersion = expireTimerVersion;
+    }
+    if (profileKey) {
+      dataMessage.profileKey = profileKey;
+    }
+
+    const vote = new Proto.DataMessage.PollVote();
+    vote.targetAuthorAciBinary = toAciObject(
+      pollVote.targetAuthorAci
+    ).getRawUuidBytes();
+    vote.targetSentTimestamp = Long.fromNumber(pollVote.targetTimestamp);
+    vote.optionIndexes = pollVote.optionIndexes.slice();
+    vote.voteCount = pollVote.voteCount;
+    dataMessage.pollVote = vote;
+
+    return dataMessage;
+  }
+
+  async getPollVoteDataMessage({
+    groupV2,
+    timestamp,
+    profileKey,
+    expireTimer,
+    expireTimerVersion,
+    pollVote,
+  }: PollVoteBuildOptions): Promise<Uint8Array> {
+    const proto = this.createDataMessageProtoForPollVote({
+      groupV2,
+      timestamp,
+      profileKey,
+      expireTimer,
+      expireTimerVersion,
+      pollVote,
+    });
+    return Proto.DataMessage.encode(proto).finish();
+  }
+
+  async getPollVoteContentMessage({
+    groupV2,
+    timestamp,
+    profileKey,
+    expireTimer,
+    expireTimerVersion,
+    pollVote,
+  }: PollVoteBuildOptions): Promise<Proto.Content> {
+    const dataMessage = this.createDataMessageProtoForPollVote({
+      groupV2,
+      timestamp,
+      profileKey,
+      expireTimer,
+      expireTimerVersion,
+      pollVote,
+    });
+    const contentMessage = new Proto.Content();
+    contentMessage.dataMessage = dataMessage;
+    return contentMessage;
+  }
+
   async getStoryMessage({
     allowsReplies,
     bodyRanges,
@@ -952,6 +1041,7 @@ export class MessageSender {
       storyContext,
       targetTimestampForEdit,
       timestamp,
+      pollVote,
       pollCreate,
     } = options;
 
@@ -996,6 +1086,7 @@ export class MessageSender {
       storyContext,
       targetTimestampForEdit,
       timestamp,
+      pollVote,
       pollCreate,
     };
   }

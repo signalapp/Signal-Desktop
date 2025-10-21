@@ -75,6 +75,10 @@ export type PropsActions = {
     { emoji, remove }: { emoji: string; remove: boolean }
   ) => void;
   retryMessageSend: (id: string) => void;
+  sendPollVote: (params: {
+    messageId: string;
+    optionIndexes: ReadonlyArray<number>;
+  }) => void;
   copyMessageText: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
   setMessageToEdit: (conversationId: string, messageId: string) => unknown;

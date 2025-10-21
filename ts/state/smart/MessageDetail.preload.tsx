@@ -49,6 +49,7 @@ export const SmartMessageDetail = memo(
       popPanelForConversation,
       pushPanelForConversation,
       retryMessageSend,
+      sendPollVote,
       saveAttachment,
       saveAttachments,
       showAttachmentDownloadStillInProgressToast,
@@ -104,6 +105,7 @@ export const SmartMessageDetail = memo(
         messageExpanded={messageExpanded}
         openGiftBadge={openGiftBadge}
         retryMessageSend={retryMessageSend}
+        sendPollVote={sendPollVote}
         pushPanelForConversation={pushPanelForConversation}
         receivedAt={receivedAt}
         renderAudioAttachment={renderAudioAttachment}

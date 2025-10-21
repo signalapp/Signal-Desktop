@@ -56,6 +56,7 @@ const getDefaultProps = () => ({
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
+  sendPollVote: action('sendPollVote'),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),

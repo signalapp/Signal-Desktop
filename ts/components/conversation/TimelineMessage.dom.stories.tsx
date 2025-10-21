@@ -305,6 +305,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   saveAttachments: action('saveAttachments'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryMessageSend: action('retryMessageSend'),
+  sendPollVote: action('sendPollVote'),
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),

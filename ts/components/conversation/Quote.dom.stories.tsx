@@ -122,6 +122,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('default--setQuoteByMessageId'),
   retryMessageSend: action('default--retryMessageSend'),
+  sendPollVote: action('default--sendPollVote'),
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
   saveAttachment: action('saveAttachment'),

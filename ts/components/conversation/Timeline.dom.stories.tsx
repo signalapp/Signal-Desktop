@@ -292,6 +292,7 @@ const actions = () => ({
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
+  sendPollVote: action('sendPollVote'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
   pushPanelForConversation: action('pushPanelForConversation'),
