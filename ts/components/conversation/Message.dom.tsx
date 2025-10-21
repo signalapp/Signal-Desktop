@@ -1021,7 +1021,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.setState(({ metadataWidth }) => ({
       // We don't want text to jump around if the metadata shrinks, but we want to make
       //   sure we have enough room.
-      metadataWidth: Math.max(metadataWidth, newMetadataWidth),
+      metadataWidth: Math.ceil(Math.max(metadataWidth, newMetadataWidth)),
     }));
   };
 

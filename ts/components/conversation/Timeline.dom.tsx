@@ -281,7 +281,7 @@ export class Timeline extends React.Component<
 
     this.#messagesRef.current
       ?.querySelector(`[data-item-index="${itemIndex}"]`)
-      ?.scrollIntoViewIfNeeded();
+      ?.scrollIntoView({ block: 'center' });
   }
 
   #scrollToBottom = (setFocus?: boolean): void => {
@@ -532,6 +532,7 @@ export class Timeline extends React.Component<
     const atBottomDetectorEl = this.#atBottomDetectorRef.current;
 
     let centerMessageId: undefined | string;
+    let centerMessageRelativeTop = 0;
     for (const [element, intersectionRatio] of this.#intersectionRatios) {
       if (intersectionRatio === 0) {
         continue;
@@ -548,8 +549,13 @@ export class Timeline extends React.Component<
 
       const relativeTop =
         element.getBoundingClientRect().top - containerElRectTop;
-      if (!centerMessageId || relativeTop < containerElMidline) {
+      if (
+        !centerMessageId ||
+        (relativeTop > centerMessageRelativeTop &&
+          relativeTop < containerElMidline)
+      ) {
         centerMessageId = messageId;
+        centerMessageRelativeTop = relativeTop;
       }
     }
 
@@ -728,7 +734,12 @@ export class Timeline extends React.Component<
           );
         }
       } else if ('scrollToIndex' in snapshot) {
-        this.#scrollToItemIndex(snapshot.scrollToIndex);
+        // Wait to scroll until after another render has completed, to allow for message
+        // sizes to measured & stabilize
+        this.setState(
+          state => state,
+          () => this.#scrollToItemIndex(snapshot.scrollToIndex)
+        );
       } else if ('scrollTop' in snapshot) {
         containerEl.scrollTop = snapshot.scrollTop;
       } else {
