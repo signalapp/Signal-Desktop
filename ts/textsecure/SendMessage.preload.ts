@@ -101,6 +101,7 @@ import {
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
 import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import type { PollCreateType } from '../types/Polls.dom.js';
 import { itemStorage } from './Storage.preload.js';
 import { accountManager } from './AccountManager.preload.js';
 
@@ -214,6 +215,7 @@ export type MessageOptionsType = {
   recipients: ReadonlyArray<ServiceIdString>;
   sticker?: OutgoingStickerType;
   reaction?: ReactionType;
+  pollCreate?: PollCreateType;
   deletedForEveryoneTimestamp?: number;
   targetTimestampForEdit?: number;
   timestamp: number;
@@ -238,6 +240,7 @@ export type GroupSendOptionsType = {
   sticker?: OutgoingStickerType;
   storyContext?: StoryContextType;
   timestamp: number;
+  pollCreate?: PollCreateType;
 };
 
 class Message {
@@ -276,6 +279,8 @@ class Message {
 
   reaction?: ReactionType;
 
+  pollCreate?: PollCreateType;
+
   timestamp: number;
 
   dataMessage?: Proto.DataMessage;
@@ -303,6 +308,7 @@ class Message {
     this.recipients = options.recipients;
     this.sticker = options.sticker;
     this.reaction = options.reaction;
+    this.pollCreate = options.pollCreate;
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.groupCallUpdate = options.groupCallUpdate;
@@ -627,6 +633,14 @@ class Message {
       proto.storyContext = storyContext;
     }
 
+    if (this.pollCreate) {
+      const create = new Proto.DataMessage.PollCreate();
+      create.question = this.pollCreate.question;
+      create.allowMultiple = Boolean(this.pollCreate.allowMultiple);
+      create.options = this.pollCreate.options.slice();
+      proto.pollCreate = create;
+    }
+
     this.dataMessage = proto;
     return proto;
   }
@@ -938,6 +952,7 @@ export class MessageSender {
       storyContext,
       targetTimestampForEdit,
       timestamp,
+      pollCreate,
     } = options;
 
     if (!groupV2) {
@@ -981,6 +996,7 @@ export class MessageSender {
       storyContext,
       targetTimestampForEdit,
       timestamp,
+      pollCreate,
     };
   }
 

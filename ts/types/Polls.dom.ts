@@ -80,12 +80,18 @@ export type PollMessageAttribute = {
   terminatedAt?: number;
 };
 
+export type PollCreateType = Pick<
+  PollMessageAttribute,
+  'question' | 'options' | 'allowMultiple'
+>;
+
 export function isPollReceiveEnabled(): boolean {
   const env = getEnvironment();
 
   if (
     env === Environment.Development ||
     env === Environment.Test ||
+    env === Environment.Staging ||
     isMockEnvironment()
   ) {
     return true;
@@ -102,6 +108,35 @@ export function isPollReceiveEnabled(): boolean {
     }
     if (isAlpha(version)) {
       return RemoteConfig.isEnabled('desktop.pollReceive.alpha');
+    }
+  }
+
+  return false;
+}
+
+export function isPollSendEnabled(): boolean {
+  const env = getEnvironment();
+
+  if (
+    env === Environment.Development ||
+    env === Environment.Test ||
+    env === Environment.Staging ||
+    isMockEnvironment()
+  ) {
+    return true;
+  }
+
+  const version = window.getVersion?.();
+
+  if (version != null) {
+    if (isProduction(version)) {
+      return RemoteConfig.isEnabled('desktop.pollSend.prod');
+    }
+    if (isBeta(version)) {
+      return RemoteConfig.isEnabled('desktop.pollSend.beta');
+    }
+    if (isAlpha(version)) {
+      return RemoteConfig.isEnabled('desktop.pollSend.alpha');
     }
   }
 

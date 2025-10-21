@@ -140,6 +140,7 @@ import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
 } from '../types/message/LinkPreviews.std.js';
+import type { PollCreateType } from '../types/Polls.dom.js';
 import {
   MINUTE,
   SECOND,
@@ -4022,6 +4023,7 @@ export class ConversationModel {
       preview,
       quote,
       sticker,
+      poll,
     }: {
       attachments: Array<AttachmentType>;
       body: string | undefined;
@@ -4030,6 +4032,7 @@ export class ConversationModel {
       preview?: Array<LinkPreviewWithHydratedData>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
+      poll?: PollCreateType;
     },
     {
       dontClearDraft = false,
@@ -4154,6 +4157,7 @@ export class ConversationModel {
         })
       ),
       storyId,
+      poll,
     });
 
     const model = window.MessageCache.register(new MessageModel(attributes));
