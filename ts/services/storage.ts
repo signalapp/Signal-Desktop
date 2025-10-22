@@ -1921,7 +1921,7 @@ async function processRemoteRecords(
     const { itemType, storageID, storageRecord } = item;
     if (
       itemType === ITEM_TYPE.NOTIFICATION_PROFILE ||
-      itemType === ITEM_TYPE.NOTIFICATION_PROFILE
+      itemType === ITEM_TYPE.CHAT_FOLDER
     ) {
       recordsNeedingAllContacts.push(item);
       return false;

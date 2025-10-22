@@ -1346,9 +1346,7 @@ function NotificationProfilesEditPage({
           }}
           preferredBadgeSelector={preferredBadgeSelector}
           theme={theme}
-          title={i18n('icu:NotificationProfiles--edit--allowed', {
-            allowedCount: allowedMembersArray.length,
-          })}
+          title={i18n('icu:NotificationProfiles--edit--allowed')}
         />
         <FullWidthRow className={tw('mt-8 mb-2')}>
           <h2 className={tw('type-title-small')}>

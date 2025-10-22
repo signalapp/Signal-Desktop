@@ -7261,7 +7261,7 @@
     "description": "(Deleted 2025/10/15) Title text for modal where users select people or groups to include in the notification profile, who will still recevive nofications"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on",
+    "messageformat": "Add people and groups who you want notifications from when this profile is on",
     "description": "Description text for selecting people or groups that you still want to get notifications from when this profile is active"
   },
   "icu:NotificationProfiles--allowed-add-label": {
@@ -7433,7 +7433,7 @@
     "description": "Label for pen icon next to notification profile's name on the edit page"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, zero {No allowed notifications} one {One allowed notification} other {# allowed notifications}}",
+    "messageformat": "Allowed notifications",
     "description": "Header on notification profile edit page, showing number of contacts and groups in the allowed list"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
