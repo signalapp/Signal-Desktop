@@ -11,8 +11,10 @@ import { getE164 } from './getE164.std.js';
 import { removeDiacritics } from './removeDiacritics.std.js';
 import { isAciString } from './isAciString.std.js';
 
-// Fuse.js scores have order of 0.01
+// See: https://fusejs.io/api/options.html#includescore
+// 0 score is a perfect match, 1 - complete mismatch
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
+const ARCHIVED_PENALTY = 0.3;
 const LEFT_GROUP_PENALTY = 1;
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
@@ -184,19 +186,28 @@ export function filterAndSortConversations(
     )
       .slice()
       .sort((a, b) => {
-        const { activeAt: aActiveAt = 0, left: aLeft = false } = a.item;
-        const { activeAt: bActiveAt = 0, left: bLeft = false } = b.item;
+        const {
+          activeAt: aActiveAt = 0,
+          left: aLeft = false,
+          isArchived: aArchived,
+        } = a.item;
+        const {
+          activeAt: bActiveAt = 0,
+          left: bLeft = false,
+          isArchived: bArchived,
+        } = b.item;
 
-        // See: https://fusejs.io/api/options.html#includescore
-        // 0 score is a perfect match, 1 - complete mismatch
         const aScore =
           (now - aActiveAt) * ACTIVE_AT_SCORE_FACTOR +
           (a.score ?? 0) +
-          (aLeft ? LEFT_GROUP_PENALTY : 0);
+          (aLeft ? LEFT_GROUP_PENALTY : 0) +
+          (aArchived ? ARCHIVED_PENALTY : 0);
+
         const bScore =
           (now - bActiveAt) * ACTIVE_AT_SCORE_FACTOR +
           (b.score ?? 0) +
-          (bLeft ? LEFT_GROUP_PENALTY : 0);
+          (bLeft ? LEFT_GROUP_PENALTY : 0) +
+          (bArchived ? ARCHIVED_PENALTY : 0);
 
         const activeScore = aScore - bScore;
         if (activeScore !== 0) {
