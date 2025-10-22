@@ -1,11 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { SECOND } from '../util/durations/constants.std.js';
 import { throttle } from '../util/throttle.std.js';
 
 // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
-const ACTIVE_TIMEOUT = 15 * 1000;
-const LISTENER_THROTTLE_TIME = 5 * 1000;
+const ACTIVE_TIMEOUT = 15 * SECOND;
+// Some events (scrolling) should cause us to be considered active for a short period of
+// time, even if the window is unfocused
+const ACTIVE_AFTER_NON_FOCUSING_EVENT_TIMEOUT = 1 * SECOND;
+const LISTENER_THROTTLE_TIME = 5 * SECOND;
 const ACTIVE_EVENTS = [
   'click',
   'keydown',
@@ -16,6 +20,11 @@ const ACTIVE_EVENTS = [
   'wheel',
 ];
 
+// A wheel move can scroll the timeline but, unlike the other events, it does not focus
+// the window. We still want to consider the window "active" for a short period after that
+// user-initiated scroll (e.g. to mark messages read)
+const NON_FOCUSING_ACTIVE_EVENTS = ['wheel'];
+
 class ActiveWindowService {
   // This starting value might be wrong but we should get an update from the main process
   //  soon. We'd rather report that the window is inactive so we can show notifications.
@@ -25,6 +34,7 @@ class ActiveWindowService {
   #activeCallbacks: Array<() => void> = [];
   #changeCallbacks: Array<(isActive: boolean) => void> = [];
   #lastActiveEventAt = -Infinity;
+  #lastActiveNonFocusingEventAt = -Infinity;
   #callActiveCallbacks: () => void;
 
   constructor() {
@@ -56,8 +66,14 @@ class ActiveWindowService {
   }
 
   isActive(): boolean {
+    if (this.#isFocused) {
+      return Date.now() < this.#lastActiveEventAt + ACTIVE_TIMEOUT;
+    }
+
     return (
-      this.#isFocused && Date.now() < this.#lastActiveEventAt + ACTIVE_TIMEOUT
+      Date.now() <
+      this.#lastActiveNonFocusingEventAt +
+        ACTIVE_AFTER_NON_FOCUSING_EVENT_TIMEOUT
     );
   }
 
@@ -81,9 +97,12 @@ class ActiveWindowService {
     );
   }
 
-  #onActiveEvent(): void {
+  #onActiveEvent(e: Event): void {
     this.#updateState(() => {
       this.#lastActiveEventAt = Date.now();
+      if (NON_FOCUSING_ACTIVE_EVENTS.includes(e.type)) {
+        this.#lastActiveNonFocusingEventAt = Date.now();
+      }
     });
   }
 
