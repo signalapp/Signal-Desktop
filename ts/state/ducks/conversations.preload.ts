@@ -4846,7 +4846,8 @@ function showConversation({
 
 function onConversationOpened(
   conversationId: string,
-  messageId?: string
+  messageId: string | undefined,
+  targetedMessageSource: TargetedMessageSource | undefined
 ): ThunkAction<
   void,
   RootStateType,
@@ -4867,15 +4868,15 @@ function onConversationOpened(
 
     log.info(`${logId}: Updating newly opened conversation state`);
 
+    let isMessageTargeted = false;
     if (messageId) {
-      const message = await getMessageById(messageId);
+      isMessageTargeted = Boolean(await getMessageById(messageId));
 
-      if (message) {
+      if (isMessageTargeted) {
         drop(conversation.loadAndScroll(messageId));
-        return;
+      } else {
+        log.warn(`${logId}: Did not find message ${messageId}`);
       }
-
-      log.warn(`${logId}: Did not find message ${messageId}`);
     }
 
     await retryPlaceholders.findByConversationAndMarkOpened(conversation.id);
@@ -4883,7 +4884,9 @@ function onConversationOpened(
     const loadAndUpdate = async () => {
       drop(
         Promise.all([
-          conversation.loadNewestMessages(undefined, undefined),
+          isMessageTargeted
+            ? Promise.resolve()
+            : conversation.loadNewestMessages(undefined, undefined),
           conversation.updateLastMessage(),
           conversation.throttledUpdateUnread(),
         ])
@@ -4892,7 +4895,14 @@ function onConversationOpened(
 
     promises.push(loadAndUpdate());
 
-    dispatch(setComposerFocus(conversation.id));
+    // When targeting a message to restore scroll position, focus the composer.
+    // When targeting a message via notification or search results, don't focus it.
+    if (
+      !isMessageTargeted ||
+      targetedMessageSource === TargetedMessageSource.Reset
+    ) {
+      dispatch(setComposerFocus(conversation.id));
+    }
 
     const quotedMessageId = conversation.get('quotedMessageId');
     if (quotedMessageId) {
