@@ -230,7 +230,7 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
               isSelectedChatFolderAllChats &&
               props.currentChatFolders.hasAnyCurrentCustomChatFolders && (
                 <AxoContextMenu.Sub>
-                  <AxoContextMenu.SubTrigger symbol="folder">
+                  <AxoContextMenu.SubTrigger symbol="folder-plus">
                     {i18n(
                       'icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem'
                     )}
@@ -254,7 +254,7 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
               )}
             {!props.isActivelySearching && !isSelectedChatFolderAllChats && (
               <AxoContextMenu.Item
-                symbol="folder"
+                symbol="folder-minus"
                 onSelect={handleChatFolderRemoveChat}
               >
                 {i18n(

@@ -66,6 +66,7 @@ export type AxoSymbolIconName =
   | 'audio-rectangle'
   | 'audio-rectangle-fill'
   | 'backup'
+  | 'backup-error'
   | 'badge'
   | 'badge-fill'
   | 'badge-set'
@@ -74,15 +75,26 @@ export type AxoSymbolIconName =
   | 'bell-slash'
   | 'bell-ring'
   | 'block'
+  | 'blur'
+  | 'blur-light'
+  | 'blur-medium'
+  | 'blur-heavy'
   | 'bolt'
+  | 'bolt-fill'
   | 'boost'
+  | 'brushsize-thin'
+  | 'brushsize-regular'
+  | 'brushsize-medium'
+  | 'brushsize-heavy'
   | 'calendar'
-  | 'calendar-blank'
   | 'calendar-week'
-  | 'calendar-one'
+  | 'calendar-day'
+  | 'calendar-blank'
   | 'calendar-search'
   | 'camera'
   | 'camera-fill'
+  | 'camera-swap'
+  | 'camera-swap-fill'
   | 'check'
   | 'check-circle'
   | 'check-circle-fill'
@@ -117,37 +129,43 @@ export type AxoSymbolIconName =
   | 'circle'
   | 'circle-fill'
   | 'circle-dash'
+  | 'clock'
+  | 'clock-hour-1'
+  | 'clock-hour-2'
+  | 'clock-hour-3'
+  | 'clock-hour-4'
+  | 'clock-hour-5'
+  | 'clock-hour-6'
+  | 'clock-hour-7'
+  | 'clock-hour-8'
+  | 'clock-hour-9'
+  | 'clock-hour-10'
+  | 'clock-hour-11'
+  | 'clock-hour-12'
   | 'compose'
   | 'connections'
   | 'connections-fill'
   | 'copy'
   | 'copy-alt'
-  | 'countdown-00'
-  | 'countdown-05'
-  | 'countdown-10'
-  | 'countdown-15'
-  | 'countdown-20'
-  | 'countdown-25'
-  | 'countdown-30'
-  | 'countdown-35'
-  | 'countdown-40'
-  | 'countdown-45'
-  | 'countdown-50'
-  | 'countdown-55'
-  | 'countdown-60'
   | 'creditcard'
   | 'creditcard-fill'
   | 'crop'
   | 'crop-rotate'
+  | 'device-phone'
+  | 'device-phone-fill'
+  | 'device-tablet'
+  | 'device-tablet-fill'
+  | 'device-laptop'
+  | 'device-laptop-fill'
   | 'download'
   | 'draghandle'
   | 'draghandle-alt'
   | 'emoji'
   | 'emoji-fill'
+  | 'emoji-plus'
   | 'emoji-excited'
   | 'emoji-sad'
   | 'emoji-angry'
-  | 'emoji-thumbsup'
   | 'emoji-surprised'
   | 'emoji-animal'
   | 'emoji-celebrate'
@@ -171,7 +189,11 @@ export type AxoSymbolIconName =
   | 'filter'
   | 'filter-circle'
   | 'filter-circle-fill'
+  | 'flip'
   | 'folder'
+  | 'folder-plus'
+  | 'folder-minus'
+  | 'folder-settings'
   | 'forward'
   | 'forward-fill'
   | 'fullscreen'
@@ -179,16 +201,22 @@ export type AxoSymbolIconName =
   | 'gif-rectangle'
   | 'gif-rectangle-fill'
   | 'gift'
+  | 'gift-fill'
   | 'globe'
+  | 'globe-fill'
   | 'grid'
   | 'grid-fill'
   | 'grid-rectangle'
   | 'grid-rectangle-fill'
+  | 'grid-sidebar'
+  | 'grid-sidebar-fill'
   | 'group'
   | 'group-fill'
+  | 'headphones'
+  | 'headphones-fill'
   | 'heart'
-  | 'heart-plus'
   | 'heart-fill'
+  | 'heart-plus'
   | 'heart-plus-fill'
   | 'help'
   | 'help-fill'
@@ -196,6 +224,7 @@ export type AxoSymbolIconName =
   | 'info-fill'
   | 'invite'
   | 'key'
+  | 'key-fill'
   | 'key-slash'
   | 'leave'
   | 'leave-rtl'
@@ -207,39 +236,45 @@ export type AxoSymbolIconName =
   | 'list-bullet-rtl'
   | 'list-circle'
   | 'list-circle-rtl'
+  | 'location'
+  | 'location-fill'
+  | 'location-circle'
+  | 'location-circle-fill'
   | 'lock'
-  | 'lock-open'
   | 'lock-fill'
+  | 'lock-open'
   | 'lock-open-fill'
   | 'megaphone'
   | 'menu'
   | 'merge'
   | 'message'
-  | 'message-badge'
-  | 'message-arrow'
-  | 'message-check'
-  | 'message-more'
-  | 'message-x'
   | 'message-fill'
+  | 'message-badge'
   | 'message-badge-fill'
+  | 'message-arrow'
   | 'message-arrow-fill'
+  | 'message-check'
   | 'message-check-fill'
+  | 'message-more'
   | 'message-more-fill'
+  | 'message-x'
   | 'message-x-fill'
+  | 'message-thread'
+  | 'message-thread-fill'
   | 'mic'
   | 'mic-fill'
   | 'mic-slash'
   | 'mic-slash-fill'
   | 'minus'
   | 'minus-circle'
-  | 'minus-square'
   | 'minus-circle-fill'
+  | 'minus-square'
   | 'minus-square-fill'
   | 'missed-incoming'
   | 'missed-outgoing'
   | 'moon'
-  | 'moon-slash'
   | 'moon-fill'
+  | 'moon-slash'
   | 'moon-slash-fill'
   | 'more'
   | 'more-circle'
@@ -254,15 +289,30 @@ export type AxoSymbolIconName =
   | 'open'
   | 'palette'
   | 'palette-fill'
+  | 'pause'
+  | 'pause-fill'
+  | 'pause-circle'
+  | 'pause-circle-fill'
+  | 'pause-square'
+  | 'pause-square-fill'
   | 'pencil'
   | 'pencil-fill'
   | 'person'
   | 'person-fill'
   | 'person-circle'
+  | 'person-circle-fill'
   | 'person-square'
+  | 'person-square-fill'
   | 'person-rectangle'
+  | 'person-rectangle-fill'
   | 'phone'
   | 'phone-fill'
+  | 'phone-down'
+  | 'phone-down-fill'
+  | 'phone-plus'
+  | 'phone-plus-fill'
+  | 'phone-speaker'
+  | 'phone-speaker-fill'
   | 'photo'
   | 'photo-slash'
   | 'piechart'
@@ -271,19 +321,23 @@ export type AxoSymbolIconName =
   | 'pin-fill'
   | 'pin-slash'
   | 'pin-slash-fill'
+  | 'pip'
+  | 'pip-fill'
   | 'play'
-  | 'play-circle'
-  | 'play-square'
   | 'play-fill'
+  | 'play-circle'
   | 'play-circle-fill'
+  | 'play-square'
   | 'play-square-fill'
   | 'plus'
   | 'plus-circle'
-  | 'plus-square'
   | 'plus-circle-fill'
+  | 'plus-square'
   | 'plus-square-fill'
   | 'poll'
+  | 'poll-rtl'
   | 'poll-fill'
+  | 'poll-fill-rtl'
   | 'qrcode'
   | 'raisehand'
   | 'raisehand-fill'
@@ -292,12 +346,14 @@ export type AxoSymbolIconName =
   | 'recent'
   | 'rectangle'
   | 'rectangle-fill'
+  | 'rectangle-dash'
   | 'redo'
   | 'refresh'
   | 'reply'
   | 'reply-fill'
   | 'rotate'
   | 'scan'
+  | 'scan-qrcode'
   | 'scribble'
   | 'search'
   | 'send'
@@ -306,11 +362,34 @@ export type AxoSymbolIconName =
   | 'settings-fill'
   | 'shield-check'
   | 'shield-check-fill'
+  | 'sidebar'
+  | 'sidebar-fill'
+  | 'sort-vertical'
+  | 'sort-horizontal'
+  | 'speaker'
+  | 'speaker-fill'
+  | 'speaker-x'
+  | 'speaker-x-fill'
+  | 'speaker-bluetooth'
+  | 'speaker-bluetooth-fill'
+  | 'speaker-slash'
+  | 'speaker-slash-fill'
   | 'square'
   | 'square-fill'
+  | 'square-dash'
   | 'star'
   | 'star-fill'
   | 'sticker'
+  | 'sticker-smiley'
+  | 'sticker-slash'
+  | 'stickerpack'
+  | 'stickerpack-plus'
+  | 'stop'
+  | 'stop-fill'
+  | 'stop-circle'
+  | 'stop-circle-fill'
+  | 'stop-square'
+  | 'stop-square-fill'
   | 'stories'
   | 'stories-fill'
   | 'sun'
@@ -318,21 +397,49 @@ export type AxoSymbolIconName =
   | 'sun-horizon'
   | 'sun-horizon-fill'
   | 'swap'
-  | 'thread'
-  | 'thread-fill'
+  | 'text-square'
+  | 'text-square-fill'
+  | 'text-outline'
+  | 'textalign-[start]'
+  | 'textalign-center'
+  | 'textalign-[end]'
+  | 'textalign-justifed'
+  | 'texteffects'
+  | 'texteffects-fill'
+  | 'textformat-bold'
+  | 'textformat-italic'
+  | 'textformat-strikethrough'
+  | 'textformat-monospace'
+  | 'textformat-spoiler'
+  | 'thumbsdown'
+  | 'thumbsup'
   | 'ticks'
   | 'timer'
   | 'timer-fill'
   | 'timer-slash'
   | 'timer-slash-fill'
+  | 'timer-countdown-0'
+  | 'timer-countdown-1'
+  | 'timer-countdown-2'
+  | 'timer-countdown-3'
+  | 'timer-countdown-4'
+  | 'timer-countdown-5'
+  | 'timer-countdown-6'
+  | 'timer-countdown-7'
+  | 'timer-countdown-8'
+  | 'timer-countdown-9'
+  | 'timer-countdown-10'
+  | 'timer-countdown-11'
+  | 'timer-countdown-12'
   | 'trash'
   | 'trash-fill'
+  | 'trending'
   | 'tune'
   | 'undo'
   | 'upload'
   | 'video'
-  | 'video-slash'
   | 'video-fill'
+  | 'video-slash'
   | 'video-slash-fill'
   | 'videocamera'
   | 'videocamera-fill'
@@ -341,6 +448,7 @@ export type AxoSymbolIconName =
   | 'viewonce'
   | 'viewonce-dash'
   | 'wifi'
+  | 'wifi-error'
   | 'x'
   | 'x-circle'
   | 'x-circle-fill'
@@ -350,15 +458,20 @@ export type AxoSymbolIconName =
 
 // Symbols that can only be used in <AxoSymbol.InlineGlyph>
 type AxoSymbolInlineGlyphOnlyName =
-  | 'check-double-circle'
-  | 'check-double-circle-fill'
+  | 'check-circle-double'
+  | 'check-circle-double-fill'
   | 'group-x'
   | 'group-x-fill'
   | 'person-check'
+  | 'person-check-fill'
   | 'person-plus'
+  | 'person-plus-fill'
   | 'person-minus'
+  | 'person-minus-fill'
   | 'person-x'
-  | 'person-question';
+  | 'person-x-fill'
+  | 'person-question'
+  | 'person-question-fill';
 
 // Symbols with an inline-specific glyph that override the icon glyph
 type AxoSymbolInlineGlyphOverrideName =
@@ -369,23 +482,32 @@ type AxoSymbolInlineGlyphOverrideName =
   | 'aspectratio-fill'
   | 'audio-rectangle'
   | 'audio-rectangle-fill'
+  | 'creditcard'
+  | 'creditcard-fill'
+  | 'emoji-plus'
   | 'gif-rectangle'
   | 'gif-rectangle-fill'
   | 'grid-rectangle'
   | 'grid-rectangle-fill'
+  | 'grid-sidebar'
+  | 'grid-sidebar-fill'
   | 'group'
   | 'group-fill'
   | 'invite'
   | 'leave'
   | 'leave-rtl'
   | 'person-rectangle'
+  | 'person-rectangle-fill'
   | 'photo'
   | 'photo-slash'
   | 'rectangle'
   | 'rectangle-fill'
+  | 'rectangle-dash'
+  | 'sidebar'
+  | 'sidebar-fill'
   | 'video'
-  | 'video-slash'
   | 'video-fill'
+  | 'video-slash'
   | 'video-slash-fill'
   | 'videocamera'
   | 'videocamera-fill'
@@ -465,6 +587,7 @@ const IconDefs: Record<string, SymbolDef> = {
   'audio-rectangle': '\u{E178}',
   'audio-rectangle-fill': '\u{E179}',
   backup: '\u{E09F}',
+  'backup-error': '\u{E0A0}',
   badge: '\u{E099}',
   'badge-fill': '\u{E09A}',
   'badge-set': '\u{E0DA}',
@@ -473,15 +596,26 @@ const IconDefs: Record<string, SymbolDef> = {
   'bell-slash': '\u{E01F}',
   'bell-ring': '\u{E020}',
   block: '\u{E002}',
+  blur: '\u{E0DB}',
+  'blur-light': '\u{E211}',
+  'blur-medium': '\u{E212}',
+  'blur-heavy': '\u{E247}',
   bolt: '\u{E0B8}',
+  'bolt-fill': '\u{E218}',
   boost: '\u{E0E2}',
+  'brushsize-thin': '\u{E0E1}',
+  'brushsize-regular': '\u{E0E0}',
+  'brushsize-medium': '\u{E0DF}',
+  'brushsize-heavy': '\u{E0DE}',
   calendar: '\u{E0A2}',
-  'calendar-blank': '\u{E0A3}',
   'calendar-week': '\u{E0A4}',
-  'calendar-one': '\u{E0A5}',
+  'calendar-day': '\u{E0A5}',
+  'calendar-blank': '\u{E0A3}',
   'calendar-search': '\u{E0E3}',
   camera: '\u{E0E4}',
   'camera-fill': '\u{E17E}',
+  'camera-swap': '\u{E0E5}',
+  'camera-swap-fill': '\u{E17F}',
   check: '\u{E180}',
   'check-circle': '\u{E022}',
   'check-circle-fill': '\u{E182}',
@@ -516,37 +650,43 @@ const IconDefs: Record<string, SymbolDef> = {
   circle: '\u{E160}',
   'circle-fill': '\u{E184}',
   'circle-dash': '\u{E07A}',
+  clock: '\u{E265}',
+  'clock-hour-1': '\u{E266}',
+  'clock-hour-2': '\u{E267}',
+  'clock-hour-3': '\u{E268}',
+  'clock-hour-4': '\u{E269}',
+  'clock-hour-5': '\u{E26A}',
+  'clock-hour-6': '\u{E26B}',
+  'clock-hour-7': '\u{E26C}',
+  'clock-hour-8': '\u{E26D}',
+  'clock-hour-9': '\u{E26E}',
+  'clock-hour-10': '\u{E26F}',
+  'clock-hour-11': '\u{E270}',
+  'clock-hour-12': '\u{E271}',
   compose: '\u{E0EA}',
   connections: '\u{E0AD}',
   'connections-fill': '\u{E185}',
   copy: '\u{E0EB}',
   'copy-alt': '\u{E0EC}',
-  'countdown-00': '\u{E048}',
-  'countdown-05': '\u{E049}',
-  'countdown-10': '\u{E04A}',
-  'countdown-15': '\u{E04B}',
-  'countdown-20': '\u{E04C}',
-  'countdown-25': '\u{E04D}',
-  'countdown-30': '\u{E04E}',
-  'countdown-35': '\u{E04F}',
-  'countdown-40': '\u{E050}',
-  'countdown-45': '\u{E051}',
-  'countdown-50': '\u{E052}',
-  'countdown-55': '\u{E053}',
-  'countdown-60': '\u{E054}',
   creditcard: '\u{E127}',
   'creditcard-fill': '\u{E187}',
   crop: '\u{E0ED}',
   'crop-rotate': '\u{E0EE}',
+  'device-phone': '\u{E0F2}',
+  'device-phone-fill': '\u{E18A}',
+  'device-tablet': '\u{E0F3}',
+  'device-tablet-fill': '\u{E18B}',
+  'device-laptop': '\u{E0F4}',
+  'device-laptop-fill': '\u{E18C}',
   download: '\u{E0C8}',
   draghandle: '\u{E0F5}',
   'draghandle-alt': '\u{E0F6}',
   emoji: '\u{E18D}',
   'emoji-fill': '\u{E18E}',
+  'emoji-plus': '\u{E0F8}',
   'emoji-excited': '\u{E0F9}',
   'emoji-sad': '\u{E0FA}',
   'emoji-angry': '\u{E0FB}',
-  'emoji-thumbsup': '\u{E0FC}',
   'emoji-surprised': '\u{E0FD}',
   'emoji-animal': '\u{E0FE}',
   'emoji-celebrate': '\u{E0FF}',
@@ -570,7 +710,11 @@ const IconDefs: Record<string, SymbolDef> = {
   filter: '\u{E107}',
   'filter-circle': '\u{E108}',
   'filter-circle-fill': '\u{E1FA}',
+  flip: '\u{E10C}',
   folder: '\u{E0B2}',
+  'folder-plus': '\u{E0B3}',
+  'folder-minus': '\u{E274}',
+  'folder-settings': '\u{E0B4}',
   forward: '\u{E035}',
   'forward-fill': '\u{E036}',
   fullscreen: '\u{E10D}',
@@ -578,16 +722,22 @@ const IconDefs: Record<string, SymbolDef> = {
   'gif-rectangle': '\u{E195}',
   'gif-rectangle-fill': '\u{E196}',
   gift: '\u{E0B5}',
+  'gift-fill': '\u{E253}',
   globe: '\u{E0B6}',
+  'globe-fill': '\u{E254}',
   grid: '\u{E10E}',
   'grid-fill': '\u{E198}',
   'grid-rectangle': '\u{E10F}',
   'grid-rectangle-fill': '\u{E199}',
+  'grid-sidebar': '\u{E13B}',
+  'grid-sidebar-fill': '\u{E23C}',
   group: '\u{E19B}',
   'group-fill': '\u{E19D}',
+  headphones: '\u{E110}',
+  'headphones-fill': '\u{E1A3}',
   heart: '\u{E039}',
-  'heart-plus': '\u{E0B7}',
   'heart-fill': '\u{E1A4}',
+  'heart-plus': '\u{E0B7}',
   'heart-plus-fill': '\u{E1A5}',
   help: '\u{E0D8}',
   'help-fill': '\u{E1A6}',
@@ -595,6 +745,7 @@ const IconDefs: Record<string, SymbolDef> = {
   'info-fill': '\u{E1A7}',
   invite: '\u{E0B9}',
   key: '\u{E0BA}',
+  'key-fill': '\u{E245}',
   'key-slash': '\u{E0BB}',
   leave: '\u{E1AA}',
   'leave-rtl': '\u{E1AB}',
@@ -606,39 +757,45 @@ const IconDefs: Record<string, SymbolDef> = {
   'list-bullet-rtl': '\u{E115}',
   'list-circle': '\u{E114}',
   'list-circle-rtl': '\u{E116}',
+  location: '\u{E0BC}',
+  'location-fill': '\u{E275}',
+  'location-circle': '\u{E0BD}',
+  'location-circle-fill': '\u{E1AC}',
   lock: '\u{E041}',
-  'lock-open': '\u{E07D}',
   'lock-fill': '\u{E1AD}',
+  'lock-open': '\u{E07D}',
   'lock-open-fill': '\u{E1AE}',
   megaphone: '\u{E042}',
   menu: '\u{E11B}',
   merge: '\u{E043}',
   message: '\u{E0A6}',
-  'message-badge': '\u{E0A7}',
-  'message-arrow': '\u{E0A8}',
-  'message-check': '\u{E0A9}',
-  'message-more': '\u{E0AA}',
-  'message-x': '\u{E0AB}',
   'message-fill': '\u{E1AF}',
+  'message-badge': '\u{E0A7}',
   'message-badge-fill': '\u{E1B0}',
+  'message-arrow': '\u{E0A8}',
   'message-arrow-fill': '\u{E1B1}',
+  'message-check': '\u{E0A9}',
   'message-check-fill': '\u{E1B2}',
+  'message-more': '\u{E0AA}',
   'message-more-fill': '\u{E1B3}',
+  'message-x': '\u{E0AB}',
   'message-x-fill': '\u{E1B4}',
+  'message-thread': '\u{E071}',
+  'message-thread-fill': '\u{E072}',
   mic: '\u{E055}',
   'mic-fill': '\u{E1B5}',
   'mic-slash': '\u{E056}',
   'mic-slash-fill': '\u{E1B6}',
   minus: '\u{E1B7}',
   'minus-circle': '\u{E1B8}',
-  'minus-square': '\u{E059}',
   'minus-circle-fill': '\u{E1B9}',
+  'minus-square': '\u{E059}',
   'minus-square-fill': '\u{E1BA}',
   'missed-incoming': '\u{E05A}',
   'missed-outgoing': '\u{E05B}',
   moon: '\u{E0BE}',
-  'moon-slash': '\u{E209}',
   'moon-fill': '\u{E0D9}',
+  'moon-slash': '\u{E209}',
   'moon-slash-fill': '\u{E20A}',
   more: '\u{E120}',
   'more-circle': '\u{E121}',
@@ -653,15 +810,30 @@ const IconDefs: Record<string, SymbolDef> = {
   open: '\u{E0C1}',
   palette: '\u{E0AC}',
   'palette-fill': '\u{E1BD}',
+  pause: '\u{E124}',
+  'pause-fill': '\u{E1BE}',
+  'pause-circle': '\u{E125}',
+  'pause-circle-fill': '\u{E1BF}',
+  'pause-square': '\u{E126}',
+  'pause-square-fill': '\u{E1C0}',
   pencil: '\u{E030}',
   'pencil-fill': '\u{E1C1}',
   person: '\u{E05D}',
   'person-fill': '\u{E1C3}',
   'person-circle': '\u{E05E}',
+  'person-circle-fill': '\u{E1C4}',
   'person-square': '\u{E129}',
+  'person-square-fill': '\u{E1C5}',
   'person-rectangle': '\u{E12A}',
+  'person-rectangle-fill': '\u{E1C6}',
   phone: '\u{E063}',
   'phone-fill': '\u{E064}',
+  'phone-down': '\u{E12B}',
+  'phone-down-fill': '\u{E25F}',
+  'phone-plus': '\u{E12C}',
+  'phone-plus-fill': '\u{E260}',
+  'phone-speaker': '\u{E12D}',
+  'phone-speaker-fill': '\u{E261}',
   photo: '\u{E1C8}',
   'photo-slash': '\u{E1C9}',
   piechart: '\u{E0F1}',
@@ -670,19 +842,23 @@ const IconDefs: Record<string, SymbolDef> = {
   'pin-fill': '\u{E1CB}',
   'pin-slash': '\u{E12F}',
   'pin-slash-fill': '\u{E1CC}',
+  pip: '\u{E130}',
+  'pip-fill': '\u{E23E}',
   play: '\u{E067}',
-  'play-circle': '\u{E068}',
-  'play-square': '\u{E069}',
   'play-fill': '\u{E1CD}',
+  'play-circle': '\u{E068}',
   'play-circle-fill': '\u{E1CE}',
+  'play-square': '\u{E069}',
   'play-square-fill': '\u{E1CF}',
   plus: '\u{E1D1}',
   'plus-circle': '\u{E1D2}',
-  'plus-square': '\u{E06C}',
   'plus-circle-fill': '\u{E1D3}',
+  'plus-square': '\u{E06C}',
   'plus-square-fill': '\u{E1D4}',
   poll: '\u{E082}',
+  'poll-rtl': '\u{E272}',
   'poll-fill': '\u{E083}',
+  'poll-fill-rtl': '\u{E273}',
   qrcode: '\u{E0C2}',
   raisehand: '\u{E07E}',
   'raisehand-fill': '\u{E084}',
@@ -691,12 +867,14 @@ const IconDefs: Record<string, SymbolDef> = {
   recent: '\u{E0C3}',
   rectangle: '\u{E162}',
   'rectangle-fill': '\u{E1D6}',
+  'rectangle-dash': '\u{E214}',
   redo: '\u{E0C6}',
   refresh: '\u{E0C4}',
   reply: '\u{E06D}',
   'reply-fill': '\u{E06E}',
   rotate: '\u{E137}',
   scan: '\u{E138}',
+  'scan-qrcode': '\u{E216}',
   scribble: '\u{E0F7}',
   search: '\u{E0C7}',
   send: '\u{E20B}',
@@ -705,11 +883,34 @@ const IconDefs: Record<string, SymbolDef> = {
   'settings-fill': '\u{E0CB}',
   'shield-check': '\u{E06F}',
   'shield-check-fill': '\u{E1D8}',
+  sidebar: '\u{E13C}',
+  'sidebar-fill': '\u{E243}',
+  'sort-vertical': '\u{E0CE}',
+  'sort-horizontal': '\u{E0CF}',
+  speaker: '\u{E13F}',
+  'speaker-fill': '\u{E23F}',
+  'speaker-x': '\u{E140}',
+  'speaker-x-fill': '\u{E240}',
+  'speaker-bluetooth': '\u{E141}',
+  'speaker-bluetooth-fill': '\u{E241}',
+  'speaker-slash': '\u{E142}',
+  'speaker-slash-fill': '\u{E242}',
   square: '\u{E161}',
   'square-fill': '\u{E1FB}',
+  'square-dash': '\u{E17C}',
   star: '\u{E0AF}',
   'star-fill': '\u{E0B0}',
   sticker: '\u{E070}',
+  'sticker-smiley': '\u{E143}',
+  'sticker-slash': '\u{E144}',
+  stickerpack: '\u{E145}',
+  'stickerpack-plus': '\u{E146}',
+  stop: '\u{E147}',
+  'stop-fill': '\u{E1D9}',
+  'stop-circle': '\u{E148}',
+  'stop-circle-fill': '\u{E1DA}',
+  'stop-square': '\u{E149}',
+  'stop-square-fill': '\u{E1DB}',
   stories: '\u{E0D0}',
   'stories-fill': '\u{E0D1}',
   sun: '\u{E0D2}',
@@ -717,21 +918,49 @@ const IconDefs: Record<string, SymbolDef> = {
   'sun-horizon': '\u{E0D3}',
   'sun-horizon-fill': '\u{E1DD}',
   swap: '\u{E0D4}',
-  thread: '\u{E071}',
-  'thread-fill': '\u{E072}',
+  'text-square': '\u{E14D}',
+  'text-square-fill': '\u{E1DE}',
+  'text-outline': '\u{E14E}',
+  'textalign-[start]': { ltr: '\u{E14F}', rtl: '\u{E151}' },
+  'textalign-center': '\u{E150}',
+  'textalign-[end]': { ltr: '\u{E151}', rtl: '\u{E14F}' },
+  'textalign-justifed': '\u{E152}',
+  texteffects: '\u{E153}',
+  'texteffects-fill': '\u{E1DF}',
+  'textformat-bold': '\u{E154}',
+  'textformat-italic': '\u{E155}',
+  'textformat-strikethrough': '\u{E156}',
+  'textformat-monospace': '\u{E157}',
+  'textformat-spoiler': '\u{E158}',
+  thumbsdown: '\u{E262}',
+  thumbsup: '\u{E0FC}',
   ticks: '\u{E044}',
   timer: '\u{E073}',
   'timer-fill': '\u{E1E0}',
   'timer-slash': '\u{E074}',
   'timer-slash-fill': '\u{E1E1}',
+  'timer-countdown-0': '\u{E048}',
+  'timer-countdown-1': '\u{E049}',
+  'timer-countdown-2': '\u{E04A}',
+  'timer-countdown-3': '\u{E04B}',
+  'timer-countdown-4': '\u{E04C}',
+  'timer-countdown-5': '\u{E04D}',
+  'timer-countdown-6': '\u{E04E}',
+  'timer-countdown-7': '\u{E04F}',
+  'timer-countdown-8': '\u{E050}',
+  'timer-countdown-9': '\u{E051}',
+  'timer-countdown-10': '\u{E052}',
+  'timer-countdown-11': '\u{E053}',
+  'timer-countdown-12': '\u{E054}',
   trash: '\u{E0D5}',
   'trash-fill': '\u{E0D6}',
+  trending: '\u{E159}',
   tune: '\u{E15A}',
   undo: '\u{E0C5}',
   upload: '\u{E0D7}',
   video: '\u{E1E2}',
-  'video-slash': '\u{E1E3}',
   'video-fill': '\u{E1E4}',
+  'video-slash': '\u{E1E3}',
   'video-slash-fill': '\u{E1E6}',
   videocamera: '\u{E1E8}',
   'videocamera-fill': '\u{E1EA}',
@@ -740,6 +969,7 @@ const IconDefs: Record<string, SymbolDef> = {
   viewonce: '\u{E078}',
   'viewonce-dash': '\u{E079}',
   wifi: '\u{E15D}',
+  'wifi-error': '\u{E15E}',
   x: '\u{E1ED}',
   'x-circle': '\u{E1EE}',
   'x-circle-fill': '\u{E1F0}',
@@ -756,12 +986,17 @@ const InlineDefs: Record<string, SymbolDef> = {
   'aspectratio-fill': '\u{E177}',
   'audio-rectangle': '\u{E01D}',
   'audio-rectangle-fill': '\u{E17A}',
-  'check-double-circle': '\u{E046}',
-  'check-double-circle-fill': '\u{E047}',
+  'check-circle-double': '\u{E046}',
+  'check-circle-double-fill': '\u{E047}',
+  creditcard: '\u{E186}',
+  'creditcard-fill': '\u{E188}',
+  'emoji-plus': '\u{E20C}',
   'gif-rectangle': '\u{E097}',
   'gif-rectangle-fill': '\u{E098}',
   'grid-rectangle': '\u{E197}',
   'grid-rectangle-fill': '\u{E19A}',
+  'grid-sidebar': '\u{E213}',
+  'grid-sidebar-fill': '\u{E23D}',
   group: '\u{E038}',
   'group-fill': '\u{E19E}',
   'group-x': '\u{E0AE}',
@@ -770,18 +1005,27 @@ const InlineDefs: Record<string, SymbolDef> = {
   leave: '\u{E03C}',
   'leave-rtl': '\u{E03D}',
   'person-check': '\u{E05F}',
+  'person-check-fill': '\u{E256}',
   'person-plus': '\u{E061}',
+  'person-plus-fill': '\u{E258}',
   'person-minus': '\u{E062}',
+  'person-minus-fill': '\u{E25A}',
   'person-x': '\u{E060}',
+  'person-x-fill': '\u{E25C}',
   'person-question': '\u{E06A}',
+  'person-question-fill': '\u{E25E}',
   'person-rectangle': '\u{E1C2}',
+  'person-rectangle-fill': '\u{E1C7}',
   photo: '\u{E065}',
   'photo-slash': '\u{E066}',
   rectangle: '\u{E1D5}',
   'rectangle-fill': '\u{E1D7}',
+  'rectangle-dash': '\u{E215}',
+  sidebar: '\u{E217}',
+  'sidebar-fill': '\u{E244}',
   video: '\u{E088}',
-  'video-slash': '\u{E089}',
   'video-fill': '\u{E1E5}',
+  'video-slash': '\u{E089}',
   'video-slash-fill': '\u{E1E7}',
   videocamera: '\u{E075}',
   'videocamera-fill': '\u{E077}',
