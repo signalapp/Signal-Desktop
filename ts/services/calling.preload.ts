@@ -563,6 +563,8 @@ export class CallingClass {
 
     // This has effect only on macOS >= 14.0
     muteStateChange.subscribe(isMuted => {
+      log.info(`muteState notification: isMuted=${isMuted}`);
+
       // Immediately mute all calls
       for (const call of Object.values(this.#callsLookup)) {
         call.setOutgoingAudioMuted(isMuted);
