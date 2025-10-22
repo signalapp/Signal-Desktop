@@ -66,7 +66,11 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     if (selectedConversationId !== lastOpenedConversationId.current) {
       lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
-        onConversationOpened(selectedConversationId, targetedMessageId);
+        onConversationOpened(
+          selectedConversationId,
+          targetedMessageId,
+          targetedMessageSource
+        );
       }
     } else if (
       selectedConversationId &&
