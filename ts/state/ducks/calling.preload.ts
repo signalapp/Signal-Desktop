@@ -376,6 +376,12 @@ export type RemoveClientType = ReadonlyDeep<{
 export type SetLocalAudioType = (
   payload?: ReadonlyDeep<{
     enabled: boolean;
+
+    // When listening for `@signalapp/mute-state-change` events we immediately
+    // apply muted state changes to all active calls. The action should update
+    // only the UI so that we don't cause:
+    // "update muted state" <-> "receive callback" loops
+    isUIOnly?: boolean;
   }>
 ) => void;
 
@@ -1972,7 +1978,9 @@ function setLocalAudio(
     }
 
     const enabled = payload?.enabled ?? !activeCallState.hasLocalAudio;
-    calling.setOutgoingAudio(activeCallState.conversationId, enabled);
+    if (!payload?.isUIOnly) {
+      calling.setOutgoingAudio(activeCallState.conversationId, enabled);
+    }
     dispatch({
       type: SET_LOCAL_AUDIO_FULFILLED,
       payload: {

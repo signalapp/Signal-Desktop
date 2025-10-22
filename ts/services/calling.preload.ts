@@ -39,6 +39,7 @@ import {
   GroupCallKind,
   SpeechEvent,
 } from '@signalapp/ringrtc';
+import * as muteStateChange from '@signalapp/mute-state-change';
 import lodash from 'lodash';
 import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
@@ -559,6 +560,17 @@ export class CallingClass {
     if (process.platform === 'darwin') {
       drop(this.#enumerateMediaDevices());
     }
+
+    // This has effect only on macOS >= 14.0
+    muteStateChange.subscribe(isMuted => {
+      // Immediately mute all calls
+      for (const call of Object.values(this.#callsLookup)) {
+        call.setOutgoingAudioMuted(isMuted);
+      }
+
+      // Trigger UI update
+      reduxInterface.setLocalAudio({ enabled: !isMuted, isUIOnly: true });
+    });
   }
 
   #maybeUpdateRtcLogging(groupCall: GroupCall): void {
@@ -607,6 +619,8 @@ export class CallingClass {
       conversationType: conversation,
     });
     log.info(logId);
+
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     const callMode = getConversationCallMode(conversation);
     switch (callMode) {
@@ -1019,6 +1033,7 @@ export class CallingClass {
     const logId = `startCallLinkLobby(roomId=${roomId})`;
     log.info(`${logId}: starting`);
 
+    muteStateChange.setIsMuted(!hasLocalAudio);
     const hasLocalVideo = preferLocalVideo && (await checkCameraPermission());
 
     const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
@@ -1077,6 +1092,8 @@ export class CallingClass {
 
     const logId = getLogId({ source: 'startOutgoingDirectCall', conversation });
     log.info(logId);
+
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     if (!this.#reduxInterface) {
       throw new Error(`${logId}: Redux actions not available`);
@@ -2357,6 +2374,8 @@ export class CallingClass {
     } else {
       throw missingCaseError(call);
     }
+
+    muteStateChange.setIsMuted(!enabled);
   }
 
   setOutgoingAudioRemoteMuted(conversationId: string, source: number): void {
@@ -2371,6 +2390,12 @@ export class CallingClass {
     } else {
       log.warn('Trying to remote mute outgoing audio on a 1:1 call');
     }
+
+    // Import: calling `setIsMuted` causes the subscriber in `initialize()` to
+    // fire so make sure it is called *after* `setOutgoingAudioMutedRemotely`,
+    // otherwise `setOutgoingAudioMuted` will be called first and we will lose
+    // the `source` of the remote mute.
+    muteStateChange.setIsMuted(true);
   }
 
   async setOutgoingVideo(

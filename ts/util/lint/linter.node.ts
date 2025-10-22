@@ -81,6 +81,9 @@ const excludedFilesRegexp = RegExp(
     // Github workflows
     '^.github/.+',
 
+    // Installable local dependencies
+    '^packages/.+',
+
     // Modules we trust
     '^node_modules/@react-aria/.+',
     '^node_modules/@react-stately/.+',
@@ -118,6 +121,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/@mixer/parallel-prettier/.+',
     '^node_modules/@eslint/.+',
     '^node_modules/@signalapp/mock-server/.+',
+    '^node_modules/@signalapp/mute-state-change/node_modules/prettier/.+',
     '^node_modules/@svgr/.+',
     '^node_modules/@types/.+',
     '^node_modules/@webassemblyjs/.+',
