@@ -813,7 +813,7 @@ export function LeftPane({
               </AxoDropdownMenu.Item>
               {isChatFoldersEnabled && !hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
-                  symbol="folder"
+                  symbol="folder-plus"
                   onSelect={onChatFoldersOpenSettings}
                 >
                   {i18n('icu:LeftPane__MoreActionsMenu__AddChatFolder')}
@@ -821,9 +821,7 @@ export function LeftPane({
               )}
               {isChatFoldersEnabled && hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
-                  // TODO: This should be the "folder-settings" symbol
-                  // once it is added to the font
-                  symbol="folder"
+                  symbol="folder-settings"
                   onSelect={onChatFoldersOpenSettings}
                 >
                   {i18n('icu:LeftPane__MoreActionsMenu__FolderSettings')}
