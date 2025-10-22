@@ -58,16 +58,31 @@ describe('ActiveWindowService', () => {
 
   ['click', 'keydown', 'mousedown', 'mousemove', 'touchstart', 'wheel'].forEach(
     (eventName: string) => {
-      it(`is inactive even in the face of ${eventName} events if unfocused`, function (this: Mocha.Context) {
-        const fakeDocument = createFakeDocument();
-        const fakeIpc = new EventEmitter();
-        const service = getActiveWindowService(fakeDocument, fakeIpc);
+      if (eventName === 'wheel') {
+        it('stays active for a second after a wheel event, even if unfocused', function (this: Mocha.Context) {
+          const fakeDocument = createFakeDocument();
+          const fakeIpc = new EventEmitter();
+          const service = getActiveWindowService(fakeDocument, fakeIpc);
 
-        fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
+          fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
 
-        fakeDocument.dispatchEvent(new Event(eventName));
-        assert.isFalse(service.isActive());
-      });
+          fakeDocument.dispatchEvent(new Event(eventName));
+          assert.isTrue(service.isActive());
+          this.clock.tick(1001);
+          assert.isFalse(service.isActive());
+        });
+      } else {
+        it(`is inactive even in the face of ${eventName} events if unfocused`, function (this: Mocha.Context) {
+          const fakeDocument = createFakeDocument();
+          const fakeIpc = new EventEmitter();
+          const service = getActiveWindowService(fakeDocument, fakeIpc);
+
+          fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
+
+          fakeDocument.dispatchEvent(new Event(eventName));
+          assert.isFalse(service.isActive());
+        });
+      }
 
       it(`stays active if focused and receiving ${eventName} events`, function (this: Mocha.Context) {
         const fakeDocument = createFakeDocument();
