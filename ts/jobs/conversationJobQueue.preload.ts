@@ -20,6 +20,7 @@ import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone.preload.j
 import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone.preload.js';
 import { sendProfileKey } from './helpers/sendProfileKey.preload.js';
 import { sendReaction } from './helpers/sendReaction.preload.js';
+import { sendPollVote } from './helpers/sendPollVote.preload.js';
 import { sendStory } from './helpers/sendStory.preload.js';
 import { sendReceipts } from './helpers/sendReceipts.preload.js';
 
@@ -72,6 +73,7 @@ export const conversationQueueJobEnum = z.enum([
   'ProfileKey',
   'ProfileKeyForCall',
   'Reaction',
+  'PollVote',
   'ResendRequest',
   'SavedProto',
   'SenderKeyDistribution',
@@ -194,6 +196,16 @@ const reactionJobDataSchema = z.object({
 });
 export type ReactionJobData = z.infer<typeof reactionJobDataSchema>;
 
+const pollVoteJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.PollVote),
+  conversationId: z.string(),
+  pollMessageId: z.string(),
+  targetAuthorAci: aciSchema,
+  targetTimestamp: z.number(),
+  revision: z.number().optional(),
+});
+export type PollVoteJobData = z.infer<typeof pollVoteJobDataSchema>;
+
 const resendRequestJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.ResendRequest),
   conversationId: z.string(),
@@ -258,6 +270,7 @@ export const conversationQueueJobDataSchema = z.union([
   nullMessageJobDataSchema,
   profileKeyJobDataSchema,
   reactionJobDataSchema,
+  pollVoteJobDataSchema,
   resendRequestJobDataSchema,
   savedProtoJobDataSchema,
   senderKeyDistributionJobDataSchema,
@@ -312,6 +325,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
     return true;
   }
   if (type === 'Reaction') {
+    return false;
+  }
+  if (type === 'PollVote') {
     return false;
   }
   if (type === 'Receipts') {
@@ -957,6 +973,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           break;
         case jobSet.Reaction:
           await sendReaction(conversation, jobBundle, data);
+          break;
+        case jobSet.PollVote:
+          await sendPollVote(conversation, jobBundle, data);
           break;
         case jobSet.ResendRequest:
           await sendResendRequest(conversation, jobBundle, data);

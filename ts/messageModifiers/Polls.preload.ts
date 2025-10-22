@@ -14,7 +14,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
 import { getAuthor } from '../messages/sources.preload.js';
 
-import { isSent } from '../messages/MessageSendState.std.js';
+import { isSent, SendStatus } from '../messages/MessageSendState.std.js';
 import { getPropForTimestamp } from '../util/editHelpers.std.js';
 import { isMe } from '../util/whatTypeOfConversation.dom.js';
 
@@ -383,11 +383,24 @@ export async function handlePollVote(
     'Vote can only be from this device, from sync, or from someone else'
   );
 
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
+
   const newVote: MessagePollVoteType = {
     fromConversationId: vote.fromConversationId,
     optionIndexes: vote.optionIndexes,
     voteCount: vote.voteCount,
     timestamp: vote.timestamp,
+    sendStateByConversationId: isFromThisDevice
+      ? Object.fromEntries(
+          Array.from(conversation.getMemberConversationIds())
+            .filter(id => id !== ourConversationId)
+            .map(id => [
+              id,
+              { status: SendStatus.Pending, updatedAt: Date.now() },
+            ])
+        )
+      : undefined,
   };
 
   // Update or add vote with conflict resolution
@@ -396,24 +409,50 @@ export async function handlePollVote(
     : [];
   let updatedVotes: Array<MessagePollVoteType>;
 
-  const existingVoteIndex = currentVotes.findIndex(
-    v => v.fromConversationId === vote.fromConversationId
-  );
+  if (isFromThisDevice) {
+    // For votes from this device: keep sent votes, remove pending votes, add new vote
+    // This matches reaction behavior where we can have one sent + one pending
+    const pendingVotesFromUs = currentVotes.filter(
+      v =>
+        v.fromConversationId === vote.fromConversationId &&
+        v.sendStateByConversationId != null
+    );
 
-  if (existingVoteIndex !== -1) {
-    const existingVote = currentVotes[existingVoteIndex];
-
-    if (newVote.voteCount > existingVote.voteCount) {
-      updatedVotes = [...currentVotes];
-      updatedVotes[existingVoteIndex] = newVote;
-    } else {
-      log.info(
-        'handlePollVote: Keeping existing vote with higher or same voteCount'
-      );
-      updatedVotes = currentVotes;
-    }
+    updatedVotes = [
+      ...currentVotes.filter(v => !pendingVotesFromUs.includes(v)),
+      newVote,
+    ];
   } else {
-    updatedVotes = [...currentVotes, newVote];
+    // For sync/others: use voteCount-based conflict resolution
+    const existingVoteIndex = currentVotes.findIndex(
+      v => v.fromConversationId === vote.fromConversationId
+    );
+
+    if (existingVoteIndex !== -1) {
+      const existingVote = currentVotes[existingVoteIndex];
+
+      if (newVote.voteCount > existingVote.voteCount) {
+        updatedVotes = [...currentVotes];
+        updatedVotes[existingVoteIndex] = newVote;
+      } else if (
+        isFromSync &&
+        newVote.voteCount === existingVote.voteCount &&
+        newVote.timestamp > existingVote.timestamp
+      ) {
+        log.info(
+          'handlePollVote: Same voteCount from sync, using timestamp tiebreaker'
+        );
+        updatedVotes = [...currentVotes];
+        updatedVotes[existingVoteIndex] = newVote;
+      } else {
+        log.info(
+          'handlePollVote: Keeping existing vote with higher or same voteCount'
+        );
+        updatedVotes = currentVotes;
+      }
+    } else {
+      updatedVotes = [...currentVotes, newVote];
+    }
   }
 
   message.set({

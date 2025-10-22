@@ -134,6 +134,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     retryMessageSend,
     saveAttachment,
     saveAttachments,
+    sendPollVote,
     setMessageToEdit,
     showAttachmentDownloadStillInProgressToast,
     showConversation,
@@ -227,6 +228,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
+      sendPollVote={sendPollVote}
       returnToActiveCall={returnToActiveCall}
       saveAttachment={saveAttachment}
       saveAttachments={saveAttachments}

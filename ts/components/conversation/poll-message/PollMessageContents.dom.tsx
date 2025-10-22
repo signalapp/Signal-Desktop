@@ -83,12 +83,19 @@ export type PollMessageContentsProps = {
   poll: PollWithResolvedVotersType;
   direction: DirectionType;
   i18n: LocalizerType;
+  messageId: string;
+  sendPollVote: (params: {
+    messageId: string;
+    optionIndexes: ReadonlyArray<number>;
+  }) => void;
 };
 
 export function PollMessageContents({
   poll,
   direction,
   i18n,
+  messageId,
+  sendPollVote,
 }: PollMessageContentsProps): JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const isIncoming = direction === 'incoming';
@@ -102,6 +109,35 @@ export function PollMessageContents({
     pollStatusText = i18n('icu:PollMessage--SelectMultiple');
   } else {
     pollStatusText = i18n('icu:PollMessage--SelectOne');
+  }
+
+  async function handlePollOptionClicked(
+    index: number,
+    nextChecked: boolean
+  ): Promise<void> {
+    const existingSelections = Array.from(
+      poll.votesByOption
+        .entries()
+        .filter(([_, voters]) => (voters ?? []).some(v => v.isMe))
+        .map(([optionIndex]) => optionIndex)
+    );
+    const optionIndexes = new Set<number>(existingSelections);
+
+    if (nextChecked) {
+      if (!poll.allowMultiple) {
+        // Single-select: clear existing selections first
+        optionIndexes.clear();
+      }
+      optionIndexes.add(index);
+    } else {
+      // Removing a selection - same for both modes
+      optionIndexes.delete(index);
+    }
+
+    sendPollVote({
+      messageId,
+      optionIndexes: [...optionIndexes],
+    });
   }
 
   return (
@@ -133,9 +169,7 @@ export function PollMessageContents({
           const percentage =
             totalVotes > 0 ? (optionVotes / totalVotes) * 100 : 0;
 
-          const weVotedForThis = (pollVoteEntries ?? []).some(
-            vote => vote.isMe && vote.optionIndexes.includes(index)
-          );
+          const weVotedForThis = (pollVoteEntries ?? []).some(v => v.isMe);
 
           return (
             // eslint-disable-next-line react/no-array-index-key
@@ -146,8 +180,9 @@ export function PollMessageContents({
                 <div className={tw('mt-[3px] self-start')}>
                   <PollCheckbox
                     checked={weVotedForThis}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onCheckedChange={() => {}}
+                    onCheckedChange={next =>
+                      handlePollOptionClicked(index, Boolean(next))
+                    }
                     isIncoming={isIncoming}
                   />
                 </div>

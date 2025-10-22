@@ -240,6 +240,7 @@ import { getCurrentChatFolders } from '../selectors/chatFolders.std.js';
 import { isConversationUnread } from '../../util/isConversationUnread.std.js';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
 
 const {
   chunk,
@@ -1258,6 +1259,7 @@ export const actions = {
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
+  sendPollVote,
   setPendingRequestedAvatarDownload,
   startAvatarDownload,
   showSpoiler,
@@ -2642,6 +2644,28 @@ function retryMessageSend(
           });
         }
       );
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function sendPollVote({
+  messageId,
+  optionIndexes,
+}: Readonly<{
+  messageId: string;
+  optionIndexes: ReadonlyArray<number>;
+}>): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    try {
+      await enqueuePollVoteForSendHelper({ messageId, optionIndexes });
+    } catch (error) {
+      log.error('sendPollVote: Failed to enqueue poll vote', error);
+      // TODO DESKTOP-9343: show toast on exception
     }
 
     dispatch({

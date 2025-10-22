@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { isAciString } from '../util/isAciString.std.js';
 import { hasAtMostGraphemes } from '../util/grapheme.std.js';
 import {
   Environment,
@@ -11,6 +10,8 @@ import {
 } from '../environment.std.js';
 import * as RemoteConfig from '../RemoteConfig.dom.js';
 import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
+import { aciSchema } from './ServiceId.std.js';
 
 // PollCreate schema (processed shape)
 // - question: required, 1..100 chars
@@ -43,19 +44,17 @@ export const PollCreateSchema = z
 // PollVote schema (processed shape)
 // - targetAuthorAci: required, non-empty ACI string
 // - targetTimestamp: required, positive int
-// - optionIndexes: required, 1..10 ints in [0, 9]
+// - optionIndexes: required, 0..10 ints in [0, 9] (empty array = clearing vote)
 // - voteCount: optional, int in [0, 1_000_000]
 export const PollVoteSchema = z
   .object({
-    targetAuthorAci: z
-      .string()
-      .min(1)
-      .refine(isAciString, 'targetAuthorAci must be a valid ACI string'),
+    targetAuthorAci: aciSchema,
     targetTimestamp: z.number().int().positive(),
-    optionIndexes: z.array(z.number().int().min(0).max(9)).min(1).max(10),
+    optionIndexes: z.array(z.number().int().min(0).max(9)).min(0).max(10),
     voteCount: z.number().int().min(0),
   })
   .describe('PollVote');
+export type OutgoingPollVote = Readonly<z.infer<typeof PollVoteSchema>>;
 
 // PollTerminate schema (processed shape)
 // - targetTimestamp: required, positive int
@@ -70,6 +69,7 @@ export type MessagePollVoteType = {
   optionIndexes: ReadonlyArray<number>;
   voteCount: number;
   timestamp: number;
+  sendStateByConversationId?: SendStateByConversationId;
 };
 
 export type PollMessageAttribute = {

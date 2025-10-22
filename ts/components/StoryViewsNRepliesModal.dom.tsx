@@ -65,6 +65,7 @@ const MESSAGE_DEFAULT_PROPS = {
   openLink: shouldNeverBeCalled,
   previews: [],
   retryMessageSend: shouldNeverBeCalled,
+  sendPollVote: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
   saveAttachment: shouldNeverBeCalled,

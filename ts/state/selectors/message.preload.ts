@@ -144,7 +144,10 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js'
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
 import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
-import type { PollMessageAttribute } from '../../types/Polls.dom.js';
+import type {
+  MessagePollVoteType,
+  PollMessageAttribute,
+} from '../../types/Polls.dom.js';
 import {
   getTitleNoDefault,
   getTitle,
@@ -522,32 +525,47 @@ const getPollForMessage = (
     };
   }
 
-  const resolvedVotes: ReadonlyArray<PollVoteWithUserType> = poll.votes.map(
-    vote => {
-      const voter = conversationSelector(vote.fromConversationId);
-
-      const from: PollVoteWithUserType['from'] = {
-        acceptedMessageRequest: voter.acceptedMessageRequest,
-        avatarUrl: voter.avatarUrl,
-        badges: voter.badges,
-        color: voter.color,
-        id: voter.id,
-        isMe: voter.isMe,
-        name: voter.name,
-        phoneNumber: voter.phoneNumber,
-        profileName: voter.profileName,
-        sharedGroupNames: voter.sharedGroupNames,
-        title: voter.title,
-      };
-
-      return {
-        optionIndexes: vote.optionIndexes,
-        timestamp: vote.timestamp,
-        isMe: voter.id === ourConversationId,
-        from,
-      };
+  // Deduplicate votes by sender - keep only the newest vote per sender
+  // (highest voteCount, or newest timestamp if voteCount is equal)
+  const voteByFrom = new Map<string, MessagePollVoteType>();
+  for (const vote of poll.votes) {
+    const existingVote = voteByFrom.get(vote.fromConversationId);
+    if (
+      !existingVote ||
+      vote.voteCount > existingVote.voteCount ||
+      (vote.voteCount === existingVote.voteCount &&
+        vote.timestamp > existingVote.timestamp)
+    ) {
+      voteByFrom.set(vote.fromConversationId, vote);
     }
-  );
+  }
+
+  const resolvedVotes: ReadonlyArray<PollVoteWithUserType> = Array.from(
+    voteByFrom.values()
+  ).map(vote => {
+    const voter = conversationSelector(vote.fromConversationId);
+
+    const from: PollVoteWithUserType['from'] = {
+      acceptedMessageRequest: voter.acceptedMessageRequest,
+      avatarUrl: voter.avatarUrl,
+      badges: voter.badges,
+      color: voter.color,
+      id: voter.id,
+      isMe: voter.isMe,
+      name: voter.name,
+      phoneNumber: voter.phoneNumber,
+      profileName: voter.profileName,
+      sharedGroupNames: voter.sharedGroupNames,
+      title: voter.title,
+    };
+
+    return {
+      optionIndexes: vote.optionIndexes,
+      timestamp: vote.timestamp,
+      isMe: voter.id === ourConversationId,
+      from,
+    };
+  });
 
   const votesByOption = new Map<number, Array<PollVoteWithUserType>>();
   let totalNumVotes = 0;
