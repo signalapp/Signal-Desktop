@@ -34,6 +34,10 @@ export function ExternalLink(props: {
   );
 }
 
+function Elias6() {
+  return <ExternalLink href="https://github.com/elias6">@elias6</ExternalLink>;
+}
+
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -43,7 +47,16 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<I18n i18n={i18n} id="icu:WhatsNew__7.76" />],
+    features: [
+      <I18n i18n={i18n} id="icu:WhatsNew__7.77-1" />,
+      <I18n
+        i18n={i18n}
+        id="icu:WhatsNew__7.77-2"
+        components={{
+          elias6: Elias6,
+        }}
+      />,
+    ],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {
