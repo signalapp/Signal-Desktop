@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const MAIN_MODULES = new Set([
+const ELECTRON_MAIN_MODULES = new Set([
   'app',
   'autoUpdater',
   'BaseWindow',
@@ -40,13 +40,20 @@ const MAIN_MODULES = new Set([
   'webFrameMain',
   'View',
 ]);
-const RENDERER_MODULES = new Set([
+const ELECTRON_RENDERER_MODULES = new Set([
   'contextBridge',
   'ipcRenderer',
   'webFrame',
   'webUtils',
 ]);
-const NODE_MODULES = new Set([
+const ELECTRON_SHARED_MODULES = new Set([
+  'clipboard',
+  'crashReporter',
+  'nativeImage',
+]);
+
+// Packages that use Node.js APIs (file system, etc)
+const NODE_PACKAGES = new Set([
   '@electron/asar',
   '@indutny/dicer',
   '@indutny/mac-screen-share',
@@ -62,11 +69,13 @@ const NODE_MODULES = new Set([
   'encoding',
   'fast-glob',
   'fs-extra',
+  'fs-xattr',
   'got',
   'growing-file',
   'node-fetch',
   'proxy-agent',
   'read-last-lines',
+  'split2',
   'websocket',
   'write-file-atomic',
 
@@ -127,7 +136,9 @@ const NODE_MODULES = new Set([
   'webpack-cli',
   'webpack-dev-server',
 ]);
-const DOM_MODULES = new Set([
+
+// Packages that use DOM APIs
+const DOM_PACKAGES = new Set([
   '@popperjs/core',
   '@radix-ui/react-tooltip',
   '@react-aria/focus',
@@ -147,6 +158,8 @@ const DOM_MODULES = new Set([
   'react-contextmenu',
   'react-popper',
   'react-virtualized',
+  // Note that: react-dom/server is categorized separately
+  'react-dom',
 
   // Dev dependencies
   '@storybook/addon-a11y',
@@ -166,6 +179,106 @@ const DOM_MODULES = new Set([
   '@storybook/test-runner',
   '@storybook/types',
   'storybook',
+]);
+
+// Packages that can run in both browser/node
+const STD_PACKAGES = new Set([
+  '@babel/core',
+  '@babel/plugin-proposal-class-properties',
+  '@babel/plugin-proposal-nullish-coalescing-operator',
+  '@babel/plugin-proposal-optional-chaining',
+  '@babel/plugin-transform-runtime',
+  '@babel/plugin-transform-typescript',
+  '@babel/preset-react',
+  '@babel/preset-typescript',
+  '@formatjs/fast-memoize',
+  '@formatjs/icu-messageformat-parser',
+  '@formatjs/intl',
+  '@formatjs/intl-localematcher',
+  '@indutny/sneequals',
+  '@internationalized/date',
+  '@react-types/shared',
+  '@signalapp/minimask',
+  '@signalapp/quill-cjs',
+  '@typescript-eslint/eslint-plugin',
+  '@typescript-eslint/parser',
+  'axe-core',
+  'babel-core',
+  'babel-loader',
+  'babel-plugin-lodash',
+  'blurhash',
+  'buffer',
+  'card-validator',
+  'casual',
+  'chai',
+  'chai-as-promised',
+  'chalk',
+  'changedpi',
+  'classnames',
+  'country-codes-list',
+  'credit-card-type',
+  'css-loader',
+  'csv-parse',
+  'danger',
+  'debug',
+  'direction',
+  'emoji-datasource',
+  'emoji-datasource-apple',
+  'emoji-regex',
+  'eslint',
+  'eslint-config-airbnb-typescript-prettier',
+  'eslint-config-prettier',
+  'eslint-plugin-better-tailwindcss',
+  'eslint-plugin-import',
+  'eslint-plugin-local-rules',
+  'eslint-plugin-mocha',
+  'eslint-plugin-more',
+  'eslint-plugin-react',
+  'filesize',
+  'firstline',
+  'form-data',
+  'framer-motion',
+  'fuse.js',
+  'google-libphonenumber',
+  'heic-convert',
+  'humanize-duration',
+  'intl-tel-input',
+  'js-yaml',
+  'linkify-it',
+  'lodash',
+  'long',
+  'lru-cache',
+  'memoizee',
+  'mocha',
+  'moment',
+  'mp4box',
+  'nop',
+  'normalize-path',
+  'p-map',
+  'p-queue',
+  'p-timeout',
+  'parsecurrency',
+  'pify',
+  'pino',
+  'pngjs',
+  'protobufjs',
+  'qrcode-generator',
+  'react',
+  'react-intl',
+  'react-redux',
+  'redux',
+  'redux-logger',
+  'redux-promise-middleware',
+  'redux-thunk',
+  'reselect',
+  'semver',
+  'sinon',
+  'tinykeys',
+  'type-fest',
+  'url',
+  'urlpattern-polyfill',
+  'uuid',
+  'zod',
 ]);
 
 /** @type {import("eslint").Rule.RuleModule} */
@@ -229,25 +342,7 @@ module.exports = {
       }
     }
 
-    function transformESMReference(node) {
-      if (
-        node.importKind === 'type' ||
-        (node.specifiers?.length &&
-          node.specifiers.every(x => x.importKind === 'type'))
-      ) {
-        return;
-      }
-      if (!node.source) {
-        return;
-      }
-      if (node.source.type !== 'Literal') {
-        return;
-      }
-      const {
-        specifiers,
-        source: { value: source },
-      } = node;
-
+    function processUse(node, source, specifiers) {
       if (source.startsWith('.')) {
         trackLocalDep(node, source);
         return;
@@ -260,15 +355,35 @@ module.exports = {
       }
 
       // Electron
-      if (source === 'electron') {
+      if (source === 'electron' && specifiers == null) {
+        context.report({
+          node,
+          message: 'CJS import of electron is not allowed',
+        });
+        return;
+      } else if (source === 'electron') {
         for (const s of specifiers) {
+          if (s.importKind === 'type') {
+            continue;
+          }
           // We implicitly skip:
           // they are used in scripts
           if (s.type === 'ImportSpecifier') {
-            if (MAIN_MODULES.has(s.imported.name)) {
+            if (ELECTRON_MAIN_MODULES.has(s.imported.name)) {
               mainUses.push(s);
-            } else if (RENDERER_MODULES.has(s.imported.name)) {
+            } else if (ELECTRON_RENDERER_MODULES.has(s.imported.name)) {
               preloadUses.push(s);
+            } else if (ELECTRON_SHARED_MODULES.has(s.imported.name)) {
+              // no-op
+            } else {
+              context.report({
+                node: s,
+                message:
+                  `Uncategorized electron API: "${s.imported.name}". ` +
+                  'Please update .eslint/rules/file-suffix.js and add it to ' +
+                  'ELECTRON_MAIN_MODULES/ELECTRON_RENDERER_MODULES/' +
+                  'ELECTRON_SHARED_MODULES',
+              });
             }
           } else if (s.type === 'ImportNamespaceSpecifier') {
             // import * as electron from 'electron';
@@ -287,16 +402,50 @@ module.exports = {
             });
           }
         }
-
         return;
       }
 
       const [, moduleName] = source.match(/^([^@\/]+|@[^\/]+\/[^\/]+)/);
-      if (NODE_MODULES.has(moduleName)) {
+      if (NODE_PACKAGES.has(moduleName)) {
         nodeUses.push(node);
-      } else if (DOM_MODULES.has(moduleName) || source === 'react-dom/client') {
+      } else if (
+        DOM_PACKAGES.has(moduleName) ||
+        source === 'react-dom/client'
+      ) {
         domUses.push(node);
+      } else if (source === 'react-dom/server') {
+        // no-op
+      } else if (!STD_PACKAGES.has(moduleName)) {
+        context.report({
+          node,
+          message:
+            `Uncategorized dependency "${moduleName}". ` +
+            'Please update .eslint/rules/file-suffix.js and add it to either ' +
+            'of NODE_PACKAGES/DOM_PACKAGES/STD_PACKAGES',
+        });
       }
+    }
+
+    function processESMReference(node) {
+      if (
+        node.importKind === 'type' ||
+        (node.specifiers?.length &&
+          node.specifiers.every(x => x.importKind === 'type'))
+      ) {
+        return;
+      }
+      if (!node.source) {
+        return;
+      }
+      if (node.source.type !== 'Literal') {
+        return;
+      }
+      const {
+        specifiers,
+        source: { value: source },
+      } = node;
+
+      processUse(node, source, specifiers);
     }
 
     return {
@@ -361,13 +510,13 @@ module.exports = {
         }
       },
       ImportDeclaration(node) {
-        transformESMReference(node);
+        processESMReference(node);
       },
       ExportAllDeclaration(node) {
-        transformESMReference(node);
+        processESMReference(node);
       },
       ExportNamedDeclaration(node) {
-        transformESMReference(node);
+        processESMReference(node);
       },
       CallExpression(node) {
         if (
@@ -405,35 +554,7 @@ module.exports = {
           return;
         }
 
-        // Keep local imports
-        if (source.startsWith('.')) {
-          trackLocalDep(node, source);
-          return;
-        }
-
-        // Node APIs
-        if (source.startsWith('node:')) {
-          nodeUses.push(node);
-          return;
-        }
-
-        // Electron
-        if (source === 'electron') {
-          context.report({
-            node,
-            message: 'CJS import of electron is not allowed',
-          });
-        }
-
-        const [, moduleName] = source.match(/^([^@\/]+|@[^\/]+\/[^\/]+)/);
-        if (NODE_MODULES.has(moduleName)) {
-          nodeUses.push(node);
-        } else if (
-          DOM_MODULES.has(moduleName) ||
-          source === 'react-dom/client'
-        ) {
-          domUses.push(moduleName);
-        }
+        processUse(node, source, undefined);
       },
       Identifier(node) {
         if (node.name !== 'window' && node.name !== 'document') {
