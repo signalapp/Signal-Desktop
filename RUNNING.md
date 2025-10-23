@@ -51,10 +51,13 @@ This compiles:
 ### 3. Start Signal Desktop
 
 ```bash
-pnpm start
+# IMPORTANT: Use production environment to link with your phone!
+SIGNAL_ENV=production pnpm start
 ```
 
 This launches the Electron app with terminal mode enabled by default!
+
+⚠️ **Important:** Always use `SIGNAL_ENV=production` to connect to real Signal servers. Without it, the app connects to staging servers and **cannot link with your phone**.
 
 ---
 
@@ -74,7 +77,7 @@ pnpm run dev:styles
 
 ### Terminal 3: Run the App
 ```bash
-pnpm start
+SIGNAL_ENV=production pnpm start
 ```
 
 Now your changes will auto-rebuild when you save files!
@@ -85,7 +88,7 @@ Now your changes will auto-rebuild when you save files!
 
 | Command | What it does |
 |---------|--------------|
-| `pnpm start` | Run Signal Desktop |
+| `SIGNAL_ENV=production pnpm start` | Run Signal Desktop (production) |
 | `pnpm run generate` | Full build |
 | `pnpm run dev:transpile` | Watch mode for TypeScript |
 | `pnpm run dev:styles` | Watch mode for SCSS |
@@ -151,8 +154,17 @@ pnpm run generate
 Make sure you're in the project directory:
 ```bash
 cd /home/user/Signal-Desktop-test
-pnpm start
+SIGNAL_ENV=production pnpm start
 ```
+
+### Can't Link Signal Account ("Invalid Response from Server")
+
+This happens when using staging servers. **Always use production environment:**
+```bash
+SIGNAL_ENV=production pnpm start
+```
+
+The default config points to staging servers which can't link with your phone's production Signal app.
 
 ### Terminal Mode Not Showing
 
@@ -240,9 +252,9 @@ Just run:
 ./run-terminal-mode.sh
 ```
 
-Or:
+Or manually:
 ```bash
-pnpm install && pnpm run generate && pnpm start
+pnpm install && pnpm run generate && SIGNAL_ENV=production pnpm start
 ```
 
 Enjoy your Bloomberg terminal-style Signal experience! 🎉
