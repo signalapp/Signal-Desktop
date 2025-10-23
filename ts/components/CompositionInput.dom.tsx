@@ -548,7 +548,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     let blotToDelete = leaf[0];
     const offset = leaf[1];
 
-    if (!blotToDelete) {
+    if (!blotToDelete || offset === 0) {
       return true;
     }
 
