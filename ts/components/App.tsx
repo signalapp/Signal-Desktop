@@ -41,6 +41,9 @@ type PropsType = {
   isMaximized: boolean;
   isFullScreen: boolean;
   osClassName: string;
+  terminalMode?: boolean;
+  compactView?: boolean;
+  monospaceFonts?: boolean;
 
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -66,6 +69,9 @@ export function App({
   theme,
   uploadProfile,
   viewStory,
+  terminalMode = false,
+  compactView = false,
+  monospaceFonts = false,
 }: PropsType): JSX.Element {
   let contents;
 
@@ -135,12 +141,21 @@ export function App({
     document.body.classList.toggle('page-is-visible', isPageVisible);
   }, [isPageVisible]);
 
+  useEffect(() => {
+    document.body.classList.toggle('terminal-mode', terminalMode);
+    document.body.classList.toggle('terminal-mode--compact', terminalMode && compactView);
+    document.body.classList.toggle('terminal-mode--monospace', terminalMode && monospaceFonts);
+  }, [terminalMode, compactView, monospaceFonts]);
+
   return (
     <div
       className={classNames({
         App: true,
         'light-theme': theme === ThemeType.light,
         'dark-theme': theme === ThemeType.dark,
+        'terminal-mode': terminalMode,
+        'terminal-mode--compact': terminalMode && compactView,
+        'terminal-mode--monospace': terminalMode && monospaceFonts,
       })}
     >
       {contents}

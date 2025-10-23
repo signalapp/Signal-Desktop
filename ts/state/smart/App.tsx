@@ -110,6 +110,9 @@ export const SmartApp = memo(function SmartApp() {
   const isFullScreen = useSelector(getIsMainWindowFullScreen);
   const hasSelectedStoryData = useSelector(getHasSelectedStoryData);
   const theme = useSelector(getTheme);
+  const terminalMode = useSelector((state: any) => state.terminal.terminalMode);
+  const compactView = useSelector((state: any) => state.terminal.compactView);
+  const monospaceFonts = useSelector((state: any) => state.terminal.monospaceFonts);
 
   const { openInbox } = useAppActions();
   const { scrollToMessage } = useConversationsActions();
@@ -139,6 +142,9 @@ export const SmartApp = memo(function SmartApp() {
         openInbox={openInbox}
         scrollToMessage={scrollToMessage}
         viewStory={viewStory}
+        terminalMode={terminalMode}
+        compactView={compactView}
+        monospaceFonts={monospaceFonts}
       />
     </SmartFunProvider>
   );

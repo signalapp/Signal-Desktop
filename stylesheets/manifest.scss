@@ -204,3 +204,7 @@
 @use 'components/UsernameMegaphone.scss';
 @use 'components/UsernameOnboardingModal.scss';
 @use 'components/WhatsNew.scss';
+
+// Terminal Mode Components
+@use 'components/terminal/TerminalTheme.scss';
+@use 'components/terminal/KeybindingSettings.scss';
