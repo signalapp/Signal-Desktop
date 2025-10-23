@@ -142,10 +142,14 @@ export function App({
   }, [isPageVisible]);
 
   useEffect(() => {
-    document.body.classList.toggle('terminal-mode', terminalMode);
-    document.body.classList.toggle('terminal-mode--compact', terminalMode && compactView);
-    document.body.classList.toggle('terminal-mode--monospace', terminalMode && monospaceFonts);
-  }, [terminalMode, compactView, monospaceFonts]);
+    // Only apply terminal mode in Inbox view (not during installer/linking)
+    const isInboxView = state.appView === AppViewType.Inbox;
+    const applyTerminalMode = terminalMode && isInboxView;
+
+    document.body.classList.toggle('terminal-mode', applyTerminalMode);
+    document.body.classList.toggle('terminal-mode--compact', applyTerminalMode && compactView);
+    document.body.classList.toggle('terminal-mode--monospace', applyTerminalMode && monospaceFonts);
+  }, [terminalMode, compactView, monospaceFonts, state.appView]);
 
   return (
     <div
@@ -153,9 +157,9 @@ export function App({
         App: true,
         'light-theme': theme === ThemeType.light,
         'dark-theme': theme === ThemeType.dark,
-        'terminal-mode': terminalMode,
-        'terminal-mode--compact': terminalMode && compactView,
-        'terminal-mode--monospace': terminalMode && monospaceFonts,
+        'terminal-mode': terminalMode && state.appView === AppViewType.Inbox,
+        'terminal-mode--compact': terminalMode && compactView && state.appView === AppViewType.Inbox,
+        'terminal-mode--monospace': terminalMode && monospaceFonts && state.appView === AppViewType.Inbox,
       })}
     >
       {contents}

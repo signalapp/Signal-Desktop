@@ -96,7 +96,13 @@ export function useTerminalKeyboard(
   const terminalMode = useSelector(
     (state: StateType) => state.terminal.terminalMode
   );
+  const appView = useSelector(
+    (state: StateType) => state.app.appView
+  );
   const { toggleCommandPalette } = useTerminalActions();
+
+  // Only enable terminal keyboard in Inbox view, not during installer/linking
+  const isInboxView = appView === 'Inbox';
 
   // Track sequence for multi-key bindings (like 'gg' for first)
   const keySequence = useRef<string[]>([]);
@@ -112,7 +118,8 @@ export function useTerminalKeyboard(
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (!enabled || !terminalMode) {
+      // Only enable keyboard shortcuts in Inbox view with terminal mode enabled
+      if (!enabled || !terminalMode || !isInboxView) {
         return;
       }
 
@@ -213,7 +220,7 @@ export function useTerminalKeyboard(
           break;
       }
     },
-    [enabled, terminalMode, keybindings, handlers, resetSequence, toggleCommandPalette]
+    [enabled, terminalMode, isInboxView, keybindings, handlers, resetSequence, toggleCommandPalette]
   );
 
   useEffect(() => {
@@ -238,9 +245,14 @@ export function useQuickJump(
   const terminalMode = useSelector(
     (state: StateType) => state.terminal.terminalMode
   );
+  const appView = useSelector(
+    (state: StateType) => state.app.appView
+  );
 
   useEffect(() => {
-    if (!enabled || !terminalMode) {
+    // Only enable in Inbox view
+    const isInboxView = appView === 'Inbox';
+    if (!enabled || !terminalMode || !isInboxView) {
       return;
     }
 
@@ -268,5 +280,5 @@ export function useQuickJump(
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
     };
-  }, [enabled, terminalMode, onJumpToIndex]);
+  }, [enabled, terminalMode, appView, onJumpToIndex]);
 }
