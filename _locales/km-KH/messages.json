@@ -243,10 +243,10 @@
     "messageformat": "ការជជែកដែលបានទុកក្នុងបណ្ណសារ"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
-    "messageformat": "Add chat folder"
+    "messageformat": "បញ្ចូលថតឯកសារជជែក"
   },
   "icu:LeftPane__MoreActionsMenu__FolderSettings": {
-    "messageformat": "Folder settings"
+    "messageformat": "ការកំណត់នៃថតឯកសារ"
   },
   "icu:LeftPane--pinned": {
     "messageformat": "បានខ្ទាស់"
@@ -288,10 +288,10 @@
     "messageformat": "បញ្ចូលឈ្មោះអ្នកប្រើ រួចសញ្ញាចុចមួយ និងលេខពីរខ្ទង់។"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
-    "messageformat": "No chats to display"
+    "messageformat": "មិនមានការជជែកដែលត្រូវបង្ហាញទេ"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
-    "messageformat": "Folder Settings"
+    "messageformat": "ការកំណត់នៃថតឯកសារ"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "ទាំងអស់"
@@ -316,6 +316,15 @@
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "កែថតឯកសារ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "បញ្ចូលទៅថតឯកសារ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "បង្កើតថតឯកសារ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ដកចេញពីថតឯកសារ"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "កូដប្រទេស"
@@ -656,8 +665,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "មានបញ្ហាក្នុងការរក្សាទុកបង្កាន់ដៃ។ សូមព្យាយាមម្តងទៀត។"
   },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
   "icu:Toast--ChatFolderCreated": {
-    "messageformat": "{chatFolderName} folder added"
+    "messageformat": "ថតឯកសារ {chatFolderName} ត្រូវបានបញ្ចូល"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "អ្នកមិនអាចជ្រើសរើសរូបថត និងវីដេអូរួមជាមួយឯកសារបានទេ។"
@@ -1338,19 +1353,19 @@
     "messageformat": "បញ្ចូលថតឯកសារជជែក"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
-    "messageformat": "Add or edit folders"
+    "messageformat": "បញ្ចូល ឬកែថតឯកសារ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "រៀបចំការជជែករបស់អ្នកទៅក្នុងថតឯកសារ ហើយមើលពីមួយទៅមួយបានលឿននៅលើបញ្ជីជជែករបស់អ្នក។"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
-    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+    "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} ថតឯកសារ}}"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up"
+    "messageformat": "រៀបចំ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage"
+    "messageformat": "គ្រប់គ្រង"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "កែថតឯកសារ"
@@ -1386,7 +1401,7 @@
     "messageformat": "បង្កើតថតឯកសារ"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
-    "messageformat": "Drag to move chat folder"
+    "messageformat": "អូសដើម្បីផ្លាស់ទីថតឯកសារជជែក"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "ថតឯកសារដែលបានណែនាំ"
@@ -1593,10 +1608,10 @@
     "messageformat": "បានដកចេញពីការហៅ"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+    "messageformat": "អ្នកចូលរួមសម្រាប់ការហៅទូរសព្ទនេះបានដល់ចំនួនអតិបរមាហើយ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។"
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "Call is full"
+    "messageformat": "ការហៅមានអ្នកចូលរួមពេញហើយ"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "នរណាដែលចូលរួមការហៅទូរសព្ទនេះតាមរយៈតំណនឹងមើលឃើញឈ្មោះ និងរូបថតរបស់អ្នក។"
@@ -5355,10 +5370,10 @@
     "messageformat": "ខ្លឹមសារ​ជូន​ដំណឹង"
   },
   "icu:NotificationProfile--moon-icon": {
-    "messageformat": "Moon icon"
+    "messageformat": "រូបព្រះចន្ទ"
   },
   "icu:NotificationProfile--copy-label": {
-    "messageformat": "Copy of {profileName}"
+    "messageformat": "ច្បាប់ចម្លងនៃ {profileName}"
   },
   "icu:NotificationProfile--am": {
     "messageformat": "AM"
@@ -5370,235 +5385,235 @@
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Notification profile"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Notification Profile"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
   "icu:NotificationProfileMenu--on": {
-    "messageformat": "On"
+    "messageformat": "បើក"
   },
   "icu:NotificationProfileMenu--on-with-end": {
-    "messageformat": "On until {endTime}"
+    "messageformat": "បើករហូតដល់ {endTime}"
   },
   "icu:NotificationProfileMenu--for-one-hour": {
-    "messageformat": "For one hour"
+    "messageformat": "រយៈពេលមួយម៉ោង"
   },
   "icu:NotificationProfileMenu--until-time": {
-    "messageformat": "Until {time}"
+    "messageformat": "រហូតដល់ {time}"
   },
   "icu:NotificationProfileMenu--settings": {
-    "messageformat": "Settings"
+    "messageformat": "ការកំណត់"
   },
   "icu:NotificationProfilesToast--enabled": {
-    "messageformat": "“{name}” on"
+    "messageformat": "“{name}” ត្រូវបានបើក"
   },
   "icu:NotificationProfilesToast--disabled": {
-    "messageformat": "“{name}” off"
+    "messageformat": "“{name}” ត្រូវបានបិទ"
   },
   "icu:NotificationProfilesToast--enabled--label": {
-    "messageformat": "Notification profile now enabled"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹងឥឡូវនេះត្រូវបានបើកហើយ"
   },
   "icu:NotificationProfilesToast--disabled--label": {
-    "messageformat": "Notification profile now disabled"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹងឥឡូវនេះត្រូវបានបិទហើយ"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Notification profiles"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
   "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up"
+    "messageformat": "រៀបចំ"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Notification Profiles"
+    "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
   "icu:NotificationProfiles--setup-description": {
-    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+    "messageformat": "បង្កើតប្រូហ្វាល់ដើម្បីទទួលការជូនដំណឹង និងការហៅទូរសព្ទពីមនុស្ស និងក្រុមដែលអ្នកជ្រើសរើសប៉ុណ្ណោះ"
   },
   "icu:NotificationProfiles--setup-continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:NotificationProfiles--manage-description": {
-    "messageformat": "Add or edit notification profiles"
+    "messageformat": "បញ្ចូល ឬកែប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
   "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+    "messageformat": "{profileCount, plural, other {{profileCount,number} ប្រូហ្វាល់}}"
   },
   "icu:NotificationProfiles--create": {
-    "messageformat": "Create profile"
+    "messageformat": "បង្កើតប្រូហ្វាល់"
   },
   "icu:NotificationProfiles--name-title": {
-    "messageformat": "Name your profile"
+    "messageformat": "ដាក់ឈ្មោះប្រូហ្វាល់អ្នក"
   },
   "icu:NotificationProfiles--name-title--editing": {
-    "messageformat": "Name"
+    "messageformat": "ឈ្មោះ"
   },
   "icu:NotificationProfiles--name-placeholder": {
-    "messageformat": "Profile name"
+    "messageformat": "ឈ្មោះប្រូហ្វាល់"
   },
   "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar"
+    "messageformat": "ជ្រើសរើសរូបតំណាង"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "Work"
+    "messageformat": "ធ្វើការ"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "Sleep"
+    "messageformat": "គេង"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "Driving"
+    "messageformat": "បើកបរ"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "Downtime"
+    "messageformat": "ម៉ោងសម្រាក"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "Focus"
+    "messageformat": "ផ្ដោតអារម្មណ៍"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
+    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
   },
   "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications"
+    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on"
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
-    "messageformat": "Add people or groups"
+    "messageformat": "បញ្ចូលមនុស្ស ឬក្រុម"
   },
   "icu:NotificationProfiles--exceptions": {
-    "messageformat": "Exceptions"
+    "messageformat": "ការមិនរាប់បញ្ចូល"
   },
   "icu:NotificationProfiles--exceptions--allow-all-calls": {
-    "messageformat": "Allow all calls"
+    "messageformat": "អនុញ្ញាតការហៅទាំងអស់"
   },
   "icu:NotificationProfiles--exceptions--notify-for-mentions": {
-    "messageformat": "Notify for all mentions"
+    "messageformat": "ជូនដំណឹងអ្នកដែលត្រូវបានលើកឈ្មោះទាំងអស់"
   },
   "icu:NotificationProfiles--schedule-title": {
-    "messageformat": "Add a schedule"
+    "messageformat": "បញ្ចូលកាលវិភាគមួយ"
   },
   "icu:NotificationProfiles--schedule-title--editing": {
-    "messageformat": "Schedule"
+    "messageformat": "កាលវិភាគ"
   },
   "icu:NotificationProfiles--schedule-description": {
-    "messageformat": "Enable and edit your schedule to automate your notification profile."
+    "messageformat": "បើក និងកែកាលវិភាគរបស់អ្នក ដើម្បីធ្វើស្វ័យប្រវត្តិកម្មប្រូហ្វាល់សម្រាប់ការជូនដំណឹងរបស់អ្នក។"
   },
   "icu:NotificationProfiles--schedule-enable": {
-    "messageformat": "Turn on automatically"
+    "messageformat": "បើកដោយស្វ័យប្រវត្តិ"
   },
   "icu:NotificationProfiles--schedule": {
-    "messageformat": "Schedule"
+    "messageformat": "កាលវិភាគ"
   },
   "icu:NotificationProfiles--schedule-from": {
-    "messageformat": "From"
+    "messageformat": "ពី"
   },
   "icu:NotificationProfiles--schedule-until": {
-    "messageformat": "Until"
+    "messageformat": "រហូតដល់"
   },
   "icu:NotificationProfiles--open-time-picker": {
-    "messageformat": "Open time picker"
+    "messageformat": "បើកមុខងារជ្រើសរើសពេលវេលា"
   },
   "icu:NotificationProfiles--schedule-sunday": {
-    "messageformat": "Sunday"
+    "messageformat": "ថ្ងៃអាទិត្យ"
   },
   "icu:NotificationProfiles--schedule-monday": {
-    "messageformat": "Monday"
+    "messageformat": "ថ្ងៃចន្ទ"
   },
   "icu:NotificationProfiles--schedule-tuesday": {
-    "messageformat": "Tuesday"
+    "messageformat": "ថ្ងៃអង្គារ"
   },
   "icu:NotificationProfiles--schedule-wednesday": {
-    "messageformat": "Wednesday"
+    "messageformat": "ថ្ងៃពុធ"
   },
   "icu:NotificationProfiles--schedule-thursday": {
-    "messageformat": "Thursday"
+    "messageformat": "ថ្ងៃព្រហស្បតិ៍"
   },
   "icu:NotificationProfiles--schedule-friday": {
-    "messageformat": "Friday"
+    "messageformat": "ថ្ងៃសុក្រ"
   },
   "icu:NotificationProfiles--schedule-saturday": {
-    "messageformat": "Saturday"
+    "messageformat": "ថ្ងៃសៅរ៍"
   },
   "icu:NotificationProfiles--done-title": {
-    "messageformat": "Profile Created"
+    "messageformat": "ប្រូហ្វាល់ត្រូវបានបង្កើត"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+    "messageformat": "ប្រសិនបើអ្នកបានបញ្ចូលកាលវិភាគ ប្រូហ្វាល់របស់អ្នកនឹងបើកបិទដោយស្វ័យប្រវត្តិ។ អ្នកក៏អាចចុចលើរូប ··· នៅផ្នែកខាងលើបំផុតនៃបញ្ជីជជែក ដើម្បីបើក ឬបិទវាដោយដៃបានដែរ។"
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
-    "messageformat": "Sun"
+    "messageformat": "អាទិ"
   },
   "icu:NotificationProfiles--schedule-monday-short": {
-    "messageformat": "Mon"
+    "messageformat": "ចន្ទ"
   },
   "icu:NotificationProfiles--schedule-tuesday-short": {
-    "messageformat": "Tue"
+    "messageformat": "អង្គារ"
   },
   "icu:NotificationProfiles--schedule-wednesday-short": {
-    "messageformat": "Wed"
+    "messageformat": "ពុធ"
   },
   "icu:NotificationProfiles--schedule-thursday-short": {
-    "messageformat": "Thu"
+    "messageformat": "ព្រហ"
   },
   "icu:NotificationProfiles--schedule-friday-short": {
-    "messageformat": "Fri"
+    "messageformat": "សុក្រ"
   },
   "icu:NotificationProfiles--schedule-saturday-short": {
-    "messageformat": "Sat"
+    "messageformat": "សៅរ៍"
   },
   "icu:NotificationProfiles--schedule-weekdays": {
-    "messageformat": "Weekdays"
+    "messageformat": "ថ្ងៃក្នុងសប្តាហ៍"
   },
   "icu:NotificationProfiles--schedule-weekends": {
-    "messageformat": "Weekends"
+    "messageformat": "ចុងសប្តាហ៍"
   },
   "icu:NotificationProfiles--schedule-daily": {
-    "messageformat": "Daily"
+    "messageformat": "រាល់ថ្ងៃ"
   },
   "icu:NotificationProfiles--schedule-separator": {
     "messageformat": ", "
   },
   "icu:NotificationProfiles--list--header": {
-    "messageformat": "Profiles"
+    "messageformat": "ប្រូហ្វាល់"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sync across devices"
+    "messageformat": "ធ្វើសមកាលកម្មនៅលើឧបករណ៍នានា"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកនឹងត្រូវបានធ្វើសមកាលកម្មនៅលើឧបករណ៍របស់អ្នក។ ការបើកប្រូហ្វាល់សម្រាប់ឧបករណ៍មួយនឹងបើកវាសម្រាប់ឧបករណ៍ផ្សេងទៀត។"
   },
   "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
+    "messageformat": "ប្រូហ្វាល់ថ្មី"
   },
   "icu:NotificationProfiles--delete": {
-    "messageformat": "Delete profile"
+    "messageformat": "លុបប្រូហ្វាល់"
   },
   "icu:NotificationProfiles--delete-confirmation": {
-    "messageformat": "Permanently delete this notification profile?"
+    "messageformat": "លុបប្រូហ្វាល់សម្រាប់ការជូនដំណឹងនេះជារៀងរហូត?"
   },
   "icu:NotificationProfiles--delete-button": {
-    "messageformat": "Delete"
+    "messageformat": "លុប"
   },
   "icu:NotificationProfiles--edit--is-active": {
-    "messageformat": "On"
+    "messageformat": "បើក"
   },
   "icu:NotificationProfiles--edit--is-not-active": {
-    "messageformat": "Off"
+    "messageformat": "បិទ"
   },
   "icu:NotificationProfiles--edit--edit-name-label": {
-    "messageformat": "Edit this profile's name"
+    "messageformat": "កែឈ្មោះប្រូហ្វាល់នេះ"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
-    "messageformat": "{startTime} to {endTime}"
+    "messageformat": "{startTime} ដល់ {endTime}"
   },
   "icu:NotificationProfiles--edit--schedule-enabled": {
-    "messageformat": "On"
+    "messageformat": "បើក"
   },
   "icu:NotificationProfiles--edit--schedule-disabled": {
-    "messageformat": "Off"
+    "messageformat": "បិទ"
   },
   "icu:Preferences--blocked": {
     "messageformat": "បានទប់ស្កាត់"
@@ -5619,7 +5634,7 @@
     "messageformat": "សារជាអក្សរ + ការបម្រុងទុកមេឌៀទាំងអស់"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
+    "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ សូមពិនិត្យមើលទូរសព្ទរបស់អ្នកដើម្បីមើលព័ត៌មានលម្អិតអំពីការបម្រុងទុករបស់អ្នក។"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/ខែ"
@@ -7241,6 +7256,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
+    "messageformat": "រៀបចំប្រូហ្វាល់សម្រាប់ការជូនដំណឹងផ្ទាល់ខ្លួន ដើម្បីគ្រប់គ្រងថាតើអ្នកទទួលបានការជូនដំណឹងពីមនុស្ស និងក្រុមណាខ្លះ នៅពេលដែលប្រូហ្វាល់នោះត្រូវបានបើក។ បង្កើតប្រូហ្វាល់ “ការងារ” ដើម្បីដាក់មិត្តរួមការងាររបស់អ្នកដោយឡែក (លើកលែងតែមនុស្សពិសេសរបស់អ្នក) និងប្រូហ្វាល់ “ផ្ទាល់ខ្លួន” ដែលមិនមានចៅហ្វាយរបស់អ្នក។ អ្នកអាចប្តូរចុះឡើងនូវប្រូហ្វាល់សម្រាប់ការជូនដំណឹងនៅពេលណាក៏បាន ឬកំណត់កាលវិភាគបាន ដើម្បីឱ្យវាកើតឡើងដោយស្វ័យប្រវត្តិ។"
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

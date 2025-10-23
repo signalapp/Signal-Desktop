@@ -243,10 +243,10 @@
     "messageformat": "แชทที่ถูกเก็บในที่เก็บถาวร"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
-    "messageformat": "Add chat folder"
+    "messageformat": "เพิ่มโฟลเดอร์แชท"
   },
   "icu:LeftPane__MoreActionsMenu__FolderSettings": {
-    "messageformat": "Folder settings"
+    "messageformat": "การตั้งค่าของโฟลเดอร์"
   },
   "icu:LeftPane--pinned": {
     "messageformat": "ปักหมุด"
@@ -288,10 +288,10 @@
     "messageformat": "ป้อนชื่อผู้ใช้แล้วตามด้วยจุดและชุดตัวเลข"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
-    "messageformat": "No chats to display"
+    "messageformat": "ไม่มีแชทให้แสดง"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
-    "messageformat": "Folder Settings"
+    "messageformat": "การตั้งค่าของโฟลเดอร์"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "ทั้งหมด"
@@ -316,6 +316,15 @@
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "แก้ไขโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "เพิ่มลงในโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "สร้างโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ลบออกจากโฟลเดอร์"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "รหัสประเทศ"
@@ -656,8 +665,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "เกิดข้อผิดพลาดในการบันทึกใบเสร็จ โปรดลองอีกครั้ง"
   },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
   "icu:Toast--ChatFolderCreated": {
-    "messageformat": "{chatFolderName} folder added"
+    "messageformat": "เพิ่มโฟลเดอร์ {chatFolderName} เรียบร้อยแล้ว"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้"
@@ -1338,19 +1353,19 @@
     "messageformat": "เพิ่มโฟลเดอร์แชท"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
-    "messageformat": "Add or edit folders"
+    "messageformat": "เพิ่มหรือแก้ไขโฟลเดอร์"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "จัดแยกแชทเป็นโฟลเดอร์ ให้คุณเปิดสลับไปมาได้อย่างสะดวกรวดเร็วในหน้ารายการแชท"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
-    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+    "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} โฟลเดอร์}}"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up"
+    "messageformat": "ตั้งค่า"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage"
+    "messageformat": "จัดการ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "แก้ไขโฟลเดอร์"
@@ -1386,7 +1401,7 @@
     "messageformat": "สร้างโฟลเดอร์"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
-    "messageformat": "Drag to move chat folder"
+    "messageformat": "ลากเพื่อย้ายโฟลเดอร์แชท"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "โฟลเดอร์ที่แนะนำ"
@@ -1593,10 +1608,10 @@
     "messageformat": "ถูกลบออกจากการโทร"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+    "messageformat": "มีผู้เข้าร่วมสายนี้เต็มขีดจำกัดสูงสุดแล้ว โปรดลองใหม่ภายหลัง"
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "Call is full"
+    "messageformat": "ห้องเต็ม"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "ผู้ใช้ที่เข้าร่วมการโทรนี้ผ่านลิงก์จะเห็นชื่อและรูปภาพของคุณ"
@@ -5355,10 +5370,10 @@
     "messageformat": "ข้อความแจ้งเตือน"
   },
   "icu:NotificationProfile--moon-icon": {
-    "messageformat": "Moon icon"
+    "messageformat": "ไอคอนรูปพระจันทร์"
   },
   "icu:NotificationProfile--copy-label": {
-    "messageformat": "Copy of {profileName}"
+    "messageformat": "สำเนาของ {profileName}"
   },
   "icu:NotificationProfile--am": {
     "messageformat": "AM"
@@ -5370,235 +5385,235 @@
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Notification profile"
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Notification Profile"
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
   "icu:NotificationProfileMenu--on": {
-    "messageformat": "On"
+    "messageformat": "เปิด"
   },
   "icu:NotificationProfileMenu--on-with-end": {
-    "messageformat": "On until {endTime}"
+    "messageformat": "เปิดจนถึง {endTime}"
   },
   "icu:NotificationProfileMenu--for-one-hour": {
-    "messageformat": "For one hour"
+    "messageformat": "เปิดหนึ่งชั่วโมง"
   },
   "icu:NotificationProfileMenu--until-time": {
-    "messageformat": "Until {time}"
+    "messageformat": "จนถึง {time}"
   },
   "icu:NotificationProfileMenu--settings": {
-    "messageformat": "Settings"
+    "messageformat": "การตั้งค่า"
   },
   "icu:NotificationProfilesToast--enabled": {
-    "messageformat": "“{name}” on"
+    "messageformat": "เปิดใช้งาน “{name}”"
   },
   "icu:NotificationProfilesToast--disabled": {
-    "messageformat": "“{name}” off"
+    "messageformat": "ปิดใช้งาน “{name}”"
   },
   "icu:NotificationProfilesToast--enabled--label": {
-    "messageformat": "Notification profile now enabled"
+    "messageformat": "เปิดใช้งานโปรไฟล์การแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfilesToast--disabled--label": {
-    "messageformat": "Notification profile now disabled"
+    "messageformat": "ปิดใช้งานโปรไฟล์การแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Notification profiles"
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
   "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up"
+    "messageformat": "ตั้งค่า"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Notification Profiles"
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
   "icu:NotificationProfiles--setup-description": {
-    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+    "messageformat": "สร้างโปรไฟล์เพื่อรับการแจ้งเตือนและการโทรจากผู้ติดต่อหรือกลุ่มที่คุณเลือกเท่านั้น"
   },
   "icu:NotificationProfiles--setup-continue": {
-    "messageformat": "Continue"
+    "messageformat": "ดำเนินการต่อ"
   },
   "icu:NotificationProfiles--manage-description": {
-    "messageformat": "Add or edit notification profiles"
+    "messageformat": "เพิ่มหรือแก้ไขโปรไฟล์การแจ้งเตือน"
   },
   "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+    "messageformat": "{profileCount, plural, other {{profileCount,number} โปรไฟล์}}"
   },
   "icu:NotificationProfiles--create": {
-    "messageformat": "Create profile"
+    "messageformat": "สร้างโปรไฟล์"
   },
   "icu:NotificationProfiles--name-title": {
-    "messageformat": "Name your profile"
+    "messageformat": "ตั้งชื่อโปรไฟล์ของคุณ"
   },
   "icu:NotificationProfiles--name-title--editing": {
-    "messageformat": "Name"
+    "messageformat": "ชื่อ"
   },
   "icu:NotificationProfiles--name-placeholder": {
-    "messageformat": "Profile name"
+    "messageformat": "ชื่อโปรไฟล์"
   },
   "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar"
+    "messageformat": "เลือกอวตาร"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "Work"
+    "messageformat": "ที่ทำงาน"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "Sleep"
+    "messageformat": "นอนหลับ"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "Driving"
+    "messageformat": "กำลังขับรถ"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "Downtime"
+    "messageformat": "เวลาหยุดทำงาน"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "Focus"
+    "messageformat": "โฟกัส"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications"
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on"
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
-    "messageformat": "Add people or groups"
+    "messageformat": "เพิ่มคนหรือกลุ่ม"
   },
   "icu:NotificationProfiles--exceptions": {
-    "messageformat": "Exceptions"
+    "messageformat": "ข้อยกเว้น"
   },
   "icu:NotificationProfiles--exceptions--allow-all-calls": {
-    "messageformat": "Allow all calls"
+    "messageformat": "อนุญาตการโทรทั้งหมด"
   },
   "icu:NotificationProfiles--exceptions--notify-for-mentions": {
-    "messageformat": "Notify for all mentions"
+    "messageformat": "แจ้งเตือนการกล่าวถึงทั้งหมด"
   },
   "icu:NotificationProfiles--schedule-title": {
-    "messageformat": "Add a schedule"
+    "messageformat": "เพิ่มกำหนดการ"
   },
   "icu:NotificationProfiles--schedule-title--editing": {
-    "messageformat": "Schedule"
+    "messageformat": "กำหนดการ"
   },
   "icu:NotificationProfiles--schedule-description": {
-    "messageformat": "Enable and edit your schedule to automate your notification profile."
+    "messageformat": "เปิดใช้งานและแก้ไขตารางเวลาของคุณเพื่อตั้งโปรไฟล์การแจ้งเตือนให้เป็นอัตโนมัติ"
   },
   "icu:NotificationProfiles--schedule-enable": {
-    "messageformat": "Turn on automatically"
+    "messageformat": "เปิดใช้งานอัตโนมัติ"
   },
   "icu:NotificationProfiles--schedule": {
-    "messageformat": "Schedule"
+    "messageformat": "กำหนดการ"
   },
   "icu:NotificationProfiles--schedule-from": {
-    "messageformat": "From"
+    "messageformat": "ตั้งแต่"
   },
   "icu:NotificationProfiles--schedule-until": {
-    "messageformat": "Until"
+    "messageformat": "จนถึง"
   },
   "icu:NotificationProfiles--open-time-picker": {
-    "messageformat": "Open time picker"
+    "messageformat": "เปิดตัวเลือกเวลา"
   },
   "icu:NotificationProfiles--schedule-sunday": {
-    "messageformat": "Sunday"
+    "messageformat": "วันอาทิตย์"
   },
   "icu:NotificationProfiles--schedule-monday": {
-    "messageformat": "Monday"
+    "messageformat": "วันจันทร์"
   },
   "icu:NotificationProfiles--schedule-tuesday": {
-    "messageformat": "Tuesday"
+    "messageformat": "วันอังคาร"
   },
   "icu:NotificationProfiles--schedule-wednesday": {
-    "messageformat": "Wednesday"
+    "messageformat": "วันพุธ"
   },
   "icu:NotificationProfiles--schedule-thursday": {
-    "messageformat": "Thursday"
+    "messageformat": "วันพฤหัสบดี"
   },
   "icu:NotificationProfiles--schedule-friday": {
-    "messageformat": "Friday"
+    "messageformat": "วันศุกร์"
   },
   "icu:NotificationProfiles--schedule-saturday": {
-    "messageformat": "Saturday"
+    "messageformat": "วันเสาร์"
   },
   "icu:NotificationProfiles--done-title": {
-    "messageformat": "Profile Created"
+    "messageformat": "โปรไฟล์ที่สร้างไว้"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+    "messageformat": "หากคุณเพิ่มตารางเวลาไว้ โปรไฟล์ของคุณจะเปิดและปิดโดยอัตโนมัติ โดยคุณยังสามารถคลิกที่ไอคอน  ···  ที่ด้านบนของรายการแชทเพื่อเปิดหรือปิดโปรไฟล์ด้วยตัวเอง"
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
-    "messageformat": "Sun"
+    "messageformat": "อาทิตย์"
   },
   "icu:NotificationProfiles--schedule-monday-short": {
-    "messageformat": "Mon"
+    "messageformat": "จันทร์"
   },
   "icu:NotificationProfiles--schedule-tuesday-short": {
-    "messageformat": "Tue"
+    "messageformat": "อังคาร"
   },
   "icu:NotificationProfiles--schedule-wednesday-short": {
-    "messageformat": "Wed"
+    "messageformat": "พ."
   },
   "icu:NotificationProfiles--schedule-thursday-short": {
-    "messageformat": "Thu"
+    "messageformat": "พฤ."
   },
   "icu:NotificationProfiles--schedule-friday-short": {
-    "messageformat": "Fri"
+    "messageformat": "ศ."
   },
   "icu:NotificationProfiles--schedule-saturday-short": {
-    "messageformat": "Sat"
+    "messageformat": "เสาร์"
   },
   "icu:NotificationProfiles--schedule-weekdays": {
-    "messageformat": "Weekdays"
+    "messageformat": "วันธรรมดา"
   },
   "icu:NotificationProfiles--schedule-weekends": {
-    "messageformat": "Weekends"
+    "messageformat": "วันเสาร์-อาทิตย์"
   },
   "icu:NotificationProfiles--schedule-daily": {
-    "messageformat": "Daily"
+    "messageformat": "ทุกวัน"
   },
   "icu:NotificationProfiles--schedule-separator": {
     "messageformat": ", "
   },
   "icu:NotificationProfiles--list--header": {
-    "messageformat": "Profiles"
+    "messageformat": "โปรไฟล์"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sync across devices"
+    "messageformat": "ซิงค์บนอุปกรณ์ทุกเครื่อง"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+    "messageformat": "โปรไฟล์ของคุณจะซิงค์ไปยังอุปกรณ์ทุกเครื่อง การเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องหนึ่งจะเป็นการเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องอื่นๆ ด้วยเช่นกัน"
   },
   "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
+    "messageformat": "โปรไฟล์ใหม่"
   },
   "icu:NotificationProfiles--delete": {
-    "messageformat": "Delete profile"
+    "messageformat": "ลบโปรไฟล์"
   },
   "icu:NotificationProfiles--delete-confirmation": {
-    "messageformat": "Permanently delete this notification profile?"
+    "messageformat": "ลบโปรไฟล์การแจ้งเตือนนี้โดยถาวรหรือไม่"
   },
   "icu:NotificationProfiles--delete-button": {
-    "messageformat": "Delete"
+    "messageformat": "ลบ"
   },
   "icu:NotificationProfiles--edit--is-active": {
-    "messageformat": "On"
+    "messageformat": "เปิด"
   },
   "icu:NotificationProfiles--edit--is-not-active": {
-    "messageformat": "Off"
+    "messageformat": "ปิด"
   },
   "icu:NotificationProfiles--edit--edit-name-label": {
-    "messageformat": "Edit this profile's name"
+    "messageformat": "แก้ไขชื่อโปรไฟล์นี้"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
-    "messageformat": "{startTime} to {endTime}"
+    "messageformat": "{startTime} ถึง {endTime}"
   },
   "icu:NotificationProfiles--edit--schedule-enabled": {
-    "messageformat": "On"
+    "messageformat": "เปิด"
   },
   "icu:NotificationProfiles--edit--schedule-disabled": {
-    "messageformat": "Off"
+    "messageformat": "ปิด"
   },
   "icu:Preferences--blocked": {
     "messageformat": "ถูกบล็อก"
@@ -5619,7 +5634,7 @@
     "messageformat": "สำรองข้อความ + สื่อทั้งหมด"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
+    "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดดูรายละเอียดการสำรองข้อมูลของคุณบนโทรศัพท์"
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/เดือน"
@@ -7241,6 +7256,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
+    "messageformat": "สร้างและปรับแต่งโปรไฟล์การแจ้งเตือนส่วนตัวที่จะทำให้คุณกำหนดได้ว่าจะรับการแจ้งเตือนจากผู้ติดต่อหรือกลุ่มไหนบ้างในระหว่างที่เปิดใช้โปรไฟล์นั้นอยู่"
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -243,10 +243,10 @@
     "messageformat": "Архивирани чатове"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
-    "messageformat": "Add chat folder"
+    "messageformat": "Добавяне на папка за чат"
   },
   "icu:LeftPane__MoreActionsMenu__FolderSettings": {
-    "messageformat": "Folder settings"
+    "messageformat": "Настройки за папки"
   },
   "icu:LeftPane--pinned": {
     "messageformat": "Отбелязани"
@@ -288,10 +288,10 @@
     "messageformat": "Въведете потребителско име, след което точка и неговия набор от числа."
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
-    "messageformat": "No chats to display"
+    "messageformat": "Няма чатове за показване"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
-    "messageformat": "Folder Settings"
+    "messageformat": "Настройки за папки"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "Всички"
@@ -316,6 +316,15 @@
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "Редактиране на папка"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Добавяне към папка"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Създаване на папка"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Премахване от папка"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Код на държавата"
@@ -656,8 +665,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Грешка при запазването на разписката. Моля, опитайте отново."
   },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
   "icu:Toast--ChatFolderCreated": {
-    "messageformat": "{chatFolderName} folder added"
+    "messageformat": "Папката „{chatFolderName}“ е добавена"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Не можете да избирате снимки и видеоклипове заедно с файлове."
@@ -1338,19 +1353,19 @@
     "messageformat": "Добавяне на папка за чат"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
-    "messageformat": "Add or edit folders"
+    "messageformat": "Добавяне или редактиране на папки"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Организирайте чатовете си в папки и бързо превключвайте между тях в списъка с чатове."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
-    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} папка} other {{chatFoldersCount,number} папки}}"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up"
+    "messageformat": "Настройки"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage"
+    "messageformat": "Управление"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Редактиране на папка"
@@ -1386,7 +1401,7 @@
     "messageformat": "Създаване на папка"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
-    "messageformat": "Drag to move chat folder"
+    "messageformat": "Плъзнете, за да преместите папка за чат"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Предложени папки"
@@ -1593,10 +1608,10 @@
     "messageformat": "Премахнати от повикването"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+    "messageformat": "За този разговор е достигнат максималният брой участници. Опитайте пак по-късно."
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "Call is full"
+    "messageformat": "Обаждането е пълно"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Всеки, който се присъедини към това повикване чрез линка, ще вижда името и снимката ви."
@@ -5355,10 +5370,10 @@
     "messageformat": "Съдържание на известие"
   },
   "icu:NotificationProfile--moon-icon": {
-    "messageformat": "Moon icon"
+    "messageformat": "Икона на луна"
   },
   "icu:NotificationProfile--copy-label": {
-    "messageformat": "Copy of {profileName}"
+    "messageformat": "Копие на „{profileName}“"
   },
   "icu:NotificationProfile--am": {
     "messageformat": "AM"
@@ -5370,235 +5385,235 @@
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Notification profile"
+    "messageformat": "Профил за известия"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Notification Profile"
+    "messageformat": "Профил за известия"
   },
   "icu:NotificationProfileMenu--on": {
-    "messageformat": "On"
+    "messageformat": "Вкл."
   },
   "icu:NotificationProfileMenu--on-with-end": {
-    "messageformat": "On until {endTime}"
+    "messageformat": "Включено до {endTime}"
   },
   "icu:NotificationProfileMenu--for-one-hour": {
-    "messageformat": "For one hour"
+    "messageformat": "За един час"
   },
   "icu:NotificationProfileMenu--until-time": {
-    "messageformat": "Until {time}"
+    "messageformat": "До {time}"
   },
   "icu:NotificationProfileMenu--settings": {
-    "messageformat": "Settings"
+    "messageformat": "Настройки"
   },
   "icu:NotificationProfilesToast--enabled": {
-    "messageformat": "“{name}” on"
+    "messageformat": "„{name}“ е включено"
   },
   "icu:NotificationProfilesToast--disabled": {
-    "messageformat": "“{name}” off"
+    "messageformat": "„{name}“ е изключено"
   },
   "icu:NotificationProfilesToast--enabled--label": {
-    "messageformat": "Notification profile now enabled"
+    "messageformat": "Профилът за известия е активиран"
   },
   "icu:NotificationProfilesToast--disabled--label": {
-    "messageformat": "Notification profile now disabled"
+    "messageformat": "Профилът за известия е деактивиран"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Notification profiles"
+    "messageformat": "Профили за известия"
   },
   "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up"
+    "messageformat": "Настройки"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Notification Profiles"
+    "messageformat": "Профили за известия"
   },
   "icu:NotificationProfiles--setup-description": {
-    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+    "messageformat": "Създайте профил, за да получавате известия и обаждания само от избрани от вас хора и групи"
   },
   "icu:NotificationProfiles--setup-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продължаване"
   },
   "icu:NotificationProfiles--manage-description": {
-    "messageformat": "Add or edit notification profiles"
+    "messageformat": "Добавяне или редактиране на профили за известия"
   },
   "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+    "messageformat": "{profileCount, plural, one {Един профил} other {{profileCount,number} профила}}"
   },
   "icu:NotificationProfiles--create": {
-    "messageformat": "Create profile"
+    "messageformat": "Създаване на профил"
   },
   "icu:NotificationProfiles--name-title": {
-    "messageformat": "Name your profile"
+    "messageformat": "Дайте име на профила си"
   },
   "icu:NotificationProfiles--name-title--editing": {
-    "messageformat": "Name"
+    "messageformat": "Име"
   },
   "icu:NotificationProfiles--name-placeholder": {
-    "messageformat": "Profile name"
+    "messageformat": "Име на профила"
   },
   "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar"
+    "messageformat": "Избор на аватар"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "Work"
+    "messageformat": "Работен"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "Sleep"
+    "messageformat": "Сън"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "Driving"
+    "messageformat": "Шофиране"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "Downtime"
+    "messageformat": "Почивка"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "Focus"
+    "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
+    "messageformat": "Разрешени известия"
   },
   "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications"
+    "messageformat": "Разрешени известия"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on"
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
-    "messageformat": "Add people or groups"
+    "messageformat": "Добавяне на хора или групи"
   },
   "icu:NotificationProfiles--exceptions": {
-    "messageformat": "Exceptions"
+    "messageformat": "Изключения"
   },
   "icu:NotificationProfiles--exceptions--allow-all-calls": {
-    "messageformat": "Allow all calls"
+    "messageformat": "Разрешаване на всички обаждания"
   },
   "icu:NotificationProfiles--exceptions--notify-for-mentions": {
-    "messageformat": "Notify for all mentions"
+    "messageformat": "Известяване за всички споменавания"
   },
   "icu:NotificationProfiles--schedule-title": {
-    "messageformat": "Add a schedule"
+    "messageformat": "Добавяне на график"
   },
   "icu:NotificationProfiles--schedule-title--editing": {
-    "messageformat": "Schedule"
+    "messageformat": "График"
   },
   "icu:NotificationProfiles--schedule-description": {
-    "messageformat": "Enable and edit your schedule to automate your notification profile."
+    "messageformat": "Активирайте и редактирайте графика си, за да автоматизирате профила си за известия."
   },
   "icu:NotificationProfiles--schedule-enable": {
-    "messageformat": "Turn on automatically"
+    "messageformat": "Автоматично включване"
   },
   "icu:NotificationProfiles--schedule": {
-    "messageformat": "Schedule"
+    "messageformat": "График"
   },
   "icu:NotificationProfiles--schedule-from": {
-    "messageformat": "From"
+    "messageformat": "От"
   },
   "icu:NotificationProfiles--schedule-until": {
-    "messageformat": "Until"
+    "messageformat": "До"
   },
   "icu:NotificationProfiles--open-time-picker": {
-    "messageformat": "Open time picker"
+    "messageformat": "Отваряне на селектор на час"
   },
   "icu:NotificationProfiles--schedule-sunday": {
-    "messageformat": "Sunday"
+    "messageformat": "Неделя"
   },
   "icu:NotificationProfiles--schedule-monday": {
-    "messageformat": "Monday"
+    "messageformat": "Понеделник"
   },
   "icu:NotificationProfiles--schedule-tuesday": {
-    "messageformat": "Tuesday"
+    "messageformat": "Вторник"
   },
   "icu:NotificationProfiles--schedule-wednesday": {
-    "messageformat": "Wednesday"
+    "messageformat": "Сряда"
   },
   "icu:NotificationProfiles--schedule-thursday": {
-    "messageformat": "Thursday"
+    "messageformat": "Четвъртък"
   },
   "icu:NotificationProfiles--schedule-friday": {
-    "messageformat": "Friday"
+    "messageformat": "Петък"
   },
   "icu:NotificationProfiles--schedule-saturday": {
-    "messageformat": "Saturday"
+    "messageformat": "Събота"
   },
   "icu:NotificationProfiles--done-title": {
-    "messageformat": "Profile Created"
+    "messageformat": "Профилът е създаден"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+    "messageformat": "Ако сте добавили график, профилът ви ще се включва и изключва автоматично. Можете също така да щракнете върху иконата  ···  най-отгоре на списъка с чатове, за да го включвате или изключвате ръчно."
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
-    "messageformat": "Sun"
+    "messageformat": "Нд"
   },
   "icu:NotificationProfiles--schedule-monday-short": {
-    "messageformat": "Mon"
+    "messageformat": "Пн"
   },
   "icu:NotificationProfiles--schedule-tuesday-short": {
-    "messageformat": "Tue"
+    "messageformat": "Вт"
   },
   "icu:NotificationProfiles--schedule-wednesday-short": {
-    "messageformat": "Wed"
+    "messageformat": "Ср"
   },
   "icu:NotificationProfiles--schedule-thursday-short": {
-    "messageformat": "Thu"
+    "messageformat": "Чт"
   },
   "icu:NotificationProfiles--schedule-friday-short": {
-    "messageformat": "Fri"
+    "messageformat": "Пт"
   },
   "icu:NotificationProfiles--schedule-saturday-short": {
-    "messageformat": "Sat"
+    "messageformat": "Сб"
   },
   "icu:NotificationProfiles--schedule-weekdays": {
-    "messageformat": "Weekdays"
+    "messageformat": "Работни дни"
   },
   "icu:NotificationProfiles--schedule-weekends": {
-    "messageformat": "Weekends"
+    "messageformat": "Уикенди"
   },
   "icu:NotificationProfiles--schedule-daily": {
-    "messageformat": "Daily"
+    "messageformat": "Ежедневно"
   },
   "icu:NotificationProfiles--schedule-separator": {
     "messageformat": ", "
   },
   "icu:NotificationProfiles--list--header": {
-    "messageformat": "Profiles"
+    "messageformat": "Профили"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sync across devices"
+    "messageformat": "Синхронизиране между устройства"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+    "messageformat": "Профилите ви ще бъдат синхронизирани между вашите устройства. Включването на даден профил за едно устройство ще го включи и на останалите."
   },
   "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
+    "messageformat": "Нов профил"
   },
   "icu:NotificationProfiles--delete": {
-    "messageformat": "Delete profile"
+    "messageformat": "Изтриване на профил"
   },
   "icu:NotificationProfiles--delete-confirmation": {
-    "messageformat": "Permanently delete this notification profile?"
+    "messageformat": "Перманентно изтриване на този профил за известия?"
   },
   "icu:NotificationProfiles--delete-button": {
-    "messageformat": "Delete"
+    "messageformat": "Изтриване"
   },
   "icu:NotificationProfiles--edit--is-active": {
-    "messageformat": "On"
+    "messageformat": "Вкл."
   },
   "icu:NotificationProfiles--edit--is-not-active": {
-    "messageformat": "Off"
+    "messageformat": "Изкл."
   },
   "icu:NotificationProfiles--edit--edit-name-label": {
-    "messageformat": "Edit this profile's name"
+    "messageformat": "Редактиране на името на този профил"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+    "messageformat": "Разрешени известия"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
-    "messageformat": "{startTime} to {endTime}"
+    "messageformat": "{startTime} до {endTime}"
   },
   "icu:NotificationProfiles--edit--schedule-enabled": {
-    "messageformat": "On"
+    "messageformat": "Вкл."
   },
   "icu:NotificationProfiles--edit--schedule-disabled": {
-    "messageformat": "Off"
+    "messageformat": "Изкл."
   },
   "icu:Preferences--blocked": {
     "messageformat": "Блокирани"
@@ -5619,7 +5634,7 @@
     "messageformat": "Резервно копиране на текстови съобщения + всичката мултимедия"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
+    "messageformat": "Абонаментът ви не беше открит. Проверете телефона си, за да видите подробностите за вашето резервно копие."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost} / месец"
@@ -7241,6 +7256,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
+    "messageformat": "Настройте персонализирани профили за известия, за да контролирате от кои хора и групи получавате известия, когато даденият профил е активиран."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -243,10 +243,10 @@
     "messageformat": "Archivované chaty"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
-    "messageformat": "Add chat folder"
+    "messageformat": "Přidat složku s chaty"
   },
   "icu:LeftPane__MoreActionsMenu__FolderSettings": {
-    "messageformat": "Folder settings"
+    "messageformat": "Nastavení složky"
   },
   "icu:LeftPane--pinned": {
     "messageformat": "Připnuto"
@@ -288,10 +288,10 @@
     "messageformat": "Zadejte uživatelské jméno následované tečkou a sadou číslic."
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
-    "messageformat": "No chats to display"
+    "messageformat": "Žádné chaty k zobrazení"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
-    "messageformat": "Folder Settings"
+    "messageformat": "Nastavení složky"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "Vše"
@@ -316,6 +316,15 @@
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "Upravit složku"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Přidat do složky"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Vytvořit složku"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Odebrat ze složky"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Kód země"
@@ -656,8 +665,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Chyba při ukládání potvrzení. Zkuste to prosím znovu."
   },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
   "icu:Toast--ChatFolderCreated": {
-    "messageformat": "{chatFolderName} folder added"
+    "messageformat": "Složka {chatFolderName} přidána"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Fotografie a videa nelze vybírat společně se soubory."
@@ -1338,19 +1353,19 @@
     "messageformat": "Přidat složku s chaty"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
-    "messageformat": "Add or edit folders"
+    "messageformat": "Přidat nebo upravit složky"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Uspořádejte své chaty do složek a rychle mezi nimi přepínejte v seznamu chatů."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
-    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} složka} few {{chatFoldersCount,number} složky} many {{chatFoldersCount,number} složek} other {{chatFoldersCount,number} složek}}"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up"
+    "messageformat": "Nastavit"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage"
+    "messageformat": "Spravovat"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Upravit složku"
@@ -1386,7 +1401,7 @@
     "messageformat": "Vytvořit složku"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
-    "messageformat": "Drag to move chat folder"
+    "messageformat": "Přetažením přesunete složku s chaty"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Navrhované složky"
@@ -1593,10 +1608,10 @@
     "messageformat": "Byl/a jste odebrán/a z hovoru"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+    "messageformat": "Byl dosažen maximální počet účastníků hovoru. Zkuste to znovu později."
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "Call is full"
+    "messageformat": "Hovor je plně obsazen"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Každý, kdo se k tomuto hovoru připojí prostřednictvím odkazu, uvidí vaše jméno a fotografii."
@@ -5355,250 +5370,250 @@
     "messageformat": "Obsah oznámení"
   },
   "icu:NotificationProfile--moon-icon": {
-    "messageformat": "Moon icon"
+    "messageformat": "Ikona měsíce"
   },
   "icu:NotificationProfile--copy-label": {
-    "messageformat": "Copy of {profileName}"
+    "messageformat": "Kopie {profileName}"
   },
   "icu:NotificationProfile--am": {
-    "messageformat": "AM"
+    "messageformat": "dopoledne"
   },
   "icu:NotificationProfile--pm": {
-    "messageformat": "PM"
+    "messageformat": "odpoledne"
   },
   "icu:NotificationProfile--time-separator": {
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Notification profile"
+    "messageformat": "Profil oznámení"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Notification Profile"
+    "messageformat": "Profil oznámení"
   },
   "icu:NotificationProfileMenu--on": {
-    "messageformat": "On"
+    "messageformat": "Zapnout"
   },
   "icu:NotificationProfileMenu--on-with-end": {
-    "messageformat": "On until {endTime}"
+    "messageformat": "Zapnuto do {endTime}"
   },
   "icu:NotificationProfileMenu--for-one-hour": {
-    "messageformat": "For one hour"
+    "messageformat": "Po dobu jedné hodiny"
   },
   "icu:NotificationProfileMenu--until-time": {
-    "messageformat": "Until {time}"
+    "messageformat": "Do {time}"
   },
   "icu:NotificationProfileMenu--settings": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavení"
   },
   "icu:NotificationProfilesToast--enabled": {
-    "messageformat": "“{name}” on"
+    "messageformat": "„{name}“ zapnuto"
   },
   "icu:NotificationProfilesToast--disabled": {
-    "messageformat": "“{name}” off"
+    "messageformat": "„{name}“ vypnuto"
   },
   "icu:NotificationProfilesToast--enabled--label": {
-    "messageformat": "Notification profile now enabled"
+    "messageformat": "Profil oznámení je nyní zapnutý"
   },
   "icu:NotificationProfilesToast--disabled--label": {
-    "messageformat": "Notification profile now disabled"
+    "messageformat": "Profil oznámení je nyní vypnutý"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Notification profiles"
+    "messageformat": "Profily oznámení"
   },
   "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up"
+    "messageformat": "Nastavit"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Notification Profiles"
+    "messageformat": "Profily oznámení"
   },
   "icu:NotificationProfiles--setup-description": {
-    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+    "messageformat": "Vytvořte profil pro příjem oznámení a hovorů pouze od lidí a skupin, které si vyberete."
   },
   "icu:NotificationProfiles--setup-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovat"
   },
   "icu:NotificationProfiles--manage-description": {
-    "messageformat": "Add or edit notification profiles"
+    "messageformat": "Přidejte nebo upravte profily oznámení"
   },
   "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+    "messageformat": "{profileCount, plural, one {Jeden profil} few {{profileCount,number} profily} many {{profileCount,number} profilů} other {{profileCount,number} profilů}}"
   },
   "icu:NotificationProfiles--create": {
-    "messageformat": "Create profile"
+    "messageformat": "Vytvořit profil"
   },
   "icu:NotificationProfiles--name-title": {
-    "messageformat": "Name your profile"
+    "messageformat": "Pojmenujte svůj profil"
   },
   "icu:NotificationProfiles--name-title--editing": {
-    "messageformat": "Name"
+    "messageformat": "Název"
   },
   "icu:NotificationProfiles--name-placeholder": {
-    "messageformat": "Profile name"
+    "messageformat": "Název profilu"
   },
   "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar"
+    "messageformat": "Vybrat avatar"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "Work"
+    "messageformat": "Práce"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "Sleep"
+    "messageformat": "Spánek"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "Driving"
+    "messageformat": "Řízení"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "Downtime"
+    "messageformat": "Přestávka"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "Focus"
+    "messageformat": "Soustředění"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
+    "messageformat": "Povolená oznámení"
   },
   "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications"
+    "messageformat": "Povolená oznámení"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on"
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
-    "messageformat": "Add people or groups"
+    "messageformat": "Přidat lidi nebo skupiny"
   },
   "icu:NotificationProfiles--exceptions": {
-    "messageformat": "Exceptions"
+    "messageformat": "Výjimky"
   },
   "icu:NotificationProfiles--exceptions--allow-all-calls": {
-    "messageformat": "Allow all calls"
+    "messageformat": "Povolit všechny hovory"
   },
   "icu:NotificationProfiles--exceptions--notify-for-mentions": {
-    "messageformat": "Notify for all mentions"
+    "messageformat": "Upozornit na všechny zmínky"
   },
   "icu:NotificationProfiles--schedule-title": {
-    "messageformat": "Add a schedule"
+    "messageformat": "Přidat plán"
   },
   "icu:NotificationProfiles--schedule-title--editing": {
-    "messageformat": "Schedule"
+    "messageformat": "Plán"
   },
   "icu:NotificationProfiles--schedule-description": {
-    "messageformat": "Enable and edit your schedule to automate your notification profile."
+    "messageformat": "Povolte a upravte svůj plán pro automatické nastavení profilu oznámení."
   },
   "icu:NotificationProfiles--schedule-enable": {
-    "messageformat": "Turn on automatically"
+    "messageformat": "Zapnout automaticky"
   },
   "icu:NotificationProfiles--schedule": {
-    "messageformat": "Schedule"
+    "messageformat": "Plán"
   },
   "icu:NotificationProfiles--schedule-from": {
-    "messageformat": "From"
+    "messageformat": "Od"
   },
   "icu:NotificationProfiles--schedule-until": {
-    "messageformat": "Until"
+    "messageformat": "Až do"
   },
   "icu:NotificationProfiles--open-time-picker": {
-    "messageformat": "Open time picker"
+    "messageformat": "Otevřít volič času"
   },
   "icu:NotificationProfiles--schedule-sunday": {
-    "messageformat": "Sunday"
+    "messageformat": "Neděle"
   },
   "icu:NotificationProfiles--schedule-monday": {
-    "messageformat": "Monday"
+    "messageformat": "Pondělí"
   },
   "icu:NotificationProfiles--schedule-tuesday": {
-    "messageformat": "Tuesday"
+    "messageformat": "Úterý"
   },
   "icu:NotificationProfiles--schedule-wednesday": {
-    "messageformat": "Wednesday"
+    "messageformat": "Středa"
   },
   "icu:NotificationProfiles--schedule-thursday": {
-    "messageformat": "Thursday"
+    "messageformat": "Čtvrtek"
   },
   "icu:NotificationProfiles--schedule-friday": {
-    "messageformat": "Friday"
+    "messageformat": "Pátek"
   },
   "icu:NotificationProfiles--schedule-saturday": {
-    "messageformat": "Saturday"
+    "messageformat": "Sobota"
   },
   "icu:NotificationProfiles--done-title": {
-    "messageformat": "Profile Created"
+    "messageformat": "Profil vytvořen"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+    "messageformat": "Pokud jste přidali plán, profil se automaticky zapne a vypne. Kliknutím na ikonu ··· v horní části seznamu chatů jej můžete zapnout nebo vypnout také ručně."
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
-    "messageformat": "Sun"
+    "messageformat": "Ne"
   },
   "icu:NotificationProfiles--schedule-monday-short": {
-    "messageformat": "Mon"
+    "messageformat": "Po"
   },
   "icu:NotificationProfiles--schedule-tuesday-short": {
-    "messageformat": "Tue"
+    "messageformat": "Út"
   },
   "icu:NotificationProfiles--schedule-wednesday-short": {
-    "messageformat": "Wed"
+    "messageformat": "St"
   },
   "icu:NotificationProfiles--schedule-thursday-short": {
-    "messageformat": "Thu"
+    "messageformat": "Čt"
   },
   "icu:NotificationProfiles--schedule-friday-short": {
-    "messageformat": "Fri"
+    "messageformat": "Pá"
   },
   "icu:NotificationProfiles--schedule-saturday-short": {
-    "messageformat": "Sat"
+    "messageformat": "So"
   },
   "icu:NotificationProfiles--schedule-weekdays": {
-    "messageformat": "Weekdays"
+    "messageformat": "Všední dny"
   },
   "icu:NotificationProfiles--schedule-weekends": {
-    "messageformat": "Weekends"
+    "messageformat": "Víkendy"
   },
   "icu:NotificationProfiles--schedule-daily": {
-    "messageformat": "Daily"
+    "messageformat": "Denně"
   },
   "icu:NotificationProfiles--schedule-separator": {
     "messageformat": ", "
   },
   "icu:NotificationProfiles--list--header": {
-    "messageformat": "Profiles"
+    "messageformat": "Profily"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sync across devices"
+    "messageformat": "Synchronizace mezi zařízeními"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+    "messageformat": "Vaše profily budou synchronizovány ve všech zařízeních. Zapnutí profilu na jednom zařízení aktivuje profil i na ostatních."
   },
   "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
+    "messageformat": "Nový profil"
   },
   "icu:NotificationProfiles--delete": {
-    "messageformat": "Delete profile"
+    "messageformat": "Smazat profil"
   },
   "icu:NotificationProfiles--delete-confirmation": {
-    "messageformat": "Permanently delete this notification profile?"
+    "messageformat": "Trvale odstranit tento profil oznámení?"
   },
   "icu:NotificationProfiles--delete-button": {
-    "messageformat": "Delete"
+    "messageformat": "Odstranit"
   },
   "icu:NotificationProfiles--edit--is-active": {
-    "messageformat": "On"
+    "messageformat": "Zapnout"
   },
   "icu:NotificationProfiles--edit--is-not-active": {
-    "messageformat": "Off"
+    "messageformat": "Vypnout"
   },
   "icu:NotificationProfiles--edit--edit-name-label": {
-    "messageformat": "Edit this profile's name"
+    "messageformat": "Upravit název tohoto profilu"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+    "messageformat": "Povolená oznámení"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
-    "messageformat": "{startTime} to {endTime}"
+    "messageformat": "{startTime} až {endTime}"
   },
   "icu:NotificationProfiles--edit--schedule-enabled": {
-    "messageformat": "On"
+    "messageformat": "Zapnout"
   },
   "icu:NotificationProfiles--edit--schedule-disabled": {
-    "messageformat": "Off"
+    "messageformat": "Vypnout"
   },
   "icu:Preferences--blocked": {
     "messageformat": "Blokováno"
@@ -5619,7 +5634,7 @@
     "messageformat": "Zálohování textových zpráv a všech médií"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
+    "messageformat": "Vaše předplatné nebylo nalezeno. Zkontrolujte telefon a podívejte se na podrobnosti o zálohování."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/měsíčně"
@@ -7241,6 +7256,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
+    "messageformat": "Nastavte si vlastní profily oznámení, abyste mohli kontrolovat, od kterých lidí a skupin budete dostávat oznámení, když je tento profil aktivní."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

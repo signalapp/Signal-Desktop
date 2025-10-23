@@ -243,10 +243,10 @@
     "messageformat": "ആർക്കൈവ് ചെയ്‌ത ചാറ്റുകൾ"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
-    "messageformat": "Add chat folder"
+    "messageformat": "ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
   },
   "icu:LeftPane__MoreActionsMenu__FolderSettings": {
-    "messageformat": "Folder settings"
+    "messageformat": "ഫോൾഡർ ക്രമീകരണങ്ങൾ"
   },
   "icu:LeftPane--pinned": {
     "messageformat": "പിൻ ചെയ്‌തു"
@@ -288,10 +288,10 @@
     "messageformat": "ഡോട്ടും തുടർന്ന് വരുന്ന സംഖ്യകളും ഉൾപ്പെടെയുള്ള ഉപയോക്തൃനാമം നൽകുക."
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
-    "messageformat": "No chats to display"
+    "messageformat": "പ്രദർശിപ്പിക്കാൻ ചാറ്റുകളൊന്നുമില്ല"
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
-    "messageformat": "Folder Settings"
+    "messageformat": "ഫോൾഡർ ക്രമീകരണങ്ങൾ"
   },
   "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
     "messageformat": "എല്ലാം"
@@ -316,6 +316,15 @@
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "ഫോൾഡറിലേക്ക് ചേർക്കുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "ഫോൾഡർ സൃഷ്ടിക്കുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ഫോൾഡറിൽ നിന്ന് നീക്കം ചെയ്യുക"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "രാജ്യ കോഡ്"
@@ -656,8 +665,14 @@
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "രസീത് സംരക്ഷിക്കുന്നതിൽ പിശക്. വീണ്ടും ശ്രമിക്കുക."
   },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
   "icu:Toast--ChatFolderCreated": {
-    "messageformat": "{chatFolderName} folder added"
+    "messageformat": "{chatFolderName} ഫോൾഡർ ചേർത്തു"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "നിങ്ങൾക്ക് ഫയലുകൾക്കൊപ്പം ഫോട്ടോകളും വീഡിയോകളും തിരഞ്ഞെടുക്കാനാകില്ല."
@@ -1338,19 +1353,19 @@
     "messageformat": "ഒരു ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
-    "messageformat": "Add or edit folders"
+    "messageformat": "ഫോൾഡറുകൾ ചേർക്കുക അല്ലെങ്കിൽ എഡിറ്റ് ചെയ്യുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "നിങ്ങളുടെ ചാറ്റുകൾ ഫോൾഡറുകളായി ഓർഗനൈസുചെയ്യുകയും നിങ്ങളുടെ ചാറ്റ് ലിസ്റ്റിൽ അവയ്ക്കിടയിൽ വേഗത്തിൽ മാറുകയും ചെയ്യുക."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
-    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} ഫോൾഡർ} other {{chatFoldersCount,number} ഫോൾഡറുകൾ}}"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up"
+    "messageformat": "സജ്ജമാക്കുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage"
+    "messageformat": "കൈകാര്യം ചെയ്യുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
@@ -1386,7 +1401,7 @@
     "messageformat": "ഒരു ഫോൾഡർ സൃഷ്ടിക്കുക"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
-    "messageformat": "Drag to move chat folder"
+    "messageformat": "ചാറ്റ് ഫോൾഡർ നീക്കാൻ വലിച്ചിടുക"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "നിർദ്ദേശിക്കപ്പെട്ട ഫോൾഡറുകൾ"
@@ -1593,10 +1608,10 @@
     "messageformat": "കോളിൽ നിന്ന് നീക്കം ചെയ്‌തു"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "The maximum number of participants has been reached for this call. Try again later."
+    "messageformat": "ഈ കോളിൽ പങ്കെടുക്കാവുന്ന പരമാവധി പേരുടെ എണ്ണത്തിൽ എത്തി. പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "Call is full"
+    "messageformat": "കോൾ നിറഞ്ഞു"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "ലിങ്ക് വഴി ഈ കോളിൽ ചേരുന്ന ആർക്കും നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും."
@@ -5355,250 +5370,250 @@
     "messageformat": "നോട്ടിഫിക്കേഷൻ ഉള്ളടക്കം"
   },
   "icu:NotificationProfile--moon-icon": {
-    "messageformat": "Moon icon"
+    "messageformat": "മൂൺ ഐക്കൺ"
   },
   "icu:NotificationProfile--copy-label": {
-    "messageformat": "Copy of {profileName}"
+    "messageformat": "{profileName}-ന്റെ പകർപ്പ്"
   },
   "icu:NotificationProfile--am": {
-    "messageformat": "AM"
+    "messageformat": "രാവിലെ"
   },
   "icu:NotificationProfile--pm": {
-    "messageformat": "PM"
+    "messageformat": "വൈകുന്നേരം"
   },
   "icu:NotificationProfile--time-separator": {
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Notification profile"
+    "messageformat": "അറിയിപ്പ് രൂപരേഖ"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Notification Profile"
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ"
   },
   "icu:NotificationProfileMenu--on": {
-    "messageformat": "On"
+    "messageformat": "ഓൺ"
   },
   "icu:NotificationProfileMenu--on-with-end": {
-    "messageformat": "On until {endTime}"
+    "messageformat": "{endTime} വരെ സജീവം"
   },
   "icu:NotificationProfileMenu--for-one-hour": {
-    "messageformat": "For one hour"
+    "messageformat": "ഒരു മണിക്കൂറോളം"
   },
   "icu:NotificationProfileMenu--until-time": {
-    "messageformat": "Until {time}"
+    "messageformat": "{time} വരെ"
   },
   "icu:NotificationProfileMenu--settings": {
-    "messageformat": "Settings"
+    "messageformat": "ക്രമീകരണങ്ങൾ"
   },
   "icu:NotificationProfilesToast--enabled": {
-    "messageformat": "“{name}” on"
+    "messageformat": "“{name}” ഓൺ"
   },
   "icu:NotificationProfilesToast--disabled": {
-    "messageformat": "“{name}” off"
+    "messageformat": "“{name}” ഓഫ് ആണ്"
   },
   "icu:NotificationProfilesToast--enabled--label": {
-    "messageformat": "Notification profile now enabled"
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ ഇപ്പോൾ പ്രവർത്തനക്ഷമമാക്കി"
   },
   "icu:NotificationProfilesToast--disabled--label": {
-    "messageformat": "Notification profile now disabled"
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ ഇപ്പോൾ പ്രവർത്തനരഹിതമാക്കി"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Notification profiles"
+    "messageformat": "അറിയിപ്പ് രൂപരേഖകള്‍"
   },
   "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up"
+    "messageformat": "സജ്ജമാക്കുക"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Notification Profiles"
+    "messageformat": "അറിയിപ്പ് രൂപരേഖകള്‍"
   },
   "icu:NotificationProfiles--setup-description": {
-    "messageformat": "Create a profile to receive notifications and calls only from the people and groups you choose"
+    "messageformat": "നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ആളുകളിൽ നിന്നും ഗ്രൂപ്പുകളിൽ നിന്നും മാത്രം അറിയിപ്പുകളും കോളുകളും സ്വീകരിക്കുന്നതിന് ഒരു പ്രൊഫൈൽ സൃഷ്ടിക്കുക"
   },
   "icu:NotificationProfiles--setup-continue": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
   },
   "icu:NotificationProfiles--manage-description": {
-    "messageformat": "Add or edit notification profiles"
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈലുകൾ ചേർക്കുക അല്ലെങ്കിൽ എഡിറ്റ് ചെയ്യുക"
   },
   "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {{profileCount,number} profiles}}"
+    "messageformat": "{profileCount, plural, one {ഒരു പ്രൊഫൈൽ} other {{profileCount,number} പ്രൊഫൈലുകൾ}}"
   },
   "icu:NotificationProfiles--create": {
-    "messageformat": "Create profile"
+    "messageformat": "രൂപരേഖ സൃഷ്‌ടിക്കുക"
   },
   "icu:NotificationProfiles--name-title": {
-    "messageformat": "Name your profile"
+    "messageformat": "പ്രൊഫൈലിന് പേര് നൽകുക"
   },
   "icu:NotificationProfiles--name-title--editing": {
-    "messageformat": "Name"
+    "messageformat": "പേര്"
   },
   "icu:NotificationProfiles--name-placeholder": {
-    "messageformat": "Profile name"
+    "messageformat": "പ്രൊഫൈൽ നാമം"
   },
   "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar"
+    "messageformat": "അവതാർ തിരഞ്ഞെടുക്കുക"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "Work"
+    "messageformat": "ജോലി"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "Sleep"
+    "messageformat": "ഉറക്കം"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "Driving"
+    "messageformat": "വാഹനം ഓടിക്കുന്നു"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "Downtime"
+    "messageformat": "ദുഃഖകാലം"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "Focus"
+    "messageformat": "ശ്രദ്ധ കേന്ദ്രീകരിക്കല്‍"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
   },
   "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications"
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notications from when this profile is on"
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
-    "messageformat": "Add people or groups"
+    "messageformat": "ആളുകളെയോ ഗ്രൂപ്പുകളെയോ ചേർക്കുക"
   },
   "icu:NotificationProfiles--exceptions": {
-    "messageformat": "Exceptions"
+    "messageformat": "ഉള്‍പ്പെടാത്തവ"
   },
   "icu:NotificationProfiles--exceptions--allow-all-calls": {
-    "messageformat": "Allow all calls"
+    "messageformat": "എല്ലാ കോളുകളും അനുവദിക്കുക"
   },
   "icu:NotificationProfiles--exceptions--notify-for-mentions": {
-    "messageformat": "Notify for all mentions"
+    "messageformat": "എല്ലാ സൂചനകളും അറിയിക്കുക"
   },
   "icu:NotificationProfiles--schedule-title": {
-    "messageformat": "Add a schedule"
+    "messageformat": "ഒരു സമയക്രമം ചേര്‍ക്കുക"
   },
   "icu:NotificationProfiles--schedule-title--editing": {
-    "messageformat": "Schedule"
+    "messageformat": "സമയക്രമം"
   },
   "icu:NotificationProfiles--schedule-description": {
-    "messageformat": "Enable and edit your schedule to automate your notification profile."
+    "messageformat": "നിങ്ങളുടെ അറിയിപ്പ് പ്രൊഫൈൽ ഓട്ടോമേറ്റ് ചെയ്യുന്നതിന് നിങ്ങളുടെ ഷെഡ്യൂൾ പ്രവർത്തനക്ഷമമാക്കി, എഡിറ്റ് ചെയ്യുക."
   },
   "icu:NotificationProfiles--schedule-enable": {
-    "messageformat": "Turn on automatically"
+    "messageformat": "ഓട്ടോമാറ്റിയ്ക്കായി ഓണാക്കുക"
   },
   "icu:NotificationProfiles--schedule": {
-    "messageformat": "Schedule"
+    "messageformat": "സമയക്രമം"
   },
   "icu:NotificationProfiles--schedule-from": {
-    "messageformat": "From"
+    "messageformat": "പ്രേഷിതാവ്:"
   },
   "icu:NotificationProfiles--schedule-until": {
-    "messageformat": "Until"
+    "messageformat": "വരെ"
   },
   "icu:NotificationProfiles--open-time-picker": {
-    "messageformat": "Open time picker"
+    "messageformat": "ടൈം പിക്കർ തുറക്കുക"
   },
   "icu:NotificationProfiles--schedule-sunday": {
-    "messageformat": "Sunday"
+    "messageformat": "ഞായറാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-monday": {
-    "messageformat": "Monday"
+    "messageformat": "തിങ്കളാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-tuesday": {
-    "messageformat": "Tuesday"
+    "messageformat": "ചൊവ്വാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-wednesday": {
-    "messageformat": "Wednesday"
+    "messageformat": "ബുധനാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-thursday": {
-    "messageformat": "Thursday"
+    "messageformat": "വ്യാഴാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-friday": {
-    "messageformat": "Friday"
+    "messageformat": "വെള്ളിയാഴ്ച"
   },
   "icu:NotificationProfiles--schedule-saturday": {
-    "messageformat": "Saturday"
+    "messageformat": "ശനിയാഴ്ച"
   },
   "icu:NotificationProfiles--done-title": {
-    "messageformat": "Profile Created"
+    "messageformat": "പ്രൊഫൈൽ സൃഷ്ടിച്ചു"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "If you’ve added a schedule, your profile will turn on and off automatically. You can also click the  ···  icon at the top of the chat list to turn it on or off manually."
+    "messageformat": "നിങ്ങൾ ഒരു ഷെഡ്യൂൾ ചേർത്തിട്ടുണ്ടെങ്കിൽ, നിങ്ങളുടെ പ്രൊഫൈൽ സ്വയമേവ ഓണും ഓഫും ആകും. ചാറ്റ് ലിസ്റ്റിന്റെ മുകളിലുള്ള ··· ഐക്കണിൽ ക്ലിക്കുചെയ്ത് നിങ്ങൾക്ക് അത് നേരിട്ട് ഓണാക്കാനോ ഓഫാക്കാനോ കഴിയും."
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
-    "messageformat": "Sun"
+    "messageformat": "ഞായർ"
   },
   "icu:NotificationProfiles--schedule-monday-short": {
-    "messageformat": "Mon"
+    "messageformat": "തിങ്കൾ"
   },
   "icu:NotificationProfiles--schedule-tuesday-short": {
-    "messageformat": "Tue"
+    "messageformat": "ഐസക്ക്"
   },
   "icu:NotificationProfiles--schedule-wednesday-short": {
-    "messageformat": "Wed"
+    "messageformat": "ബുധൻ"
   },
   "icu:NotificationProfiles--schedule-thursday-short": {
-    "messageformat": "Thu"
+    "messageformat": "വ്യാഴം"
   },
   "icu:NotificationProfiles--schedule-friday-short": {
-    "messageformat": "Fri"
+    "messageformat": "വെള്ളി"
   },
   "icu:NotificationProfiles--schedule-saturday-short": {
-    "messageformat": "Sat"
+    "messageformat": "ശനി"
   },
   "icu:NotificationProfiles--schedule-weekdays": {
-    "messageformat": "Weekdays"
+    "messageformat": "ആഴ്ചദിനങ്ങൾ"
   },
   "icu:NotificationProfiles--schedule-weekends": {
-    "messageformat": "Weekends"
+    "messageformat": "വാരാന്ത്യങ്ങൾ"
   },
   "icu:NotificationProfiles--schedule-daily": {
-    "messageformat": "Daily"
+    "messageformat": "ദിവസേന"
   },
   "icu:NotificationProfiles--schedule-separator": {
     "messageformat": ", "
   },
   "icu:NotificationProfiles--list--header": {
-    "messageformat": "Profiles"
+    "messageformat": "പ്രൊഫൈലുകൾ"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sync across devices"
+    "messageformat": "ഉപകരണങ്ങളിലുടനീളം സമന്വയിപ്പിക്കുക"
   },
   "icu:NotificationProfiles--list--sync--description": {
-    "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others."
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈലുകൾ ഉപകരണങ്ങളിലുടനീളം സമന്വയിപ്പിക്കപ്പെടും. ഒരു ഉപകരണത്തിൽ ഒരു പ്രൊഫൈൽ ഓണാക്കിയാൽ മറ്റുള്ളവയിൽ അത് ഓണാകും."
   },
   "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
+    "messageformat": "പുതിയ പ്രൊഫൈൽ"
   },
   "icu:NotificationProfiles--delete": {
-    "messageformat": "Delete profile"
+    "messageformat": "പ്രൊഫൈൽ ഇല്ലാതാക്കൂ"
   },
   "icu:NotificationProfiles--delete-confirmation": {
-    "messageformat": "Permanently delete this notification profile?"
+    "messageformat": "ഈ അറിയിപ്പ് പ്രൊഫൈൽ ശാശ്വതമായി ഇല്ലാതാക്കണോ?"
   },
   "icu:NotificationProfiles--delete-button": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കുക"
   },
   "icu:NotificationProfiles--edit--is-active": {
-    "messageformat": "On"
+    "messageformat": "ഓൺ"
   },
   "icu:NotificationProfiles--edit--is-not-active": {
-    "messageformat": "Off"
+    "messageformat": "ഓഫ്"
   },
   "icu:NotificationProfiles--edit--edit-name-label": {
-    "messageformat": "Edit this profile's name"
+    "messageformat": "ഈ പ്രൊഫൈലിൻ്റെ പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "{allowedCount, plural, =0 {No allowed notifications} one {One allowed notification} other {{allowedCount,number} allowed notifications}}"
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
-    "messageformat": "{startTime} to {endTime}"
+    "messageformat": "{startTime} മുതൽ {endTime} വരെ"
   },
   "icu:NotificationProfiles--edit--schedule-enabled": {
-    "messageformat": "On"
+    "messageformat": "ഓൺ"
   },
   "icu:NotificationProfiles--edit--schedule-disabled": {
-    "messageformat": "Off"
+    "messageformat": "ഓഫ്"
   },
   "icu:Preferences--blocked": {
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
@@ -5619,7 +5634,7 @@
     "messageformat": "ടെക്സ്റ്റ് + എല്ലാ മീഡിയ ബാക്കപ്പും"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Check your phone to view your backup details."
+    "messageformat": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ കണ്ടെത്തിയില്ല. നിങ്ങളുടെ ബാക്കപ്പ് വിശദാംശങ്ങൾ കാണാൻ ഫോൺ പരിശോധിക്കുക."
   },
   "icu:Preferences--backup-subscription-monthly-cost": {
     "messageformat": "{cost}/ മാസം"
@@ -7241,6 +7256,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically."
+    "messageformat": "ആ പ്രൊഫൈൽ പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ ഏത് ആളുകളിൽ നിന്നും ഗ്രൂപ്പുകളിൽ നിന്നുമാണ് നിങ്ങൾക്ക് അറിയിപ്പുകൾ ലഭിക്കേണ്ടതെന്ന് നിയന്ത്രിക്കാൻ ഇഷ്ടാനുസൃത അറിയിപ്പ് പ്രൊഫൈലുകൾ സജ്ജമാക്കുക. സഹപ്രവർത്തകരല്ലാത്തവരെ ഒഴിവാക്കുന്ന ഒരു \"വർക്ക്\" പ്രൊഫൈലും (നിങ്ങളുടെ സുഹൃത്തിന് ഒഴികെ) നിങ്ങളുടെ ബോസിനെ ഉൾപ്പെടുത്താത്ത ഒരു \"ഡൗൺടൈം\" പ്രൊഫൈലും സൃഷ്ടിക്കുക. നിങ്ങൾക്ക് ആവശ്യമുള്ളപ്പോഴെല്ലാം അറിയിപ്പ് പ്രൊഫൈലുകൾക്കിടയിൽ മാറാം, അല്ലെങ്കിൽ അത് സ്വയമേവ സംഭവിക്കുന്ന തരത്തിൽ ഒരു ഷെഡ്യൂൾ കോൺഫിഗർ ചെയ്യാം."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

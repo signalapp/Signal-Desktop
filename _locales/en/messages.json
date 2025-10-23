@@ -9651,7 +9651,7 @@
   },
   "icu:WhatsNew__7.76": {
     "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically.",
-    "description": " Release notes for 7.76 release"
+    "description": "(Deleted 2025/10/23)  Release notes for 7.76 release"
   },
   "icu:WhatsNew__7.77-1": {
     "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started.",
