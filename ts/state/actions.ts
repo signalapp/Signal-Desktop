@@ -31,6 +31,7 @@ import { actions as search } from './ducks/search.js';
 import { actions as stickers } from './ducks/stickers.js';
 import { actions as stories } from './ducks/stories.js';
 import { actions as storyDistributionLists } from './ducks/storyDistributionLists.js';
+import { actions as terminal } from './ducks/terminal.js';
 import { actions as toast } from './ducks/toast.js';
 import { actions as updates } from './ducks/updates.js';
 import { actions as user } from './ducks/user.js';
@@ -68,6 +69,7 @@ export const actionCreators: ReduxActions = {
   stickers,
   stories,
   storyDistributionLists,
+  terminal,
   toast,
   updates,
   user,

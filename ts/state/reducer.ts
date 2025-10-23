@@ -34,6 +34,7 @@ import { reducer as search } from './ducks/search.js';
 import { reducer as stickers } from './ducks/stickers.js';
 import { reducer as stories } from './ducks/stories.js';
 import { reducer as storyDistributionLists } from './ducks/storyDistributionLists.js';
+import { reducer as terminal } from './ducks/terminal.js';
 import { reducer as toast } from './ducks/toast.js';
 import { reducer as updates } from './ducks/updates.js';
 import { reducer as user } from './ducks/user.js';
@@ -71,6 +72,7 @@ export const reducer = combineReducers({
   stickers,
   stories,
   storyDistributionLists,
+  terminal,
   toast,
   updates,
   user,

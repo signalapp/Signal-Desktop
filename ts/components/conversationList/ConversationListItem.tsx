@@ -15,6 +15,7 @@ import {
 import { MessageBody } from '../conversation/MessageBody.js';
 import { ContactName } from '../conversation/ContactName.js';
 import { TypingAnimation } from '../conversation/TypingAnimation.js';
+import { ConversationNote } from '../terminal/ConversationNote.js';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.js';
 import type { ConversationType } from '../../state/ducks/conversations.js';
@@ -133,6 +134,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
 
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
+    const noteElement = <ConversationNote conversationId={id} compact />;
 
     if (isBlocked) {
       messageText = (
@@ -206,6 +208,13 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       [onMouseDown, id]
     );
 
+    const messageTextWithNote = (
+      <>
+        {messageText}
+        {noteElement}
+      </>
+    );
+
     return (
       <BaseConversationListItem
         avatarPlaceholderGradient={avatarPlaceholderGradient}
@@ -224,7 +233,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         isSelected={Boolean(isSelected)}
         markedUnread={markedUnread}
         messageStatusIcon={messageStatusIcon}
-        messageText={messageText}
+        messageText={messageTextWithNote}
         messageTextIsAlwaysFullSize
         onClick={onClickItem}
         onMouseDown={onMouseDownItem}

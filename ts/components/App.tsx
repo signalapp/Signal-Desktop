@@ -41,6 +41,9 @@ type PropsType = {
   isMaximized: boolean;
   isFullScreen: boolean;
   osClassName: string;
+  terminalMode?: boolean;
+  compactView?: boolean;
+  monospaceFonts?: boolean;
 
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -66,6 +69,9 @@ export function App({
   theme,
   uploadProfile,
   viewStory,
+  terminalMode = false,
+  compactView = false,
+  monospaceFonts = false,
 }: PropsType): JSX.Element {
   let contents;
 
@@ -135,12 +141,25 @@ export function App({
     document.body.classList.toggle('page-is-visible', isPageVisible);
   }, [isPageVisible]);
 
+  useEffect(() => {
+    // Only apply terminal mode in Inbox view (not during installer/linking)
+    const isInboxView = state.appView === AppViewType.Inbox;
+    const applyTerminalMode = terminalMode && isInboxView;
+
+    document.body.classList.toggle('terminal-mode', applyTerminalMode);
+    document.body.classList.toggle('terminal-mode--compact', applyTerminalMode && compactView);
+    document.body.classList.toggle('terminal-mode--monospace', applyTerminalMode && monospaceFonts);
+  }, [terminalMode, compactView, monospaceFonts, state.appView]);
+
   return (
     <div
       className={classNames({
         App: true,
         'light-theme': theme === ThemeType.light,
         'dark-theme': theme === ThemeType.dark,
+        'terminal-mode': terminalMode && state.appView === AppViewType.Inbox,
+        'terminal-mode--compact': terminalMode && compactView && state.appView === AppViewType.Inbox,
+        'terminal-mode--monospace': terminalMode && monospaceFonts && state.appView === AppViewType.Inbox,
       })}
     >
       {contents}

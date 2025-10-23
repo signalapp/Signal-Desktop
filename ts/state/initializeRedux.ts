@@ -105,6 +105,7 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.storyDistributionLists,
       store.dispatch
     ),
+    terminal: bindActionCreators(actionCreators.terminal, store.dispatch),
     toast: bindActionCreators(actionCreators.toast, store.dispatch),
     updates: bindActionCreators(actionCreators.updates, store.dispatch),
     user: bindActionCreators(actionCreators.user, store.dispatch),

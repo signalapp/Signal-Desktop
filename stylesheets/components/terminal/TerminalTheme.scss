@@ -1,0 +1,438 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// Terminal Mode - Bloomberg-inspired dark theme
+
+:root {
+  // Terminal color palette
+  --terminal-bg-primary: #0a0e14;
+  --terminal-bg-secondary: #0d1117;
+  --terminal-bg-hover: #161b22;
+  --terminal-bg-selected: #1c2128;
+  --terminal-border: #30363d;
+
+  --terminal-text-primary: #c9d1d9;
+  --terminal-text-secondary: #8b949e;
+  --terminal-text-dim: #6e7681;
+
+  --terminal-accent-blue: #58a6ff;
+  --terminal-accent-green: #3fb950;
+  --terminal-accent-yellow: #d29922;
+  --terminal-accent-red: #f85149;
+  --terminal-accent-purple: #bc8cff;
+
+  // Terminal fonts
+  --terminal-font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  --terminal-font-size: 13px;
+  --terminal-line-height: 1.5;
+
+  // Terminal spacing
+  --terminal-spacing-xs: 4px;
+  --terminal-spacing-sm: 8px;
+  --terminal-spacing-md: 12px;
+  --terminal-spacing-lg: 16px;
+  --terminal-spacing-xl: 24px;
+}
+
+// Apply terminal mode globally when enabled
+.terminal-mode {
+  background-color: var(--terminal-bg-primary);
+  color: var(--terminal-text-primary);
+  font-family: var(--terminal-font-mono);
+  font-size: var(--terminal-font-size);
+  line-height: var(--terminal-line-height);
+
+  // Override default Signal colors
+  --color-conversation-tab-bg: var(--terminal-bg-primary);
+  --color-background: var(--terminal-bg-primary);
+  --color-background-secondary: var(--terminal-bg-secondary);
+
+  // Compact mode adjustments
+  &.terminal-mode--compact {
+    --terminal-spacing-xs: 2px;
+    --terminal-spacing-sm: 4px;
+    --terminal-spacing-md: 8px;
+    --terminal-spacing-lg: 12px;
+    --terminal-font-size: 12px;
+  }
+}
+
+// Conversation List Terminal Styling
+.terminal-mode {
+  .module-conversation-list {
+    background-color: var(--terminal-bg-primary);
+    border-right: 1px solid var(--terminal-border);
+  }
+
+  .module-conversation-list__item--contact-or-conversation {
+    background-color: var(--terminal-bg-primary);
+    border-bottom: 1px solid var(--terminal-border);
+    padding: var(--terminal-spacing-sm) var(--terminal-spacing-md);
+
+    &:hover {
+      background-color: var(--terminal-bg-hover);
+    }
+
+    &--is-selected {
+      background-color: var(--terminal-bg-selected);
+      border-left: 3px solid var(--terminal-accent-blue);
+    }
+
+    &__content {
+      font-family: var(--terminal-font-mono);
+    }
+
+    &__content__header {
+      margin-bottom: var(--terminal-spacing-xs);
+
+      &__name {
+        color: var(--terminal-text-primary);
+        font-weight: 600;
+        font-size: var(--terminal-font-size);
+      }
+
+      &__date {
+        color: var(--terminal-text-dim);
+        font-size: calc(var(--terminal-font-size) - 1px);
+        font-family: var(--terminal-font-mono);
+      }
+    }
+
+    &__content__message {
+      &__text {
+        color: var(--terminal-text-secondary);
+        font-size: calc(var(--terminal-font-size) - 1px);
+
+        &--blocked {
+          color: var(--terminal-accent-red);
+        }
+
+        &--message-request {
+          color: var(--terminal-accent-yellow);
+        }
+
+        &__draft-prefix {
+          color: var(--terminal-accent-purple);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  // Unread badge
+  .module-conversation-list__item--contact-or-conversation__unread-indicator {
+    background-color: var(--terminal-accent-blue);
+    color: var(--terminal-bg-primary);
+    font-weight: 700;
+    font-family: var(--terminal-font-mono);
+    font-size: calc(var(--terminal-font-size) - 2px);
+  }
+
+  // Avatar styling
+  .module-Avatar {
+    border: 1px solid var(--terminal-border);
+  }
+}
+
+// Conversation Note Styling
+.ConversationNote {
+  display: flex;
+  align-items: center;
+  gap: var(--terminal-spacing-xs);
+  margin-top: var(--terminal-spacing-xs);
+  padding: var(--terminal-spacing-xs) var(--terminal-spacing-sm);
+  background-color: rgba(88, 166, 255, 0.1);
+  border-left: 2px solid var(--terminal-accent-blue);
+  border-radius: 2px;
+  font-family: var(--terminal-font-mono);
+  font-size: calc(var(--terminal-font-size) - 1px);
+
+  &__icon {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  &__text {
+    color: var(--terminal-accent-blue);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &--compact {
+    padding: var(--terminal-spacing-xs);
+    font-size: calc(var(--terminal-font-size) - 2px);
+  }
+}
+
+.ConversationNoteField {
+  padding: var(--terminal-spacing-sm);
+  background-color: var(--terminal-bg-secondary);
+  border-top: 1px solid var(--terminal-border);
+
+  &__input {
+    width: 100%;
+    padding: var(--terminal-spacing-sm);
+    background-color: var(--terminal-bg-primary);
+    border: 1px solid var(--terminal-border);
+    border-radius: 2px;
+    color: var(--terminal-text-primary);
+    font-family: var(--terminal-font-mono);
+    font-size: var(--terminal-font-size);
+    outline: none;
+
+    &:focus {
+      border-color: var(--terminal-accent-blue);
+      box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+    }
+
+    &::placeholder {
+      color: var(--terminal-text-dim);
+    }
+  }
+}
+
+// Command Palette Styling
+.CommandPalette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20vh;
+  z-index: 10000;
+
+  &__modal {
+    background-color: var(--terminal-bg-secondary);
+    border: 1px solid var(--terminal-border);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+
+  &__input-container {
+    padding: var(--terminal-spacing-md);
+    border-bottom: 1px solid var(--terminal-border);
+  }
+
+  &__input {
+    width: 100%;
+    padding: var(--terminal-spacing-md);
+    background-color: var(--terminal-bg-primary);
+    border: 1px solid var(--terminal-border);
+    border-radius: 2px;
+    color: var(--terminal-text-primary);
+    font-family: var(--terminal-font-mono);
+    font-size: calc(var(--terminal-font-size) + 2px);
+    outline: none;
+
+    &:focus {
+      border-color: var(--terminal-accent-blue);
+    }
+
+    &::placeholder {
+      color: var(--terminal-text-dim);
+    }
+  }
+
+  &__results {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--terminal-spacing-sm);
+  }
+
+  &__no-results {
+    padding: var(--terminal-spacing-xl);
+    text-align: center;
+    color: var(--terminal-text-dim);
+    font-family: var(--terminal-font-mono);
+  }
+
+  &__item {
+    padding: var(--terminal-spacing-md);
+    margin-bottom: var(--terminal-spacing-xs);
+    background-color: var(--terminal-bg-primary);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+
+    &:hover,
+    &--selected {
+      background-color: var(--terminal-bg-hover);
+      border-color: var(--terminal-accent-blue);
+    }
+
+    &-name {
+      color: var(--terminal-text-primary);
+      font-weight: 600;
+      font-size: var(--terminal-font-size);
+      margin-bottom: var(--terminal-spacing-xs);
+      font-family: var(--terminal-font-mono);
+    }
+
+    &-description {
+      color: var(--terminal-text-secondary);
+      font-size: calc(var(--terminal-font-size) - 1px);
+      font-family: var(--terminal-font-mono);
+    }
+
+    &-shortcut {
+      display: inline-block;
+      margin-top: var(--terminal-spacing-xs);
+      padding: 2px var(--terminal-spacing-xs);
+      background-color: var(--terminal-bg-secondary);
+      border: 1px solid var(--terminal-border);
+      border-radius: 2px;
+      color: var(--terminal-text-dim);
+      font-size: calc(var(--terminal-font-size) - 2px);
+      font-family: var(--terminal-font-mono);
+    }
+  }
+
+  &__history {
+    padding: var(--terminal-spacing-md);
+    border-top: 1px solid var(--terminal-border);
+    background-color: var(--terminal-bg-primary);
+
+    &-title {
+      color: var(--terminal-text-dim);
+      font-size: calc(var(--terminal-font-size) - 1px);
+      font-weight: 600;
+      margin-bottom: var(--terminal-spacing-xs);
+      font-family: var(--terminal-font-mono);
+    }
+
+    &-items {
+      display: flex;
+      gap: var(--terminal-spacing-xs);
+      flex-wrap: wrap;
+    }
+
+    &-item {
+      padding: var(--terminal-spacing-xs) var(--terminal-spacing-sm);
+      background-color: var(--terminal-bg-secondary);
+      border: 1px solid var(--terminal-border);
+      border-radius: 2px;
+      color: var(--terminal-text-secondary);
+      font-size: calc(var(--terminal-font-size) - 2px);
+      font-family: var(--terminal-font-mono);
+    }
+  }
+}
+
+// LeftPane Terminal Styling
+.terminal-mode {
+  .LeftPane {
+    background-color: var(--terminal-bg-primary);
+    border-right: 1px solid var(--terminal-border);
+
+    &__header {
+      background-color: var(--terminal-bg-secondary);
+      border-bottom: 1px solid var(--terminal-border);
+      padding: var(--terminal-spacing-md);
+    }
+
+    &__title {
+      color: var(--terminal-text-primary);
+      font-family: var(--terminal-font-mono);
+      font-weight: 700;
+    }
+  }
+
+  // Search input
+  .module-SearchInput {
+    background-color: var(--terminal-bg-primary);
+    border: 1px solid var(--terminal-border);
+
+    &__input {
+      background-color: transparent;
+      color: var(--terminal-text-primary);
+      font-family: var(--terminal-font-mono);
+
+      &::placeholder {
+        color: var(--terminal-text-dim);
+      }
+    }
+  }
+}
+
+// Conversation view terminal styling
+.terminal-mode {
+  .ConversationView {
+    background-color: var(--terminal-bg-primary);
+
+    &__header {
+      background-color: var(--terminal-bg-secondary);
+      border-bottom: 1px solid var(--terminal-border);
+      color: var(--terminal-text-primary);
+      font-family: var(--terminal-font-mono);
+    }
+  }
+
+  .module-message {
+    font-family: var(--terminal-font-mono);
+
+    &__text {
+      background-color: var(--terminal-bg-secondary);
+      border: 1px solid var(--terminal-border);
+      color: var(--terminal-text-primary);
+    }
+
+    &--incoming &__text {
+      background-color: var(--terminal-bg-secondary);
+    }
+
+    &--outgoing &__text {
+      background-color: var(--terminal-bg-selected);
+      border-color: var(--terminal-accent-blue);
+    }
+  }
+
+  // Composition area
+  .CompositionArea {
+    background-color: var(--terminal-bg-secondary);
+    border-top: 1px solid var(--terminal-border);
+
+    &__input {
+      background-color: var(--terminal-bg-primary);
+      border: 1px solid var(--terminal-border);
+      color: var(--terminal-text-primary);
+      font-family: var(--terminal-font-mono);
+
+      &::placeholder {
+        color: var(--terminal-text-dim);
+      }
+    }
+  }
+}
+
+// Scrollbar styling for terminal mode
+.terminal-mode {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--terminal-bg-primary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--terminal-border);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--terminal-text-dim);
+    }
+  }
+}
