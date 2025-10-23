@@ -118,25 +118,30 @@ $ ./node_modules/.bin/electron-builder install-app-deps
 ##### verifying via reCAPTCHA doesn't work if both Signal and Signal Beta clients installed when setting up as standalone
 
 ###### Steps to reproduce
+
 1. Get told to verify by captcha
 2. Complete captcha in Google Chrome
 3. Xdg-open dialog prompt to open the link in another program (wasn't given a choice of which program to open in)
 
 ###### Steps to solve the issue
+
 1. Enter phone number and click "Send SMS", (opens the captcha link in your browser)
 2. Verify using the captcha
 3. Once it is verified in the browser, you will get the "xdg-open" or "Open Signal" dialog prompt
 4. Ignore the prompt
 5. Right click on the "Open Signal" hyperlink below the verification box and copy the link address. I got something with the format of `signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
 6. In a terminal window type `pnpm start` space and then paste the link address from the previous step, ie.
-`yarn start signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
+   `yarn start signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
 7. This command will open the `signalcaptcha://...` url with the currently running development version of the app
 8. execute the command, it will say something like
+
 ```making app single instance
 quitting; we are the second instance
 Done in 0.67s.
 ```
+
 9. You can now go back to the original terminal session where you first ran yarn start, you should see something like
+
 ```
 {"level":30,"time":"2024-01-28T08:07:14.558Z","msg":"challengeMain.onRequest(standalone registration): received challenge request, waiting for response"}
 {"level":30,"time":"2024-01-28T08:07:40.974Z","msg":"handleSignalRoute: Matched signal route: captcha"}
@@ -146,7 +151,6 @@ Done in 0.67s.
 
 This means that the development app has now accepted the Captcha challenge
 You should now get an SMS to the phone number you entered earlier with the verification code. Enter the code and click "Register" and you will now be registered as a standalone device as desired.
-
 
 ### webpack
 
