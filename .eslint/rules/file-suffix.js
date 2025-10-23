@@ -60,6 +60,7 @@ const NODE_PACKAGES = new Set([
   '@indutny/range-finder',
   '@indutny/simple-windows-notifications',
   '@signalapp/libsignal-client',
+  '@signalapp/mute-state-change',
   '@signalapp/ringrtc',
   '@signalapp/sqlcipher',
   '@signalapp/windows-ucv',
