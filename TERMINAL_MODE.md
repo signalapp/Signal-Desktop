@@ -1,6 +1,6 @@
 # Terminal Mode for Signal Desktop
 
-A Bloomberg terminal-inspired interface for Signal Desktop with efficient keyboard navigation, note-taking, and customizable keybindings.
+A Bloomberg terminal and Superhuman-inspired interface for Signal Desktop with efficient keyboard navigation, note-taking, and customizable keybindings.
 
 ## Features
 
@@ -11,32 +11,35 @@ A Bloomberg terminal-inspired interface for Signal Desktop with efficient keyboa
 - **Compact view**: Dense layout showing more conversations on screen
 - **High contrast colors**: Easy-to-read text with clear visual hierarchy
 
-### ⌨️ Vim-Style Keyboard Navigation
+### ⌨️ Superhuman-Style Keyboard Shortcuts
 
-Navigate Signal like a pro with efficient keyboard shortcuts:
+Navigate Signal like a pro with efficient, mnemonic keyboard shortcuts inspired by Superhuman email:
 
 #### Basic Navigation
-- `j` / `k` - Move down/up in conversation list
+- `j` / `k` - Next/Previous conversation
 - `gg` - Jump to first conversation (press 'g' twice)
 - `G` - Jump to last conversation (Shift+g)
 - `u` - Next unread conversation
 - `Enter` - Open selected conversation
+- `Esc` - Close/Go back
 
-#### Actions
-- `e` - Archive conversation
+#### Quick Actions (Superhuman-style)
+- `e` - Done (Archive conversation)
+- `s` - Star/Pin conversation
 - `m` - Mute conversation
-- `/` - Start search
-- `n` - Toggle note for current conversation
-- `N` - Edit note (Shift+n)
+- `r` - Reply to conversation
+- `f` - Forward message
+- `n` - Add/edit note
+- `#` - Delete conversation (Shift+3)
+- `!` - Report spam (Shift+1)
+
+#### Search & Command
+- `/` - Search conversations
+- `Cmd+K` (Mac) or `Ctrl+K` (Windows/Linux) - Command palette
+- `?` - Show keyboard shortcuts help
 
 #### Quick Jump
 - `Alt+1` through `Alt+9` - Jump to conversations 1-9
-
-#### Command Palette
-- `Ctrl+P` or `:` - Open command palette
-- Type commands like `:mute`, `:archive`, `:call`
-- Fuzzy search for conversations and actions
-- Command history with up/down arrows
 
 ### 📝 Conversation Notes
 
@@ -53,12 +56,12 @@ Leave persistent notes next to any conversation:
 Full control over your keyboard shortcuts:
 
 - **Three preset modes**:
-  - **Default**: Standard Signal keybindings
-  - **Vim**: Full vim-style navigation
+  - **Superhuman**: Email-inspired efficient shortcuts (recommended)
+  - **Default**: Basic arrow key navigation
   - **Custom**: Define your own shortcuts
 
 - **Visual keybinding editor**: Configure bindings through the UI
-- **Conflict detection**: Warns about duplicate bindings
+- **Conflict detection**: Warns about duplicate bindings (coming soon)
 - **Import/Export**: Share keybinding configurations (coming soon)
 
 ## Usage
@@ -76,8 +79,8 @@ Full control over your keyboard shortcuts:
 
 1. Go to Settings → Terminal Mode Settings
 2. Select keybinding mode:
-   - **Vim Mode** (recommended for power users)
-   - **Default Mode** (standard shortcuts)
+   - **Superhuman Mode** (recommended - email-inspired shortcuts)
+   - **Default Mode** (basic arrow key navigation)
    - **Custom Mode** (define your own)
 3. Click "Edit" next to any keybinding to customize
 4. Press your desired key combination
@@ -104,9 +107,9 @@ Full control over your keyboard shortcuts:
 
 ### Command Palette
 
-The command palette provides quick access to all Signal actions:
+The command palette provides quick access to all Signal actions (Superhuman-style):
 
-1. Press `Ctrl+P` or `:` to open
+1. Press `Cmd+K` (Mac) or `Ctrl+K` (Windows/Linux) to open
 2. Start typing to filter commands
 3. Use arrow keys to select
 4. Press `Enter` to execute
@@ -117,42 +120,46 @@ The command palette provides quick access to all Signal actions:
 ### Navigation
 | Key | Action |
 |-----|--------|
-| `j` | Move down |
-| `k` | Move up |
-| `gg` | First conversation |
+| `j` | Next conversation |
+| `k` | Previous conversation |
+| `gg` | First conversation (press g twice) |
 | `G` | Last conversation |
 | `u` | Next unread |
 | `Enter` | Open conversation |
-| `Ctrl+d` | Page down |
-| `Ctrl+u` | Page up |
+| `Esc` | Close/Go back |
+| `Ctrl+j` | Page down |
+| `Ctrl+k` | Page up |
 
-### Actions
+### Actions (Superhuman-style)
 | Key | Action |
 |-----|--------|
-| `e` | Archive |
-| `m` | Mute/unmute |
-| `/` | Search |
-| `n` | Toggle note |
-| `N` | Edit note |
+| `e` | Done (Archive) |
+| `s` | Star/Pin |
+| `m` | Mute |
+| `r` | Reply |
+| `f` | Forward |
+| `#` | Delete |
+| `!` | Report spam |
+
+### Notes
+| Key | Action |
+|-----|--------|
+| `n` | Add/edit note |
 
 ### Quick Jump
 | Key | Action |
 |-----|--------|
 | `Alt+1-9` | Jump to conversation 1-9 |
 
-### Command Palette
+### Command & Search
 | Key | Action |
 |-----|--------|
-| `Ctrl+P` | Open palette |
-| `:` | Open palette (alt) |
+| `Cmd+K` / `Ctrl+K` | Command palette |
+| `/` | Search |
+| `?` | Show shortcuts |
 | `Esc` | Close palette |
 | `↑` / `↓` | Navigate commands |
 | `Enter` | Execute command |
-
-### Terminal Mode
-| Key | Action |
-|-----|--------|
-| `Ctrl+Shift+T` | Toggle terminal mode |
 
 ## Architecture
 
@@ -255,12 +262,13 @@ const customBinding: KeyBinding = {
 
 ## Tips & Tricks
 
-1. **Muscle Memory**: Start with Vim mode and practice the basic navigation (`j`, `k`, `gg`, `G`)
-2. **Notes for Context**: Use notes to tag conversations (e.g., "work", "urgent", "follow-up")
-3. **Command Palette**: When you forget a shortcut, use `Ctrl+P` to search
-4. **Quick Jump**: Use `Alt+1-9` for your most important conversations
-5. **Compact View**: Enable for maximum information density
-6. **Keyboard Focus**: The terminal mode works best when focus is on the conversation list
+1. **Muscle Memory**: Start with Superhuman mode and practice the basic navigation (`j`, `k`, `e` for done)
+2. **Mnemonic Shortcuts**: Remember - `e` for done (archive), `s` for star, `r` for reply, `f` for forward
+3. **Notes for Context**: Use notes to tag conversations (e.g., "work", "urgent", "follow-up")
+4. **Command Palette**: When you forget a shortcut, use `Cmd+K` to search (just like Superhuman!)
+5. **Quick Jump**: Use `Alt+1-9` for your most important conversations
+6. **Compact View**: Enable for maximum information density
+7. **Keyboard Focus**: The terminal mode works best when focus is on the conversation list
 
 ## Troubleshooting
 
@@ -336,7 +344,7 @@ Contributions are welcome! Areas for improvement:
 
 Inspired by:
 - Bloomberg Terminal - Professional trading interface
-- Vim - Efficient keyboard navigation
+- Superhuman - Email client with exceptional keyboard shortcuts
 - Signal Desktop - Private messaging
 
-Built for power users who value keyboard efficiency and clean interfaces.
+Built for power users who value keyboard efficiency, mnemonic shortcuts, and clean interfaces.

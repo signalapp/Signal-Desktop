@@ -183,17 +183,17 @@ export function KeybindingSettings({
 
         <div className="KeybindingSettings__mode-selector">
           <select value={keybindingMode} onChange={handleModeChange}>
+            <option value="superhuman">Superhuman</option>
             <option value="default">Default</option>
-            <option value="vim">Vim</option>
             <option value="custom">Custom</option>
           </select>
         </div>
 
         <p className="KeybindingSettings__description">
-          {keybindingMode === 'vim' &&
-            'Vim-style navigation: j/k for up/down, gg/G for first/last'}
+          {keybindingMode === 'superhuman' &&
+            'Superhuman-style shortcuts: j/k navigation, e to archive, Cmd+K for command palette'}
           {keybindingMode === 'default' &&
-            'Standard keybindings for navigation and actions'}
+            'Basic keybindings with arrow keys for navigation'}
           {keybindingMode === 'custom' &&
             'Customize your own keybindings below'}
         </p>
@@ -260,34 +260,49 @@ export function KeybindingSettings({
       </div>
 
       <div className="KeybindingSettings__section">
-        <h3>Quick Reference</h3>
+        <h3>Quick Reference - Superhuman Mode</h3>
         <div className="KeybindingSettings__reference">
           <div className="KeybindingSettings__reference-item">
-            <strong>j / k</strong> - Navigate up/down conversations
+            <strong>j / k</strong> - Next/Previous conversation
           </div>
           <div className="KeybindingSettings__reference-item">
-            <strong>gg / G</strong> - Go to first/last conversation
+            <strong>gg / G</strong> - First/Last conversation
           </div>
           <div className="KeybindingSettings__reference-item">
-            <strong>u</strong> - Next unread conversation
+            <strong>e</strong> - Done (Archive)
           </div>
           <div className="KeybindingSettings__reference-item">
-            <strong>n</strong> - Toggle note for selected conversation
+            <strong>s</strong> - Star/Pin conversation
           </div>
           <div className="KeybindingSettings__reference-item">
-            <strong>Ctrl+P or :</strong> - Open command palette
+            <strong>m</strong> - Mute conversation
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>u</strong> - Next unread
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>r</strong> - Reply
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>f</strong> - Forward
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>n</strong> - Add note
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>Cmd+K</strong> - Command palette
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>/</strong> - Search
+          </div>
+          <div className="KeybindingSettings__reference-item">
+            <strong>?</strong> - Show shortcuts
           </div>
           <div className="KeybindingSettings__reference-item">
             <strong>Alt+1-9</strong> - Jump to conversation 1-9
           </div>
           <div className="KeybindingSettings__reference-item">
-            <strong>/</strong> - Search conversations
-          </div>
-          <div className="KeybindingSettings__reference-item">
-            <strong>e</strong> - Archive conversation
-          </div>
-          <div className="KeybindingSettings__reference-item">
-            <strong>m</strong> - Mute conversation
+            <strong>Esc</strong> - Close/Back
           </div>
         </div>
       </div>

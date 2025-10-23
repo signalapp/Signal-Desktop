@@ -30,7 +30,7 @@ export type TerminalStateType = ReadonlyDeep<{
 
   // Keybindings
   keybindings: ReadonlyArray<KeyBinding>;
-  keybindingMode: 'default' | 'vim' | 'custom';
+  keybindingMode: 'default' | 'superhuman' | 'custom';
 
   // Command palette
   commandPaletteOpen: boolean;
@@ -105,7 +105,7 @@ type DeleteKeybindingActionType = ReadonlyDeep<{
 type SetKeybindingModeActionType = ReadonlyDeep<{
   type: typeof SET_KEYBINDING_MODE;
   payload: {
-    mode: 'default' | 'vim' | 'custom';
+    mode: 'default' | 'superhuman' | 'custom';
   };
 }>;
 
@@ -263,7 +263,7 @@ function deleteKeybinding(id: string): ThunkAction<void, RootStateType, unknown,
   };
 }
 
-function setKeybindingMode(mode: 'default' | 'vim' | 'custom'): ThunkAction<void, RootStateType, unknown, SetKeybindingModeActionType> {
+function setKeybindingMode(mode: 'default' | 'superhuman' | 'custom'): ThunkAction<void, RootStateType, unknown, SetKeybindingModeActionType> {
   return async (dispatch, getState) => {
     dispatch({
       type: SET_KEYBINDING_MODE,
@@ -349,44 +349,69 @@ function setMonospaceFonts(enabled: boolean): ThunkAction<void, RootStateType, u
   };
 }
 
-// Default Keybindings
+// Default Keybindings - Basic shortcuts
 
 function getDefaultKeybindings(): ReadonlyArray<KeyBinding> {
   return [
     // Navigation
-    { id: 'nav-up', action: 'NAVIGATE_UP', key: 'k', modifiers: [], description: 'Navigate up' },
-    { id: 'nav-down', action: 'NAVIGATE_DOWN', key: 'j', modifiers: [], description: 'Navigate down' },
-    { id: 'nav-first', action: 'NAVIGATE_FIRST', key: 'g', modifiers: [], description: 'Go to first conversation (press gg)' },
-    { id: 'nav-last', action: 'NAVIGATE_LAST', key: 'G', modifiers: ['shift'], description: 'Go to last conversation' },
-    { id: 'nav-unread', action: 'NEXT_UNREAD', key: 'u', modifiers: [], description: 'Next unread conversation' },
+    { id: 'nav-up', action: 'NAVIGATE_UP', key: 'ArrowUp', modifiers: [], description: 'Navigate up' },
+    { id: 'nav-down', action: 'NAVIGATE_DOWN', key: 'ArrowDown', modifiers: [], description: 'Navigate down' },
+    { id: 'open-conversation', action: 'OPEN_CONVERSATION', key: 'Enter', modifiers: [], description: 'Open conversation' },
+    { id: 'close', action: 'CLOSE', key: 'Escape', modifiers: [], description: 'Close/Go back' },
 
     // Actions
-    { id: 'open-conversation', action: 'OPEN_CONVERSATION', key: 'Enter', modifiers: [], description: 'Open conversation' },
     { id: 'archive', action: 'ARCHIVE', key: 'e', modifiers: [], description: 'Archive conversation' },
     { id: 'mute', action: 'MUTE', key: 'm', modifiers: [], description: 'Mute conversation' },
-    { id: 'search', action: 'SEARCH', key: '/', modifiers: [], description: 'Search conversations' },
+    { id: 'search', action: 'SEARCH', key: 'f', modifiers: ['ctrl'], description: 'Search' },
 
     // Notes
-    { id: 'toggle-note', action: 'TOGGLE_NOTE', key: 'n', modifiers: [], description: 'Toggle note for conversation' },
-    { id: 'edit-note', action: 'EDIT_NOTE', key: 'n', modifiers: ['shift'], description: 'Edit note' },
+    { id: 'toggle-note', action: 'TOGGLE_NOTE', key: 'n', modifiers: [], description: 'Add note' },
 
     // Command palette
-    { id: 'command-palette', action: 'COMMAND_PALETTE', key: 'p', modifiers: ['ctrl'], description: 'Open command palette' },
-    { id: 'command-palette-alt', action: 'COMMAND_PALETTE', key: ':', modifiers: [], description: 'Open command palette (alt)' },
-
-    // Terminal mode
-    { id: 'toggle-terminal', action: 'TOGGLE_TERMINAL', key: 't', modifiers: ['ctrl', 'shift'], description: 'Toggle terminal mode' },
+    { id: 'command-palette', action: 'COMMAND_PALETTE', key: 'k', modifiers: ['ctrl'], description: 'Command palette' },
   ];
 }
 
-function getVimKeybindings(): ReadonlyArray<KeyBinding> {
+// Superhuman-style Keybindings - Email-inspired efficiency
+
+function getSuperhumanKeybindings(): ReadonlyArray<KeyBinding> {
   return [
-    ...getDefaultKeybindings(),
-    // Additional vim bindings
-    { id: 'vim-quit', action: 'CLOSE', key: 'q', modifiers: [], description: 'Close current view' },
-    { id: 'vim-write', action: 'SAVE', key: 'w', modifiers: [], description: 'Save/send message' },
-    { id: 'vim-page-down', action: 'PAGE_DOWN', key: 'd', modifiers: ['ctrl'], description: 'Page down' },
-    { id: 'vim-page-up', action: 'PAGE_UP', key: 'u', modifiers: ['ctrl'], description: 'Page up' },
+    // Navigation (j/k like Superhuman)
+    { id: 'nav-down', action: 'NAVIGATE_DOWN', key: 'j', modifiers: [], description: 'Next conversation' },
+    { id: 'nav-up', action: 'NAVIGATE_UP', key: 'k', modifiers: [], description: 'Previous conversation' },
+    { id: 'nav-first', action: 'NAVIGATE_FIRST', key: 'g', modifiers: [], description: 'First conversation (press gg)' },
+    { id: 'nav-last', action: 'NAVIGATE_LAST', key: 'G', modifiers: ['shift'], description: 'Last conversation' },
+    { id: 'next-unread', action: 'NEXT_UNREAD', key: 'u', modifiers: [], description: 'Next unread' },
+
+    // Core Actions (Superhuman mnemonic style)
+    { id: 'open', action: 'OPEN_CONVERSATION', key: 'Enter', modifiers: [], description: 'Open conversation' },
+    { id: 'done', action: 'ARCHIVE', key: 'e', modifiers: [], description: 'Done (Archive)' },
+    { id: 'star', action: 'PIN', key: 's', modifiers: [], description: 'Star/Pin conversation' },
+    { id: 'mute', action: 'MUTE', key: 'm', modifiers: [], description: 'Mute conversation' },
+    { id: 'delete', action: 'DELETE', key: '#', modifiers: ['shift'], description: 'Delete conversation' },
+    { id: 'spam', action: 'SPAM', key: '!', modifiers: ['shift'], description: 'Report spam' },
+
+    // Reply actions
+    { id: 'reply', action: 'REPLY', key: 'r', modifiers: [], description: 'Reply' },
+    { id: 'forward', action: 'FORWARD', key: 'f', modifiers: [], description: 'Forward' },
+
+    // Search and Command
+    { id: 'search', action: 'SEARCH', key: '/', modifiers: [], description: 'Search' },
+    { id: 'command-palette', action: 'COMMAND_PALETTE', key: 'k', modifiers: ['ctrl'], description: 'Command palette (Cmd+K)' },
+    { id: 'command-palette-meta', action: 'COMMAND_PALETTE', key: 'k', modifiers: ['meta'], description: 'Command palette (Cmd+K on Mac)' },
+
+    // Notes
+    { id: 'note', action: 'TOGGLE_NOTE', key: 'n', modifiers: [], description: 'Add/edit note' },
+
+    // Close/Escape
+    { id: 'close', action: 'CLOSE', key: 'Escape', modifiers: [], description: 'Close/Back' },
+
+    // Quick navigation
+    { id: 'page-down', action: 'PAGE_DOWN', key: 'j', modifiers: ['ctrl'], description: 'Page down' },
+    { id: 'page-up', action: 'PAGE_UP', key: 'k', modifiers: ['ctrl'], description: 'Page up' },
+
+    // Shortcuts helper
+    { id: 'shortcuts', action: 'SHOW_SHORTCUTS', key: '?', modifiers: ['shift'], description: 'Show keyboard shortcuts' },
   ];
 }
 
@@ -396,8 +421,8 @@ export function getEmptyState(): TerminalStateType {
   return {
     conversationNotes: {},
     activeNoteConversationId: null,
-    keybindings: getDefaultKeybindings(),
-    keybindingMode: 'vim',
+    keybindings: getSuperhumanKeybindings(),
+    keybindingMode: 'superhuman',
     commandPaletteOpen: false,
     commandHistory: [],
     terminalMode: true,
@@ -479,8 +504,8 @@ export function reducer(
     const { mode } = action.payload;
     let newKeybindings = state.keybindings;
 
-    if (mode === 'vim') {
-      newKeybindings = getVimKeybindings();
+    if (mode === 'superhuman') {
+      newKeybindings = getSuperhumanKeybindings();
     } else if (mode === 'default') {
       newKeybindings = getDefaultKeybindings();
     }
@@ -495,8 +520,8 @@ export function reducer(
   if (action.type === RESET_KEYBINDINGS) {
     return {
       ...state,
-      keybindings: state.keybindingMode === 'vim'
-        ? getVimKeybindings()
+      keybindings: state.keybindingMode === 'superhuman'
+        ? getSuperhumanKeybindings()
         : getDefaultKeybindings(),
     };
   }
