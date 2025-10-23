@@ -998,7 +998,7 @@ async function handle409Response(
           });
         }
       }),
-      maxConcurrency: 2,
+      maxConcurrency: 10,
     });
   } else {
     log.error(
@@ -1061,7 +1061,7 @@ async function handle410Response(
           }
         }
       }),
-      maxConcurrency: 2,
+      maxConcurrency: 10,
     });
   } else {
     log.error(
@@ -1360,6 +1360,7 @@ async function fetchKeysForServiceIds(
         serviceId => async () =>
           fetchKeysForServiceId(serviceId, null, groupSendEndorsementState)
       ),
+      maxConcurrency: 50,
     });
   } catch (error) {
     log.error(

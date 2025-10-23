@@ -45,7 +45,7 @@ describe('util/profiles', () => {
       const getProfileWithLongDelay = async () => {
         await sleep(MINUTE);
       };
-      const service = new ProfileService(getProfileWithLongDelay);
+      const service = new ProfileService(getProfileWithLongDelay, 3);
 
       const promise1 = service.get(SERVICE_ID_1, null);
       const promise2 = service.get(SERVICE_ID_2, null);
@@ -68,7 +68,7 @@ describe('util/profiles', () => {
         runCount += 1;
         return Promise.resolve();
       };
-      const service = new ProfileService(getProfileWithIncrement);
+      const service = new ProfileService(getProfileWithIncrement, 3);
 
       // Queued and immediately started due to concurrency = 3
       drop(service.get(SERVICE_ID_1, null));
@@ -96,7 +96,7 @@ describe('util/profiles', () => {
         runCount += 1;
         return Promise.resolve();
       };
-      const service = new ProfileService(getProfileWithIncrement);
+      const service = new ProfileService(getProfileWithIncrement, 3);
 
       const pausePromise = service.pause(5);
 
@@ -129,7 +129,7 @@ describe('util/profiles', () => {
           });
           throw error;
         };
-        const service = new ProfileService(getProfileWhichThrows);
+        const service = new ProfileService(getProfileWhichThrows, 3);
 
         // Queued and immediately started due to concurrency = 3
         const promise1 = service.get(SERVICE_ID_1, null);
@@ -166,7 +166,7 @@ describe('util/profiles', () => {
         });
         throw error;
       };
-      const service = new ProfileService(getProfileWhichThrows);
+      const service = new ProfileService(getProfileWhichThrows, 3);
 
       // Queued and immediately started due to concurrency = 3
       const promise1 = service.get(SERVICE_ID_1, null);

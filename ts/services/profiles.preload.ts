@@ -86,13 +86,21 @@ const OBSERVED_CAPABILITY_KEYS = Object.keys({
   attachmentBackfill: true,
 } satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
+const PROFILE_FETCH_CONCURRENCY = 30;
+
 export class ProfileService {
   #jobQueue: PQueue;
   #jobsByConversationId: Map<string, JobType> = new Map();
   #isPaused = false;
 
-  constructor(private fetchProfile = doGetProfile) {
-    this.#jobQueue = new PQueue({ concurrency: 3, timeout: MINUTE * 2 });
+  constructor(
+    private fetchProfile = doGetProfile,
+    concurrency = PROFILE_FETCH_CONCURRENCY
+  ) {
+    this.#jobQueue = new PQueue({
+      concurrency,
+      timeout: MINUTE * 2,
+    });
     this.#jobsByConversationId = new Map();
 
     log.info('Profile Service initialized');
