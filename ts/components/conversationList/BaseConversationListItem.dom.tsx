@@ -232,7 +232,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             disabled && `${CONTENT_CLASS_NAME}--disabled`
           )}
         >
-          <div className={HEADER_CLASS_NAME}>
+          <div aria-live="off" className={HEADER_CLASS_NAME}>
             <div className={`${HEADER_CLASS_NAME}__name`}>{headerName}</div>
             <Timestamp timestamp={headerDate} i18n={i18n} />
           </div>
