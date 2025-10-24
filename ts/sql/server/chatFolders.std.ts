@@ -5,8 +5,8 @@ import {
   type ChatFolderId,
   type ChatFolder,
   CHAT_FOLDER_DELETED_POSITION,
-  CHAT_FOLDER_DEFAULTS,
   ChatFolderType,
+  ALL_CHATS_FOLDER_REQUIRED_PARAMS,
 } from '../../types/ChatFolder.std.js';
 import type { ReadableDB, WritableDB } from '../Interface.std.js';
 import { sql } from '../util.std.js';
@@ -171,9 +171,8 @@ export function hasAllChatsChatFolder(db: ReadableDB): boolean {
 export function createAllChatsChatFolder(db: WritableDB): ChatFolder {
   return db.transaction(() => {
     const allChatsChatFolder: ChatFolder = {
-      ...CHAT_FOLDER_DEFAULTS,
       id: generateUuid() as ChatFolderId,
-      folderType: ChatFolderType.ALL,
+      ...ALL_CHATS_FOLDER_REQUIRED_PARAMS,
       position: 0,
       deletedAtTimestampMs: 0,
       storageID: null,
