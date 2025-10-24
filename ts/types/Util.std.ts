@@ -3,7 +3,7 @@
 
 import type { IntlShape } from 'react-intl';
 import type { AciString } from './ServiceId.std.js';
-import type { LocaleDirection } from '../../app/locale.main.js';
+import type { LocaleDirection } from '../../app/locale.node.js';
 import type {
   ICUJSXMessageParamsByKeyType,
   ICUStringMessageParamsByKeyType,

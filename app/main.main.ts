@@ -119,8 +119,8 @@ import { SettingsChannel } from '../ts/main/settingsChannel.main.js';
 import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.std.js';
 import { getHeicConverter } from '../ts/workers/heicConverterMain.main.js';
 
-import type { LocaleDirection, LocaleType } from './locale.main.js';
-import { load as loadLocale } from './locale.main.js';
+import type { LocaleDirection, LocaleType } from './locale.node.js';
+import { load as loadLocale } from './locale.node.js';
 
 import { HourCyclePreference } from '../ts/types/I18N.std.js';
 import { ScreenShareStatus } from '../ts/types/Calling.std.js';
@@ -2075,11 +2075,12 @@ app.on('ready', async () => {
 
     log.info('app.ready: preferred system locales:', preferredSystemLocales);
     resolvedTranslationsLocale = loadLocale({
-      preferredSystemLocales,
-      localeOverride,
-      localeDirectionTestingOverride,
       hourCyclePreference,
+      isPackaged: app.isPackaged,
+      localeDirectionTestingOverride,
+      localeOverride,
       logger: log,
+      preferredSystemLocales,
     });
   }
 

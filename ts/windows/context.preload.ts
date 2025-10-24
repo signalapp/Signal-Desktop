@@ -17,7 +17,7 @@ import { Bytes } from '../context/Bytes.std.js';
 import { Crypto } from '../context/Crypto.node.js';
 import { Timers } from '../context/Timers.node.js';
 
-import type { LocaleDirection } from '../../app/locale.main.js';
+import type { LocaleDirection } from '../../app/locale.node.js';
 import { i18n } from '../context/i18n.preload.js';
 import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.js';
 import type { LocaleEmojiListType } from '../types/emoji.std.js';

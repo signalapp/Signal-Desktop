@@ -3,7 +3,6 @@
 
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
-import { app } from 'electron';
 import lodash from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
@@ -124,17 +123,19 @@ export function _getAvailableLocales(): Array<string> {
 }
 
 export function load({
-  preferredSystemLocales,
-  localeOverride,
-  localeDirectionTestingOverride,
   hourCyclePreference,
+  isPackaged,
+  localeDirectionTestingOverride,
+  localeOverride,
   logger,
+  preferredSystemLocales,
 }: {
-  preferredSystemLocales: Array<string>;
-  localeOverride: string | null;
-  localeDirectionTestingOverride: LocaleDirection | null;
   hourCyclePreference: HourCyclePreference;
+  isPackaged: boolean;
+  localeDirectionTestingOverride: LocaleDirection | null;
+  localeOverride: string | null;
   logger: LoggerType;
+  preferredSystemLocales: Array<string>;
 }): LocaleType {
   if (preferredSystemLocales == null) {
     throw new TypeError('locale: `preferredSystemLocales` is required');
@@ -163,7 +164,7 @@ export function load({
   const countryDisplayNames = getCountryDisplayNames();
 
   let finalMessages: LocaleMessagesType;
-  if (app.isPackaged) {
+  if (isPackaged) {
     const matchedLocaleMessages = getCompactLocaleValues(matchedLocale);
     const englishMessages = getCompactLocaleValues('en');
     const keys = getCompactLocaleKeys();
