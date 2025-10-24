@@ -733,19 +733,20 @@ export function setQuoteByMessageId(
 
     const message = messageId ? await getMessageById(messageId) : undefined;
     const state = getState();
-
     if (
-      message &&
+      !message ||
+      !isNormalBubble(message.attributes) ||
       !canReply(
         message.attributes,
         window.ConversationController.getOurConversationIdOrThrow(),
         getConversationSelector(state)
       )
     ) {
-      return;
-    }
-
-    if (message && !isNormalBubble(message.attributes)) {
+      dispatch(setQuotedMessage(conversationId, undefined));
+      conversation.set({
+        quotedMessageId: undefined,
+      });
+      await DataWriter.updateConversation(conversation.attributes);
       return;
     }
 
@@ -770,25 +771,21 @@ export function setQuoteByMessageId(
       await DataWriter.updateConversation(conversation.attributes);
     }
 
-    if (message) {
-      const quote = await makeQuote(message.attributes);
+    const quote = await makeQuote(message.attributes);
 
-      // In case the conversation changed while we were about to set the quote
-      if (getState().conversations.selectedConversationId !== conversationId) {
-        return;
-      }
-
-      dispatch(
-        setQuotedMessage(conversationId, {
-          conversationId,
-          quote,
-        })
-      );
-
-      dispatch(setComposerFocus(conversation.id));
-    } else {
-      dispatch(setQuotedMessage(conversationId, undefined));
+    // In case the conversation changed while we were about to set the quote
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
     }
+
+    dispatch(
+      setQuotedMessage(conversationId, {
+        conversationId,
+        quote,
+      })
+    );
+
+    dispatch(setComposerFocus(conversation.id));
   };
 }
 
