@@ -4354,16 +4354,6 @@ export class ConversationModel {
       activity.set(updates);
     }
 
-    if (
-      this.hasDraft() &&
-      this.get('draftTimestamp') &&
-      (!preview ||
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        preview.get('sent_at') < this.get('draftTimestamp')!)
-    ) {
-      return;
-    }
-
     this.set(
       this.getLastMessageData(preview?.attributes, activity?.attributes)
     );
