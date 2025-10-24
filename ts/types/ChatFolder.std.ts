@@ -87,6 +87,17 @@ export const CHAT_FOLDER_DEFAULTS: ChatFolderParams = {
   excludedConversationIds: [],
 };
 
+export const ALL_CHATS_FOLDER_REQUIRED_PARAMS: ChatFolderParams = {
+  folderType: ChatFolderType.ALL,
+  name: '',
+  showOnlyUnread: false,
+  showMutedChats: true,
+  includeAllIndividualChats: true,
+  includeAllGroupChats: true,
+  includedConversationIds: [],
+  excludedConversationIds: [],
+};
+
 export const CHAT_FOLDER_PRESETS = {
   UNREAD_CHATS: {
     ...CHAT_FOLDER_DEFAULTS,
