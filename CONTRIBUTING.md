@@ -22,7 +22,7 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
 You can check [`.nvmrc` in the `main` branch](https://github.com/signalapp/Signal-Desktop/blob/main/.nvmrc)
 to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
-you can just run `nvm use` in the project directory and it will switch to the project's
+you can just run `nvm install && nvm use` in the project directory and it will install and switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
 
@@ -31,6 +31,8 @@ Then you need [`git`](https://git-scm.com/), if you don't have it installed yet.
 ### macOS
 
 Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/).
+
+Note: macOS 14.0 or later is required to install dependencies and contribute to Signal Desktop.
 
 ### Windows
 
