@@ -758,12 +758,12 @@ const CHAT_CALLS = {
 };
 
 const STORAGE_CALLS = {
-  getGroupAvatarUpload: 'v1/groups/avatar/form',
+  getGroupAvatarUpload: 'v2/groups/avatar/form',
   groupLog: 'v2/groups/logs',
-  groupJoinedAtVersion: 'v1/groups/joined_at_version',
+  groupJoinedAtVersion: 'v2/groups/joined_at_version',
   groups: 'v2/groups',
-  groupsViaLink: 'v1/groups/join/',
-  groupToken: 'v1/groups/token',
+  groupsViaLink: 'v2/groups/join/',
+  groupToken: 'v2/groups/token',
   storageManifest: 'v1/storage/manifest',
   storageModify: 'v1/storage/',
   storageRead: 'v1/storage/read',
