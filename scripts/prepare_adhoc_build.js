@@ -67,6 +67,10 @@ const DESKTOP_NAME_PATH = 'desktopName';
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
 const ADHOC_DESKTOP_NAME = `signal adhoc.${formattedDate}.${shortSha}.desktop`;
 
+const EXECUTABLE_NAME_PATH = 'build.linux.executableName';
+const PRODUCTION_EXECUTABLE_NAME = 'signal-desktop';
+const ADHOC_EXECUTABLE_NAME = `signal-desktop-adhoc-${formattedDate}-${shortSha}`;
+
 // -------
 
 function checkValue(object, objectPath, expected) {
@@ -83,6 +87,7 @@ checkValue(packageJson, PRODUCT_NAME_PATH, PRODUCTION_PRODUCT_NAME);
 checkValue(packageJson, APP_ID_PATH, PRODUCTION_APP_ID);
 checkValue(packageJson, STARTUP_WM_CLASS_PATH, PRODUCTION_WM_CLASS);
 checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
+checkValue(packageJson, EXECUTABLE_NAME_PATH, PRODUCTION_EXECUTABLE_NAME);
 
 // -------
 
@@ -91,6 +96,7 @@ _.set(packageJson, PRODUCT_NAME_PATH, ADHOC_PRODUCT_NAME);
 _.set(packageJson, APP_ID_PATH, ADHOC_APP_ID);
 _.set(packageJson, STARTUP_WM_CLASS_PATH, ADHOC_WM_CLASS);
 _.set(packageJson, DESKTOP_NAME_PATH, ADHOC_DESKTOP_NAME);
+_.set(packageJson, EXECUTABLE_NAME_PATH, ADHOC_EXECUTABLE_NAME);
 
 // -------
 

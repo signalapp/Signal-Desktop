@@ -45,6 +45,10 @@ const DESKTOP_NAME_PATH = 'desktopName';
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
 const AXOLOTL_DESKTOP_NAME = 'signal axolotl.desktop';
 
+const EXECUTABLE_NAME_PATH = 'build.linux.executableName';
+const PRODUCTION_EXECUTABLE_NAME = 'signal-desktop';
+const AXOLOTL_EXECUTABLE_NAME = 'signal-desktop-axolotl';
+
 // -------
 
 function checkValue(object, objectPath, expected) {
@@ -61,6 +65,7 @@ checkValue(packageJson, PRODUCT_NAME_PATH, PRODUCTION_PRODUCT_NAME);
 checkValue(packageJson, APP_ID_PATH, PRODUCTION_APP_ID);
 checkValue(packageJson, STARTUP_WM_CLASS_PATH, PRODUCTION_WM_CLASS);
 checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
+checkValue(packageJson, EXECUTABLE_NAME_PATH, PRODUCTION_EXECUTABLE_NAME);
 
 // -------
 
@@ -69,6 +74,7 @@ _.set(packageJson, PRODUCT_NAME_PATH, AXOLOTL_PRODUCT_NAME);
 _.set(packageJson, APP_ID_PATH, AXOLOTL_APP_ID);
 _.set(packageJson, STARTUP_WM_CLASS_PATH, AXOLOTL_WM_CLASS);
 _.set(packageJson, DESKTOP_NAME_PATH, AXOLOTL_DESKTOP_NAME);
+_.set(packageJson, EXECUTABLE_NAME_PATH, AXOLOTL_EXECUTABLE_NAME);
 
 // -------
 
