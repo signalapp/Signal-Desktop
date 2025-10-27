@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { stub } from 'sinon';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-import { load, _getAvailableLocales } from '../../../app/locale.main.js';
+import { load, _getAvailableLocales } from '../../../app/locale.node.js';
 import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check.main.js';
 import { HourCyclePreference } from '../../types/I18N.std.js';
 
@@ -26,11 +26,12 @@ describe('locale', async () => {
         expectedLocale: string
       ) {
         const actualLocale = await load({
-          preferredSystemLocales,
-          localeOverride: null,
-          localeDirectionTestingOverride: null,
           hourCyclePreference: HourCyclePreference.UnknownPreference,
+          isPackaged: false,
+          localeDirectionTestingOverride: null,
+          localeOverride: null,
           logger,
+          preferredSystemLocales,
         });
         assert.strictEqual(actualLocale.name, expectedLocale);
       }

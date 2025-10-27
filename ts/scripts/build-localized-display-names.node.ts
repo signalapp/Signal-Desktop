@@ -4,7 +4,7 @@
 import { parse } from 'csv-parse';
 import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { _getAvailableLocales } from '../../app/locale.main.js';
+import { _getAvailableLocales } from '../../app/locale.node.js';
 import { parseUnknown } from '../util/schemas.std.js';
 
 const type = process.argv[2];

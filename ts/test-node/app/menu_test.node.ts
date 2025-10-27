@@ -8,7 +8,7 @@ import type pino from 'pino';
 
 import type { CreateTemplateOptionsType } from '../../../app/menu.std.js';
 import { createTemplate } from '../../../app/menu.std.js';
-import { load as loadLocale } from '../../../app/locale.main.js';
+import { load as loadLocale } from '../../../app/locale.node.js';
 import type { MenuListType } from '../../types/menu.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { HourCyclePreference } from '../../types/I18N.std.js';
@@ -216,11 +216,12 @@ describe('createTemplate', () => {
   };
 
   const { i18n } = loadLocale({
-    preferredSystemLocales: ['en'],
-    localeOverride: null,
-    localeDirectionTestingOverride: null,
     hourCyclePreference: HourCyclePreference.UnknownPreference,
+    isPackaged: false,
+    localeDirectionTestingOverride: null,
+    localeOverride: null,
     logger,
+    preferredSystemLocales: ['en'],
   });
 
   const actions = {

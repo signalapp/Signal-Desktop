@@ -8,7 +8,7 @@ import * as Errors from '../ts/types/errors.std.js';
 import { redactAll } from '../ts/util/privacy.node.js';
 import { createLogger } from '../ts/logging/log.std.js';
 import { reallyJsonStringify } from '../ts/util/reallyJsonStringify.std.js';
-import type { LocaleType } from './locale.main.js';
+import type { LocaleType } from './locale.node.js';
 
 const log = createLogger('global_errors');
 
