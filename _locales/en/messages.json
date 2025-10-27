@@ -3068,6 +3068,10 @@
     "messageformat": "Sticker message",
     "description": "Shown in notifications and in the left pane instead of sticker image."
   },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Poll: {pollQuestion}",
+    "description": "Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
+  },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}",
     "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."
