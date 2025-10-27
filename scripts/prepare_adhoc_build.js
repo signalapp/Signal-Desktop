@@ -58,14 +58,14 @@ const ADHOC_APP_ID = `org.whispersystems.signal-desktop-adhoc-${formattedDate}-$
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.entry.StartupWMClass';
 const PRODUCTION_WM_CLASS = 'signal';
-const ADHOC_WM_CLASS = `signal adhoc ${formattedDate}.${shortSha}`;
+const ADHOC_WM_CLASS = `signal adhoc ${formattedDate} ${shortSha}`;
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const ADHOC_DESKTOP_NAME = `signal adhoc.${formattedDate}.${shortSha}.desktop`;
+const ADHOC_DESKTOP_NAME = `signal adhoc ${formattedDate} ${shortSha}.desktop`;
 
 const EXECUTABLE_NAME_PATH = 'build.linux.executableName';
 const PRODUCTION_EXECUTABLE_NAME = 'signal-desktop';
