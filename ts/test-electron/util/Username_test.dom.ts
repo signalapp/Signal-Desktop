@@ -6,25 +6,66 @@ import { assert } from 'chai';
 import * as Username from '../../util/Username.dom.js';
 
 describe('Username', () => {
+  describe('isUsernameValid', () => {
+    const { isUsernameValid } = Username;
+
+    it('returns false for missing discriminator', () => {
+      assert.isFalse(isUsernameValid('use'));
+      assert.isFalse(isUsernameValid('user'));
+      assert.isFalse(isUsernameValid('usern'));
+      assert.isFalse(isUsernameValid('usern.'));
+    });
+
+    it('matches valid username searches', () => {
+      assert.isTrue(isUsernameValid('username.01'));
+      assert.isTrue(isUsernameValid('username.12'));
+      assert.isTrue(isUsernameValid('xyz.568'));
+      assert.isTrue(isUsernameValid('numbered9.34'));
+      assert.isTrue(isUsernameValid('u12.34'));
+      assert.isTrue(isUsernameValid('with_underscore.56'));
+      assert.isTrue(isUsernameValid('username_with_32_characters_1234.45'));
+    });
+
+    it('does not match when then username starts with a number', () => {
+      assert.isFalse(isUsernameValid('1user.12'));
+      assert.isFalse(isUsernameValid('9user_name.12'));
+    });
+
+    it('does not match usernames shorter than 3 characters or longer than 32', () => {
+      assert.isFalse(isUsernameValid('us.12'));
+      assert.isFalse(isUsernameValid('username_with_33_characters_12345.67'));
+    });
+
+    it('does not match something that looks like a phone number', () => {
+      assert.isFalse(isUsernameValid('+'));
+      assert.isFalse(isUsernameValid('2223'));
+      assert.isFalse(isUsernameValid('+3'));
+      assert.isFalse(isUsernameValid('+234234234233'));
+    });
+
+    it('does not match invalid discriminators', () => {
+      assert.isFalse(isUsernameValid('username.0'));
+      assert.isFalse(isUsernameValid('username.00'));
+      assert.isFalse(isUsernameValid('username.000'));
+      assert.isFalse(isUsernameValid('username.001'));
+      assert.isFalse(isUsernameValid('username.012'));
+    });
+  });
+
   describe('getUsernameFromSearch', () => {
     const { getUsernameFromSearch } = Username;
 
     it('matches partial username searches without discriminator', () => {
-      assert.strictEqual(getUsernameFromSearch('use'), 'use.01');
-      assert.strictEqual(getUsernameFromSearch('user'), 'user.01');
-      assert.strictEqual(getUsernameFromSearch('usern'), 'usern.01');
-      assert.strictEqual(getUsernameFromSearch('usern.'), 'usern.01');
+      assert.strictEqual(getUsernameFromSearch('use'), 'use');
+      assert.strictEqual(getUsernameFromSearch('user'), 'user');
+      assert.strictEqual(getUsernameFromSearch('usern'), 'usern');
+      assert.strictEqual(getUsernameFromSearch('usern.'), 'usern.');
     });
 
     it('matches and strips leading @', () => {
-      assert.strictEqual(getUsernameFromSearch('@user'), 'user.01');
-      assert.strictEqual(getUsernameFromSearch('@user.'), 'user.01');
+      assert.strictEqual(getUsernameFromSearch('@user'), 'user');
+      assert.strictEqual(getUsernameFromSearch('@user.'), 'user.');
       assert.strictEqual(getUsernameFromSearch('@user.01'), 'user.01');
-    });
-
-    it('adds a 1 if discriminator is one digit', () => {
-      assert.strictEqual(getUsernameFromSearch('@user.0'), 'user.01');
-      assert.strictEqual(getUsernameFromSearch('@user.2'), 'user.21');
     });
 
     it('matches valid username searches', () => {

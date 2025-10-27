@@ -2866,7 +2866,11 @@
   },
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
-    "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
+    "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username, no @ symbol"
+  },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} is not a valid username. Make sure you've entered the complete username followed by its set of digits.",
+    "description": "Shown in dialog if username is invalid. Note that 'username' will be the output of at-username, no @ symbol"
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "User not found. \"{phoneNumber}\" is not a Signal user.",
