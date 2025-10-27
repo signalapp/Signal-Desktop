@@ -310,8 +310,8 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "38.2.1",
-    "electron-builder": "26.0.14",
+    "electron": "38.4.0",
+    "electron-builder": "26.1.0",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enhanced-resolve": "5.18.3",
@@ -425,7 +425,7 @@
     ]
   },
   "engines": {
-    "node": "22.18.0"
+    "node": "22.20.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -521,6 +521,7 @@
       }
     },
     "linux": {
+      "executableName": "signal-desktop",
       "category": "Network;InstantMessaging;Chat",
       "desktop": {
         "entry": {
@@ -700,6 +701,6 @@
     ]
   },
   "volta": {
-    "node": "22.18.0"
+    "node": "22.20.0"
   }
 }
