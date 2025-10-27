@@ -33,6 +33,7 @@ import {
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
 import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
+import { isUsernameValid } from '../util/Username.dom.js';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -391,6 +392,13 @@ export function GlobalModalContainer({
     if (userNotFoundModalState.type === 'phoneNumber') {
       content = i18n('icu:startConversation--phone-number-not-found', {
         phoneNumber: userNotFoundModalState.phoneNumber,
+      });
+    } else if (
+      userNotFoundModalState.type === 'username' &&
+      !isUsernameValid(userNotFoundModalState.username)
+    ) {
+      content = i18n('icu:startConversation--username-not-valid', {
+        atUsername: userNotFoundModalState.username,
       });
     } else if (userNotFoundModalState.type === 'username') {
       content = i18n('icu:startConversation--username-not-found', {
