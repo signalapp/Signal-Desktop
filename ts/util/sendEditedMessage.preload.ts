@@ -11,7 +11,6 @@ import type {
 } from '../model-types.d.ts';
 import { createLogger } from '../logging/log.std.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
 import { ErrorWithToast } from '../types/ErrorWithToast.std.js';
 import { SendStatus } from '../messages/MessageSendState.std.js';
 import { ToastType } from '../types/Toast.dom.js';
@@ -107,28 +106,6 @@ export async function sendEditedMessage(
 
   conversation.clearTypingTimers();
 
-  // Can't send both preview and attachments
-  const attachments =
-    preview && preview.length ? [] : targetMessage.get('attachments') || [];
-
-  const fixNewAttachment = (
-    attachment: AttachmentType,
-    temporaryDigest: string
-  ): AttachmentType => {
-    // Check if this is an existing attachment or a new attachment coming
-    // from composer
-    if (attachment.digest) {
-      return attachment;
-    }
-
-    // Generated semi-unique digest so that `handleEditMessage` understand
-    // it is a new attachment
-    return {
-      ...attachment,
-      digest: `${temporaryDigest}:${attachment.path}`,
-    };
-  };
-
   let quote: QuotedMessageType | undefined;
   if (quoteSentAt !== undefined && quoteAuthorAci !== undefined) {
     const existingQuote = targetMessage.get('quote');
@@ -173,25 +150,20 @@ export async function sendEditedMessage(
     })
   );
 
+  const originalAttachments = targetMessage.get('attachments');
+  let previewToSend: Array<LinkPreviewType> | undefined = preview;
+  if (originalAttachments?.length && preview.length) {
+    log.error('Cannot send message with both attachments and preview');
+    previewToSend = undefined;
+  }
+
   // An ephemeral message that we just use to handle the edit
   const tmpMessage: MessageAttributesType = {
-    attachments: attachments?.map((attachment, index) =>
-      fixNewAttachment(attachment, `attachment:${index}`)
-    ),
+    attachments: originalAttachments,
     body,
     bodyRanges,
     conversationId,
-    preview: preview?.map((entry, index) => {
-      const image =
-        entry.image && fixNewAttachment(entry.image, `preview:${index}`);
-      if (entry.image === image) {
-        return entry;
-      }
-      return {
-        ...entry,
-        image,
-      };
-    }),
+    preview: previewToSend,
     id: generateUuid(),
     quote,
     received_at: incrementMessageCounter(),

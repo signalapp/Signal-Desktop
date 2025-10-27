@@ -16,6 +16,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from './GoogleChrome.std.js';
+import { strictAssert } from './assert.std.js';
 
 const THUMBNAIL_SIZE = 150;
 const THUMBNAIL_CONTENT_TYPE = IMAGE_PNG;
@@ -80,6 +81,11 @@ export async function captureDimensionsAndScreenshot(
   const localUrl = getLocalAttachmentUrl(attachment);
 
   if (isImageTypeSupported(contentType)) {
+    if (attachment.thumbnail?.path) {
+      // Already generated thumbnail / width / height
+      return attachment;
+    }
+
     try {
       const { width, height } = await getImageDimensionsFromURL({
         objectUrl: localUrl,
@@ -123,6 +129,13 @@ export async function captureDimensionsAndScreenshot(
       );
       return attachment;
     }
+  }
+
+  strictAssert(isVideoTypeSupported(contentType), 'enforced by early return');
+
+  if (attachment.screenshot?.path) {
+    // Already generated screenshot / width / height
+    return attachment;
   }
 
   let screenshotObjectUrl: string | undefined;

@@ -137,29 +137,13 @@ export async function handleEditMessage(
     editAttributes.message
   );
 
-  // Copies over the attachments from the main message if they're the same
-  // and they have already been downloaded.
-  const attachmentSignatures: Map<string, AttachmentType> = new Map();
   const previewSignatures: Map<string, AttachmentType> = new Map();
-  const quoteSignatures: Map<string, AttachmentType> = new Map();
-
-  mainMessage.attachments?.forEach(attachment => {
-    cacheAttachmentBySignature(attachmentSignatures, attachment);
-  });
   mainMessage.preview?.forEach(preview => {
     if (!preview.image) {
       return;
     }
     cacheAttachmentBySignature(previewSignatures, preview.image);
   });
-  if (mainMessage.quote) {
-    for (const attachment of mainMessage.quote.attachments) {
-      if (!attachment.thumbnail) {
-        continue;
-      }
-      cacheAttachmentBySignature(quoteSignatures, attachment.thumbnail);
-    }
-  }
 
   const nextEditedMessagePreview = upgradedEditedMessageData.preview?.map(
     preview => {
