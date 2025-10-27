@@ -2369,6 +2369,12 @@ export class CallingClass {
       return;
     }
 
+    const logId = getLogId({
+      source: 'CallingClass.setOutgoingAudio',
+      conversationId,
+    });
+    log.info(`${logId}: set to ${enabled}`);
+
     if (call instanceof Call) {
       call.setOutgoingAudioMuted(!enabled);
     } else if (call instanceof GroupCall) {
@@ -2378,6 +2384,7 @@ export class CallingClass {
     }
 
     muteStateChange.setIsMuted(!enabled);
+    log.info(`${logId}: set to ${enabled} done`);
   }
 
   setOutgoingAudioRemoteMuted(conversationId: string, source: number): void {
