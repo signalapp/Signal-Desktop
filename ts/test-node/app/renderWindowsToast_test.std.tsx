@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { renderWindowsToast } from '../../../app/renderWindowsToast.dom.js';
+import { renderWindowsToast } from '../../../app/renderWindowsToast.std.js';
 import { NotificationType } from '../../types/notifications.std.js';
 
 describe('renderWindowsToast', () => {
