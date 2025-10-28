@@ -135,6 +135,7 @@ import { getOwn } from '../ts/util/getOwn.std.js';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
+import { sendDummyKeystroke } from './WindowsNotifications.main.js';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
@@ -234,17 +235,6 @@ const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(log, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
 
-let sendDummyKeystroke: undefined | (() => void);
-if (OS.isWindows()) {
-  try {
-    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    const windowsNotifications = require('./WindowsNotifications.main.js');
-    sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
-  } catch (error) {
-    log.error('Failed to initialize Windows Notifications:', error.stack);
-  }
-}
-
 function showWindow() {
   if (!mainWindow) {
     return;
@@ -271,7 +261,9 @@ if (!process.mas) {
     app.on('second-instance', (_e: Electron.Event, argv: Array<string>) => {
       // Workaround to let AllowSetForegroundWindow succeed.
       // See https://www.npmjs.com/package/@signalapp/windows-dummy-keystroke for a full explanation of why this is needed.
-      sendDummyKeystroke?.();
+      if (OS.isWindows()) {
+        sendDummyKeystroke();
+      }
 
       // Someone tried to run a second instance, we should focus our window
       if (mainWindow) {
