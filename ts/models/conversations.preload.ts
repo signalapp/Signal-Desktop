@@ -1571,7 +1571,7 @@ export class ConversationModel {
       // The message is being sent before the user has scrolled down to load the newest
       // messages into memory; in that case, we scroll the user all the way down by
       // loading the newest message
-      drop(this.loadNewestMessages(newestId, undefined));
+      drop(this.loadNewestMessages(message.id, undefined));
     } else if (
       // The message has to be not a story or has to be a story reply in direct
       // conversation.

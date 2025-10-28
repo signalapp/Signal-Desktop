@@ -294,12 +294,6 @@ const getModeSpecificProps = (
   }
 };
 
-function preloadConversation(conversationId: string): void {
-  drop(
-    window.ConversationController.get(conversationId)?.preloadNewestMessages()
-  );
-}
-
 async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
   await itemStorage.put('serverAlerts', alerts);
 }
@@ -402,6 +396,19 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     });
   }, [changeLocation]);
 
+  const maybePreloadConversation = useCallback(
+    (conversationId: string) => {
+      if (conversationId !== selectedConversationId) {
+        drop(
+          window.ConversationController.get(
+            conversationId
+          )?.preloadNewestMessages()
+        );
+      }
+    },
+    [selectedConversationId]
+  );
+
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
   if (hasAppExpired) {
@@ -469,7 +476,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       otherTabsUnreadStats={otherTabsUnreadStats}
       pauseBackupMediaDownload={pauseBackupMediaDownload}
       preferredWidthFromStorage={preferredWidthFromStorage}
-      preloadConversation={preloadConversation}
+      preloadConversation={maybePreloadConversation}
       removeConversation={removeConversation}
       renderCaptchaDialog={renderCaptchaDialog}
       renderCrashReportDialog={renderCrashReportDialog}
