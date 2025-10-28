@@ -510,6 +510,17 @@ export function getNotificationDataForMessage(
     };
   }
 
+  const { poll } = attributes;
+  if (poll) {
+    return {
+      emoji: '📊',
+      text: i18n('icu:message--getNotificationText--poll', {
+        pollQuestion: poll.question,
+      }),
+      bodyRanges,
+    };
+  }
+
   if (body) {
     return {
       text: body,
