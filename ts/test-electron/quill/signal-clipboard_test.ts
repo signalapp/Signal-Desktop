@@ -5,8 +5,8 @@ import { assert } from 'chai';
 import { Delta } from '@signalapp/quill-cjs';
 import type Quill from '@signalapp/quill-cjs';
 
-import { SignalClipboard } from '../../quill/signal-clipboard/index.js';
-import { QuillFormattingStyle } from '../../quill/formatting/menu.js';
+import { SignalClipboard } from '../../quill/signal-clipboard/index.dom.js';
+import { QuillFormattingStyle } from '../../quill/formatting/menu.dom.js';
 
 class MockQuill {
   public root: HTMLElement;
