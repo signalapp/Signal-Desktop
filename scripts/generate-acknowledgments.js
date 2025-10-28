@@ -16,11 +16,7 @@ const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
 
 const { dependencies = {}, optionalDependencies = {} } = packageJson;
 
-const SIGNAL_LIBS = [
-  '@signalapp/libsignal-client',
-  '@signalapp/ringrtc',
-  '@signalapp/mute-state-change',
-];
+const SIGNAL_LIBS = ['@signalapp/libsignal-client', '@signalapp/ringrtc'];
 
 const SKIPPED_DEPENDENCIES = new Set(SIGNAL_LIBS);
 

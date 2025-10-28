@@ -4,15 +4,9 @@
 import { File, Rule } from 'endanger';
 import semver from 'semver';
 
-function isPinnedVersion(spec: string): boolean {
-  if (spec.startsWith('https:')) {
-    return spec.includes('#');
-  }
-  let version: string;
-  if (spec.startsWith('workspace:')) {
-    version = spec.replace(/^workspace:/, '');
-  } else {
-    version = spec;
+function isPinnedVersion(version: string): boolean {
+  if (version.startsWith('https:')) {
+    return version.includes('#');
   }
   return semver.valid(version) !== null;
 }

@@ -66,7 +66,6 @@ const bundleDefaults = {
     '@signalapp/libsignal-client/zkgroup',
     '@signalapp/ringrtc',
     '@signalapp/sqlcipher',
-    '@signalapp/mute-state-change',
     '@indutny/mac-screen-share',
     'electron',
     'fs-xattr',
