@@ -1,19 +1,19 @@
 {
   "$schema": "./package.schema.json",
-  "packageManager": "pnpm@10.6.4",
+  "packageManager": "pnpm@10.18.1",
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.75.0-alpha.1",
+  "version": "7.79.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
     "email": "support@signal.org"
   },
   "browserslist": "last 1 chrome versions",
-  "main": "app/main.js",
+  "main": "app/main.main.js",
   "scripts": {
     "postinstall": "pnpm run build:acknowledgments && pnpm run electron:install-app-deps",
     "postuninstall": "pnpm run build:acknowledgments",
@@ -25,16 +25,16 @@
     "build-release": "pnpm run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
-    "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",
-    "get-strings:locales": "ts-node ./ts/scripts/build-localized-display-names.ts locales ts/scripts/locale-data/locale-display-names.csv build/locale-display-names.json",
-    "get-strings:countries": "ts-node ./ts/scripts/build-localized-display-names.ts countries ts/scripts/locale-data/country-display-names.csv build/country-display-names.json",
-    "get-strings:emoji": "ts-node ./ts/scripts/get-emoji-locales.ts",
-    "push-strings": "node ts/scripts/remove-strings.js && node ts/scripts/push-strings.js",
-    "mark-unusued-strings-deleted": "ts-node ./ts/scripts/mark-unused-strings-deleted.ts",
-    "get-expire-time": "node ts/scripts/get-expire-time.js",
-    "copy-components": "node ts/scripts/copy.js",
-    "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
-    "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
+    "get-strings": "ts-node ts/scripts/get-strings.node.ts && ts-node ts/scripts/gen-nsis-script.node.ts && ts-node ts/scripts/gen-locales-config.node.ts && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",
+    "get-strings:locales": "ts-node ./ts/scripts/build-localized-display-names.node.ts locales ts/scripts/locale-data/locale-display-names.csv build/locale-display-names.json",
+    "get-strings:countries": "ts-node ./ts/scripts/build-localized-display-names.node.ts countries ts/scripts/locale-data/country-display-names.csv build/country-display-names.json",
+    "get-strings:emoji": "ts-node ./ts/scripts/get-emoji-locales.node.ts",
+    "push-strings": "node ts/scripts/remove-strings.node.js && node ts/scripts/push-strings.node.js",
+    "mark-unusued-strings-deleted": "ts-node ./ts/scripts/mark-unused-strings-deleted.node.ts",
+    "get-expire-time": "node ts/scripts/get-expire-time.node.js",
+    "copy-components": "node ts/scripts/copy.node.js",
+    "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.std.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.std.d.ts ts/protobuf/compiled.std.js",
+    "clean-module-protobuf": "rm -f ts/protobuf/compiled.std.d.ts ts/protobuf/compiled.std.js",
     "build-protobuf": "pnpm run build-module-protobuf",
     "clean-protobuf": "pnpm run clean-module-protobuf",
     "prepare-beta-build": "node scripts/prepare_beta_build.js",
@@ -45,20 +45,21 @@
     "prepare-adhoc-build": "node scripts/prepare_adhoc_build.js",
     "prepare-adhoc-version": "node scripts/prepare_tagged_version.js adhoc",
     "prepare-staging-build": "node scripts/prepare_staging_build.js",
+    "prepare-linux-build": "node scripts/prepare_linux_build.js",
     "test": "run-s test-node test-electron test-lint-intl test-eslint",
-    "test-electron": "node ts/scripts/test-electron.js",
-    "test-release": "node ts/scripts/test-release.js",
-    "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --main test/fix-linux-gtk.js --file test/setup-test-node.js --recursive ts/test-node",
-    "test-mock": "node ts/scripts/mocha-separator.js --require ts/test-mock/setup-ci.js -- ts/test-mock/**/*_test.js",
-    "test-mock-docker": "mocha --require ts/test-mock/setup-ci.js ts/test-mock/**/*_test.docker.js",
+    "test-electron": "node ts/scripts/test-electron.node.js",
+    "test-release": "node ts/scripts/test-release.node.js",
+    "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --file test/setup-test-node.js --recursive ts/test-node",
+    "test-mock": "node ts/scripts/mocha-separator.node.js --require ts/test-mock/setup-ci.node.js -- ts/test-mock/**/*_test.node.js",
+    "test-mock-docker": "mocha --require ts/test-mock/setup-ci.node.js ts/test-mock/**/*_test.docker.node.js",
     "test-eslint": "mocha .eslint/rules/**/*.test.js --ignore-leaks",
-    "test-lint-intl": "ts-node ./build/intl-linter/linter.ts --test",
+    "test-lint-intl": "ts-node ./build/intl-linter/linter.node.ts --test",
     "eslint": "eslint --cache . --cache-strategy content --max-warnings 0",
     "lint": "run-p --aggregate-output --print-label lint-prettier lint-css check:types eslint",
-    "lint-deps": "node ts/util/lint/linter.js",
-    "lint-license-comments": "ts-node ts/util/lint/license_comments.ts",
+    "lint-deps": "node ts/util/lint/linter.node.js",
+    "lint-license-comments": "ts-node ts/util/lint/license_comments.node.ts",
     "lint-prettier": "pprettier --check '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",
-    "lint-intl": "ts-node ./build/intl-linter/linter.ts",
+    "lint-intl": "ts-node ./build/intl-linter/linter.node.ts",
     "lint-css": "stylelint '**/*.scss' --cache",
     "danger:local": "./danger/danger.sh local --base main",
     "danger:ci": "./danger/danger.sh ci --base origin/main",
@@ -84,10 +85,10 @@
     "build-win32-all": "run-s --print-label generate build:esbuild:prod build:release-win32-all",
     "build-linux": "run-s generate build:esbuild:prod && pnpm run build:release --publish=never",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
-    "build:dns-fallback": "node ts/scripts/generate-dns-fallback.js",
-    "build:icu-types": "node ts/scripts/generate-icu-types.js",
-    "build:compact-locales": "node ts/scripts/generate-compact-locales.js",
-    "build:tray-icons": "ts-node ts/scripts/generate-tray-icons.ts",
+    "build:dns-fallback": "node ts/scripts/generate-dns-fallback.node.js",
+    "build:icu-types": "node ts/scripts/generate-icu-types.node.js",
+    "build:compact-locales": "node ts/scripts/generate-compact-locales.node.js",
+    "build:tray-icons": "ts-node ts/scripts/generate-tray-icons.node.ts",
     "build:dev": "run-s --print-label generate build:esbuild:prod",
     "build:esbuild": "node scripts/esbuild.js",
     "build:esbuild:scripts": "node scripts/esbuild.js --no-bundle",
@@ -99,14 +100,14 @@
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production pnpm run build:electron --config.directories.output=release",
     "build:release-win32-all": "pnpm run build:release --arm64 --x64",
-    "build:preload-cache": "node ts/scripts/generate-preload-cache.js",
+    "build:preload-cache": "node ts/scripts/generate-preload-cache.node.js",
     "build:emoji": "run-p build:emoji:32 build:emoji:64",
     "build:emoji:32": "cwebp -progress -mt -preset icon -alpha_filter best -alpha_q 20 -pass 10 -q 75 ./node_modules/emoji-datasource-apple/img/apple/sheets-clean/32.png -o ./images/emoji-sheet-32.webp",
     "build:emoji:64": "cwebp -progress -mt -preset icon -alpha_filter best -alpha_q 20 -pass 10 -q 75 ./node_modules/emoji-datasource-apple/img/apple/sheets-clean/64.png -o ./images/emoji-sheet-64.webp",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
     "electron:install-app-deps": "electron-builder install-app-deps",
-    "check-upgradeable-deps": "ts-node ts/scripts/check-upgradeable-deps.ts",
+    "check-upgradeable-deps": "ts-node ts/scripts/check-upgradeable-deps.node.ts",
     "react-devtools": "react-devtools",
     "run-with-devtools": "cross-env REACT_DEVTOOLS=1 run-p --print-label react-devtools start"
   },
@@ -123,6 +124,7 @@
     "@indutny/range-finder": "1.3.4",
     "@indutny/simple-windows-notifications": "2.0.16",
     "@indutny/sneequals": "4.0.0",
+    "@internationalized/date": "3.7.0",
     "@popperjs/core": "2.11.8",
     "@radix-ui/react-tooltip": "1.2.7",
     "@react-aria/focus": "3.19.1",
@@ -130,10 +132,11 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.81.1",
+    "@signalapp/libsignal-client": "0.83.0",
     "@signalapp/minimask": "1.0.1",
+    "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.58.1",
+    "@signalapp/ringrtc": "2.59.2",
     "@signalapp/sqlcipher": "2.4.4",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",
@@ -153,8 +156,8 @@
     "credit-card-type": "10.0.2",
     "dashdash": "2.0.0",
     "direction": "1.0.4",
-    "emoji-datasource": "15.1.2",
-    "emoji-datasource-apple": "15.1.2",
+    "emoji-datasource": "16.0.0",
+    "emoji-datasource-apple": "16.0.0",
     "emoji-regex": "10.4.0",
     "encoding": "0.1.13",
     "fabric": "4.6.0",
@@ -236,7 +239,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "2.0.1",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "14.0.0",
+    "@signalapp/mock-server": "15.1.0",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -307,7 +310,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "38.1.2",
+    "electron": "38.2.1",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -444,10 +447,10 @@
       "mergeASARs": true,
       "releaseInfo": {
         "vendor": {
-          "minOSVersion": "20.0.0"
+          "minOSVersion": "21.0.1"
         }
       },
-      "sign": "./ts/scripts/sign-macos.js",
+      "sign": "./ts/scripts/sign-macos.node.js",
       "singleArchFiles": "node_modules/@signalapp/{libsignal-client/prebuilds/**,ringrtc/build/**,sqlcipher/prebuilds/**}",
       "target": [
         {
@@ -464,14 +467,17 @@
           ]
         }
       ],
-      "bundleVersion": "1"
+      "bundleVersion": "1",
+      "extendInfo": {
+        "NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac": true
+      }
     },
     "win": {
       "signtoolOptions": {
         "certificateSubjectName": "Signal Messenger, LLC",
         "certificateSha1": "8D5E3CD800736C5E1FE459A1F5AA48287D4F6EC6",
         "publisherName": "Signal Messenger, LLC",
-        "sign": "./ts/scripts/sign-windows.js",
+        "sign": "./ts/scripts/sign-windows.node.js",
         "signingHashAlgorithms": [
           "sha256"
         ]
@@ -516,6 +522,11 @@
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
+      "desktop": {
+        "entry": {
+          "StartupWMClass": "signal"
+        }
+      },
       "target": [
         "deb"
       ],
@@ -552,10 +563,10 @@
         "signalcaptcha"
       ]
     },
-    "artifactBuildCompleted": "ts/scripts/artifact-build-completed.js",
-    "afterSign": "ts/scripts/after-sign.js",
-    "afterPack": "ts/scripts/after-pack.js",
-    "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
+    "artifactBuildCompleted": "ts/scripts/artifact-build-completed.node.js",
+    "afterSign": "ts/scripts/after-sign.node.js",
+    "afterPack": "ts/scripts/after-pack.node.js",
+    "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.node.js",
     "asar": {
       "smartUnpack": false
     },
@@ -631,7 +642,6 @@
       "node_modules/emoji-datasource/categories.json",
       "node_modules/emoji-datasource/emoji.json",
       "!node_modules/emoji-datasource-apple/**",
-      "!node_modules/spellchecker/vendor/hunspell/**/*",
       "!node_modules/@formatjs/intl-displaynames/**/*",
       "!node_modules/@formatjs/intl-listformat/**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts,*.d.ts.map,*.js.map,*.gypi,.snyk-*.flag,benchmark}",
@@ -642,7 +652,6 @@
       "!**/*.{o,hprof,orig,pyc,pyo,rbc,c,h,m}",
       "!**/._*",
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
-      "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
       "!node_modules/websocket/builderror.log",
       "node_modules/socks/build/*.js",
@@ -654,6 +663,8 @@
       "!node_modules/@signalapp/ringrtc/scripts/*",
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/@signalapp/windows-ucv/build/Release/*.node",
+      "node_modules/@signalapp/mute-state-change/build/Release/*.node",
+      "node_modules/@signalapp/mute-state-change/build/Release/*.mm",
       "node_modules/@indutny/simple-windows-notifications/prebuilds/${platform}-${arch}/*.node",
       "node_modules/@indutny/mac-screen-share/build/Release/*.node",
       "node_modules/fs-xattr/build/Release/*.node",
@@ -687,5 +698,8 @@
       "!node_modules/.cache",
       "sticker-creator/dist/**"
     ]
+  },
+  "volta": {
+    "node": "22.18.0"
   }
 }

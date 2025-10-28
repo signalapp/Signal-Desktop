@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "İşletim sistemi şifreleme anahtarının arka ucu {previousBackend} değerinden {currentBackend} değerine değiştirildiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç ya da Signal'i --password-store=\"{previousBackendFlag}\" komut satırı işareti ile çalıştırmayı dene."
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Dosya"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Arşivlenmiş Sohbetler"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Sohbet klasörü ekle"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Klasör ayarları"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Sabit"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Bir kullanıcı adı ve ardından bir nokta ve sayı kümesi gir."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Görüntülenecek sohbet yok"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Klasör ayarları"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Tümü"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Tüm sohbetler"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Tümünü okundu olarak işaretle"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Bildirimleri sessize al"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Tümünün sesini aç"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Tümünün sesini aç"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Klasörü düzenle"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Klasöre ekle"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Klasör oluştur"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Klasörden kaldır"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Ülke kodu"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Okunmadı olarak işaretle"
+  },
+  "icu:markRead": {
+    "messageformat": "Okundu işaretle"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Mesajları seç"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Makbuz kaydedilirken hata oluştu. Lütfen tekrar dene."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} klasör eklendi"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Dosyalarla birlikte fotoğrafları ve videoları seçemezsin."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Bilgi"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Anket · Birini seç"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Anket · Bir veya daha fazlasını seç"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Anket · Nihai sonuçlar"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Oyları görüntüle"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Oyladın"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Anket detayları"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Soru"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} oy} other {{count,number} oy}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Oy yok"
+  },
   "icu:deleteConversation": {
     "messageformat": "Sil"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Tek seferlik medya indirilemiyor"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Dosya bulunamıyor"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Tam mesaj bulunamıyor"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Medya kullanılamıyor"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Çıkartma kullanılamıyor"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Sesli mesaj kullanılamıyor"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Bu cihaz bağlandığında, bu dosya telefonundan aktarılmadı. Cihaz bağlandığında 45 günden eski olan medya ve dosyalar senkronize edilemez."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Bu mesajdaki metnin tamamı, bu cihaz bağlandığında telefonundan aktarılmadı. Cihaz bağlandığında 45 günden eski olan uzun metin mesajları senkronize edilemez."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Bu medya bağlandığında, bu dosya telefonundan aktarılmadı. Cihaz bağlandığında 45 günden eski olan medya senkronize edilemez."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Bu cihaz bağlandığında, bu çıkartma telefonundan aktarılmadı. Cihaz bağlandığında 45 günden eski olan medya ve dosyalar senkronize edilemez."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Bu cihaz bağlandığında, bu sesli mesaj telefonundan aktarılmadı. Cihaz bağlandığında 45 günden eski olan medya ve dosyalar senkronize edilemez."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Bu tek seferlik medya artık indirilemez. {name} adlı kişiden medyayı tekrar göndermesini iste."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Sohbet klasörü ekle"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Klasör ekle veya düzenle"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Sohbetlerini klasörler halinde düzenle ve sohbet listende bunlar arasında hızla geçiş yap."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} klasör} other {{chatFoldersCount,number} klasör}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Ayarla"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Yönet"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Klasörü düzenle"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Bir klasör oluştur"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Sohbet klasörünü taşımak için sürükle"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Önerilen klasörler"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Ekle"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} klasör eklendi"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Okunmamış"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Aramadan çıkarıldı"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Bu çağrı için maksimum katılımcı sayısına ulaşıldı. Daha sonra tekrar deneyin."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Arama dolu"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Bağlantı üzerinden bu aramaya katılan herkes adını ve fotoğrafını görecektir."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Yakınlarda Kullanılmış"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Çıkartma paketi ekle"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Arama Sonuçları"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Kişilerin seni bu gruba ekleyebilir."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Kişilerin seni bu gruba ekleyebilecektir."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Engeli kaldır"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Medya, bağlantılar ve dosyalar"
+    "messageformat": "Medya ve dosyalar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Bildirim içeriği"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Ay simgesi"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} kopyası"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "Sabah"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "Akşam"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Bildirim profili"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Bildirim Profili"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Açık"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} tarihine kadar açık"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Bir saat boyunca"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Saat {time} olana kadar"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Ayarlar"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "\"{name}\" açık"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "\"{name}\" kapalı"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Bildirim profili şimdi etkin"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Bildirim profili şimdi devre dışı"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Bildirim profilleri"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Ayarla"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Bildirim Profilleri"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Sadece seçtiğin kişi ve gruplardan bildirim ve arama almak için bir profil oluştur"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Devam"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Bildirim profili ekle veya düzenle"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Bir profil} other {{profileCount,number} profil}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Profil oluştur"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Profilinizi adlandırın"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Ad"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profil adı"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Avatar seçin"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "İş"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Uyku"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Araç sürme"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Dinlenme"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Odaklanma"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "İzin verilen bildirimler"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "İzin verilen bildirimler"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Kişi veya grup ekle"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "İstisnalar"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Tüm aramalara izin ver"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Tüm bahsetmeleri bildir"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Zamanlayıcı ekle"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Zamanlayıcı"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Bildirim profilini otomatikleştirmek için programını etkinleştir ve düzenle."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Otomatik aç"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Zamanlayıcı"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "Gönderen"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Şuna kadar:"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Zaman seçiciyi aç"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Pazar"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Pazartesi"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Salı"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Çarşamba"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Perşembe"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Cuma"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Cumartesi"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profil oluşturuldu"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Bir program eklediysen, profilin otomatik olarak açılıp kapanacaktır. Manuel olarak açmak veya kapatmak için sohbet listesinin üstündeki ··· simgesine de tıklayabilirsin."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Paz"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Pzt"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Sal"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Çar"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Per"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Cum"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Cte"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Hafta içleri"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Hafta sonları"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Günlük"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiller"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Cihazlar arasında senkronize et"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Profillerin cihazların arasında senkronize edilecektir. Profil bir cihaz için açıldığında diğerleri için de açılacaktır."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Yeni profil"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Profili sil"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Bu bildirim profili kalıcı olarak silinsin mi?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Sil"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Açık"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Kapalı"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Bu profilin adını düzenle"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "İzin verilen bildirimler"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} ila {endTime} arasında"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Açık"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Kapalı"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Engellendi"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Metin + tüm medya yedeklemesi"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Aboneliğin bulunamadı. Signal Güvenli Yedeklemeleri kullanmaya devam etmek için yenile."
+    "messageformat": "Aboneliğin bulunamadı. Yedekleme ayrıntılarını görüntülemek için telefonunu kontrol et."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/ay"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Metin + {mediaDayCount,number} günlük medya yedeklemesi} other {Metin + {mediaDayCount,number} günlük medya yedeklemesi}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Alıcı yok"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detaylar"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Makbuz indir"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Onaylanması gereken bir bağış işlemin var."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Bağış başarılı oldu ancak rozet ayarlarını güncelleyemedik"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Bağış başarılı oldu ancak rozet ayarlarını güncelleyemedik"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Bu profil etkinleştirildiğinde, hangi kişi ve gruplardan bildirim alacağını kontrol etmek için özel bildirim profilleri oluştur. İş arkadaşların için bir \"İş\" profili ve kendine ait bir \"Boş Zaman\" profili oluşturabilirsin. Bildirim profilleri arasında istediğin zaman geçiş yapabilir veya bunun otomatik olarak gerçekleşmesi için bir program yapılandırabilirsin."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

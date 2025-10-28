@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "ไม่สามารถเข้าถึงกุญแจการเข้ารหัสของฐานข้อมูลได้ เนื่องจากระบบจัดการพวงกุญแจการเข้ารหัสของระบบปฏิบัติการมีการเปลี่ยนจาก {previousBackend} เป็น {currentBackend} กรณีเช่นนี้อาจเกิดขึ้นได้หากมีการเปลี่ยน Desktop Environment เช่น ระหว่าง GNOME และ KDE\n\nโปรดเปลี่ยนกลับไปใช้ Desktop Environment เดิม หรือพยายามเปิด Signal โดยใช้ Command Line Flag: --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "แ&ฟ้ม"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "แชทที่ถูกเก็บในที่เก็บถาวร"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "เพิ่มโฟลเดอร์แชท"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "การตั้งค่าของโฟลเดอร์"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "ปักหมุด"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "ป้อนชื่อผู้ใช้แล้วตามด้วยจุดและชุดตัวเลข"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "ไม่มีแชทให้แสดง"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "การตั้งค่าของโฟลเดอร์"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "ทั้งหมด"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "แชททั้งหมด"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "ทำเครื่องหมายทั้งหมดว่าอ่านแล้ว"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "ปิดเสียงการแจ้งเตือน"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "เปิดการแจ้งเตือนทั้งหมด"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "เปิดการแจ้งเตือนทั้งหมด"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "แก้ไขโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "เพิ่มลงในโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "สร้างโฟลเดอร์"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ลบออกจากโฟลเดอร์"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "รหัสประเทศ"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "กาว่ายังไม่ได้อ่าน"
+  },
+  "icu:markRead": {
+    "messageformat": "ทำเครื่องหมายว่าอ่านแล้ว"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "เลือกข้อความ"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "เกิดข้อผิดพลาดในการบันทึกใบเสร็จ โปรดลองอีกครั้ง"
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "เพิ่มโฟลเดอร์ {chatFolderName} เรียบร้อยแล้ว"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้"
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ข้อมูล"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "โพล · เลือกหนึ่งข้อ"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "โพล · เลือกคำตอบ (ตอบได้มากกว่าหนึ่งข้อ)"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "โพล · ผลสรุป"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "ดูผลโหวต"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "คุณโหวตข้อนี้"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "รายละเอียดโพล"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "คำถาม"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, other {รวม {count,number} คะแนนโหวต}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "ยังไม่มีคะแนนโหวต"
+  },
   "icu:deleteConversation": {
     "messageformat": "ลบ"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "ไม่สามารถดาวน์โหลดไฟล์สื่อแบบที่ดูได้ครั้งเดียวนี้"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "ไม่พบไฟล์"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "ไม่พบข้อความที่ครบถ้วน"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "ไม่พบไฟล์สื่อ"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "ไม่พบสติกเกอร์"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "ไม่พบข้อความเสียง"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "ไฟล์นี้ไม่ได้ถูกถ่ายโอนจากโทรศัพท์ของคุณในขั้นตอนการเชื่อมโยงอุปกรณ์ ระบบไม่สามารถซิงค์ไฟล์และสื่อที่เก่ากว่า 45 วันนับจากวันที่เชื่อมโยงอุปกรณ์ได้"
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "เนื้อหาที่ครบถ้วนทั้งหมดในข้อความนี้ไม่ได้ถูกถ่ายโอนจากโทรศัพท์ของคุณในขั้นตอนการเชื่อมโยงอุปกรณ์ ระบบไม่สามารถซิงค์ข้อความขนาดยาวที่เก่ากว่า 45 วันนับจากวันที่เชื่อมโยงอุปกรณ์ได้"
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "ไฟล์สื่อนี้ไม่ได้ถูกถ่ายโอนจากโทรศัพท์ของคุณในขั้นตอนการเชื่อมโยงอุปกรณ์ ระบบไม่สามารถซิงค์ไฟล์สื่อที่เก่ากว่า 45 วันนับจากวันที่เชื่อมโยงอุปกรณ์ได้"
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "สติกเกอร์นี้ไม่ได้ถูกถ่ายโอนจากโทรศัพท์ของคุณในขั้นตอนการเชื่อมโยงอุปกรณ์ ระบบไม่สามารถซิงค์ไฟล์และสื่อที่เก่ากว่า 45 วันนับจากวันที่เชื่อมโยงอุปกรณ์ได้"
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "ข้อความเสียงนี้ไม่ได้ถูกถ่ายโอนจากโทรศัพท์ของคุณในขั้นตอนการเชื่อมโยงอุปกรณ์ ระบบไม่สามารถซิงค์ไฟล์และสื่อที่เก่ากว่า 45 วันนับจากวันที่เชื่อมโยงอุปกรณ์ได้"
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "ไม่สามารถดาวน์โหลดไฟล์สื่อแบบที่ดูได้ครั้งเดียวนี้ได้แล้ว ลองขอให้ {name} ส่งใหม่อีกครั้ง"
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "เพิ่มโฟลเดอร์แชท"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "เพิ่มหรือแก้ไขโฟลเดอร์"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "จัดแยกแชทเป็นโฟลเดอร์ ให้คุณเปิดสลับไปมาได้อย่างสะดวกรวดเร็วในหน้ารายการแชท"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} โฟลเดอร์}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "ตั้งค่า"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "จัดการ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "แก้ไขโฟลเดอร์"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "สร้างโฟลเดอร์"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "ลากเพื่อย้ายโฟลเดอร์แชท"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "โฟลเดอร์ที่แนะนำ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "เพิ่ม"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "เพิ่มโฟลเดอร์ {chatFolderTitle} เรียบร้อยแล้ว"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "ยังไม่ได้อ่าน"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "ถูกลบออกจากการโทร"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "มีผู้เข้าร่วมสายนี้เต็มขีดจำกัดสูงสุดแล้ว โปรดลองใหม่ภายหลัง"
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "ห้องเต็ม"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "ผู้ใช้ที่เข้าร่วมการโทรนี้ผ่านลิงก์จะเห็นชื่อและรูปภาพของคุณ"
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "เพิ่งใช้"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "เพิ่มชุดสติกเกอร์"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ผลการค้นหา"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "เลิกบล็อก"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ไฟล์สื่อ ลิงก์ และไฟล์อื่นๆ"
+    "messageformat": "ไฟล์สื่อและไฟล์อื่นๆ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "ข้อความแจ้งเตือน"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "ไอคอนรูปพระจันทร์"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "สำเนาของ {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "เปิด"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "เปิดจนถึง {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "เปิดหนึ่งชั่วโมง"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "จนถึง {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "การตั้งค่า"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "เปิดใช้งาน “{name}”"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "ปิดใช้งาน “{name}”"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "เปิดใช้งานโปรไฟล์การแจ้งเตือนแล้ว"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "ปิดใช้งานโปรไฟล์การแจ้งเตือนแล้ว"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "ตั้งค่า"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "โปรไฟล์การแจ้งเตือน"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "สร้างโปรไฟล์เพื่อรับการแจ้งเตือนและการโทรจากผู้ติดต่อหรือกลุ่มที่คุณเลือกเท่านั้น"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "ดำเนินการต่อ"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "เพิ่มหรือแก้ไขโปรไฟล์การแจ้งเตือน"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, other {{profileCount,number} โปรไฟล์}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "สร้างโปรไฟล์"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "ตั้งชื่อโปรไฟล์ของคุณ"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "ชื่อ"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "ชื่อโปรไฟล์"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "เลือกอวตาร"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "ที่ทำงาน"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "นอนหลับ"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "กำลังขับรถ"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "เวลาหยุดทำงาน"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "โฟกัส"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "เพิ่มคนหรือกลุ่ม"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "ข้อยกเว้น"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "อนุญาตการโทรทั้งหมด"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "แจ้งเตือนการกล่าวถึงทั้งหมด"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "เพิ่มกำหนดการ"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "กำหนดการ"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "เปิดใช้งานและแก้ไขตารางเวลาของคุณเพื่อตั้งโปรไฟล์การแจ้งเตือนให้เป็นอัตโนมัติ"
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "เปิดใช้งานอัตโนมัติ"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "กำหนดการ"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "ตั้งแต่"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "จนถึง"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "เปิดตัวเลือกเวลา"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "วันอาทิตย์"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "วันจันทร์"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "วันอังคาร"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "วันพุธ"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "วันพฤหัสบดี"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "วันศุกร์"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "วันเสาร์"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "โปรไฟล์ที่สร้างไว้"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "หากคุณเพิ่มตารางเวลาไว้ โปรไฟล์ของคุณจะเปิดและปิดโดยอัตโนมัติ โดยคุณยังสามารถคลิกที่ไอคอน  ···  ที่ด้านบนของรายการแชทเพื่อเปิดหรือปิดโปรไฟล์ด้วยตัวเอง"
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "อาทิตย์"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "จันทร์"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "อังคาร"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "พ."
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "พฤ."
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "ศ."
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "เสาร์"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "วันธรรมดา"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "วันเสาร์-อาทิตย์"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "ทุกวัน"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "โปรไฟล์"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "ซิงค์บนอุปกรณ์ทุกเครื่อง"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "โปรไฟล์ของคุณจะซิงค์ไปยังอุปกรณ์ทุกเครื่อง การเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องหนึ่งจะเป็นการเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องอื่นๆ ด้วยเช่นกัน"
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "โปรไฟล์ใหม่"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "ลบโปรไฟล์"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "ลบโปรไฟล์การแจ้งเตือนนี้โดยถาวรหรือไม่"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "ลบ"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "เปิด"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "ปิด"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "แก้ไขชื่อโปรไฟล์นี้"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} ถึง {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "เปิด"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "ปิด"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "ถูกบล็อก"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "สำรองข้อความ + สื่อทั้งหมด"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดต่ออายุเพื่อการใช้งานแพ็กเกจสำรองข้อมูลที่ปลอดภัยของ Signal อย่างต่อเนื่อง"
+    "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดดูรายละเอียดการสำรองข้อมูลของคุณบนโทรศัพท์"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/เดือน"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {สำรองข้อความ + สื่อจาก {mediaDayCount,number} วัน}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "ไม่มีใบเสร็จ"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "รายละเอียด"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "ดาวน์โหลดใบเสร็จ"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "คุณมีการบริจาคที่ยังรอการยืนยันตัวตน"
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "สร้างและปรับแต่งโปรไฟล์การแจ้งเตือนส่วนตัวที่จะทำให้คุณกำหนดได้ว่าจะรับการแจ้งเตือนจากผู้ติดต่อหรือกลุ่มไหนบ้างในระหว่างที่เปิดใช้โปรไฟล์นั้นอยู่"
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

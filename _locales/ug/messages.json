@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "ئۇچۇر ئامبىرىنى شىفىرلاشتۇرۇش ئاچقۇچىنى زىيارەت قىلالمىدى ، چۈنكى OS شىفىرلاشتۇرۇش ئاچقۇچ ھالقىسىنىڭ ئاخىرقى ئۇچى {previousBackend} دىن {currentBackend} گە ئۆزگەردى. بۇ ئەھۋال ئۈستەل يۈزى مۇھىتى ئۆزگەرگەندە يۈز بېرىدۇ ، مەسىلەن GNOME بىلەن KDE ئارىلىقىدا.\n\nئالدىنقى ئۈستەل مۇھىتىغا ئالماشتۇرۇڭ ياكى بۇيرۇق قۇرى بايرىقى --password-store = \"{previousBackendFlag}\" ئارقىلىق سىگنالنى ئىشلىتىشنى سىناڭ"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "ئارخىپلانغان پاراڭلار"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "پاراڭ ھۆججىتى قىسقۇچى قوشۇش"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "ھۆججەت قىسقۇچ تەڭشىكى"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "قوندۇرۇلدى"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "كەينىدە بىر چېكىت ۋە بىر يۈرۈش نومۇر بار ئىشلەتكۈچى نامىنى كىرگۈزۈڭ."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "كۆرسىتىدىغان پاراڭلار يوق"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "ھۆججەت قىسقۇچ تەڭشىكى"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "ھەممىسى"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "بارلىق پاراڭلار"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "+{maxCount,number}"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "ھەممىسى ئوقۇلدى"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "ئۈنسىز ئۇقتۇرۇش"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "ھەممە ئۈنسىزلىكنى بىكار قىلىڭ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "ھەممە ئۈنسىزلىكنى بىكار قىلىڭ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "ھۆججەت قىسقۇچنى تەھرىرلەش"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "ھۆججەت قىسقۇچقا قوشۇڭ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "ھۆججەت قىسقۇچ قۇرۇش"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ھۆججەت قىسقۇچتىن چىقىرىۋېتىش"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "دۆلەت كودى"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "ئوقۇلمىدى"
+  },
+  "icu:markRead": {
+    "messageformat": "ئوقۇلدى"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ئۇچۇرلارنى تاللاش"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "تالوننى ساقلىغاندا خاتالىق كۋرۈلدى. قايتا سىناڭ."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} ھۆججەت قىسقۇچ قوشۇلدى."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "رەسىم ۋە ۋىدېيولارنى ھۆججەتلەر بىلەن بىرلىكتە تاللىغىلى بولمايدۇ."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ئۇچۇر"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "راي سىناش · بىرنى تاللاڭ"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "راي سىناش · بىر ياكى بىرقانچىنى تاللاڭ"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "راي سىناش · ئاخىرقى نەتىجىلەر"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "بېلەتلەرنى كۆرۈش"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "بېلەت تاشلىدىڭىز"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "راي سىناش تەپسىلاتلىرى"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "سوئال"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, other {{count,number} بېلەتلەر}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "بېلەت تاشلانمىدى"
+  },
   "icu:deleteConversation": {
     "messageformat": "ئۆچۈر"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "بىر قېتىملا كۆرۈلىدىغان مېدىيانى چۈشۈرگىلى بولمايدۇ"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "ھۆججەتنى ئىشلەتكىلى بولمايدۇ"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "تولۇق ئۇچۇرنى ئىشلەتكىلى بولمايدۇ"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "مېدىيانى ئىشلەتكىلى بولمايدۇ"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "چاپلاقنى ئىشلەتكىلى بولمايدۇ"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "ئاۋازلىق ئۇچۇرنى ئىشلەتكىلى بولمايدۇ"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "بۇ ھۆججەت بۇ ئۈسكۈنە ئۇلانغان ۋاقىتتا تېلېفونىڭىزدىن يۆتكەلمىگەن. ئۈسكۈنە ئۇلىنىۋاتقان ۋاقىتتا ، 45 كۈندىن ئاشقان ھۆججەتلەر ۋە مېدىيانى ماسقەدەملىگىلى بولمايدۇ."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "بۇئۈسكۈنە ئۇلانغان ۋاقىتتا ، بۇ ئۇچۇردىكى تولۇق تېكىست تېلېفونىڭىزدىن يۆتكەلمىگەن. ئۈسكۈنە ئۇلانغان ۋاقىتتا ، 45 كۈندىن ئاشقان ئۇزۇن تېكىستلىك ئۇچۇرلارنى ماسقەدەملىگىلى بولمايدۇ."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "بۇ مېدىيا بۇ ئۈسكۈنە ئۇلانغان ۋاقىتتا تېلېفونىڭىزدىن يۆتكەلمىگەن. 45 كۈندىن ئاشقان مېدىيانى بۇ ئۈسكۈنە ئۇلىنىۋاتقان ۋاقىتتا ماسقەدەملىگىلى بولمايدۇ."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "بۇ چاپلاق بۇ ئۈسكۈنە ئۇلانغان ۋاقىتتا تېلېفونىڭىزدىن يۆتكەلمىگەن. ئۈسكۈنە ئۇلىنىۋاتقان ۋاقىتتا ، 45 كۈندىن ئاشقان ھۆججەتلەر ۋە مېدىيانى ماسقەدەملىگىلى بولمايدۇ."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "بۇ ئۈسكۈنە ئۇلانغان ۋاقىتتا بۇ ئاۋازلىق ئۇچۇر تېلېفونىڭىزدىن يۆتكەلمىگەن. ئۈسكۈنە ئۇلىنىۋاتقان ۋاقىتتا ، 45 كۈندىن ئاشقان ھۆججەتلەر ۋە مېدىيانى ماسقەدەملىگىلى بولمايدۇ."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "بۇ بىر قېتىملا كۆرۈلىدىغان مېدىيانى ئەمدى چۈشۈرگىلى بولمايدۇ. {name} دىن قايتا ئەۋەتىشنى سوراڭ."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "بىرتال پاراڭ قىسقۇچ قوشۇش"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "ھۆججەت قىسقۇچلارنى قوشۇش ياكى تەھرىرلەش"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "پاراڭلىرىڭىزنى ھۆججەت قىسقۇچقا ئورۇنلاشتۇرۇڭ ۋە پاراڭ تىزىملىكىڭىزدە تېز ئالماشتۇرۇڭ."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} ھۆججەت قىسقۇچلار}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "بەلگىلەش"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "باشقۇرۇش"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ھۆججەت قىسقۇچنى تەھرىرلەش"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "بىرتال ھۆججەت قىسقۇچ قۇرۇش"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "پاراڭ ھۆججىتى قىسقۇچىنى سېرىپ يۆتكەش"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "تەكلىپلىك ھۆججەت قىسقۇچلار"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "قوشۇش"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} ھۆججەت قىسقۇچ قوشۇلدى."
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "ئوقۇلمىغان"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "چاقىرىقتىن چىقىرىۋېتىلدى."
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "بۇ چاقىرىشنىڭ ئادەم سانى چېكىگە يەتتى. سەل تۇرۇپ قايتا سىناڭ."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "چاقىرىق توشتى"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "بۇ چاقىرىققا ئۇلانما ئارقىلىق قوشۇلغان ھەرقانداق كىشى ئىسمىڭىز ۋە رەسىمىڭىزنى كۆرەلەيدۇ."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "يېقىندا ئىشلىتىلدى"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "چاپلاق بوغچىسى قوشۇش"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ئىزدەش نەتىجىللىرى"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "چەكلەشنى بىكار قىلىش"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "مېدىيا، ئۇلىنىشلار ۋە ھۆججەتلەر"
+    "messageformat": "مېدىيا ۋە ھۆججەتلەر"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "ئۇقتۇرۇش مەزمۇنى"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "ئاي شەكىللدك سىنبەلگە"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName}نىڭ كۆپەيتىلگەن نۇسخىسى"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "چۈشتىن بۇرۇن"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "چۈشتىن كېيىن"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "ئېچىش"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} گىچە ئوچۇق"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "بىر سائەتلىك"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time} غىچە"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "تەڭشەكلەر"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "«{name}» قوزغىتىلدى"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "«{name}» بىكارقىلىندى"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى ھازىر قوزغىتىلدى"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى ھازىر چەكلەندى"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "بەلگىلەش"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپى"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "پەقەت سىز تاللىغان كىشىلەر ۋە گۇرۇپپىلاردىن كەلگەن ئۇقتۇرۇش ۋە تېلېفونلارنى تاپشۇرۇۋالىدىغان بىر ئارخىپ قۇرۇڭ"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "داۋاملاشتۇرۇش"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپلىرىنى قوشۇش ياكى تەھرىرلەش"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, other {{profileCount,number} ئارخىپلار}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "ئارخىپ قۇرۇش"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "ئارخپىڭىزغا ئىسىم قويۇڭ"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "ئىسمىڭىز"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "سەپلىمە ئاتى"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "بىر سىما تاللا"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "خىزمەت"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "ئۇيقۇ"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Driving"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Downtime"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Focus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "ئادەم ياكى گۇرۇپپا قوشۇش"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "ئايرىم ئەھۋاللار"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "بارلىق چاقىرىقلارغا رۇخسەت"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "بارلىق تىلغا ئېلىشلار ئۇقتۇرۇلسۇن"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "پىلان قوشۇش"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "ۋاقىت ئورۇنلاشتۇرۇش"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "ئۇقتۇرۇش ئارخىپىڭىزنى ئاپتوماتلاشتۇرۇش ئۈچۈن ۋاقىت جەدۋىلىڭىزنى قوزغىتىڭ ۋە تەھرىرلەڭ."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "ئاپتوماتىك قوزغىلىش"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "ۋاقىت ئورۇنلاشتۇرۇش"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "كىمدىن"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "تاكى"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "ۋاقىت تاللىغۇچنى ئېچىش"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "يەكشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "دۈشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "سەيشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "چارشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "پەيشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "جۈمە"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "شەنبە"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "ئارخىپ قۇرۇلدى"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "ۋاقىت جەدۋىلىنى قوشقان بولسىڭىز، ئارخىپىڭىز ئاپتوماتىك قوزغىلىدۇ ياكى تاقىلىدۇ. قولدا قوزغىتىش ياكى تاقاش ئۈچۈن پاراڭ تىزىملىكىنىڭ ئۈستىدىكى ··· سىنبەلگىسىنى باسسىڭىزمۇ بولىدۇ."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "يەكشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "دۈشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "سەيشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "چارشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "پەيشەنبە"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "جۈمە"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "شەنبە"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "ھەپتە كۈنلىرى"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "ھەپتە ئاخىرى"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "كۈنلۈك"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "ئارخىپ"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "ئۈسكۈنىلەر ئارا ماسقەدەملەش"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "ئارخىپلىرىڭىز ئۈسكۈنىلىرىڭىز ئارىسىدا ماسقەدەملىنىدۇ. بىر ئۈسكۈنىدە بىر ئارخىپىنى ئاچسىڭىز، ئۇ باشقا ئۈسكۈنىلەردىمۇ ئېچىۋېتىلىدۇ."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "يېڭى ئارخىپ"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "ئارخىپنى ئۆچۈرۈش"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "بۇ ئۇقتۇرۇش ئارخىپىنى مەڭگۈلۈك ئۆچۈرەمسىز؟"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "ئۆچۈر"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "ئېچىش"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "ئېتىش"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "بۇ ئارخىپنىڭ نامىنى تەھرىرلەڭ"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} دىن{endTime} غىچە"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "ئېچىش"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "ئېتىش"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "چەكلەندى"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "تېكىست + بارلىق مېدىيانى زاپاسلاش"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "مۇشتەرىلىكىڭىز تېپىلمىدى. Signal بىخەتەر زاپاسلانمىللىرىنى داۋاملىق ئشلىتىش ئۈچۈن يېڭىلاڭ."
+    "messageformat": "مۇشتەرىلىكىڭىز تېپىلمىدى. تېلېفونىڭىزدىن زاپاسلاش تەپسىلاتلىرىڭىزنى كۆرۈڭ."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/ئايلىق"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {تېكىست + {mediaDayCount,number} كۈن مېدىيا زاپاسلاش}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "تالون يوق"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "تەپسىلاتى"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "تالوننى چۈشۈرۈڭ"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "ئۆزىڭىز ئۈچۈن مەخسۇس لايىھەلەپ ئۇقتۇرۇش ئارخىپى قۇرۇپ، شۇ ئارخىپ قوزغىتىلغاندىن باشلاپ قايسى كىشىلەر ۋە گۇرۇپپىلاردىن ئۇقتۇرۇش تاپشۇرۇۋالىدىغانلىقىڭىزنى كونترول قىلىڭ. خىزمەتداشلىرىڭىزنىلا ئۆز ئىچىگە ئالىدىغان «خىزمەت» ئارخىپى ھەمدە باشلىقىڭىزنى ئۆز ئىچىگە ئالمايدىغان «تەنەپىس» ئارخىپى قۇرۇۋالسىڭىزمۇ بولىۋېرىدۇ. خالىغان ۋاقىتتا ئۇقتۇرۇش ئارخىپىنى ئالماشتۇرالايسىز ياكى ۋاقىت جەدۋىلى قۇرۇپ بۇلارنى ئاپتوماتلاشتۇرسىڭىز بولىدۇ."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

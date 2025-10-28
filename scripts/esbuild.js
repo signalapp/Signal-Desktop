@@ -66,6 +66,7 @@ const bundleDefaults = {
     '@signalapp/libsignal-client/zkgroup',
     '@signalapp/ringrtc',
     '@signalapp/sqlcipher',
+    '@signalapp/mute-state-change',
     '@indutny/mac-screen-share',
     'electron',
     'fs-xattr',
@@ -94,7 +95,7 @@ const bundleDefaults = {
     'mocha',
 
     // Uses fast-glob and dynamic requires
-    './preload_test.js',
+    './preload_test.preload.js',
   ],
 };
 
@@ -162,7 +163,9 @@ async function main() {
     preloadConfig: {
       ...bundleDefaults,
       mainFields: ['browser', 'main'],
-      entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
+      entryPoints: [
+        path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.preload.ts'),
+      ],
       outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
     },
   });
@@ -174,17 +177,17 @@ async function sandboxedEnv() {
       ...sandboxedBrowserDefaults,
       mainFields: ['browser', 'main'],
       entryPoints: [
-        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.dom.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.dom.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.dom.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.dom.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.dom.tsx'),
         path.join(
           ROOT_DIR,
           'ts',
           'windows',
           'calling-tools',
-          'webrtc_internals.ts'
+          'webrtc_internals.dom.ts'
         ),
       ],
     },
@@ -192,12 +195,30 @@ async function sandboxedEnv() {
       ...sandboxedPreloadDefaults,
       mainFields: ['browser', 'main'],
       entryPoints: [
-        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'calling-tools', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.preload.ts'),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'permissions',
+          'preload.preload.ts'
+        ),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'calling-tools',
+          'preload.preload.ts'
+        ),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'screenShare',
+          'preload.preload.ts'
+        ),
       ],
       format: 'cjs',
       outdir: 'bundles',

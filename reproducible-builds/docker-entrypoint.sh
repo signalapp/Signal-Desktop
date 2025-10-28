@@ -34,9 +34,6 @@ echo "BUILD_TYPE: ${BUILD_TYPE}"
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 echo "SOURCE_DATE_EPOCH: ${SOURCE_DATE_EPOCH}"
 
-# Ensure consistent permissions for files copied via electron builder extraResources
-umask 0022
-
 pnpm install --frozen-lockfile
 pnpm run clean-transpile
 cd sticker-creator
@@ -67,6 +64,10 @@ elif [ "${BUILD_TYPE}" = "dev" ]; then
 else
   echo "Unknown build type ${BUILD_TYPE}"
   exit 1
+fi
+
+if [ "${BUILD_TARGETS}" != "" ]; then
+  pnpm run prepare-linux-build $BUILD_TARGETS
 fi
 
 pnpm run build-linux

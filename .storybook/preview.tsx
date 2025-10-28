@@ -7,28 +7,33 @@ import React, { StrictMode } from 'react';
 
 import '../stylesheets/manifest.scss';
 import '../stylesheets/tailwind-config.css';
-
 import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';
-import { StorybookThemeContext } from './StorybookThemeContext.js';
-import { ThemeType } from '../ts/types/Util.js';
-import { setupI18n } from '../ts/util/setupI18n.js';
-import { HourCyclePreference } from '../ts/types/I18N.js';
+
 import { Provider } from 'react-redux';
 import { Store, combineReducers, createStore } from 'redux';
 import { Globals } from '@react-spring/web';
-import { AxoProvider } from '../ts/axo/AxoProvider.js';
-import { StateType } from '../ts/state/reducer.js';
+
+import { StorybookThemeContext } from './StorybookThemeContext.std.js';
+import { SystemThemeType, ThemeType } from '../ts/types/Util.std.js';
+import { setupI18n } from '../ts/util/setupI18n.dom.js';
+import { HourCyclePreference } from '../ts/types/I18N.std.js';
+import { AxoProvider } from '../ts/axo/AxoProvider.dom.js';
+import type { StateType } from '../ts/state/reducer.preload.js';
 import {
   ScrollerLockContext,
   createScrollerLock,
-} from '../ts/hooks/useScrollLock.js';
-import { Environment, setEnvironment } from '../ts/environment.js';
-import { parseUnknown } from '../ts/util/schemas.js';
-import { LocaleEmojiListSchema } from '../ts/types/emoji.js';
-import { FunProvider } from '../ts/components/fun/FunProvider.js';
-import { EmojiSkinTone } from '../ts/components/fun/data/emojis.js';
-import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.js';
+} from '../ts/hooks/useScrollLock.dom.js';
+import { Environment, setEnvironment } from '../ts/environment.std.js';
+import { parseUnknown } from '../ts/util/schemas.std.js';
+import { LocaleEmojiListSchema } from '../ts/types/emoji.std.js';
+import { FunProvider } from '../ts/components/fun/FunProvider.dom.js';
+import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.js';
+import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.dom.js';
+
+import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.js';
+import type { FunGifSelection } from '../ts/components/fun/panels/FunPanelGifs.dom.js';
+import type { FunStickerSelection } from '../ts/components/fun/panels/FunPanelStickers.dom.js';
 
 setEnvironment(Environment.Development, true);
 
@@ -105,10 +110,10 @@ window.SignalContext = {
   },
 
   nativeThemeListener: {
-    getSystemTheme: () => 'light',
+    getSystemTheme: () => SystemThemeType.light,
     subscribe: noop,
     unsubscribe: noop,
-    update: () => 'light',
+    update: () => SystemThemeType.light,
   },
   Settings: {
     themeSetting: {
@@ -150,7 +155,6 @@ window.SignalContext = {
   _stopTrackingICUStrings: () => i18n.stopTrackingUsage(),
 };
 
-window.i18n = i18n;
 window.ConversationController = window.ConversationController || {};
 window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;
@@ -249,6 +253,15 @@ function withFunProvider(Story, context) {
       fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
+      onSelectEmoji={function (emojiSelection: FunEmojiSelection): void {
+        console.log('onSelectEmoji', emojiSelection);
+      }}
+      onSelectSticker={function (stickerSelection: FunStickerSelection): void {
+        console.log('onSelectSticker', stickerSelection);
+      }}
+      onSelectGif={function (gifSelection: FunGifSelection): void {
+        console.log('onSelectGif', gifSelection);
+      }}
     >
       <Story {...context} />
     </FunProvider>

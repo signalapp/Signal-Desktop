@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "לא הצלחנו לגשת למפתח ההצפנה של מסד הנתונים כי מחזיק המפתחות להצפנת מערכת ההפעלה השתנה מ–{previousBackend} ל–{currentBackend}. זה יכול להתרחש אם סביבת שולחן העבודה משתנה, למשל בין GNOME ל–KDE.\n\nיש לעבור לסביבת שולחן העבודה הקודמת כדי לנסות להריץ את Signal עם דגל שורת הפקודה --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&קובץ"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "צ'אטים מאוחסנים בארכיון"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "הוספת תיקיית צ׳אט"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "הגדרות תיקיה"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "מוצמד"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "יש להזין שם משתמש ואחריו נקודה ואת סט המספרים שלו."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "אין צ׳אטים להצגה"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "הגדרות תיקיה"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "הכל"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "כל הצ׳אטים"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "סמן הכול כנקרא"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "השתקת התראות"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "ביטול השתקת הכל"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "ביטול השתקת הכל"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "עריכת תיקיה"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "הוספה לתיקיה"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "יצירת תיקיה"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "הסרה מתיקיה"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "קוד מדינה"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "סמן כלא נקרא"
+  },
+  "icu:markRead": {
+    "messageformat": "סמן כנקרא"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "בחירת הודעות"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "שגיאה בשמירת הקבלה. יש לנסות שוב."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "תיקיה נוספה: {chatFolderName}"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "אי אפשר לבחור תמונות וסרטונים יחד עם קבצים."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "מידע"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "סקר · יש לבחור 1"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "סקר · יש לבחור 1 או יותר"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "סקר · תוצאות סופיות"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "הצגת הצבעות"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "אפשרות שהצבעת לה"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "פרטי סקר"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "שאלה"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {הצבעה {count,number}} two {{count,number} הצבעות} many {{count,number} הצבעות} other {{count,number} הצבעות}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "אין הצבעות"
+  },
   "icu:deleteConversation": {
     "messageformat": "מחיקה"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "לא ניתן להוריד מדיה לצפייה חד-פעמית"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "קובץ לא זמין"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "הודעה מלאה לא זמינה"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "מדיה לא זמינה"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "סטיקר לא זמין"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "הודעה קולית לא זמינה"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "הקובץ הזה לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "הטקסט המלא בהודעה זו לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן הודעות טקסט ארוכות שיותר ישנות מ–45 ימים בזמן קישור המכשיר."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "המדיה הזו לא הועברה מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן מדיה ישנה יותר מ–45 ימים בזמן קישור המכשיר."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "הסטיקר הזה לא הועבר מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "ההודעה הקולית הזו לא הועברה מהטלפון שלך כשהמכשיר הזה קושר. לא ניתן לסנכרן קבצים ומדיה שיותר ישנים מ–45 ימים בזמן קישור המכשיר."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "המדיה הזו לצפייה חד–פעמית כבר לא זמינה להורדה. אפשר לבקש מ{name} לשלוח אותה שוב."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "הוספת תיקיית צ׳אטים"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "הוספת או עריכת תיקיות"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "ארגון הצ׳אטים שלך בתיקיות והחלפה מהירה ביניהם ברשימת הצ׳אטים שלך."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {תיקיה {chatFoldersCount,number}} two {{chatFoldersCount,number} תיקיות} many {{chatFoldersCount,number} תיקיות} other {{chatFoldersCount,number} תיקיות}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "הגדרה"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "ניהול"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "עריכת תיקיה"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "יצירת תיקיה"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "יש לגרור כדי להזיז תיקיית צ׳אטים"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "תיקיות מוצעות"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "הוסף"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "תיקיה נוספה: {chatFolderTitle}"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "לא נקראו"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "הסרה מהשיחה"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "המספר המרבי של משתתפים הושג עבור שיחה זו. נסה שוב מאוחר יותר."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "השיחה מלאה"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "כל מי שיצטרפו לשיחה הזו באמצעות הלינק יוכלו לראות את השם והתמונה שלך."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "בשימוש לאחרונה"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "הוסף חבילת מדבקות"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "תוצאות חיפוש"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "אנשי הקשר שלך יוכלו להוסיף אותך לקבוצה הזו."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "אנשי הקשר שלך יוכלו להוסיף אותך לקבוצה הזו."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ביטול חסימה"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "מדיה, קישורים וקבצים"
+    "messageformat": "מדיה וקבצים"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "תוכן התראה"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "סמל ירח"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "עותק של {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "בבוקר"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "בערב"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "פרופיל התראות"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "פרופיל התראות"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "מופעל"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "מופעל עד {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "למשך שעה אחת"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "עד {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "הגדרות"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "״{name}״ מופעל"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "״{name}״ כבוי"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "פרופיל התראות מופעל כעת"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "פרופיל ההתראות מושבת כעת"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "פרופילי התראות"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "הגדרה"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "פרופילי התראות"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "ניתן ליצור פרופיל כדי לקבל הראות ושיחות רק מאנשים וקבוצות שבחרת"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "המשך"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "הוסף או ערוך פרופילי התראות"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {פרופיל אחד} two {{profileCount,number} פרופילים} many {{profileCount,number} פרופילים} other {{profileCount,number} פרופילים}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "צור פרופיל"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "תן שם לפרופיל שלך"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "שם"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "שם פרופיל"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "בחר יצגן"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "עבודה"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "שינה"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "נהיגה"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "חוסר זמינות"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "מיקוד"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "התראות מותרות"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "התראות מותרות"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "הוסף אנשים או קבוצות"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "יוצאי דופן"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "לאפשר את כל השיחות"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "להתריע על כל האזכורים"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "הוסף תזמון"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "תזמון"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "ניתן להפעיל ולערוך את הלו״ז שלך כדי להפוך את פרופיל ההתראות שלך לאוטומטי."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "הפעלה אוטומטית"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "תזמון"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "מאת"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "עד"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "פתח בורר שעות"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "יום ראשון"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "יום שני"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "יום שלישי"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "יום רביעי"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "יום חמישי"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "יום שישי"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "יום שבת"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "פרופיל נוצר"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "אם הוספת לו״ז, הפרופיל שלך יופעל ויושבת באופן אוטומטי. ניתן גם ללחוץ על הסמל ··· בראש רשימת הצ׳אטים כדי להפעיל או להשבית אותו ידנית."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "ראשון"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "שני"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "שלישי"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "רביעי"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "חמישי"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "שישי"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "שבת"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "ימי חול"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "סופי שבוע"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "יומית"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "פרופילים"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "סנכרון בין מכשירים"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "הפרופילים שלך יסונכרנו בין המכשירים שלך. הפעלת פרופיל עבור מכשיר אחד תפעיל אותו עבור האחרים."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "פרופיל חדש"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "מחיקת פרופיל"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "האם למחוק פרופיל התראות זה לצמיתות?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "מחיקה"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "מופעל"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "כבוי"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "עריכת שם הפרופיל הזה"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "התראות מותרות"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} עד {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "מופעל"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "כבוי"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "חסומים"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "גיבוי טקסט + כל המדיה"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויים מאובטחים של Signal."
+    "messageformat": "המנוי שלך לא נמצא. יש לבדוק בטלפון שלך כדי לראות את פרטי הגיבוי שלך."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/חודש"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {גיבוי טקסט + יום {mediaDayCount,number} של מדיה} two {גיבוי טקסט + יומיים של מדיה} many {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה} other {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "אין קבלות"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "פרטים"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "הורדת קבלה"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "יש לך תרומה בתהליך הממתינה לאישור."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "ניתן להגדיר פרופילי התראות מותאמים אישית כדי לשלוט באנשים ובקבוצות שמקבלים מהם התראות כאשר פרופיל מסוים מופעל."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Net } from '@signalapp/libsignal-client';
-import type { AciString, PniString } from '../../types/ServiceId.js';
+import type { AciString, PniString } from '../../types/ServiceId.std.js';
 
 export type CDSAuthType = Net.ServiceAuth;
 export type CDSResponseEntryType = Net.CDSResponseEntryType<

@@ -118,8 +118,8 @@ importers:
         specifier: 3.1.0
         version: 3.1.0(vite@4.5.3(@types/node@22.13.4)(sass@1.62.0))
       emoji-datasource-apple:
-        specifier: 15.1.2
-        version: 15.1.2
+        specifier: 16.0.0
+        version: 16.0.0
       eslint:
         specifier: 8.38.0
         version: 8.38.0
@@ -1035,8 +1035,8 @@ packages:
   electron-to-chromium@1.5.99:
     resolution: {integrity: sha512-77c/+fCyL2U+aOyqfIFi89wYLBeSTCs55xCZL0oFH0KjqsvSvyh6AdQ+UIl1vgpnQQE6g+/KK8hOIupH6VwPtg==}
 
-  emoji-datasource-apple@15.1.2:
-    resolution: {integrity: sha512-32UZTK36x4DlvgD1smkmBlKmmJH7qUr5Qut4U/on2uQLGqNXGbZiheq6/LEA8xRQEUrmNrGEy25wpEI6wvYmTg==}
+  emoji-datasource-apple@16.0.0:
+    resolution: {integrity: sha512-dVYjsK0FnCry9F+PBtnivhG2K0xdwlmqYaSgiUtztUdAGPYiHYhZcVKvNBqC791g2qyEcFNTBO6utg4eQ3uLTw==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -3617,7 +3617,7 @@ snapshots:
 
   electron-to-chromium@1.5.99: {}
 
-  emoji-datasource-apple@15.1.2: {}
+  emoji-datasource-apple@16.0.0: {}
 
   emoji-regex@8.0.0: {}
 

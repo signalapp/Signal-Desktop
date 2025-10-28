@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "OS എൻക്രിപ്ഷൻ കീറിംഗ് ബാക്കെൻഡ് {previousBackend}-ൽ നിന്ന് {currentBackend} ആയി മാറിയതിനാൽ ഡാറ്റാബേസ് എൻക്രിപ്ഷൻ കീ ആക്സസ് ചെയ്യാൻ കഴിയുന്നില്ല. ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതി മാറുകയാണെങ്കിൽ ഇത് സംഭവിക്കാം, ഉദാഹരണത്തിന് GNOME-നും KDE-യ്ക്കും ഇടയിൽ.\n\nമുമ്പത്തെ ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതിയിലേക്ക് മാറുക അല്ലെങ്കിൽ കമാൻഡ് ലൈൻ ഫ്ലാഗ് ഉപയോഗിച്ച് സിഗ്നൽ പ്രവർത്തിപ്പിക്കാൻ ശ്രമിക്കുക --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ഫയൽ"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "ആർക്കൈവ് ചെയ്‌ത ചാറ്റുകൾ"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "ഫോൾഡർ ക്രമീകരണങ്ങൾ"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "പിൻ ചെയ്‌തു"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "ഡോട്ടും തുടർന്ന് വരുന്ന സംഖ്യകളും ഉൾപ്പെടെയുള്ള ഉപയോക്തൃനാമം നൽകുക."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "പ്രദർശിപ്പിക്കാൻ ചാറ്റുകളൊന്നുമില്ല"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "ഫോൾഡർ ക്രമീകരണങ്ങൾ"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "എല്ലാം"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "എല്ലാ ചാറ്റുകളും"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "എല്ലാം വായിച്ചതായി കാണിക്കൂ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "അറിയിപ്പുകൾ മ്യൂട്ട് ചെയ്യുക"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "എല്ലാം അൺമ്യൂട്ട് ചെയ്യുക"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "എല്ലാം അൺമ്യൂട്ട് ചെയ്യുക"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "ഫോൾഡറിലേക്ക് ചേർക്കുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "ഫോൾഡർ സൃഷ്ടിക്കുക"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ഫോൾഡറിൽ നിന്ന് നീക്കം ചെയ്യുക"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "രാജ്യ കോഡ്"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "വായിച്ചിട്ടില്ലെന്ന് കാണിക്കുക"
+  },
+  "icu:markRead": {
+    "messageformat": "വായിച്ചതായി കാണിക്കുക"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കൂ"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "രസീത് സംരക്ഷിക്കുന്നതിൽ പിശക്. വീണ്ടും ശ്രമിക്കുക."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} ഫോൾഡർ ചേർത്തു"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "നിങ്ങൾക്ക് ഫയലുകൾക്കൊപ്പം ഫോട്ടോകളും വീഡിയോകളും തിരഞ്ഞെടുക്കാനാകില്ല."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "വിവരം"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "പോൾ · ഒന്ന് തിരഞ്ഞെടുക്കുക"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "പോൾ · ഒന്നോ അതിലധികമോ തിരഞ്ഞെടുക്കുക"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "പോൾ · അന്തിമ ഫലങ്ങൾ"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "വോട്ടുകൾ കാണുക"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "നിങ്ങൾ വോട്ട് ചെയ്തു"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "പോൾ വിശദാംശങ്ങൾ"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "ചോദ്യം"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} വോട്ട്} other {{count,number} വോട്ടുകൾ}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "വോട്ടുകളൊന്നുമില്ല"
+  },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "ഫയൽ ലഭ്യമല്ല"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "പൂർണ്ണ സന്ദേശം ലഭ്യമല്ല"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "മീഡിയ ലഭ്യമല്ല"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "സ്റ്റിക്കർ ലഭ്യമല്ല"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "ശബ്ദ സന്ദേശം ലഭ്യമല്ല"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "ഈ ഉപകരണം ലിങ്ക് ചെയ്‌തപ്പോൾ നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഈ ഫയൽ കൈമാറ്റം ചെയ്‌തില്ല. ഉപകരണം ലിങ്ക് ചെയ്യുന്ന സമയത്ത് 45 ദിവസത്തിലധികം പഴക്കമുള്ള മീഡിയയും ഫയലുകളും സമന്വയിപ്പിക്കാൻ കഴിയില്ല."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "ഈ ഉപകരണം ലിങ്ക് ചെയ്‌തപ്പോൾ ഈ സന്ദേശത്തിലെ മുഴുവൻ വാചകവും നിങ്ങളുടെ ഫോണിൽ നിന്ന് കൈമാറിയില്ല. ഉപകരണം ലിങ്ക് ചെയ്യുന്ന സമയത്ത് 45 ദിവസത്തിലധികം പഴക്കമുള്ള നീണ്ട വാചക സന്ദേശങ്ങൾ സമന്വയിപ്പിക്കാൻ കഴിയില്ല."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "ഈ ഉപകരണം ലിങ്ക് ചെയ്‌തപ്പോൾ നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഈ മീഡിയ കൈമാറ്റം ചെയ്‌തില്ല. ഉപകരണം ലിങ്ക് ചെയ്യുമ്പോൾ 45 ദിവസത്തിലധികം പഴക്കമുള്ള മീഡിയ സമന്വയിപ്പിക്കാൻ കഴിയില്ല."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "ഈ ഉപകരണം ലിങ്ക് ചെയ്‌തപ്പോൾ നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഈ സ്റ്റിക്കർ കൈമാറ്റം ചെയ്‌തില്ല. ഉപകരണം ലിങ്ക് ചെയ്യുന്ന സമയത്ത് 45 ദിവസത്തിലധികം പഴക്കമുള്ള മീഡിയയും ഫയലുകളും സമന്വയിപ്പിക്കാൻ കഴിയില്ല."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "ഈ ഉപകരണം ലിങ്ക് ചെയ്‌തപ്പോൾ നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഈ ശബ്‌ദ സന്ദേശം കൈമാറ്റം ചെയ്‌തില്ല. ഉപകരണം ലിങ്ക് ചെയ്യുന്ന സമയത്ത് 45 ദിവസത്തിലധികം പഴക്കമുള്ള മീഡിയയും ഫയലുകളും സമന്വയിപ്പിക്കാൻ കഴിയില്ല."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന ഈ മീഡിയ ഡൗൺലോഡ് ചെയ്യാൻ ഇനി ലഭ്യമല്ല. {name} -നോട് വീണ്ടും അയയ്ക്കാൻ ആവശ്യപ്പെടുക."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ഒരു ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "ഫോൾഡറുകൾ ചേർക്കുക അല്ലെങ്കിൽ എഡിറ്റ് ചെയ്യുക"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "നിങ്ങളുടെ ചാറ്റുകൾ ഫോൾഡറുകളായി ഓർഗനൈസുചെയ്യുകയും നിങ്ങളുടെ ചാറ്റ് ലിസ്റ്റിൽ അവയ്ക്കിടയിൽ വേഗത്തിൽ മാറുകയും ചെയ്യുക."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} ഫോൾഡർ} other {{chatFoldersCount,number} ഫോൾഡറുകൾ}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "സജ്ജമാക്കുക"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "കൈകാര്യം ചെയ്യുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "ഒരു ഫോൾഡർ സൃഷ്ടിക്കുക"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "ചാറ്റ് ഫോൾഡർ നീക്കാൻ വലിച്ചിടുക"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "നിർദ്ദേശിക്കപ്പെട്ട ഫോൾഡറുകൾ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "ചേർക്കുക"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} ഫോൾഡർ ചേർത്തു"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "വായിക്കാത്തവ"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "കോളിൽ നിന്ന് നീക്കം ചെയ്‌തു"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "ഈ കോളിൽ പങ്കെടുക്കാവുന്ന പരമാവധി പേരുടെ എണ്ണത്തിൽ എത്തി. പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "കോൾ നിറഞ്ഞു"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "ലിങ്ക് വഴി ഈ കോളിൽ ചേരുന്ന ആർക്കും നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "ഒരു സ്റ്റിക്കർ പായ്ക്ക് ചേർക്കുക"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "തിരയൽ ഫലങ്ങൾ"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാനാകും."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാനാകും."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "അൺബ്ലോക്ക് ചെയ്യുക"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "മീഡിയ, ലിങ്കുകൾ, ഫയലുകൾ"
+    "messageformat": "മീഡിയയും ഫയലുകളും"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "നോട്ടിഫിക്കേഷൻ ഉള്ളടക്കം"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "മൂൺ ഐക്കൺ"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName}-ന്റെ പകർപ്പ്"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "രാവിലെ"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "വൈകുന്നേരം"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "അറിയിപ്പ് രൂപരേഖ"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "ഓൺ"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} വരെ സജീവം"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "ഒരു മണിക്കൂറോളം"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time} വരെ"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "ക്രമീകരണങ്ങൾ"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” ഓൺ"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” ഓഫ് ആണ്"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ ഇപ്പോൾ പ്രവർത്തനക്ഷമമാക്കി"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈൽ ഇപ്പോൾ പ്രവർത്തനരഹിതമാക്കി"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "അറിയിപ്പ് രൂപരേഖകള്‍"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "സജ്ജമാക്കുക"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "അറിയിപ്പ് രൂപരേഖകള്‍"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ആളുകളിൽ നിന്നും ഗ്രൂപ്പുകളിൽ നിന്നും മാത്രം അറിയിപ്പുകളും കോളുകളും സ്വീകരിക്കുന്നതിന് ഒരു പ്രൊഫൈൽ സൃഷ്ടിക്കുക"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "തുടരുക"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "അറിയിപ്പ് പ്രൊഫൈലുകൾ ചേർക്കുക അല്ലെങ്കിൽ എഡിറ്റ് ചെയ്യുക"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {ഒരു പ്രൊഫൈൽ} other {{profileCount,number} പ്രൊഫൈലുകൾ}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "രൂപരേഖ സൃഷ്‌ടിക്കുക"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "പ്രൊഫൈലിന് പേര് നൽകുക"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "പേര്"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "പ്രൊഫൈൽ നാമം"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "അവതാർ തിരഞ്ഞെടുക്കുക"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "ജോലി"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "ഉറക്കം"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "വാഹനം ഓടിക്കുന്നു"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "ദുഃഖകാലം"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "ശ്രദ്ധ കേന്ദ്രീകരിക്കല്‍"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "ആളുകളെയോ ഗ്രൂപ്പുകളെയോ ചേർക്കുക"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "ഉള്‍പ്പെടാത്തവ"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "എല്ലാ കോളുകളും അനുവദിക്കുക"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "എല്ലാ സൂചനകളും അറിയിക്കുക"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "ഒരു സമയക്രമം ചേര്‍ക്കുക"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "സമയക്രമം"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "നിങ്ങളുടെ അറിയിപ്പ് പ്രൊഫൈൽ ഓട്ടോമേറ്റ് ചെയ്യുന്നതിന് നിങ്ങളുടെ ഷെഡ്യൂൾ പ്രവർത്തനക്ഷമമാക്കി, എഡിറ്റ് ചെയ്യുക."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "ഓട്ടോമാറ്റിയ്ക്കായി ഓണാക്കുക"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "സമയക്രമം"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "പ്രേഷിതാവ്:"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "വരെ"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "ടൈം പിക്കർ തുറക്കുക"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "ഞായറാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "തിങ്കളാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "ചൊവ്വാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "ബുധനാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "വ്യാഴാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "വെള്ളിയാഴ്ച"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "ശനിയാഴ്ച"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "പ്രൊഫൈൽ സൃഷ്ടിച്ചു"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "നിങ്ങൾ ഒരു ഷെഡ്യൂൾ ചേർത്തിട്ടുണ്ടെങ്കിൽ, നിങ്ങളുടെ പ്രൊഫൈൽ സ്വയമേവ ഓണും ഓഫും ആകും. ചാറ്റ് ലിസ്റ്റിന്റെ മുകളിലുള്ള ··· ഐക്കണിൽ ക്ലിക്കുചെയ്ത് നിങ്ങൾക്ക് അത് നേരിട്ട് ഓണാക്കാനോ ഓഫാക്കാനോ കഴിയും."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "ഞായർ"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "തിങ്കൾ"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "ഐസക്ക്"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "ബുധൻ"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "വ്യാഴം"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "വെള്ളി"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "ശനി"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "ആഴ്ചദിനങ്ങൾ"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "വാരാന്ത്യങ്ങൾ"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "ദിവസേന"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "പ്രൊഫൈലുകൾ"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "ഉപകരണങ്ങളിലുടനീളം സമന്വയിപ്പിക്കുക"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈലുകൾ ഉപകരണങ്ങളിലുടനീളം സമന്വയിപ്പിക്കപ്പെടും. ഒരു ഉപകരണത്തിൽ ഒരു പ്രൊഫൈൽ ഓണാക്കിയാൽ മറ്റുള്ളവയിൽ അത് ഓണാകും."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "പുതിയ പ്രൊഫൈൽ"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "പ്രൊഫൈൽ ഇല്ലാതാക്കൂ"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "ഈ അറിയിപ്പ് പ്രൊഫൈൽ ശാശ്വതമായി ഇല്ലാതാക്കണോ?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "ഇല്ലാതാക്കുക"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "ഓൺ"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "ഓഫ്"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "ഈ പ്രൊഫൈലിൻ്റെ പേര് എഡിറ്റ് ചെയ്യുക"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} മുതൽ {endTime} വരെ"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "ഓൺ"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "ഓഫ്"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "ടെക്സ്റ്റ് + എല്ലാ മീഡിയ ബാക്കപ്പും"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ കണ്ടെത്തിയില്ല. Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഉപയോഗിക്കുന്നത് തുടരാൻ പുതുക്കുക."
+    "messageformat": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ കണ്ടെത്തിയില്ല. നിങ്ങളുടെ ബാക്കപ്പ് വിശദാംശങ്ങൾ കാണാൻ ഫോൺ പരിശോധിക്കുക."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/ മാസം"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്} other {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "രസീതുകളൊന്നുമില്ല"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "വിശദാംശങ്ങൾ"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "രസീത് ഡൗൺലോഡ് ചെയ്യുക"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "നിങ്ങൾക്ക്, സ്ഥിരീകരണം ആവശ്യമുള്ള ഒരു സംഭാവന പുരോഗതിയിലാണ്."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "ആ പ്രൊഫൈൽ പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ ഏത് ആളുകളിൽ നിന്നും ഗ്രൂപ്പുകളിൽ നിന്നുമാണ് നിങ്ങൾക്ക് അറിയിപ്പുകൾ ലഭിക്കേണ്ടതെന്ന് നിയന്ത്രിക്കാൻ ഇഷ്ടാനുസൃത അറിയിപ്പ് പ്രൊഫൈലുകൾ സജ്ജമാക്കുക. സഹപ്രവർത്തകരല്ലാത്തവരെ ഒഴിവാക്കുന്ന ഒരു \"വർക്ക്\" പ്രൊഫൈലും (നിങ്ങളുടെ സുഹൃത്തിന് ഒഴികെ) നിങ്ങളുടെ ബോസിനെ ഉൾപ്പെടുത്താത്ത ഒരു \"ഡൗൺടൈം\" പ്രൊഫൈലും സൃഷ്ടിക്കുക. നിങ്ങൾക്ക് ആവശ്യമുള്ളപ്പോഴെല്ലാം അറിയിപ്പ് പ്രൊഫൈലുകൾക്കിടയിൽ മാറാം, അല്ലെങ്കിൽ അത് സ്വയമേവ സംഭവിക്കുന്ന തരത്തിൽ ഒരു ഷെഡ്യൂൾ കോൺഫിഗർ ചെയ്യാം."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

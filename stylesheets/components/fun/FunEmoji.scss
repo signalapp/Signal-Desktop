@@ -50,6 +50,13 @@ $emoji-sprite-sheet-grid-item-count: 62;
   vertical-align: baseline;
 }
 
+.FunStaticEmoji--Size12 {
+  width: 12px;
+  height: 12px;
+  // Use 32px variant even on smaller sizes to avoid shipping the 16px sheet
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(12 / 32));
+}
+
 .FunStaticEmoji--Size16 {
   width: 16px;
   height: 16px;
@@ -103,27 +110,18 @@ $emoji-sprite-sheet-grid-item-count: 62;
   width: 36px;
   height: 36px;
   @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(36 / 64));
-  @include hidpi {
-    @include emoji-jumbo;
-  }
 }
 
 .FunStaticEmoji--Size40 {
   width: 40px;
   height: 40px;
   @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(40 / 64));
-  @include hidpi {
-    @include emoji-jumbo;
-  }
 }
 
 .FunStaticEmoji--Size48 {
   width: 48px;
   height: 48px;
   @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(48 / 64));
-  @include hidpi {
-    @include emoji-jumbo;
-  }
 }
 
 .FunStaticEmoji--Size56 {
@@ -139,14 +137,20 @@ $emoji-sprite-sheet-grid-item-count: 62;
   width: 64px;
   height: 64px;
   @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(64 / 64));
-  @include hidpi {
-    @include emoji-jumbo;
-  }
 }
 
 .FunStaticEmoji--Size66 {
   width: 66px;
   height: 66px;
+}
+
+.FunStaticEmoji--has-jumbo {
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size66.FunStaticEmoji--has-jumbo {
   @include emoji-jumbo;
 }
 
@@ -196,6 +200,11 @@ $inline-emoji-container-name: inline-emoji;
 
   @container #{$inline-emoji-container-name} (width >= 32px) {
     @include emoji-sprite($sheet: 64, $margin: 1px, $scale: 1);
+  }
+}
+
+.FunInlineEmoji__Image.FunInlineEmoji--has-jumbo {
+  @container #{$inline-emoji-container-name} (width > 32px) {
     @include hidpi {
       @include emoji-jumbo;
     }

@@ -13,17 +13,17 @@ jobs:
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
       - name: Setup node.js
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Cache .electron-gyp
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.electron-gyp
           key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -31,7 +31,7 @@ jobs:
       # - name: Setup sccache
       #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
       # - name: Restore sccache
-      #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+      #   uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       #   id: cache-sccache
       #   with:
       #     path: ${{ env.SCCACHE_PATH }}
@@ -51,11 +51,11 @@ jobs:
         env:
           ARTIFACTS_DIR: stories
       - run: pnpm run build:esbuild
-      - run: node ts/scripts/compile-stories-icu-lookup.js stories
+      - run: node ts/scripts/compile-stories-icu-lookup.node.js stories
 
       - name: Upload test artifacts
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: desktop-test-icu
           path: stories
@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload release artifacts
         if: github.event_name != 'workflow_dispatch'
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: desktop-${{ github.ref_name }}-icu
           path: stories

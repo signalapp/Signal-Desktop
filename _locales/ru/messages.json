@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Не удаётся получить доступ к ключу шифрования базы данных, так как серверная часть связки ключей шифрования ОС изменилась с {previousBackend} на {currentBackend}. Это может произойти при изменении интерфейса ПК, например с GNOME на KDE.\n\nПожалуйста, переключитесь на предыдущий интерфейс ПК или попробуйте запустить Signal с параметром командной строки --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Архивированные чаты"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Добавить папку чата"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Настройки папки"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Прикреплённые"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Введите имя пользователя, затем точку и набор принадлежащих ему цифр."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Нет чатов для отображения"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Настройки папки"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Все"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Все чаты"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Отметить все как прочитанные"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Отключить уведомления"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Вкл. звук всех чатов"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Вкл. звук всех чатов"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Изменить папку"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Добавить в папку"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Создать папку"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Удалить из папки"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Код страны"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Отметить как непрочитанное"
+  },
+  "icu:markRead": {
+    "messageformat": "Прочитано"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Выбрать сообщения"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Ошибка сохранения квитанции. Пожалуйста, попробуйте ещё раз."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "Папка добавлена: {chatFolderName}"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Вы не можете выбирать фото и видео вместе с файлами."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Информация"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Опрос · Выберите один вариант"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Опрос · Выберите один или несколько вариантов"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Опрос · Итоговые результаты"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Просмотреть голоса"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Вы проголосовали"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Детали опроса"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Вопрос"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} голос} few {{count,number} голоса} many {{count,number} голосов} other {{count,number} голоса}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Нет голосов"
+  },
   "icu:deleteConversation": {
     "messageformat": "Удалить"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Невозможно загрузить одноразовое медиа"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Файл недоступен"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Полное сообщение недоступно"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Медиафайл недоступен"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Стикер недоступен"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Голосовое сообщение недоступно"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Этот файл не был перенесён с вашего телефона при привязке этого устройства. Медиафайлы и файлы, срок создания которых на момент привязки устройства превышал 45 дней, не могут быть синхронизированы."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Полный текст этого сообщения не был перенесён с вашего телефона при привязке этого устройства. Длинные текстовые сообщения, срок создания которых на момент привязки устройства превышал 45 дней, не могут быть синхронизированы."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Этот медиафайл не был перенесён с вашего телефона при привязке этого устройства. Медиафайлы, срок создания которых на момент привязки устройства превышал 45 дней, не могут быть синхронизированы."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Этот стикер не был перенесён с вашего телефона при привязке этого устройства. Медиафайлы и файлы, срок создания которых на момент привязки устройства превышал 45 дней, не могут быть синхронизированы."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Это голосовое сообщение не было перенесено с вашего телефона при привязке этого устройства. Медиафайлы и файлы, срок создания которых на момент привязки устройства превышал 45 дней, не могут быть синхронизированы."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Это одноразовое медиа больше не доступно для загрузки. Попросите {name} отправить его ещё раз."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Добавить папку чата"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Добавить или изменить папки"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Организуйте свои чаты в папки и быстро переключайтесь между ними в списке чатов."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} папка} few {{chatFoldersCount,number} папки} many {{chatFoldersCount,number} папок} other {{chatFoldersCount,number} папки}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Настроить"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Управлять"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Изменить папку"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Создать папку"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Перетащите, чтобы переместить папку чата"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Рекомендуемые папки"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Добавить"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Папка добавлена: {chatFolderTitle}"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Не прочитано"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Удалён(-на) из звонка"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Для этого звонка было достигнуто максимальное количество участников. Попробуйте ещё раз позже."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Звонок заполнен"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Все, кто присоединится к этому звонку по ссылке, будут видеть ваше имя и фото."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Недавно использованные"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Добавить набор стикеров"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Результаты поиска"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Ваши контакты смогут добавить вас в эту группу."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Ваши контакты смогут добавить вас в эту группу."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Разблокировать"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиафайлы, ссылки и файлы"
+    "messageformat": "Медиафайлы и файлы"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Содержимое уведомления"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Значок луны"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Копия {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "утра"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "вечера"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Профиль уведомлений"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Профиль уведомлений"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Вкл."
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Включён до {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "На один час"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "До {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Настройки"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "«{name}» вкл."
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "«{name}» выкл."
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Профиль уведомлений теперь включён"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Профиль уведомлений теперь выключен"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Профили уведомлений"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Настроить"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Профили уведомлений"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Создайте профиль, чтобы получать уведомления и звонки только от людей и групп, выбранных вами"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Продолжить"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Добавить или изменить профили уведомлений"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Один профиль} few {{profileCount,number} профиля} many {{profileCount,number} профилей} other {{profileCount,number} профиля}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Создать профиль"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Назовите свой профиль"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Имя"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Имя профиля"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Выберите аватар"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Работа"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Сон"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "В дороге"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "В покое"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Фокусирование"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Разрешённые уведомления"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Разрешённые уведомления"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Добавить людей или групп"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Исключения"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Разрешить все звонки"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Уведомлять обо всех упоминаниях"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Добавить расписание"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Расписание"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Включите и измените расписание, чтобы автоматизировать профиль уведомлений."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Включать автоматически"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Расписание"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "От"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "До"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Открыть панель времени"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Воскресенье"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Понедельник"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Вторник"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Среда"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Четверг"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Пятница"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Суббота"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Профиль создан"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Если вы добавили расписание, ваш профиль будет включаться и выключаться автоматически. Вы также можете нажать на значок ··· в верхней части списка чатов, чтобы включить или выключить его вручную."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Воскр"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Понед"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Вторн"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Ср."
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Чт."
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Пт."
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Субб"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Будни"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Выходные"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Ежедневно"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Профили"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Синхронизация между устройствами"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Ваши профили будут синхронизированы на всех устройствах. Включение профиля для одного устройства включит его и на других."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Новый профиль"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Удалить профиль"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Удалить этот профиль уведомлений без возможности восстановления?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Удалить"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Вкл."
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Откл."
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Изменить имя этого профиля"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Разрешённые уведомления"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} для {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Вкл."
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Откл."
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Заблокировано"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Резервное копирование сообщений и всех медиафайлов"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать безопасное резервное копирование Signal."
+    "messageformat": "Ваша подписка не найдена. Проверьте свой телефон, чтобы просмотреть информацию о резервном копировании."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/месяц"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} день} few {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня} many {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дней} other {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Нет квитанций"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Подробнее"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Загрузить квитанцию"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Настройте свои профили уведомлений, чтобы контролировать, от каких пользователей и групп вы получаете уведомления, когда определённый профиль включён. Создайте профиль «Работа», который держит вдалеке тех, кто не входит в число ваших коллег (за исключением ваших близких), и профиль «В покое», в котором нет вашего начальника. Вы можете переключаться между профилями уведомлений когда пожелаете или настроить расписание так, чтобы это происходило автоматически."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "OS 암호화 키링 백엔드가 {previousBackend}에서 {currentBackend}(으)로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE 간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하거나 --password-store=\"{previousBackendFlag}\" 명령줄 플래그로 Signal을 실행해 보세요."
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "파일 (&F)"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "보관된 대화"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "대화 폴더 추가"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "폴더 설정"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "고정됨"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "사용자 이름 뒤에 마침표와 해당 세트 번호를 입력하세요."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "표시할 대화가 없습니다."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "폴더 설정"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "모두"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "모든 대화"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}명 이상"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "모두 읽음으로 표시"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "알림 끄기"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "모든 알림 켜기"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "모든 알림 켜기"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "폴더 수정"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "폴더에 추가"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "폴더 만들기"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "폴더에서 제거"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "국가 번호"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "읽지 않은 대화로 표시하기"
+  },
+  "icu:markRead": {
+    "messageformat": "읽음으로 표시"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "메시지 선택"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "영수증을 저장하는 중 오류가 발생했습니다. 다시 시도해 주세요."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} 폴더를 추가했습니다"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "파일과 함께 사진이나 동영상을 선택할 수 없습니다."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "정보"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "설문조사 · 하나 선택"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "설문조사 · 하나 이상 선택"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "설문조사 · 최종 결과"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "투표 결과 보기"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "투표했습니다."
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "설문조사 세부 정보"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "질문"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, other {{count,number}표}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "투표 없음"
+  },
   "icu:deleteConversation": {
     "messageformat": "삭제"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "한 번만 볼 수 있는 미디어를 다운로드할 수 없음"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "파일을 사용할 수 없음"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "전체 메시지를 사용할 수 없음"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "미디어를 사용할 수 없음"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "스티커를 사용할 수 없음"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "음성 메시지를 사용할 수 없음"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "이 기기 연결 시 이 파일을 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "이 기기를 연결한 상태로 이 메시지의 전체 텍스트를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 긴 텍스트 메시지는 동기화할 수 없습니다."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "이 기기 연결 시 이 미디어를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어는 동기화할 수 없습니다."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "이 기기 연결 시 이 스티커를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "이 기기 연결 시 이 음성 메시지를 휴대폰에서 전송할 수 없습니다. 기기 연결 시점에 45일보다 오래된 미디어와 파일은 동기화할 수 없습니다."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "이 한 번만 볼 수 있는 미디어를 더 이상 다운로드할 수 없습니다. {name} 님에게 다시 보내 달라고 요청하세요."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "대화 폴더 추가"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "폴더 추가 또는 수정"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "대화를 폴더로 정리하여 대화 목록에서 대화 간에 빠르게 전환하세요."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, other {폴더 {chatFoldersCount,number}개}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "설정"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "관리"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "폴더 수정"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "폴더 만들기"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "드래그하여 대화 폴더 이동"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "추천 폴더"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "추가"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} 폴더를 추가했습니다"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "읽지 않음"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "통화에서 제거됨"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "이 통화에 대한 최대 참가자 수에 도달했습니다. 나중에 다시 시도하세요."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "통화 참가자 수 최대"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "링크를 통해 이 통화에 참여하는 모든 사용자에게 귀하의 이름과 사진이 표시됩니다."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "최근 사용함"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "스티커 팩 추가하기"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "검색 결과"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "내 연락처에 있는 사람이 나를 이 그룹에 추가할 수 있게 됩니다."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "내 연락처에 있는 사람이 나를 이 그룹에 추가할 수 있게 됩니다."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "차단 해제"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "미디어, 링크, 파일"
+    "messageformat": "미디어 및 파일"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "알림 콘텐츠"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "달 아이콘"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName}의 복사본"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "오전"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "오후"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "알림 프로필"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "알림 프로필"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "켜짐"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime}까지 켜짐"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "1시간 동안"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time}까지"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "설정"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "\"{name}\" 켜짐"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "\"{name}\" 꺼짐"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "알림 프로필 활성화됨"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "알림 프로필 비활성화됨"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "알림 프로필"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "설정"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "알림 프로필"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "프로필을 만들어 내가 선택한 사람과 그룹의 알림과 통화만 수신하세요"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "계속"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "알림 프로필 추가 또는 수정"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, other {프로필 {profileCount,number}개}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "프로필 만들기"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "당신의 프로필에 이름을 붙이세요"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "이름"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "프로필 이름"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "아바타 선택"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "회사"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "수면"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "운전"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "휴식"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "집중"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "알림 허용"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "알림 허용"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "사용자 또는 그룹 추가"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "예외"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "모든 통화 허용"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "모든 멘션 알림"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "일정 추가"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "일정"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "일정을 활성화하고 수정하여 알림 프로필을 자동화하세요."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "자동으로 사용"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "일정"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "보낸이:"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "종료"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "시간 선택기 열기"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "일요일"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "월요일"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "화요일"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "수요일"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "목요일"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "금요일"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "토요일"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "프로필 생성됨"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "일정을 추가하면 프로필이 자동으로 켜지고 꺼집니다. 대화 목록 상단의 ··· 아이콘을 클릭하여 수동으로 켜거나 끌 수도 있습니다."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "일"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "월"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "화"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "수요일"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "목요일"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "금요일"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "토"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "주중"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "주말"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "매일"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "프로필"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "기기 간 동기화"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "프로필이 모든 기기에서 동기화됩니다. 한 기기에서 프로필을 켜면 다른 기기에서도 켜집니다."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "새 프로필"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "프로필 삭제"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "이 알림 프로필을 영구 삭제하시겠습니까?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "삭제"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "켜짐"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "꺼짐"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "이 프로필 이름 수정"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "알림 허용"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime}부터 {endTime}까지"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "켜짐"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "꺼짐"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "차단함"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "텍스트 + 모든 미디어 백업"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "구독 정보를 찾지 못했습니다. Signal 안전 백업을 계속 사용하려면 갱신하세요."
+    "messageformat": "구독 정보를 찾지 못했습니다. 휴대폰에서 백업 세부 정보를 확인하세요."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/월"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {텍스트 + {mediaDayCount,number}일간의 미디어 백업}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "영수증 없음"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "세부 정보"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "영수증 다운로드"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "현재 진행 중인 기부금이 있으며, 확인이 필요합니다."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "기부에 성공했지만, 배지 설정을 업데이트하지 못했습니다."
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "기부에 성공했지만, 배지 설정을 업데이트하지 못했습니다."
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "맞춤 알림 프로필을 설정해 프로필별로 알림을 받을 사람과 그룹을 선택하세요."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

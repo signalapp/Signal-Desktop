@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Nevar piekļūt datu bāzes šifrēšanas atslēgai, jo OS šifrēšanas atslēgu turētāja aizmugursistēma ir mainīta no {previousBackend} uz {currentBackend}. Tas var notikt, ja mainās darbvirsmas vide, piemēram, no GNOME uz KDE.\n\nLūdzu, pārslēdzieties uz iepriekšējo darbvirsmas vidi vai mēģiniet palaist Signal ar komandrindas karogu --password-store=\"{previousBackendFlag}\"."
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fails"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Arhivētās sarunas"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Pievienot sarunu mapi"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Mapes iestatījumi"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Piekabināts"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Ievadiet lietotāja vārdu, lieciet aiz tā punktu un tad ierakstiet tam piesaistīto ciparu kombināciju."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Nav sarunu, ko parādīt"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Mapes iestatījumi"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Visas"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Visas sarunas"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Atzīmēt visus kā lasītus"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Izslēgt paziņojumus"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Ieslēgt visu sarunu paziņojumus"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Ieslēgt visu sarunu paziņojumus"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Rediģēt mapi"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Pievienot mapei"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Izveidot mapi"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Noņemt no mapes"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Valsts kods"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Atzīmēt kā nelasītu"
+  },
+  "icu:markRead": {
+    "messageformat": "Atzīmēt kā lasītu"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Atlasīt ziņas"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Saglabājot kvīti, radās kļūda. Lūdzu, mēģiniet vēlreiz."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "Mape {chatFolderName} pievienota"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Jūs nevarat kopā ar failiem atlasīt attēlus un video."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informācija"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Aptauja · Izvēlieties vienu atbildi"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Aptauja · Izvēlieties vienu vai vairākas atbildes"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Aptauja · Gala rezultāti"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Skatīt balsojumu"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Jūs balsojāt"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Informācija par aptauju"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Jautājums"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, zero {{count,number} balsis} one {{count,number} balss} other {{count,number} balsis}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Nav balsu"
+  },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Nevar lejupielādēt vienreiz skatāmo multividi"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Fails nav pieejams"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Viss ziņas teksts nav pieejams"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Multivide nav pieejama"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Uzlīme nav pieejama"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Balss ziņa nav pieejama"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Kad šī ierīce tika piesaistīta, šis fails no jūsu tālruņa netika pārsūtīts. Multividi un failus, kuri ierīces saistīšanas brīdī ir vecāki par 45 dienām, nevar sinhronizēt."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Kad šī ierīce tika piesaistīta, šīs ziņas pilnais saturs no jūsu tālruņa netika pārsūtīts. Garas teksta ziņas, kuras ierīces saistīšanas brīdī ir vecākas par 45 dienām, nevar sinhronizēt."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Kad šī ierīce tika piesaistīta, šī multivide no jūsu tālruņa netika pārsūtīta. Multividi, kas ierīces saistīšanas brīdī ir vecāka par 45 dienām, nevar sinhronizēt."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Kad šī ierīce tika piesaistīta, šī uzlīme no jūsu tālruņa netika pārsūtīta. Multividi un failus, kuri ierīces saistīšanas brīdī ir vecāki par 45 dienām, nevar sinhronizēt."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Kad šī ierīce tika piesaistīta, šī balss ziņa no jūsu tālruņa netika pārsūtīta. Multividi un failus, kuri ierīces saistīšanas brīdī ir vecāki par 45 dienām, nevar sinhronizēt."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Šī vienreiz skatāmā multivide vairs nav pieejama lejupielādei. Lūdziet, lai {name} to nosūta vēlreiz."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Pievienot sarunu mapi"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Pievienot vai rediģēt mapes"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Sakārtojiet sarunas mapēs un ātri pārslēdzieties starp tām savā sarunu sarakstā."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, zero {{chatFoldersCount,number} mapes} one {{chatFoldersCount,number} mape} other {{chatFoldersCount,number} mapes}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Iestatīt"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Pārvaldīt"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Rediģēt mapi"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Izveidot mapi"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Velciet, lai pārvietotu sarunu mapi"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Ieteiktās mapes"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Pievienot"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Mape {chatFolderTitle} pievienota"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Nelasītās"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Noņemts no zvana"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Šī zvana maksimālais dalībnieku skaits ir sasniegts. Vēlāk mēģiniet vēlreiz"
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Zvana/sarunas dalībnieku limits izsmelts"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Ikviens, kurš pievienosies šim zvanam, izmantojot saiti, redzēs jūsu vārdu un fotoattēlu."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nesen lietotie"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Pievienot uzlīmju komplektu"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Meklēšanas rezultāti"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Jūsu kontakti varēs jūs pievienot šai grupai."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Jūsu kontaktpersonas varēs jūs pievienot šai grupai."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Atbloķēt"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multivide, saites un faili"
+    "messageformat": "Multivide un faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Paziņojuma saturs"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Mēness ikona"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} kopija"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "empty"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "empty"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Paziņojumu profils"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Paziņojumu profils"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Ieslēgts"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Ieslēgts līdz {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Vienu stundu"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Līdz {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Iestatījumi"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "\"{name}\" aktivizēts"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "\"{name}\" atspējots"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Paziņojumu profils ir iespējots"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Paziņojumu profils ir atspējots"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Paziņojumu profili"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Iestatīt"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Paziņojumu profili"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Izveidojiet profilu, lai saņemtu paziņojumus un zvanus tikai no cilvēkiem un grupām, no kuriem to vēlaties."
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Turpināt"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Pievienot vai rediģēt paziņojumu profilus"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, zero {{profileCount,number} profili} one {Viens profils} other {{profileCount,number} profili}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Izveidot profilu"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Dodiet profilam nosaukumu"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Vārds"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profila nosaukums"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Atlasīt avatāru"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Darba"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Miegs"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Braukšana"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Atpūta"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Fokuss"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Atļautie paziņojumi"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Atļautie paziņojumi"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Pievienot cilvēkus vai grupas"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Izņēmumi"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Atļaut visus zvanus"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Paziņot par visiem pieminējumiem"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Pievienot grafiku"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Grafiks"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Iespējojiet un rediģējiet savu grafiku, lai automatizētu savu paziņojumu profilu."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Ieslēgt automātiski"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Grafiks"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "No"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Līdz"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Atvērt laika izvēli"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Svētdienai"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Pirmdienai"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Otrdienai"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Trešdienai"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Ceturtdienai"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Piektdienai"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Sestdienai"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profils izveidots"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Ja esat pievienojuši grafiku, jūsu profils ieslēgsies un izslēgsies automātiski. Lai to ieslēgtu vai izslēgtu manuāli, varat arī noklikšķināt uz ··· ikonas sarunu saraksta augšdaļā."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Svētd."
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Pirmd."
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Otrd."
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Trešdiena"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Ceturtdiena"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Piektdiena"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sestd."
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Darba dienas"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Nedēļas nogales"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Reizi dienā"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profili"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sinhronizēt starp ierīcēm"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Jūsu profili tiks sinhronizēti visās ierīcēs. Ieslēdzot profilu vienā ierīcē, tas tiks ieslēgts arī citās ierīcēs."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Jauns profils"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Dzēst profilu"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Neatgriezeniski dzēst šo paziņojumu profilu?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Dzēst"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Ieslēgts"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Izslēgts"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Rediģēt šī profila nosaukumu"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Atļautie paziņojumi"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "No {startTime} līdz {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Ieslēgts"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Izslēgts"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Bloķēti"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Teksta + visas multivides rezerves kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Jūsu abonements netika atrasts. Atjauniniet to, lai turpinātu izmantot Signal drošās rezerves kopijas."
+    "messageformat": "Jūsu abonements netika atrasts. Pārbaudiet tālruni, lai skatītu informāciju par rezerves kopiju."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/mēnesī"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija} one {Teksta + {mediaDayCount,number} dienas multivides rezerves kopija} other {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Kvīšu nav"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Sīkāki dati"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Lejupielādēt kvīti"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jums ir nepabeigts ziedojums, kuram nepieciešams apstiprinājums."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Iestatiet pielāgotus paziņojumu profilus, lai kontrolētu, no kurām personām un grupām saņemat paziņojumus, kamēr šis profils ir iespējots. Izveidojiet profilu “Darbs”, kas filtrē paziņojumus no visiem, izņemot kolēģus (un jūsu otro pusīti!), un profilu “Atpūta”, kas neļaus traucēt jūsu priekšniekam. Varat pārslēgties starp paziņojumu profiliem, kad vien vēlaties, vai konfigurēt grafiku, lai tas notiktu automātiski."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

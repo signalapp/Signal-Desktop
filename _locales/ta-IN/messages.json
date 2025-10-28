@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "OS குறியாக்க கீரிங் பின்தளம் {previousBackend} -இலிருந்து {currentBackend}-க்கு மாறியதால் தரவுத்தளக் குறியாக்க விசையை அணுக முடியவில்லை. உதாரணமாக GNOME மற்றும் KDE -க்கு இடையில் டெஸ்க்டாப் சூழல் மாறினால் இது நிகழலாம்.\n\nமுந்தைய டெஸ்க்டாப் சூழலுக்கு மாறவும் அல்லது சிக்னலைக் கட்டளை வரி கொடி --password-store=\"{previousBackendFlag}\" என அமைத்து இயக்க முயற்சிக்கவும்"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&கோப்பு"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "காப்பகப்படுத்தப்பட்ட சாட்ஸ்"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "சாட் கோப்புறையைச் சேர்த்திடுக"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "கோப்புறை அமைப்புகள்"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "முக்கியமானவை"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "ஒரு புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர் பெயரை உள்ளிடவும்."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "காண்பிப்பதற்கான சாட்ஸ் ஏதும் இல்லை"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "கோப்புறை அமைப்புகள்"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "அனைத்து"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "அனைத்து சாட்ஸ்"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "அனைத்தையும் படித்தாக குறியிடு"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "அறிவிப்புகளை ஒலியடக்கு"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "அனைத்தையும் ஒலியடக்கு"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "அனைத்தையும் ஒலியடக்கு"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "கோப்புறையைத் திருத்து"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "கோப்புறையைச் சேர்"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "சாட் கோப்புறை"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "கோப்புறையிலிருந்து நீக்குக"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "நாட்டின் குறியீடு"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "படிக்கவில்லை என்று குறிக்க"
+  },
+  "icu:markRead": {
+    "messageformat": "படித்தாக குறியிடு"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "செய்திகளைத் தேர்ந்தெடுக்கவும்"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "ரசீதைச் சேமிப்பதில் பிழை. மீண்டும் முயலுங்கள்."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} கோப்புறை சேர்க்கப்பட்டது"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "கோப்புகளுடன் புகைப்படங்களையும் வீடியோக்களையும் தேர்ந்தெடுக்க முடியாது."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "தகவல்"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "வாக்கெடுப்பு · ஒன்றைத் தேர்ந்தெடுக்கவும்"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "வாக்கெடுப்பு · ஒன்று அல்லது அதற்கு மேற்பட்டவற்றைத் தேர்ந்தெடுங்கள்"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "வாக்கெடுப்பு · இறுதி முடிவுகள்"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "வாக்குகளைக் காண்க"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "நீங்கள் வாக்களித்துள்ளீர்கள்"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "வாக்கெடுப்பு விவரங்கள்"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "கேள்வி"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number}வாக்கு} other {{count,number}வாக்குகள்}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "வாக்குகள் இல்லை"
+  },
   "icu:deleteConversation": {
     "messageformat": "நீக்கு"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "ஒரு முறை-காணும் ஊடகத்தைப் பதிவிறக்க முடியாது"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "கோப்பு கிடைக்கவில்லை"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "முழுமையான மெசேஜ் கிடைக்கவில்லை"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "ஊடகம் கிடைக்கவில்லை"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "ஸ்டிக்கர் கிடைக்கவில்லை"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "வாய்ஸ் மெசேஜ் கிடைக்கவில்லை"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்தக் கோப்பு உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய ஊடகம் மற்றும் கோப்புகளை ஒத்திசைக்க முடியாது."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்த மெசேஜின் முழுமையான உரை உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய மெசேஜ்களை ஒத்திசைக்க முடியாது."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்த ஊடகம் உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய ஊடகத்தை ஒத்திசைக்க முடியாது."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்த ஸ்டிக்கர் உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய ஊடகம் மற்றும் கோப்புகளை ஒத்திசைக்க முடியாது."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்த வாய்ஸ் மெசேஜ் உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய ஊடகம் மற்றும் கோப்புகளை ஒத்திசைக்க முடியாது."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "இந்த ஒரு முறை-காணும் ஊடகம் பதிவிறக்குவதற்குக் கிடைக்காது. {name} என்பவரிடம் அதை மீண்டும் அனுப்பும்படி கேளுங்கள்."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "சாட் கோப்புறையைச் சேர்"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "கோப்புறைகளைச் சேர்க்கவும் அல்லது திருத்தவும்"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "உங்கள் சாட்ஸைக் கோப்புறைகளாக ஒழுங்கமைத்து, உங்கள் சாட் பட்டியலில் அவற்றுக்கிடையே விரைவாக மாறவும்."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} கோப்புறை} other {{chatFoldersCount,number} கோப்புறைகள்}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "அமைக்கவும்"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "நிர்வகி"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "கோப்புறையைத் திருத்து"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "கோப்புறையை உருவாக்கு"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "சாட் கோப்புறையை நகர்த்த இழுக்கவும்"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "பரிந்துரைக்கப்பட்ட கோப்புறைகள்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "சேர்க்கவும்"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} கோப்புறை சேர்க்கப்பட்டது"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "படிக்காதவை"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "அழைப்பிலிருந்து அகற்றப்பட்டது"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "இந்த அழைப்பிற்கான அதிகபட்ச எண்ணிக்கையிலான பங்கேற்பாளர்கள் அடைந்துள்ளனர். பின்னர் மீண்டும் முயலுங்கள்."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "அழைப்பு நிரம்பியுள்ளது"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "இணைப்பு மூலம் இந்த அழைப்பில் சேரும் எவரினாலும் உங்கள் பெயரையும் புகைப்படத்தையும் பார்க்க முடியும்."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "ஒரு ஸ்டிக்கர் பேக் சேர்க்கவும்"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "தேடல் முடிவுகள்"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "தடைநீக்கு"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ஊடகம், இணைப்புகள் மற்றும் கோப்புகள்"
+    "messageformat": "ஊடகம் மற்றும் கோப்புகள்"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "அறிவிப்பு உள்ளடக்கம்"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "மூன் ஐகான்"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} இன் நகல்"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "அறிவிப்பு சுயவிவரம்"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "அறிவிப்பு சுயவிவரம்"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "இயக்கு"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} வரையில்"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "ஒரு மணி நேரத்திற்கு"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time} வரை"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "அமைப்புகள்"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” இயக்கப்பட்டுள்ளது"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” முடக்கப்பட்டுள்ளது"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "அறிவிப்பு சுயவிவரம் தற்போது செயல்படுத்தப்பட்டுள்ளது"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "அறிவிப்பு சுயவிவரம் தற்போது முடக்கப்பட்டுள்ளது"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "அறிவிப்பு சுயவிவரங்கள்"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "அமைக்கவும்"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "அறிவிப்பு சுயவிவரங்கள்"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "நீங்கள் தேர்ந்தெடுக்கும் நபர்கள் மற்றும் குழுக்களிடமிருந்து மட்டும் அறிவிப்புகள் மற்றும் அழைப்புகளைப் பெற சுயவிவரத்தை உருவாக்குங்கள்"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "தொடர்க"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "அறிவிப்பு சுயவிவரத்தைச் சேர்க்கவும் அல்லது திருத்தவும்"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {ஒரு சுயவிவரம்} other {{profileCount,number} சுயவிவரங்கள்}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "சுயவிவரத்தை உருவாக்கவும்"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "உங்கள் சுயவிவரத்திற்குப் பெயரிடவும்"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "பெயர்"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "ப்ரொஃபைல் பெயர்"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "தேர்ந்தெடு ஒரு அவதாரம்"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "அலுவலகம்"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "தூக்கம்"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "ஓட்டுதல்"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "வேலையில்லா நேரம்"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "கவனம்"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "நபர்கள் அல்லது குழுக்களைச் சேர்க்கவும்"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "விதிவிலக்குகள்"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "அனைத்து அழைப்புகளையும் அனுமதிக்கவும்"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "அனைத்து குறிப்பிடல்களுக்கும் தெரிவிக்கவும்"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "கால அட்டவணையைச் சேர்க்கவும்"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "கால அட்டவணை"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "உங்கள் அறிவிப்பு சுயவிவரத்தைத் தானியக்கமாக்க உங்கள் திட்ட அட்டவணையைச் செயல்படுத்தித் திருத்துங்கள்"
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "தனியங்காக இயக்கவும்"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "கால அட்டவணை"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "இருந்து"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "வரை"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "நேர பிக்கரைத் திறந்திடுங்கள்"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "ஞாயிற்றுக்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "திங்கட்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "செவ்வாய்க்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "புதன்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "வியாழக்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "வெள்ளிக்கிழமை"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "சனிக்கிழமை"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "சுயவிவரம் உருவாக்கப்பட்டது"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "நீங்கள் ஒரு திட்ட அட்டவணையைச் சேர்த்திருந்தால், உங்கள் சுயவிவரம் தானாகவே இயக்கப்படும் மற்றும் முடக்கப்படும். சாட் பட்டியலின் மேலே உள்ள ··· ஐகானைக் கிளிக் செய்து அதனைக் கைமுறையாக இயக்கலாம் அல்லது முடக்கலாம்."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "ஞாயிறு"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "திங்கள்"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "செவ்வாய்"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "புதன்"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "வியாழன்"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "வெள்ளி"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "சனி"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "வாரநாட்கள்"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "வாரஇறுதி நாட்கள்"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "தினமும்"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "சுயவிவரங்கள்"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "சாதனங்கள் முழுவதையும் ஒத்திசைக்க"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "உங்கள் சுயவிவரங்கள், உங்கள் சாதனங்கள் முழுவதும் ஒத்திசைக்கப்படும். ஒரு சாதனத்தில் சுயவிவரத்தை இயக்குவது மற்ற சாதனங்களிலும் அதை இயக்கும்."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "புதிய சுயவிவரம்"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "சுயவிவரத்தை நீக்கு"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "இந்த அறிவிப்பு சுயவிவரத்தை நிரந்தரமாக நீக்கவா?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "நீக்கு"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "இயக்கு"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "அணை"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "இந்தச் சுயவிவரத்தின் பெயரைத் திருத்த"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} முதல் {endTime} வரை"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "இயக்கு"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "அணை"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "தடைசெய்யப்பட்டது"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "உரை + அனைத்து ஊடகக் காப்புப்பிரதி"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகளைத் தொடர்ந்து உபயோகிக்கப் புதுப்பியுங்கள்."
+    "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. உங்கள் காப்புப்பிரதி விவரங்களைப் பார்க்க உங்கள் பேசியைச் சரிபாருங்கள்"
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/மாதம்"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {உரை + {mediaDayCount,number} நாள் ஊடகக் காப்புப்பிரதி} other {உரை + {mediaDayCount,number} நாட்கள் ஊடகக் காப்புப்பிரதி}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "ரசீதுகள் இல்லை"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "விவரங்கள்"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "ரசீதைப் பதிவிறக்குக"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "உறுதிப்படுத்தல் தேவைப்படும் ஒரு நன்கொடை செயல்நிலையில் உள்ளது."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "நன்கொடை வெற்றிகரமாக வழங்கப்பட்டது, ஆனால் உங்கள் பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க முடியவில்லை"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "நன்கொடை வெற்றிகரமாக வழங்கப்பட்டது, ஆனால் உங்கள் பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க முடியவில்லை"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "அந்தச் சுயவிவரம் இயக்கப்படும்போது, நீங்கள் அறிவிப்புகளைப் பெற வேண்டிய நபர்கள் மற்றும் குழுக்களைக் கட்டுப்படுத்த தனிப்பயன் அறிவிப்பு சுயவிவரங்களை அமையுங்கள்."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

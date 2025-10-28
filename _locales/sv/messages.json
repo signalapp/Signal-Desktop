@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Det går inte att komma åt databasens krypteringsnyckel eftersom OS-krypteringsnyckelns backend har ändrats från {previousBackend} till {currentBackend}. Detta kan inträffa om skrivbordsmiljön ändras, t.ex. mellan GNOME och KDE.\n\nByt till föregående skrivbordsmiljö eller försök att köra Signal med kommandoradsflaggan --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Arkiv"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Arkiverade chattar"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Lägg till chattmapp"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Mappinställningar"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Nålade"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Ange ett användarnamn följt av en punkt och dess sifferkombination."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Inga chattar att visa"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Mappinställningar"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Alla"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Alla chattar"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Markera alla som lästa"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Tysta aviseringar"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Slå på ljudet för alla"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Slå på ljudet för alla"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Redigera mapp"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Lägg till i mapp"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Skapa mapp"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Ta bort från mapp"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landskod"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Markera som oläst"
+  },
+  "icu:markRead": {
+    "messageformat": "Läst"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Markera meddelanden"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Fel vid sparande av kvitto. Försök igen."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "Mappen {chatFolderName} har lagts till"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Du kan inte välja foton och videor tillsammans med filer."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Omröstning · Välj ett"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Omröstning · Välj ett eller flera"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Omröstning · Slutresultat"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Visa röster"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Du röstade"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Omröstningsdetaljer"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Fråga"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} röst} other {{count,number} röster}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Inga röster"
+  },
   "icu:deleteConversation": {
     "messageformat": "Ta bort"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Det går inte att ladda ned tillfällig mediefil"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Filen är inte tillgänglig"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Hela meddelandet är ej tillgängligt"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media är inte tillgängligt"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Klistermärket är inte tillgängligt"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Röstmeddelandet är inte tillgängligt"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Den här filen överfördes inte från din telefon när den här enheten länkades. Media och filer som är äldre än 45 dagar vid tidpunkten för enhetslänkning kan inte synkroniseras."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Hela texten i det här meddelandet överfördes inte från din telefon när den här enheten länkades. Långa textmeddelanden som är äldre än 45 dagar vid tidpunkten för enhetslänkning kan inte synkroniseras."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Den här mediafilen överfördes inte från din telefon när den här enheten länkades. Media som är äldre än 45 dagar vid tidpunkten för enhetslänkning kan inte synkroniseras."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Det här klistermärket överfördes inte från din telefon när den här enheten länkades. Media och filer som är äldre än 45 dagar vid tidpunkten för enhetslänkning kan inte synkroniseras."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Det här röstmeddelandet överfördes inte från din telefon när den här enheten länkades. Media och filer som är äldre än 45 dagar vid tidpunkten för enhetslänkning kan inte synkroniseras."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Den här tillfälliga mediefilen är inte längre tillgänglig för nedladdning. Be {name} att skicka den igen."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Lägg till en chattmapp"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Lägg till eller redigera mappar"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organisera dina chattar i mappar och växla snabbt mellan dem i din chattlista."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} mapp} other {{chatFoldersCount,number} mappar}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Ställ in"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Hantera"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Redigera mapp"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Skapa en mapp"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Dra för att flytta chattmappen"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Föreslagna mappar"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Lägg till"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Mappen {chatFolderTitle} har lagts till"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Oläst"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Borttagen från samtalet"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Det maximala antalet deltagare har uppnåtts för detta samtal. Försök igen senare."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Samtalet är fullt"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Alla som ansluter sig till detta samtal via länken kommer att se ditt namn och foto."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nyligen använda"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Lägg till ett klistermärkepaket"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Sökresultat"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Dina kontakter kommer att kunna lägga till dig i den här gruppen."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Dina kontakter kommer att kunna lägga till dig i den här gruppen."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Avblockera"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, länkar och filer"
+    "messageformat": "Media och filer"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Aviseringsinnehåll"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Månikon"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Kopia av {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": "."
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Aviseringsprofil"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Aviseringsprofil"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "På"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "På till {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Under en timme"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Fram tills {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Inställningar"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "\"{name} \" på"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "\"{name} \" av"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Aviseringsprofilen är nu aktiverad"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Aviseringsprofilen är nu inaktiverad"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Aviseringsprofiler"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Ställ in"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Aviseringsprofiler"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Skapa en profil för att endast få aviseringar och samtal från de personer och grupper du väljer"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Fortsätt"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Lägg till eller redigera aviseringsprofiler"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {En profil} other {{profileCount,number} profiler}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Skapa profil"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Namnge din profil"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Namn"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profilnamn"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Välj en avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Arbete"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Sov"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Drift"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Driftstopp"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Fokus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Tillåtna aviseringar"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Tillåtna aviseringar"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Lägg till personer eller grupper"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Undantag"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Tillåt alla samtal"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Meddela för alla omnämnanden"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Lägg till ett schema"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Schema"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Aktivera och redigera ditt schema för att automatisera din aviseringsprofil."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Slå på automatiskt"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Schema"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "Från"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Tills"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Öppna tidsväljare"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Söndag"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Måndag"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Tisdag"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Onsdag"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Torsdag"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Fredag"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Lördag"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profil skapad"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Om du har lagt till ett schema kommer din profil att slås på och av automatiskt. Du kan också klicka på ikonen ··· högst upp i chattlistan för att slå på eller av den manuellt."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Sön"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Mån"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Tis"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Ons"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Tors"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Fre"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Lör"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Vardagar"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Helger"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Dagligen"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiler"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Synkronisera mellan enheter"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Dina profiler kommer att synkroniseras mellan dina enheter. Om du aktiverar en profil för en enhet aktiveras den även för de andra."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Ny profil"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Ta bort profil"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Vill du ta bort den här aviseringsprofilen permanent?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Ta bort"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "På"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Av"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Redigera den här profilens namn"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Tillåtna aviseringar"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} till {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "På"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Av"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Blockerade"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Säkerhetskopiering av textmeddelanden + alla mediefiler"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Ditt abonnemang hittades inte. Förnya för att fortsätta använda Säkerhetskopiering av Signal."
+    "messageformat": "Ditt abonnemang hittades inte. Kontrollera din telefon för att visa information om dina säkerhetskopior."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/månad"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Säkerhetskopiering av textmeddelanden + {mediaDayCount,number} dags media} other {Säkerhetskopiering av textmeddelanden + {mediaDayCount,number} dagars media}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Inga kvitton"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detaljer"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Ladda ner kvitto"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en pågående donation som kräver bekräftelse."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donationen lyckades, men vi kunde inte uppdatera dina märkesinställningar"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donationen lyckades, men vi kunde inte uppdatera dina märkesinställningar"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Skapa anpassade aviseringsprofiler för att styra vilka personer och grupper du får aviseringar från när profilen är aktiverad."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -1,0 +1,94 @@
+# Copyright 2025 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Reproducible Build Scheduler
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        type: boolean
+        description: 'Ignore version cache and reproduce the latest builds'
+        required: true
+        default: false
+  schedule:
+    - cron: '0 12 * * *'
+jobs:
+  linux:
+    strategy:
+      matrix:
+        package: ['signal-desktop', 'signal-desktop-beta']
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+    - name: Log info
+      run: |
+        echo "inputs.force: ${{ inputs.force }}";
+        echo "matrix.package: ${{ matrix.package }}";
+
+    - name: Add signal desktop signing key and apt repo
+      run: |
+        wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+        cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+
+        wget -O signal-desktop.sources https://updates.signal.org/static/desktop/apt/signal-desktop.sources
+        cat signal-desktop.sources | sudo tee /etc/apt/sources.list.d/signal-desktop.sources > /dev/null
+        sudo apt-get update
+
+    - name: Restore previous version file from cache
+      id: restore-cache-version
+      uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        key: ${{ matrix.package }}-version-git-ref-txt
+        path: ~/version-git-ref.txt
+    - name: Get previous version tag
+      id: previous-version
+      if: steps.restore-cache-version.outputs.cache-hit == 'true'
+      run: |
+        PREVIOUS_VERSION_GIT_TAG=$(cat ~/version-git-ref.txt)
+        echo "Previous git version tag: $PREVIOUS_VERSION_GIT_TAG"
+        echo "tag=$PREVIOUS_VERSION_GIT_TAG" >> $GITHUB_OUTPUT
+
+    - name: Get latest apt version of package and matching git tag
+      id: latest-version
+      run: |
+        LATEST_VERSION_APT=$(apt-cache policy "${{ matrix.package }}" | grep Candidate | awk '{print $2}')
+        if [ -z "$LATEST_VERSION_APT" ]; then
+          echo "Error: Could not get latest version of '${{ matrix.package }}' using apt-cache"
+          exit 1
+        fi
+
+        echo "Latest apt version of ${{ matrix.package }}: $LATEST_VERSION_APT"
+
+        VERSION_GIT_TAG="v$(echo "$LATEST_VERSION_APT" | tr '~' '-')"
+        echo "Latest git version tag: $VERSION_GIT_TAG"
+
+        echo "$VERSION_GIT_TAG" > ~/version-git-ref.txt
+        echo "tag=$VERSION_GIT_TAG" >> $GITHUB_OUTPUT
+
+    - name: Determine if a build is needed
+      id: should-run
+      run: |
+        if ${{ inputs.force || steps.restore-cache-version.outputs.cache-hit != 'true' || steps.previous-version.outputs.tag != steps.latest-version.outputs.tag }}; then
+          echo "result=true" >> $GITHUB_OUTPUT
+        else
+          echo "result=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run workflow Reproducible Build using REST API
+      if: steps.should-run.outputs.result == 'true'
+      run: |
+        curl -L \
+        -X POST \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/${{ github.repository }}/actions/workflows/reproducible-builds.yml/dispatches \
+        -d '{"ref":"main","inputs":{"package":"${{ matrix.package }}","version_tag":"${{ steps.latest-version.outputs.tag }}"}}'
+
+    - name: Cache latest version
+      if: steps.should-run.outputs.result == 'true'
+      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        key: ${{ matrix.package }}-version-git-ref-txt
+        path: ~/version-git-ref.txt

@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "OS గుప్తీకరణ కీరింగ్ బ్యాకెండ్ {previousBackend} నుండి {currentBackend} కు మారినందున డేటాబేస్ గుప్తీకరణ కీని యాక్సెస్ చేయడం సాధ్యపడలేదు. ఒకవేళ డెస్క్‌టాప్ ఆవరణము మారితే ఇది సంభవించవచ్చు, ఉదాహరణకు GNOME మరియు KDE మధ్య.\n\nదయచేసి మునుపటి డెస్క్‌టాప్ ఆవరణమునకు మారండి లేదా కమాండ్ లైన్ ఫ్లాగ్ --password-store=\"{previousBackendFlag}\" తో Signal ను రన్ చేయడానికి ప్రయత్నించండి"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&పంక్తి"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "ఆర్కైవ్ చేసిన చాట్స్"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "చాట్ ఫోల్డర్‌ను జోడించండి"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "ఫోల్డర్ సెట్టింగులు"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "పిన్ చేయబడింది"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "యూజర్‌నేమ్‌ పక్కన డాట్ మరియు అంకెల జతను ఎంటర్ చేయండి."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "ప్రదర్శించడానికి ఏ చాట్స్ లేవు"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "ఫోల్డర్ సెట్టింగులు"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "అన్నీ"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "అన్ని చాట్స్"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "మార్క్ చేసినవన్నీ చదవండి"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "నోటిఫికేషన్లను మ్యూట్ చేయండి"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "అన్నీ అన్మ్యూట్ చేయండి"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "అన్నీ అన్మ్యూట్ చేయండి"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "ఫోల్డర్‌ను సవరించండి"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "ఫోల్డర్‌కు జోడించండి"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "ఫోల్డర్‌ను సృష్టించండి"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ఫోల్డర్ నుండి తొలగించండి"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "దేశం కోడ్"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "చదవనట్లుగా గుర్తుపెట్టు"
+  },
+  "icu:markRead": {
+    "messageformat": "చదివినట్టు గుర్తుపెట్టు"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "సందేశాలు ఎంచుకోండి"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "రసీదును సేవ్ చేయడంలో లోపం. దయచేసి మళ్ళీ ప్రయత్నించండి."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} ఫోల్డర్ జోడించబడింది"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "సమాచారం"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "పోల్ · ఒకదాన్ని ఎంచుకోండి"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "పోల్ · ఒకటి లేదా అంతకంటే ఎక్కువ ఎంచుకోండి"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "పోల్ · తుది ఫలితాలు"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "ఓట్లను వీక్షించండి"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "మీరు ఓటు వేశారు"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "పోల్ వివరాలు"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "ప్రశ్న"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} ఓటు} other {{count,number} ఓట్లు}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "ఓట్లు లేవు"
+  },
   "icu:deleteConversation": {
     "messageformat": "తొలగించండి"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "ఒకసారి చూసే మీడియాను డౌన్‌లోడ్ చేయలేరు"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "ఫైల్ అందుబాటులో లేదు"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "పూర్తి సందేశం అందుబాటులో లేదు"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "మీడియా అందుబాటులో లేదు"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "స్టిక్కర్ అందుబాటులో లేదు"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "స్వర సందేశం అందుబాటులో లేదు"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ ఫైల్ బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతవైన మీడియా మరియు ఫైల్‌లు సమకాలీకరించబడవు."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ సందేశంలోని పూర్తి టెక్స్ట్ బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతవైన పొడవైన టెక్స్ట్ సందేశాలు సమకాలీకరించబడవు."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ మీడియా బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతదైన మీడియా సమకాలీకరించబడదు."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ స్టిక్కర్ బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతవైన మీడియా మరియు ఫైల్‌లు సమకాలీకరించబడవు."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ స్వర సందేశం బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతవైన మీడియా మరియు ఫైల్‌లు సమకాలీకరించబడవు."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "ఈ ఒకసారి చూసే మీడియా డౌన్‌లోడ్ చేయడానికి ఇకపై అందుబాటులో ఉండదు. దానిని మళ్లీ పంపమని {name} ను అడగండి."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ఒక చాట్ ఫోల్డర్‌ను జోడించండి"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "ఫోల్డర్లను జోడించండి లేదా సవరించండి"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "మీ చాట్‌లను ఫోల్డర్‌లుగా నిర్వహించండి మరియు మీ చాట్ జాబితాలో వాటి మధ్య త్వరగా మారండి."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} ఫోల్డర్} other {{chatFoldersCount,number} ఫోల్డర్‌లు}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "సెటప్ చేయండి"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "నిర్వహించండి"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ఫోల్డర్‌ను సవరించండి"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "ఫోల్డర్‌ను సృష్టించండి"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "చాట్ ఫోల్డర్‌ను తరలించడానికి లాగండి"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "సూచించబడిన ఫోల్డర్లు"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "జోడించండి"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} ఫోల్డర్ జోడించబడింది"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "చదవనివి"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "కాల్ నుండి తొలగించబడ్డారు"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "ఈ కాల్ కోసం గరిష్ట మంది పాల్గొనేవారు చేరుకున్నారు. తరువాత మళ్ళీ ప్రయత్నించండి."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "కాల్ నిండింది"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "లింక్ ద్వారా ఈ కాల్‌లో చేరే ఎవరైనా మీ పేరు మరియు ఫోటోను చూస్తారు."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "స్టిక్కర్ ప్యాక్ జోడించండి"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "శోధన ఫలితాలు"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "మీ కాంటాక్ట్‌లు ఈ గ్రూప్‌కు జోడించబడతారు."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "మీ పరిచయాలు మిమ్మల్ని ఈ గ్రూప్‌కు జోడించగలరు."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "అన్‌బ్లాక్"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "మీడియా, లింక్‌లు మరియు ఫైళ్ళు"
+    "messageformat": "మీడియా మరియు ఫైల్‌లు"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "నోటిఫికేషన్ కంటెంట్"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "చంద్రుడు ఐకాన్"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} యొక్క కాపీ"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "ఉ."
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "సా."
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "ఆన్"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} వరకు ఆన్ చేయండి"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "ఒక గంట పాటు"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "వరకు {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "అమరికలు"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” ఆన్‌లో ఉంది"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” ఆఫ్"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్ ప్రస్తుతం ప్రారంభించబడింది"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్ ప్రస్తుతం నిలిపివేయబడింది"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్‌లు"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "సెటప్ చేయండి"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైల్‌లు"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "మీరు ఎంచుకున్న వ్యక్తులు మరియు గ్రూప్‌ల నుంచి మాత్రమే నోటిఫికేషన్‌లు మరియు కాల్స్ అందుకోవడానికి ప్రొఫైల్‌ను సృష్టించండి"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "కొనసాగించండి"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "నోటిఫికేషన్ ప్రొఫైళ్ళను జోడించండి లేదా సవరించండి"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {ఒక ప్రొఫైల్} other {{profileCount,number} ప్రొఫైళ్ళు}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "ప్రొఫైల్ సృష్టించండి"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "మీ ప్రొఫైల్‌కు పేరు పెట్టండి"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "పేరు"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "ఖాతాదారుని పేరు"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "అవతార్‌ను ఎంచుకోండి"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "పని"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "నిద్ర"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "డ్రైవింగ్"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "డౌన్‌టైమ్"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "ఫోకస్"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "వ్యక్తులు లేదా గ్రూపులను జోడించండి"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "మినహాయింపులు"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "అన్ని కాల్స్‌ను అనుమతించండి"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "అన్ని ప్రస్తావనల కొరకు ప్రకటించండి"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "ఒక షెడ్యూల్ జోడించండి"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "షెడ్యూల్"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "మీ నోటిఫికేషన్ ప్రొఫైల్‌ను ఆటోమేట్ చేయడానికి మీ షెడ్యూల్‌ను ప్రారంభించండి మరియు సవరించండి."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "ఆటోమేటిక్‌గా ఆన్ చేయండి"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "షెడ్యూల్"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "ఎవరి నుండి"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "వరకు"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "సమయ పికర్‌ను తెరవండి"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "ఆదివారం"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "సోమవారం"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "మంగళవారం"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "బుధవారం"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "గురువారం"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "శుక్రవారం"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "శనివారం"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "ప్రొఫైల్ సృష్టించబడింది"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "ఒకవేళ మీరు షెడ్యూల్‌ను జోడించినట్లయితే, మీ ప్రొఫైల్ ఆటోమేటిక్‌గా ఆన్ మరియు ఆఫ్ అవుతుంది. మీరు చాట్ జాబితాను మాన్యువల్‌గా ఆన్ లేదా ఆఫ్ చేయడానికి దానికి టాప్‌లో ఉన్న ··· ఐకాన్‌పై కూడా క్లిక్ చేయవచ్చు."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "ఆది"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "సోమ"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "మంగళ"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "బుధ"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "గురు"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "శుక్ర"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "శని"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "వారపు రోజులు"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "వారాంతాలు"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "ప్రతి రోజు"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "ప్రొఫైల్‌లు"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "పరికరాల మధ్య సమకాలీకరించండి"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "మీ ప్రొఫైళ్ళు మీ పరికరాల మధ్య సమకాలీకరించబడతాయి. ఒక పరికరం కోసం ప్రొఫైల్‌ను ఆన్ చేయడం వలన అది ఇతర పరికరాల కోసం ఆన్ చేయబడుతుంది."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "కొత్త ప్రొఫైల్"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "ప్రొఫైల్‌ను తొలగించండి"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "ఈ నోటిఫికేషన్ ప్రొఫైల్‌ను శాశ్వతంగా తొలగించాలా?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "తొలగించండి"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "ఆన్"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "ఆఫ్"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "ఈ ప్రొఫైల్ పేరును సవరించండి"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} నుంచి {endTime} వరకు"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "ఆన్"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "ఆఫ్"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "బ్లాక్ చేయబడింది"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "టెక్స్ట్ + మొత్తం మీడియా బ్యాకప్"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal సురక్షిత బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
+    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. మీ బ్యాకప్ వివరాలను వీక్షించడానికి మీ ఫోన్‌ను తనిఖీ చేయండి."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/నెల"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "రసీదులు లేవు"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "వివరాలు"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "రసీదును డౌన్‌లోడ్ చేయండి"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "ఆ ప్రొఫైల్ ప్రారంభించబడినప్పుడు మీరు ఏ వ్యక్తులు మరియు గ్రూప్‌ల నుంచి నోటిఫికేషన్‌లు రావాలో నియంత్రించేందుకు అనుకూల నోటిఫికేషన్ ప్రొఫైళ్ళను సెటప్ చేయండి."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

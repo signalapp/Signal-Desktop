@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Nem lehet hozzáférni az adatbázis titkosítási kulcsához, mert az operációs rendszer titkosítási kulcstartó háttérrendszere {previousBackend} értékről {currentBackend} értékre változott. Ez akkor fordulhat elő, ha az asztali környezet megváltozik, például a GNOME és a KDE között.\n\nKérjük, válts az előző asztali környezetre, vagy próbáld meg futtatni a Signalt a --password-store=\"{previousBackendFlag}\" parancssori jelzővel."
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fájl"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Archivált csevegések"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Csevegésmappa hozzáadása"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Mappabeállítások"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Rögzítve"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Adj meg egy felhasználónevet, amelyet egy pont és a hozzá tartozó számsor követ."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Nincs megjeleníthető csevegés"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Mappabeállítások"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Összes"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Összes csevegés"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Összes megjelölése olvasottként"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Értesítések némítása"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Összes némítás feloldása"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Összes némítás feloldása"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Mappa szerkesztése"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Hozzáadás a mappához"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Mappa létrehozása"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Eltávolítás a mappából"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Országkód"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Megjelölés olvasatlanként"
+  },
+  "icu:markRead": {
+    "messageformat": "Olvasottnak jelöl"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Üzenetek kiválasztása"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Hiba a nyugta mentése során. Próbáld újra!"
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} mappa hozzáadva"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nem választhatsz ki képeket és videókat fájlokkal együtt."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Részletek"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Szavazás · Válassz egyet"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Szavazás · Válassz ki legalább egyet"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Szavazás · Végeredmények"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Szavazatok megtekintése"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Szavaztál"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Szavazás részletei"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Kérdés"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} szavazat} other {{count,number} szavazat}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Nincs szavazat"
+  },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Az egyszer megjelenő médiafájl nem tölthető le"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "A fájl nem érhető el"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "A teljes üzenet nem érhető el"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Médiafájl nem érhető el"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Matrica nem elérhető"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Hangüzenet nem érhető el"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Ez a fájl nem lett áthelyezve a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi médiafájlok és fájlok nem szinkronizálhatók."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Az üzenetben szereplő teljes szöveg nem került át a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi hosszú szöveges üzenetek nem szinkronizálhatók."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Ez a médiafájl nem lett áthelyezve a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi médiafájl nem szinkronizálható."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Ez a matrica nem lett áthelyezve a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi médiafájlok és fájlok nem szinkronizálhatók."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Ez a hangüzenet nem lett áthelyezve a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi médiafájlok és fájlok nem szinkronizálhatók."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Az egyszer megjelenő médiafájl már nem érhető el letöltésre. Kérd meg {name} felhasználót, hogy küldje el újra."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Adj hozzá egy csevegési mappát"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Mappák hozzáadása vagy szerkesztése"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Csevegéseidet mappákba rendezheted, és gyorsan válthatsz közöttük a Csevegőlistán."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} mappa} other {{chatFoldersCount,number} mappa}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Beállítás"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Kezelés"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Mappa szerkesztése"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Mappa létrehozása"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Húzd át a csevegésmappa áthelyezéséhez"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Javasolt mappák"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Hozzáadás"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} mappa hozzáadva"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Olvasatlan"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Eltávolítva a hívásból"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "A csoporthívás elérte a maximális létszámot. Kérlek próbáld később."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "A hívás megtelt"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Bárki, aki csatlakozik ehhez a híváshoz a linken keresztül, látni fogja a nevedet és a fényképedet."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Matricacsomag létrehozása"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Keresési eredmények"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "A névjegyeid hozzá fognak tudni adni ehhez a csoporthoz."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "A névjegyeid hozzá fognak tudni téged adni ehhez a csoporthoz."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Tiltás feloldása"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médiatartalmak, linkek és fájlok"
+    "messageformat": "Médiatartalmak és fájlok"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Értesítések tartalma"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Hold ikon"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} másolata"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "délelőtt"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "délután"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Értesítési profilok"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Értesítési profilok"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Be"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Bekapcsolva eddig: {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Egy órán át"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time}-ig"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Beállítások"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "„{name}” be van kapcsolva"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "„{name}” nincs bekapcsolva"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Értesítési profil mostantól engedélyezve"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Értesítési profil mostantól letiltva"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Értesítési profilok"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Beállítás"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Értesítési profilok"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Hozz létre egy profilt, hogy csak az általad kiválasztott emberektől és csoportoktól kapj értesítéseket és hívásokat"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Folytatás"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Értesítési profilok hozzáadása vagy szerkesztése"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Egy profil} other {{profileCount,number} profil}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Profil létrehozása"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Profil elnevezése"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Név"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profilnév"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Válassz profilképet!"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Munkahelyi"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Alvás"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Vezetés"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Pihenés"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Fókusz"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Engedélyezett értesítések"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Engedélyezett értesítések"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Személyek vagy csoportok hozzáadása"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Kivételek"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Összes hívás engedélyezése"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Értesítsen az összes említés esetén"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Ütemezés hozzáadása"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Ütemezés"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Engedélyezd és szerkeszd az ütemezést az értesítési profil automatizálásához."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Automatikus bekapcsolás"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Ütemezés"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "Feladó"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Eddig:"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Időválasztó megnyitása"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Vasárnap"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Hétfő"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Kedd"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Szerda"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Csütörtök"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Péntek"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Szombat"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profil létrehozva"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Ha hozzáadtál egy ütemtervet, a profilod automatikusan be- és kikapcsol. A csevegőlista tetején található ··· ikonra kattintva manuálisan is be- vagy kikapcsolhatod."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Vas"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Hé"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Ke"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Sze"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Csü"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Pén"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Szo"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Hétköznapok"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Hétvégék"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Naponta"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profilok"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Szinkronizálás eszközök között"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "A profiljaid szinkronizálva lesznek az eszközeid között. Ha bekapcsolsz egy profilt az egyik eszközön, akkor az a többi eszközön is bekapcsolásra kerül."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Új profil"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Profil törlése"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Véglegesen törlöd ezt az értesítési profilt?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Törlés"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Be"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Ki"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Profil nevének szerkesztése"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Engedélyezett értesítések"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} → {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Be"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Ki"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Letiltva"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Szöveg és minden médiafájl biztonsági mentése"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Az előfizetés nem található A Signal Biztonságos Biztonsági mentéseinek további használatához újítsd meg az előfizetésedet."
+    "messageformat": "Az előfizetésed nem található. A biztonsági mentés részleteinek megtekintéséhez ellenőrizd a telefonodat."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/hónap"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra} other {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Nincsenek nyugták"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Részletek"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Nyugta letöltése"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Van egy folyamatban lévő adományozásod, amely megerősítést igényel."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Egyéni értesítési profilok beállításával szabályozhatod, hogy mely személyektől és csoportoktól kapj értesítéseket, amikor az adott profil engedélyezve van."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -4,33 +4,37 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const { Crypto } = require('../ts/context/Crypto');
-const { setEnvironment, Environment } = require('../ts/environment');
-const { HourCyclePreference } = require('../ts/types/I18N');
+const { Crypto } = require('../ts/context/Crypto.node.js');
+const { setEnvironment, Environment } = require('../ts/environment.std.js');
+const { HourCyclePreference } = require('../ts/types/I18N.std.js');
+const { default: package } = require('../ts/util/packageJson.node.js');
 
 chai.use(chaiAsPromised);
 
 setEnvironment(Environment.Test, true);
-
-const storageMap = new Map();
 
 // To replicate logic we have on the client side
 global.window = {
   Date,
   performance,
   SignalContext: {
+    i18n: key => `i18n(${key})`,
+    getPath: () => '/tmp',
+    getVersion: () => package.version,
+    config: {
+      serverUrl: 'https://127.0.0.1:9',
+      storageUrl: 'https://127.0.0.1:9',
+      updatesUrl: 'https://127.0.0.1:9',
+      resourcesUrl: 'https://127.0.0.1:9',
+      certificateAuthority: package.certificateAuthority,
+      version: package.version,
+    },
     crypto: new Crypto(),
     getResolvedMessagesLocale: () => 'en',
     getResolvedMessagesLocaleDirection: () => 'ltr',
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
     getPreferredSystemLocales: () => ['en'],
     getLocaleOverride: () => null,
-  },
-  i18n: key => `i18n(${key})`,
-  storage: {
-    get: key => storageMap.get(key),
-    put: async (key, value) => storageMap.set(key, value),
-    remove: async key => storageMap.clear(key),
   },
 };
 

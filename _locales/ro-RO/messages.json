@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Nu se poate accesa cheia de criptare a bazei de date deoarece backend-ul de criptare al sistemului de operare s-a schimbat de la {previousBackend} la {currentBackend}. Acest lucru se poate întâmpla dacă mediul desktop se schimbă, de exemplu între GNOME și KDE.\n\nTreci de la mediul desktop anterior sau încearcă să execuți semnalul cu steagul din linia de comandă --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fișier"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Conversații arhivate"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Adaugă dosar de conversații"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Setări pentru dosare"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Fixată"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Introdu un nume de utilizator urmat de un punct și setul său de cifre."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Nu există conversații de afișat"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Setări pentru dosare"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Toate"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Toate conversațiile"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Marchează tot ca citit"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Notificări fără sunet"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Dezactivează sunetul pe toate"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Dezactivează sunetul pe toate"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Editează dosarul"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Adaugă la dosar"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Creează dosar"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Elimină din dosar"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Prefixul țării"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Marchează ca necitit"
+  },
+  "icu:markRead": {
+    "messageformat": "Marchează ca citit"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Selectează mesaje"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Eroare la salvarea chitanței. Te rugăm să încerci din nou."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "Dosarul {chatFolderName} a fost adăugat"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nu poți selecta fotografii și videoclipuri împreună cu fișiere."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informații"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Sondaj · Selectează unul"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Sondaj · Selectează unul sau mai multe"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Sondaj · Rezultate finale"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Vezi voturile"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Ai votat"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Detaliile sondajului"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Întrebare"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} Vot} few {{count,number} Voturi} other {{count,number} de Voturi}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Niciun vot"
+  },
   "icu:deleteConversation": {
     "messageformat": "Șterge"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Nu se poate descărca media vizibilă o singură dată"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Fișierul nu este disponibil"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Mesaj complet nu este disponibil"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Fișierul nu este disponibil"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Autocolantul nu este disponibil"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Mesajul vocal nu este disponibil"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele și conținutul media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Textul complet din acest mesaj nu a fost transferat de pe telefonul tău atunci când acest dispozitiv a fost asociat. Mesajele text lungi mai vechi de 45 de zile la momentul asocierii dispozitivului nu pot fi sincronizate."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele și conținutul media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Acest mesaj vocal nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Media și fișierele mai vechi de 45 de zile în momentul conectării dispozitivului nu pot fi sincronizate."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Această media vizibilă o singură dată nu mai este disponibilă pentru descărcare. Cere-i lui {name} să retrimită."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Adaugă un dosar de conversații"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Adaugă sau editează dosare"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organizează-ți conversațiile în dosare și schimbă între ele pe lista de conversații."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} dosar} few {{chatFoldersCount,number} dosare} other {{chatFoldersCount,number} de dosare}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Stabilește"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Administrează"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Editează dosarul"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Creează un dosar"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Trage ca să muți dosarul de conversații"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Dosare sugerate"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Adaugă"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Dosarul {chatFolderTitle} a fost adăugat"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Necitit"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Eliminat din apel"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Numărul maxim de participanți a fost atins pentru acest apel. Încearcă mai târziu."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Numărul maxim de participanți a fost atins"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Oricine se va alătura acestui apel prin intermediul acestui link va vedea numele și fotografia ta."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Utilizate Recent"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Adaugă un pachet de autocolante"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Rezultatele căutării"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Persoanele tale de contact vor putea să te adauge în acest grup."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Persoanele tale de contact vor putea să te adauge în acest grup."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblochează"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, linkuri și fișiere"
+    "messageformat": "Media și fișiere"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Conținut notificare"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Pictograma lună"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Copie a {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Profil notificări"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Profil notificări"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Activat"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Activ până la {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Pentru o oră"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Până la {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Setări"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "„{name}” activată"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "„{name}” dezactivată"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Profilul de notificare a fost activat"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Profilul de notificare a fost dezactivat"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Profiluri de notificare"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Stabilește"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Profiluri de notificare"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Creează un profil pentru a primi notificări și apeluri numai de la persoanele și grupurile alese de tine"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Continuă"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Adaugă sau editează profilurile de notificare"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Un profil} few {{profileCount,number} profiluri} other {{profileCount,number} de profiluri}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Creează profil"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Denumește profilul"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Nume"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Nume profil"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Selectează un avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Serviciu"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Somn"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Condus"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Relaxare"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Concentrare"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Notificări permise"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Notificări permise"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Adaugă persoane sau grupuri"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Excepții"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Permite toate apelurile"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Notifică pentru toate mențiunile"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Adaugă un program"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Program"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Activează și editează programul pentru a-ți automatiza profilul de notificări."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Activează automat"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Program"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "De la"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Până"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Deschide selectorul"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Duminică"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Luni"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Marți"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Miercuri"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Joi"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Vineri"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Sâmbătă"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profil creat"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Dacă ai adăugat un program, profilul tău se va activa și dezactiva automat. Poți și să dai clic pe pictograma ··· din partea de sus a listei de conversații ca să-l activezi și dezactivezi manual."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Duminică"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Luni"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Marți"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Mie"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Joi"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Vin"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sâmbătă"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Zilele săptămânii"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Weekenduri"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Zilnic"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiluri"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sincronizează pe dispozitive"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Profilurile vor fi sincronizate pe dispozitivele tale. Dacă activezi un profil pentru un dispozitiv, îl va activa și pentru celelalte."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Profil nou"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Șterge profilul"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Elimini permanent această notificare de profil?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Șterge"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Activat"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Dezactivat"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Editează numele profilului"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Notificări permise"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "De la {startTime} până la {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Activat"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Dezactivat"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Blocat"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Text și backup la toate fișierele media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește abonamentul, pentru a continua să utilizezi Backup-uri securizate Signal."
+    "messageformat": "Abonamentul tău nu a fost găsit. Verifică telefonul pentru a vedea detaliile backup-ului."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/lună"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Nu sunt chitanțe"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detalii"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Descarcă chitanța"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Setează profiluri de notificare personalizate ca să controlezi de la ce persoane și grupuri primești notificări când acel profil este activat. Creează un profil „Muncă” care să țină la distanță persoanele care nu sunt colegi de muncă (cu excepția iubitului tău) și un profil „Timp liber” care să nu-l includă pe șeful tău. Poți schimba profilurile de notificare oricând dorești sau poți configura un program pentru ca acest lucru să se întâmple automat."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

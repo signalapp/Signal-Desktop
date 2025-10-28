@@ -13,7 +13,7 @@ js/util_worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
-ts/protobuf/compiled.d.ts
+ts/protobuf/compiled.std.d.ts
 storybook-static/**
 build/ICUMessageParams.d.ts
 

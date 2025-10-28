@@ -16,9 +16,9 @@ if (release !== 'alpha' && release !== 'axolotl' && release !== 'adhoc') {
   process.exit(1);
 }
 
-const { generateTaggedVersion } = require('../ts/util/version.js');
+const { generateTaggedVersion } = require('../ts/util/version.std.js');
 
-const shortSha = execSync('git rev-parse --short HEAD')
+const shortSha = execSync('git rev-parse --short=9 HEAD')
   .toString('utf8')
   .replace(/[\n\r]/g, '');
 

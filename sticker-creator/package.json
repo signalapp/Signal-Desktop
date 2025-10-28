@@ -1,5 +1,5 @@
 {
-  "packageManager": "pnpm@10.6.4",
+  "packageManager": "pnpm@10.18.1",
   "name": "signal-art-creator",
   "private": true,
   "version": "0.0.0",
@@ -60,7 +60,7 @@
     "@typescript-eslint/eslint-plugin": "5.59.0",
     "@typescript-eslint/parser": "5.59.0",
     "@vitejs/plugin-react": "3.1.0",
-    "emoji-datasource-apple": "15.1.2",
+    "emoji-datasource-apple": "16.0.0",
     "eslint": "8.38.0",
     "eslint-config-airbnb-typescript-prettier": "5.0.0",
     "eslint-config-prettier": "8.8.0",

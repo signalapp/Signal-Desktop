@@ -118,21 +118,6 @@
   user-select: none;
 }
 
-.CallsTab__ClearCallHistoryIcon {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/trash/trash-compact.svg',
-      variables.$color-gray-90
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/trash/trash-compact.svg',
-      variables.$color-white
-    );
-  }
-}
-
 .CallsList__Header {
   display: flex;
   gap: 0px;

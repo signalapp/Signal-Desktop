@@ -1,4 +1,9 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source(none);
+
+@source "../ts";
+@source "../test";
+@source "../.storybook";
+@source "../*.{html,js}";
 
 /**
  * Custom Variants
@@ -105,94 +110,96 @@
   --color-shadow-highlight:   light-dark(/*  */ transparent, --alpha(#FFF / 08%));
 }
 
-@layer base {
+@layer theme {
   /* High Contrast Mode */
   /* prettier-ignore */
   @media (prefers-contrast: more) {
-    /* Colors/Labels */
-    --color-label-primary:     light-dark(/*   */ #000 /*  */, /*   */ #FFF /*  */);
-    --color-label-secondary:   light-dark(--alpha(#000 / 70%), --alpha(#FFF / 70%));
-    --color-label-placeholder: light-dark(--alpha(#000 / 50%), --alpha(#FFF / 50%));
-    --color-label-disabled:    light-dark(--alpha(#000 / 40%), --alpha(#FFF / 40%));
+    :root {
+      /* Colors/Labels */
+      --color-label-primary:     light-dark(/*   */ #000 /*  */, /*   */ #FFF /*  */);
+      --color-label-secondary:   light-dark(--alpha(#000 / 70%), --alpha(#FFF / 70%));
+      --color-label-placeholder: light-dark(--alpha(#000 / 50%), --alpha(#FFF / 50%));
+      --color-label-disabled:    light-dark(--alpha(#000 / 40%), --alpha(#FFF / 40%));
 
-    --color-label-primary-inverted:     light-dark(/*   */ #FFF /*  */, /*   */ #000 /*  */);
-    --color-label-secondary-inverted:   light-dark(--alpha(#FFF / 70%), --alpha(#000 / 70%));
-    --color-label-placeholder-inverted: light-dark(--alpha(#FFF / 50%), --alpha(#000 / 50%));
-    --color-label-disabled-inverted:    light-dark(--alpha(#FFF / 40%), --alpha(#000 / 40%));
+      --color-label-primary-inverted:     light-dark(/*   */ #FFF /*  */, /*   */ #000 /*  */);
+      --color-label-secondary-inverted:   light-dark(--alpha(#FFF / 70%), --alpha(#000 / 70%));
+      --color-label-placeholder-inverted: light-dark(--alpha(#FFF / 50%), --alpha(#000 / 50%));
+      --color-label-disabled-inverted:    light-dark(--alpha(#FFF / 40%), --alpha(#000 / 40%));
 
-    --color-label-primary-on-color:     light-dark(/*   */ #FFF /*  */, /*   */ #FFF /*  */);
-    --color-label-secondary-on-color:   light-dark(--alpha(#FFF / 90%), --alpha(#FFF / 90%));
-    --color-label-placeholder-on-color: light-dark(--alpha(#FFF / 60%), --alpha(#FFF / 60%));
-    --color-label-disabled-on-color:    light-dark(--alpha(#FFF / 50%), --alpha(#FFF / 50%));
+      --color-label-primary-on-color:     light-dark(/*   */ #FFF /*  */, /*   */ #FFF /*  */);
+      --color-label-secondary-on-color:   light-dark(--alpha(#FFF / 90%), --alpha(#FFF / 90%));
+      --color-label-placeholder-on-color: light-dark(--alpha(#FFF / 60%), --alpha(#FFF / 60%));
+      --color-label-disabled-on-color:    light-dark(--alpha(#FFF / 50%), --alpha(#FFF / 50%));
 
-    /* Colors/Color Label */
-    --color-color-label-primary:              light-dark(/*   */ #000ECC /*  */, /*   */ #D5D9FF /*  */);
-    --color-color-label-primary-disabled:     light-dark(--alpha(#000ECC / 40%), --alpha(#D5D9FF / 40%));
-    --color-color-label-light:                light-dark(/*   */ #D5D9FF /*  */, /*   */ #D5D9FF /*  */);
-    --color-color-label-light-disabled:       light-dark(--alpha(#D5D9FF / 40%), --alpha(#D5D9FF / 40%));
-    --color-color-label-affirmative:          light-dark(/*   */ #004D0F /*  */, /*   */ #4CEF6D /*  */);
-    --color-color-label-affirmative-disabled: light-dark(--alpha(#004D0F / 40%), --alpha(#4CEF6D / 40%));
-    --color-color-label-destructive:          light-dark(/*   */ #8A0B00 /*  */, /*   */ #FFC5C2 /*  */);
-    --color-color-label-destructive-disabled: light-dark(--alpha(#8A0B00 / 40%), --alpha(#FFC5C2 / 40%));
+      /* Colors/Color Label */
+      --color-color-label-primary:              light-dark(/*   */ #000ECC /*  */, /*   */ #D5D9FF /*  */);
+      --color-color-label-primary-disabled:     light-dark(--alpha(#000ECC / 40%), --alpha(#D5D9FF / 40%));
+      --color-color-label-light:                light-dark(/*   */ #D5D9FF /*  */, /*   */ #D5D9FF /*  */);
+      --color-color-label-light-disabled:       light-dark(--alpha(#D5D9FF / 40%), --alpha(#D5D9FF / 40%));
+      --color-color-label-affirmative:          light-dark(/*   */ #004D0F /*  */, /*   */ #4CEF6D /*  */);
+      --color-color-label-affirmative-disabled: light-dark(--alpha(#004D0F / 40%), --alpha(#4CEF6D / 40%));
+      --color-color-label-destructive:          light-dark(/*   */ #8A0B00 /*  */, /*   */ #FFC5C2 /*  */);
+      --color-color-label-destructive-disabled: light-dark(--alpha(#8A0B00 / 40%), --alpha(#FFC5C2 / 40%));
 
-    /* Colors/Background */
-    --color-background-primary:   light-dark(/*   */ #FFFFFF /*  */, /*   */ #121212 /*  */);
-    --color-background-secondary: light-dark(/*   */ #F6F6F6 /*  */, /*   */ #1E1E1E /*  */);
-    --color-background-overlay:   light-dark(--alpha(#000000 / 40%), --alpha(#000000 / 60%));
+      /* Colors/Background */
+      --color-background-primary:   light-dark(/*   */ #FFFFFF /*  */, /*   */ #121212 /*  */);
+      --color-background-secondary: light-dark(/*   */ #F6F6F6 /*  */, /*   */ #1E1E1E /*  */);
+      --color-background-overlay:   light-dark(--alpha(#000000 / 40%), --alpha(#000000 / 60%));
 
-    /* Colors/Elevated Background */
-    --color-elevated-background-primary:    light-dark(#FFFFFF, #222222);
-    --color-elevated-background-secondary:  light-dark(#F2F2F2, #2A2A2A);
-    --color-elevated-background-tertiary:   light-dark(#EAEAEA, #323232);
-    --color-elevated-background-quaternary: light-dark(#262626, #3A3A3A);
+      /* Colors/Elevated Background */
+      --color-elevated-background-primary:    light-dark(#FFFFFF, #222222);
+      --color-elevated-background-secondary:  light-dark(#F2F2F2, #2A2A2A);
+      --color-elevated-background-tertiary:   light-dark(#EAEAEA, #323232);
+      --color-elevated-background-quaternary: light-dark(#262626, #3A3A3A);
 
-    /* Colors/Fill */
-    --color-fill-primary:           light-dark(/*   */ #FFFFFF /*  */, --alpha(#808080 / 30%));
-    --color-fill-primary-pressed:   light-dark(/*   */ #EAEAEA /*  */, --alpha(#808080 / 38%));
-    --color-fill-secondary:         light-dark(--alpha(#808080 / 22%), --alpha(#808080 / 30%));
-    --color-fill-secondary-pressed: light-dark(--alpha(#808080 / 30%), --alpha(#808080 / 38%));
-    --color-fill-selected:          light-dark(--alpha(#808080 / 34%), --alpha(#808080 / 42%));
-    --color-fill-inverted:          light-dark(/*   */ #2A2A2A /*  */, /*   */ #F6F6F6 /*  */);
-    --color-fill-inverted-pressed:  light-dark(/*   */ #363636 /*  */, /*   */ #E2E2E2 /*  */);
-    --color-fill-floating:          light-dark(/*   */ #FFFFFF /*  */, /*   */ #323232 /*  */);
-    --color-fill-floating-pressed:  light-dark(/*   */ #EAEAEA /*  */, /*   */ #3A3A3A /*  */);
-    --color-fill-on-media:          light-dark(--alpha(#000000 / 85%), --alpha(#000000 / 85%));
-    --color-fill-on-media-pressed:  light-dark(--alpha(#000000 / 93%), --alpha(#000000 / 93%));
+      /* Colors/Fill */
+      --color-fill-primary:           light-dark(/*   */ #FFFFFF /*  */, --alpha(#808080 / 30%));
+      --color-fill-primary-pressed:   light-dark(/*   */ #EAEAEA /*  */, --alpha(#808080 / 38%));
+      --color-fill-secondary:         light-dark(--alpha(#808080 / 22%), --alpha(#808080 / 30%));
+      --color-fill-secondary-pressed: light-dark(--alpha(#808080 / 30%), --alpha(#808080 / 38%));
+      --color-fill-selected:          light-dark(--alpha(#808080 / 34%), --alpha(#808080 / 42%));
+      --color-fill-inverted:          light-dark(/*   */ #2A2A2A /*  */, /*   */ #F6F6F6 /*  */);
+      --color-fill-inverted-pressed:  light-dark(/*   */ #363636 /*  */, /*   */ #E2E2E2 /*  */);
+      --color-fill-floating:          light-dark(/*   */ #FFFFFF /*  */, /*   */ #323232 /*  */);
+      --color-fill-floating-pressed:  light-dark(/*   */ #EAEAEA /*  */, /*   */ #3A3A3A /*  */);
+      --color-fill-on-media:          light-dark(--alpha(#000000 / 85%), --alpha(#000000 / 85%));
+      --color-fill-on-media-pressed:  light-dark(--alpha(#000000 / 93%), --alpha(#000000 / 93%));
 
-    /* Colors/Message Fill */
-    --color-message-fill-incoming-primary:   light-dark(/*   */ #E0E0E0 /*  */, /*   */ #424242 /*  */);
-    --color-message-fill-incoming-secondary: light-dark(--alpha(#FFFFFF / 90%), --alpha(#FFFFFF / 30%));
-    --color-message-fill-incoming-tertiary:  light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 22%));
-    --color-message-fill-outgoing-primary:   light-dark(/*   */ #0842B9 /*  */, /*   */ #0842B9 /*  */);
-    --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 70%));
-    --color-message-fill-outgoing-tertiary:  light-dark(--alpha(#FFFFFF / 30%), --alpha(#FFFFFF / 30%));
+      /* Colors/Message Fill */
+      --color-message-fill-incoming-primary:   light-dark(/*   */ #E0E0E0 /*  */, /*   */ #424242 /*  */);
+      --color-message-fill-incoming-secondary: light-dark(--alpha(#FFFFFF / 90%), --alpha(#FFFFFF / 30%));
+      --color-message-fill-incoming-tertiary:  light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 22%));
+      --color-message-fill-outgoing-primary:   light-dark(/*   */ #0842B9 /*  */, /*   */ #0842B9 /*  */);
+      --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 70%));
+      --color-message-fill-outgoing-tertiary:  light-dark(--alpha(#FFFFFF / 30%), --alpha(#FFFFFF / 30%));
 
-    /* Colors/Color Fill */
-    --color-color-fill-primary:             light-dark(#2B3BED, #2B3BED);
-    --color-color-fill-primary-pressed:     light-dark(#1E2EE0, #1E2EE0);
-    --color-color-fill-affirmative:         light-dark(#1D7A2F, #1D7A2F);
-    --color-color-fill-affirmative-pressed: light-dark(#115E23, #116E23);
-    --color-color-fill-warning:             light-dark(#F0C000, #F0C000);
-    --color-color-fill-warning-pressed:     light-dark(#E4B600, #E4B600);
-    --color-color-fill-destructive:         light-dark(#B7271A, #B7271A);
-    --color-color-fill-destructive-pressed: light-dark(#A61609, #A61609);
+      /* Colors/Color Fill */
+      --color-color-fill-primary:             light-dark(#2B3BED, #2B3BED);
+      --color-color-fill-primary-pressed:     light-dark(#1E2EE0, #1E2EE0);
+      --color-color-fill-affirmative:         light-dark(#1D7A2F, #1D7A2F);
+      --color-color-fill-affirmative-pressed: light-dark(#115E23, #116E23);
+      --color-color-fill-warning:             light-dark(#F0C000, #F0C000);
+      --color-color-fill-warning-pressed:     light-dark(#E4B600, #E4B600);
+      --color-color-fill-destructive:         light-dark(#B7271A, #B7271A);
+      --color-color-fill-destructive-pressed: light-dark(#A61609, #A61609);
 
-    /* Colors/Border */
-    --color-border-primary:           light-dark(--alpha(#000000 / 32%), --alpha(#FFFFFF / 32%));
-    --color-border-secondary:         light-dark(--alpha(#000000 / 16%), --alpha(#FFFFFF / 16%));
-    --color-border-focused:           light-dark(/*   */ #A0A7FE /*  */, /*   */ #A0A7FE /*  */);
-    --color-border-selected:          light-dark(/*   */ #2B3BED /*  */, /*   */ #5563FF /*  */);
-    --color-border-selected-on-color: light-dark(/*   */ #FFFFFF /*  */, /*   */ #FFFFFF /*  */);
-    --color-border-error:             light-dark(/*   */ #B7271A /*  */, /*   */ #FB4332 /*  */);
+      /* Colors/Border */
+      --color-border-primary:           light-dark(--alpha(#000000 / 32%), --alpha(#FFFFFF / 32%));
+      --color-border-secondary:         light-dark(--alpha(#000000 / 16%), --alpha(#FFFFFF / 16%));
+      --color-border-focused:           light-dark(/*   */ #A0A7FE /*  */, /*   */ #A0A7FE /*  */);
+      --color-border-selected:          light-dark(/*   */ #2B3BED /*  */, /*   */ #5563FF /*  */);
+      --color-border-selected-on-color: light-dark(/*   */ #FFFFFF /*  */, /*   */ #FFFFFF /*  */);
+      --color-border-error:             light-dark(/*   */ #B7271A /*  */, /*   */ #FB4332 /*  */);
 
-    /* Colors/Shadow */
-    --color-shadow-elevation-1: light-dark(--alpha(#000 / 08%), --alpha(#000 / 16%));
-    --color-shadow-elevation-2: light-dark(--alpha(#000 / 08%), --alpha(#000 / 16%));
-    --color-shadow-elevation-3: light-dark(--alpha(#000 / 10%), --alpha(#000 / 20%));
-    --color-shadow-elevation-4: light-dark(--alpha(#000 / 12%), --alpha(#000 / 24%));
-    --color-shadow-elevation-5: light-dark(--alpha(#000 / 20%), --alpha(#000 / 40%));
-    --color-shadow-outline:     light-dark(--alpha(#000 / 32%), /*  */ transparent);
-    --color-shadow-highlight:   light-dark(/*  */ transparent, --alpha(#FFF / 32%));
+      /* Colors/Shadow */
+      --color-shadow-elevation-1: light-dark(--alpha(#000 / 08%), --alpha(#000 / 16%));
+      --color-shadow-elevation-2: light-dark(--alpha(#000 / 08%), --alpha(#000 / 16%));
+      --color-shadow-elevation-3: light-dark(--alpha(#000 / 10%), --alpha(#000 / 20%));
+      --color-shadow-elevation-4: light-dark(--alpha(#000 / 12%), --alpha(#000 / 24%));
+      --color-shadow-elevation-5: light-dark(--alpha(#000 / 20%), --alpha(#000 / 40%));
+      --color-shadow-outline:     light-dark(--alpha(#000 / 32%), /*  */ transparent);
+      --color-shadow-highlight:   light-dark(/*  */ transparent, --alpha(#FFF / 32%));
+    }
   }
 }
 
@@ -402,4 +409,10 @@
       stroke-dashoffset: -248%;
     }
   }
+}
+
+@property --axo-select-trigger-mask-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
 }

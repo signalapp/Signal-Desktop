@@ -104,6 +104,9 @@ importers:
       '@indutny/sneequals':
         specifier: 4.0.0
         version: 4.0.0
+      '@internationalized/date':
+        specifier: 3.7.0
+        version: 3.7.0
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -126,17 +129,20 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.81.1
-        version: 0.81.1
+        specifier: 0.83.0
+        version: 0.83.0
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
+      '@signalapp/mute-state-change':
+        specifier: workspace:1.0.0
+        version: link:packages/mute-state-change
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.58.1
-        version: 2.58.1
+        specifier: 2.59.2
+        version: 2.59.2
       '@signalapp/sqlcipher':
         specifier: 2.4.4
         version: 2.4.4
@@ -195,11 +201,11 @@ importers:
         specifier: 1.0.4
         version: 1.0.4
       emoji-datasource:
-        specifier: 15.1.2
-        version: 15.1.2
+        specifier: 16.0.0
+        version: 16.0.0
       emoji-datasource-apple:
-        specifier: 15.1.2
-        version: 15.1.2
+        specifier: 16.0.0
+        version: 16.0.0
       emoji-regex:
         specifier: 10.4.0
         version: 10.4.0
@@ -439,8 +445,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 14.0.0
-        version: 14.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 15.1.0
+        version: 15.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -652,8 +658,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 38.1.2
-        version: 38.1.2
+        specifier: 38.2.1
+        version: 38.2.1
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -829,6 +835,19 @@ importers:
       fs-xattr:
         specifier: 0.3.0
         version: 0.3.0
+
+  packages/mute-state-change:
+    dependencies:
+      bindings:
+        specifier: 1.5.0
+        version: 1.5.0
+      node-addon-api:
+        specifier: 8.5.0
+        version: 8.5.0
+    devDependencies:
+      prettier:
+        specifier: 3.6.2
+        version: 3.6.2
 
 packages:
 
@@ -1916,24 +1935,28 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@napi-rs/canvas-linux-arm64-musl@0.1.61':
     resolution: {integrity: sha512-W3jYZhDLghJauKQWl8lvA7ISElWzlkdUIM+bwQqlDzYtpD4wEgi/vICiMuUbJz73fKGgYwFLgKL6dF2H3bpVYg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@napi-rs/canvas-linux-x64-gnu@0.1.61':
     resolution: {integrity: sha512-tfMIZukLG+Q9mg+1LJFa852GhSlwg29pZaZ/UrLRdLRG0AJ1lckyHxOhNf9z+srMsEsryaQAIYHFIoOGYGhweA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@napi-rs/canvas-linux-x64-musl@0.1.61':
     resolution: {integrity: sha512-Go7zAENKdoDELf4X55pCbt4IrbrNOL+BarxO8A3MdDKF+isBioG4lNXpnAdswrDx8iJu+o1rzaGupQsF9YWxFg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@napi-rs/canvas-win32-x64-msvc@0.1.61':
     resolution: {integrity: sha512-awGSMk4PlCV7SWC9ZxREkZvtiY+NWkramwYoQIEUJ+0KatLCbFnAaoxT7B7QE25ZUrjd1c3ZeV/Ae4Sggt276A==}
@@ -2045,36 +2068,42 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.1':
     resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.1':
     resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.1':
     resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.1':
     resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.1':
     resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.1':
     resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
@@ -3455,14 +3484,14 @@ packages:
   '@signalapp/libsignal-client@0.76.7':
     resolution: {integrity: sha512-iGWTlFkko7IKlm96Iy91Wz5sIN089nj02ifOk6BWtLzeVi0kFaNj+jK26Sl1JRXy/VfXevcYtiOivOg43BPqpg==}
 
-  '@signalapp/libsignal-client@0.81.1':
-    resolution: {integrity: sha512-pG0ShEkYH3q3kmlLAl/G3SGMOSc47AM4ksBlWUn6uNi7CBkCRLFoiN/LgI0zQ4LnwIifSl3tkilFSKPYs+fVuA==}
+  '@signalapp/libsignal-client@0.83.0':
+    resolution: {integrity: sha512-QaXviPAvj4PA2QDmN6YyPnlkp699BE3fIgaJmKrfvZMsvBfMGeJ3H3BHFt0CV2vUWMbc3oEgxbwdXu//f6oTrA==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
 
-  '@signalapp/mock-server@14.0.0':
-    resolution: {integrity: sha512-zoycqL/z2ysge+4S2Sp3/KPfMqBCDDzGAnAQA7K6Yakel8opsQzjEPcXIR0c0hNrn3vHlZ+MoDiXRmavEpSzOQ==}
+  '@signalapp/mock-server@15.1.0':
+    resolution: {integrity: sha512-7tZuwkCNNB0GUEmNwGpuGVNIwRV3SgvLX60LQ44cZbW2kd9XgYDfB7ZcaIBFmPjh+2bknMzbaugNR2ilQS6NJw==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -3471,8 +3500,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.58.1':
-    resolution: {integrity: sha512-u+80Vl460f4U4Btnv3blp2kbtPt29FHdC63mXaf1Yor5C/DH4xeb7HwYPdHW28cLu6xVBNw/j9h8DPJ0jrvbZw==}
+  '@signalapp/ringrtc@2.59.2':
+    resolution: {integrity: sha512-oZj56TjOwhCVexkcihgJf5b4ah0jKKfbdfy/QuEDj8EP3iZTj/aqwrRDAaRf53w23UDRYKozyXMi/AiczF54Vg==}
     hasBin: true
 
   '@signalapp/sqlcipher@2.4.4':
@@ -3704,24 +3733,28 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-arm64-musl@1.10.16':
     resolution: {integrity: sha512-1169+C9XbydKKc6Ec1XZxTGKtHjZHDIFn0r+Nqp/QSVwkORrOY1Vz2Hdu7tn/lWMg36ZkGePS+LnnyV67s/7yg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-linux-x64-gnu@1.10.16':
     resolution: {integrity: sha512-n2rV0XwkjoHn4MDJmpYp5RBrnyi94/6GsJVpbn6f+/eqSrZn3mh3dT7pdZc9zCN1Qp9eDHo+uI6e/wgvbL22uA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-x64-musl@1.10.16':
     resolution: {integrity: sha512-EevCpwreBrkPrJjQVIbiM81lK42ukNNSlBmrSRxxbx2V9VGmOd5qxX0cJBn0TRRSLIPi62BuMS76F9iYjqsjgg==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-win32-arm64-msvc@1.10.16':
     resolution: {integrity: sha512-BvE7RWAnKJeELVQWLok6env5I4GUVBTZSvaSN/VPgxnTjF+4PsTeQptYx0xCYhp5QCv68wWYsBnZKuPDS+SBsw==}
@@ -3811,24 +3844,28 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@tailwindcss/oxide-linux-arm64-musl@4.1.7':
     resolution: {integrity: sha512-PjGuNNmJeKHnP58M7XyjJyla8LPo+RmwHQpBI+W/OxqrwojyuCQ+GUtygu7jUqTEexejZHr/z3nBc/gTiXBj4A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@tailwindcss/oxide-linux-x64-gnu@4.1.7':
     resolution: {integrity: sha512-HMs+Va+ZR3gC3mLZE00gXxtBo3JoSQxtu9lobbZd+DmfkIxR54NO7Z+UQNPsa0P/ITn1TevtFxXTpsRU7qEvWg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@tailwindcss/oxide-linux-x64-musl@4.1.7':
     resolution: {integrity: sha512-MHZ6jyNlutdHH8rd+YTdr3QbXrHXqwIhHw9e7yXEBcQdluGwhpQY2Eku8UZK6ReLaWtQ4gijIv5QoM5eE+qlsA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@tailwindcss/oxide-wasm32-wasi@4.1.7':
     resolution: {integrity: sha512-ANaSKt74ZRzE2TvJmUcbFQ8zS201cIPxUDm5qez5rLEwWkie2SkGtA4P+GPTj+u8N6JbPrC8MtY8RmJA35Oo+A==}
@@ -4105,8 +4142,8 @@ packages:
   '@types/node@22.13.4':
     resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
 
-  '@types/node@22.18.1':
-    resolution: {integrity: sha512-rzSDyhn4cYznVG+PCzGe1lwuMYJrcBS1fc3JqSa2PvtABwWo+dZ1ij5OVok3tqfpEBCBoaR4d7upFJk73HRJDw==}
+  '@types/node@22.18.8':
+    resolution: {integrity: sha512-pAZSHMiagDR7cARo/cch1f3rXy0AEXwsVsVH09FcyeJVAzCnGgmYis7P3JidtTUjyadhTeSo8TgRPswstghDaw==}
 
   '@types/normalize-path@3.0.2':
     resolution: {integrity: sha512-DO++toKYPaFn0Z8hQ7Tx+3iT9t77IJo/nDiqTXilgEP+kPNIYdpS9kh3fXuc53ugqwp9pxC1PVjCpV1tQDyqMA==}
@@ -5805,8 +5842,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@38.1.2:
-    resolution: {integrity: sha512-WXUcN3W8h8NTTZViA3KNX0rV2YBU0X0mEUM3ubupXTDY4QtIN7tmiqYVOKSKpR2LckTmBWGuEeY4D6xVoffwKQ==}
+  electron@38.2.1:
+    resolution: {integrity: sha512-P4pE2RpRg3kM8IeOK+heg6iAxR5wcXnNHrbVchn7M3GBnYAhjfJRkROusdOro5PlKzdtfKjesbbqaG4MqQXccg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -5814,11 +5851,11 @@ packages:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
     engines: {node: '>=12'}
 
-  emoji-datasource-apple@15.1.2:
-    resolution: {integrity: sha512-32UZTK36x4DlvgD1smkmBlKmmJH7qUr5Qut4U/on2uQLGqNXGbZiheq6/LEA8xRQEUrmNrGEy25wpEI6wvYmTg==}
+  emoji-datasource-apple@16.0.0:
+    resolution: {integrity: sha512-dVYjsK0FnCry9F+PBtnivhG2K0xdwlmqYaSgiUtztUdAGPYiHYhZcVKvNBqC791g2qyEcFNTBO6utg4eQ3uLTw==}
 
-  emoji-datasource@15.1.2:
-    resolution: {integrity: sha512-tXAqGsrDVhgCRpFePtaD9P4Z8Ro2SUQSL/4MIJBG0SxqQJaMslEbin8J53OaFwEBu6e7JxFaIF6s4mw9+8acAQ==}
+  emoji-datasource@16.0.0:
+    resolution: {integrity: sha512-/qHKqK5Nr3+8zhgO6kHmF43Fm5C8HNn0AaFRIpgw8HF3+uF0Vfc8jgLI1ZQS5ba1vBzksS8NBCjHejwLb2D/Sg==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -5846,9 +5883,6 @@ packages:
 
   encoding@0.1.13:
     resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
-
-  end-of-stream@1.4.4:
-    resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
@@ -6222,6 +6256,7 @@ packages:
 
   expect-playwright@0.8.0:
     resolution: {integrity: sha512-+kn8561vHAY+dt+0gMqqj1oY+g5xWrsuGMk4QGxotT2WS545nVqqjs37z6hrYfIuucwqthzwJfCJUEYqixyljg==}
+    deprecated: ⚠️ The 'expect-playwright' package is deprecated. The Playwright core assertions (via @playwright/test) now cover the same functionality. Please migrate to built-in expect. See https://playwright.dev/docs/test-assertions for migration.
 
   expect@29.7.0:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
@@ -7413,6 +7448,7 @@ packages:
 
   jest-playwright-preset@4.0.0:
     resolution: {integrity: sha512-+dGZ1X2KqtwXaabVjTGxy0a3VzYfvYsWaRcuO8vMhyclHSOpGSI1+5cmlqzzCwQ3+fv0EjkTc7I5aV9lo08dYw==}
+    deprecated: ⚠️ The 'jest-playwright-preset' package is deprecated. Please migrate to Playwright's built-in test runner (@playwright/test) which now includes full Jest-style features and parallel testing. See https://playwright.dev/docs/intro for details.
     peerDependencies:
       jest: ^29.3.1
       jest-circus: ^29.3.1
@@ -7430,6 +7466,7 @@ packages:
 
   jest-process-manager@0.4.0:
     resolution: {integrity: sha512-80Y6snDyb0p8GG83pDxGI/kQzwVTkCxc7ep5FPe/F6JYdvRDhwr6RzRmPSP7SEwuLhxo80lBS/NqOdUIbHIfhw==}
+    deprecated: ⚠️ The 'jest-process-manager' package is deprecated. Please migrate to Playwright's built-in test runner (@playwright/test) which now includes full Jest-style features and parallel testing. See https://playwright.dev/docs/intro for details.
 
   jest-regex-util@29.6.3:
     resolution: {integrity: sha512-KJJBsRCyyLNWCNBOvZyRDnAIfUiRJ8v+hOBQYGn8gDyF3UegwiP4gwRR3/SDa42g1YbVycTidUF3rKjyLFDWbg==}
@@ -7685,24 +7722,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.30.1:
     resolution: {integrity: sha512-jmUQVx4331m6LIX+0wUhBbmMX7TCfjF5FoOH6SD1CttzuYlGNVpA7QnrmLxrsub43ClTINfGSYyHe2HWeLl5CQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.30.1:
     resolution: {integrity: sha512-piWx3z4wN8J8z3+O5kO74+yr6ze/dKmPnI7vLqfSqI8bccaTGY5xiSGVIJBDd5K5BHlvVLpUB3S2YCfelyJ1bw==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.30.1:
     resolution: {integrity: sha512-rRomAK7eIkL+tHY0YPxbc5Dra2gXlI63HL+v1Pdi1a3sC+tJTcFrHX+E86sulgAXeI7rSzDYhPSeHHjqFhqfeQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.30.1:
     resolution: {integrity: sha512-mSL4rqPi4iXq5YVqzSsJgMVFENoa4nGTT/GjO2c0Yl9OuQfPsIfncvLrEW6RbbB24WtZ3xP/2CCmI3tNkNV4oA==}
@@ -8299,6 +8340,10 @@ packages:
 
   node-addon-api@8.3.0:
     resolution: {integrity: sha512-8VOpLHFrOQlAH+qA0ZzuGRlALRA6/LVh8QJldbrC4DY0hXoMP0l4Acq8TzFC018HztWiRqyCEj2aTWY2UvnJUg==}
+    engines: {node: ^18 || ^20 || >= 21}
+
+  node-addon-api@8.5.0:
+    resolution: {integrity: sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A==}
     engines: {node: ^18 || ^20 || >= 21}
 
   node-api-version@0.2.0:
@@ -8951,6 +8996,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-error@4.0.0:
     resolution: {integrity: sha512-AoJ5YMAcXKYxKhuJGdcvse+Voc6v1RgnsR3nWcYU7q4t6z0Q6T86sv5Zq8VIRbOWWFpvdGE83LtdSMNd+6Y0xw==}
 
@@ -9035,9 +9085,6 @@ packages:
 
   pseudomap@1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
-
-  pump@3.0.2:
-    resolution: {integrity: sha512-tUPXtzlGM8FE3P0ZL6DVs/3P58k9nk8/jZeQCurTJylQA8qFYzHFfhBJkuqyE0FifOsQ0uKWekiZ5g8wtr28cw==}
 
   pump@3.0.3:
     resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
@@ -14219,7 +14266,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/libsignal-client@0.81.1':
+  '@signalapp/libsignal-client@0.83.0':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -14227,7 +14274,7 @@ snapshots:
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@14.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@15.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.76.7
@@ -14259,7 +14306,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.58.1':
+  '@signalapp/ringrtc@2.59.2':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
@@ -14427,7 +14474,7 @@ snapshots:
 
   '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
     dependencies:
-      '@types/node': 22.18.1
+      '@types/node': 22.18.8
       storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
@@ -15042,7 +15089,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.18.1':
+  '@types/node@22.18.8':
     dependencies:
       undici-types: 6.21.0
 
@@ -16942,7 +16989,7 @@ snapshots:
 
   duplexify@4.1.3:
     dependencies:
-      end-of-stream: 1.4.4
+      end-of-stream: 1.4.5
       inherits: 2.0.4
       readable-stream: 3.6.2
       stream-shift: 1.0.3
@@ -17033,19 +17080,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@38.1.2:
+  electron@38.2.1:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.18.1
+      '@types/node': 22.18.8
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
 
   emittery@0.13.1: {}
 
-  emoji-datasource-apple@15.1.2: {}
+  emoji-datasource-apple@16.0.0: {}
 
-  emoji-datasource@15.1.2: {}
+  emoji-datasource@16.0.0: {}
 
   emoji-regex@10.4.0: {}
 
@@ -17064,10 +17111,6 @@ snapshots:
   encoding@0.1.13:
     dependencies:
       iconv-lite: 0.6.3
-
-  end-of-stream@1.4.4:
-    dependencies:
-      once: 1.4.0
 
   end-of-stream@1.4.5:
     dependencies:
@@ -20201,6 +20244,8 @@ snapshots:
 
   node-addon-api@8.3.0: {}
 
+  node-addon-api@8.5.0: {}
+
   node-api-version@0.2.0:
     dependencies:
       semver: 7.6.3
@@ -20827,6 +20872,8 @@ snapshots:
 
   prettier@3.3.3: {}
 
+  prettier@3.6.2: {}
+
   pretty-error@4.0.0:
     dependencies:
       lodash: 4.17.21
@@ -20934,11 +20981,6 @@ snapshots:
 
   pseudomap@1.0.2: {}
 
-  pump@3.0.2:
-    dependencies:
-      end-of-stream: 1.4.4
-      once: 1.4.0
-
   pump@3.0.3:
     dependencies:
       end-of-stream: 1.4.5
@@ -20948,7 +20990,7 @@ snapshots:
     dependencies:
       duplexify: 4.1.3
       inherits: 2.0.4
-      pump: 3.0.2
+      pump: 3.0.3
 
   punycode.js@2.3.1: {}
 

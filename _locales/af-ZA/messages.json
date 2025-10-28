@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Kan nie toegang tot die databasis-enkripteringsleutel verkry nie, omdat die enkripteringsleutelring-implementering van die bedryfstelsel van {previousBackend} na {currentBackend} verander het. Dit kan gebeur as die rekenaaromgewing verander, byvoorbeeld van GNOME na KDE.\n\nSkakel asseblief terug na die vorige rekenaaromgewing of probeer om Signal oop te maak met die opdragreël-vlag --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Lêer"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Geargiveerde kletse"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Voeg kletsvouer by"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Vouerinstellings"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Vasgespeld"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Voer 'n gebruikersnaam in gevolg deur 'n kolletjie en sy stel nommers."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "Geen kletse om te vertoon nie"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Vouerinstellings"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Almal"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Alle kletse"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Merk alles as gelees"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Demp kennisgewings"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Ontdemp almal"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Ontdemp almal"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Wysig vouer"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Voeg by vouer by"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Skep vouer"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Verwyder uit vouer"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Landkode"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Merk as ongelees"
+  },
+  "icu:markRead": {
+    "messageformat": "Merk as gelees"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Selekteer boodskappe"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Fout tydens stoor van kwitansie. Probeer asb. weer."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} vouer bygevoeg"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Jy kan nie foto's en video's saam met lêers selekteer nie."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Inligting"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Meningsopname · Kies een"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Meningsopname · Kies een of meer"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Meningsopname · Finale resultate"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Besigtig stemme"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Jy het gestem"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Besonderhede van meningsopname"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Vraag"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} stem} other {{count,number} stemme}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Geen stemme nie"
+  },
   "icu:deleteConversation": {
     "messageformat": "Skrap"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Kan nie eenkeerkyk-media aflaai nie"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Lêer nie beskikbaar nie"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Volledige boodskap nie beskikbaar nie"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Media nie beskikbaar nie"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Plakker nie beskikbaar nie"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Stemboodskap nie beskikbaar nie"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Hierdie lêer is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Die volledige teks in hierdie boodskap is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Lang teksboodskappe ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Hierdie media is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Hierdie plakker is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Hierdie stemboodskap is nie van jou foon af oorgedra toe hierdie toestel gekoppel is nie. Media en lêers ouer as 45 dae ten tyde van toestelkoppeling kan nie sinchroniseer word nie."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Hierdie eenkeerkyk-media is nie meer beskikbaar om af te laai nie. Vra {name} om dit weer te stuur."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Voeg 'n kletsvouer by"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Voeg vouers by of wysig hulle"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organiseer jou kletse in vouers en wissel vinnig tussen hulle in jou kletslys."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} vouer} other {{chatFoldersCount,number} vouers}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Stel op"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Bestuur"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Wysig vouer"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Skep 'n vouer"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Sleep om kletsvouer te skuif"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Voorgestelde vouers"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Voeg toe"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} vouer bygevoeg"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Ongelees"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Uit oproep verwyder"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "Die maksimum getal deelnemers vir hierdie oproep is bereik. Probeer later weer."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "Oproep is vol"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Enigiemand wat via die skakel by hierdie oproep aansluit, sal jou naam en foto sien."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Onlangs gebruik"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Voeg ’n plakkerpakket by"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Soekresultate"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Jou kontakte sal jou by hierdie groep kan toevoeg."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Jou kontakte sal jou by hierdie groep kan voeg."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ontsper"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media, skakels en lêers"
+    "messageformat": "Media en lêers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Kennisgewinginhoud"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Maan-ikoon"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Kopie van {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "VM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "NM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Kennisgewingsprofiel"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Kennisgewingsprofiel"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Aan"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Aan tot {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Vir een uur"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Tot {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Instellings"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” is aan"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” af"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Kennisgewingprofiel nou geaktiveer"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Kennisgewingprofiel nou gedeaktiveer"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Kennisgewingsprofiele"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Stel op"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Kennisgewingsprofiele"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Skep ’n profiel om kennisgewings te ontvang slegs van die mense en groepe wat jy kies"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Gaan voort"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Voeg kennisgewingprofiele by of wysig dit"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Een profiel} other {{profileCount,number} profiele}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Skep profiel"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Gee jou profiel 'n naam"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Naam"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Profielnaam"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Kies ’n avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Werk"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Slaap"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Bestuur"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Rustyd"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Fokus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Toegelate kennisgewings"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Toegelate kennisgewings"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Voeg mense of groepe toe"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Uitsonderings"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Laat alle oproepe toe"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Laat weet vir alle vermeldings"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Voeg ’n skedule toe"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Skedule"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Aktiveer en wysig jou skedule om jou kennisgewingprofiel te outomatiseer."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Skakel outomaties aan"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Skedule"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "Van"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Tot"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Maak tydkieser oop"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Sondag"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Maandag"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Dinsdag"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Woensdag"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Donderdag"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Vrydag"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Saterdag"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Profiel geskep"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "As jy 'n skedule bygevoeg het, sal jou profiel outomaties aan- en afgeskakel word. Jy kan ook op die …-ikoon bo-aan die kletslys klik om dit handmatig aan of af te skakel."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Sondag"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Maandag"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Di"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Woe"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Do"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Vry"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Sat"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Weeksdae"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Naweke"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Daagliks"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Profiele"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sinchroniseer oor toestelle heen"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Jou profiele sal oor jou toestelle heen gesinchroniseer word. As jy 'n profiel vir een toestel aanskakel, sal dit vir die ander ook aangeskakel word."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Nuwe profiel"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Skrap profiel"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Wil jy hierdie kennisgewingprofiel permanent skrap?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Skrap"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Aan"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Af"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Wysig hierdie profiel se naam"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Toegelate kennisgewings"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} tot {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Aan"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Af"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Versper"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Rugsteun van teks en alle media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Jou intekening is nie gevind nie. Hernu om voort te gaan om Signal se Veilige Rugsteun te gebruik."
+    "messageformat": "Jou intekening is nie gevind nie. Kyk op jou foon om jou rugsteunbesonderhede te sien."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/maand"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Rugsteun van teks + {mediaDayCount,number} dag se media} other {Rugsteun van teks + {mediaDayCount,number} dae se media}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Geen kwitansies nie"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Besonderhede"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Laai kwitansie af"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Stel pasgemaakte kennisgewingprofiele op om te beheer van watter mense en groepe jy kennisgewings ontvang wanneer daardie profiele geaktiveer is."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

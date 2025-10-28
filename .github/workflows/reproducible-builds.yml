@@ -1,0 +1,148 @@
+# Copyright 2024 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Reproducible Builds
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package name'
+        required: true
+        default: 'signal-desktop'
+        type: choice
+        options:
+          - signal-desktop
+          - signal-desktop-beta
+      version_tag:
+        description: 'Version tag (e.g. v1.2.3 or v2.0.0-beta.1)'
+        required: true
+        type: string
+jobs:
+  linux:
+    name: Linux deb
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get system specs
+      run: lsb_release -a
+    - name: Get other system specs
+      run: uname -a
+
+    - name: Get version info
+      id: app_info
+      run: |
+        echo "PACKAGE_NAME=${{ inputs.package }}" >> "$GITHUB_ENV"
+
+        echo "git_ref=${{ inputs.version_tag }}" >> $GITHUB_OUTPUT
+
+        PARSED_VERSION=$(echo "${{ inputs.version_tag }}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+.*' | tr '-' '~')
+        echo "PACKAGE_VERSION=$PARSED_VERSION" >> "$GITHUB_ENV"
+
+        echo "# Reproducing ${{ inputs.package }} Linux deb" >> $GITHUB_STEP_SUMMARY
+        echo "## Version: ${{ inputs.version_tag }}" >> $GITHUB_STEP_SUMMARY
+
+    - name: Add signal desktop signing key and apt repo
+      run: |
+        wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+        cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+
+        wget -O signal-desktop.sources https://updates.signal.org/static/desktop/apt/signal-desktop.sources
+        cat signal-desktop.sources | sudo tee /etc/apt/sources.list.d/signal-desktop.sources > /dev/null
+        sudo apt-get update
+
+    # Note: For beta versions, the APT version is separated by tilde e.g. v1.2.3~beta.1
+    # However the download URI has a dash e.g. v1.2.3-beta.1
+    # Thus after apt-get download we need to use the filename of the actual download
+    - name: Download latest deb
+      id: download
+      run: |
+        DOWNLOAD_URI=$(apt-get download --print-uris "$PACKAGE_NAME=$PACKAGE_VERSION" | cut -d"'" -f2)
+        EXPECTED_SHA512=$(apt-get download --print-uris "$PACKAGE_NAME=$PACKAGE_VERSION" | grep -oP 'SHA512:\K\s*\S+')
+        echo "expected_sha512=$EXPECTED_SHA512" >> $GITHUB_OUTPUT
+
+        apt-get download "$PACKAGE_NAME=$PACKAGE_VERSION"
+        DEB_FILE=$(ls | grep deb | tail -1)
+        echo "deb_file=$DEB_FILE" >> $GITHUB_OUTPUT
+
+        DOWNLOAD_SHA512=$(sha512sum $DEB_FILE | cut -d' ' -f1)
+        echo "Verifying $DEB_FILE"
+        echo "Expected SHA512: $EXPECTED_SHA512"
+        echo "Actual SHA512:   $DOWNLOAD_SHA512"
+
+        echo "### Download from apt" >> $GITHUB_STEP_SUMMARY
+        echo "Verifying $DEB_FILE" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Expected SHA512: $EXPECTED_SHA512" >> $GITHUB_STEP_SUMMARY
+        echo "Actual SHA512:   $DOWNLOAD_SHA512" >> $GITHUB_STEP_SUMMARY
+
+        if [ "$DOWNLOAD_SHA512" == "$EXPECTED_SHA512" ]; then
+          echo "✅ Download checksum verification successful"
+          echo "✅ Download checksum verification successful" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Download checksum verification failed!"
+          echo "❌ Download checksum verification failed!" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        fi
+
+    - name: Clone Desktop git repo
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      with:
+        ref: ${{ steps.app_info.outputs.git_ref }}
+
+    - name: Get node version for docker build arg
+      id: node_version
+      run: |
+        NODE_VERSION=$(cat .nvmrc)
+        echo "version=$NODE_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Set up docker Buildx
+      uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3
+    - name: Build docker image
+      uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
+      env:
+        DOCKER_BUILD_RECORD_UPLOAD: false
+      with:
+        context: ./reproducible-builds
+        file: ./reproducible-builds/Dockerfile
+        tags: signal-desktop:latest
+        load: true
+        push: false
+        build-args: |
+          SOURCE_DATE_EPOCH=1
+          NODE_VERSION=${{ steps.node_version.outputs.version }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build Linux deb
+      id: build
+      run: |
+        cd reproducible-builds
+        ./build.sh public
+
+        cd ../release
+        BUILT_FILE=$(ls | grep deb | tail -1)
+        ACTUAL_SHA512=$(sha512sum $BUILT_FILE | cut -d' ' -f1)
+        echo "actual_sha512=$ACTUAL_SHA512" >> $GITHUB_OUTPUT
+      env:
+        SKIP_DOCKER_BUILD: true
+
+    - name: Compare checksums
+      run: |
+        ACTUAL_SHA512="${{ steps.build.outputs.actual_sha512 }}"
+        EXPECTED_SHA512="${{ steps.download.outputs.expected_sha512 }}"
+        echo "Verifying ${{ steps.download.outputs.deb_file }}"
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Expected SHA512: $EXPECTED_SHA512"
+        echo "Actual SHA512:   $ACTUAL_SHA512"
+
+        echo "### Build and verify" >> $GITHUB_STEP_SUMMARY
+        echo "Verifying ${{ steps.download.outputs.deb_file }}" >> $GITHUB_STEP_SUMMARY
+        echo "Build SHA512: $ACTUAL_SHA512" >> $GITHUB_STEP_SUMMARY
+
+        if [ "$ACTUAL_SHA512" == "$EXPECTED_SHA512" ]; then
+          echo "✅ Build checksum verification successful"
+          echo "✅ Build checksum verification successful" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Build checksum verification failed!"
+          echo "❌ Build checksum verification failed!" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        fi

@@ -3,21 +3,33 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # Usage:
-# ./build.sh [ dev (default) | public (prod and beta builds) | alpha | test | staging ] [ Build timestamp override. Defaults to latest git commit or 1. ]
+# ./build.sh [ dev (default) | public (prod and beta builds) | alpha | test | staging ]
+# Env vars:
+# SOURCE_DATE_EPOCH: Build timestamp override. Defaults to latest git commit or 1.
+# SKIP_DOCKER_BUILD: To support docker build cache during actions.
+# BUILD_TARGETS: Override build targets. Empty default results in deb.
+
+# Examples:
+# ./build.sh public
+# SOURCE_DATE_EPOCH=123 ./build.sh test
 
 # First we prepare the docker container in which our build scripts will run. This container includes
 # all build dependencies at specific versions.
 # We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
-docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+if [ -z "${SKIP_DOCKER_BUILD}" ]; then
+  docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+else
+  echo "Skipping docker build step because SKIP_DOCKER_BUILD was set"
+fi
 
 # Before performing the actual build, go to the project root.
 cd ..
 
 # Prepare the timestamp of the actual build based on the latest git commit.
 source_date_epoch=1
-if [ "$2" != "" ]; then
+if [ -n "${SOURCE_DATE_EPOCH}" ]; then
   echo "Using override timestamp for SOURCE_DATE_EPOCH."
-  source_date_epoch=$(($2))
+  source_date_epoch="${SOURCE_DATE_EPOCH}"
 else
   git_timestamp=$(git log -1 --pretty=%ct)
   if [ "${git_timestamp}" != "" ]; then
@@ -41,4 +53,5 @@ docker run --rm \
   -e NPM_CONFIG_CACHE=/tmp/.npm-cache \
   -e PNPM_HOME=/tmp/.pnpm-home \
   -e SOURCE_DATE_EPOCH=$source_date_epoch \
+  -e BUILD_TARGETS=$BUILD_TARGETS \
   signal-desktop $1

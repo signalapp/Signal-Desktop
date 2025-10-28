@@ -1,0 +1,78 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import type { Selector } from 'reselect';
+import type { StateType } from './reducer.preload.js';
+import type { actions as accounts } from './ducks/accounts.preload.js';
+import type { actions as app } from './ducks/app.preload.js';
+import type { actions as audioPlayer } from './ducks/audioPlayer.preload.js';
+import type { actions as audioRecorder } from './ducks/audioRecorder.preload.js';
+import type { actions as badges } from './ducks/badges.preload.js';
+import type { actions as callHistory } from './ducks/callHistory.preload.js';
+import type { actions as calling } from './ducks/calling.preload.js';
+import type { actions as chatFolders } from './ducks/chatFolders.preload.js';
+import type { actions as composer } from './ducks/composer.preload.js';
+import type { actions as conversations } from './ducks/conversations.preload.js';
+import type { actions as crashReports } from './ducks/crashReports.preload.js';
+import type { actions as donations } from './ducks/donations.preload.js';
+import type { actions as emojis } from './ducks/emojis.preload.js';
+import type { actions as expiration } from './ducks/expiration.std.js';
+import type { actions as gifs } from './ducks/gifs.preload.js';
+import type { actions as globalModals } from './ducks/globalModals.preload.js';
+import type { actions as inbox } from './ducks/inbox.std.js';
+import type { actions as installer } from './ducks/installer.preload.js';
+import type { actions as items } from './ducks/items.preload.js';
+import type { actions as lightbox } from './ducks/lightbox.preload.js';
+import type { actions as linkPreviews } from './ducks/linkPreviews.preload.js';
+import type { actions as mediaGallery } from './ducks/mediaGallery.preload.js';
+import type { actions as nav } from './ducks/nav.std.js';
+import type { actions as network } from './ducks/network.dom.js';
+import type { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
+import type { actions as safetyNumber } from './ducks/safetyNumber.preload.js';
+import type { actions as search } from './ducks/search.preload.js';
+import type { actions as stickers } from './ducks/stickers.preload.js';
+import type { actions as stories } from './ducks/stories.preload.js';
+import type { actions as storyDistributionLists } from './ducks/storyDistributionLists.preload.js';
+import type { actions as toast } from './ducks/toast.preload.js';
+import type { actions as updates } from './ducks/updates.preload.js';
+import type { actions as user } from './ducks/user.preload.js';
+import type { actions as username } from './ducks/username.preload.js';
+
+export type ReduxActions = {
+  accounts: typeof accounts;
+  app: typeof app;
+  audioPlayer: typeof audioPlayer;
+  audioRecorder: typeof audioRecorder;
+  badges: typeof badges;
+  callHistory: typeof callHistory;
+  calling: typeof calling;
+  chatFolders: typeof chatFolders;
+  composer: typeof composer;
+  conversations: typeof conversations;
+  crashReports: typeof crashReports;
+  donations: typeof donations;
+  emojis: typeof emojis;
+  expiration: typeof expiration;
+  gifs: typeof gifs;
+  globalModals: typeof globalModals;
+  inbox: typeof inbox;
+  installer: typeof installer;
+  items: typeof items;
+  lightbox: typeof lightbox;
+  linkPreviews: typeof linkPreviews;
+  mediaGallery: typeof mediaGallery;
+  nav: typeof nav;
+  network: typeof network;
+  notificationProfiles: typeof notificationProfiles;
+  safetyNumber: typeof safetyNumber;
+  search: typeof search;
+  stickers: typeof stickers;
+  stories: typeof stories;
+  storyDistributionLists: typeof storyDistributionLists;
+  toast: typeof toast;
+  updates: typeof updates;
+  user: typeof user;
+  username: typeof username;
+};
+
+export type StateSelector<T> = Selector<StateType, T>;

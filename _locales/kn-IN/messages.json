@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "ಡೇಟಾಬೇಸ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಕೀಯನ್ನು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ, ಏಕೆಂದರೆ OS ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಕೀರಿಂಗ್ ಬ್ಯಾಕ್‌ಎಂಡ್ {previousBackend} ನಿಂದ {currentBackend} ಗೆ ಬದಲಾಗಿದೆ. ಡೆಸ್ಕ್‌ಟಾಪ್ ಪರಿಸರವು ಬದಲಾದರೆ ಇದು ಸಂಭವಿಸಬಹುದು, ಉದಾಹರಣೆಗೆ GNOME ಮತ್ತು KDE ನಡುವೆ.\n\nದಯವಿಟ್ಟು ಹಿಂದಿನ ಡೆಸ್ಕ್‌ಟಾಪ್ ಪರಿಸರಕ್ಕೆ ಬದಲಿಸಿ ಅಥವಾ --password-store=\"{previousBackendFlag}\"ಕಮಾಂಡ್‍ಲೈನ್‍ಫ್ಲ್ಯಾಗ್‌ನೊಂದಿಗೆ ಸಿಗ್ನಲ್ ಅನ್ನು ರನ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ"
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ಫೈಲ್"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "ಆರ್ಕೈವ್ ಮಾಡಿದ ಚಾಟ್‌ಗಳು"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಸೇರಿಸಿ"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "ಫೋಲ್ಡರ್ ಸೆಟ್ಟಿಂಗ್ ಗಳು"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "ಪಿನ್ ಮಾಡಲಾದ"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ ಬಳಿಕ ಒಂದು ಬಿಂದು ಮತ್ತು ಅದರ ಸಂಖ್ಯೆಗಳ ಸೆಟ್ ನಮೂದಿಸಿ."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "ತೋರಿಸಲು ಯಾವುದೇ ಚಾಟ್ ಗಳು ಇಲ್ಲ"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "ಫೋಲ್ಡರ್ ಸೆಟ್ಟಿಂಗ್ ಗಳು"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "ಎಲ್ಲವೂ"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "ಎಲ್ಲ ಚಾಟ್ ಗಳು"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "ಎಲ್ಲವನ್ನೂ ಅನ್ ಮ್ಯೂಟ್ ಮಾಡಿ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "ಎಲ್ಲವನ್ನೂ ಅನ್ ಮ್ಯೂಟ್ ಮಾಡಿ"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "ಫೋಲ್ಡರ್ ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "ಫೋಲ್ಡರ್ ಗೆ ಸೇರಿಸಿ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "ಫೋಲ್ಡರ್ ರಚಿಸಿ"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "ಪೋಲ್ಡರ್ ತೆಗೆದು ಹಾಕಿ"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "ದೇಶದ ಕೋಡ್"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "ಓದಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತಿಸಿ"
+  },
+  "icu:markRead": {
+    "messageformat": "ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "ರಸೀದಿಯನ್ನು ಸೇವ್ ಮಾಡುವಾಗ ದೋಷ ಉಂಟಾಗಿದೆ. ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "{chatFolderName} ಫೋಲ್ಡರ್ ಸೇರಿಸಲಾಗಿದೆ"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ಫೈಲ್ ಗಳ ಜೊತೆಗೆ ಫೊಟೋ ಮತ್ತು ವಿಡಿಯೋಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಲಾಗುವುದಿಲ್ಲ."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ಮಾಹಿತಿ"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದು ಅಥವಾ ಹೆಚ್ಚಿನದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "ಸಮೀಕ್ಷೆ · ಅಂತಿಮ ಫಲಿತಾಂಶಗಳು"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "ವೋಟ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "ನೀವು ವೋಟ್ ಮಾಡಿದ್ದೀರಿ"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "ಸಮೀಕ್ಷೆಯ ವಿವರಗಳು"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "ಪ್ರಶ್ನೆ"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} ವೋಟ್} other {{count,number} ವೋಟ್‌ಗಳು}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
+  },
   "icu:deleteConversation": {
     "messageformat": "ಅಳಿಸಿ"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "ಫೈಲ್ ಲಭ್ಯವಿಲ್ಲ"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "ಸಂಪೂರ್ಣ ಮೆಸೇಜ್ ಲಭ್ಯವಿಲ್ಲ"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "ಮೀಡಿಯಾ ಲಭ್ಯವಿಲ್ಲ"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಲಭ್ಯವಿಲ್ಲ"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "ಈ ಧ್ವನಿ ಸಂದೇಶ ಲಭ್ಯವಿಲ್ಲ"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "ಈ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಿದಾಗ ಈ ಫೈಲ್ ಅನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ವರ್ಗಾಯಿಸಲಾಗಿಲ್ಲ. ಸಾಧನ ಲಿಂಕ್ ಮಾಡುವ ಸಮಯದಲ್ಲಿ 45 ದಿನಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "ಈ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಿದಾಗ ಈ ಮೆಸೇಜ್‌ನಲ್ಲಿರುವ ಸಂಪೂರ್ಣ ಪಠ್ಯವನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ವರ್ಗಾಯಿಸಲಾಗಿಲ್ಲ. ಸಾಧನ ಲಿಂಕ್ ಮಾಡುವ ಸಮಯದಲ್ಲಿ 45 ದಿನಗಳಿಗಿಂತ ಹಳೆಯದಾದ ದೀರ್ಘ ಪಠ್ಯ ಸಂದೇಶಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "ಈ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಿದಾಗ ಈ ಮೀಡಿಯಾವನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ವರ್ಗಾಯಿಸಲಾಗಿಲ್ಲ. ಸಾಧನ ಲಿಂಕ್ ಮಾಡುವ ಸಮಯದಲ್ಲಿ 45 ದಿನಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಮೀಡಿಯಾವನ್ನು ಸಿಂಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "ಈ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಿದಾಗ ಈ ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ವರ್ಗಾಯಿಸಲಾಗಿಲ್ಲ. ಸಾಧನ ಲಿಂಕ್ ಮಾಡುವ ಸಮಯದಲ್ಲಿ 45 ದಿನಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "ಈ ಸಾಧನವನ್ನು ಲಿಂಕ್ ಮಾಡಿದಾಗ ಈ ಧ್ವನಿ ಸಂದೇಶವನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ವರ್ಗಾಯಿಸಲಾಗಿಲ್ಲ. ಸಾಧನ ಲಿಂಕ್ ಮಾಡುವ ಸಮಯದಲ್ಲಿ 45 ದಿನಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "ಈ ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿರುವುದಿಲ್ಲ. ಅದನ್ನು ಮತ್ತೆ ಕಳುಹಿಸಲು {name} ಅವರಿಗೆ ಕೇಳಿ."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಸೇರಿಸಲಾಗಿದೆ"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "ಫೋಲ್ಡರ್ ಸೇರಿಸಿ ಅಥವಾ ಎಡಿಟ್ ಮಾಡಿ"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "ಫೋಲ್ಡರ್ ಗಳಲ್ಲಿ ಚಾಟ್ ಗಳನ್ನು ಅನುಕ್ರಮವಾಗಿ ಹೊಂದಿಸಿ ಮತ್ತು ಅವುಗಳನ್ನು ನಿಮ್ಮ ಚಾಟ್ ಗಳ ಪಟ್ಟಿಗೆ ತ್ವರಿತವಾಗಿ ಬದಲಾಯಿಸಿ."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} ಫೋಲ್ಡರ್} other {{chatFoldersCount,number} ಫೋಲ್ಡರ್ ಗಳು}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "ಸೆಟ್ ಅಪ್"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "ನಿರ್ವಹಿಸಿ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ಫೋಲ್ಡರ್ ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "ಫೋಲ್ಡರ್ ರಚನೆ ಮಾಡಿ"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಮೂವ್ ಮಾಡಲು ಎಳೆಯಿರಿ"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "ಸೂಚಿಸಿದ ಫೋಲ್ಡರ್ ಗಳು"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "ಸೇರಿಸಿ"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} ಫೋಲ್ಡರ್ ಸೇರಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "ಓದದಿರುವ"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "ಈ ಕರೆಗೆ ಭಾಗವಹಿಸುವವರ ಗರಿಷ್ಠ ಸಂಖ್ಯೆಯನ್ನು ತಲುಪಲಾಗಿದೆ. ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "ಕರೆ ಭರ್ತಿಯಾಗಿದೆ"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "ಲಿಂಕ್ ಮೂಲಕ ಈ ಕರೆಗೆ ಸೇರಿದ ಯಾರೇ ಆದರೂ ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ನೋಡುತ್ತಾರೆ."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಲಾಗಿದೆ"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಸೇರಿಸಿ"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "ಹುಡುಕಾಟದ ಫಲಿತಾಂಶಗಳು"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ನಿಮ್ಮನ್ನು ಸೇರಿಸಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಸಾಧ್ಯವಾಗುತ್ತದೆ."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ಮೀಡಿಯಾ, ಲಿಂಕ್‌ಗಳು ಮತ್ತು ಫೈಲ್‌ಗಳು"
+    "messageformat": "ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳು"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "ಅಧಿಸೂಚನೆ ವಿಷಯ"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "ಮೂನ್ ಐಕಾನ್"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "{profileName} ನ ಕಾಪಿ"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "ಬೆಳಗ್ಗೆ"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "ರಾತ್ರಿ"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "ಆನ್"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "{endTime} ತನಕ ಆನ್"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "ಒಂದು ಗಂಟೆಯವರೆಗೆ"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "{time} ವರೆಗೆ"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” ಆನ್ ಆಗಿದೆ"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” ಆಫ್ ಆಗಿದೆ"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಈಗ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಈಗ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್‌ಗಳು"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "ಸೆಟ್ ಅಪ್"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್‌ಗಳು"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಜನರು ಮತ್ತು ಗುಂಪುಗಳಿಂದ ಮಾತ್ರ ನೋಟಿಫಿಕೇಷನ್‌ಗಳನ್ನು ಮತ್ತು ಕರೆಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ಪ್ರೊಫೈಲ್ ರಚಿಸಿ"
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "ಮುಂದುವರಿಸಿ"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್‌ಗಳನ್ನು ಸೇರಿಸಿ ಅಥವಾ ಎಡಿಟ್ ಮಾಡಿ"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {ಒಂದು ಪ್ರೊಫೈಲ್} other {{profileCount,number} ಪ್ರೊಫೈಲ್‌ಗಳು}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "ಪ್ರೊಫೈಲ್ ರಚಿಸಿ"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಹೆಸರಿಸಿ"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "ಹೆಸರು"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "ಪ್ರೊಫೈಲ್ ಹೆಸರು"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "ಒಂದು ಅವತಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "ಕೆಲಸ"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "ನಿದ್ರೆ"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "ಡ್ರೈವಿಂಗ್"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "ಕಾರ್ಯ ಸ್ಥಬ್ದ"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "ಗಮನ ಕೇಂದ್ರೀಕರಿಸು"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "ಜನರು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಸೇರಿಸಿ"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "ವಿನಾಯಿತಿಗಳು"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "ಎಲ್ಲಾ ಕರೆಗಳನ್ನು ಅನುಮತಿಸಿ"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "ಎಲ್ಲಾ ಉಲ್ಲೇಖಗಳನ್ನು ತಿಳಿಸಿ"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "ವೇಳಾಪಟ್ಟಿ ಸೇರಿಸಿ"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "ವೇಳಾಪಟ್ಟಿ"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "ನಿಮ್ಮ ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಸ್ವಯಂಚಾಲಿತಗೊಳಿಸಲು ನಿಮ್ಮ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ ಮತ್ತು ಎಡಿಟ್ ಮಾಡಿ."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆನ್ ಮಾಡಿ"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "ವೇಳಾಪಟ್ಟಿ"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "ಇಂದ"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "ವರೆಗೆ"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "ಟೈಮ್ ಪಿಕರ್ ಅನ್ನು ತೆರೆಯಿರಿ"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "ಭಾನುವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "ಸೋಮವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "ಮಂಗಳವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "ಬುಧವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "ಗುರುವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "ಶುಕ್ರವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "ಶನಿವಾರ"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "ಪ್ರೊಫೈಲ್ ರಚಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "ನೀವು ವೇಳಾಪಟ್ಟಿಯನ್ನು ಸೇರಿಸಿದ್ದರೆ, ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಸ್ವಯಂಚಾಲಿವಾಗಿ ಆನ್ ಮತ್ತು ಆಫ್ ಆಗುತ್ತದೆ. ಅದನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡಲು ನೀವು ಚಾಟ್ ಪಟ್ಟಿಯ ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ··· ಐಕಾನ್ ಅನ್ನು ಕೂಡ ಕ್ಲಿಕ್ ಮಾಡಬಹುದು."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "ಭಾನು"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "ಸೋಮವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "ಮಂಗಳವಾರ"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "ಬುಧ"
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "ಗುರು"
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "ಶುಕ್ರ"
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "ಶನಿ"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "ವಾರದ ದಿನಗಳು"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "ವಾರಾಂತ್ಯಗಳು"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "ಪ್ರತಿದಿನ"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "ಪ್ರೊಫೈಲ್‌ಗಳು"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "ಸಾಧನಗಳಾದ್ಯಂತ ಸಿಂಕ್ ಮಾಡಿ"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ಗಳನ್ನು ನಿಮ್ಮ ಸಾಧನಗಳಾದ್ಯಂತ ಸಿಂಕ್ ಮಾಡಲಾಗುತ್ತದೆ. ಒಂದು ಸಾಧನಕ್ಕೆ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಆನ್ ಮಾಡುವುದರಿಂದ ಅದು ಇತರ ಸಾಧನಗಳಿಗೆ ಆನ್ ಆಗುತ್ತದೆ."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "ಹೊಸ ಪ್ರೊಫೈಲ್"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "ಪ್ರೊಫೈಲ್ ಅಳಿಸಿ"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "ಈ ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೇ?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "ಅಳಿಸಿ"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "ಆನ್"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "ಆಫ಼್"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "ಈ ಪ್ರೊಫೈಲ್‌ನ ಹೆಸರನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} ನಿಂದ {endTime} ವರೆಗೆ"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "ಆನ್"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "ಆಫ಼್"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "ಪಠ್ಯ + ಎಲ್ಲಾ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
+    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/ತಿಂಗಳು"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ಪಠ್ಯ + {mediaDayCount,number} ದಿನದ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್} other {ಪಠ್ಯ + {mediaDayCount,number} ದಿನಗಳ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "ರಸೀದಿಗಳಿಲ್ಲ"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "ವಿವರಗಳು"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "ರಸೀದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "ನಿಮ್ಮಲ್ಲಿ ದೃಢೀಕರಣ ಅಗತ್ಯವಿರುವ ದೇಣಿಗೆ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "ದೇಣಿಗೆ ಯಶಸ್ವಿಯಾಗಿದೆ, ಆದರೆ ನಿಮ್ಮ ಬ್ಯಾಡ್ಜ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ದೇಣಿಗೆ ಯಶಸ್ವಿಯಾಗಿದೆ, ಆದರೆ ನಿಮ್ಮ ಬ್ಯಾಡ್ಜ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "ಆ ಪ್ರೊಫೈಲ್ ಸಕ್ರಿಯಗೊಂಡಾಗ ನೀವು ಯಾವ ಜನರು ಮತ್ತು ಗುಂಪುಗಳಿಂದ ನೋಟಿಫಿಕೇಷನ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಲು ಕಸ್ಟಮ್ ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್‌ಗಳನ್ನು ಸೆಟಪ್ ಮಾಡಿ. ಸಹೋದ್ಯೋಗಿಗಳಲ್ಲದವರನ್ನು ದೂರವಿಡುವ \"ವರ್ಕ್\" ಪ್ರೊಫೈಲ್ ಅನ್ನು ರಚಿಸಿ (ನಿಮ್ಮ ಗೆಳೆಯ/ಗೆಳತಿಯರನ್ನು ಹೊರತುಪಡಿಸಿ) ಮತ್ತು ನಿಮ್ಮ ಬಾಸ್ ಅನ್ನು ಒಳಗೊಂಡಿರದ \"ಡೌನ್‌ಟೈಮ್\" ಪ್ರೊಫೈಲ್ ಅನ್ನು ರಚಿಸಿ. ನೀವು ಬಯಸಿದಾಗಲೆಲ್ಲಾ ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್‌ಗಳ ನಡುವೆ ಬದಲಾಯಿಸಬಹುದು ಅಥವಾ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಬಹುದು, ಇದರಿಂದ ಅದು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಉಂಟಾಗುತ್ತದೆ."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }

@@ -3,6 +3,13 @@
 
 @use '../stylesheets/variables';
 
+#storybook-root {
+  height: 100%;
+}
+#storybook-root > div {
+  height: 100%;
+}
+
 .container {
   align-content: stretch;
   align-items: stretch;

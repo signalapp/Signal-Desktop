@@ -104,6 +104,15 @@
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l’entorn d’escriptori anterior, o prova d’executar Signal amb el paràmetre de la línia d’ordres --password-store=\"{previousBackendFlag}\""
   },
+  "icu:systemEncryptionError": {
+    "messageformat": "System encryption error"
+  },
+  "icu:systemEncryptionError__linuxSafeStorageDecryptionError": {
+    "messageformat": "Unable to decrypt the database encryption key using the OS encryption keyring. This can occur in certain containerized environments such as Flatpak.\n\nWe recommend quitting and checking your OS encryption backend such as gnome-libsecret or kwallet, then trying again.\n\nYou may choose to continue anyway, however the database key will be stored in plaintext on the filesystem and other apps may be able to access it."
+  },
+  "icu:systemEncryptionError__continueWithPlaintextKey": {
+    "messageformat": "Continue with plaintext key"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxer"
   },
@@ -233,6 +242,12 @@
   "icu:archivedConversations": {
     "messageformat": "Xats arxivats"
   },
+  "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
+    "messageformat": "Afegir carpeta de xats"
+  },
+  "icu:LeftPane__MoreActionsMenu__FolderSettings": {
+    "messageformat": "Ajustos de la carpeta"
+  },
   "icu:LeftPane--pinned": {
     "messageformat": "Fixat"
   },
@@ -271,6 +286,45 @@
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
     "messageformat": "Introdueix un àlies seguit d'un punt i el seu conjunt de números."
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
+    "messageformat": "No hi ha xats per mostrar"
+  },
+  "icu:LeftPane__EmptyView--WithSelectedChatFolder__FolderSettings": {
+    "messageformat": "Ajustos de la carpeta"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All--Short": {
+    "messageformat": "Tot"
+  },
+  "icu:LeftPaneChatFolders__ItemLabel--All": {
+    "messageformat": "Tots els xats"
+  },
+  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
+    "messageformat": "{maxCount,number}+"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
+    "messageformat": "Marca-ho tot com a llegit"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
+    "messageformat": "Silencia les notificacions"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
+    "messageformat": "Reactivar tot"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
+    "messageformat": "Reactivar tot"
+  },
+  "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
+    "messageformat": "Editar carpeta"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
+    "messageformat": "Afegir a la carpeta"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
+    "messageformat": "Crear carpeta"
+  },
+  "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderRemoveChatItem": {
+    "messageformat": "Suprimir de la carpeta"
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Codi de país"
@@ -322,6 +376,9 @@
   },
   "icu:markUnread": {
     "messageformat": "Marca com a no llegit"
+  },
+  "icu:markRead": {
+    "messageformat": "Marca'l com a llegit"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Seleccionar missatges"
@@ -607,6 +664,15 @@
   },
   "icu:Toast--ReceiptSaveFailed": {
     "messageformat": "Error en guardar el rebut. Si us plau, torna-ho a provar."
+  },
+  "icu:Toast--ChatFolderAddedChat": {
+    "messageformat": "Added to “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderRemovedChat": {
+    "messageformat": "Removed from “{chatFolderName}”"
+  },
+  "icu:Toast--ChatFolderCreated": {
+    "messageformat": "Carpeta \"{chatFolderName}\" afegida"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "No pots seleccionar fotos i vídeos juntament amb arxius."
@@ -1031,6 +1097,33 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informació"
   },
+  "icu:PollMessage--SelectOne": {
+    "messageformat": "Enquesta · Selecciona una opció"
+  },
+  "icu:PollMessage--SelectMultiple": {
+    "messageformat": "Enquesta · Selecciona una opció o més"
+  },
+  "icu:PollMessage--FinalResults": {
+    "messageformat": "Enquesta · Resultats finals"
+  },
+  "icu:PollMessage__ViewVotesButton": {
+    "messageformat": "Veure vots"
+  },
+  "icu:PollMessage--YouVoted": {
+    "messageformat": "Has votat"
+  },
+  "icu:PollVotesModal__title": {
+    "messageformat": "Detalls de l'enquesta"
+  },
+  "icu:PollVotesModal__questionLabel": {
+    "messageformat": "Pregunta"
+  },
+  "icu:PollVotesModal__voteCount": {
+    "messageformat": "{count, plural, one {{count,number} vot} other {{count,number} vots}}"
+  },
+  "icu:PollVotesModal__noVotes": {
+    "messageformat": "Sense vots"
+  },
   "icu:deleteConversation": {
     "messageformat": "Suprimeix"
   },
@@ -1172,36 +1265,6 @@
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "No es pot descarregar el contingut d'una sola visualització"
   },
-  "icu:AttachmentNotAvailableModal__title--file": {
-    "messageformat": "Arxiu no disponible"
-  },
-  "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Missatge complet no disponible"
-  },
-  "icu:AttachmentNotAvailableModal__title--media": {
-    "messageformat": "Arxiu no disponible"
-  },
-  "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker no disponible"
-  },
-  "icu:AttachmentNotAvailableModal__title--voice-message": {
-    "messageformat": "Missatge de veu no disponible"
-  },
-  "icu:AttachmentNotAvailableModal__body--file": {
-    "messageformat": "Aquest arxiu no es va transferir des del telèfon mentre aquest dispositiu estava enllaçat. Els arxius que en el moment de vincular el dispositiu tinguin més de 45 dies d'antiguitat no es podran sincronitzar."
-  },
-  "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "El text complet d'aquest missatge no es va transferir des del telèfon mentre aquest dispositiu estava enllaçat. Els missatges de text llargs que en el moment de vincular el dispositiu tinguin més de 45 dies d'antiguitat no es podran sincronitzar."
-  },
-  "icu:AttachmentNotAvailableModal__body--media": {
-    "messageformat": "Aquest arxiu no es va transferir des del telèfon mentre aquest dispositiu estava enllaçat. Els arxius que en el moment de vincular el dispositiu tinguin més de 45 dies d'antiguitat no es podran sincronitzar."
-  },
-  "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Aquest sticker no es va transferir des del telèfon mentre aquest dispositiu estava enllaçat. Els arxius que en el moment de vincular el dispositiu tinguin més de 45 dies d'antiguitat no es podran sincronitzar."
-  },
-  "icu:AttachmentNotAvailableModal__body--voice-message": {
-    "messageformat": "Aquest missatge de veu no es va transferir des del telèfon mentre aquest dispositiu estava enllaçat. Els arxius que en el moment de vincular el dispositiu tinguin més de 45 dies d'antiguitat no es podran sincronitzar."
-  },
   "icu:TapToViewNotAvailableModal__body--expired": {
     "messageformat": "Aquest contingut d'una sola visualització ja no està disponible. Demana-li a {name} que te'l torni a enviar."
   },
@@ -1289,8 +1352,20 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Afegir una carpeta de xats"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders": {
+    "messageformat": "Afegir o editar carpetes"
+  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
     "messageformat": "Organitza els teus xats en carpetes i passa ràpidament d'una a l'altra a la teva llista de xats."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
+    "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} carpeta} other {{chatFoldersCount,number} carpetes}}"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
+    "messageformat": "Configurar"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
+    "messageformat": "Administrar"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Editar carpeta"
@@ -1325,14 +1400,14 @@
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
     "messageformat": "Crear una carpeta"
   },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__DragHandle__Label": {
+    "messageformat": "Arrossega per moure la carpeta de xats"
+  },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Carpetes suggerides"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
     "messageformat": "Afegeix"
-  },
-  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "Carpeta \"{chatFolderTitle}\" afegida"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "No llegit"
@@ -1531,6 +1606,12 @@
   },
   "icu:calling__removed-from-call-title": {
     "messageformat": "Expulsar de la trucada"
+  },
+  "icu:calling__has-max-devices": {
+    "messageformat": "S'ha assolit el nombre màxim de participants per a aquesta trucada. Torneu-ho a provar més tard."
+  },
+  "icu:calling__has-max-devices--title": {
+    "messageformat": "La trucada és plena"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "Qualsevol persona que s'uneixi a aquesta trucada mitjançant l'enllaç veurà el teu nom i la teva foto."
@@ -2557,6 +2638,9 @@
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Usat recentment"
+  },
+  "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
+    "messageformat": "Afegeix un paquet d'adhesius"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "Resultats de la cerca"
@@ -4442,6 +4526,9 @@
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
     "messageformat": "Els teus contactes podran afegir-te a aquest grup."
   },
+  "icu:ConversationDetailsActions--unblock-group-modal-body": {
+    "messageformat": "Els teus contactes podran afegir-te a aquest grup."
+  },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desbloquejar"
   },
@@ -4449,7 +4536,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Arxius multimèdia, enllaços i arxius"
+    "messageformat": "Arxius multimèdia i documents"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5282,6 +5369,252 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Contingut de les notificacions"
   },
+  "icu:NotificationProfile--moon-icon": {
+    "messageformat": "Icona de lluna"
+  },
+  "icu:NotificationProfile--copy-label": {
+    "messageformat": "Còpia de {profileName}"
+  },
+  "icu:NotificationProfile--am": {
+    "messageformat": "AM"
+  },
+  "icu:NotificationProfile--pm": {
+    "messageformat": "PM"
+  },
+  "icu:NotificationProfile--time-separator": {
+    "messageformat": ":"
+  },
+  "icu:NotificationProfileMenuItem": {
+    "messageformat": "Perfil de notificacions"
+  },
+  "icu:NotificationProfileMenu--header": {
+    "messageformat": "Perfil de notificacions"
+  },
+  "icu:NotificationProfileMenu--on": {
+    "messageformat": "Actiu"
+  },
+  "icu:NotificationProfileMenu--on-with-end": {
+    "messageformat": "Actiu fins {endTime}"
+  },
+  "icu:NotificationProfileMenu--for-one-hour": {
+    "messageformat": "Durant una hora"
+  },
+  "icu:NotificationProfileMenu--until-time": {
+    "messageformat": "Fins a {time}"
+  },
+  "icu:NotificationProfileMenu--settings": {
+    "messageformat": "Configuració"
+  },
+  "icu:NotificationProfilesToast--enabled": {
+    "messageformat": "“{name}” activat"
+  },
+  "icu:NotificationProfilesToast--disabled": {
+    "messageformat": "“{name}” desactivat"
+  },
+  "icu:NotificationProfilesToast--enabled--label": {
+    "messageformat": "Perfils de notificacions activat"
+  },
+  "icu:NotificationProfilesToast--disabled--label": {
+    "messageformat": "Perfils de notificacions desactivat"
+  },
+  "icu:NotificationProfiles--setting": {
+    "messageformat": "Perfils de notificacions"
+  },
+  "icu:NotificationProfiles--setup": {
+    "messageformat": "Configurar"
+  },
+  "icu:NotificationProfiles--title": {
+    "messageformat": "Perfils de notificacions"
+  },
+  "icu:NotificationProfiles--setup-description": {
+    "messageformat": "Crea un perfil per rebre notificacions i trucades només de les persones i els grups que triïs."
+  },
+  "icu:NotificationProfiles--setup-continue": {
+    "messageformat": "Continua"
+  },
+  "icu:NotificationProfiles--manage-description": {
+    "messageformat": "Afegir o editar perfils de notificacions"
+  },
+  "icu:NotificationProfiles--manage-profiles": {
+    "messageformat": "{profileCount, plural, one {Un perfil} other {{profileCount,number} perfils}}"
+  },
+  "icu:NotificationProfiles--create": {
+    "messageformat": "Crea un perfil"
+  },
+  "icu:NotificationProfiles--name-title": {
+    "messageformat": "Nom del perfil"
+  },
+  "icu:NotificationProfiles--name-title--editing": {
+    "messageformat": "Nom"
+  },
+  "icu:NotificationProfiles--name-placeholder": {
+    "messageformat": "Nom del perfil"
+  },
+  "icu:NotificationProfiles--avatar-title": {
+    "messageformat": "Seleccioneu un avatar"
+  },
+  "icu:NotificationProfiles--sample-name__work": {
+    "messageformat": "Feina"
+  },
+  "icu:NotificationProfiles--sample-name__sleep": {
+    "messageformat": "Dormint"
+  },
+  "icu:NotificationProfiles--sample-name__driving": {
+    "messageformat": "Conduint"
+  },
+  "icu:NotificationProfiles--sample-name__downtime": {
+    "messageformat": "Temps d'inactivitat"
+  },
+  "icu:NotificationProfiles--sample-name__focus": {
+    "messageformat": "Focus"
+  },
+  "icu:NotificationProfiles--allowed-title": {
+    "messageformat": "Notificacions permeses"
+  },
+  "icu:NotificationProfiles--allowed-modal-title": {
+    "messageformat": "Notificacions permeses"
+  },
+  "icu:NotificationProfiles--allowed-description": {
+    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+  },
+  "icu:NotificationProfiles--allowed-add-label": {
+    "messageformat": "Afegeix persones o grups"
+  },
+  "icu:NotificationProfiles--exceptions": {
+    "messageformat": "Excepcions"
+  },
+  "icu:NotificationProfiles--exceptions--allow-all-calls": {
+    "messageformat": "Permet totes les trucades"
+  },
+  "icu:NotificationProfiles--exceptions--notify-for-mentions": {
+    "messageformat": "Notifica totes les mencions"
+  },
+  "icu:NotificationProfiles--schedule-title": {
+    "messageformat": "Afegeix-hi una programació"
+  },
+  "icu:NotificationProfiles--schedule-title--editing": {
+    "messageformat": "Programació"
+  },
+  "icu:NotificationProfiles--schedule-description": {
+    "messageformat": "Activa i edita el teu horari per automatitzar el teu perfil de notificacions."
+  },
+  "icu:NotificationProfiles--schedule-enable": {
+    "messageformat": "Activar automàticament"
+  },
+  "icu:NotificationProfiles--schedule": {
+    "messageformat": "Programació"
+  },
+  "icu:NotificationProfiles--schedule-from": {
+    "messageformat": "De"
+  },
+  "icu:NotificationProfiles--schedule-until": {
+    "messageformat": "Fins"
+  },
+  "icu:NotificationProfiles--open-time-picker": {
+    "messageformat": "Obre el selector d'hora"
+  },
+  "icu:NotificationProfiles--schedule-sunday": {
+    "messageformat": "Diumenge"
+  },
+  "icu:NotificationProfiles--schedule-monday": {
+    "messageformat": "Dilluns"
+  },
+  "icu:NotificationProfiles--schedule-tuesday": {
+    "messageformat": "Dimarts"
+  },
+  "icu:NotificationProfiles--schedule-wednesday": {
+    "messageformat": "Dimecres"
+  },
+  "icu:NotificationProfiles--schedule-thursday": {
+    "messageformat": "Dijous"
+  },
+  "icu:NotificationProfiles--schedule-friday": {
+    "messageformat": "Divendres"
+  },
+  "icu:NotificationProfiles--schedule-saturday": {
+    "messageformat": "Dissabte"
+  },
+  "icu:NotificationProfiles--done-title": {
+    "messageformat": "Perfil creat"
+  },
+  "icu:NotificationProfiles--done-description": {
+    "messageformat": "Si has afegit un horari, el teu perfil s'activarà i es desactivarà automàticament. També pots fer clic a la icona ··· a la part superior de la llista de xats per activar-lo o desactivar-lo manualment."
+  },
+  "icu:NotificationProfiles--schedule-sunday-short": {
+    "messageformat": "Diumenge"
+  },
+  "icu:NotificationProfiles--schedule-monday-short": {
+    "messageformat": "Dilluns"
+  },
+  "icu:NotificationProfiles--schedule-tuesday-short": {
+    "messageformat": "Dimarts"
+  },
+  "icu:NotificationProfiles--schedule-wednesday-short": {
+    "messageformat": "Dc."
+  },
+  "icu:NotificationProfiles--schedule-thursday-short": {
+    "messageformat": "Dj."
+  },
+  "icu:NotificationProfiles--schedule-friday-short": {
+    "messageformat": "Dv."
+  },
+  "icu:NotificationProfiles--schedule-saturday-short": {
+    "messageformat": "Dissabte"
+  },
+  "icu:NotificationProfiles--schedule-weekdays": {
+    "messageformat": "Dies feiners"
+  },
+  "icu:NotificationProfiles--schedule-weekends": {
+    "messageformat": "Caps de setmana"
+  },
+  "icu:NotificationProfiles--schedule-daily": {
+    "messageformat": "Diàriament"
+  },
+  "icu:NotificationProfiles--schedule-separator": {
+    "messageformat": ", "
+  },
+  "icu:NotificationProfiles--list--header": {
+    "messageformat": "Perfils"
+  },
+  "icu:NotificationProfiles--list--sync": {
+    "messageformat": "Sincronització entre dispositius"
+  },
+  "icu:NotificationProfiles--list--sync--description": {
+    "messageformat": "Els teus perfils se sincronitzaran entre tots els teus dispositius. Si actives un perfil per a un dispositiu, també s'activarà per als altres."
+  },
+  "icu:NotificationProfiles--new": {
+    "messageformat": "Perfil nou"
+  },
+  "icu:NotificationProfiles--delete": {
+    "messageformat": "Suprimeix el perfil"
+  },
+  "icu:NotificationProfiles--delete-confirmation": {
+    "messageformat": "Vols eliminar aquest perfil de notificacions de forma permanent?"
+  },
+  "icu:NotificationProfiles--delete-button": {
+    "messageformat": "Suprimeix"
+  },
+  "icu:NotificationProfiles--edit--is-active": {
+    "messageformat": "Actiu"
+  },
+  "icu:NotificationProfiles--edit--is-not-active": {
+    "messageformat": "Inactiu"
+  },
+  "icu:NotificationProfiles--edit--edit-name-label": {
+    "messageformat": "Edita el nom d'aquest perfil"
+  },
+  "icu:NotificationProfiles--edit--allowed": {
+    "messageformat": "Notificacions permeses"
+  },
+  "icu:NotificationProfiles--edit--schedule-timing": {
+    "messageformat": "{startTime} a {endTime}"
+  },
+  "icu:NotificationProfiles--edit--schedule-enabled": {
+    "messageformat": "Actiu"
+  },
+  "icu:NotificationProfiles--edit--schedule-disabled": {
+    "messageformat": "Inactiu"
+  },
   "icu:Preferences--blocked": {
     "messageformat": "Persones bloquejades"
   },
@@ -5301,7 +5634,10 @@
     "messageformat": "Còpia de seguretat de missatges de text + tots els arxius multimèdia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "No s'ha trobat la teva subscripció. Renova-la per continuar utilitzant les Còpies segures de Signal."
+    "messageformat": "No s'ha trobat la teva subscripció. Mira el teu telèfon per veure la informació de les teves còpies de seguretat."
+  },
+  "icu:Preferences--backup-subscription-monthly-cost": {
+    "messageformat": "{cost}/mes"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Còpia de seguretat de missatges de text + {mediaDayCount,number} dia de multimèdia} other {Còpia de seguretat de missatges de text + {mediaDayCount,number} dies de multimèdia}}"
@@ -6693,9 +7029,6 @@
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "Sense rebuts"
   },
-  "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Detalls"
-  },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Descarregar rebut"
   },
@@ -6813,9 +7146,6 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Tens una donació en curs que necessita confirmació."
   },
-  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
-  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
   },
@@ -6925,7 +7255,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.73": {
-    "messageformat": "This update introduces new performance optimizations to help improve battery life, so you'll have more charge available for emotionally charged conversations."
+  "icu:WhatsNew__7.76": {
+    "messageformat": "Configura perfils de notificacions personalitzats per controlar de quines persones i grups reps notificacions mentre aquest perfil estigui activat."
+  },
+  "icu:WhatsNew__7.77-1": {
+    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+  },
+  "icu:WhatsNew__7.77-2": {
+    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
   }
 }
