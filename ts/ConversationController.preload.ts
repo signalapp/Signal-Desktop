@@ -369,7 +369,7 @@ export class ConversationController {
       return;
     }
 
-    const includeMuted =
+    const badgeCountMutedConversationsSetting =
       itemStorage.get('badge-count-muted-conversations') || false;
 
     const unreadStats = countAllConversationsUnreadStats(
@@ -390,7 +390,11 @@ export class ConversationController {
           };
         }
       ),
-      { includeMuted }
+      {
+        includeMuted: badgeCountMutedConversationsSetting
+          ? 'setting-on'
+          : 'setting-off',
+      }
     );
 
     drop(itemStorage.put('unreadCount', unreadStats.unreadCount));

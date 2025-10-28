@@ -55,7 +55,10 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user.std.js';
-import { getPinnedConversationIds } from './items.dom.js';
+import {
+  getBadgeCountMutedConversations,
+  getPinnedConversationIds,
+} from './items.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
@@ -687,25 +690,32 @@ export const getAllGroupsWithInviteAccess = createSelector(
     })
 );
 
-export const getAllConversationsUnreadStats = createSelector(
-  getAllConversations,
-  (conversations): UnreadStats => {
-    return countAllConversationsUnreadStats(conversations, {
-      includeMuted: false,
-    });
-  }
-);
+export const getAllConversationsUnreadStats: StateSelector<UnreadStats> =
+  createSelector(
+    getAllConversations,
+    getBadgeCountMutedConversations,
+    (conversations, badgeCountMutedConversations) => {
+      return countAllConversationsUnreadStats(conversations, {
+        includeMuted: badgeCountMutedConversations
+          ? 'setting-on'
+          : 'setting-off',
+      });
+    }
+  );
 
 export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadStats> =
   createSelector(
     getCurrentChatFolders,
     getAllConversations,
-    (currentChatFolders, allConversations) => {
+    getBadgeCountMutedConversations,
+    (currentChatFolders, allConversations, badgeCountMutedConversations) => {
       return countAllChatFoldersUnreadStats(
         currentChatFolders,
         allConversations,
         {
-          includeMuted: false,
+          includeMuted: badgeCountMutedConversations
+            ? 'setting-on'
+            : 'setting-off',
         }
       );
     }
