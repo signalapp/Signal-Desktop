@@ -238,6 +238,13 @@ export const getAutoDownloadUpdate = createSelector(
   }
 );
 
+export const getBadgeCountMutedConversations = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state['badge-count-muted-conversations'] ?? false;
+  }
+);
+
 export const getTextFormattingEnabled = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)

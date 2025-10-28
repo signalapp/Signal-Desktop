@@ -36,7 +36,8 @@ type MutableUnreadStats = {
  */
 export type UnreadStats = Readonly<MutableUnreadStats>;
 
-function createUnreadStats(): MutableUnreadStats {
+/** @internal exported for testing */
+export function _createUnreadStats(): MutableUnreadStats {
   return {
     unreadCount: 0,
     unreadMentionsCount: 0,
@@ -44,8 +45,14 @@ function createUnreadStats(): MutableUnreadStats {
   };
 }
 
+export type UnreadStatsIncludeMuted =
+  | 'setting-on' // badge-count-muted-conversations == true
+  | 'setting-off' // badge-count-muted-conversations == false
+  | 'force-include'
+  | 'force-exclude';
+
 export type UnreadStatsOptions = Readonly<{
-  includeMuted: boolean;
+  includeMuted: UnreadStatsIncludeMuted;
 }>;
 
 export type ConversationPropsForUnreadStats = Readonly<
@@ -65,7 +72,15 @@ export type ConversationPropsForUnreadStats = Readonly<
 
 export type AllChatFoldersUnreadStats = Map<ChatFolderId, UnreadStats>;
 
-function _canCountConversation(
+/** @internal exported for testing */
+export function _shouldExcludeMuted(
+  includeMuted: UnreadStatsIncludeMuted
+): boolean {
+  return includeMuted === 'setting-off' || includeMuted === 'force-exclude';
+}
+
+/** @internal exported for testing */
+export function _canCountConversation(
   conversation: ConversationPropsForUnreadStats,
   options: UnreadStatsOptions
 ): boolean {
@@ -75,7 +90,11 @@ function _canCountConversation(
   if (conversation.isArchived) {
     return false;
   }
-  if (!options.includeMuted && isConversationMuted(conversation)) {
+
+  if (
+    _shouldExcludeMuted(options.includeMuted) &&
+    isConversationMuted(conversation)
+  ) {
     return false;
   }
   if (conversation.left) {
@@ -84,8 +103,8 @@ function _canCountConversation(
   return true;
 }
 
-/** @private */
-function _countConversation(
+/** @internal exported for testing */
+export function _countConversation(
   unreadStats: MutableUnreadStats,
   conversation: ConversationPropsForUnreadStats
 ): void {
@@ -96,7 +115,7 @@ function _countConversation(
     markedUnread = false,
   } = conversation;
 
-  const hasUnreadCount = unreadCount > 0;
+  const hasUnreadCount = unreadCount > 0 || unreadMentionsCount > 0;
 
   if (hasUnreadCount) {
     mutable.unreadCount += unreadCount;
@@ -113,9 +132,11 @@ export function isConversationUnread(
   if (!_canCountConversation(conversation, options)) {
     return false;
   }
-  // Note: Don't need to look at unreadMentionsCount
-  const { unreadCount, markedUnread } = conversation;
+  const { unreadCount, unreadMentionsCount, markedUnread } = conversation;
   if (unreadCount != null && unreadCount !== 0) {
+    return true;
+  }
+  if (unreadMentionsCount != null && unreadMentionsCount !== 0) {
     return true;
   }
   if (markedUnread) {
@@ -128,7 +149,7 @@ export function countConversationUnreadStats(
   conversation: ConversationPropsForUnreadStats,
   options: UnreadStatsOptions
 ): UnreadStats {
-  const unreadStats = createUnreadStats();
+  const unreadStats = _createUnreadStats();
   if (_canCountConversation(conversation, options)) {
     _countConversation(unreadStats, conversation);
   }
@@ -139,7 +160,7 @@ export function countAllConversationsUnreadStats(
   conversations: ReadonlyArray<ConversationPropsForUnreadStats>,
   options: UnreadStatsOptions
 ): UnreadStats {
-  const unreadStats = createUnreadStats();
+  const unreadStats = _createUnreadStats();
 
   for (const conversation of conversations) {
     if (_canCountConversation(conversation, options)) {
@@ -181,7 +202,7 @@ export function countAllChatFoldersUnreadStats(
       if (isConversationInChatFolder(chatFolder, conversation)) {
         let unreadStats = results.get(chatFolder.id);
         if (unreadStats == null) {
-          unreadStats = createUnreadStats();
+          unreadStats = _createUnreadStats();
           results.set(chatFolder.id, unreadStats);
         }
 

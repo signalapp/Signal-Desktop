@@ -6,6 +6,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.js';
 import { WEEK } from './durations/index.std.js';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
+import type { UnreadStatsIncludeMuted } from './countUnreadStats.std.js';
 import { isConversationUnread } from './countUnreadStats.std.js';
 import { getE164 } from './getE164.std.js';
 import { removeDiacritics } from './removeDiacritics.std.js';
@@ -68,7 +69,7 @@ const COMMANDS = new Map<string, CommandRunnerType>();
 
 function filterConversationsByUnread(
   conversations: ReadonlyArray<ConversationType>,
-  includeMuted: boolean
+  includeMuted: UnreadStatsIncludeMuted
 ): Array<ConversationType> {
   return conversations.filter(conversation => {
     return isConversationUnread(conversation, { includeMuted });
@@ -103,7 +104,10 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
 
 COMMANDS.set('unread', (conversations, query) => {
   const includeMuted = /^(?:m|muted)$/i.test(query) || false;
-  return filterConversationsByUnread(conversations, includeMuted);
+  return filterConversationsByUnread(
+    conversations,
+    includeMuted ? 'force-include' : 'force-exclude'
+  );
 });
 
 // See https://fusejs.io/examples.html#extended-search for
@@ -166,7 +170,7 @@ export function filterAndSortConversations(
   conversationToInject?: ConversationType
 ): Array<ConversationType> {
   let filteredConversations = filterByUnread
-    ? filterConversationsByUnread(conversations, true)
+    ? filterConversationsByUnread(conversations, 'force-include')
     : conversations;
 
   if (conversationToInject) {
