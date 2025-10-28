@@ -85,8 +85,8 @@ export class SignalClipboard {
     let formats: Record<string, unknown>;
     if (selection.length === 0) {
       formats = this.quill.getFormat(selection.index);
-    } else if (isSelectingAll || !signal) {
-      // No formatting for select-all or external plain text
+    } else if (isSelectingAll) {
+      // No formatting for select-all
       formats = {};
     } else {
       formats = {
