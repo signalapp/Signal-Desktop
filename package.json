@@ -311,7 +311,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "38.4.0",
-    "electron-builder": "26.1.0",
+    "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enhanced-resolve": "5.18.3",
