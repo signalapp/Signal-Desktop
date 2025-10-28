@@ -13,7 +13,10 @@ import { isBlocked } from './isBlocked.preload.js';
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType
 ): boolean {
+  const ourId = window.ConversationController.getOurConversationIdOrThrow();
+
   return (
+    conversation.id !== ourId &&
     isDirectConversation(conversation) &&
     (conversation.profileSharing || isInSystemContacts(conversation)) &&
     conversation.serviceId !== undefined &&
