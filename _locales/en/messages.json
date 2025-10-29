@@ -1904,7 +1904,11 @@
   },
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Create a folder",
-    "description": "Preferences > Edit Chat Folder Page > Title"
+    "description": "Preferences > Create/Edit Chat Folder Page > Title (When creating new chat folder)"
+  },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Edit folder",
+    "description": "Preferences > Create/Edit Chat Folder Page > Title (When editing existing chat folder)"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Folder name",

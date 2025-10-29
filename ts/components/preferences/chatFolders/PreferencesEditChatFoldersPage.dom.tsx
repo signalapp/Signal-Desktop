@@ -547,7 +547,13 @@ export function PreferencesEditChatFolderPage(
         </>
       }
       contentsRef={props.settingsPaneRef}
-      title={i18n('icu:Preferences__EditChatFolderPage__Title')}
+      title={
+        props.existingChatFolderId != null
+          ? i18n(
+              'icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder'
+            )
+          : i18n('icu:Preferences__EditChatFolderPage__Title')
+      }
       actions={
         <>
           <AxoButton.Root
