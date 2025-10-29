@@ -406,6 +406,9 @@ function addVariant(parentKey: EmojiParentKey, variant: EmojiVariantData) {
 }
 
 for (const rawEmoji of RAW_EMOJI_DATA) {
+  if (!rawEmoji.has_img_apple) {
+    continue;
+  }
   const parentKey = toEmojiParentKey(rawEmoji.unified);
 
   const defaultVariant: EmojiVariantData = {
@@ -426,6 +429,9 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
     const map = new Map<string, EmojiVariantKey>();
 
     for (const [key, value] of Object.entries(rawEmoji.skin_variations)) {
+      if (!value.has_img_apple) {
+        continue;
+      }
       const variantKey = toEmojiVariantKey(value.unified);
       map.set(key, variantKey);
 
