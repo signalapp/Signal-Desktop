@@ -132,7 +132,7 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.85.1",
+    "@signalapp/libsignal-client": "0.83.0",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.59.2",
