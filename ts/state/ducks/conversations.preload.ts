@@ -419,6 +419,7 @@ export type ConversationType = ReadonlyDeep<
     draftBodyRanges?: DraftBodyRanges;
     // Summary for the left pane
     draftPreview?: DraftPreviewType;
+    draftTimestamp?: number;
 
     sharedGroupNames: ReadonlyArray<string>;
     groupDescription?: string;
@@ -4980,8 +4981,6 @@ function onConversationClosed(
           active_at: activeAt,
           draftChanged: false,
           draftTimestamp: now,
-          timestamp: now,
-          lastMessageReceivedAtMs: now,
         });
       } else {
         log.info(`${logId}: clearing draft info`);

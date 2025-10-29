@@ -33,6 +33,7 @@ export type PropsData = Pick<
   | 'badges'
   | 'color'
   | 'draftPreview'
+  | 'draftTimestamp'
   | 'groupId'
   | 'hasAvatar'
   | 'id'
@@ -82,6 +83,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     buttonAriaLabel,
     color,
     draftPreview,
+    draftTimestamp,
     groupId,
     hasAvatar,
     i18n,
@@ -131,6 +133,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       </>
     );
 
+    let headerDate: number | undefined = lastUpdated;
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
@@ -167,6 +170,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           />
         </>
       );
+      headerDate = draftTimestamp;
     } else if (lastMessage?.deletedForEveryone) {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
@@ -216,7 +220,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         conversationType={type}
         groupId={groupId}
         hasAvatar={hasAvatar}
-        headerDate={lastUpdated}
+        headerDate={headerDate}
         headerName={headerName}
         i18n={i18n}
         id={id}

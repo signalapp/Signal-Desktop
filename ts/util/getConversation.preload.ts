@@ -186,6 +186,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     draftBodyRanges: attributes.draftBodyRanges,
     draftPreview,
     draftText,
+    draftTimestamp: dropNull(draftTimestamp),
     draftEditMessage,
     familyName: attributes.nicknameFamilyName ?? attributes.profileFamilyName,
     firstName: attributes.nicknameGivenName ?? attributes.profileName,
