@@ -371,10 +371,18 @@ export class ConversationController {
 
     const badgeCountMutedConversationsSetting =
       itemStorage.get('badge-count-muted-conversations') || false;
+    const { activeProfile } = window.reduxStore.getState().notificationProfiles;
 
     const unreadStats = countAllConversationsUnreadStats(
       this.#_conversations.map(
-        (conversation): ConversationPropsForUnreadStats => {
+        (conversation): ConversationPropsForUnreadStats | undefined => {
+          if (
+            activeProfile &&
+            !activeProfile.allowedMembers.has(conversation.id)
+          ) {
+            return undefined;
+          }
+
           // Need to pull this out manually into the Redux shape
           // because `conversation.format()` can return cached props by the
           // time this runs

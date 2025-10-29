@@ -157,13 +157,13 @@ export function countConversationUnreadStats(
 }
 
 export function countAllConversationsUnreadStats(
-  conversations: ReadonlyArray<ConversationPropsForUnreadStats>,
+  conversations: ReadonlyArray<ConversationPropsForUnreadStats | undefined>,
   options: UnreadStatsOptions
 ): UnreadStats {
   const unreadStats = _createUnreadStats();
 
   for (const conversation of conversations) {
-    if (_canCountConversation(conversation, options)) {
+    if (conversation && _canCountConversation(conversation, options)) {
       _countConversation(unreadStats, conversation);
     }
   }
