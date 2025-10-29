@@ -3054,6 +3054,12 @@ export class BackupImportStream extends Writable {
             `${logId}: groupInvitationRevokedUpdate had missing invitees list!`
           );
         }
+        const firstInviter = invitees[0].inviterAci;
+        const inviterAci =
+          firstInviter &&
+          invitees.every(invitee => invitee.inviterAci === firstInviter)
+            ? fromAciObject(Aci.fromUuidBytes(firstInviter))
+            : undefined;
 
         if (invitees.length === 1) {
           const { inviteeAci, inviteePni } = invitees[0];
@@ -3071,17 +3077,20 @@ export class BackupImportStream extends Writable {
             details.push({
               type: 'pending-remove-one',
               serviceId,
+              inviter: inviterAci,
             });
           } else {
             details.push({
               type: 'pending-remove-many',
               count: 1,
+              inviter: inviterAci,
             });
           }
         } else {
           details.push({
             type: 'pending-remove-many',
             count: invitees.length,
+            inviter: inviterAci,
           });
         }
       }

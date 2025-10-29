@@ -1744,9 +1744,6 @@ export class BackupExportStream extends Readable {
 
     if (isGroupV2Change(message)) {
       updateMessage.groupChange = await this.toGroupV2Update(message, options);
-      strictAssert(this.#ourConversation?.id, 'our conversation must exist');
-      patch.authorId = this.#getOrPushPrivateRecipient(this.#ourConversation);
-
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
@@ -1995,19 +1992,21 @@ export class BackupExportStream extends Readable {
         groupChatUpdate.updates.push(container);
         addedItem = true;
       }
-      if (droppedMemberCount > 0) {
-        const container = new Backups.GroupChangeChatUpdate.Update();
-        const update = new Backups.GroupV2MigrationDroppedMembersUpdate();
-        update.droppedMembersCount = droppedMemberCount;
-        container.groupV2MigrationDroppedMembersUpdate = update;
-        groupChatUpdate.updates.push(container);
-        addedItem = true;
-      }
+
       if (invitedMemberCount > 0) {
         const container = new Backups.GroupChangeChatUpdate.Update();
         const update = new Backups.GroupV2MigrationInvitedMembersUpdate();
         update.invitedMembersCount = invitedMemberCount;
         container.groupV2MigrationInvitedMembersUpdate = update;
+        groupChatUpdate.updates.push(container);
+        addedItem = true;
+      }
+
+      if (droppedMemberCount > 0) {
+        const container = new Backups.GroupChangeChatUpdate.Update();
+        const update = new Backups.GroupV2MigrationDroppedMembersUpdate();
+        update.droppedMembersCount = droppedMemberCount;
+        container.groupV2MigrationDroppedMembersUpdate = update;
         groupChatUpdate.updates.push(container);
         addedItem = true;
       }
@@ -2301,7 +2300,7 @@ export class BackupExportStream extends Readable {
         update.groupUnknownInviteeUpdate = innerUpdate;
         updates.push(update);
       } else if (type === 'pending-remove-one') {
-        if (from && detail.serviceId && from === detail.serviceId) {
+        if ((from && from === detail.serviceId) || detail.serviceId == null) {
           const innerUpdate = new Backups.GroupInvitationDeclinedUpdate();
           if (detail.inviter) {
             innerUpdate.inviterAci = this.#aciToBytes(detail.inviter);
@@ -2334,6 +2333,9 @@ export class BackupExportStream extends Readable {
         }
         innerUpdate.invitees = [
           {
+            inviterAci: isAciString(detail.inviter)
+              ? this.#aciToBytes(detail.inviter)
+              : undefined,
             inviteeAci: isAciString(detail.serviceId)
               ? this.#aciToBytes(detail.serviceId)
               : undefined,
