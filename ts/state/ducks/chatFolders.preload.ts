@@ -9,25 +9,28 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import {
   ChatFolderParamsSchema,
+  isConversationInChatFolder,
   type ChatFolder,
   type ChatFolderId,
   type ChatFolderParams,
 } from '../../types/ChatFolder.std.js';
-import { getCurrentChatFolders } from '../selectors/chatFolders.std.js';
+import {
+  getCurrentChatFolders,
+  getSelectedChatFolder,
+} from '../selectors/chatFolders.std.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import { parseStrict } from '../../util/schemas.std.js';
 import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.preload.js';
 import { drop } from '../../util/drop.std.js';
-import {
-  TARGETED_CONVERSATION_CHANGED,
-  type TargetedConversationChangedActionType,
-} from './conversations.preload.js';
 import type { ShowToastActionType } from './toast.preload.js';
 import { showToast } from './toast.preload.js';
 import { ToastType } from '../../types/Toast.dom.js';
 import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
+import { getConversationLookup } from '../selectors/conversations.dom.js';
+import { getOwn } from '../../util/getOwn.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 export type ChatFoldersState = ReadonlyDeep<{
   currentChatFolders: CurrentChatFolders;
@@ -37,21 +40,30 @@ export type ChatFoldersState = ReadonlyDeep<{
 
 const CHAT_FOLDER_RECORD_REPLACE_ALL =
   'chatFolders/CHAT_FOLDER_RECORD_REPLACE_ALL';
-const CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID =
-  'chatFolders/CHANGE_SELECTED_CHAT_FOLDER_ID';
+const CHAT_FOLDER_UPDATE_SELECTED_CHAT_FOLDER_ID =
+  'chatFolders/UPDATE_SELECTED_CHAT_FOLDER_ID';
+const CHAT_FOLDER_UPDATE_STABLE_SELECTED_CONVERSATION_ID_IN_CHAT_FOLDER =
+  'chatFolders/CHAT_FOLDER_UPDATE_STABLE_SELECTED_CONVERSATION_ID_IN_CHAT_FOLDER';
 
 export type ChatFolderRecordReplaceAll = ReadonlyDeep<{
   type: typeof CHAT_FOLDER_RECORD_REPLACE_ALL;
   payload: CurrentChatFolders;
 }>;
 
-export type ChatFolderChangeSelectedChatFolderId = ReadonlyDeep<{
-  type: typeof CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID;
+export type ChatFolderUpdateSelectedChatFolderId = ReadonlyDeep<{
+  type: typeof CHAT_FOLDER_UPDATE_SELECTED_CHAT_FOLDER_ID;
   payload: ChatFolderId | null;
 }>;
 
+export type ChatFolderUpdateStableConversationIdInChatFolder = ReadonlyDeep<{
+  type: typeof CHAT_FOLDER_UPDATE_STABLE_SELECTED_CONVERSATION_ID_IN_CHAT_FOLDER;
+  payload: string | null;
+}>;
+
 export type ChatFolderAction = ReadonlyDeep<
-  ChatFolderRecordReplaceAll | ChatFolderChangeSelectedChatFolderId
+  | ChatFolderRecordReplaceAll
+  | ChatFolderUpdateSelectedChatFolderId
+  | ChatFolderUpdateStableConversationIdInChatFolder
 >;
 
 export function getEmptyState(): ChatFoldersState {
@@ -198,12 +210,21 @@ function updateChatFoldersPositions(
   };
 }
 
-function updateSelectedChangeFolderId(
+function updateSelectedChatFolderId(
   chatFolderId: ChatFolderId | null
-): ChatFolderChangeSelectedChatFolderId {
+): ChatFolderUpdateSelectedChatFolderId {
   return {
-    type: CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID,
+    type: CHAT_FOLDER_UPDATE_SELECTED_CHAT_FOLDER_ID,
     payload: chatFolderId,
+  };
+}
+
+function updateStableSelectedConversationIdInChatFolder(
+  conversationId: string | null
+): ChatFolderUpdateStableConversationIdInChatFolder {
+  return {
+    type: CHAT_FOLDER_UPDATE_STABLE_SELECTED_CONVERSATION_ID_IN_CHAT_FOLDER,
+    payload: conversationId,
   };
 }
 
@@ -242,6 +263,47 @@ function updateChatFolderToggleChat(
   };
 }
 
+export function updateChatFolderStateOnTargetConversationChanged(
+  conversationId: string | undefined
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ChatFolderUpdateSelectedChatFolderId
+  | ChatFolderUpdateStableConversationIdInChatFolder
+> {
+  return async (dispatch, getState) => {
+    if (conversationId == null) {
+      // Clear out the stable conversation id since it has been closed.
+      dispatch(updateStableSelectedConversationIdInChatFolder(null));
+      return;
+    }
+
+    const state = getState();
+    const selectedChatFolder = getSelectedChatFolder(state);
+    if (selectedChatFolder == null) {
+      return;
+    }
+
+    const conversationLookup = getConversationLookup(state);
+    const conversation = getOwn(conversationLookup, conversationId);
+    strictAssert(conversation != null, 'Target conversation not found');
+
+    if (isConversationInChatFolder(selectedChatFolder, conversation)) {
+      // Make sure the targetted conversation doesn't appear from the chat folder
+      // while its open (in case it gets marked read for example).
+      dispatch(updateStableSelectedConversationIdInChatFolder(conversationId));
+      return;
+    }
+
+    const currentChatFolders = getCurrentChatFolders(state);
+    const { currentAllChatFolder } = currentChatFolders;
+
+    dispatch(updateSelectedChatFolderId(currentAllChatFolder?.id ?? null));
+    dispatch(updateStableSelectedConversationIdInChatFolder(conversationId));
+  };
+}
+
 export const actions = {
   refetchChatFolders,
   createChatFolder,
@@ -249,7 +311,7 @@ export const actions = {
   updateChatFolder,
   deleteChatFolder,
   updateChatFoldersPositions,
-  updateSelectedChangeFolderId,
+  updateSelectedChatFolderId,
   updateChatFolderToggleChat,
 };
 
@@ -291,8 +353,11 @@ function toNextChatFoldersState(
   );
 
   // Ensure `stableSelectedConversationIdInChatFolder`
-  // is reset if `selectedChatFolderId` changes
-  if (nextState.selectedChatFolderId !== prevState.selectedChatFolderId) {
+  // is reset if `selectedChatFolderId` is null or has been changed
+  if (
+    nextState.selectedChatFolderId == null ||
+    nextState.selectedChatFolderId !== prevState.selectedChatFolderId
+  ) {
     nextState.stableSelectedConversationIdInChatFolder = null;
   }
 
@@ -301,21 +366,20 @@ function toNextChatFoldersState(
 
 export function reducer(
   state: ChatFoldersState = getEmptyState(),
-  action: ChatFolderAction | TargetedConversationChangedActionType
+  action: ChatFolderAction
 ): ChatFoldersState {
   switch (action.type) {
     case CHAT_FOLDER_RECORD_REPLACE_ALL:
       return toNextChatFoldersState(state, {
         currentChatFolders: action.payload,
       });
-    case CHAT_FOLDER_CHANGE_SELECTED_CHAT_FOLDER_ID:
+    case CHAT_FOLDER_UPDATE_SELECTED_CHAT_FOLDER_ID:
       return toNextChatFoldersState(state, {
         selectedChatFolderId: action.payload,
       });
-    case TARGETED_CONVERSATION_CHANGED:
+    case CHAT_FOLDER_UPDATE_STABLE_SELECTED_CONVERSATION_ID_IN_CHAT_FOLDER:
       return toNextChatFoldersState(state, {
-        stableSelectedConversationIdInChatFolder:
-          action.payload.conversationId ?? null,
+        stableSelectedConversationIdInChatFolder: action.payload,
       });
     default:
       return state;

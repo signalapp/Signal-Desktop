@@ -241,6 +241,7 @@ import { isConversationUnread } from '../../util/isConversationUnread.std.js';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
+import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
 
 const {
   chunk,
@@ -4807,6 +4808,8 @@ function showConversation({
       const conversation = window.ConversationController.get(conversationId);
       conversation?.setMarkedUnread(false);
     }
+
+    dispatch(updateChatFolderStateOnTargetConversationChanged(conversationId));
 
     if (conversationId === conversations.selectedConversationId) {
       if (!conversationId) {
