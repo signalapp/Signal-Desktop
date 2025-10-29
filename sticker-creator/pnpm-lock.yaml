@@ -12,8 +12,8 @@ importers:
         specifier: 1.2.8
         version: 1.2.8
       '@indutny/emoji-picker-react':
-        specifier: 4.10.0
-        version: 4.10.0(react@18.3.1)
+        specifier: 4.10.1
+        version: 4.10.1(react@18.3.1)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -438,8 +438,8 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@indutny/emoji-picker-react@4.10.0':
-    resolution: {integrity: sha512-CDj6nYRnR7EG2Gepu7hd/xTdFRSSPH8B4FwAXgPKuJj6vHqVfnlmedtIZ+hPEkyr0O8FD+JJlnaDP6/Nx9k26Q==}
+  '@indutny/emoji-picker-react@4.10.1':
+    resolution: {integrity: sha512-Ep84cigU36Le3hSSa7pvBBKkMf4fyrGBOWvhUl46Vc29FswbjmIgyyws8hVo5buT/bIW6oPyFwy0EKqE+fKN9Q==}
     engines: {node: '>=10'}
     peerDependencies:
       react: '>=16'
@@ -2953,7 +2953,7 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@indutny/emoji-picker-react@4.10.0(react@18.3.1)':
+  '@indutny/emoji-picker-react@4.10.1(react@18.3.1)':
     dependencies:
       flairup: 0.0.39
       react: 18.3.1
