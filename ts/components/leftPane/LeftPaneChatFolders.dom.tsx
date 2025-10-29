@@ -85,6 +85,9 @@ function getChatFolderIconName(
   return chatFolder.folderType === ChatFolderType.ALL ? 'message' : 'folder';
 }
 
+// Needed to conditionally apply margin after network warning/update available
+const LEFT_PANE_CHAT_FOLDERS_CLASS_NAME = 'module-left-pane__chatFolders';
+
 export function LeftPaneChatFolders(
   props: LeftPaneChatFoldersProps
 ): JSX.Element | null {
@@ -116,7 +119,7 @@ export function LeftPaneChatFolders(
 
   if (props.navSidebarWidthBreakpoint === WidthBreakpoint.Narrow) {
     return (
-      <div className={tw('px-2')}>
+      <div className={tw(LEFT_PANE_CHAT_FOLDERS_CLASS_NAME, 'px-2')}>
         <AxoSelect.Root
           value={props.selectedChatFolder?.id ?? null}
           onValueChange={handleValueChange}

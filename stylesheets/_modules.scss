@@ -5826,6 +5826,12 @@ button.module-calling-participants-list__contact {
   }
 }
 
+.module-left-pane__dialogs {
+  & + .module-left-pane__chatFolders {
+    margin-top: 8px;
+  }
+}
+
 .module-left-pane__archive-helper-text {
   @include mixins.font-body-2;
 

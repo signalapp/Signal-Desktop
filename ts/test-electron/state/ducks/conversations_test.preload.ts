@@ -508,7 +508,12 @@ describe('both/state/ducks/conversations', () => {
           getEmptyRootState,
           null
         );
-        const action = dispatch.getCall(0).args[0];
+        const action = dispatch
+          .getCalls()
+          .map(call => call.args[0])
+          .find(a => {
+            return a.type === TARGETED_CONVERSATION_CHANGED;
+          });
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -531,7 +536,10 @@ describe('both/state/ducks/conversations', () => {
           conversationId: 'abc123',
           messageId: 'xyz987',
         })(dispatch, getEmptyRootState, null);
-        const action = dispatch.getCall(0).args[0];
+        const action = dispatch
+          .getCalls()
+          .map(call => call.args[0])
+          .find(a => a.type === TARGETED_CONVERSATION_CHANGED);
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -547,7 +555,12 @@ describe('both/state/ducks/conversations', () => {
             conversationId: 'fake-conversation-id',
             switchToAssociatedView: true,
           })(dispatch, getEmptyRootState, null);
-          [action] = dispatch.getCall(0).args;
+          action = dispatch
+            .getCalls()
+            .map(call => call.args[0])
+            .find(a => {
+              return a.type === TARGETED_CONVERSATION_CHANGED;
+            });
         });
 
         it('shows the inbox if the conversation is not archived', () => {
