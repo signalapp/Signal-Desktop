@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@formatjs/fast-memoize": "1.2.8",
-    "@indutny/emoji-picker-react": "4.10.0",
+    "@indutny/emoji-picker-react": "4.10.1",
     "@popperjs/core": "2.11.8",
     "@react-aria/interactions": "3.19.0",
     "@reduxjs/toolkit": "1.9.5",
