@@ -164,11 +164,20 @@ export class NotificationProfilesService {
         )
       : undefined;
 
-    if (!isEqual(previousCurrentState, currentState)) {
+    if (
+      !isEqual(previousCurrentState, currentState) ||
+      !isEqual(currentActiveProfile, previousActiveProfile)
+    ) {
+      const idForLogging = currentActiveProfile
+        ? redactNotificationProfileId(currentActiveProfile.id)
+        : 'NONE';
       log.info(
-        'notificationProfileService: next profile event has changed, updating redux'
+        `notificationProfileService: next profile event has changed, updating redux. Active profile is ${idForLogging}`
       );
       updateCurrentState(currentState, currentActiveProfile);
+
+      // The active profile can influence the overall badge count
+      window.ConversationController.updateUnreadCount();
     }
 
     if (previousActiveProfile?.id === currentActiveProfileId) {
