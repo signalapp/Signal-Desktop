@@ -42,6 +42,7 @@ import {
   itemListItemClassName,
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 function moveChatFolders(
   chatFolders: ReadonlyArray<CurrentChatFolder>,
@@ -322,9 +323,11 @@ export function PreferencesChatFoldersPage(
         contentsRef={props.settingsPaneRef}
         title={i18n('icu:Preferences__ChatFoldersPage__Title')}
       />
-      {confirmDeleteChatFolder != null && (
+      <AxoAlertDialog.Root
+        open={confirmDeleteChatFolder != null}
+        onOpenChange={handleChatFolderDeleteCancel}
+      >
         <DeleteChatFolderDialog
-          i18n={i18n}
           title={i18n(
             'icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title'
           )}
@@ -334,7 +337,7 @@ export function PreferencesChatFoldersPage(
               id="icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description"
               components={{
                 chatFolderTitle: (
-                  <UserText text={confirmDeleteChatFolder.name} />
+                  <UserText text={confirmDeleteChatFolder?.name ?? ''} />
                 ),
               }}
             />
@@ -345,10 +348,9 @@ export function PreferencesChatFoldersPage(
           cancelText={i18n(
             'icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton'
           )}
-          onClose={handleChatFolderDeleteCancel}
           onConfirm={handleChatFolderDeleteConfirm}
         />
-      )}
+      </AxoAlertDialog.Root>
     </>
   );
 }

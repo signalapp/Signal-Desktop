@@ -269,8 +269,10 @@ function withFunProvider(Story, context) {
 }
 
 function withAxoProvider(Story, context) {
+  const globalValue = context.globals.direction ?? 'ltr';
+  const dir = globalValue === 'auto' ? 'ltr' : globalValue;
   return (
-    <AxoProvider dir={context.globals.direction ?? 'ltr'}>
+    <AxoProvider dir={dir}>
       <Story {...context} />
     </AxoProvider>
   );

@@ -1,4 +1,9 @@
 @import 'tailwindcss' source(none);
+@import './tailwind-plugins/animate-general.css';
+@import './tailwind-plugins/animate-enter-exit.css';
+@import './tailwind-plugins/scrollbar.css';
+
+@import '../ts/axo/_styles.css';
 
 @source "../ts";
 @source "../test";
@@ -23,6 +28,7 @@
 /* prettier-ignore */
 @theme {
   --color-*: initial; /* reset defaults */
+  --color-transparent: transparent;
 
   /* Colors/Labels */
   --color-label-primary:     light-dark(--alpha(#000 / 85%), --alpha(#FFF / 85%));
@@ -369,23 +375,29 @@
 }
 
 /**
+ * Transitions
+ * ----------------------------------------------------------------------------
+ */
+
+@theme {
+  --default-transition-duration: 120ms;
+  --default-transition-timing-function: var(--ease-out-cubic);
+}
+
+/**
  * Animations
  * ----------------------------------------------------------------------------
  */
 @theme {
+  --default-animation-duration: 120ms;
+  --default-animation-timing-function: var(--ease-out-cubic);
+
   --animate-*: initial; /* reset defaults */
-  --animate-fade-out: animate-fade-out 120ms var(--ease-out-cubic);
   --animate-spinner-v2-rotate: animate-spinner-v2-rotate 2s linear infinite;
   --animate-spinner-v2-dash: animate-spinner-v2-dash 1.5s ease-in-out infinite;
 }
 
 @layer base {
-  @keyframes animate-fade-out {
-    to {
-      opacity: 0;
-    }
-  }
-
   @keyframes animate-spinner-v2-rotate {
     0% {
       transform: rotate(-180deg);
@@ -415,4 +427,13 @@
   syntax: '<color>';
   inherits: false;
   initial-value: transparent;
+}
+
+/**
+ * Scrollbars
+ */
+
+@theme {
+  --default-scrollbar-track: transparent;
+  --default-scrollbar-thumb: #b9b9b9;
 }

@@ -11,7 +11,7 @@ export namespace AxoBaseMenu {
     'max-w-[300px] min-w-[200px]',
     'select-none',
     'rounded-xl bg-elevated-background-tertiary shadow-elevation-3',
-    'data-[state=closed]:animate-fade-out',
+    'animate-opacity-0 data-[state=closed]:animate-exit',
     'forced-colors:border',
     'forced-colors:bg-[Canvas]',
     'forced-colors:text-[CanvasText]'

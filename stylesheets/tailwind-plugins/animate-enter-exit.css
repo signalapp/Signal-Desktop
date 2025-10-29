@@ -1,0 +1,142 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * Properties
+ */
+
+@property --tw-animate-opacity {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-animate-rotate {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-animate-scale {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-animate-translate-x {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-animate-translate-y {
+  syntax: '*';
+  inherits: false;
+}
+
+/**
+ * Utilities
+ */
+
+@utility animate-enter {
+  animation-name: tw-animate-enter;
+  animation-duration: var(
+    --tw-animate-duration,
+    var(--default-animation-duration)
+  );
+  animation-timing-function: var(
+    --tw-animate-ease,
+    var(--default-animation-timing-function)
+  );
+}
+
+@utility animate-exit {
+  animation-name: tw-animate-exit;
+  animation-duration: var(
+    --tw-animate-duration,
+    var(--default-animation-duration)
+  );
+  animation-timing-function: var(
+    --tw-animate-ease,
+    var(--default-animation-timing-function)
+  );
+}
+
+/**
+ * animate-opacity
+ */
+
+@utility animate-opacity-* {
+  --tw-animate-opacity: calc(--value(integer) * 1%);
+}
+
+/**
+ * animate-rotate
+ */
+
+@utility animate-rotate-* {
+  --tw-animate-rotate: rotate(calc(--value(integer) * 1deg));
+}
+@utility -animate-rotate-* {
+  --tw-animate-rotate: rotate(calc(--value(integer) * -1deg));
+}
+
+/**
+ * animate-scale
+ */
+
+@utility animate-scale-* {
+  --tw-animate-scale: scale(calc(--value(number) * 1%));
+}
+@utility -animate-scale-* {
+  --tw-animate-scale: scale(calc(--value(number) * -1%));
+}
+
+/**
+ * animate-translate
+ */
+
+@utility animate-translate-x-* {
+  --tw-animate-translate-x: translateX(--spacing(--value(integer)));
+  --tw-animate-translate-x: translateX(--value([percentage], [length]));
+}
+@utility -animate-translate-x-* {
+  --tw-animate-translate-x: translateX(--spacing(--value(integer) * -1));
+  --tw-animate-translate-x: translateX(
+    calc(--value([percentage], [length]) * -1)
+  );
+}
+@utility animate-translate-y-* {
+  --tw-animate-translate-y: translateY(--spacing(--value(integer)));
+  --tw-animate-translate-y: translateY(--value([percentage], [length]));
+}
+@utility -animate-translate-y-* {
+  --tw-animate-translate-y: translateY(--spacing(--value(integer) * -1));
+  --tw-animate-translate-y: translateY(
+    calc(--value([percentage], [length]) * -1)
+  );
+}
+
+/**
+ * Keyframes
+ */
+
+@layer utilities {
+  @keyframes tw-animate-enter {
+    from {
+      opacity: var(--tw-animate-opacity);
+      /* prettier-ignore */
+      transform:
+        var(--tw-animate-rotate,)
+        var(--tw-animate-scale,)
+        var(--tw-animate-translate-x,)
+        var(--tw-animate-translate-y,);
+    }
+  }
+
+  @keyframes tw-animate-exit {
+    to {
+      opacity: var(--tw-animate-opacity);
+      /* prettier-ignore */
+      transform:
+        var(--tw-animate-rotate,)
+        var(--tw-animate-scale,)
+        var(--tw-animate-translate-x,)
+        var(--tw-animate-translate-y,);
+    }
+  }
+}

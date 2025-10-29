@@ -243,8 +243,8 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     );
 
     const confirmDeleteBtn = window
-      .getByTestId('ConfirmationDialog.Preferences__DeleteChatFolderDialog')
-      .locator('button:has-text("Delete")');
+      .getByRole('alertdialog', { name: 'Delete this chat folder?' })
+      .getByRole('button', { name: 'Delete' });
 
     let state = await phone.expectStorageState('initial state');
     // wait for initial creation of story distribution list and "all chats" chat folder

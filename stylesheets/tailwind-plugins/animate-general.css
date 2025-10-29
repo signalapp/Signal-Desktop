@@ -1,0 +1,85 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * Theme
+ */
+
+@theme {
+  --default-animation-duration: var(--default-transition-duration);
+  --default-animation-timing-function: var(--default-animation-timing-function);
+}
+
+/**
+ * Properties
+ */
+
+@property --tw-animate-duration {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-animate-ease {
+  syntax: '*';
+  inherits: false;
+}
+
+/**
+ * Utilities
+ */
+
+/** `animation-duration` */
+@utility animate-duration-* {
+  --tw-animate-duration: calc(--value(integer) * 1ms);
+  animation-duration: calc(--value(integer) * 1ms);
+}
+
+/** `animation-delay` */
+@utility animate-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
+}
+
+/** `animation-timing-function` */
+@utility animate-ease-* {
+  /* prettier-ignore */
+  --tw-animate-ease: --value(--ease-*);
+  /* prettier-ignore */
+  animation-timing-function: --value(--ease-*);
+}
+
+/** `animation-fill-mode` */
+@utility animate-forwards {
+  animation-fill-mode: forwards;
+}
+@utility animate-backwards {
+  animation-fill-mode: backwards;
+}
+@utility animate-both {
+  animation-fill-mode: both;
+}
+@utility animate-none {
+  animation-fill-mode: none;
+}
+
+/** `animation-play-state` */
+@utility paused {
+  animation-play-state: paused;
+}
+@utility running {
+  animation-play-state: running;
+}
+
+/** `animation-direction` */
+@utility animate-normal {
+  animation-direction: normal;
+}
+@utility animate-reverse {
+  animation-direction: reverse;
+}
+@utility animate-alternate {
+  animation-direction: alternate;
+}
+@utility animate-alternate-reverse {
+  animation-direction: alternate-reverse;
+}

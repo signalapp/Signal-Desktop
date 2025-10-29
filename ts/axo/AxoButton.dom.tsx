@@ -12,7 +12,7 @@ import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
 const Namespace = 'AxoButton';
 
 const baseAxoButtonStyles = tw(
-  'relative inline-flex items-center-safe justify-center-safe rounded-full select-none',
+  'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full select-none',
   'outline-0 outline-border-focused focused:outline-[2.5px]',
   'forced-colors:border'
 );
@@ -204,10 +204,22 @@ export namespace AxoButton {
   export type Variant = AxoButtonVariant;
   export type Size = AxoButtonSize;
 
+  export type Width = 'fit' | 'grow' | 'fill';
+
+  const Widths: Record<Width, TailwindStyles> = {
+    /* Always try to fit to the content of the button */
+    fit: tw(''),
+    /* Allow the button to grow within a flex container */
+    grow: tw('grow'),
+    /* Always try to fill the available space */
+    fill: tw('w-full'),
+  };
+
   export type RootProps = BaseButtonAttrs &
     Readonly<{
       variant: AxoButtonVariant;
       size: AxoButtonSize;
+      width?: Width;
       symbol?: AxoSymbol.InlineGlyphName;
       arrow?: boolean;
       experimentalSpinner?: { 'aria-label': string } | null;
@@ -219,6 +231,7 @@ export namespace AxoButton {
       const {
         variant,
         size,
+        width,
         symbol,
         arrow,
         experimentalSpinner,
@@ -233,24 +246,27 @@ export namespace AxoButton {
         AxoButtonSizes[size],
         `${Namespace}: Invalid size ${size}`
       );
+      const widthStyles = Widths[width ?? 'fit'];
 
       return (
         <button
           ref={ref}
           type="button"
-          className={tw(variantStyles, sizeStyles)}
+          className={tw(variantStyles, sizeStyles, widthStyles)}
           {...rest}
         >
           <span
             className={tw(
-              'flex shrink grow items-center-safe justify-center-safe gap-1 truncate',
+              'flex shrink grow items-center-safe justify-center-safe gap-1 overflow-hidden',
               experimentalSpinner != null ? 'opacity-0' : null
             )}
           >
             {symbol != null && (
               <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
             )}
-            {children}
+            <span className={tw('min-w-0 shrink grow truncate')}>
+              {children}
+            </span>
             {arrow && (
               <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
             )}

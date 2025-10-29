@@ -1,0 +1,79 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+  * Theme
+  */
+
+@theme {
+  --default-scrollbar-track: transparent;
+  --default-scrollbar-thumb: currentColor;
+}
+
+/**
+  * Properties
+  */
+
+@property --tw-scrollbar-track {
+  syntax: '*';
+  inherits: false;
+}
+@property --tw-scrollbar-thumb {
+  syntax: '*';
+  inherits: false;
+}
+
+/**
+  * Utilities
+  */
+
+@utility scrollbar-track-* {
+  /* prettier-ignore */
+  --tw-scrollbar-track: --value(--color-*);
+  /* prettier-ignore */
+  --tw-scrollbar-track: --value([*]);
+  /* prettier-ignore */
+  scrollbar-color:
+    var(--tw-scrollbar-thumb, var(--default-scrollbar-thumb))
+    var(--tw-scrollbar-track, var(--default-scrollbar-track));
+}
+
+@utility scrollbar-thumb-* {
+  /* prettier-ignore */
+  --tw-scrollbar-thumb: --value(--color-*);
+  /* prettier-ignore */
+  --tw-scrollbar-thumb: --value([*]);
+  /* prettier-ignore */
+  scrollbar-color:
+    var(--tw-scrollbar-thumb, var(--default-scrollbar-thumb))
+    var(--tw-scrollbar-track, var(--default-scrollbar-track));
+}
+
+@utility scrollbar-width-auto {
+  scrollbar-width: auto;
+}
+@utility scrollbar-width-thin {
+  scrollbar-width: thin;
+}
+@utility scrollbar-width-none {
+  scrollbar-width: none;
+}
+
+@utility scrollbar-gutter-auto {
+  scrollbar-gutter: auto;
+}
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+@utility scrollbar-gutter-stable-both-edges {
+  scrollbar-gutter: stable both-edges;
+}
+
+@layer base {
+  :root {
+    scrollbar-color: var(--default-scrollbar-thumb)
+      var(--default-scrollbar-track);
+  }
+}

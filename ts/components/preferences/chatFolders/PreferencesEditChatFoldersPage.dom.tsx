@@ -47,6 +47,7 @@ import {
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
@@ -93,7 +94,6 @@ export function PreferencesEditChatFolderPage(
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [showInclusionsDialog, setShowInclusionsDialog] = useState(false);
   const [showExclusionsDialog, setShowExclusionsDialog] = useState(false);
-  const [showDeleteFolderDialog, setShowDeleteFolderDialog] = useState(false);
 
   const normalizedChatFolderParams = useMemo(() => {
     return parseStrict(ChatFolderParamsSchema, chatFolderParams);
@@ -211,18 +211,12 @@ export function PreferencesEditChatFolderPage(
     blocker.respond?.(BeforeNavigateResponse.WaitedForUser);
   }, [blocker]);
 
-  const handleDeleteInit = useCallback(() => {
-    setShowDeleteFolderDialog(true);
-  }, []);
   const handleDeleteConfirm = useCallback(() => {
     strictAssert(existingChatFolderId, 'Missing existing chat folder id');
     onDeleteChatFolder(existingChatFolderId);
-    setShowDeleteFolderDialog(false);
     handleBack();
   }, [existingChatFolderId, onDeleteChatFolder, handleBack]);
-  const handleDeleteClose = useCallback(() => {
-    setShowDeleteFolderDialog(false);
-  }, []);
+
   const handleSelectInclusions = useCallback(() => {
     setShowInclusionsDialog(true);
   }, []);
@@ -465,15 +459,33 @@ export function PreferencesEditChatFolderPage(
           {props.existingChatFolderId != null && (
             <SettingsRow>
               <div className="Preferences__padding">
-                <button
-                  type="button"
-                  onClick={handleDeleteInit}
-                  className="Preferences__ChatFolders__ChatList__DeleteButton"
-                >
-                  {i18n(
-                    'icu:Preferences__EditChatFolderPage__DeleteFolderButton'
-                  )}
-                </button>
+                <AxoAlertDialog.Root>
+                  <AxoAlertDialog.Trigger>
+                    <button
+                      type="button"
+                      className="Preferences__ChatFolders__ChatList__DeleteButton"
+                    >
+                      {i18n(
+                        'icu:Preferences__EditChatFolderPage__DeleteFolderButton'
+                      )}
+                    </button>
+                  </AxoAlertDialog.Trigger>
+                  <DeleteChatFolderDialog
+                    title={i18n(
+                      'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title'
+                    )}
+                    description={i18n(
+                      'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description'
+                    )}
+                    cancelText={i18n(
+                      'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton'
+                    )}
+                    deleteText={i18n(
+                      'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton'
+                    )}
+                    onConfirm={handleDeleteConfirm}
+                  />
+                </AxoAlertDialog.Root>
               </div>
             </SettingsRow>
           )}
@@ -515,25 +527,6 @@ export function PreferencesEditChatFolderPage(
                 selectedRecipientIds: chatFolderParams.excludedConversationIds,
               }}
               showChatTypes={false}
-            />
-          )}
-          {showDeleteFolderDialog && (
-            <DeleteChatFolderDialog
-              i18n={i18n}
-              title={i18n(
-                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title'
-              )}
-              description={i18n(
-                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description'
-              )}
-              cancelText={i18n(
-                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton'
-              )}
-              deleteText={i18n(
-                'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton'
-              )}
-              onConfirm={handleDeleteConfirm}
-              onClose={handleDeleteClose}
             />
           )}
           {blocker.state === 'blocked' && (

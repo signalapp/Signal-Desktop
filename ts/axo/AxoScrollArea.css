@@ -1,0 +1,199 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * Component: <AxoScrollArea.Hint>
+ * -------------------------------
+ */
+
+@layer components {
+  @keyframes axo-scroll-area-hint-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/**
+ * Component: <AxoScrollArea.Mask>
+ * -------------------------------
+ */
+
+/* Disabling prettier because this is a lot easier to read */
+/* prettier-ignore */
+@layer components {
+  /**
+   * These @property declarations are needed to support animating gradients.
+   * We need different values for every side so they can be separately animated.
+   */
+  @property --axo-scroll-area-mask-top-from-color          { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-top-via-color           { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-bottom-from-color       { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-bottom-via-color        { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-inline-start-from-color { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-inline-start-via-color  { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-inline-end-from-color   { syntax: '<color>'; inherits: false; initial-value: black; }
+  @property --axo-scroll-area-mask-inline-end-via-color    { syntax: '<color>'; inherits: false; initial-value: black; }
+
+  @keyframes axo-scroll-area-mask-top-from-color          { to { --axo-scroll-area-mask-top-from-color: transparent; } }
+  @keyframes axo-scroll-area-mask-top-via-color           { to { --axo-scroll-area-mask-top-via-color: transparent; } }
+  @keyframes axo-scroll-area-mask-bottom-from-color       { to { --axo-scroll-area-mask-bottom-from-color: transparent; } }
+  @keyframes axo-scroll-area-mask-bottom-via-color        { to { --axo-scroll-area-mask-bottom-via-color: transparent; } }
+  @keyframes axo-scroll-area-mask-inline-start-from-color { to { --axo-scroll-area-mask-inline-start-from-color: transparent; } }
+  @keyframes axo-scroll-area-mask-inline-start-via-color  { to { --axo-scroll-area-mask-inline-start-via-color: transparent; } }
+  @keyframes axo-scroll-area-mask-inline-end-from-color   { to { --axo-scroll-area-mask-inline-end-from-color: transparent; } }
+  @keyframes axo-scroll-area-mask-inline-end-via-color    { to { --axo-scroll-area-mask-inline-end-via-color: transparent; } }
+
+  .axo-scroll-area-mask {
+    /* Note: gradient syntax doesn't support "inline-start/inline-end" */
+    --axo-scroll-area-mask-inline-start-side: left;
+    --axo-scroll-area-mask-inline-end-side: right;
+    &:dir(rtl) {
+      --axo-scroll-area-mask-inline-start-side: right;
+      --axo-scroll-area-mask-inline-end-side: left;
+    }
+
+    /**
+     * Note: mask-image/composite/size/position
+     * all need to be kept in sync in the same exact order.
+     */
+    mask-image:
+      /* scrollbar-vertical */
+      linear-gradient(black),
+      /* scrollbar-horizontal */
+      linear-gradient(black),
+      /* top */
+      linear-gradient(
+        to bottom,
+        var(--axo-scroll-area-mask-top-from-color) var(--axo-scroll-area-mask-start),
+        var(--axo-scroll-area-mask-top-via-color) var(--axo-scroll-area-mask-padding),
+        black var(--axo-scroll-area-mask-end)
+      ),
+      /* bottom */
+      linear-gradient(
+        to top,
+        var(--axo-scroll-area-mask-bottom-from-color) var(--axo-scroll-area-mask-start),
+        var(--axo-scroll-area-mask-bottom-via-color) var(--axo-scroll-area-mask-padding),
+        black var(--axo-scroll-area-mask-end)
+      ),
+      /* inline-start */
+      linear-gradient(
+        to var(--axo-scroll-area-mask-inline-end-side),
+        var(--axo-scroll-area-mask-inline-start-from-color) var(--axo-scroll-area-mask-start),
+        var(--axo-scroll-area-mask-inline-start-via-color) var(--axo-scroll-area-mask-padding),
+        black var(--axo-scroll-area-mask-end)
+      ),
+      /* inline-end */
+      linear-gradient(
+        to var(--axo-scroll-area-mask-inline-start-side),
+        var(--axo-scroll-area-mask-inline-end-from-color) var(--axo-scroll-area-mask-start),
+        var(--axo-scroll-area-mask-inline-end-via-color) var(--axo-scroll-area-mask-padding),
+        black var(--axo-scroll-area-mask-end)
+      );
+    mask-composite:
+      /* scrollbar-vertical */
+      add,
+      /* scrollbar-horizontal */
+      add,
+      /* top */
+      intersect,
+      /* bottom */
+      intersect,
+      /* inline-start */
+      intersect,
+      /* inline-end */
+      intersect;
+    mask-size:
+      /* scrollbar-vertical */
+      var(--axo-scroll-area-mask-scrollbar-gutter-vertical) 100%,
+      /* scrollbar-horizontal */
+      100% var(--axo-scroll-area-mask-scrollbar-gutter-horizontal),
+      /* top */
+      calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-vertical)) calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-horizontal)),
+      /* bottom */
+      calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-vertical)) calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-horizontal)),
+      /* inline-start */
+      calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-vertical)) calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-horizontal)),
+      /* inline-end */
+      calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-vertical)) calc(100% - var(--axo-scroll-area-mask-scrollbar-gutter-horizontal));
+    mask-position:
+      /* scrollbar-vertical */
+      top 0px var(--axo-scroll-area-mask-inline-end-side) 0px,
+      /* scrollbar-horizontal */
+      bottom 0px var(--axo-scroll-area-mask-inline-start-side) 0px,
+      /* top */
+      top 0px var(--axo-scroll-area-mask-inline-start-side) 0px,
+      /* bottom */
+      bottom var(--axo-scroll-area-mask-scrollbar-gutter-horizontal) var(--axo-scroll-area-mask-inline-start-side) 0px,
+      /* inline-start */
+      top 0px var(--axo-scroll-area-mask-inline-start-side) 0px,
+      /* inline-end */
+      top 0px var(--axo-scroll-area-mask-inline-end-side) var(--axo-scroll-area-mask-scrollbar-gutter-vertical);
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+
+    /**
+     * Note: animation-name/timeline/range/direction
+     * all need to be kept in sync in the same exact order.
+     */
+    animation-name:
+      /* top */
+      axo-scroll-area-mask-top-from-color,
+      axo-scroll-area-mask-top-via-color,
+      /* bottom */
+      axo-scroll-area-mask-bottom-from-color,
+      axo-scroll-area-mask-bottom-via-color,
+      /* inline-start */
+      axo-scroll-area-mask-inline-start-from-color,
+      axo-scroll-area-mask-inline-start-via-color,
+      /* inline-end */
+      axo-scroll-area-mask-inline-end-from-color,
+      axo-scroll-area-mask-inline-end-via-color;
+    animation-timeline:
+      /* top */
+      --axo-scroll-area-timeline-vertical,
+      --axo-scroll-area-timeline-vertical,
+      /* bottom */
+      --axo-scroll-area-timeline-vertical,
+      --axo-scroll-area-timeline-vertical,
+      /* inline-start */
+      --axo-scroll-area-timeline-horizontal,
+      --axo-scroll-area-timeline-horizontal,
+      /* inline-end */
+      --axo-scroll-area-timeline-horizontal,
+      --axo-scroll-area-timeline-horizontal;
+    animation-range:
+      /* top */
+      var(--axo-scroll-area-animation-start) var(--axo-scroll-area-animation-padding),
+      var(--axo-scroll-area-animation-start) var(--axo-scroll-area-animation-end),
+      /* bottom (range is flipped) */
+      calc(100% - var(--axo-scroll-area-animation-padding)) calc(100% - var(--axo-scroll-area-animation-start)),
+      calc(100% - var(--axo-scroll-area-animation-end)) calc(100% - var(--axo-scroll-area-animation-start)),
+      /* inline-start */
+      var(--axo-scroll-area-animation-start) var(--axo-scroll-area-animation-padding),
+      var(--axo-scroll-area-animation-start) var(--axo-scroll-area-animation-end),
+      /* inline-end (range is flipped) */
+      calc(100% - var(--axo-scroll-area-animation-padding)) calc(100% - var(--axo-scroll-area-animation-start)),
+      calc(100% - var(--axo-scroll-area-animation-end)) calc(100% - var(--axo-scroll-area-animation-start));
+    animation-direction:
+      /* top */
+      normal,
+      normal,
+      /* bottom */
+      reverse,
+      reverse,
+      /* inline-start */
+      normal,
+      normal,
+      /* inline-end */
+      reverse,
+      reverse;
+    animation-duration: 1ms;
+    animation-fill-mode: both;
+  }
+}
