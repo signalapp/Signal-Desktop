@@ -478,6 +478,7 @@ export function ConversationList({
             'badges',
             'color',
             'draftPreview',
+            'draftTimestamp',
             'groupId',
             'hasAvatar',
             'id',

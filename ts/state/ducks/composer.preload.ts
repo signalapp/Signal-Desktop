@@ -860,7 +860,6 @@ function addAttachment(
           active_at: activeAt,
           draftChanged: false,
           draftTimestamp: now,
-          timestamp: now,
         });
       }
 

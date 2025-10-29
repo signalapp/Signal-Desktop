@@ -324,8 +324,13 @@ const collator = new Intl.Collator();
 export const _getConversationComparator = () => {
   return (left: ConversationType, right: ConversationType): number => {
     // These two fields can be sorted with each other; they are timestamps
-    const leftTimestamp = left.lastMessageReceivedAtMs || left.timestamp;
-    const rightTimestamp = right.lastMessageReceivedAtMs || right.timestamp;
+    const leftTimestamp = left.shouldShowDraft
+      ? left.draftTimestamp
+      : left.lastMessageReceivedAtMs || left.timestamp;
+    const rightTimestamp = right.shouldShowDraft
+      ? right.draftTimestamp
+      : right.lastMessageReceivedAtMs || right.timestamp;
+
     if (leftTimestamp && !rightTimestamp) {
       return -1;
     }
