@@ -33,7 +33,7 @@ export const SmartLeftPaneChatFolders = memo(
     );
     const location = useSelector(getSelectedLocation);
 
-    const { updateSelectedChangeFolderId } = useChatFolderActions();
+    const { updateSelectedChatFolderId } = useChatFolderActions();
     const { changeLocation } = useNavActions();
     const { markChatFolderRead, setChatFolderMuteExpiration } =
       useConversationsActions();
@@ -66,7 +66,7 @@ export const SmartLeftPaneChatFolders = memo(
         allChatFoldersUnreadStats={allChatFoldersUnreadStats}
         allChatFoldersMutedStats={allChatFoldersMutedStats}
         selectedChatFolder={selectedChatFolder}
-        onSelectedChatFolderIdChange={updateSelectedChangeFolderId}
+        onSelectedChatFolderIdChange={updateSelectedChatFolderId}
         onChatFolderMarkRead={markChatFolderRead}
         onChatFolderUpdateMute={setChatFolderMuteExpiration}
         onChatFolderOpenSettings={handleChatFolderOpenSettings}
