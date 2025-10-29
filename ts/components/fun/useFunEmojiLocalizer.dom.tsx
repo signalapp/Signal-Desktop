@@ -9,7 +9,6 @@ import {
   isEmojiVariantValue,
 } from './data/emojis.std.js';
 import type { LocaleEmojiListType } from '../../types/emoji.std.js';
-import { strictAssert } from '../../util/assert.std.js';
 import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.dom.js';
 
 export type FunEmojiLocalizerIndex = Readonly<{
@@ -30,10 +29,10 @@ export function createFunEmojiLocalizerIndex(
   const localeShortNameToParentKey = new Map<string, EmojiParentKey>();
 
   for (const entry of localeEmojiList) {
-    strictAssert(
-      isEmojiVariantValue(entry.emoji),
-      'createFunEmojiLocalizerIndex: Must be emoji variant value'
-    );
+    // Sadly some localized emoji are not present in our spritesheets
+    if (!isEmojiVariantValue(entry.emoji)) {
+      continue;
+    }
 
     const variantKey = getEmojiVariantKeyByValue(entry.emoji);
     const parentKey = getEmojiParentKeyByVariantKey(variantKey);
