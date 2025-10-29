@@ -387,17 +387,6 @@ export async function decryptAttachmentV2ToSink(
   const hmac = createHmac(HashType.size256, macKey);
   const plaintextHash = createHash(HashType.size256);
 
-  const incrementalDigestValidator =
-    options.type === 'standard' &&
-    options.theirIncrementalMac &&
-    options.theirChunkSize
-      ? new ValidatingPassThrough(
-          Buffer.from(macKey),
-          everyNthByte(options.theirChunkSize),
-          Buffer.from(options.theirIncrementalMac)
-        )
-      : undefined;
-
   let theirMac: Uint8Array | undefined;
 
   // When downloading from backup there is an outer encryption layer; in that case we
@@ -435,6 +424,19 @@ export async function decryptAttachmentV2ToSink(
     } else {
       throw missingCaseError(options);
     }
+
+    // Initializing `ValidatingPassThrough` might throw on invalid parameters so
+    // it is important to do it within `try {} catch {}`
+    const incrementalDigestValidator =
+      options.type === 'standard' &&
+      options.theirIncrementalMac &&
+      options.theirChunkSize
+        ? new ValidatingPassThrough(
+            Buffer.from(macKey),
+            everyNthByte(options.theirChunkSize),
+            Buffer.from(options.theirIncrementalMac)
+          )
+        : undefined;
 
     await pipeline(
       [
