@@ -13,8 +13,7 @@ import { createLogger } from '../ts/logging/log.std.js';
 import { AUMID } from './startup_config.main.js';
 import type { WindowsNotificationData } from '../ts/services/notifications.preload.js';
 import OS from '../ts/util/os/osMain.node.js';
-// eslint-disable-next-line local-rules/file-suffix
-import { renderWindowsToast } from './renderWindowsToast.dom.js';
+import { renderWindowsToast } from './renderWindowsToast.std.js';
 
 export { sendDummyKeystroke };
 

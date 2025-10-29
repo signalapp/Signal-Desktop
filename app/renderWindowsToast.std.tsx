@@ -19,21 +19,29 @@ function pathToUri(path: string) {
   return `file:///${encodeURI(path.replace(/\\/g, '/'))}`;
 }
 
-const Toast = (props: {
+function Toast(props: {
   launch: string;
   // Note: though React doesn't like it, Windows seems to require that this be camelcase
   activationType: string;
   children: React.ReactNode;
-}) => React.createElement('toast', props);
-const Visual = (props: { children: React.ReactNode }) =>
-  React.createElement('visual', props);
-const Binding = (props: { template: string; children: React.ReactNode }) =>
-  React.createElement('binding', props);
-const Text = (props: { id: string; children: React.ReactNode }) =>
-  React.createElement('text', props);
-const Image = (props: { id: string; src: string; 'hint-crop': string }) =>
-  React.createElement('image', props);
-const Audio = (props: { src: string }) => React.createElement('audio', props);
+}) {
+  return React.createElement('toast', props);
+}
+function Visual(props: { children: React.ReactNode }) {
+  return React.createElement('visual', props);
+}
+function Binding(props: { template: string; children: React.ReactNode }) {
+  return React.createElement('binding', props);
+}
+function Text(props: { id: string; children: React.ReactNode }) {
+  return React.createElement('text', props);
+}
+function Image(props: { id: string; src: string; 'hint-crop': string }) {
+  return React.createElement('image', props);
+}
+function Audio(props: { src: string }) {
+  return React.createElement('audio', props);
+}
 
 export function renderWindowsToast({
   avatarPath,

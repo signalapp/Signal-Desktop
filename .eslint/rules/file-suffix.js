@@ -409,13 +409,13 @@ module.exports = {
       const [, moduleName] = source.match(/^([^@\/]+|@[^\/]+\/[^\/]+)/);
       if (NODE_PACKAGES.has(moduleName)) {
         nodeUses.push(node);
+      } else if (source === 'react-dom/server') {
+        // no-op
       } else if (
         DOM_PACKAGES.has(moduleName) ||
         source === 'react-dom/client'
       ) {
         domUses.push(node);
-      } else if (source === 'react-dom/server') {
-        // no-op
       } else if (!STD_PACKAGES.has(moduleName)) {
         context.report({
           node,
@@ -490,8 +490,13 @@ module.exports = {
           expectedSuffix = 'std';
         }
 
-        // All .std.tsx components should be .dom.tsx for now
-        if (expectedSuffix === 'std' && filename.endsWith('.tsx')) {
+        // All .tsx files should normally be .dom.tsx, but could also be
+        // .std.tsx.
+        if (
+          expectedSuffix === 'std' &&
+          filename.endsWith('.tsx') &&
+          fileSuffix !== 'std'
+        ) {
           expectedSuffix = 'dom';
         }
 
