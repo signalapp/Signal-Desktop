@@ -663,9 +663,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       const emojiSelection: FunEmojiSelection = {
         variantKey: emojiVariant.key,
       };
-      const shouldClose =
-        event.nativeEvent.pointerType !== 'mouse' &&
-        !(event.ctrlKey || event.metaKey);
+      const shouldClose = false;
       onSelectEmoji(emojiSelection, shouldClose);
     },
     [
