@@ -666,10 +666,10 @@
     "messageformat": "Се појави грешка при зачувување на потврдата. Ве молиме обидете се повторно."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Додадено во „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Отстрането од „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Додадена е папката {chatFolderName}"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Направете папка"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Изменете ја папката"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Име на папка"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} не е Signal корисник. Осигурајте се дека го внесовте целосното корисничко име."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} не е важечко корисничко име. Проверете дали го имате внесено целосното корисничко име проследено со пар цифри."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Корисникот не е пронајден. „{phoneNumber}“ не е корисник на Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Стикер порака"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Анкета: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Дозволени известувања"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Додајте луѓе и групи од кои сакате да добивате известувања кога е вклучен овој профил"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Додај луѓе или групи"
@@ -7259,9 +7268,15 @@
     "messageformat": "Поставете прилагодени профили за известувања за да одредувате од кои луѓе и групи добивате известувања кога тој профил е овозможен."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Папките со разговори ви овозможуваат организација, групирање или индивидуализирање на разговорите во папки кои лесно се преуредуваат. Прикажувајте ги непрочитаните пораки од вашите омилени луѓе, филтрирајте по вид на разговор (еден на еден или групи), или создајте посебни папки со име „приватно“ или „работа“ за побрзо да ги видите пораките што ви се релевантни. Овозможете ги папките со разговори во Поставувања > Разговори за да започнете."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Оваа верзија вклучува и исправка на грешка за проблем што спречуваше генерирање прегледи на линкови кога пораката содржеше и емотикони. Благодариме, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

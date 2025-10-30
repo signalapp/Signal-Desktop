@@ -666,10 +666,10 @@
     "messageformat": "Kunne ikke lagre kvitteringen. Prøv igjen."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Lagt til i «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Fjernet fra «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName}-mappe ble lagt til"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Opprett en mappe"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Rediger mappe"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Mappenavn"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} er ikke en Signal-bruker. Sjekk om du har skrevet inn hele brukernavnet."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} er ikke et gyldig brukernavn. Forsikre deg om at du har skrevet inn hele brukernavnet med alle tallene som hører til."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Fant ikke brukeren. {phoneNumber} er ikke en Signal-bruker."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Klistremerke-melding"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Avstemning: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Tillatte varsler"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Legg til personer og grupper du ønsker å få varsler fra, når denne profilen er aktivert."
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Legg til personer eller grupper"
@@ -7259,9 +7268,15 @@
     "messageformat": "Konfigurer dine egne varslingsprofiler for å velge hvilke personer og grupper du får varsler fra når den profilen er aktivert."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Nå kan du plassere samtalene dine i unike mapper som er enkle å tilpasse og sortere. Du kan bruke samtalemapper til å se uleste meldinger fra favorittene dine, filtrere etter samtaletype (gruppe eller 1-til-1) og lage egne mapper for jobb og fritid, slik at du har full oversikt over de ulike samtalene du har på gang. Aktiver samtalemapper ved å gå til Innstillinger > Samtaler."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "I denne oppdateringen har vi også rettet opp i en feil som førte til at forhåndsvisninger av lenker ikke virket i meldinger som inneholder emojier. Takk, <elias6></elias6>!"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

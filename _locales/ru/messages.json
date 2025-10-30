@@ -666,10 +666,10 @@
     "messageformat": "Ошибка сохранения квитанции. Пожалуйста, попробуйте ещё раз."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Добавлен(-а) в «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Удален(-а) из «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Папка добавлена: {chatFolderName}"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Создать папку"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Изменить папку"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Имя папки"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} не является пользователем Signal. Убедитесь, что вы ввели полное имя пользователя."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} – недействительное имя пользователя. Убедитесь, что вы ввели полное имя пользователя с последующим набором цифр."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Пользователь не найден. «{phoneNumber}» — не пользователь Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Стикер-сообщение"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Опрос: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Разрешённые уведомления"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Добавьте людей и группы, от которых вы хотите получать уведомления, когда включён этот профиль"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Добавить людей или групп"
@@ -7259,9 +7268,15 @@
     "messageformat": "Настройте свои профили уведомлений, чтобы контролировать, от каких пользователей и групп вы получаете уведомления, когда определённый профиль включён. Создайте профиль «Работа», который держит вдалеке тех, кто не входит в число ваших коллег (за исключением ваших близких), и профиль «В покое», в котором нет вашего начальника. Вы можете переключаться между профилями уведомлений когда пожелаете или настроить расписание так, чтобы это происходило автоматически."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Папки чата позволяют организовать ваши организации, сгруппировать ваши группы и индивидуализировать ваши контакты в индивидуальные папки, которые легко настраивать и перенастраивать. Используйте папки, чтобы быстро отображать непрочитанные сообщения от избранных людей, фильтровать по типу чата (личные и групповые) или отделять личные чаты от рабочих, чтобы быстро находить сообщения, которые имеют отношение к вам. Попробуйте папки чата уже сегодня в Настройках > Чатах."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "В этом обновлении исправлена ошибка, из-за которой не отображался просмотр ссылок, если сообщение также содержало эмодзи. Спасибо, <elias6></elias6>!"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

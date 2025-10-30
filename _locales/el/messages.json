@@ -666,10 +666,10 @@
     "messageformat": "Σφάλμα κατά την αποθήκευση της απόδειξης. Δοκίμασε ξανά."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Προστέθηκε στο “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Αφαιρέθηκε από το “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Προστέθηκε ο φάκελος {chatFolderName}"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Δημιουργία φακέλου"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Επεξεργασία φακέλου"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Όνομα φακέλου"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "Το άτομο {atUsername} δεν χρησιμοποιεί το Signal. Επιβεβαίωσε ότι έγραψες ολόκληρο το όνομα χρήστη."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "Το όνομα χρήστη {atUsername} δεν είναι έγκυρο. Επιβεβαίωσε ότι έγραψες ολόκληρο το όνομα χρήστη, μαζί με το σύνολο ψηφίων."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Ο χρήστης δεν βρέθηκε. Το \"{phoneNumber}\" δεν είναι χρήστης του Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Μήνυμα με αυτοκόλλητο"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Δημοσκόπηση: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Επιτρεπόμενες ειδοποιήσεις"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Πρόσθεσε άτομα και ομάδες από τις οποίες θέλεις να λαμβάνεις ειδοποιήσεις όταν είναι ενεργό αυτό το προφίλ"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Προσθήκη ατόμων ή ομάδων"
@@ -7259,9 +7268,15 @@
     "messageformat": "Ρύθμισε προσαρμοσμένα προφίλ ειδοποιήσεων για να ελέγχεις από ποιους χρήστες και ομάδες θα λαμβάνεις ειδοποιήσεις όταν το προφίλ είναι ενεργοποιημένο."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Οι φάκελοι συνομιλίας επιτρέπουν να οργανωθείς, να ομαδοποιήσεις και να ξεχωρίσεις σε μοναδικούς φακέλους που μπορείς να προσαρμόσεις και να αναδιατάξεις. Εμφάνισε μη αναγνωσμένα μηνύματα από τα αγαπημένα σου άτομα, φίλτραρε ανά τύπο συνομιλίας (ατομική συνομιλία και ομάδες) ή δημιούργησε ξεχωριστούς φακέλους όπως \"Προσωπικά\" και \"Εργασία\", ώστε να μπορείς να βλέπεις γρήγορα τα μηνύματα που σε αφορούν. Ενεργοποίησε τους φακέλους συνομιλίας στις Ρυθμίσεις > Συνομιλίες για να ξεκινήσεις."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Αυτή η ενημέρωση περιλαμβάνει επίσης μια διόρθωση σφάλματος για ένα πρόβλημα που εμπόδιζε τη δημιουργία προεπισκόπησης συνδέσμων όταν το μήνυμα περιελάμβανε επίσης χαρακτήρες emoji. Ευχαριστούμε, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

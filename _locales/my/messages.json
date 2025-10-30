@@ -666,10 +666,10 @@
     "messageformat": "ပြေစာကို သိမ်းဆည်းရာတွင် အမှားအယွင်းရှိနေသည်။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” သို့ ထည့်ထားသည်"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” မှ ဖယ်ရှားထားသည်"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ဖိုင်တွဲကို ထည့်ထားသည်"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "ဖိုင်တွဲတစ်ခု ဖန်တီးရန်"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "ဖိုင်တွဲကို တည်းဖြတ်ရန်"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "ဖိုင်တွဲအမည်"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} သည် Signal သုံးစွဲသူ မဟုတ်ပါ။ သုံးစွဲသူအမည်အပြည့်အစုံကို ရိုက်ထည့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။"
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} သည် မှန်ကန်သော သုံးစွဲသူအမည်တစ်ခု မဟုတ်ပါ။ သုံးစွဲသူအမည် အပြည့်အစုံကို ၎င်း၏နောက်တွင် ဂဏန်းနှစ်လုံးတွဲနှင့်အတူ ရိုက်ထည့်ထားကြောင်း သေချာပါစေ။"
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "သုံးစွဲသူ ရှာမတွေ့ပါ။ \"{phoneNumber}\" သည် Signal သုံးစွဲသူ မဟုတ်ပါ။"
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "စတစ်ကာ မက်ဆေ့ချ်"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "စစ်တမ်း- {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "ခွင့်ပြုထားသော အသိပေးချက်များ"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "ဤပရိုဖိုင်ဖွင့်ထားချိန်တွင် သင့်အနေဖြင့် အသိပေးချက်များ ရယူလိုသည့် လူများနှင့် အဖွဲ့များကိုထည့်သွင်းပါ"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "လူများနှင့် အဖွဲ့များကို ပေါင်းထည့်ရန်"
@@ -7259,9 +7268,15 @@
     "messageformat": "ထိုပရိုဖိုင်ကိုဖွင့်ထားသည့်အခါ သင် လက်ခံရရှိလိုသူများနှင့်အဖွဲ့များထံမှ အသိပေးချက်လက်ခံရရှိမှုကို ထိန်းချုပ်ရန်အတွက် စိတ်ကြိုက်အသိပေးချက်ပရိုဖိုင်များကို ထည့်သွင်းပါ။"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "ယခု သင်သည် ချက်(တ်)များကို အလွယ်တကူ စိတ်ကြိုက်ပြင်ဆင်ခြင်း၊ သီးခြားဖိုင်တွဲများအဖြစ် စုစည်းခြင်းများကို ပြုလုပ်နိုင်ပါပြီ။ သင်အကြိုက်ဆုံးလူများထံမှ မဖတ်ရသေးသော မက်ဆေ့ချ်များကိုပြသရန်၊ ချက်(တ်)အမျိုးအစား (တစ်ဦးချင်းစီနှင့် အဖွဲ့များ) အနေဖြင့် စစ်ထုတ်ရန် သို့မဟုတ် \"ကိုယ်ရေးကိုယ်တာ\" နှင့် \"အလုပ်\" ကဲ့သို့သော သီးခြားဖိုင်တွဲများကို ဖန်တီးခြင်းဖြင့် သင်နှင့်သက်ဆိုင်သည့် မက်ဆေ့ချ်များကို အမြန်မြင်နိုင်စေရန်အတွက် ချက်(တ်)ဖိုင်တွဲများကို အသုံးပြုနိုင်သည်။"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "ဤအပ်ဒိတ်တွင် အီမိုဂျီစာလုံးများပါဝင်သော မက်ဆေ့ချ်များအတွက် လင့်ခ်ကြိုတင်ကြည့်ရှုမှုများ မထုတ်ပေးသည့် ပြဿနာကို ပြင်ဆင်ထားသည်။ ကျေးဇူးတင်ပါတယ် <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

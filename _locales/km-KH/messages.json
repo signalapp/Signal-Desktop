@@ -666,10 +666,10 @@
     "messageformat": "មានបញ្ហាក្នុងការរក្សាទុកបង្កាន់ដៃ។ សូមព្យាយាមម្តងទៀត។"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "បានបញ្ចូលទៅ “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "បានដកចេញពី “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "ថតឯកសារ {chatFolderName} ត្រូវបានបញ្ចូល"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "បង្កើតថតឯកសារ"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "កែថតឯកសារ"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "ឈ្មោះថតឯកសារ"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} មិនមែនជាអ្នកប្រើ Signal ទេ។ ត្រូវប្រាកដថា អ្នកបានបញ្ចូលឈ្មោះអ្នកប្រើពេញលេញ។"
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} មិនមែនជាឈ្មោះត្រឹមត្រូវទេ។ ត្រូវប្រាកដថាអ្នកបានបញ្ចូលឈ្មោះអ្នកប្រើពេញលេញជាមួយសញ្ញាចុចមួយ និងលេខពីរខ្ទង់។"
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "រកមិនឃើញអ្នកប្រើទេ។ \"{phoneNumber}\" មិនមែនជាអ្នកប្រើ Signal ទេ។"
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "សារស្ទីកគ័រ"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "ការស្ទង់មតិ៖ {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "បញ្ចូលមនុស្ស និងក្រុមដែលអ្នកចង់ទទួលបានការជូនដំណឹងពីពួកគេ នៅពេលប្រូហ្វាល់នេះបើក"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "បញ្ចូលមនុស្ស ឬក្រុម"
@@ -5604,7 +5613,7 @@
     "messageformat": "កែឈ្មោះប្រូហ្វាល់នេះ"
   },
   "icu:NotificationProfiles--edit--allowed": {
-    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
+    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញ្ញាត"
   },
   "icu:NotificationProfiles--edit--schedule-timing": {
     "messageformat": "{startTime} ដល់ {endTime}"
@@ -7259,9 +7268,15 @@
     "messageformat": "រៀបចំប្រូហ្វាល់សម្រាប់ការជូនដំណឹងផ្ទាល់ខ្លួន ដើម្បីគ្រប់គ្រងថាតើអ្នកទទួលបានការជូនដំណឹងពីមនុស្ស និងក្រុមណាខ្លះ នៅពេលដែលប្រូហ្វាល់នោះត្រូវបានបើក។ បង្កើតប្រូហ្វាល់ “ការងារ” ដើម្បីដាក់មិត្តរួមការងាររបស់អ្នកដោយឡែក (លើកលែងតែមនុស្សពិសេសរបស់អ្នក) និងប្រូហ្វាល់ “ផ្ទាល់ខ្លួន” ដែលមិនមានចៅហ្វាយរបស់អ្នក។ អ្នកអាចប្តូរចុះឡើងនូវប្រូហ្វាល់សម្រាប់ការជូនដំណឹងនៅពេលណាក៏បាន ឬកំណត់កាលវិភាគបាន ដើម្បីឱ្យវាកើតឡើងដោយស្វ័យប្រវត្តិ។"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "ថតឯកសារជជែកជួយឱ្យអ្នកអាចរៀបចំទំនាក់ទំនងរបស់អ្នកបានយ៉ាងងាយស្រួល ដោយបែងចែកការជជែកជាប្រភេទដូចជា ការជជែកការងារ ជាក្រុម និងលក្ខណៈបុគ្គល។ បង្ហាញសារដែលមិនទាន់អានពីមនុស្សដែលអ្នកចូលចិត្ត ច្រោះតាមប្រភេទនៃការជជែក (មួយទល់មួយ និងជាក្រុម) ឬបង្កើតថតឯកសារដាច់ដោយឡែកដូចជា \"ផ្ទាល់ខ្លួន\" និង \"ការងារ\" ដើម្បីឱ្យអ្នកអាចមើលឃើញសារដែលពាក់ព័ន្ធជាមួយអ្នកបានយ៉ាងឆាប់រហ័ស។ បើកថតឯកសារជជែកនៅក្នុងការកំណត់ > ជជែក ដើម្បីចាប់ផ្តើម។"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "កំណែថ្មីនេះក៏រួមបញ្ចូលផងដែរនូវការកែបញ្ហាសម្រាប់បញ្ហាមួយដែលធ្វើឱ្យមិនអាចបង្កើតការមើលតំណជាមុនបាន នៅពេលដែលសារនោះរួមបញ្ចូលតួអក្សររូបអារម្មណ៍ផងដែរ។ អរគុណ <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

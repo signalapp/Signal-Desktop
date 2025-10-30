@@ -666,10 +666,10 @@
     "messageformat": "Errore bat gertatu da irakurragiria gordetzean. Saiatu berriro."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" karpetan gehitu da"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" karpetatik kendu da"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Gehitu da {chatFolderName} karpeta"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Sortu karpeta bat"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Editatu karpeta"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Karpetaren izena"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} ez da Signal-en erabiltzailea. Ziurtatu erabiltzaile-izen osoa idatzi duzula."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} ez da baliozkoa erabiltzaile-izen gisa. Ziurtatu erabiltzaile-izen osoa idatzi duzula, dagokion digitu-multzoarekin."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Ez da aurkitu erabiltzailea. \"{phoneNumber}\" ez da Signal-eko erabiltzailea."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Eranskailu mezua"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Galdeketa: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Baimendutako jakinarazpenak"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Hautatu profil hau aktibo dagoenean zein pertsona eta talderen jakinarazpenak jaso nahi dituzun"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Gehitu pertsonak edo taldeak"
@@ -7259,9 +7268,15 @@
     "messageformat": "Konfiguratu jakinarazpen-profil pertsonalizatuak eta kontrolatu zein pertsona eta talderen jakinarazpenak jasotzen dituzun profil bakoitza aktibatuta dagoenean."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Orain, txatak karpetatan antola ditzakezu, errazagoa izan dadin haiek pertsonalizatu eta ordenatzea. Erabili txat-karpetak gogoko kontaktuen irakurri gabeko mezuak bistaratzeko, txat motaren arabera iragazteko (banakoak eta taldekoak) edo sortu \"Pertsonala\" eta \"Lana\" bezalako karpeta bereiziak, bizkor ikus ditzazun zuretzat garrantzitsuak diren mezuak."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Halaber, mezuak emoji-karaktereak zituenean esteken aurreikuspena sortzea galarazten zuen arazo bat konpondu dugu eguneratze honetan. Eskerrik asko, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

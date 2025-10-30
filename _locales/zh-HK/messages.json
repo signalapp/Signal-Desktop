@@ -666,10 +666,10 @@
     "messageformat": "儲存收據時發生錯誤。請重試。"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "已新增至「{chatFolderName}」"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "已從 {chatFolderName} 移除"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "新增了 {chatFolderName} 資料夾"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "建立資料夾"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "編輯資料夾"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "資料夾名稱"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} 不是 Signal 用戶。請確保你已輸入完整的用戶名稱。"
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} 不是有效的用戶名稱。請確保你已輸入完整的用戶名稱，以及隨後的一組數字。"
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "找不到使用者。\"{phoneNumber}\" 不是 Signal的使用者。"
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "貼圖訊息"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "投票：{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "已允許通知"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "新增當啟用此情景時你想收到來自哪些人和群組的通知"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "新增他人或群組"
@@ -7259,9 +7268,15 @@
     "messageformat": "設定自訂的通知情景，以控制在啟用該情景時，將會收到來自哪些人和群組的通知。建立「工作」情景，讓非同事無法進入（你的心上人除外），而「休閒」情景則可撇除你的上司。你可以隨時切換通知情景，或設定排程讓其自動化。"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "聊天資料夾可讓你整理你的組織、將群組分類，並將個人區分於獨特資料夾中，以便你自訂和重新排列。顯示你喜愛對象的未讀訊息、按聊天類型（一對一和群組）篩選，或建立「個人」和「工作」等不同的資料夾，讓你可以立即看到與你相關的訊息。在「設定」 > 「聊天」中啟用聊天資料夾，即可開始使用。"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "此更新還包括一項錯誤修復，修正了當訊息中包含表情符號時，無法產生連結預覽的問題。謝謝<elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

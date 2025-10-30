@@ -666,10 +666,10 @@
     "messageformat": "تالوننى ساقلىغاندا خاتالىق كۋرۈلدى. قايتا سىناڭ."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "«{chatFolderName}» غا قوشۇلدى"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "«{chatFolderName}» دىن چىقىرىۋېتىلدى"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ھۆججەت قىسقۇچ قوشۇلدى."
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "بىرتال ھۆججەت قىسقۇچ قۇرۇش"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "ھۆججەت قىسقۇچنى تەھرىرلەش"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "ھۆججەت قىسقۇچ نامى"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} Signal ئىشلەتكۈچى ئەمەس. ئىشلەتكۈچى نامىنى تولۇق كىرگۈزۈڭ."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} ئىناۋەتلىك ئىشلەتكۈچى نامى ئەمەس. ئىشلەتكۈچى نامىنى تولۇق كىرگۈزۈشكە ۋە ئۇنىڭغا ماس كېلىدىغان بىر يۈرۈش رەقەمنى كىرگۈزۈشكە كاپالەتلىك قىلىڭ."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "ئىشلەتكۈچى تېپىلمىدى. «{phoneNumber}» Signal ئىشلەتكۈچىسى ئەمەس."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "چاپلاق ئۇچۇرى"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "راي سىناش: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "بۇ ئارخىپ ئېچىلغاندا، سىز ئۇقتۇرۇش تاپشۇرۇۋېلىشنى خالايدىغان كىشىلەر ۋە گۇرۇپپىلارنى قوشۇڭ"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "ئادەم ياكى گۇرۇپپا قوشۇش"
@@ -7259,9 +7268,15 @@
     "messageformat": "ئۆزىڭىز ئۈچۈن مەخسۇس لايىھەلەپ ئۇقتۇرۇش ئارخىپى قۇرۇپ، شۇ ئارخىپ قوزغىتىلغاندىن باشلاپ قايسى كىشىلەر ۋە گۇرۇپپىلاردىن ئۇقتۇرۇش تاپشۇرۇۋالىدىغانلىقىڭىزنى كونترول قىلىڭ. خىزمەتداشلىرىڭىزنىلا ئۆز ئىچىگە ئالىدىغان «خىزمەت» ئارخىپى ھەمدە باشلىقىڭىزنى ئۆز ئىچىگە ئالمايدىغان «تەنەپىس» ئارخىپى قۇرۇۋالسىڭىزمۇ بولىۋېرىدۇ. خالىغان ۋاقىتتا ئۇقتۇرۇش ئارخىپىنى ئالماشتۇرالايسىز ياكى ۋاقىت جەدۋىلى قۇرۇپ بۇلارنى ئاپتوماتلاشتۇرسىڭىز بولىدۇ."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "ھازىر سىز، پاراڭلىرىڭىزنى، خاسلاشتۇرۇش ۋە قايتا رەتلەش ئاسان بولغان ئالاھىدە پاراڭ ھۆججىتى قىسقۇچلىرىغا رەتلىيەلەيسىز. ئۆزىڭىز ياقتۇرىدىغان كىشىلەردىن تاپشۇرۇۋالغان ئوقۇلمىغان ئۇچۇرلارنى ھۆججەت قىسقۇچلار ئارقىلىق كۆرسىتىڭ، پاراڭلىشىش تىپى (بىر بىرلەپ ۋە گۇرۇپپىلار) ئارقىلىق سۈزۈڭ، ۋەياكى «شەخسىي» ۋە «خىزمەت» قاتارلىق ئايرىم ھۆججەت قىسقۇچلارنى قۇرۇڭ، بۇ ئارقىلىق ئۆزىڭىزگە مۇناسىۋەتلىك ئۇچۇرلارنى تېز كۆرەلەيسىز. بۇلارنى قىلىش ئۈچۈن، «تەڭشەك> پاراڭلار»دىىن پاراڭ ھۆججىتى قىسقۇچلىرىنى قوزغىتىڭ."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "بۇ يېڭىلانما، ئۇچۇر emoji ھەرپلىرىنى ئۆز ئىچىگە ئالغاندا، ئۇلانما كۆرىكىنىڭ قۇرۇلۇشىنى توسىدىغان بىر كەمتۈكلۈكنى ئوڭشاشنى ئۆز ئىچىگە ئالىدۇ. <elias6></elias6>، رەھمەت سىزگە"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

@@ -666,10 +666,10 @@
     "messageformat": "रसीद सेव करने में कोई गड़बड़ी हुई। कृपया फिर से कोशिश करें।"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” में जोड़ी गई"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" से हटाई गई"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} फ़ोल्डर जोड़ा गया"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "फ़ोल्डर बनाएं"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "फ़ोल्डर एडिट करें"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "फ़ोल्डर का नाम"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} एक Signal यूज़र नहीं है। सुनिश्चित करें कि आपने पूरा यूज़रनेम डाला है।"
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} मान्य यूज़रनेम नहीं है। सुनिश्चित करें कि आपने पूरा यूज़रनेम और उसके बाद उसके अंकों का सेट दर्ज किया है।"
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "यूज़र नहीं मिला। \"{phoneNumber}\" एक Signal यूज़र नहीं है।"
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "स्टिकर मेसेज"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "पोल: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "इन नोटिफ़िकेशन को मंज़ूरी मिली हुई है"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "इस प्रोफ़ाइल के चालू होने पर, आपको जिन लोगों या ग्रुप से नोटिफ़िकेशन चाहिए उन्हें जोड़ें"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "लोग या ग्रुप जोड़ें"
@@ -7259,9 +7268,15 @@
     "messageformat": "कस्टम नोटिफ़िकेशन प्रोफ़ाइलें सेटअप करें, ताकि आपको प्रोफ़ाइल के चालू होने पर, सिर्फ़ खुद से चुने गए लोगों और ग्रुप से ही नोटिफ़िकेशन मिलें। ऐसा \"वर्क\" प्रोफ़ाइल बनाएं जो सहकर्मियों के अलावा बाकी लोगों के नोटिफ़िकेशन रोक दे (आपके पार्टनर को छोड़कर) और एक \"डाउनटाइम\" प्रोफ़ाइल बनाएं जिसमें आपके बॉस शामिल न हों। जब चाहें, नोटिफ़िकेशन प्रोफ़ाइलों के बीच स्विच करें या कोई शेड्यूल सेट करें जिससे यह काम अपने-आप होता रहे।"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "चैट फ़ोल्डर, आपको अपनी चैट आसानी से व्यवस्थित करने में मदद करते हैं। जैसे, अलग-अलग संस्थाओं, ग्रुप, और निजी चैट को अलग-अलग फ़ोल्डर में रखना। इन फ़ोल्डर को अपनी पसंद के हिसाब से बनाया और व्यवस्थित किया जा सकता है। अपने पसंदीदा लोगों के अनरीड मैसेज देखें, चैट प्रकार (1-टू-1 और ग्रुप) के हिसाब से उन्हें फ़िल्टर करें या \"निजी\" और \"ऑफ़िस\" जैसे अलग फ़ोल्डर बनाएं, ताकि आप अपने लिए ज़रूरी मैसेज तुरंत देख सकें। इसे शुरू करने के लिए, सेटिंग > चैट में जाकर चैट फ़ोल्डर चालू करें।"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "इस अपडेट में उस समस्या का समाधान भी शामिल है, जिसके चलते मैसेज में इमोजी कैरेक्टर शामिल होने पर लिंक के प्रीव्यू जनरेट नहीं हो पा रहे थे। धन्यवाद, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

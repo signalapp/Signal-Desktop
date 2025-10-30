@@ -666,10 +666,10 @@
     "messageformat": "ரசீதைச் சேமிப்பதில் பிழை. மீண்டும் முயலுங்கள்."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” இல் சேர்க்கப்பட்டது"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” இலிருந்து அகற்றப்பட்டது"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} கோப்புறை சேர்க்கப்பட்டது"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "கோப்புறையை உருவாக்கு"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "கோப்புறையைத் திருத்து"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "கோப்புறையின் பெயர்"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} ஒரு சிக்னல் பயனர் அல்ல. நீங்கள் முழுமையான பயனர் பெயரை உள்ளிட்டுள்ளதை உறுதிசெய்து கொள்ளவும்."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} என்பது சரியான பயனர் பெயர் அல்ல. முழு பயனர் பெயரையும் அதன் எண்களின் தொகுப்பையும் உள்ளிட்டுள்ளீர்கள் என்பதை உறுதிப்படுத்தவும்."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "பயனர் கிடைக்கவில்லை. \"{phoneNumber}\" ஒரு சிக்னல் பயனர் அல்ல."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "ஸ்டிக்கர் செய்தி"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "வாக்கெடுப்பு:{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "இந்தச் சுயவிவரம் இயக்கத்தில் இருக்கும் போது நீங்கள் அறிவிப்புகளைப் பெற விரும்பும் நபர்களையும் குழுக்களையும் சேருங்கள்"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "நபர்கள் அல்லது குழுக்களைச் சேர்க்கவும்"
@@ -7259,9 +7268,15 @@
     "messageformat": "அந்தச் சுயவிவரம் இயக்கப்படும்போது, நீங்கள் அறிவிப்புகளைப் பெற வேண்டிய நபர்கள் மற்றும் குழுக்களைக் கட்டுப்படுத்த தனிப்பயன் அறிவிப்பு சுயவிவரங்களை அமையுங்கள்."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "இப்போது உங்கள் சாட்களைத் தனித்துவமான கோப்புறைகளில் நீங்கள் ஒழுங்கமைக்கலாம், இவற்றை எளிதாகத் தனிப்பயனாக்கவும் மறுசீரமைக்கவும் முடியும். உங்களுக்குப் பிடித்தவர்களிடமிருந்து வரும் படிக்காத மெசேஜ்களைக் காட்டவும், சாட் வகையின்படி (1-on-1 மற்றும் குழுக்கள்) ஃபில்டர் செய்யவும், அல்லது \"தனிப்பட்டவை\" மற்றும் \"வேலை\" போன்ற தனித்தனி கோப்புறைகளை உருவாக்கவும் சாட் கோப்புறைகளைப் பயன்படுத்தலாம். இதன்மூலம் உங்களுக்குத் தொடர்புடைய மெசேஜ்களை நீங்கள் விரைவாகப் பார்க்கலாம். இந்த அம்சத்தை உபயோகிக்கத் தொடங்க, அமைப்புகள் > சாட்ஸ் என்பதற்குச் சென்று சாட் கோப்புறைகளைச் செயல்படுத்தலாம்."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "இந்தப் புதுப்பிப்பில் ஒரு பிழைத்திருத்தமும் அடங்கும். முன்பு, ஒரு மெசேஜில் எமோஜி இருக்கும்போது, இணைப்பு முன்னோட்டங்கள் உருவாக்கப்படுவது தடைபடும் சிக்கல் இருந்தது, அது இப்போது சரிசெய்யப்பட்டுள்ளது. நன்றி, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

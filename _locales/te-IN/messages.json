@@ -666,10 +666,10 @@
     "messageformat": "రసీదును సేవ్ చేయడంలో లోపం. దయచేసి మళ్ళీ ప్రయత్నించండి."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” కు జోడించబడింది"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” నుండి తొలగించబడింది"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ఫోల్డర్ జోడించబడింది"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "ఫోల్డర్‌ను సృష్టించండి"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "ఫోల్డర్‌ను సవరించండి"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "ఫోల్డర్ పేరు"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} Signal యూజర్ కాదు. మీరు పూర్తి యూజర్‌నేమ్‌ను ఎంటర్ చేశారని నిర్ధారించుకోండి."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} చెల్లుబాటయ్యే యూజర్‌నేమ్ కాదు. మీరు పూర్తి యూజర్‌నేమ్‌ను దాని అంకెల జతతో ఎంటర్ చేశారని నిర్ధారించుకోండి."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "యూజర్ కనుగొనబడలేదు. \"{phoneNumber}\" Signal యూజర్ కాదు."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "స్టిక్కర్ సందేశం"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "పోల్: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "ఈ ప్రొఫైల్ ఆన్‌లో ఉన్నప్పుడు మీరు నోటిఫికేషన్‌లు కోరుకుంటున్న వ్యక్తులు మరియు గ్రూప్‌లను జోడించండి"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "వ్యక్తులు లేదా గ్రూపులను జోడించండి"
@@ -7259,9 +7268,15 @@
     "messageformat": "ఆ ప్రొఫైల్ ప్రారంభించబడినప్పుడు మీరు ఏ వ్యక్తులు మరియు గ్రూప్‌ల నుంచి నోటిఫికేషన్‌లు రావాలో నియంత్రించేందుకు అనుకూల నోటిఫికేషన్ ప్రొఫైళ్ళను సెటప్ చేయండి."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "ఇప్పుడు మీరు మీ చాట్‌లను సులభంగా అనుకూలీకరించగలిగే మరియు క్రమాన్ని మార్చగలిగే ప్రత్యేకమైన ఫోల్డర్‌లుగా నిర్వహించవచ్చు. మీకు ఇష్టమైన వ్యక్తుల నుండి వచ్చిన చదవని సందేశాలను ప్రదర్శించడానికి చాట్ ఫోల్డర్‌లను ఉపయోగించండి, చాట్ రకం (1-ఆన్-1 మరియు గ్రూప్‌లు) ప్రకారం ఫిల్టర్ చేయండి, లేదా \"వ్యక్తిగతం\" మరియు \"పని\" వంటి వేర్వేరు ఫోల్డర్‌లను సృష్టించండి, తద్వారా మీకు సంబంధించిన సందేశాలను మీరు త్వరగా చూడవచ్చు."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "సందేశంలో ఎమోజీ అక్షరాలు ఉన్నప్పుడు లింక్ ప్రివ్యూలను రూపొందించకుండా నిరోధించే సమస్యకు బగ్ పరిష్కారం కూడా ఈ అప్‌డేట్‌లో ఉంది. ధన్యవాదాలు, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }
