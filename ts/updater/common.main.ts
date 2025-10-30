@@ -53,12 +53,11 @@ import {
   prepareDownload as prepareDifferentialDownload,
 } from './differential.node.js';
 import { getGotOptions } from './got.node.js';
+import { checkIntegrity, isTimeToUpdate } from './util.node.js';
 import {
-  checkIntegrity,
   gracefulRename,
   gracefulRmRecursive,
-  isTimeToUpdate,
-} from './util.node.js';
+} from '../util/gracefulFs.node.js';
 
 import type { LoggerType } from '../types/Logging.std.js';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.node.js';
