@@ -346,6 +346,9 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       i18n={i18n}
                       theme={theme}
                       oldName={oldName}
+                      onClick={() => {
+                        showContactModal(conversationInfo.conversation.id);
+                      }}
                       isSignalConnection={isSignalConnection}
                     >
                       {button && (
