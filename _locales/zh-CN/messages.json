@@ -666,10 +666,10 @@
     "messageformat": "保存收据时出错。请重试。"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "已添加到“{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "已从“{chatFolderName}”移除"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "已添加{chatFolderName}文件夹"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "创建文件夹"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "编辑文件夹"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "文件夹名称"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} 不是 Signal 用户。请确认您输入了完整的用户名。"
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} 不是一个有效的用户名。请确认您输入了完整的用户名和与之搭配的一组数字。"
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "未找到此用户。“{phoneNumber}”不是 Signal 用户。"
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "表情信息"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "投票：{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "允许通知"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "添加您启用此配置时想要接收通知的用户和群组"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "添加用户或群组"
@@ -7259,9 +7268,15 @@
     "messageformat": "设置自定义通知配置可以控制在启用该配置时接收来自哪些用户和群组的通知。"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "现在您可以将聊天整理到易于自定义和重新排列的特定文件夹中。您可以使用聊天文件夹显示收藏用户的未读消息，按聊天类型（一对一和群组聊天）筛选聊天，或创建“个人”和“工作”等独立文件夹，以便快速查看与您相关的消息。"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "此次更新还修复了一个问题，当消息中包含表情符号时，该问题会阻止生成链接预览。对此我们要感谢<elias6></elias6>。"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

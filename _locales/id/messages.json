@@ -666,10 +666,10 @@
     "messageformat": "Terjadi kesalahan saat menyimpan struk. Silakan coba lagi."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Ditambahkan ke “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Dihapus dari “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Folder {chatFolderName} ditambahkan"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Buat folder"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Edit folder"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Nama folder"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} bukan pengguna Signal. Pastikan Anda memasukkan nama pengguna yang lengkap."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} bukan nama pengguna yang valid. Pastikan Anda telah memasukkan nama pengguna yang lengkap diikuti dengan set digit angkanya."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Pengguna tidak ditemukan. \"{phoneNumber}\" bukan pengguna Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Pesan stiker"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Polling: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Notifikasi Diizinkan"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Tambahkan orang dan grup yang ingin diterima notifikasinya saat profil ini aktif"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Tambahkan orang atau grup"
@@ -7259,9 +7268,15 @@
     "messageformat": "Siapkan profil notifikasi kustom untuk mengontrol orang dan grup mana yang notifikasinya ingin Anda terima saat profil tersebut diaktifkan. Buat profil \"Kerja\" untuk digunakan saat Anda hanya ingin menerima notifikasi dari rekan kerja, dan profil \"Istirahat\" saat Anda tidak ingin menerima notifikasi apa pun soal pekerjaan. Anda dapat mengubah profil notifikasi kapan saja atau atur jadwal agar profil bisa aktif/nonaktif secara otomatis."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Folder chat memungkinkan Anda mengatur organisasi, mengelompokkan grup, dan mempersonalisasi individu ke folder unik yang bisa diatur kustom dan ditata ulang. Gunakan folder untuk menampilkan pesan yang belum dibaca dari kontak favorit, memfilter berdasarkan jenis chat (pribadi dan grup), atau memisahkan folder seperti \"Personal\" dan \"Pekerjaan\" untuk membedakan urusan pekerjaan dan pribadi. Aktifkan folder chat di Pengaturan > Chat untuk memulai."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Pembaruan ini juga mencakup perbaikan bug untuk masalah pratinjau tautan yang kadang tidak bisa dibuat ketika pesannya berisi karakter emoji. Terima kasih, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

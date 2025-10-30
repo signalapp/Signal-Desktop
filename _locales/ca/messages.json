@@ -666,10 +666,10 @@
     "messageformat": "Error en guardar el rebut. Si us plau, torna-ho a provar."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "S'ha afegit a “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "S'ha eliminat de “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Carpeta \"{chatFolderName}\" afegida"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Crear una carpeta"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Editar carpeta"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Nom de la carpeta"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} no és un usuari de Signal. Assegura't d'haver introduït el seu àlies complet."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} no és un àlies vàlid. Assegurat que has escrit l'àlies complet seguit pel seu conjunt de dígits."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Usuari no trobat. \"{phoneNumber}\" no és un usuari del Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Missatge adhesiu"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Enquesta: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Notificacions permeses"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Afegeix aquelles persones i grups dels quals vols rebre notificacions i trucades quan aquest perfil estigui activat"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Afegeix persones o grups"
@@ -7259,9 +7268,15 @@
     "messageformat": "Configura perfils de notificacions personalitzats per controlar de quines persones i grups reps notificacions mentre aquest perfil estigui activat."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Amb les carpetes de xats, podràs agrupar o separar els teus xats en carpetes fàcils de personalitzar i reorganitzar. Utilitza les carpetes de xats perquè mostrin els missatges no llegits de les teves persones preferides, filtra per tipus de xat (individual o grupal) o separa els xats personals dels de feina per poder veure ràpidament els missatges importants."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Aquesta actualització també inclou una correcció d'errors per a un problema que impedia que es generessin vistes prèvies d'enllaços quan el missatge també incloïa caràcters emoji. Gràcies, <elias6></elias6>!"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

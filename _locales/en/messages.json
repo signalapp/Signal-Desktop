@@ -9667,11 +9667,11 @@
   },
   "icu:WhatsNew__7.77-1": {
     "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started.",
-    "description": " Release notes for 7.77 release"
+    "description": "(Deleted 2025/10/30)  Release notes for 7.77 release"
   },
   "icu:WhatsNew__7.77-2": {
     "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>",
-    "description": " Release notes for 7.77 release"
+    "description": "(Deleted 2025/10/30)  Release notes for 7.77 release"
   },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread.",

@@ -318,7 +318,7 @@
     "messageformat": "Uredi folder"
   },
   "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
-    "messageformat": "Dodaj folder"
+    "messageformat": "Dodaj u folder"
   },
   "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
     "messageformat": "Kreiraj folder"
@@ -666,10 +666,10 @@
     "messageformat": "Greška prilikom pohranjivanja računa. Molimo pokušajte ponovno."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Dodano u \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Uklonjeno iz \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Dodano foldera: {chatFolderName}."
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Kreiraj folder"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Uredi folder"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Naziv foldera"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} ne koristi Signal. Provjerite jeste li unijeli potpuno korisničko ime."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "{atUsername} nije važeće korisničko ime. Provjerite jeste li unijeli cijelo korisničko ime praćeno njegovim skupom brojki."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Korisnik nije pronađen. \"{phoneNumber}\" nije korisnik/ca Signala."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Poruka s naljepnicom"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Anketa: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Dopuštena obavještenja"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Dodajte osobe i grupe od kojih želite primati obavještenja kada je ovaj profil uključen"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Dodaj osobe ili grupe"
@@ -7259,9 +7268,15 @@
     "messageformat": "Postavite prilagođene profile za obavještenja kako biste kontrolirali od kojih osoba i grupa primate obavještenja kada je taj profil omogućen. Napravite profil \"Posao\" koji će držati kolege koje nisu s posla na distanci (s izuzetkom vašeg dragog/djevojke) i profil \"Neradno vrijeme\" koji neće uključivati vašeg šefa/šeficu. Možete prelaziti između profila obavještenja kad god želite ili konfigurirati raspored tako da se to događa automatski."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Sada možete organizovati svoje razgovore u jedinstvene foldere koje je lako prilagoditi i preurediti. Prikažite nepročitane poruke od svojih omiljenih osoba, filtrirajte po vrsti chata (1-na-1 i grupni) ili kreirajte odvojene foldere poput \"Lično\" i \"Posao\" kako biste brzo vidjeli poruke koje su vam relevantne. Aktivirajte foldere chata u Postavkama > Chatovi."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Ovo ažuriranje također uključuje ispravku greške koja je sprječavala generiranje pregleda linkova kada je poruka sadržavala emotikone. Hvala, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }

@@ -666,10 +666,10 @@
     "messageformat": "Lỗi khi lưu biên lai. Vui lòng thử lại."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Đã thêm vào “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Đã xóa khỏi “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Đã thêm thư mục {chatFolderName}"
@@ -1430,6 +1430,9 @@
   "icu:Preferences__EditChatFolderPage__Title": {
     "messageformat": "Tạo thư mục"
   },
+  "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
+    "messageformat": "Chỉnh sửa thư mục"
+  },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Tên thư mục"
   },
@@ -2156,6 +2159,9 @@
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} không phải là người dùng Signal. Hãy kiểm tra lại bạn đã nhập đầy đủ tên người dùng hay chưa."
   },
+  "icu:startConversation--username-not-valid": {
+    "messageformat": "Tên người dùng {atUsername} không hợp lệ. Đảm bảo rằng bạn đã nhập đầy đủ tên người dùng có dãy số phía sau."
+  },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Không tìm thấy người dùng. \"{phoneNumber}\" không phải là người dùng Signal."
   },
@@ -2308,6 +2314,9 @@
   },
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Nhãn dán tin nhắn"
+  },
+  "icu:message--getNotificationText--poll": {
+    "messageformat": "Hỏi ý kiến: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -5475,7 +5484,7 @@
     "messageformat": "Các thông báo được phép"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Thêm người và nhóm bạn muốn nhận thông báo khi cấu hình này được bật"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Thêm người hoặc nhóm"
@@ -7259,9 +7268,15 @@
     "messageformat": "Thiết lập cấu hình thông báo tùy chỉnh để kiểm soát những người và nhóm bạn nhận thông báo khi cấu hình đó được bật."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Giờ đây, bạn có thể sắp xếp các cuộc trò chuyện của mình vào những thư mục riêng biệt, dễ dàng tùy chỉnh và sắp xếp lại. Hãy sử dụng thư mục trò chuyện để hiển thị các tin nhắn chưa đọc từ những người bạn muốn, lọc theo loại cuộc trò chuyện (trò chuyện cá nhân và nhóm), hoặc tạo các thư mục riêng như “Cá nhân” và “Công việc” để nhanh chóng xem các tin nhắn liên quan."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Bản cập nhật này cũng sửa lỗi nội dung xem trước đường dẫn không được tạo ra khi tin nhắn đồng thời chứa cả ký tự emoji. Cảm ơn, <elias6></elias6>"
+  },
+  "icu:WhatsNew__7.78-1": {
+    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+  },
+  "icu:WhatsNew__7.78-2": {
+    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
   }
 }
