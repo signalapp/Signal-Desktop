@@ -1992,7 +1992,7 @@ export async function isGroupEligibleToMigrate(
     return false;
   }
 
-  const areWeMember = conversation.areWeAMember();
+  const areWeMember = conversation.areWeAGroupMember();
   if (!areWeMember) {
     return false;
   }

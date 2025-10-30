@@ -2186,7 +2186,7 @@ export async function startApp(): Promise<void> {
 
     if (isGroup(conversation.attributes)) {
       // We drop typing notifications in groups we're not a part of
-      if (!conversation.areWeAMember()) {
+      if (!conversation.areWeAGroupMember()) {
         log.warn(
           `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
         );

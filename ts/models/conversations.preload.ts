@@ -1411,7 +1411,7 @@ export class ConversationModel {
         return;
       }
 
-      if (!this.areWeAMember()) {
+      if (!isDirectConversation(this.attributes) && !this.areWeAGroupMember()) {
         log.warn(
           `sendTypingMessage(${this.idForLogging()}): not sending, we are not a member`
         );
@@ -5379,7 +5379,7 @@ export class ConversationModel {
     return areWeAdmin(this.attributes);
   }
 
-  areWeAMember(): boolean {
+  areWeAGroupMember(): boolean {
     return (
       !this.get('left') && this.hasMember(itemStorage.user.getCheckedAci())
     );

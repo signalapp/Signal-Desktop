@@ -327,7 +327,7 @@ export async function handleDataMessage(
       return;
     }
 
-    const areWeMember = conversation.areWeAMember();
+    const areWeMember = conversation.areWeAGroupMember();
 
     // Drop an incoming GroupV2 message if we or the sender are not part of the group
     //   after applying the message's associated group changes.
