@@ -318,7 +318,7 @@
     "messageformat": "Cuir fillteán in eagar"
   },
   "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsItem": {
-    "messageformat": "Cuir le fillteán"
+    "messageformat": "Cuir leis an bhfillteán"
   },
   "icu:LeftPane__ConversationListItem__ContextMenu__ChatFolderToggleChatsMenu__CreateFolderItem": {
     "messageformat": "Cruthaigh fillteán"
@@ -666,10 +666,10 @@
     "messageformat": "Earráid le sábháil na hadmhála. Triail arís."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Cuireadh le \"{chatFolderName}\" é"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Baineadh de \"{chatFolderName}\" é"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Fillteán {chatFolderName} curtha leis"
@@ -5475,7 +5475,7 @@
     "messageformat": "Fógraí ceadaithe"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Cuir daoine agus grúpaí leis, ónar mian leat fógraí a fháil nuair a bhíonn an phróifíl seo air"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Cuir daoine nó grúpaí leis"
@@ -7259,9 +7259,9 @@
     "messageformat": "Socraigh próifílí fógraí saincheaptha le fógraí a fhaigheann tú ó dhaoine agus grúpaí a rialú nuair a chumasaítear an phróifíl sin."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Le fillteáin comhráite, is féidir leat d'eagraíochtaí a eagrú, do ghrúpaí a ghrúpáil, agus a bhfillteáin uathúla féin, atá éasca a shaincheapadh agus a atheagrú, a chruthú do do dhaoine aonair. Taispeáin teachtaireachtaí neamhléite ó na daoine is fearr leat, scag de réir cineál comhrá (duine le duine agus grúpaí), nó cruthaigh fillteáin ar leith cosúil le \"Pearsanta\" agus \"Obair\" ionas gur féidir leat na teachtaireachtaí atá ábhartha duit a fheiceáil go tapa. Cumasaigh fillteáin comhráite i Socruithe > Comhráite le tosú."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Áirítear leis an nuashonrú seo freisin réiteach fabht ar fhadhb a chuir cosc ar réamhamhairc ar nasc a ghiniúint agus carachtair emoji sa teachtaireacht freisin. Go raibh maith agat, <elias6></elias6>"
   }
 }

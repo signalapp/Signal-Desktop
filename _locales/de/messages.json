@@ -666,10 +666,10 @@
     "messageformat": "Beim Speichern deiner Bescheinigung ist ein Fehler aufgetreten. Bitte versuche es erneut."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Zu »{chatFolderName}« hinzugefügt"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Aus »{chatFolderName}« entfernt"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Ordner {chatFolderName} hinzugefügt"
@@ -5475,7 +5475,7 @@
     "messageformat": "Erlaubte Benachrichtigungen"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Füge Personen und Gruppen hinzu, von denen du Benachrichtigungen empfangen möchtest, wenn dieses Profil aktiviert ist"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Personen oder Gruppen hinzufügen"
@@ -7259,9 +7259,9 @@
     "messageformat": "Richte individuelle Benachrichtigungsprofile ein und lege fest, welche Personen und Gruppen dir bei Aktivierung des Profils Benachrichtigungen schicken können. Erstelle ein «Arbeit»-Profil, damit persönliche Kontakte dich nicht ablenken können (mit Ausnahme deines Schatzes), und ein «Pause»-Profil, das deinen Chef ausschließt. Wann immer du willst kannst du zwischen Benachrichtigungsprofilen wechseln oder einen Zeitplan erstellen, damit das automatisch passiert."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Chat-Ordner helfen dir, deine Chats individuell in Ordner zu sortieren, die du immer wieder anpassen kannst. Lass dir ungelesene Nachrichten von Lieblingsmenschen anzeigen, filtere nach Chat-Art (Einzelchats und Gruppen) oder trenne Ordner in »Persönlich« und »Arbeit«, damit du immer die relevanten Nachrichten siehst. Aktiviere Chat-Ordner in Einstellungen > Chats, um loszulegen."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "• Das Update behebt einen Fehler, der dazu führte, dass Link-Vorschauen nicht angezeigt werden konnten, wenn die Nachricht Emoji-Zeichen enthielt. Danke, <elias6></elias6>"
   }
 }

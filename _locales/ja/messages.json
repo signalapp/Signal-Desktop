@@ -666,10 +666,10 @@
     "messageformat": "領収書が保存できませんでした。もう一度お試しください。"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "「{chatFolderName}」に追加しました"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "「{chatFolderName}」から削除しました"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "「{chatFolderName}」のフォルダが追加されました"
@@ -5475,7 +5475,7 @@
     "messageformat": "通知許可"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "モードがオンのときに通知を受け取りたい相手やグループを追加してください"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "人またはグループを追加"
@@ -7259,9 +7259,9 @@
     "messageformat": "通知モードを自分仕様に設定して、モードが有効なときに通知を受け取る相手やグループをコントロールしましょう。"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "チャットを固有のフォルダに振り分けて、カスタマイズや整理することが簡単にできるようになりました。チャットフォルダを使うと、お気に入りの相手の未読メッセージを表示したり、チャットの種類（1対1やグループ）でフィルタリングしたり、「個人用」や「仕事用」といったフォルダを個別に作成して、自分に関係するメッセージをすばやく確認したりできます。"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "このアップデートには、メッセージに絵文字が含まれている場合にリンクプレビューが生成されなかったバグの修正も含まれています。ありがとうございます、<elias6></elias6>"
   }
 }

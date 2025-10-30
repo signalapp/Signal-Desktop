@@ -666,10 +666,10 @@
     "messageformat": "Qəbz yaddaşda saxlanılarkən xəta baş verdi. Yenidən cəhd edin."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” qovluğuna əlavə edildi"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” qovluğundan çıxarıldı"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} adlı qovluq əlavə edildi"
@@ -5475,7 +5475,7 @@
     "messageformat": "İcazə verilən bildirişlər"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Bu profil aktiv olduqda bildiriş almaq istədiyiniz şəxsləri və qrupları əlavə edin"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Şəxsləri və ya qrupları əlavə edin"
@@ -7259,9 +7259,9 @@
     "messageformat": "Profili aktivləşdikdə haqlarında bildiriş almaq istədiyiniz insanları və qrupları idarə etmək üçün xüsusi bildiriş profilləri quraşdırın. Həmkarlarınız olmayan şəxsləri (sevgiliniz istisna olmaqla) uzaq tutan bir \"İş\" profili ve müdirinizin olmadığı bir \"Boş vaxt\" profili yaradın. İstədiyiniz vaxt bildiriş profillləri arasında keçid edə, yaxud da bunun avtomatik baş verməsi üçün bir qrafik konfiqurasiya edə bilərsiniz."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Çat qovluqları ilə asanlıqla fərdiləşdirilən və tənzimlənən ayrı-ayrı qovluqlarda təşkilatları qaydaya sala, qrupları ayıra və şəxsləri fərdiləşdirə bilərsiniz. Sevdiklərinizdən gələn oxunmamış mesajlara baxın, çat növünə görə filtrləyin (1-ə 1 və qruplar), yaxud da \"Şəxsi\" və \"İş\" kimi ayrıca qovluqlar yaradın ki, sizə uyğun mesajlara vaxt itirmədən baxa biləsiniz. Başlamaq üçün Parametrlər > Çatlar bölməsinə keçərək çat qovluqlarını aktivləşdirin."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Bu yeniləmə həmçinin mesaja emojilər daxil edildikdə keçidə önbaxışın yaradılmasına mane olan nasazlığın aradan qaldırılmasını əhatə edir. Təşəkkürlər, <elias6></elias6>"
   }
 }

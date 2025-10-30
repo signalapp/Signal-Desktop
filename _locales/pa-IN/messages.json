@@ -666,10 +666,10 @@
     "messageformat": "ਰਸੀਦ ਨੂੰ ਸੇਵ ਕਰਨ ਵੇਲੇ ਗੜਬੜ ਹੋਈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "“{chatFolderName}” ਵਿੱਚੋਂ ਹਟਾਇਆ ਗਿਆ"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ਫੋਲਡਰ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ"
@@ -5475,7 +5475,7 @@
     "messageformat": "ਸੂਚਨਾਵਾਂ ਦੀ ਇਜਾਜ਼ਤ ਹੈ"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "ਉਹਨਾਂ ਲੋਕਾਂ ਅਤੇ ਗਰੁੱਪਾਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰੋ ਜਿਹਨਾਂ ਦੀਆਂ ਸੂਚਨਾਵਾਂ ਤੁਸੀਂ ਇਸ ਪ੍ਰੋਫ਼ਾਈਲ ਦੇ ਚਾਲੂ ਹੋਣ ਦੌਰਾਨ ਪ੍ਰਾਪਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "ਲੋਕਾਂ ਜਾਂ ਗਰੁੱਪਾਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰੋ"
@@ -7259,9 +7259,9 @@
     "messageformat": "ਕਸਟਮ ਸੂਚਨਾ ਪ੍ਰੋਫ਼ਾਈਲ ਨੂੰ ਸੈੱਟ-ਅੱਪ ਕਰੋ ਤਾਂ ਜੋ ਇਹ ਕੰਟਰੋਲ ਕੀਤਾ ਜਾ ਸਕੇ ਕਿ ਪ੍ਰੋਫ਼ਾਈਲ ਦੇ ਸਮਰੱਥ ਹੋਣ 'ਤੇ ਤੁਹਾਨੂੰ ਕਿਹੜੇ ਲੋਕਾਂ ਅਤੇ ਗਰੁੱਪਾਂ ਤੋਂ ਸੂਚਨਾਵਾਂ ਪ੍ਰਾਪਤ ਹੋਣਗੀਆਂ।"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਆਪਣੀਆਂ ਚੈਟਾਂ ਨੂੰ ਵਿਲੱਖਣ ਫੋਲਡਰਾਂ ਵਿੱਚ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ ਜਿਹਨਾਂ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਕਸਟਮਾਈਜ਼ ਅਤੇ ਮੁੜ-ਵਿਵਸਥਿਤ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ। ਆਪਣੇ ਮਨਪਸੰਦ ਲੋਕਾਂ ਦੇ ਨਹੀਂ-ਪੜ੍ਹੇ ਗਏ ਸੁਨੇਹਿਆਂ ਨੂੰ ਦਿਖਾਉਣ ਲਈ ਚੈਟ ਫੋਲਡਰਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ, ਚੈਟ ਦੀ ਕਿਸਮ (ਇੱਕ ਵਿਅਕਤੀ ਨਾਲ ਚੈਟ ਅਤੇ ਗਰੁੱਪ ਚੈਟ) ਅਨੁਸਾਰ ਫਿਲਟਰ ਕਰੋ, ਜਾਂ \"ਨਿੱਜੀ\" ਅਤੇ \"ਕੰਮ\" ਵਰਗੇ ਵੱਖਰੇ ਫੋਲਡਰ ਬਣਾਓ ਤਾਂ ਜੋ ਤੁਸੀਂ ਢੁਕਵੇਂ ਸੁਨੇਹਿਆਂ ਨੂੰ ਫਟਾਫਟ ਦੇਖ ਸਕੋ। ਸ਼ੁਰੂਆਤ ਕਰਨ ਲਈ ਸੈਟਿੰਗਾਂ > ਚੈਟਸ ਵਿੱਚ ਚੈਟ ਫੋਲਡਰਾਂ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ।"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਇੱਕ ਖ਼ਰਾਬੀ ਦਾ ਹੱਲ ਵੀ ਸ਼ਾਮਲ ਹੈ, ਜੋ ਸੁਨੇਹੇ ਵਿੱਚ ਇਮੋਜੀ ਦੇ ਸ਼ਾਮਲ ਹੋਣ 'ਤੇ ਲਿੰਕ ਦੀ ਝਲਕ ਤਿਆਰ ਹੋਣ ਤੋਂ ਰੋਕਦੀ ਸੀ। ਧੰਨਵਾਦ, <elias6></elias6>"
   }
 }

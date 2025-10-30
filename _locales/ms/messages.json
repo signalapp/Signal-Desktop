@@ -666,10 +666,10 @@
     "messageformat": "Ralat menyimpan resit. Sila cuba lagi."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Ditambah ke \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Dialih keluar daripada \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Folder {chatFolderName} ditambah"
@@ -5475,7 +5475,7 @@
     "messageformat": "Benarkan pemberitahuan"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Tambah orang dan kumpulan yang anda ingin terima pemberitahuan apabila profil ini dihidupkan"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Tambah orang atau kumpulan"
@@ -7259,9 +7259,9 @@
     "messageformat": "Tetapkan profil pemberitahuan tersuai untuk mengawal orang dan kumpulan yang anda ingin terima pemberitahuan apabila profil tersebut didayakan."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Kini anda boleh menyusun sembang anda ke dalam folder unik yang mudah disesuaikan dan diatur semula. Gunakan folder sembang untuk memaparkan mesej belum dibaca daripada orang kegemaran anda, menapis mengikut jenis sembang (1-dengan-1 dan kumpulan), atau mencipta folder berasingan seperti “Peribadi” dan “Kerja” supaya anda dapat melihat mesej yang berkaitan dengan lebih cepat. Dayakan folder sembang dalam Tetapan > Sembang untuk bermula."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Kemas kini ini turut membetulkan pepijat yang menghalang pratonton pautan daripada dijana apabila mesej mengandungi aksara emoji. Terima kasih, <elias6></elias6>"
   }
 }

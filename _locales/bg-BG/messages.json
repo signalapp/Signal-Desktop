@@ -666,10 +666,10 @@
     "messageformat": "Грешка при запазването на разписката. Моля, опитайте отново."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Добавен към „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Премахнат от „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Папката „{chatFolderName}“ е добавена"
@@ -5475,7 +5475,7 @@
     "messageformat": "Разрешени известия"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Добавете хора и групи, от които искате да получавате известия, когато този профил е включен"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Добавяне на хора или групи"
@@ -7259,9 +7259,9 @@
     "messageformat": "Настройте персонализирани профили за известия, за да контролирате от кои хора и групи получавате известия, когато даденият профил е активиран."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Сега можете да организирате чатовете си в уникални папки, които лесно се персонализират и пренареждат. Използвайте папките за чат, за да покажете непрочетените съобщения от любимите си хора, да филтрирате по тип чат (1-на-1 и групи) или за да създадете отделни папки като „Лични“ и „Работа“, за да можете бързо да видите съобщенията, които са важни за вас."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Тази актуализация също така включва отстранен бъг, който не позволяваше да се генерират прегледи на линкове, когато в съобщението има и емотикони. Благодарим, <elias6></elias6>"
   }
 }

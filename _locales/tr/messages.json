@@ -666,10 +666,10 @@
     "messageformat": "Makbuz kaydedilirken hata oluştu. Lütfen tekrar dene."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" klasörüne eklendi"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" klasöründen kaldırıldı"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} klasör eklendi"
@@ -5475,7 +5475,7 @@
     "messageformat": "İzin verilen bildirimler"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Bu profil açıkken bildirim almak istediğin kişileri ve grupları ekle"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Kişi veya grup ekle"
@@ -7259,9 +7259,9 @@
     "messageformat": "Bu profil etkinleştirildiğinde, hangi kişi ve gruplardan bildirim alacağını kontrol etmek için özel bildirim profilleri oluştur. İş arkadaşların için bir \"İş\" profili ve kendine ait bir \"Boş Zaman\" profili oluşturabilirsin. Bildirim profilleri arasında istediğin zaman geçiş yapabilir veya bunun otomatik olarak gerçekleşmesi için bir program yapılandırabilirsin."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Bundan böyle sohbetlerini, özelleştirilmesi ve yeniden düzenlenmesi kolay, benzersiz klasörler halinde düzenleyebilirsin. Sohbet klasörlerini; favori kişilerinden gelen okunmamış mesajları görüntülemek, sohbet türüne göre filtrelemek (bire bir ve gruplar) veya \"Kişisel\" ve \"İş\" gibi ayrı klasörler oluşturarak seninle ilgili mesajları hızlıca görmek için kullanabilirsin. Başlamak için Ayarlar > Sohbetler bölümündeki sohbet klasörlerini etkinleştir."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Bu güncelleme, mesaj emoji karakterleri de içerdiğinde bağlantı ön izlemelerinin oluşturulmasını engelleyen bir hatanın düzeltmesini de içerir. Teşekkürler, <elias6></elias6>"
   }
 }

@@ -666,10 +666,10 @@
     "messageformat": "Fel vid sparande av kvitto. Försök igen."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Tillagd i “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Borttagen från \"{chatFolderName} \""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Mappen {chatFolderName} har lagts till"
@@ -5475,7 +5475,7 @@
     "messageformat": "Tillåtna aviseringar"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Lägg till personer och grupper som du vill få aviseringar från när den här profilen är aktiverad"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Lägg till personer eller grupper"
@@ -7259,9 +7259,9 @@
     "messageformat": "Skapa anpassade aviseringsprofiler för att styra vilka personer och grupper du får aviseringar från när profilen är aktiverad."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Nu kan du organisera dina chattar i unika mappar som är lätta att anpassa och ordna om. Använd chattmappar för att visa olästa meddelanden från dina favoritpersoner, filtrera efter chattyp (en-till-en och grupper), eller skapa separata mappar som ”Personligt” och ”Arbete” så att du snabbt kan se de meddelanden som är relevanta för dig."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Den här uppdateringen innehåller även en buggfix för ett problem som förhindrade att länkförhandsgranskningar genererades när meddelandet även innehöll emoji-tecken. Tack, <elias6></elias6>"
   }
 }

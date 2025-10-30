@@ -666,10 +666,10 @@
     "messageformat": "No se ha podido guardar el recibo. Inténtalo de nuevo."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Añadido a \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Eliminado de \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Carpeta añadida: {chatFolderName}"
@@ -5475,7 +5475,7 @@
     "messageformat": "Notificaciones permitidas"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Añade personas y grupos de los que quieras recibir notificaciones cuando este perfil esté activado"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Añadir personas o grupos"
@@ -7259,9 +7259,9 @@
     "messageformat": "Configura perfiles de notificaciones personalizados para elegir de qué personas y grupos quieres recibir notificaciones cuando ese perfil esté activado. Crea un perfil de \"Trabajo\" para que tus amigos y familia no te distraigan mientras estás en la oficina, y un perfil de \"Desconexión\" que deje fuera a tu jefe. Puedes cambiar de un perfil a otro cuando quieras, o configurar un horario para que se cambie automáticamente."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Con las carpetas de chats puedes organizar, agrupar y personalizar tus conversaciones de forma sencilla y reordenarlas como prefieras. Úsalas para ver los mensajes no leídos de tus personas favoritas, filtrar por tipo de chat (individual o grupal) o separar los chats personales de los de trabajo y encontrar al momento ese mensaje que necesitas tener a mano. Para empezar a usar las carpetas de chats, actívalas en Ajustes > Chats."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Esta actualización también corrige un error que impedía que se generara la vista previa de un enlace cuando el mensaje incluía caracteres de emojis. ¡Gracias, <elias6></elias6>!"
   }
 }

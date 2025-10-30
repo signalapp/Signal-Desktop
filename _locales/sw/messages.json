@@ -666,10 +666,10 @@
     "messageformat": "Hitilafu katika kuhifadhi risiti. Tafadhali jaribu tena."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Imewekwa kwenye “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Imeondolewa kwenye “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Folda ya {chatFolderName} imeongezwa"
@@ -5475,7 +5475,7 @@
     "messageformat": "Arifa zinazoruhusiwa"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Ongeza watu na vikundi ambavyo unataka kupokea arifa zao wasifu huu ukiwashwa"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Ongeza watu au vikundi"
@@ -7259,9 +7259,9 @@
     "messageformat": "Weka mipangilio maalum ya wasifu wa arifa ili udhibiti watu na vikundi gani utapokea arifa kutoka kwao wasifu utakapowashwa. Tengeneza wasifu wa “Kazini\" ambao unawazuia watu wasio wafanyakazi wenzio (isipokuwa tu mpenzi wako) na wasifu wa “Muda Tulivu” usiomhusisha bosi wako. Unaweza kubadili kati ya wasifu wa arifa wakati wowote unapotaka au kuweka mipangilio ili itokee kiotomatiki."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Folda za gumzo zinakuwezesha kupanga mashirika yako, kuweka vikundi vyako katika makundi na kuwapanga watu binafsi katika folda za kipekee ambazo ni rahisi kuziwekea mapendeleo na kuzipanga upya. Onyesha ujumbe ambao haujasomwa kutoka kwa watu unaowapenda, chuja kwa aina ya gumzo (na mtu mmoja mmoja na vikundi), au tengeneza folda tofauti kama \"Binafsi\" na \"Kazi\" ili uweze kuona haraka ujumbe ambao ni muhimu kwako. Fungua folda za magumzo katika Mipangilio > Magumzo ili uanze."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Sasisho hili pia linajumuisha urekebishaji wa hitilafu kwa tatizo ambalo lilizuia viungo vya ukaguzi visitayarishwe ilhali ujumbe pia ulijumuisha emoji. Asante, <elias6></elias6>"
   }
 }

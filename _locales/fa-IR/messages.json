@@ -666,10 +666,10 @@
     "messageformat": "خطا در ذخیره رسید. لطفاً دوباره امتحان کنید."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "به «{chatFolderName}» افزوده شد"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "از «{chatFolderName}|» حذف شد"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "پوشه {chatFolderName} اضافه شد"
@@ -5475,7 +5475,7 @@
     "messageformat": "اعلان‌ها‌ی مجاز"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "افراد و گروه‌هایی را اضافه کنید که می‌خواهید هنگام فعال بودن این پروفایل، اعلان‌هایشان را دریافت کنید"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "افزودن افراد یا گروه‌ها"
@@ -7259,9 +7259,9 @@
     "messageformat": "پروفایل‌های اعلان سفارشی ایجاد کنید تا کنترل کنید از چه افراد و گروه‌هایی هنگام فعال بودن آن پروفایل، اعلان دریافت می‌کنید."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "پوشه‌های گفتگو به شما امکان می‌دهند سازمان‌ها، گروه‌ها و افراد مدنظر خود را در پوشه‌های جداگانه سازماندهی کنید که به‌راحتی قابل سفارشی‌سازی و تنظیم مجدد هستند. پیام‌های خوانده‌نشده از افراد موردعلاقه‌تان را نمایش دهید، بر حسب نوع گفتگو فیلتر کنید (یک به یک یا گروهی)، یا پوشه‌هایی مانند «شخصی» و «کاری» ایجاد کنید تا بتوانید پیام‌های مرتبط با خود را سریع ببینید. برای شروع، پوشه‌های گفتگو را در «تنظیمات > گفتگوها» فعال کنید."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "این نسخه جدید شامل رفع اشکالی که مانع می‌شد وقتی پیام حاوی نویسه‌های ایموجی است، پیش‌نمایش‌های پیوند تولید شوند. متشکریم، <elias6></elias6>"
   }
 }

@@ -666,10 +666,10 @@
     "messageformat": "Pogreška pri spremanju računa. Molimo, pokušajte ponovno."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Dodano u mapu „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Uklonjeno iz mape „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Dodana je mapa „{chatFolderName}“"
@@ -5475,7 +5475,7 @@
     "messageformat": "Dopusti obavijesti"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Dodajte osobe i grupe od kojih želite primati obavijesti kada je ovaj profil uključen"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Dodaj ljude ili grupe"
@@ -7259,9 +7259,9 @@
     "messageformat": "Postavite prilagođene profile za obavijesti kako biste odredili od kojih ćete osoba i grupa primati obavijesti kada je taj profil uključen."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Sada možete organizirati svoje razgovore u jedinstvene mape koje je lako prilagoditi i premještati. Mape razgovora možete koristiti za prikaz nepročitanih poruka svojih omiljenih kontakata, filtriranje prema vrsti razgovora (jedan na jedan ili grupni) ili za stvaranje odvojenih mapa, npr. \"Osobno\" i \"Posao\", kako biste brzo vidjeli poruke koje su vam relevantne. Za početak korištenja mapa razgovora idite na Postavke > Razgovori."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Ovo ažuriranje također uključuje ispravak programske pogreške koja je sprječavala generiranje pregleda poveznica kada je poruka sadržavala emotikone. Hvala ti, <elias6></elias6>"
   }
 }

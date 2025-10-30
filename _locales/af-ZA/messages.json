@@ -666,10 +666,10 @@
     "messageformat": "Fout tydens stoor van kwitansie. Probeer asb. weer."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Bygevoeg by “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Verwyder uit “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} vouer bygevoeg"
@@ -5475,7 +5475,7 @@
     "messageformat": "Toegelate kennisgewings"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Voeg mense en groepe by van wie jy kennisgewings wil ontvang wanneer hierdie profiel aktief is"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Voeg mense of groepe toe"
@@ -7259,9 +7259,9 @@
     "messageformat": "Stel pasgemaakte kennisgewingprofiele op om te beheer van watter mense en groepe jy kennisgewings ontvang wanneer daardie profiele geaktiveer is."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Jy kan nou jou kletse in unieke vouers organiseer wat maklik is om aan te pas en te herrangskik. Gebruik kletsvouers om ongeleesde boodskappe van jou gunstelingmense te vertoon, volgens kletstipe te filtreer (een-tot-een of groepe) of afsonderlike vouers soos \"Persoonlik\" of \"Werk\" te skep, sodat jy vinnig boodskappe kan sien wat vir jou toepaslik is. Aktiveer kletsvouers in Instellings > Kletse om te begin."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Hierdie opdatering sluit ook 'n foutregstelling in vir 'n probleem wat verhoed het dat skakelvoorskoue gegenereer word indien die boodskap ook emoji-karakters ingesluit het. Dankie, <elias6></elias6>"
   }
 }

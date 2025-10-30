@@ -666,10 +666,10 @@
     "messageformat": "Napaka pri shranjevanju računa. Prosimo, poskusite znova."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Dodano v »{chatFolderName}«"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Odstranjeno iz »{chatFolderName}«"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} mapa dodana"
@@ -5475,7 +5475,7 @@
     "messageformat": "Dovoljena obvestila"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Dodajte osebe in skupine, od katerih želite prejemati obvestila, ko je ta profil vklopljen"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Dodaj uporabnike_ce ali skupine"
@@ -7259,9 +7259,9 @@
     "messageformat": "Nastavite profile za obvestila po meri, da lahko nadzorujete, od katerih ljudi in skupin prejemate obvestila, ko je ta profil omogočen. Ustvarite profil »Delo«, ki bo odvrnil ljudi, ki niso sodelavci (z izjemo vašega ljubljenega), in profil »Prosti čas«, ki ne bo vključeval vašega šefa. Med profili za obvestila lahko preklapljate kadarkoli želite ali pa konfigurirate urnik, da se to zgodi samodejno."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Z mapami klepetov lahko organizirate svoje organizacije, združite skupine in razporedite posameznike v edinstvene mape, ki jih je možno enostavno prilagoditi in preurediti. Prikažite neprebrana sporočila svojih najljubših oseb, filtrirajte po vrsti klepeta (individualni in skupinski) ali ustvarite ločene mape, kot sta »Osebno« in »Služba«, da si lahko hitro ogledate sporočila, ki so za vas pomembna. Za začetek omogočite mape klepetov v Nastavitvah > Klepeti."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Ta posodobitev vključuje tudi popravek napake, ki je preprečevala ustvarjanje predogledov povezav, ko je sporočilo vsebovalo tudi emojije. Hvala, <elias6></elias6>"
   }
 }

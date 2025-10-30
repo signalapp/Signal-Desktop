@@ -666,10 +666,10 @@
     "messageformat": "حدث خطأ أثناء حفظ الإيصال. يُرجى المُحاولة مرّة أخرى."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "تمَّت الإضافة إلى \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "تمَّت الإزالة من \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "مجلد {chatFolderName} مُضَاف"
@@ -5475,7 +5475,7 @@
     "messageformat": "الإشعارات المسموح بها"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "أضِف الأشخاص والمجموعات التي تريد أن تستلم إشعارات من طرفهم عند تفعيل هذا الحساب الشخصي."
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "إضافة اﻷفراد أو المجموعات"
@@ -7259,9 +7259,9 @@
     "messageformat": "قُم بإعداد ملفات إشعارات شخصية مُخصصة للتحكُّم في الأشخاص والمجموعات التي تتلقّى إشعارات منها عند تفعيل ذلك الملف الشخصي. أنشئ ملف إشعارات \"للعمل\" تُبقي فيه الأشخاص غير زملائك في العمل بعيدًا (باستثناء حبيبك/حبيبتك) وملفًا شخصيًا \"لوقت الراحة\" لا يضُم رئيسك في العمل. يُمكنك التبديل بين ملفات الإشعارات الشخصية وقتما شئت، أو إعداد جدول زمني لكي يتم ذلك تلقائيًا."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "يُمكنك الآن تنظيم محادثاتك داخل مجلدات سهلة التنظيم والتخصيص. استخدِم مجلدات الدردشة لعرض الرسائل غير المقروءة من الأشخاص المفضلين لديك. يمكنك فلترة الدردشات بحسب النوع سواء فردية أو جماعية، أو إنشاء مجلدات منفصلة مثل \"شخصي\" أو \"عمل\"، لتتمكّن من الوصول سريعًا إلى الرسائل التي تهمك. يمكنك تفعيل \"مجلدات الدردشة\" في \"الإعدادات\" > \"الدردشات\" للبدء."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "يتضمّن هذا التحديث أيضًا إصلاحًا لخلل كان يمنع ظهور عرض مُسبَق للروابط عند احتواء الرسالة على رموز تعبيرية أيضًا. شكرًا، <elias6></elias6>"
   }
 }

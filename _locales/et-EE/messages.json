@@ -666,10 +666,10 @@
     "messageformat": "Viga kviitungi salvestamisel. Palun proovi uuesti."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Lisatud kausta „{chatFolderName}”"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Eemaldatud kaustast „{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Lisatud kaust: „{chatFolderName}“"
@@ -5475,7 +5475,7 @@
     "messageformat": "Lubatud teavitused"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Lisa inimesed ja grupid, kelle teavitusi tahad läbi lasta, kui see profiil aktiivne on"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Lisa inimesi või gruppe"
@@ -7259,9 +7259,9 @@
     "messageformat": "Seadista kohandatud teavituste profiilid, et hallata, millistelt inimestelt ja gruppidelt sa profiili sisselülitamisel teateid saad."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Nüüd saad sorteerida oma vestlused eraldi kaustadesse, mida on lihtne muuta ja hallata. Vestluste kaustade abil näed oma lemmikkontaktide saadetud lugemata sõnumeid, saad filtreerida vestlusi tüübi alusel (privaatsed ja grupid), või luua eraldi kaustasid nagu Isiklik ja Töö, et asjakohaseid sõnumeid kiiresti näha. Alustamiseks luba vestluste kaustad valiku alt Sätted > Vestlused."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "See uuendus sisaldab ka veaparandust probleemile, mis takistas linkide eelvaadete genereerimist, kui sõnum sisaldas ka emotikone. Aitäh, <elias6></elias6>!"
   }
 }

@@ -666,10 +666,10 @@
     "messageformat": "영수증을 저장하는 중 오류가 발생했습니다. 다시 시도해 주세요."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\"에 추가함"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\"에서 제거함"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} 폴더를 추가했습니다"
@@ -5475,7 +5475,7 @@
     "messageformat": "알림 허용"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "이 프로필을 사용할 때 알림을 받을 사람과 그룹을 추가하세요"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "사용자 또는 그룹 추가"
@@ -7259,9 +7259,9 @@
     "messageformat": "맞춤 알림 프로필을 설정해 프로필별로 알림을 받을 사람과 그룹을 선택하세요."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "이제 고유 폴더로 대화를 정리하여 간편하게 사용자 지정하고 재정렬할 수 있습니다. 대화 폴더를 사용하여 즐겨 찾는 사용자에게서 온 읽지 않은 메시지를 표시하거나, 1대1, 그룹 등 대화 유형별로 필터링하거나, '개인'이나 '직장' 같은 개별 폴더를 만들어 나와 관련 있는 메시지를 빠르게 확인해 보세요."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "이번 업데이트에서는 메시지에 이모티콘 문자가 포함된 경우 링크 미리 보기가 생성되지 않던 문제도 수정되었습니다. <elias6></elias6> 님, 감사합니다."
   }
 }

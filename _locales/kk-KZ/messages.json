@@ -666,10 +666,10 @@
     "messageformat": "Түбіртекті сақтау кезінде қате шықты. Қайталап көріңіз."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" қалтасына қосылды"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" қалтасынан жойылды"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} қалтасы қосылды"
@@ -5475,7 +5475,7 @@
     "messageformat": "Рұқсат етілген хабарландырулар"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Осы профиль қосылып тұрғанда, хабарландырулар алғыңыз келетін адамдар мен топтарды қосыңыз"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Адамдарды немесе топтарды қосу"
@@ -7259,9 +7259,9 @@
     "messageformat": "Бұл профиль қосылғанда, хабарландырулар алғыңыз келетін адамдар мен топтарды басқару үшін арнаулы хабарландыру профильдерін реттеңіз. Әріптестеріңізден басқа бөгде адамдарды (сүйіктіңізді қоспағанда) жолатпайтын \"Жұмыс\" профилін, ал бастығыңыз қосылмаған \"Бос уақыт\" профилін жасаңыз. Хабарландыру профильдерін қалаған уақытыңызда ауыстыра аласыз немесе кестені конфигурациялап, автоматты түрде ауысатындай етуге болады."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Чат қалталары ұйымдарды реттеуге, топтарды жүйелеуге және адамдарды ерекшелендіруге мүмкіндік береді. Барлығы да оңай реттелетін және бейімделетін бірегей қалталарда жинақталады. Таңдаулылар тізіміне қосылған адамдардан келген оқылмаған хабарларды көрсетіңіз, чат түрі (жеке және топтар) бойынша іріктеңіз немесе \"Жеке\" және \"Жұмыс\" сияқты бөлек қалталар жасап, тиісті хабарларды жылдам көріңіз. Бастау үшін \"Параметрлер > Чаттар\" тармағында чат қалталарын қосыңыз."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Бұл жаңа нұсқада эмоджи таңбалары бар хабарда сілтеменің алғы нұсқасын жасауға кедергі келтіретін ақау да түзетілді. Рақмет, <elias6></elias6>"
   }
 }

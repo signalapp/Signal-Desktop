@@ -666,10 +666,10 @@
     "messageformat": "রিসিপ্ট সংরক্ষণ করার সময় ত্রুটি দেখা দিয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\"-এ যোগ করা হয়েছে"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "\"{chatFolderName}\" থেকে সরানো হয়েছে"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ফোল্ডার যোগ করা হয়েছে"
@@ -5475,7 +5475,7 @@
     "messageformat": "অনুমোদিত নোটিফিকেশন"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "প্রোফাইল চালু থাকা অবস্থায় আপনি যেসকল ব্যক্তি ও গ্ৰুপের নোটিফিকেশন পেতে চান সেগুলো যোগ করুন"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "ব্যক্তি অথবা গ্ৰুপ যোগ করুন"
@@ -7259,9 +7259,9 @@
     "messageformat": "প্রোফাইলটি সক্রিয় থাকাকালীন আপনি কোন কোন ব্যক্তি ও গ্রুপ থেকে নোটিফিকেশন পাবেন তা নিয়ন্ত্রণ করতে কাস্টম নোটিফিকেশন প্রোফাইল সেট আপ করুন।"
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "চ্যাট ফোল্ডার আপনাকে আপনার প্রতিষ্ঠানগুলোকে সুসংগঠিত করতে, আপনার গ্ৰুপগুলোকে গ্ৰুপবদ্ধ করতে এবং আপনার কাছের ব্যক্তিদেরকে আলাদা ফোল্ডারে পৃথকভাবে সাজানোর সুযোগ দেয়, যা কাস্টমাইজ ও পুনর্বিন্যাস করা সহজ। আপনার পছন্দের ব্যক্তিদের অপঠিত মেসেজ দেখুন, চ্যাটের ধরন অনুসারে ফিল্টার করুন (সরাসরি ব্যক্তি ও গ্রুপ), অথবা \"ব্যক্তিগত\" ও \"কর্মক্ষেত্র\"-এর মতো পৃথক ফোল্ডার তৈরি করুন যাতে আপনি আপনার জন্য প্রাসঙ্গিক মেসেজ দ্রুত দেখতে পারেন। শুরু করতে 'সেটিংস > চ্যাট' থেকে চ্যাট ফোল্ডারগুলো সক্রিয় করুন।"
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "এই আপডেটে একটি বাগ সংশোধনও অন্তর্ভুক্ত করা হয়েছে, যা মেসেজে ইমোজি ক্যারেক্টার অন্তর্ভুক্ত করার সময় লিংক প্রিভিউ তৈরি হতে বাধা দিতো। ধন্যবাদ, <elias6></elias6>"
   }
 }

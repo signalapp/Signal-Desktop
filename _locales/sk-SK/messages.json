@@ -666,10 +666,10 @@
     "messageformat": "Pri ukladaní potvrdenia sa vyskytla chyba. Skúste to znova."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Pridané do priečinka „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Odstránené z priečinka „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Bol pridaný priečinok {chatFolderName}"
@@ -5475,7 +5475,7 @@
     "messageformat": "Povolené upozornenia"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Pridajte ľudí a skupiny, od ktorých chcete dostávať upozornenia, keď je tento profil zapnutý"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Pridať ľudí alebo skupiny"
@@ -7259,9 +7259,9 @@
     "messageformat": "Nastavte si vlastné profily upozornení, aby ste mali pod kontrolou, od ktorých ľudí a skupín budete dostávať upozornenia, keď je daný profil povolený."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Teraz si môžete usporiadať čety do jedinečných priečinkov, ktoré sa dajú ľahko prispôsobiť a preusporiadať. Použite priečinky četov na zobrazenie neprečítaných správ od blízkych, filtrovanie podľa typu četu (1:1 a skupiny) alebo vytvorenie samostatných priečinkov, ako napríklad „Osobné“ či „Práca“, aby ste si rýchlo pozreli správy, ktoré sú pre vás relevantné."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Táto aktualizácia taktiež opravuje chybu, ktorá bránila generovaniu náhľadov odkazov, keď správa obsahovala emotikony. Ďakujeme, <elias6></elias6>"
   }
 }

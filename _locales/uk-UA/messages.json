@@ -666,10 +666,10 @@
     "messageformat": "Під час збереження підтвердження сталася помилка. Будь ласка, спробуйте знову."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Додано до папки «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Вилучено з папки «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Додано папку «{chatFolderName}»"
@@ -5475,7 +5475,7 @@
     "messageformat": "Від кого надходять сповіщення"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Додайте людей і групи, від яких бажаєте отримувати сповіщення, коли цей профіль увімкнено"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Додати людей або групи"
@@ -7259,9 +7259,9 @@
     "messageformat": "Створюйте власні профілі сповіщень і отримуйте сповіщення лише від обраних людей і груп, коли профіль увімкнено. Створіть профіль «Робота» суто для колег (і своєї половинки, звісно) і профіль «Відпочинок», де начальника точно не буде. Перемикайтеся між профілями сповіщень, коли забажаєте, або встановіть графік, щоб у потрібний час профіль активувався сам."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Тепер ви можете групувати свої групи, організовувати організації та систематизувати системи знайомих по унікальних папках для чатів. Швидко переглядайте найважливіші непрочитані повідомлення, розділяйте розмови на особисті й групові та майте зручний доступ до окремих папок, наприклад «Друзі» чи «Робота». Щоб увімкнути папки для чатів, відкрийте налаштування > Чати."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "У цьому оновленні ми також виправили помилку, через яку попередній вигляд посилань не з'являвся, якщо повідомлення містило емоджі. Дякуємо, <elias6></elias6>"
   }
 }

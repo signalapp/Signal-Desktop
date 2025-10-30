@@ -666,10 +666,10 @@
     "messageformat": "Gabim gjatë ruajtjes së faturës. Të lutem, provo sërish."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "U shtua në \"{chatFolderName}\""
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "U hoq nga “{chatFolderName}”"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Dosja {chatFolderName} u shtua"
@@ -5475,7 +5475,7 @@
     "messageformat": "Njoftime të lejuara"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Shto njerëz dhe grupe nga të cilët dëshiron të marrësh njoftime kur ky profil është aktiv"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Shtoni njerëz ose grupe"
@@ -7259,9 +7259,9 @@
     "messageformat": "Konfiguro profile njoftimesh të personalizuara për të kontrolluar nga cilët persona dhe grupe merr njoftime kur aktivizohet ai profil. Krijo një profil \"Pune\" që i mban larg kolegët që nuk janë bashkëpunëtorë (me përjashtim të të preferuarit tënd) dhe një profil \"Pushimi\" që nuk përfshin shefin. Mund të kalosh ndërmjet profileve të njoftimeve sa herë që dëshiron, ose të konfigurosh një orar në mënyrë që kjo të bëhet automatikisht."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Me dosjet e bisedës mund t'i organizosh organizatat, grupet dhe t'i individualizosh individët në dosje unike që janë të lehta për t'i personalizuar dhe riorganizuar. Shfaq shpejt mesazhet e palexuara nga njerëzit e tu të preferuar, filtro sipas llojit të bisedës (1-në-1 dhe grupe) ose krijo dosje si \"Personale\" dhe \"Puna\", që të shikosh shpejt mesazhet e rëndësishme për ty. Për të filluar, aktivizo dosjet e bisedës te Parametrat > Bisedat."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Ky përditësim përfshin edhe një korrigjim të defektit që pengonte gjenerimin e pamjeve paraprake të linkut kur mesazhi përfshinte edhe karaktere me figura. Faleminderit, <elias6></elias6>"
   }
 }

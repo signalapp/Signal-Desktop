@@ -666,10 +666,10 @@
     "messageformat": "Įrašant kvitą įvyko klaida. Bandykite dar kartą."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Pridėta prie „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Pašalinta iš „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Pridėtas pokalbis: {chatFolderName}."
@@ -5475,7 +5475,7 @@
     "messageformat": "Leidžiami pranešimai"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Pridėkite žmones ir grupes, iš kurių, įjungus šį profilį, norite gauti pranešimus."
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Pridėti žmones ar grupes"
@@ -7259,9 +7259,9 @@
     "messageformat": "Nustatykite pasirinktinius pranešimų profilius, kad valdytumėte, iš kurių žmonių ir grupių gausite pranešimus, kai tas profilis įjungtas."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Nuo šiol galite suskirstyti savo pokalbius į unikalius aplankus, kuriuos paprasta pritaikyti ir sugrupuoti. Naudokite pokalbių aplankų funkciją rodyti neperskaitytas žinutes iš tam tikrų žmonių, filtruokite pagal pokalbio tipą (asmeninis arba grupės) arba kurkite atskirus aplankus, pvz., „Asmeniniai“ arba „Darbas“, kad galėtumėte iškart peržiūrėti svarbiausias žinutes."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Šiuo atnaujinimu taip pat ištaisoma klaida, dėl kurios nebuvo generuojamos nuorodų peržiūros, kai žinutėje buvo jaustukų. Ačiū, <elias6></elias6>!"
   }
 }

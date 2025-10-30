@@ -666,10 +666,10 @@
     "messageformat": "Chyba při ukládání potvrzení. Zkuste to prosím znovu."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Přidáno do „{chatFolderName}“"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Odstraněno z „{chatFolderName}\""
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Složka {chatFolderName} přidána"
@@ -5475,7 +5475,7 @@
     "messageformat": "Povolená oznámení"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Přidejte osoby a skupiny, od kterých chcete dostávat oznámení, když je tento profil zapnutý"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Přidat lidi nebo skupiny"
@@ -7259,9 +7259,9 @@
     "messageformat": "Nastavte si vlastní profily oznámení, abyste mohli kontrolovat, od kterých lidí a skupin budete dostávat oznámení, když je tento profil aktivní."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Nyní můžete své chaty organizovat do jedinečných složek, které lze snadno přizpůsobit a měnit jejich uspořádání. Pomocí složek chatů můžete zobrazovat nepřečtené zprávy od oblíbených kontaktů, filtrovat podle typu chatu (osobní a skupinové), případně vytvářet samostatné složky, například \"Osobní\" a \"Pracovní\", abyste měli rychlý přístup ke zprávám, které jsou pro vás důležité. Složky s chaty zapnete v Nastavení > Chaty."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Tato aktualizace také obsahuje opravu chyby, která bránila generování náhledů odkazů, pokud zpráva obsahovala zároveň emoji. Díky, <elias6></elias6>"
   }
 }

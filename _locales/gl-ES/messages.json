@@ -666,10 +666,10 @@
     "messageformat": "Non se gardou o comprobante. Inténtao de novo."
   },
   "icu:Toast--ChatFolderAddedChat": {
-    "messageformat": "Added to “{chatFolderName}”"
+    "messageformat": "Engadida a «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderRemovedChat": {
-    "messageformat": "Removed from “{chatFolderName}”"
+    "messageformat": "Eliminada de «{chatFolderName}»"
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Cartafol engadigo: {chatFolderName}"
@@ -5475,7 +5475,7 @@
     "messageformat": "Permitir notificacións"
   },
   "icu:NotificationProfiles--allowed-description": {
-    "messageformat": "Add people and groups who you want notifications from when this profile is on"
+    "messageformat": "Engade persoas e grupos dos que queiras recibir notificacións cando este perfil estea activado"
   },
   "icu:NotificationProfiles--allowed-add-label": {
     "messageformat": "Engadir persoas ou grupos"
@@ -7259,9 +7259,9 @@
     "messageformat": "Configura perfís de notificacións personalizados para xestionar de quen recibes avisos ao activar ese perfil."
   },
   "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started."
+    "messageformat": "Agora podes organizar as conversas en cartafois únicos e fáciles de personalizar e ordenar. Visualiza as mensaxes sen ler das túas persoas favoritas, filtra por tipo de conversa (individuais ou en grupo) ou establece cartafois separados como «Persoal» e «Traballo» para atopar rapidamente o que buscas. Activa xa os cartafois de conversas en Configuración > Conversas."
   },
   "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>"
+    "messageformat": "Esta actualización tamén inclúe a corrección dun erro que impedía xerar visualizacións de ligazóns cando a mensaxe contiña tamén emoticonas. Grazas, <elias6></elias6>!"
   }
 }
