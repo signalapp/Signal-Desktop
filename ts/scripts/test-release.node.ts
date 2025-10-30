@@ -4,9 +4,14 @@
 import asar from '@electron/asar';
 import assert from 'node:assert';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { mkdtemp, cp } from 'node:fs/promises';
+import { constants as fsConstants } from 'node:fs';
 import { _electron as electron } from 'playwright';
 
 import { productName, name } from '../util/packageJson.node.js';
+import { gracefulRmRecursive } from '../util/gracefulFs.node.js';
+import { consoleLogger } from '../util/consoleLogger.std.js';
 
 const ENVIRONMENT = 'production';
 const RELEASE_DIR = join(__dirname, '..', '..', 'release');
@@ -56,25 +61,38 @@ for (const fileName of files) {
 
 // A simple test to verify a visible window is opened with a title
 const main = async () => {
-  const executablePath = join(RELEASE_DIR, exe);
-  console.log('Starting path', executablePath);
-  const app = await electron.launch({
-    executablePath,
-    locale: 'en',
-  });
+  const tmpFolder = await mkdtemp(join(tmpdir(), 'test-release'));
+  const tmpApp = join(tmpFolder, 'Signal');
 
-  console.log('Waiting for a first window');
-  const window = await app.firstWindow();
+  try {
+    await cp(RELEASE_DIR, tmpApp, {
+      recursive: true,
+      mode: fsConstants.COPYFILE_FICLONE,
+    });
 
-  console.log('Waiting for app to fully load');
-  await window.waitForSelector(
-    '.App, .app-loading-screen:has-text("Optimizing")'
-  );
+    const executablePath = join(tmpApp, exe);
+    console.log('Starting path', executablePath);
+    const app = await electron.launch({
+      executablePath,
+      locale: 'en',
+      cwd: tmpApp,
+    });
 
-  console.log('Checking window title');
-  assert.strictEqual(await window.title(), productName);
+    console.log('Waiting for a first window');
+    const window = await app.firstWindow();
 
-  await app.close();
+    console.log('Waiting for app to fully load');
+    await window.waitForSelector(
+      '.App, .app-loading-screen:has-text("Optimizing")'
+    );
+
+    console.log('Checking window title');
+    assert.strictEqual(await window.title(), productName);
+
+    await app.close();
+  } finally {
+    await gracefulRmRecursive(consoleLogger, tmpFolder);
+  }
 };
 
 main().catch(error => {
