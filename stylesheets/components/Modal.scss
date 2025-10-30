@@ -119,10 +119,10 @@
   }
 
   &__body {
-    @include mixins.scrollbar;
+    @include mixins.scrollbar-on-hover;
     @include mixins.font-body-1;
     margin: 0;
-    overflow-y: overlay;
+    overflow-y: auto;
     overflow-x: auto;
     transition: border-color 150ms ease-in-out;
   }

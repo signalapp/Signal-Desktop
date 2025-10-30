@@ -209,7 +209,7 @@
 }
 
 .CallsList__List {
-  @include mixins.NavTabs__Scroller;
+  @include mixins.scrollbar-on-hover;
 }
 
 .CallsList__List--disableScrolling {
@@ -342,7 +342,7 @@
 }
 
 .CallsNewCall__List {
-  @include mixins.NavTabs__Scroller;
+  @include mixins.scrollbar-on-hover;
 }
 
 .CallsNewCall__ListHeaderItem {

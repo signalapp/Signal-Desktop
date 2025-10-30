@@ -70,10 +70,6 @@
     max-height: 344px;
     overflow-y: scroll;
     scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 
   &__CountryButton {

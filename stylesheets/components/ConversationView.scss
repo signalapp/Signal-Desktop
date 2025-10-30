@@ -16,7 +16,7 @@
       100% - #{variables.$header-height} - var(--title-bar-drag-area-height)
     );
     inset-inline-start: 0;
-    overflow-y: overlay;
+    overflow-y: auto;
     position: absolute;
     top: calc(#{variables.$header-height} + var(--title-bar-drag-area-height));
     width: 100%;

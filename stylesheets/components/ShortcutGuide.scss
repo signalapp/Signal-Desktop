@@ -24,10 +24,6 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
     background-color: variables.$color-gray-75;
-
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid variables.$color-gray-75;
-    }
   }
 }
 

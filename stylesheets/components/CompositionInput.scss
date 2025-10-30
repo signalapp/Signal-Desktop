@@ -24,14 +24,6 @@
         inset-inline: 0;
         font-style: normal;
       }
-      &::-webkit-scrollbar-thumb {
-        @include mixins.light-theme {
-          border-color: variables.$color-gray-05;
-        }
-        @include mixins.dark-theme {
-          border-color: variables.$color-gray-75;
-        }
-      }
     }
   }
 
@@ -92,15 +84,6 @@
       min-height: calc(32px - 2 * $border-size);
       max-height: calc(72px - 2 * $border-size);
       overflow: auto;
-
-      &::-webkit-scrollbar-thumb {
-        @include mixins.light-theme {
-          border-color: variables.$color-gray-05;
-        }
-        @include mixins.dark-theme {
-          border-color: variables.$color-gray-75;
-        }
-      }
 
       &--large {
         $largeHeight: calc(212px - 2 * $border-size);

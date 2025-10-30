@@ -54,17 +54,6 @@ $secondary-text-color: light-dark(
   &__scroll-area {
     overflow-y: scroll;
     max-height: 100%;
-
-    &::-webkit-scrollbar-thumb {
-      @include mixins.light-theme {
-        background: variables.$color-gray-25;
-        border-color: variables.$color-gray-04;
-      }
-      @include mixins.dark-theme {
-        background: variables.$color-gray-45;
-        border-color: variables.$color-gray-80;
-      }
-    }
   }
 
   &__padding {
@@ -346,10 +335,6 @@ $secondary-text-color: light-dark(
     padding-top: 8px;
     max-width: 750px;
     position: relative;
-
-    &::-webkit-scrollbar-corner {
-      background: transparent;
-    }
   }
 
   &__settings-pane-content--with-footer {
@@ -1223,10 +1208,6 @@ $secondary-text-color: light-dark(
 
 .Preferences__EditChatFolderPage__SelectChatsDialog {
   height: 60vw;
-
-  .module-conversation-list::-webkit-scrollbar-thumb {
-    border-color: light-dark(variables.$color-white, variables.$color-gray-80);
-  }
 }
 
 .Preferences__EditChatFolderPage__SelectChatsDialog__body {
@@ -1249,8 +1230,5 @@ $secondary-text-color: light-dark(
 }
 
 .TimePickerPopup {
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+  scrollbar-width: 0;
 }

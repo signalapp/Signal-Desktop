@@ -82,48 +82,6 @@ textarea {
   }
 }
 
-::-webkit-scrollbar {
-  // For vertical scrollbars
-  width: variables.$scrollbar_width;
-  // For horizontal scrollbars
-  height: variables.$scrollbar_height;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-
-  @include mixins.light-theme {
-    background: variables.$color-gray-25;
-    border: 2px solid variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    background: variables.$color-gray-45;
-    border: 2px solid variables.$color-gray-90;
-  }
-
-  &:hover {
-    @include mixins.light-theme {
-      background: variables.$color-gray-45;
-    }
-    @include mixins.dark-theme {
-      background: variables.$color-gray-25;
-    }
-  }
-}
-
-::-webkit-scrollbar-corner {
-  @include mixins.light-theme {
-    background: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    background: variables.$color-black;
-  }
-}
-
 audio {
   max-width: 100%;
 }

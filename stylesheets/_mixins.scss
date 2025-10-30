@@ -869,33 +869,6 @@ $rtl-icon-map: (
   }
 }
 
-@mixin scrollbar {
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    visibility: hidden;
-    width: 6px;
-
-    @include light-theme {
-      background: variables.$color-black-alpha-40;
-    }
-    @include dark-theme {
-      background: variables.$color-white-alpha-40;
-    }
-  }
-
-  &::-webkit-scrollbar {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    visibility: visible;
-  }
-}
-
 @mixin normal-input {
   @include font-body-1;
   padding-block: 8px;
@@ -1029,18 +1002,9 @@ $rtl-icon-map: (
   transform: translateY(-50%);
 }
 
-@mixin NavTabs__Scroller {
-  padding-bottom: 8px;
-  @include scrollbar;
-  &::-webkit-scrollbar-thumb {
-    @include light-theme {
-      background: variables.$color-gray-25;
-      border-color: variables.$color-gray-04;
-    }
-    @include dark-theme {
-      background: variables.$color-gray-45;
-      border-color: variables.$color-gray-80;
-    }
+@mixin scrollbar-on-hover {
+  &:not(:hover, :focus-within) {
+    scrollbar-color: transparent transparent;
   }
 }
 
@@ -1198,16 +1162,10 @@ $rtl-icon-map: (
   & {
     @include light-theme {
       background: variables.$color-gray-02;
-      ::-webkit-scrollbar-thumb {
-        border: 2px solid variables.$color-gray-02;
-      }
     }
 
     @include dark-theme {
       background: variables.$color-gray-75;
-      ::-webkit-scrollbar-thumb {
-        border: 2px solid variables.$color-gray-75;
-      }
     }
   }
 }

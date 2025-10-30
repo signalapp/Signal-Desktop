@@ -3507,15 +3507,9 @@ button.module-image__border-overlay:focus {
   & {
     @include mixins.light-theme() {
       background: variables.$color-white;
-      ::-webkit-scrollbar-thumb {
-        border-color: variables.$color-white;
-      }
     }
     @include mixins.dark-theme {
       background: variables.$color-gray-75;
-      ::-webkit-scrollbar-thumb {
-        border-color: variables.$color-gray-75;
-      }
     }
   }
 
@@ -3935,12 +3929,7 @@ button.module-image__border-overlay:focus {
         width: 100%;
         max-height: 100%;
         overflow-y: scroll;
-
-        &::-webkit-scrollbar,
-        &::-webkit-scrollbar-thumb {
-          width: 0;
-          background: transparent;
-        }
+        scrollbar-width: none;
       }
 
       & .module-ongoing-call__group-call-remote-participant {
@@ -4705,15 +4694,6 @@ button.module-image__border-overlay:focus {
     margin: 0;
     padding-block: 0;
     padding-inline: 0;
-
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    &::-webkit-scrollbar-corner,
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
   }
 
   &__contact {
@@ -4876,9 +4856,10 @@ button.module-calling-participants-list__contact {
 .module-conversation-list {
   $normal-row-height: 72px;
 
-  @include mixins.NavTabs__Scroller;
   padding-inline-start: 10px;
   padding-inline-end: 1px; /* leaving room for scrollbar */
+
+  @include mixins.scrollbar-on-hover;
 
   // list tiles in choose-group-members and compose extend to the edge
   .module-left-pane--mode-choose-group-members &,
@@ -5959,9 +5940,10 @@ button.module-calling-participants-list__contact {
 .module-timeline__messages__container {
   flex: 1 1;
   overflow-x: hidden;
-  overflow-y: overlay;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  scrollbar-width: auto;
 
   // Unset this for buttons in the timeline so that it doesn't prevent the higher z-index
   // ConversationHeader from being draggable

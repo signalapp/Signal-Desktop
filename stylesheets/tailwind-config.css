@@ -434,6 +434,7 @@
  */
 
 @theme {
+  --default-scrollbar-width: thin;
   --default-scrollbar-track: transparent;
-  --default-scrollbar-thumb: #b9b9b9;
+  --default-scrollbar-thumb: var(--color-label-placeholder);
 }

@@ -101,12 +101,13 @@
     }
 
     &__list {
-      @include mixins.NavTabs__Scroller;
       display: flex;
       flex-direction: column;
       flex: 1;
-      overflow-y: overlay;
+      overflow-y: auto;
       padding-inline: 16px;
+
+      @include mixins.scrollbar-on-hover;
 
       &--empty {
         @include mixins.font-body-1;
