@@ -78,9 +78,9 @@ pnpm run dev:styles    # recompiles when you change .scss files
 
 ## Known issues
 
-### 1. `yarn install` prints error 'Could not detect abi for version 30.0.6 and runtime electron'
+### 1. `pnpm install` prints error 'Could not detect abi for version 30.0.6 and runtime electron'
 
-`yarn install` may print an error like the following, but it can be ignored because the overall operation succeeds.
+`pnpm install` may print an error like the following, but it can be ignored because the overall operation succeeds.
 
 ```
 $ ./node_modules/.bin/electron-builder install-app-deps
@@ -131,7 +131,7 @@ $ ./node_modules/.bin/electron-builder install-app-deps
 4. Ignore the prompt
 5. Right click on the "Open Signal" hyperlink below the verification box and copy the link address. You should see something with the format with the format of `signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
 6. In a terminal window type `pnpm start` space and then paste the link address from the previous step, ie.
-   `yarn start signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
+   `pnpm start signalcaptcha://signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz...`
 7. This command will open the `signalcaptcha://...` url with the currently running development version of the app
 8. Execute the command, it will say something like
 
@@ -140,7 +140,7 @@ quitting; we are the second instance
 Done in 0.67s.
 ```
 
-9. You can now go back to the original terminal session where you first ran yarn start, you should see something like
+9. You can now go back to the original terminal session where you first ran pnpm start, you should see something like
 
 ```
 {"level":30,"time":"2024-01-28T08:07:14.558Z","msg":"challengeMain.onRequest(standalone registration): received challenge request, waiting for response"}
