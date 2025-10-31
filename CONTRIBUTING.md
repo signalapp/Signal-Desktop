@@ -149,7 +149,7 @@ Done in 0.67s.
 {"level":30,"time":"2024-01-28T08:07:40.975Z","msg":"challengeMain.onRequest(standalone registration): got response after 26415ms"}
 ```
 
-This means that the development app has now accepted the Captcha challenge
+This means that the development app has now accepted the Captcha challenge.
 You should now get an SMS to the phone number you entered earlier with the verification code. Enter the code and click "Register" and you will now be registered as a standalone device as desired.
 
 ### webpack
