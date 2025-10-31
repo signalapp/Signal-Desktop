@@ -69,7 +69,7 @@ import {
   validateBackupStream,
   ValidationType,
 } from './validator.preload.js';
-import { BackupType } from './types.std.js';
+import type { BackupExportOptions, BackupImportOptions } from './types.std.js';
 import {
   BackupInstallerError,
   BackupDownloadFailedError,
@@ -103,8 +103,6 @@ const { isEqual, noop } = lodash;
 
 const log = createLogger('backupsService');
 
-export { BackupType };
-
 const IV_LENGTH = 16;
 
 const BACKUP_REFRESH_INTERVAL = 24 * HOUR;
@@ -126,13 +124,6 @@ type DoDownloadOptionsType = Readonly<{
     currentBytes: number,
     totalBytes: number
   ) => void;
-}>;
-
-export type ImportOptionsType = Readonly<{
-  backupType?: BackupType;
-  localBackupSnapshotDir?: string;
-  ephemeralKey?: Uint8Array;
-  onProgress?: (currentBytes: number, totalBytes: number) => void;
 }>;
 
 export type ExportResultType = Readonly<{
@@ -318,7 +309,10 @@ export class BackupsService {
     log.info(`exportBackup: starting, backup level: ${backupLevel}...`);
 
     try {
-      const { totalBytes } = await this.exportToDisk(filePath, backupLevel);
+      const { totalBytes } = await this.exportToDisk(filePath, {
+        type: 'remote',
+        level: backupLevel,
+      });
 
       await this.api.upload(filePath, totalBytes);
     } finally {
@@ -331,8 +325,7 @@ export class BackupsService {
   }
 
   public async exportLocalBackup(
-    backupsBaseDir: string | undefined = undefined,
-    backupLevel: BackupLevel = BackupLevel.Free
+    backupsBaseDir: string | undefined = undefined
   ): Promise<LocalBackupExportResultType> {
     strictAssert(isLocalBackupsEnabled(), 'Local backups must be enabled');
 
@@ -347,12 +340,10 @@ export class BackupsService {
 
     log.info('exportLocalBackup: starting');
 
-    const exportResult = await this.exportToDisk(
-      mainProtoPath,
-      backupLevel,
-      BackupType.Ciphertext,
-      snapshotDir
-    );
+    const exportResult = await this.exportToDisk(mainProtoPath, {
+      type: 'local-encrypted',
+      localBackupSnapshotDir: snapshotDir,
+    });
 
     log.info('exportLocalBackup: writing metadata');
     const metadataArgs = {
@@ -405,6 +396,7 @@ export class BackupsService {
 
     const backupFile = join(this.#localBackupSnapshotDir, 'main');
     await this.importFromDisk(backupFile, {
+      type: 'local-encrypted',
       localBackupSnapshotDir: this.#localBackupSnapshotDir,
     });
 
@@ -421,14 +413,13 @@ export class BackupsService {
 
   // Test harness
   public async exportBackupData(
-    backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext
+    options: BackupExportOptions
   ): Promise<{ data: Uint8Array } & ExportResultType> {
     const sink = new PassThrough();
 
     const chunks = new Array<Uint8Array>();
     sink.on('data', chunk => chunks.push(chunk));
-    const result = await this.#exportBackup(sink, backupLevel, backupType);
+    const result = await this.#exportBackup(sink, options);
 
     return {
       ...result,
@@ -438,18 +429,14 @@ export class BackupsService {
 
   public async exportToDisk(
     path: string,
-    backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext,
-    localBackupSnapshotDir: string | undefined = undefined
+    options: BackupExportOptions
   ): Promise<ExportResultType> {
     const exportResult = await this.#exportBackup(
       createWriteStream(path),
-      backupLevel,
-      backupType,
-      localBackupSnapshotDir
+      options
     );
 
-    if (backupType === BackupType.Ciphertext) {
+    if (options.type !== 'cross-client-integration-test') {
       await validateBackup(
         () => new FileStream(path),
         exportResult.totalBytes,
@@ -462,9 +449,7 @@ export class BackupsService {
     return exportResult;
   }
 
-  public async _internalExportLocalBackup(
-    backupLevel: BackupLevel = BackupLevel.Free
-  ): Promise<ValidationResultType> {
+  public async _internalExportLocalBackup(): Promise<ValidationResultType> {
     try {
       const { canceled, dirPath: backupsBaseDir } = await ipcRenderer.invoke(
         'show-open-folder-dialog'
@@ -473,7 +458,7 @@ export class BackupsService {
         return { error: 'Backups directory not selected' };
       }
 
-      const result = await this.exportLocalBackup(backupsBaseDir, backupLevel);
+      const result = await this.exportLocalBackup(backupsBaseDir);
       return { result };
     } catch (error) {
       return { error: Errors.toLogFormat(error) };
@@ -496,16 +481,16 @@ export class BackupsService {
   }
 
   // Test harness
-  public async _internalValidate(
-    backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext
-  ): Promise<ValidationResultType> {
+  public async _internalValidate(): Promise<ValidationResultType> {
     try {
       const start = Date.now();
 
-      const recordStream = new BackupExportStream(backupType);
+      const recordStream = new BackupExportStream({
+        type: 'remote',
+        level: BackupLevel.Free,
+      });
 
-      recordStream.run(backupLevel);
+      recordStream.run();
 
       const totalBytes = await validateBackupStream(recordStream);
 
@@ -521,7 +506,10 @@ export class BackupsService {
 
   // Test harness
   public async exportWithDialog(): Promise<void> {
-    const { data } = await this.exportBackupData();
+    const { data } = await this.exportBackupData({
+      type: 'remote',
+      level: BackupLevel.Free,
+    });
 
     await saveAttachmentToDisk({
       name: 'backup.bin',
@@ -531,7 +519,7 @@ export class BackupsService {
 
   public async importFromDisk(
     backupFile: string,
-    options?: ImportOptionsType
+    options: BackupImportOptions
   ): Promise<void> {
     return this.importBackup(() => createReadStream(backupFile), options);
   }
@@ -562,18 +550,13 @@ export class BackupsService {
 
   public async importBackup(
     createBackupStream: () => Readable,
-    {
-      backupType = BackupType.Ciphertext,
-      ephemeralKey,
-      onProgress,
-      localBackupSnapshotDir = undefined,
-    }: ImportOptionsType = {}
+    options: BackupImportOptions
   ): Promise<void> {
     strictAssert(!this.#isRunning, 'BackupService is already running');
 
     window.IPC.startTrackingQueryStats();
 
-    log.info(`importBackup: starting ${backupType}...`);
+    log.info(`importBackup: starting ${options.type}...`);
     this.#isRunning = 'import';
     const importStart = Date.now();
 
@@ -588,13 +571,10 @@ export class BackupsService {
 
       window.ConversationController.setReadOnly(true);
 
-      const importStream = await BackupImportStream.create(
-        backupType,
-        localBackupSnapshotDir
-      );
-      if (backupType === BackupType.Ciphertext) {
+      const importStream = await BackupImportStream.create(options);
+      if (options.type === 'remote' || options.type === 'local-encrypted') {
         const { aesKey, macKey } = getKeyMaterial(
-          ephemeralKey ? new BackupKey(ephemeralKey) : undefined
+          options.ephemeralKey ? new BackupKey(options.ephemeralKey) : undefined
         );
 
         // First pass - don't decrypt, only verify mac
@@ -621,7 +601,7 @@ export class BackupsService {
           throw new BackupImportCanceledError();
         }
 
-        onProgress?.(0, totalBytes);
+        options.onProgress?.(0, totalBytes);
 
         strictAssert(theirMac != null, 'importBackup: Missing MAC');
         strictAssert(
@@ -638,7 +618,7 @@ export class BackupsService {
         let currentBytes = 0;
         progressReporter.on('data', chunk => {
           currentBytes += chunk.byteLength;
-          onProgress?.(currentBytes, totalBytes);
+          options.onProgress?.(currentBytes, totalBytes);
         });
 
         await pipeline(
@@ -656,13 +636,13 @@ export class BackupsService {
           constantTimeEqual(hmac.digest(), theirMac),
           'importBackup: Bad MAC, second pass'
         );
-      } else if (backupType === BackupType.TestOnlyPlaintext) {
+      } else if (options.type === 'cross-client-integration-test') {
         strictAssert(
           isTestOrMockEnvironment(),
           'Plaintext backups can be imported only in test harness'
         );
         strictAssert(
-          ephemeralKey == null,
+          options.ephemeralKey == null,
           'Plaintext backups cannot have ephemeral key'
         );
         await pipeline(
@@ -671,7 +651,7 @@ export class BackupsService {
           importStream
         );
       } else {
-        throw missingCaseError(backupType);
+        throw missingCaseError(options.type);
       }
 
       log.info('importBackup: finished...');
@@ -876,6 +856,7 @@ export class BackupsService {
         await itemStorage.remove('password');
 
         await this.importFromDisk(downloadPath, {
+          type: 'remote',
           ephemeralKey,
           onProgress: (currentBytes, totalBytes) => {
             onProgress?.(
@@ -913,9 +894,7 @@ export class BackupsService {
 
   async #exportBackup(
     sink: Writable,
-    backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext,
-    localBackupSnapshotDir: string | undefined = undefined
+    options: BackupExportOptions
   ): Promise<ExportResultType> {
     strictAssert(!this.#isRunning, 'BackupService is already running');
 
@@ -925,7 +904,7 @@ export class BackupsService {
     const start = Date.now();
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
-      if (window.SignalCI || backupType === BackupType.TestOnlyPlaintext) {
+      if (window.SignalCI || options.type === 'cross-client-integration-test') {
         strictAssert(
           isTestOrMockEnvironment(),
           'Plaintext backups can be exported only in test harness'
@@ -938,47 +917,52 @@ export class BackupsService {
       }
 
       const { aesKey, macKey } = getKeyMaterial();
-      const recordStream = new BackupExportStream(backupType);
+      const recordStream = new BackupExportStream(options);
 
-      recordStream.run(backupLevel, localBackupSnapshotDir);
+      recordStream.run();
 
       const iv = randomBytes(IV_LENGTH);
 
       let totalBytes = 0;
 
-      if (backupType === BackupType.Ciphertext) {
-        await pipeline(
-          recordStream,
-          createGzip(),
-          appendPaddingStream(),
-          createCipheriv(CipherType.AES256CBC, aesKey, iv),
-          prependStream(iv),
-          appendMacStream(macKey),
-          measureSize({
-            onComplete: size => {
-              totalBytes = size;
-            },
-          }),
-          sink
-        );
-      } else if (backupType === BackupType.TestOnlyPlaintext) {
-        strictAssert(
-          isTestOrMockEnvironment(),
-          'Plaintext backups can be exported only in test harness'
-        );
-        await pipeline(recordStream, sink);
-      } else {
-        throw missingCaseError(backupType);
+      const { type } = options;
+      switch (type) {
+        case 'remote':
+        case 'local-encrypted':
+          await pipeline(
+            recordStream,
+            createGzip(),
+            appendPaddingStream(),
+            createCipheriv(CipherType.AES256CBC, aesKey, iv),
+            prependStream(iv),
+            appendMacStream(macKey),
+            measureSize({
+              onComplete: size => {
+                totalBytes = size;
+              },
+            }),
+            sink
+          );
+          break;
+        case 'cross-client-integration-test':
+          strictAssert(
+            isTestOrMockEnvironment(),
+            'Plaintext backups can be exported only in test harness'
+          );
+          await pipeline(recordStream, sink);
+          break;
+        default:
+          throw missingCaseError(type);
       }
 
-      if (localBackupSnapshotDir) {
+      if (type === 'local-encrypted') {
         log.info('exportBackup: writing local backup files list');
         const filesWritten = await writeLocalBackupFilesList({
-          snapshotDir: localBackupSnapshotDir,
+          snapshotDir: options.localBackupSnapshotDir,
           mediaNamesIterator: recordStream.getMediaNamesIterator(),
         });
         const filesRead = await readLocalBackupFilesList(
-          localBackupSnapshotDir
+          options.localBackupSnapshotDir
         );
         strictAssert(
           isEqual(filesWritten, filesRead),

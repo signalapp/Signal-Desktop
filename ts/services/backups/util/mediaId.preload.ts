@@ -4,7 +4,11 @@
 import { DataReader } from '../../../sql/Client.preload.js';
 import * as Bytes from '../../../Bytes.std.js';
 import { getBackupMediaRootKey } from '../crypto.preload.js';
-import type { BackupableAttachmentType } from '../../../types/Attachment.std.js';
+import type {
+  BackupableAttachmentType,
+  AttachmentReadyForLocalBackup,
+} from '../../../types/Attachment.std.js';
+import { sha256 } from '../../../Crypto.node.js';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;
@@ -54,6 +58,25 @@ export function getMediaName({
   key: Uint8Array;
 }): string {
   return Bytes.toHex(Bytes.concatenate([plaintextHash, key]));
+}
+
+export function getLocalBackupFileNameForAttachment(
+  attachment: AttachmentReadyForLocalBackup
+): string {
+  return getLocalBackupFileName({
+    plaintextHash: Bytes.fromHex(attachment.plaintextHash),
+    localKey: Bytes.fromBase64(attachment.localKey),
+  });
+}
+
+export function getLocalBackupFileName({
+  plaintextHash,
+  localKey,
+}: {
+  plaintextHash: Uint8Array;
+  localKey: Uint8Array;
+}): string {
+  return Bytes.toHex(sha256(Bytes.concatenate([plaintextHash, localKey])));
 }
 
 export function getMediaNameForAttachmentThumbnail(

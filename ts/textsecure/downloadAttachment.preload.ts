@@ -16,7 +16,7 @@ import {
   getAbsoluteDownloadsPath,
   getAbsoluteAttachmentPath,
 } from '../util/migrations.preload.js';
-import { hasRequiredInformationForBackup } from '../util/Attachment.std.js';
+import { hasRequiredInformationForRemoteBackup } from '../util/Attachment.std.js';
 import {
   AttachmentSizeError,
   type AttachmentType,
@@ -200,7 +200,7 @@ export async function downloadAttachment(
   }
   if (mediaTier === MediaTier.BACKUP) {
     strictAssert(
-      hasRequiredInformationForBackup(attachment),
+      hasRequiredInformationForRemoteBackup(attachment),
       `${logId}: attachment missing critical information for backup tier`
     );
   }

@@ -3,8 +3,12 @@
 /* eslint-disable max-classes-per-file */
 
 import { existsSync } from 'node:fs';
-import { PassThrough } from 'node:stream';
-import { constants as FS_CONSTANTS, copyFile, mkdir } from 'node:fs/promises';
+import {
+  constants as FS_CONSTANTS,
+  copyFile,
+  mkdir,
+  rename,
+} from 'node:fs/promises';
 
 import * as durations from '../util/durations/index.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -14,6 +18,7 @@ import { redactGenericText } from '../util/privacy.node.js';
 import {
   getAbsoluteAttachmentPath,
   getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath,
+  getAbsoluteTempPath,
 } from '../util/migrations.preload.js';
 import {
   JobManager,
@@ -36,6 +41,7 @@ import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
 } from '../services/backups/util/localBackup.node.js';
+import { createName } from '../util/attachmentPath.node.js';
 
 const log = createLogger('AttachmentLocalBackupManager');
 
@@ -219,7 +225,7 @@ async function runAttachmentBackupJobInner(
   log.info(`${logId}: starting`);
 
   const { backupsBaseDir, mediaName } = job;
-  const { localKey, path, size } = job.data;
+  const { path } = job.data;
 
   if (!path) {
     throw new AttachmentPermanentlyMissingError('No path property');
@@ -230,45 +236,26 @@ async function runAttachmentBackupJobInner(
     throw new AttachmentPermanentlyMissingError('No file at provided path');
   }
 
-  if (!localKey) {
-    throw new Error('No localKey property, required for test decryption');
-  }
-
   const localBackupFileDir = getLocalBackupDirectoryForMediaName({
     backupsBaseDir,
     mediaName,
   });
   await mkdir(localBackupFileDir, { recursive: true });
 
-  const localBackupFilePath = getLocalBackupPathForMediaName({
+  const destinationLocalBackupFilePath = getLocalBackupPathForMediaName({
     backupsBaseDir,
     mediaName,
   });
 
-  // TODO: Add check in local FS to prevent double backup
-
   // File is already encrypted with localKey, so we just have to copy it to the backup dir
-  const attachmentPath = getAbsoluteAttachmentPath(path);
+  const sourceAttachmentPath = getAbsoluteAttachmentPath(path);
+  const tempPath = getAbsoluteTempPath(createName());
+
+  // A unique constraint on the DB table should enforce that only one job is writing to
+  // the same mediaName at a time, but just to be safe, we copy to temp file and rename to
+  // ensure the atomicity of the copy operation
 
   // Set COPYFILE_FICLONE for Copy on Write (OS dependent, gracefully falls back to copy)
-  await copyFile(
-    attachmentPath,
-    localBackupFilePath,
-    FS_CONSTANTS.COPYFILE_FICLONE
-  );
-
-  // TODO: Optimize this check -- it can be expensive to test decrypt on every export
-  log.info(`${logId}: Verifying file in local backup`);
-  const sink = new PassThrough();
-  sink.resume();
-  await decryptAttachmentV2ToSink(
-    {
-      ciphertextPath: localBackupFilePath,
-      idForLogging: 'AttachmentLocalBackupManager',
-      keysBase64: localKey,
-      size,
-      type: 'local',
-    },
-    sink
-  );
+  await copyFile(sourceAttachmentPath, tempPath, FS_CONSTANTS.COPYFILE_FICLONE);
+  await rename(tempPath, destinationLocalBackupFilePath);
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
-  hasRequiredInformationForBackup,
+  hasRequiredInformationForRemoteBackup,
   wasImportedFromLocalBackup,
 } from './Attachment.std.js';
 import {
@@ -58,7 +58,7 @@ export async function downloadAttachment({
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
   const logId = `${_logId}${variantForLogging}`;
 
-  const isBackupable = hasRequiredInformationForBackup(attachment);
+  const isBackupable = hasRequiredInformationForRemoteBackup(attachment);
 
   const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
   const mightBeOnBackupTierInTheFuture = isBackupable;
