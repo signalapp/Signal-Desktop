@@ -228,43 +228,40 @@ export async function onReaction(
 
   const logId = `Reactions.onReaction(timestamp=${reaction.timestamp};target=${reaction.targetTimestamp})`;
 
-  try {
-    const matchingMessage = await findMessageForReaction({
-      targetTimestamp: reaction.targetTimestamp,
-      targetAuthorAci: reaction.targetAuthorAci,
-      reactionSenderConversationId: reaction.fromId,
-      logId,
-    });
+  const matchingMessage = await findMessageForReaction({
+    targetTimestamp: reaction.targetTimestamp,
+    targetAuthorAci: reaction.targetAuthorAci,
+    reactionSenderConversationId: reaction.fromId,
+    logId,
+  });
 
-    if (!matchingMessage) {
-      log.info(
-        `${logId}: No message for reaction`,
-        'targeting',
-        reaction.targetAuthorAci
-      );
-      return;
-    }
-
-    const matchingMessageConversation = window.ConversationController.get(
-      matchingMessage.conversationId
+  if (!matchingMessage) {
+    log.info(
+      `${logId}: No message for reaction`,
+      'targeting',
+      reaction.targetAuthorAci
     );
+    return;
+  }
 
-    if (!matchingMessageConversation) {
-      log.info(
-        `${logId}: No target conversation for reaction`,
-        reaction.targetAuthorAci,
-        reaction.targetTimestamp
-      );
-      remove(reaction);
-      return undefined;
-    }
+  const matchingMessageConversation = window.ConversationController.get(
+    matchingMessage.conversationId
+  );
 
-    // awaiting is safe since `onReaction` is never called from inside the queue
-    await matchingMessageConversation.queueJob(
-      'Reactions.onReaction',
-      async () => {
-        log.info(`${logId}: handling`);
+  if (!matchingMessageConversation) {
+    log.info(
+      `${logId}: No target conversation for reaction`,
+      reaction.targetAuthorAci,
+      reaction.targetTimestamp
+    );
+    remove(reaction);
+    return undefined;
+  }
 
+  drop(
+    matchingMessageConversation.queueJob('Reactions.onReaction', async () => {
+      log.info(`${logId}: handling`);
+      try {
         // Message is fetched inside the conversation queue so we have the
         // most recent data
         const targetMessage = await findMessageForReaction({
@@ -302,12 +299,12 @@ export async function onReaction(
         }
 
         remove(reaction);
+      } catch (error) {
+        remove(reaction);
+        log.error(`${logId} error:`, Errors.toLogFormat(error));
       }
-    );
-  } catch (error) {
-    remove(reaction);
-    log.error(`${logId} error:`, Errors.toLogFormat(error));
-  }
+    })
+  );
 }
 
 export async function handleReaction(
