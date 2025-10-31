@@ -3,7 +3,6 @@
 
 import Long from 'long';
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { dirname } from 'node:path';
 import pMap from 'p-map';
 import pTimeout from 'p-timeout';
@@ -117,8 +116,11 @@ import {
 } from '../../types/CallDisposition.std.js';
 import { isAciString } from '../../util/isAciString.std.js';
 import { hslToRGBInt } from '../../util/hslToRGB.std.js';
-import type { AboutMe, LocalChatStyle } from './types.std.js';
-import { BackupType } from './types.std.js';
+import type {
+  AboutMe,
+  BackupExportOptions,
+  LocalChatStyle,
+} from './types.std.js';
 import { messageHasPaymentEvent } from '../../messages/payments.std.js';
 import {
   numberToAddressType,
@@ -129,7 +131,8 @@ import type { AttachmentType } from '../../types/Attachment.std.js';
 import {
   isGIF,
   isDownloaded,
-  hasRequiredInformationForBackup,
+  hasRequiredInformationForLocalBackup,
+  hasRequiredInformationForRemoteBackup,
 } from '../../util/Attachment.std.js';
 import { getFilePointerForAttachment } from './util/filePointers.preload.js';
 import { getBackupMediaRootKey } from './crypto.preload.js';
@@ -141,6 +144,7 @@ import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.prel
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.preload.js';
 import {
   getBackupCdnInfo,
+  getLocalBackupFileNameForAttachment,
   getMediaNameForAttachment,
 } from './util/mediaId.preload.js';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
@@ -210,8 +214,6 @@ type GetRecipientIdOptionsType =
 type ToChatItemOptionsType = Readonly<{
   aboutMe: AboutMe;
   callHistoryByCallId: Record<string, CallHistoryDetails>;
-  backupLevel: BackupLevel;
-  isLocalBackup: boolean;
 }>;
 
 type NonBubbleOptionsType = Pick<
@@ -287,18 +289,11 @@ export class BackupExportStream extends Readable {
   // array.
   #customColorIdByUuid = new Map<string, Long>();
 
-  constructor(private readonly backupType: BackupType) {
+  constructor(private readonly options: Readonly<BackupExportOptions>) {
     super();
   }
 
-  public run(
-    backupLevel: BackupLevel,
-    localBackupSnapshotDir: string | undefined = undefined
-  ): void {
-    const localBackupsBaseDir = localBackupSnapshotDir
-      ? dirname(localBackupSnapshotDir)
-      : undefined;
-    const isLocalBackup = localBackupsBaseDir != null;
+  public run(): void {
     drop(
       (async () => {
         log.info('BackupExportStream: starting...');
@@ -309,37 +304,44 @@ export class BackupExportStream extends Readable {
 
         await pauseWriteAccess();
         try {
-          await this.#unsafeRun(backupLevel, isLocalBackup);
+          await this.#unsafeRun();
         } catch (error) {
           this.emit('error', error);
         } finally {
           await resumeWriteAccess();
+          // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
+          const { type } = this.options;
+          switch (type) {
+            case 'local-encrypted':
+              {
+                log.info(
+                  `BackupExportStream: Adding ${this.#attachmentBackupJobs.length} jobs for AttachmentLocalBackupManager`
+                );
+                const backupsBaseDir = dirname(
+                  this.options.localBackupSnapshotDir
+                );
 
-          if (isLocalBackup) {
-            log.info(
-              `BackupExportStream: Adding ${this.#attachmentBackupJobs.length} jobs for AttachmentLocalBackupManager`
-            );
-            AttachmentLocalBackupManager.clearAllJobs();
-            await Promise.all(
-              this.#attachmentBackupJobs.map(job => {
-                if (job.type !== 'local') {
-                  log.error(
-                    "BackupExportStream: Can't enqueue remote backup jobs during local backup, skipping"
-                  );
-                  return Promise.resolve();
-                }
+                AttachmentLocalBackupManager.clearAllJobs();
+                await Promise.all(
+                  this.#attachmentBackupJobs.map(job => {
+                    if (job.type !== 'local') {
+                      log.error(
+                        "BackupExportStream: Can't enqueue remote backup jobs during local backup, skipping"
+                      );
+                      return Promise.resolve();
+                    }
 
-                return AttachmentLocalBackupManager.addJob({
-                  ...job,
-                  backupsBaseDir: localBackupsBaseDir,
-                });
-              })
-            );
-            drop(AttachmentLocalBackupManager.start());
-          } else {
-            // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
-            await DataWriter.clearAllAttachmentBackupJobs();
-            if (this.backupType !== BackupType.TestOnlyPlaintext) {
+                    return AttachmentLocalBackupManager.addJob({
+                      ...job,
+                      backupsBaseDir,
+                    });
+                  })
+                );
+                drop(AttachmentLocalBackupManager.start());
+              }
+              break;
+            case 'remote':
+              await DataWriter.clearAllAttachmentBackupJobs();
               await Promise.all(
                 this.#attachmentBackupJobs.map(job => {
                   if (job.type === 'local') {
@@ -355,9 +357,13 @@ export class BackupExportStream extends Readable {
                 })
               );
               drop(AttachmentBackupManager.start());
-            }
+              break;
+            case 'cross-client-integration-test':
+              break;
+            default:
+              // eslint-disable-next-line no-unsafe-finally
+              throw missingCaseError(type);
           }
-
           log.info('BackupExportStream: finished');
         }
       })()
@@ -372,10 +378,7 @@ export class BackupExportStream extends Readable {
     return this.#stats;
   }
 
-  async #unsafeRun(
-    backupLevel: BackupLevel,
-    isLocalBackup: boolean
-  ): Promise<void> {
+  async #unsafeRun(): Promise<void> {
     this.#ourConversation =
       window.ConversationController.getOurConversationOrThrow().attributes;
     this.push(
@@ -752,8 +755,6 @@ export class BackupExportStream extends Readable {
             const chatItem = await this.#toChatItem(message, {
               aboutMe,
               callHistoryByCallId,
-              backupLevel,
-              isLocalBackup,
             });
 
             if (chatItem === undefined) {
@@ -1214,12 +1215,7 @@ export class BackupExportStream extends Readable {
 
   async #toChatItem(
     message: MessageAttributesType,
-    {
-      aboutMe,
-      callHistoryByCallId,
-      backupLevel,
-      isLocalBackup,
-    }: ToChatItemOptionsType
+    { aboutMe, callHistoryByCallId }: ToChatItemOptionsType
   ): Promise<Backups.IChatItem | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
@@ -1378,8 +1374,6 @@ export class BackupExportStream extends Readable {
     if (isTapToView(message)) {
       result.viewOnceMessage = await this.#toViewOnceMessage({
         message,
-        backupLevel,
-        isLocalBackup,
       });
     } else if (message.deletedForEveryone) {
       result.remoteDeletedMessage = {};
@@ -1440,8 +1434,6 @@ export class BackupExportStream extends Readable {
         avatar: contactDetails.avatar?.avatar
           ? await this.#processAttachment({
               attachment: contactDetails.avatar.avatar,
-              backupLevel,
-              isLocalBackup,
               messageReceivedAt: message.received_at,
             })
           : undefined,
@@ -1462,8 +1454,6 @@ export class BackupExportStream extends Readable {
       stickerProto.data = sticker.data
         ? await this.#processAttachment({
             attachment: sticker.data,
-            backupLevel,
-            isLocalBackup,
             messageReceivedAt: message.received_at,
           })
         : undefined;
@@ -1506,29 +1496,15 @@ export class BackupExportStream extends Readable {
     } else if (message.storyReplyContext) {
       result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
         message,
-        backupLevel,
-        isLocalBackup,
       });
 
-      result.revisions = await this.#toChatItemRevisions(
-        result,
-        message,
-        backupLevel,
-        isLocalBackup
-      );
+      result.revisions = await this.#toChatItemRevisions(result, message);
     } else {
       result.standardMessage = await this.#toStandardMessage({
         message,
-        backupLevel,
-        isLocalBackup,
       });
 
-      result.revisions = await this.#toChatItemRevisions(
-        result,
-        message,
-        backupLevel,
-        isLocalBackup
-      );
+      result.revisions = await this.#toChatItemRevisions(result, message);
     }
 
     if (isOutgoing) {
@@ -2446,12 +2422,8 @@ export class BackupExportStream extends Readable {
 
   async #toQuote({
     message,
-    backupLevel,
-    isLocalBackup,
   }: {
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
-    backupLevel: BackupLevel;
-    isLocalBackup: boolean;
   }): Promise<Backups.IQuote | null> {
     const { quote } = message;
     if (!quote) {
@@ -2513,9 +2485,7 @@ export class BackupExportStream extends Readable {
               thumbnail: attachment.thumbnail
                 ? await this.#processMessageAttachment({
                     attachment: attachment.thumbnail,
-                    backupLevel,
                     message,
-                    isLocalBackup,
                   })
                 : undefined,
             };
@@ -2572,21 +2542,15 @@ export class BackupExportStream extends Readable {
 
   async #processMessageAttachment({
     attachment,
-    backupLevel,
     message,
-    isLocalBackup,
   }: {
     attachment: AttachmentType;
-    backupLevel: BackupLevel;
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
-    isLocalBackup: boolean;
   }): Promise<Backups.MessageAttachment> {
     const { clientUuid } = attachment;
     const filePointer = await this.#processAttachment({
       attachment,
-      backupLevel,
       messageReceivedAt: message.received_at,
-      isLocalBackup,
     });
 
     return new Backups.MessageAttachment({
@@ -2599,26 +2563,28 @@ export class BackupExportStream extends Readable {
 
   async #processAttachment({
     attachment,
-    backupLevel,
-    isLocalBackup,
     messageReceivedAt,
   }: {
     attachment: AttachmentType;
-    backupLevel: BackupLevel;
-    isLocalBackup: boolean;
     messageReceivedAt: number;
   }): Promise<Backups.FilePointer> {
     const { filePointer, backupJob } = await getFilePointerForAttachment({
       attachment,
-      isLocalBackup,
-      backupLevel,
+      backupOptions: this.options,
       messageReceivedAt,
       getBackupCdnInfo,
     });
 
-    if (hasRequiredInformationForBackup(attachment)) {
-      const mediaName = getMediaNameForAttachment(attachment);
+    let mediaName: string | undefined;
+    if (this.options.type === 'local-encrypted') {
+      if (hasRequiredInformationForLocalBackup(attachment)) {
+        mediaName = getLocalBackupFileNameForAttachment(attachment);
+      }
+    } else if (hasRequiredInformationForRemoteBackup(attachment)) {
+      mediaName = getMediaNameForAttachment(attachment);
+    }
 
+    if (mediaName) {
       // Re-use existing locatorInfo and backup job if we've already seen this file
       const existingFilePointer = this.#mediaNamesToFilePointers.get(mediaName);
 
@@ -2632,7 +2598,6 @@ export class BackupExportStream extends Readable {
         if (filePointer.locatorInfo) {
           this.#mediaNamesToFilePointers.set(mediaName, filePointer);
         }
-
         if (backupJob) {
           this.#attachmentBackupJobs.push(backupJob);
         }
@@ -2814,8 +2779,6 @@ export class BackupExportStream extends Readable {
 
   async #toStandardMessage({
     message,
-    backupLevel,
-    isLocalBackup,
   }: {
     message: Pick<
       MessageAttributesType,
@@ -2829,8 +2792,6 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'timestamp'
     >;
-    backupLevel: BackupLevel;
-    isLocalBackup: boolean;
   }): Promise<Backups.IStandardMessage> {
     if (
       message.body &&
@@ -2842,17 +2803,13 @@ export class BackupExportStream extends Readable {
     return {
       quote: await this.#toQuote({
         message,
-        backupLevel,
-        isLocalBackup,
       }),
       attachments: message.attachments?.length
         ? await Promise.all(
             message.attachments.map(attachment => {
               return this.#processMessageAttachment({
                 attachment,
-                backupLevel,
                 message,
-                isLocalBackup,
               });
             })
           )
@@ -2863,8 +2820,6 @@ export class BackupExportStream extends Readable {
         message.bodyAttachment && !isDownloaded(message.bodyAttachment)
           ? await this.#processAttachment({
               attachment: message.bodyAttachment,
-              backupLevel,
-              isLocalBackup,
               messageReceivedAt: message.received_at,
             })
           : undefined,
@@ -2890,8 +2845,6 @@ export class BackupExportStream extends Readable {
                 image: preview.image
                   ? await this.#processAttachment({
                       attachment: preview.image,
-                      backupLevel,
-                      isLocalBackup,
                       messageReceivedAt: message.received_at,
                     })
                   : undefined,
@@ -2905,8 +2858,6 @@ export class BackupExportStream extends Readable {
 
   async #toDirectStoryReplyMessage({
     message,
-    backupLevel,
-    isLocalBackup,
   }: {
     message: Pick<
       MessageAttributesType,
@@ -2917,8 +2868,6 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'reactions'
     >;
-    backupLevel: BackupLevel;
-    isLocalBackup: boolean;
   }): Promise<Backups.IDirectStoryReplyMessage> {
     const result = new Backups.DirectStoryReplyMessage({
       reactions: this.#getMessageReactions(message),
@@ -2931,8 +2880,6 @@ export class BackupExportStream extends Readable {
         longText: message.bodyAttachment
           ? await this.#processAttachment({
               attachment: message.bodyAttachment,
-              backupLevel,
-              isLocalBackup,
               messageReceivedAt: message.received_at,
             })
           : undefined,
@@ -2952,15 +2899,11 @@ export class BackupExportStream extends Readable {
 
   async #toViewOnceMessage({
     message,
-    backupLevel,
-    isLocalBackup,
   }: {
     message: Pick<
       MessageAttributesType,
       'attachments' | 'received_at' | 'reactions'
     >;
-    backupLevel: BackupLevel;
-    isLocalBackup: boolean;
   }): Promise<Backups.IViewOnceMessage> {
     const attachment = message.attachments?.at(0);
     // Integration tests use the 'link-and-sync' version of export, which will include
@@ -2972,9 +2915,7 @@ export class BackupExportStream extends Readable {
           ? null
           : await this.#processMessageAttachment({
               attachment,
-              backupLevel,
               message,
-              isLocalBackup,
             }),
       reactions: this.#getMessageReactions(message),
     };
@@ -2982,9 +2923,7 @@ export class BackupExportStream extends Readable {
 
   async #toChatItemRevisions(
     parent: Backups.IChatItem,
-    message: MessageAttributesType,
-    backupLevel: BackupLevel,
-    isLocalBackup: boolean
+    message: MessageAttributesType
   ): Promise<Array<Backups.IChatItem> | undefined> {
     const { editHistory } = message;
     if (editHistory == null) {
@@ -3022,14 +2961,10 @@ export class BackupExportStream extends Readable {
             result.directStoryReplyMessage =
               await this.#toDirectStoryReplyMessage({
                 message: history,
-                backupLevel,
-                isLocalBackup,
               });
           } else {
             result.standardMessage = await this.#toStandardMessage({
               message: history,
-              backupLevel,
-              isLocalBackup,
             });
           }
           return result;

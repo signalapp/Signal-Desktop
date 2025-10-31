@@ -48,8 +48,6 @@ export type CoreAttachmentLocalBackupJobType = {
   mediaName: string;
   data: {
     path: string | null;
-    size: number;
-    localKey: string;
   };
   backupsBaseDir: string;
 };

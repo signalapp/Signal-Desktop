@@ -12,6 +12,7 @@ import type {
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
   LocallySavedAttachment,
+  AttachmentReadyForLocalBackup,
 } from '../types/Attachment.std.js';
 import type { LoggerType } from '../types/Logging.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -847,7 +848,7 @@ export function getCachedAttachmentBySignature<T>(
   return undefined;
 }
 
-export function hasRequiredInformationForBackup(
+export function hasRequiredInformationForRemoteBackup(
   attachment: AttachmentType
 ): attachment is BackupableAttachmentType {
   return (
@@ -856,13 +857,23 @@ export function hasRequiredInformationForBackup(
   );
 }
 
+export function hasRequiredInformationForLocalBackup(
+  attachment: AttachmentType
+): attachment is AttachmentReadyForLocalBackup {
+  return (
+    isValidAttachmentKey(attachment.localKey) &&
+    isValidPlaintextHash(attachment.plaintextHash) &&
+    Boolean(attachment.path)
+  );
+}
+
 export function wasImportedFromLocalBackup(
   attachment: AttachmentType
 ): attachment is BackupableAttachmentType {
   return (
-    hasRequiredInformationForBackup(attachment) &&
-    Boolean(attachment.localBackupPath) &&
-    isValidAttachmentKey(attachment.localKey)
+    isValidPlaintextHash(attachment.plaintextHash) &&
+    isValidAttachmentKey(attachment.localKey) &&
+    Boolean(attachment.localBackupPath)
   );
 }
 
@@ -900,7 +911,7 @@ export function shouldAttachmentEndUpInRemoteBackup({
   attachment: AttachmentType;
   hasMediaBackups: boolean;
 }): boolean {
-  return hasMediaBackups && hasRequiredInformationForBackup(attachment);
+  return hasMediaBackups && hasRequiredInformationForRemoteBackup(attachment);
 }
 
 export function isDownloadable(attachment: AttachmentType): boolean {
