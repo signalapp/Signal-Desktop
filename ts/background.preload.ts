@@ -2470,7 +2470,7 @@ export async function startApp(): Promise<void> {
         timestamp,
       };
 
-      drop(Reactions.onReaction(attributes));
+      await Reactions.onReaction(attributes);
       return;
     }
 
@@ -2971,7 +2971,7 @@ export async function startApp(): Promise<void> {
         receivedAtDate: data.receivedAtDate,
         timestamp,
       };
-      drop(Reactions.onReaction(attributes));
+      await Reactions.onReaction(attributes);
       return;
     }
 
