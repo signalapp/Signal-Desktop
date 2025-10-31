@@ -228,13 +228,19 @@ export async function asymmetricRoundtripHarness(
       postSaveUpdates,
     });
 
-    await backupsService.exportToDisk(targetOutputFile, options.backupLevel);
+    await backupsService.exportToDisk(targetOutputFile, {
+      type: 'remote',
+      level: options.backupLevel,
+    });
 
     await updateConvoIdToTitle();
 
     await clearData();
 
-    await backupsService.importBackup(() => createReadStream(targetOutputFile));
+    await backupsService.importBackup(
+      () => createReadStream(targetOutputFile),
+      { type: 'remote' }
+    );
 
     const messagesFromDatabase = await DataReader._getAllMessages();
 

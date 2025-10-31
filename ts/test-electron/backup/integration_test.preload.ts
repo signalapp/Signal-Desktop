@@ -14,10 +14,7 @@ import { assert } from 'chai';
 
 import { clearData } from './helpers.preload.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import {
-  backupsService,
-  BackupType,
-} from '../../services/backups/index.preload.js';
+import { backupsService } from '../../services/backups/index.preload.js';
 import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.preload.js';
 import { MemoryStream } from '../../util/MemoryStream.node.js';
 
@@ -56,13 +53,13 @@ describe('backup/integration', () => {
       const expectedBuffer = await readFile(fullPath);
 
       await backupsService.importBackup(() => Readable.from([expectedBuffer]), {
-        backupType: BackupType.TestOnlyPlaintext,
+        type: 'cross-client-integration-test',
       });
 
-      const { data: exported } = await backupsService.exportBackupData(
-        BackupLevel.Paid,
-        BackupType.TestOnlyPlaintext
-      );
+      const { data: exported } = await backupsService.exportBackupData({
+        type: 'cross-client-integration-test',
+        level: BackupLevel.Paid,
+      });
 
       const actualStream = new MemoryStream(Buffer.from(exported));
       const expectedStream = new MemoryStream(expectedBuffer);

@@ -25,10 +25,22 @@ export type AboutMe = {
   e164?: string;
 };
 
-export enum BackupType {
-  Ciphertext = 'Ciphertext',
-  TestOnlyPlaintext = 'TestOnlyPlaintext',
-}
+export type BackupExportOptions =
+  | { type: 'remote' | 'cross-client-integration-test'; level: BackupLevel }
+  | {
+      type: 'local-encrypted';
+      localBackupSnapshotDir: string;
+    };
+export type BackupImportOptions = (
+  | { type: 'remote' | 'cross-client-integration-test' }
+  | {
+      type: 'local-encrypted';
+      localBackupSnapshotDir: string;
+    }
+) & {
+  ephemeralKey?: Uint8Array;
+  onProgress?: (currentBytes: number, totalBytes: number) => void;
+};
 
 export type LocalChatStyle = Readonly<{
   wallpaperPhotoPointer: Uint8Array | undefined;

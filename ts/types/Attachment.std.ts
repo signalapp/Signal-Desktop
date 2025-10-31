@@ -233,6 +233,10 @@ export type BackupableAttachmentType = WithRequiredProperties<
   AttachmentType,
   'plaintextHash' | 'key'
 >;
+export type AttachmentReadyForLocalBackup = WithRequiredProperties<
+  AttachmentType,
+  'plaintextHash' | 'localKey' | 'path'
+>;
 
 export type AttachmentDownloadableFromTransitTier = WithRequiredProperties<
   AttachmentType,

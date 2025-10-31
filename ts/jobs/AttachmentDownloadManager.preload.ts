@@ -38,7 +38,7 @@ import {
   shouldAttachmentEndUpInRemoteBackup,
   getUndownloadedAttachmentSignature,
   isIncremental,
-  hasRequiredInformationForBackup,
+  hasRequiredInformationForRemoteBackup,
 } from '../util/Attachment.std.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.preload.js';
@@ -310,7 +310,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
     if (
       source === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA &&
-      !hasRequiredInformationForBackup(attachment)
+      !hasRequiredInformationForRemoteBackup(attachment)
     ) {
       source = AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA;
     }

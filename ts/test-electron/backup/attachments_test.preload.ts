@@ -26,7 +26,7 @@ import type {
   QuotedMessageType,
 } from '../../model-types.d.ts';
 import {
-  hasRequiredInformationForBackup,
+  hasRequiredInformationForRemoteBackup,
   isVoiceMessage,
 } from '../../util/Attachment.std.js';
 import type { AttachmentType } from '../../types/Attachment.std.js';
@@ -128,7 +128,7 @@ describe('backup/attachments', () => {
     attachment: AttachmentType
   ): AttachmentType {
     const base = omit(attachment, NON_ROUNDTRIPPED_FIELDS);
-    if (hasRequiredInformationForBackup(attachment)) {
+    if (hasRequiredInformationForRemoteBackup(attachment)) {
       delete base.digest;
     } else {
       delete base.plaintextHash;
@@ -793,7 +793,7 @@ describe('backup/attachments', () => {
             strictAssert(key, 'thumbnail key was created');
             strictAssert(plaintextHash, 'quote plaintextHash was roundtripped');
             strictAssert(
-              hasRequiredInformationForBackup(thumbnail),
+              hasRequiredInformationForRemoteBackup(thumbnail),
               'has key and plaintextHash'
             );
             assert.deepStrictEqual(thumbnail, {
