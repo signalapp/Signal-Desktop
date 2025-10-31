@@ -3076,6 +3076,10 @@
     "messageformat": "Poll: {pollQuestion}",
     "description": "Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
   },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}",
+    "description": "Shown in notifications, the left pane message preview, and quotes when a poll message is referenced."
+  },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}",
     "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."

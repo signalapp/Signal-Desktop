@@ -25,6 +25,7 @@ import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
 import type { QuotedMessageForComposerType } from '../state/ducks/composer.preload.js';
 
 const log = createLogger('makeQuote');
+const { i18n } = window.SignalContext;
 
 export async function makeQuote(
   quotedMessage: MessageAttributesType
@@ -56,7 +57,11 @@ export async function makeQuote(
     isGiftBadge: isGiftBadge(quotedMessage),
     messageId,
     referencedMessageNotFound: false,
-    text: getQuoteBodyText(quotedMessage, quoteId),
+    text: getQuoteBodyText({
+      messageAttributes: quotedMessage,
+      id: quoteId,
+      i18n,
+    }),
   };
 }
 

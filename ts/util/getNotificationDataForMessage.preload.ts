@@ -514,7 +514,7 @@ export function getNotificationDataForMessage(
   if (poll) {
     return {
       emoji: '📊',
-      text: i18n('icu:message--getNotificationText--poll', {
+      text: i18n('icu:Poll--preview', {
         pollQuestion: poll.question,
       }),
       bodyRanges,

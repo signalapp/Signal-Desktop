@@ -24,6 +24,7 @@ import { isDownloadable } from '../util/Attachment.std.js';
 const { omit } = lodash;
 
 const log = createLogger('copyQuote');
+const { i18n } = window.SignalContext;
 
 export type MinimalMessageCache = Readonly<{
   findBySentAt(
@@ -129,7 +130,11 @@ export const copyQuoteContentFromOriginal = async (
   quote.isViewOnce = false;
 
   // eslint-disable-next-line no-param-reassign
-  quote.text = getQuoteBodyText(message.attributes, quote.id);
+  quote.text = getQuoteBodyText({
+    messageAttributes: message.attributes,
+    id: quote.id,
+    i18n,
+  });
 
   // eslint-disable-next-line no-param-reassign
   quote.bodyRanges = message.attributes.bodyRanges;
