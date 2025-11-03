@@ -79,6 +79,7 @@ function sortAndNormalize(
       preview,
       quote,
       sticker,
+      poll,
 
       // This is not in the backup
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -174,6 +175,18 @@ function sortAndNormalize(
           ? {
               ...sticker,
               data: omit(sticker.data, 'downloadPath'),
+            }
+          : undefined,
+        poll: poll
+          ? {
+              ...poll,
+              votes: poll.votes?.map(vote => ({
+                ...vote,
+                fromConversationId: mapConvoId(vote.fromConversationId),
+                sendStateByConversationId: mapSendState(
+                  vote.sendStateByConversationId
+                ),
+              })),
             }
           : undefined,
 

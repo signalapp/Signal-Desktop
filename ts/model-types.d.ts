@@ -103,6 +103,7 @@ export type QuotedMessageType = {
   // from backup
   id: number | null;
   isGiftBadge?: boolean;
+  isPoll?: boolean;
   isViewOnce: boolean;
   referencedMessageNotFound: boolean;
   text?: string;
