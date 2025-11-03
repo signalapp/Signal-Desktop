@@ -1498,6 +1498,42 @@
     "messageformat": "No votes",
     "description": "Message shown when poll has no votes"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll",
+    "description": "Title for the modal to create a new poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question",
+    "description": "Label for the poll question input field"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?",
+    "description": "Placeholder text for the poll question input field"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options",
+    "description": "Label for the poll options section"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}",
+    "description": "Placeholder text for poll option input field"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes",
+    "description": "Label for the toggle to allow multiple votes in a poll"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send",
+    "description": "Send button text in poll creation modal"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required",
+    "description": "Error message shown when poll question is empty"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options",
+    "description": "Error message shown when poll has fewer than 2 non-empty options"
+  },
   "icu:deleteConversation": {
     "messageformat": "Delete",
     "description": "Menu item for deleting a conversation (including messages), title case."
@@ -5827,6 +5863,22 @@
   "icu:CompositionArea--attach-file": {
     "messageformat": "Attach file",
     "description": "Aria label for file attachment button in composition area"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos",
+    "description": "Menu item to attach photos and videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File",
+    "description": "Menu item to attach a file"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll",
+    "description": "Menu item to create a poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll",
+    "description": "Aria label for plus button that opens attachment menu"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "This person isn’t using Signal",

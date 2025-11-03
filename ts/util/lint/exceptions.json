@@ -2327,5 +2327,29 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionArea.dom.tsx",
+    "line": "  const photoVideoInputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-10-27T16:28:11.852Z",
+    "reasonDetail": "Ref for photo/video file input element"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PollCreateModal.dom.tsx",
+    "line": "  const questionInputRef = useRef<HTMLTextAreaElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-02T17:27:24.705Z",
+    "reasonDetail": "Ref for question input to manage focus on validation errors"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PollCreateModal.dom.tsx",
+    "line": "  const optionRefsMap = useRef<Map<string, HTMLTextAreaElement | null>>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-02T17:27:24.705Z",
+    "reasonDetail": "Map of refs for poll option inputs to manage focus"
   }
 ]

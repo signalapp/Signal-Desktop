@@ -25,11 +25,19 @@ export type PropsType = {
     files: ReadonlyArray<File>;
     flags: number | null;
   }) => unknown;
+  acceptMediaOnly?: boolean;
+  testId?: string;
 };
 
 export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
   function CompositionUploadInner(
-    { conversationId, draftAttachments, processAttachments },
+    {
+      conversationId,
+      draftAttachments,
+      processAttachments,
+      acceptMediaOnly,
+      testId,
+    },
     ref
   ) {
     const onFileInputChange: ChangeEventHandler<
@@ -48,13 +56,14 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
       return isImageAttachment(attachment) || isVideoAttachment(attachment);
     });
 
-    const acceptContentTypes = anyVideoOrImageAttachments
-      ? [...getSupportedImageTypes(), ...getSupportedVideoTypes()]
-      : null;
+    const acceptContentTypes =
+      acceptMediaOnly || anyVideoOrImageAttachments
+        ? [...getSupportedImageTypes(), ...getSupportedVideoTypes()]
+        : null;
 
     return (
       <input
-        data-testid="attachfile-input"
+        data-testid={testId ?? 'attachfile-input'}
         hidden
         multiple
         onChange={onFileInputChange}

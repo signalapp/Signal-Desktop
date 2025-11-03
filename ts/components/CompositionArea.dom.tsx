@@ -76,6 +76,12 @@ import { strictAssert } from '../util/assert.std.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import type { EmojiSkinTone } from './fun/data/emojis.std.js';
 import { FunPickerButton } from './fun/FunButton.dom.js';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
+import { tw } from '../axo/tw.dom.js';
+import { isPollSendEnabled, type PollCreateType } from '../types/Polls.dom.js';
+import { PollCreateModal } from './PollCreateModal.dom.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -160,6 +166,7 @@ export type OwnProps = Readonly<{
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
     }
   ): unknown;
+  sendPoll(conversationId: string, poll: PollCreateType): unknown;
   quotedMessageId: string | null;
   quotedMessageProps: null | ReadonlyDeep<
     Omit<
@@ -244,6 +251,7 @@ export const CompositionArea = memo(function CompositionArea({
   removeAttachment,
   sendEditedMessage,
   sendMultiMediaMessage,
+  sendPoll,
   setComposerFocus,
   setMessageToEdit,
   setQuoteByMessageId,
@@ -332,8 +340,10 @@ export const CompositionArea = memo(function CompositionArea({
   const [attachmentToEdit, setAttachmentToEdit] = useState<
     AttachmentDraftType | undefined
   >();
+  const [isPollModalOpen, setIsPollModalOpen] = useState(false);
   const inputApiRef = useRef<InputApi | undefined>();
   const fileInputRef = useRef<null | HTMLInputElement>(null);
+  const photoVideoInputRef = useRef<null | HTMLInputElement>(null);
 
   const handleForceSend = useCallback(() => {
     setLarge(false);
@@ -407,8 +417,9 @@ export const CompositionArea = memo(function CompositionArea({
     ]
   );
 
-  const launchAttachmentPicker = useCallback(() => {
-    const fileInput = fileInputRef.current;
+  const launchAttachmentPicker = useCallback((type?: 'media' | 'file') => {
+    const inputRef = type === 'media' ? photoVideoInputRef : fileInputRef;
+    const fileInput = inputRef.current;
     if (fileInput) {
       // Setting the value to empty so that onChange always fires in case
       // you add multiple photos.
@@ -416,6 +427,32 @@ export const CompositionArea = memo(function CompositionArea({
       fileInput.click();
     }
   }, []);
+
+  const launchMediaPicker = useCallback(
+    () => launchAttachmentPicker('media'),
+    [launchAttachmentPicker]
+  );
+
+  const launchFilePicker = useCallback(
+    () => launchAttachmentPicker('file'),
+    [launchAttachmentPicker]
+  );
+
+  const handleOpenPollModal = useCallback(() => {
+    setIsPollModalOpen(true);
+  }, []);
+
+  const handleClosePollModal = useCallback(() => {
+    setIsPollModalOpen(false);
+  }, []);
+
+  const handleSendPoll = useCallback(
+    (poll: PollCreateType) => {
+      sendPoll(conversationId, poll);
+      handleClosePollModal();
+    },
+    [conversationId, sendPoll, handleClosePollModal]
+  );
 
   function maybeEditAttachment(attachment: AttachmentDraftType) {
     if (!isImageTypeSupported(attachment.contentType)) {
@@ -444,7 +481,7 @@ export const CompositionArea = memo(function CompositionArea({
 
   const [hasFocus, setHasFocus] = useState(false);
 
-  const attachFileShortcut = useAttachFileShortcut(launchAttachmentPicker);
+  const attachFileShortcut = useAttachFileShortcut(launchFilePicker);
   const editLastMessageSent = useEditLastMessageSent(maybeEditMessage);
   useKeyboardShortcutsConditionally(
     hasFocus,
@@ -708,17 +745,56 @@ export const CompositionArea = memo(function CompositionArea({
   ) : null;
 
   const isRecording = recordingState === RecordingState.Recording;
-  const attButton =
-    draftEditMessage || linkPreviewResult || isRecording ? undefined : (
+
+  let attButton;
+  if (draftEditMessage || linkPreviewResult || isRecording) {
+    attButton = undefined;
+  } else if (isPollSendEnabled()) {
+    attButton = (
+      <div className="CompositionArea__button-cell">
+        <AxoDropdownMenu.Root>
+          <AxoDropdownMenu.Trigger>
+            <div className={tw('flex h-8 items-center')}>
+              <AxoButton.Root
+                variant="borderless-secondary"
+                size="small"
+                aria-label={i18n('icu:CompositionArea--attach-plus')}
+              >
+                <AxoSymbol.Icon label={null} symbol="plus" size={20} />
+              </AxoButton.Root>
+            </div>
+          </AxoDropdownMenu.Trigger>
+          <AxoDropdownMenu.Content>
+            <AxoDropdownMenu.Item symbol="photo" onSelect={launchMediaPicker}>
+              {i18n('icu:CompositionArea__AttachMenu__PhotosAndVideos')}
+            </AxoDropdownMenu.Item>
+            <AxoDropdownMenu.Item symbol="file" onSelect={launchFilePicker}>
+              {i18n('icu:CompositionArea__AttachMenu__File')}
+            </AxoDropdownMenu.Item>
+            {conversationType === 'group' && (
+              <AxoDropdownMenu.Item
+                symbol="poll"
+                onSelect={handleOpenPollModal}
+              >
+                {i18n('icu:CompositionArea__AttachMenu__Poll')}
+              </AxoDropdownMenu.Item>
+            )}
+          </AxoDropdownMenu.Content>
+        </AxoDropdownMenu.Root>
+      </div>
+    );
+  } else {
+    attButton = (
       <div className="CompositionArea__button-cell">
         <button
           type="button"
           className="CompositionArea__attach-file"
-          onClick={launchAttachmentPicker}
+          onClick={launchFilePicker}
           aria-label={i18n('icu:CompositionArea--attach-file')}
         />
       </div>
     );
+  }
 
   const sendButtonFragment = !draftEditMessage ? (
     <>
@@ -1049,7 +1125,7 @@ export const CompositionArea = memo(function CompositionArea({
               attachments={draftAttachments}
               canEditImages
               i18n={i18n}
-              onAddAttachment={launchAttachmentPicker}
+              onAddAttachment={launchFilePicker}
               onClickAttachment={maybeEditAttachment}
               onClose={() => onClearAttachments(conversationId)}
               onCloseAttachment={attachment => {
@@ -1133,6 +1209,22 @@ export const CompositionArea = memo(function CompositionArea({
         processAttachments={processAttachments}
         ref={fileInputRef}
       />
+      <CompositionUpload
+        conversationId={conversationId}
+        draftAttachments={draftAttachments}
+        i18n={i18n}
+        processAttachments={processAttachments}
+        ref={photoVideoInputRef}
+        acceptMediaOnly
+        testId="attachfile-input-media"
+      />
+      {isPollModalOpen && (
+        <PollCreateModal
+          i18n={i18n}
+          onClose={handleClosePollModal}
+          onSendPoll={handleSendPoll}
+        />
+      )}
     </div>
   );
 });
