@@ -1499,6 +1499,67 @@ export class BackupExportStream extends Readable {
       });
 
       result.revisions = await this.#toChatItemRevisions(result, message);
+    } else if (message.poll) {
+      const { poll } = message;
+      const pollMessage = new Backups.Poll();
+
+      pollMessage.question = poll.question;
+      pollMessage.allowMultiple = poll.allowMultiple;
+      pollMessage.hasEnded = poll.terminatedAt != null;
+
+      pollMessage.options = poll.options.map((optionText, optionIndex) => {
+        const pollOption = new Backups.Poll.PollOption();
+        pollOption.option = optionText;
+
+        const votesForThisOption = new Map<string, number>();
+
+        if (poll.votes) {
+          for (const vote of poll.votes) {
+            // Skip votes that have not been sent
+            if (vote.sendStateByConversationId) {
+              continue;
+            }
+
+            // If we somehow have multiple votes from the same person
+            // (shouldn't happen, just in case) only keep the highest voteCount
+            const maybeExistingVoteFromThisConversation =
+              votesForThisOption.get(vote.fromConversationId);
+            if (
+              vote.optionIndexes.includes(optionIndex) &&
+              (!maybeExistingVoteFromThisConversation ||
+                vote.voteCount > maybeExistingVoteFromThisConversation)
+            ) {
+              votesForThisOption.set(vote.fromConversationId, vote.voteCount);
+            }
+          }
+        }
+
+        pollOption.votes = Array.from(votesForThisOption.entries()).map(
+          ([conversationId, voteCount]) => {
+            const pollVote = new Backups.Poll.PollOption.PollVote();
+
+            const voterConvo =
+              window.ConversationController.get(conversationId);
+            if (voterConvo) {
+              pollVote.voterId = this.#getOrPushPrivateRecipient(
+                voterConvo.attributes
+              );
+            }
+
+            pollVote.voteCount = voteCount;
+            return pollVote;
+          }
+        );
+
+        return pollOption;
+      });
+
+      const reactions = this.#getMessageReactions(message);
+      if (reactions != null) {
+        pollMessage.reactions = reactions;
+      }
+
+      result.poll = pollMessage;
     } else {
       result.standardMessage = await this.#toStandardMessage({
         message,
@@ -2451,6 +2512,8 @@ export class BackupExportStream extends Readable {
       quoteType = Backups.Quote.Type.GIFT_BADGE;
     } else if (quote.isViewOnce) {
       quoteType = Backups.Quote.Type.VIEW_ONCE;
+    } else if (quote.isPoll) {
+      quoteType = Backups.Quote.Type.POLL;
     } else {
       quoteType = Backups.Quote.Type.NORMAL;
       if (quote.text == null && quote.attachments.length === 0) {

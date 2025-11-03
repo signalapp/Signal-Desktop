@@ -1184,4 +1184,320 @@ describe('backup/bubble messages', () => {
       ]);
     });
   });
+
+  describe('polls', () => {
+    const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
+    let group: ConversationModel | undefined;
+
+    let basePollMessage: MessageAttributesType;
+
+    beforeEach(async () => {
+      group = await window.ConversationController.getOrCreateAndWait(
+        GROUP_ID,
+        'group',
+        {
+          groupVersion: 2,
+          masterKey: Bytes.toBase64(getRandomBytes(32)),
+          name: 'Poll Test Group',
+          active_at: 1,
+        }
+      );
+
+      strictAssert(group, 'group must exist');
+
+      basePollMessage = {
+        conversationId: group.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        sourceServiceId: CONTACT_A,
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        timestamp: 3,
+        poll: {
+          question: '',
+          options: [],
+          allowMultiple: false,
+          votes: undefined,
+          terminatedAt: undefined,
+        },
+      };
+    });
+
+    it('roundtrips poll with no votes', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'How do you feel about unit testing?',
+            options: ['yay', 'ok', 'nay'],
+            allowMultiple: false,
+          },
+        },
+      ]);
+    });
+
+    it('roundtrips poll with single vote', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'How do you feel about unit testing?',
+            options: ['yay', 'ok', 'nay'],
+            allowMultiple: false,
+            votes: [
+              {
+                fromConversationId: contactA.id,
+                optionIndexes: [0], // Voted for "yay"
+                voteCount: 1,
+                timestamp: 3,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('roundtrips poll with multiple voters', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'Pizza toppings?',
+            options: ['pepperoni', 'mushrooms', 'pineapple'],
+            allowMultiple: false,
+            votes: [
+              {
+                fromConversationId: contactA.id,
+                optionIndexes: [0], // contactA voted for pepperoni
+                voteCount: 2, // Changed their vote twice
+                timestamp: 3,
+              },
+              {
+                fromConversationId: contactB.id,
+                optionIndexes: [2], // contactB voted for pineapple
+                voteCount: 1,
+                timestamp: 3,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('roundtrips poll with multiple selections', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'Which features do you want?',
+            options: ['dark mode', 'better search', 'polls', 'voice notes'],
+            allowMultiple: true,
+            votes: [
+              {
+                fromConversationId: contactA.id,
+                optionIndexes: [0, 2, 3], // Selected dark mode, polls, and voice notes
+                voteCount: 1,
+                timestamp: 3,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('roundtrips ended poll', async () => {
+      const pollData = {
+        poll: {
+          question: 'This poll is closed',
+          options: ['option1', 'option2'],
+          allowMultiple: false,
+          votes: [
+            {
+              fromConversationId: contactA.id,
+              optionIndexes: [0],
+              voteCount: 1,
+              timestamp: 3,
+            },
+          ],
+        },
+      };
+
+      await asymmetricRoundtripHarness(
+        [
+          {
+            ...basePollMessage,
+            ...pollData,
+            poll: {
+              ...pollData.poll,
+              terminatedAt: 5, // Original termination timestamp
+            },
+          },
+        ],
+        [
+          {
+            ...basePollMessage,
+            ...pollData,
+            poll: {
+              ...pollData.poll,
+              terminatedAt: 3, // After roundtrip, set to message timestamp
+            },
+          },
+        ]
+      );
+    });
+
+    it('roundtrips outgoing poll', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          type: 'outgoing',
+          sourceServiceId: OUR_ACI,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          unidentifiedDeliveryReceived: false, // Outgoing messages default to false
+          sendStateByConversationId: {
+            [contactA.id]: {
+              status: SendStatus.Delivered,
+            },
+          },
+          poll: {
+            question: 'Meeting time?',
+            options: ['10am', '2pm', '4pm'],
+            allowMultiple: false,
+            votes: [
+              {
+                fromConversationId: contactA.id,
+                optionIndexes: [1],
+                voteCount: 1,
+                timestamp: 3,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('excludes pending votes from backup', async () => {
+      strictAssert(group, 'group must exist');
+      const ourConversation = window.ConversationController.get(OUR_ACI);
+      strictAssert(ourConversation, 'our conversation must exist');
+
+      await asymmetricRoundtripHarness(
+        [
+          {
+            ...basePollMessage,
+            poll: {
+              question: 'Test question?',
+              options: ['yes', 'no'],
+              allowMultiple: false,
+              votes: [
+                {
+                  fromConversationId: contactA.id,
+                  optionIndexes: [0],
+                  voteCount: 1,
+                  timestamp: 3,
+                  // No sendStateByConversationId - this vote is sent
+                },
+                {
+                  fromConversationId: ourConversation.id,
+                  optionIndexes: [1],
+                  voteCount: 1,
+                  timestamp: 3,
+                  // This vote is still pending, should NOT be in backup
+                  sendStateByConversationId: {
+                    [contactA.id]: {
+                      status: SendStatus.Pending,
+                      updatedAt: 3,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        [
+          {
+            ...basePollMessage,
+            poll: {
+              question: 'Test question?',
+              options: ['yes', 'no'],
+              allowMultiple: false,
+              votes: [
+                {
+                  fromConversationId: contactA.id,
+                  optionIndexes: [0],
+                  voteCount: 1,
+                  timestamp: 3,
+                  // Only the sent vote should remain after roundtrip
+                },
+                // The pending vote should be excluded from the backup
+              ],
+            },
+          },
+        ]
+      );
+    });
+
+    it('roundtrips poll with reactions', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'React to this poll?',
+            options: ['yes', 'no'],
+            allowMultiple: false,
+          },
+          reactions: [
+            {
+              emoji: '👍',
+              fromId: contactA.id,
+              targetTimestamp: 3,
+              timestamp: 3,
+            },
+            {
+              emoji: '❤️',
+              fromId: contactB.id,
+              targetTimestamp: 3,
+              timestamp: 3,
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('roundtrips quote of poll', async () => {
+      await symmetricRoundtripHarness([
+        {
+          ...basePollMessage,
+          poll: {
+            question: 'Original poll?',
+            options: ['option1', 'option2'],
+            allowMultiple: false,
+          },
+        },
+        {
+          ...basePollMessage,
+          id: generateGuid(), // Generate new ID to avoid duplicate
+          sent_at: 4,
+          timestamp: 4,
+          body: 'Replying to poll',
+          poll: undefined,
+          quote: {
+            id: 3,
+            authorAci: CONTACT_A,
+            text: 'Original poll?',
+            attachments: [],
+            isGiftBadge: false,
+            isPoll: true,
+            isViewOnce: false,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+  });
 });
