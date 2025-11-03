@@ -20,6 +20,9 @@ const log = createLogger('createStore');
 
 const env = getEnvironment();
 
+// Enabled by devs as-needed
+const REDUX_LOGGER_ENABLED = false;
+
 const logger = createReduxLogger({
   predicate: (_getState, action) => {
     if (action.type === 'network/CHECK_NETWORK_STATUS') {
@@ -80,7 +83,7 @@ const middlewareList = [
   thunk,
   dispatchItemsMiddleware,
   actionRateLogger,
-  ...(env === 'production' ? [] : [logger]),
+  ...(env === 'production' || !REDUX_LOGGER_ENABLED ? [] : [logger]),
 ];
 
 const enhancer = applyMiddleware(...middlewareList);
