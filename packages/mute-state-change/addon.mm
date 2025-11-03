@@ -66,7 +66,7 @@ static void Init(Napi::Env env) {
   auto res = [AVAudioApplication.sharedInstance
       setInputMuteStateChangeHandler:^(BOOL muted) {
         std::lock_guard<std::mutex> guard(instanceData->mutex);
-        instanceData->on_change.BlockingCall(
+        instanceData->on_change.NonBlockingCall(
             ^(Napi::Env env, Napi::Function fn) {
               fn.Call({});
             });
