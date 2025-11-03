@@ -35,13 +35,15 @@ export type PropsType = {
   onChange: (value: string) => unknown;
   onBlur?: () => unknown;
   onFocus?: () => unknown;
-  onEnter?: () => unknown;
+  onEnter?: (event: KeyboardEvent) => unknown;
   placeholder: string;
   readOnly?: boolean;
   value?: string;
   whenToShowRemainingCount?: number;
   whenToWarnRemainingCount?: number;
   children?: ReactNode;
+  'aria-invalid'?: boolean | 'true' | 'false';
+  'aria-errormessage'?: string;
 };
 
 /**
@@ -90,6 +92,8 @@ export const Input = forwardRef<
     whenToShowRemainingCount = Infinity,
     whenToWarnRemainingCount = Infinity,
     children,
+    'aria-invalid': ariaInvalid,
+    'aria-errormessage': ariaErrorMessage,
   },
   ref
 ) {
@@ -120,7 +124,7 @@ export const Input = forwardRef<
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (onEnter && event.key === 'Enter') {
-        onEnter();
+        onEnter(event);
       }
 
       const inputEl = innerRef.current;
@@ -235,6 +239,8 @@ export const Input = forwardRef<
     ),
     type: 'text',
     value,
+    'aria-invalid': ariaInvalid,
+    'aria-errormessage': ariaErrorMessage,
   };
 
   const clearButtonElement =

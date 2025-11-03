@@ -30,6 +30,8 @@ import type { ShowToastActionType } from './toast.preload.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import * as Errors from '../../types/errors.std.js';
+import type { PollCreateType } from '../../types/Polls.dom.js';
+import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.js';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
@@ -254,6 +256,7 @@ export const actions = {
   scrollToQuotedMessage,
   sendEditedMessage,
   sendMultiMediaMessage,
+  sendPoll,
   sendStickerMessage,
   setComposerFocus,
   setMediaQualitySetting,
@@ -685,6 +688,55 @@ function sendStickerMessage(
       void conversation.sendStickerMessage(packId, stickerId);
     } catch (error) {
       log.error('clickSend error:', Errors.toLogFormat(error));
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function sendPoll(
+  conversationId: string,
+  poll: PollCreateType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('sendPoll: No conversation found');
+    }
+
+    const recipientsByConversation = getRecipientsByConversation([
+      conversation.attributes,
+    ]);
+
+    try {
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        recipientsByConversation,
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
+        return;
+      }
+
+      const toast = shouldShowInvalidMessageToast(conversation.attributes);
+      if (toast != null) {
+        dispatch({
+          type: SHOW_TOAST,
+          payload: toast,
+        });
+        return;
+      }
+
+      await enqueuePollCreateForSend(conversation, poll);
+    } catch (error) {
+      log.error('sendPoll error:', Errors.toLogFormat(error));
     }
 
     dispatch({

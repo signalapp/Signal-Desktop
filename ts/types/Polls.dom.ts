@@ -13,6 +13,10 @@ import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 import { aciSchema } from './ServiceId.std.js';
 
+export const POLL_QUESTION_MAX_LENGTH = 100;
+export const POLL_OPTIONS_MIN_COUNT = 2;
+export const POLL_OPTIONS_MAX_COUNT = 10;
+
 // PollCreate schema (processed shape)
 // - question: required, 1..100 chars
 // - options: required, 2..10 items; each 1..100 chars
@@ -22,20 +26,23 @@ export const PollCreateSchema = z
     question: z
       .string()
       .min(1)
-      .refine(value => hasAtMostGraphemes(value, 100), {
-        message: 'question must contain at most 100 characters',
+      .refine(value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH), {
+        message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
       }),
     options: z
       .array(
         z
           .string()
           .min(1)
-          .refine(value => hasAtMostGraphemes(value, 100), {
-            message: 'option must contain at most 100 characters',
-          })
+          .refine(
+            value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH),
+            {
+              message: `option must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
+            }
+          )
       )
-      .min(2)
-      .max(10)
+      .min(POLL_OPTIONS_MIN_COUNT)
+      .max(POLL_OPTIONS_MAX_COUNT)
       .readonly(),
     allowMultiple: z.boolean().optional(),
   })
