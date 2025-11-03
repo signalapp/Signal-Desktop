@@ -31,6 +31,7 @@ export default {
     onTextTooLong: action('onTextTooLong'),
     platform: 'darwin',
     emojiSkinToneDefault: EmojiSkinTone.None,
+    convertDraftBodyRangesIntoHydrated: () => undefined,
   },
 } satisfies Meta<PropsType>;
 

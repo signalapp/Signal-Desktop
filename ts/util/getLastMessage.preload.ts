@@ -5,7 +5,7 @@ import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { LastMessageType } from '../state/ducks/conversations.preload.js';
 import { dropNull } from './dropNull.std.js';
 import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { hydrateRanges } from '../types/BodyRange.std.js';
+import { hydrateRanges } from './BodyRange.node.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
 
 export function getLastMessage(

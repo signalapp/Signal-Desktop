@@ -1,10 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeType } from '../../types/Util.std.js';
 import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../../types/BodyRange.std.js';
 import { StoryCreator } from '../../components/StoryCreator.dom.js';
 import {
   getCandidateContactsForNewGroup,
@@ -31,6 +35,7 @@ import {
 } from '../selectors/items.dom.js';
 import { imageToBlurHash } from '../../util/imageToBlurHash.dom.js';
 import { processAttachment } from '../../util/processAttachment.preload.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import { useEmojisActions } from '../ducks/emojis.preload.js';
 import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
 import { useComposerActions } from '../ducks/composer.preload.js';
@@ -103,10 +108,19 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
     return linkPreviewForSource(LinkPreviewSourceType.StoryCreator);
   }, [linkPreviewForSource]);
 
+  const convertDraftBodyRangesIntoHydrated = useCallback(
+    (
+      bodyRanges: DraftBodyRanges | undefined
+    ): HydratedBodyRangesType | undefined => {
+      return hydrateRanges(bodyRanges, conversationSelector);
+    },
+    [conversationSelector]
+  );
+
   return (
     <StoryCreator
       candidateConversations={candidateConversations}
-      conversationSelector={conversationSelector}
+      convertDraftBodyRangesIntoHydrated={convertDraftBodyRangesIntoHydrated}
       debouncedMaybeGrabLinkPreview={debouncedMaybeGrabLinkPreview}
       distributionLists={distributionLists}
       file={file}

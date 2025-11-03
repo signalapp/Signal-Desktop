@@ -29,7 +29,7 @@ import {
   getSelectedConversationId,
 } from './conversations.dom.js';
 
-import { hydrateRanges } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
 

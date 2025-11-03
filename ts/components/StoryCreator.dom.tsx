@@ -93,12 +93,12 @@ export type PropsType = {
     | 'onTextTooLong'
     | 'platform'
     | 'sortedGroupMembers'
-    | 'conversationSelector'
+    | 'convertDraftBodyRangesIntoHydrated'
   >;
 
 export function StoryCreator({
   candidateConversations,
-  conversationSelector,
+  convertDraftBodyRangesIntoHydrated,
   debouncedMaybeGrabLinkPreview,
   distributionLists,
   file,
@@ -265,7 +265,9 @@ export function StoryCreator({
               isCreatingStory
               isFormattingEnabled={isFormattingEnabled}
               isSending={isSending}
-              conversationSelector={conversationSelector}
+              convertDraftBodyRangesIntoHydrated={
+                convertDraftBodyRangesIntoHydrated
+              }
               onClose={onClose}
               onDone={({
                 contentType,

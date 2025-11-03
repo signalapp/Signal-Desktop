@@ -30,7 +30,7 @@ import {
   getIsActivelySearching,
   getQuery,
   getSearchConversation,
-} from '../selectors/search.dom.js';
+} from '../selectors/search.preload.js';
 import { getAllConversations } from '../selectors/conversations.dom.js';
 import {
   getIntl,

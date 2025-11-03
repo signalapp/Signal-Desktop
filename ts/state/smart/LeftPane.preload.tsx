@@ -86,7 +86,7 @@ import {
   getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
-} from '../selectors/search.dom.js';
+} from '../selectors/search.preload.js';
 import {
   isUpdateDownloaded as getIsUpdateDownloaded,
   isOSUnsupported,

@@ -1,9 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea.dom.js';
 import { CompositionTextArea } from '../../components/CompositionTextArea.dom.js';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import {
   getIntl,
   getPlatform,
@@ -46,6 +51,15 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const conversationSelector = useSelector(getConversationSelector);
 
+  const convertDraftBodyRangesIntoHydrated = useCallback(
+    (
+      bodyRanges: DraftBodyRanges | undefined
+    ): HydratedBodyRangesType | undefined => {
+      return hydrateRanges(bodyRanges, conversationSelector);
+    },
+    [conversationSelector]
+  );
+
   return (
     <CompositionTextArea
       {...props}
@@ -58,7 +72,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
       onTextTooLong={onTextTooLong}
       platform={platform}
       ourConversationId={ourConversationId}
-      conversationSelector={conversationSelector}
+      convertDraftBodyRangesIntoHydrated={convertDraftBodyRangesIntoHydrated}
     />
   );
 });

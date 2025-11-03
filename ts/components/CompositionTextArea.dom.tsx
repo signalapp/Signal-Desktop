@@ -5,10 +5,9 @@ import React, { useRef, useCallback, useState } from 'react';
 import type { LocalizerType } from '../types/I18N.std.js';
 import type { InputApi } from './CompositionInput.dom.js';
 import { CompositionInput } from './CompositionInput.dom.js';
-import {
-  hydrateRanges,
-  type DraftBodyRanges,
-  type HydratedBodyRangesType,
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
 } from '../types/BodyRange.std.js';
 import type { ThemeType } from '../types/Util.std.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
@@ -17,7 +16,6 @@ import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 import type { EmojiSkinTone } from './fun/data/emojis.std.js';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
 
 export type CompositionTextAreaProps = {
   bodyRanges: HydratedBodyRangesType | null;
@@ -47,7 +45,9 @@ export type CompositionTextAreaProps = {
   getPreferredBadge: PreferredBadgeSelectorType;
   draftText: string;
   theme: ThemeType;
-  conversationSelector: GetConversationByIdType;
+  convertDraftBodyRangesIntoHydrated: (
+    bodyRanges: DraftBodyRanges | undefined
+  ) => HydratedBodyRangesType | undefined;
 };
 
 /**
@@ -76,7 +76,7 @@ export function CompositionTextArea({
   emojiSkinToneDefault,
   theme,
   whenToShowRemainingCount = Infinity,
-  conversationSelector,
+  convertDraftBodyRangesIntoHydrated,
 }: CompositionTextAreaProps): JSX.Element {
   const inputApiRef = useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = useState(
@@ -132,7 +132,7 @@ export function CompositionTextArea({
       );
 
       const hydratedBodyRanges =
-        hydrateRanges(updatedBodyRanges, conversationSelector) ?? [];
+        convertDraftBodyRangesIntoHydrated(updatedBodyRanges) ?? [];
 
       if (maxLength !== undefined) {
         // if we had to truncate
@@ -150,7 +150,7 @@ export function CompositionTextArea({
       setCharacterCount(newCharacterCount);
       onChange(newValue, hydratedBodyRanges, caretLocation);
     },
-    [maxLength, onChange, conversationSelector]
+    [maxLength, onChange, convertDraftBodyRangesIntoHydrated]
   );
 
   return (

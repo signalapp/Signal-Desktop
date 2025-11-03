@@ -16,7 +16,6 @@ import {
 } from '../util/search.std.js';
 import { assertDev } from '../util/assert.std.js';
 import type { AciString } from './ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
 
 const { isEqual, isNumber, omit, orderBy, partition } = lodash;
 
@@ -142,102 +141,6 @@ export type RangeNode = BodyRange<
     ranges: ReadonlyArray<RangeNode>;
   }
 >;
-
-const { BOLD, ITALIC, MONOSPACE, SPOILER, STRIKETHROUGH, NONE } =
-  BodyRange.Style;
-const MAX_PER_TYPE = 250;
-const MENTION_NAME = 'mention';
-
-// We drop unknown bodyRanges and remove extra stuff so they serialize properly
-export function filterAndClean(
-  ranges: ReadonlyArray<Proto.IBodyRange | RawBodyRange> | undefined | null
-): ReadonlyArray<RawBodyRange> | undefined {
-  if (!ranges) {
-    return undefined;
-  }
-
-  const countByTypeRecord: Record<
-    BodyRange.Style | typeof MENTION_NAME,
-    number
-  > = {
-    [MENTION_NAME]: 0,
-    [BOLD]: 0,
-    [ITALIC]: 0,
-    [MONOSPACE]: 0,
-    [SPOILER]: 0,
-    [STRIKETHROUGH]: 0,
-    [NONE]: 0,
-  };
-
-  return ranges
-    .map(range => {
-      const { start: startFromRange, length, ...restOfRange } = range;
-
-      const start = startFromRange ?? 0;
-      if (!isNumber(length)) {
-        log.warn('filterAndClean: Dropping bodyRange with non-number length');
-        return undefined;
-      }
-
-      let mentionAci: AciString | undefined;
-      if ('mentionAci' in range && range.mentionAci) {
-        mentionAci = normalizeAci(range.mentionAci, 'BodyRange.mentionAci');
-      }
-
-      if (mentionAci) {
-        countByTypeRecord[MENTION_NAME] += 1;
-        if (countByTypeRecord[MENTION_NAME] > MAX_PER_TYPE) {
-          return undefined;
-        }
-
-        return {
-          ...restOfRange,
-          start,
-          length,
-          mentionAci,
-        };
-      }
-      if ('style' in range && range.style) {
-        countByTypeRecord[range.style] += 1;
-        if (countByTypeRecord[range.style] > MAX_PER_TYPE) {
-          return undefined;
-        }
-        return {
-          ...restOfRange,
-          start,
-          length,
-          style: range.style,
-        };
-      }
-
-      log.warn('filterAndClean: Dropping unknown bodyRange');
-      return undefined;
-    })
-    .filter(isNotNil);
-}
-
-export function hydrateRanges(
-  ranges: ReadonlyArray<BodyRange<object>> | undefined,
-  conversationSelector: (id: string) => { id: string; title: string }
-): Array<HydratedBodyRangeType> | undefined {
-  if (!ranges) {
-    return undefined;
-  }
-
-  return filterAndClean(ranges)?.map(range => {
-    if (BodyRange.isMention(range)) {
-      const conversation = conversationSelector(range.mentionAci);
-
-      return {
-        ...range,
-        conversationID: conversation.id,
-        replacementText: conversation.title,
-      };
-    }
-
-    return range;
-  });
-}
 
 /**
  * Insert a range into an existing range tree, splitting up the range if it intersects
@@ -835,7 +738,10 @@ export function applyRangesToText(
 
   if (options.replaceSpoilers) {
     state = _applyRangeOfType(state, bodyRange => {
-      return BodyRange.isFormatting(bodyRange) && bodyRange.style === SPOILER;
+      return (
+        BodyRange.isFormatting(bodyRange) &&
+        bodyRange.style === BodyRange.Style.SPOILER
+      );
     });
   }
 

@@ -13,7 +13,10 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
 import lodash from 'lodash';
-import type { DraftBodyRanges } from '../types/BodyRange.std.js';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../types/BodyRange.std.js';
 import type { ImageStateType } from '../mediaEditor/ImageStateType.std.js';
 import type {
   InputApi,
@@ -47,7 +50,6 @@ import { ThemeType } from '../types/Util.std.js';
 import { arrow } from '../util/keyboard.dom.js';
 import { canvasToBytes } from '../util/canvasToBytes.std.js';
 import { loadImage } from '../util/loadImage.std.js';
-import { hydrateRanges } from '../types/BodyRange.std.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory.dom.js';
 import { usePortal } from '../hooks/usePortal.dom.js';
@@ -62,7 +64,6 @@ import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.js';
 import { drop } from '../util/drop.std.js';
 import type { FunTimeStickerStyle } from './fun/constants.dom.js';
 import * as Errors from '../types/errors.std.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
 
 const { get, has, noop } = lodash;
 
@@ -85,7 +86,9 @@ export type PropsType = {
   imageToBlurHash: typeof imageToBlurHash;
   onClose: () => unknown;
   onDone: (result: MediaEditorResultType) => unknown;
-  conversationSelector: GetConversationByIdType;
+  convertDraftBodyRangesIntoHydrated: (
+    bodyRanges: DraftBodyRanges | undefined
+  ) => HydratedBodyRangesType | undefined;
 } & Pick<
   CompositionInputProps,
   | 'draftText'
@@ -168,7 +171,7 @@ export function MediaEditor({
   ourConversationId,
   platform,
   sortedGroupMembers,
-  conversationSelector,
+  convertDraftBodyRangesIntoHydrated,
   imageToBlurHash,
 }: PropsType): JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
@@ -181,8 +184,8 @@ export function MediaEditor({
     useState<DraftBodyRanges | null>(draftBodyRanges);
 
   const hydratedBodyRanges = useMemo(
-    () => hydrateRanges(captionBodyRanges ?? undefined, conversationSelector),
-    [captionBodyRanges, conversationSelector]
+    () => convertDraftBodyRangesIntoHydrated(captionBodyRanges ?? undefined),
+    [captionBodyRanges, convertDraftBodyRangesIntoHydrated]
   );
 
   const inputApiRef = useRef<InputApi | undefined>();

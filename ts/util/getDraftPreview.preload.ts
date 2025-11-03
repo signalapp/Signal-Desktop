@@ -4,7 +4,7 @@
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { DraftPreviewType } from '../state/ducks/conversations.preload.js';
 import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { hydrateRanges } from '../types/BodyRange.std.js';
+import { hydrateRanges } from './BodyRange.node.js';
 import { isVoiceMessage } from './Attachment.std.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
 

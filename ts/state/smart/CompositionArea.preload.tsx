@@ -9,7 +9,7 @@ import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange.std.js';
-import { hydrateRanges } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
 import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis/index.dom.js';

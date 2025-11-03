@@ -107,10 +107,8 @@ import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
 } from './util/filePointers.preload.js';
-import {
-  filterAndClean,
-  trimMessageWhitespace,
-} from '../../types/BodyRange.std.js';
+import { trimMessageWhitespace } from '../../types/BodyRange.std.js';
+import { filterAndClean } from '../../util/BodyRange.node.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,

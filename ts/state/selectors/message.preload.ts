@@ -57,7 +57,7 @@ import type {
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
 import { embeddedContactSelector } from '../../types/EmbeddedContact.std.js';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import { hydrateRanges } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import type { AssertProps } from '../../types/Util.std.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
 import { getMentionsRegex } from '../../types/Message.std.js';

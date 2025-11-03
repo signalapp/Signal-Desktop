@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { MessageSearchResult } from '../../components/conversationList/MessageSearchResult.dom.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
-import { getMessageSearchResultSelector } from '../selectors/search.dom.js';
+import { getMessageSearchResultSelector } from '../selectors/search.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 
