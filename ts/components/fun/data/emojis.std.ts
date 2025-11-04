@@ -697,7 +697,7 @@ export function normalizeShortNameCompletionQuery(query: string): string {
  * Emojify
  */
 
-function isSafeEmojifyEmoji(value: string): value is EmojiVariantValue {
+export function isSafeEmojifyEmoji(value: string): value is EmojiVariantValue {
   return isEmojiVariantValue(value) && !isEmojiVariantValueNonQualified(value);
 }
 
