@@ -26,7 +26,49 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 ---
 
+## Architecture: Hybrid Approach
+
+**Orbital's database uses a hybrid architecture:**
+1. **Signal Protocol Layer** - Encrypted message envelopes (Signal compatibility)
+2. **Threading Layer** - Orbital's custom threading metadata
+3. **Media Layer** - 7-day relay storage with encryption
+
+**Data Flow:**
+```
+Signal Message (encrypted) → Threads → Replies → Media
+```
+
+---
+
 ## Core Tables
+
+### Signal Messages Table (NEW - For Signal Protocol)
+
+Stores encrypted Signal Protocol message envelopes. This maintains compatibility with Signal's encryption model.
+
+```sql
+CREATE TABLE signal_messages (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    conversation_id UUID NOT NULL,              -- Maps to group_id
+    sender_uuid UUID,                           -- User who sent the message
+    encrypted_envelope BYTEA NOT NULL,          -- Signal Protocol encrypted envelope
+    server_timestamp TIMESTAMPTZ DEFAULT NOW(),
+    expires_at TIMESTAMPTZ                      -- Optional expiration
+);
+
+-- Indexes
+CREATE INDEX idx_signal_messages_conversation ON signal_messages(conversation_id, server_timestamp DESC);
+CREATE INDEX idx_signal_messages_sender ON signal_messages(sender_uuid);
+CREATE INDEX idx_signal_messages_expires ON signal_messages(expires_at);
+```
+
+**Notes:**
+- `encrypted_envelope`: Opaque binary data (Signal Protocol protobuf)
+- Server cannot decrypt envelope contents
+- All thread/reply content sent as Signal messages
+- Threads and replies reference these messages
+
+---
 
 ### Users Table
 
@@ -112,54 +154,60 @@ CREATE INDEX idx_members_group ON members(group_id);
 
 ### Threads Table
 
-Stores discussion threads with encrypted content.
+Stores discussion threads with encrypted content. Maps to Signal Protocol messages.
 
 ```sql
 CREATE TABLE threads (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     group_id UUID NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+    root_message_id UUID REFERENCES signal_messages(id) ON DELETE CASCADE,  -- NEW
     author_id UUID NOT NULL REFERENCES users(id) ON DELETE SET NULL,
-    encrypted_title TEXT NOT NULL,            -- AES-GCM encrypted
-    encrypted_body TEXT NOT NULL,             -- AES-GCM encrypted
+    encrypted_title TEXT NOT NULL,            -- AES-GCM encrypted with group Sender Key
+    encrypted_body TEXT NOT NULL,             -- AES-GCM encrypted with group Sender Key
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Indexes
-CREATE INDEX idx_threads_group ON threads(group_id);
-CREATE INDEX idx_threads_created ON threads(created_at DESC);
+CREATE INDEX idx_threads_group ON threads(group_id, created_at DESC);
+CREATE INDEX idx_threads_message ON threads(root_message_id);
 CREATE INDEX idx_threads_author ON threads(author_id);
 ```
 
 **Notes:**
-- Both title and body are encrypted with group key
+- `root_message_id`: References Signal Protocol message envelope
+- `encrypted_title` and `encrypted_body`: Encrypted with group Sender Key (via Signal Protocol)
 - Author set to NULL if user deleted (preserves thread history)
 - Threads deleted when group is deleted (CASCADE)
+- Thread content sent as Signal message, metadata stored here
 
 ---
 
 ### Replies Table
 
-Stores replies to threads with encrypted content.
+Stores replies to threads with encrypted content. Maps to Signal Protocol messages.
 
 ```sql
 CREATE TABLE replies (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     thread_id UUID NOT NULL REFERENCES threads(id) ON DELETE CASCADE,
+    message_id UUID REFERENCES signal_messages(id) ON DELETE CASCADE,  -- NEW
     author_id UUID NOT NULL REFERENCES users(id) ON DELETE SET NULL,
-    encrypted_body TEXT NOT NULL,             -- AES-GCM encrypted
+    encrypted_body TEXT NOT NULL,             -- AES-GCM encrypted with group Sender Key
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Indexes
-CREATE INDEX idx_replies_thread ON replies(thread_id);
-CREATE INDEX idx_replies_created ON replies(created_at DESC);
+CREATE INDEX idx_replies_thread ON replies(thread_id, created_at ASC);
+CREATE INDEX idx_replies_message ON replies(message_id);
 CREATE INDEX idx_replies_author ON replies(author_id);
 ```
 
 **Notes:**
-- Body encrypted with group key
+- `message_id`: References Signal Protocol message envelope
+- `encrypted_body`: Encrypted with group Sender Key (via Signal Protocol)
 - Replies deleted when thread is deleted (CASCADE)
 - Author set to NULL if user deleted
+- Reply content sent as Signal message, metadata stored here
 
 ---
 
@@ -187,10 +235,12 @@ CREATE INDEX idx_media_expires ON media(expires_at);  -- For cleanup job
 ```
 
 **Notes:**
-- `encrypted_metadata`: Contains filename, size, MIME type (encrypted)
-- `storage_url`: File path on disk or S3 object key
-- `encryption_iv`: Base64-encoded initialization vector for AES-GCM
+- `encrypted_metadata`: Contains filename, size, MIME type (encrypted with group Sender Key)
+- `storage_url`: File path on disk or S3 object key (encrypted blob)
+- `encryption_iv`: Base64-encoded initialization vector (Signal's media encryption)
 - `expires_at`: Set to `uploaded_at + 7 days` for automatic cleanup
+- Media encrypted using Signal's attachment key protocol
+- Decryption keys distributed via Signal Protocol envelopes
 
 ---
 
@@ -247,16 +297,56 @@ CREATE INDEX idx_group_quotas_group ON group_quotas(group_id);
 
 ## Summary of Tables
 
+### Signal Protocol Layer
+
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|
-| `users` | User accounts | `id`, `username`, `password_hash`, `public_key` |
+| `signal_messages` | **Encrypted Signal envelopes** | `id`, `conversation_id`, `encrypted_envelope`, `sender_uuid` |
+
+### User & Group Management
+
+| Table | Purpose | Key Columns |
+|-------|---------|-------------|
+| `users` | User accounts with public keys | `id`, `username`, `password_hash`, `public_key` |
 | `groups` | Discussion groups | `id`, `encrypted_name`, `invite_code` |
 | `members` | Group memberships | `group_id`, `user_id`, `encrypted_group_key` |
-| `threads` | Discussion threads | `id`, `group_id`, `encrypted_title`, `encrypted_body` |
-| `replies` | Thread replies | `id`, `thread_id`, `encrypted_body` |
-| `media` | Media files (temp) | `id`, `thread_id`, `storage_url`, `encryption_iv`, `expires_at` |
+
+### Threading Layer (Orbital-Specific)
+
+| Table | Purpose | Key Columns |
+|-------|---------|-------------|
+| `threads` | Discussion threads | `id`, `group_id`, `root_message_id`, `encrypted_title`, `encrypted_body` |
+| `replies` | Thread replies | `id`, `thread_id`, `message_id`, `encrypted_body` |
+
+### Media Layer (7-Day Relay)
+
+| Table | Purpose | Key Columns |
+|-------|---------|-------------|
+| `media` | Media files (temporary storage) | `id`, `thread_id`, `storage_url`, `encryption_iv`, `expires_at` |
 | `media_downloads` | Download tracking | `media_id`, `user_id`, `downloaded_at` |
 | `group_quotas` | Storage limits | `group_id`, `total_bytes`, `media_count` |
+
+### Hybrid Architecture Summary
+
+```
+┌─────────────────────────────────────────┐
+│   Signal Protocol Layer                 │
+│   signal_messages (encrypted envelopes) │
+└──────────────┬──────────────────────────┘
+               │ Referenced by
+               ↓
+┌─────────────────────────────────────────┐
+│   Threading Layer                       │
+│   threads → root_message_id             │
+│   replies → message_id                  │
+└──────────────┬──────────────────────────┘
+               │ Associated with
+               ↓
+┌─────────────────────────────────────────┐
+│   Media Layer                           │
+│   media (encrypted blobs, 7-day expiry) │
+└─────────────────────────────────────────┘
+```
 
 ---
 
