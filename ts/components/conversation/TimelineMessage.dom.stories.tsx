@@ -2016,6 +2016,7 @@ function createMockPollWithVotes(
     }) || [];
 
   const votesByOption = new Map();
+  const uniqueVoterIds = new Set();
   let totalNumVotes = 0;
 
   resolvedVotes.forEach(vote => {
@@ -2024,6 +2025,7 @@ function createMockPollWithVotes(
         votesByOption.set(index, []);
       }
       votesByOption.get(index).push(vote);
+      uniqueVoterIds.add(vote.from.id);
       totalNumVotes += 1;
     });
   });
@@ -2034,6 +2036,7 @@ function createMockPollWithVotes(
     allowMultiple,
     votesByOption,
     totalNumVotes,
+    uniqueVoters: uniqueVoterIds.size,
     terminatedAt,
     votes: votes?.map(v => ({
       fromConversationId: v.fromId,
@@ -2053,6 +2056,7 @@ Poll.args = {
     allowMultiple: false,
     votesByOption: new Map(),
     totalNumVotes: 0,
+    uniqueVoters: 0,
   },
   status: 'sent',
 };
@@ -2066,6 +2070,7 @@ PollMultipleChoice.args = {
     allowMultiple: true,
     votesByOption: new Map(),
     totalNumVotes: 0,
+    uniqueVoters: 0,
   },
   status: 'sent',
 };

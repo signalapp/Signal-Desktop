@@ -505,6 +505,7 @@ export type PollVoteWithUserType = {
 export type PollWithResolvedVotersType = PollMessageAttribute & {
   votesByOption: Map<number, ReadonlyArray<PollVoteWithUserType>>;
   totalNumVotes: number;
+  uniqueVoters: number;
 };
 
 const getPollForMessage = (
@@ -527,6 +528,7 @@ const getPollForMessage = (
       ...poll,
       votesByOption: new Map(),
       totalNumVotes: 0,
+      uniqueVoters: 0,
     };
   }
 
@@ -573,6 +575,7 @@ const getPollForMessage = (
   });
 
   const votesByOption = new Map<number, Array<PollVoteWithUserType>>();
+  const uniqueVoterIds = new Set();
   let totalNumVotes = 0;
 
   for (const vote of resolvedVotes) {
@@ -583,6 +586,7 @@ const getPollForMessage = (
       const votes = votesByOption.get(optionIndex);
       strictAssert(!!votes, 'votes should exist');
       votes.push(vote);
+      uniqueVoterIds.add(vote.from.id);
       totalNumVotes += 1;
     }
   }
@@ -591,6 +595,7 @@ const getPollForMessage = (
     ...poll,
     votesByOption,
     totalNumVotes,
+    uniqueVoters: uniqueVoterIds.size,
   };
 };
 
