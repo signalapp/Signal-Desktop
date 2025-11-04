@@ -76,3 +76,9 @@ export const shouldTryToCopyFromQuotedMessage = ({
 
   return true;
 };
+
+export function isPoll(
+  message: Pick<ReadonlyMessageAttributesType, 'poll'>
+): boolean {
+  return Boolean(message.poll);
+}

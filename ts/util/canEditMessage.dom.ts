@@ -4,7 +4,7 @@
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { DAY } from './durations/index.std.js';
 import { isMoreRecentThan } from './timestamp.std.js';
-import { isOutgoing } from '../messages/helpers.std.js';
+import { isOutgoing, isPoll } from '../messages/helpers.std.js';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf.dom.js';
 
 export const MESSAGE_MAX_EDIT_COUNT = 10;
@@ -16,6 +16,7 @@ export function canEditMessage(
     !message.sms &&
     !message.deletedForEveryone &&
     isOutgoing(message) &&
+    !isPoll(message) &&
     (isMoreRecentThan(message.sent_at, DAY) || isMessageNoteToSelf(message)) &&
     Boolean(message.body)
   );
