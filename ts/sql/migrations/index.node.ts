@@ -125,6 +125,7 @@ import updateToSchemaVersion1460 from './1460-attachment-duration.std.js';
 import updateToSchemaVersion1470 from './1470-kyber-triple.std.js';
 import updateToSchemaVersion1480 from './1480-chat-folders-remove-duplicates.std.js';
 import updateToSchemaVersion1490 from './1490-lowercase-notification-profiles.std.js';
+import updateToSchemaVersion1500 from './1500-search-polls.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1607,6 +1608,8 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1470, update: updateToSchemaVersion1470 },
   { version: 1480, update: updateToSchemaVersion1480 },
   { version: 1490, update: updateToSchemaVersion1490 },
+
+  { version: 1500, update: updateToSchemaVersion1500 },
 ];
 
 export class DBVersionFromFutureError extends Error {

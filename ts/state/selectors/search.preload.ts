@@ -30,8 +30,10 @@ import {
 } from './conversations.dom.js';
 
 import { hydrateRanges } from '../../util/BodyRange.node.js';
+import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
+import type { MessageAttributesType } from '../../model-types.js';
 
 const log = createLogger('search');
 
@@ -196,6 +198,23 @@ type CachedMessageSearchResultSelectorType = (
   targetedMessageId?: string
 ) => MessageSearchResultPropsDataType;
 
+/** Must be kept in sync with messages.searchableText virtual column  */
+function getSearchableTextAndBodyRanges(message: MessageAttributesType): {
+  text: string | undefined;
+  bodyRanges: ReadonlyArray<RawBodyRange> | undefined;
+} {
+  if (message.poll) {
+    return {
+      text: message.poll.question,
+      bodyRanges: undefined,
+    };
+  }
+
+  return {
+    text: message.body,
+    bodyRanges: message.bodyRanges,
+  };
+}
 export const getCachedSelectorForMessageSearchResult = createSelector(
   getUserConversationId,
   getConversationSelector,
@@ -213,6 +232,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
         searchConversationId?: string,
         targetedMessageId?: string
       ) => {
+        const { text, bodyRanges } = getSearchableTextAndBodyRanges(message);
         return {
           from,
           to,
@@ -221,9 +241,8 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
           conversationId: message.conversationId,
           sentAt: message.sent_at,
           snippet: message.snippet || '',
-          bodyRanges:
-            hydrateRanges(message.bodyRanges, conversationSelector) || [],
-          body: message.body || '',
+          bodyRanges: hydrateRanges(bodyRanges, conversationSelector) || [],
+          body: text ?? '',
 
           isSelected: Boolean(
             targetedMessageId && message.id === targetedMessageId
