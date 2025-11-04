@@ -622,8 +622,6 @@ export class CallingClass {
     });
     log.info(logId);
 
-    muteStateChange.setIsMuted(!hasLocalAudio);
-
     const callMode = getConversationCallMode(conversation);
     switch (callMode) {
       case null:
@@ -679,6 +677,7 @@ export class CallingClass {
 
     log.info(`${logId}: Starting lobby`);
     await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     // It's important that this function comes before any calls to
     //   `videoCapturer.enableCapture` or `videoCapturer.enableCaptureAndSend` because of
@@ -1035,7 +1034,6 @@ export class CallingClass {
     const logId = `startCallLinkLobby(roomId=${roomId})`;
     log.info(`${logId}: starting`);
 
-    muteStateChange.setIsMuted(!hasLocalAudio);
     const hasLocalVideo = preferLocalVideo && (await checkCameraPermission());
 
     const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
@@ -1046,8 +1044,8 @@ export class CallingClass {
     }
 
     await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
-
     await this.#startDeviceReselectionTimer();
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
@@ -1095,8 +1093,6 @@ export class CallingClass {
     const logId = getLogId({ source: 'startOutgoingDirectCall', conversation });
     log.info(logId);
 
-    muteStateChange.setIsMuted(!hasLocalAudio);
-
     if (!this.#reduxInterface) {
       throw new Error(`${logId}: Redux actions not available`);
     }
@@ -1125,6 +1121,8 @@ export class CallingClass {
       this.stopCallingLobby();
       return;
     }
+
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     log.info(`${logId}: Getting call settings`);
     // Check state after awaiting to debounce call button.
@@ -1493,6 +1491,7 @@ export class CallingClass {
 
     await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     const groupCall = this.connectGroupCall(conversationId, {
       groupId,
@@ -1853,6 +1852,7 @@ export class CallingClass {
 
     await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
@@ -2227,6 +2227,7 @@ export class CallingClass {
         hasLocalVideo: asVideoCall,
       });
       await this.#startDeviceReselectionTimer();
+      muteStateChange.setIsMuted(false);
 
       if (asVideoCall) {
         // Warm up the camera as soon as possible.
