@@ -267,6 +267,7 @@ import type {
 import { sqlLogger } from './sqlLogger.node.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
 import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
+import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.js';
 
 const {
   forEach,
@@ -8878,29 +8879,23 @@ function enableFSyncAndCheckpoint(db: WritableDB): void {
 }
 
 function enableMessageInsertTriggersAndBackfill(db: WritableDB): void {
-  const createTriggersQuery = `
-      DROP TRIGGER IF EXISTS messages_on_insert;
-      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
-        WHEN new.isViewOnce IS NOT 1 AND new.storyId IS NULL
-        BEGIN
-          INSERT INTO messages_fts
-            (rowid, body)
-          VALUES
-            (new.rowid, new.body);
-      END;
+  db.transaction(() => {
+    backfillMentionsTable(db);
+    backfillMessagesFtsTable(db);
 
-      DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;
+    db.exec('DROP TRIGGER IF EXISTS messages_on_insert');
+    db.exec(createMessagesOnInsertTrigger);
+
+    db.exec('DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions');
+    db.exec(`
       CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
       BEGIN
         INSERT INTO mentions (messageId, mentionAci, start, length)
         ${selectMentionsFromMessages}
         AND messages.id = new.id;
       END;
-  `;
-  db.transaction(() => {
-    backfillMentionsTable(db);
-    backfillMessagesFtsTable(db);
-    db.exec(createTriggersQuery);
+    `);
+
     createOrUpdateItem(db, {
       id: 'messageInsertTriggersDisabled',
       value: false,
@@ -8912,9 +8907,9 @@ function backfillMessagesFtsTable(db: WritableDB): void {
   db.exec(`
     DELETE FROM messages_fts;
     INSERT OR REPLACE INTO messages_fts (rowid, body)
-      SELECT rowid, body
+      SELECT rowid, searchableText
       FROM messages
-      WHERE isViewOnce IS NOT 1 AND storyId IS NULL;
+      WHERE isSearchable = 1;
   `);
 }
 
