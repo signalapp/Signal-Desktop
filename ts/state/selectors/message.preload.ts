@@ -137,7 +137,12 @@ import { getConversationColorAttributes } from '../../util/getConversationColorA
 import { DAY, DurationInSeconds } from '../../util/durations/index.std.js';
 import { getStoryReplyText } from '../../util/getStoryReplyText.std.js';
 import type { MessageAttributesWithPaymentEvent } from '../../messages/payments.std.js';
-import { isIncoming, isOutgoing, isStory } from '../../messages/helpers.std.js';
+import {
+  isIncoming,
+  isOutgoing,
+  isPoll,
+  isStory,
+} from '../../messages/helpers.std.js';
 import { messageHasPaymentEvent } from '../../messages/payments.std.js';
 
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
@@ -2245,7 +2250,8 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
     !isTapToView(message) &&
     !message.deletedForEveryone &&
     !message.giftBadge &&
-    !getPayment(message)
+    !getPayment(message) &&
+    !isPoll(message)
   );
 }
 
