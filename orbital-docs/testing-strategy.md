@@ -8,10 +8,35 @@ This document defines the testing approach, automated test suite, and manual tes
 
 **MVP Focus:** Test critical paths and security-sensitive code. Comprehensive test coverage can be expanded post-MVP.
 
+**Signal-Desktop Approach:** Leverage Signal's existing test infrastructure while adding Orbital-specific tests.
+
 **Test Pyramid:**
-- **Unit Tests (60%):** Individual functions, encryption, validation
-- **Integration Tests (30%):** API endpoints, database interactions
+- **Unit Tests (60%):** Individual functions, encryption, validation, React components
+- **Integration Tests (30%):** API endpoints, database interactions, Redux state
 - **E2E Tests (10%):** Manual testing, user flows
+
+---
+
+## Technology Stack for Testing
+
+### Frontend Testing (React/TypeScript)
+
+- **Jest** - Test runner and assertion library (Signal's choice)
+- **React Testing Library** - Component testing
+- **@testing-library/react-hooks** - Hook testing
+- **Redux Mock Store** - State management testing
+- **TypeScript** - Type safety in tests
+
+### Backend Testing
+
+- **Jest** - Test runner
+- **Supertest** - HTTP assertions
+- **pg-mem** - In-memory PostgreSQL for tests
+- **Mock WebSocket** - WebSocket testing
+
+### E2E Testing (Post-MVP)
+
+- **Playwright** or **Spectron** - Electron app testing
 
 ---
 
@@ -70,9 +95,289 @@ module.exports = {
 
 ---
 
+## Frontend Component Testing (React/TypeScript)
+
+### React Component Tests
+
+**File Pattern:** `ts/components/__tests__/ComponentName.test.tsx`
+
+**Testing Library Setup:**
+
+```typescript
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+```
+
+### Example: ThreadCard Component Test
+
+```typescript
+// ts/components/__tests__/ThreadCard.test.tsx
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ThreadCard } from '../ThreadCard';
+import type { Thread } from '../../types/Thread';
+
+describe('ThreadCard', () => {
+  const mockThread: Thread = {
+    id: 'thread-1',
+    groupId: 'group-1',
+    authorId: 'user-1',
+    authorUsername: 'testuser',
+    encryptedTitle: 'encrypted',
+    encryptedBody: 'encrypted',
+    decryptedTitle: 'Test Thread',
+    decryptedBody: 'This is a test thread body',
+    replyCount: 5,
+    mediaCount: 2,
+    createdAt: new Date('2024-11-04T12:00:00Z')
+  };
+
+  it('should render thread title and author', () => {
+    const onClick = jest.fn();
+    render(<ThreadCard thread={mockThread} onClick={onClick} />);
+
+    expect(screen.getByText('Test Thread')).toBeInTheDocument();
+    expect(screen.getByText(/testuser/i)).toBeInTheDocument();
+  });
+
+  it('should display reply and media counts', () => {
+    const onClick = jest.fn();
+    render(<ThreadCard thread={mockThread} onClick={onClick} />);
+
+    expect(screen.getByText(/5 replies/i)).toBeInTheDocument();
+    expect(screen.getByText(/2 media/i)).toBeInTheDocument();
+  });
+
+  it('should call onClick when clicked', () => {
+    const onClick = jest.fn();
+    render(<ThreadCard thread={mockThread} onClick={onClick} />);
+
+    const card = screen.getByRole('button');
+    fireEvent.click(card);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should truncate long body preview', () => {
+    const longThread = {
+      ...mockThread,
+      decryptedBody: 'A'.repeat(300)
+    };
+
+    const onClick = jest.fn();
+    render(<ThreadCard thread={longThread} onClick={onClick} />);
+
+    const preview = screen.getByText(/A+.../);
+    expect(preview.textContent?.length).toBeLessThan(210); // 200 chars + "..."
+  });
+});
+```
+
+### Example: ThreadComposer Component Test
+
+```typescript
+// ts/components/__tests__/ThreadComposer.test.tsx
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ThreadComposer } from '../ThreadComposer';
+
+describe('ThreadComposer', () => {
+  it('should render title input for thread mode', () => {
+    const onSubmit = jest.fn();
+    render(<ThreadComposer mode="thread" onSubmit={onSubmit} />);
+
+    expect(screen.getByPlaceholderText(/thread title/i)).toBeInTheDocument();
+  });
+
+  it('should not render title input for reply mode', () => {
+    const onSubmit = jest.fn();
+    render(<ThreadComposer mode="reply" onSubmit={onSubmit} />);
+
+    expect(screen.queryByPlaceholderText(/thread title/i)).not.toBeInTheDocument();
+  });
+
+  it('should submit thread with title and body', async () => {
+    const onSubmit = jest.fn();
+    const user = userEvent.setup();
+
+    render(<ThreadComposer mode="thread" onSubmit={onSubmit} />);
+
+    // Type title
+    await user.type(screen.getByPlaceholderText(/thread title/i), 'Test Title');
+
+    // Type body
+    await user.type(screen.getByPlaceholderText(/write your message/i), 'Test body');
+
+    // Submit
+    fireEvent.click(screen.getByText(/post thread/i));
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith({
+        title: 'Test Title',
+        body: 'Test body',
+        media: []
+      });
+    });
+  });
+
+  it('should disable submit button when body is empty', () => {
+    const onSubmit = jest.fn();
+    render(<ThreadComposer mode="reply" onSubmit={onSubmit} />);
+
+    const submitButton = screen.getByText(/reply/i);
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('should clear form after submission', async () => {
+    const onSubmit = jest.fn();
+    const user = userEvent.setup();
+
+    render(<ThreadComposer mode="reply" onSubmit={onSubmit} />);
+
+    // Type body
+    const textarea = screen.getByPlaceholderText(/write your message/i);
+    await user.type(textarea, 'Test reply');
+
+    // Submit
+    fireEvent.click(screen.getByText(/reply/i));
+
+    await waitFor(() => {
+      expect(textarea).toHaveValue('');
+    });
+  });
+});
+```
+
+### Redux State Testing
+
+**File Pattern:** `ts/state/ducks/__tests__/threads.test.ts`
+
+```typescript
+// ts/state/ducks/__tests__/threads.test.ts
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import * as threadsActions from '../threads';
+import * as threadsSelectors from '../../selectors/threads';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+describe('Threads Redux', () => {
+  describe('Actions', () => {
+    it('should create action to fetch threads', () => {
+      const groupId = 'group-1';
+      const expectedAction = {
+        type: 'threads/FETCH_START',
+        payload: { groupId }
+      };
+
+      expect(threadsActions.fetchThreadsStart(groupId)).toEqual(expectedAction);
+    });
+  });
+
+  describe('Async Actions', () => {
+    it('should fetch threads and dispatch success', async () => {
+      // Mock API response
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            threads: [{ id: 'thread-1', title: 'Test' }]
+          })
+        })
+      );
+
+      const expectedActions = [
+        { type: 'threads/FETCH_START' },
+        {
+          type: 'threads/FETCH_SUCCESS',
+          payload: {
+            groupId: 'group-1',
+            threads: [{ id: 'thread-1', title: 'Test' }]
+          }
+        }
+      ];
+
+      const store = mockStore({ threads: {} });
+      await store.dispatch(threadsActions.fetchThreads('group-1'));
+
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  describe('Selectors', () => {
+    it('should select threads for group', () => {
+      const state = {
+        threads: {
+          byGroupId: {
+            'group-1': {
+              threadIds: ['thread-1', 'thread-2'],
+              totalCount: 2,
+              hasMore: false
+            }
+          },
+          byId: {
+            'thread-1': { id: 'thread-1', title: 'Thread 1' },
+            'thread-2': { id: 'thread-2', title: 'Thread 2' }
+          }
+        }
+      };
+
+      const threads = threadsSelectors.getThreadsForGroup(state, 'group-1');
+      expect(threads).toHaveLength(2);
+      expect(threads[0].title).toBe('Thread 1');
+    });
+  });
+});
+```
+
+### TypeScript Type Testing
+
+**Use TypeScript compiler for type checking:**
+
+```bash
+# Run type checking
+npm run type-check
+
+# Type check specific file
+npx tsc --noEmit ts/components/ThreadCard.tsx
+```
+
+**Example Type Tests:**
+
+```typescript
+// ts/types/__tests__/Thread.test.ts
+import type { Thread, ThreadData } from '../Thread';
+
+describe('Thread Types', () => {
+  it('should enforce required fields', () => {
+    // This will fail type checking if any required field is missing
+    const validThread: Thread = {
+      id: 'thread-1',
+      groupId: 'group-1',
+      authorId: 'user-1',
+      authorUsername: 'testuser',
+      encryptedTitle: 'encrypted',
+      encryptedBody: 'encrypted',
+      replyCount: 0,
+      mediaCount: 0,
+      createdAt: new Date()
+    };
+
+    expect(validThread.id).toBeDefined();
+  });
+});
+```
+
+---
+
 ## Unit Tests
 
-### Authentication Tests
+### Backend Authentication Tests
 
 **File:** `__tests__/unit/auth.test.js`
 
