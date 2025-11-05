@@ -2589,32 +2589,34 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={classNames(
-          'AttachmentStatusIcon__circle-icon-container',
-          isIncoming
-            ? 'AttachmentStatusIcon__circle-icon-container--incoming'
-            : null,
-          isDisabled
-            ? 'AttachmentStatusIcon__circle-icon-container--disabled'
-            : null
-        )}
-      >
+      <div className="AttachmentStatusIcon__container">
         <div
           className={classNames(
-            'AttachmentStatusIcon__circle-icon',
-            isIncoming ? 'AttachmentStatusIcon__circle-icon--incoming' : null,
-            state === 'ready'
-              ? 'module-message__tap-to-view__icon--ready'
+            'AttachmentStatusIcon__circle-icon-container',
+            isIncoming
+              ? 'AttachmentStatusIcon__circle-icon-container--incoming'
               : null,
-            state === 'outgoing'
-              ? 'module-message__tap-to-view__icon--outgoing'
-              : null,
-            state === 'viewed'
-              ? 'module-message__tap-to-view__icon--viewed'
+            isDisabled
+              ? 'AttachmentStatusIcon__circle-icon-container--disabled'
               : null
           )}
-        />
+        >
+          <div
+            className={classNames(
+              'AttachmentStatusIcon__circle-icon',
+              isIncoming ? 'AttachmentStatusIcon__circle-icon--incoming' : null,
+              state === 'ready'
+                ? 'module-message__tap-to-view__icon--ready'
+                : null,
+              state === 'outgoing'
+                ? 'module-message__tap-to-view__icon--outgoing'
+                : null,
+              state === 'viewed'
+                ? 'module-message__tap-to-view__icon--viewed'
+                : null
+            )}
+          />
+        </div>
       </div>
     );
   }
