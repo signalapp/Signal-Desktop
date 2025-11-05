@@ -23,3 +23,7 @@ export async function startDonation(): Promise<void> {
 export async function finishDonationWithCard(): Promise<void> {
   // No-op stub
 }
+
+export async function finish3dsValidation(): Promise<void> {
+  // No-op stub
+}

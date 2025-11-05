@@ -38,3 +38,12 @@ export function toStripeDonationAmount(amount: number, currency: string): number
 export function getMaximumStripeAmount(currency: string): number {
   return 999999;
 }
+
+export function getHumanDonationAmount(amount: number): string {
+  return amount.toString();
+}
+
+export const ZERO_DECIMAL_CURRENCIES = new Set<string>([
+  'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA',
+  'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF',
+]);

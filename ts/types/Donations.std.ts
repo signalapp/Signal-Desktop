@@ -44,3 +44,9 @@ export type CardDetail = never;
 export type HumanDonationAmount = never;
 export type StripeDonationAmount = never;
 export type OneTimeDonationHumanAmounts = never;
+
+export const subscriptionConfigurationCurrencyZod = z.object({
+  currency: z.string(),
+  minimumAmount: z.number(),
+  supportedPaymentMethods: z.array(z.string()),
+});
