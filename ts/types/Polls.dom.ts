@@ -101,10 +101,10 @@ export function isPollReceiveEnabled(): boolean {
 
   if (version != null) {
     if (isProduction(version)) {
-      return RemoteConfig.isEnabled('desktop.pollReceive.prod');
+      return RemoteConfig.isEnabled('desktop.pollReceive.prod1');
     }
     if (isBeta(version)) {
-      return RemoteConfig.isEnabled('desktop.pollReceive.beta');
+      return RemoteConfig.isEnabled('desktop.pollReceive.beta1');
     }
     if (isAlpha(version)) {
       return RemoteConfig.isEnabled('desktop.pollReceive.alpha');
