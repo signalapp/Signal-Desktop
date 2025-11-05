@@ -177,7 +177,7 @@ export class NotificationProfilesService {
       updateCurrentState(currentState, currentActiveProfile);
 
       // The active profile can influence the overall badge count
-      window.ConversationController.updateUnreadCount();
+      window.Whisper.events.emit('updateUnreadCount');
     }
 
     if (previousActiveProfile?.id === currentActiveProfileId) {

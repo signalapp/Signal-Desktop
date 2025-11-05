@@ -333,7 +333,10 @@ function shouldRemoveConversationFromUnreadList(
     conversation &&
     (selectedConversationId == null ||
       selectedConversationId !== conversation.id) &&
-    !isConversationUnread(conversation, { includeMuted: 'force-exclude' })
+    !isConversationUnread(conversation, {
+      activeProfile: undefined,
+      includeMuted: 'force-exclude',
+    })
   ) {
     return true;
   }
@@ -499,6 +502,7 @@ const doSearch = debounce(
               selectedConversation &&
               state.search.conversationIds.includes(selectedConversationId) &&
               !isConversationUnread(selectedConversation, {
+                activeProfile: undefined,
                 includeMuted: 'force-include',
               })
                 ? selectedConversation
