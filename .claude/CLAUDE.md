@@ -1,6 +1,6 @@
 # Orbital Agent Personas
 
-This directory contains 7 specialized agent personas for the Orbital project. Each agent references the [Product Requirements Document (PRD)](/orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md) as the single source of truth.
+This directory contains 8 specialized agent personas for the Orbital project (7 permanent + 1 temporary for cleanup phase). Each agent references the [Product Requirements Document (PRD)](/orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md) as the single source of truth.
 
 ## Agent Overview
 
@@ -52,6 +52,15 @@ This directory contains 7 specialized agent personas for the Orbital project. Ea
 **Focus:** GitHub Issues/Milestones management, Progress tracking, Dependencies, Risk identification, Scope management
 
 **Key Responsibility:** Manage project through GitHub—track progress, identify blockers, protect scope, hit Nov 26 deadline
+
+### 8. Codebase Archaeologist (Temporary - Cleanup Phase Only)
+**File:** `agents/codebase-archaeologist.md`
+
+**Focus:** Automated code analysis, dependency mapping, safe feature removal, AST manipulation, dead code elimination
+
+**Key Responsibility:** Lead Signal codebase cleanup—achieve 40-60% code reduction while preserving core Signal Protocol
+
+**Note:** This specialized role exists only for Days 1-4 of the cleanup sprint. After successful cleanup, the agent's tools and knowledge transfer to permanent team members.
 
 ## How to Use These Agents
 
