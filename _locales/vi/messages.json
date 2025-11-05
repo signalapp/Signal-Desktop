@@ -7274,9 +7274,9 @@
     "messageformat": "Bản cập nhật này cũng sửa lỗi nội dung xem trước đường dẫn không được tạo ra khi tin nhắn đồng thời chứa cả ký tự emoji. Cảm ơn, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Bản cập nhật này còn có những thay đổi giúp cải thiện các tính năng hỗ trợ tiếp cận."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Chúng tôi cũng đã sửa một lỗi có thể ngăn các thông báo xuất hiện trên Windows."
   }
 }

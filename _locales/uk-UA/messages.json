@@ -7274,9 +7274,9 @@
     "messageformat": "У цьому оновленні ми також виправили помилку, через яку попередній вигляд посилань не з'являвся, якщо повідомлення містило емоджі. Дякуємо, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "У цьому оновленні ми поліпшили доступність у програмах читання з екрана. Тепер повторювані часові позначки не озвучуватимуться, коли в чаті з'являтимуться нові повідомлення."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Також ми виправили помилку, через яку у Windows не з'являлися сповіщення."
   }
 }

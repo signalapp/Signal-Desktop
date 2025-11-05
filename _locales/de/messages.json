@@ -7274,9 +7274,9 @@
     "messageformat": "• Das Update behebt einen Fehler, der dazu führte, dass Link-Vorschauen nicht angezeigt werden konnten, wenn die Nachricht Emoji-Zeichen enthielt. Danke, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Dieses Update verbessert die Barrierefreiheit für Nutzer von Screenreadern, indem wiederholte Zeitstempel-Mitteilungen übersprungen werden, wenn neue Nachrichten in einem Chat eintreffen."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Wir haben auch einen Fehler behoben, der dazu führen konnte, dass Benachrichtigungen unter Windows nicht angezeigt wurden."
   }
 }

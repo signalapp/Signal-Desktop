@@ -7274,9 +7274,9 @@
     "messageformat": "این نسخه جدید شامل رفع اشکالی که مانع می‌شد وقتی پیام حاوی نویسه‌های ایموجی است، پیش‌نمایش‌های پیوند تولید شوند. متشکریم، <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "بهبود دسترسی‌پذیری."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "ما همچنین اشکالی را برطرف کردیم که مانع از نمایش اعلان‌ها در ویندوز می‌شد."
   }
 }

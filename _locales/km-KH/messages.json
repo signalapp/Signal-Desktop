@@ -7274,9 +7274,9 @@
     "messageformat": "កំណែថ្មីនេះក៏រួមបញ្ចូលផងដែរនូវការកែបញ្ហាសម្រាប់បញ្ហាមួយដែលធ្វើឱ្យមិនអាចបង្កើតការមើលតំណជាមុនបាន នៅពេលដែលសារនោះរួមបញ្ចូលតួអក្សររូបអារម្មណ៍ផងដែរ។ អរគុណ <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "កំណែថ្មីនេះបង្កើននូវភាពងាយស្រួលសម្រាប់អ្នកប្រើកម្មវិធីអានអេក្រង់ ដោយរំលងការប្រកាសអំពីត្រាពេលវេលាម្តងហើយម្តងទៀត នៅពេលដែលសារថ្មីមកដល់ក្នុងកម្រងសារ។"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយដែលអាចធ្វើឱ្យការជូនដំណឹងមិនអាចបង្ហាញឡើងនៅលើវីនដូបាន។"
   }
 }

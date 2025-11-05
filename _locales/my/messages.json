@@ -7274,9 +7274,9 @@
     "messageformat": "ဤအပ်ဒိတ်တွင် အီမိုဂျီစာလုံးများပါဝင်သော မက်ဆေ့ချ်များအတွက် လင့်ခ်ကြိုတင်ကြည့်ရှုမှုများ မထုတ်ပေးသည့် ပြဿနာကို ပြင်ဆင်ထားသည်။ ကျေးဇူးတင်ပါတယ် <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "သုံးစွဲမှုဆိုင်ရာ မြှင့်တင်မှုများ။"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Window များတွင် အသိပေးချက်များကို မပေါ်စေရန် တားဆီးနိုင်သည့် ချွတ်ယွင်းချက်ကိုလည်း ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   }
 }

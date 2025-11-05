@@ -7274,9 +7274,9 @@
     "messageformat": "Această actualizare include și o remediere a unei erori care împiedica generarea previzualizărilor linkurilor atunci când mesajul includea și caractere emoji. Mulţumesc, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Această actualizare îmbunătățește accesibilitatea pentru utilizatorii de cititoare de ecran prin omiterea anunțurilor repetate cu marcaj de timp atunci când sosesc mesaje noi într-un fir de discuții."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Am remediat și un bug care putea împiedica afișarea notificărilor în Windows."
   }
 }

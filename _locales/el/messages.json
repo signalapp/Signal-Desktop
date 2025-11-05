@@ -7274,9 +7274,9 @@
     "messageformat": "Αυτή η ενημέρωση περιλαμβάνει επίσης μια διόρθωση σφάλματος για ένα πρόβλημα που εμπόδιζε τη δημιουργία προεπισκόπησης συνδέσμων όταν το μήνυμα περιελάμβανε επίσης χαρακτήρες emoji. Ευχαριστούμε, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Βελτιώσεις προσβασιμότητας."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Διορθώσαμε επίσης ένα σφάλμα που εμπόδιζε την εμφάνιση ειδοποιήσεων στα Windows."
   }
 }

@@ -7274,9 +7274,9 @@
     "messageformat": "รุ่นอัปเดตนี้ยังมาพร้อมการแก้ไขบั๊กที่เคยรบกวนการสร้างตัวอย่างลิงก์ในกรณีที่ข้อความนั้นมีอีโมจิอยู่ด้วย ขอขอบคุณ <elias6></elias6>!"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "พัฒนาประสิทธิภาพของตัวช่วยการเข้าถึง"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "แก้ไขบั๊กที่อาจเคยทำให้การแจ้งเตือนไม่ขึ้นในอุปกรณ์ Windows"
   }
 }

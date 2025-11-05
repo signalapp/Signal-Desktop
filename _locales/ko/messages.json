@@ -7274,9 +7274,9 @@
     "messageformat": "이번 업데이트에서는 메시지에 이모티콘 문자가 포함된 경우 링크 미리 보기가 생성되지 않던 문제도 수정되었습니다. <elias6></elias6> 님, 감사합니다."
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "접근성을 개선했습니다."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "또한 Windows에서 알림이 표시되지 않는 버그를 수정했습니다."
   }
 }

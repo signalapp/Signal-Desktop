@@ -7274,9 +7274,9 @@
     "messageformat": "இந்தப் புதுப்பிப்பில் ஒரு பிழைத்திருத்தமும் அடங்கும். முன்பு, ஒரு மெசேஜில் எமோஜி இருக்கும்போது, இணைப்பு முன்னோட்டங்கள் உருவாக்கப்படுவது தடைபடும் சிக்கல் இருந்தது, அது இப்போது சரிசெய்யப்பட்டுள்ளது. நன்றி, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "அணுகல்தன்மை மேம்பாடுகள்."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Windowsஇல் அறிவிப்புகள் தோன்றுவதைத் தடுக்கும் பிழையையும் நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

@@ -7274,9 +7274,9 @@
     "messageformat": "此次更新还修复了一个问题，当消息中包含表情符号时，该问题会阻止生成链接预览。对此我们要感谢<elias6></elias6>。"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "改进了无障碍功能。"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "我们还修复了一个漏洞，该漏洞会导致 Windows 上的通知无法显示。"
   }
 }

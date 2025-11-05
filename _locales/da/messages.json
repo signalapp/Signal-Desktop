@@ -7274,9 +7274,9 @@
     "messageformat": "Denne opdatering indeholder også en fejlrettelse for et problem, der forhindrede, at forhåndsvisninger af link blev genereret, når beskeden også indeholdt emojitegn. Med venlig hilsen <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Denne opdatering forbedrer tilgængeligheden for skærmlæsere ved at springe gentagne tidsstempelmeddelelser over, når der kommer nye beskeder i en samtale."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Vi har også rettet en fejl, der kunne forhindre, at notifikationer blev vist på Windows."
   }
 }

@@ -7274,9 +7274,9 @@
     "messageformat": "يتضمّن هذا التحديث أيضًا إصلاحًا لخلل كان يمنع ظهور عرض مُسبَق للروابط عند احتواء الرسالة على رموز تعبيرية أيضًا. شكرًا، <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "تحسينات إمكانية الوصول."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "أصلحنا أيضًا خطًأ كان قد يمنع ظهور الإشعارات على نظام التشغيل ويندوز."
   }
 }

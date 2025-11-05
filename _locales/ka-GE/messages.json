@@ -7274,9 +7274,9 @@
     "messageformat": "ასევე, ამ განახლებაში გამოვასწორეთ შეცდომა, რომელიც ხელს უშლიდა ბმულის წინასწარი ნახვის გენერირებას, როცა წერილი ემოჯი სიმბოლოებსაც შეიცავდა. მადლობა, <elias6></elias6>-ს"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ეს განახლება ამარტივებს წვდომას მკითხველებისთვის, კონკრეტულად კი, ახალ შეტყობინებებზე დროის მაჩვენებელი აღარ მეორდება."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "ასევე გამოვასწორეთ ბაგი, რომელიც Windows-ზე შეტყობინებების გამოჩენას ხელს უშლიდა."
   }
 }

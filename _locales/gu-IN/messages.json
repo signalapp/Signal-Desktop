@@ -7274,9 +7274,9 @@
     "messageformat": "આ અપડેટમાં એક સમસ્યાનું બગફિક્સ પણ શામેલ છે જે મેસેજમાં ઇમોજી અક્ષરો શામેલ હોવા છતાં લિંક પ્રિવ્યૂ જનરેટ થવાથી અટકાવતી હતી. આભાર, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ઍક્સેસીબીલીટી સુધારણાઓ."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "અમે એક એ બગ પણ સુધર્યો છે જે Windows પર નોટિફિકેશન દેખાતા અટકાવતો હતો."
   }
 }

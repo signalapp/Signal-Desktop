@@ -3074,7 +3074,7 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "Poll: {pollQuestion}",
-    "description": "Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
+    "description": "(Deleted 2025/11/05) Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
   },
   "icu:Poll--preview": {
     "messageformat": "Poll: {pollQuestion}",

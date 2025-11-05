@@ -7274,9 +7274,9 @@
     "messageformat": "بۇ يېڭىلانما، ئۇچۇر emoji ھەرپلىرىنى ئۆز ئىچىگە ئالغاندا، ئۇلانما كۆرىكىنىڭ قۇرۇلۇشىنى توسىدىغان بىر كەمتۈكلۈكنى ئوڭشاشنى ئۆز ئىچىگە ئالىدۇ. <elias6></elias6>، رەھمەت سىزگە"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "زىيارەت قىلىش ئىقتىدارلىرى ياخشىلاندى. 7.78 نەشىر نۇسخىسى ئۈچۈن تەييارلاندى"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "بىز يەنە Windows تا ئۇقتۇرۇشنىڭ پەيدا بولۇشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلۈكنى تۈزەتتۇق."
   }
 }

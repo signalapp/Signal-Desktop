@@ -7274,9 +7274,9 @@
     "messageformat": "ಮೆಸೇಜ್ ಎಮೋಜಿ ಅಕ್ಷರಗಳನ್ನು ಒಳಗೊಂಡಿದ್ದಾಗ ಲಿಂಕ್ ಪೂರ್ವನೋಟಗಳನ್ನು ರಚಿಸುವುದನ್ನು ತಡೆಯುತ್ತಿದ್ದ ಸಮಸ್ಯೆಗೆ ಈ ಅಪ್‌ಡೇಟ್ ದೋಷ ಪರಿಹಾರವನ್ನು ಸಹ ಒಳಗೊಂಡಿದೆ. ಧನ್ಯವಾದಗಳು, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ಹೊಸ ಮೆಸೇಜ್‌ಗಳು ಥ್ರೆಡ್‌ನಲ್ಲಿ ಬಂದಾಗ ಪುನರಾವರ್ತಿತ ಟೈಮ್‌ಸ್ಟ್ಯಾಂಪ್ ಪ್ರಕಟಣೆಗಳನ್ನು ಬಿಟ್ಟುಬಿಡುವ ಮೂಲಕ ಸ್ಕ್ರೀನ್ ರೀಡರ್ ಬಳಕೆದಾರರಿಗೆ ಆ್ಯಕ್ಸೆಬಿಲಿಟಿಯನ್ನು ಸುಧಾರಿಸುತ್ತದೆ."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Windows ನಲ್ಲಿ ನೋಟಿಫಿಕೇಷನ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುವುದನ್ನು ತಡೆಯುವ ಬಗ್ ಅನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   }
 }

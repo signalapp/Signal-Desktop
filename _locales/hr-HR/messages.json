@@ -7274,9 +7274,9 @@
     "messageformat": "Ovo ažuriranje također uključuje ispravak programske pogreške koja je sprječavala generiranje pregleda poveznica kada je poruka sadržavala emotikone. Hvala ti, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Ažurirali smo pristupačnost aplikacije."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Također smo ispravili pogrešku koja je sprječavala prikazivanje obavijesti u sustavu Windows."
   }
 }

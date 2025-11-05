@@ -7274,9 +7274,9 @@
     "messageformat": "Deze update bevat ook een oplossing voor een probleem waardoor er geen linkvoorbeeld kon worden weergegeven wanneer het bericht emoji bevatte. Bedankt <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Deze update verbetert de toegankelijkheid voor gebruikers van schermlezers door herhaalde tijdstempelaanduidingen over te slaan wanneer er nieuwe berichten in een chat binnenkomen."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "We hebben ook een bug opgelost die zorgde dat meldingen soms niet konden worden weergegeven op Windows."
   }
 }

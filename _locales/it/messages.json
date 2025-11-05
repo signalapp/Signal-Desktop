@@ -7274,9 +7274,9 @@
     "messageformat": "Questo aggiornamento risolve anche un bug che impediva di generare l'anteprima dei link quando nel messaggio erano presenti delle emoji. Grazie per avercelo segnalato <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Questo aggiornamento migliora l'accessibilità per gli screen reader: d'ora in avanti le informazioni di data e ora che si ripetono verranno saltate quando ricevi nuovi messaggi in una chat."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Abbiamo anche risolto un bug che impediva alle notifiche di apparire correttamente su Windows."
   }
 }

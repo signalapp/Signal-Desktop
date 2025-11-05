@@ -7274,9 +7274,9 @@
     "messageformat": "L'aperçu des liens ne fonctionnait pas lorsque le message contenait aussi des émojis, mais vous allez vous apercevoir que le problème est résolu ! Merci, <elias6></elias6>."
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Au programme de cette mise à jour, une amélioration de l'accessibilité pour les utilisateurs de lecteurs d'écran : lorsque de nouveaux messages arrivent en même temps dans une conversation, Signal ne répète plus l'horodatage à chaque fois."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Et comme c'était la Halloween, on a sorti nos baguettes de sorciers et fait disparaître un bug qui empêchait parfois l'affichage des notifications sous Windows."
   }
 }

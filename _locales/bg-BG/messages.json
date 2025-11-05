@@ -7274,9 +7274,9 @@
     "messageformat": "Тази актуализация също така включва отстранен бъг, който не позволяваше да се генерират прегледи на линкове, когато в съобщението има и емотикони. Благодарим, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Подобрения в достъпността."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Също така отстранихме бъг, който можеше да попречи на появяването на известия на Windows."
   }
 }

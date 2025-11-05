@@ -7274,9 +7274,9 @@
     "messageformat": "Esta atualização também inclui uma correção para um problema que impedia a criação de pré-visualizações de links quando a mensagem incluía caracteres emoji. Obrigado, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Melhorias de acessibilidade."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Também corrigimos um erro que podia impedir que as notificações aparecessem no Windows."
   }
 }

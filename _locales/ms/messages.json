@@ -7274,9 +7274,9 @@
     "messageformat": "Kemas kini ini turut membetulkan pepijat yang menghalang pratonton pautan daripada dijana apabila mesej mengandungi aksara emoji. Terima kasih, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Penambahbaikan kebolehcapaian."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Kami juga telah membetulkan pepijat yang menghalang pemberitahuan daripada muncul pada Windows."
   }
 }

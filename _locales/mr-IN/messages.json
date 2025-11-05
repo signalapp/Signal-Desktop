@@ -7274,9 +7274,9 @@
     "messageformat": "या अद्यतनामध्ये एका समस्येवरील बगफिक्स अर्थात दुरुस्तीसुद्धा आहे, जिच्यामुळे संदेशात इमोजी टाकलेला असल्यावर लिंक पूर्वावलोकने तयार होत नव्हते. धन्यवाद, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "हे अद्यतन एखाद्या थ्रेडमध्ये नवीन संदेश येतात तेव्हा वारंवार होणाऱ्या टाईमस्टॅम्पच्या घोषणा गाळून स्क्रीन रीडर वापरकर्त्यांचा अनुभव सुधारते."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "आम्ही Windows वर अधिसूचना अडवू शकणारा एक बग सुद्धा दुरुस्त केला आहे."
   }
 }

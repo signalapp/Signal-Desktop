@@ -42,7 +42,7 @@
     "messageformat": "हाई क्वालिटी मीडिया भेजने के लिए अधिक डेटा खर्च होगा।"
   },
   "icu:Preferences__DonateTitle": {
-    "messageformat": "Signal  को दान करें"
+    "messageformat": "Signal को डोनेट करें"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "मानक"
@@ -2160,7 +2160,7 @@
     "messageformat": "{atUsername} एक Signal यूज़र नहीं है। सुनिश्चित करें कि आपने पूरा यूज़रनेम डाला है।"
   },
   "icu:startConversation--username-not-valid": {
-    "messageformat": "{atUsername} मान्य यूज़रनेम नहीं है। सुनिश्चित करें कि आपने पूरा यूज़रनेम और उसके बाद उसके अंकों का सेट दर्ज किया है।"
+    "messageformat": "{atUsername} मान्य यूज़रनेम नहीं है। पक्का करें कि आपने पूरा यूज़रनेम और उसके साथ दिए गए अंक सही से डाला है।"
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "यूज़र नहीं मिला। \"{phoneNumber}\" एक Signal यूज़र नहीं है।"
@@ -2358,7 +2358,7 @@
     "messageformat": "अपना दान देखने के लिए मोबाइल पर इस संदेश को टैप करें"
   },
   "icu:message--donation--unopened--label": {
-    "messageformat": "{sender} ने आपकी ओर से Signal को दान दिया"
+    "messageformat": "{sender} ने आपकी ओर से Signal को डोनेट किया"
   },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "इस दान को खोलने के लिए अपना फोन देखें"
@@ -2367,13 +2367,13 @@
     "messageformat": "अपना दान देखने के लिए अपना फोन देखें"
   },
   "icu:message--donation--preview--unopened": {
-    "messageformat": "{sender} ने आपके लिए दान दिया"
+    "messageformat": "{sender} ने आपकी ओर से Signal को डोनेट किया"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "आपने एक दान को रिडीम किया है"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "आपने {recipient} के लिए दान दिया"
+    "messageformat": "आपने {recipient} की ओर से डोनेट किया"
   },
   "icu:message--donation": {
     "messageformat": "दान"
@@ -4227,10 +4227,10 @@
     "messageformat": "इसमें कुछ मिनट लग सकते हैं"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
-    "messageformat": "Signal  को दान करें"
+    "messageformat": "Signal को डोनेट करें"
   },
   "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "Signal  को दान करें"
+    "messageformat": "Signal को डोनेट करें"
   },
   "icu:BadgeSustainerInstructions__subheader": {
     "messageformat": "Signal आप जैसे लोगों द्वारा संचालित है. योगदान दें और एक बैज पाएं."
@@ -4242,7 +4242,7 @@
     "messageformat": "सेटिंग्ज़ खोलने के लिए सबसे ऊपर बाईं ओर अपनी प्रोफ़ाइल फ़ोटो पर टैप करें"
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "\"Signal को दान दें\" पर टैप करके सब्सक्राइब करें"
+    "messageformat": "\"Signal को डोनेट करें\" पर टैप करके सब्सक्राइब करें"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "आपकी प्रोफ़ाइल की जगह बदल दी गई है"
@@ -5277,7 +5277,7 @@
     "messageformat": "सामान्य"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "Signal  को दान करें"
+    "messageformat": "Signal को डोनेट करें"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "दिखावट"
@@ -6994,10 +6994,10 @@
     "messageformat": "मुनाफ़े से ज़्यादा निजता को वरीयता"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "आपकी फ़ंडिंग पर चल रही प्राइवेट मैसेजिंग सेवा। न कोई विज्ञापन, न ट्रैकिंग, न ही समझौता। Signal को सहयोग करने के लिए अभी दान दें। <readMoreLink>ज़्यादा पढ़ें</readMoreLink>"
+    "messageformat": "आपकी फ़ंडिंग पर चल रही प्राइवेट मैसेजिंग सेवा। न कोई विज्ञापन, न ट्रैकिंग, न ही समझौता। Signal को सहयोग करने के लिए अभी डोनेट करें।<readMoreLink>ज़्यादा पढ़ें</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "दान दें"
+    "messageformat": "डोनेट करें"
   },
   "icu:PreferencesDonations__my-support": {
     "messageformat": "मेरा सपोर्ट"
@@ -7009,7 +7009,7 @@
     "messageformat": "दान प्रोसेस किया जा रहा है..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "{formattedCurrencyAmount} का दान दें"
+    "messageformat": "{formattedCurrencyAmount} डोनेट करें"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "बैजस और मासिक दान को आपके मोबाइल डिवाइस पर प्रबंधित किया जा सकता है।"
@@ -7075,7 +7075,7 @@
     "messageformat": "MM/YY"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Signal को {formattedCurrencyAmount} का दान दें"
+    "messageformat": "Signal को {formattedCurrencyAmount} डोनेट करें"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
     "messageformat": "कार्ड संख्या सही नहीं है"
@@ -7099,7 +7099,7 @@
     "messageformat": "न्यूनतम दान राशि है: {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "न्यूनतम {formattedCurrencyAmount} का दान किया जा सकता है"
+    "messageformat": "{formattedCurrencyAmount} कम रक़म डोनेट नहीं की जा सकती"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
     "messageformat": "अधिकतम दान राशि है: {formattedCurrencyAmount}"
@@ -7159,7 +7159,7 @@
     "messageformat": "दान पूरा हो गया है, लेकिन हम आपकी बैज की सेटिंग अपडेट नहीं कर सके"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "अपने मोबाइल डिवाइस पर बैज सेटिंग अपडेट करने के लिए, यहां जाएं: सेटिंग → Signal को दान दें → बैज।"
+    "messageformat": "अपने मोबाइल डिवाइस पर बैज सेटिंग अपडेट करने के लिए, यहां जाएं: सेटिंग → Signal को डोनेट करें → बैज।"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "दान में रुकावट आई है"
@@ -7186,7 +7186,7 @@
     "messageformat": "आपके दान के साथ कोई गड़बड़ी हुई"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "मुमकिन है कि आपका दान प्रोसेस न हुआ हो। रसीद देखने और इसकी पुष्टि करने के लिए, \"Signal को दान करें\" और फिर \"दान रसीद\" पर क्लिक करें।"
+    "messageformat": "मुमकिन है कि आपका डोनेशन प्रोसेस न हुआ हो। रसीद देखने और इसकी पुष्टि करने के लिए, \"Signal को डोनेट करें\" और फिर \"डोनेशन रसीद\" पर क्लिक करें।"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
     "messageformat": "फिर से कोशिश करें या अपना दान पूरा करने में मदद के लिए, सपोर्ट टीम को डीबग लॉग सबमिट करें। डीबग लॉग से हमें समस्या को पहचानने और उसे ठीक करने में मदद मिलती है और इनमें आपकी पहचान से जुड़ी कोई जानकारी नहीं होती।"
@@ -7234,7 +7234,7 @@
     "messageformat": "प्रोफ़ाइल पर डिस्प्ले करें"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "इसे अपने मोबाइल डिवाइस पर यहां जाकर ऐडजस्ट किया जा सकता है: सेटिंग → Signal को दान दें → बैज"
+    "messageformat": "इसे अपने मोबाइल डिवाइस पर यहां जाकर ऐडजस्ट किया जा सकता है: सेटिंग → Signal को डोनेट करें → बैज"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
@@ -7274,9 +7274,9 @@
     "messageformat": "इस अपडेट में उस समस्या का समाधान भी शामिल है, जिसके चलते मैसेज में इमोजी कैरेक्टर शामिल होने पर लिंक के प्रीव्यू जनरेट नहीं हो पा रहे थे। धन्यवाद, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "इस अपडेट से स्क्रीन रीडर का इस्तेमाल करने वाले लोगों के लिए सुविधा बेहतर हो गई है। अब किसी चैट में नए मैसेज आने पर बार-बार टाइमस्टैंप की घोषणा नहीं होगी।"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "हमने एक गड़बड़ी भी ठीक की है जिसकी वजह से Windows पर कभी-कभी नोटिफ़िकेशन नहीं दिखते थे।"
   }
 }

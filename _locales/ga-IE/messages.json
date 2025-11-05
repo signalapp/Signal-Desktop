@@ -1431,7 +1431,7 @@
     "messageformat": "Cruthaigh fillteán"
   },
   "icu:Preferences__EditChatFolderPage__Title--EditingExistingChatFolder": {
-    "messageformat": "Cuir fillteán in eagar"
+    "messageformat": "Cuir an fillteán in eagar"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
     "messageformat": "Ainm an fhillteáin"
@@ -7274,9 +7274,9 @@
     "messageformat": "Áirítear leis an nuashonrú seo freisin réiteach fabht ar fhadhb a chuir cosc ar réamhamhairc ar nasc a ghiniúint agus carachtair emoji sa teachtaireacht freisin. Go raibh maith agat, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Feabhsuithe ar inrochtaineacht."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Chomh maith leis sin, réitíomar fabht a d'fhéadfadh bac a chur ar fhógraí a thaispeáint ar Windows."
   }
 }

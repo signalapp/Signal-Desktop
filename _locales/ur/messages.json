@@ -7274,9 +7274,9 @@
     "messageformat": "اس اپ ڈیٹ میں اس مسئلے کے لیے نقص کی درستگی بھی شامل ہے جس کی وجہ سے لنک کا پیش منظر اس وقت ظاہر نہیں ہوتا تھا جب میسج میں ایموجی کردار بھی شامل ہوتے ہیں۔ شکریہ، <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "یہ اپ ڈیٹ سکرین ریڈر یوزرز کے لیے ہر نیا میسج آنے پر ٹائم اسٹیمپ کا اعلان چھوڑ کر ان کے لیے رسائی کو بہتر بناتا ہے۔"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "ہم نے اس نقص کی بھی درستگی کی جو Windows پر اطلاعات کو ظاہر ہونے سے روک سکتا تھا۔"
   }
 }

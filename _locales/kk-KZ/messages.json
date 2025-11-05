@@ -7274,9 +7274,9 @@
     "messageformat": "Бұл жаңа нұсқада эмоджи таңбалары бар хабарда сілтеменің алғы нұсқасын жасауға кедергі келтіретін ақау да түзетілді. Рақмет, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "Бұл жаңа нұсқада экранды оқу құралын пайдаланушыларға арналған арнайы мүмкіндіктер жақсартылды. Енді тізбекте жаңа хабарлар келген кезде, қайталанатын уақыт белгісінің хабарландырулары өткізіп жіберіледі."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Сонымен қатар хабарландырулардың Windows жүйесінде пайда болуына кедергі келтіретін ақауды түзеттік."
   }
 }
