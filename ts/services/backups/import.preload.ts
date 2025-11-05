@@ -178,6 +178,8 @@ type ChatItemParseResult = {
   additionalMessages: Array<Partial<MessageAttributesType>>;
 };
 
+const SKIP = 'SKIP' as const;
+
 function phoneToContactFormType(
   type: Backups.ContactAttachment.Phone.Type | null | undefined
 ): ContactFormType {
@@ -1562,6 +1564,63 @@ export class BackupImportStream extends Writable {
           storyAuthorAci
         ),
       };
+    } else if (item.poll) {
+      const { poll } = item;
+
+      const votesByVoter = new Map<
+        string,
+        {
+          fromConversationId: string;
+          optionIndexes: Array<number>;
+          voteCount: number;
+          timestamp: number;
+        }
+      >();
+
+      poll.options?.forEach((option, optionIndex) => {
+        option.votes?.forEach(vote => {
+          if (!vote.voterId) {
+            return;
+          }
+
+          const conversation = this.#recipientIdToConvo.get(
+            vote.voterId.toNumber()
+          );
+          if (!conversation) {
+            log.warn(`${logId}: Poll vote has unknown voterId ${vote.voterId}`);
+            return;
+          }
+
+          const conversationId = conversation.id;
+
+          let voterRecord = votesByVoter.get(conversationId);
+          if (!voterRecord) {
+            voterRecord = {
+              fromConversationId: conversationId,
+              optionIndexes: [],
+              voteCount: vote.voteCount ?? 1,
+              timestamp,
+            };
+            votesByVoter.set(conversationId, voterRecord);
+          }
+
+          voterRecord.optionIndexes.push(optionIndex);
+        });
+      });
+
+      const votes = Array.from(votesByVoter.values());
+
+      attributes = {
+        ...attributes,
+        poll: {
+          question: poll.question ?? '',
+          options: poll.options?.map(option => option.option ?? '') ?? [],
+          allowMultiple: poll.allowMultiple ?? false,
+          votes: votes.length > 0 ? votes : undefined,
+          terminatedAt: poll.hasEnded ? Number(item.dateSent) : undefined,
+        },
+        reactions: this.#fromReactions(poll.reactions),
+      };
     } else {
       const result = await this.#fromNonBubbleChatItem(item, {
         aboutMe,
@@ -1569,6 +1628,10 @@ export class BackupImportStream extends Writable {
         conversation: chatConvo,
         timestamp,
       });
+
+      if (result === SKIP) {
+        return;
+      }
 
       if (!result) {
         throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
@@ -2157,6 +2220,7 @@ export class BackupImportStream extends Writable {
       text: dropNull(quote.text?.body),
       bodyRanges: this.#fromBodyRanges(quote.text),
       isGiftBadge: quote.type === Backups.Quote.Type.GIFT_BADGE,
+      isPoll: quote.type === Backups.Quote.Type.POLL ? true : undefined,
       isViewOnce: quote.type === Backups.Quote.Type.VIEW_ONCE,
       attachments:
         quote.attachments?.map(quotedAttachment => {
@@ -2240,7 +2304,7 @@ export class BackupImportStream extends Writable {
       conversation: ConversationAttributesType;
       timestamp: number;
     }
-  ): Promise<ChatItemParseResult | undefined> {
+  ): Promise<ChatItemParseResult | undefined | typeof SKIP> {
     const { timestamp } = options;
     const logId = `fromChatItemToNonBubble(${timestamp})`;
 
@@ -2475,7 +2539,7 @@ export class BackupImportStream extends Writable {
       conversation: ConversationAttributesType;
       timestamp: number;
     }
-  ): Promise<ChatItemParseResult | undefined> {
+  ): Promise<ChatItemParseResult | undefined | typeof SKIP> {
     const { aboutMe, author, conversation } = options;
 
     if (updateMessage.groupChange) {
@@ -2729,6 +2793,11 @@ export class BackupImportStream extends Writable {
         },
         additionalMessages: [],
       };
+    }
+
+    if (updateMessage.pollTerminate) {
+      log.info('Skipping pollTerminate update (not yet supported)');
+      return SKIP;
     }
 
     return undefined;

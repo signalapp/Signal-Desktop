@@ -55,6 +55,7 @@ export async function makeQuote(
     id: quoteId,
     isViewOnce: isTapToView(quotedMessage),
     isGiftBadge: isGiftBadge(quotedMessage),
+    isPoll: quotedMessage.poll != null,
     messageId,
     referencedMessageNotFound: false,
     text: getQuoteBodyText({
