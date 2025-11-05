@@ -100,7 +100,7 @@ export function PollMessageContents({
   const [showVotesModal, setShowVotesModal] = useState(false);
   const isIncoming = direction === 'incoming';
 
-  const totalVotes = poll.totalNumVotes;
+  const { totalNumVotes: totalVotes, uniqueVoters } = poll;
 
   let pollStatusText: string;
   if (poll.terminatedAt) {
@@ -167,7 +167,7 @@ export function PollMessageContents({
           const pollVoteEntries = poll.votesByOption.get(index);
           const optionVotes = pollVoteEntries?.length ?? 0;
           const percentage =
-            totalVotes > 0 ? (optionVotes / totalVotes) * 100 : 0;
+            uniqueVoters > 0 ? (optionVotes / uniqueVoters) * 100 : 0;
 
           const weVotedForThis = (pollVoteEntries ?? []).some(v => v.isMe);
 
