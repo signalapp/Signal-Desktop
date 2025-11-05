@@ -1124,6 +1124,33 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "വോട്ടുകളൊന്നുമില്ല"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options"
+  },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
   },
@@ -2317,6 +2344,9 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "പോൾ: {pollQuestion}"
+  },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4381,6 +4411,18 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "ഫയൽ അറ്റാച്ചുചെയ്യുക"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ഈ വ്യക്തി Signal ഉപയോഗിക്കുന്നില്ല"
@@ -7274,9 +7316,15 @@
     "messageformat": "സന്ദേശത്തിൽ ഇമോജി പ്രതീകങ്ങൾ കൂടി ഉൾപ്പെടുത്തിയപ്പോൾ ലിങ്ക് പ്രിവ്യൂകൾ സൃഷ്ടിക്കുന്നതിൽ നിന്ന് തടയുന്ന ഒരു പ്രശ്നത്തിനുള്ള ബഗ് പരിഹാരവും ഈ അപ്‌ഡേറ്റിൽ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. നന്ദി, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ഒരു ത്രെഡിൽ പുതിയ സന്ദേശങ്ങൾ വരുമ്പോൾ ആവർത്തിച്ചുള്ള ടൈംസ്റ്റാമ്പ് അറിയിപ്പുകൾ ഒഴിവാക്കുന്നതിലൂടെ ഈ അപ്‌ഡേറ്റ് സ്‌ക്രീൻ റീഡർ ഉപയോക്താക്കൾക്കുള്ള പ്രവേശനക്ഷമത മെച്ചപ്പെടുത്തുന്നു."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Windows-ൽ അറിയിപ്പുകൾ ദൃശ്യമാകുന്നത് തടയുന്ന ഒരു ബഗും ഞങ്ങൾ പരിഹരിച്ചു."
+  },
+  "icu:WhatsNew__7.79-1": {
+    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+  },
+  "icu:WhatsNew__7.79-2": {
+    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
   }
 }

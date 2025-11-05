@@ -1124,6 +1124,33 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ਕੋਈ ਵੋਟ ਨਹੀਂ"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options"
+  },
   "icu:deleteConversation": {
     "messageformat": "ਮਿਟਾਓ"
   },
@@ -2160,7 +2187,7 @@
     "messageformat": "{atUsername} Signal ਦੇ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਹਨ। ਇਹ ਪੱਕਾ ਕਰੋ ਕਿ ਤੁਸੀਂ ਪੂਰਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਦਰਜ ਕੀਤਾ ਹੈ।"
   },
   "icu:startConversation--username-not-valid": {
-    "messageformat": "{atUsername} ਇੱਕ ਵੈਧ ਵਰਤੋਂਕਾਰ ਨਾਂ ਨਹੀਂ ਹੈ। ਇਹ ਪੱਕਾ ਕਰੋ ਕਿ ਤੁਸੀਂ ਪੂਰਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਤੇ ਫਿਰ ਉਸਦੇ ਅੰਕਾਂ ਦੇ ਜੋੜੇ ਨੂੰ ਦਰਜ ਕੀਤਾ ਹੈ।"
+    "messageformat": "{atUsername} ਇੱਕ ਵੈਧ ਵਰਤੋਂਕਾਰ ਨਾਂ ਨਹੀਂ ਹੈ। ਇਹ ਪੱਕਾ ਕਰੋ ਕਿ ਤੁਸੀਂ ਪੂਰਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਤੇ ਫਿਰ ਉਸਦੇ ਅੰਕਾਂ ਦੇ ਸੈੱਟ ਨੂੰ ਦਰਜ ਕੀਤਾ ਹੈ।"
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਲੱਭਿਆ। \"{phoneNumber}\" Signal ਦੇ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਹਨ।"
@@ -2317,6 +2344,9 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "ਪੋਲ: {pollQuestion}"
+  },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4381,6 +4411,18 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "ਫ਼ਾਈਲ ਅਟੈਚ ਕਰੋ"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ਇਹ ਵਿਅਕਤੀ Signal ਦੀ ਵਰਤੋਂ ਨਹੀਂ ਕਰ ਰਿਹਾ ਹੈ"
@@ -7274,9 +7316,15 @@
     "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਇੱਕ ਖ਼ਰਾਬੀ ਦਾ ਹੱਲ ਵੀ ਸ਼ਾਮਲ ਹੈ, ਜੋ ਸੁਨੇਹੇ ਵਿੱਚ ਇਮੋਜੀ ਦੇ ਸ਼ਾਮਲ ਹੋਣ 'ਤੇ ਲਿੰਕ ਦੀ ਝਲਕ ਤਿਆਰ ਹੋਣ ਤੋਂ ਰੋਕਦੀ ਸੀ। ਧੰਨਵਾਦ, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ਐਕਸੈੱਸੀਬਿਲੀਟੀ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ।"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "ਅਸੀਂ ਇੱਕ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜੋ ਸੂਚਨਾਵਾਂ ਨੂੰ Windows ਵਿੱਚ ਦਿੱਖਣ ਤੋਂ ਰੋਕ ਸਕਦੀ ਸੀ।"
+  },
+  "icu:WhatsNew__7.79-1": {
+    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+  },
+  "icu:WhatsNew__7.79-2": {
+    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
   }
 }

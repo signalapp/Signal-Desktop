@@ -1124,6 +1124,33 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options"
+  },
   "icu:deleteConversation": {
     "messageformat": "ಅಳಿಸಿ"
   },
@@ -2317,6 +2344,9 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "ಸಮೀಕ್ಷೆ: {pollQuestion}"
+  },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4381,6 +4411,18 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "ಫೈಲ್ ಅಟ್ಯಾಚ್ ಮಾಡಿ"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ಈ ವ್ಯಕ್ತಿಯು Signal ಬಳಸುತ್ತಿಲ್ಲ"
@@ -7274,9 +7316,15 @@
     "messageformat": "ಮೆಸೇಜ್ ಎಮೋಜಿ ಅಕ್ಷರಗಳನ್ನು ಒಳಗೊಂಡಿದ್ದಾಗ ಲಿಂಕ್ ಪೂರ್ವನೋಟಗಳನ್ನು ರಚಿಸುವುದನ್ನು ತಡೆಯುತ್ತಿದ್ದ ಸಮಸ್ಯೆಗೆ ಈ ಅಪ್‌ಡೇಟ್ ದೋಷ ಪರಿಹಾರವನ್ನು ಸಹ ಒಳಗೊಂಡಿದೆ. ಧನ್ಯವಾದಗಳು, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ಹೊಸ ಮೆಸೇಜ್‌ಗಳು ಥ್ರೆಡ್‌ನಲ್ಲಿ ಬಂದಾಗ ಪುನರಾವರ್ತಿತ ಟೈಮ್‌ಸ್ಟ್ಯಾಂಪ್ ಪ್ರಕಟಣೆಗಳನ್ನು ಬಿಟ್ಟುಬಿಡುವ ಮೂಲಕ ಸ್ಕ್ರೀನ್ ರೀಡರ್ ಬಳಕೆದಾರರಿಗೆ ಆ್ಯಕ್ಸೆಬಿಲಿಟಿಯನ್ನು ಸುಧಾರಿಸುತ್ತದೆ."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "Windows ನಲ್ಲಿ ನೋಟಿಫಿಕೇಷನ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುವುದನ್ನು ತಡೆಯುವ ಬಗ್ ಅನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
+  },
+  "icu:WhatsNew__7.79-1": {
+    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+  },
+  "icu:WhatsNew__7.79-2": {
+    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
   }
 }

@@ -3110,7 +3110,7 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "Poll: {pollQuestion}",
-    "description": "Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
+    "description": "(Deleted 2025/11/05) Shown in notifications and in the left pane when a poll message is received. {pollQuestion} is the poll question text."
   },
   "icu:Poll--preview": {
     "messageformat": "Poll: {pollQuestion}",
@@ -9731,11 +9731,11 @@
   },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread.",
-    "description": " Release notes for 7.78 release"
+    "description": "(Deleted 2025/11/05)  Release notes for 7.78 release"
   },
   "icu:WhatsNew__7.78-2": {
     "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows.",
-    "description": " Release notes for 7.78 release"
+    "description": "(Deleted 2025/11/05)  Release notes for 7.78 release"
   },
   "icu:WhatsNew__7.79-1": {
     "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it.",
