@@ -11,8 +11,8 @@ import type { CallHistoryDetails } from '../types/CallDisposition.std.js';
 import type { DonationsStateType } from './ducks/donations.preload.js';
 import type { MainWindowStatsType } from '../windows/context.preload.js';
 import type { MenuOptionsType } from '../types/menu.std.js';
-import type { StoryDataType } from './ducks/stories.preload.js';
-import type { StoryDistributionListDataType } from './ducks/storyDistributionLists.preload.js';
+import type { StoryDataType } from './ducks/stories.preload.js'; // Stub only
+import type { StoryDistributionListDataType } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import type { ThemeType } from '../types/Util.std.js';
 import type { CallLinkType } from '../types/CallLink.std.js';
 import type { RecentEmojiObjectType } from '../util/loadRecentEmojis.preload.js';
@@ -34,8 +34,8 @@ export type ReduxInitData = {
   notificationProfiles: ReadonlyArray<NotificationProfileType>;
   recentEmoji: RecentEmojiObjectType;
   stickers: StickersStateType;
-  stories: Array<StoryDataType>;
-  storyDistributionLists: Array<StoryDistributionListDataType>;
+  stories: Array<StoryDataType>; // Stub only
+  storyDistributionLists: Array<StoryDistributionListDataType>; // Stub only
   theme: ThemeType;
 };
 
@@ -99,12 +99,12 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     search: bindActionCreators(actionCreators.search, store.dispatch),
-    stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
-    stories: bindActionCreators(actionCreators.stories, store.dispatch),
+    // stickers: bindActionCreators(actionCreators.stickers, store.dispatch), // REMOVED: Orbital cleanup
+    stories: bindActionCreators(actionCreators.stories, store.dispatch), // Stub only
     storyDistributionLists: bindActionCreators(
       actionCreators.storyDistributionLists,
       store.dispatch
-    ),
+    ), // Stub only
     toast: bindActionCreators(actionCreators.toast, store.dispatch),
     updates: bindActionCreators(actionCreators.updates, store.dispatch),
     user: bindActionCreators(actionCreators.user, store.dispatch),
