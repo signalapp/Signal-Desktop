@@ -550,14 +550,14 @@ export function PreferencesEditChatFolderPage(
       actions={
         <>
           <AxoButton.Root
-            size="large"
+            size="lg"
             variant="secondary"
             onClick={handleDiscardAndBack}
           >
             {i18n('icu:Preferences__EditChatFolderPage__CancelButton')}
           </AxoButton.Root>
           <AxoButton.Root
-            size="large"
+            size="lg"
             variant="primary"
             onClick={handleSaveChangesAndBack}
             disabled={!(isChanged && isValid)}

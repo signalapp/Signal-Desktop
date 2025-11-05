@@ -128,9 +128,9 @@ const AxoButtonVariants = {
 };
 
 const AxoButtonSizes = {
-  large: tw('min-w-16 px-4 py-2 type-body-medium font-medium'),
-  medium: tw('min-w-14 px-3 py-1.5 type-body-medium font-medium'),
-  small: tw('min-w-12 px-2 py-1 type-body-small font-medium'),
+  lg: tw('min-w-16 px-4 py-2 type-body-medium font-medium'),
+  md: tw('min-w-14 px-3 py-1.5 type-body-medium font-medium'),
+  sm: tw('min-w-12 px-2 py-1 type-body-small font-medium'),
 } as const satisfies Record<string, TailwindStyles>;
 
 type BaseButtonAttrs = Omit<
@@ -171,9 +171,9 @@ const AxoButtonSpinnerSizes: Record<
   AxoButtonSize,
   { size: number; strokeWidth: number }
 > = {
-  large: { size: 20, strokeWidth: 2 },
-  medium: { size: 20, strokeWidth: 2 },
-  small: { size: 16, strokeWidth: 1.5 },
+  lg: { size: 20, strokeWidth: 2 },
+  md: { size: 20, strokeWidth: 2 },
+  sm: { size: 16, strokeWidth: 1.5 },
 };
 
 type ExperimentalButtonSpinnerProps = Readonly<{
@@ -204,7 +204,7 @@ export namespace AxoButton {
   export type Variant = AxoButtonVariant;
   export type Size = AxoButtonSize;
 
-  export type Width = 'fit' | 'grow' | 'fill';
+  export type Width = 'fit' | 'grow' | 'full';
 
   const Widths: Record<Width, TailwindStyles> = {
     /* Always try to fit to the content of the button */
@@ -212,7 +212,7 @@ export namespace AxoButton {
     /* Allow the button to grow within a flex container */
     grow: tw('grow'),
     /* Always try to fill the available space */
-    fill: tw('w-full'),
+    full: tw('w-full'),
   };
 
   export type RootProps = BaseButtonAttrs &

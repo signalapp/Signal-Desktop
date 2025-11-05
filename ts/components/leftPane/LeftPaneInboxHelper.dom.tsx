@@ -165,7 +165,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
             </h3>
             <AxoButton.Root
               variant="floating-secondary"
-              size="medium"
+              size="md"
               onClick={() => {
                 changeLocation({
                   tab: NavTab.Settings,

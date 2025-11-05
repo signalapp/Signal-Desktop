@@ -25,7 +25,7 @@ export namespace AxoCheckbox {
         disabled={props.disabled}
         required={props.required}
         className={tw(
-          'flex size-5 items-center justify-center rounded-full',
+          'flex size-5 items-center justify-center rounded-full leading-none',
           'border border-border-primary inset-shadow-on-color',
           'data-[state=unchecked]:bg-fill-primary',
           'data-[state=unchecked]:pressed:bg-fill-primary-pressed',

@@ -375,12 +375,12 @@ export function PollCreateModal({
         </div>
 
         <div className={tw('mt-3 flex justify-end gap-3')}>
-          <AxoButton.Root variant="secondary" size="large" onClick={onClose}>
+          <AxoButton.Root variant="secondary" size="lg" onClick={onClose}>
             {i18n('icu:cancel')}
           </AxoButton.Root>
           <AxoButton.Root
             variant="primary"
-            size="large"
+            size="lg"
             onClick={handleSend}
             disabled={!allowSend}
           >

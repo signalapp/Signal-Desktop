@@ -66,9 +66,12 @@ export namespace AxoScrollArea {
 
   export type ScrollBehavior = 'auto' | 'smooth';
 
+  export type ScrollbarVisibility = 'auto' | 'as-needed';
+
   type ScrollAreaConfig = Readonly<{
     scrollbarWidth: ScrollbarWidth;
     scrollbarGutter: ScrollbarGutter;
+    scrollbarVisibility: ScrollbarVisibility;
     scrollBehavior: ScrollBehavior;
   }>;
 
@@ -93,6 +96,7 @@ export namespace AxoScrollArea {
     maxHeight?: number;
     scrollbarWidth: ScrollbarWidth;
     scrollbarGutter?: ScrollbarGutter;
+    scrollbarVisibility?: ScrollbarVisibility;
     scrollBehavior?: ScrollBehavior;
     children: ReactNode;
   }>;
@@ -104,12 +108,18 @@ export namespace AxoScrollArea {
       maxHeight,
       scrollbarWidth = 'thin',
       scrollbarGutter = 'stable-both-edges',
+      scrollbarVisibility = 'auto',
       scrollBehavior = 'auto',
     } = props;
 
     const config = useMemo((): ScrollAreaConfig => {
-      return { scrollbarWidth, scrollbarGutter, scrollBehavior };
-    }, [scrollbarWidth, scrollbarGutter, scrollBehavior]);
+      return {
+        scrollbarWidth,
+        scrollbarGutter,
+        scrollbarVisibility,
+        scrollBehavior,
+      };
+    }, [scrollbarWidth, scrollbarGutter, scrollbarVisibility, scrollBehavior]);
 
     const style = useMemo((): CSSProperties => {
       return {
@@ -158,13 +168,6 @@ export namespace AxoScrollArea {
     'outline-0'
   );
 
-  // Note: Use "scroll" for `overflow-x` because scrollbar-gutter doesnt fix the space
-  const ViewportOrientations: Record<Orientation, TailwindStyles> = {
-    vertical: tw('overflow-x-hidden overflow-y-auto'),
-    horizontal: tw('overflow-x-scroll overflow-y-hidden'),
-    both: tw('overflow-x-scroll overflow-y-auto'),
-  };
-
   const ViewportScrollbarWidths: Record<ScrollbarWidth, TailwindStyles> = {
     wide: tw('scrollbar-width-auto'),
     thin: tw('scrollbar-width-thin'),
@@ -175,6 +178,16 @@ export namespace AxoScrollArea {
     unstable: tw('scrollbar-gutter-auto'),
     'stable-one-edge': tw('scrollbar-gutter-stable'),
     'stable-both-edges': tw('scrollbar-gutter-stable'),
+  };
+
+  const ViewportScrollbarVisibilities: Record<
+    ScrollbarVisibility,
+    TailwindStyles
+  > = {
+    auto: tw(),
+    'as-needed': tw(
+      'transition-[scrollbar-color] duration-150 not-hover:not-focus-within:scrollbar-thumb-transparent'
+    ),
   };
 
   const ViewportScrollBehaviors: Record<ScrollBehavior, TailwindStyles> = {
@@ -188,8 +201,12 @@ export namespace AxoScrollArea {
 
   export const Viewport: FC<ViewportProps> = memo(props => {
     const orientation = useAxoScrollAreaOrientation();
-    const { scrollbarWidth, scrollbarGutter, scrollBehavior } =
-      useAxoScrollAreaConfig();
+    const {
+      scrollbarWidth,
+      scrollbarGutter,
+      scrollbarVisibility,
+      scrollBehavior,
+    } = useAxoScrollAreaConfig();
 
     const style = useMemo((): CSSProperties => {
       const hasVerticalScrollbar = orientation !== 'horizontal';
@@ -239,9 +256,9 @@ export namespace AxoScrollArea {
         data-axo-scroll-area-viewport
         className={tw(
           baseViewportStyles,
-          ViewportOrientations[orientation],
           ViewportScrollbarWidths[scrollbarWidth],
           ViewportScrollbarGutters[scrollbarGutter],
+          ViewportScrollbarVisibilities[scrollbarVisibility],
           ViewportScrollBehaviors[scrollBehavior]
         )}
         style={style}
@@ -452,7 +469,10 @@ export namespace AxoScrollArea {
 
     return (
       <div
-        className={tw('flex size-full flex-col', AXO_MASK_CLASS_NAME)}
+        className={tw(
+          'flex size-full flex-col overflow-hidden',
+          AXO_MASK_CLASS_NAME
+        )}
         style={style}
       >
         {props.children}

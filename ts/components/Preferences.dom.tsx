@@ -949,14 +949,14 @@ export function Preferences({
               <>
                 <AxoButton.Root
                   variant="secondary"
-                  size="large"
+                  size="lg"
                   onClick={closeLanguageDialog}
                 >
                   {i18n('icu:cancel')}
                 </AxoButton.Root>
                 <AxoButton.Root
                   variant="primary"
-                  size="large"
+                  size="lg"
                   disabled={selectedLanguageLocale === localeOverride}
                   onClick={() => {
                     setLanguageDialog(LanguageDialog.Confirmation);
@@ -1210,7 +1210,7 @@ export function Preferences({
               }
               right={
                 <AxoButton.Root
-                  size="large"
+                  size="lg"
                   variant="secondary"
                   onClick={() => {
                     setSettingsLocation({
@@ -1256,7 +1256,7 @@ export function Preferences({
                 <div className="Preferences__right-button">
                   <AxoButton.Root
                     variant="secondary"
-                    size="large"
+                    size="lg"
                     disabled={nowSyncing}
                     experimentalSpinner={
                       nowSyncing ? { 'aria-label': i18n('icu:syncing') } : null
@@ -1556,7 +1556,7 @@ export function Preferences({
               right={
                 <AxoButton.Root
                   variant="secondary"
-                  size="large"
+                  size="lg"
                   onClick={() =>
                     setSettingsLocation({
                       page: SettingsPage.NotificationProfilesHome,
@@ -1606,7 +1606,7 @@ export function Preferences({
             >
               <AxoButton.Root
                 variant="secondary"
-                size="large"
+                size="lg"
                 onClick={() => setSettingsLocation({ page: SettingsPage.PNP })}
               >
                 {i18n('icu:Preferences__pnp__row--button')}
@@ -1765,7 +1765,7 @@ export function Preferences({
                 <AxoButton.Root
                   onClick={() => onHasStoriesDisabledChanged(false)}
                   variant="secondary"
-                  size="large"
+                  size="lg"
                 >
                   {i18n('icu:Preferences__turn-stories-on')}
                 </AxoButton.Root>
@@ -1773,7 +1773,7 @@ export function Preferences({
                 <AxoButton.Root
                   onClick={() => setConfirmStoriesOff(true)}
                   variant="subtle-destructive"
-                  size="large"
+                  size="lg"
                 >
                   {i18n('icu:Preferences__turn-stories-off')}
                 </AxoButton.Root>
@@ -1805,7 +1805,7 @@ export function Preferences({
             >
               <AxoButton.Root
                 variant="subtle-destructive"
-                size="large"
+                size="lg"
                 onClick={() => setConfirmDelete(true)}
               >
                 {i18n('icu:clearDataButton')}

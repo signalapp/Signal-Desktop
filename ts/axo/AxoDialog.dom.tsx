@@ -19,30 +19,30 @@ import { AxoButton } from './AxoButton.dom.js';
 
 const Namespace = 'AxoDialog';
 
-const { useContentEscapeBehavior, useContentSize } = AxoBaseDialog;
+const { useContentEscapeBehavior } = AxoBaseDialog;
 
-// We want to have 25px of padding on either side of header/body/footer, but
+// We want to have 24px of padding on either side of header/body/footer, but
 // it's import that we remain aligned with the vertical scrollbar gutters that
 // we need to measure in the browser to know the value of.
 //
 // Chrome currently renders vertical scrollbars as 11px with
 // `scrollbar-width: thin` but that could change someday or based on some OS
 // settings. So we'll target 24px but we'll tolerate different values.
-const SCROLLBAR_WIDTH_EXPECTED = 11; /* (keep in sync with chromium) */
-const SCROLLBAR_WIDTH_ACTUAL = getScrollbarGutters('thin', 'custom').vertical;
+function getPadding(target: number, scrollbars: boolean): number {
+  const scrollbarWidthExpected = 11;
+  const paddingBeforeScrollbarWidth = target - scrollbarWidthExpected;
 
-const DIALOG_PADDING_TARGET = 20;
+  if (scrollbars) {
+    // If this element has scrollbars we should just rely on the rendered gutter
+    return paddingBeforeScrollbarWidth;
+  }
 
-const DIALOG_PADDING_BEFORE_SCROLLBAR_WIDTH =
-  DIALOG_PADDING_TARGET - SCROLLBAR_WIDTH_EXPECTED;
+  const scrollbarWidthActual = getScrollbarGutters('thin', 'custom').vertical;
 
-const DIALOG_PADDING_PLUS_SCROLLBAR_WIDTH =
-  SCROLLBAR_WIDTH_ACTUAL + DIALOG_PADDING_BEFORE_SCROLLBAR_WIDTH;
-
-const DIALOG_HEADER_PADDING_BLOCK = 10;
-
-const DIALOG_HEADER_ICON_BUTTON_MARGIN =
-  DIALOG_HEADER_PADDING_BLOCK - DIALOG_PADDING_PLUS_SCROLLBAR_WIDTH;
+  // If this element doesn't have scrollbars, we need to add the exact value of
+  // the actual scrollbar gutter
+  return scrollbarWidthActual + paddingBeforeScrollbarWidth;
+}
 
 export namespace AxoDialog {
   /**
@@ -86,31 +86,44 @@ export namespace AxoDialog {
    * ------------------------------
    */
 
-  export type ContentSize = AxoBaseDialog.ContentSize;
+  type ContentSizeConfig = Readonly<{
+    width: number;
+    minWidth: number;
+  }>;
+
+  const ContentSizes: Record<ContentSize, ContentSizeConfig> = {
+    sm: { width: 360, minWidth: 360 },
+    md: { width: 420, minWidth: 360 },
+    lg: { width: 720, minWidth: 360 },
+  };
+
+  export type ContentSize = 'sm' | 'md' | 'lg';
   export type ContentEscape = AxoBaseDialog.ContentEscape;
-  export type ContentProps = AxoBaseDialog.ContentProps;
+  export type ContentProps = Readonly<{
+    size: ContentSize;
+    escape: ContentEscape;
+    children: ReactNode;
+  }>;
 
   export const Content: FC<ContentProps> = memo(props => {
-    const sizeConfig = AxoBaseDialog.ContentSizes[props.size];
+    const sizeConfig = ContentSizes[props.size];
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     return (
-      <AxoBaseDialog.ContentSizeProvider value={props.size}>
-        <Dialog.Portal>
-          <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
-            <Dialog.Content
-              className={AxoBaseDialog.contentStyles}
-              onEscapeKeyDown={handleContentEscapeEvent}
-              onInteractOutside={handleContentEscapeEvent}
-              style={{
-                width: sizeConfig.width,
-                minWidth: sizeConfig.minWidth,
-              }}
-            >
-              {props.children}
-            </Dialog.Content>
-          </Dialog.Overlay>
-        </Dialog.Portal>
-      </AxoBaseDialog.ContentSizeProvider>
+      <Dialog.Portal>
+        <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
+          <Dialog.Content
+            className={AxoBaseDialog.contentStyles}
+            onEscapeKeyDown={handleContentEscapeEvent}
+            onInteractOutside={handleContentEscapeEvent}
+            style={{
+              width: sizeConfig.width,
+              minWidth: 320,
+            }}
+          >
+            {props.children}
+          </Dialog.Content>
+        </Dialog.Overlay>
+      </Dialog.Portal>
     );
   });
 
@@ -128,14 +141,13 @@ export namespace AxoDialog {
   export const Header: FC<HeaderProps> = memo(props => {
     const style = useMemo(() => {
       return {
-        paddingBlock: DIALOG_HEADER_PADDING_BLOCK,
-        paddingInline: DIALOG_PADDING_PLUS_SCROLLBAR_WIDTH,
+        paddingInline: getPadding(10, false),
       };
     }, []);
     return (
       <div
         className={tw(
-          'grid items-center',
+          'grid items-center py-2.5',
           'grid-cols-[[back-slot]_1fr_[title-slot]_auto_[close-slot]_1fr]'
         )}
         style={style}
@@ -167,12 +179,12 @@ export namespace AxoDialog {
           type="button"
           aria-label={label}
           className={tw(
-            'rounded-full p-1.5',
+            'rounded-full p-[5px] leading-none',
             'hovered:bg-fill-secondary pressed:bg-fill-secondary-pressed',
             'outline-0 outline-border-focused focused:outline-[2.5px]'
           )}
         >
-          <AxoSymbol.Icon symbol={symbol} size={20} label={null} />
+          <AxoSymbol.Icon symbol={symbol} size={18} label={null} />
         </button>
       );
     }
@@ -186,17 +198,25 @@ export namespace AxoDialog {
    */
 
   export type TitleProps = Readonly<{
+    screenReaderOnly?: boolean;
     children: ReactNode;
   }>;
 
   export const Title: FC<TitleProps> = memo(props => {
+    const style = useMemo(() => {
+      return {
+        paddingInline: 24 - getPadding(10, false),
+      };
+    }, []);
     return (
       <Dialog.Title
         className={tw(
-          'col-[title-slot]',
+          'col-[title-slot] py-0.5',
           'truncate text-center',
-          'type-title-small text-label-primary'
+          'type-body-medium font-semibold text-label-primary',
+          props.screenReaderOnly && 'sr-only'
         )}
+        style={style}
       >
         {props.children}
       </Dialog.Title>
@@ -215,11 +235,8 @@ export namespace AxoDialog {
   }>;
 
   export const Back: FC<BackProps> = memo(props => {
-    const style = useMemo((): CSSProperties => {
-      return { marginInlineStart: DIALOG_HEADER_ICON_BUTTON_MARGIN };
-    }, []);
     return (
-      <div className={tw('col-[back-slot] text-start')} style={style}>
+      <div className={tw('col-[back-slot] text-start')}>
         <HeaderIconButton
           label={props['aria-label']}
           symbol="chevron-[start]"
@@ -240,11 +257,8 @@ export namespace AxoDialog {
   }>;
 
   export const Close: FC<CloseProps> = memo(props => {
-    const style = useMemo((): CSSProperties => {
-      return { marginInlineEnd: DIALOG_HEADER_ICON_BUTTON_MARGIN };
-    }, []);
     return (
-      <div className={tw('col-[close-slot] text-end')} style={style}>
+      <div className={tw('col-[close-slot] text-end')}>
         <Dialog.Close asChild>
           <HeaderIconButton label={props['aria-label']} symbol="x" />
         </Dialog.Close>
@@ -253,6 +267,23 @@ export namespace AxoDialog {
   });
 
   Close.displayName = `${Namespace}.Close`;
+
+  export type ExperimentalSearchProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const ExperimentalSearch: FC<ExperimentalSearchProps> = memo(props => {
+    const style = useMemo(() => {
+      return { paddingInline: getPadding(16, false) };
+    }, []);
+    return (
+      <div style={style} className={tw('pb-2')}>
+        {props.children}
+      </div>
+    );
+  });
+
+  ExperimentalSearch.displayName = `${Namespace}.ExperimentalSearch`;
 
   /**
    * Component: <AxoDialog.Body>
@@ -268,22 +299,18 @@ export namespace AxoDialog {
 
   export const Body: FC<BodyProps> = memo(props => {
     const { padding = 'normal' } = props;
-    const contentSize = useContentSize();
-    const contentSizeConfig = AxoBaseDialog.ContentSizes[contentSize];
 
     const style = useMemo((): CSSProperties => {
       return {
-        paddingInline:
-          padding === 'normal'
-            ? DIALOG_PADDING_BEFORE_SCROLLBAR_WIDTH
-            : undefined,
+        paddingInline: padding === 'normal' ? getPadding(24, true) : undefined,
       };
     }, [padding]);
 
     return (
       <AxoScrollArea.Root
-        maxHeight={contentSizeConfig.maxBodyHeight}
+        maxHeight={440}
         scrollbarWidth="thin"
+        scrollbarVisibility="as-needed"
       >
         <AxoScrollArea.Hint edge="top" />
         <AxoScrollArea.Hint edge="bottom" />
@@ -325,13 +352,13 @@ export namespace AxoDialog {
   export const Footer: FC<FooterProps> = memo(props => {
     const style = useMemo((): CSSProperties => {
       return {
-        paddingInline: DIALOG_PADDING_PLUS_SCROLLBAR_WIDTH,
+        paddingInline: getPadding(12, false),
       };
     }, []);
 
     return (
       <div
-        className={tw('flex flex-wrap items-center gap-3 py-3')}
+        className={tw('flex flex-wrap items-center gap-3 py-2.5')}
         style={style}
       >
         {props.children}
@@ -351,6 +378,9 @@ export namespace AxoDialog {
   }>;
 
   export const FooterContent: FC<FooterContentProps> = memo(props => {
+    const style = useMemo(() => {
+      return { paddingInlineStart: 24 - getPadding(12, false) };
+    }, []);
     return (
       <div
         className={tw(
@@ -364,6 +394,7 @@ export namespace AxoDialog {
           'flex-grow',
           'type-body-large text-label-primary'
         )}
+        style={style}
       >
         {props.children}
       </div>
@@ -422,7 +453,7 @@ export namespace AxoDialog {
         variant={props.variant}
         symbol={props.symbol}
         arrow={props.arrow}
-        size="medium"
+        size="md"
         width="grow"
       >
         {props.children}

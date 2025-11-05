@@ -150,6 +150,7 @@ const DOM_PACKAGES = new Set([
   'blob-util',
   'blueimp-load-image',
   'copy-text-to-clipboard',
+  'dom-accessibility-api',
   'fabric',
   'focus-trap-react',
   'radix-ui',

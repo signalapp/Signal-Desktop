@@ -277,7 +277,7 @@
   --type-font-weight-title-small: var(--font-weight-semibold);
   --type-font-weight-body-large: var(--font-weight-regular);
   --type-font-weight-body-medium: var(--font-weight-regular);
-  --type-font-weight-body-small: var(--font-weight-medium);
+  --type-font-weight-body-small: var(--font-weight-regular);
   --type-font-weight-caption: var(--font-weight-regular);
   /* letter-spacing */
   --tracking-*: initial; /* reset defaults */

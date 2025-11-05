@@ -408,12 +408,12 @@ export function ProfileEditor({
           value={stagedProfile.familyName}
         />
         <div className="ProfileEditor__button-footer">
-          <AxoButton.Root variant="secondary" size="large" onClick={handleBack}>
+          <AxoButton.Root variant="secondary" size="lg" onClick={handleBack}>
             {i18n('icu:cancel')}
           </AxoButton.Root>
           <AxoButton.Root
             variant="primary"
-            size="large"
+            size="lg"
             disabled={shouldDisableSave}
             onClick={() => {
               if (!stagedProfile.firstName) {
@@ -516,12 +516,12 @@ export function ProfileEditor({
         })}
 
         <div className="ProfileEditor__button-footer">
-          <AxoButton.Root variant="secondary" size="large" onClick={handleBack}>
+          <AxoButton.Root variant="secondary" size="lg" onClick={handleBack}>
             {i18n('icu:cancel')}
           </AxoButton.Root>
           <AxoButton.Root
             variant="primary"
-            size="large"
+            size="lg"
             disabled={shouldDisableSave}
             onClick={() => {
               setFullBio({
@@ -724,7 +724,7 @@ export function ProfileEditor({
               setEditState(ProfileEditorPage.BetterAvatar);
             }}
             variant="secondary"
-            size="small"
+            size="sm"
           >
             {i18n('icu:ProfileEditor--edit-photo')}
           </AxoButton.Root>

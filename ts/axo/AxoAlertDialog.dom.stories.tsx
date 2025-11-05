@@ -20,7 +20,12 @@ const EXAMPLE_TITLE_LONG = (
   </>
 );
 
-const EXAMPLE_DESCRIPTION = <>Exporting chat</>;
+const EXAMPLE_DESCRIPTION = (
+  <>
+    Your chat will be downloaded in the background. You can continue to use
+    Signal during this process.
+  </>
+);
 const EXAMPLE_DESCRIPTION_LONG = (
   <>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, amet aut
@@ -72,12 +77,11 @@ function Template(props: {
   return (
     <AxoAlertDialog.Root open={open} onOpenChange={setOpen}>
       <AxoAlertDialog.Trigger>
-        <AxoButton.Root variant="subtle-primary" size="medium">
+        <AxoButton.Root variant="subtle-primary" size="md">
           Open
         </AxoButton.Root>
       </AxoAlertDialog.Trigger>
       <AxoAlertDialog.Content
-        size="md"
         escape={
           props.requireExplicitChoice
             ? 'cancel-is-destructive'

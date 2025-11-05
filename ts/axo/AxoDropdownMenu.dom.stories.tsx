@@ -28,7 +28,7 @@ export function Basic(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="secondary" size="medium">
+          <AxoButton.Root variant="secondary" size="md">
             Open Dropdown Menu
           </AxoButton.Root>
         </AxoDropdownMenu.Trigger>
@@ -114,7 +114,7 @@ export function WithHeader(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="secondary" size="medium">
+          <AxoButton.Root variant="secondary" size="md">
             Open Dropdown Menu
           </AxoButton.Root>
         </AxoDropdownMenu.Trigger>
@@ -222,7 +222,7 @@ export function StressTestLongText(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="secondary" size="medium">
+          <AxoButton.Root variant="secondary" size="md">
             Open Dropdown Menu
           </AxoButton.Root>
         </AxoDropdownMenu.Trigger>

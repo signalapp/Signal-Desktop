@@ -84,7 +84,7 @@ export namespace AxoSelect {
    */
 
   export type TriggerVariant = 'default' | 'floating' | 'borderless';
-  export type TriggerWidth = 'hug' | 'full';
+  export type TriggerWidth = 'fit' | 'full';
   export type TriggerChevron = 'always' | 'on-hover';
 
   const baseTriggerStyles = tw(
@@ -116,7 +116,7 @@ export namespace AxoSelect {
   };
 
   const TriggerWidths: Record<TriggerWidth, TailwindStyles> = {
-    hug: tw(),
+    fit: tw(),
     full: tw('w-full'),
   };
 
@@ -170,7 +170,7 @@ export namespace AxoSelect {
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
     const variant = props.variant ?? 'default';
-    const width = props.width ?? 'hug';
+    const width = props.width ?? 'fit';
     const chevron = props.chevron ?? 'always';
     const variantStyles = TriggerVariants[variant];
     const widthStyles = TriggerWidths[width];

@@ -518,7 +518,7 @@ function AmountPicker({
   const continueButton = (
     <AxoButton.Root
       variant={isOnline ? 'primary' : 'secondary'}
-      size="large"
+      size="lg"
       disabled={!isContinueEnabled}
       onClick={handleContinueClicked}
     >
@@ -763,7 +763,7 @@ function CardForm({
       disabled={isDonateDisabled}
       onClick={handleDonateClicked}
       variant={isOnline ? 'primary' : 'secondary'}
-      size="large"
+      size="lg"
     >
       {i18n('icu:PreferencesDonations__donate-button-with-amount', {
         formattedCurrencyAmount,

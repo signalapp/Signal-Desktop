@@ -145,7 +145,7 @@ const LONG_TEXT = (
 
 function Fit(props: { longText?: boolean }) {
   return (
-    <AxoButton.Root variant="primary" size="medium" width="fit">
+    <AxoButton.Root variant="primary" size="md" width="fit">
       Fit {props.longText && LONG_TEXT}
     </AxoButton.Root>
   );
@@ -153,15 +153,15 @@ function Fit(props: { longText?: boolean }) {
 
 function Grow(props: { longText?: boolean }) {
   return (
-    <AxoButton.Root variant="affirmative" size="medium" width="grow">
+    <AxoButton.Root variant="affirmative" size="md" width="grow">
       Grow {props.longText && LONG_TEXT}
     </AxoButton.Root>
   );
 }
 
-function Fill(props: { longText?: boolean }) {
+function Full(props: { longText?: boolean }) {
   return (
-    <AxoButton.Root variant="destructive" size="medium" width="fill">
+    <AxoButton.Root variant="destructive" size="md" width="full">
       Fill {props.longText && LONG_TEXT}
     </AxoButton.Root>
   );
@@ -180,7 +180,7 @@ function WidthTestTemplate(props: {
         <>
           <Fit />
           <Grow />
-          <Fill />
+          <Full />
         </>
       )}
 
@@ -239,26 +239,26 @@ function WidthTestTemplate(props: {
       <p>Fill</p>
       {props.children(
         <>
-          <Fill />
-          <Fill />
-          <Fill />
+          <Full />
+          <Full />
+          <Full />
         </>
       )}
-      <p>Fill: With long text</p>
+      <p>Full: With long text</p>
       {props.children(
         <>
-          <Fill longText />
-          <Fill longText />
-          <Fill longText />
+          <Full longText />
+          <Full longText />
+          <Full longText />
         </>
       )}
 
-      <p>Fill: With mixed length texts</p>
+      <p>Full: With mixed length texts</p>
       {props.children(
         <>
-          <Fill />
-          <Fill />
-          <Fill longText />
+          <Full />
+          <Full />
+          <Full longText />
         </>
       )}
     </div>

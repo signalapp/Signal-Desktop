@@ -753,17 +753,17 @@ export const CompositionArea = memo(function CompositionArea({
     attButton = (
       <div className="CompositionArea__button-cell">
         <AxoDropdownMenu.Root>
-          <AxoDropdownMenu.Trigger>
-            <div className={tw('flex h-8 items-center')}>
+          <div className={tw('flex h-8 items-center')}>
+            <AxoDropdownMenu.Trigger>
               <AxoButton.Root
                 variant="borderless-secondary"
-                size="small"
+                size="sm"
                 aria-label={i18n('icu:CompositionArea--attach-plus')}
               >
                 <AxoSymbol.Icon label={null} symbol="plus" size={20} />
               </AxoButton.Root>
-            </div>
-          </AxoDropdownMenu.Trigger>
+            </AxoDropdownMenu.Trigger>
+          </div>
           <AxoDropdownMenu.Content>
             <AxoDropdownMenu.Item symbol="photo" onSelect={launchMediaPicker}>
               {i18n('icu:CompositionArea__AttachMenu__PhotosAndVideos')}

@@ -28,7 +28,7 @@ export function AvatarModalButtons({
     <Modal.ButtonFooter>
       <AxoButton.Root
         variant="secondary"
-        size="large"
+        size="lg"
         onClick={() => {
           if (hasChanges) {
             setConfirmDiscardAction(() => onCancel);
@@ -41,7 +41,7 @@ export function AvatarModalButtons({
       </AxoButton.Root>
       <AxoButton.Root
         variant="primary"
-        size="large"
+        size="lg"
         disabled={!hasChanges}
         onClick={onSave}
       >

@@ -241,7 +241,7 @@ export function PreferencesInternal({
           >
             <AxoButton.Root
               variant="secondary"
-              size="large"
+              size="lg"
               onClick={validateBackup}
               disabled={isValidationPending}
               experimentalSpinner={
@@ -277,7 +277,7 @@ export function PreferencesInternal({
           >
             <AxoButton.Root
               variant="secondary"
-              size="large"
+              size="lg"
               onClick={exportLocalBackup}
               disabled={isExportPending}
               experimentalSpinner={
@@ -309,7 +309,7 @@ export function PreferencesInternal({
           >
             <AxoButton.Root
               variant="secondary"
-              size="large"
+              size="lg"
               onClick={async () => {
                 setMessageCountBySchemaVersion(
                   await getMessageCountBySchemaVersion()
@@ -404,7 +404,7 @@ export function PreferencesInternal({
             >
               <AxoButton.Root
                 variant="secondary"
-                size="large"
+                size="lg"
                 onClick={handleAddTestReceipt}
               >
                 Add Test Receipt
@@ -455,7 +455,7 @@ export function PreferencesInternal({
                       <td style={{ padding: '8px' }}>
                         <AxoButton.Root
                           variant="secondary"
-                          size="large"
+                          size="lg"
                           onClick={() => handleGenerateReceipt(receipt)}
                           disabled={isGeneratingReceipt}
                           experimentalSpinner={
@@ -493,7 +493,7 @@ export function PreferencesInternal({
           />
           <AxoButton.Root
             variant="destructive"
-            size="large"
+            size="lg"
             onClick={handleReadOnlySqlInputSubmit}
           >
             Run Query

@@ -12,7 +12,7 @@ import type { AxoSymbol } from './AxoSymbol.dom.js';
 
 const Namespace = 'AxoAlertDialog';
 
-const { useContentEscapeBehavior, useContentSize } = AxoBaseDialog;
+const { useContentEscapeBehavior } = AxoBaseDialog;
 
 /**
  * Displays a menu located at the pointer, triggered by a right click or a long press.
@@ -74,30 +74,29 @@ export namespace AxoAlertDialog {
    * --------------------------------
    */
 
-  export type ContentSize = AxoBaseDialog.ContentSize;
   export type ContentEscape = AxoBaseDialog.ContentEscape;
-  export type ContentProps = AxoBaseDialog.ContentProps;
+  export type ContentProps = Readonly<{
+    escape: ContentEscape;
+    children: ReactNode;
+  }>;
 
   export const Content: FC<ContentProps> = memo(props => {
-    const sizeConfig = AxoBaseDialog.ContentSizes[props.size];
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     return (
-      <AxoBaseDialog.ContentSizeProvider value={props.size}>
-        <AlertDialog.Portal>
-          <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
-            <AlertDialog.Content
-              onEscapeKeyDown={handleContentEscapeEvent}
-              className={AxoBaseDialog.contentStyles}
-              style={{
-                minWidth: sizeConfig.minWidth,
-                width: sizeConfig.width,
-              }}
-            >
-              {props.children}
-            </AlertDialog.Content>
-          </AlertDialog.Overlay>
-        </AlertDialog.Portal>
-      </AxoBaseDialog.ContentSizeProvider>
+      <AlertDialog.Portal>
+        <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
+          <AlertDialog.Content
+            onEscapeKeyDown={handleContentEscapeEvent}
+            className={AxoBaseDialog.contentStyles}
+            style={{
+              minWidth: 300,
+              width: 300,
+            }}
+          >
+            {props.children}
+          </AlertDialog.Content>
+        </AlertDialog.Overlay>
+      </AlertDialog.Portal>
     );
   });
 
@@ -113,14 +112,8 @@ export namespace AxoAlertDialog {
   }>;
 
   export const Body: FC<BodyProps> = memo(props => {
-    const contentSize = useContentSize();
-    const contentSizeConfig = AxoBaseDialog.ContentSizes[contentSize];
-
     return (
-      <AxoScrollArea.Root
-        maxHeight={contentSizeConfig.maxBodyHeight}
-        scrollbarWidth="none"
-      >
+      <AxoScrollArea.Root maxHeight={440} scrollbarWidth="none">
         <AxoScrollArea.Hint edge="bottom" />
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
@@ -208,7 +201,7 @@ export namespace AxoAlertDialog {
   export const Cancel: FC<CancelProps> = memo(props => {
     return (
       <AlertDialog.Cancel asChild>
-        <AxoButton.Root variant="secondary" size="medium" width="fill">
+        <AxoButton.Root variant="secondary" size="md" width="full">
           {props.children}
         </AxoButton.Root>
       </AlertDialog.Cancel>
@@ -239,8 +232,8 @@ export namespace AxoAlertDialog {
           variant={props.variant}
           symbol={props.symbol}
           arrow={props.arrow}
-          size="medium"
-          width="fill"
+          size="md"
+          width="full"
         >
           {props.children}
         </AxoButton.Root>

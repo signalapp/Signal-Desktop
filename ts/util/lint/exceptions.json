@@ -827,6 +827,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/axo/AxoDropdownMenu.dom.tsx",
+    "line": "    const ref = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-05T21:09:43.372Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.std.ts",
     "line": "  const ref = useRef<Uint8Array | null>(null);",
     "reasonCategory": "usageTrusted",

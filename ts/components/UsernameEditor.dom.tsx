@@ -384,7 +384,7 @@ export function UsernameEditor({
       <div className="UsernameEditor__button-footer">
         <AxoButton.Root
           variant="secondary"
-          size="large"
+          size="lg"
           disabled={isConfirming}
           onClick={onCancel}
         >
@@ -392,7 +392,7 @@ export function UsernameEditor({
         </AxoButton.Root>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           disabled={!canSave}
           onClick={onSave}
           experimentalSpinner={

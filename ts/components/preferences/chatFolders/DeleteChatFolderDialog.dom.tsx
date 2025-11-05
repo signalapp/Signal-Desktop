@@ -12,7 +12,7 @@ export function DeleteChatFolderDialog(props: {
   onConfirm: () => void;
 }): JSX.Element {
   return (
-    <AxoAlertDialog.Content size="sm" escape="cancel-is-noop">
+    <AxoAlertDialog.Content escape="cancel-is-noop">
       <AxoAlertDialog.Body>
         <AxoAlertDialog.Title>{props.title}</AxoAlertDialog.Title>
         <AxoAlertDialog.Description>

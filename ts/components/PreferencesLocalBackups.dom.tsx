@@ -132,7 +132,7 @@ export function PreferencesLocalBackups({
           >
             <AxoButton.Root
               variant="secondary"
-              size="large"
+              size="lg"
               onClick={pickLocalBackupFolder}
             >
               {i18n('icu:Preferences__local-backups-folder__change')}
@@ -157,7 +157,7 @@ export function PreferencesLocalBackups({
           >
             <AxoButton.Root
               variant="secondary"
-              size="large"
+              size="lg"
               disabled={isAuthPending}
               experimentalSpinner={
                 isAuthPending ? { 'aria-label': i18n('icu:loading') } : null
@@ -233,7 +233,7 @@ function LocalBackupsSetupFolderPicker({
         </div>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           onClick={pickLocalBackupFolder}
         >
           {i18n('icu:Preferences__button--choose-folder')}
@@ -306,7 +306,7 @@ function LocalBackupsBackupKeyViewer({
       footerRight = (
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           onClick={() => setStep('confirm')}
         >
           {i18n('icu:Preferences--local-backups-setup-next')}
@@ -314,11 +314,7 @@ function LocalBackupsBackupKeyViewer({
       );
     } else {
       footerRight = (
-        <AxoButton.Root
-          variant="primary"
-          size="large"
-          onClick={onBackupKeyViewed}
-        >
+        <AxoButton.Root variant="primary" size="lg" onClick={onBackupKeyViewed}>
           {i18n('icu:Preferences--local-backups-view-backup-key-done')}
         </AxoButton.Root>
       );
@@ -331,7 +327,7 @@ function LocalBackupsBackupKeyViewer({
     footerLeft = (
       <AxoButton.Root
         variant="borderless-primary"
-        size="large"
+        size="lg"
         onClick={() => setStep('view')}
       >
         {i18n('icu:Preferences--local-backups-see-backup-key-again')}
@@ -340,7 +336,7 @@ function LocalBackupsBackupKeyViewer({
     footerRight = (
       <AxoButton.Root
         variant="primary"
-        size="large"
+        size="lg"
         disabled={!isBackupKeyConfirmed}
         onClick={() => setStep('caution')}
       >
@@ -359,7 +355,7 @@ function LocalBackupsBackupKeyViewer({
           modalFooter={
             <AxoButton.Root
               variant="primary"
-              size="large"
+              size="lg"
               onClick={onBackupKeyViewed}
             >
               {i18n(
@@ -403,7 +399,7 @@ function LocalBackupsBackupKeyViewer({
           <div className="Preferences--LocalBackupsSetupScreenPaneContent">
             <AxoButton.Root
               variant="secondary"
-              size="small"
+              size="sm"
               symbol="copy"
               onClick={onCopyBackupKey}
             >

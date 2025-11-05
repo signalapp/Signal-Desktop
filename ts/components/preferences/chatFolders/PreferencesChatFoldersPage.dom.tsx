@@ -393,7 +393,7 @@ function ChatFolderPresetItem(props: ChatFolderPresetItemProps) {
           <ItemDescription>{props.config.description}</ItemDescription>
         </ItemBody>
         <AxoButton.Root
-          size="medium"
+          size="md"
           variant="secondary"
           onClick={handleCreateChatFolder}
         >

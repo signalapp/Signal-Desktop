@@ -100,7 +100,7 @@ export function Basic(): JSX.Element {
   return (
     <div className={tw('flex h-96 w-full items-center justify-center gap-8')}>
       <Template renderer="AxoDropdownMenu">
-        <AxoButton.Root variant="secondary" size="medium">
+        <AxoButton.Root variant="secondary" size="md">
           Open Dropdown Menu
         </AxoButton.Root>
       </Template>

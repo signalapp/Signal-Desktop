@@ -669,7 +669,7 @@ function NotificationProfilesOnboardingDialog({
         <p className={tw('mt-4 mb-12 max-w-[340px] text-center leading-5')}>
           {i18n('icu:NotificationProfiles--setup-description')}
         </p>
-        <AxoButton.Root variant="primary" onClick={onDismiss} size="large">
+        <AxoButton.Root variant="primary" onClick={onDismiss} size="lg">
           {i18n('icu:NotificationProfiles--setup-continue')}
         </AxoButton.Root>
       </div>
@@ -836,7 +836,7 @@ function NotificationProfilesNamePage({
       <ButtonContainer>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           type="button"
           form="notificationProfileName"
           disabled={!isValid}
@@ -913,7 +913,7 @@ function NotificationProfilesAllowedPage({
             onNext();
           }}
         >
-          <AxoButton.Root variant="primary" size="large" type="submit">
+          <AxoButton.Root variant="primary" size="lg" type="submit">
             {i18n('icu:next2')}
           </AxoButton.Root>
         </form>
@@ -1078,7 +1078,7 @@ function NotificationProfilesSchedulePage({
       <ButtonContainer>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           type="button"
           onClick={onNext}
         >
@@ -1113,7 +1113,7 @@ function NotificationProfilesDonePage({
         </p>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           type="button"
           onClick={onNext}
         >
@@ -1408,7 +1408,7 @@ function NotificationProfilesEditPage({
       <ButtonContainer>
         <AxoButton.Root
           variant="primary"
-          size="large"
+          size="lg"
           type="button"
           onClick={onBack}
         >

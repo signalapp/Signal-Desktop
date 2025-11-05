@@ -78,11 +78,7 @@ function CardButton(props: {
 }) {
   return (
     <AriaClickable.SubWidget>
-      <AxoButton.Root
-        variant={props.variant}
-        size="medium"
-        onClick={props.onClick}
-      >
+      <AxoButton.Root variant={props.variant} size="md" onClick={props.onClick}>
         {props.children}
       </AxoButton.Root>
     </AriaClickable.SubWidget>

@@ -1,10 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createContext, useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { tw } from '../tw.dom.js';
-import { assert } from './assert.dom.js';
 
 export namespace AxoBaseDialog {
   /**
@@ -46,27 +45,13 @@ export namespace AxoBaseDialog {
    */
 
   export const contentStyles = tw(
+    'relative',
     'max-h-full min-h-fit max-w-full min-w-fit',
     'rounded-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-scale-98 animate-translate-y-1'
   );
-
-  export type ContentSize = 'sm' | 'md' | 'lg';
-
-  export type ContentSizeConfig = Readonly<{
-    width: number;
-    minWidth: number;
-    maxBodyHeight: number;
-  }>;
-
-  // TODO: These sizes are not finalized
-  export const ContentSizes: Record<ContentSize, ContentSizeConfig> = {
-    sm: { width: 320, minWidth: 320, maxBodyHeight: 440 },
-    md: { width: 440, minWidth: 320, maxBodyHeight: 440 },
-    lg: { width: 560, minWidth: 440, maxBodyHeight: 440 },
-  };
 
   export type ContentEscape = 'cancel-is-noop' | 'cancel-is-destructive';
 
@@ -80,23 +65,6 @@ export namespace AxoBaseDialog {
         }
       },
       [escape]
-    );
-  }
-
-  export type ContentProps = Readonly<{
-    escape: ContentEscape;
-    size: ContentSize;
-    children: ReactNode;
-  }>;
-
-  const ContentSizeContext = createContext<ContentSize | null>(null);
-
-  export const ContentSizeProvider = ContentSizeContext.Provider;
-
-  export function useContentSize(): ContentSize {
-    return assert(
-      useContext(ContentSizeContext),
-      'Must be wrapped with dialog <Content> component'
     );
   }
 }

@@ -1,8 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useId } from 'react';
+import React, { memo, useEffect, useId, useRef } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
+import { getRole, computeAccessibleName } from 'dom-accessibility-api';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
@@ -11,6 +12,7 @@ import {
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
 } from './_internal/AriaLabellingContext.dom.js';
+import { assert } from './_internal/assert.dom.js';
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -88,18 +90,41 @@ export namespace AxoDropdownMenu {
 
   export type TriggerProps = AxoBaseMenu.MenuTriggerProps;
 
+  const triggerDisplayName = `${Namespace}.Trigger`;
+
   /**
    * The button that toggles the dropdown menu.
    * By default, the {@link AxoDropdownMenu.Content} will position itself
    * against the trigger.
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
+    const ref = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      if (process.env.NODE_ENV === 'development') {
+        assert(
+          ref.current instanceof HTMLElement,
+          `${triggerDisplayName} child must forward ref`
+        );
+        assert(
+          getRole(ref.current) === 'button',
+          `${triggerDisplayName} child must be a <button> or role=button`
+        );
+        assert(
+          computeAccessibleName(ref.current) !== '',
+          `${triggerDisplayName} child must have an accessible name`
+        );
+      }
+    });
+
     return (
-      <DropdownMenu.Trigger asChild>{props.children}</DropdownMenu.Trigger>
+      <DropdownMenu.Trigger ref={ref} asChild>
+        {props.children}
+      </DropdownMenu.Trigger>
     );
   });
 
-  Trigger.displayName = `${Namespace}.Trigger`;
+  Trigger.displayName = triggerDisplayName;
 
   /**
    * Component: <AxoDropdownMenu.Content>

@@ -245,7 +245,7 @@ export function PollMessageContents({
       {totalVotes > 0 ? (
         <div className={tw('mt-4 flex justify-center scheme-light')}>
           <AxoButton.Root
-            size="medium"
+            size="md"
             variant="floating-secondary"
             onClick={() => setShowVotesModal(true)}
           >
