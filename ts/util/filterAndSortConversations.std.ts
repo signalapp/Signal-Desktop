@@ -72,7 +72,10 @@ function filterConversationsByUnread(
   includeMuted: UnreadStatsIncludeMuted
 ): Array<ConversationType> {
   return conversations.filter(conversation => {
-    return isConversationUnread(conversation, { includeMuted });
+    return isConversationUnread(conversation, {
+      activeProfile: undefined,
+      includeMuted,
+    });
   });
 }
 

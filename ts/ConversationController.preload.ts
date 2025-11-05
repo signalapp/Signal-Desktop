@@ -391,13 +391,6 @@ export class ConversationController {
     const unreadStats = countAllConversationsUnreadStats(
       this.#_conversations.map(
         (conversation): ConversationPropsForUnreadStats | undefined => {
-          if (
-            activeProfile &&
-            !activeProfile.allowedMembers.has(conversation.id)
-          ) {
-            return undefined;
-          }
-
           // Need to pull this out manually into the Redux shape
           // because `conversation.format()` can return cached props by the
           // time this runs
@@ -414,6 +407,7 @@ export class ConversationController {
         }
       ),
       {
+        activeProfile,
         includeMuted: badgeCountMutedConversationsSetting
           ? 'setting-on'
           : 'setting-off',

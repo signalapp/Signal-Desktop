@@ -1,11 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { isConversationInChatFolder } from '../types/ChatFolder.std.js';
-import type { ChatFolderId } from '../types/ChatFolder.std.js';
 import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
 import { isConversationMuted } from './isConversationMuted.std.js';
+
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ChatFolderId } from '../types/ChatFolder.std.js';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 
 type MutableUnreadStats = {
   /**
@@ -53,6 +55,7 @@ export type UnreadStatsIncludeMuted =
 
 export type UnreadStatsOptions = Readonly<{
   includeMuted: UnreadStatsIncludeMuted;
+  activeProfile: NotificationProfileType | undefined;
 }>;
 
 export type ConversationPropsForUnreadStats = Readonly<
@@ -93,7 +96,9 @@ export function _canCountConversation(
 
   if (
     _shouldExcludeMuted(options.includeMuted) &&
-    isConversationMuted(conversation)
+    (isConversationMuted(conversation) ||
+      (options.activeProfile &&
+        !options.activeProfile.allowedMembers.has(conversation.id)))
   ) {
     return false;
   }

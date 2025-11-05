@@ -89,6 +89,7 @@ import {
 } from '../../util/countUnreadStats.std.js';
 import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
+import { getActiveProfile } from './notificationProfiles.dom.js';
 
 const { isNumber, pick } = lodash;
 
@@ -699,8 +700,10 @@ export const getAllConversationsUnreadStats: StateSelector<UnreadStats> =
   createSelector(
     getAllConversations,
     getBadgeCountMutedConversations,
-    (conversations, badgeCountMutedConversations) => {
+    getActiveProfile,
+    (conversations, badgeCountMutedConversations, activeProfile) => {
       return countAllConversationsUnreadStats(conversations, {
+        activeProfile,
         includeMuted: badgeCountMutedConversations
           ? 'setting-on'
           : 'setting-off',
@@ -713,11 +716,18 @@ export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadSta
     getCurrentChatFolders,
     getAllConversations,
     getBadgeCountMutedConversations,
-    (currentChatFolders, allConversations, badgeCountMutedConversations) => {
+    getActiveProfile,
+    (
+      currentChatFolders,
+      allConversations,
+      badgeCountMutedConversations,
+      activeProfile
+    ) => {
       return countAllChatFoldersUnreadStats(
         currentChatFolders,
         allConversations,
         {
+          activeProfile,
           includeMuted: badgeCountMutedConversations
             ? 'setting-on'
             : 'setting-off',

@@ -90,7 +90,10 @@ describe('countUnreadStats', () => {
       expected: boolean,
       includeMuted: UnreadStatsIncludeMuted = 'force-include'
     ) {
-      const actual = _canCountConversation(mockChat(chat), { includeMuted });
+      const actual = _canCountConversation(mockChat(chat), {
+        activeProfile: undefined,
+        includeMuted,
+      });
       assert.equal(actual, expected);
     }
 
@@ -172,7 +175,10 @@ describe('countUnreadStats', () => {
       expected: boolean,
       includeMuted: UnreadStatsIncludeMuted = 'force-exclude'
     ) {
-      const actual = isConversationUnread(mockChat(chat), { includeMuted });
+      const actual = isConversationUnread(mockChat(chat), {
+        activeProfile: undefined,
+        includeMuted,
+      });
       assert.equal(actual, expected);
     }
 
@@ -213,6 +219,7 @@ describe('countUnreadStats', () => {
       includeMuted: UnreadStatsIncludeMuted = 'force-exclude'
     ) {
       const actual = countConversationUnreadStats(mockChat(chat), {
+        activeProfile: undefined,
         includeMuted,
       });
       assert.deepEqual(actual, mockStats(expected));
@@ -252,6 +259,7 @@ describe('countUnreadStats', () => {
       includeMuted: UnreadStatsIncludeMuted = 'force-exclude'
     ) {
       const actual = countAllConversationsUnreadStats(chats.map(mockChat), {
+        activeProfile: undefined,
         includeMuted,
       });
       assert.deepEqual(actual, mockStats(expected));
@@ -323,7 +331,7 @@ describe('countUnreadStats', () => {
       const actual = countAllChatFoldersUnreadStats(
         CurrentChatFolders.fromArray(folders),
         chats.map(mockChat),
-        { includeMuted }
+        { activeProfile: undefined, includeMuted }
       );
 
       assert.deepEqual(actual, expected);
