@@ -1,5 +1,0 @@
-vite.config.ts
-src/util/protos.*
-dist/*
-public/*
-src/assets/*

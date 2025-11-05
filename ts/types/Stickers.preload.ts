@@ -28,7 +28,10 @@ import type {
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
-import type { StickersStateType } from '../state/ducks/stickers.preload.js';
+// REMOVED: Orbital cleanup - stickers
+// import type { StickersStateType } from '../state/ducks/stickers.preload.js';
+// Stub type to maintain compatibility
+type StickersStateType = Record<string, never>;
 import { MINUTE } from '../util/durations/index.std.js';
 import {
   processNewEphemeralSticker,
@@ -277,15 +280,17 @@ export function getDataFromLink(
 }
 
 export function getInstalledStickerPacks(): Array<StickerPackType> {
-  const state = window.reduxStore.getState();
-  const { stickers } = state;
-  const { packs } = stickers;
-  if (!packs) {
-    return [];
-  }
-
-  const items = Object.values(packs);
-  return items.filter(pack => pack.status === 'installed');
+  // REMOVED: Orbital cleanup - stickers
+  // const state = window.reduxStore.getState();
+  // const { stickers } = state;
+  // const { packs } = stickers;
+  // if (!packs) {
+  //   return [];
+  // }
+  //
+  // const items = Object.values(packs);
+  // return items.filter(pack => pack.status === 'installed');
+  return []; // Stub: no stickers installed
 }
 
 export function downloadQueuedPacks(): void {
@@ -1030,14 +1035,16 @@ async function resolveReferences(packId: string): Promise<void> {
 }
 
 export function getStickerPack(packId: string): StickerPackType | undefined {
-  const state = window.reduxStore.getState();
-  const { stickers } = state;
-  const { packs } = stickers;
-  if (!packs) {
-    return undefined;
-  }
-
-  return packs[packId];
+  // REMOVED: Orbital cleanup - stickers
+  // const state = window.reduxStore.getState();
+  // const { stickers } = state;
+  // const { packs } = stickers;
+  // if (!packs) {
+  //   return undefined;
+  // }
+  //
+  // return packs[packId];
+  return undefined; // Stub: no sticker packs available
 }
 
 export function getStickerPackStatus(

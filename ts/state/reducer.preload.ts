@@ -31,7 +31,7 @@ import { reducer as notificationProfiles } from './ducks/notificationProfiles.pr
 import { reducer as preferredReactions } from './ducks/preferredReactions.preload.js';
 import { reducer as safetyNumber } from './ducks/safetyNumber.preload.js';
 import { reducer as search } from './ducks/search.preload.js';
-import { reducer as stickers } from './ducks/stickers.preload.js';
+// import { reducer as stickers } from './ducks/stickers.preload.js'; // REMOVED: Orbital cleanup
 import { reducer as stories } from './ducks/stories.preload.js';
 import { reducer as storyDistributionLists } from './ducks/storyDistributionLists.preload.js';
 import { reducer as toast } from './ducks/toast.preload.js';
@@ -68,7 +68,7 @@ export const reducer = combineReducers({
   preferredReactions,
   safetyNumber,
   search,
-  stickers,
+  // stickers, // REMOVED: Orbital cleanup
   stories,
   storyDistributionLists,
   toast,

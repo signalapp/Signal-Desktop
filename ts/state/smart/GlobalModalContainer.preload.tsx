@@ -15,7 +15,7 @@ import { SmartUsernameOnboardingModal } from './UsernameOnboardingModal.preload.
 import { SmartSafetyNumberModal } from './SafetyNumberModal.preload.js';
 import { SmartSendAnywayDialog } from './SendAnywayDialog.preload.js';
 import { SmartShortcutGuideModal } from './ShortcutGuideModal.preload.js';
-import { SmartStickerPreviewModal } from './StickerPreviewModal.preload.js';
+// import { SmartStickerPreviewModal } from './StickerPreviewModal.preload.js'; // REMOVED: Orbital cleanup
 import { SmartStoriesSettingsModal } from './StoriesSettingsModal.preload.js';
 import { getConversationsStoppingSend } from '../selectors/conversations.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
@@ -178,13 +178,14 @@ export const SmartGlobalModalContainer = memo(
       [safetyNumberModalContactId]
     );
 
-    const renderStickerPreviewModal = useCallback(
-      () =>
-        stickerPackPreviewId ? (
-          <SmartStickerPreviewModal packId={stickerPackPreviewId} />
-        ) : null,
-      [stickerPackPreviewId]
-    );
+    // REMOVED: Orbital cleanup - stickers
+    // const renderStickerPreviewModal = useCallback(
+    //   () =>
+    //     stickerPackPreviewId ? (
+    //       <SmartStickerPreviewModal packId={stickerPackPreviewId} />
+    //     ) : null,
+    //   [stickerPackPreviewId]
+    // );
 
     const renderErrorModal = useCallback(
       ({
@@ -287,7 +288,7 @@ export const SmartGlobalModalContainer = memo(
         renderSafetyNumber={renderSafetyNumber}
         renderSendAnywayDialog={renderSendAnywayDialog}
         renderShortcutGuideModal={renderShortcutGuideModal}
-        renderStickerPreviewModal={renderStickerPreviewModal}
+        // renderStickerPreviewModal={renderStickerPreviewModal} // REMOVED: Orbital cleanup
         renderStoriesSettings={renderStoriesSettings}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}

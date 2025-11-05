@@ -32,7 +32,7 @@ import { getEmptyState as notificationProfilesEmptyState } from './ducks/notific
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.preload.js';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
 import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
-import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js';
+// import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js'; // REMOVED: Orbital cleanup
 import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js';
 import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js';
 import { getEmptyState as toastEmptyState } from './ducks/toast.preload.js';
@@ -75,7 +75,7 @@ export function getInitialState(
     menuOptions,
     notificationProfiles,
     recentEmoji,
-    stickers,
+    // stickers, // REMOVED: Orbital cleanup
     stories,
     storyDistributionLists,
     theme,
@@ -173,7 +173,7 @@ function getEmptyState(): StateType {
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),
-    stickers: stickersEmptyState(),
+    // stickers: stickersEmptyState(), // REMOVED: Orbital cleanup
     stories: storiesEmptyState(),
     storyDistributionLists: storyDistributionListsEmptyState(),
     toast: toastEmptyState(),
