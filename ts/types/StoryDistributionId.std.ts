@@ -14,3 +14,7 @@ export function isStoryDistributionId(value: unknown): value is StoryDistributio
 export function generateStoryDistributionId(): StoryDistributionIdString {
   return '' as StoryDistributionIdString;
 }
+
+export function normalizeStoryDistributionId(value: string): StoryDistributionIdString {
+  return value as StoryDistributionIdString;
+}

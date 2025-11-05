@@ -24,6 +24,11 @@ export const createPack = (
         .fill(0)
         .map((_, id) => ({ ...sticker, id }))
     : [],
+  // Required DB fields
+  coverStickerId: 0,
+  createdAt: Date.now(),
+  downloadAttempts: 0,
+  storageNeedsSync: false,
   ...props,
 });
 

@@ -4,12 +4,50 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export type StoryDistributionListDataType = never;
-export type StoryDistributionListStateType = Record<string, never>;
+import type { ServiceIdString } from '../../types/ServiceId.std.js';
+
+export type StoryDistributionListDataType = {
+  id: string;
+  name: string;
+  memberServiceIds: Array<ServiceIdString>;
+  allowsReplies: boolean;
+  isBlockList: boolean;
+};
+
+export type StoryDistributionListStateType = {
+  distributionLists: Array<StoryDistributionListDataType>;
+};
+
 export type StoryDistributionIdString = string;
 
-export const actions = {};
-export const reducer = () => ({});
-export const getEmptyState = (): StoryDistributionListStateType => ({});
+// Action type constants
+export const MODIFY_LIST = 'storyDistributionLists/MODIFY_LIST';
+export const DELETE_LIST = 'storyDistributionLists/DELETE_LIST';
+export const HIDE_MY_STORIES_FROM = 'storyDistributionLists/HIDE_MY_STORIES_FROM';
+export const VIEWERS_CHANGED = 'storyDistributionLists/VIEWERS_CHANGED';
+
+// Action creators
+export const createDistributionList = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+export const modifyDistributionList = (...args: Array<any>) => ({ type: MODIFY_LIST });
+export const removeMemberFromAllDistributionLists = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+export const removeMembersFromDistributionList = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+
+export const actions = {
+  createDistributionList,
+  modifyDistributionList,
+  removeMemberFromAllDistributionLists,
+  removeMembersFromDistributionList,
+};
+
+export const reducer = (): StoryDistributionListStateType => ({
+  distributionLists: [],
+});
+
+export const getEmptyState = (): StoryDistributionListStateType => ({
+  distributionLists: [],
+});
+
+// Hook for actions
+export const useStoryDistributionListsActions = () => actions;
 
 export type StoryDistributionListsActionType = never;

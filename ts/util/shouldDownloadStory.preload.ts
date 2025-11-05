@@ -4,6 +4,6 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export function shouldStoryReplyNotifyUser(..._args: Array<unknown>): boolean {
+export function shouldDownloadStory(..._args: Array<unknown>): boolean {
   return false;
 }

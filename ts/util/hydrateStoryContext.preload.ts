@@ -4,6 +4,6 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export function hydrateStoryContext(): undefined {
+export function hydrateStoryContext(..._args: Array<unknown>): undefined {
   return undefined;
 }

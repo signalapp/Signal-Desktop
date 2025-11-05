@@ -11,3 +11,7 @@ export async function loadStories(): Promise<void> {
 export function getStoriesForRedux(): Array<never> {
   return [];
 }
+
+export function getStoryDataFromMessageAttributes(..._args: Array<any>): undefined {
+  return undefined;
+}

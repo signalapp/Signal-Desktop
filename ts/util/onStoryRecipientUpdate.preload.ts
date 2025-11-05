@@ -4,6 +4,6 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export function onStoryRecipientUpdate(): void {
+export function onStoryRecipientUpdate(..._args: Array<unknown>): void {
   // No-op
 }

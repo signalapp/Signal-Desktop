@@ -5976,142 +5976,144 @@ export function reducer(
     };
   }
 
-  if (action.type === MODIFY_LIST) {
-    const {
-      id: listId,
-      isBlockList,
-      membersToRemove,
-      membersToAdd,
-    } = action.payload;
-    const removedServiceIds = new Set(
-      isBlockList ? membersToAdd : membersToRemove
-    );
+  // REMOVED: Orbital cleanup - Stories feature removed
+  // Story distribution list handlers commented out during cleanup
+  // if (action.type === MODIFY_LIST) {
+  //   const {
+  //     id: listId,
+  //     isBlockList,
+  //     membersToRemove,
+  //     membersToAdd,
+  //   } = action.payload;
+  //   const removedServiceIds = new Set(
+  //     isBlockList ? membersToAdd : membersToRemove
+  //   );
 
-    const nextVerificationData = visitListsInVerificationData(
-      state.verificationDataByConversation,
-      (id, data): DistributionVerificationData | undefined => {
-        if (listId === id) {
-          const serviceIdsNeedingVerification =
-            data.serviceIdsNeedingVerification.filter(
-              serviceId => !removedServiceIds.has(serviceId)
-            );
+  //   const nextVerificationData = visitListsInVerificationData(
+  //     state.verificationDataByConversation,
+  //     (id, data): DistributionVerificationData | undefined => {
+  //       if (listId === id) {
+  //         const serviceIdsNeedingVerification =
+  //           data.serviceIdsNeedingVerification.filter(
+  //             serviceId => !removedServiceIds.has(serviceId)
+  //           );
 
-          if (!serviceIdsNeedingVerification.length) {
-            return undefined;
-          }
-          return {
-            ...data,
-            serviceIdsNeedingVerification,
-          };
-        }
+  //         if (!serviceIdsNeedingVerification.length) {
+  //           return undefined;
+  //         }
+  //         return {
+  //           ...data,
+  //           serviceIdsNeedingVerification,
+  //         };
+  //       }
 
-        return data;
-      }
-    );
+  //       return data;
+  //     }
+  //   );
 
-    if (nextVerificationData === state.verificationDataByConversation) {
-      return state;
-    }
+  //   if (nextVerificationData === state.verificationDataByConversation) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      verificationDataByConversation: nextVerificationData,
-    };
-  }
-  if (action.type === DELETE_LIST) {
-    const { listId } = action.payload;
+  //   return {
+  //     ...state,
+  //     verificationDataByConversation: nextVerificationData,
+  //   };
+  // }
+  // if (action.type === DELETE_LIST) {
+  //   const { listId } = action.payload;
 
-    const nextVerificationData = visitListsInVerificationData(
-      state.verificationDataByConversation,
-      (id, data): DistributionVerificationData | undefined => {
-        if (listId === id) {
-          return undefined;
-        }
+  //   const nextVerificationData = visitListsInVerificationData(
+  //     state.verificationDataByConversation,
+  //     (id, data): DistributionVerificationData | undefined => {
+  //       if (listId === id) {
+  //         return undefined;
+  //       }
 
-        return data;
-      }
-    );
+  //       return data;
+  //     }
+  //   );
 
-    if (nextVerificationData === state.verificationDataByConversation) {
-      return state;
-    }
+  //   if (nextVerificationData === state.verificationDataByConversation) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      verificationDataByConversation: nextVerificationData,
-    };
-  }
-  if (action.type === HIDE_MY_STORIES_FROM) {
-    const removedServiceIds = new Set(action.payload);
+  //   return {
+  //     ...state,
+  //     verificationDataByConversation: nextVerificationData,
+  //   };
+  // }
+  // if (action.type === HIDE_MY_STORIES_FROM) {
+  //   const removedServiceIds = new Set(action.payload);
 
-    const nextVerificationData = visitListsInVerificationData(
-      state.verificationDataByConversation,
-      (id, data): DistributionVerificationData | undefined => {
-        if (MY_STORY_ID === id) {
-          const serviceIdsNeedingVerification =
-            data.serviceIdsNeedingVerification.filter(
-              serviceId => !removedServiceIds.has(serviceId)
-            );
+  //   const nextVerificationData = visitListsInVerificationData(
+  //     state.verificationDataByConversation,
+  //     (id, data): DistributionVerificationData | undefined => {
+  //       if (MY_STORY_ID === id) {
+  //         const serviceIdsNeedingVerification =
+  //           data.serviceIdsNeedingVerification.filter(
+  //             serviceId => !removedServiceIds.has(serviceId)
+  //           );
 
-          if (!serviceIdsNeedingVerification.length) {
-            return undefined;
-          }
+  //         if (!serviceIdsNeedingVerification.length) {
+  //           return undefined;
+  //         }
 
-          return {
-            ...data,
-            serviceIdsNeedingVerification,
-          };
-        }
+  //         return {
+  //           ...data,
+  //           serviceIdsNeedingVerification,
+  //         };
+  //       }
 
-        return data;
-      }
-    );
+  //       return data;
+  //     }
+  //   );
 
-    if (nextVerificationData === state.verificationDataByConversation) {
-      return state;
-    }
+  //   if (nextVerificationData === state.verificationDataByConversation) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      verificationDataByConversation: nextVerificationData,
-    };
-  }
-  if (action.type === VIEWERS_CHANGED) {
-    const { listId, memberServiceIds } = action.payload;
-    const newServiceIds = new Set(memberServiceIds);
+  //   return {
+  //     ...state,
+  //     verificationDataByConversation: nextVerificationData,
+  //   };
+  // }
+  // if (action.type === VIEWERS_CHANGED) {
+  //   const { listId, memberServiceIds } = action.payload;
+  //   const newServiceIds = new Set(memberServiceIds);
 
-    const nextVerificationData = visitListsInVerificationData(
-      state.verificationDataByConversation,
-      (id, data): DistributionVerificationData | undefined => {
-        if (listId === id) {
-          const serviceIdsNeedingVerification =
-            data.serviceIdsNeedingVerification.filter(serviceId =>
-              newServiceIds.has(serviceId)
-            );
+  //   const nextVerificationData = visitListsInVerificationData(
+  //     state.verificationDataByConversation,
+  //     (id, data): DistributionVerificationData | undefined => {
+  //       if (listId === id) {
+  //         const serviceIdsNeedingVerification =
+  //           data.serviceIdsNeedingVerification.filter(serviceId =>
+  //             newServiceIds.has(serviceId)
+  //           );
 
-          if (!serviceIdsNeedingVerification.length) {
-            return undefined;
-          }
+  //         if (!serviceIdsNeedingVerification.length) {
+  //           return undefined;
+  //         }
 
-          return {
-            ...data,
-            serviceIdsNeedingVerification,
-          };
-        }
+  //         return {
+  //           ...data,
+  //           serviceIdsNeedingVerification,
+  //         };
+  //       }
 
-        return data;
-      }
-    );
+  //       return data;
+  //     }
+  //   );
 
-    if (nextVerificationData === state.verificationDataByConversation) {
-      return state;
-    }
+  //   if (nextVerificationData === state.verificationDataByConversation) {
+  //     return state;
+  //   }
 
-    return {
-      ...state,
-      verificationDataByConversation: nextVerificationData,
-    };
-  }
+  //   return {
+  //     ...state,
+  //     verificationDataByConversation: nextVerificationData,
+  //   };
+  // }
 
   if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
     const { conversationId, distributionId, untrustedServiceIds } =

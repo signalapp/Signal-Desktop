@@ -4,6 +4,10 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export function findStoryMessage(): undefined {
+export function findStoryMessage(..._args: Array<unknown>): undefined {
   return undefined;
+}
+
+export function findStoryMessages(..._args: Array<unknown>): Array<never> {
+  return [];
 }

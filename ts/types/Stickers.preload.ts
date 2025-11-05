@@ -29,9 +29,7 @@ import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
 // REMOVED: Orbital cleanup - stickers
-// import type { StickersStateType } from '../state/ducks/stickers.preload.js';
-// Stub type to maintain compatibility
-type StickersStateType = Record<string, never>;
+import type { StickersStateType } from '../state/ducks/stickers.preload.js';
 import { MINUTE } from '../util/durations/index.std.js';
 import {
   processNewEphemeralSticker,
