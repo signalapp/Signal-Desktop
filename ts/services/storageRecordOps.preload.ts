@@ -96,7 +96,7 @@ import {
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
 } from '../util/ServiceId.node.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.js';
 import {
   getLinkPreviewSetting,
   getReadReceiptSetting,

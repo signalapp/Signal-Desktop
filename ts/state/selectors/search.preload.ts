@@ -29,7 +29,8 @@ import {
   getSelectedConversationId,
 } from './conversations.dom.js';
 
-import { hydrateRanges, type RawBodyRange } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
+import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import type { MessageAttributesType } from '../../model-types.js';

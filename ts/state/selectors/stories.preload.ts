@@ -43,7 +43,8 @@ import {
   reduceStorySendStatus,
   resolveStorySendStatus,
 } from '../../util/resolveStorySendStatus.std.js';
-import { BodyRange, hydrateRanges } from '../../types/BodyRange.std.js';
+import { BodyRange } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import { getStoriesEnabled } from './items.dom.js';
 
 const { pick } = lodash;

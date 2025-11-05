@@ -153,7 +153,7 @@ import { isNotNil } from '../util/isNotNil.std.js';
 import { chunk } from '../util/iterables.std.js';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
-import { filterAndClean } from '../types/BodyRange.std.js';
+import { filterAndClean } from '../util/BodyRange.node.js';
 import {
   getCallEventForProto,
   getCallLogEventForProto,

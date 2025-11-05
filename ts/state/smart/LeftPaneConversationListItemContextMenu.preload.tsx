@@ -22,7 +22,7 @@ import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 import type { ChatFolderParams } from '../../types/ChatFolder.std.js';
 import { getSelectedLocation } from '../selectors/nav.preload.js';
-import { getIsActivelySearching } from '../selectors/search.dom.js';
+import { getIsActivelySearching } from '../selectors/search.preload.js';
 
 export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversationListItemContextMenuProps> =
   memo(function SmartLeftPaneConversationListItemContextMenu(props) {

@@ -37,7 +37,7 @@ import {
 import { SECOND, DurationInSeconds } from '../util/durations/index.std.js';
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
-import { filterAndClean } from '../types/BodyRange.std.js';
+import { filterAndClean } from '../util/BodyRange.node.js';
 import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { createName } from '../util/attachmentPath.node.js';
 import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.js';

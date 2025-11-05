@@ -260,8 +260,6 @@ export const CompositionArea = memo(function CompositionArea({
   theme,
   setMuteExpiration,
 
-  // MediaEditor
-  conversationSelector,
   // AttachmentList
   draftAttachments,
   onClearAttachments,
@@ -1043,7 +1041,9 @@ export const CompositionArea = memo(function CompositionArea({
             isCreatingStory={false}
             isFormattingEnabled={isFormattingEnabled}
             isSending={false}
-            conversationSelector={conversationSelector}
+            convertDraftBodyRangesIntoHydrated={
+              convertDraftBodyRangesIntoHydrated
+            }
             onClose={() => setAttachmentToEdit(undefined)}
             onDone={({
               caption,

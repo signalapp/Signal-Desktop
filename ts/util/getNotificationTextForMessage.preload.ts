@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { applyRangesToText, hydrateRanges } from '../types/BodyRange.std.js';
+import { applyRangesToText } from '../types/BodyRange.std.js';
+import { hydrateRanges } from './BodyRange.node.js';
 import { findAndFormatContact } from './findAndFormatContact.preload.js';
 import { getNotificationDataForMessage } from './getNotificationDataForMessage.preload.js';
 import { isConversationAccepted } from './isConversationAccepted.preload.js';

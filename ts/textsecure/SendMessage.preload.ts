@@ -99,7 +99,7 @@ import {
   getProtoForCallHistory,
 } from '../util/callDisposition.preload.js';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.std.js';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.js';
 import { itemStorage } from './Storage.preload.js';
@@ -433,11 +433,12 @@ class Message {
       proto.reaction = new Proto.DataMessage.Reaction();
       proto.reaction.emoji = this.reaction.emoji || null;
       proto.reaction.remove = this.reaction.remove || false;
-      proto.reaction.targetAuthorAci = this.reaction.targetAuthorAci || null;
       if (isProtoBinaryEncodingEnabled()) {
         proto.reaction.targetAuthorAciBinary = this.reaction.targetAuthorAci
           ? toAciObject(this.reaction.targetAuthorAci).getRawUuidBytes()
           : null;
+      } else {
+        proto.reaction.targetAuthorAci = this.reaction.targetAuthorAci || null;
       }
       proto.reaction.targetSentTimestamp =
         this.reaction.targetTimestamp === undefined
@@ -543,11 +544,12 @@ class Message {
 
       quote.id =
         this.quote.id === undefined ? null : Long.fromNumber(this.quote.id);
-      quote.authorAci = this.quote.authorAci || null;
       if (isProtoBinaryEncodingEnabled()) {
         quote.authorAciBinary = this.quote.authorAci
           ? toAciObject(this.quote.authorAci).getRawUuidBytes()
           : null;
+      } else {
+        quote.authorAci = this.quote.authorAci || null;
       }
       quote.text = this.quote.text || null;
       quote.attachments = this.quote.attachments.slice() || [];
@@ -557,11 +559,12 @@ class Message {
         bodyRange.start = range.start;
         bodyRange.length = range.length;
         if (BodyRange.isMention(range)) {
-          bodyRange.mentionAci = range.mentionAci;
           if (isProtoBinaryEncodingEnabled()) {
             bodyRange.mentionAciBinary = toAciObject(
               range.mentionAci
             ).getRawUuidBytes();
+          } else {
+            bodyRange.mentionAci = range.mentionAci;
           }
         } else if (BodyRange.isFormatting(range)) {
           bodyRange.style = range.style;
@@ -601,6 +604,15 @@ class Message {
         const { start, length } = bodyRange;
 
         if (BodyRange.isMention(bodyRange)) {
+          if (isProtoBinaryEncodingEnabled()) {
+            return {
+              start,
+              length,
+              mentionAciBinary: toAciObject(
+                bodyRange.mentionAci
+              ).getRawUuidBytes(),
+            };
+          }
           return {
             start,
             length,
@@ -632,11 +644,12 @@ class Message {
 
       const storyContext = new StoryContext();
       if (this.storyContext.authorAci) {
-        storyContext.authorAci = this.storyContext.authorAci;
         if (isProtoBinaryEncodingEnabled()) {
           storyContext.authorAciBinary = toAciObject(
             this.storyContext.authorAci
           ).getRawUuidBytes();
+        } else {
+          storyContext.authorAci = this.storyContext.authorAci;
         }
       }
       storyContext.sentTimestamp = Long.fromNumber(this.storyContext.timestamp);
@@ -1424,10 +1437,11 @@ export class MessageSender {
       sentMessage.destinationE164 = destinationE164;
     }
     if (destinationServiceId) {
-      sentMessage.destinationServiceId = destinationServiceId;
       if (isProtoBinaryEncodingEnabled()) {
         sentMessage.destinationServiceIdBinary =
           toServiceIdObject(destinationServiceId).getServiceIdBinary();
+      } else {
+        sentMessage.destinationServiceId = destinationServiceId;
       }
     }
     if (expirationStartTimestamp) {
@@ -1458,10 +1472,11 @@ export class MessageSender {
           if (conv) {
             const serviceId = conv.getServiceId();
             if (serviceId) {
-              status.destinationServiceId = serviceId;
               if (isProtoBinaryEncodingEnabled()) {
                 status.destinationServiceIdBinary =
                   toServiceIdObject(serviceId).getServiceIdBinary();
+              } else {
+                status.destinationServiceId = serviceId;
               }
             }
             if (isPniString(serviceId)) {

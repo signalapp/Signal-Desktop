@@ -19,7 +19,7 @@ import {
   getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
-} from '../../../state/selectors/search.dom.js';
+} from '../../../state/selectors/search.preload.js';
 import { makeLookup } from '../../../util/makeLookup.std.js';
 import { generateAci } from '../../../types/ServiceId.std.js';
 import {

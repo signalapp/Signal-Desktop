@@ -44,7 +44,7 @@ import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManage
 import type { ButtonVariant } from '../../components/Button.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
 import type { MessageForwardDraft } from '../../types/ForwardDraft.std.js';
-import { hydrateRanges } from '../../types/BodyRange.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.js';
 import {
   getConversationSelector,
   type GetConversationByIdType,
