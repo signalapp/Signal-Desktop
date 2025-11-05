@@ -34,6 +34,14 @@ export function ExternalLink(props: {
   );
 }
 
+function BrianHarder() {
+  return (
+    <ExternalLink href="https://github.com/brianHarder">
+      @brianHarder
+    </ExternalLink>
+  );
+}
+
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -44,8 +52,14 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <I18n i18n={i18n} id="icu:WhatsNew__7.78-1" />,
-      <I18n i18n={i18n} id="icu:WhatsNew__7.78-2" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__7.79-1" />,
+      <I18n
+        i18n={i18n}
+        id="icu:WhatsNew__7.79-2"
+        components={{
+          brianHarder: BrianHarder,
+        }}
+      />,
     ],
   };
 
