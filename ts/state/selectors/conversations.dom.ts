@@ -92,7 +92,7 @@ import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js
 
 const { isNumber, pick } = lodash;
 
-const log = createLogger('conversations');
+const log = createLogger('selectors/conversations');
 
 export type ConversationWithStoriesType = ConversationType & {
   hasStories?: HasStories;

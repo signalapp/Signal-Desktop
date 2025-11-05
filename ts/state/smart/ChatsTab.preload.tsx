@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+
+import { createLogger } from '../../logging/log.std.js';
 import { ChatsTab } from '../../components/ChatsTab.dom.js';
 import type { SmartConversationViewProps } from './ConversationView.preload.js';
 import { SmartConversationView } from './ConversationView.preload.js';
@@ -14,7 +16,6 @@ import { usePrevious } from '../../hooks/usePrevious.std.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
 import { isStagingServer } from '../../util/isStagingServer.dom.js';
 import { ToastType } from '../../types/Toast.dom.js';
 import { getNavTabsCollapsed } from '../selectors/items.dom.js';
@@ -27,6 +28,8 @@ import {
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
+
+const log = createLogger('smart/ChatsTab');
 
 function renderConversationView(props: SmartConversationViewProps) {
   return <SmartConversationView {...props} />;
@@ -100,7 +103,10 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       const conversation = window.ConversationController.get(
         selectedConversationId
       );
-      strictAssert(conversation, 'Conversation must be found');
+      if (!conversation) {
+        log.error('Conversation not found, returning early');
+        return;
+      }
       conversation.setMarkedUnread(false);
     }
   }, [prevConversationId, selectedConversationId]);

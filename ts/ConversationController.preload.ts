@@ -261,6 +261,21 @@ export class ConversationController {
     conversation: ConversationModel,
     previousAttributes: ConversationAttributesType
   ): void {
+    if (!this.#_initialFetchComplete) {
+      log.warn(
+        `conversationChanged: Initial fetch is incomplete; ignoring change from ${conversation.idForLogging()}`
+      );
+      return;
+    }
+
+    const existing = this.get(conversation.id);
+    if (!existing) {
+      log.warn(
+        `conversationChanged: Rejecting change from ${conversation.idForLogging()}, not in lookups`
+      );
+      return;
+    }
+
     // eslint-disable-next-line no-param-reassign
     conversation.cachedProps = undefined;
 

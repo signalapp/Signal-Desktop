@@ -1537,7 +1537,12 @@ function markConversationRead(
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     const model = window.ConversationController.get(conversationId);
-    strictAssert(model, 'Conversation must be found');
+    if (!model) {
+      log.error(
+        'markConversationRead: Conversation not found, returning early'
+      );
+      return;
+    }
     model.setMarkedUnread(false);
 
     const lastMessage = await DataReader.getLastConversationMessage({
@@ -4865,7 +4870,10 @@ function onConversationOpened(
     const promises: Array<Promise<void>> = [];
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('onConversationOpened: Conversation not found');
+      log.error(
+        `onConversationOpened: Conversation with id ${conversationId} not found`
+      );
+      return;
     }
 
     const logId = `onConversationOpened(${conversation.idForLogging()})`;
