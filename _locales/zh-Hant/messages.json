@@ -1124,6 +1124,33 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "沒有投票"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options"
+  },
   "icu:deleteConversation": {
     "messageformat": "刪除"
   },
@@ -2317,6 +2344,9 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "投票：{pollQuestion}"
+  },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4381,6 +4411,18 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "附上檔案"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "此人沒有使用Signal"
@@ -7274,9 +7316,15 @@
     "messageformat": "此更新還包括一項錯誤修復，修正了當訊息中包含表情符號時，無法產生連結預覽的問題。謝謝<elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "此更新省略了在討論串收到新訊息時重覆的時間戳提示，提升螢幕閱讀器用戶的無障礙體驗。"
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "我們也修正了一個可能導致通知無法在 Windows 上顯示的錯誤。"
+  },
+  "icu:WhatsNew__7.79-1": {
+    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+  },
+  "icu:WhatsNew__7.79-2": {
+    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
   }
 }

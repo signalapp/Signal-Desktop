@@ -1124,6 +1124,33 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ხმები არ მიუღია"
   },
+  "icu:PollCreateModal__title": {
+    "messageformat": "New poll"
+  },
+  "icu:PollCreateModal__questionLabel": {
+    "messageformat": "Question"
+  },
+  "icu:PollCreateModal__questionPlaceholder": {
+    "messageformat": "What should we order for lunch?"
+  },
+  "icu:PollCreateModal__optionsLabel": {
+    "messageformat": "Options"
+  },
+  "icu:PollCreateModal__optionPlaceholder": {
+    "messageformat": "Option {number}"
+  },
+  "icu:PollCreateModal__allowMultipleVotes": {
+    "messageformat": "Allow multiple votes"
+  },
+  "icu:PollCreateModal__sendButton": {
+    "messageformat": "Send"
+  },
+  "icu:PollCreateModal__Error--RequiresQuestion": {
+    "messageformat": "Poll question is required"
+  },
+  "icu:PollCreateModal__Error--RequiresTwoOptions": {
+    "messageformat": "Poll requires at least 2 options"
+  },
   "icu:deleteConversation": {
     "messageformat": "წაშლა"
   },
@@ -2317,6 +2344,9 @@
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "გამოკითხვა: {pollQuestion}"
+  },
+  "icu:Poll--preview": {
+    "messageformat": "Poll: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4381,6 +4411,18 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "ფაილის მიმაგრება"
+  },
+  "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
+    "messageformat": "Photos & videos"
+  },
+  "icu:CompositionArea__AttachMenu__File": {
+    "messageformat": "File"
+  },
+  "icu:CompositionArea__AttachMenu__Poll": {
+    "messageformat": "Poll"
+  },
+  "icu:CompositionArea--attach-plus": {
+    "messageformat": "Add attachment or poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ეს ადამიანი Signal-ს არ იყენებს"
@@ -7274,9 +7316,15 @@
     "messageformat": "ასევე, ამ განახლებაში გამოვასწორეთ შეცდომა, რომელიც ხელს უშლიდა ბმულის წინასწარი ნახვის გენერირებას, როცა წერილი ემოჯი სიმბოლოებსაც შეიცავდა. მადლობა, <elias6></elias6>-ს"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread."
+    "messageformat": "ეს განახლება ამარტივებს წვდომას მკითხველებისთვის, კონკრეტულად კი, ახალ შეტყობინებებზე დროის მაჩვენებელი აღარ მეორდება."
   },
   "icu:WhatsNew__7.78-2": {
-    "messageformat": "We also fixed a bug that could prevent notifications from appearing on Windows."
+    "messageformat": "ასევე გამოვასწორეთ ბაგი, რომელიც Windows-ზე შეტყობინებების გამოჩენას ხელს უშლიდა."
+  },
+  "icu:WhatsNew__7.79-1": {
+    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+  },
+  "icu:WhatsNew__7.79-2": {
+    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
   }
 }
