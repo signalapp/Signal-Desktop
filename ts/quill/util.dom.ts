@@ -22,7 +22,7 @@ import type { AciString } from '../types/ServiceId.std.js';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
+  isSafeEmojifyEmoji,
 } from '../components/fun/data/emojis.std.js';
 
 export type Matcher = (
@@ -466,7 +466,7 @@ export const insertEmojiOps = (
       // eslint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emojiMatch] = match;
-        if (isEmojiVariantValue(emojiMatch)) {
+        if (isSafeEmojifyEmoji(emojiMatch)) {
           const variantKey = getEmojiVariantKeyByValue(emojiMatch);
           const variant = getEmojiVariantByKey(variantKey);
 
