@@ -8,27 +8,27 @@ import type { DonationReceipt } from '../../types/Donations.std.js';
 import type { ReadableDB, WritableDB } from '../Interface.std.js';
 
 export function createDonationReceipt(
-  db: WritableDB,
-  receipt: DonationReceipt
+  _db: WritableDB,
+  _receipt: DonationReceipt
 ): void {
   // No-op stub
 }
 
-export function getAllDonationReceipts(db: ReadableDB): Array<DonationReceipt> {
+export function getAllDonationReceipts(_db: ReadableDB): Array<DonationReceipt> {
   return [];
 }
 
 export function getDonationReceiptById(
-  db: ReadableDB,
-  id: string
+  _db: ReadableDB,
+  _id: string
 ): DonationReceipt | undefined {
   return undefined;
 }
 
-export function deleteDonationReceiptById(db: WritableDB, id: string): void {
+export function deleteDonationReceiptById(_db: WritableDB, _id: string): void {
   // No-op stub
 }
 
-export function _deleteAllDonationReceipts(db: WritableDB): void {
+export function _deleteAllDonationReceipts(_db: WritableDB): void {
   // No-op stub
 }

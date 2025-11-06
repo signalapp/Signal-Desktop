@@ -16,3 +16,9 @@ export function getFakeBadge(overrides: Partial<BadgeType> = {}): BadgeType {
     ...overrides,
   };
 }
+
+export function getFakeBadges(count: number): Array<BadgeType> {
+  return Array.from({ length: count }, (_, i) =>
+    getFakeBadge({ id: `TEST_BADGE_${i}`, name: `Test Badge ${i}` })
+  );
+}

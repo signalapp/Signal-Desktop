@@ -1124,6 +1124,7 @@ export function getPropsForBubble(
 
   if (
     messageHasPaymentEvent(message) &&
+    message.payment &&
     !isPaymentNotificationEvent(message.payment)
   ) {
     return {
@@ -1176,13 +1177,16 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
 }
 
 function getPropsForPaymentEvent(
-  message: MessageAttributesWithPaymentEvent,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): Omit<PaymentEventNotificationPropsType, 'i18n'> {
+  // message.payment is guaranteed to exist due to type guard in caller
+  const payment = (message as unknown as MessageAttributesWithPaymentEvent).payment!;
+  const sourceServiceId = (message as unknown as MessageAttributesWithPaymentEvent).sourceServiceId;
   return {
-    sender: conversationSelector(message.sourceServiceId),
+    sender: conversationSelector(sourceServiceId),
     conversation: getConversation(message, conversationSelector),
-    event: message.payment,
+    event: payment,
   };
 }
 

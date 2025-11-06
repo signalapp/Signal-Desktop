@@ -6,9 +6,13 @@
 
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.js';
 
 export type MessageAttributesWithPaymentEvent = {
   payment?: AnyPaymentEvent;
+  sourceServiceId?: ServiceIdString;
+  conversationId?: string;
+  sendStateByConversationId?: Record<string, unknown>;
 };
 
 export function messageHasPaymentEvent(

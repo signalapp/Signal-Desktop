@@ -3,6 +3,6 @@
 
 // STUB: Badges feature removed in Orbital cleanup
 
-export function isBadgeImageFileUrlValid(url: string): boolean {
+export function isBadgeImageFileUrlValid(_url: string): boolean {
   return false;
 }

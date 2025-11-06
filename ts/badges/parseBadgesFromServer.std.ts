@@ -16,15 +16,15 @@ export const badgeFromServerSchema = z.object({
 });
 
 export function parseBadgesFromServer(
-  badges: unknown,
-  updatesUrl: string
+  _badges: unknown,
+  _updatesUrl: string
 ): Array<BadgeType> {
   return [];
 }
 
 export function parseBoostBadgeListFromServer(
-  badges: unknown,
-  updatesUrl: string
+  _badges: unknown,
+  _updatesUrl: string
 ): Array<BadgeType> {
   return [];
 }

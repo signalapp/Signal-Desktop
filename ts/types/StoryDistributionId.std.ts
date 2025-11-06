@@ -15,6 +15,9 @@ export function generateStoryDistributionId(): StoryDistributionIdString {
   return '' as StoryDistributionIdString;
 }
 
-export function normalizeStoryDistributionId(value: string): StoryDistributionIdString {
+export function normalizeStoryDistributionId(
+  value: string,
+  _context?: string
+): StoryDistributionIdString {
   return value as StoryDistributionIdString;
 }

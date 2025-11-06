@@ -34,7 +34,7 @@ import {
   type ServiceIdString,
 } from '../../types/ServiceId.std.js';
 import type { RawBodyRange } from '../../types/BodyRange.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
+import { PaymentEventKind, isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import type {
   ConversationAttributesType,
@@ -1385,6 +1385,10 @@ export class BackupExportStream extends Readable {
       result.remoteDeletedMessage = {};
     } else if (messageHasPaymentEvent(message)) {
       const { payment } = message;
+      if (!payment) {
+        throw new Error('messageHasPaymentEvent returned true but payment is undefined');
+      }
+
       switch (payment.kind) {
         case PaymentEventKind.ActivationRequest: {
           result.directionless = {};
@@ -1405,16 +1409,18 @@ export class BackupExportStream extends Readable {
           break;
         }
         case PaymentEventKind.Notification:
-          result.paymentNotification = {
-            note: payment.note ?? null,
-            amountMob: payment.amountMob,
-            feeMob: payment.feeMob,
-            transactionDetails: payment.transactionDetailsBase64
-              ? Backups.PaymentNotification.TransactionDetails.decode(
-                  Bytes.fromBase64(payment.transactionDetailsBase64)
-                )
-              : undefined,
-          };
+          if (isPaymentNotificationEvent(payment)) {
+            result.paymentNotification = {
+              note: payment.note ?? null,
+              amountMob: payment.amountMob,
+              feeMob: payment.feeMob,
+              transactionDetails: payment.transactionDetailsBase64
+                ? Backups.PaymentNotification.TransactionDetails.decode(
+                    Bytes.fromBase64(payment.transactionDetailsBase64)
+                  )
+                : undefined,
+            };
+          }
           break;
         default:
           throw missingCaseError(payment);

@@ -8,3 +8,7 @@ export enum BadgeImageTheme {
   Dark = 'dark',
   Light = 'light',
 }
+
+export function parseBadgeImageTheme(_value: unknown): BadgeImageTheme {
+  return BadgeImageTheme.Transparent;
+}

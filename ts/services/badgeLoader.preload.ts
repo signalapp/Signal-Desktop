@@ -3,12 +3,12 @@
 
 // STUB: Badges feature removed in Orbital cleanup
 
-import type { BadgeType } from '../badges/types.std.js';
+import type { BadgesStateType } from '../state/ducks/badges.preload.js';
 
 export async function loadBadges(): Promise<void> {
   // No-op stub
 }
 
-export async function getBadgesForRedux(): Promise<Array<BadgeType>> {
-  return [];
+export function getBadgesForRedux(): BadgesStateType {
+  return { byId: {} };
 }

@@ -5,7 +5,7 @@
 // This file exists as a stub to prevent import errors during the transition
 
 import type { ConversationType } from './Conversation.preload.js';
-import type { ServiceIdString } from './ServiceId.js';
+import type { ServiceIdString } from './ServiceId.std.js';
 
 export type StoryViewType = never;
 export type ConversationStoryType = never;
@@ -58,7 +58,9 @@ export enum StoryViewTargetType {
   Single = 'Single',
 }
 
-export const MY_STORY_ID = 'MY_STORY_ID';
+import type { StoryDistributionIdString } from './StoryDistributionId.std.js';
+
+export const MY_STORY_ID = 'MY_STORY_ID' as StoryDistributionIdString;
 
 // Empty exports to satisfy TypeScript
 export {};

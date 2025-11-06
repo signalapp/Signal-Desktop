@@ -8,6 +8,6 @@ export enum BadgeCategory {
   Other = 'other',
 }
 
-export const parseBadgeCategory = (value: unknown): BadgeCategory => {
+export const parseBadgeCategory = (_value: unknown): BadgeCategory => {
   return BadgeCategory.Other;
 };

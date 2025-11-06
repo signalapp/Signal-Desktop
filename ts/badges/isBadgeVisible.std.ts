@@ -5,6 +5,6 @@
 
 import type { BadgeType } from './types.std.js';
 
-export function isBadgeVisible(badge: BadgeType): boolean {
+export function isBadgeVisible(_badge: BadgeType): boolean {
   return false;
 }

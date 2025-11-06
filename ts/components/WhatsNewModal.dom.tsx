@@ -34,9 +34,10 @@ export function ExternalLink(props: {
   );
 }
 
-function Elias6() {
-  return <ExternalLink href="https://github.com/elias6">@elias6</ExternalLink>;
-}
+// Contributor attribution - currently unused but kept for future updates
+// function Elias6() {
+//   return <ExternalLink href="https://github.com/elias6">@elias6</ExternalLink>;
+// }
 
 export function WhatsNewModal({
   i18n,

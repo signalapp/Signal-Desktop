@@ -99,7 +99,7 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     search: bindActionCreators(actionCreators.search, store.dispatch),
-    // stickers: bindActionCreators(actionCreators.stickers, store.dispatch), // REMOVED: Orbital cleanup
+    stickers: bindActionCreators(actionCreators.stickers, store.dispatch), // Stub only
     stories: bindActionCreators(actionCreators.stories, store.dispatch), // Stub only
     storyDistributionLists: bindActionCreators(
       actionCreators.storyDistributionLists,

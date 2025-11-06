@@ -6,9 +6,9 @@
 import type { BadgeType } from './types.std.js';
 
 export function getBadgeImageFileLocalPath(
-  badge: BadgeType | undefined,
-  size: number,
-  theme: string
+  _badge: BadgeType | undefined,
+  _size: number,
+  _theme: string
 ): string | undefined {
   return undefined;
 }

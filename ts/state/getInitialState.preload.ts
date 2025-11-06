@@ -32,7 +32,7 @@ import { getEmptyState as notificationProfilesEmptyState } from './ducks/notific
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.preload.js';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
 import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
-// import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js'; // REMOVED: Orbital cleanup
+import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js'; // Stub only
 import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js'; // Stub only
 import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import { getEmptyState as toastEmptyState } from './ducks/toast.preload.js';
@@ -173,7 +173,7 @@ function getEmptyState(): StateType {
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),
-    // stickers: stickersEmptyState(), // REMOVED: Orbital cleanup
+    stickers: stickersEmptyState(), // Stub only
     stories: storiesEmptyState(), // Stub only
     storyDistributionLists: storyDistributionListsEmptyState(), // Stub only
     toast: toastEmptyState(),
@@ -189,7 +189,7 @@ export function generateStoryDistributionListState(
 ): StoryDistributionListStateType {
   return {
     ...storyDistributionListsEmptyState(),
-    distributionLists: storyDistributionLists || [],
+    distributionLists: Array.from(storyDistributionLists || []),
   };
 }
 
