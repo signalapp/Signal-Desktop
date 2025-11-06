@@ -62,11 +62,9 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from '../InAnotherCallTooltip.dom.js';
-import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
 
 enum ModalState {
   AddingGroupMembers,
-  BecomeSustainer,
   ConfirmDeleteNicknameAndNote,
   EditingGroupDescription,
   EditingGroupTitle,
@@ -251,11 +249,6 @@ export function ConversationDetails({
   switch (modalState) {
     case ModalState.NothingOpen:
       modalNode = undefined;
-      break;
-    case ModalState.BecomeSustainer:
-      modalNode = (
-        <BadgeSustainerInstructionsDialog i18n={i18n} onClose={onCloseModal} />
-      );
       break;
     case ModalState.EditingGroupDescription:
     case ModalState.EditingGroupTitle:
@@ -536,16 +529,6 @@ export function ConversationDetails({
                   'https://support.signal.org/hc/requests/new?desktop'
                 );
               }}
-            />
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:BadgeDialog__become-a-sustainer-button')}
-                  icon={IconType.heart}
-                />
-              }
-              label={i18n('icu:BadgeDialog__become-a-sustainer-button')}
-              onClick={() => setModalState(ModalState.BecomeSustainer)}
             />
           </PanelSection>
         </>

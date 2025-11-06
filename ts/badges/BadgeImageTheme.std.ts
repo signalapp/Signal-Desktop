@@ -1,15 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { makeEnumParser } from '../util/enum.std.js';
+// STUB: Badges feature removed in Orbital cleanup
 
 export enum BadgeImageTheme {
-  Light = 'light',
-  Dark = 'dark',
   Transparent = 'transparent',
+  Dark = 'dark',
+  Light = 'light',
 }
-
-export const parseBadgeImageTheme = makeEnumParser(
-  BadgeImageTheme,
-  BadgeImageTheme.Transparent
-);

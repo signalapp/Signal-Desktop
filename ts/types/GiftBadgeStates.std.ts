@@ -1,6 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// STUB: Gift badges feature removed in Orbital cleanup
+
 export enum GiftBadgeStates {
   Unopened = 'Unopened',
   Opened = 'Opened',

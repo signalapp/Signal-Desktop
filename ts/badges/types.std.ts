@@ -1,28 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BadgeCategory } from './BadgeCategory.std.js';
-import type { BadgeImageTheme } from './BadgeImageTheme.std.js';
+// STUB: Badges feature removed in Orbital cleanup
+// Minimal types preserved for backward compatibility
 
-type SomeoneElsesBadgeType = Readonly<{
-  category: BadgeCategory;
-  descriptionTemplate: string;
+export type BadgeType = {
   id: string;
-  images: ReadonlyArray<BadgeImageType>;
+  category: string;
   name: string;
-}>;
+  descriptionTemplate: string;
+  images: ReadonlyArray<BadgeImageType>;
+  expiresAt?: number;
+  isVisible?: boolean;
+};
 
-type OurBadgeType = SomeoneElsesBadgeType &
-  Readonly<{
-    expiresAt: number;
-    isVisible: boolean;
-  }>;
-
-export type BadgeType = SomeoneElsesBadgeType | OurBadgeType;
-
-export type BadgeImageType = Partial<
-  Record<BadgeImageTheme, BadgeImageFileType>
->;
+export type BadgeImageType = Record<string, BadgeImageFileType>;
 
 export type BadgeImageFileType = {
   localPath?: string;

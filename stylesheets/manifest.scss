@@ -34,9 +34,6 @@
 @use 'components/BackfillFailureModal.scss';
 @use 'components/BackupMediaDownloadProgress.scss';
 @use 'components/BackupMediaDownloadProgressSettings.scss';
-@use 'components/BadgeCarouselIndex.scss';
-@use 'components/BadgeDialog.scss';
-@use 'components/BadgeSustainerInstructionsDialog.scss';
 @use 'components/BetterAvatarBubble.scss';
 @use 'components/Button.scss';
 @use 'components/CallsTab.scss';
@@ -138,7 +135,6 @@
 @use 'components/NavSidebar.scss';
 @use 'components/NavTabs.scss';
 @use 'components/NotificationProfiles.scss';
-@use 'components/OutgoingGiftBadgeModal.scss';
 @use 'components/PermissionsPopup.scss';
 @use 'components/PlaybackButton.scss';
 @use 'components/PlaybackRateButton.scss';

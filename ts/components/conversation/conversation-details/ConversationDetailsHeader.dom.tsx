@@ -11,7 +11,6 @@ import { GroupDescription } from '../GroupDescription.dom.js';
 import { About } from '../About.dom.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import { assertDev } from '../../../util/assert.std.js';
-import { BadgeDialog } from '../../BadgeDialog.dom.js';
 import type { BadgeType } from '../../../badges/types.std.js';
 import { UserText } from '../../UserText.dom.js';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.js';
@@ -36,7 +35,6 @@ export type Props = {
 
 enum ConversationDetailsHeaderActiveModal {
   ShowingAvatar,
-  ShowingBadges,
 }
 
 export function ConversationDetailsHeader({
@@ -111,13 +109,7 @@ export function ConversationDetailsHeader({
         setActiveModal(ConversationDetailsHeaderActiveModal.ShowingAvatar);
       }}
       loading={pendingAvatarDownload}
-      onClickBadge={() => {
-        if (shouldShowClickToView) {
-          startAvatarDownload();
-          return;
-        }
-        setActiveModal(ConversationDetailsHeaderActiveModal.ShowingBadges);
-      }}
+      onClickBadge={undefined}
       sharedGroupNames={[]}
       theme={theme}
     />
@@ -139,20 +131,6 @@ export function ConversationDetailsHeader({
           onClose={() => {
             setActiveModal(undefined);
           }}
-        />
-      );
-      break;
-    case ConversationDetailsHeaderActiveModal.ShowingBadges:
-      modal = (
-        <BadgeDialog
-          areWeASubscriber={areWeASubscriber}
-          badges={badges || []}
-          firstName={conversation.firstName}
-          i18n={i18n}
-          onClose={() => {
-            setActiveModal(undefined);
-          }}
-          title={conversation.title}
         />
       );
       break;
