@@ -1193,7 +1193,7 @@ export class CallingClass {
     if (this.#localPreview == null) {
       this.#localPreview = document.createElement('video');
       this.#localPreview.autoplay = true;
-      this.#videoCapturer.setLocalPreview({ current: this.#localPreview });
+      this.#videoCapturer.setLocalPreview(this.#localPreview);
     }
 
     this.#localPreviewContainer?.removeChild(this.#localPreview);

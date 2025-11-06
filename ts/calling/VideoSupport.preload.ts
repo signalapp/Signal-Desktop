@@ -3,7 +3,6 @@
 
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-await-in-loop */
 
 import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
@@ -38,13 +37,12 @@ type GumTrackConstraintSet = {
 
 export class GumVideoCapturer {
   private defaultCaptureOptions: GumVideoCaptureOptions;
-  private localPreview?: RefObject<HTMLVideoElement>;
+  private localPreview?: HTMLVideoElement;
   private captureOptions?: GumVideoCaptureOptions;
   private sender?: VideoFrameSender;
   private mediaStream?: MediaStream;
   private spawnedSenderRunning = false;
   private preferredDeviceId?: string;
-  private updateLocalPreviewIntervalId?: any;
 
   constructor(defaultCaptureOptions: GumVideoCaptureOptions) {
     this.defaultCaptureOptions = defaultCaptureOptions;
@@ -54,8 +52,8 @@ export class GumVideoCapturer {
     return this.captureOptions !== undefined;
   }
 
-  setLocalPreview(localPreview: RefObject<HTMLVideoElement> | undefined): void {
-    const oldLocalPreview = this.localPreview?.current;
+  setLocalPreview(localPreview: HTMLVideoElement | undefined): void {
+    const oldLocalPreview = this.localPreview;
     if (oldLocalPreview) {
       oldLocalPreview.srcObject = null;
     }
@@ -63,18 +61,6 @@ export class GumVideoCapturer {
     this.localPreview = localPreview;
 
     this.updateLocalPreviewSourceObject();
-
-    // This is a dumb hack around the fact that sometimes the
-    // this.localPreview.current is updated without a call
-    // to setLocalPreview, in which case the local preview
-    // won't be rendered.
-    if (this.updateLocalPreviewIntervalId !== undefined) {
-      clearInterval(this.updateLocalPreviewIntervalId);
-    }
-    this.updateLocalPreviewIntervalId = setInterval(
-      this.updateLocalPreviewSourceObject.bind(this),
-      1000
-    );
   }
 
   async enableCapture(options?: GumVideoCaptureOptions): Promise<void> {
@@ -98,11 +84,6 @@ export class GumVideoCapturer {
   disable(): void {
     this.stopCapturing();
     this.stopSending();
-
-    if (this.updateLocalPreviewIntervalId !== undefined) {
-      clearInterval(this.updateLocalPreviewIntervalId);
-    }
-    this.updateLocalPreviewIntervalId = undefined;
   }
 
   async setPreferredDevice(deviceId: string): Promise<void> {
@@ -361,11 +342,9 @@ export class GumVideoCapturer {
   }
 
   private updateLocalPreviewSourceObject(): void {
-    if (!this.localPreview) {
-      return;
-    }
-    const localPreview = this.localPreview.current;
+    const { localPreview } = this;
     if (!localPreview) {
+      log.warn('No local preview to update');
       return;
     }
 
@@ -376,6 +355,7 @@ export class GumVideoCapturer {
     }
 
     if (mediaStream && this.captureOptions) {
+      log.warn('Enabling local preview');
       localPreview.srcObject = mediaStream;
       if (localPreview.width === 0) {
         localPreview.width = this.captureOptions.maxWidth;
@@ -384,6 +364,7 @@ export class GumVideoCapturer {
         localPreview.height = this.captureOptions.maxHeight;
       }
     } else {
+      log.warn('Disabling local preview');
       localPreview.srcObject = null;
     }
   }
@@ -400,7 +381,7 @@ export class CanvasVideoRenderer {
   private buffer: Uint8Array;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
-  private rafId?: any;
+  private rafId?: ReturnType<typeof requestAnimationFrame>;
 
   constructor() {
     this.buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
