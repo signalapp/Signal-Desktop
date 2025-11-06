@@ -4,7 +4,7 @@
 import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
-import type { RecentStickerType } from '../../types/Stickers.preload.js';
+// import type { RecentStickerType } from '../../types/Stickers.preload.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
@@ -81,7 +81,7 @@ export const translatePackFromDB = (
   // Handle both Dictionary and Array formats for blessedPacks
   const isBlessed = Array.isArray(blessedPacks)
     ? blessedPacks.some(p => p.id === id)
-    : Boolean(blessedPacks[id]);
+    : Boolean((blessedPacks as Dictionary<boolean>)[id]);
 
   return {
     ...pack,
@@ -124,11 +124,11 @@ export const getRecentStickers = createSelector(
   getRecents,
   getPacks,
   (
-    recents: ReadonlyArray<RecentStickerType>,
+    recents: ReadonlyArray<StickerDBType>,
     packs: Dictionary<StickerPackDBType>
   ) => {
     return compact(
-      recents.map(({ packId, stickerId }) => {
+      recents.map(({ packId, id: stickerId }) => {
         return getSticker(packs, packId, stickerId);
       })
     );
@@ -173,7 +173,7 @@ export const getReceivedStickerPacks = createSelector(
     const isPackBlessed = (packId: string) =>
       Array.isArray(blessedPacks)
         ? blessedPacks.some(p => p.id === packId)
-        : Boolean(blessedPacks[packId]);
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
 
     return filterAndTransformPacks(
       packs,
@@ -196,7 +196,7 @@ export const getBlessedStickerPacks = createSelector(
     const isPackBlessed = (packId: string) =>
       Array.isArray(blessedPacks)
         ? blessedPacks.some(p => p.id === packId)
-        : Boolean(blessedPacks[packId]);
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
 
     return filterAndTransformPacks(
       packs,
@@ -217,7 +217,7 @@ export const getKnownStickerPacks = createSelector(
     const isPackBlessed = (packId: string) =>
       Array.isArray(blessedPacks)
         ? blessedPacks.some(p => p.id === packId)
-        : Boolean(blessedPacks[packId]);
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
 
     return filterAndTransformPacks(
       packs,

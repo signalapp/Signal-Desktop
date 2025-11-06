@@ -10,7 +10,7 @@ export function getHexFromNumber(color: number): string {
   return `#${color.toString(16).padStart(6, '0')}`;
 }
 
-export function getBackgroundColor(gradient?: unknown): string {
+export function getBackgroundColor(_gradient?: unknown): string {
   return '#FFFFFF';
 }
 

@@ -27,15 +27,15 @@ export function toHumanCurrencyString(amount: number, currency: string): string 
   return `${amount} ${currency}`;
 }
 
-export function parseCurrencyString(value: string, currency: string): number {
+export function parseCurrencyString(value: string, _currency: string): number {
   return parseFloat(value) || 0;
 }
 
-export function toStripeDonationAmount(amount: number, currency: string): number {
+export function toStripeDonationAmount(amount: number, _currency: string): number {
   return Math.round(amount * 100);
 }
 
-export function getMaximumStripeAmount(currency: string): number {
+export function getMaximumStripeAmount(_currency: string): number {
   return 999999;
 }
 

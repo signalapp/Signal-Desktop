@@ -152,7 +152,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
 
   const { memberships, pendingApprovalMemberships, pendingMemberships } =
     groupMemberships;
-  const badges = badgesSelector(conversation.badges);
+  const badges = badgesSelector; // Badges removed (already returns array)
   const canAddNewMembers = conversation.canAddNewMembers ?? false;
   const canEditGroupInfo = conversation.canEditGroupInfo ?? false;
   const groupsInCommon = getGroupsInCommonSorted(

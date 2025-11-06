@@ -19,7 +19,7 @@ import type {
 } from '../ducks/conversations.preload.js';
 import type {
   StoriesStateType,
-  StoryDataType,
+  // StoryDataType, // REMOVED: Orbital cleanup
 } from '../ducks/stories.preload.js';
 import {
   ComposerStep,
@@ -62,7 +62,7 @@ import {
 import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { reduce } from '../../util/iterables.std.js';
+// REMOVED: import { reduce } from '../../util/iterables.std.js';
 import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
 import type { PanelRenderType } from '../../types/Panels.std.js';
 import type { HasStories } from '../../types/Stories.std.js';
@@ -782,8 +782,9 @@ export const getComposableGroups = createSelector(
 
 const getConversationIdsWithStories = createSelector(
   (state: StateType): StoriesStateType => state.stories,
-  (stories: StoriesStateType): Set<string> => {
-    return new Set(stories.stories.map(({ conversationId }) => conversationId));
+  (_stories: StoriesStateType): Set<string> => {
+    // REMOVED: Orbital cleanup - Stories feature removed
+    return new Set([]);
   }
 );
 
@@ -802,24 +803,10 @@ export const getNonGroupStories = createSelector(
 
 export const selectMostRecentActiveStoryTimestampByGroupOrDistributionList =
   createSelector(
-    (state: StateType): ReadonlyArray<StoryDataType> => state.stories.stories,
-    (stories: ReadonlyArray<StoryDataType>): Record<string, number> => {
-      return reduce<StoryDataType, Record<string, number>>(
-        stories,
-        (acc, story) => {
-          const distributionListOrConversationId =
-            story.storyDistributionListId ?? story.conversationId;
-          const cur = acc[distributionListOrConversationId];
-          if (cur && story.timestamp < cur) {
-            return acc;
-          }
-          return {
-            ...acc,
-            [distributionListOrConversationId]: story.timestamp,
-          };
-        },
-        {}
-      );
+    (state: StateType): StoriesStateType => state.stories,
+    (_stories: StoriesStateType): Record<string, number> => {
+      // REMOVED: Orbital cleanup - Stories feature removed
+      return {};
     }
   );
 
@@ -840,6 +827,7 @@ export const getGroupStories = createSelector(
       )
       .map(conversation => ({
         ...conversation,
+        // @ts-expect-error - Stub function signature changed, arguments ignored
         hasStories: hasStoriesSelector(conversation.id),
       }));
   }

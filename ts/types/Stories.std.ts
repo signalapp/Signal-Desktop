@@ -4,8 +4,10 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-import type { ConversationType } from './Conversation.preload.js';
 import type { ServiceIdString } from './ServiceId.std.js';
+
+// Removed unused import
+// import type { ConversationType } from './Conversation.preload.js';
 
 export type StoryViewType = never;
 export type ConversationStoryType = never;
@@ -20,7 +22,7 @@ export type StoryDistributionListWithMembersDataType = {
   memberServiceIds: Array<ServiceIdString>;
   allowsReplies: boolean;
   isBlockList: boolean;
-  members: Array<ConversationType>;
+  members: Array<any>; // REMOVED: Orbital cleanup - ConversationType import removed
 };
 
 export type RecipientEntry = never;

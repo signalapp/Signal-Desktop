@@ -23,7 +23,7 @@ export type RecipientsByConversation = Record<string, RecipientEntry>;
 // Action creators
 export const viewStory: ViewStoryActionCreatorType = () => ({ type: 'stories/STUB' as const });
 export const viewUserStories: ViewUserStoriesActionCreatorType = () => ({ type: 'stories/STUB' as const });
-export const storyChanged = (...args: Array<any>) => ({ type: 'stories/STUB' as const });
+export const storyChanged = (..._args: Array<any>) => ({ type: 'stories/STUB' as const });
 export const removeAllContactStories = () => ({ type: 'stories/STUB' as const });
 
 export const actions = {

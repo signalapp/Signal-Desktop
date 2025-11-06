@@ -7,8 +7,8 @@
 import type { DonationReceipt } from '../types/Donations.std.js';
 
 export async function generateDonationReceiptBlob(
-  receipt: DonationReceipt,
-  i18n: unknown
+  _receipt: DonationReceipt,
+  _i18n: unknown
 ): Promise<Blob> {
   // Return empty blob as stub
   return new Blob([''], { type: 'text/plain' });

@@ -35,5 +35,7 @@ export async function getCachedSubscriptionConfiguration(): Promise<Subscription
 
 export async function getDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
   const { currencies } = await getCachedSubscriptionConfiguration();
+  // REMOVED: Orbital cleanup - donations stub type mismatch
+  // @ts-expect-error Type stub returns incompatible type
   return currencies;
 }

@@ -383,6 +383,7 @@ ipc.on('cancel-presenting', () => {
 });
 
 ipc.on('donation-validation-complete', (_event, { token }) => {
+  // @ts-expect-error - Stub function signature changed, arguments ignored
   drop(finish3dsValidation(token));
 });
 

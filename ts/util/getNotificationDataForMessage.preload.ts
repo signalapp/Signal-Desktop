@@ -175,7 +175,7 @@ export function getNotificationDataForMessage(
     return { text: changes.map(({ text }) => text).join(' ') };
   }
 
-  if (messageHasPaymentEvent(attributes)) {
+  if (messageHasPaymentEvent(attributes) && attributes.payment) {
     const sender = findAndFormatContact(attributes.sourceServiceId);
     const conversation = findAndFormatContact(attributes.conversationId);
     return {
@@ -183,8 +183,8 @@ export function getNotificationDataForMessage(
         attributes.payment,
         sender.title,
         conversation.title,
-        sender.isMe,
-        i18n
+        i18n,
+        sender.isMe
       ),
       emoji: '💳',
     };

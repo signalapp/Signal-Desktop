@@ -82,7 +82,7 @@ enum SubModalState {
 
 export function ContactModal({
   areWeAdmin,
-  areWeASubscriber,
+  areWeASubscriber: _areWeASubscriber,
   badges,
   blockConversation,
   contact,

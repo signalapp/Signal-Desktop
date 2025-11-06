@@ -65,8 +65,8 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   );
   const { memberships, pendingMemberships, pendingApprovalMemberships } =
     groupMemberships;
-  const badge = getPreferredBadge(conversation.badges);
-  const hasStories = hasStoriesSelector(id);
+  const badge = getPreferredBadge([]); // Badges removed
+  const hasStories = hasStoriesSelector(); // Stories removed
   const isSignalConversationValue = isSignalConversation(conversation);
   const fromOrAddedByTrustedContact =
     isFromOrAddedByTrustedContact(conversation);

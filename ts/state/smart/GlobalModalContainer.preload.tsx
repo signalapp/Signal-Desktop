@@ -178,14 +178,8 @@ export const SmartGlobalModalContainer = memo(
       [safetyNumberModalContactId]
     );
 
-    // REMOVED: Orbital cleanup - stickers
-    // const renderStickerPreviewModal = useCallback(
-    //   () =>
-    //     stickerPackPreviewId ? (
-    //       <SmartStickerPreviewModal packId={stickerPackPreviewId} />
-    //     ) : null,
-    //   [stickerPackPreviewId]
-    // );
+    // REMOVED: Orbital cleanup - stickers (stub kept for type compatibility)
+    const renderStickerPreviewModal = useCallback(() => null, []);
 
     const renderErrorModal = useCallback(
       ({
@@ -288,7 +282,7 @@ export const SmartGlobalModalContainer = memo(
         renderSafetyNumber={renderSafetyNumber}
         renderSendAnywayDialog={renderSendAnywayDialog}
         renderShortcutGuideModal={renderShortcutGuideModal}
-        // renderStickerPreviewModal={renderStickerPreviewModal} // REMOVED: Orbital cleanup
+        renderStickerPreviewModal={renderStickerPreviewModal}
         renderStoriesSettings={renderStoriesSettings}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}

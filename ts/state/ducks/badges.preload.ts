@@ -66,7 +66,7 @@ export function getEmptyState(): BadgesStateType {
 
 export function reducer(
   state: Readonly<BadgesStateType> = getEmptyState(),
-  action: Readonly<ImageFileDownloadedActionType | UpdateOrCreateActionType>
+  _action: Readonly<ImageFileDownloadedActionType | UpdateOrCreateActionType>
 ): BadgesStateType {
   return state;
 }

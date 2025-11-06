@@ -6,4 +6,4 @@
 
 export type PropsType = Record<string, never>;
 
-export const StickerPreviewModal = (): null => null;
+export const StickerPreviewModal = (_props: any): null => null;

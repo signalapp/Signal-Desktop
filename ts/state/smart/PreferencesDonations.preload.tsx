@@ -6,6 +6,6 @@
 
 import React from 'react';
 
-export function SmartPreferencesDonations(): JSX.Element {
+export function SmartPreferencesDonations(_props: any): JSX.Element {
   return <div>Donations feature removed</div>;
 }

@@ -50,9 +50,10 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   // const recentStickers = useSelector(getRecentStickers); // REMOVED: Orbital cleanup
   const recentGifs = useSelector(getRecentGifs);
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
-  const showStickerPickerHint = useSelector(getShowStickerPickerHint);
+  // @ts-expect-error - Stub selector kept for cleanup phase
+  const _showStickerPickerHint = useSelector(getShowStickerPickerHint);
 
-  const { removeItem, setEmojiSkinToneDefault } = useItemsActions();
+  const { removeItem: _removeItem, setEmojiSkinToneDefault } = useItemsActions();
   const { openCustomizePreferredReactionsModal } =
     usePreferredReactionsActions();
   const { onUseEmoji } = useEmojisActions();
@@ -114,7 +115,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       i18n={i18n}
       // Recents
       recentEmojis={recentEmojisKeys}
-      // recentStickers={recentStickers} // REMOVED: Orbital cleanup
+      recentStickers={[]} // REMOVED: Orbital cleanup
       recentGifs={recentGifs}
       // Emojis
       emojiSkinToneDefault={emojiSkinToneDefault}
@@ -124,10 +125,10 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       }
       onSelectEmoji={handleSelectEmoji}
       // Stickers - REMOVED: Orbital cleanup
-      // installedStickerPacks={installedStickerPacks}
-      // showStickerPickerHint={showStickerPickerHint}
-      // onClearStickerPickerHint={handleClearStickerPickerHint}
-      // onSelectSticker={handleSelectSticker}
+      installedStickerPacks={[]}
+      showStickerPickerHint={false}
+      onClearStickerPickerHint={() => {}}
+      onSelectSticker={() => {}}
       // Gifs
       fetchGifsSearch={fetchGifsSearch}
       fetchGifsFeatured={fetchGifsFeatured}

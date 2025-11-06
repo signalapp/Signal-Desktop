@@ -214,8 +214,7 @@ const items: Record<string, TimelineItemType> = {
         kind: PaymentEventKind.ActivationRequest,
       },
       sender: getDefaultConversation(),
-      conversation: getDefaultConversation(),
-    },
+    } as any,
     timestamp: Date.now(),
   },
   'id-16': {
@@ -225,8 +224,7 @@ const items: Record<string, TimelineItemType> = {
         kind: PaymentEventKind.Activation,
       },
       sender: getDefaultConversation(),
-      conversation: getDefaultConversation(),
-    },
+    } as any,
     timestamp: Date.now(),
   },
   'id-17': {
@@ -238,8 +236,7 @@ const items: Record<string, TimelineItemType> = {
       sender: getDefaultConversation({
         isMe: true,
       }),
-      conversation: getDefaultConversation(),
-    },
+    } as any,
     timestamp: Date.now(),
   },
   'id-18': {
@@ -251,8 +248,7 @@ const items: Record<string, TimelineItemType> = {
       sender: getDefaultConversation({
         isMe: true,
       }),
-      conversation: getDefaultConversation(),
-    },
+    } as any,
     timestamp: Date.now(),
   },
   'id-19': mockMessageTimelineItem('id-19', {

@@ -27,10 +27,10 @@ export const HIDE_MY_STORIES_FROM = 'storyDistributionLists/HIDE_MY_STORIES_FROM
 export const VIEWERS_CHANGED = 'storyDistributionLists/VIEWERS_CHANGED';
 
 // Action creators
-export const createDistributionList = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
-export const modifyDistributionList = (...args: Array<any>) => ({ type: MODIFY_LIST });
-export const removeMemberFromAllDistributionLists = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
-export const removeMembersFromDistributionList = (...args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+export const createDistributionList = (..._args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+export const modifyDistributionList = (..._args: Array<any>) => ({ type: MODIFY_LIST });
+export const removeMemberFromAllDistributionLists = (..._args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
+export const removeMembersFromDistributionList = (..._args: Array<any>) => ({ type: 'storyDistributionLists/STUB' as const });
 
 export const actions = {
   createDistributionList,

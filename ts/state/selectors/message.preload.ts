@@ -1185,7 +1185,7 @@ function getPropsForPaymentEvent(
   const sourceServiceId = (message as unknown as MessageAttributesWithPaymentEvent).sourceServiceId;
   return {
     sender: conversationSelector(sourceServiceId),
-    conversation: getConversation(message, conversationSelector),
+    isIncoming: message.type === 'incoming',
     event: payment,
   };
 }

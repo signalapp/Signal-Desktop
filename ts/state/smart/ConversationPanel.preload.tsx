@@ -386,7 +386,7 @@ function PanelElement({
   //   return <SmartStickerManager />;
   // }
 
-  log.warn(toLogFormat(missingCaseError(panel)));
+  log.warn(toLogFormat(missingCaseError(panel as never)));
   return null;
 }
 
@@ -407,7 +407,7 @@ function getPanelKey(panel: PanelRenderType): string {
     case PanelType.ContactDetails:
       return `${panel.type}:${panel.args.messageId}`;
     default:
-      log.warn(toLogFormat(missingCaseError(panel)));
+      log.warn(toLogFormat(missingCaseError(panel as never)));
       return 'unknown';
   }
 }

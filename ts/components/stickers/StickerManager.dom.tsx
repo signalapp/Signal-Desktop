@@ -6,4 +6,4 @@
 
 export type PropsType = Record<string, never>;
 
-export const StickerManager = (): null => null;
+export const StickerManager = (_props: any): null => null;

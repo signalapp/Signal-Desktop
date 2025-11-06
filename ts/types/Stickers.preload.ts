@@ -175,8 +175,8 @@ export async function load(): Promise<void> {
 
   initialState = {
     packs,
-    recentStickers,
-    blessedPacks,
+    recentStickers: recentStickers as any, // REMOVED: Orbital cleanup - type mismatch in stub
+    blessedPacks: blessedPacks as any, // REMOVED: Orbital cleanup - type mismatch in stub
     installedPack: null,
   };
 
@@ -1032,7 +1032,7 @@ async function resolveReferences(packId: string): Promise<void> {
   );
 }
 
-export function getStickerPack(packId: string): StickerPackType | undefined {
+export function getStickerPack(_packId: string): StickerPackType | undefined {
   // REMOVED: Orbital cleanup - stickers
   // const state = window.reduxStore.getState();
   // const { stickers } = state;

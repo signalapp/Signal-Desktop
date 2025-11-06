@@ -38,7 +38,7 @@ enum ConversationDetailsHeaderActiveModal {
 }
 
 export function ConversationDetailsHeader({
-  areWeASubscriber,
+  areWeASubscriber: _areWeASubscriber,
   badges,
   canEdit,
   conversation,

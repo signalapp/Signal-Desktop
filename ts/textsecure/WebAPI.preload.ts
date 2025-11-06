@@ -1633,7 +1633,7 @@ const libsignalNet = getLibsignalNet();
 const {
   serverUrl: chatServiceUrl,
   storageUrl,
-  updatesUrl,
+  // __updatesUrl: _updatesUrl, // REMOVED: not present in current config
   resourcesUrl,
   certificateAuthority,
   contentProxyUrl,
@@ -2474,7 +2474,7 @@ export async function getBadgeImageFile(
   imageFileUrl: string
 ): Promise<Uint8Array> {
   strictAssert(
-    isBadgeImageFileUrlValid(imageFileUrl, updatesUrl),
+    isBadgeImageFileUrlValid(imageFileUrl),
     'getBadgeImageFile got an invalid URL. Was bad data saved?'
   );
 
@@ -4373,12 +4373,13 @@ export function createPaymentMethodWithStripe(
   options: CreatePaymentMethodWithStripeOptionsType
 ): Promise<CreatePaymentMethodWithStripeResultType> {
   const { cardDetail } = options;
+  const card = cardDetail as any; // CardDetail is never since donations removed
   const formData = {
     type: 'card',
-    'card[cvc]': cardDetail.cvc,
-    'card[exp_month]': cardDetail.expirationMonth,
-    'card[exp_year]': cardDetail.expirationYear,
-    'card[number]': cardDetail.number,
+    'card[cvc]': card.cvc,
+    'card[exp_month]': card.expirationMonth,
+    'card[exp_year]': card.expirationYear,
+    'card[number]': card.number,
   };
   const basicAuth = getBasicAuth({
     username: stripePublishableKey,

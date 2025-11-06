@@ -1987,8 +1987,8 @@ export class Message extends React.PureComponent<Props, State> {
             payment,
             author.title,
             conversationTitle,
-            author.isMe,
-            i18n
+            i18n,
+            author.isMe
           )}
         </p>
         <p className="module-payment-notification__check_device_box">
