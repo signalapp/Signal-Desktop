@@ -4,6 +4,7 @@
 // Global Settings, Variables, and Mixins
 @use 'fontfaces';
 @use 'variables';
+@use 'orbital-variables'; // Orbital design system variables
 @use 'mixins';
 @use 'global';
 @use 'titlebar';
@@ -135,6 +136,7 @@
 @use 'components/NavSidebar.scss';
 @use 'components/NavTabs.scss';
 @use 'components/NotificationProfiles.scss';
+@use 'components/OrbitalThreading.scss'; // Orbital threaded discussion UI
 @use 'components/PermissionsPopup.scss';
 @use 'components/PlaybackButton.scss';
 @use 'components/PlaybackRateButton.scss';

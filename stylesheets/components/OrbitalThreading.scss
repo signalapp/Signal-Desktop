@@ -1,0 +1,659 @@
+// Copyright 2025 Orbital
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// =============================================================================
+// ORBITAL THREADING UI STYLES
+// Threaded discussion forum with early 2000s aesthetic
+// =============================================================================
+
+@use '../mixins';
+@use '../orbital-variables' as *;
+
+// =============================================================================
+// THREAD LIST VIEW
+// =============================================================================
+
+.OrbitalThreadList {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $orbital-bg;
+  font-family: $orbital-font-body;
+  font-size: $orbital-font-size-base;
+
+  @include mixins.dark-theme {
+    background: $orbital-dark-bg;
+  }
+
+  &__header {
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-bottom: 1px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-bottom-color: $orbital-dark-border-strong;
+    }
+
+    h2 {
+      font-family: $orbital-font-header;
+      font-size: $orbital-font-size-xl;
+      font-weight: bold;
+      color: $orbital-text-primary;
+      margin: 0;
+      line-height: $orbital-line-height-snug;
+
+      @include mixins.dark-theme {
+        color: $orbital-dark-text-primary;
+      }
+    }
+  }
+
+  &__container {
+    flex: 1;
+    overflow-y: auto;
+    padding: $orbital-space-base;
+  }
+}
+
+// Thread List Item
+.OrbitalThreadItem {
+  background: $orbital-surface-elevated;
+  padding: $orbital-thread-item-padding;
+  margin-bottom: $orbital-space-md;
+  border: $orbital-thread-item-border-width solid $orbital-border-subtle;
+  border-left: $orbital-thread-item-border-left-width solid transparent;
+  border-radius: $orbital-thread-item-border-radius;
+  cursor: pointer;
+  transition: $orbital-thread-item-transition;
+  font-family: $orbital-font-body;
+
+  &:hover {
+    background: $orbital-blue-tint-light;
+  }
+
+  &--active {
+    border-left-color: $orbital-blue;
+    border-color: $orbital-blue;
+    background: $orbital-blue-tint-light;
+  }
+
+  &--has-new {
+    border-left-color: $orbital-purple;
+    border-color: $orbital-purple;
+  }
+
+  &__title {
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    color: $orbital-text-primary;
+    margin: 0 0 $orbital-space-xs 0;
+    line-height: $orbital-line-height-normal;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+    margin-top: $orbital-space-xs;
+  }
+
+  &__author {
+    font-weight: bold;
+    color: $orbital-text-primary;
+  }
+
+  &__date {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-xs;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    margin-left: auto;
+  }
+
+  &__reply-count {
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+  }
+
+  &__media-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: $orbital-space-xs;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+  }
+}
+
+// =============================================================================
+// THREAD DETAIL VIEW
+// =============================================================================
+
+.OrbitalThreadDetail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $orbital-bg;
+  font-family: $orbital-font-body;
+
+  &__header {
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-bottom: 2px solid $orbital-border-strong;
+
+    h1 {
+      font-family: $orbital-font-header;
+      font-size: $orbital-font-size-xl;
+      font-weight: bold;
+      color: $orbital-text-primary;
+      margin: 0 0 $orbital-space-sm 0;
+      line-height: $orbital-line-height-snug;
+    }
+  }
+
+  &__timeline {
+    flex: 1;
+    overflow-y: auto;
+    padding: $orbital-space-base;
+  }
+
+  &__composer-area {
+    border-top: 2px solid $orbital-border-strong;
+    background: $orbital-surface-elevated;
+  }
+}
+
+// =============================================================================
+// THREADED MESSAGES (Color-Coded Depth System)
+// =============================================================================
+
+.OrbitalMessage {
+  padding: $orbital-message-padding;
+  border-radius: $orbital-message-border-radius;
+  border: $orbital-message-border-width solid $orbital-border-subtle;
+  border-left: $orbital-message-border-left-width solid transparent;
+  transition: $orbital-message-transition;
+  margin-bottom: $orbital-space-md;
+  font-family: $orbital-font-body;
+  font-size: $orbital-font-size-base;
+  line-height: $orbital-line-height-relaxed;
+
+  &:hover {
+    border-color: $orbital-border-strong;
+  }
+
+  // Level 0 - Top-level posts (White background, gray border)
+  &--level-0 {
+    background: $orbital-level-0-bg;
+    border-left-color: $orbital-level-0-border;
+    margin-left: $orbital-level-0-indent;
+  }
+
+  // Level 1 - First-level replies (Light blue)
+  &--level-1 {
+    background: $orbital-level-1-bg;
+    border-left-color: $orbital-level-1-border;
+    margin-left: $orbital-level-1-indent;
+  }
+
+  // Level 2 - Second-level replies (Light purple)
+  &--level-2 {
+    background: $orbital-level-2-bg;
+    border-left-color: $orbital-level-2-border;
+    margin-left: $orbital-level-2-indent;
+  }
+
+  // Level 3 - Third-level replies (Stronger blue)
+  &--level-3 {
+    background: $orbital-level-3-bg;
+    border-left-color: $orbital-level-3-border;
+    margin-left: $orbital-level-3-indent;
+  }
+
+  // Level 4+ - Fourth-level+ replies (Stronger purple, max indent)
+  &--level-4-plus {
+    background: $orbital-level-4-bg;
+    border-left-color: $orbital-level-4-border;
+    margin-left: $orbital-level-4-indent;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    margin-bottom: $orbital-space-sm;
+  }
+
+  &__author {
+    font-weight: bold;
+    color: $orbital-text-primary;
+    font-size: $orbital-font-size-base;
+  }
+
+  &__timestamp {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-xs;
+    color: $orbital-text-tertiary;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
+  &__body {
+    color: $orbital-text-primary;
+    font-size: $orbital-font-size-base;
+    line-height: $orbital-line-height-relaxed;
+    margin-bottom: $orbital-space-sm;
+
+    p {
+      margin: 0 0 $orbital-space-sm 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Links - retro style with underline
+    a {
+      color: $orbital-blue;
+      text-decoration: underline;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        color: $orbital-blue-hover;
+      }
+    }
+
+    // Bold emphasis
+    strong, b {
+      font-weight: bold;
+    }
+
+    // Code blocks
+    code {
+      font-family: $orbital-font-mono;
+      background: $orbital-surface;
+      padding: 2px 4px;
+      border-radius: $orbital-radius-sm;
+      font-size: $orbital-font-size-sm;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-base;
+    margin-top: $orbital-space-sm;
+  }
+
+  &__reply-button {
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+    cursor: pointer;
+    user-select: none;
+    transition: color $orbital-duration-fast;
+
+    &:hover {
+      color: $orbital-blue;
+    }
+  }
+
+  // Reply indicator (optional)
+  &__reply-to {
+    font-size: $orbital-font-size-sm;
+    font-family: $orbital-font-mono;
+    color: $orbital-text-tertiary;
+    margin-bottom: $orbital-space-xs;
+
+    &__arrow {
+      margin-right: $orbital-space-xs;
+    }
+
+    &__author {
+      color: $orbital-blue;
+      font-weight: bold;
+    }
+  }
+}
+
+// =============================================================================
+// THREAD COMPOSER
+// =============================================================================
+
+.OrbitalComposer {
+  padding: $orbital-space-lg;
+  padding-bottom: 60px; // Large bottom padding to prevent button cutoff
+  background: $orbital-surface-elevated;
+  font-family: $orbital-font-body;
+
+  &__title-input {
+    width: 100%;
+    padding: $orbital-input-padding-y $orbital-input-padding-x;
+    border: $orbital-input-border-width solid $orbital-border-strong;
+    border-radius: $orbital-input-border-radius;
+    background: $orbital-surface-elevated;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    color: $orbital-text-primary;
+    transition: $orbital-input-transition;
+    margin-bottom: $orbital-space-md;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+      font-weight: normal;
+    }
+  }
+
+  &__body-input {
+    width: 100%;
+    min-height: 44px; // Single line height for cleaner look
+    max-height: 200px; // Allow growth
+    padding: $orbital-input-padding-y $orbital-input-padding-x;
+    border: $orbital-input-border-width solid $orbital-border-strong;
+    border-radius: $orbital-input-border-radius;
+    background: $orbital-surface-elevated;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    color: $orbital-text-primary;
+    line-height: $orbital-line-height-relaxed;
+    transition: $orbital-input-transition;
+    resize: vertical;
+    margin-bottom: $orbital-space-md;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $orbital-space-sm;
+  }
+
+  &__tools {
+    display: flex;
+    gap: $orbital-space-sm;
+  }
+
+  &__icon-btn {
+    padding: 6px 12px;
+    border-radius: $orbital-radius-base;
+    background: $orbital-surface-elevated;
+    border: 1px solid $orbital-border-strong;
+    color: $orbital-text-secondary;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all $orbital-duration-fast ease;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: $orbital-blue-tint-light;
+      border-color: $orbital-blue;
+    }
+
+    &:active {
+      background: $orbital-blue-tint;
+    }
+  }
+
+  &__button-primary {
+    background: $orbital-blue;
+    color: white;
+    padding: $orbital-btn-padding-y $orbital-btn-padding-x;
+    border: $orbital-btn-border-width solid $orbital-blue-dark;
+    border-radius: $orbital-btn-border-radius;
+    font-family: $orbital-font-body;
+    font-size: $orbital-btn-font-size;
+    font-weight: $orbital-btn-font-weight;
+    cursor: pointer;
+    transition: $orbital-btn-transition;
+
+    &:hover {
+      background: $orbital-blue-hover;
+    }
+
+    &:active {
+      background: $orbital-blue-dark;
+    }
+
+    &:disabled {
+      background: $orbital-text-tertiary;
+      border-color: $orbital-border-subtle;
+      cursor: not-allowed;
+    }
+  }
+
+  &__button-secondary {
+    background: $orbital-purple;
+    color: white;
+    padding: $orbital-btn-padding-y $orbital-btn-padding-x;
+    border: $orbital-btn-border-width solid $orbital-purple-dark;
+    border-radius: $orbital-btn-border-radius;
+    font-family: $orbital-font-body;
+    font-size: $orbital-btn-font-size;
+    font-weight: $orbital-btn-font-weight;
+    cursor: pointer;
+    transition: $orbital-btn-transition;
+
+    &:hover {
+      background: $orbital-purple-hover;
+    }
+
+    &:active {
+      background: $orbital-purple-dark;
+    }
+  }
+
+  &__reply-context {
+    padding: $orbital-space-sm;
+    background: $orbital-surface;
+    border-left: 3px solid $orbital-blue;
+    border-radius: $orbital-radius-sm;
+    margin-bottom: $orbital-space-md;
+    font-size: $orbital-font-size-sm;
+
+    &__label {
+      color: $orbital-text-tertiary;
+      font-size: $orbital-font-size-sm;
+      margin-bottom: $orbital-space-xs;
+    }
+
+    &__author {
+      font-weight: bold;
+      color: $orbital-blue;
+    }
+
+    &__preview {
+      color: $orbital-text-secondary;
+      font-size: $orbital-font-size-sm;
+      line-height: $orbital-line-height-normal;
+      margin-top: $orbital-space-xs;
+    }
+  }
+}
+
+// =============================================================================
+// ASCII ART SEPARATORS & DECORATIVE ELEMENTS
+// =============================================================================
+
+.OrbitalASCII {
+  font-family: $orbital-font-mono;
+  color: $orbital-text-tertiary;
+  text-align: center;
+  font-size: $orbital-ascii-font-size;
+  padding: $orbital-ascii-padding-y $orbital-ascii-padding-x;
+  user-select: none;
+  line-height: $orbital-line-height-tight;
+
+  &--separator {
+    letter-spacing: $orbital-letter-spacing-wide;
+  }
+
+  &--day-separator {
+    padding: $orbital-space-md 0;
+  }
+
+  &--box {
+    padding: $orbital-space-sm;
+    white-space: pre;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-base;
+  }
+}
+
+// Day separator with ASCII
+.OrbitalDaySeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $orbital-space-md 0;
+  margin: $orbital-space-base 0;
+
+  &__text {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Empty state with ASCII
+.OrbitalEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $orbital-space-2xl;
+  text-align: center;
+
+  &__ascii {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+    white-space: pre;
+    line-height: $orbital-line-height-tight;
+    margin-bottom: $orbital-space-base;
+    padding: $orbital-space-md;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-base;
+    background: $orbital-surface;
+  }
+
+  &__message {
+    font-size: $orbital-font-size-md;
+    color: $orbital-text-secondary;
+    margin-top: $orbital-space-sm;
+  }
+}
+
+// =============================================================================
+// NOTIFICATIONS & BADGES
+// =============================================================================
+
+.OrbitalBadge {
+  background: $orbital-yellow;
+  color: $orbital-text-primary;
+  font-size: $orbital-badge-font-size;
+  font-weight: $orbital-badge-font-weight;
+  padding: $orbital-badge-padding-y $orbital-badge-padding-x;
+  border-radius: $orbital-badge-border-radius;
+  min-width: $orbital-badge-min-width;
+  text-align: center;
+  border: $orbital-badge-border-width solid $orbital-yellow-dark;
+  display: inline-block;
+}
+
+// @Mention highlighting
+.OrbitalMention {
+  background: $orbital-yellow-tint;
+  color: $orbital-text-primary;
+  padding: 1px 3px;
+  border-radius: $orbital-radius-sm;
+  font-weight: bold;
+  border: 1px solid rgba(255, 199, 0, 0.3);
+}
+
+// Presence indicator
+.OrbitalPresence {
+  width: $orbital-presence-size;
+  height: $orbital-presence-size;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: $orbital-space-xs;
+  border: $orbital-presence-border-width solid $orbital-yellow-dark;
+
+  &--online {
+    background: $orbital-yellow;
+  }
+
+  &--offline {
+    background: $orbital-text-tertiary;
+    border-color: $orbital-border-strong;
+  }
+}
+
+// =============================================================================
+// EMOJI SUPPORT (OpenMoji)
+// =============================================================================
+
+.emoji,
+img.emoji {
+  display: inline-block;
+  height: $orbital-emoji-size;
+  width: $orbital-emoji-size;
+  margin: $orbital-emoji-margin;
+  vertical-align: $orbital-emoji-vertical-align;
+}
+
+.emoji--large {
+  height: $orbital-emoji-large-size;
+  width: $orbital-emoji-large-size;
+}
+
+
+// =============================================================================
+// ACCESSIBILITY
+// =============================================================================
+
+// Focus indicators
+*:focus {
+  outline: $orbital-focus-outline-width solid $orbital-focus-outline-color;
+  outline-offset: $orbital-focus-outline-offset;
+}
+
+// Screen reader only
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

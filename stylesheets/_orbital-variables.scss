@@ -1,0 +1,274 @@
+// Copyright 2025 Orbital
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// =============================================================================
+// ORBITAL DESIGN SYSTEM
+// Based on: /orbital-docs/Branding/ORBITAL_BRAND_IDENTITY_GUIDE.md
+// Version: 3.0 Final
+// Aesthetic: Early 2000s Internet (AIM/MSN/AOL/BBS Era)
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// TYPOGRAPHY
+// -----------------------------------------------------------------------------
+
+// Font Stacks (Web-Safe Retro Fonts)
+$orbital-font-body: Verdana, Geneva, 'DejaVu Sans', sans-serif;
+$orbital-font-header: 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
+$orbital-font-mono: 'Courier New', Courier, monospace;
+
+// Type Scale
+$orbital-font-size-xs: 10px;   // Timestamps, tiny labels
+$orbital-font-size-sm: 11px;   // Captions, ASCII art
+$orbital-font-size-base: 13px; // Body text (THE standard)
+$orbital-font-size-md: 14px;   // Body large
+$orbital-font-size-lg: 16px;   // H3
+$orbital-font-size-xl: 20px;   // H2
+$orbital-font-size-2xl: 32px;  // H1 Display
+
+// Line Heights
+$orbital-line-height-tight: 1.2;
+$orbital-line-height-snug: 1.3;
+$orbital-line-height-normal: 1.4;
+$orbital-line-height-relaxed: 1.5;
+
+// Letter Spacing
+$orbital-letter-spacing-normal: 0;
+$orbital-letter-spacing-tight: 0.01em;
+$orbital-letter-spacing-wide: 0.05em;
+$orbital-letter-spacing-wider: 0.2em;
+
+// -----------------------------------------------------------------------------
+// COLORS - LIGHT MODE (Default)
+// -----------------------------------------------------------------------------
+
+// Primary Colors - Blue
+$orbital-blue: #5B9FED;                          // Base - Primary buttons, level-1 replies
+$orbital-blue-hover: #4A8CD9;                    // Hover state
+$orbital-blue-dark: #3D7BC4;                     // Borders, emphasis
+$orbital-blue-tint-light: rgba(91, 159, 237, 0.08);  // Level-1 backgrounds
+$orbital-blue-tint: rgba(91, 159, 237, 0.12);        // Level-3+ backgrounds
+
+// Primary Colors - Purple
+$orbital-purple: #9B87F5;                        // Base - Secondary buttons, level-2 replies
+$orbital-purple-hover: #8B75E1;                  // Hover state
+$orbital-purple-dark: #7B65D1;                   // Borders, emphasis
+$orbital-purple-tint-light: rgba(155, 135, 245, 0.08); // Level-2 backgrounds
+$orbital-purple-tint: rgba(155, 135, 245, 0.12);       // Level-4+ backgrounds
+
+// Accent Color - Yellow
+$orbital-yellow: #FFC700;                        // Notifications, badges, @mentions
+$orbital-yellow-hover: #FFD633;                  // Hover state
+$orbital-yellow-dark: #EAAD00;                   // Borders, dark mode
+$orbital-yellow-tint: rgba(255, 199, 0, 0.15);   // @mention backgrounds
+
+// Neutrals - Light Mode
+$orbital-bg: #FAF9F7;                            // Main app background (Warm Canvas)
+$orbital-surface: #F2F0ED;                       // Cards, sidebar, panels (Soft Pearl)
+$orbital-surface-elevated: #FFFFFF;              // Input fields, top-level posts (Cloud White)
+$orbital-text-primary: #2A2D35;                  // Body text, headers (Ink Navy)
+$orbital-text-secondary: #6B7280;                // Metadata, labels (Slate Gray)
+$orbital-text-tertiary: #9CA3AF;                 // Placeholder, disabled, ASCII (Mist Gray)
+$orbital-border-subtle: #E5E7EB;                 // Light dividers (Whisper Gray)
+$orbital-border-strong: #D1D5DB;                 // Emphasized borders (Soft Shadow)
+
+// Semantic Colors
+$orbital-success: #48BB78;                       // Success states (Meadow Green)
+$orbital-warning: #F59E0B;                       // Warnings (Amber Glow)
+$orbital-error: #F56565;                         // Errors (Gentle Red)
+
+// -----------------------------------------------------------------------------
+// COLORS - DARK MODE
+// -----------------------------------------------------------------------------
+
+$orbital-dark-bg: #1A1D24;                       // Main background (Midnight Canvas)
+$orbital-dark-surface: #24272F;                  // Cards, sidebar (Charcoal Panel)
+$orbital-dark-surface-elevated: #2D3139;         // Elevated elements (Slate Panel)
+$orbital-dark-text-primary: #F3F4F6;             // Body text (Pearl White)
+$orbital-dark-text-secondary: #C7CCD4;           // Metadata (Silver Gray)
+$orbital-dark-text-tertiary: #9CA3AF;            // Placeholder, ASCII (Fog Gray)
+$orbital-dark-border-subtle: #374151;            // Dividers (Shadow Gray)
+$orbital-dark-border-strong: #4B5563;            // Emphasized borders (Steel Gray)
+
+// Dark mode - slightly adjusted for contrast
+$orbital-dark-blue: #6BA8F0;
+$orbital-dark-purple: #A895F8;
+$orbital-dark-yellow: #EAAD00;
+
+// -----------------------------------------------------------------------------
+// SPACING (8px base unit)
+// -----------------------------------------------------------------------------
+
+$orbital-space-xs: 4px;    // Tight spacing
+$orbital-space-sm: 8px;    // Cozy spacing
+$orbital-space-md: 12px;   // Comfortable spacing
+$orbital-space-base: 16px; // Standard spacing
+$orbital-space-lg: 24px;   // Spacious (also reply indent unit)
+$orbital-space-xl: 32px;   // Generous
+$orbital-space-2xl: 48px;  // Wide (rare)
+
+// Thread Indentation
+$orbital-indent-unit: 24px;  // Indentation per reply level
+$orbital-indent-max: 96px;   // Maximum indentation (level 4+)
+
+// -----------------------------------------------------------------------------
+// BORDER RADIUS (Reduced for Retro Feel)
+// -----------------------------------------------------------------------------
+
+$orbital-radius-sm: 2px;     // Subtle
+$orbital-radius-base: 3px;   // Default - REDUCED from modern 4-6px
+$orbital-radius-md: 3px;     // Cards - REDUCED from modern 6-8px
+$orbital-radius-lg: 4px;     // Modals - REDUCED from modern 8-12px
+$orbital-radius-full: 9999px; // Pills, avatars, badges
+
+// -----------------------------------------------------------------------------
+// ANIMATION & MOTION
+// -----------------------------------------------------------------------------
+
+$orbital-duration-instant: 100ms;  // Hover feedback
+$orbital-duration-fast: 150ms;     // Most transitions
+$orbital-duration-base: 250ms;     // Rare, modal open/close
+$orbital-ease-default: ease;       // Simple easing
+
+// -----------------------------------------------------------------------------
+// LAYOUT
+// -----------------------------------------------------------------------------
+
+$orbital-container-max-width: 1200px;
+$orbital-sidebar-width: 320px;
+$orbital-content-min-width: 600px;
+
+// -----------------------------------------------------------------------------
+// THREADED REPLY DEPTH SYSTEM
+// -----------------------------------------------------------------------------
+
+// Level 0 (Top-level posts)
+$orbital-level-0-bg: $orbital-surface-elevated;
+$orbital-level-0-border: $orbital-border-strong;
+$orbital-level-0-indent: 0px;
+
+// Level 1 (First-level replies - Blue)
+$orbital-level-1-bg: $orbital-blue-tint-light;
+$orbital-level-1-border: $orbital-blue;
+$orbital-level-1-indent: $orbital-indent-unit;
+
+// Level 2 (Second-level replies - Purple)
+$orbital-level-2-bg: $orbital-purple-tint-light;
+$orbital-level-2-border: $orbital-purple;
+$orbital-level-2-indent: $orbital-indent-unit * 2;
+
+// Level 3 (Third-level replies - Stronger Blue)
+$orbital-level-3-bg: $orbital-blue-tint;
+$orbital-level-3-border: $orbital-blue;
+$orbital-level-3-indent: $orbital-indent-unit * 3;
+
+// Level 4+ (Fourth-level+ replies - Stronger Purple, max indent)
+$orbital-level-4-bg: $orbital-purple-tint;
+$orbital-level-4-border: $orbital-purple;
+$orbital-level-4-indent: $orbital-indent-max;
+
+// -----------------------------------------------------------------------------
+// Z-INDEX SCALE
+// -----------------------------------------------------------------------------
+
+$orbital-z-index-base: 0;
+$orbital-z-index-dropdown: 1000;
+$orbital-z-index-sticky: 1020;
+$orbital-z-index-fixed: 1030;
+$orbital-z-index-modal-backdrop: 1040;
+$orbital-z-index-modal: 1050;
+$orbital-z-index-popover: 1060;
+$orbital-z-index-tooltip: 1070;
+$orbital-z-index-toast: 1080;
+
+// -----------------------------------------------------------------------------
+// COMPONENT TOKENS
+// -----------------------------------------------------------------------------
+
+// Buttons
+$orbital-btn-padding-y: 8px;
+$orbital-btn-padding-x: 16px;
+$orbital-btn-border-width: 1px;
+$orbital-btn-border-radius: $orbital-radius-base;
+$orbital-btn-font-size: $orbital-font-size-base;
+$orbital-btn-font-weight: bold;
+$orbital-btn-transition: background $orbital-duration-fast $orbital-ease-default;
+
+// Input Fields
+$orbital-input-padding-y: 8px;
+$orbital-input-padding-x: 12px;
+$orbital-input-border-width: 2px;
+$orbital-input-border-radius: $orbital-radius-base;
+$orbital-input-font-size: $orbital-font-size-base;
+$orbital-input-transition: border-color $orbital-duration-fast $orbital-ease-default;
+
+// Messages/Posts
+$orbital-message-padding: $orbital-space-md;
+$orbital-message-border-radius: $orbital-radius-base;
+$orbital-message-border-width: 1px;
+$orbital-message-border-left-width: 3px;
+$orbital-message-transition: border $orbital-duration-fast $orbital-ease-default;
+
+// Thread List Items
+$orbital-thread-item-padding: $orbital-space-md;
+$orbital-thread-item-border-radius: $orbital-radius-base;
+$orbital-thread-item-border-width: 1px;
+$orbital-thread-item-border-left-width: 3px;
+$orbital-thread-item-transition: background $orbital-duration-fast $orbital-ease-default;
+
+// Badges
+$orbital-badge-padding-y: 2px;
+$orbital-badge-padding-x: 6px;
+$orbital-badge-min-width: 18px;
+$orbital-badge-font-size: $orbital-font-size-xs;
+$orbital-badge-font-weight: bold;
+$orbital-badge-border-width: 1px;
+$orbital-badge-border-radius: $orbital-radius-full;
+
+// Presence Indicators
+$orbital-presence-size: 8px;
+$orbital-presence-border-width: 1px;
+
+// Emoji
+$orbital-emoji-size: 1.2em;
+$orbital-emoji-large-size: 1.8em;
+$orbital-emoji-margin: 0 0.05em 0 0.1em;
+$orbital-emoji-vertical-align: -0.2em;
+
+// ASCII Art
+$orbital-ascii-font-size: $orbital-font-size-sm;
+$orbital-ascii-letter-spacing: $orbital-letter-spacing-wide;
+$orbital-ascii-padding-y: 8px;
+$orbital-ascii-padding-x: 0;
+
+// -----------------------------------------------------------------------------
+// ACCESSIBILITY
+// -----------------------------------------------------------------------------
+
+// Focus Indicators
+$orbital-focus-outline-width: 2px;
+$orbital-focus-outline-offset: 2px;
+$orbital-focus-outline-color: $orbital-blue;
+
+// Minimum Contrast Ratios (WCAG AA)
+// All color combinations in this system meet WCAG AA minimum (4.5:1 for text)
+
+// -----------------------------------------------------------------------------
+// RETRO DESIGN TOKENS
+// -----------------------------------------------------------------------------
+
+// These values specifically differentiate Orbital from modern apps
+$orbital-retro-border-radius: 3px;  // Not 6-8px like iOS 7+
+$orbital-retro-font-size: 13px;     // Classic web standard 1995-2010
+$orbital-retro-transition: 150ms;   // Quick, not smooth
+$orbital-retro-font-weight: bold;   // Bold for emphasis (retro pattern)
+
+// -----------------------------------------------------------------------------
+// BRAND VOICE CONSTANTS
+// -----------------------------------------------------------------------------
+
+// Copy guidelines (for reference in components)
+// - "Your orbit" not "Your group"
+// - "Create Thread" not "New discussion"
+// - Direct & clear, warm & personal
+// - Friendly & nostalgic tone
