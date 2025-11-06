@@ -59,7 +59,8 @@ import {
 import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.js';
 import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.js';
 import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.js';
-import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.js';
+// REMOVED: Orbital cleanup - story distribution lists
+// import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.js';
 import {
   DELETE_LIST,
   HIDE_MY_STORIES_FROM,
@@ -2304,13 +2305,13 @@ describe('both/state/ducks/conversations', () => {
       };
 
       it('removes uuids now missing from the list', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: VIEWERS_CHANGED,
           payload: {
             listId: LIST_ID_1,
             memberServiceIds: [SERVICE_ID_1, SERVICE_ID_2],
           },
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2329,13 +2330,13 @@ describe('both/state/ducks/conversations', () => {
         });
       });
       it('removes now-empty list', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: VIEWERS_CHANGED,
           payload: {
             listId: LIST_ID_1,
             memberServiceIds: [],
           },
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2375,10 +2376,10 @@ describe('both/state/ducks/conversations', () => {
       };
 
       it('removes now hidden uuids', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: HIDE_MY_STORIES_FROM,
           payload: [SERVICE_ID_1, SERVICE_ID_2],
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2397,10 +2398,10 @@ describe('both/state/ducks/conversations', () => {
         });
       });
       it('eliminates list if all items removed', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: HIDE_MY_STORIES_FROM,
           payload: [SERVICE_ID_1, SERVICE_ID_2, SERVICE_ID_3],
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2440,13 +2441,13 @@ describe('both/state/ducks/conversations', () => {
       };
 
       it('eliminates deleted list entirely', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,
           },
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2482,13 +2483,13 @@ describe('both/state/ducks/conversations', () => {
           },
         };
 
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,
           },
-        };
+        } as any;
 
         const actual = reducer(starting, action);
         assert.deepEqual(actual.verificationDataByConversation, {});
@@ -2514,13 +2515,13 @@ describe('both/state/ducks/conversations', () => {
           },
         };
 
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,
           },
-        };
+        } as any;
 
         const actual = reducer(starting, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2555,7 +2556,7 @@ describe('both/state/ducks/conversations', () => {
       };
 
       it('removes toRemove uuids for isBlockList = false', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: MODIFY_LIST,
           payload: {
             id: LIST_ID_1,
@@ -2565,7 +2566,7 @@ describe('both/state/ducks/conversations', () => {
             membersToAdd: [SERVICE_ID_2, SERVICE_ID_4],
             membersToRemove: [SERVICE_ID_3],
           },
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
@@ -2585,7 +2586,7 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('removes toAdd uuids for isBlocklist = true', async () => {
-        const action: StoryDistributionListsActionType = {
+        const action = {
           type: MODIFY_LIST,
           payload: {
             id: LIST_ID_1,
@@ -2595,7 +2596,7 @@ describe('both/state/ducks/conversations', () => {
             membersToAdd: [SERVICE_ID_2, SERVICE_ID_1],
             membersToRemove: [SERVICE_ID_3],
           },
-        };
+        } as any;
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {

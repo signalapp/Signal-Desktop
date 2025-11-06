@@ -45,8 +45,7 @@ function Template(props: {
             <ExperimentalAxoSegmentedControl.ExperimentalItemBadge
               value={42}
               max={99}
-              maxDisplay="99+"
-              aria-label={null}
+              maxDisplay={99}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>
@@ -57,10 +56,9 @@ function Template(props: {
           </ExperimentalAxoSegmentedControl.ItemText>
           {props.includeBadges && (
             <ExperimentalAxoSegmentedControl.ExperimentalItemBadge
-              value="mention"
+              value={5}
               max={99}
-              maxDisplay="99+"
-              aria-label={null}
+              maxDisplay={99}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>
@@ -70,10 +68,9 @@ function Template(props: {
           </ExperimentalAxoSegmentedControl.ItemText>
           {props.includeBadges && (
             <ExperimentalAxoSegmentedControl.ExperimentalItemBadge
-              value="unread"
+              value={3}
               max={99}
-              maxDisplay="99+"
-              aria-label={null}
+              maxDisplay={99}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>

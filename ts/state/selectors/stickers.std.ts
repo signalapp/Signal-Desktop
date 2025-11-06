@@ -4,7 +4,7 @@
 import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
-import type { RecentStickerType } from '../../types/Stickers.preload.js';
+// import type { RecentStickerType } from '../../types/Stickers.preload.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
@@ -63,7 +63,7 @@ const translateStickerFromDB = (
 export const translatePackFromDB = (
   pack: StickerPackDBType,
   packs: Dictionary<StickerPackDBType>,
-  blessedPacks: Dictionary<boolean>
+  blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
 ): StickerPackType => {
   const { id, stickers, status, coverStickerId } = pack;
   const isEphemeral = status === 'ephemeral';
@@ -78,9 +78,14 @@ export const translatePackFromDB = (
     translateStickerFromDB(sticker, isEphemeral)
   );
 
+  // Handle both Dictionary and Array formats for blessedPacks
+  const isBlessed = Array.isArray(blessedPacks)
+    ? blessedPacks.some(p => p.id === id)
+    : Boolean((blessedPacks as Dictionary<boolean>)[id]);
+
   return {
     ...pack,
-    isBlessed: Boolean(blessedPacks[id]),
+    isBlessed,
     cover: getSticker(packs, id, coverStickerId),
     stickers: sortBy(translatedStickers, sticker => sticker.id),
   };
@@ -90,7 +95,7 @@ const filterAndTransformPacks = (
   packs: Dictionary<StickerPackDBType>,
   packFilter: (sticker: StickerPackDBType) => boolean,
   packSort: (sticker: StickerPackDBType) => number | undefined,
-  blessedPacks: Dictionary<boolean>
+  blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
 ): Array<StickerPackType> => {
   const list = filter(packs, packFilter);
   const sorted = orderBy<StickerPackDBType>(list, packSort, ['desc']);
@@ -119,11 +124,11 @@ export const getRecentStickers = createSelector(
   getRecents,
   getPacks,
   (
-    recents: ReadonlyArray<RecentStickerType>,
+    recents: ReadonlyArray<StickerDBType>,
     packs: Dictionary<StickerPackDBType>
   ) => {
     return compact(
-      recents.map(({ packId, stickerId }) => {
+      recents.map(({ packId, id: stickerId }) => {
         return getSticker(packs, packId, stickerId);
       })
     );
@@ -135,7 +140,7 @@ export const getInstalledStickerPacks = createSelector(
   getBlessedPacks,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>
+    blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
@@ -163,13 +168,18 @@ export const getReceivedStickerPacks = createSelector(
   getBlessedPacks,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>
+    blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
   ): Array<StickerPackType> => {
+    const isPackBlessed = (packId: string) =>
+      Array.isArray(blessedPacks)
+        ? blessedPacks.some(p => p.id === packId)
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
+
     return filterAndTransformPacks(
       packs,
       pack =>
         (pack.status === 'downloaded' || pack.status === 'pending') &&
-        !blessedPacks[pack.id],
+        !isPackBlessed(pack.id),
       pack => pack.createdAt,
       blessedPacks
     );
@@ -181,11 +191,16 @@ export const getBlessedStickerPacks = createSelector(
   getBlessedPacks,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>
+    blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
   ): Array<StickerPackType> => {
+    const isPackBlessed = (packId: string) =>
+      Array.isArray(blessedPacks)
+        ? blessedPacks.some(p => p.id === packId)
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
+
     return filterAndTransformPacks(
       packs,
-      pack => blessedPacks[pack.id] && pack.status !== 'installed',
+      pack => isPackBlessed(pack.id) && pack.status !== 'installed',
       pack => pack.createdAt,
       blessedPacks
     );
@@ -197,11 +212,16 @@ export const getKnownStickerPacks = createSelector(
   getBlessedPacks,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>
+    blessedPacks: Dictionary<boolean> | ReadonlyArray<StickerPackDBType>
   ): Array<StickerPackType> => {
+    const isPackBlessed = (packId: string) =>
+      Array.isArray(blessedPacks)
+        ? blessedPacks.some(p => p.id === packId)
+        : Boolean((blessedPacks as Dictionary<boolean>)[packId]);
+
     return filterAndTransformPacks(
       packs,
-      pack => !blessedPacks[pack.id] && pack.status === 'known',
+      pack => !isPackBlessed(pack.id) && pack.status === 'known',
       pack => pack.createdAt,
       blessedPacks
     );

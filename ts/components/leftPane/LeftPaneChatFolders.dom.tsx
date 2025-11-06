@@ -212,13 +212,7 @@ function ChatFolderSelectItem(props: {
         <AxoSelect.ExperimentalItemBadge
           value={badgeValue}
           max={UNREAD_BADGE_MAX_COUNT}
-          maxDisplay={i18n(
-            'icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount',
-            {
-              maxCount: UNREAD_BADGE_MAX_COUNT,
-            }
-          )}
-          aria-label={null}
+          maxDisplay={UNREAD_BADGE_MAX_COUNT}
         />
       )}
     </AxoSelect.Item>
@@ -258,11 +252,7 @@ function ChatFolderSegmentedControlItem(props: {
           <ExperimentalAxoSegmentedControl.ExperimentalItemBadge
             value={badgeValue}
             max={UNREAD_BADGE_MAX_COUNT}
-            maxDisplay={i18n(
-              'icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount',
-              { maxCount: UNREAD_BADGE_MAX_COUNT }
-            )}
-            aria-label={null}
+            maxDisplay={UNREAD_BADGE_MAX_COUNT}
           />
         )}
       </ExperimentalAxoSegmentedControl.Item>

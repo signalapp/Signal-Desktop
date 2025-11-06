@@ -33,9 +33,9 @@ export const SmartContactModal = memo(function SmartContactModal() {
 
   const conversation = conversationSelector(conversationId);
   const contact = conversationSelector(contactId);
-  const hasStories = hasStoriesSelector(contactId);
+  const hasStories = hasStoriesSelector(); // Stories removed
   const hasActiveCall = activeCallState != null;
-  const badges = badgesSelector(contact.badges);
+  const badges = badgesSelector; // Badges removed (already returns array)
 
   const areWeAdmin = conversation?.areWeAdmin ?? false;
 

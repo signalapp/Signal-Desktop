@@ -25,7 +25,7 @@ import { SmartGroupLinkManagement } from './GroupLinkManagement.preload.js';
 import { SmartGroupV2Permissions } from './GroupV2Permissions.preload.js';
 import { SmartMessageDetail } from './MessageDetail.preload.js';
 import { SmartPendingInvites } from './PendingInvites.preload.js';
-import { SmartStickerManager } from './StickerManager.preload.js';
+// import { SmartStickerManager } from './StickerManager.preload.js'; // REMOVED: Orbital cleanup
 import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
 import { getIntl } from '../selectors/user.std.js';
 import {
@@ -381,11 +381,12 @@ function PanelElement({
     );
   }
 
-  if (panel.type === PanelType.StickerManager) {
-    return <SmartStickerManager />;
-  }
+  // REMOVED: Orbital cleanup - stickers
+  // if (panel.type === PanelType.StickerManager) {
+  //   return <SmartStickerManager />;
+  // }
 
-  log.warn(toLogFormat(missingCaseError(panel)));
+  log.warn(toLogFormat(missingCaseError(panel as never)));
   return null;
 }
 
@@ -399,14 +400,14 @@ function getPanelKey(panel: PanelRenderType): string {
     case PanelType.GroupPermissions:
     case PanelType.GroupV1Members:
     case PanelType.NotificationSettings:
-    case PanelType.StickerManager:
+    // case PanelType.StickerManager: // REMOVED: Orbital cleanup
       return panel.type;
     case PanelType.MessageDetails:
       return `${panel.type}:${panel.args.message.id}`;
     case PanelType.ContactDetails:
       return `${panel.type}:${panel.args.messageId}`;
     default:
-      log.warn(toLogFormat(missingCaseError(panel)));
+      log.warn(toLogFormat(missingCaseError(panel as never)));
       return 'unknown';
   }
 }

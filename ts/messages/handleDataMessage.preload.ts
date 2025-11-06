@@ -451,7 +451,7 @@ export async function handleDataMessage(
       }
 
       // For 1:1 stories, we need to check if they can be replied to
-      return sendState.isAllowedToReplyToStory !== false;
+      return sendState != null && sendState.isAllowedToReplyToStory !== false;
     });
 
     if (

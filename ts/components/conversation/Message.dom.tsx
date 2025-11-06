@@ -50,7 +50,6 @@ import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.
 import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
 import type { WidthBreakpoint } from '../_util.std.js';
-import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { StoryViewModeType } from '../../types/Stories.std.js';
 import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
@@ -417,7 +416,6 @@ type State = {
   reactionViewerOutsideClickDestructor?: () => void;
 
   giftBadgeCounter: number | null;
-  showOutgoingGiftBadgeModal: boolean;
 
   hasDeleteForEveryoneTimerExpired: boolean;
 };
@@ -647,7 +645,6 @@ export class Message extends React.PureComponent<Props, State> {
       reactionViewerRoot: null,
 
       giftBadgeCounter: null,
-      showOutgoingGiftBadgeModal: false,
 
       hasDeleteForEveryoneTimerExpired:
         this.#getTimeRemainingForDeleteForEveryone() <= 0,
@@ -1794,7 +1791,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderGiftBadge(): JSX.Element | null {
     const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
       this.props;
-    const { showOutgoingGiftBadgeModal } = this.state;
     if (!giftBadge) {
       return null;
     }
@@ -1950,11 +1946,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__redeemed-gift-badge__button--${direction}`
             )}
             disabled={!wasSent}
-            onClick={
-              wasSent
-                ? () => this.setState({ showOutgoingGiftBadgeModal: true })
-                : undefined
-            }
+            onClick={wasSent ? () => {} : undefined}
             type="button"
           >
             <div className="module-message__redeemed-gift-badge__button__text">
@@ -1962,17 +1954,6 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           </button>
           {this.#renderMetadata()}
-          {showOutgoingGiftBadgeModal ? (
-            <OutgoingGiftBadgeModal
-              i18n={i18n}
-              recipientTitle={conversationTitle}
-              badgeId={badgeId}
-              getPreferredBadge={getPreferredBadge}
-              hideOutgoingGiftBadgeModal={() =>
-                this.setState({ showOutgoingGiftBadgeModal: false })
-              }
-            />
-          ) : null}
         </div>
       );
     }
@@ -2006,8 +1987,8 @@ export class Message extends React.PureComponent<Props, State> {
             payment,
             author.title,
             conversationTitle,
-            author.isMe,
-            i18n
+            i18n,
+            author.isMe
           )}
         </p>
         <p className="module-payment-notification__check_device_box">

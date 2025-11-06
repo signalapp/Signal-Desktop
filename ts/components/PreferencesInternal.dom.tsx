@@ -441,7 +441,7 @@ export function PreferencesInternal({
                         {new Date(receipt.timestamp).toLocaleDateString()}
                       </td>
                       <td style={{ padding: '8px' }}>
-                        {getHumanDonationAmount(receipt)} {receipt.currencyType}
+                        {getHumanDonationAmount(receipt.paymentAmount)} {receipt.currencyType}
                       </td>
                       <td
                         style={{

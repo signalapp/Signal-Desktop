@@ -1,32 +1,23 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+// REMOVED: Orbital cleanup - Payments feature removed
+// This file exists as a stub to prevent import errors during the transition
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { Emojify } from './Emojify.dom.js';
+import React from 'react';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
-import { getPaymentEventDescription } from '../../messages/payments.std.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 
 export type PropsType = {
   event: AnyPaymentEvent;
-  sender: ConversationType;
-  conversation: ConversationType;
   i18n: LocalizerType;
+  isIncoming: boolean;
+  sender: {
+    firstName?: string;
+    title: string;
+  };
 };
 
-export function PaymentEventNotification(props: PropsType): JSX.Element {
-  const { event, sender, conversation, i18n } = props;
-  const message = getPaymentEventDescription(
-    event,
-    sender.title,
-    conversation.title,
-    sender.isMe,
-    i18n
-  );
-  return (
-    <SystemMessage icon="payment-event" contents={<Emojify text={message} />} />
-  );
+export function PaymentEventNotification(_props: PropsType): JSX.Element {
+  return <div>Payment notification removed</div>;
 }

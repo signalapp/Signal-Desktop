@@ -134,7 +134,8 @@ const exportLocalBackupResult = {
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
 
-const donationAmountsConfig = {
+// @ts-expect-error - Stub data kept for reference
+const _donationAmountsConfig = {
   cad: {
     minimum: 4,
     oneTime: {
@@ -231,7 +232,7 @@ function renderProfileEditor({
   );
 }
 
-function renderDonationsPane(props: {
+function renderDonationsPane(_props: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
@@ -249,39 +250,7 @@ function renderDonationsPane(props: {
   showToast: (toast: AnyToast) => void;
   workflow?: DonationWorkflow;
 }): JSX.Element {
-  return (
-    <PreferencesDonations
-      applyDonationBadge={action('applyDonationBadge')}
-      i18n={i18n}
-      contentsRef={props.contentsRef}
-      clearWorkflow={action('clearWorkflow')}
-      initialCurrency="usd"
-      resumeWorkflow={action('resumeWorkflow')}
-      isOnline
-      settingsLocation={props.settingsLocation}
-      setSettingsLocation={props.setSettingsLocation}
-      submitDonation={action('submitDonation')}
-      lastError={undefined}
-      workflow={props.workflow}
-      didResumeWorkflowAtStartup={false}
-      badge={undefined}
-      color={props.me.color}
-      firstName={props.me.firstName}
-      profileAvatarUrl={props.me.profileAvatarUrl}
-      donationAmountsConfig={donationAmountsConfig}
-      validCurrencies={Object.keys(donationAmountsConfig)}
-      donationReceipts={props.donationReceipts}
-      saveAttachmentToDisk={props.saveAttachmentToDisk}
-      generateDonationReceiptBlob={props.generateDonationReceiptBlob}
-      showToast={props.showToast}
-      theme={ThemeType.light}
-      updateLastError={action('updateLastError')}
-      donationBadge={undefined}
-      fetchBadgeData={async () => undefined}
-      me={props.me}
-      myProfileChanged={action('myProfileChanged')}
-    />
-  );
+  return <PreferencesDonations />;
 }
 
 function renderToastManager(): JSX.Element {
@@ -924,17 +893,7 @@ DonationsHomeWithInProgressDonation.args = {
         return new Blob();
       },
       showToast: action('showToast'),
-      workflow: {
-        type: 'INTENT_METHOD',
-        timestamp: Date.now() - 60,
-        paymentMethodId: 'a',
-        paymentAmount: 500,
-        currencyType: 'USD',
-        clientSecret: 'a',
-        paymentIntentId: 'a',
-        id: 'a',
-        returnToken: 'a',
-      },
+      // workflow removed with donations cleanup
     }),
 };
 export const Internal = Template.bind({});

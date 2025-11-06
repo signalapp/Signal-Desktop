@@ -50,3 +50,11 @@ ts/protobuf/*.d.ts
 /.zed
 *.sublime*
 *.map
+
+# Orbital local development folders
+/.claude/
+/orbital-docs/
+
+# Cleanup analysis and temporary files
+/scripts/cleanup/reports/
+/scripts/cleanup/backups/

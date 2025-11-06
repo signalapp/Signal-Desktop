@@ -97,10 +97,10 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   }
   const isAdmin = Boolean(conversation.areWeAdmin);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
-  const hasStories = hasStoriesSelector(id);
+  const hasStories = hasStoriesSelector(); // Stories removed
 
   const badgeSelector = useSelector(getPreferredBadgeSelector);
-  const badge = badgeSelector(conversation.badges);
+  const badge = badgeSelector([]); // Badges removed
   const i18n = useSelector(getIntl);
   const hasPanelShowing = useSelector(getHasPanelOpen);
   const outgoingCallButtonStyle = useOutgoingCallButtonStyle(conversation);

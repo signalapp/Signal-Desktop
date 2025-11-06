@@ -28,9 +28,9 @@ import { actions as network } from './ducks/network.dom.js';
 import { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
 import { actions as safetyNumber } from './ducks/safetyNumber.preload.js';
 import { actions as search } from './ducks/search.preload.js';
-import { actions as stickers } from './ducks/stickers.preload.js';
-import { actions as stories } from './ducks/stories.preload.js';
-import { actions as storyDistributionLists } from './ducks/storyDistributionLists.preload.js';
+import { actions as stickers } from './ducks/stickers.preload.js'; // Stub only
+import { actions as stories } from './ducks/stories.preload.js'; // Stub only
+import { actions as storyDistributionLists } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import { actions as toast } from './ducks/toast.preload.js';
 import { actions as updates } from './ducks/updates.preload.js';
 import { actions as user } from './ducks/user.preload.js';
@@ -65,9 +65,9 @@ export const actionCreators: ReduxActions = {
   notificationProfiles,
   safetyNumber,
   search,
-  stickers,
-  stories,
-  storyDistributionLists,
+  stickers, // Stub only
+  stories, // Stub only
+  storyDistributionLists, // Stub only
   toast,
   updates,
   user,

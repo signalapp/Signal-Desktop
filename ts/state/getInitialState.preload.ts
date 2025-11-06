@@ -32,9 +32,9 @@ import { getEmptyState as notificationProfilesEmptyState } from './ducks/notific
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.preload.js';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
 import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
-import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js';
-import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js';
-import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js';
+import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js'; // Stub only
+import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js'; // Stub only
+import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import { getEmptyState as toastEmptyState } from './ducks/toast.preload.js';
 import { getEmptyState as updatesEmptyState } from './ducks/updates.preload.js';
 import { getEmptyState as userEmptyState } from './ducks/user.preload.js';
@@ -56,7 +56,7 @@ import type { MenuOptionsType } from '../types/menu.std.js';
 import type {
   StoryDistributionListDataType,
   StoryDistributionListStateType,
-} from './ducks/storyDistributionLists.preload.js';
+} from './ducks/storyDistributionLists.preload.js'; // Stub only
 import type { ThemeType } from '../types/Util.std.js';
 import type { UserStateType } from './ducks/user.preload.js';
 import type { ReduxInitData } from './initializeRedux.preload.js';
@@ -75,9 +75,9 @@ export function getInitialState(
     menuOptions,
     notificationProfiles,
     recentEmoji,
-    stickers,
-    stories,
-    storyDistributionLists,
+    // stickers, // REMOVED: Orbital cleanup
+    stories, // Stub only
+    storyDistributionLists, // Stub only
     theme,
   }: ReduxInitData,
   existingState?: StateType
@@ -108,14 +108,14 @@ export function getInitialState(
       override: items.notificationProfileOverride,
       profiles: notificationProfiles,
     },
-    stickers,
-    stories: {
+    // stickers, // REMOVED: Orbital cleanup
+    stories: { // Stub only
       ...storiesEmptyState(),
       stories,
     },
     storyDistributionLists: generateStoryDistributionListState(
       storyDistributionLists
-    ),
+    ), // Stub only
     user: generateUserState({
       mainWindowStats,
       menuOptions,
@@ -173,9 +173,9 @@ function getEmptyState(): StateType {
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),
-    stickers: stickersEmptyState(),
-    stories: storiesEmptyState(),
-    storyDistributionLists: storyDistributionListsEmptyState(),
+    stickers: stickersEmptyState(), // Stub only
+    stories: storiesEmptyState(), // Stub only
+    storyDistributionLists: storyDistributionListsEmptyState(), // Stub only
     toast: toastEmptyState(),
     updates: updatesEmptyState(),
     user: userEmptyState(),
@@ -183,12 +183,13 @@ function getEmptyState(): StateType {
   };
 }
 
+// Stub only - Stories feature removed
 export function generateStoryDistributionListState(
   storyDistributionLists: ReadonlyArray<StoryDistributionListDataType>
 ): StoryDistributionListStateType {
   return {
     ...storyDistributionListsEmptyState(),
-    distributionLists: storyDistributionLists || [],
+    distributionLists: Array.from(storyDistributionLists || []),
   };
 }
 

@@ -8,10 +8,11 @@ import { FunProvider } from '../../components/fun/FunProvider.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import { selectRecentEmojis } from '../selectors/emojis.std.js';
 import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.js';
-import {
-  getInstalledStickerPacks,
-  getRecentStickers,
-} from '../selectors/stickers.std.js';
+// REMOVED: Orbital cleanup - stickers
+// import {
+//   getInstalledStickerPacks,
+//   getRecentStickers,
+// } from '../selectors/stickers.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { EmojiSkinTone } from '../../components/fun/data/emojis.std.js';
 import {
@@ -31,8 +32,8 @@ import {
 import { tenorDownload } from '../../components/fun/data/tenor.preload.js';
 import { usePreferredReactionsActions } from '../ducks/preferredReactions.preload.js';
 import { useEmojisActions } from '../ducks/emojis.preload.js';
-import { useStickersActions } from '../ducks/stickers.preload.js';
-import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.dom.js';
+// import { useStickersActions } from '../ducks/stickers.preload.js'; // REMOVED: Orbital cleanup
+// import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.dom.js'; // REMOVED: Orbital cleanup
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.js';
 import { getRecentGifs } from '../selectors/gifs.std.js';
 
@@ -44,18 +45,19 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   props: SmartFunProviderProps
 ) {
   const i18n = useSelector(getIntl);
-  const installedStickerPacks = useSelector(getInstalledStickerPacks);
+  // const installedStickerPacks = useSelector(getInstalledStickerPacks); // REMOVED: Orbital cleanup
   const recentEmojis = useSelector(selectRecentEmojis);
-  const recentStickers = useSelector(getRecentStickers);
+  // const recentStickers = useSelector(getRecentStickers); // REMOVED: Orbital cleanup
   const recentGifs = useSelector(getRecentGifs);
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
-  const showStickerPickerHint = useSelector(getShowStickerPickerHint);
+  // @ts-expect-error - Stub selector kept for cleanup phase
+  const _showStickerPickerHint = useSelector(getShowStickerPickerHint);
 
-  const { removeItem, setEmojiSkinToneDefault } = useItemsActions();
+  const { removeItem: _removeItem, setEmojiSkinToneDefault } = useItemsActions();
   const { openCustomizePreferredReactionsModal } =
     usePreferredReactionsActions();
   const { onUseEmoji } = useEmojisActions();
-  const { useSticker: onUseSticker } = useStickersActions();
+  // const { useSticker: onUseSticker } = useStickersActions(); // REMOVED: Orbital cleanup
   const { onAddRecentGif } = useGifsActions();
 
   // Translate recent emojis to keys
@@ -88,17 +90,17 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     [onUseEmoji]
   );
 
-  // Stickers
-  const handleClearStickerPickerHint = useCallback(() => {
-    removeItem('showStickerPickerHint');
-  }, [removeItem]);
+  // Stickers - REMOVED: Orbital cleanup
+  // const handleClearStickerPickerHint = useCallback(() => {
+  //   removeItem('showStickerPickerHint');
+  // }, [removeItem]);
 
-  const handleSelectSticker = useCallback(
-    (stickerSelection: FunStickerSelection) => {
-      onUseSticker(stickerSelection.stickerPackId, stickerSelection.stickerId);
-    },
-    [onUseSticker]
-  );
+  // const handleSelectSticker = useCallback(
+  //   (stickerSelection: FunStickerSelection) => {
+  //     onUseSticker(stickerSelection.stickerPackId, stickerSelection.stickerId);
+  //   },
+  //   [onUseSticker]
+  // );
 
   // GIFs
   const handleSelectGif = useCallback(
@@ -113,7 +115,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       i18n={i18n}
       // Recents
       recentEmojis={recentEmojisKeys}
-      recentStickers={recentStickers}
+      recentStickers={[]} // REMOVED: Orbital cleanup
       recentGifs={recentGifs}
       // Emojis
       emojiSkinToneDefault={emojiSkinToneDefault}
@@ -122,11 +124,11 @@ export const SmartFunProvider = memo(function SmartFunProvider(
         handleOpenCustomizePreferredReactionsModal
       }
       onSelectEmoji={handleSelectEmoji}
-      // Stickers
-      installedStickerPacks={installedStickerPacks}
-      showStickerPickerHint={showStickerPickerHint}
-      onClearStickerPickerHint={handleClearStickerPickerHint}
-      onSelectSticker={handleSelectSticker}
+      // Stickers - REMOVED: Orbital cleanup
+      installedStickerPacks={[]}
+      showStickerPickerHint={false}
+      onClearStickerPickerHint={() => {}}
+      onSelectSticker={() => {}}
       // Gifs
       fetchGifsSearch={fetchGifsSearch}
       fetchGifsFeatured={fetchGifsFeatured}

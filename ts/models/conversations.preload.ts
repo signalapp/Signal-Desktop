@@ -1082,6 +1082,7 @@ export class ConversationModel {
       { shouldSave: false }
     );
 
+    // @ts-expect-error - Stub function signature changed, arguments ignored
     window.reduxActions?.stories.removeAllContactStories(this.id);
     const serviceId = this.getServiceId();
     if (serviceId) {

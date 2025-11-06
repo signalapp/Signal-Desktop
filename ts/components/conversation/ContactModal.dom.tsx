@@ -16,7 +16,6 @@ import { StoryViewModeType } from '../../types/Stories.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
 import { AvatarLightbox } from '../AvatarLightbox.dom.js';
-import { BadgeDialog } from '../BadgeDialog.dom.js';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
 import { Modal } from '../Modal.dom.js';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.js';
@@ -72,7 +71,6 @@ export type PropsType = PropsDataType & PropsActionType;
 enum ContactModalView {
   Default,
   ShowingAvatar,
-  ShowingBadges,
 }
 
 enum SubModalState {
@@ -84,7 +82,7 @@ enum SubModalState {
 
 export function ContactModal({
   areWeAdmin,
-  areWeASubscriber,
+  areWeASubscriber: _areWeASubscriber,
   badges,
   blockConversation,
   contact,
@@ -341,7 +339,7 @@ export function ContactModal({
                   setView(ContactModalView.ShowingAvatar);
                 }
               }}
-              onClickBadge={() => setView(ContactModalView.ShowingBadges)}
+              onClickBadge={undefined}
               profileName={contact.profileName}
               sharedGroupNames={contact.sharedGroupNames}
               size={AvatarSize.EIGHTY}
@@ -487,17 +485,6 @@ export function ContactModal({
           hasAvatar={contact.hasAvatar}
           i18n={i18n}
           onClose={() => setView(ContactModalView.Default)}
-        />
-      );
-    case ContactModalView.ShowingBadges:
-      return (
-        <BadgeDialog
-          areWeASubscriber={areWeASubscriber}
-          badges={badges}
-          firstName={contact.firstName}
-          i18n={i18n}
-          onClose={() => setView(ContactModalView.Default)}
-          title={contact.title}
         />
       );
     default:

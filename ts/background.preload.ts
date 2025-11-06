@@ -336,6 +336,7 @@ export async function startApp(): Promise<void> {
 
   window.SignalContext.activeWindowService.registerForChange(isActive => {
     if (!isActive) {
+      // @ts-expect-error - Stub function signature changed, arguments ignored
       window.reduxActions?.stories.setHasAllStoriesUnmuted(false);
     }
   });

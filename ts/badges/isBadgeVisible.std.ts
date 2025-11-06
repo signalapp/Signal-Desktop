@@ -1,7 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// STUB: Badges feature removed in Orbital cleanup
+
 import type { BadgeType } from './types.std.js';
 
-export const isBadgeVisible = (badge: Readonly<BadgeType>): boolean =>
-  'isVisible' in badge ? badge.isVisible : true;
+export function isBadgeVisible(_badge: BadgeType): boolean {
+  return false;
+}

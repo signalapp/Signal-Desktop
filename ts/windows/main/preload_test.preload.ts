@@ -136,7 +136,7 @@ window.testUtilities = {
         installedPack: null,
         packs: {},
         recentStickers: [],
-        blessedPacks: {},
+        blessedPacks: [], // Array, not Record
       },
       theme: ThemeType.dark,
     });

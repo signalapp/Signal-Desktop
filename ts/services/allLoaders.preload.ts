@@ -15,12 +15,12 @@ import {
 import {
   getDistributionListsForRedux,
   loadDistributionLists,
-} from './distributionListLoader.preload.js';
+} from './distributionListLoader.preload.js'; // Stub only
 import {
   getDonationsForRedux,
   loadDonationReceipts,
 } from './donationsLoader.preload.js';
-import { getStoriesForRedux, loadStories } from './storyLoader.preload.js';
+import { getStoriesForRedux, loadStories } from './storyLoader.preload.js'; // Stub only
 import { getUserDataForRedux, loadUserData } from './userLoader.dom.js';
 import {
   loadCachedProfiles as loadNotificationProfiles,
@@ -51,13 +51,13 @@ export async function loadAll(): Promise<void> {
     loadCallHistory(),
     loadCallLinks(),
     loadChatFolders(),
-    loadDistributionLists(),
+    loadDistributionLists(), // Stub only
     loadDonationReceipts(),
     loadGifsState(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
     loadStickers(),
-    loadStories(),
+    loadStories(), // Stub only
     loadUserData(),
   ]);
 }
@@ -83,8 +83,8 @@ export function getParametersForRedux(): ReduxInitData {
     notificationProfiles: getNotificationProfiles(),
     recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
-    stories: getStoriesForRedux(),
-    storyDistributionLists: getDistributionListsForRedux(),
+    stories: getStoriesForRedux(), // Stub only
+    storyDistributionLists: getDistributionListsForRedux(), // Stub only
     theme,
   };
 }

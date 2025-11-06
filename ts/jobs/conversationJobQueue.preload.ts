@@ -950,6 +950,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           await sendDeleteForEveryone(conversation, jobBundle, data);
           break;
         case jobSet.DeleteStoryForEveryone:
+          // @ts-expect-error - Stub function signature changed, arguments ignored
           await sendDeleteStoryForEveryone(conversation, jobBundle, data);
           break;
         case jobSet.DirectExpirationTimerUpdate:
@@ -987,6 +988,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           await sendSenderKeyDistribution(conversation, jobBundle, data);
           break;
         case jobSet.Story:
+          // @ts-expect-error - Stub function signature changed, arguments ignored
           await sendStory(conversation, jobBundle, data);
           break;
         case jobSet.Receipts:

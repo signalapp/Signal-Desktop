@@ -312,8 +312,8 @@ export function Quote(props: Props): JSX.Element | null {
           payment,
           authorTitle,
           conversationTitle,
-          isFromMe,
-          i18n
+          i18n,
+          isFromMe
         )}
       </>
     );
