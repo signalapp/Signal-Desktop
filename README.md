@@ -13,39 +13,69 @@ Orbital transforms Signal's chat into threaded discussions for small groups. Sha
 - Signal-grade end-to-end encryption
 - Full-quality video/photo sharing (up to 500MB)
 - 7-day server relay + permanent client storage
+- Distributed backup: Your orbit holds your memories
 - Built for families, not corporations
 
 **Why fork Signal?**
 - Inherit 10+ years of battle-tested E2EE (Signal Protocol)
 - Forward secrecy, sealed sender, proven security
 - Focus our innovation on threading and family UX
-- Save 10+ days of development time
+- 40-60% codebase reduction (stories, stickers, payments removed)
 
-Read the full architectural decision: [orbital-docs/ARCHITECTURE-DECISION.md](orbital-docs/ARCHITECTURE-DECISION.md)
+**Current Status:** Active development - Signal fork cleanup complete (Phase 1D), implementing threading features.
 
 ---
 
-## 📚 Documentation
+## 📚 Essential Documentation
 
-**All Orbital-specific documentation lives in [`orbital-docs/`](orbital-docs/)**
+**All Orbital-specific documentation lives in [`orbital-docs/`](orbital-docs/)** (local-only, not in git)
 
-### Start Here
-1. **[Architecture Decision](orbital-docs/ARCHITECTURE-DECISION.md)** (10 min) - Why we're forking Signal
-2. **[Signal Fork Strategy](orbital-docs/signal-fork-strategy.md)** (20 min) - Implementation plan & timeline
-3. **[MVP Overview](orbital-docs/orbital-mvp-overview.md)** (15 min) - Product vision & goals
+### Start Here - Read in This Order
 
-### Implementation Guides
-- **[Database Schema](orbital-docs/database-schema.md)** - PostgreSQL schema for hybrid architecture
-- **[Deployment & Operations](orbital-docs/deployment-operations.md)** - DigitalOcean deployment
-- **[Testing Strategy](orbital-docs/testing-strategy.md)** - Testing approach
-- **[Encryption & Security](orbital-docs/encryption-and-security.md)** - Signal Protocol integration
-- **[API Specification](orbital-docs/api-specification.md)** - Backend API design
-- **[Frontend Architecture](orbital-docs/frontend-architecture.md)** - React/TypeScript UI
-- **[WebSocket & Real-Time](orbital-docs/websocket-realtime.md)** - Real-time updates
+1. **[Product Requirements Document](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)** (20 min)
+   - **Single source of truth** for all product decisions
+   - Complete product vision, user journeys, and MVP scope
+   - Target launch: 2025-11-26
+   - All team members reference this as the master document
 
-### GitHub Issues & Setup
-- **[Issues](orbital-docs/Issues/ISSUES.md)** - 20 detailed implementation issues
-- **[Setup Instructions](orbital-docs/Issues/SETUP-INSTRUCTIONS.md)** - GitHub project setup
+2. **[Signal Fork Strategy](orbital-docs/signal-fork-strategy.md)** (20 min)
+   - Complete implementation plan and 21-day timeline
+   - Technical architecture and component breakdown
+   - Database schema for hybrid approach
+
+3. **[Branch Strategy](orbital-docs/BRANCH_STRATEGY.md)** (10 min)
+   - Git workflow and branch management
+   - Feature development process
+   - Upstream Signal tracking
+
+### Additional Documentation
+
+**Architecture & Strategy:**
+- **[ARCHITECTURE-DECISION.md](orbital-docs/ARCHITECTURE-DECISION.md)** - Why we're forking Signal
+- **[orbital-mvp-overview.md](orbital-docs/orbital-mvp-overview.md)** - Product vision & goals
+- **[CODEBASE_CLEANUP_PLAN.md](orbital-docs/CODEBASE_CLEANUP_PLAN.md)** - Phase 1 cleanup strategy (✅ completed)
+
+**Implementation Guides:**
+- **[database-schema.md](orbital-docs/database-schema.md)** - PostgreSQL schema
+- **[testing-strategy.md](orbital-docs/testing-strategy.md)** - Testing approach
+- **[deployment-operations.md](orbital-docs/deployment-operations.md)** - DigitalOcean deployment
+- **[encryption-and-security.md](orbital-docs/encryption-and-security.md)** - Signal Protocol integration
+- **[api-specification.md](orbital-docs/api-specification.md)** - Backend API design
+- **[frontend-architecture.md](orbital-docs/frontend-architecture.md)** - React/TypeScript UI
+- **[websocket-realtime.md](orbital-docs/websocket-realtime.md)** - Real-time updates
+
+---
+
+## 🔧 Project Management
+
+**We use GitHub Issues for all project management and task tracking.**
+
+- **Issues** - All features, tasks, and bugs tracked in GitHub Issues
+- **Milestones** - Organized by development phases (Phase 1, Phase 2, etc.)
+- **Pull Requests** - All changes reviewed and merged to `develop` branch
+- **Branch Strategy** - See [BRANCH_STRATEGY.md](orbital-docs/BRANCH_STRATEGY.md) for workflow
+
+**Current Milestone:** Phase 2 - Threading Implementation
 
 ---
 
@@ -60,55 +90,69 @@ Read the full architectural decision: [orbital-docs/ARCHITECTURE-DECISION.md](or
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/Orbital-Desktop.git
+git clone https://github.com/alexg-g/Orbital-Desktop.git
 cd Orbital-Desktop
 
 # Install dependencies
-npm install
+pnpm install
 
-# Setup PostgreSQL
-createdb orbital
-psql orbital < orbital-docs/schema.sql
+# Setup PostgreSQL (coming soon)
+# createdb orbital
+# psql orbital < schema.sql
 
 # Configure environment
 cp .env.example .env
 # Edit .env with your settings
 
-# Start development server
-npm run dev
+# Start development
+pnpm start
 ```
 
-For detailed setup instructions, see [orbital-docs/deployment-operations.md](orbital-docs/deployment-operations.md)
+For detailed setup, see [orbital-docs/deployment-operations.md](orbital-docs/deployment-operations.md)
 
 ---
 
 ## 🛠️ Technology Stack
 
-**Frontend:**
-- React + TypeScript (from Signal-Desktop)
+**Frontend (Inherited from Signal):**
+- React + TypeScript
+- Electron
 - SQLCipher (encrypted client storage)
 - Signal Protocol (libsignal WASM)
 
-**Backend:**
+**Backend (Custom):**
 - Node.js + Express
 - PostgreSQL 15+
 - Signal Protocol message relay
 
 **Encryption:**
 - Signal Protocol (Double Ratchet, X3DH, Sender Keys)
-- Media encryption with Signal's attachment keys
+- Media encryption with attachment keys
 - Forward secrecy & sealed sender
 
 ---
 
-## 📋 Development Timeline
+## 📋 Development Progress
 
-**21-day MVP implementation:**
-- **Week 1 (Days 1-7):** Signal foundation & threading layer
-- **Week 2 (Days 8-14):** Media integration & deployment
-- **Week 3 (Days 15-21):** Beta testing & iteration
+### ✅ Completed (Phase 1)
+- Fork Signal-Desktop repository
+- Cleanup: Remove stories, stickers, donation features (40-60% reduction)
+- Achieve zero TypeScript errors (88 → 0)
+- Establish branch strategy and workflow
+- Setup project documentation
 
-See [orbital-docs/signal-fork-strategy.md](orbital-docs/signal-fork-strategy.md) for detailed timeline.
+### 🔄 In Progress (Phase 2)
+- Threading data model implementation
+- Thread UI components
+- Backend API for threading
+
+### ⏳ Upcoming (Phase 3+)
+- Media relay with 7-day retention
+- Distributed backup system
+- Group management with invite codes
+- Production deployment
+
+See **GitHub Issues** for detailed task breakdown.
 
 ---
 
@@ -116,12 +160,13 @@ See [orbital-docs/signal-fork-strategy.md](orbital-docs/signal-fork-strategy.md)
 
 We welcome contributions! Please:
 
-1. Read [orbital-docs/ARCHITECTURE-DECISION.md](orbital-docs/ARCHITECTURE-DECISION.md) to understand our approach
-2. Check [orbital-docs/Issues/ISSUES.md](orbital-docs/Issues/ISSUES.md) for available tasks
-3. Follow Signal's code style (see [SIGNAL_README.md](SIGNAL_README.md))
-4. Submit PRs to the `develop` branch
+1. Read [PRODUCT-REQUIREMENTS-DOCUMENT.md](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md) to understand our vision
+2. Review [BRANCH_STRATEGY.md](orbital-docs/BRANCH_STRATEGY.md) for workflow
+3. Check GitHub Issues for available tasks
+4. Follow Signal's code style (see [SIGNAL_README.md](SIGNAL_README.md))
+5. Submit PRs to the `develop` branch
 
-For Signal-Desktop specific contributions, see [Signal's Contributing Guide](SIGNAL_README.md#contributing-code).
+For Signal-Desktop specific contributions, see [SIGNAL_README.md](SIGNAL_README.md).
 
 ---
 
@@ -135,6 +180,7 @@ For Signal-Desktop specific contributions, see [Signal's Contributing Guide](SIG
 
 **Additional Orbital features:**
 - Media relay (7-day server retention, permanent client storage)
+- Distributed backup (your orbit holds your memories)
 - Storage quotas (10GB/100 files per group)
 - Threading metadata (encrypted)
 
@@ -146,15 +192,15 @@ Security audits welcome! Report vulnerabilities privately to [security contact].
 
 **This is a fork of [Signal-Desktop](https://github.com/signalapp/Signal-Desktop).**
 
-- We use Signal's E2EE, crypto libraries, and core infrastructure
-- We modify the UI for threading instead of chat
-- We add custom features: threading, invite codes, media relay
-- We do NOT connect to Signal's servers
-- We do NOT maintain compatibility with Signal network
+- ✅ We use Signal's E2EE, crypto libraries, and core infrastructure
+- ✅ We modify the UI for threading instead of chat
+- ✅ We add custom features: threading, invite codes, media relay
+- ❌ We do NOT connect to Signal's servers
+- ❌ We do NOT maintain compatibility with Signal network
 
 **For Signal-specific documentation:** See [SIGNAL_README.md](SIGNAL_README.md)
 
-**Upstream Signal:** We track Signal's releases for security updates
+**Upstream Signal tracking:**
 ```bash
 # Signal upstream is tracked as remote
 git remote add signal-upstream https://github.com/signalapp/Signal-Desktop.git
@@ -177,21 +223,21 @@ See [LICENSE](LICENSE) for full text.
 ## 🆘 Support & Questions
 
 - **Documentation:** [orbital-docs/](orbital-docs/)
-- **Issues:** [GitHub Issues](https://github.com/your-org/Orbital-Desktop/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/your-org/Orbital-Desktop/discussions)
+- **Issues:** [GitHub Issues](https://github.com/alexg-g/Orbital-Desktop/issues)
+- **PRD (Product Requirements):** [PRODUCT-REQUIREMENTS-DOCUMENT.md](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)
 
 ---
 
-## 🎉 Project Status
+## 🎉 Project Timeline
 
-**Current Phase:** Pre-implementation (planning complete, ready to fork)
+**Target MVP Launch:** 2025-11-26 (21 days from kickoff)
 
-**Next Steps:**
-1. ✅ Fork Signal-Desktop repository
-2. ⏳ Create GitHub Issues
-3. ⏳ Begin Phase 1 implementation (Days 1-7)
+**Development Phases:**
+- ✅ **Phase 1 (Days 1-7):** Cleanup & Foundation
+- 🔄 **Phase 2 (Days 8-14):** Threading Implementation
+- ⏳ **Phase 3 (Days 15-21):** Media, Deployment & Testing
 
-**Target MVP Launch:** [Set date - 21 days from start]
+**Current Phase:** Phase 2 - Threading Implementation
 
 ---
 
