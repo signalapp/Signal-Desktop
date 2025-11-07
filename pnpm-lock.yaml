@@ -290,6 +290,9 @@ importers:
       normalize-path:
         specifier: 3.0.0
         version: 3.0.0
+      openmoji:
+        specifier: ^16.0.0
+        version: 16.0.0
       p-map:
         specifier: 2.1.0
         version: 2.1.0
@@ -8809,6 +8812,9 @@ packages:
   opener@1.5.2:
     resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
     hasBin: true
+
+  openmoji@16.0.0:
+    resolution: {integrity: sha512-ruaRCfXL23tYzZ8cWzVxNsMEEUnol68RRxP4UueYyegtMz9wg/0p5RIJRdPz/e2KbBWq7ydrYvnN0NN4lhxN1g==}
 
   optionator@0.8.3:
     resolution: {integrity: sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==}
@@ -21228,6 +21234,8 @@ snapshots:
       is-wsl: 2.2.0
 
   opener@1.5.2: {}
+
+  openmoji@16.0.0: {}
 
   optionator@0.8.3:
     dependencies:

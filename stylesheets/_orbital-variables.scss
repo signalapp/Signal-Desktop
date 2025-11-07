@@ -12,10 +12,10 @@
 // TYPOGRAPHY
 // -----------------------------------------------------------------------------
 
-// Font Stacks (Web-Safe Retro Fonts)
-$orbital-font-body: Verdana, Geneva, 'DejaVu Sans', sans-serif;
-$orbital-font-header: 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
-$orbital-font-mono: 'Courier New', Courier, monospace;
+// Font Stacks (Web-Safe Retro Fonts + OpenMoji for Emoji)
+$orbital-font-body: 'OpenMoji', Verdana, Geneva, 'DejaVu Sans', sans-serif;
+$orbital-font-header: 'OpenMoji', 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
+$orbital-font-mono: 'OpenMoji', 'Courier New', Courier, monospace;
 
 // Type Scale
 $orbital-font-size-xs: 10px;   // Timestamps, tiny labels

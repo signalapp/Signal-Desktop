@@ -1,0 +1,17 @@
+// Copyright 2025 Orbital
+// SPDX-License-Identifier: AGPL-3.0-only
+
+/**
+ * Orbital Font Declarations
+ *
+ * OpenMoji: Standard emoji font for the entire application
+ * https://openmoji.org/
+ */
+
+@font-face {
+  font-family: 'OpenMoji';
+  src: url('./fonts/OpenMoji-color.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
