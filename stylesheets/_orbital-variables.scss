@@ -238,11 +238,11 @@ $orbital-badge-border-radius: $orbital-radius-full;
 $orbital-presence-size: 8px;
 $orbital-presence-border-width: 1px;
 
-// Emoji
-$orbital-emoji-size: 1.2em;
+// Emoji (tuned for OpenMoji font)
+$orbital-emoji-size: 1.15em; // Slightly reduced for better inline text flow
 $orbital-emoji-large-size: 1.8em;
-$orbital-emoji-margin: 0 0.05em 0 0.1em;
-$orbital-emoji-vertical-align: -0.2em;
+$orbital-emoji-margin: 0 0.08em 0 0.08em; // Balanced horizontal spacing
+$orbital-emoji-vertical-align: -0.15em; // Adjusted for OpenMoji baseline
 
 // ASCII Art
 $orbital-ascii-font-size: $orbital-font-size-sm;

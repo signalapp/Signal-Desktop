@@ -435,12 +435,23 @@
     border: 1px solid $orbital-border-strong;
     color: $orbital-text-secondary;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px; // Increased for better emoji visibility
     transition: all $orbital-duration-fast ease;
-    line-height: 1;
+    line-height: 1.2; // Adjusted for OpenMoji metrics
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px; // Ensure consistent button width
+    min-height: 32px; // Ensure consistent button height
+
+    // Override emoji styling when used in buttons
+    .emoji,
+    img.emoji {
+      margin: 0; // Remove default emoji margins in buttons
+      vertical-align: baseline; // Reset vertical align for button context
+      height: 1em; // Match button font-size
+      width: 1em;
+    }
 
     &:hover {
       background: $orbital-blue-tint-light;
@@ -661,11 +672,28 @@ img.emoji {
   width: $orbital-emoji-size;
   margin: $orbital-emoji-margin;
   vertical-align: $orbital-emoji-vertical-align;
+  // Ensure crisp rendering
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  // Prevent emoji from being selected/dragged
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .emoji--large {
   height: $orbital-emoji-large-size;
   width: $orbital-emoji-large-size;
+}
+
+// Button-specific emoji adjustments
+button .emoji,
+button img.emoji,
+.OrbitalComposer__icon-btn .emoji,
+.OrbitalComposer__icon-btn img.emoji {
+  margin: 0;
+  vertical-align: middle; // Better for button context
+  // Ensure emoji doesn't cause button height expansion
+  line-height: 0;
 }
 
 
