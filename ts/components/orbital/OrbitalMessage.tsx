@@ -80,6 +80,22 @@ export function OrbitalMessage({
     >
       {/* Message Header */}
       <div className="OrbitalMessage__header">
+        {/* Avatar */}
+        {message.avatarUrl ? (
+          <div className={classNames('OrbitalMessage__avatar', `OrbitalMessage__avatar--level-${message.level}`)}>
+            <img
+              src={message.avatarUrl}
+              alt={`${message.author}'s avatar`}
+              className="OrbitalMessage__avatar-image"
+            />
+          </div>
+        ) : (
+          <div className={classNames('OrbitalMessage__avatar', 'OrbitalMessage__avatar-placeholder', `OrbitalMessage__avatar--level-${message.level}`)}>
+            <span className="OrbitalMessage__avatar-initials">
+              {getInitials(message.author)}
+            </span>
+          </div>
+        )}
         <span className="OrbitalMessage__author">{message.author}</span>
         {/* Show "replied" badge for top-level contributions (level 0 but has parentId) */}
         {message.parentId && message.level === 0 && (
@@ -222,4 +238,14 @@ export function getReplyIndentation(level: number): number {
 
   const indent = level * INDENT_UNIT;
   return Math.min(indent, MAX_INDENT);
+}
+
+/**
+ * Get initials from author name for placeholder avatar
+ */
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }

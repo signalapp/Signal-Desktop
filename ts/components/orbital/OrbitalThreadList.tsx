@@ -1,7 +1,7 @@
 // Copyright 2025 Orbital
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import type { LocalizerType } from '../../types/Util.std';
 import { OrbitalThreadItem } from './OrbitalThreadItem';
 import { OrbitalDaySeparator } from './OrbitalDaySeparator';
@@ -19,7 +19,10 @@ export type OrbitalThread = {
   isUnread: boolean;
   lastReplyTimestamp?: number;
   lastReplyAuthor?: string;
+  avatarUrl?: string;
 };
+
+export type OrbitalViewMode = 'threads' | 'chats';
 
 export type OrbitalThreadListProps = {
   threads: ReadonlyArray<OrbitalThread>;
@@ -38,6 +41,8 @@ export type OrbitalThreadListProps = {
  * - Active thread highlighting (blue)
  * - Unread thread highlighting (purple)
  * - Thread metadata (author, date, reply count, media indicators)
+ * - Toggle between Threads and Chats views
+ * - Search functionality
  */
 export function OrbitalThreadList({
   threads,
@@ -46,6 +51,9 @@ export function OrbitalThreadList({
   onThreadClick,
   onCreateThread,
 }: OrbitalThreadListProps): JSX.Element {
+  const [viewMode, setViewMode] = useState<OrbitalViewMode>('threads');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const handleThreadClick = useCallback(
     (threadId: string) => {
       onThreadClick(threadId);
@@ -56,6 +64,19 @@ export function OrbitalThreadList({
   const handleCreateThread = useCallback(() => {
     onCreateThread();
   }, [onCreateThread]);
+
+  const handleViewModeChange = useCallback((mode: OrbitalViewMode) => {
+    setViewMode(mode);
+    setSearchQuery(''); // Clear search when switching modes
+  }, []);
+
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  }, []);
+
+  const handleSearchClear = useCallback(() => {
+    setSearchQuery('');
+  }, []);
 
   // Group threads by day for separators
   const threadsByDay = React.useMemo(() => {
@@ -107,6 +128,32 @@ export function OrbitalThreadList({
         </button>
       </div>
 
+      {/* Search Bar */}
+      <div className="OrbitalThreadList__search">
+        <input
+          type="text"
+          className="OrbitalThreadList__search-input"
+          placeholder={
+            viewMode === 'threads' ? 'Search threads...' : 'Search chats...'
+          }
+          value={searchQuery}
+          onChange={handleSearchChange}
+          aria-label={
+            viewMode === 'threads' ? 'Search threads' : 'Search chats'
+          }
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            className="OrbitalThreadList__search-clear"
+            onClick={handleSearchClear}
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
+      </div>
+
       <div className="OrbitalThreadList__container">
         {threads.length === 0 ? (
           <OrbitalEmptyState
@@ -129,6 +176,36 @@ export function OrbitalThreadList({
             </React.Fragment>
           ))
         )}
+      </div>
+
+      {/* Toggle Buttons */}
+      <div className="OrbitalThreadList__toggle">
+        <button
+          type="button"
+          className={`OrbitalThreadList__toggle-button ${
+            viewMode === 'threads'
+              ? 'OrbitalThreadList__toggle-button--active'
+              : ''
+          }`}
+          onClick={() => handleViewModeChange('threads')}
+          aria-label="View threads"
+          aria-pressed={viewMode === 'threads'}
+        >
+          Threads
+        </button>
+        <button
+          type="button"
+          className={`OrbitalThreadList__toggle-button ${
+            viewMode === 'chats'
+              ? 'OrbitalThreadList__toggle-button--active'
+              : ''
+          }`}
+          onClick={() => handleViewModeChange('chats')}
+          aria-label="View chats"
+          aria-pressed={viewMode === 'chats'}
+        >
+          Chats
+        </button>
       </div>
     </div>
   );

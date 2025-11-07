@@ -16,7 +16,8 @@
 .OrbitalThreadList {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  // Match ConversationView height constraint (subtract header + title bar drag area)
+  height: calc(100% - 52px - var(--title-bar-drag-area-height));
   background: $orbital-bg;
   font-family: $orbital-font-body;
   font-size: $orbital-font-size-base;
@@ -49,10 +50,172 @@
     }
   }
 
+  // Search Bar - Retro 2000s style
+  &__search {
+    position: relative;
+    padding: $orbital-space-base;
+    padding-top: $orbital-space-sm;
+    padding-bottom: $orbital-space-sm;
+    background: $orbital-surface-elevated;
+    border-bottom: 1px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-bottom-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    padding: 8px 32px 8px 12px; // Extra padding on right for clear button
+    border: 2px inset $orbital-border-strong; // Retro inset border
+    border-radius: $orbital-radius-base;
+    background: white;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    color: $orbital-text-primary;
+    height: 34px;
+    box-sizing: border-box;
+    transition: border-color $orbital-duration-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+      font-style: italic; // Retro placeholder style
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface;
+      color: $orbital-dark-text-primary;
+      border-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__search-clear {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: $orbital-text-tertiary;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $orbital-duration-fast;
+
+    &:hover {
+      background: $orbital-text-secondary;
+    }
+
+    &:active {
+      background: $orbital-text-primary;
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-text-tertiary;
+
+      &:hover {
+        background: $orbital-dark-text-secondary;
+      }
+
+      &:active {
+        background: $orbital-dark-text-primary;
+      }
+    }
+  }
+
   &__container {
     flex: 1;
     overflow-y: auto;
     padding: $orbital-space-base;
+  }
+
+  // Toggle Buttons - Bottom of sidebar (retro solid button style)
+  &__toggle {
+    display: flex;
+    gap: 0; // No gap, buttons touch
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-top: 2px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-top-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__toggle-button {
+    flex: 1; // Equal width buttons (50/50 split)
+    height: 36px;
+    padding: 8px 12px;
+    background: $orbital-surface;
+    color: $orbital-text-secondary;
+    border: 2px solid $orbital-border-strong;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all $orbital-duration-fast;
+    border-radius: 0; // Remove radius between buttons
+
+    // First button - left rounded corners
+    &:first-child {
+      border-top-left-radius: $orbital-radius-base;
+      border-bottom-left-radius: $orbital-radius-base;
+      border-right-width: 1px; // Half border between buttons
+    }
+
+    // Last button - right rounded corners
+    &:last-child {
+      border-top-right-radius: $orbital-radius-base;
+      border-bottom-right-radius: $orbital-radius-base;
+      border-left-width: 1px; // Half border between buttons
+    }
+
+    &:hover:not(&--active) {
+      background: $orbital-blue-tint-light;
+      border-color: $orbital-blue;
+      color: $orbital-blue;
+    }
+
+    // Active state - solid blue (retro style)
+    &--active {
+      background: $orbital-blue;
+      color: white;
+      border-color: $orbital-blue-dark;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle inset shadow (retro pressed look)
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface;
+      color: $orbital-dark-text-secondary;
+      border-color: $orbital-dark-border-strong;
+
+      &:hover:not(&--active) {
+        background: rgba(107, 168, 240, 0.15);
+        border-color: $orbital-dark-blue;
+        color: $orbital-dark-blue;
+      }
+
+      &--active {
+        background: $orbital-dark-blue;
+        color: white;
+        border-color: $orbital-blue-dark;
+      }
+    }
   }
 }
 
@@ -128,6 +291,12 @@
     align-items: center;
     gap: $orbital-space-xs;
     font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+  }
+
+  &__last-reply {
+    margin-top: $orbital-space-xs;
+    font-size: $orbital-font-size-xs;
     color: $orbital-text-tertiary;
   }
 }
@@ -243,6 +412,58 @@
     align-items: center;
     gap: $orbital-space-sm;
     margin-bottom: $orbital-space-sm;
+  }
+
+  // Avatar (48x48 pixel art)
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: $orbital-radius-base;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Border colors based on reply depth (match message level colors)
+    &--level-0 {
+      border-color: $orbital-level-0-border; // Gray
+    }
+
+    &--level-1,
+    &--level-3 {
+      border-color: $orbital-level-1-border; // Blue
+    }
+
+    &--level-2,
+    &--level-4-plus {
+      border-color: $orbital-level-2-border; // Purple
+    }
+  }
+
+  &__avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // Pixelated rendering for crisp retro pixel art
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  &__avatar-placeholder {
+    background: linear-gradient(135deg, $orbital-blue 0%, $orbital-purple 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: $orbital-font-header;
+    user-select: none;
+  }
+
+  &__avatar-initials {
+    display: block;
+    text-align: center;
   }
 
   &__author {

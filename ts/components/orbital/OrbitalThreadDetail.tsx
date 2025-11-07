@@ -17,6 +17,7 @@ export type OrbitalMessageType = {
   hasMedia: boolean;
   mediaType?: 'image' | 'video';
   mediaUrl?: string;
+  avatarUrl?: string; // Optional avatar URL (48x48 pixel art)
 };
 
 export type OrbitalThreadDetailProps = {

@@ -23,6 +23,7 @@ export type OrbitalThreadItemProps = {
  * - Thread title, author, timestamp
  * - Reply count and media indicators
  * - Retro 2000s styling
+ * - No avatars in sidebar (avatars only appear in conversation view)
  */
 export function OrbitalThreadItem({
   thread,

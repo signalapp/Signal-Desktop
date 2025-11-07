@@ -152,6 +152,14 @@ const MOCK_THREADS: ReadonlyArray<OrbitalThread> = [
  * Level 2: Light purple (8%), purple border (nested reply)
  * Level 3: Stronger blue (12%), blue border (deeper nesting)
  * Level 4+: Stronger purple (12%), purple border (max indent 96px)
+ *
+ * AVATAR MAPPING:
+ * Mom → rocket1.png
+ * Dad → alien1.png
+ * Grandma → moon1.png
+ * Uncle → planet1.png
+ * Aunt Sarah → nebula1.png
+ * Cousin → rocket2.png
  */
 const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
   'thread-1': [
@@ -166,6 +174,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       hasMedia: true,
       mediaType: 'video',
       mediaUrl: 'https://via.placeholder.com/400x300/5B9FED/FFFFFF?text=Video',
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     // First-level reply (Level 1 - Light Blue)
     {
@@ -177,6 +186,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 1,
       parentId: 'msg-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/alien1.png',
     },
     // Second-level reply (Level 2 - Light Purple)
     {
@@ -188,6 +198,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 2,
       parentId: 'msg-2',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     // Third-level reply (Level 3 - Stronger Blue)
     {
@@ -199,6 +210,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 3,
       parentId: 'msg-3',
       hasMedia: false,
+      avatarUrl: '/images/avatars/moon1.png',
     },
     // Fourth-level reply (Level 4+ - Stronger Purple, max indent)
     {
@@ -210,6 +222,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 4,
       parentId: 'msg-4',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     // Another first-level reply (Level 1 - Light Blue)
     {
@@ -221,6 +234,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 1,
       parentId: 'msg-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/planet1.png',
     },
     // Second-level reply to Uncle (Level 2 - Light Purple)
     {
@@ -232,6 +246,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 2,
       parentId: 'msg-6',
       hasMedia: false,
+      avatarUrl: '/images/avatars/alien1.png',
     },
     // Latest reply (Level 3 - Stronger Blue)
     {
@@ -243,6 +258,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 3,
       parentId: 'msg-7',
       hasMedia: false,
+      avatarUrl: '/images/avatars/moon1.png',
     },
   ],
   'thread-2': [
@@ -255,6 +271,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       body: "How about we all get together for dinner this weekend? It's been too long!",
       level: 0,
       hasMedia: false,
+      avatarUrl: '/images/avatars/alien1.png',
     },
     // REDDIT-STYLE: Multiple people contributing to thread (all Level 0 - no nesting!)
     // These are NOT replies to each other, they're independent contributions to the thread
@@ -267,6 +284,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution, not a nested reply
       parentId: 'msg-2-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     {
       id: 'msg-2-3',
@@ -277,6 +295,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Another top-level contribution
       parentId: 'msg-2-1',
       hasMedia: false,
+      // NO avatarUrl - test placeholder with initials
     },
     {
       id: 'msg-2-4',
@@ -287,6 +306,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-2-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/planet1.png',
     },
     {
       id: 'msg-2-5',
@@ -297,6 +317,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-2-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/nebula1.png',
     },
     {
       id: 'msg-2-6',
@@ -307,6 +328,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-2-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket2.png',
     },
     {
       id: 'msg-2-7',
@@ -317,6 +339,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution (Dad wrapping up)
       parentId: 'msg-2-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/alien1.png',
     },
   ],
   'thread-3': [
@@ -331,6 +354,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       hasMedia: true,
       mediaType: 'image',
       mediaUrl: 'https://via.placeholder.com/400x300/9B87F5/FFFFFF?text=Beach+Photo',
+      avatarUrl: '/images/avatars/nebula1.png',
     },
     // REDDIT-STYLE: First wave of reactions (all level 0 - top-level contributions)
     {
@@ -342,6 +366,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-3-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     {
       id: 'msg-3-3',
@@ -352,6 +377,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-3-1',
       hasMedia: false,
+      // NO avatarUrl - test placeholder
     },
     {
       id: 'msg-3-4',
@@ -362,6 +388,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-3-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/planet1.png',
     },
     // Now Mom's comment gets a NESTED reply (level 1+)
     {
@@ -373,6 +400,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 1, // CHANGED from 2 to 1: First nesting level (replying to Mom's comment)
       parentId: 'msg-3-2',
       hasMedia: false,
+      avatarUrl: '/images/avatars/nebula1.png',
     },
     // Mom and Dad have a side conversation (nested deeper)
     {
@@ -384,6 +412,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 2, // CHANGED from 3 to 2: Replying to Aunt's comment
       parentId: 'msg-3-5',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket1.png',
     },
     {
       id: 'msg-3-7',
@@ -394,6 +423,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 3, // CHANGED from 4 to 3: Replying to Mom's nested comment
       parentId: 'msg-3-6',
       hasMedia: false,
+      avatarUrl: '/images/avatars/alien1.png',
     },
     // Meanwhile, Grandma's question gets answered (another branch)
     {
@@ -405,6 +435,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 1, // CHANGED from 2 to 1: Replying to Grandma's comment
       parentId: 'msg-3-3',
       hasMedia: false,
+      avatarUrl: '/images/avatars/nebula1.png',
     },
     {
       id: 'msg-3-9',
@@ -415,6 +446,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 2, // CHANGED from 3 to 2: Replying to Aunt's nested answer
       parentId: 'msg-3-8',
       hasMedia: false,
+      // NO avatarUrl - test placeholder
     },
     // More top-level contributions
     {
@@ -426,6 +458,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-3-1',
       hasMedia: false,
+      avatarUrl: '/images/avatars/rocket2.png',
     },
     // Cousin's question gets a nested answer
     {
@@ -437,6 +470,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 1, // CHANGED from 2 to 1: Replying to Cousin's comment
       parentId: 'msg-3-10',
       hasMedia: false,
+      avatarUrl: '/images/avatars/nebula1.png',
     },
     // Another top-level contribution
     {
@@ -448,6 +482,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0, // UNCHANGED: Already a top-level contribution
       parentId: 'msg-3-1',
       hasMedia: false,
+      // NO avatarUrl - test placeholder
     },
   ],
 };
