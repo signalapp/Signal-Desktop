@@ -192,13 +192,13 @@ export type NavTabsProps = Readonly<{
   onDismissProfileMovedModal: () => void;
   onToggleNavTabsCollapse: (collapsed: boolean) => void;
   profileMovedModalNeeded: boolean;
-  renderCallsTab: () => ReactNode;
+  renderCallsTab?: () => ReactNode; // ORBITAL: Calls tab removed
   renderChatsTab: () => ReactNode;
   renderSettingsTab: () => ReactNode;
   selectedNavTab: NavTab;
   shouldShowProfileIcon: boolean;
   theme: ThemeType;
-  unreadCallsCount: number;
+  unreadCallsCount?: number; // ORBITAL: Calls tab removed
   unreadConversationsStats: UnreadStats;
 }>;
 
@@ -276,17 +276,7 @@ export function NavTabs({
             navTabClassName="NavTabs__Item--Chats"
             unreadStats={unreadConversationsStats}
           />
-          <NavTabsItem
-            i18n={i18n}
-            id={NavTab.Calls}
-            label={i18n('icu:NavTabs__ItemLabel--Calls')}
-            iconClassName="NavTabs__ItemIcon--Calls"
-            navTabClassName="NavTabs__Item--Calls"
-            unreadStats={{
-              unreadCount: unreadCallsCount,
-              unreadMentionsCount: 0,
-              readChatsMarkedUnreadCount: 0}}
-          />
+          {/* ORBITAL: Calls tab removed */}
           <NavTabsItem
             i18n={i18n}
             id={NavTab.Settings}
@@ -347,9 +337,7 @@ export function NavTabs({
       <TabPanel id={NavTab.Chats} className="NavTabs__TabPanel">
         {renderChatsTab}
       </TabPanel>
-      <TabPanel id={NavTab.Calls} className="NavTabs__TabPanel">
-        {renderCallsTab}
-      </TabPanel>
+      {/* ORBITAL: Calls tab removed */}
       <TabPanel id={NavTab.Settings} className="NavTabs__TabPanel">
         {renderSettingsTab}
       </TabPanel>

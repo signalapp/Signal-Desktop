@@ -1,17 +1,10 @@
-// Copyright 2023 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client.preload.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
-import { strictAssert } from '../util/assert.std.js';
+// ORBITAL: callLinksLoader removed - stub only
 
-let callLinksData: ReadonlyArray<CallLinkType>;
-
-export async function loadCallLinks(): Promise<void> {
-  callLinksData = await DataReader.getAllCallLinks();
+export class CallLinksLoader {
+  // Stub implementation
 }
 
-export function getCallLinksForRedux(): ReadonlyArray<CallLinkType> {
-  strictAssert(callLinksData != null, 'callLinks has not been loaded');
-  return callLinksData;
-}
+export const callLinksLoader = new CallLinksLoader();
