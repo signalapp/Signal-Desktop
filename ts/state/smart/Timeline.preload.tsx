@@ -169,6 +169,9 @@ export const SmartTimeline = memo(function SmartTimeline({
   const conversation = conversationSelector(id);
   const conversationMessages = conversationMessagesSelector(id);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = () => undefined;
+
   const warning = useSelector(
     useCallback(
       (state: StateType) => {

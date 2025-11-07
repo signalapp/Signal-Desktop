@@ -69,6 +69,9 @@ function SmartForwardMessagesModalInner({
   const theme = useSelector(getTheme);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = () => undefined;
+
   const { removeLinkPreview } = useLinkPreviewActions();
   const { toggleForwardMessagesModal } = useGlobalModalActions();
   const { showToast } = useToastActions();

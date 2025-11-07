@@ -1182,9 +1182,10 @@ function getPropsForPaymentEvent(
   // message.payment is guaranteed to exist due to type guard in caller
   const payment = (message as unknown as MessageAttributesWithPaymentEvent).payment!;
   const sourceServiceId = (message as unknown as MessageAttributesWithPaymentEvent).sourceServiceId;
+  const conversation = conversationSelector(sourceServiceId);
   return {
-    sender: conversationSelector(sourceServiceId),
-    isIncoming: message.type === 'incoming',
+    sender: conversation?.id || sourceServiceId || '',
+    conversationTitle: conversation?.title || '',
     event: payment,
   };
 }

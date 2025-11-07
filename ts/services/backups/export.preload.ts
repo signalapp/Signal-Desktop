@@ -1328,7 +1328,7 @@ export class BackupExportStream extends Readable {
           }
           break;
         default:
-          throw missingCaseError(payment);
+          throw missingCaseError(payment.kind);
       }
     } else if (contact && contact[0]) {
       const [contactDetails] = contact;

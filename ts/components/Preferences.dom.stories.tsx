@@ -250,7 +250,7 @@ function renderDonationsPane(_props: {
   showToast: (toast: AnyToast) => void;
   workflow?: DonationWorkflow;
 }): JSX.Element {
-  return <PreferencesDonations />;
+  return <PreferencesDonations i18n={i18n} />;
 }
 
 function renderToastManager(): JSX.Element {

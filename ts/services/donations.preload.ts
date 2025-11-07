@@ -4,8 +4,9 @@
 // STUB: Donations service removed for Orbital
 // This file provides stub implementations to maintain compatibility
 
-export function initialize(): void {
+export function initialize(): Promise<void> {
   // No-op: donations feature removed
+  return Promise.resolve();
 }
 
 export default {

@@ -104,8 +104,8 @@ import { drop } from '../util/drop.std.js';
 // import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
 type StripeDonationAmount = any;
 type CardDetail = any;
-const subscriptionConfigurationCurrencyZod = { parse: (_x: any) => 'usd' as any };
-const ZERO_DECIMAL_CURRENCIES: string[] = [];
+const subscriptionConfigurationCurrencyZod = z.any();
+const ZERO_DECIMAL_CURRENCIES = new Set<string>();
 import type { JobCancelReason } from '../jobs/types.std.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;

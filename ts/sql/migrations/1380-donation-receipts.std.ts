@@ -4,11 +4,13 @@
 // STUB: Donation receipts migration removed for Orbital
 // This file provides stub migration to maintain compatibility
 
-type Database = any;
+import type { WritableDB } from '../Interface.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 
 export default function updateToSchemaVersion1380(
-  _currentVersion: number,
-  _db: Database
+  _db: WritableDB,
+  _logger: LoggerType,
+  _startingVersion: number
 ): void {
   // No-op: donations feature removed
 }

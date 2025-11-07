@@ -150,10 +150,7 @@ function renderToastManager(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-function renderDonationsPane({
-  contentsRef,
-  settingsLocation,
-  setSettingsLocation}: {
+function renderDonationsPane(_options: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
@@ -203,6 +200,9 @@ export function SmartPreferences(): JSX.Element | null {
   const { startUpdate } = useUpdatesActions();
   const { changeLocation } = useNavActions();
   const { showToast } = useToastActions();
+
+  // STUB: Donations removed for Orbital - stub the hook
+  const useDonationsActions = () => ({ internalAddDonationReceipt: () => {} });
   const { internalAddDonationReceipt } = useDonationsActions();
 
   // STUB: generateDonationReceiptBlob removed for Orbital

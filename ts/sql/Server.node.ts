@@ -6934,8 +6934,10 @@ function getAllBadges(db: ReadableDB): Array<BadgeType> {
     for (const badgeImageFileRow of badgeImageFileRows) {
       const { badgeId, order, localPath, url, theme } = badgeImageFileRow;
       const badgeImages = badgeImagesByBadge.get(badgeId) || [];
+      const existingBadge = badgeImages[order] as BadgeImageType | undefined;
       badgeImages[order] = {
-        ...(badgeImages[order] || {}),
+        url: existingBadge?.url || url,
+        ...(existingBadge || {}),
         [parseBadgeImageTheme(theme)]: {
           localPath: dropNull(localPath),
           url}};
@@ -7014,13 +7016,17 @@ function updateOrCreateBadges(
 
       for (const [order, image] of badge.images.entries()) {
         for (const [theme, imageFile] of Object.entries(image)) {
+          if (theme === 'url' || typeof imageFile !== 'object' || imageFile == null) {
+            continue;
+          }
+          const typedImageFile = imageFile as { localPath?: string; url: string };
           insertBadgeImageFile.run({
             badgeId,
             localPath:
-              imageFile.localPath || oldLocalPaths.get(imageFile.url) || null,
+              typedImageFile.localPath || oldLocalPaths.get(typedImageFile.url) || null,
             order,
             theme,
-            url: imageFile.url});
+            url: typedImageFile.url});
         }
       }
     });
