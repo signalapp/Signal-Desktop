@@ -5,7 +5,11 @@
 
 export type CallLinkType = never;
 export type CallLinkStateType = never;
-export type CallLinkUpdateSyncType = never;
+
+export enum CallLinkUpdateSyncType {
+  Update = 'Update',
+  Delete = 'Delete',
+}
 
 export type CallLinkRecord = {
   roomId: string;
