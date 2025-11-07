@@ -89,6 +89,7 @@
     "build:icu-types": "node ts/scripts/generate-icu-types.node.js",
     "build:compact-locales": "node ts/scripts/generate-compact-locales.node.js",
     "build:tray-icons": "ts-node ts/scripts/generate-tray-icons.node.ts",
+    "build:macos-icons": "node ts/scripts/generate-dark-mode-icons.node.js && node ts/scripts/generate-icns.node.js",
     "build:dev": "run-s --print-label generate build:esbuild:prod",
     "build:esbuild": "node scripts/esbuild.js",
     "build:esbuild:scripts": "node scripts/esbuild.js --no-bundle",
