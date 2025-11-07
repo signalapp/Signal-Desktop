@@ -19,8 +19,7 @@ import type {
   KEMPublicKey,
   PublicKey,
   Aci,
-  Pni,
-} from '@signalapp/libsignal-client';
+  Pni} from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
@@ -31,8 +30,7 @@ import { getUserAgent } from '../util/getUserAgent.node.js';
 import { getTimeoutStream } from '../util/getStreamWithTimeout.node.js';
 import {
   toWebSafeBase64,
-  fromWebSafeBase64,
-} from '../util/webSafeBase64.std.js';
+  fromWebSafeBase64} from '../util/webSafeBase64.std.js';
 import { getBasicAuth } from '../util/getBasicAuth.std.js';
 import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
 import { createProxyAgent } from '../util/createProxyAgent.node.js';
@@ -41,8 +39,7 @@ import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.js';
 import { VerificationTransport } from '../types/VerificationTransport.std.js';
 import type {
   CapabilitiesType,
-  CapabilitiesUploadType,
-} from '../types/Capabilities.d.ts';
+  CapabilitiesUploadType} from '../types/Capabilities.d.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
 import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
 import { toLogFormat } from '../types/errors.std.js';
@@ -50,26 +47,24 @@ import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
 import type {
   ServiceIdString,
   AciString,
-  UntaggedPniString,
-} from '../types/ServiceId.std.js';
+  UntaggedPniString} from '../types/ServiceId.std.js';
 import {
   ServiceIdKind,
   serviceIdSchema,
   aciSchema,
-  untaggedPniSchema,
-} from '../types/ServiceId.std.js';
+  untaggedPniSchema} from '../types/ServiceId.std.js';
 import type { BackupPresentationHeadersType } from '../types/backups.node.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { getRandomBytes, randomInt } from '../Crypto.node.js';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.js';
-import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.js';
+
+// Badge imports removed
 
 import {
   SocketManager,
   type SocketStatuses,
-  type SocketExpirationReason,
-} from './SocketManager.preload.js';
+  type SocketExpirationReason} from './SocketManager.preload.js';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
 import { CDSI } from './cds/CDSI.node.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
@@ -79,8 +74,7 @@ import type {
   WebAPICredentials,
   IRequestHandler,
   StorageServiceCallOptionsType,
-  StorageServiceCredentials,
-} from './Types.d.ts';
+  StorageServiceCredentials} from './Types.d.ts';
 import { handleStatusCode, translateError } from './Utils.dom.js';
 import { createLogger } from '../logging/log.std.js';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
@@ -92,12 +86,10 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
   parseUnknown,
   safeParseUnknown,
-  type Schema,
-} from '../util/schemas.std.js';
+  type Schema} from '../util/schemas.std.js';
 import type {
   ProfileFetchAuthRequestOptions,
-  ProfileFetchUnauthRequestOptions,
-} from '../services/profiles.preload.js';
+  ProfileFetchUnauthRequestOptions} from '../services/profiles.preload.js';
 import { ToastType } from '../types/Toast.dom.js';
 import { isProduction } from '../util/version.std.js';
 import type { ServerAlert } from '../types/ServerAlert.std.js';
@@ -107,9 +99,7 @@ import { drop } from '../util/drop.std.js';
 import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
 import type {
   StripeDonationAmount,
-  CardDetail,
-} from '../types/Donations.std.js';
-import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
+  CardDetail} from '../types/Donations.std.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
 import type { JobCancelReason } from '../jobs/types.std.js';
 
@@ -285,8 +275,7 @@ type GetAttachmentFromBackupTierArgsType = {
 
 export const multiRecipient200ResponseSchema = z.object({
   uuids404: z.array(serviceIdSchema).optional(),
-  needsSync: z.boolean().optional(),
-});
+  needsSync: z.boolean().optional()});
 export type MultiRecipient200ResponseType = z.infer<
   typeof multiRecipient200ResponseSchema
 >;
@@ -296,9 +285,7 @@ export const multiRecipient409ResponseSchema = z.array(
     uuid: serviceIdSchema,
     devices: z.object({
       missingDevices: z.array(z.number()).optional(),
-      extraDevices: z.array(z.number()).optional(),
-    }),
-  })
+      extraDevices: z.array(z.number()).optional()})})
 );
 export type MultiRecipient409ResponseType = z.infer<
   typeof multiRecipient409ResponseSchema
@@ -308,9 +295,7 @@ export const multiRecipient410ResponseSchema = z.array(
   z.object({
     uuid: serviceIdSchema,
     devices: z.object({
-      staleDevices: z.array(z.number()).optional(),
-    }),
-  })
+      staleDevices: z.array(z.number()).optional()})})
 );
 export type MultiRecipient410ResponseType = z.infer<
   typeof multiRecipient410ResponseSchema
@@ -352,10 +337,8 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
         ? await createProxyAgent(proxyUrl)
         : createHTTPSAgent({
             keepAlive: !options.disableSessionResumption,
-            maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
-          }),
-      timestamp: Date.now(),
-    };
+            maxCachedSessions: options.disableSessionResumption ? 0 : undefined}),
+      timestamp: Date.now()};
   }
   const agentEntry = agents[cacheKey];
   const agent = agentEntry?.agent ?? null;
@@ -366,14 +349,12 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     headers: {
       'User-Agent': getUserAgent(options.version),
       'X-Signal-Agent': 'OWD',
-      ...options.headers,
-    } as FetchHeaderListType,
+      ...options.headers} as FetchHeaderListType,
     redirect: options.redirect,
     agent,
     ca: options.certificateAuthority,
     timeout,
-    signal: options.abortSignal,
-  };
+    signal: options.abortSignal};
 
   if (options.contentType) {
     fetchOptions.headers['Content-Type'] = options.contentType;
@@ -431,8 +412,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   } else if (options.user && options.password) {
     fetchOptions.headers.Authorization = getBasicAuth({
       username: options.user,
-      password: options.password,
-    });
+      password: options.password});
   }
 
   let response: Response;
@@ -591,8 +571,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     const fullResult: StreamWithDetailsType = {
       stream: result as Readable,
       contentType: getContentType(response),
-      response,
-    };
+      response};
 
     return fullResult;
   }
@@ -604,8 +583,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     const fullResult: BytesWithDetailsType = {
       data: result,
       contentType: getContentType(response),
-      response,
-    };
+      response};
 
     return fullResult;
   }
@@ -614,8 +592,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     const fullResult: JSONWithDetailsType = {
       data: result,
       contentType: getContentType(response),
-      response,
-    };
+      response};
 
     return fullResult;
   }
@@ -690,8 +667,7 @@ function makeHTTPError(
     code: providedCode,
     headers: makeKeysLowercase(headers),
     response,
-    stack,
-  });
+    stack});
 }
 
 export function makeKeysLowercase<V>(
@@ -754,8 +730,7 @@ const CHAT_CALLS = {
   reserveUsername: 'v1/accounts/username_hash/reserve',
   confirmUsername: 'v1/accounts/username_hash/confirm',
   usernameLink: 'v1/accounts/username_link',
-  whoami: 'v1/accounts/whoami',
-};
+  whoami: 'v1/accounts/whoami'};
 
 const STORAGE_CALLS = {
   getGroupAvatarUpload: 'v2/groups/avatar/form',
@@ -766,15 +741,13 @@ const STORAGE_CALLS = {
   groupToken: 'v2/groups/token',
   storageManifest: 'v1/storage/manifest',
   storageModify: 'v1/storage/',
-  storageRead: 'v1/storage/read',
-};
+  storageRead: 'v1/storage/read'};
 
 const RESOURCE_CALLS = {
   getOnboardingStoryManifest:
     'dynamic/desktop/stories/onboarding/manifest.json',
   releaseNotesManifest: 'dynamic/release-notes/release-notes-v2.json',
-  releaseNotes: 'static/release-notes',
-};
+  releaseNotes: 'static/release-notes'};
 
 export type MessageType = Readonly<{
   type: number;
@@ -884,8 +857,7 @@ const uploadProfileZod = z.object({
   name: z.string(),
   paymentAddress: z.string().nullish(),
   phoneNumberSharing: z.string().nullish(),
-  version: z.string(),
-});
+  version: z.string()});
 export type ProfileRequestDataType = z.infer<typeof uploadProfileZod>;
 
 const uploadAvatarHeadersZod = z.object({
@@ -895,8 +867,7 @@ const uploadAvatarHeadersZod = z.object({
   date: z.string(),
   key: z.string(),
   policy: z.string(),
-  signature: z.string(),
-});
+  signature: z.string()});
 export type UploadAvatarHeadersType = z.infer<typeof uploadAvatarHeadersZod>;
 const uploadAvatarOrOther = z.union([
   uploadAvatarHeadersZod,
@@ -908,8 +879,7 @@ export type UploadAvatarHeadersOrOtherType = z.infer<
 >;
 
 const remoteConfigResponseZod = z.object({
-  config: z.object({}).catchall(z.string()),
-});
+  config: z.object({}).catchall(z.string())});
 export type RemoteConfigResponseType = {
   config: Map<string, string> | 'unmodified';
 } & Readonly<{
@@ -939,8 +909,7 @@ export type GetAccountForUsernameOptionsType = Readonly<{
 }>;
 
 const getAccountForUsernameResultZod = z.object({
-  uuid: aciSchema,
-});
+  uuid: aciSchema});
 
 export type GetAccountForUsernameResultType = z.infer<
   typeof getAccountForUsernameResultZod
@@ -952,10 +921,8 @@ const getDevicesResultZod = z.object({
       id: z.number(),
       name: z.string().nullish(), // primary devices may not have a name
       lastSeen: z.number().nullish(),
-      created: z.number().nullish(),
-    })
-  ),
-});
+      created: z.number().nullish()})
+  )});
 
 export type GetDevicesResultType = z.infer<typeof getDevicesResultZod>;
 
@@ -979,8 +946,7 @@ const whoamiResultZod = z.object({
   pni: z.string(),
   number: z.string(),
   usernameHash: z.string().nullish(),
-  usernameLinkHandle: z.string().nullish(),
-});
+  usernameLinkHandle: z.string().nullish()});
 export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
 export type CdsLookupOptionsType = Readonly<{
@@ -1004,10 +970,8 @@ const verifyServiceIdResponse = z.object({
   elements: z.array(
     z.object({
       uuid: serviceIdSchema,
-      identityKey: z.string(),
-    })
-  ),
-});
+      identityKey: z.string()})
+  )});
 
 export type VerifyServiceIdRequestType = Array<{
   uuid: ServiceIdString;
@@ -1037,22 +1001,19 @@ export type ConfirmUsernameOptionsType = Readonly<{
 const reserveUsernameResultZod = z.object({
   usernameHash: z
     .string()
-    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
-});
+    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x)))});
 export type ReserveUsernameResultType = z.infer<
   typeof reserveUsernameResultZod
 >;
 
 const confirmUsernameResultZod = z.object({
-  usernameLinkHandle: z.string(),
-});
+  usernameLinkHandle: z.string()});
 export type ConfirmUsernameResultType = z.infer<
   typeof confirmUsernameResultZod
 >;
 
 const replaceUsernameLinkResultZod = z.object({
-  usernameLinkHandle: z.string(),
-});
+  usernameLinkHandle: z.string()});
 export type ReplaceUsernameLinkResultType = z.infer<
   typeof replaceUsernameLinkResultZod
 >;
@@ -1060,8 +1021,7 @@ export type ReplaceUsernameLinkResultType = z.infer<
 const resolveUsernameLinkResultZod = z.object({
   usernameLinkEncryptedValue: z
     .string()
-    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
-});
+    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x)))});
 export type ResolveUsernameLinkResultType = z.infer<
   typeof resolveUsernameLinkResultZod
 >;
@@ -1085,8 +1045,7 @@ export type CreateAccountOptionsType = Readonly<{
 const linkDeviceResultZod = z.object({
   uuid: aciSchema,
   pni: untaggedPniSchema,
-  deviceId: z.number(),
-});
+  deviceId: z.number()});
 export type LinkDeviceResultType = z.infer<typeof linkDeviceResultZod>;
 
 const subscriptionConfigurationResultZod = z.object({
@@ -1095,10 +1054,8 @@ const subscriptionConfigurationResultZod = z.object({
     z.string(),
     z.object({
       name: z.string(),
-      badge: badgeFromServerSchema,
-    })
-  ),
-});
+      badge: z.any()}) // Badge schema removed
+  )});
 export type SubscriptionConfigurationResultType = z.infer<
   typeof subscriptionConfigurationResultZod
 >;
@@ -1113,8 +1070,7 @@ const attachmentUploadFormResponse = z.object({
   cdn: z.literal(2).or(z.literal(3)),
   key: z.string(),
   headers: z.record(z.string()),
-  signedUploadLocation: z.string(),
-});
+  signedUploadLocation: z.string()});
 
 export type AttachmentUploadFormResponseType = z.infer<
   typeof attachmentUploadFormResponse
@@ -1122,8 +1078,7 @@ export type AttachmentUploadFormResponseType = z.infer<
 
 export const ServerKeyCountSchema = z.object({
   count: z.number(),
-  pqCount: z.number(),
-});
+  pqCount: z.number()});
 
 export type LinkDeviceOptionsType = Readonly<{
   number: string;
@@ -1150,8 +1105,7 @@ export type CreateBoostOptionsType = Readonly<{
   paymentMethod: string;
 }>;
 const CreateBoostResultSchema = z.object({
-  clientSecret: z.string(),
-});
+  clientSecret: z.string()});
 export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
 
 export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
@@ -1160,8 +1114,7 @@ export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
   processor: string;
 }>;
 const CreateBoostReceiptCredentialsResultSchema = z.object({
-  receiptCredentialResponse: z.string(),
-});
+  receiptCredentialResponse: z.string()});
 export type CreateBoostReceiptCredentialsResultType = z.infer<
   typeof CreateBoostReceiptCredentialsResultSchema
 >;
@@ -1171,8 +1124,7 @@ type CreatePaymentMethodWithStripeOptionsType = Readonly<{
   cardDetail: CardDetail;
 }>;
 const CreatePaymentMethodWithStripeResultSchema = z.object({
-  id: z.string(),
-});
+  id: z.string()});
 type CreatePaymentMethodWithStripeResultType = z.infer<
   typeof CreatePaymentMethodWithStripeResultSchema
 >;
@@ -1197,18 +1149,15 @@ const ConfirmIntentWithStripeResultSchema = z.object({
           return_url: z.string(), // what we provided originally
           url: z.string(), // what we need to redirect to
         })
-        .nullable(),
-    })
+        .nullable()})
     .nullable(),
   // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-last_payment_error
   last_payment_error: z
     .object({
       type: z.string(),
       advice_code: z.string().nullable(),
-      message: z.string().nullable(),
-    })
-    .nullable(),
-});
+      message: z.string().nullable()})
+    .nullable()});
 type ConfirmIntentWithStripeResultType = z.infer<
   typeof ConfirmIntentWithStripeResultSchema
 >;
@@ -1260,14 +1209,11 @@ export const backupMediaBatchResponseSchema = z.object({
       status: z.number(),
       failureReason: z.string().nullish(),
       cdn: z.number(),
-      mediaId: z.string(),
-    })
+      mediaId: z.string()})
     .transform(response => ({
       ...response,
-      isSuccess: isSuccess(response.status),
-    }))
-    .array(),
-});
+      isSuccess: isSuccess(response.status)}))
+    .array()});
 
 export type BackupMediaBatchResponseType = z.infer<
   typeof backupMediaBatchResponseSchema
@@ -1284,13 +1230,11 @@ export const backupListMediaResponseSchema = z.object({
     .object({
       cdn: z.number(),
       mediaId: z.string(),
-      objectLength: z.number(),
-    })
+      objectLength: z.number()})
     .array(),
   backupDir: z.string(),
   mediaDir: z.string(),
-  cursor: z.string().nullish(),
-});
+  cursor: z.string().nullish()});
 
 export type BackupListMediaResponseType = z.infer<
   typeof backupListMediaResponseSchema
@@ -1316,16 +1260,13 @@ export const backupCredentialListSchema = z
     credential: z.string().transform(x => Bytes.fromBase64(x)),
     redemptionTime: z
       .number()
-      .transform(x => durations.DurationInSeconds.fromSeconds(x)),
-  })
+      .transform(x => durations.DurationInSeconds.fromSeconds(x))})
   .array();
 
 export const getBackupCredentialsResponseSchema = z.object({
   credentials: z.object({
     messages: backupCredentialListSchema,
-    media: backupCredentialListSchema,
-  }),
-});
+    media: backupCredentialListSchema})});
 
 export type GetBackupCredentialsResponseType = z.infer<
   typeof getBackupCredentialsResponseSchema
@@ -1337,8 +1278,7 @@ export type GetBackupCDNCredentialsOptionsType = Readonly<{
 }>;
 
 export const getBackupCDNCredentialsResponseSchema = z.object({
-  headers: z.record(z.string(), z.string()),
-});
+  headers: z.record(z.string(), z.string())});
 
 export type GetBackupCDNCredentialsResponseType = z.infer<
   typeof getBackupCDNCredentialsResponseSchema
@@ -1367,8 +1307,7 @@ export const getBackupInfoResponseSchema = z.object({
   backupDir: z.string(),
   mediaDir: z.string(),
   backupName: z.string(),
-  usedSpace: z.number().nullish(),
-});
+  usedSpace: z.number().nullish()});
 
 export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
@@ -1391,8 +1330,7 @@ export const releaseNoteSchema = z.object({
       z.object({
         style: z.string().optional(),
         start: z.number().optional(),
-        length: z.number().optional(),
-      })
+        length: z.number().optional()})
     )
     .optional(),
   media: z.string().optional(),
@@ -1404,8 +1342,7 @@ export const releaseNoteSchema = z.object({
     .number()
     .optional()
     .transform(x => x || undefined),
-  mediaContentType: z.string().optional(),
-});
+  mediaContentType: z.string().optional()});
 
 export type ReleaseNoteResponseType = z.infer<typeof releaseNoteSchema>;
 
@@ -1416,10 +1353,8 @@ export const releaseNotesManifestSchema = z.object({
       countries: z.string().optional(),
       desktopMinVersion: z.string().optional(),
       link: z.string().optional(),
-      ctaId: z.string().optional(),
-    })
-    .array(),
-});
+      ctaId: z.string().optional()})
+    .array()});
 
 export type ReleaseNotesManifestResponseType = z.infer<
   typeof releaseNotesManifestSchema
@@ -1436,12 +1371,10 @@ export type CallLinkCreateAuthResponseType = Readonly<{
 
 export const StorageServiceCredentialsSchema = z.object({
   username: z.string(),
-  password: z.string(),
-});
+  password: z.string()});
 
 export const callLinkCreateAuthResponseSchema = z.object({
-  credential: z.string(),
-}) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
+  credential: z.string()}) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
 
 const StickerPackUploadAttributesSchema = z.object({
   acl: z.string(),
@@ -1451,26 +1384,22 @@ const StickerPackUploadAttributesSchema = z.object({
   id: z.number(),
   key: z.string(),
   policy: z.string(),
-  signature: z.string(),
-});
+  signature: z.string()});
 
 const StickerPackUploadFormSchema = z.object({
   packId: z.string(),
   manifest: StickerPackUploadAttributesSchema,
-  stickers: z.array(StickerPackUploadAttributesSchema),
-});
+  stickers: z.array(StickerPackUploadAttributesSchema)});
 
 const TransferArchiveSchema = z.union([
   z.object({
     cdn: z.number(),
-    key: z.string(),
-  }),
+    key: z.string()}),
   z.object({
     error: z.union([
       z.literal('RELINK_REQUESTED'),
       z.literal('CONTINUE_WITHOUT_UPLOAD'),
-    ]),
-  }),
+    ])}),
 ]);
 
 export type TransferArchiveType = z.infer<typeof TransferArchiveSchema>;
@@ -1489,8 +1418,7 @@ export type ProxiedRequestParams = Readonly<{
 
 const backupFileHeadersSchema = z.object({
   'content-length': z.coerce.number(),
-  'last-modified': z.coerce.date(),
-});
+  'last-modified': z.coerce.date()});
 
 type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
 
@@ -1507,8 +1435,7 @@ const subscriptionResponseSchema = z.object({
       active: z.boolean(),
       cancelAtPeriodEnd: z.boolean().optional(),
       currency: z.string().optional(),
-      amount: z.number().nonnegative().optional(),
-    })
+      amount: z.number().nonnegative().optional()})
     .transform(data => {
       const result = { ...data };
       if (result.currency && result.amount) {
@@ -1520,8 +1447,7 @@ const subscriptionResponseSchema = z.object({
       }
       return result;
     })
-    .nullish(),
-});
+    .nullish()});
 
 export type SubscriptionResponseType = z.infer<
   typeof subscriptionResponseSchema
@@ -1566,27 +1492,22 @@ const ServerKeyResponseSchema = z.object({
       preKey: z
         .object({
           keyId: z.number(),
-          publicKey: z.string(),
-        })
+          publicKey: z.string()})
         .nullish(),
       signedPreKey: z
         .object({
           keyId: z.number(),
           publicKey: z.string(),
-          signature: z.string(),
-        })
+          signature: z.string()})
         .nullish(),
       pqPreKey: z
         .object({
           keyId: z.number(),
           publicKey: z.string(),
-          signature: z.string(),
-        })
-        .nullish(),
-    })
+          signature: z.string()})
+        .nullish()})
   ),
-  identityKey: z.string(),
-});
+  identityKey: z.string()});
 
 type ServerKeyResponseType = z.infer<typeof ServerKeyResponseSchema>;
 
@@ -1639,8 +1560,7 @@ const {
   contentProxyUrl,
   proxyUrl,
   version,
-  stripePublishableKey,
-} = window.SignalContext.config;
+  stripePublishableKey} = window.SignalContext.config;
 
 const cdnUrlObject: Readonly<{
   '0': string;
@@ -1648,8 +1568,7 @@ const cdnUrlObject: Readonly<{
 }> = {
   0: window.SignalContext.config.cdnUrl0,
   2: window.SignalContext.config.cdnUrl2,
-  3: window.SignalContext.config.cdnUrl3,
-};
+  3: window.SignalContext.config.cdnUrl3};
 
 // We store server alerts (returned on the WS upgrade response headers) so that the app
 // can query them later, which is necessary if they arrive before app state is ready
@@ -1689,8 +1608,7 @@ const socketManager = new SocketManager(libsignalNet, {
   url: chatServiceUrl,
   certificateAuthority,
   version,
-  proxyUrl,
-});
+  proxyUrl});
 
 socketManager.on('statusChange', () => {
   window.Whisper.events.emit('socketStatusChange');
@@ -1728,17 +1646,14 @@ const cds = new CDSI(libsignalNet, {
       httpType: 'GET',
       responseType: 'json',
       // TODO DESKTOP-8719
-      zodSchema: z.unknown(),
-    })) as CDSAuthType;
-  },
-});
+      zodSchema: z.unknown()})) as CDSAuthType;
+  }});
 
 export async function connect({
   username: initialUsername,
   password: initialPassword,
   hasStoriesDisabled,
-  hasBuildExpired,
-}: WebAPIConnectOptionsType): Promise<void> {
+  hasBuildExpired}: WebAPIConnectOptionsType): Promise<void> {
   username = initialUsername;
   password = initialPassword;
 
@@ -1779,8 +1694,7 @@ const fetchForLinkPreviews: linkPreviewFetch.FetchFn = async (href, init) => {
     } else {
       fetchAgent = createHTTPSAgent({
         keepAlive: false,
-        maxCachedSessions: 0,
-      });
+        maxCachedSessions: 0});
     }
   }
   return fetch(href, { ...init, agent: fetchAgent });
@@ -1860,8 +1774,7 @@ async function _ajax<Type extends AjaxResponseType, OutputShape>(
     groupSendToken:
       'groupSendToken' in param ? param.groupSendToken : undefined,
     abortSignal: param.abortSignal,
-    zodSchema: param.zodSchema,
-  };
+    zodSchema: param.zodSchema};
 
   try {
     return await _outerAjax(null, outerParams);
@@ -1889,8 +1802,7 @@ function serializeSignedPreKey(
   return {
     keyId,
     publicKey: Bytes.toBase64(publicKey.serialize()),
-    signature: Bytes.toBase64(signature),
-  };
+    signature: Bytes.toBase64(signature)};
 }
 
 function serviceIdKindToQuery(kind: ServiceIdKind): string {
@@ -1911,8 +1823,7 @@ export async function whoami(): Promise<WhoamiResultType> {
     call: 'whoami',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: whoamiResultZod,
-  });
+    zodSchema: whoamiResultZod});
 }
 
 export async function sendChallengeResponse(
@@ -1923,14 +1834,12 @@ export async function sendChallengeResponse(
     call: 'challenge',
     httpType: 'PUT',
     jsonData: challengeResponse,
-    responseType: 'bytes',
-  });
+    responseType: 'bytes'});
 }
 
 export async function authenticate({
   username: newUsername,
-  password: newPassword,
-}: WebAPICredentials): Promise<void> {
+  password: newPassword}: WebAPICredentials): Promise<void> {
   username = newUsername;
   password = newPassword;
 
@@ -2005,9 +1914,7 @@ export async function getConfig(
       z.literal(''),
     ]),
     headers: {
-      ...(configHash && { 'if-none-match': configHash }),
-    },
-  });
+      ...(configHash && { 'if-none-match': configHash })}});
 
   const serverTimestamp = safeParseNumber(
     response.headers.get('x-signal-timestamp') || ''
@@ -2027,8 +1934,7 @@ export async function getConfig(
   if (response.status === 304) {
     return {
       config: 'unmodified',
-      ...partialResponse,
-    };
+      ...partialResponse};
   }
 
   if (data === '') {
@@ -2048,8 +1954,7 @@ export async function getConfig(
 
   return {
     config,
-    ...partialResponse,
-  };
+    ...partialResponse};
 }
 
 export async function getSenderCertificate(
@@ -2063,8 +1968,7 @@ export async function getSenderCertificate(
     validateResponse: { certificate: 'string' },
     ...(omitE164 ? { urlParameters: '?includeE164=false' } : {}),
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  })) as GetSenderCertificateResultType;
+    zodSchema: z.unknown()})) as GetSenderCertificateResultType;
 }
 
 export async function getStorageCredentials(): Promise<StorageServiceCredentials> {
@@ -2073,8 +1977,7 @@ export async function getStorageCredentials(): Promise<StorageServiceCredentials
     call: 'storageToken',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: StorageServiceCredentialsSchema,
-  });
+    zodSchema: StorageServiceCredentialsSchema});
 }
 
 export async function getOnboardingStoryManifest(): Promise<{
@@ -2087,8 +1990,7 @@ export async function getOnboardingStoryManifest(): Promise<{
     httpType: 'GET',
     responseType: 'json',
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
 
   return res as {
     version: string;
@@ -2104,14 +2006,12 @@ export async function redeemReceipt(
     call: 'redeemReceipt',
     httpType: 'POST',
     jsonData: options,
-    responseType: 'byteswithdetails',
-  });
+    responseType: 'byteswithdetails'});
 }
 
 export async function getReleaseNoteHash({
   uuid,
-  locale,
-}: {
+  locale}: {
   uuid: string;
   locale: string;
 }): Promise<string | undefined> {
@@ -2120,8 +2020,7 @@ export async function getReleaseNoteHash({
     host: 'resources',
     httpType: 'HEAD',
     urlParameters: `/${uuid}/${locale}.json`,
-    responseType: 'byteswithdetails',
-  });
+    responseType: 'byteswithdetails'});
 
   const etag = response.headers.get('etag');
 
@@ -2133,8 +2032,7 @@ export async function getReleaseNoteHash({
 }
 export async function getReleaseNote({
   uuid,
-  locale,
-}: {
+  locale}: {
   uuid: string;
   locale: string;
 }): Promise<ReleaseNoteResponseType> {
@@ -2144,8 +2042,7 @@ export async function getReleaseNote({
     httpType: 'GET',
     responseType: 'json',
     urlParameters: `/${uuid}/${locale}.json`,
-    zodSchema: releaseNoteSchema,
-  });
+    zodSchema: releaseNoteSchema});
 }
 
 export async function getReleaseNotesManifest(): Promise<ReleaseNotesManifestResponseType> {
@@ -2154,8 +2051,7 @@ export async function getReleaseNotesManifest(): Promise<ReleaseNotesManifestRes
     host: 'resources',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: releaseNotesManifestSchema,
-  });
+    zodSchema: releaseNotesManifestSchema});
 }
 
 export async function getReleaseNotesManifestHash(): Promise<
@@ -2165,8 +2061,7 @@ export async function getReleaseNotesManifestHash(): Promise<
     call: 'releaseNotesManifest',
     host: 'resources',
     httpType: 'HEAD',
-    responseType: 'byteswithdetails',
-  });
+    responseType: 'byteswithdetails'});
 
   const etag = response.headers.get('etag');
   if (etag == null) {
@@ -2190,13 +2085,11 @@ export async function getReleaseNoteImageAttachment(
     responseType: 'byteswithdetails',
     timeout: 0,
     type: 'GET',
-    version,
-  });
+    version});
 
   return {
     imageData,
-    contentType,
-  };
+    contentType};
 }
 
 export async function getStorageManifest(
@@ -2211,8 +2104,7 @@ export async function getStorageManifest(
     httpType: 'GET',
     responseType: 'byteswithdetails',
     urlParameters: greaterThanVersion ? `/version/${greaterThanVersion}` : '',
-    ...credentials,
-  });
+    ...credentials});
 
   if (response.status === 204) {
     throw makeHTTPError(
@@ -2240,8 +2132,7 @@ export async function getStorageRecords(
     host: 'storageService',
     httpType: 'PUT',
     responseType: 'bytes',
-    ...credentials,
-  });
+    ...credentials});
 }
 
 export async function modifyStorageRecords(
@@ -2259,8 +2150,7 @@ export async function modifyStorageRecords(
     // If we run into a conflict, the current manifest is returned -
     //   it will will be an Uint8Array at the response key on the Error
     responseType: 'bytes',
-    ...credentials,
-  });
+    ...credentials});
 }
 
 export async function registerCapabilities(
@@ -2270,8 +2160,7 @@ export async function registerCapabilities(
     host: 'chatService',
     call: 'registerCapabilities',
     httpType: 'PUT',
-    jsonData: capabilities,
-  });
+    jsonData: capabilities});
 }
 
 export async function postBatchIdentityCheck(
@@ -2284,8 +2173,7 @@ export async function postBatchIdentityCheck(
     httpType: 'POST',
     responseType: 'json',
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
 
   const result = safeParseUnknown(verifyServiceIdResponse, res);
 
@@ -2305,8 +2193,7 @@ function getProfileUrl(
   serviceId: ServiceIdString,
   {
     profileKeyVersion,
-    profileKeyCredentialRequest,
-  }: ProfileFetchAuthRequestOptions | ProfileFetchUnauthRequestOptions
+    profileKeyCredentialRequest}: ProfileFetchAuthRequestOptions | ProfileFetchUnauthRequestOptions
 ) {
   let profileUrl = `/${serviceId}`;
   if (profileKeyVersion != null) {
@@ -2344,14 +2231,12 @@ export async function getProfile(
       profileKeyCredentialRequest
     ),
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  })) as ProfileType;
+    zodSchema: z.unknown()})) as ProfileType;
 }
 
 export async function getTransferArchive({
   timeout = HOUR,
-  abortSignal,
-}: GetTransferArchiveOptionsType): Promise<TransferArchiveType> {
+  abortSignal}: GetTransferArchiveOptionsType): Promise<TransferArchiveType> {
   const timeoutTime = Date.now() + timeout;
 
   let remainingTime: number;
@@ -2377,8 +2262,7 @@ export async function getTransferArchive({
       timeout: (requestTimeoutInSecs + 15) * SECOND,
       abortSignal,
       // We may also get a 204 with no content, indicating we should try again
-      zodSchema: TransferArchiveSchema.or(z.literal('')),
-    });
+      zodSchema: TransferArchiveSchema.or(z.literal(''))});
 
     if (response.status === 200) {
       strictAssert(data !== '', '200 must have data');
@@ -2401,8 +2285,7 @@ export async function getTransferArchive({
 }
 
 export async function getAccountForUsername({
-  hash,
-}: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
+  hash}: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
   const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
   return _ajax({
     host: 'chatService',
@@ -2414,8 +2297,7 @@ export async function getAccountForUsername({
     unauthenticated: true,
     accessKey: undefined,
     groupSendToken: undefined,
-    zodSchema: getAccountForUsernameResultZod,
-  });
+    zodSchema: getAccountForUsernameResultZod});
 }
 
 export async function putProfile(
@@ -2427,8 +2309,7 @@ export async function putProfile(
     httpType: 'PUT',
     responseType: 'json',
     jsonData,
-    zodSchema: uploadAvatarOrOther,
-  });
+    zodSchema: uploadAvatarOrOther});
 }
 
 export async function getProfileUnauth(
@@ -2439,8 +2320,7 @@ export async function getProfileUnauth(
     accessKey,
     groupSendToken,
     profileKeyVersion,
-    profileKeyCredentialRequest,
-  } = options;
+    profileKeyCredentialRequest} = options;
 
   if (profileKeyVersion != null || profileKeyCredentialRequest != null) {
     // Without an up-to-date profile key, we won't be able to read the
@@ -2466,15 +2346,15 @@ export async function getProfileUnauth(
       profileKeyCredentialRequest
     ),
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  })) as ProfileType;
+    zodSchema: z.unknown()})) as ProfileType;
 }
 
 export async function getBadgeImageFile(
   imageFileUrl: string
 ): Promise<Uint8Array> {
+  // Badge validation removed
   strictAssert(
-    isBadgeImageFileUrlValid(imageFileUrl),
+    imageFileUrl && imageFileUrl.length > 0,
     'getBadgeImageFile got an invalid URL. Was bad data saved?'
   );
 
@@ -2494,8 +2374,7 @@ export async function getBadgeImageFile(
       const pattern = RegExp(escapeRegExp(pathname), 'g');
       return href.replace(pattern, `[REDACTED]${pathname.slice(-3)}`);
     },
-    version,
-  });
+    version});
 }
 
 export async function downloadOnboardingStories(
@@ -2513,8 +2392,7 @@ export async function downloadOnboardingStories(
           responseType: 'bytes',
           timeout: 0,
           type: 'GET',
-          version,
-        }
+          version}
       )
     )
   );
@@ -2526,8 +2404,7 @@ export async function getSubscriptionConfiguration(): Promise<SubscriptionConfig
     call: 'subscriptionConfiguration',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: subscriptionConfigurationResultZod,
-  });
+    zodSchema: subscriptionConfigurationResultZod});
 }
 
 export async function getAvatar(path: string): Promise<Uint8Array> {
@@ -2544,8 +2421,7 @@ export async function getAvatar(path: string): Promise<Uint8Array> {
       const pattern = RegExp(escapeRegExp(path), 'g');
       return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
     },
-    version,
-  });
+    version});
 }
 
 export async function deleteUsername(abortSignal?: AbortSignal): Promise<void> {
@@ -2553,32 +2429,27 @@ export async function deleteUsername(abortSignal?: AbortSignal): Promise<void> {
     host: 'chatService',
     call: 'username',
     httpType: 'DELETE',
-    abortSignal,
-  });
+    abortSignal});
 }
 
 export async function reserveUsername({
   hashes,
-  abortSignal,
-}: ReserveUsernameOptionsType): Promise<ReserveUsernameResultType> {
+  abortSignal}: ReserveUsernameOptionsType): Promise<ReserveUsernameResultType> {
   return _ajax({
     host: 'chatService',
     call: 'reserveUsername',
     httpType: 'PUT',
     jsonData: {
-      usernameHashes: hashes.map(hash => toWebSafeBase64(Bytes.toBase64(hash))),
-    },
+      usernameHashes: hashes.map(hash => toWebSafeBase64(Bytes.toBase64(hash)))},
     responseType: 'json',
     abortSignal,
-    zodSchema: reserveUsernameResultZod,
-  });
+    zodSchema: reserveUsernameResultZod});
 }
 export async function confirmUsername({
   hash,
   proof,
   encryptedUsername,
-  abortSignal,
-}: ConfirmUsernameOptionsType): Promise<ConfirmUsernameResultType> {
+  abortSignal}: ConfirmUsernameOptionsType): Promise<ConfirmUsernameResultType> {
   return _ajax({
     host: 'chatService',
     call: 'confirmUsername',
@@ -2586,18 +2457,15 @@ export async function confirmUsername({
     jsonData: {
       usernameHash: toWebSafeBase64(Bytes.toBase64(hash)),
       zkProof: toWebSafeBase64(Bytes.toBase64(proof)),
-      encryptedUsername: toWebSafeBase64(Bytes.toBase64(encryptedUsername)),
-    },
+      encryptedUsername: toWebSafeBase64(Bytes.toBase64(encryptedUsername))},
     responseType: 'json',
     abortSignal,
-    zodSchema: confirmUsernameResultZod,
-  });
+    zodSchema: confirmUsernameResultZod});
 }
 
 export async function replaceUsernameLink({
   encryptedUsername,
-  keepLinkHandle,
-}: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
+  keepLinkHandle}: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
   return _ajax({
     host: 'chatService',
     call: 'usernameLink',
@@ -2607,18 +2475,15 @@ export async function replaceUsernameLink({
       usernameLinkEncryptedValue: toWebSafeBase64(
         Bytes.toBase64(encryptedUsername)
       ),
-      keepLinkHandle,
-    },
-    zodSchema: replaceUsernameLinkResultZod,
-  });
+      keepLinkHandle},
+    zodSchema: replaceUsernameLinkResultZod});
 }
 
 export async function deleteUsernameLink(): Promise<void> {
   await _ajax({
     host: 'chatService',
     call: 'usernameLink',
-    httpType: 'DELETE',
-  });
+    httpType: 'DELETE'});
 }
 
 export async function resolveUsernameLink(
@@ -2633,15 +2498,13 @@ export async function resolveUsernameLink(
     unauthenticated: true,
     accessKey: undefined,
     groupSendToken: undefined,
-    zodSchema: resolveUsernameLinkResultZod,
-  });
+    zodSchema: resolveUsernameLinkResultZod});
 }
 
 export async function reportMessage({
   senderAci,
   serverGuid,
-  token,
-}: ReportMessageOptionsType): Promise<void> {
+  token}: ReportMessageOptionsType): Promise<void> {
   const jsonData = { token };
 
   await _ajax({
@@ -2650,8 +2513,7 @@ export async function reportMessage({
     httpType: 'POST',
     urlParameters: urlPathFromComponents([senderAci, serverGuid]),
     responseType: 'bytes',
-    jsonData,
-  });
+    jsonData});
 }
 
 export async function requestVerification(
@@ -2661,8 +2523,7 @@ export async function requestVerification(
 ): Promise<RequestVerificationResultType> {
   // Create a new blank session using just a E164
   const session = await libsignalNet.createRegistrationSession({
-    e164: number,
-  });
+    e164: number});
 
   // Submit a captcha solution to the session
   await session.submitCaptcha(captcha);
@@ -2676,8 +2537,7 @@ export async function requestVerification(
   await session.requestVerification({
     transport: transport === VerificationTransport.SMS ? 'sms' : 'voice',
     client: 'ios',
-    languages: [],
-  });
+    languages: []});
 
   // Return sessionId to be used in `createAccount`
   return { sessionId: session.sessionId };
@@ -2694,8 +2554,7 @@ export async function checkAccountExistence(
       urlParameters: `/${serviceId}`,
       unauthenticated: true,
       accessKey: undefined,
-      groupSendToken: undefined,
-    });
+      groupSendToken: undefined});
     return true;
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {
@@ -2770,12 +2629,10 @@ export async function createAccount({
   aciSignedPreKey,
   pniSignedPreKey,
   aciPqLastResortPreKey,
-  pniPqLastResortPreKey,
-}: CreateAccountOptionsType): Promise<CreateAccountResultType> {
+  pniPqLastResortPreKey}: CreateAccountOptionsType): Promise<CreateAccountResultType> {
   const session = await libsignalNet.resumeRegistrationSession({
     sessionId,
-    e164: number,
-  });
+    e164: number});
   const verified = await session.verifySession(code);
 
   if (!verified) {
@@ -2784,8 +2641,7 @@ export async function createAccount({
 
   const capabilities: CapabilitiesUploadType = {
     attachmentBackfill: true,
-    spqr: true,
-  };
+    spqr: true};
 
   // Desktop doesn't support recovery but we need to provide a recovery password.
   // Since the value isn't used, just use a random one and then throw it away.
@@ -2800,8 +2656,7 @@ export async function createAccount({
     unrestrictedUnidentifiedAccess: false,
     recoveryPassword,
     registrationLock: null,
-    discoverableByPhoneNumber: false,
-  });
+    discoverableByPhoneNumber: false});
 
   // Massages UploadSignedPreKey into SignedPublicPreKey and likewise for Kyber.
   function asSignedKey<K>(key: {
@@ -2816,8 +2671,7 @@ export async function createAccount({
     return {
       id: () => key.keyId,
       signature: () => key.signature,
-      publicKey: () => key.publicKey,
-    };
+      publicKey: () => key.publicKey};
   }
 
   const { aci, pni } = await session.registerAccount({
@@ -2829,8 +2683,7 @@ export async function createAccount({
     aciSignedPreKey: asSignedKey(aciSignedPreKey),
     pniSignedPreKey: asSignedKey(pniSignedPreKey),
     aciPqLastResortPreKey: asSignedKey(aciPqLastResortPreKey),
-    pniPqLastResortPreKey: asSignedKey(pniPqLastResortPreKey),
-  });
+    pniPqLastResortPreKey: asSignedKey(pniPqLastResortPreKey)});
 
   return { aci, pni };
 }
@@ -2845,12 +2698,10 @@ export async function linkDevice({
   aciSignedPreKey,
   pniSignedPreKey,
   aciPqLastResortPreKey,
-  pniPqLastResortPreKey,
-}: LinkDeviceOptionsType): Promise<LinkDeviceResultType> {
+  pniPqLastResortPreKey}: LinkDeviceOptionsType): Promise<LinkDeviceResultType> {
   const capabilities: CapabilitiesUploadType = {
     attachmentBackfill: true,
-    spqr: true,
-  };
+    spqr: true};
 
   const jsonData = {
     verificationCode,
@@ -2859,18 +2710,15 @@ export async function linkDevice({
       name: encryptedDeviceName,
       registrationId,
       pniRegistrationId,
-      capabilities,
-    },
+      capabilities},
     aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
     pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
     aciPqLastResortPreKey: serializeSignedPreKey(aciPqLastResortPreKey),
-    pniPqLastResortPreKey: serializeSignedPreKey(pniPqLastResortPreKey),
-  };
+    pniPqLastResortPreKey: serializeSignedPreKey(pniPqLastResortPreKey)};
   return _withNewCredentials(
     {
       username: number,
-      password: newPassword,
-    },
+      password: newPassword},
     async () => {
       const response = await _ajax({
         host: 'chatService',
@@ -2879,8 +2727,7 @@ export async function linkDevice({
         httpType: 'PUT',
         responseType: 'json',
         jsonData,
-        zodSchema: linkDeviceResultZod,
-      });
+        zodSchema: linkDeviceResultZod});
 
       return response;
     }
@@ -2897,8 +2744,7 @@ export async function unlink(): Promise<void> {
     host: 'chatService',
     call: 'devices',
     httpType: 'DELETE',
-    urlParameters: `/${deviceId}`,
-  });
+    urlParameters: `/${deviceId}`});
 }
 
 export async function getDevices(): Promise<GetDevicesResultType> {
@@ -2907,8 +2753,7 @@ export async function getDevices(): Promise<GetDevicesResultType> {
     call: 'devices',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: getDevicesResultZod,
-  });
+    zodSchema: getDevicesResultZod});
 }
 
 export async function updateDeviceName(deviceName: string): Promise<void> {
@@ -2917,9 +2762,7 @@ export async function updateDeviceName(deviceName: string): Promise<void> {
     call: 'updateDeviceName',
     httpType: 'PUT',
     jsonData: {
-      deviceName,
-    },
-  });
+      deviceName}});
 }
 
 export async function getIceServers(): Promise<GetIceServersResultType> {
@@ -2929,8 +2772,7 @@ export async function getIceServers(): Promise<GetIceServersResultType> {
     httpType: 'GET',
     responseType: 'json',
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  })) as GetIceServersResultType;
+    zodSchema: z.unknown()})) as GetIceServersResultType;
 }
 
 type JSONSignedPreKeyType = {
@@ -2961,13 +2803,11 @@ export async function registerKeys(
 ): Promise<void> {
   const preKeys = genKeys.preKeys?.map(key => ({
     keyId: key.keyId,
-    publicKey: Bytes.toBase64(key.publicKey.serialize()),
-  }));
+    publicKey: Bytes.toBase64(key.publicKey.serialize())}));
   const pqPreKeys = genKeys.pqPreKeys?.map(key => ({
     keyId: key.keyId,
     publicKey: Bytes.toBase64(key.publicKey.serialize()),
-    signature: Bytes.toBase64(key.signature),
-  }));
+    signature: Bytes.toBase64(key.signature)}));
 
   if (
     !preKeys?.length &&
@@ -2990,8 +2830,7 @@ export async function registerKeys(
     preKeys,
     pqPreKeys,
     pqLastResortPreKey: serializeSignedPreKey(genKeys.pqLastResortPreKey),
-    signedPreKey: serializeSignedPreKey(genKeys.signedPreKey),
-  };
+    signedPreKey: serializeSignedPreKey(genKeys.signedPreKey)};
 
   await _ajax({
     host: 'chatService',
@@ -2999,8 +2838,7 @@ export async function registerKeys(
     call: 'keys',
     urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
     httpType: 'PUT',
-    jsonData: keys,
-  });
+    jsonData: keys});
 }
 
 export async function getBackupInfo(
@@ -3015,8 +2853,7 @@ export async function getBackupInfo(
     groupSendToken: undefined,
     headers,
     responseType: 'json',
-    zodSchema: getBackupInfoResponseSchema,
-  });
+    zodSchema: getBackupInfoResponseSchema});
 }
 
 export async function getBackupStream({
@@ -3026,8 +2863,7 @@ export async function getBackupStream({
   backupName,
   downloadOffset,
   onProgress,
-  abortSignal,
-}: GetBackupStreamOptionsType): Promise<Readable> {
+  abortSignal}: GetBackupStreamOptionsType): Promise<Readable> {
   return _getAttachment({
     cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
     cdnNumber: cdn,
@@ -3036,16 +2872,13 @@ export async function getBackupStream({
     options: {
       downloadOffset,
       onProgress,
-      abortSignal,
-    },
-  });
+      abortSignal}});
 }
 export async function getBackupFileHeaders({
   headers,
   cdn,
   backupDir,
-  backupName,
-}: Pick<
+  backupName}: Pick<
   GetBackupStreamOptionsType,
   'headers' | 'cdn' | 'backupDir' | 'backupName'
 >): Promise<BackupFileHeadersType> {
@@ -3053,8 +2886,7 @@ export async function getBackupFileHeaders({
     cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
     cdnNumber: cdn,
     redactor: _createRedactor(backupDir, backupName),
-    headers,
-  });
+    headers});
   const responseHeaders = Object.fromEntries(result.entries());
 
   return parseUnknown(backupFileHeadersSchema, responseHeaders as unknown);
@@ -3065,8 +2897,7 @@ export async function getEphemeralBackupStream({
   key,
   downloadOffset,
   onProgress,
-  abortSignal,
-}: GetEphemeralBackupStreamOptionsType): Promise<Readable> {
+  abortSignal}: GetEphemeralBackupStreamOptionsType): Promise<Readable> {
   return _getAttachment({
     cdnNumber: cdn,
     cdnPath: `/attachments/${encodeURIComponent(key)}`,
@@ -3074,9 +2905,7 @@ export async function getEphemeralBackupStream({
     options: {
       downloadOffset,
       onProgress,
-      abortSignal,
-    },
-  });
+      abortSignal}});
 }
 
 export async function getBackupMediaUploadForm(
@@ -3091,15 +2920,13 @@ export async function getBackupMediaUploadForm(
     groupSendToken: undefined,
     headers,
     responseType: 'json',
-    zodSchema: attachmentUploadFormResponse,
-  });
+    zodSchema: attachmentUploadFormResponse});
 }
 
 export function createFetchForAttachmentUpload({
   signedUploadLocation,
   headers: uploadHeaders,
-  cdn,
-}: AttachmentUploadFormResponseType): FetchFunctionType {
+  cdn}: AttachmentUploadFormResponseType): FetchFunctionType {
   strictAssert(cdn === 3, 'Fetch can only be created for CDN 3');
   const { origin: expectedOrigin } = new URL(signedUploadLocation);
 
@@ -3119,17 +2946,14 @@ export function createFetchForAttachmentUpload({
       timeout: 0,
       version,
 
-      headers: uploadHeaders,
-    });
+      headers: uploadHeaders});
 
     return fetch(endpoint, {
       ...fetchOptions,
       ...init,
       headers: {
         ...fetchOptions.headers,
-        ...init.headers,
-      },
-    });
+        ...init.headers}});
   };
 }
 
@@ -3145,8 +2969,7 @@ export async function getBackupUploadForm(
     groupSendToken: undefined,
     headers,
     responseType: 'json',
-    zodSchema: attachmentUploadFormResponse,
-  });
+    zodSchema: attachmentUploadFormResponse});
 }
 
 export async function refreshBackup(
@@ -3159,14 +2982,12 @@ export async function refreshBackup(
     unauthenticated: true,
     accessKey: undefined,
     groupSendToken: undefined,
-    headers,
-  });
+    headers});
 }
 
 export async function getBackupCredentials({
   startDayInMs,
-  endDayInMs,
-}: GetBackupCredentialsOptionsType): Promise<GetBackupCredentialsResponseType> {
+  endDayInMs}: GetBackupCredentialsOptionsType): Promise<GetBackupCredentialsResponseType> {
   const startDayInSeconds = startDayInMs / SECOND;
   const endDayInSeconds = endDayInMs / SECOND;
   return _ajax({
@@ -3177,14 +2998,12 @@ export async function getBackupCredentials({
       `?redemptionStartSeconds=${startDayInSeconds}&` +
       `redemptionEndSeconds=${endDayInSeconds}`,
     responseType: 'json',
-    zodSchema: getBackupCredentialsResponseSchema,
-  });
+    zodSchema: getBackupCredentialsResponseSchema});
 }
 
 export async function getBackupCDNCredentials({
   headers,
-  cdnNumber,
-}: GetBackupCDNCredentialsOptionsType): Promise<GetBackupCDNCredentialsResponseType> {
+  cdnNumber}: GetBackupCDNCredentialsOptionsType): Promise<GetBackupCDNCredentialsResponseType> {
   return _ajax({
     host: 'chatService',
     call: 'getBackupCDNCredentials',
@@ -3195,14 +3014,12 @@ export async function getBackupCDNCredentials({
     headers,
     urlParameters: `?cdn=${cdnNumber}`,
     responseType: 'json',
-    zodSchema: getBackupCDNCredentialsResponseSchema,
-  });
+    zodSchema: getBackupCDNCredentialsResponseSchema});
 }
 
 export async function setBackupId({
   messagesBackupAuthCredentialRequest,
-  mediaBackupAuthCredentialRequest,
-}: SetBackupIdOptionsType): Promise<void> {
+  mediaBackupAuthCredentialRequest}: SetBackupIdOptionsType): Promise<void> {
   await _ajax({
     host: 'chatService',
     call: 'setBackupId',
@@ -3213,15 +3030,12 @@ export async function setBackupId({
       ),
       mediaBackupAuthCredentialRequest: Bytes.toBase64(
         mediaBackupAuthCredentialRequest
-      ),
-    },
-  });
+      )}});
 }
 
 export async function setBackupSignatureKey({
   headers,
-  backupIdPublicKey,
-}: SetBackupSignatureKeyOptionsType): Promise<void> {
+  backupIdPublicKey}: SetBackupSignatureKeyOptionsType): Promise<void> {
   await _ajax({
     host: 'chatService',
     call: 'setBackupSignatureKey',
@@ -3231,15 +3045,12 @@ export async function setBackupSignatureKey({
     groupSendToken: undefined,
     headers,
     jsonData: {
-      backupIdPublicKey: Bytes.toBase64(backupIdPublicKey),
-    },
-  });
+      backupIdPublicKey: Bytes.toBase64(backupIdPublicKey)}});
 }
 
 export async function backupMediaBatch({
   headers,
-  items,
-}: BackupMediaBatchOptionsType): Promise<BackupMediaBatchResponseType> {
+  items}: BackupMediaBatchOptionsType): Promise<BackupMediaBatchResponseType> {
   return _ajax({
     host: 'chatService',
     call: 'backupMediaBatch',
@@ -3256,29 +3067,23 @@ export async function backupMediaBatch({
           objectLength,
           mediaId,
           hmacKey,
-          encryptionKey,
-        } = item;
+          encryptionKey} = item;
 
         return {
           sourceAttachment: {
             cdn: sourceAttachment.cdn,
-            key: sourceAttachment.key,
-          },
+            key: sourceAttachment.key},
           objectLength,
           mediaId,
           hmacKey: Bytes.toBase64(hmacKey),
-          encryptionKey: Bytes.toBase64(encryptionKey),
-        };
-      }),
-    },
-    zodSchema: backupMediaBatchResponseSchema,
-  });
+          encryptionKey: Bytes.toBase64(encryptionKey)};
+      })},
+    zodSchema: backupMediaBatchResponseSchema});
 }
 
 export async function backupDeleteMedia({
   headers,
-  mediaToDelete,
-}: BackupDeleteMediaOptionsType): Promise<void> {
+  mediaToDelete}: BackupDeleteMediaOptionsType): Promise<void> {
   await _ajax({
     host: 'chatService',
     call: 'backupMediaDelete',
@@ -3291,18 +3096,14 @@ export async function backupDeleteMedia({
       mediaToDelete: mediaToDelete.map(({ cdn, mediaId }) => {
         return {
           cdn,
-          mediaId,
-        };
-      }),
-    },
-  });
+          mediaId};
+      })}});
 }
 
 export async function backupListMedia({
   headers,
   cursor,
-  limit,
-}: BackupListMediaOptionsType): Promise<BackupListMediaResponseType> {
+  limit}: BackupListMediaOptionsType): Promise<BackupListMediaResponseType> {
   const params = new Array<string>();
 
   if (cursor != null) {
@@ -3320,8 +3121,7 @@ export async function backupListMedia({
     headers,
     responseType: 'json',
     urlParameters: `?${params.join('&')}`,
-    zodSchema: backupListMediaResponseSchema,
-  });
+    zodSchema: backupListMediaResponseSchema});
 }
 
 export async function callLinkCreateAuth(
@@ -3333,8 +3133,7 @@ export async function callLinkCreateAuth(
     httpType: 'POST',
     responseType: 'json',
     jsonData: { createCallLinkCredentialRequest: requestBase64 },
-    zodSchema: callLinkCreateAuthResponseSchema,
-  });
+    zodSchema: callLinkCreateAuthResponseSchema});
 }
 
 export async function setPhoneNumberDiscoverability(
@@ -3345,9 +3144,7 @@ export async function setPhoneNumberDiscoverability(
     call: 'phoneNumberDiscoverability',
     httpType: 'PUT',
     jsonData: {
-      discoverableByPhoneNumber: newValue,
-    },
-  });
+      discoverableByPhoneNumber: newValue}});
 }
 
 export async function getMyKeyCounts(
@@ -3359,8 +3156,7 @@ export async function getMyKeyCounts(
     urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: ServerKeyCountSchema,
-  });
+    zodSchema: ServerKeyCountSchema});
 }
 
 function handleKeys(res: ServerKeyResponseType): ServerKeysType {
@@ -3373,8 +3169,7 @@ function handleKeys(res: ServerKeyResponseType): ServerKeysType {
       !_validateResponse(device, { signedPreKey: 'object' }) ||
       !_validateResponse(device.signedPreKey, {
         publicKey: 'string',
-        signature: 'string',
-      })
+        signature: 'string'})
     ) {
       throw new Error('Invalid signedPreKey');
     }
@@ -3390,8 +3185,7 @@ function handleKeys(res: ServerKeyResponseType): ServerKeysType {
 
       preKey = {
         keyId: device.preKey.keyId,
-        publicKey: Bytes.fromBase64(device.preKey.publicKey),
-      };
+        publicKey: Bytes.fromBase64(device.preKey.publicKey)};
     }
 
     return {
@@ -3403,26 +3197,20 @@ function handleKeys(res: ServerKeyResponseType): ServerKeysType {
             signedPreKey: {
               keyId: device.signedPreKey.keyId,
               publicKey: Bytes.fromBase64(device.signedPreKey.publicKey),
-              signature: Bytes.fromBase64(device.signedPreKey.signature),
-            },
-          }
+              signature: Bytes.fromBase64(device.signedPreKey.signature)}}
         : null),
       ...(device.pqPreKey
         ? {
             pqPreKey: {
               keyId: device.pqPreKey.keyId,
               publicKey: Bytes.fromBase64(device.pqPreKey.publicKey),
-              signature: Bytes.fromBase64(device.pqPreKey.signature),
-            },
-          }
-        : null),
-    };
+              signature: Bytes.fromBase64(device.pqPreKey.signature)}}
+        : null)};
   });
 
   return {
     devices,
-    identityKey: Bytes.fromBase64(res.identityKey),
-  };
+    identityKey: Bytes.fromBase64(res.identityKey)};
 }
 
 export async function getKeysForServiceId(
@@ -3435,8 +3223,7 @@ export async function getKeysForServiceId(
     httpType: 'GET',
     urlParameters: `/${serviceId}/${deviceId || '*'}`,
     responseType: 'json',
-    zodSchema: ServerKeyResponseSchema,
-  });
+    zodSchema: ServerKeyResponseSchema});
   return handleKeys(keys);
 }
 
@@ -3445,8 +3232,7 @@ export async function getKeysForServiceIdUnauth(
   deviceId?: number,
   {
     accessKey,
-    groupSendToken,
-  }: { accessKey?: string; groupSendToken?: GroupSendToken } = {}
+    groupSendToken}: { accessKey?: string; groupSendToken?: GroupSendToken } = {}
 ): Promise<ServerKeysType> {
   const keys = await _ajax({
     host: 'chatService',
@@ -3457,8 +3243,7 @@ export async function getKeysForServiceIdUnauth(
     unauthenticated: true,
     accessKey,
     groupSendToken,
-    zodSchema: ServerKeyResponseSchema,
-  });
+    zodSchema: ServerKeyResponseSchema});
   return handleKeys(keys);
 }
 
@@ -3471,8 +3256,7 @@ export async function sendMessagesUnauth(
     groupSendToken,
     online,
     urgent = true,
-    story = false,
-  }: {
+    story = false}: {
     accessKey: string | null;
     groupSendToken: GroupSendToken | null;
     online?: boolean;
@@ -3484,8 +3268,7 @@ export async function sendMessagesUnauth(
     messages,
     timestamp,
     online: Boolean(online),
-    urgent,
-  };
+    urgent};
 
   await _ajax({
     host: 'chatService',
@@ -3498,8 +3281,7 @@ export async function sendMessagesUnauth(
     accessKey: accessKey ?? undefined,
     groupSendToken: groupSendToken ?? undefined,
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
 }
 
 export async function sendMessages(
@@ -3509,15 +3291,13 @@ export async function sendMessages(
   {
     online,
     urgent = true,
-    story = false,
-  }: { online?: boolean; story?: boolean; urgent?: boolean }
+    story = false}: { online?: boolean; story?: boolean; urgent?: boolean }
 ): Promise<void> {
   const jsonData = {
     messages,
     timestamp,
     online: Boolean(online),
-    urgent,
-  };
+    urgent};
 
   await _ajax({
     host: 'chatService',
@@ -3527,8 +3307,7 @@ export async function sendMessages(
     jsonData,
     responseType: 'json',
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
 }
 
 function booleanToString(value: boolean | undefined): string {
@@ -3543,8 +3322,7 @@ export async function sendWithSenderKey(
   {
     online,
     urgent = true,
-    story = false,
-  }: {
+    story = false}: {
     online?: boolean;
     story?: boolean;
     urgent?: boolean;
@@ -3566,8 +3344,7 @@ export async function sendWithSenderKey(
     accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
     groupSendToken: groupSendToken ?? undefined,
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
   const parseResult = safeParseUnknown(
     multiRecipient200ResponseSchema,
     response
@@ -3606,8 +3383,7 @@ export async function getSticker(
       responseType: 'bytes',
       type: 'GET',
       redactUrl: redactStickerUrl,
-      version,
-    }
+      version}
   );
 }
 
@@ -3623,8 +3399,7 @@ export async function getStickerPackManifest(
     responseType: 'bytes',
     type: 'GET',
     redactUrl: redactStickerUrl,
-    version,
-  });
+    version});
 }
 
 type ServerV2AttachmentType = {
@@ -3645,8 +3420,7 @@ function makePutParams(
     algorithm,
     date,
     policy,
-    signature,
-  }: ServerV2AttachmentType,
+    signature}: ServerV2AttachmentType,
   encryptedBin: Uint8Array
 ) {
   // Note: when using the boundary string in the POST body, it needs to be prefixed by
@@ -3686,9 +3460,7 @@ function makePutParams(
     data,
     contentType: `multipart/form-data; boundary=${boundaryString}`,
     headers: {
-      'Content-Length': data.length.toString(),
-    },
-  };
+      'Content-Length': data.length.toString()}};
 }
 
 export async function putStickers(
@@ -3703,8 +3475,7 @@ export async function putStickers(
     responseType: 'json',
     httpType: 'GET',
     urlParameters: `/${encryptedStickers.length}`,
-    zodSchema: StickerPackUploadFormSchema,
-  });
+    zodSchema: StickerPackUploadFormSchema});
 
   // Upload manifest
   const manifestParams = makePutParams(manifest, encryptedManifest);
@@ -3716,15 +3487,13 @@ export async function putStickers(
     timeout: 0,
     type: 'POST',
     version,
-    responseType: 'raw',
-  });
+    responseType: 'raw'});
 
   // Upload stickers
   const queue = new PQueue({
     concurrency: 3,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
-  });
+    throwOnTimeout: true});
   await Promise.all(
     stickers.map(async (sticker: ServerV2AttachmentType, index: number) => {
       const stickerParams = makePutParams(sticker, encryptedStickers[index]);
@@ -3736,8 +3505,7 @@ export async function putStickers(
           timeout: 0,
           type: 'POST',
           version,
-          responseType: 'raw',
-        })
+          responseType: 'raw'})
       );
       if (onProgress) {
         onProgress();
@@ -3754,8 +3522,7 @@ export async function putStickers(
 export async function getAttachment({
   cdnKey,
   cdnNumber,
-  options,
-}: {
+  options}: {
   cdnKey: string;
   cdnNumber?: number;
   options?: {
@@ -3769,8 +3536,7 @@ export async function getAttachment({
     cdnPath: `/attachments/${cdnKey}`,
     cdnNumber: cdnNumber ?? 0,
     redactor: _createRedactor(cdnKey),
-    options,
-  });
+    options});
 }
 
 export async function getAttachmentFromBackupTier({
@@ -3779,15 +3545,13 @@ export async function getAttachmentFromBackupTier({
   mediaDir,
   cdnNumber,
   headers,
-  options,
-}: GetAttachmentFromBackupTierArgsType): Promise<Readable> {
+  options}: GetAttachmentFromBackupTierArgsType): Promise<Readable> {
   return _getAttachment({
     cdnPath: urlPathFromComponents(['backups', backupDir, mediaDir, mediaId]),
     cdnNumber,
     headers,
     redactor: _createRedactor(backupDir, mediaDir, mediaId),
-    options,
-  });
+    options});
 }
 
 function getCheckedCdnUrl(cdnNumber: number, cdnPath: string) {
@@ -3804,8 +3568,7 @@ async function _getAttachmentHeaders({
   cdnPath,
   cdnNumber,
   headers = {},
-  redactor,
-}: Omit<GetAttachmentArgsType, 'options'>): Promise<fetch.Headers> {
+  redactor}: Omit<GetAttachmentArgsType, 'options'>): Promise<fetch.Headers> {
   const fullCdnUrl = getCheckedCdnUrl(cdnNumber, cdnPath);
   const response = await _outerAjax(fullCdnUrl, {
     headers,
@@ -3815,8 +3578,7 @@ async function _getAttachmentHeaders({
     timeout: DEFAULT_TIMEOUT,
     type: 'HEAD',
     redactUrl: redactor,
-    version,
-  });
+    version});
   return response.headers;
 }
 
@@ -3825,8 +3587,7 @@ async function _getAttachment({
   cdnNumber,
   headers = {},
   redactor,
-  options,
-}: GetAttachmentArgsType): Promise<Readable> {
+  options}: GetAttachmentArgsType): Promise<Readable> {
   const abortController = new AbortController();
 
   let streamWithDetails: StreamWithDetailsType | undefined;
@@ -3861,8 +3622,7 @@ async function _getAttachment({
       type: 'GET',
       redactUrl: redactor,
       version,
-      abortSignal: abortController.signal,
-    });
+      abortSignal: abortController.signal});
 
     if (targetHeaders.range == null) {
       const contentLength =
@@ -3915,8 +3675,7 @@ async function _getAttachment({
   const timeoutStream = getTimeoutStream({
     name: `getAttachment(${redactor(cdnPath)})`,
     timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
-    abortController,
-  });
+    abortController});
 
   const combinedStream = streamWithDetails.stream
     // We do this manually; pipe() doesn't flow errors through the streams for us
@@ -3946,8 +3705,7 @@ export async function getAttachmentUploadForm(): Promise<AttachmentUploadFormRes
     call: 'attachmentUploadForm',
     httpType: 'GET',
     responseType: 'json',
-    zodSchema: attachmentUploadFormResponse,
-  });
+    zodSchema: attachmentUploadFormResponse});
 }
 
 export async function putEncryptedAttachment(
@@ -3971,8 +3729,7 @@ export async function putEncryptedAttachment(
       tmp.search = '';
       tmp.pathname = '';
       return `${tmp}[REDACTED]`;
-    },
-  });
+    }});
 
   const uploadLocation = uploadResponse.headers.get('location');
   strictAssert(uploadLocation, 'attachment upload form header has no location');
@@ -4007,12 +3764,10 @@ export async function putEncryptedAttachment(
         type: 'PUT',
         version,
         headers: {
-          'Content-Range': `bytes ${start}-*/${encryptedSize}`,
-        },
+          'Content-Range': `bytes ${start}-*/${encryptedSize}`},
         data: () => encryptedBin(start),
         redactUrl,
-        responseType: 'raw',
-      });
+        responseType: 'raw'});
 
       if (retries !== 0) {
         log.warn(`${logId}: Attachment upload succeeded`);
@@ -4031,12 +3786,10 @@ export async function putEncryptedAttachment(
       type: 'PUT',
       version,
       headers: {
-        'Content-Range': `bytes */${encryptedSize}`,
-      },
+        'Content-Range': `bytes */${encryptedSize}`},
       data: new Uint8Array(0),
       redactUrl,
-      responseType: 'byteswithdetails',
-    });
+      responseType: 'byteswithdetails'});
     const { response } = result;
     strictAssert(response.status === 308, 'Invalid server response');
     const range = response.headers.get('range');
@@ -4098,11 +3851,9 @@ export async function fetchJsonViaProxy(
     redactUrl: () => '[REDACTED_URL]',
     headers: {
       'X-SignalPadding': getHeaderPadding(),
-      ...params.headers,
-    },
+      ...params.headers},
     version,
-    abortSignal: params.signal,
-  });
+    abortSignal: params.signal});
 }
 
 export async function fetchBytesViaProxy(
@@ -4116,11 +3867,9 @@ export async function fetchBytesViaProxy(
     redactUrl: () => '[REDACTED_URL]',
     headers: {
       'X-SignalPadding': getHeaderPadding(),
-      ...params.headers,
-    },
+      ...params.headers},
     version,
-    abortSignal: params.signal,
-  });
+    abortSignal: params.signal});
 }
 
 export async function makeSfuRequest(
@@ -4137,8 +3886,7 @@ export async function makeSfuRequest(
     responseType: 'byteswithdetails',
     timeout: 0,
     type,
-    version,
-  });
+    version});
 }
 
 // Groups
@@ -4154,8 +3902,7 @@ function generateGroupAuth(
 
 export async function getGroupCredentials({
   startDayInMs,
-  endDayInMs,
-}: GetGroupCredentialsOptionsType): Promise<GetGroupCredentialsResultType> {
+  endDayInMs}: GetGroupCredentialsOptionsType): Promise<GetGroupCredentialsResultType> {
   const startDayInSeconds = startDayInMs / SECOND;
   const endDayInSeconds = endDayInMs / SECOND;
 
@@ -4169,8 +3916,7 @@ export async function getGroupCredentials({
     httpType: 'GET',
     responseType: 'json',
     // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+    zodSchema: z.unknown()});
 
   return response as GetGroupCredentialsResultType;
 }
@@ -4190,8 +3936,7 @@ export async function getExternalGroupCredential(
     contentType: 'application/x-protobuf',
     responseType: 'bytes',
     host: 'storageService',
-    disableSessionResumption: true,
-  });
+    disableSessionResumption: true});
 
   return Proto.ExternalGroupCredential.decode(response);
 }
@@ -4221,8 +3966,7 @@ function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
     algorithm,
     date,
     policy,
-    signature,
-  };
+    signature};
 }
 
 export async function uploadAvatar(
@@ -4241,8 +3985,7 @@ export async function uploadAvatar(
     timeout: 0,
     type: 'POST',
     version,
-    responseType: 'raw',
-  });
+    responseType: 'raw'});
 
   return key;
 }
@@ -4262,8 +4005,7 @@ export async function uploadGroupAvatar(
     httpType: 'GET',
     responseType: 'bytes',
     host: 'storageService',
-    disableSessionResumption: true,
-  });
+    disableSessionResumption: true});
   const attributes = Proto.AvatarUploadAttributes.decode(response);
 
   const verified = verifyAttributes(attributes);
@@ -4278,8 +4020,7 @@ export async function uploadGroupAvatar(
     timeout: 0,
     type: 'POST',
     version,
-    responseType: 'raw',
-  });
+    responseType: 'raw'});
 
   return key;
 }
@@ -4292,8 +4033,7 @@ export async function getGroupAvatar(key: string): Promise<Uint8Array> {
     timeout: 0,
     type: 'GET',
     version,
-    redactUrl: _createRedactor(key),
-  });
+    redactUrl: _createRedactor(key)});
 }
 
 export function createBoostPaymentIntent(
@@ -4306,8 +4046,7 @@ export function createBoostPaymentIntent(
     httpType: 'POST',
     jsonData: options,
     responseType: 'json',
-    zodSchema: CreateBoostResultSchema,
-  });
+    zodSchema: CreateBoostResultSchema});
 }
 
 export async function createBoostReceiptCredentials(
@@ -4320,8 +4059,7 @@ export async function createBoostReceiptCredentials(
     httpType: 'POST',
     jsonData: options,
     responseType: 'jsonwithdetails',
-    zodSchema: CreateBoostReceiptCredentialsResultSchema,
-  });
+    zodSchema: CreateBoostReceiptCredentialsResultSchema});
 }
 
 // https://docs.stripe.com/api/payment_intents/confirm?api-version=2025-05-28.basil
@@ -4333,19 +4071,16 @@ export function confirmIntentWithStripe(
     idempotencyKey,
     paymentIntentId,
     paymentMethodId,
-    returnUrl,
-  } = options;
+    returnUrl} = options;
   const safePaymentIntentId = encodeURIComponent(paymentIntentId);
   const url = `https://api.stripe.com/v1/payment_intents/${safePaymentIntentId}/confirm`;
   const formData = {
     client_secret: clientSecret,
     payment_method: paymentMethodId,
-    return_url: returnUrl,
-  };
+    return_url: returnUrl};
   const basicAuth = getBasicAuth({
     username: stripePublishableKey,
-    password: '',
-  });
+    password: ''});
   const formBytes = Bytes.fromString(qs.encode(formData));
 
   // This is going to Stripe, so we use _outerAjax
@@ -4355,8 +4090,7 @@ export function confirmIntentWithStripe(
       Authorization: basicAuth,
       'Content-Type': CONTENT_TYPE_FORM_ENCODING,
       'Content-Length': formBytes.byteLength.toString(),
-      'Idempotency-Key': idempotencyKey,
-    },
+      'Idempotency-Key': idempotencyKey},
     proxyUrl,
     redactUrl: () => {
       return url.replace(safePaymentIntentId, '[REDACTED]');
@@ -4364,8 +4098,7 @@ export function confirmIntentWithStripe(
     responseType: 'json',
     type: 'POST',
     version,
-    zodSchema: ConfirmIntentWithStripeResultSchema,
-  });
+    zodSchema: ConfirmIntentWithStripeResultSchema});
 }
 
 // https://docs.stripe.com/api/payment_methods/create?api-version=2025-05-28.basil&lang=node#create_payment_method-card
@@ -4379,12 +4112,10 @@ export function createPaymentMethodWithStripe(
     'card[cvc]': card.cvc,
     'card[exp_month]': card.expirationMonth,
     'card[exp_year]': card.expirationYear,
-    'card[number]': card.number,
-  };
+    'card[number]': card.number};
   const basicAuth = getBasicAuth({
     username: stripePublishableKey,
-    password: '',
-  });
+    password: ''});
   const formBytes = Bytes.fromString(qs.encode(formData));
 
   // This is going to Stripe, so we use _outerAjax
@@ -4393,14 +4124,12 @@ export function createPaymentMethodWithStripe(
     headers: {
       Authorization: basicAuth,
       'Content-Type': CONTENT_TYPE_FORM_ENCODING,
-      'Content-Length': formBytes.byteLength.toString(),
-    },
+      'Content-Length': formBytes.byteLength.toString()},
     proxyUrl,
     responseType: 'json',
     type: 'POST',
     version,
-    zodSchema: CreatePaymentMethodWithStripeResultSchema,
-  });
+    zodSchema: CreatePaymentMethodWithStripeResultSchema});
 }
 
 export async function createGroup(
@@ -4421,8 +4150,7 @@ export async function createGroup(
     host: 'storageService',
     disableSessionResumption: true,
     httpType: 'PUT',
-    responseType: 'bytes',
-  });
+    responseType: 'bytes'});
 
   return Proto.GroupResponse.decode(response);
 }
@@ -4442,8 +4170,7 @@ export async function getGroup(
     host: 'storageService',
     disableSessionResumption: true,
     httpType: 'GET',
-    responseType: 'bytes',
-  });
+    responseType: 'bytes'});
 
   return Proto.GroupResponse.decode(response);
 }
@@ -4471,8 +4198,7 @@ export async function getGroupFromLink(
     urlParameters: safeInviteLinkPassword
       ? `${safeInviteLinkPassword}`
       : undefined,
-    redactUrl: _createRedactor(safeInviteLinkPassword),
-  });
+    redactUrl: _createRedactor(safeInviteLinkPassword)});
 
   return Proto.GroupJoinInfo.decode(response);
 }
@@ -4505,8 +4231,7 @@ export async function modifyGroup(
       : undefined,
     redactUrl: safeInviteLinkPassword
       ? _createRedactor(safeInviteLinkPassword)
-      : undefined,
-  });
+      : undefined});
 
   return Proto.GroupChangeResponse.decode(response);
 }
@@ -4525,8 +4250,7 @@ export async function getGroupLog(
     includeFirstState,
     includeLastState,
     maxSupportedChangeEpoch,
-    cachedEndorsementsExpiration,
-  } = options;
+    cachedEndorsementsExpiration} = options;
 
   // If we don't know starting revision - fetch it from the server
   if (startVersion === undefined) {
@@ -4537,16 +4261,14 @@ export async function getGroupLog(
       host: 'storageService',
       disableSessionResumption: true,
       httpType: 'GET',
-      responseType: 'byteswithdetails',
-    });
+      responseType: 'byteswithdetails'});
 
     const { joinedAtVersion } = Proto.Member.decode(joinedData);
 
     return getGroupLog(
       {
         ...options,
-        startVersion: joinedAtVersion ?? 0,
-      },
+        startVersion: joinedAtVersion ?? 0},
       credentials
     );
   }
@@ -4560,14 +4282,12 @@ export async function getGroupLog(
     httpType: 'GET',
     responseType: 'byteswithdetails',
     headers: {
-      'Cached-Send-Endorsements': String(cachedEndorsementsExpiration ?? 0),
-    },
+      'Cached-Send-Endorsements': String(cachedEndorsementsExpiration ?? 0)},
     urlParameters:
       `/${startVersion}?` +
       `includeFirstState=${Boolean(includeFirstState)}&` +
       `includeLastState=${Boolean(includeLastState)}&` +
-      `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
-  });
+      `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`});
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);
   const { groupSendEndorsementResponse } = changes;
@@ -4592,16 +4312,14 @@ export async function getGroupLog(
         start,
         end,
         currentRevision,
-        groupSendEndorsementResponse,
-      };
+        groupSendEndorsementResponse};
     }
   }
 
   return {
     paginated: false,
     changes,
-    groupSendEndorsementResponse,
-  };
+    groupSendEndorsementResponse};
 }
 
 export async function getSubscription(
@@ -4618,8 +4336,7 @@ export async function getSubscription(
     accessKey: undefined,
     groupSendToken: undefined,
     redactUrl: _createRedactor(formattedId),
-    zodSchema: subscriptionResponseSchema,
-  });
+    zodSchema: subscriptionResponseSchema});
 }
 
 export async function getHasSubscription(
@@ -4642,13 +4359,11 @@ export function getProvisioningResource(
 export async function cdsLookup({
   e164s,
   acisAndAccessKeys = [],
-  returnAcisWithoutUaks,
-}: CdsLookupOptionsType): Promise<CDSResponseType> {
+  returnAcisWithoutUaks}: CdsLookupOptionsType): Promise<CDSResponseType> {
   return cds.request({
     e164s,
     acisAndAccessKeys,
-    returnAcisWithoutUaks,
-  });
+    returnAcisWithoutUaks});
 }
 
 // TODO: DESKTOP-8300
@@ -4656,8 +4371,7 @@ const onIncorrectHeadersFromStorageService = throttle(
   () => {
     if (!isProduction(window.getVersion())) {
       window.reduxActions.toast.showToast({
-        toastType: ToastType.InvalidStorageServiceHeaders,
-      });
+        toastType: ToastType.InvalidStorageServiceHeaders});
     }
   },
   5 * MINUTE,

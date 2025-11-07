@@ -10,9 +10,9 @@ import { getIntl, getTheme } from '../selectors/user.std.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   getConversationSelector,
-  getConversationMessagesSelector,
-} from '../selectors/conversations.dom.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+  getConversationMessagesSelector} from '../selectors/conversations.dom.js';
+
+// Badge selector removed
 
 const { last } = lodash;
 
@@ -21,8 +21,7 @@ type ExternalProps = {
 };
 
 export const SmartTypingBubble = memo(function SmartTypingBubble({
-  conversationId,
-}: ExternalProps): JSX.Element {
+  conversationId}: ExternalProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const getConversation = useSelector(getConversationSelector);
@@ -50,7 +49,7 @@ export const SmartTypingBubble = memo(function SmartTypingBubble({
   }
 
   const { showContactModal } = useGlobalModalActions();
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const getPreferredBadge = () => undefined; // Badge selector removed
 
   return (
     <TypingBubble

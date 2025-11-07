@@ -16,7 +16,6 @@ const { i18n } = window.SignalContext;
 const createProps = (
   overrideProps: Partial<NavTabsProps> = {}
 ): NavTabsProps => ({
-  badge: overrideProps.badge,
   hasFailedStorySends: Boolean(overrideProps.hasFailedStorySends),
   hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
   i18n,

@@ -11,7 +11,6 @@ import type { PropsType } from './PendingInvites.dom.js';
 import { PendingInvites } from './PendingInvites.dom.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.js';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
 
 const { times } = lodash;
@@ -19,8 +18,7 @@ const { times } = lodash;
 const { i18n } = window.SignalContext;
 
 export default {
-  title: 'Components/Conversation/ConversationDetails/PendingInvites',
-} satisfies Meta<PropsType>;
+  title: 'Components/Conversation/ConversationDetails/PendingInvites'} satisfies Meta<PropsType>;
 
 const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
   i === 0
@@ -31,7 +29,6 @@ const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
 const conversation: ConversationType = {
   acceptedMessageRequest: true,
   areWeAdmin: true,
-  badges: [],
   id: '',
   lastUpdated: 0,
   markedUnread: false,
@@ -41,8 +38,7 @@ const conversation: ConversationType = {
   type: 'group',
   sharedGroupNames: [],
   acknowledgedGroupNameCollisions: {},
-  storySendMode: StorySendMode.IfActive,
-};
+  storySendMode: StorySendMode.IfActive};
 
 const OUR_UUID = generateAci();
 
@@ -55,28 +51,22 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   ourAci: OUR_UUID,
   pendingApprovalMemberships: times(5, () => ({
-    member: getDefaultConversation(),
-  })),
+    member: getDefaultConversation()})),
   pendingMemberships: [
     ...times(4, () => ({
       member: getDefaultConversation(),
       metadata: {
-        addedByUserId: OUR_UUID,
-      },
-    })),
+        addedByUserId: OUR_UUID}})),
     ...times(8, () => ({
       member: getDefaultConversation(),
       metadata: {
-        addedByUserId: generateAci(),
-      },
-    })),
+        addedByUserId: generateAci()}})),
   ],
   revokePendingMembershipsFromGroupV2: action(
     'revokePendingMembershipsFromGroupV2'
   ),
   theme: React.useContext(StorybookThemeContext),
-  ...overrideProps,
-});
+  ...overrideProps});
 
 export function Basic(): JSX.Element {
   const props = useProps();
@@ -85,7 +75,7 @@ export function Basic(): JSX.Element {
 }
 
 export function WithBadges(): JSX.Element {
-  const props = useProps({ getPreferredBadge: () => getFakeBadge() });
+  const props = useProps({ getPreferredBadge: () => undefined });
 
   return <PendingInvites {...props} />;
 }

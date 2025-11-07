@@ -7,7 +7,6 @@ import type { actions as accounts } from './ducks/accounts.preload.js';
 import type { actions as app } from './ducks/app.preload.js';
 import type { actions as audioPlayer } from './ducks/audioPlayer.preload.js';
 import type { actions as audioRecorder } from './ducks/audioRecorder.preload.js';
-import type { actions as badges } from './ducks/badges.preload.js';
 import type { actions as callHistory } from './ducks/callHistory.preload.js';
 import type { actions as calling } from './ducks/calling.preload.js';
 import type { actions as chatFolders } from './ducks/chatFolders.preload.js';
@@ -43,7 +42,6 @@ export type ReduxActions = {
   app: typeof app;
   audioPlayer: typeof audioPlayer;
   audioRecorder: typeof audioRecorder;
-  badges: typeof badges;
   callHistory: typeof callHistory;
   calling: typeof calling;
   chatFolders: typeof chatFolders;

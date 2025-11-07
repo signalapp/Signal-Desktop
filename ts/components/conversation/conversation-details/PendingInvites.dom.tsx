@@ -6,7 +6,6 @@ import _ from 'lodash';
 
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import type { AciString } from '../../../types/ServiceId.std.js';
 import { Avatar, AvatarSize } from '../../Avatar.dom.js';
 import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
@@ -14,15 +13,14 @@ import { PanelSection } from './PanelSection.dom.js';
 import { PanelRow } from './PanelRow.dom.js';
 import {
   ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.js';
+  IconType} from './ConversationDetailsIcon.dom.js';
 import { isAccessControlEnabled } from '../../../groups/util.std.js';
 import { Tabs } from '../../Tabs.dom.js';
 import { assertDev } from '../../../util/assert.std.js';
 
 export type PropsDataType = {
   readonly conversation?: ConversationType;
-  readonly getPreferredBadge: PreferredBadgeSelectorType;
+  readonly getPreferredBadge: any;
   readonly i18n: LocalizerType;
   readonly ourAci: AciString;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
@@ -56,14 +54,12 @@ export type GroupV2RequestingMembership = {
 
 enum Tab {
   Requests = 'Requests',
-  Pending = 'Pending',
-}
+  Pending = 'Pending'}
 
 enum StageType {
   APPROVE_REQUEST = 'APPROVE_REQUEST',
   DENY_REQUEST = 'DENY_REQUEST',
-  REVOKE_INVITE = 'REVOKE_INVITE',
-}
+  REVOKE_INVITE = 'REVOKE_INVITE'}
 
 type StagedMembershipType = {
   type: StageType;
@@ -79,8 +75,7 @@ export function PendingInvites({
   pendingMemberships,
   pendingApprovalMemberships,
   revokePendingMembershipsFromGroupV2,
-  theme,
-}: PropsType): JSX.Element {
+  theme}: PropsType): JSX.Element {
   if (!conversation || !ourAci) {
     throw new Error('PendingInvites rendered without a conversation or ourAci');
   }
@@ -97,15 +92,11 @@ export function PendingInvites({
           {
             id: Tab.Requests,
             label: i18n('icu:PendingInvites--tab-requests', {
-              count: pendingApprovalMemberships.length,
-            }),
-          },
+              count: pendingApprovalMemberships.length})},
           {
             id: Tab.Pending,
             label: i18n('icu:PendingInvites--tab-invites', {
-              count: pendingMemberships.length,
-            }),
-          },
+              count: pendingMemberships.length})},
         ]}
       >
         {({ selectedTab }) => (
@@ -164,8 +155,7 @@ function MembershipActionConfirmation({
   onClose,
   ourAci,
   revokePendingMembershipsFromGroupV2,
-  stagedMemberships,
-}: {
+  stagedMemberships}: {
   approvePendingMembershipFromGroupV2: (
     conversationId: string,
     memberId: string
@@ -225,8 +215,7 @@ function MembershipActionConfirmation({
         {
           action: modalAction,
           style: 'affirmative',
-          text: modalActionText,
-        },
+          text: modalActionText},
       ]}
       i18n={i18n}
       onClose={onClose}
@@ -236,8 +225,7 @@ function MembershipActionConfirmation({
         i18n,
         members,
         ourAci,
-        stagedMemberships,
-      })}
+        stagedMemberships})}
     </ConfirmationDialog>
   );
 }
@@ -247,8 +235,7 @@ function getConfirmationMessage({
   i18n,
   members,
   ourAci,
-  stagedMemberships,
-}: Readonly<{
+  stagedMemberships}: Readonly<{
   conversation: ConversationType;
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
@@ -266,17 +253,14 @@ function getConfirmationMessage({
   if (membershipType === StageType.DENY_REQUEST) {
     return isAccessControlEnabled(conversation.accessControlAddFromInviteLink)
       ? i18n('icu:PendingRequests--deny-for--with-link', {
-          name: firstMembership.member.title,
-        })
+          name: firstMembership.member.title})
       : i18n('icu:PendingRequests--deny-for', {
-          name: firstMembership.member.title,
-        });
+          name: firstMembership.member.title});
   }
 
   if (membershipType === StageType.APPROVE_REQUEST) {
     return i18n('icu:PendingRequests--approve-for', {
-      name: firstMembership.member.title,
-    });
+      name: firstMembership.member.title});
   }
 
   if (membershipType !== StageType.REVOKE_INVITE) {
@@ -290,8 +274,7 @@ function getConfirmationMessage({
 
   if (invitedByUs) {
     return i18n('icu:PendingInvites--revoke-for', {
-      name: firstPendingMembership.member.title,
-    });
+      name: firstPendingMembership.member.title});
   }
 
   const inviter = members.find(
@@ -307,8 +290,7 @@ function getConfirmationMessage({
 
   return i18n('icu:PendingInvites--revoke-from', {
     number: stagedMemberships.length,
-    name,
-  });
+    name});
 }
 
 function MembersPendingAdminApproval({
@@ -317,10 +299,9 @@ function MembersPendingAdminApproval({
   i18n,
   memberships,
   setStagedMemberships,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   conversation: ConversationType;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   memberships: ReadonlyArray<GroupV2RequestingMembership>;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
@@ -357,8 +338,7 @@ function MembersPendingAdminApproval({
                     setStagedMemberships([
                       {
                         type: StageType.DENY_REQUEST,
-                        membership,
-                      },
+                        membership},
                     ]);
                   }}
                 >
@@ -371,8 +351,7 @@ function MembersPendingAdminApproval({
                     setStagedMemberships([
                       {
                         type: StageType.APPROVE_REQUEST,
-                        membership,
-                      },
+                        membership},
                     ]);
                   }}
                 >
@@ -385,8 +364,7 @@ function MembersPendingAdminApproval({
       ))}
       <div className="ConversationDetails__pending--info">
         {i18n('icu:PendingRequests--info', {
-          name: conversation.title,
-        })}
+          name: conversation.title})}
       </div>
     </PanelSection>
   );
@@ -400,10 +378,9 @@ function MembersPendingProfileKey({
   ourAci,
   setStagedMemberships,
   getPreferredBadge,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   conversation: ConversationType;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
@@ -429,8 +406,7 @@ function MembersPendingProfileKey({
       );
       return {
         member,
-        pendingMemberships: otherPendingMembershipGroups[member.serviceId],
-      };
+        pendingMemberships: otherPendingMembershipGroups[member.serviceId]};
     });
 
   return (
@@ -464,8 +440,7 @@ function MembersPendingProfileKey({
                       setStagedMemberships([
                         {
                           type: StageType.REVOKE_INVITE,
-                          membership,
-                        },
+                          membership},
                       ]);
                     }}
                   />
@@ -492,8 +467,7 @@ function MembersPendingProfileKey({
               }
               label={member.title}
               right={i18n('icu:PendingInvites--invited-count', {
-                number: pendingMemberships.length,
-              })}
+                number: pendingMemberships.length})}
               actions={
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon
@@ -503,8 +477,7 @@ function MembersPendingProfileKey({
                       setStagedMemberships(
                         pendingMemberships.map(membership => ({
                           type: StageType.REVOKE_INVITE,
-                          membership,
-                        }))
+                          membership}))
                       );
                     }}
                   />

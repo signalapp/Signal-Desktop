@@ -12,18 +12,15 @@ import { ContextMenu } from '../ContextMenu.dom.js';
 import { Time } from '../Time.dom.js';
 import type {
   Props as MessagePropsType,
-  PropsData as MessagePropsDataType,
-} from './Message.dom.js';
+  PropsData as MessagePropsDataType} from './Message.dom.js';
 import { Message } from './Message.dom.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { groupBy } from '../../util/mapUtil.std.js';
 import type { ContactNameColorType } from '../../types/Colors.std.js';
 import {
   SendStatus,
-  type VisibleSendStatus,
-} from '../../messages/MessageSendState.std.js';
+  type VisibleSendStatus} from '../../messages/MessageSendState.std.js';
 import { WidthBreakpoint } from '../_util.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { formatDateTimeLong } from '../../util/formatTimestamp.dom.js';
@@ -34,8 +31,7 @@ import { PanelRow } from './conversation-details/PanelRow.dom.js';
 import { PanelSection } from './conversation-details/PanelSection.dom.js';
 import {
   ConversationDetailsIcon,
-  IconType,
-} from './conversation-details/ConversationDetailsIcon.dom.js';
+  IconType} from './conversation-details/ConversationDetailsIcon.dom.js';
 
 const { noop } = lodash;
 
@@ -81,7 +77,7 @@ export type PropsData = {
   i18n: LocalizerType;
   platform: string;
   theme: ThemeType;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
 } & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
 
 export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
@@ -165,8 +161,7 @@ export function MessageDetail({
   startConversation,
   theme,
   toggleSafetyNumberModal,
-  viewStory,
-}: Props): JSX.Element {
+  viewStory}: Props): JSX.Element {
   const messageDetailRef = useRef<HTMLDivElement>(null);
 
   function renderAvatar(contact: Contact): JSX.Element {
@@ -177,8 +172,7 @@ export function MessageDetail({
       phoneNumber,
       profileName,
       sharedGroupNames,
-      title,
-    } = contact;
+      title} = contact;
 
     return (
       <Avatar
@@ -416,8 +410,7 @@ export function MessageDetail({
                         void window.navigator.clipboard.writeText(
                           String(sentAt)
                         );
-                      },
-                    },
+                      }},
                   ]}
                 >
                   <>
@@ -453,8 +446,7 @@ export function MessageDetail({
                 </td>
                 <td>
                   {formatRelativeTime(i18n, timeRemaining, {
-                    largest: 2,
-                  })}
+                    largest: 2})}
                 </td>
               </tr>
             )}

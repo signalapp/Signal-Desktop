@@ -8,19 +8,16 @@ import { useSelector } from 'react-redux';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import {
   NotificationProfilesCreateFlow,
-  NotificationProfilesHome,
-} from '../../components/PreferencesNotificationProfiles.dom.js';
+  NotificationProfilesHome} from '../../components/PreferencesNotificationProfiles.dom.js';
 import {
   getAllComposableConversations,
-  getConversationSelector,
-} from '../selectors/conversations.dom.js';
+  getConversationSelector} from '../selectors/conversations.dom.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { useNotificationProfilesActions } from '../ducks/notificationProfiles.preload.js';
 import {
   getActiveProfile,
   getLoading,
-  getProfiles,
-} from '../selectors/notificationProfiles.dom.js';
+  getProfiles} from '../selectors/notificationProfiles.dom.js';
 import type { SettingsLocation } from '../../types/Nav.std.js';
 import { getItems } from '../selectors/items.dom.js';
 import { useItemsActions } from '../ducks/items.preload.js';
@@ -33,8 +30,7 @@ export type ExternalProps = {
 export const SmartNotificationProfilesHome = memo(
   function SmartNotificationProfilesHome({
     contentsRef,
-    setSettingsLocation,
-  }: ExternalProps) {
+    setSettingsLocation}: ExternalProps) {
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const items = useSelector(getItems);
@@ -56,8 +52,7 @@ export const SmartNotificationProfilesHome = memo(
       markProfileDeleted,
       setIsSyncEnabled: originalSetIsSyncEnabled,
       setProfileOverride,
-      updateProfile,
-    } = useNotificationProfilesActions();
+      updateProfile} = useNotificationProfilesActions();
     const { putItem } = useItemsActions();
 
     const setIsSyncEnabled = React.useCallback(
@@ -100,8 +95,7 @@ export const SmartNotificationProfilesHome = memo(
 export const SmartNotificationProfilesCreateFlow = memo(
   function SmartNotificationProfilesCreateFlow({
     contentsRef,
-    setSettingsLocation,
-  }: ExternalProps) {
+    setSettingsLocation}: ExternalProps) {
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
 

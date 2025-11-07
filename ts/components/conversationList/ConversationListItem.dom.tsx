@@ -10,15 +10,13 @@ import {
   BaseConversationListItem,
   HEADER_NAME_CLASS_NAME,
   HEADER_CONTACT_NAME_CLASS_NAME,
-  MESSAGE_TEXT_CLASS_NAME,
-} from './BaseConversationListItem.dom.js';
+  MESSAGE_TEXT_CLASS_NAME} from './BaseConversationListItem.dom.js';
 import { MessageBody } from '../conversation/MessageBody.dom.js';
 import { ContactName } from '../conversation/ContactName.dom.js';
 import { TypingAnimation } from '../conversation/TypingAnimation.dom.js';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { RenderLocation } from '../conversation/MessageTextRenderer.dom.js';
 
@@ -57,9 +55,7 @@ export type PropsData = Pick<
   | 'unreadCount'
   | 'unreadMentionsCount'
   | 'serviceId'
-> & {
-  badge?: BadgeType;
-};
+>;
 
 type PropsHousekeeping = {
   buttonAriaLabel?: string;
@@ -109,8 +105,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     unreadCount,
     unreadMentionsCount,
     serviceId,
-    renderConversationListItemContextMenu,
-  }) {
+    renderConversationListItemContextMenu}) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
     const isSomeoneTyping =
       Object.keys(typingContactIdTimestamps ?? {}).length > 0;

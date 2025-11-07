@@ -7,8 +7,6 @@ import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
-import { ExperimentalAxoBadge } from './AxoBadge.dom.js';
-
 const Namespace = 'AxoSelect';
 
 /**
@@ -112,13 +110,11 @@ export namespace AxoSelect {
       'bg-transparent',
       'hovered:bg-fill-secondary',
       'pressed:bg-fill-secondary-pressed'
-    ),
-  };
+    )};
 
   const TriggerWidths: Record<TriggerWidth, TailwindStyles> = {
     hug: tw(),
-    full: tw('w-full'),
-  };
+    full: tw('w-full')};
 
   type TriggerChevronConfig = {
     chevronStyles: TailwindStyles;
@@ -130,8 +126,7 @@ export namespace AxoSelect {
   const TriggerChevrons: Record<TriggerChevron, TriggerChevronConfig> = {
     always: {
       chevronStyles: tw('ps-2 pe-2.5'),
-      contentStyles: tw(baseContentStyles, 'py-[5px] ps-3'),
-    },
+      contentStyles: tw(baseContentStyles, 'py-[5px] ps-3')},
     'on-hover': {
       chevronStyles: tw(
         'absolute inset-y-0 end-0 w-9.5',
@@ -151,9 +146,7 @@ export namespace AxoSelect {
         '[mask-repeat:no-repeat]',
         '[mask-position:right] rtl:[mask-position:left]',
         '[transition-property:--axo-select-trigger-mask-start] duration-150'
-      ),
-    },
-  };
+      )}};
 
   export type TriggerProps = Readonly<{
     variant?: TriggerVariant;
@@ -209,15 +202,12 @@ export namespace AxoSelect {
 
   const ContentPositions: Record<ContentPosition, ContentPositionConfig> = {
     'item-aligned': {
-      position: 'item-aligned',
-    },
+      position: 'item-aligned'},
     dropdown: {
       position: 'popper',
       alignOffset: 0,
       collisionPadding: 6,
-      sideOffset: 8,
-    },
-  };
+      sideOffset: 8}};
 
   export type ContentProps = Readonly<{
     position?: ContentPosition;
@@ -332,24 +322,19 @@ export namespace AxoSelect {
    * --------------------------------
    */
 
-  export type ExperimentalItemBadgeProps = Omit<
-    ExperimentalAxoBadge.RootProps,
-    'size'
-  >;
+  // Badge component removed - not needed for Orbital
+
+  export type ExperimentalItemBadgeProps = {
+    value?: number;
+    max?: number;
+    maxDisplay?: number;
+    'aria-label'?: string;
+  };
 
   export const ExperimentalItemBadge = memo(
     (props: ExperimentalItemBadgeProps) => {
-      return (
-        <span className={tw('ms-[5px]')}>
-          <ExperimentalAxoBadge.Root
-            size="sm"
-            value={props.value}
-            max={props.max}
-            maxDisplay={props.maxDisplay}
-            aria-label={props['aria-label']}
-          />
-        </span>
-      );
+      // Badge feature removed - return null
+      return null;
     }
   );
 

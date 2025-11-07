@@ -275,7 +275,6 @@ const createConversation = (
     overrideProps.acceptedMessageRequest !== undefined
       ? overrideProps.acceptedMessageRequest
       : true,
-  badges: [],
   isMe: overrideProps.isMe ?? false,
   avatarUrl: overrideProps.avatarUrl ?? '',
   id: overrideProps.id || '',

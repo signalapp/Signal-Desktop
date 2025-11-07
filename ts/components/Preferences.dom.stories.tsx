@@ -384,7 +384,6 @@ export default {
     backupLocalBackupsEnabled: false,
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
-    badge: undefined,
     blockedCount: 0,
     currentChatFoldersCount: 0,
     customColors: {},

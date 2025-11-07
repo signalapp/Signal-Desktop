@@ -11,14 +11,12 @@ import { GroupDescription } from '../GroupDescription.dom.js';
 import { About } from '../About.dom.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import { assertDev } from '../../../util/assert.std.js';
-import type { BadgeType } from '../../../badges/types.std.js';
 import { UserText } from '../../UserText.dom.js';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.js';
 import { InContactsIcon } from '../../InContactsIcon.dom.js';
 
 export type Props = {
   areWeASubscriber: boolean;
-  badges?: ReadonlyArray<BadgeType>;
   canEdit: boolean;
   conversation: ConversationType;
   i18n: LocalizerType;
@@ -34,12 +32,10 @@ export type Props = {
 };
 
 enum ConversationDetailsHeaderActiveModal {
-  ShowingAvatar,
-}
+  ShowingAvatar}
 
 export function ConversationDetailsHeader({
   areWeASubscriber: _areWeASubscriber,
-  badges,
   canEdit,
   conversation,
   i18n,
@@ -51,13 +47,12 @@ export function ConversationDetailsHeader({
   startAvatarDownload,
   startEditing,
   toggleAboutContactModal,
-  theme,
-}: Props): JSX.Element {
+  theme}: Props): JSX.Element {
   const [activeModal, setActiveModal] = useState<
     undefined | ConversationDetailsHeaderActiveModal
   >();
 
-  let preferredBadge: undefined | BadgeType;
+  let preferredBadge: undefined | any;
   let subtitle: ReactNode;
   let hasNestedButton = false;
   if (isGroup) {
@@ -74,8 +69,7 @@ export function ConversationDetailsHeader({
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
       subtitle = i18n('icu:ConversationDetailsHeader--members', {
-        number: membersCount ?? 0,
-      });
+        number: membersCount ?? 0});
     }
   } else if (!isMe) {
     subtitle = (
@@ -83,7 +77,7 @@ export function ConversationDetailsHeader({
         <About text={conversation.about} />
       </div>
     );
-    preferredBadge = badges?.[0];
+    preferredBadge = undefined; // Badge feature removed
   }
 
   const shouldShowClickToView =

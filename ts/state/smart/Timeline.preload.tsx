@@ -11,14 +11,12 @@ import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
   dehydrateCollisionsWithConversations,
-  getCollisionsFromMemberships,
-} from '../../util/groupMemberNameCollisions.std.js';
+  getCollisionsFromMemberships} from '../../util/groupMemberNameCollisions.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import {
   useConversationsActions,
-  type ConversationType,
-} from '../ducks/conversations.preload.js';
+  type ConversationType} from '../ducks/conversations.preload.js';
 import type { StateType } from '../reducer.preload.js';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
@@ -31,8 +29,7 @@ import {
   getMessages,
   getSafeConversationWithSameTitle,
   getSelectedConversationId,
-  getTargetedMessage,
-} from '../selectors/conversations.dom.js';
+  getTargetedMessage} from '../selectors/conversations.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars.dom.js';
 import { SmartCollidingAvatars } from './CollidingAvatars.dom.js';
@@ -42,8 +39,7 @@ import { SmartHeroRow } from './HeroRow.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 import {
   SmartTimelineItem,
-  type SmartTimelineItemProps,
-} from './TimelineItem.preload.js';
+  type SmartTimelineItemProps} from './TimelineItem.preload.js';
 import { SmartTypingBubble } from './TypingBubble.preload.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
@@ -64,8 +60,7 @@ function renderItem({
   messageId,
   nextMessageId,
   previousMessageId,
-  unreadIndicatorPlacement,
-}: SmartTimelineItemProps): JSX.Element {
+  unreadIndicatorPlacement}: SmartTimelineItemProps): JSX.Element {
   return (
     <SmartTimelineItem
       containerElementRef={containerElementRef}
@@ -112,14 +107,12 @@ const getWarning = (
     case 'direct':
       if (!conversation.acceptedMessageRequest && !conversation.isBlocked) {
         const safeConversation = getSafeConversationWithSameTitle(state, {
-          possiblyUnsafeConversation: conversation,
-        });
+          possiblyUnsafeConversation: conversation});
 
         if (safeConversation) {
           return {
             type: ContactSpoofingType.DirectConversationWithSameTitle,
-            safeConversationId: safeConversation.id,
-          };
+            safeConversationId: safeConversation.id};
         }
       }
       return undefined;
@@ -143,8 +136,7 @@ const getWarning = (
           acknowledgedGroupNameCollisions:
             conversation.acknowledgedGroupNameCollisions,
           groupNameCollisions:
-            dehydrateCollisionsWithConversations(groupNameCollisions),
-        };
+            dehydrateCollisionsWithConversations(groupNameCollisions)};
       }
 
       return undefined;
@@ -155,8 +147,7 @@ const getWarning = (
 };
 
 export const SmartTimeline = memo(function SmartTimeline({
-  id,
-}: ExternalProps) {
+  id}: ExternalProps) {
   const activeAudioPlayer = useSelector(selectAudioPlayerActive);
   const conversationMessagesSelector = useSelector(
     getConversationMessagesSelector
@@ -199,8 +190,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     scrollToOldestUnreadMention,
     setCenterMessage,
     setIsNearBottom,
-    targetMessage,
-  } = useConversationsActions();
+    targetMessage} = useConversationsActions();
   const { peekGroupCallForTheFirstTime, peekGroupCallIfItHasMembers } =
     useCallingActions();
 
@@ -220,8 +210,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     typingContactIdTimestamps = {},
     unreadCount,
     unreadMentionsCount,
-    type: conversationType,
-  } = conversation ?? {};
+    type: conversationType} = conversation ?? {};
   const {
     haveNewest,
     haveOldest,
@@ -232,8 +221,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     oldestUnseenIndex,
     scrollToIndex,
     scrollToIndexCounter,
-    totalUnseen,
-  } = conversationMessages;
+    totalUnseen} = conversationMessages;
 
   const isConversationSelected = selectedConversationId === id;
   const isIncomingMessageRequest =

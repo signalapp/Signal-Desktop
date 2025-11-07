@@ -6,7 +6,6 @@ import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { ModalHost } from './ModalHost.dom.js';
 import { Button, ButtonVariant } from './Button.dom.js';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
@@ -37,8 +36,7 @@ export function GroupDialog(props: Readonly<PropsType>): JSX.Element {
     onClickPrimaryButton,
     onClose,
     primaryButtonText,
-    title,
-  } = props;
+    title} = props;
 
   let secondaryButton: undefined | ReactChild;
   if ('secondaryButtonText' in props) {
@@ -93,7 +91,7 @@ GroupDialog.Paragraph = Paragraph;
 
 type ContactsPropsType = {
   contacts: Array<ConversationType>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   theme: ThemeType;
 };
@@ -102,8 +100,7 @@ function Contacts({
   contacts,
   getPreferredBadge,
   i18n,
-  theme,
-}: Readonly<ContactsPropsType>): JSX.Element {
+  theme}: Readonly<ContactsPropsType>): JSX.Element {
   return (
     <ul className="module-GroupDialog__contacts">
       {contacts.map(contact => (

@@ -60,17 +60,12 @@ let workerCount = 1;
     args: ipc.sendSync('ci:test-electron:getArgv'),
     options: {
       grep: {
-        type: 'string',
-      },
+        type: 'string'},
       worker: {
-        type: 'string',
-      },
+        type: 'string'},
       'worker-count': {
-        type: 'string',
-      },
-    },
-    strict: false,
-  });
+        type: 'string'}},
+    strict: false});
 
   if (typeof values.grep === 'string') {
     setup.grep = values.grep;
@@ -100,46 +95,39 @@ window.testUtilities = {
     await Stickers.load();
 
     initializeRedux({
-      badgesState: { byId: {} },
       callLinks: [],
       callHistory: [],
       callHistoryUnreadCount: 0,
       chatFolders: [],
       gifs: {
-        recentGifs: [],
-      },
+        recentGifs: []},
       mainWindowStats: {
         isFullScreen: false,
-        isMaximized: false,
-      },
+        isMaximized: false},
       menuOptions: {
         development: false,
         devTools: false,
         includeSetup: false,
         isNightly: false,
         isProduction: false,
-        platform: 'test',
-      },
+        platform: 'test'},
       notificationProfiles: [],
       recentEmoji: {
-        recents: [],
-      },
+        recents: []},
       stories: [],
       storyDistributionLists: [],
       donations: {
         currentWorkflow: undefined,
         didResumeWorkflowAtStartup: false,
         lastError: undefined,
-        receipts: [],
-      },
+        receipts: []},
       stickers: {
         installedPack: null,
         packs: {},
         recentStickers: [],
         blessedPacks: [], // Array, not Record
       },
-      theme: ThemeType.dark,
-    });
+      theme: ThemeType.dark});
 
     await itemStorage.fetch();
   },
@@ -148,8 +136,7 @@ window.testUtilities = {
     console.log('Preparing tests...');
     const files = sync('../../test-{both,electron}/**/*_test.*.js', {
       absolute: true,
-      cwd: __dirname,
-    });
+      cwd: __dirname});
 
     for (let i = 0; i < files.length; i += 1) {
       if (i % workerCount === worker) {
@@ -160,10 +147,8 @@ window.testUtilities = {
           window.testUtilities.onTestEvent({
             type: 'fail',
             title: ['Failed to load test:', files[i]],
-            error: error.stack || String(error),
-          });
+            error: error.stack || String(error)});
         }
       }
     }
-  },
-};
+  }};

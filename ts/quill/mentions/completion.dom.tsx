@@ -14,7 +14,6 @@ import { createPortal } from 'react-dom';
 import { Avatar, AvatarSize } from '../../components/Avatar.dom.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { MemberType, MemberRepository } from '../memberRepository.std.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { matchBlotTextPartitions } from '../util.dom.js';
 import type { MentionBlotValue } from '../util.dom.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
@@ -22,7 +21,7 @@ import { sameWidthModifier } from '../../util/popperUtil.std.js';
 import { UserText } from '../../components/UserText.dom.js';
 
 export type MentionCompletionOptions = {
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
   setMentionPickerElement: (element: JSX.Element | null) => void;
@@ -216,8 +215,7 @@ export class MentionCompletion {
 
     const mention: MentionBlotValue = {
       aci: member.aci,
-      title: member.title,
-    };
+      title: member.title};
 
     const delta = new Delta()
       .retain(index)
@@ -327,8 +325,7 @@ export class MentionCompletion {
       },
       {
         name: 'quill.mentions.completion',
-        containerElements: [this.root],
-      }
+        containerElements: [this.root]}
     );
 
     this.options.setMentionPickerElement(element);

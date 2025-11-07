@@ -8,14 +8,11 @@ import {
   ContextMenu,
   ContextMenuTrigger,
   MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+  SubMenu} from 'react-contextmenu';
 import { createPortal } from 'react-dom';
-import type { BadgeType } from '../../badges/types.std.js';
 import {
   useKeyboardShortcuts,
-  useStartCallShortcuts,
-} from '../../hooks/useKeyboardShortcuts.dom.js';
+  useStartCallShortcuts} from '../../hooks/useKeyboardShortcuts.dom.js';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 import type { ConversationTypeType } from '../../state/ducks/conversations.preload.js';
 import type { HasStories } from '../../types/Stories.std.js';
@@ -35,8 +32,7 @@ import { UserText } from '../UserText.dom.js';
 import type { ContactNameData } from './ContactName.dom.js';
 import {
   MessageRequestActionsConfirmation,
-  MessageRequestState,
-} from './MessageRequestActionsConfirmation.dom.js';
+  MessageRequestState} from './MessageRequestActionsConfirmation.dom.js';
 import type { MinimalConversation } from '../../hooks/useMinimalConversation.std.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
@@ -48,8 +44,7 @@ function HeaderInfoTitle({
   i18n,
   isMe,
   isSignalConversation,
-  headerRef,
-}: {
+  headerRef}: {
   name: string | null;
   title: string;
   type: ConversationTypeType;
@@ -94,12 +89,10 @@ export enum OutgoingCallButtonStyle {
   None,
   JustVideo,
   Both,
-  Join,
-}
+  Join}
 
 export type PropsDataType = {
   addedByName: ContactNameData | null;
-  badge?: BadgeType;
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   conversation: MinimalConversation;
   conversationName: ContactNameData;
@@ -157,7 +150,6 @@ const TIMER_ITEM_CLASS = 'module-ConversationHeader__disappearing-timer__item';
 
 export const ConversationHeader = memo(function ConversationHeader({
   addedByName,
-  badge,
   cannotLeaveBecauseYouAreLastAdmin,
   conversation,
   conversationName,
@@ -195,8 +187,7 @@ export const ConversationHeader = memo(function ConversationHeader({
   outgoingCallButtonStyle,
   setLocalDeleteWarningShown,
   sharedGroupNames,
-  theme,
-}: PropsType): JSX.Element | null {
+  theme}: PropsType): JSX.Element | null {
   // Comes from a third-party dependency
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const menuTriggerRef = useRef<any>(null);
@@ -288,13 +279,11 @@ export const ConversationHeader = memo(function ConversationHeader({
         {measureRef => (
           <div
             className={classNames('module-ConversationHeader', {
-              'module-ConversationHeader--narrow': isNarrow,
-            })}
+              'module-ConversationHeader--narrow': isNarrow})}
             ref={measureRef}
           >
             <HeaderContent
               conversation={conversation}
-              badge={badge ?? null}
               hasStories={hasStories ?? null}
               headerRef={headerRef}
               i18n={i18n}
@@ -418,7 +407,6 @@ export const ConversationHeader = memo(function ConversationHeader({
 
 function HeaderContent({
   conversation,
-  badge,
   hasStories,
   headerRef,
   i18n,
@@ -426,10 +414,8 @@ function HeaderContent({
   theme,
   isSignalConversation,
   onViewUserStories,
-  onViewConversationDetails,
-}: {
+  onViewConversationDetails}: {
   conversation: MinimalConversation;
-  badge: BadgeType | null;
   hasStories: HasStories | null;
   headerRef: RefObject<HTMLDivElement>;
   i18n: LocalizerType;
@@ -463,7 +449,6 @@ function HeaderContent({
             : undefined
         }
         avatarUrl={conversation.avatarUrl ?? undefined}
-        badge={badge ?? undefined}
         color={conversation.color ?? undefined}
         conversationType={conversation.type}
         hasAvatar={conversation.hasAvatar}
@@ -561,8 +546,7 @@ function HeaderMenu({
   onShowMembers,
   onViewAllMedia,
   onViewConversationDetails,
-  triggerId,
-}: {
+  triggerId}: {
   conversation: MinimalConversation;
   i18n: LocalizerType;
   isMissingMandatoryProfileSharing: boolean;
@@ -698,8 +682,7 @@ function HeaderMenu({
       text = i18n('icu:customDisappearingTimeOption');
     } else {
       text = expirationTimer.format(i18n, seconds, {
-        capitalizeOff: true,
-      });
+        capitalizeOff: true});
     }
 
     const onDurationClick = () => {
@@ -843,8 +826,7 @@ function OutgoingCallButtons({
   isNarrow,
   onOutgoingAudioCall,
   onOutgoingVideoCall,
-  outgoingCallButtonStyle,
-}: { isNarrow: boolean } & Pick<
+  outgoingCallButtonStyle}: { isNarrow: boolean } & Pick<
   PropsType,
   | 'i18n'
   | 'conversation'
@@ -957,8 +939,7 @@ function LeaveGroupConfirmationDialog({
   cannotLeaveBecauseYouAreLastAdmin,
   i18n,
   onLeaveGroup,
-  onClose,
-}: {
+  onClose}: {
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   i18n: LocalizerType;
   onLeaveGroup: () => void;
@@ -975,8 +956,7 @@ function LeaveGroupConfirmationDialog({
           style: 'negative',
           text: i18n(
             'icu:ConversationHeader__LeaveGroupConfirmation__confirmButton'
-          ),
-        },
+          )},
       ]}
       i18n={i18n}
       onClose={onClose}
@@ -988,8 +968,7 @@ function LeaveGroupConfirmationDialog({
 
 function CannotLeaveGroupBecauseYouAreLastAdminAlert({
   i18n,
-  onClose,
-}: {
+  onClose}: {
   i18n: LocalizerType;
   onClose: () => void;
 }) {

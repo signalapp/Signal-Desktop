@@ -8,16 +8,13 @@ import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.js';
 import type {
   ConversationType,
   PushPanelForConversationActionType,
-  ShowConversationType,
-} from '../../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
+  ShowConversationType} from '../../../state/ducks/conversations.preload.js';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.js';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.js';
 import { assertDev } from '../../../util/assert.std.js';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.js';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { BadgeType } from '../../../badges/types.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { DurationInSeconds } from '../../../util/durations/index.std.js';
 
@@ -30,14 +27,12 @@ import { ConversationDetailsActions } from './ConversationDetailsActions.dom.js'
 import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.js';
 import {
   ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.js';
+  IconType} from './ConversationDetailsIcon.dom.js';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.js';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.js';
 import type {
   GroupV2PendingMembership,
-  GroupV2RequestingMembership,
-} from './PendingInvites.dom.js';
+  GroupV2RequestingMembership} from './PendingInvites.dom.js';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.js';
 import { RequestState } from './util.std.js';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle.dom.js';
@@ -48,8 +43,7 @@ import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
-  SaveAvatarToDiskActionType,
-} from '../../../types/Avatar.std.js';
+  SaveAvatarToDiskActionType} from '../../../types/Avatar.std.js';
 import { isConversationMuted } from '../../../util/isConversationMuted.std.js';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups.dom.js';
 import { PanelType } from '../../../types/Panels.std.js';
@@ -60,8 +54,7 @@ import { canHaveNicknameAndNote } from '../../../util/nicknames.dom.js';
 import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom.js';
 import {
   InAnotherCallTooltip,
-  getTooltipContent,
-} from '../InAnotherCallTooltip.dom.js';
+  getTooltipContent} from '../InAnotherCallTooltip.dom.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -70,19 +63,17 @@ enum ModalState {
   EditingGroupTitle,
   MuteNotifications,
   NothingOpen,
-  UnmuteNotifications,
-}
+  UnmuteNotifications}
 
 export type StateProps = {
   areWeASubscriber: boolean;
-  badges?: ReadonlyArray<BadgeType>;
   callHistoryGroup?: CallHistoryGroup | null;
   canEditGroupInfo: boolean;
   canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
   hasMedia: boolean;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   hasActiveCall: boolean;
   i18n: LocalizerType;
   isAdmin: boolean;
@@ -171,7 +162,6 @@ export function ConversationDetails({
   acceptConversation,
   addMembersToGroup,
   areWeASubscriber,
-  badges,
   blockConversation,
   callHistoryGroup,
   canEditGroupInfo,
@@ -216,8 +206,7 @@ export function ConversationDetails({
   toggleSafetyNumberModal,
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
-  userAvatarData,
-}: Props): JSX.Element {
+  userAvatarData}: Props): JSX.Element {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
   );
@@ -280,8 +269,7 @@ export function ConversationDetails({
                 setEditGroupAttributesRequestState(
                   RequestState.InactiveWithError
                 );
-              },
-            });
+              }});
           }}
           onClose={onCloseModal}
           requestState={editGroupAttributesRequestState}
@@ -322,8 +310,7 @@ export function ConversationDetails({
               },
               onFailure: () => {
                 setAddGroupMembersRequestState(RequestState.InactiveWithError);
-              },
-            });
+              }});
           }}
           maxGroupSize={maxGroupSize}
           maxRecommendedGroupSize={maxRecommendedGroupSize}
@@ -340,8 +327,7 @@ export function ConversationDetails({
             {
               action: onDeleteNicknameAndNote,
               style: 'negative',
-              text: i18n('icu:delete'),
-            },
+              text: i18n('icu:delete')},
           ]}
           hasXButton
           i18n={i18n}
@@ -375,8 +361,7 @@ export function ConversationDetails({
             {
               action: () => setMuteExpiration(conversation.id, 0),
               style: 'affirmative',
-              text: i18n('icu:unmute'),
-            },
+              text: i18n('icu:unmute')},
           ]}
           hasXButton
           i18n={i18n}
@@ -398,7 +383,6 @@ export function ConversationDetails({
     <div className="conversation-details-panel">
       <ConversationDetailsHeader
         areWeASubscriber={areWeASubscriber}
-        badges={badges}
         canEdit={canEditGroupInfo}
         conversation={conversation}
         i18n={i18n}
@@ -426,8 +410,7 @@ export function ConversationDetails({
             onClick={() => {
               showConversation({
                 conversationId: conversation?.id,
-                switchToAssociatedView: true,
-              });
+                switchToAssociatedView: true});
             }}
             variant={ButtonVariant.Details}
           >
@@ -595,8 +578,7 @@ export function ConversationDetails({
                     portalToRoot
                     popperOptions={{
                       placement: 'bottom',
-                      strategy: 'absolute',
-                    }}
+                      strategy: 'absolute'}}
                     menuOptions={[
                       {
                         icon: 'ConversationDetails--nickname-actions--delete',
@@ -607,8 +589,7 @@ export function ConversationDetails({
                           setModalState(
                             ModalState.ConfirmDeleteNicknameAndNote
                           );
-                        },
-                      },
+                        }},
                     ]}
                   >
                     {({ onClick }) => {
@@ -640,15 +621,13 @@ export function ConversationDetails({
               label={i18n('icu:showChatColorEditor')}
               onClick={() => {
                 pushPanelForConversation({
-                  type: PanelType.ChatColorEditor,
-                });
+                  type: PanelType.ChatColorEditor});
               }}
               right={
                 <div
                   className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
                   style={{
-                    ...getCustomColorStyle(conversation.customColor),
-                  }}
+                    ...getCustomColorStyle(conversation.customColor)}}
                 />
               }
             />
@@ -664,8 +643,7 @@ export function ConversationDetails({
               label={i18n('icu:ConversationDetails--notifications')}
               onClick={() =>
                 pushPanelForConversation({
-                  type: PanelType.NotificationSettings,
-                })
+                  type: PanelType.NotificationSettings})
               }
               right={
                 conversation.muteExpiresAt
@@ -685,8 +663,7 @@ export function ConversationDetails({
               label={i18n('icu:ConversationDetailsMediaList--title')}
               onClick={() => {
                 pushPanelForConversation({
-                  type: PanelType.AllMedia,
-                });
+                  type: PanelType.AllMedia});
               }}
             />
           )}
@@ -736,8 +713,7 @@ export function ConversationDetails({
               label={i18n('icu:ConversationDetails--group-link')}
               onClick={() =>
                 pushPanelForConversation({
-                  type: PanelType.GroupLinkManagement,
-                })
+                  type: PanelType.GroupLinkManagement})
               }
               right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
@@ -754,8 +730,7 @@ export function ConversationDetails({
             label={i18n('icu:ConversationDetails--requests-and-invites')}
             onClick={() =>
               pushPanelForConversation({
-                type: PanelType.GroupInvites,
-              })
+                type: PanelType.GroupInvites})
             }
             right={invitesCount}
           />
@@ -770,8 +745,7 @@ export function ConversationDetails({
               label={i18n('icu:permissions')}
               onClick={() =>
                 pushPanelForConversation({
-                  type: PanelType.GroupPermissions,
-                })
+                  type: PanelType.GroupPermissions})
               }
             />
           ) : null}
@@ -812,8 +786,7 @@ function ConversationDetailsCallButton({
   hasActiveCall,
   i18n,
   onClick,
-  type,
-}: Readonly<{
+  type}: Readonly<{
   hasActiveCall: boolean;
   i18n: LocalizerType;
   onClick: () => unknown;

@@ -9,12 +9,10 @@ import React from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import {
   ScrollDownButton,
-  ScrollDownButtonVariant,
-} from './ScrollDownButton.dom.js';
+  ScrollDownButtonVariant} from './ScrollDownButton.dom.js';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.js';
@@ -35,20 +33,17 @@ import {
   getWidthBreakpoint,
   ScrollAnchor,
   TimelineMessageLoadingState,
-  UnreadIndicatorPlacement,
-} from '../../util/timelineUtil.std.js';
+  UnreadIndicatorPlacement} from '../../util/timelineUtil.std.js';
 import {
   getScrollBottom,
   scrollToBottom,
-  setScrollBottom,
-} from '../../util/scrollUtil.std.js';
+  setScrollBottom} from '../../util/scrollUtil.std.js';
 import { LastSeenIndicator } from './LastSeenIndicator.dom.js';
 import { MINUTE, SECOND } from '../../util/durations/index.std.js';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 import {
   createScrollerLock,
-  ScrollerLockContext,
-} from '../../hooks/useScrollLock.dom.js';
+  ScrollerLockContext} from '../../hooks/useScrollLock.dom.js';
 
 const { first, get, isNumber, last, throttle } = lodash;
 
@@ -116,7 +111,7 @@ type PropsHousekeepingType = {
     >
   ) => void;
   getTimestampForMessage: (messageId: string) => undefined | number;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   theme: ThemeType;
 
@@ -225,8 +220,7 @@ export class Timeline extends React.Component<
 
     // These may be swiftly overridden.
     lastMeasuredWarningHeight: 0,
-    widthBreakpoint: WidthBreakpoint.Wide,
-  };
+    widthBreakpoint: WidthBreakpoint.Wide};
 
   #onScrollLockChange = (): void => {
     const scrollLocked = this.#scrollerLock.isLocked();
@@ -237,8 +231,7 @@ export class Timeline extends React.Component<
         : undefined;
       return {
         scrollLocked,
-        scrollLockHeight,
-      };
+        scrollLockHeight};
     });
   };
 
@@ -320,8 +313,7 @@ export class Timeline extends React.Component<
       loadNewestMessages,
       messageLoadingState,
       oldestUnseenIndex,
-      targetMessage,
-    } = this.props;
+      targetMessage} = this.props;
     const { newestBottomVisibleMessageId } = this.state;
 
     if (!items || items.length < 1) {
@@ -382,8 +374,7 @@ export class Timeline extends React.Component<
       loadNewerMessages,
       loadOlderMessages,
       messageLoadingState,
-      setIsNearBottom,
-    } = this.props;
+      setIsNearBottom} = this.props;
 
     // We re-initialize the `IntersectionObserver`. We don't want stale references to old
     //   props, and we care about the order of `IntersectionObserverEntry`s. (We could do
@@ -459,8 +450,7 @@ export class Timeline extends React.Component<
 
         this.setState({
           oldestPartiallyVisibleMessageId,
-          newestBottomVisibleMessageId,
-        });
+          newestBottomVisibleMessageId});
 
         setIsNearBottom(id, newIsNearBottom);
 
@@ -509,8 +499,7 @@ export class Timeline extends React.Component<
       },
       {
         root: containerEl,
-        threshold: [0, 1],
-      }
+        threshold: [0, 1]}
     );
 
     for (const child of messagesEl.children) {
@@ -578,8 +567,7 @@ export class Timeline extends React.Component<
     DELAY_BEFORE_MARKING_READ_AFTER_FOCUS,
     {
       leading: false,
-      trailing: true,
-    }
+      trailing: true}
   );
 
   #setupGroupCallPeekTimeouts(): void {
@@ -623,8 +611,7 @@ export class Timeline extends React.Component<
     if (containerEl) {
       this.setState(
         {
-          widthBreakpoint: getWidthBreakpoint(containerEl.offsetWidth),
-        },
+          widthBreakpoint: getWidthBreakpoint(containerEl.offsetWidth)},
         () => {
           this.#updateIntersectionObserver();
         }
@@ -708,8 +695,7 @@ export class Timeline extends React.Component<
       isInFullScreenCall: previousIsInFullScreenCall,
       items: oldItems,
       messageChangeCounter: previousMessageChangeCounter,
-      messageLoadingState: previousMessageLoadingState,
-    } = prevProps;
+      messageLoadingState: previousMessageLoadingState} = prevProps;
     const {
       conversationType,
       discardMessages,
@@ -717,8 +703,7 @@ export class Timeline extends React.Component<
       isInFullScreenCall,
       items: newItems,
       messageChangeCounter,
-      messageLoadingState,
-    } = this.props;
+      messageLoadingState} = this.props;
 
     const containerEl = this.#containerRef.current;
     if (!this.#scrollerLock.isLocked() && containerEl && snapshot) {
@@ -764,8 +749,7 @@ export class Timeline extends React.Component<
       if (shouldDiscardOlderMessages) {
         discardMessages({
           conversationId: id,
-          numberToKeepAtBottom,
-        });
+          numberToKeepAtBottom});
       }
 
       const loadingStateThatJustFinished:
@@ -784,8 +768,7 @@ export class Timeline extends React.Component<
       if (shouldDiscardNewerMessages) {
         discardMessages({
           conversationId: id,
-          numberToKeepAtTop,
-        });
+          numberToKeepAtTop});
       }
     }
     if (previousMessageChangeCounter !== messageChangeCounter) {
@@ -941,8 +924,7 @@ export class Timeline extends React.Component<
       theme,
       totalUnseen,
       unreadCount,
-      unreadMentionsCount,
-    } = this.props;
+      unreadMentionsCount} = this.props;
     const {
       scrollLocked,
       scrollLockHeight,
@@ -950,8 +932,7 @@ export class Timeline extends React.Component<
       lastMeasuredWarningHeight,
       newestBottomVisibleMessageId,
       oldestPartiallyVisibleMessageId,
-      widthBreakpoint,
-    } = this.state;
+      widthBreakpoint} = this.state;
 
     // As a performance optimization, we don't need to render anything if this
     //   conversation isn't the active one.
@@ -1074,8 +1055,7 @@ export class Timeline extends React.Component<
               messageId,
               nextMessageId,
               previousMessageId,
-              unreadIndicatorPlacement,
-            })}
+              unreadIndicatorPlacement})}
           </ErrorBoundary>
         </div>
       );
@@ -1108,14 +1088,12 @@ export class Timeline extends React.Component<
                     >
                       {parts}
                     </TimelineWarning.Link>
-                  ),
-                }}
+                  )}}
               />
             );
             onClose = () => {
               this.setState({
-                hasDismissedDirectContactSpoofingWarning: true,
-              });
+                hasDismissedDirectContactSpoofingWarning: true});
             };
             break;
           case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
@@ -1143,8 +1121,7 @@ export class Timeline extends React.Component<
                   id="icu:ContactSpoofing__same-name-in-group--link"
                   components={{
                     count: conversationIds.length,
-                    reviewRequestLink,
-                  }}
+                    reviewRequestLink}}
                 />
               );
             } else {
@@ -1154,8 +1131,7 @@ export class Timeline extends React.Component<
                   id="icu:ContactSpoofing__same-names-in-group--link"
                   components={{
                     count: numberOfSharedNames,
-                    reviewRequestLink,
-                  }}
+                    reviewRequestLink}}
                 />
               );
             }
@@ -1194,8 +1170,7 @@ export class Timeline extends React.Component<
     if (hasContactSpoofingReview) {
       contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
         conversationId: id,
-        onClose: closeContactSpoofingReview,
-      });
+        onClose: closeContactSpoofingReview});
     }
 
     return (
@@ -1205,8 +1180,7 @@ export class Timeline extends React.Component<
             const { isNearBottom } = this.props;
 
             this.setState({
-              widthBreakpoint: getWidthBreakpoint(size.width),
-            });
+              widthBreakpoint: getWidthBreakpoint(size.width)});
 
             this.#maxVisibleRows = Math.ceil(size.height / MIN_ROW_HEIGHT);
 

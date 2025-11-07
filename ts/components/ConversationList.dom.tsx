@@ -13,7 +13,6 @@ import type { ParsedE164Type } from '../util/libphonenumberInstance.std.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import { ScrollBehavior } from '../types/Util.std.js';
 import { getNavSidebarWidthBreakpoint } from './_util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.js';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
 
@@ -28,8 +27,7 @@ import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversat
 import { UsernameCheckbox as UsernameCheckboxComponent } from './conversationList/UsernameCheckbox.dom.js';
 import {
   ComposeStepButton,
-  Icon as ComposeStepButtonIcon,
-} from './conversationList/ComposeStepButton.dom.js';
+  Icon as ComposeStepButtonIcon} from './conversationList/ComposeStepButton.dom.js';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation.dom.js';
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader.dom.js';
 import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow.dom.js';
@@ -63,8 +61,7 @@ export enum RowType {
   SelectSingleGroup = 'SelectSingleGroup',
   StartNewConversation = 'StartNewConversation',
   UsernameSearchResult = 'UsernameSearchResult',
-  EmptyResults = 'EmptyResults',
-}
+  EmptyResults = 'EmptyResults'}
 
 type ArchiveButtonRowType = {
   type: RowType.ArchiveButton;
@@ -108,8 +105,7 @@ type UsernameCheckboxRowType = {
 
 export enum GenericCheckboxRowIcon {
   Contact = 'contact',
-  Group = 'group',
-}
+  Group = 'group'}
 
 type GenericCheckboxRowType = {
   type: RowType.GenericCheckbox;
@@ -222,7 +218,7 @@ export type PropsType = {
   scrollable?: boolean;
   hasDialogPadding?: boolean;
 
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   theme: ThemeType;
 
@@ -282,8 +278,7 @@ export function ConversationList({
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
-  theme,
-}: PropsType): JSX.Element | null {
+  theme}: PropsType): JSX.Element | null {
   const calculateRowHeight = useCallback(
     (index: number): number => {
       const row = getRow(index);
@@ -404,8 +399,7 @@ export function ConversationList({
                   // The clear filter button should be closer to the empty state
                   // text than to the search results.
                   'ClearFilterButton__inner-vertical-center':
-                    !row.isOnNoResultsPage,
-                })}
+                    !row.isOnNoResultsPage})}
                 onClick={onClickClearFilterButton}
               >
                 {i18n('icu:clearFilterButton')}
@@ -512,8 +506,7 @@ export function ConversationList({
                   get(lastMessage, 'text') ||
                   i18n('icu:ConversationList__last-message-undefined'),
                 title,
-                unreadCount: unreadCount ?? 0,
-              })}
+                unreadCount: unreadCount ?? 0})}
               key={key}
               badge={getPreferredBadge(badges)}
               onMouseDown={onPreloadConversation}

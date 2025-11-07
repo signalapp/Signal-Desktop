@@ -6,9 +6,7 @@ import type { ReactNode } from 'react';
 
 import type {
   ConversationType,
-  ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
+  ShowConversationType} from '../../state/ducks/conversations.preload.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.js';
@@ -28,15 +26,14 @@ import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
 import { getThemeByThemeType } from '../../util/theme.std.js';
 import {
   InAnotherCallTooltip,
-  getTooltipContent,
-} from './InAnotherCallTooltip.dom.js';
+  getTooltipContent} from './InAnotherCallTooltip.dom.js';
 
 const log = createLogger('ContactModal');
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
   areWeAdmin: boolean;
-  badges: ReadonlyArray<BadgeType>;
+  badges: ReadonlyArray<any>;
   contact?: ConversationType;
   conversation?: ConversationType;
   hasStories?: HasStories;
@@ -70,15 +67,13 @@ export type PropsType = PropsDataType & PropsActionType;
 
 enum ContactModalView {
   Default,
-  ShowingAvatar,
-}
+  ShowingAvatar}
 
 enum SubModalState {
   None = 'None',
   ToggleAdmin = 'ToggleAdmin',
   MemberRemove = 'MemberRemove',
-  ConfirmingBlock = 'ConfirmingBlock',
-}
+  ConfirmingBlock = 'ConfirmingBlock'}
 
 export function ContactModal({
   areWeAdmin,
@@ -107,8 +102,7 @@ export function ContactModal({
   togglePip,
   toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
-  viewUserStories,
-}: PropsType): JSX.Element {
+  viewUserStories}: PropsType): JSX.Element {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
   }
@@ -171,8 +165,7 @@ export function ContactModal({
               hideContactModal();
               showConversation({
                 conversationId,
-                switchToAssociatedView: true,
-              });
+                switchToAssociatedView: true});
               if (isInFullScreenCall) {
                 togglePip();
               }
@@ -229,19 +222,16 @@ export function ContactModal({
               action: () => toggleAdmin(conversation.id, contact.id),
               text: isAdmin
                 ? i18n('icu:ContactModal--rm-admin')
-                : i18n('icu:ContactModal--make-admin'),
-            },
+                : i18n('icu:ContactModal--make-admin')},
           ]}
           i18n={i18n}
           onClose={() => setSubModalState(SubModalState.None)}
         >
           {isAdmin
             ? i18n('icu:ContactModal--rm-admin-info', {
-                contact: contact.title,
-              })
+                contact: contact.title})
             : i18n('icu:ContactModal--make-admin-info', {
-                contact: contact.title,
-              })}
+                contact: contact.title})}
         </ConfirmationDialog>
       );
       break;
@@ -274,14 +264,12 @@ export function ContactModal({
             {
               text: i18n('icu:MessageRequests--block'),
               action: () => blockConversation(contact.id),
-              style: 'affirmative',
-            },
+              style: 'affirmative'},
           ]}
           i18n={i18n}
           onClose={() => setSubModalState(SubModalState.None)}
           title={i18n('icu:MessageRequests--block-direct-confirm-title', {
-            title: contact.title,
-          })}
+            title: contact.title})}
         >
           {i18n('icu:MessageRequests--block-direct-confirm-body')}
         </ConfirmationDialog>
@@ -297,7 +285,7 @@ export function ContactModal({
 
   switch (view) {
     case ContactModalView.Default: {
-      const preferredBadge: undefined | BadgeType = badges[0];
+      const preferredBadge: undefined | any = badges[0];
       return (
         <Modal
           modalName="ContactModal"
@@ -326,8 +314,7 @@ export function ContactModal({
                 if (conversation && hasStories) {
                   viewUserStories({
                     conversationId: contact.id,
-                    storyViewMode: StoryViewModeType.User,
-                  });
+                    storyViewMode: StoryViewModeType.User});
                   hideContactModal();
                 } else if (
                   !contact.avatarUrl &&
@@ -393,8 +380,7 @@ export function ContactModal({
                     </div>
                     <span>
                       {i18n('icu:AboutContactModal__blocked', {
-                        name: contact.title,
-                      })}
+                        name: contact.title})}
                     </span>
                   </div>
                 ) : (

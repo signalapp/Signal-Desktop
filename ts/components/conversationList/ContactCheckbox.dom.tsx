@@ -6,7 +6,6 @@ import type { FunctionComponent } from 'react';
 
 import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import { ContactName } from '../conversation/ContactName.dom.js';
 import { About } from '../conversation/About.dom.js';
@@ -16,11 +15,10 @@ import { Avatar, AvatarSize } from '../Avatar.dom.js';
 export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.
   AlreadyAdded = 1,
-  MaximumContactsSelected,
-}
+  MaximumContactsSelected}
 
 export type PropsDataType = {
-  badge: undefined | BadgeType;
+  badge: undefined | any;
   disabledReason?: ContactCheckboxDisabledReason;
   isChecked: boolean;
 } & Pick<
@@ -68,8 +66,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     sharedGroupNames,
     theme,
     title,
-    type,
-  }) {
+    type}) {
     const disabled = Boolean(disabledReason);
 
     const headerName = isMe ? (

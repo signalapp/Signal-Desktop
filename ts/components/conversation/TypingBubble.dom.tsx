@@ -11,7 +11,6 @@ import { Avatar } from '../Avatar.dom.js';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { drop } from '../../util/drop.std.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 
@@ -38,7 +37,7 @@ export type TypingBubblePropsType = {
   lastItemAuthorId: string | undefined;
   lastItemTimestamp: number | undefined;
   getConversation: (id: string) => ConversationType;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   showContactModal: (contactId: string, conversationId?: string) => void;
   i18n: LocalizerType;
   theme: ThemeType;
@@ -49,23 +48,19 @@ const SPRING_CONFIG = {
   tension: 439,
   friction: 42,
   precision: 0,
-  velocity: 0,
-};
+  velocity: 0};
 
 const AVATAR_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: {
     opacity: 1,
     width: '28px',
     x: '0px',
-    top: '0px',
-  },
+    top: '0px'},
   hidden: {
     opacity: 0.5,
     width: '4px', // Match value of module-message__typing-avatar margin-inline-start
     x: '12px',
-    top: '34px',
-  },
-};
+    top: '34px'}};
 
 function TypingBubbleAvatar({
   conversationId,
@@ -76,13 +71,12 @@ function TypingBubbleAvatar({
   onContactExit,
   showContactModal,
   i18n,
-  theme,
-}: {
+  theme}: {
   conversationId: string;
   contact: TypingContactType | undefined;
   visible: boolean;
   shouldAnimate: boolean;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   onContactExit: (id: string | undefined) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
   i18n: LocalizerType;
@@ -102,8 +96,7 @@ function TypingBubbleAvatar({
         if (!visible) {
           onContactExit(contact?.id);
         }
-      },
-    },
+      }},
     [visible]
   );
 
@@ -152,8 +145,7 @@ function TypingBubbleGroupAvatars({
   getPreferredBadge,
   showContactModal,
   i18n,
-  theme,
-}: Pick<
+  theme}: Pick<
   TypingBubblePropsType,
   | 'conversationId'
   | 'getConversation'
@@ -212,8 +204,7 @@ function TypingBubbleGroupAvatars({
         <div className="module-message__typing-avatar module-message__typing-avatar--overflow-count">
           <div
             aria-label={i18n('icu:TypingBubble__avatar--overflow-count', {
-              count: typingContactsOverflowCount,
-            })}
+              count: typingContactsOverflowCount})}
             className="module-Avatar"
           >
             <div className="module-Avatar__contents">
@@ -246,18 +237,14 @@ function TypingBubbleGroupAvatars({
 
 const OUTER_DIV_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: { height: '44px' },
-  hidden: { height: '0px' },
-};
+  hidden: { height: '0px' }};
 const BUBBLE_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: {
     opacity: 1,
-    top: '0px',
-  },
+    top: '0px'},
   hidden: {
     opacity: 0.5,
-    top: '30px',
-  },
-};
+    top: '30px'}};
 
 export function TypingBubble({
   conversationId,
@@ -269,8 +256,7 @@ export function TypingBubble({
   getPreferredBadge,
   showContactModal,
   i18n,
-  theme,
-}: TypingBubblePropsType): ReactElement | null {
+  theme}: TypingBubblePropsType): ReactElement | null {
   const [isVisible, setIsVisible] = useState(false);
 
   const typingContactIds = useMemo(
@@ -290,8 +276,7 @@ export function TypingBubble({
   const [outerDivStyle, outerDivSpringApi] = useSpring(
     {
       to: OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden'],
-      config: SPRING_CONFIG,
-    },
+      config: SPRING_CONFIG},
     [isSomeoneTyping]
   );
   // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
@@ -303,8 +288,7 @@ export function TypingBubble({
         if (!isSomeoneTyping) {
           setIsVisible(false);
         }
-      },
-    },
+      }},
     [isSomeoneTyping]
   );
 

@@ -6,7 +6,6 @@ import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { I18n } from './I18n.dom.js';
 import { ContactName } from './conversation/ContactName.dom.js';
 import { GroupDialog } from './GroupDialog.dom.js';
@@ -14,7 +13,7 @@ import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
 
 export type PropsType = {
   contacts: Array<ConversationType>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   onClose: () => void;
   theme: ThemeType;
@@ -25,8 +24,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   getPreferredBadge,
   i18n,
   onClose,
-  theme,
-}: PropsType): JSX.Element {
+  theme}: PropsType): JSX.Element {
   let body: ReactNode;
   if (contacts.length === 1) {
     const contact = contacts[0];
@@ -85,8 +83,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
       }}
       onClose={onClose}
       title={i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title', {
-        count: contacts.length,
-      })}
+        count: contacts.length})}
     >
       {body}
     </GroupDialog>

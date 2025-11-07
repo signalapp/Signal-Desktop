@@ -9,8 +9,7 @@ import type { ChatFolderParams } from '../../types/ChatFolder.std.js';
 import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.js';
 import {
   getAllComposableConversations,
-  getConversationSelector,
-} from '../selectors/conversations.dom.js';
+  getConversationSelector} from '../selectors/conversations.dom.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
 import { getCurrentChatFolders } from '../selectors/chatFolders.std.js';

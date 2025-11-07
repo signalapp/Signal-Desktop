@@ -52,7 +52,6 @@ const getConversation = () =>
 
 const placeHolderContact: ConversationType = {
   acceptedMessageRequest: false,
-  badges: [],
   id: '123',
   type: 'direct',
   title: i18n('icu:unknownContact'),

@@ -52,8 +52,7 @@ export function OrbitalThreadDetail({
   currentUserId,
   i18n,
   onReply,
-  onSendMessage,
-}: OrbitalThreadDetailProps): JSX.Element {
+  onSendMessage}: OrbitalThreadDetailProps): JSX.Element {
   const handleSubmitReply = useCallback(
     (body: string) => {
       onSendMessage(body);
@@ -127,8 +126,7 @@ function formatTimestamp(timestamp: number, i18n: LocalizerType): string {
   const time = date.toLocaleTimeString(i18n.getLocale(), {
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true,
-  });
+    hour12: true});
 
   if (isToday) {
     return `Today at ${time}`;

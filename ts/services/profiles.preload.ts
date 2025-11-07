@@ -3,8 +3,7 @@
 
 import type {
   ClientZkProfileOperations,
-  ProfileKeyCredentialRequestContext,
-} from '@signalapp/libsignal-client/zkgroup.js';
+  ProfileKeyCredentialRequestContext} from '@signalapp/libsignal-client/zkgroup.js';
 import PQueue from 'p-queue';
 import { IdentityChange } from '@signalapp/libsignal-client';
 
@@ -15,8 +14,7 @@ import type { ProfileType } from '../textsecure/WebAPI.preload.js';
 import {
   checkAccountExistence,
   getProfile,
-  getProfileUnauth,
-} from '../textsecure/WebAPI.preload.js';
+  getProfileUnauth} from '../textsecure/WebAPI.preload.js';
 import { MessageSender } from '../textsecure/SendMessage.preload.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
 import { DataWriter } from '../sql/Client.preload.js';
@@ -30,10 +28,8 @@ import { MINUTE, SECOND } from '../util/durations/index.std.js';
 import {
   generateProfileKeyCredentialRequest,
   getClientZkProfileOperations,
-  handleProfileKeyCredential,
-} from '../util/zkgroup.node.js';
+  handleProfileKeyCredential} from '../util/zkgroup.node.js';
 import { isMe } from '../util/whatTypeOfConversation.dom.js';
-import { parseBadgesFromServer } from '../badges/parseBadgesFromServer.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import { drop } from '../util/drop.std.js';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.js';
@@ -45,14 +41,12 @@ import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import {
   trimForDisplay,
   verifyAccessKey,
-  decryptProfile,
-} from '../Crypto.node.js';
+  decryptProfile} from '../Crypto.node.js';
 import type { ConversationLastProfileType } from '../model-types.d.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
   maybeCreateGroupSendEndorsementState,
-  onFailedToSendWithEndorsements,
-} from '../util/groupSendEndorsements.preload.js';
+  onFailedToSendWithEndorsements} from '../util/groupSendEndorsements.preload.js';
 import { ProfileDecryptError } from '../types/errors.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
@@ -83,8 +77,7 @@ type JobType = {
 //   - Don't even attempt jobs when offline
 
 const OBSERVED_CAPABILITY_KEYS = Object.keys({
-  attachmentBackfill: true,
-} satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
+  attachmentBackfill: true} satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
 const PROFILE_FETCH_CONCURRENCY = 30;
 
@@ -99,8 +92,7 @@ export class ProfileService {
   ) {
     this.#jobQueue = new PQueue({
       concurrency,
-      timeout: MINUTE * 2,
-    });
+      timeout: MINUTE * 2});
     this.#jobsByConversationId = new Map();
 
     log.info('Profile Service initialized');
@@ -138,8 +130,7 @@ export class ProfileService {
       promise,
       resolve,
       reject,
-      startTime: Date.now(),
-    };
+      startTime: Date.now()};
 
     const job = async () => {
       const conversation = window.ConversationController.get(conversationId);
@@ -314,8 +305,7 @@ async function buildProfileFetchOptions({
   lastProfile,
   clientZkProfileCipher,
   groupId,
-  options,
-}: {
+  options}: {
   conversation: ConversationModel;
   lastProfile: ConversationLastProfileType | null;
   clientZkProfileCipher: ClientZkProfileOperations;
@@ -337,8 +327,7 @@ async function buildProfileFetchOptions({
       log.info(`${logId}: using unexpired profile key credential`);
       return {
         credentialRequestContext: null,
-        credentialRequestHex: null,
-      };
+        credentialRequestHex: null};
     }
 
     log.info(`${logId}: generating profile key credential request`);
@@ -350,8 +339,7 @@ async function buildProfileFetchOptions({
 
     return {
       credentialRequestContext: result.context,
-      credentialRequestHex: result.requestHex,
-    };
+      credentialRequestHex: result.requestHex};
   }
 
   if (
@@ -370,9 +358,7 @@ async function buildProfileFetchOptions({
         accessKey,
         groupSendToken: null,
         profileKeyVersion,
-        profileKeyCredentialRequest: credentialRequestHex,
-      },
-    };
+        profileKeyCredentialRequest: credentialRequestHex}};
   }
 
   // If we're ignoring profileKey, try getting the versioned profile with lastProfile.
@@ -393,9 +379,7 @@ async function buildProfileFetchOptions({
         accessKey: null,
         groupSendToken: null,
         profileKeyVersion: lastProfile.profileKeyVersion,
-        profileKeyCredentialRequest: null,
-      },
-    };
+        profileKeyCredentialRequest: null}};
   }
 
   // For self we also use the versioned profile on the authenticated socket,
@@ -410,9 +394,7 @@ async function buildProfileFetchOptions({
         accessKey: null,
         groupSendToken: null,
         profileKeyVersion,
-        profileKeyCredentialRequest: credentialRequestHex,
-      },
-    };
+        profileKeyCredentialRequest: credentialRequestHex}};
   }
 
   // Fallback to group send tokens for unversioned profiles
@@ -438,9 +420,7 @@ async function buildProfileFetchOptions({
           accessKey: null,
           groupSendToken,
           profileKeyVersion: null,
-          profileKeyCredentialRequest: null,
-        },
-      };
+          profileKeyCredentialRequest: null}};
     }
   }
 
@@ -452,9 +432,7 @@ async function buildProfileFetchOptions({
       accessKey: null,
       groupSendToken: null,
       profileKeyVersion: null,
-      profileKeyCredentialRequest: null,
-    },
-  };
+      profileKeyCredentialRequest: null}};
 }
 
 function decryptField(field: string, decryptionKey: Uint8Array): Uint8Array {
@@ -494,8 +472,7 @@ async function doGetProfile(
   groupId: string | null,
   {
     ignoreProfileKey,
-    ignoreGroupSendToken,
-  }: {
+    ignoreGroupSendToken}: {
     ignoreProfileKey: boolean;
     ignoreGroupSendToken: boolean;
   } = { ignoreProfileKey: false, ignoreGroupSendToken: false }
@@ -531,9 +508,7 @@ async function doGetProfile(
     groupId,
     options: {
       ignoreProfileKey,
-      ignoreGroupSendToken,
-    },
-  });
+      ignoreGroupSendToken}});
   const { request } = options;
 
   log.info(`${logId}: Fetching profile (${getFetchOptionsLabel(options)})`);
@@ -573,8 +548,7 @@ async function doGetProfile(
             // Retry fetch using last known profileKey or fetch unversioned profile.
             return doGetProfile(c, groupId, {
               ignoreProfileKey: true,
-              ignoreGroupSendToken,
-            });
+              ignoreGroupSendToken});
           }
 
           // Fallback from failed unauth (group send token) request
@@ -582,8 +556,7 @@ async function doGetProfile(
             log.warn(`${logId}: Got ${error.code} when using group send token`);
             return doGetProfile(c, null, {
               ignoreProfileKey,
-              ignoreGroupSendToken: true,
-            });
+              ignoreGroupSendToken: true});
           }
         }
 
@@ -720,8 +693,7 @@ async function doGetProfile(
 
     let hasChanged = false;
     const observedCapabilities = {
-      ...itemStorage.get('observedCapabilities'),
-    };
+      ...itemStorage.get('observedCapabilities')};
     const newKeys = new Array<string>();
     for (const key of OBSERVED_CAPABILITY_KEYS) {
       // Already reported
@@ -760,11 +732,8 @@ async function doGetProfile(
         ...('expiresAt' in badge
           ? {
               expiresAt: badge.expiresAt,
-              isVisible: badge.isVisible,
-            }
-          : {}),
-      })),
-    });
+              isVisible: badge.isVisible}
+          : {})}))});
   } else {
     c.set({ badges: undefined });
   }
@@ -774,8 +743,7 @@ async function doGetProfile(
     if (profile.credential != null && profile.credential.length > 0) {
       const {
         credential: profileKeyCredential,
-        expiration: profileKeyCredentialExpiration,
-      } = handleProfileKeyCredential(
+        expiration: profileKeyCredentialExpiration} = handleProfileKeyCredential(
         clientZkProfileCipher,
         options.profileCredentialRequestContext,
         profile.credential
@@ -812,8 +780,7 @@ async function doGetProfile(
     log.warn(`${logId}: 'name' field missing; clearing profile name`);
     c.set({
       profileName: undefined,
-      profileFamilyName: undefined,
-    });
+      profileFamilyName: undefined});
   }
 
   try {
@@ -821,8 +788,7 @@ async function doGetProfile(
       // Note: Fetches avatar
       await c.setAndMaybeFetchProfileAvatar({
         avatarUrl: profile.avatar,
-        decryptionKey: requestDecryptionKey,
-      });
+        decryptionKey: requestDecryptionKey});
     }
   } catch (error) {
     if (error instanceof HTTPError) {
@@ -849,8 +815,7 @@ async function doGetProfile(
   ) {
     await c.updateLastProfile(lastProfile, {
       profileKey: options.profileKey,
-      profileKeyVersion: request.profileKeyVersion,
-    });
+      profileKeyVersion: request.profileKeyVersion});
   }
 
   await DataWriter.updateConversation(c.attributes);

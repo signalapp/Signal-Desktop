@@ -12,14 +12,12 @@ import MessageReceiver from './textsecure/MessageReceiver.preload.js';
 import { signalProtocolStore } from './SignalProtocolStore.preload.js';
 import type {
   SessionResetsType,
-  ProcessedDataMessage,
-} from './textsecure/Types.d.ts';
+  ProcessedDataMessage} from './textsecure/Types.d.ts';
 import { HTTPError } from './types/HTTPError.std.js';
 import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
-  reportLongRunningTasks,
-} from './textsecure/TaskWithTimeout.std.js';
+  reportLongRunningTasks} from './textsecure/TaskWithTimeout.std.js';
 import type { MessageAttributesType } from './model-types.d.ts';
 import * as Bytes from './Bytes.std.js';
 import * as Timers from './Timers.preload.js';
@@ -44,18 +42,15 @@ import { IdleDetector } from './IdleDetector.preload.js';
 import { challengeHandler } from './services/challengeHandler.preload.js';
 import {
   initialize as initializeExpiringMessageService,
-  update as updateExpiringMessagesService,
-} from './services/expiringMessagesDeletion.preload.js';
+  update as updateExpiringMessagesService} from './services/expiringMessagesDeletion.preload.js';
 import {
   initialize as initializeNotificationProfilesService,
-  fastUpdate as updateNotificationProfileService,
-} from './services/notificationProfilesService.preload.js';
+  fastUpdate as updateNotificationProfileService} from './services/notificationProfilesService.preload.js';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.preload.js';
 import { senderCertificateService } from './services/senderCertificate.preload.js';
 import {
   GROUP_CREDENTIALS_KEY,
-  initializeGroupCredentialFetcher,
-} from './services/groupCredentialFetcher.preload.js';
+  initializeGroupCredentialFetcher} from './services/groupCredentialFetcher.preload.js';
 import { initializeNetworkObserver } from './services/networkObserver.preload.js';
 import * as KeyboardLayout from './services/keyboardLayout.dom.js';
 import * as StorageService from './services/storage.preload.js';
@@ -69,8 +64,7 @@ import { safeParsePartial } from './util/schemas.std.js';
 import {
   PollVoteSchema,
   PollTerminateSchema,
-  isPollReceiveEnabled,
-} from './types/Polls.dom.js';
+  isPollReceiveEnabled} from './types/Polls.dom.js';
 import type { ConversationModel } from './models/conversations.preload.js';
 import { isIncoming } from './messages/helpers.std.js';
 import { getAuthor } from './messages/sources.preload.js';
@@ -78,12 +72,10 @@ import { migrateBatchOfMessages } from './messages/migrateMessageData.preload.js
 import { createBatcher, waitForAllBatchers } from './util/batcher.std.js';
 import {
   flushAllWaitBatchers,
-  waitForAllWaitBatchers,
-} from './util/waitBatcher.std.js';
+  waitForAllWaitBatchers} from './util/waitBatcher.std.js';
 import {
   initializeAllJobQueues,
-  shutdownAllJobQueues,
-} from './jobs/initializeAllJobQueues.preload.js';
+  shutdownAllJobQueues} from './jobs/initializeAllJobQueues.preload.js';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.preload.js';
 import { conversationJobQueue } from './jobs/conversationJobQueue.preload.js';
 import { ourProfileKeyService } from './services/ourProfileKey.std.js';
@@ -91,8 +83,7 @@ import { notificationService } from './services/notifications.preload.js';
 import { areWeASubscriberService } from './services/areWeASubscriber.dom.js';
 import {
   onContactSync,
-  setIsInitialContactSync,
-} from './services/contactSync.preload.js';
+  setIsInitialContactSync} from './services/contactSync.preload.js';
 import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.js';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey.dom.js';
 import { LatestQueue } from './util/LatestQueue.std.js';
@@ -122,8 +113,7 @@ import type {
   TypingEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
-  ViewSyncEvent,
-} from './textsecure/messageReceiverEvents.std.js';
+  ViewSyncEvent} from './textsecure/messageReceiverEvents.std.js';
 import {
   cancelInflightRequests,
   checkSockets,
@@ -147,8 +137,7 @@ import {
   registerCapabilities as doRegisterCapabilities,
   registerRequestHandler,
   reportMessage,
-  unregisterRequestHandler,
-} from './textsecure/WebAPI.preload.js';
+  unregisterRequestHandler} from './textsecure/WebAPI.preload.js';
 import { accountManager } from './textsecure/AccountManager.preload.js';
 import * as KeyChangeListener from './textsecure/KeyChangeListener.dom.js';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener.preload.js';
@@ -157,7 +146,6 @@ import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.std.js';
 import { createApp as createAppRoot } from './state/roots/createApp.preload.js';
 import { AppViewType } from './state/ducks/app.preload.js';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling.std.js';
-import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.preload.js';
 import * as Deletes from './messageModifiers/Deletes.preload.js';
 import * as Edits from './messageModifiers/Edits.preload.js';
 import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.js';
@@ -170,8 +158,7 @@ import type { EditAttributesType } from './messageModifiers/Edits.preload.js';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.preload.js';
 import type {
   PollVoteAttributesType,
-  PollTerminateAttributesType,
-} from './messageModifiers/Polls.preload.js';
+  PollTerminateAttributesType} from './messageModifiers/Polls.preload.js';
 import type { ReactionAttributesType } from './messageModifiers/Reactions.preload.js';
 import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs.preload.js';
 import { ReadStatus } from './messages/MessageReadStatus.std.js';
@@ -186,16 +173,14 @@ import {
   getOnDecryptionError,
   onRetryRequest,
   onInvalidPlaintextMessage,
-  onSuccessfulDecrypt,
-} from './util/handleRetry.preload.js';
+  onSuccessfulDecrypt} from './util/handleRetry.preload.js';
 import { themeChanged } from './shims/themeChanged.dom.js';
 import { createIPCEvents } from './util/createIPCEvents.preload.js';
 import type { ServiceIdString } from './types/ServiceId.std.js';
 import {
   ServiceIdKind,
   isPniString,
-  isServiceIdString,
-} from './types/ServiceId.std.js';
+  isServiceIdString} from './types/ServiceId.std.js';
 import { isAciString } from './util/isAciString.std.js';
 import { normalizeAci } from './util/normalizeAci.std.js';
 import { createLogger } from './logging/log.std.js';
@@ -218,8 +203,7 @@ import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage.st
 import {
   flushMessageCounter,
   incrementMessageCounter,
-  initializeMessageCounter,
-} from './util/incrementMessageCounter.preload.js';
+  initializeMessageCounter} from './util/incrementMessageCounter.preload.js';
 import { generateMessageId } from './util/generateMessageId.node.js';
 import { retryPlaceholders } from './services/retryPlaceholders.std.js';
 import { setBatchingStrategy } from './util/messageBatcher.preload.js';
@@ -230,8 +214,7 @@ import { onCallLogEventSync } from './util/onCallLogEventSync.preload.js';
 import { backupsService } from './services/backups/index.preload.js';
 import {
   getCallIdFromEra,
-  updateLocalGroupCallHistoryTimestamp,
-} from './util/callDisposition.preload.js';
+  updateLocalGroupCallHistoryTimestamp} from './util/callDisposition.preload.js';
 import { deriveStorageServiceKey, deriveMasterKey } from './Crypto.node.js';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager.preload.js';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync.preload.js';
@@ -250,20 +233,17 @@ import {
   getValue as getRemoteConfigValue,
   onChange as onRemoteConfigChange,
   maybeRefreshRemoteConfig,
-  forceRefreshRemoteConfig,
-} from './RemoteConfig.dom.js';
+  forceRefreshRemoteConfig} from './RemoteConfig.dom.js';
 import {
   getParametersForRedux,
-  loadAll,
-} from './services/allLoaders.preload.js';
+  loadAll} from './services/allLoaders.preload.js';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope.dom.js';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.std.js';
 import { ReleaseNotesFetcher } from './services/releaseNotesFetcher.preload.js';
 import { BuildExpirationService } from './services/buildExpiration.preload.js';
 import {
   maybeQueueDeviceNameFetch,
-  onDeviceNameChangeSync,
-} from './util/onDeviceNameChangeSync.preload.js';
+  onDeviceNameChangeSync} from './util/onDeviceNameChangeSync.preload.js';
 import { postSaveUpdates } from './util/cleanup.preload.js';
 import { handleDataMessage } from './messages/handleDataMessage.preload.js';
 import { MessageModel } from './models/messages.preload.js';
@@ -277,8 +257,7 @@ import { MessageRequestResponseSource } from './types/MessageRequestResponseEven
 import {
   CURRENT_SCHEMA_VERSION,
   PRIVATE,
-  GROUP,
-} from './types/Message2.preload.js';
+  GROUP} from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
 
@@ -323,8 +302,7 @@ export async function startApp(): Promise<void> {
   StartupQueue.initialize();
   notificationService.initialize({
     i18n,
-    storage: itemStorage,
-  });
+    storage: itemStorage});
 
   await initializeMessageCounter();
 
@@ -349,8 +327,7 @@ export async function startApp(): Promise<void> {
   const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   const eventHandlerQueue = new PQueue({
-    concurrency: 1,
-  });
+    concurrency: 1});
 
   // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
   const profileKeyResponseQueue = new PQueue();
@@ -445,8 +422,7 @@ export async function startApp(): Promise<void> {
       conversationJobQueue.add({
         type: 'NullMessage',
         conversationId,
-        idForTracking,
-      })
+        idForTracking})
     );
   });
 
@@ -498,8 +474,7 @@ export async function startApp(): Promise<void> {
               title: i18n('icu:deleteOldIndexedDBData'),
               okText: i18n('icu:deleteOldData'),
               reject: () => reject(),
-              resolve: () => resolve(),
-            });
+              resolve: () => resolve()});
           });
         } catch (error) {
           log.info(
@@ -530,8 +505,7 @@ export async function startApp(): Promise<void> {
       // We need to use direct data calls, since storage isn't ready yet.
       await DataWriter.createOrUpdateItem({
         id: 'indexeddb-delete-needed',
-        value: true,
-      });
+        value: true});
     }
   }
 
@@ -545,8 +519,7 @@ export async function startApp(): Promise<void> {
     first = false;
 
     restoreRemoteConfigFromStorage({
-      storage: itemStorage,
-    });
+      storage: itemStorage});
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
 
@@ -556,8 +529,7 @@ export async function startApp(): Promise<void> {
       connectWebAPI({
         ...itemStorage.user.getWebAPICredentials(),
         hasBuildExpired: buildExpirationService.hasBuildExpired(),
-        hasStoriesDisabled: itemStorage.get('hasStoriesDisabled', false),
-      })
+        hasStoriesDisabled: itemStorage.get('hasStoriesDisabled', false)})
     );
 
     buildExpirationService.on('expired', () => {
@@ -571,8 +543,7 @@ export async function startApp(): Promise<void> {
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
       storage: itemStorage,
-      serverTrustRoots: window.getServerTrustRoots(),
-    });
+      serverTrustRoots: window.getServerTrustRoots()});
     window.ConversationController.registerDelayBeforeUpdatingRedux(() => {
       if (backupsService.isImportRunning()) {
         return 500;
@@ -738,16 +709,13 @@ export async function startApp(): Promise<void> {
     senderCertificateService.initialize({
       server: {
         isOnline,
-        getSenderCertificate,
-      },
+        getSenderCertificate},
       events: window.Whisper.events,
-      storage: itemStorage,
-    });
+      storage: itemStorage});
 
     areWeASubscriberService.update(itemStorage, {
       isOnline,
-      getHasSubscription,
-    });
+      getHasSubscription});
 
     void cleanupSessionResets();
 
@@ -761,8 +729,7 @@ export async function startApp(): Promise<void> {
         // Hangup active calls
         calling.hangupAllCalls({
           excludeRinging: true,
-          reason: 'background/shutdown: shutdown requested',
-        });
+          reason: 'background/shutdown: shutdown requested'});
 
         const attachmentDownloadStopPromise = AttachmentDownloadManager.stop();
         const attachmentBackupStopPromise = AttachmentBackupManager.stop();
@@ -850,8 +817,7 @@ export async function startApp(): Promise<void> {
 
         // Shut down the data interface cleanly
         await DataWriter.shutdown();
-      },
-    });
+      }});
 
     const zoomFactor = await window.Events.getZoomFactor();
     document.body.style.setProperty('--zoom-factor', zoomFactor.toString());
@@ -891,17 +857,14 @@ export async function startApp(): Promise<void> {
 
       if (window.isBeforeVersion(lastVersion, '6.45.0-alpha')) {
         await removeStorageKeyJobQueue.add({
-          key: 'previousAudioDeviceModule',
-        });
+          key: 'previousAudioDeviceModule'});
       }
 
       if (window.isBeforeVersion(lastVersion, '6.25.0-alpha')) {
         await removeStorageKeyJobQueue.add({
-          key: 'nextSignedKeyRotationTime',
-        });
+          key: 'nextSignedKeyRotationTime'});
         await removeStorageKeyJobQueue.add({
-          key: 'signedKeyRotationRejected',
-        });
+          key: 'signedKeyRotationRejected'});
       }
 
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
@@ -926,8 +889,7 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
         const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
         await removeStorageKeyJobQueue.add({
-          key: legacySenderCertificateStorageKey,
-        });
+          key: legacySenderCertificateStorageKey});
       }
 
       if (window.isBeforeVersion(lastVersion, 'v5.18.0')) {
@@ -942,8 +904,7 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v5.37.0-alpha')) {
         const legacyChallengeKey = 'challenge:retry-message-ids';
         await removeStorageKeyJobQueue.add({
-          key: legacyChallengeKey,
-        });
+          key: legacyChallengeKey});
 
         await DataWriter.clearAllErrorStickerPackAttempts();
       }
@@ -1005,8 +966,7 @@ export async function startApp(): Promise<void> {
           log.info('Creating "all chats" chat folder');
           await DataWriter.createAllChatsChatFolder();
           StorageService.storageServiceUploadJobAfterEnabled({
-            reason: 'createAllChatsChatFolder',
-          });
+            reason: 'createAllChatsChatFolder'});
         }
       }
     }
@@ -1052,8 +1012,7 @@ export async function startApp(): Promise<void> {
             `idleDetector/idle: fetching at most ${NUM_MESSAGES_PER_BATCH} for migration`
           );
           const batchWithIndex = await migrateBatchOfMessages({
-            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          });
+            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH});
           log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
           isMigrationWithIndexComplete = batchWithIndex.done;
         }
@@ -1123,8 +1082,7 @@ export async function startApp(): Promise<void> {
                   receivedAt,
                   receivedAtCounter,
                   senderAci,
-                  sentAt,
-                })
+                  sentAt})
               )
             );
           }
@@ -1173,8 +1131,7 @@ export async function startApp(): Promise<void> {
         {
           ...window.reduxActions.calling,
           areAnyCallsActiveOrRinging: () =>
-            areAnyCallsActiveOrRinging(window.reduxStore.getState()),
-        },
+            areAnyCallsActiveOrRinging(window.reduxStore.getState())},
         window.getSfuUrl()
       );
       window.reduxActions.expiration.hydrateExpirationStatus(
@@ -1225,8 +1182,7 @@ export async function startApp(): Promise<void> {
         ourNumber: newNumber,
         ourAci: newACI,
         ourPni: newPNI,
-        regionCode: itemStorage.get('regionCode'),
-      });
+        regionCode: itemStorage.get('regionCode')});
 
       if (reconnect) {
         log.info('reconnecting websocket on user change');
@@ -1255,9 +1211,7 @@ export async function startApp(): Promise<void> {
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.Profile,
-        state: ProfileEditorPage.None,
-      },
-    });
+        state: ProfileEditorPage.None}});
   });
 
   window.Whisper.events.on('stageLocalBackupForImport', () => {
@@ -1334,8 +1288,7 @@ export async function startApp(): Promise<void> {
 
     if (andSync != null) {
       await StorageService.runStorageServiceSyncJob({
-        reason: andSync,
-      });
+        reason: andSync});
       StorageService.runStorageServiceSyncJob.flush();
     }
   }
@@ -1346,9 +1299,7 @@ export async function startApp(): Promise<void> {
     initializeAllJobQueues({
       server: {
         isOnline,
-        reportMessage,
-      },
-    });
+        reportMessage}});
 
     strictAssert(challengeHandler, 'start: challengeHandler');
     await challengeHandler.load();
@@ -1372,9 +1323,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.migrateAvatarsForNonAcceptedConversations();
       }
     }
-
-    void badgeImageFileDownloader.checkForFilesToDownload();
-
+// badgeImageFileDownloader removed
     initializeExpiringMessageService();
     initializeNotificationProfilesService();
 
@@ -1422,14 +1371,12 @@ export async function startApp(): Promise<void> {
           );
           return {
             ...message,
-            expirationStartTimestamp,
-          };
+            expirationStartTimestamp};
         });
 
       await DataWriter.saveMessages(newMessageAttributes, {
         ourAci: itemStorage.user.getCheckedAci(),
-        postSaveUpdates,
-      });
+        postSaveUpdates});
     }
     log.info('Expiration start timestamp cleanup: complete');
 
@@ -1492,8 +1439,7 @@ export async function startApp(): Promise<void> {
       try {
         await maybeRefreshRemoteConfig({
           getConfig,
-          storage: itemStorage,
-        });
+          storage: itemStorage});
       } catch (error) {
         if (error instanceof HTTPError) {
           log.warn(
@@ -1547,8 +1493,7 @@ export async function startApp(): Promise<void> {
         authSocketConnectCount,
         hasInitialLoadCompleted,
         appView,
-        hasAppEverBeenRegistered,
-      });
+        hasAppEverBeenRegistered});
 
       drop(challengeHandler.onOffline());
       drop(AttachmentDownloadManager.stop());
@@ -1673,8 +1618,7 @@ export async function startApp(): Promise<void> {
       // 4. Download (or resume download) of link & sync backup or local backup
       const { wasBackupImported } = await maybeDownloadAndImportBackup();
       log.info(logId, {
-        wasBackupImported,
-      });
+        wasBackupImported});
 
       // 5. Start processing messages from websocket and clear
       // `messageReceiver.#isEmptied`.
@@ -1691,8 +1635,7 @@ export async function startApp(): Promise<void> {
         );
         drop(
           enableStorageService({
-            andSync: 'afterFirstAuthSocketConnect',
-          })
+            andSync: 'afterFirstAuthSocketConnect'})
         );
       } else {
         drop(enableStorageService());
@@ -1739,8 +1682,7 @@ export async function startApp(): Promise<void> {
       if (newVersion) {
         drop(
           afterEveryLinkedStartupOnNewVersion({
-            skipSyncRequests: hasSentSyncRequests,
-          })
+            skipSyncRequests: hasSentSyncRequests})
         );
       }
     } catch (e) {
@@ -1773,10 +1715,8 @@ export async function startApp(): Promise<void> {
               window.reduxActions.installer.updateBackupImportProgress({
                 backupStep,
                 currentBytes,
-                totalBytes,
-              });
-            },
-          }));
+                totalBytes});
+            }}));
         }
 
         log.info('afterAppStart: backup download attempt completed, resolving');
@@ -1807,8 +1747,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function afterEveryLinkedStartupOnNewVersion({
-    skipSyncRequests = false,
-  }: {
+    skipSyncRequests = false}: {
     skipSyncRequests: boolean;
   }) {
     log.info('afterAuthSocketConnect/afterEveryLinkedStartupOnNewVersion');
@@ -1865,8 +1804,7 @@ export async function startApp(): Promise<void> {
     try {
       await doRegisterCapabilities({
         attachmentBackfill: true,
-        spqr: true,
-      });
+        spqr: true});
     } catch (error) {
       log.error(
         'Error: Unable to register our capabilities.',
@@ -2007,8 +1945,7 @@ export async function startApp(): Promise<void> {
   window.waitForEmptyEventQueue = waitForEmptyEventQueue;
 
   async function onEmpty({
-    isFromMessageReceiver,
-  }: { isFromMessageReceiver?: boolean } = {}): Promise<void> {
+    isFromMessageReceiver}: { isFromMessageReceiver?: boolean } = {}): Promise<void> {
     await Promise.all([waitForAllBatchers(), flushAllWaitBatchers()]);
     log.info('onEmpty: All outstanding database requests complete');
     window.IPC.readyForUpdates();
@@ -2025,8 +1962,7 @@ export async function startApp(): Promise<void> {
 
     const processedCount = messageReceiver?.getAndResetProcessedCount() || 0;
     window.IPC.logAppLoadedEvent?.({
-      processedCount,
-    });
+      processedCount});
     if (messageReceiver) {
       log.info('App loaded - messages:', processedCount);
     }
@@ -2042,8 +1978,7 @@ export async function startApp(): Promise<void> {
         getAllConversations: () => window.ConversationController.getAll(),
         getOurConversationId: () =>
           window.ConversationController.getOurConversationId(),
-        storage: itemStorage,
-      });
+        storage: itemStorage});
 
       void routineProfileRefresher.start();
     }
@@ -2058,8 +1993,7 @@ export async function startApp(): Promise<void> {
           getReleaseNoteHash,
           getReleaseNoteImageAttachment,
           getReleaseNotesManifest,
-          getReleaseNotesManifestHash,
-        },
+          getReleaseNotesManifestHash},
         window.Whisper.events,
         newVersion
       )
@@ -2080,8 +2014,7 @@ export async function startApp(): Promise<void> {
                 syncTaskTypes: [
                   'delete-conversation',
                   'delete-local-conversation',
-                ],
-              });
+                ]});
             const syncTasks = result.tasks;
             if (syncTasks.length > 0) {
               log.info(
@@ -2121,8 +2054,7 @@ export async function startApp(): Promise<void> {
       readReceipts,
       typingIndicators,
       unidentifiedDeliveryIndicators,
-      linkPreviews,
-    } = configuration;
+      linkPreviews} = configuration;
 
     await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
 
@@ -2162,8 +2094,7 @@ export async function startApp(): Promise<void> {
       window.ConversationController.maybeMergeContacts({
         e164: sender,
         aci: senderAci,
-        reason: `onTyping(${typing.timestamp})`,
-      });
+        reason: `onTyping(${typing.timestamp})`});
 
     // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
     if (groupV2Id) {
@@ -2226,8 +2157,7 @@ export async function startApp(): Promise<void> {
       isTyping: started,
       fromMe: senderId === ourId,
       senderId,
-      senderDevice,
-    });
+      senderDevice});
   }
 
   function onStickerPack(ev: StickerPackEvent): void {
@@ -2247,18 +2177,15 @@ export async function startApp(): Promise<void> {
 
       if (status === 'installed' && isRemove) {
         window.reduxActions.stickers.uninstallStickerPack(id, key, {
-          actionSource: 'syncMessage',
-        });
+          actionSource: 'syncMessage'});
       } else if (isInstall) {
         if (status === 'downloaded') {
           window.reduxActions.stickers.installStickerPack(id, key, {
-            actionSource: 'syncMessage',
-          });
+            actionSource: 'syncMessage'});
         } else {
           void Stickers.downloadStickerPack(id, key, {
             finalStatus: 'installed',
-            actionSource: 'syncMessage',
-          });
+            actionSource: 'syncMessage'});
         }
       }
     });
@@ -2268,8 +2195,7 @@ export async function startApp(): Promise<void> {
   async function handleMessageReceivedProfileUpdate({
     data,
     confirm,
-    messageDescriptor,
-  }: {
+    messageDescriptor}: {
     data: MessageEventData;
     confirm: () => void;
     messageDescriptor: MessageDescriptor;
@@ -2284,8 +2210,7 @@ export async function startApp(): Promise<void> {
     if (sender) {
       // Will do the save for us
       await sender.setProfileKey(profileKey, {
-        reason: 'handleMessageReceivedProfileUpdate',
-      });
+        reason: 'handleMessageReceivedProfileUpdate'});
     }
 
     return confirm();
@@ -2316,8 +2241,7 @@ export async function startApp(): Promise<void> {
     },
 
     wait: 200,
-    maxSize: Infinity,
-  });
+    maxSize: Infinity});
 
   const _throttledSetInboxEnvelopeTimestamp = throttle(
     serverTimestamp => {
@@ -2336,14 +2260,12 @@ export async function startApp(): Promise<void> {
   }
 
   async function onEnvelopeQueued({
-    envelope,
-  }: EnvelopeQueuedEvent): Promise<void> {
+    envelope}: EnvelopeQueuedEvent): Promise<void> {
     setInboxEnvelopeTimestamp(envelope.serverTimestamp);
   }
 
   async function onEnvelopeUnsealed({
-    envelope,
-  }: EnvelopeUnsealedEvent): Promise<void> {
+    envelope}: EnvelopeUnsealedEvent): Promise<void> {
     setInboxEnvelopeTimestamp(envelope.serverTimestamp);
 
     const ourAci = itemStorage.user.getAci();
@@ -2355,8 +2277,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
           aci: envelope.sourceServiceId,
-          reason: `onEnvelopeUnsealed(${envelope.timestamp})`,
-        });
+          reason: `onEnvelopeUnsealed(${envelope.timestamp})`});
 
       if (mergePromises.length > 0) {
         await Promise.all(mergePromises);
@@ -2381,8 +2302,7 @@ export async function startApp(): Promise<void> {
       envelopeId: data.envelopeId,
       message: data.message,
       source: data.sourceAci ?? data.source,
-      sourceDevice: data.sourceDevice,
-    });
+      sourceDevice: data.sourceDevice});
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
@@ -2391,8 +2311,7 @@ export async function startApp(): Promise<void> {
       return handleMessageReceivedProfileUpdate({
         data,
         confirm,
-        messageDescriptor,
-      });
+        messageDescriptor});
     }
 
     const message = initIncomingMessage(data, messageDescriptor);
@@ -2452,8 +2371,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: data.source,
           aci: data.sourceAci,
-          reason: 'onMessageReceived:reaction',
-        });
+          reason: 'onMessageReceived:reaction'});
       strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
@@ -2468,8 +2386,7 @@ export async function startApp(): Promise<void> {
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
 
       drop(Reactions.onReaction(attributes));
       return;
@@ -2503,8 +2420,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: data.source,
           aci: data.sourceAci,
-          reason: 'onMessageReceived:pollVote',
-        });
+          reason: 'onMessageReceived:pollVote'});
       strictAssert(fromConversation, 'PollVote without fromConversation');
 
       log.info('Queuing incoming poll vote for', pollVote.targetTimestamp);
@@ -2518,8 +2434,7 @@ export async function startApp(): Promise<void> {
         optionIndexes: validatedVote.optionIndexes,
         voteCount: validatedVote.voteCount,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
 
       drop(Polls.onPollVote(attributes));
       return;
@@ -2547,8 +2462,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: data.source,
           aci: data.sourceAci,
-          reason: 'onMessageReceived:pollTerminate',
-        });
+          reason: 'onMessageReceived:pollTerminate'});
       strictAssert(fromConversation, 'PollTerminate without fromConversation');
 
       log.info(
@@ -2562,8 +2476,7 @@ export async function startApp(): Promise<void> {
         source: Polls.PollSource.FromSomeoneElse,
         targetTimestamp: parsedTerm.data.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
 
       drop(Polls.onPollTerminate(attributes));
       return;
@@ -2582,8 +2495,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: data.source,
           aci: data.sourceAci,
-          reason: 'onMessageReceived:delete',
-        });
+          reason: 'onMessageReceived:delete'});
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
@@ -2591,8 +2503,7 @@ export async function startApp(): Promise<void> {
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: fromConversation.id,
-        removeFromMessageReceiverCache: confirm,
-      };
+        removeFromMessageReceiverCache: confirm};
       drop(Deletes.onDelete(attributes));
 
       return;
@@ -2606,14 +2517,12 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           aci: data.sourceAci,
           e164: data.source,
-          reason: 'onMessageReceived:edit',
-        });
+          reason: 'onMessageReceived:edit'});
       strictAssert(fromConversation, 'Edit missing fromConversation');
 
       log.info('Queuing incoming edit for', {
         editedMessageTimestamp,
-        sentAt: data.timestamp,
-      });
+        sentAt: data.timestamp});
 
       const editAttributes: EditAttributesType = {
         envelopeId: data.envelopeId,
@@ -2622,8 +2531,7 @@ export async function startApp(): Promise<void> {
         fromDevice: data.sourceDevice ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
-        removeFromMessageReceiverCache: confirm,
-      };
+        removeFromMessageReceiverCache: confirm};
 
       drop(Edits.onEdit(editAttributes));
 
@@ -2642,14 +2550,12 @@ export async function startApp(): Promise<void> {
   async function onProfileKey({
     data,
     reason,
-    confirm,
-  }: ProfileKeyUpdateEvent): Promise<void> {
+    confirm}: ProfileKeyUpdateEvent): Promise<void> {
     const logId = `onProfileKey/${reason}`;
     const { conversation } = window.ConversationController.maybeMergeContacts({
       aci: data.sourceAci,
       e164: data.source,
-      reason: logId,
-    });
+      reason: logId});
     const idForLogging = getConversationIdForLogging(conversation.attributes);
 
     if (!data.profileKey) {
@@ -2662,8 +2568,7 @@ export async function startApp(): Promise<void> {
     }
 
     const hasChanged = await conversation.setProfileKey(data.profileKey, {
-      reason: `onProfileKey/${reason}`,
-    });
+      reason: `onProfileKey/${reason}`});
 
     if (hasChanged) {
       drop(conversation.getProfiles());
@@ -2675,8 +2580,7 @@ export async function startApp(): Promise<void> {
   async function handleMessageSentProfileUpdate({
     data,
     confirm,
-    messageDescriptor,
-  }: {
+    messageDescriptor}: {
     data: SentEventData;
     confirm: () => void;
     messageDescriptor: MessageDescriptor;
@@ -2687,8 +2591,7 @@ export async function startApp(): Promise<void> {
     const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing({
-      reason: 'handleMessageSentProfileUpdate',
-    });
+      reason: 'handleMessageSentProfileUpdate'});
     await DataWriter.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
@@ -2703,8 +2606,7 @@ export async function startApp(): Promise<void> {
 
     // Will do the save for us if needed
     await me.setProfileKey(profileKey, {
-      reason: 'handleMessageSentProfileUpdate',
-    });
+      reason: 'handleMessageSentProfileUpdate'});
 
     return confirm();
   }
@@ -2724,14 +2626,11 @@ export async function startApp(): Promise<void> {
     const sendStateByConversationId: SendStateByConversationId = {
       [ourId]: {
         status: SendStatus.Sent,
-        updatedAt: timestamp,
-      },
-    };
+        updatedAt: timestamp}};
 
     for (const {
       destinationServiceId,
-      isAllowedToReplyToStory,
-    } of unidentifiedStatus) {
+      isAllowedToReplyToStory} of unidentifiedStatus) {
       const conversation =
         window.ConversationController.get(destinationServiceId);
       if (!conversation || conversation.id === ourId) {
@@ -2741,8 +2640,7 @@ export async function startApp(): Promise<void> {
       sendStateByConversationId[conversation.id] = {
         isAllowedToReplyToStory,
         status: SendStatus.Sent,
-        updatedAt: timestamp,
-      };
+        updatedAt: timestamp};
     }
 
     await pMap(
@@ -2764,8 +2662,7 @@ export async function startApp(): Promise<void> {
           destinationPniIdentityKey,
           destinationServiceId,
           {
-            noOverwrite: true,
-          }
+            noOverwrite: true}
         );
         if (changed) {
           log.info(
@@ -2807,8 +2704,7 @@ export async function startApp(): Promise<void> {
       timestamp,
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
-      unidentifiedDeliveries,
-    };
+      unidentifiedDeliveries};
 
     return new MessageModel(partialMessage);
   }
@@ -2820,8 +2716,7 @@ export async function startApp(): Promise<void> {
     envelopeId,
     message,
     source,
-    sourceDevice,
-  }: {
+    sourceDevice}: {
     destinationE164?: string;
     destinationServiceId?: ServiceIdString;
     envelopeId: string;
@@ -2842,8 +2737,7 @@ export async function startApp(): Promise<void> {
       if (groupV2) {
         return {
           type: GROUP,
-          id: groupV2.id,
-        };
+          id: groupV2.id};
       }
 
       // Then check for V1 group with matching derived GV2 id
@@ -2851,8 +2745,7 @@ export async function startApp(): Promise<void> {
       if (groupV1) {
         return {
           type: GROUP,
-          id: groupV1.id,
-        };
+          id: groupV1.id};
       }
 
       // Finally create the V2 group normally
@@ -2860,13 +2753,11 @@ export async function startApp(): Promise<void> {
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,
-        publicParams: message.groupV2.publicParams,
-      });
+        publicParams: message.groupV2.publicParams});
 
       return {
         type: GROUP,
-        id: conversationId,
-      };
+        id: conversationId};
     }
 
     const id = destinationServiceId || destinationE164;
@@ -2881,8 +2772,7 @@ export async function startApp(): Promise<void> {
 
     return {
       type: PRIVATE,
-      id: conversation.id,
-    };
+      id: conversation.id};
   };
 
   // Note: We do very little in this function, since everything in handleDataMessage is
@@ -2909,8 +2799,7 @@ export async function startApp(): Promise<void> {
           pni: isPniString(data.destinationServiceId)
             ? data.destinationServiceId
             : undefined,
-          reason: `onSentMessage(${data.timestamp})`,
-        });
+          reason: `onSentMessage(${data.timestamp})`});
 
       if (mergePromises.length > 0) {
         await Promise.all(mergePromises);
@@ -2920,8 +2809,7 @@ export async function startApp(): Promise<void> {
     const messageDescriptor = getMessageDescriptor({
       ...data,
       source: sourceServiceId,
-      sourceDevice: data.device,
-    });
+      sourceDevice: data.device});
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
@@ -2930,8 +2818,7 @@ export async function startApp(): Promise<void> {
       return handleMessageSentProfileUpdate({
         data,
         confirm,
-        messageDescriptor,
-      });
+        messageDescriptor});
     }
 
     const message = await createSentMessage(data, messageDescriptor);
@@ -2970,8 +2857,7 @@ export async function startApp(): Promise<void> {
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
       drop(Reactions.onReaction(attributes));
       return;
     }
@@ -3014,8 +2900,7 @@ export async function startApp(): Promise<void> {
         optionIndexes: validatedVote.optionIndexes,
         voteCount: validatedVote.voteCount,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
 
       drop(Polls.onPollVote(attributes));
       return;
@@ -3053,8 +2938,7 @@ export async function startApp(): Promise<void> {
         source: Polls.PollSource.FromSync,
         targetTimestamp: parsedTerm.data.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
-        timestamp,
-      };
+        timestamp};
 
       drop(Polls.onPollTerminate(attributes));
       return;
@@ -3075,8 +2959,7 @@ export async function startApp(): Promise<void> {
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
-        removeFromMessageReceiverCache: confirm,
-      };
+        removeFromMessageReceiverCache: confirm};
       drop(Deletes.onDelete(attributes));
       return;
     }
@@ -3088,8 +2971,7 @@ export async function startApp(): Promise<void> {
 
       log.info('Queuing sent edit for', {
         editedMessageTimestamp,
-        sentAt: data.timestamp,
-      });
+        sentAt: data.timestamp});
 
       const editAttributes: EditAttributesType = {
         envelopeId: data.envelopeId,
@@ -3098,8 +2980,7 @@ export async function startApp(): Promise<void> {
         fromDevice: itemStorage.user.getDeviceId() ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
-        removeFromMessageReceiverCache: confirm,
-      };
+        removeFromMessageReceiverCache: confirm};
 
       drop(Edits.onEdit(editAttributes));
       return;
@@ -3113,8 +2994,7 @@ export async function startApp(): Promise<void> {
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
       handleDataMessage(message, data.message, event.confirm, {
-        data,
-      })
+        data})
     );
   }
 
@@ -3149,8 +3029,7 @@ export async function startApp(): Promise<void> {
       sourceServiceId: data.sourceAci,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
-      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
-    };
+      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived};
     return new MessageModel(partialMessage);
   }
 
@@ -3174,8 +3053,7 @@ export async function startApp(): Promise<void> {
         );
         window.reduxActions.calling.peekNotConnectedGroupCall({
           callMode: CallMode.Group,
-          conversationId,
-        });
+          conversationId});
         if (callId != null) {
           drop(
             updateLocalGroupCallHistoryTimestamp(
@@ -3317,8 +3195,7 @@ export async function startApp(): Promise<void> {
     const attributes: ViewOnceOpenSyncAttributesType = {
       removeFromMessageReceiverCache: ev.confirm,
       sourceAci,
-      timestamp,
-    };
+      timestamp};
     drop(ViewOnceOpenSyncs.onSync(attributes));
   }
 
@@ -3339,8 +3216,7 @@ export async function startApp(): Promise<void> {
         await getProfile({
           serviceId: ourAci,
           e164: ourE164,
-          groupId: null,
-        });
+          groupId: null});
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
@@ -3351,8 +3227,7 @@ export async function startApp(): Promise<void> {
         log.info('onFetchLatestSync: fetching latest subscription status');
         areWeASubscriberService.update(itemStorage, {
           isOnline,
-          getHasSubscription,
-        });
+          getHasSubscription});
         break;
       default:
         log.info(`onFetchLatestSync: Unknown type encountered ${eventType}`);
@@ -3431,8 +3306,7 @@ export async function startApp(): Promise<void> {
         try {
           await itemStorage.put('storageKey', storageServiceKeyBase64);
           await StorageService.eraseAllStorageServiceState({
-            keepUnknownFields: true,
-          });
+            keepUnknownFields: true});
         } catch (error) {
           log.info(
             'onKeysSync: Failed to erase storage service data, starting sync job anyway',
@@ -3453,14 +3327,12 @@ export async function startApp(): Promise<void> {
       messageRequestResponseType,
       receivedAtCounter,
       receivedAtMs,
-      sentAt,
-    } = ev;
+      sentAt} = ev;
 
     log.info('onMessageRequestResponse', {
       threadAci,
       groupV2Id: `groupv2(${groupV2Id})`,
-      messageRequestResponseType,
-    });
+      messageRequestResponseType});
 
     strictAssert(
       messageRequestResponseType,
@@ -3478,8 +3350,7 @@ export async function startApp(): Promise<void> {
       receivedAtMs,
       sentAt,
       sourceType: MessageRequestResponseSource.MRR_SYNC,
-      type: messageRequestResponseType,
-    };
+      type: messageRequestResponseType};
     drop(MessageRequests.onResponse(attributes));
   }
 
@@ -3487,23 +3358,20 @@ export async function startApp(): Promise<void> {
     return onReadOrViewReceipt({
       logTitle: 'read receipt',
       event,
-      type: MessageReceipts.messageReceiptTypeSchema.enum.Read,
-    });
+      type: MessageReceipts.messageReceiptTypeSchema.enum.Read});
   }
 
   async function onViewReceipt(event: Readonly<ViewEvent>): Promise<void> {
     return onReadOrViewReceipt({
       logTitle: 'view receipt',
       event,
-      type: MessageReceipts.messageReceiptTypeSchema.enum.View,
-    });
+      type: MessageReceipts.messageReceiptTypeSchema.enum.View});
   }
 
   async function onReadOrViewReceipt({
     event,
     logTitle,
-    type,
-  }: Readonly<{
+    type}: Readonly<{
     event: ReadEvent | ViewEvent;
     logTitle: string;
     type: 'Read' | 'View';
@@ -3518,14 +3386,12 @@ export async function startApp(): Promise<void> {
           source,
           sourceServiceId,
           sourceDevice,
-          wasSentEncrypted,
-        } = receipt;
+          wasSentEncrypted} = receipt;
         const sourceConversation = window.ConversationController.lookupOrCreate(
           {
             serviceId: sourceServiceId,
             e164: source,
-            reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-          }
+            reason: `onReadOrViewReceipt(${envelopeTimestamp})`}
         );
 
         log.info(
@@ -3556,8 +3422,7 @@ export async function startApp(): Promise<void> {
           sourceServiceId,
           sourceDevice,
           type,
-          wasSentEncrypted,
-        };
+          wasSentEncrypted};
         return {
           id: generateUuid(),
           attempts: 1,
@@ -3565,8 +3430,7 @@ export async function startApp(): Promise<void> {
           data,
           envelopeId,
           sentAt: envelopeTimestamp,
-          type,
-        };
+          type};
       })
       .filter(isNotNil);
 
@@ -3595,8 +3459,7 @@ export async function startApp(): Promise<void> {
           window.ConversationController.maybeMergeContacts({
             aci: senderAci,
             e164: sender,
-            reason: 'onReadSync',
-          });
+            reason: 'onReadSync'});
         const senderId = senderConversation?.id;
 
         log.info(
@@ -3628,8 +3491,7 @@ export async function startApp(): Promise<void> {
           sender,
           senderAci,
           timestamp,
-          readAt,
-        };
+          readAt};
         return {
           id: generateUuid(),
           attempts: 1,
@@ -3637,8 +3499,7 @@ export async function startApp(): Promise<void> {
           data,
           envelopeId,
           sentAt: envelopeTimestamp,
-          type: 'ReadSync',
-        };
+          type: 'ReadSync'};
       })
       .filter(isNotNil);
 
@@ -3667,8 +3528,7 @@ export async function startApp(): Promise<void> {
           window.ConversationController.maybeMergeContacts({
             e164: senderE164,
             aci: senderAci,
-            reason: 'onViewSync',
-          });
+            reason: 'onViewSync'});
         const senderId = senderConversation?.id;
 
         log.info(
@@ -3700,8 +3560,7 @@ export async function startApp(): Promise<void> {
           senderE164,
           senderAci,
           timestamp,
-          viewedAt: envelopeTimestamp,
-        };
+          viewedAt: envelopeTimestamp};
         return {
           id: generateUuid(),
           attempts: 1,
@@ -3709,8 +3568,7 @@ export async function startApp(): Promise<void> {
           data,
           envelopeId,
           sentAt: envelopeTimestamp,
-          type: 'ViewSync',
-        };
+          type: 'ViewSync'};
       })
       .filter(isNotNil);
 
@@ -3741,15 +3599,13 @@ export async function startApp(): Promise<void> {
           source,
           sourceDevice,
           timestamp,
-          wasSentEncrypted,
-        } = deliveryReceipt;
+          wasSentEncrypted} = deliveryReceipt;
 
         const sourceConversation = window.ConversationController.lookupOrCreate(
           {
             serviceId: sourceServiceId,
             e164: source,
-            reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-          }
+            reason: `onDeliveryReceipt(${envelopeTimestamp})`}
         );
 
         log.info(
@@ -3781,8 +3637,7 @@ export async function startApp(): Promise<void> {
           sourceServiceId,
           sourceDevice,
           type: MessageReceipts.messageReceiptTypeSchema.enum.Delivery,
-          wasSentEncrypted,
-        };
+          wasSentEncrypted};
         return {
           id: generateUuid(),
           attempts: 1,
@@ -3790,8 +3645,7 @@ export async function startApp(): Promise<void> {
           data,
           envelopeId,
           sentAt: envelopeTimestamp,
-          type: 'Delivery',
-        };
+          type: 'Delivery'};
       })
       .filter(isNotNil);
 
@@ -3825,8 +3679,7 @@ export async function startApp(): Promise<void> {
       data: item,
       envelopeId,
       sentAt: timestamp,
-      type: item.type,
-    }));
+      type: item.type}));
     await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();

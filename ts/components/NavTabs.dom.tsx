@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../badges/types.std.js';
 import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.js';
 import type { Location } from '../types/Nav.std.js';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
@@ -27,8 +26,7 @@ function NavTabsItemBadges({
   i18n,
   hasError,
   hasPendingUpdate,
-  unreadStats,
-}: NavTabsItemBadgesProps) {
+  unreadStats}: NavTabsItemBadgesProps) {
   if (hasError) {
     return (
       <span className="NavTabs__ItemUnreadBadge">
@@ -52,8 +50,7 @@ function NavTabsItemBadges({
         <span className="NavTabs__ItemUnreadBadge">
           <span className="NavTabs__ItemIconLabel">
             {i18n('icu:NavTabs__ItemIconLabel--UnreadCount', {
-              count: total,
-            })}
+              count: total})}
           </span>
           <span aria-hidden>{total}</span>
         </span>
@@ -93,8 +90,7 @@ function NavTabsItem({
   label,
   navTabClassName,
   unreadStats,
-  hasPendingUpdate,
-}: NavTabProps) {
+  hasPendingUpdate}: NavTabProps) {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
     <Tab
@@ -151,8 +147,7 @@ export function NavTabsToggle({
   hasPendingUpdate,
   navTabsCollapsed,
   otherTabsUnreadStats,
-  onToggleNavTabsCollapse,
-}: NavTabsToggleProps): JSX.Element {
+  onToggleNavTabsCollapse}: NavTabsToggleProps): JSX.Element {
   function handleToggle() {
     onToggleNavTabsCollapse(!navTabsCollapsed);
   }
@@ -193,7 +188,6 @@ export function NavTabsToggle({
 }
 
 export type NavTabsProps = Readonly<{
-  badge: BadgeType | undefined;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
@@ -237,8 +231,7 @@ export function NavTabs({
   theme,
   unreadCallsCount,
   unreadConversationsStats,
-  unreadStoriesCount,
-}: NavTabsProps): JSX.Element {
+  unreadStoriesCount}: NavTabsProps): JSX.Element {
   const [showingProfileMovedModal, setShowingProfileMovedModal] =
     useState(false);
 
@@ -249,9 +242,7 @@ export function NavTabs({
         tab: NavTab.Settings,
         details: {
           page: SettingsPage.Profile,
-          state: ProfileEditorPage.None,
-        },
-      });
+          state: ProfileEditorPage.None}});
     } else {
       onChangeLocation({ tab });
     }
@@ -279,8 +270,7 @@ export function NavTabs({
       <nav
         data-supertab
         className={classNames('NavTabs', {
-          'NavTabs--collapsed': navTabsCollapsed,
-        })}
+          'NavTabs--collapsed': navTabsCollapsed})}
       >
         <NavTabsToggle
           i18n={i18n}
@@ -309,8 +299,7 @@ export function NavTabs({
             unreadStats={{
               unreadCount: unreadCallsCount,
               unreadMentionsCount: 0,
-              readChatsMarkedUnreadCount: 0,
-            }}
+              readChatsMarkedUnreadCount: 0}}
           />
           {storiesEnabled && (
             <NavTabsItem
@@ -323,8 +312,7 @@ export function NavTabs({
               unreadStats={{
                 unreadCount: unreadStoriesCount,
                 unreadMentionsCount: 0,
-                readChatsMarkedUnreadCount: 0,
-              }}
+                readChatsMarkedUnreadCount: 0}}
             />
           )}
           <NavTabsItem

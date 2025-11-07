@@ -41,8 +41,7 @@ export const SmartEditHistoryMessagesModal = memo(
         reactions: undefined,
         // Make sure that the timestamp is the correct timestamp from attributes
         // not the one that the selector derives.
-        timestamp: messageAttributes.timestamp,
-      }));
+        timestamp: messageAttributes.timestamp}));
     }, [messagesAttributes, messagePropsSelector]);
 
     return (

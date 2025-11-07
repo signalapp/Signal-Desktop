@@ -8,10 +8,8 @@ import { CompositionInput } from './CompositionInput.dom.js';
 import {
   hydrateRanges,
   type DraftBodyRanges,
-  type HydratedBodyRangesType,
-} from '../types/BodyRange.std.js';
+  type HydratedBodyRangesType} from '../types/BodyRange.std.js';
 import type { ThemeType } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import * as grapheme from '../util/grapheme.std.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
@@ -44,7 +42,7 @@ export type CompositionTextAreaProps = {
   onTextTooLong: () => void;
   ourConversationId: string | undefined;
   platform: string;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   draftText: string;
   theme: ThemeType;
   conversationSelector: GetConversationByIdType;
@@ -76,8 +74,7 @@ export function CompositionTextArea({
   emojiSkinToneDefault,
   theme,
   whenToShowRemainingCount = Infinity,
-  conversationSelector,
-}: CompositionTextAreaProps): JSX.Element {
+  conversationSelector}: CompositionTextAreaProps): JSX.Element {
   const inputApiRef = useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = useState(
     grapheme.count(draftText)
@@ -115,8 +112,7 @@ export function CompositionTextArea({
     ({
       bodyRanges: updatedBodyRanges,
       caretLocation,
-      messageText: newValue,
-    }: {
+      messageText: newValue}: {
       bodyRanges: DraftBodyRanges;
       caretLocation?: number | undefined;
       messageText: string;

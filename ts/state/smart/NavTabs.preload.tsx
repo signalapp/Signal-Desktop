@@ -10,17 +10,14 @@ import { NavTabs } from '../../components/NavTabs.dom.js';
 import { getIntl, getTheme, getIsNightly } from '../selectors/user.std.js';
 import {
   getAllConversationsUnreadStats,
-  getMe,
-} from '../selectors/conversations.dom.js';
+  getMe} from '../selectors/conversations.dom.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getHasAnyFailedStorySends,
-  getStoriesNotificationCount,
-} from '../selectors/stories.preload.js';
+  getStoriesNotificationCount} from '../selectors/stories.preload.js';
 import {
   getProfileMovedModalNeeded,
-  getStoriesEnabled,
-} from '../selectors/items.dom.js';
+  getStoriesEnabled} from '../selectors/items.dom.js';
 import { getSelectedNavTab } from '../selectors/nav.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
@@ -45,12 +42,10 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   renderCallsTab,
   renderChatsTab,
   renderStoriesTab,
-  renderSettingsTab,
-}: SmartNavTabsProps): JSX.Element {
+  renderSettingsTab}: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const me = useSelector(getMe);
-  const badge = useSelector(getPreferredBadgeSelector)(me.badges);
   const theme = useSelector(getTheme);
   const storiesEnabled = useSelector(getStoriesEnabled);
   const unreadConversationsStats = useSelector(getAllConversationsUnreadStats);

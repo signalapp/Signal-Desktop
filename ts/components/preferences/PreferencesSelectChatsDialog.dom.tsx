@@ -4,7 +4,6 @@ import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import type { ThemeType } from '../../types/Util.std.js';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
@@ -12,8 +11,7 @@ import { ContactPills } from '../ContactPills.dom.js';
 import { ContactPill } from '../ContactPill.dom.js';
 import {
   asyncShouldNeverBeCalled,
-  shouldNeverBeCalled,
-} from '../../util/shouldNeverBeCalled.std.js';
+  shouldNeverBeCalled} from '../../util/shouldNeverBeCalled.std.js';
 import { SearchInput } from '../SearchInput.dom.js';
 import { Button, ButtonVariant } from '../Button.dom.js';
 import { Modal } from '../Modal.dom.js';
@@ -21,8 +19,7 @@ import type { Row } from '../ConversationList.dom.js';
 import {
   ConversationList,
   GenericCheckboxRowIcon,
-  RowType,
-} from '../ConversationList.dom.js';
+  RowType} from '../ConversationList.dom.js';
 import type { GetConversationByIdType } from '../../state/selectors/conversations.dom.js';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 import { tw } from '../../axo/tw.dom.js';
@@ -39,7 +36,7 @@ export type PreferencesSelectChatsDialogProps = Readonly<{
   conversations: ReadonlyArray<ConversationType>;
   conversationSelector: GetConversationByIdType;
   onClose: (selection: ChatFolderSelection) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   theme: ThemeType;
   initialSelection: ChatFolderSelection;
   showChatTypes: boolean;
@@ -54,8 +51,7 @@ export function PreferencesSelectChatsDialog(
     conversationSelector,
     initialSelection,
     onClose,
-    showChatTypes,
-  } = props;
+    showChatTypes} = props;
   const [searchInput, setSearchInput] = useState('');
 
   const [selectAllIndividualChats, setSelectAllIndividualChats] = useState(
@@ -118,8 +114,7 @@ export function PreferencesSelectChatsDialog(
           return i18n(
             'icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title'
           );
-        },
-      });
+        }});
 
       result.push({
         type: RowType.GenericCheckbox,
@@ -128,8 +123,7 @@ export function PreferencesSelectChatsDialog(
           'icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats'
         ),
         isChecked: selectAllIndividualChats,
-        onClick: handleToggleDirectChats,
-      });
+        onClick: handleToggleDirectChats});
 
       result.push({
         type: RowType.GenericCheckbox,
@@ -138,8 +132,7 @@ export function PreferencesSelectChatsDialog(
           'icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats'
         ),
         isChecked: selectAllGroupChats,
-        onClick: handleToggleGroupChats,
-      });
+        onClick: handleToggleGroupChats});
 
       result.push({
         type: RowType.Header,
@@ -147,8 +140,7 @@ export function PreferencesSelectChatsDialog(
           return i18n(
             'icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title'
           );
-        },
-      });
+        }});
     }
 
     for (const conversation of filteredConversations) {
@@ -156,15 +148,13 @@ export function PreferencesSelectChatsDialog(
         type: RowType.ContactCheckbox,
         contact: conversation,
         isChecked: selectedRecipientIds.has(conversation.id),
-        disabledReason: undefined,
-      });
+        disabledReason: undefined});
     }
 
     if (filteredConversations.length === 0) {
       result.push({
         type: RowType.EmptyResults,
-        message: 'No items',
-      });
+        message: 'No items'});
     }
 
     return result;
@@ -184,8 +174,7 @@ export function PreferencesSelectChatsDialog(
     onClose({
       selectAllIndividualChats,
       selectAllGroupChats,
-      selectedRecipientIds: Array.from(selectedRecipientIds),
-    });
+      selectedRecipientIds: Array.from(selectedRecipientIds)});
   }, [
     onClose,
     selectAllIndividualChats,

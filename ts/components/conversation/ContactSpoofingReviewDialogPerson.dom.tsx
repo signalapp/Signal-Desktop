@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { assertDev } from '../../util/assert.std.js';
 
 import { Avatar, AvatarSize } from '../Avatar.dom.js';
@@ -18,7 +17,7 @@ import { I18n } from '../I18n.dom.js';
 export type PropsType = Readonly<{
   children?: ReactNode;
   conversation: ConversationType;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   onClick?: () => void;
   toggleSignalConnectionsModal: () => void;
@@ -38,8 +37,7 @@ export function ContactSpoofingReviewDialogPerson({
   updateSharedGroups,
   theme,
   oldName,
-  isSignalConnection,
-}: PropsType): JSX.Element {
+  isSignalConnection}: PropsType): JSX.Element {
   assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
@@ -63,8 +61,7 @@ export function ContactSpoofingReviewDialogPerson({
             id="icu:ContactSpoofingReviewDialog__group__name-change-info"
             components={{
               oldName: <UserText text={oldName} />,
-              newName: <UserText text={newName} />,
-            }}
+              newName: <UserText text={newName} />}}
           />
         </div>
       </div>

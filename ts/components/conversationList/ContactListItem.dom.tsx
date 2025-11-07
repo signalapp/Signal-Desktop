@@ -6,7 +6,6 @@ import React, { useMemo, useState } from 'react';
 
 import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import { ContactName } from '../conversation/ContactName.dom.js';
 import { About } from '../conversation/About.dom.js';
@@ -43,7 +42,7 @@ export type ContactListItemConversationType = Pick<
 >;
 
 type PropsDataType = ContactListItemConversationType & {
-  badge: undefined | BadgeType;
+  badge: undefined | any;
 };
 
 type PropsHousekeepingType = {
@@ -83,8 +82,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     theme,
     title,
     type,
-    serviceId,
-  }) {
+    serviceId}) {
     const [isConfirmingBlocking, setConfirmingBlocking] = useState(false);
     const [isConfirmingRemoving, setConfirmingRemoving] = useState(false);
 
@@ -95,8 +93,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               {
                 icon: 'ContactListItem__context-menu__chat-icon',
                 label: i18n('icu:ContactListItem__menu__message'),
-                onClick: () => onClick(id),
-              },
+                onClick: () => onClick(id)},
             ]
           : []),
         ...(!isMe && onAudioCall
@@ -104,8 +101,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               {
                 icon: 'ContactListItem__context-menu__phone-icon',
                 label: i18n('icu:ContactListItem__menu__audio-call'),
-                onClick: () => onAudioCall(id),
-              },
+                onClick: () => onAudioCall(id)},
             ]
           : []),
         ...(!isMe && onVideoCall
@@ -113,8 +109,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               {
                 icon: 'ContactListItem__context-menu__video-icon',
                 label: i18n('icu:ContactListItem__menu__video-call'),
-                onClick: () => onVideoCall(id),
-              },
+                onClick: () => onVideoCall(id)},
             ]
           : []),
         ...(!isMe && onRemove
@@ -122,8 +117,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               {
                 icon: 'ContactListItem__context-menu__delete-icon',
                 label: i18n('icu:ContactListItem__menu__remove'),
-                onClick: () => setConfirmingRemoving(true),
-              },
+                onClick: () => setConfirmingRemoving(true)},
             ]
           : []),
         ...(!isMe && onBlock
@@ -131,8 +125,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               {
                 icon: 'ContactListItem__context-menu__block-icon',
                 label: i18n('icu:ContactListItem__menu__block'),
-                onClick: () => setConfirmingBlocking(true),
-              },
+                onClick: () => setConfirmingBlocking(true)},
             ]
           : []),
       ],
@@ -184,16 +177,14 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               i18n={i18n}
               id="icu:MessageRequests--block-direct-confirm-title"
               components={{
-                title: <ContactName key="name" title={title} />,
-              }}
+                title: <ContactName key="name" title={title} />}}
             />
           }
           actions={[
             {
               text: i18n('icu:MessageRequests--block'),
               action: () => onBlock?.(id),
-              style: 'negative',
-            },
+              style: 'negative'},
           ]}
         >
           {i18n('icu:MessageRequests--block-direct-confirm-body')}
@@ -216,8 +207,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
                 i18n={i18n}
                 id="icu:ContactListItem__remove-system--title"
                 components={{
-                  title: <ContactName key="name" title={title} />,
-                }}
+                  title: <ContactName key="name" title={title} />}}
               />
             }
             cancelText={i18n('icu:Confirmation--confirm')}
@@ -237,16 +227,14 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
                 i18n={i18n}
                 id="icu:ContactListItem__remove--title"
                 components={{
-                  title: <ContactName key="name" title={title} />,
-                }}
+                  title: <ContactName key="name" title={title} />}}
               />
             }
             actions={[
               {
                 text: i18n('icu:ContactListItem__remove--confirm'),
                 action: () => onRemove?.(id),
-                style: 'negative',
-              },
+                style: 'negative'},
             ]}
           >
             {i18n('icu:ContactListItem__remove--body')}
@@ -283,8 +271,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
                 type,
                 name,
                 systemGivenName,
-                systemFamilyName,
-              }) && (
+                systemFamilyName}) && (
                 <span>
                   {' '}
                   <InContactsIcon

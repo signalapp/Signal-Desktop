@@ -13,14 +13,11 @@ import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import { BaseConversationListItem } from './BaseConversationListItem.dom.js';
 import type {
   ConversationType,
-  ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+  ShowConversationType} from '../../state/ducks/conversations.preload.js';
 import { I18n } from '../I18n.dom.js';
 import {
   MessageTextRenderer,
-  RenderLocation,
-} from '../conversation/MessageTextRenderer.dom.js';
+  RenderLocation} from '../conversation/MessageTextRenderer.dom.js';
 
 const { noop } = lodash;
 
@@ -59,7 +56,7 @@ export type PropsDataType = {
 };
 
 type PropsHousekeepingType = {
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   showConversation: ShowConversationType;
   theme: ThemeType;
@@ -93,8 +90,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     showConversation,
     snippet,
     theme,
-    to,
-  }) {
+    to}) {
     const onClickItem = useCallback(() => {
       showConversation({ conversationId, messageId: id });
     }, [showConversation, conversationId, id]);
@@ -117,8 +113,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
               i18n={i18n}
               id="icu:searchResultHeader--you-to-group"
               components={{
-                receiverGroup: renderPerson(i18n, to),
-              }}
+                receiverGroup: renderPerson(i18n, to)}}
             />
           </span>
         );
@@ -129,8 +124,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
               i18n={i18n}
               id="icu:searchResultHeader--you-to-receiver"
               components={{
-                receiverContact: renderPerson(i18n, to),
-              }}
+                receiverContact: renderPerson(i18n, to)}}
             />
           </span>
         );
@@ -145,8 +139,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
               id="icu:searchResultHeader--sender-to-group"
               components={{
                 sender: renderPerson(i18n, from),
-                receiverGroup: renderPerson(i18n, to),
-              }}
+                receiverGroup: renderPerson(i18n, to)}}
             />
           </span>
         );
@@ -157,8 +150,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
               i18n={i18n}
               id="icu:searchResultHeader--sender-to-you"
               components={{
-                sender: renderPerson(i18n, from),
-              }}
+                sender: renderPerson(i18n, from)}}
             />
           </span>
         );

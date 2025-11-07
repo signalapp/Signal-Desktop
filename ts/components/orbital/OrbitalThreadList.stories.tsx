@@ -15,9 +15,7 @@ const meta: Meta<typeof OrbitalThreadList> = {
   args: {
     i18n,
     onThreadClick: action('onThreadClick'),
-    onCreateThread: action('onCreateThread'),
-  },
-};
+    onCreateThread: action('onCreateThread')}};
 
 export default meta;
 type Story = StoryObj<typeof OrbitalThreadList>;
@@ -114,47 +112,32 @@ const mockThreads: ReadonlyArray<OrbitalThread> = [
 
 export const Default: Story = {
   args: {
-    threads: mockThreads,
-  },
-};
+    threads: mockThreads}};
 
 export const WithActiveThread: Story = {
   args: {
     threads: mockThreads,
-    activeThreadId: '2',
-  },
-};
+    activeThreadId: '2'}};
 
 export const Empty: Story = {
   args: {
-    threads: [],
-  },
-};
+    threads: []}};
 
 export const SingleThread: Story = {
   args: {
-    threads: [mockThreads[0]],
-  },
-};
+    threads: [mockThreads[0]]}};
 
 export const AllWithPlaceholders: Story = {
   args: {
-    threads: mockThreads.map(t => ({ ...t, avatarUrl: undefined })),
-  },
-};
+    threads: mockThreads.map(t => ({ ...t, avatarUrl: undefined }))}};
 
 export const AllWithAvatars: Story = {
   args: {
     threads: mockThreads.map((t, i) => ({
       ...t,
-      avatarUrl: `https://via.placeholder.com/96/${['5B9FED', '9B87F5', '48BB78', 'F59E0B', 'F56565', '3D7BC4'][i % 6]}/FFFFFF?text=${t.author.charAt(0)}`,
-    })),
-  },
-};
+      avatarUrl: `https://via.placeholder.com/96/${['5B9FED', '9B87F5', '48BB78', 'F59E0B', 'F56565', '3D7BC4'][i % 6]}/FFFFFF?text=${t.author.charAt(0)}`}))}};
 
 export const MixedStates: Story = {
   args: {
     threads: mockThreads,
-    activeThreadId: '3',
-  },
-};
+    activeThreadId: '3'}};

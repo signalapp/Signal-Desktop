@@ -45,8 +45,7 @@ export function OrbitalMessage({
   isOwnMessage,
   onReply,
   onQuote,
-  i18n,
-}: OrbitalMessageProps): JSX.Element {
+  i18n}: OrbitalMessageProps): JSX.Element {
   const handleReply = useCallback(() => {
     onReply(message.id);
   }, [onReply, message.id]);
@@ -204,8 +203,7 @@ function formatTimestamp(timestamp: number, i18n: LocalizerType): string {
   const time = date.toLocaleTimeString(i18n.getLocale(), {
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true,
-  });
+    hour12: true});
 
   if (isToday) {
     return time;

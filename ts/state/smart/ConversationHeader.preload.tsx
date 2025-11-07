@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux';
 import { useContactNameData } from '../../components/conversation/ContactName.dom.js';
 import {
   ConversationHeader,
-  OutgoingCallButtonStyle,
-} from '../../components/conversation/ConversationHeader.dom.js';
+  OutgoingCallButtonStyle} from '../../components/conversation/ConversationHeader.dom.js';
 import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails.dom.js';
 import { useMinimalConversation } from '../../hooks/useMinimalConversation.std.js';
 import { CallMode } from '../../types/CallDisposition.std.js';
@@ -25,22 +24,19 @@ import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers.std.js';
 import type { ConversationType } from '../ducks/conversations.preload.js';
 import {
   getConversationCallMode,
-  useConversationsActions,
-} from '../ducks/conversations.preload.js';
+  useConversationsActions} from '../ducks/conversations.preload.js';
 import { useSearchActions } from '../ducks/search.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getActiveCallState,
-  getCallSelector,
-} from '../selectors/calling.std.js';
+  getCallSelector} from '../selectors/calling.std.js';
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
-  getSelectedMessageIds,
-} from '../selectors/conversations.dom.js';
+  getSelectedMessageIds} from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import { getIntl, getTheme, getUserACI } from '../selectors/user.std.js';
 import { useItemsActions } from '../ducks/items.preload.js';
@@ -88,8 +84,7 @@ const useOutgoingCallButtonStyle = (
 };
 
 export const SmartConversationHeader = memo(function SmartConversationHeader({
-  id,
-}: OwnProps) {
+  id}: OwnProps) {
   const conversationSelector = useSelector(getConversationSelector);
   const conversation = conversationSelector(id);
   if (!conversation) {
@@ -100,7 +95,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const hasStories = hasStoriesSelector(); // Stories removed
 
   const badgeSelector = useSelector(getPreferredBadgeSelector);
-  const badge = badgeSelector([]); // Badges removed
+  // Badges removed
   const i18n = useSelector(getIntl);
   const hasPanelShowing = useSelector(getHasPanelOpen);
   const outgoingCallButtonStyle = useOutgoingCallButtonStyle(conversation);
@@ -123,12 +118,10 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     blockAndReportSpam,
     blockConversation,
     reportSpam,
-    deleteConversation,
-  } = useConversationsActions();
+    deleteConversation} = useConversationsActions();
   const {
     onOutgoingAudioCallInConversation,
-    onOutgoingVideoCallInConversation,
-  } = useCallingActions();
+    onOutgoingVideoCallInConversation} = useCallingActions();
   const { searchInConversation } = useSearchActions();
   const { viewUserStories } = useStoriesActions();
 
@@ -252,8 +245,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const onViewUserStories = useCallback(() => {
     viewUserStories({
       conversationId: conversation.id,
-      storyViewMode: StoryViewModeType.User,
-    });
+      storyViewMode: StoryViewModeType.User});
   }, [viewUserStories, conversation.id]);
 
   const minimalConversation = useMinimalConversation(conversation);

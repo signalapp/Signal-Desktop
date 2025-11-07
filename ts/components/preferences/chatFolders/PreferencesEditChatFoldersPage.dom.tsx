@@ -4,7 +4,6 @@ import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import type { ThemeType } from '../../../types/Util.std.js';
 import { Input } from '../../Input.dom.js';
@@ -18,12 +17,10 @@ import {
   CHAT_FOLDER_NAME_MAX_CHAR_LENGTH,
   ChatFolderParamsSchema,
   isSameChatFolderParams,
-  validateChatFolderParams,
-} from '../../../types/ChatFolder.std.js';
+  validateChatFolderParams} from '../../../types/ChatFolder.std.js';
 import type {
   ChatFolderId,
-  ChatFolderParams,
-} from '../../../types/ChatFolder.std.js';
+  ChatFolderParams} from '../../../types/ChatFolder.std.js';
 import type { GetConversationByIdType } from '../../../state/selectors/conversations.dom.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { parseStrict } from '../../../util/schemas.std.js';
@@ -44,8 +41,7 @@ import {
   itemButtonClassName,
   itemClassName,
   ItemContent,
-  ItemTitle,
-} from './PreferencesChatFolderItems.dom.js';
+  ItemTitle} from './PreferencesChatFolderItems.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
@@ -56,7 +52,7 @@ export type PreferencesEditChatFolderPageProps = Readonly<{
   initChatFolderParams: ChatFolderParams;
   changeLocation: (location: Location) => void;
   conversations: ReadonlyArray<ConversationType>;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   theme: ThemeType;
   settingsPaneRef: MutableRefObject<HTMLDivElement | null>;
   conversationSelector: GetConversationByIdType;
@@ -83,8 +79,7 @@ export function PreferencesEditChatFolderPage(
     onUpdateChatFolder,
     onDeleteChatFolder,
     changeLocation,
-    conversationSelector,
-  } = props;
+    conversationSelector} = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -162,9 +157,7 @@ export function PreferencesEditChatFolderPage(
         tab: NavTab.Settings,
         details: {
           page: SettingsPage.ChatFolders,
-          previousLocation: null,
-        },
-      }
+          previousLocation: null}}
     );
   }, [changeLocation, previousLocation]);
 
@@ -231,8 +224,7 @@ export function PreferencesEditChatFolderPage(
           ...prevParams,
           includeAllIndividualChats: selection.selectAllIndividualChats,
           includeAllGroupChats: selection.selectAllGroupChats,
-          includedConversationIds: selection.selectedRecipientIds,
-        };
+          includedConversationIds: selection.selectedRecipientIds};
       });
       setShowInclusionsDialog(false);
     },
@@ -246,8 +238,7 @@ export function PreferencesEditChatFolderPage(
           ...prevParams,
           includeAllIndividualChats: !selection.selectAllIndividualChats,
           includeAllGroupChats: !selection.selectAllGroupChats,
-          excludedConversationIds: selection.selectedRecipientIds,
-        };
+          excludedConversationIds: selection.selectedRecipientIds};
       });
       setShowExclusionsDialog(false);
     },
@@ -504,8 +495,7 @@ export function PreferencesEditChatFolderPage(
                 selectAllIndividualChats:
                   chatFolderParams.includeAllIndividualChats,
                 selectAllGroupChats: chatFolderParams.includeAllGroupChats,
-                selectedRecipientIds: chatFolderParams.includedConversationIds,
-              }}
+                selectedRecipientIds: chatFolderParams.includedConversationIds}}
               showChatTypes
             />
           )}
@@ -524,8 +514,7 @@ export function PreferencesEditChatFolderPage(
                 selectAllIndividualChats:
                   !chatFolderParams.includeAllIndividualChats,
                 selectAllGroupChats: !chatFolderParams.includeAllGroupChats,
-                selectedRecipientIds: chatFolderParams.excludedConversationIds,
-              }}
+                selectedRecipientIds: chatFolderParams.excludedConversationIds}}
               showChatTypes={false}
             />
           )}
@@ -594,8 +583,7 @@ function SaveChangesFolderDialog(props: {
             'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton'
           ),
           style: 'affirmative',
-          action: props.onSave,
-        },
+          action: props.onSave},
       ]}
       onCancel={props.onDiscard}
       onClose={props.onClose}

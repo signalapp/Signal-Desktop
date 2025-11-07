@@ -32,8 +32,7 @@ export const SmartGroupV1MigrationDialog = memo(
     areWeInvited,
     hasMigrated,
     droppedMemberIds,
-    invitedMemberIds,
-  }: PropsType) {
+    invitedMemberIds}: PropsType) {
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const getConversation = useSelector(getConversationSelector);

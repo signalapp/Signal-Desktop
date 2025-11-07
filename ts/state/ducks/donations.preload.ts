@@ -20,9 +20,7 @@ export type DonationsActionType = never;
 export const actions = {
   addReceipt: () => ({ type: 'donations/STUB' as const }),
   applyDonationBadge: ({
-    onComplete,
-  }: {
-    badge: BadgeType | undefined;
+    onComplete}: {
     applyBadge: boolean;
     onComplete: (error?: Error) => void;
   }) => {
@@ -36,8 +34,7 @@ export const actions = {
   resumeWorkflow: () => ({ type: 'donations/STUB' as const }),
   submitDonation: () => ({ type: 'donations/STUB' as const }),
   updateLastError: () => ({ type: 'donations/STUB' as const }),
-  updateWorkflow: () => ({ type: 'donations/STUB' as const }),
-};
+  updateWorkflow: () => ({ type: 'donations/STUB' as const })};
 
 export const useDonationsActions = () => actions;
 
@@ -46,8 +43,7 @@ export function getEmptyState(): DonationsStateType {
     currentWorkflow: undefined,
     didResumeWorkflowAtStartup: false,
     lastError: undefined,
-    receipts: [],
-  };
+    receipts: []};
 }
 
 export function reducer(): DonationsStateType {

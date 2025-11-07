@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import type { AttachmentType } from '../types/Attachment.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import type { MessagePropsType } from '../state/selectors/message.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { Message, TextDirection } from './conversation/Message.dom.js';
 import { Modal } from './Modal.dom.js';
 import { WidthBreakpoint } from './_util.std.js';
@@ -22,7 +21,7 @@ const { noop } = lodash;
 export type PropsType = {
   closeEditHistoryModal: () => unknown;
   editHistoryMessages: Array<MessagePropsType>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   platform: string;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
@@ -72,8 +71,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showTapToViewNotAvailableModal: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   textDirection: TextDirection.Default,
-  viewStory: shouldNeverBeCalled,
-};
+  viewStory: shouldNeverBeCalled};
 
 export function EditHistoryMessagesModal({
   cancelAttachmentDownload,
@@ -83,8 +81,7 @@ export function EditHistoryMessagesModal({
   i18n,
   platform,
   kickOffAttachmentDownload,
-  showLightbox,
-}: PropsType): JSX.Element {
+  showLightbox}: PropsType): JSX.Element {
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
 
@@ -140,8 +137,7 @@ export function EditHistoryMessagesModal({
           messageExpanded={(messageId, displayLimit) => {
             const update = {
               ...displayLimitById,
-              [messageId]: displayLimit,
-            };
+              [messageId]: displayLimit};
             setDisplayLimitById(update);
           }}
           onContextMenu={() => {
@@ -156,8 +152,7 @@ export function EditHistoryMessagesModal({
           showSpoiler={(messageId, data) => {
             const update = {
               ...revealedSpoilersById,
-              [messageId]: data,
-            };
+              [messageId]: data};
             setRevealedSpoilersById(update);
           }}
           theme={theme}
@@ -208,8 +203,7 @@ export function EditHistoryMessagesModal({
                 messageExpanded={(messageId, displayLimit) => {
                   const update = {
                     ...displayLimitById,
-                    [messageId]: displayLimit,
-                  };
+                    [messageId]: displayLimit};
                   setDisplayLimitById(update);
                 }}
                 onContextMenu={() => {
@@ -224,8 +218,7 @@ export function EditHistoryMessagesModal({
                 showSpoiler={(messageId, data) => {
                   const update = {
                     ...revealedSpoilersById,
-                    [messageId]: data,
-                  };
+                    [messageId]: data};
                   setRevealedSpoilersById(update);
                 }}
                 theme={theme}

@@ -16,8 +16,7 @@ type SmartMessageSearchResultProps = {
 };
 
 export const SmartMessageSearchResult = memo(function SmartMessageSearchResult({
-  id,
-}: SmartMessageSearchResultProps) {
+  id}: SmartMessageSearchResultProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const messageSearchResultSelector = useSelector(

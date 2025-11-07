@@ -7,8 +7,7 @@ import type {
   DetailedHTMLProps,
   HTMLAttributes,
   ReactNode,
-  RefObject,
-} from 'react';
+  RefObject} from 'react';
 import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -24,8 +23,7 @@ import type {
   PushPanelForConversationActionType,
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
-  ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
+  ShowConversationType} from '../../state/ducks/conversations.preload.js';
 import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.preload.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import { Avatar, AvatarSize } from '../Avatar.dom.js';
@@ -42,8 +40,7 @@ import { Quote } from './Quote.dom.js';
 import { EmbeddedContact } from './EmbeddedContact.dom.js';
 import type {
   OwnProps as ReactionViewerProps,
-  Reaction,
-} from './ReactionViewer.dom.js';
+  Reaction} from './ReactionViewer.dom.js';
 import { ReactionViewer } from './ReactionViewer.dom.js';
 import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
@@ -52,11 +49,9 @@ import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseF
 import type { WidthBreakpoint } from '../_util.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { StoryViewModeType } from '../../types/Stories.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
 import type {
   AttachmentForUIType,
-  AttachmentType,
-} from '../../types/Attachment.std.js';
+  AttachmentType} from '../../types/Attachment.std.js';
 import {
   canDisplayImage,
   getGridDimensions,
@@ -70,8 +65,7 @@ import {
   isImage,
   isImageAttachment,
   isPlayed,
-  isVideo,
-} from '../../util/Attachment.std.js';
+  isVideo} from '../../util/Attachment.std.js';
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
 
 import { getIncrement } from '../../util/timer.std.js';
@@ -80,18 +74,14 @@ import { missingCaseError } from '../../util/missingCaseError.std.js';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import type {
   ContactNameColorType,
   ConversationColorType,
-  CustomColorType,
-} from '../../types/Colors.std.js';
+  CustomColorType} from '../../types/Colors.std.js';
 import { createRefMerger } from '../../util/refMerger.std.js';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.js';
-import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
 import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
@@ -120,8 +110,7 @@ import {
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
+  isEmojiVariantValue} from '../fun/data/emojis.std.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 
 const { drop, take, unescape } = lodash;
@@ -147,22 +136,19 @@ enum MetadataPlacement {
   NotRendered,
   RenderedElsewhere,
   InlineWithText,
-  Bottom,
-}
+  Bottom}
 
 export enum TextDirection {
   LeftToRight = 'LeftToRight',
   RightToLeft = 'RightToLeft',
   Default = 'Default',
-  None = 'None',
-}
+  None = 'None'}
 
 const TextDirectionToDirAttribute = {
   [TextDirection.LeftToRight]: 'ltr',
   [TextDirection.RightToLeft]: 'rtl',
   [TextDirection.Default]: 'auto',
-  [TextDirection.None]: 'auto',
-};
+  [TextDirection.None]: 'auto'};
 
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = (typeof Directions)[number];
@@ -193,19 +179,7 @@ export type AudioAttachmentProps = {
   onCorrupted(): void;
 };
 
-export type GiftBadgeType =
-  | {
-      state:
-        | GiftBadgeStates.Unopened
-        | GiftBadgeStates.Opened
-        | GiftBadgeStates.Redeemed;
-      expiration: number;
-      id: string | undefined;
-      level: number;
-    }
-  | {
-      state: GiftBadgeStates.Failed;
-    };
+// GiftBadgeType removed
 
 function ReactionEmoji(props: { emojiVariantValue: string }) {
   strictAssert(
@@ -271,7 +245,6 @@ export type PropsData = {
   >;
   conversationType: ConversationTypeType;
   attachments?: ReadonlyArray<AttachmentForUIType>;
-  giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
   poll?: PollWithResolvedVotersType;
   quote?: {
@@ -335,7 +308,7 @@ export type PropsHousekeeping = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   disableScroll?: boolean;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   platform: string;
@@ -423,7 +396,7 @@ type State = {
 // Function component for reactions that can use hooks
 type MessageReactionsProps = {
   reactions: Array<Reaction>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   theme: ThemeType;
   outgoing: boolean;
@@ -441,8 +414,7 @@ const MessageReactions = forwardRef(function MessageReactions(
     outgoing,
     toggleReactionViewer,
     reactionViewerRoot,
-    popperPreventOverflowModifier,
-  }: MessageReactionsProps,
+    popperPreventOverflowModifier}: MessageReactionsProps,
   parentRef
 ): JSX.Element {
   const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
@@ -461,21 +433,18 @@ const MessageReactions = forwardRef(function MessageReactions(
     } else if (count === 1) {
       label = i18n('icu:Message__reaction-emoji-label--single', {
         title: res[0].from.title,
-        emoji,
-      });
+        emoji});
     } else {
       label = i18n('icu:Message__reaction-emoji-label--many', {
         count,
-        emoji,
-      });
+        emoji});
     }
 
     return {
       count,
       emoji,
       isMe,
-      label,
-    };
+      label};
   });
   const someNotRendered = ordered.length > 3;
   // We only drop two here because the third emoji would be replaced by the
@@ -589,8 +558,7 @@ const MessageReactions = forwardRef(function MessageReactions(
                 ref={ref}
                 style={{
                   ...style,
-                  zIndex: 2,
-                }}
+                  zIndex: 2}}
                 getPreferredBadge={getPreferredBadge}
                 reactions={reactions}
                 i18n={i18n}
@@ -614,8 +582,7 @@ export class Message extends React.PureComponent<Props, State> {
     React.createRef();
 
   #hasSelectedTextRef: React.MutableRefObject<boolean> = {
-    current: false,
-  };
+    current: false};
 
   #metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -647,8 +614,7 @@ export class Message extends React.PureComponent<Props, State> {
       giftBadgeCounter: null,
 
       hasDeleteForEveryoneTimerExpired:
-        this.#getTimeRemainingForDeleteForEveryone() <= 0,
-    };
+        this.#getTimeRemainingForDeleteForEveryone() <= 0};
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
@@ -656,8 +622,7 @@ export class Message extends React.PureComponent<Props, State> {
       return {
         ...state,
         isTargeted: false,
-        prevTargetedCounter: 0,
-      };
+        prevTargetedCounter: 0};
     }
 
     if (
@@ -667,8 +632,7 @@ export class Message extends React.PureComponent<Props, State> {
       return {
         ...state,
         isTargeted: props.isTargeted,
-        prevTargetedCounter: props.isTargetedCounter,
-      };
+        prevTargetedCounter: props.isTargetedCounter};
     }
 
     return state;
@@ -691,8 +655,7 @@ export class Message extends React.PureComponent<Props, State> {
     const { id } = this.props;
     log.info(`${id}: Image failed to load; failing over to placeholder`);
     this.setState({
-      imageBroken: true,
-    });
+      imageBroken: true});
   };
 
   public setTargeted = (): void => {
@@ -783,8 +746,7 @@ export class Message extends React.PureComponent<Props, State> {
       const delta = Date.now() - timestamp;
       window.SignalCI?.handleEvent('message:send-complete', {
         timestamp,
-        delta,
-      });
+        delta});
       log.info(
         `tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
@@ -799,16 +761,13 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       expirationLength,
       expirationTimestamp,
-      giftBadge,
-      i18n,
       isTapToView,
       isTapToViewError,
       isTapToViewExpired,
       readStatus,
       shouldHideMetadata,
       status,
-      text,
-    }: Readonly<Props> = this.props
+      text}: Readonly<Props> = this.props
   ): MetadataPlacement {
     const { imageBroken } = this.state;
 
@@ -821,19 +780,7 @@ export class Message extends React.PureComponent<Props, State> {
       return MetadataPlacement.NotRendered;
     }
 
-    if (giftBadge) {
-      const description =
-        direction === 'incoming'
-          ? i18n('icu:message--donation--unopened--incoming')
-          : i18n('icu:message--donation--unopened--outgoing');
-      const isDescriptionRTL = getDirection(description) === 'rtl';
-
-      if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {
-        return MetadataPlacement.InlineWithText;
-      }
-
-      return MetadataPlacement.Bottom;
-    }
+    // giftBadge feature removed
 
     if (isTapToView) {
       if (
@@ -896,21 +843,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public startGiftBadgeInterval(): void {
-    const { giftBadge } = this.props;
-
-    if (!giftBadge) {
-      return;
-    }
-
-    this.giftBadgeInterval = setInterval(() => {
-      this.updateGiftBadgeCounter();
-    }, GIFT_BADGE_UPDATE_INTERVAL);
+    // Gift badge feature removed
   }
 
   public updateGiftBadgeCounter(): void {
-    this.setState((state: State) => ({
-      giftBadgeCounter: (state.giftBadgeCounter || 0) + 1,
-    }));
+    // Gift badge feature removed
   }
 
   #getTimeRemainingForDeleteForEveryone(): number {
@@ -948,13 +885,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (now >= expirationTimestamp) {
       this.setState({
-        expiring: true,
-      });
+        expiring: true});
 
       const setExpired = () => {
         this.setState({
-          expired: true,
-        });
+          expired: true});
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
@@ -985,8 +920,7 @@ export class Message extends React.PureComponent<Props, State> {
       previews,
       quote,
       storyReplyContext,
-      text,
-    } = this.props;
+      text} = this.props;
 
     if (
       text == null ||
@@ -1022,8 +956,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.setState(({ metadataWidth }) => ({
       // We don't want text to jump around if the metadata shrinks, but we want to make
       //   sure we have enough room.
-      metadataWidth: Math.ceil(Math.max(metadataWidth, newMetadataWidth)),
-    }));
+      metadataWidth: Math.ceil(Math.max(metadataWidth, newMetadataWidth))}));
   };
 
   #handleSelectionChange = () => {
@@ -1067,8 +1000,7 @@ export class Message extends React.PureComponent<Props, State> {
       status,
       text,
       textAttachment,
-      timestamp,
-    } = this.props;
+      timestamp} = this.props;
 
     const isStickerLike = isSticker || this.#canRenderStickerLikeEmoji();
 
@@ -1153,8 +1085,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textAttachment,
       theme,
-      timestamp,
-    } = this.props;
+      timestamp} = this.props;
     const { imageBroken } = this.state;
 
     const collapseMetadata =
@@ -1209,18 +1140,15 @@ export class Message extends React.PureComponent<Props, State> {
               showVisualAttachment={() => {
                 showLightbox({
                   attachment: firstAttachment,
-                  messageId: id,
-                });
+                  messageId: id});
               }}
               startDownload={() => {
                 kickOffAttachmentDownload({
-                  messageId: id,
-                });
+                  messageId: id});
               }}
               cancelDownload={() => {
                 cancelAttachmentDownload({
-                  messageId: id,
-                });
+                  messageId: id});
               }}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             />
@@ -1304,10 +1232,8 @@ export class Message extends React.PureComponent<Props, State> {
         onCorrupted() {
           markAttachmentAsCorrupted({
             attachment: firstAttachment,
-            messageId: id,
-          });
-        },
-      });
+            messageId: id});
+        }});
     }
     const { fileName, size, contentType } = firstAttachment;
     const isIncoming = direction === 'incoming';
@@ -1438,8 +1364,7 @@ export class Message extends React.PureComponent<Props, State> {
       readStatus,
       showTapToViewNotAvailableModal,
       text,
-      quote,
-    } = this.props;
+      quote} = this.props;
 
     const isAttachmentAudio = isAudio(attachments);
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
@@ -1505,9 +1430,7 @@ export class Message extends React.PureComponent<Props, State> {
                   showTapToViewNotAvailableModal({
                     type: tapToViewModalType,
                     parameters: {
-                      name: author.firstName || author.title,
-                    },
-                  });
+                      name: author.firstName || author.title}});
                 }}
                 type="button"
               >
@@ -1552,8 +1475,7 @@ export class Message extends React.PureComponent<Props, State> {
       previews,
       quote,
       shouldCollapseAbove,
-      theme,
-    } = this.props;
+      theme} = this.props;
 
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
@@ -1597,8 +1519,7 @@ export class Message extends React.PureComponent<Props, State> {
       `module-message__link-preview--${direction}`,
       {
         'module-message__link-preview--with-content-above': withContentAbove,
-        'module-message__link-preview--nonclickable': !isClickable,
-      }
+        'module-message__link-preview--nonclickable': !isClickable}
     );
     const contents = (
       <>
@@ -1640,8 +1561,7 @@ export class Message extends React.PureComponent<Props, State> {
                 curveTopRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}
                 alt={i18n('icu:previewThumbnail', {
-                  domain: first.domain,
-                })}
+                  domain: first.domain})}
                 height={72}
                 width={72}
                 url={first.image.url}
@@ -1741,8 +1661,7 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
       shouldCollapseAbove,
       shouldCollapseBelow,
-      text,
-    } = this.props;
+      text} = this.props;
     const { metadataWidth } = this.state;
 
     if (!attachmentDroppedDueToSize) {
@@ -1789,176 +1708,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderGiftBadge(): JSX.Element | null {
-    const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
-      this.props;
-    if (!giftBadge) {
-      return null;
-    }
-
-    if (
-      giftBadge.state === GiftBadgeStates.Unopened ||
-      giftBadge.state === GiftBadgeStates.Failed
-    ) {
-      const description =
-        direction === 'incoming'
-          ? i18n('icu:message--donation--unopened--incoming')
-          : i18n('icu:message--donation--unopened--outgoing');
-      const { metadataWidth } = this.state;
-
-      return (
-        <div className="module-message__unopened-gift-badge__container">
-          <div
-            className={classNames(
-              'module-message__unopened-gift-badge',
-              `module-message__unopened-gift-badge--${direction}`
-            )}
-            aria-label={i18n('icu:message--donation--unopened--label', {
-              sender: conversationTitle,
-            })}
-          >
-            <div
-              className="module-message__unopened-gift-badge__ribbon-horizontal"
-              aria-hidden
-            />
-            <div
-              className="module-message__unopened-gift-badge__ribbon-vertical"
-              aria-hidden
-            />
-            <img
-              className="module-message__unopened-gift-badge__bow"
-              src="images/gift-bow.svg"
-              alt=""
-              aria-hidden
-            />
-          </div>
-          <div
-            className={classNames(
-              'module-message__unopened-gift-badge__text',
-              `module-message__unopened-gift-badge__text--${direction}`
-            )}
-          >
-            <div
-              className={classNames(
-                'module-message__text',
-                `module-message__text--${direction}`
-              )}
-            >
-              {description}
-              {this.#getMetadataPlacement() ===
-                MetadataPlacement.InlineWithText && (
-                <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
-              )}
-            </div>
-            {this.#renderMetadata()}
-          </div>
-        </div>
-      );
-    }
-
-    if (
-      giftBadge.state === GiftBadgeStates.Redeemed ||
-      giftBadge.state === GiftBadgeStates.Opened
-    ) {
-      const badgeId = giftBadge.id || `BOOST-${giftBadge.level}`;
-      const badgeSize = 64;
-      const badge = getPreferredBadge([{ id: badgeId }]);
-      const badgeImagePath = getBadgeImageFileLocalPath(
-        badge,
-        badgeSize,
-        BadgeImageTheme.Transparent
-      );
-
-      let remaining: string;
-      const duration = giftBadge.expiration - Date.now();
-
-      const remainingDays = Math.floor(duration / DAY);
-      const remainingHours = Math.floor(duration / HOUR);
-      const remainingMinutes = Math.floor(duration / MINUTE);
-
-      if (remainingDays > 1) {
-        remaining = i18n('icu:message--donation--remaining--days', {
-          days: remainingDays,
-        });
-      } else if (remainingHours > 1) {
-        remaining = i18n('icu:message--donation--remaining--hours', {
-          hours: remainingHours,
-        });
-      } else if (remainingMinutes > 0) {
-        remaining = i18n('icu:message--donation--remaining--minutes', {
-          minutes: remainingMinutes,
-        });
-      } else {
-        remaining = i18n('icu:message--donation--expired');
-      }
-
-      const wasSent = direction === 'outgoing';
-      const buttonContents = wasSent ? (
-        i18n('icu:message--donation--view')
-      ) : (
-        <>
-          <span
-            className={classNames(
-              'module-message__redeemed-gift-badge__icon-check',
-              `module-message__redeemed-gift-badge__icon-check--${direction}`
-            )}
-          />{' '}
-          {i18n('icu:message--donation--redeemed')}
-        </>
-      );
-
-      const badgeElement = badge ? (
-        <img
-          className="module-message__redeemed-gift-badge__badge"
-          src={badgeImagePath}
-          alt={badge.name}
-        />
-      ) : (
-        <div
-          className={classNames(
-            'module-message__redeemed-gift-badge__badge',
-            `module-message__redeemed-gift-badge__badge--missing-${direction}`
-          )}
-          aria-label={i18n('icu:donation--missing')}
-        />
-      );
-
-      return (
-        <div className="module-message__redeemed-gift-badge__container">
-          <div className="module-message__redeemed-gift-badge">
-            {badgeElement}
-            <div className="module-message__redeemed-gift-badge__text">
-              <div className="module-message__redeemed-gift-badge__title">
-                {i18n('icu:message--donation')}
-              </div>
-              <div
-                className={classNames(
-                  'module-message__redeemed-gift-badge__remaining',
-                  `module-message__redeemed-gift-badge__remaining--${direction}`
-                )}
-              >
-                {remaining}
-              </div>
-            </div>
-          </div>
-          <button
-            className={classNames(
-              'module-message__redeemed-gift-badge__button',
-              `module-message__redeemed-gift-badge__button--${direction}`
-            )}
-            disabled={!wasSent}
-            onClick={wasSent ? () => {} : undefined}
-            type="button"
-          >
-            <div className="module-message__redeemed-gift-badge__button__text">
-              {buttonContents}
-            </div>
-          </button>
-          {this.#renderMetadata()}
-        </div>
-      );
-    }
-
-    throw missingCaseError(giftBadge.state);
+    // Gift badge feature removed from Orbital
+    return null;
   }
 
   public renderPayment(): JSX.Element | null {
@@ -1968,8 +1719,7 @@ export class Message extends React.PureComponent<Props, State> {
       author,
       conversationTitle,
       conversationColor,
-      i18n,
-    } = this.props;
+      i18n} = this.props;
     if (payment == null || !isPaymentNotificationEvent(payment)) {
       return null;
     }
@@ -2033,8 +1783,7 @@ export class Message extends React.PureComponent<Props, State> {
       disableScroll,
       i18n,
       quote,
-      scrollToQuotedMessage,
-    } = this.props;
+      scrollToQuotedMessage} = this.props;
 
     if (!quote) {
       return null;
@@ -2048,8 +1797,7 @@ export class Message extends React.PureComponent<Props, State> {
           scrollToQuotedMessage({
             authorId: quote.authorId,
             conversationId,
-            sentAt: quote.sentAt,
-          });
+            sentAt: quote.sentAt});
         };
 
     const isIncoming = direction === 'incoming';
@@ -2086,8 +1834,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       storyReplyContext,
-      viewStory,
-    } = this.props;
+      viewStory} = this.props;
 
     if (!storyReplyContext) {
       return null;
@@ -2102,8 +1849,7 @@ export class Message extends React.PureComponent<Props, State> {
             {isIncoming
               ? i18n('icu:Quote__story-reaction--you')
               : i18n('icu:Quote__story-reaction', {
-                  name: storyReplyContext.authorTitle,
-                })}
+                  name: storyReplyContext.authorTitle})}
           </div>
         )}
         <Quote
@@ -2124,8 +1870,7 @@ export class Message extends React.PureComponent<Props, State> {
             }
             viewStory({
               storyId: storyReplyContext.storyId,
-              storyViewMode: StoryViewModeType.Single,
-            });
+              storyViewMode: StoryViewModeType.Single});
           }}
           rawAttachment={storyReplyContext.rawAttachment}
           reactionEmoji={storyReplyContext.emoji}
@@ -2146,8 +1891,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       kickOffAttachmentDownload,
       pushPanelForConversation,
-      text,
-    } = this.props;
+      text} = this.props;
     if (!contact) {
       return null;
     }
@@ -2188,9 +1932,7 @@ export class Message extends React.PureComponent<Props, State> {
           pushPanelForConversation({
             type: PanelType.ContactDetails,
             args: {
-              messageId: id,
-            },
-          });
+              messageId: id}});
         }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
@@ -2244,8 +1986,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       shouldCollapseBelow,
       showContactModal,
-      theme,
-    } = this.props;
+      theme} = this.props;
 
     if (conversationType !== 'group' || direction !== 'incoming') {
       return null;
@@ -2255,8 +1996,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div
         className={classNames('module-message__author-avatar-container', {
           'module-message__author-avatar-container--with-reactions':
-            this.#hasReactions(),
-        })}
+            this.#hasReactions()})}
       >
         {shouldCollapseBelow ? (
           <AvatarSpacer size={GROUP_AVATAR_SIZE} />
@@ -2314,8 +2054,7 @@ export class Message extends React.PureComponent<Props, State> {
       showSpoiler,
       status,
 
-      textAttachment,
-    } = this.props;
+      textAttachment} = this.props;
     const { metadataWidth } = this.state;
 
     const contents = this.#getContents();
@@ -2376,8 +2115,7 @@ export class Message extends React.PureComponent<Props, State> {
               return;
             }
             kickOffAttachmentDownload({
-              messageId: id,
-            });
+              messageId: id});
           }}
           messageExpanded={messageExpanded}
           showConversation={showConversation}
@@ -2424,8 +2162,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__action--incoming--in-another-call':
               direction === 'incoming' && inAnotherCall,
             'module-message__action--outgoing--in-another-call':
-              direction === 'outgoing' && inAnotherCall,
-          })}
+              direction === 'outgoing' && inAnotherCall})}
           onClick={() => openLinkInWebBrowser(firstPreview?.url)}
         >
           {i18n('icu:calling__join')}
@@ -2607,20 +2344,17 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       isTapToViewExpired,
       isTapToViewError,
-      readStatus,
-    } = this.props;
+      readStatus} = this.props;
 
     if (direction === 'outgoing') {
       return {
         title: i18n('icu:Message--tap-to-view--media'),
-        detail: undefined,
-      };
+        detail: undefined};
     }
     if (readStatus === ReadStatus.Viewed) {
       return {
         title: i18n('icu:Message--tap-to-view--viewed'),
-        detail: undefined,
-      };
+        detail: undefined};
     }
     if (isTapToViewExpired || isTapToViewError) {
       throw new Error(
@@ -2637,13 +2371,11 @@ export class Message extends React.PureComponent<Props, State> {
     if (isVideo(attachments) || isGIF(attachments)) {
       return {
         title: i18n('icu:Message--tap-to-view--video'),
-        detail,
-      };
+        detail};
     }
     return {
       title: i18n('icu:Message--tap-to-view--photo'),
-      detail,
-    };
+      detail};
   }
 
   public renderTapToView(): JSX.Element | null {
@@ -2663,8 +2395,7 @@ export class Message extends React.PureComponent<Props, State> {
       retryMessageSend,
       showEditHistoryModal,
       status,
-      timestamp,
-    } = this.props;
+      timestamp} = this.props;
 
     const firstAttachment = attachments?.[0];
 
@@ -2817,10 +2548,7 @@ export class Message extends React.PureComponent<Props, State> {
           bottom: 16,
           left: 8,
           right: 8,
-          top: 16,
-        },
-      },
-    };
+          top: 16}}};
   };
 
   public toggleReactionViewer = (onlyRemove = false): void => {
@@ -2833,8 +2561,7 @@ export class Message extends React.PureComponent<Props, State> {
 
         return {
           reactionViewerRoot: null,
-          reactionViewerOutsideClickDestructor: undefined,
-        };
+          reactionViewerOutsideClickDestructor: undefined};
       }
 
       if (!onlyRemove) {
@@ -2848,14 +2575,12 @@ export class Message extends React.PureComponent<Props, State> {
           },
           {
             containerElements: [root, this.reactionsContainerRef],
-            name: 'Message.reactionViewer',
-          }
+            name: 'Message.reactionViewer'}
         );
 
         return {
           reactionViewerRoot: root,
-          reactionViewerOutsideClickDestructor,
-        };
+          reactionViewerOutsideClickDestructor};
       }
 
       return null;
@@ -2951,13 +2676,12 @@ export class Message extends React.PureComponent<Props, State> {
       showExpiredOutgoingTapToViewToast,
       showLightbox,
       showLightboxForViewOnceMedia,
-      startConversation,
-    } = this.props;
+      startConversation} = this.props;
     const { imageBroken } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
-    if (giftBadge && giftBadge.state === GiftBadgeStates.Unopened) {
+    if (giftBadge && giftBadge.state === "removed") {
       openGiftBadge(id);
       return;
     }
@@ -3009,9 +2733,7 @@ export class Message extends React.PureComponent<Props, State> {
       pushPanelForConversation({
         type: PanelType.ContactDetails,
         args: {
-          messageId: id,
-        },
-      });
+          messageId: id}});
 
       event.preventDefault();
       event.stopPropagation();
@@ -3076,8 +2798,7 @@ export class Message extends React.PureComponent<Props, State> {
       timestamp,
       kickOffAttachmentDownload,
       attachmentDroppedDueToSize,
-      cancelAttachmentDownload,
-    } = this.props;
+      cancelAttachmentDownload} = this.props;
 
     if (event) {
       event.preventDefault();
@@ -3098,12 +2819,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (firstAttachment.pending) {
       cancelAttachmentDownload({
-        messageId: id,
-      });
+        messageId: id});
     } else if (!firstAttachment.path) {
       kickOffAttachmentDownload({
-        messageId: id,
-      });
+        messageId: id});
     } else {
       saveAttachment(firstAttachment, timestamp);
     }
@@ -3153,8 +2872,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       onContextMenu,
       text,
-      textDirection,
-    } = this.props;
+      textDirection} = this.props;
     const { isTargeted, imageBroken } = this.state;
 
     const width = this.getWidth();
@@ -3198,8 +2916,7 @@ export class Message extends React.PureComponent<Props, State> {
         : null
     );
     const containerStyles = {
-      width,
-    };
+      width};
     if (
       !isStickerLike &&
       !deletedForEveryone &&
@@ -3244,8 +2961,7 @@ export class Message extends React.PureComponent<Props, State> {
           {author.isMe
             ? i18n('icu:messageAccessibilityLabel--outgoing')
             : i18n('icu:messageAccessibilityLabel--incoming', {
-                author: author.title,
-              })}
+                author: author.title})}
         </span>
 
         <span id={`message-accessibility-description:${id}`}>
@@ -3270,8 +2986,7 @@ export class Message extends React.PureComponent<Props, State> {
       shouldCollapseBelow,
       timestamp,
       onToggleSelect,
-      onReplyToMessage,
-    } = this.props;
+      onReplyToMessage} = this.props;
     const isMacOS = platform === 'darwin';
     const { expired, expiring, isTargeted, imageBroken } = this.state;
 
@@ -3304,8 +3019,7 @@ export class Message extends React.PureComponent<Props, State> {
             event.preventDefault();
             onToggleSelect(!isSelected, event.shiftKey);
           }
-        },
-      };
+        }};
     } else {
       wrapperProps = {
         onMouseDown: () => {
@@ -3338,8 +3052,7 @@ export class Message extends React.PureComponent<Props, State> {
             onReplyToMessage();
           }
         },
-        onKeyDown: event => this.handleKeyDown(event),
-      };
+        onKeyDown: event => this.handleKeyDown(event)};
     }
 
     return (

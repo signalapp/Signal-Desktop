@@ -6,7 +6,6 @@ import { actionCreators } from './actions.preload.js';
 import { createStore } from './createStore.preload.js';
 import { getInitialState } from './getInitialState.preload.js';
 
-import type { BadgesStateType } from './ducks/badges.preload.js';
 import type { CallHistoryDetails } from '../types/CallDisposition.std.js';
 import type { DonationsStateType } from './ducks/donations.preload.js';
 import type { MainWindowStatsType } from '../windows/context.preload.js';
@@ -22,7 +21,6 @@ import type { NotificationProfileType } from '../types/NotificationProfile.std.j
 import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
 
 export type ReduxInitData = {
-  badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
@@ -56,7 +54,6 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.audioRecorder,
       store.dispatch
     ),
-    badges: bindActionCreators(actionCreators.badges, store.dispatch),
     callHistory: bindActionCreators(actionCreators.callHistory, store.dispatch),
     calling: bindActionCreators(actionCreators.calling, store.dispatch),
     chatFolders: bindActionCreators(actionCreators.chatFolders, store.dispatch),

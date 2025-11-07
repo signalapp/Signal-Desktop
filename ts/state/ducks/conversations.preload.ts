@@ -428,7 +428,7 @@ export type ConversationType = ReadonlyDeep<
     profileKey?: string;
     voiceNotePlaybackRate?: number;
 
-    badges: ReadonlyArray<
+    badges?: ReadonlyArray<
       | {
           id: string;
         }

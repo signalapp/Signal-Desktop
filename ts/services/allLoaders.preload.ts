@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // loader services
-import { getBadgesForRedux, loadBadges } from './badgeLoader.preload.js';
 import {
   getCallsHistoryForRedux,
   getCallsHistoryUnreadCountForRedux,
@@ -47,7 +46,6 @@ import {
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
-    loadBadges(),
     loadCallHistory(),
     loadCallLinks(),
     loadChatFolders(),
@@ -71,7 +69,6 @@ export function getParametersForRedux(): ReduxInitData {
   const { mainWindowStats, menuOptions, theme } = getUserDataForRedux();
 
   return {
-    badgesState: getBadgesForRedux(),
     callHistory: getCallsHistoryForRedux(),
     callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
     callLinks: getCallLinksForRedux(),

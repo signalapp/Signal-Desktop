@@ -11,8 +11,7 @@ import type { NavTabPanelProps } from '../../components/NavTabs.dom.js';
 import type { WidthBreakpoint } from '../../components/_util.std.js';
 import {
   getGroupSizeHardLimit,
-  getGroupSizeRecommendedLimit,
-} from '../../groups/limits.dom.js';
+  getGroupSizeRecommendedLimit} from '../../groups/limits.dom.js';
 import { LeftPaneMode } from '../../types/leftPane.std.js';
 import { getUsernameFromSearch } from '../../util/Username.dom.js';
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.js';
@@ -28,8 +27,7 @@ import { useCallingActions } from '../ducks/calling.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import {
   ComposerStep,
-  OneTimeModalState,
-} from '../ducks/conversationsEnums.std.js';
+  OneTimeModalState} from '../ducks/conversationsEnums.std.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useItemsActions } from '../ducks/items.preload.js';
 import { useNetworkActions } from '../ducks/network.dom.js';
@@ -59,8 +57,7 @@ import {
   getTargetedMessage,
   hasGroupCreationError,
   isCreatingGroup,
-  isEditingAvatar,
-} from '../selectors/conversations.dom.js';
+  isEditingAvatar} from '../selectors/conversations.dom.js';
 import { getCrashReportCount } from '../selectors/crashReports.std.js';
 import { hasExpired } from '../selectors/expiration.dom.js';
 import {
@@ -69,13 +66,11 @@ import {
   getPreferredLeftPaneWidth,
   getServerAlerts,
   getUsernameCorrupted,
-  getUsernameLinkCorrupted,
-} from '../selectors/items.dom.js';
+  getUsernameLinkCorrupted} from '../selectors/items.dom.js';
 import {
   getChallengeStatus,
   hasNetworkDialog as getHasNetworkDialog,
-  getNetworkIsOnline,
-} from '../selectors/network.preload.js';
+  getNetworkIsOnline} from '../selectors/network.preload.js';
 import {
   getFilterByUnread,
   getHasSearchQuery,
@@ -85,19 +80,16 @@ import {
   getQuery,
   getSearchConversation,
   getSearchResults,
-  getStartSearchCounter,
-} from '../selectors/search.dom.js';
+  getStartSearchCounter} from '../selectors/search.dom.js';
 import {
   isUpdateDownloaded as getIsUpdateDownloaded,
   isOSUnsupported,
-  isUpdateDialogVisible,
-} from '../selectors/updates.std.js';
+  isUpdateDialogVisible} from '../selectors/updates.std.js';
 import {
   getIntl,
   getIsMacOS,
   getRegionCode,
-  getTheme,
-} from '../selectors/user.std.js';
+  getTheme} from '../selectors/user.std.js';
 import { SmartCaptchaDialog } from './CaptchaDialog.preload.js';
 import { SmartCrashReportDialog } from './CrashReportDialog.preload.js';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.js';
@@ -111,16 +103,14 @@ import {
   cancelBackupMediaDownload,
   dismissBackupMediaDownloadBanner,
   pauseBackupMediaDownload,
-  resumeBackupMediaDownload,
-} from '../../util/backupMediaDownload.preload.js';
+  resumeBackupMediaDownload} from '../../util/backupMediaDownload.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.preload.js';
 import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.preload.js';
 import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.dom.js';
 import {
   getHasAnyCurrentCustomChatFolders,
-  getSelectedChatFolder,
-} from '../selectors/chatFolders.std.js';
+  getSelectedChatFolder} from '../selectors/chatFolders.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preload.js';
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.js';
@@ -201,8 +191,7 @@ const getModeSpecificProps = (
           searchConversation,
           searchTerm,
           startSearchCounter: getStartSearchCounter(state),
-          ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
-        };
+          ...(searchConversation && searchTerm ? getSearchResults(state) : {})};
       }
       if (getIsActivelySearching(state)) {
         return {
@@ -211,8 +200,7 @@ const getModeSpecificProps = (
           searchConversation: getSearchConversation(state),
           searchDisabled: state.network.challengeStatus !== 'idle',
           startSearchCounter: getStartSearchCounter(state),
-          ...getSearchResults(state),
-        };
+          ...getSearchResults(state)};
       }
       return {
         mode: LeftPaneMode.Inbox,
@@ -224,8 +212,7 @@ const getModeSpecificProps = (
         startSearchCounter: getStartSearchCounter(state),
         filterByUnread: getFilterByUnread(state),
         selectedChatFolder: getSelectedChatFolder(state),
-        ...getLeftPaneLists(state),
-      };
+        ...getLeftPaneLists(state)};
     case ComposerStep.StartDirectConversation:
       return {
         mode: LeftPaneMode.Compose,
@@ -236,8 +223,7 @@ const getModeSpecificProps = (
         uuidFetchState: getComposerUUIDFetchState(state),
         username: getUsernameFromSearch(
           getComposerConversationSearchTerm(state)
-        ),
-      };
+        )};
     case ComposerStep.FindByUsername:
       return {
         mode: LeftPaneMode.FindByUsername,
@@ -245,8 +231,7 @@ const getModeSpecificProps = (
         uuidFetchState: getComposerUUIDFetchState(state),
         username: getUsernameFromSearch(
           getComposerConversationSearchTerm(state)
-        ),
-      };
+        )};
     case ComposerStep.FindByPhoneNumber:
       return {
         mode: LeftPaneMode.FindByPhoneNumber,
@@ -254,8 +239,7 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         uuidFetchState: getComposerUUIDFetchState(state),
         countries: getCountryDataForLocale(i18n.getLocale()),
-        selectedRegion: getComposerSelectedRegion(state),
-      };
+        selectedRegion: getComposerSelectedRegion(state)};
     case ComposerStep.ChooseGroupMembers:
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
@@ -275,8 +259,7 @@ const getModeSpecificProps = (
         uuidFetchState: getComposerUUIDFetchState(state),
         username: getUsernameFromSearch(
           getComposerConversationSearchTerm(state)
-        ),
-      };
+        )};
     case ComposerStep.SetGroupMetadata:
       return {
         mode: LeftPaneMode.SetGroupMetadata,
@@ -287,8 +270,7 @@ const getModeSpecificProps = (
         isCreating: isCreatingGroup(state),
         isEditingAvatar: isEditingAvatar(state),
         selectedContacts: getComposeSelectedContacts(state),
-        userAvatarData: getComposeAvatarData(state),
-      };
+        userAvatarData: getComposeAvatarData(state)};
     default:
       throw missingCaseError(composerStep);
   }
@@ -301,8 +283,7 @@ async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
 export const SmartLeftPane = memo(function SmartLeftPane({
   hasFailedStorySends,
   hasPendingUpdate,
-  otherTabsUnreadStats,
-}: NavTabPanelProps) {
+  otherTabsUnreadStats}: NavTabPanelProps) {
   const version = window.SignalContext.getVersion();
   const challengeStatus = useSelector(getChallengeStatus);
   const composerStep = useSelector(getComposerStep);
@@ -361,8 +342,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     startComposing,
     startSettingGroupMetadata,
     toggleComposeEditingAvatar,
-    toggleConversationInChooseMembers,
-  } = useConversationsActions();
+    toggleConversationInChooseMembers} = useConversationsActions();
   const {
     clearConversationSearch,
     clearSearchQuery,
@@ -371,12 +351,10 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     searchInConversation,
     startSearch,
     updateSearchTerm,
-    updateFilterByUnread,
-  } = useSearchActions();
+    updateFilterByUnread} = useSearchActions();
   const {
     onOutgoingAudioCallInConversation,
-    onOutgoingVideoCallInConversation,
-  } = useCallingActions();
+    onOutgoingVideoCallInConversation} = useCallingActions();
   const { openUsernameReservationModal } = useUsernameActions();
   const { savePreferredLeftPaneWidth, toggleNavTabsCollapse } =
     useItemsActions();
@@ -390,10 +368,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       details: {
         page: SettingsPage.ChatFolders,
         previousLocation: {
-          tab: NavTab.Chats,
-        },
-      },
-    });
+          tab: NavTab.Chats}}});
   }, [changeLocation]);
 
   const maybePreloadConversation = useCallback(

@@ -9,8 +9,7 @@ import { assertDev } from '../../util/assert.std.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
   getConversationByIdSelector,
-  getConversationByServiceIdSelector,
-} from '../selectors/conversations.dom.js';
+  getConversationByServiceIdSelector} from '../selectors/conversations.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
@@ -20,8 +19,7 @@ export type PropsType = {
 };
 
 export const SmartGV1Members = memo(function SmartGV1Members({
-  conversationId,
-}: PropsType): JSX.Element {
+  conversationId}: PropsType): JSX.Element {
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);

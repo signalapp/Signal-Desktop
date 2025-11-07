@@ -6,11 +6,9 @@ import React, { useState } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import {
   MessageRequestActionsConfirmation,
-  MessageRequestState,
-} from './MessageRequestActionsConfirmation.dom.js';
+  MessageRequestState} from './MessageRequestActionsConfirmation.dom.js';
 import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
 
 import { Modal } from '../Modal.dom.js';
@@ -56,7 +54,7 @@ export type PropsType = {
   deleteConversation: (conversationId: string) => unknown;
   toggleSignalConnectionsModal: () => void;
   updateSharedGroups: (conversationId: string) => void;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   onClose: () => void;
   showContactModal: (contactId: string, conversationId?: string) => unknown;
@@ -70,8 +68,7 @@ export type PropsType = {
 enum ConfirmationStateType {
   ConfirmingDelete,
   ConfirmingBlock,
-  ConfirmingGroupRemoval,
-}
+  ConfirmingGroupRemoval}
 
 export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   const {
@@ -88,8 +85,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     onClose,
     showContactModal,
     removeMember,
-    theme,
-  } = props;
+    theme} = props;
 
   const [confirmationState, setConfirmationState] = useState<
     | undefined
@@ -135,14 +131,12 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 case MessageRequestState.blocking:
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingBlock,
-                    affectedConversation,
-                  });
+                    affectedConversation});
                   break;
                 case MessageRequestState.deleting:
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingDelete,
-                    affectedConversation,
-                  });
+                    affectedConversation});
                   break;
                 case MessageRequestState.reportingAndMaybeBlocking:
                 case MessageRequestState.acceptedOptions:
@@ -222,8 +216,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingDelete,
-                    affectedConversation: possiblyUnsafe.conversation,
-                  });
+                    affectedConversation: possiblyUnsafe.conversation});
                 }}
               >
                 {i18n('icu:MessageRequests--delete')}
@@ -233,8 +226,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingBlock,
-                    affectedConversation: possiblyUnsafe.conversation,
-                  });
+                    affectedConversation: possiblyUnsafe.conversation});
                 }}
               >
                 {i18n('icu:MessageRequests--block')}
@@ -277,12 +269,10 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
               ? i18n(
                   'icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description',
                   {
-                    count: numSharedTitles,
-                  }
+                    count: numSharedTitles}
                 )
               : i18n('icu:ContactSpoofingReviewDialog__group__description', {
-                  count: totalConversations,
-                })}
+                  count: totalConversations})}
           </p>
 
           {Object.values(collisionInfoByTitle)
@@ -297,8 +287,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                         setConfirmationState({
                           type: ConfirmationStateType.ConfirmingGroupRemoval,
                           affectedConversation: conversationInfo.conversation,
-                          group,
-                        });
+                          group});
                       }}
                     >
                       {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
@@ -322,8 +311,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       onClick={() => {
                         setConfirmationState({
                           type: ConfirmationStateType.ConfirmingBlock,
-                          affectedConversation: conversationInfo.conversation,
-                        });
+                          affectedConversation: conversationInfo.conversation});
                       }}
                     >
                       {i18n('icu:MessageRequests--block')}

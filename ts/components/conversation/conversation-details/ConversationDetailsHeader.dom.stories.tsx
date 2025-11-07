@@ -5,7 +5,6 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadges } from '../../../test-helpers/getFakeBadge.std.js';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import type { Props } from './ConversationDetailsHeader.dom.js';
@@ -17,8 +16,7 @@ export default {
   title:
     'Components/Conversation/ConversationDetails/ConversationDetailsHeader',
   argTypes: {},
-  args: {},
-} satisfies Meta<Props>;
+  args: {}} satisfies Meta<Props>;
 
 const createConversation = (): ConversationType =>
   getDefaultConversation({
@@ -26,8 +24,7 @@ const createConversation = (): ConversationType =>
     type: 'group',
     lastUpdated: 0,
     title: 'Some Conversation',
-    groupDescription: 'This is a group description. https://www.signal.org',
-  });
+    groupDescription: 'This is a group description. https://www.signal.org'});
 
 function Wrapper(overrideProps: Partial<Props>) {
   const theme = React.useContext(StorybookThemeContext);
@@ -64,8 +61,7 @@ export function BasicNoDescription(): JSX.Element {
     <Wrapper
       conversation={getDefaultConversation({
         title: 'My Group',
-        type: 'group',
-      })}
+        type: 'group'})}
     />
   );
 }
@@ -75,8 +71,7 @@ export function EditableNoDescription(): JSX.Element {
     <Wrapper
       conversation={getDefaultConversation({
         title: 'My Group',
-        type: 'group',
-      })}
+        type: 'group'})}
     />
   );
 }
@@ -85,11 +80,10 @@ export function OneOnOne(): JSX.Element {
   return (
     <Wrapper
       isGroup={false}
-      badges={getFakeBadges(3)}
+      badges={[]}
       conversation={getDefaultConversation({
         title: 'Maya Johnson',
-        type: 'direct',
-      })}
+        type: 'direct'})}
     />
   );
 }

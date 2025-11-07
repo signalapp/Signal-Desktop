@@ -11,8 +11,7 @@ import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import {
   getActiveCallState,
-  isInFullScreenCall as getIsInFullScreenCall,
-} from '../selectors/calling.std.js';
+  isInFullScreenCall as getIsInFullScreenCall} from '../selectors/calling.std.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
@@ -54,21 +53,18 @@ export const SmartContactModal = memo(function SmartContactModal() {
     updateConversationModelSharedGroups,
     toggleAdmin,
     blockConversation,
-    startAvatarDownload,
-  } = useConversationsActions();
+    startAvatarDownload} = useConversationsActions();
   const { viewUserStories } = useStoriesActions();
   const {
     toggleAboutContactModal,
     toggleAddUserToAnotherGroupModal,
     toggleSafetyNumberModal,
     hideContactModal,
-    toggleEditNicknameAndNoteModal,
-  } = useGlobalModalActions();
+    toggleEditNicknameAndNoteModal} = useGlobalModalActions();
   const {
     onOutgoingVideoCallInConversation,
     onOutgoingAudioCallInConversation,
-    togglePip,
-  } = useCallingActions();
+    togglePip} = useCallingActions();
 
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
     strictAssert(contactId != null, 'Expected conversationId to be set');

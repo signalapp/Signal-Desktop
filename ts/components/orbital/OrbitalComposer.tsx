@@ -37,8 +37,7 @@ export function OrbitalComposer({
   replyContext,
   onSubmit,
   onCancel,
-  i18n,
-}: OrbitalComposerProps): JSX.Element {
+  i18n}: OrbitalComposerProps): JSX.Element {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
