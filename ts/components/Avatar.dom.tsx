@@ -3,28 +3,22 @@
 
 import type {
   AriaAttributes,
-  CSSProperties,
   MouseEvent,
   ReactChild,
-  ReactNode,
-} from 'react';
+  ReactNode} from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
 import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors.std.js';
-import type { BadgeType } from '../badges/types.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { createLogger } from '../logging/log.std.js';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.js';
 import { HasStories } from '../types/Stories.std.js';
 import { Spinner } from './Spinner.dom.js';
 import { ThemeType } from '../types/Util.std.js';
 import { assertDev } from '../util/assert.std.js';
-import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.std.js';
 import { getInitials } from '../util/getInitials.std.js';
-import { isBadgeVisible } from '../badges/isBadgeVisible.std.js';
 import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation.std.js';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.js';
 
@@ -35,8 +29,7 @@ const log = createLogger('Avatar');
 export enum AvatarBlur {
   NoBlur,
   BlurPicture,
-  BlurPictureWithClickToView,
-}
+  BlurPictureWithClickToView}
 
 export enum AvatarSize {
   TWENTY = 20,
@@ -52,8 +45,7 @@ export enum AvatarSize {
   SIXTY_FOUR = 64,
   EIGHTY = 80,
   NINETY_SIX = 96,
-  TWO_HUNDRED_SIXTEEN = 216,
-}
+  TWO_HUNDRED_SIXTEEN = 216}
 
 type BadgePlacementType = { bottom: number; right: number };
 
@@ -83,7 +75,7 @@ export type Props = {
   i18n: LocalizerType;
 } & (
   | { badge: undefined; theme?: ThemeType }
-  | { badge: BadgeType; theme: ThemeType }
+  | { badge: any; theme: ThemeType }
 ) &
   Pick<React.HTMLProps<HTMLDivElement>, 'className'> &
   AriaAttributes;
@@ -188,8 +180,7 @@ export function Avatar({
           className="module-Avatar__image"
           style={{
             backgroundImage: `url('${avatarUrl}')`,
-            ...(isBlurred ? { filter: `blur(${Math.ceil(size / 2)}px)` } : {}),
-          }}
+            ...(isBlurred ? { filter: `blur(${Math.ceil(size / 2)}px)` } : {})}}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
           <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
@@ -220,8 +211,7 @@ export function Avatar({
         <div
           className="module-Avatar__image"
           style={{
-            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`,
-          }}
+            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`}}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
           <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
@@ -269,54 +259,12 @@ export function Avatar({
     contents = <div className={contentsClassName}>{contentsChildren}</div>;
   }
 
-  let badgeNode: ReactNode;
-  const badgeSize = _getBadgeSize(size);
-  if (badge && theme && !noteToSelf && badgeSize && isBadgeVisible(badge)) {
-    const badgePlacement = _getBadgePlacement(size);
-    const badgeTheme =
-      theme === ThemeType.light ? BadgeImageTheme.Light : BadgeImageTheme.Dark;
-    const badgeImagePath = getBadgeImageFileLocalPath(
-      badge,
-      badgeSize,
-      badgeTheme
-    );
-    if (badgeImagePath) {
-      const positionStyles: CSSProperties = {
-        width: badgeSize,
-        height: badgeSize,
-        ...badgePlacement,
-      };
-      if (onClickBadge) {
-        badgeNode = (
-          <button
-            aria-label={badge.name}
-            className="module-Avatar__badge module-Avatar__badge--button"
-            onClick={onClickBadge}
-            style={{
-              backgroundImage: `url('${encodeURI(badgeImagePath)}')`,
-              ...positionStyles,
-            }}
-            type="button"
-          />
-        );
-      } else {
-        badgeNode = (
-          <img
-            alt={badge.name}
-            className="module-Avatar__badge module-Avatar__badge--static"
-            src={badgeImagePath}
-            style={positionStyles}
-          />
-        );
-      }
-    }
-  }
+  let badgeNode: ReactNode = null; // Badge feature removed
 
   return (
     <div
       aria-label={i18n('icu:contactAvatarAlt', {
-        name: title,
-      })}
+        name: title})}
       className={classNames(
         'module-Avatar',
         Boolean(storyRing) && 'module-Avatar--with-story',
@@ -329,8 +277,7 @@ export function Avatar({
       style={{
         minWidth: size,
         width: size,
-        height: size,
-      }}
+        height: size}}
       ref={innerRef}
     >
       {contents}

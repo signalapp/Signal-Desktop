@@ -22,8 +22,7 @@ import {
   LONG_MESSAGE,
   stringToMIMEType,
   IMAGE_GIF,
-  VIDEO_QUICKTIME,
-} from '../../types/MIME.std.js';
+  VIDEO_QUICKTIME} from '../../types/MIME.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import { MessageAudio } from './MessageAudio.dom.js';
 import { computePeaks } from '../VoiceNotesPlaybackContext.dom.js';
@@ -32,16 +31,12 @@ import { getDefaultConversation } from '../../test-helpers/getDefaultConversatio
 import { WidthBreakpoint } from '../_util.std.js';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
 import { ContactFormType } from '../../types/EmbeddedContact.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
 import { generateAci } from '../../types/ServiceId.std.js';
 
 import {
   fakeAttachment,
-  fakeThumbnail,
-} from '../../test-helpers/fakeAttachment.std.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
+  fakeThumbnail} from '../../test-helpers/fakeAttachment.std.js';
 import { ThemeType } from '../../types/Util.std.js';
-import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 
 const { isBoolean, noop } = lodash;
@@ -59,41 +54,32 @@ const quoteOptions = {
     authorTitle: 'Someone',
     referencedMessageNotFound: false,
     isViewOnce: false,
-    isGiftBadge: false,
-  },
-};
+    isGiftBadge: false}};
 
 export default {
   title: 'Components/Conversation/TimelineMessage',
   argTypes: {
     conversationType: {
       control: 'select',
-      options: ['direct', 'group'],
-    },
+      options: ['direct', 'group']},
     quote: {
       control: 'select',
       mapping: quoteOptions,
-      options: Object.keys(quoteOptions),
-    },
-  },
+      options: Object.keys(quoteOptions)}},
   args: {
     conversationType: 'direct',
-    quote: undefined,
-  },
-} satisfies Meta<Props>;
+    quote: undefined}} satisfies Meta<Props>;
 
 const Template: StoryFn<Partial<Props>> = args => {
   return renderBothDirections({
     ...createProps(),
     conversationType: 'direct',
     quote: undefined,
-    ...args,
-  });
+    ...args});
 };
 
 const messageIdToAudioUrl = {
-  'incompetech-com-Agnus-Dei-X': '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-};
+  'incompetech-com-Agnus-Dei-X': '/fixtures/incompetech-com-Agnus-Dei-X.mp3'};
 
 function getJoyReaction() {
   return {
@@ -102,10 +88,8 @@ function getJoyReaction() {
       id: '+14155552674',
       phoneNumber: '+14155552674',
       name: 'Amelia Briggs',
-      title: 'Amelia',
-    }),
-    timestamp: Date.now() - 10,
-  };
+      title: 'Amelia'}),
+    timestamp: Date.now() - 10};
 }
 
 const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
@@ -165,8 +149,7 @@ function MessageAudioContainer({
       },
       get duration() {
         return a.duration;
-      },
-    };
+      }};
   }, []);
 
   const handlePlayMessage = (id: string, positionAsRatio: number) => {
@@ -205,8 +188,7 @@ function MessageAudioContainer({
         playing: isPlaying,
         playbackRate,
         currentTime,
-        duration: audioPlayer.duration,
-      }
+        duration: audioPlayer.duration}
     : undefined;
 
   return (
@@ -259,7 +241,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   expirationLength: overrideProps.expirationLength ?? 0,
   expirationTimestamp: overrideProps.expirationTimestamp ?? 0,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
-  giftBadge: overrideProps.giftBadge,
   i18n,
   platform: 'darwin',
   id: overrideProps.id ?? 'random-message-id',
@@ -349,13 +330,11 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     contentType: LONG_MESSAGE,
     size: 123,
     pending: false,
-    isPermanentlyUndownloadable: false,
-  },
+    isPermanentlyUndownloadable: false},
   theme: ThemeType.light,
   timestamp: overrideProps.timestamp ?? Date.now(),
   viewStory: action('viewStory'),
-  poll: overrideProps.poll,
-});
+  poll: overrideProps.poll});
 
 const renderMany = (propsArray: ReadonlyArray<Props>) => (
   <>
@@ -383,21 +362,18 @@ const renderBothDirections = (props: Props) => (
     {renderThree({
       ...props,
       author: { ...props.author, id: getDefaultConversation().id },
-      direction: 'outgoing',
-    })}
+      direction: 'outgoing'})}
   </>
 );
 
 export const PlainMessage = Template.bind({});
 PlainMessage.args = {
-  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-};
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.'};
 
 export const PlainRtlMessage = Template.bind({});
 PlainRtlMessage.args = {
   text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
-  textDirection: TextDirection.RightToLeft,
-};
+  textDirection: TextDirection.RightToLeft};
 
 export function EmojiMessages(): JSX.Element {
   return (
@@ -424,19 +400,16 @@ export function EmojiMessages(): JSX.Element {
                 fileName: 'the-sax.png',
                 height: 240,
                 url: pngUrl,
-                width: 320,
-              }),
+                width: 320}),
               isStickerPack: false,
               isCallLink: false,
               title: 'Signal',
               description:
                 'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
               url: 'https://www.signal.org',
-              date: new Date(2020, 2, 10).valueOf(),
-            },
+              date: new Date(2020, 2, 10).valueOf()},
           ],
-          text: '😀',
-        })}
+          text: '😀'})}
       />
       <br />
       <TimelineMessage
@@ -447,11 +420,9 @@ export function EmojiMessages(): JSX.Element {
               fileName: 'tina-rolf-269345-unsplash.jpg',
               contentType: IMAGE_JPEG,
               width: 128,
-              height: 128,
-            }),
+              height: 128}),
           ],
-          text: '😀',
-        })}
+          text: '😀'})}
       />
       <br />
       <TimelineMessage
@@ -461,11 +432,9 @@ export function EmojiMessages(): JSX.Element {
             fakeAttachment({
               contentType: AUDIO_MP3,
               fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-              url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X'],
-            }),
+              url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X']}),
           ],
-          text: '😀',
-        })}
+          text: '😀'})}
       />
       <br />
       <TimelineMessage
@@ -474,11 +443,9 @@ export function EmojiMessages(): JSX.Element {
             fakeAttachment({
               contentType: stringToMIMEType('text/plain'),
               fileName: 'my-resume.txt',
-              url: 'my-resume.txt',
-            }),
+              url: 'my-resume.txt'}),
           ],
-          text: '😀',
-        })}
+          text: '😀'})}
       />
       <br />
       <TimelineMessage
@@ -490,11 +457,9 @@ export function EmojiMessages(): JSX.Element {
               fileName: 'cat-gif.mp4',
               url: '/fixtures/cat-gif.mp4',
               width: 400,
-              height: 332,
-            }),
+              height: 332}),
           ],
-          text: '😀',
-        })}
+          text: '😀'})}
       />
     </>
   );
@@ -503,34 +468,29 @@ export function EmojiMessages(): JSX.Element {
 export const Delivered = Template.bind({});
 Delivered.args = {
   status: 'delivered',
-  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-};
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.'};
 
 export const Read = Template.bind({});
 Read.args = {
   status: 'read',
-  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-};
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.'};
 
 export const Sending = Template.bind({});
 Sending.args = {
   status: 'sending',
-  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-};
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.'};
 
 export const Expiring = Template.bind({});
 Expiring.args = {
   expirationLength: 30 * 1000,
   expirationTimestamp: Date.now() + 30 * 1000,
-  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-};
+  text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.'};
 
 export const WillExpireButStillSending = Template.bind({});
 WillExpireButStillSending.args = {
   status: 'sending',
   expirationLength: 30 * 1000,
-  text: 'We always show the timer if a message has an expiration length, even if unread or still sending.',
-};
+  text: 'We always show the timer if a message has an expiration length, even if unread or still sending.'};
 
 export const Pending = Template.bind({});
 Pending.args = {
@@ -539,9 +499,7 @@ Pending.args = {
     contentType: LONG_MESSAGE,
     size: 123,
     pending: true,
-    isPermanentlyUndownloadable: false,
-  },
-};
+    isPermanentlyUndownloadable: false}};
 
 export const LongBodyCanBeDownloaded = Template.bind({});
 LongBodyCanBeDownloaded.args = {
@@ -553,21 +511,17 @@ LongBodyCanBeDownloaded.args = {
     error: true,
     digest: 'abc',
     key: 'def',
-    isPermanentlyUndownloadable: false,
-  },
-};
+    isPermanentlyUndownloadable: false}};
 
 export const Recent = Template.bind({});
 Recent.args = {
   text: 'Hello there from a pal!',
-  timestamp: Date.now() - 30 * 60 * 1000,
-};
+  timestamp: Date.now() - 30 * 60 * 1000};
 
 export const Older = Template.bind({});
 Older.args = {
   text: 'Hello there from a pal!',
-  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
-};
+  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000};
 
 export const ReactionsWiderMessage = Template.bind({});
 ReactionsWiderMessage.args = {
@@ -581,72 +535,57 @@ ReactionsWiderMessage.args = {
         id: '+14155552672',
         phoneNumber: '+14155552672',
         name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Me'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '👍',
       from: getDefaultConversation({
         id: '+14155552672',
         phoneNumber: '+14155552672',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '👍',
       from: getDefaultConversation({
         id: '+14155552673',
         phoneNumber: '+14155552673',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '😂',
       from: getDefaultConversation({
         id: '+14155552674',
         phoneNumber: '+14155552674',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '😡',
       from: getDefaultConversation({
         id: '+14155552677',
         phoneNumber: '+14155552677',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '👎',
       from: getDefaultConversation({
         id: '+14155552678',
         phoneNumber: '+14155552678',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
     {
       emoji: '❤️',
       from: getDefaultConversation({
         id: '+14155552679',
         phoneNumber: '+14155552679',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-  ],
-};
+        title: 'Amelia'}),
+      timestamp: Date.now() - 10},
+  ]};
 
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
@@ -663,78 +602,63 @@ ReactionsShortMessage.args = {
         id: '+14155552672',
         phoneNumber: '+14155552672',
         name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now(),
-    },
+        title: 'Me'}),
+      timestamp: Date.now()},
     {
       emoji: '👍',
       from: getDefaultConversation({
         id: '+14155552672',
         phoneNumber: '+14155552672',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now()},
     {
       emoji: '👍',
       from: getDefaultConversation({
         id: '+14155552673',
         phoneNumber: '+14155552673',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now()},
     {
       emoji: '😡',
       from: getDefaultConversation({
         id: '+14155552677',
         phoneNumber: '+14155552677',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now()},
     {
       emoji: '👎',
       from: getDefaultConversation({
         id: '+14155552678',
         phoneNumber: '+14155552678',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
+        title: 'Amelia'}),
+      timestamp: Date.now()},
     {
       emoji: '❤️',
       from: getDefaultConversation({
         id: '+14155552679',
         phoneNumber: '+14155552679',
         name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-  ],
-};
+        title: 'Amelia'}),
+      timestamp: Date.now()},
+  ]};
 
 export const AvatarInGroup = Template.bind({});
 AvatarInGroup.args = {
   author: getDefaultConversation({ avatarUrl: pngUrl }),
   conversationType: 'group',
   status: 'sent',
-  text: 'Hello it is me, the saxophone.',
-};
+  text: 'Hello it is me, the saxophone.'};
 
 export const BadgeInGroup = Template.bind({});
 BadgeInGroup.args = {
   conversationType: 'group',
-  getPreferredBadge: () => getFakeBadge(),
+  getPreferredBadge: () => undefined,
   status: 'sent',
-  text: 'Hello it is me, the saxophone.',
-};
+  text: 'Hello it is me, the saxophone.'};
 
 export const Sticker = Template.bind({});
 Sticker.args = {
@@ -744,12 +668,10 @@ Sticker.args = {
       fileName: '512x515-thumbs-up-lincoln.webp',
       contentType: IMAGE_WEBP,
       width: 128,
-      height: 128,
-    }),
+      height: 128}),
   ],
   isSticker: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const Quote = Template.bind({});
 Quote.args = {
@@ -763,17 +685,14 @@ Quote.args = {
     authorTitle: 'Author',
     referencedMessageNotFound: false,
     isViewOnce: false,
-    isGiftBadge: false,
-  },
+    isGiftBadge: false},
   author: {
     id: '',
     isMe: false,
     title: 'Quoter Dude',
     sharedGroupNames: [],
     acceptedMessageRequest: true,
-    badges: [],
   },
-  conversationType: 'group',
 };
 
 export function Deleted(): JSX.Element {
@@ -781,14 +700,12 @@ export function Deleted(): JSX.Element {
     conversationType: 'direct',
     deletedForEveryone: true,
     canForward: false,
-    status: 'sent',
-  });
+    status: 'sent'});
   const propsSending = createProps({
     conversationType: 'direct',
     deletedForEveryone: true,
     canForward: false,
-    status: 'sending',
-  });
+    status: 'sending'});
 
   return (
     <>
@@ -806,8 +723,7 @@ DeletedWithExpireTimer.args = {
   canForward: false,
   expirationLength: 5 * 60 * 1000,
   expirationTimestamp: Date.now() + 3 * 60 * 1000,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export function DeletedWithError(): JSX.Element {
   const propsPartialError = createProps({
@@ -816,16 +732,14 @@ export function DeletedWithError(): JSX.Element {
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'partial-sent',
-    direction: 'outgoing',
-  });
+    direction: 'outgoing'});
   const propsError = createProps({
     timestamp: Date.now() - 60 * 1000,
     // canDeleteForEveryone: true,
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'error',
-    direction: 'outgoing',
-  });
+    direction: 'outgoing'});
 
   return (
     <>
@@ -840,8 +754,7 @@ CanDeleteForEveryone.args = {
   status: 'read',
   text: 'I hope you get this.',
   // canDeleteForEveryone: true,
-  direction: 'outgoing',
-};
+  direction: 'outgoing'};
 
 const bigAttachment = {
   contentType: stringToMIMEType('text/plain'),
@@ -854,15 +767,13 @@ const bigAttachment = {
   id: undefined,
   error: true,
   wasTooBig: true,
-  isPermanentlyUndownloadable: true,
-};
+  isPermanentlyUndownloadable: true};
 
 export function AttachmentTooBig(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigAttachment],
-  });
+    attachments: [bigAttachment]});
 
   return <>{renderBothDirections(propsSent)}</>;
 }
@@ -872,8 +783,7 @@ export function AttachmentTooBigWithText(): JSX.Element {
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
     attachments: [bigAttachment],
-    text: 'Check out this file!',
-  });
+    text: 'Check out this file!'});
 
   return <>{renderBothDirections(propsSent)}</>;
 }
@@ -884,15 +794,13 @@ const bigImageAttachment = {
   fileName: 'bird.jpg',
   blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
   width: 1000,
-  height: 1000,
-};
+  height: 1000};
 
 export function AttachmentTooBigImage(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigImageAttachment],
-  });
+    attachments: [bigImageAttachment]});
 
   return <>{renderBothDirections(propsSent)}</>;
 }
@@ -902,8 +810,7 @@ export function AttachmentTooBigImageWithText(): JSX.Element {
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
     attachments: [bigImageAttachment],
-    text: 'Check out this file!',
-  });
+    text: 'Check out this file!'});
 
   return <>{renderBothDirections(propsSent)}</>;
 }
@@ -912,27 +819,23 @@ export const Error = Template.bind({});
 Error.args = {
   status: 'error',
   // canRetry: true,
-  text: 'I hope you get this.',
-};
+  text: 'I hope you get this.'};
 
 export const EditError = Template.bind({});
 EditError.args = {
   status: 'error',
   isEditedMessage: true,
-  text: 'I hope you get this.',
-};
+  text: 'I hope you get this.'};
 
 export const Paused = Template.bind({});
 Paused.args = {
   status: 'paused',
-  text: 'I am up to a challenge',
-};
+  text: 'I am up to a challenge'};
 
 export const PartialSend = Template.bind({});
 PartialSend.args = {
   status: 'partial-sent',
-  text: 'I hope you get this.',
-};
+  text: 'I hope you get this.'};
 
 export const LinkPreviewInGroup = Template.bind({});
 LinkPreviewInGroup.args = {
@@ -944,21 +847,18 @@ LinkPreviewInGroup.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
-  conversationType: 'group',
-};
+  conversationType: 'group'};
 
 export const LinkPreviewWithLongWord = Template.bind({});
 LinkPreviewWithLongWord.args = {
@@ -970,20 +870,17 @@ LinkPreviewWithLongWord.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description: `Say "hello" to a ${'Different'.repeat(10)} messaging experience.`,
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
-  conversationType: 'group',
-};
+  conversationType: 'group'};
 
 export const LinkPreviewWithQuote = Template.bind({});
 LinkPreviewWithQuote.args = {
@@ -997,8 +894,7 @@ LinkPreviewWithQuote.args = {
     authorTitle: 'Someone',
     referencedMessageNotFound: false,
     isViewOnce: false,
-    isGiftBadge: false,
-  },
+    isGiftBadge: false},
   previews: [
     {
       domain: 'signal.org',
@@ -1007,21 +903,18 @@ LinkPreviewWithQuote.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
-  conversationType: 'group',
-};
+  conversationType: 'group'};
 
 export const LinkPreviewWithSmallImage = Template.bind({});
 LinkPreviewWithSmallImage.args = {
@@ -1033,20 +926,17 @@ LinkPreviewWithSmallImage.args = {
         fileName: 'the-sax.png',
         height: 50,
         url: pngUrl,
-        width: 50,
-      }),
+        width: 50}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithUndownloadedImage = Template.bind({});
 LinkPreviewWithUndownloadedImage.args = {
@@ -1057,20 +947,17 @@ LinkPreviewWithUndownloadedImage.args = {
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         path: undefined,
-        size: 5300000,
-      }),
+        size: 5300000}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithDownloadingImage = Template.bind({});
 LinkPreviewWithDownloadingImage.args = {
@@ -1083,20 +970,17 @@ LinkPreviewWithDownloadingImage.args = {
         path: undefined,
         pending: true,
         size: 5300000,
-        totalDownloaded: 1230000,
-      }),
+        totalDownloaded: 1230000}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithUndownloadedSmallImage = Template.bind({});
 LinkPreviewWithUndownloadedSmallImage.args = {
@@ -1109,20 +993,17 @@ LinkPreviewWithUndownloadedSmallImage.args = {
         height: 50,
         width: 50,
         path: undefined,
-        size: 5300000,
-      }),
+        size: 5300000}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithDownloadingSmallImage = Template.bind({});
 LinkPreviewWithDownloadingSmallImage.args = {
@@ -1137,20 +1018,17 @@ LinkPreviewWithDownloadingSmallImage.args = {
         path: undefined,
         pending: true,
         size: 5300000,
-        totalDownloaded: 1230000,
-      }),
+        totalDownloaded: 1230000}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithoutImage = Template.bind({});
 LinkPreviewWithoutImage.args = {
@@ -1163,12 +1041,10 @@ LinkPreviewWithoutImage.args = {
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithNoDescription = Template.bind({});
 LinkPreviewWithNoDescription.args = {
@@ -1179,12 +1055,10 @@ LinkPreviewWithNoDescription.args = {
       isCallLink: false,
       title: 'Signal',
       url: 'https://www.signal.org',
-      date: Date.now(),
-    },
+      date: Date.now()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithLongDescription = Template.bind({});
 LinkPreviewWithLongDescription.args = {
@@ -1200,12 +1074,10 @@ LinkPreviewWithLongDescription.args = {
         )
         .join(' '),
       url: 'https://www.signal.org',
-      date: Date.now(),
-    },
+      date: Date.now()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithSmallImageLongDescription = Template.bind({});
 LinkPreviewWithSmallImageLongDescription.args = {
@@ -1217,8 +1089,7 @@ LinkPreviewWithSmallImageLongDescription.args = {
         fileName: 'the-sax.png',
         height: 50,
         url: pngUrl,
-        width: 50,
-      }),
+        width: 50}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
@@ -1228,12 +1099,10 @@ LinkPreviewWithSmallImageLongDescription.args = {
         )
         .join(' '),
       url: 'https://www.signal.org',
-      date: Date.now(),
-    },
+      date: Date.now()},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithNoDate = Template.bind({});
 LinkPreviewWithNoDate.args = {
@@ -1245,19 +1114,16 @@ LinkPreviewWithNoDate.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-      url: 'https://www.signal.org',
-    },
+      url: 'https://www.signal.org'},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithTooNewADate = Template.bind({});
 LinkPreviewWithTooNewADate.args = {
@@ -1269,20 +1135,17 @@ LinkPreviewWithTooNewADate.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: Date.now() + 3000000000,
-    },
+      date: Date.now() + 3000000000},
   ],
   status: 'sent',
-  text: 'Be sure to look at https://www.signal.org',
-};
+  text: 'Be sure to look at https://www.signal.org'};
 
 export const LinkPreviewWithCallLink = Template.bind({});
 LinkPreviewWithCallLink.args = {
@@ -1294,12 +1157,10 @@ LinkPreviewWithCallLink.args = {
       image: undefined,
       date: undefined,
       isCallLink: true,
-      isStickerPack: false,
-    },
+      isStickerPack: false},
   ],
   status: 'sent',
-  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
-};
+  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh'};
 
 export const LinkPreviewWithCallLinkInAnotherCall = Template.bind({});
 LinkPreviewWithCallLinkInAnotherCall.args = {
@@ -1311,13 +1172,11 @@ LinkPreviewWithCallLinkInAnotherCall.args = {
       image: undefined,
       date: undefined,
       isCallLink: true,
-      isStickerPack: false,
-    },
+      isStickerPack: false},
   ],
   status: 'sent',
   activeCallConversationId: 'some-other-conversation',
-  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
-};
+  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh'};
 
 export const LinkPreviewWithCallLinkInCurrentCall = Template.bind({});
 LinkPreviewWithCallLinkInCurrentCall.args = {
@@ -1331,14 +1190,12 @@ LinkPreviewWithCallLinkInCurrentCall.args = {
       date: undefined,
       isCallLink: true,
       callLinkRoomId: 'room-id',
-      isStickerPack: false,
-    },
+      isStickerPack: false},
   ],
   conversationType: 'group',
   status: 'sent',
   activeCallConversationId: 'room-id',
-  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
-};
+  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh'};
 
 export function Image(): JSX.Element {
   const darkImageProps = createProps({
@@ -1348,11 +1205,9 @@ export function Image(): JSX.Element {
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
-        height: 128,
-      }),
+        height: 128}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1360,11 +1215,9 @@ export function Image(): JSX.Element {
         fileName: 'the-sax.png',
         contentType: IMAGE_PNG,
         height: 240,
-        width: 320,
-      }),
+        width: 320}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1382,11 +1235,9 @@ export function BrokenImage(): JSX.Element {
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
-        height: 128,
-      }),
+        height: 128}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1394,11 +1245,9 @@ export function BrokenImage(): JSX.Element {
         fileName: 'the-sax.png',
         contentType: IMAGE_PNG,
         height: 240,
-        width: 320,
-      }),
+        width: 320}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1416,13 +1265,11 @@ export function BrokenImageWithExpirationTimer(): JSX.Element {
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
-        height: 128,
-      }),
+        height: 128}),
     ],
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1430,13 +1277,11 @@ export function BrokenImageWithExpirationTimer(): JSX.Element {
         fileName: 'the-sax.png',
         contentType: IMAGE_PNG,
         height: 240,
-        width: 320,
-      }),
+        width: 320}),
     ],
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1456,16 +1301,13 @@ export function Video(): JSX.Element {
           size: 100000,
           width: 3000,
           height: 1680,
-          contentType: IMAGE_JPEG,
-        },
+          contentType: IMAGE_JPEG},
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: VIDEO_MP4,
         width: 128,
-        height: 128,
-      }),
+        height: 128}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1475,16 +1317,13 @@ export function Video(): JSX.Element {
           width: 800,
           height: 1200,
           size: 100000,
-          contentType: IMAGE_PNG,
-        },
+          contentType: IMAGE_PNG},
         fileName: 'the-sax.png',
         contentType: VIDEO_MP4,
         height: 240,
-        width: 320,
-      }),
+        width: 320}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1504,16 +1343,13 @@ export function BrokenVideo(): JSX.Element {
           size: 100000,
           width: 7680,
           height: 3200,
-          contentType: IMAGE_JPEG,
-        },
+          contentType: IMAGE_JPEG},
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: VIDEO_MP4,
         height: 3200,
-        width: 7680,
-      }),
+        width: 7680}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1523,16 +1359,13 @@ export function BrokenVideo(): JSX.Element {
           width: 7680,
           height: 3200,
           size: 100000,
-          contentType: IMAGE_PNG,
-        },
+          contentType: IMAGE_PNG},
         fileName: 'the-sax.png',
         contentType: VIDEO_MP4,
         height: 3200,
-        width: 7680,
-      }),
+        width: 7680}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1552,18 +1385,15 @@ export function BrokenVideoWithExpirationTimer(): JSX.Element {
           size: 100000,
           width: 7680,
           height: 3200,
-          contentType: IMAGE_JPEG,
-        },
+          contentType: IMAGE_JPEG},
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: VIDEO_MP4,
         height: 3200,
-        width: 7680,
-      }),
+        width: 7680}),
     ],
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
-    status: 'sent',
-  });
+    status: 'sent'});
   const lightImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1573,18 +1403,15 @@ export function BrokenVideoWithExpirationTimer(): JSX.Element {
           width: 7680,
           height: 3200,
           size: 100000,
-          contentType: IMAGE_PNG,
-        },
+          contentType: IMAGE_PNG},
         fileName: 'the-sax.png',
         contentType: VIDEO_MP4,
         height: 3200,
-        width: 7680,
-      }),
+        width: 7680}),
     ],
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
-    status: 'sent',
-  });
+    status: 'sent'});
 
   return (
     <>
@@ -1602,18 +1429,15 @@ MultipleImages2.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const MultipleImages3 = Template.bind({});
 MultipleImages3.args = {
@@ -1623,25 +1447,21 @@ MultipleImages3.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const MultipleImages4 = Template.bind({});
 MultipleImages4.args = {
@@ -1651,32 +1471,27 @@ MultipleImages4.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const MultipleImages5 = Template.bind({});
 MultipleImages5.args = {
@@ -1686,39 +1501,33 @@ MultipleImages5.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const MultipleImagesWithOneTooBig = Template.bind({});
 MultipleImagesWithOneTooBig.args = {
@@ -1728,19 +1537,16 @@ MultipleImagesWithOneTooBig.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
   attachmentDroppedDueToSize: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const MultipleImagesWithBodyTextOneTooBig = Template.bind({});
 MultipleImagesWithBodyTextOneTooBig.args = {
@@ -1750,20 +1556,17 @@ MultipleImagesWithBodyTextOneTooBig.args = {
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
     fakeAttachment({
       url: pngUrl,
       fileName: 'the-sax.png',
       contentType: IMAGE_PNG,
       height: 240,
-      width: 320,
-    }),
+      width: 320}),
   ],
   attachmentDroppedDueToSize: true,
   text: 'Hey, check out these images!',
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const ImageWithCaption = Template.bind({});
 ImageWithCaption.args = {
@@ -1773,12 +1576,10 @@ ImageWithCaption.args = {
       fileName: 'tina-rolf-269345-unsplash.jpg',
       contentType: IMAGE_JPEG,
       width: 128,
-      height: 128,
-    }),
+      height: 128}),
   ],
   status: 'sent',
-  text: 'This is my home.',
-};
+  text: 'This is my home.'};
 
 export const Gif = Template.bind({});
 Gif.args = {
@@ -1789,11 +1590,9 @@ Gif.args = {
       fileName: 'cat-gif.mp4',
       url: '/fixtures/cat-gif.mp4',
       width: 400,
-      height: 332,
-    }),
+      height: 332}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const GifReducedMotion = Template.bind({});
 GifReducedMotion.args = {
@@ -1804,12 +1603,10 @@ GifReducedMotion.args = {
       fileName: 'cat-gif.mp4',
       url: '/fixtures/cat-gif.mp4',
       width: 400,
-      height: 332,
-    }),
+      height: 332}),
   ],
   status: 'sent',
-  _forceTapToPlay: true,
-};
+  _forceTapToPlay: true};
 
 export const GifInAGroup = Template.bind({});
 GifInAGroup.args = {
@@ -1820,12 +1617,10 @@ GifInAGroup.args = {
       fileName: 'cat-gif.mp4',
       url: '/fixtures/cat-gif.mp4',
       width: 400,
-      height: 332,
-    }),
+      height: 332}),
   ],
   conversationType: 'group',
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const NotDownloadedGif = Template.bind({});
 NotDownloadedGif.args = {
@@ -1837,11 +1632,9 @@ NotDownloadedGif.args = {
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const PendingGif = Template.bind({});
 PendingGif.args = {
@@ -1855,11 +1648,9 @@ PendingGif.args = {
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const DownloadingGif = Template.bind({});
 DownloadingGif.args = {
@@ -1874,11 +1665,9 @@ DownloadingGif.args = {
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const PartialDownloadNotPendingGif = Template.bind({});
 PartialDownloadNotPendingGif.args = {
@@ -1892,11 +1681,9 @@ PartialDownloadNotPendingGif.args = {
       blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       width: 400,
       height: 332,
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const _Audio = Template.bind({});
 _Audio.args = {
@@ -1905,12 +1692,10 @@ _Audio.args = {
       contentType: AUDIO_MP3,
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
       url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X'],
-      path: 'somepath',
-    }),
+      path: 'somepath'}),
   ],
   status: 'read',
-  readStatus: ReadStatus.Read,
-};
+  readStatus: ReadStatus.Read};
 
 export const AudioViewed = Template.bind({});
 AudioViewed.args = {
@@ -1919,12 +1704,10 @@ AudioViewed.args = {
       contentType: AUDIO_MP3,
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
       url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X'],
-      path: 'somepath',
-    }),
+      path: 'somepath'}),
   ],
   status: 'viewed',
-  readStatus: ReadStatus.Viewed,
-};
+  readStatus: ReadStatus.Viewed};
 
 export const LongAudio = Template.bind({});
 LongAudio.args = {
@@ -1933,11 +1716,9 @@ LongAudio.args = {
       contentType: AUDIO_MP3,
       fileName: 'long-audio.mp3',
       url: '/fixtures/long-audio.mp3',
-      path: 'somepath',
-    }),
+      path: 'somepath'}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const AudioWithCaption = Template.bind({});
 AudioWithCaption.args = {
@@ -1946,12 +1727,10 @@ AudioWithCaption.args = {
       contentType: AUDIO_MP3,
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
       url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      path: 'somepath',
-    }),
+      path: 'somepath'}),
   ],
   status: 'sent',
-  text: 'This is what I sound like.',
-};
+  text: 'This is what I sound like.'};
 
 export const AudioWithNotDownloadedAttachment = Template.bind({});
 AudioWithNotDownloadedAttachment.args = {
@@ -1959,11 +1738,9 @@ AudioWithNotDownloadedAttachment.args = {
     fakeAttachment({
       contentType: AUDIO_MP3,
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const AudioWithPendingAttachment = Template.bind({});
 AudioWithPendingAttachment.args = {
@@ -1973,11 +1750,9 @@ AudioWithPendingAttachment.args = {
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
       pending: true,
       size: 1000000,
-      totalDownloaded: 570000,
-    }),
+      totalDownloaded: 570000}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 // Poll Messages
 
@@ -2002,7 +1777,6 @@ function createMockPollWithVotes(
         from: {
           acceptedMessageRequest: true,
           avatarUrl: undefined,
-          badges: [],
           color: ConversationColors[idx % ConversationColors.length],
           id: vote.fromId,
           isMe: vote.fromId === 'me',
@@ -2010,9 +1784,7 @@ function createMockPollWithVotes(
           phoneNumber: undefined,
           profileName: undefined,
           sharedGroupNames: [],
-          title: name,
-        },
-      };
+          title: name}};
     }) || [];
 
   const votesByOption = new Map();
@@ -2039,9 +1811,7 @@ function createMockPollWithVotes(
       fromConversationId: v.fromId,
       optionIndexes: v.optionIndexes,
       voteCount: 1,
-      timestamp: Date.now(),
-    })),
-  };
+      timestamp: Date.now()}))};
 }
 
 export const Poll = Template.bind({});
@@ -2052,10 +1822,8 @@ Poll.args = {
     options: ['Pizza 🍕', 'Sushi 🍱', 'Tacos 🌮', 'Salad 🥗'],
     allowMultiple: false,
     votesByOption: new Map(),
-    totalNumVotes: 0,
-  },
-  status: 'sent',
-};
+    totalNumVotes: 0},
+  status: 'sent'};
 
 export const PollMultipleChoice = Template.bind({});
 PollMultipleChoice.args = {
@@ -2065,10 +1833,8 @@ PollMultipleChoice.args = {
     options: ['Dark mode', 'Video calls', 'File sharing', 'Reactions', 'Polls'],
     allowMultiple: true,
     votesByOption: new Map(),
-    totalNumVotes: 0,
-  },
-  status: 'sent',
-};
+    totalNumVotes: 0},
+  status: 'sent'};
 
 export const PollWithVotes = Template.bind({});
 PollWithVotes.args = {
@@ -2091,8 +1857,7 @@ PollWithVotes.args = {
       { fromId: 'me', optionIndexes: [3] },
     ]
   ),
-  status: 'read',
-};
+  status: 'read'};
 
 export const PollTerminated = Template.bind({});
 PollTerminated.args = {
@@ -2116,8 +1881,7 @@ PollTerminated.args = {
     ],
     Date.now() - 60000
   ),
-  status: 'read',
-};
+  status: 'read'};
 
 export const PollLongText = Template.bind({});
 PollLongText.args = {
@@ -2141,8 +1905,7 @@ PollLongText.args = {
       { fromId: 'eve', optionIndexes: [3] },
     ]
   ),
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const PollMultipleChoiceWithVotes = Template.bind({});
 PollMultipleChoiceWithVotes.args = {
@@ -2166,8 +1929,7 @@ PollMultipleChoiceWithVotes.args = {
       { fromId: 'dana', optionIndexes: [2, 4, 5] }, // Sausage, Olives, Extra Cheese
     ]
   ),
-  status: 'read',
-};
+  status: 'read'};
 
 export const OtherFileType = Template.bind({});
 OtherFileType.args = {
@@ -2176,11 +1938,9 @@ OtherFileType.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'things.zip',
       url: 'things.zip',
-      size: 10200000,
-    }),
+      size: 10200000}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeWithExpirationTimer = Template.bind({});
 OtherFileTypeWithExpirationTimer.args = {
@@ -2189,13 +1949,11 @@ OtherFileTypeWithExpirationTimer.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'things.zip',
       url: 'things.zip',
-      size: 10200000,
-    }),
+      size: 10200000}),
   ],
   expirationLength: 30 * 1000,
   expirationTimestamp: Date.now() + 30 * 1000,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeFourChar = Template.bind({});
 OtherFileTypeFourChar.args = {
@@ -2204,11 +1962,9 @@ OtherFileTypeFourChar.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'things.four',
       url: 'things.four',
-      size: 10200000,
-    }),
+      size: 10200000}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeFiveChar = Template.bind({});
 OtherFileTypeFiveChar.args = {
@@ -2217,11 +1973,9 @@ OtherFileTypeFiveChar.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName: 'things.cinco',
       url: 'things.cinco',
-      size: 10200000,
-    }),
+      size: 10200000}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeUndownloaded = Template.bind({});
 OtherFileTypeUndownloaded.args = {
@@ -2231,11 +1985,9 @@ OtherFileTypeUndownloaded.args = {
       fileName: 'things.zip',
       url: 'things.zip',
       size: 10200000,
-      path: undefined,
-    }),
+      path: undefined}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeDownloading = Template.bind({});
 OtherFileTypeDownloading.args = {
@@ -2247,11 +1999,9 @@ OtherFileTypeDownloading.args = {
       size: 10200000,
       path: undefined,
       pending: true,
-      totalDownloaded: 7500000,
-    }),
+      totalDownloaded: 7500000}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeWithCaption = Template.bind({});
 OtherFileTypeWithCaption.args = {
@@ -2259,12 +2009,10 @@ OtherFileTypeWithCaption.args = {
     fakeAttachment({
       contentType: stringToMIMEType('text/plain'),
       fileName: 'my-resume.txt',
-      url: 'my-resume.txt',
-    }),
+      url: 'my-resume.txt'}),
   ],
   status: 'sent',
-  text: 'This is what I have done.',
-};
+  text: 'This is what I have done.'};
 
 export const OtherFileTypeWithLongFilename = Template.bind({});
 OtherFileTypeWithLongFilename.args = {
@@ -2273,11 +2021,9 @@ OtherFileTypeWithLongFilename.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName:
         'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
-      url: 'a2/a2334324darewer4234',
-    }),
+      url: 'a2/a2334324darewer4234'}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const OtherFileTypeWithLongFilenameAndCaption = Template.bind({});
 OtherFileTypeWithLongFilenameAndCaption.args = {
@@ -2286,12 +2032,10 @@ OtherFileTypeWithLongFilenameAndCaption.args = {
       contentType: stringToMIMEType('text/plain'),
       fileName:
         'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
-      url: 'a2/a2334324darewer4234',
-    }),
+      url: 'a2/a2334324darewer4234'}),
   ],
   status: 'sent',
-  text: 'This is what I have done.',
-};
+  text: 'This is what I have done.'};
 
 export const DangerousFileType = Template.bind({});
 DangerousFileType.args = {
@@ -2301,11 +2045,9 @@ DangerousFileType.args = {
         'application/vnd.microsoft.portable-executable'
       ),
       fileName: 'terrible.exe',
-      url: 'terrible.exe',
-    }),
+      url: 'terrible.exe'}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewImage = Template.bind({});
 TapToViewImage.args = {
@@ -2315,12 +2057,10 @@ TapToViewImage.args = {
       fileName: 'tina-rolf-269345-unsplash.jpg',
       contentType: IMAGE_JPEG,
       width: 128,
-      height: 128,
-    }),
+      height: 128}),
   ],
   isTapToView: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewImageInGroup = Template.bind({});
 TapToViewImageInGroup.args = {
@@ -2330,13 +2070,11 @@ TapToViewImageInGroup.args = {
       fileName: 'tina-rolf-269345-unsplash.jpg',
       contentType: IMAGE_JPEG,
       width: 128,
-      height: 128,
-    }),
+      height: 128}),
   ],
   isTapToView: true,
   status: 'sent',
-  conversationType: 'group',
-};
+  conversationType: 'group'};
 
 export const TapToViewVideo = Template.bind({});
 TapToViewVideo.args = {
@@ -2346,12 +2084,10 @@ TapToViewVideo.args = {
       fileName: 'pixabay-Soap-Bubble-7141.mp4',
       height: 128,
       url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-      width: 128,
-    }),
+      width: 128}),
   ],
   isTapToView: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewGif = Template.bind({});
 TapToViewGif.args = {
@@ -2362,12 +2098,10 @@ TapToViewGif.args = {
       fileName: 'cat-gif.mp4',
       url: '/fixtures/cat-gif.mp4',
       width: 400,
-      height: 332,
-    }),
+      height: 332}),
   ],
   isTapToView: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewImageUndownloaded = Template.bind({});
 TapToViewImageUndownloaded.args = {
@@ -2378,12 +2112,10 @@ TapToViewImageUndownloaded.args = {
       width: 128,
       height: 128,
       path: undefined,
-      size: 1800000,
-    }),
+      size: 1800000}),
   ],
   isTapToView: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewImageDownloading = Template.bind({});
 TapToViewImageDownloading.args = {
@@ -2396,34 +2128,29 @@ TapToViewImageDownloading.args = {
       path: undefined,
       pending: true,
       size: 1800000,
-      totalDownloaded: 500000,
-    }),
+      totalDownloaded: 500000}),
   ],
   isTapToView: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewViewed = Template.bind({});
 TapToViewViewed.args = {
   readStatus: ReadStatus.Viewed,
   isTapToView: true,
   isTapToViewExpired: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewExpired = Template.bind({});
 TapToViewExpired.args = {
   isTapToView: true,
   isTapToViewExpired: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export const TapToViewError = Template.bind({});
 TapToViewError.args = {
   isTapToView: true,
   isTapToViewError: true,
-  status: 'sent',
-};
+  status: 'sent'};
 
 export function Colors(): JSX.Element {
   return (
@@ -2433,8 +2160,7 @@ export function Colors(): JSX.Element {
           {renderBothDirections(
             createProps({
               conversationColor: color,
-              text: `Here is a preview of the chat color: ${color}. The color is visible to only you.`,
-            })
+              text: `Here is a preview of the chat color: ${color}. The color is visible to only you.`})
           )}
         </div>
       ))}
@@ -2450,11 +2176,9 @@ Mentions.args = {
       length: 1,
       mentionAci: generateAci(),
       replacementText: 'Zapp Brannigan',
-      conversationID: 'x',
-    },
+      conversationID: 'x'},
   ],
-  text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
-};
+  text: '\uFFFC This Is It. The Moment We Should Have Trained For.'};
 
 export function AllTheContextMenus(): JSX.Element {
   const props = createProps({
@@ -2464,14 +2188,12 @@ export function AllTheContextMenus(): JSX.Element {
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
-        height: 128,
-      }),
+        height: 128}),
     ],
     status: 'partial-sent',
     canDeleteForEveryone: true,
     canRetry: true,
-    canRetryDeleteForEveryone: true,
-  });
+    canRetryDeleteForEveryone: true});
 
   return <TimelineMessage {...props} direction="outgoing" />;
 }
@@ -2486,21 +2208,18 @@ NotApprovedWithLinkPreview.args = {
         fileName: 'the-sax.png',
         height: 240,
         url: pngUrl,
-        width: 320,
-      }),
+        width: 320}),
       isStickerPack: false,
       isCallLink: false,
       title: 'Signal',
       description:
         'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
       url: 'https://www.signal.org',
-      date: new Date(2020, 2, 10).valueOf(),
-    },
+      date: new Date(2020, 2, 10).valueOf()},
   ],
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
-  isMessageRequestAccepted: false,
-};
+  isMessageRequestAccepted: false};
 
 export function CustomColor(): JSX.Element {
   return (
@@ -2509,9 +2228,7 @@ export function CustomColor(): JSX.Element {
         ...createProps({ text: 'Solid.' }),
         direction: 'outgoing',
         customColor: {
-          start: { hue: 82, saturation: 35 },
-        },
-      })}
+          start: { hue: 82, saturation: 35 }}})}
       <br style={{ clear: 'both' }} />
       {renderThree({
         ...createProps({ text: 'Gradient.' }),
@@ -2519,9 +2236,7 @@ export function CustomColor(): JSX.Element {
         customColor: {
           deg: 192,
           start: { hue: 304, saturation: 85 },
-          end: { hue: 231, saturation: 76 },
-        },
-      })}
+          end: { hue: 231, saturation: 76 }}})}
     </>
   );
 }
@@ -2534,35 +2249,29 @@ export const CollapsingTextOnlyDMs = (): JSX.Element => {
     createProps({
       author: them,
       text: 'One',
-      timestamp: Date.now() - 5 * MINUTE,
-    }),
+      timestamp: Date.now() - 5 * MINUTE}),
     createProps({
       author: them,
       text: 'Two',
-      timestamp: Date.now() - 4 * MINUTE,
-    }),
+      timestamp: Date.now() - 4 * MINUTE}),
     createProps({
       author: them,
       text: 'Three',
-      timestamp: Date.now() - 3 * MINUTE,
-    }),
+      timestamp: Date.now() - 3 * MINUTE}),
     createProps({
       author: me,
       direction: 'outgoing',
       text: 'Four',
-      timestamp: Date.now() - 2 * MINUTE,
-    }),
+      timestamp: Date.now() - 2 * MINUTE}),
     createProps({
       text: 'Five',
       author: me,
       timestamp: Date.now() - MINUTE,
-      direction: 'outgoing',
-    }),
+      direction: 'outgoing'}),
     createProps({
       author: me,
       direction: 'outgoing',
-      text: 'Six',
-    }),
+      text: 'Six'}),
   ]);
 };
 
@@ -2574,19 +2283,16 @@ export const CollapsingTextOnlyGroupMessages = (): JSX.Element => {
       author,
       conversationType: 'group',
       text: 'One',
-      timestamp: Date.now() - 2 * MINUTE,
-    }),
+      timestamp: Date.now() - 2 * MINUTE}),
     createProps({
       author,
       conversationType: 'group',
       text: 'Two',
-      timestamp: Date.now() - MINUTE,
-    }),
+      timestamp: Date.now() - MINUTE}),
     createProps({
       author,
       conversationType: 'group',
-      text: 'Three',
-    }),
+      text: 'Three'}),
   ]);
 };
 
@@ -2601,11 +2307,8 @@ export const StoryReply = (): JSX.Element => {
       isFromMe: false,
       rawAttachment: fakeAttachment({
         url: '/fixtures/snow.jpg',
-        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
-      }),
-      text: 'Photo',
-    },
-  });
+        thumbnail: fakeThumbnail('/fixtures/snow.jpg')}),
+      text: 'Photo'}});
 };
 
 export const StoryReplyYours = (): JSX.Element => {
@@ -2619,11 +2322,8 @@ export const StoryReplyYours = (): JSX.Element => {
       isFromMe: true,
       rawAttachment: fakeAttachment({
         url: '/fixtures/snow.jpg',
-        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
-      }),
-      text: 'Photo',
-    },
-  });
+        thumbnail: fakeThumbnail('/fixtures/snow.jpg')}),
+      text: 'Photo'}});
 };
 
 export const StoryReplyEmoji = (): JSX.Element => {
@@ -2638,47 +2338,37 @@ export const StoryReplyEmoji = (): JSX.Element => {
       isFromMe: false,
       rawAttachment: fakeAttachment({
         url: '/fixtures/snow.jpg',
-        thumbnail: fakeThumbnail('/fixtures/snow.jpg'),
-      }),
-      text: 'Photo',
-    },
-  });
+        thumbnail: fakeThumbnail('/fixtures/snow.jpg')}),
+      text: 'Photo'}});
 };
 
 const fullContact = {
   avatar: {
     avatar: fakeAttachment({
       path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
-      contentType: IMAGE_GIF,
-    }),
-    isProfile: true,
-  },
+      contentType: IMAGE_GIF}),
+    isProfile: true},
   email: [
     {
       value: 'jerjor@fakemail.com',
-      type: ContactFormType.HOME,
-    },
+      type: ContactFormType.HOME},
   ],
   name: {
     givenName: 'Jerry',
     familyName: 'Jordan',
     prefix: 'Dr.',
     suffix: 'Jr.',
-    middleName: 'James',
-  },
+    middleName: 'James'},
   number: [
     {
       value: '555-444-2323',
-      type: ContactFormType.HOME,
-    },
-  ],
-};
+      type: ContactFormType.HOME},
+  ]};
 
 export const EmbeddedContactFullContact = Template.bind({});
 EmbeddedContactFullContact.args = {
   contact: fullContact,
-  canForward: false,
-};
+  canForward: false};
 
 export const EmbeddedContactAvatarUndownloaded = Template.bind({});
 EmbeddedContactAvatarUndownloaded.args = {
@@ -2687,13 +2377,9 @@ EmbeddedContactAvatarUndownloaded.args = {
     avatar: {
       avatar: fakeAttachment({
         path: undefined,
-        contentType: IMAGE_GIF,
-      }),
-      isProfile: true,
-    },
-  },
-  canForward: false,
-};
+        contentType: IMAGE_GIF}),
+      isProfile: true}},
+  canForward: false};
 export const EmbeddedContactAvatarDownloading = Template.bind({});
 EmbeddedContactAvatarDownloading.args = {
   contact: {
@@ -2704,13 +2390,9 @@ EmbeddedContactAvatarDownloading.args = {
         pending: true,
         contentType: IMAGE_GIF,
         size: 1000000,
-        totalDownloaded: 500000,
-      }),
-      isProfile: true,
-    },
-  },
-  canForward: false,
-};
+        totalDownloaded: 500000}),
+      isProfile: true}},
+  canForward: false};
 export const EmbeddedContactAvatarTransientError = Template.bind({});
 EmbeddedContactAvatarTransientError.args = {
   contact: {
@@ -2725,13 +2407,9 @@ EmbeddedContactAvatarTransientError.args = {
         error: true,
         contentType: IMAGE_GIF,
         size: 1000000,
-        totalDownloaded: 500000,
-      }),
-      isProfile: true,
-    },
-  },
-  canForward: false,
-};
+        totalDownloaded: 500000}),
+      isProfile: true}},
+  canForward: false};
 export const EmbeddedContactAvatarPermanentError = Template.bind({});
 EmbeddedContactAvatarPermanentError.args = {
   contact: {
@@ -2745,177 +2423,54 @@ EmbeddedContactAvatarPermanentError.args = {
         path: undefined,
         contentType: IMAGE_GIF,
         size: 1000000,
-        totalDownloaded: 500000,
-      }),
-      isProfile: true,
-    },
-  },
-  canForward: false,
-};
+        totalDownloaded: 500000}),
+      isProfile: true}},
+  canForward: false};
 
 export const EmbeddedContactWithSendMessage = Template.bind({});
 EmbeddedContactWithSendMessage.args = {
   contact: {
     ...fullContact,
     firstNumber: fullContact.number[0].value,
-    serviceId: generateAci(),
-  },
+    serviceId: generateAci()},
   direction: 'incoming',
-  canForward: false,
-};
+  canForward: false};
 
 export const EmbeddedContactOnlyEmail = Template.bind({});
 EmbeddedContactOnlyEmail.args = {
   contact: {
-    email: fullContact.email,
-  },
-  canForward: false,
-};
+    email: fullContact.email},
+  canForward: false};
 
 export const EmbeddedContactGivenName = Template.bind({});
 EmbeddedContactGivenName.args = {
   contact: {
     name: {
-      givenName: 'Jerry',
-    },
-  },
-  canForward: false,
-};
+      givenName: 'Jerry'}},
+  canForward: false};
 
 export const EmbeddedContactOrganization = Template.bind({});
 EmbeddedContactOrganization.args = {
   contact: {
-    organization: 'Company 5',
-  },
-  canForward: false,
-};
+    organization: 'Company 5'},
+  canForward: false};
 
 export const EmbeddedContactGivenFamilyName = Template.bind({});
 EmbeddedContactGivenFamilyName.args = {
   contact: {
     name: {
       givenName: 'Jerry',
-      familyName: 'FamilyName',
-    },
-  },
-  canForward: false,
-};
+      familyName: 'FamilyName'}},
+  canForward: false};
 
 export const EmbeddedContactFamilyName = Template.bind({});
 EmbeddedContactFamilyName.args = {
   contact: {
     name: {
-      familyName: 'FamilyName',
-    },
-  },
-  canForward: false,
-};
+      familyName: 'FamilyName'}},
+  canForward: false};
 
-export const GiftBadgeUnopened = Template.bind({});
-GiftBadgeUnopened.args = {
-  giftBadge: {
-    id: 'GIFT',
-    expiration: Date.now() + DAY * 30,
-    level: 3,
-    state: GiftBadgeStates.Unopened,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeFailed = Template.bind({});
-GiftBadgeFailed.args = {
-  giftBadge: {
-    state: GiftBadgeStates.Failed,
-  },
-  canForward: false,
-};
-
-const getPreferredBadge = () => ({
-  category: BadgeCategory.Donor,
-  descriptionTemplate: 'This is a description of the badge',
-  id: 'GIFT',
-  images: [
-    {
-      transparent: {
-        localPath: '/fixtures/orange-heart.svg',
-        url: 'http://someplace',
-      },
-    },
-  ],
-  name: 'heart',
-});
-
-export const GiftBadgeRedeemed30Days = Template.bind({});
-GiftBadgeRedeemed30Days.args = {
-  getPreferredBadge,
-  giftBadge: {
-    expiration: Date.now() + DAY * 30 + SECOND,
-    id: 'GIFT',
-    level: 3,
-    state: GiftBadgeStates.Redeemed,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeRedeemed24Hours = Template.bind({});
-GiftBadgeRedeemed24Hours.args = {
-  getPreferredBadge,
-  giftBadge: {
-    expiration: Date.now() + DAY + SECOND,
-    id: 'GIFT',
-    level: 3,
-    state: GiftBadgeStates.Redeemed,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeOpened60Minutes = Template.bind({});
-GiftBadgeOpened60Minutes.args = {
-  getPreferredBadge,
-  giftBadge: {
-    expiration: Date.now() + HOUR + SECOND,
-    id: 'GIFT',
-    level: 3,
-    state: GiftBadgeStates.Opened,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeRedeemed1Minute = Template.bind({});
-GiftBadgeRedeemed1Minute.args = {
-  getPreferredBadge,
-  giftBadge: {
-    expiration: Date.now() + MINUTE + SECOND,
-    id: 'GIFT',
-    level: 3,
-    state: GiftBadgeStates.Redeemed,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeOpenedExpired = Template.bind({});
-GiftBadgeOpenedExpired.args = {
-  getPreferredBadge,
-  giftBadge: {
-    expiration: Date.now(),
-    id: 'GIFT',
-    level: 3,
-    state: GiftBadgeStates.Opened,
-  },
-  canForward: false,
-};
-
-export const GiftBadgeMissingBadge = Template.bind({});
-GiftBadgeMissingBadge.args = {
-  getPreferredBadge: () => undefined,
-  giftBadge: {
-    expiration: Date.now() + MINUTE + SECOND,
-    id: 'MISSING',
-    level: 3,
-    state: GiftBadgeStates.Redeemed,
-  },
-  canForward: false,
-};
+// Gift badge stories removed - feature not needed in Orbital
 
 export const PaymentNotification = Template.bind({});
 PaymentNotification.args = {
@@ -2924,15 +2479,12 @@ PaymentNotification.args = {
   canForward: false,
   payment: {
     kind: PaymentEventKind.Notification,
-    note: 'Hello there',
-  },
-};
+    note: 'Hello there'}};
 
 export const SMS = Template.bind({});
 SMS.args = {
   isSMS: true,
-  text: 'hello',
-};
+  text: 'hello'};
 
 function MultiSelectMessage() {
   const [selected, setSelected] = React.useState(false);
@@ -2945,8 +2497,7 @@ function MultiSelectMessage() {
         isSelectMode: true,
         toggleSelectMessage(_conversationId, _messageId, _shift, newSelected) {
           setSelected(newSelected);
-        },
-      })}
+        }})}
     />
   );
 }
@@ -2962,8 +2513,7 @@ export function MultiSelect(): JSX.Element {
 }
 
 MultiSelect.args = {
-  name: 'Multi Select',
-};
+  name: 'Multi Select'};
 
 export function PermanentlyUndownloadableAttachments(): JSX.Element {
   const imageProps = createProps({
@@ -2978,11 +2528,9 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const undisplayableVideo = createProps({
     attachments: [
       fakeAttachment({
@@ -2995,11 +2543,9 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
 
   const multipleImagesProps = createProps({
     attachments: [
@@ -3013,8 +2559,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
       fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'bird.jpg',
@@ -3025,11 +2570,9 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const multipleImagesSomeUndownloadableProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3039,8 +2582,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 296,
         height: 394,
-        isPermanentlyUndownloadable: false,
-      }),
+        isPermanentlyUndownloadable: false}),
       fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'bird.jpg',
@@ -3051,11 +2593,9 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const gifProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3069,12 +2609,10 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
     status: 'sent',
-    text: 'cool gif',
-  });
+    text: 'cool gif'});
   const videoProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3086,11 +2624,9 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const audioProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3102,15 +2638,12 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const audioWithCaptionProps = {
     ...audioProps,
-    text: "Here's that file",
-  };
+    text: "Here's that file"};
   const textFileProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3122,15 +2655,12 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         key: undefined,
         id: undefined,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
-    status: 'sent',
-  });
+    status: 'sent'});
   const textFileWithCaptionProps = {
     ...textFileProps,
-    text: "Here's that file",
-  };
+    text: "Here's that file"};
   const stickerProps = createProps({
     attachments: [
       fakeAttachment({
@@ -3139,12 +2669,10 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         width: 128,
         height: 128,
         error: true,
-        isPermanentlyUndownloadable: true,
-      }),
+        isPermanentlyUndownloadable: true}),
     ],
     isSticker: true,
-    status: 'sent',
-  });
+    status: 'sent'});
   const longMessageProps = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
     textAttachment: {
@@ -3153,14 +2681,11 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
       pending: false,
       key: undefined,
       error: true,
-      isPermanentlyUndownloadable: true,
-    },
-  });
+      isPermanentlyUndownloadable: true}});
 
   const outgoingAuthor = {
     ...imageProps.author,
-    id: getDefaultConversation().id,
-  };
+    id: getDefaultConversation().id};
 
   return (
     <>
@@ -3242,8 +2767,6 @@ AttachmentWithError.args = {
       width: 296,
       height: 394,
       path: undefined,
-      error: true,
-    }),
+      error: true}),
   ],
-  status: 'sent',
-};
+  status: 'sent'};

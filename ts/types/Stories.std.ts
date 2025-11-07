@@ -1,68 +1,52 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-import type { ServiceIdString } from './ServiceId.std.js';
-
-// Removed unused import
-// import type { ConversationType } from './Conversation.preload.js';
-
-export type StoryViewType = never;
-export type ConversationStoryType = never;
-export type MyStoryType = never;
-export type StorySendStateType = never;
-export type StoryDataType = never;
-
-// Re-export from ducks for test helpers
-export type StoryDistributionListWithMembersDataType = {
+export type StoryDistributionIdString = string;
+export type AttachmentType = any;
+export type StoryDistribution = never;
+export type StoryDistributionListDataType = {
   id: string;
   name: string;
-  memberServiceIds: Array<ServiceIdString>;
   allowsReplies: boolean;
   isBlockList: boolean;
-  members: Array<any>; // REMOVED: Orbital cleanup - ConversationType import removed
+  memberServiceIds: Array<string>;
+};
+export type StoryDistributionListWithMembersDataType = StoryDistributionListDataType & {
+  members: Array<any>;
 };
 
-export type RecipientEntry = never;
+// Enum stub for HasStories (used as both type and value)
+export const HasStories = {
+  Self: 'self' as const,
+  Unread: 'unread' as const,
+  Read: 'read' as const,
+};
+export type HasStories = typeof HasStories[keyof typeof HasStories] | undefined;
 
-// Export as both enum and type to support boolean values from stub
-export enum HasStoriesEnum {
-  Unread = 'Unread',
-  Read = 'Read',
-  IfMuted = 'IfMuted',
-}
+// Enum stub for StoryViewModeType (used as both type and value)
+export const StoryViewModeType = {
+  User: 'user' as const,
+  Single: 'single' as const,
+  Unread: 'unread' as const,
+};
+export type StoryViewModeType = typeof StoryViewModeType[keyof typeof StoryViewModeType];
 
-// HasStories type accepts both boolean (from stub) and enum values
-export type HasStories = boolean | HasStoriesEnum;
+// Enum stub for StoryViewTargetType (used as both type and value)
+export const StoryViewTargetType = {
+  Replies: 'replies' as const,
+  Views: 'views' as const,
+};
+export type StoryViewTargetType = typeof StoryViewTargetType[keyof typeof StoryViewTargetType];
 
-// Re-export enum values for backward compatibility
-export const HasStories = HasStoriesEnum;
-
+// Enum stub for StorySendMode
 export enum StorySendMode {
+  IfActive = 'IfActive',
   Always = 'Always',
   Never = 'Never',
-  IfActive = 'IfActive',
 }
 
-export enum StoryViewModeType {
-  Single = 'Single',
-  User = 'User',
-  All = 'All',
-  Hidden = 'Hidden',
-  Unread = 'Unread',
-}
-
-export enum StoryViewTargetType {
-  Replies = 'Replies',
-  Views = 'Views',
-  Single = 'Single',
-}
-
-import type { StoryDistributionIdString } from './StoryDistributionId.std.js';
-
-export const MY_STORY_ID = 'MY_STORY_ID' as StoryDistributionIdString;
-
-// Empty exports to satisfy TypeScript
-export {};
+// Constant stub for MY_STORY_ID
+export const MY_STORY_ID = '00000000-0000-0000-0000-000000000000';

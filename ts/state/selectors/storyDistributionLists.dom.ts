@@ -1,8 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// REMOVED: Orbital cleanup - Stories feature removed
-// This file exists as a stub to prevent import errors during the transition
+import type { StateType } from '../reducer';
 
-export const getDistributionListSelector = () => () => undefined;
-export const getDistributionLists = () => [];
+export function getDistributionListSelector(
+  _state: StateType
+): () => null {
+  return () => null;
+}

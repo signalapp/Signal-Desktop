@@ -11,22 +11,18 @@ import { useItemsActions } from '../ducks/items.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import {
   getConversationsWithCustomColorSelector,
-  getMe,
-} from '../selectors/conversations.dom.js';
+  getMe} from '../selectors/conversations.dom.js';
 import {
   getCustomColors,
   getItems,
   getNavTabsCollapsed,
-  getPreferredLeftPaneWidth,
-} from '../selectors/items.dom.js';
+  getPreferredLeftPaneWidth} from '../selectors/items.dom.js';
 import {
   itemStorage,
-  DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
-} from '../../textsecure/Storage.preload.js';
+  DEFAULT_AUTO_DOWNLOAD_ATTACHMENT} from '../../textsecure/Storage.preload.js';
 import {
   onHasStoriesDisabledChange,
-  setPhoneNumberDiscoverability,
-} from '../../textsecure/WebAPI.preload.js';
+  setPhoneNumberDiscoverability} from '../../textsecure/WebAPI.preload.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
 import { isBackupFeatureEnabled } from '../../util/isBackupEnabled.preload.js';
 import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
@@ -36,8 +32,7 @@ import {
   getIntl,
   getTheme,
   getUserDeviceId,
-  getUserNumber,
-} from '../selectors/user.std.js';
+  getUserNumber} from '../selectors/user.std.js';
 import { EmojiSkinTone } from '../../components/fun/data/emojis.std.js';
 import { renderClearingDataView } from '../../shims/renderClearingDataView.preload.js';
 import OS from '../../util/os/osPreload.preload.js';
@@ -47,8 +42,7 @@ import * as universalExpireTimerUtil from '../../util/universalExpireTimer.prelo
 import {
   parseSystemTraySetting,
   shouldMinimizeToSystemTray,
-  SystemTraySetting,
-} from '../../types/SystemTraySetting.std.js';
+  SystemTraySetting} from '../../types/SystemTraySetting.std.js';
 import { calling } from '../../services/calling.preload.js';
 import { drop } from '../../util/drop.std.js';
 import { assertDev } from '../../util/assert.std.js';
@@ -68,8 +62,7 @@ import { getUpdateDialogType } from '../selectors/updates.std.js';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
 import {
   getOtherTabsUnreadStats,
-  getSelectedLocation,
-} from '../selectors/nav.preload.js';
+  getSelectedLocation} from '../selectors/nav.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { SmartProfileEditor } from './ProfileEditor.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
@@ -80,14 +73,13 @@ import { useToastActions } from '../ducks/toast.preload.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
-import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
-import { useDonationsActions } from '../ducks/donations.preload.js';
-import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
+// REMOVED: import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
+// REMOVED: import { useDonationsActions } from '../ducks/donations.preload.js';
+// REMOVED: import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
 
 import type {
   StorageAccessType,
-  ZoomFactorType,
-} from '../../types/Storage.d.ts';
+  ZoomFactorType} from '../../types/Storage.d.ts';
 import type { ThemeType } from '../../util/preload.preload.js';
 import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { DialogType } from '../../types/Dialogs.std.js';
@@ -96,9 +88,8 @@ import type { StateType } from '../reducer.preload.js';
 import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
-  cancelBackupMediaDownload,
-} from '../../util/backupMediaDownload.preload.js';
-import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
+  cancelBackupMediaDownload} from '../../util/backupMediaDownload.preload.js';
+// REMOVED: import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
@@ -106,12 +97,10 @@ import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderP
 import { AxoProvider } from '../../axo/AxoProvider.dom.js';
 import {
   getCurrentChatFoldersCount,
-  getHasAnyCurrentCustomChatFolders,
-} from '../selectors/chatFolders.std.js';
+  getHasAnyCurrentCustomChatFolders} from '../selectors/chatFolders.std.js';
 import {
   SmartNotificationProfilesCreateFlow,
-  SmartNotificationProfilesHome,
-} from './PreferencesNotificationProfiles.preload.js';
+  SmartNotificationProfilesHome} from './PreferencesNotificationProfiles.preload.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
 import { getProfiles } from '../selectors/notificationProfiles.dom.js';
 import { backupLevelFromNumber } from '../../services/backups/types.std.js';
@@ -161,24 +150,13 @@ function renderToastManager(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-function renderDonationsPane({
-  contentsRef,
-  settingsLocation,
-  setSettingsLocation,
-}: {
+function renderDonationsPane(_options: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
 }): JSX.Element {
-  return (
-    <DonationsErrorBoundary>
-      <SmartPreferencesDonations
-        contentsRef={contentsRef}
-        settingsLocation={settingsLocation}
-        setSettingsLocation={setSettingsLocation}
-      />
-    </DonationsErrorBoundary>
-  );
+  // REMOVED: Donations feature
+  return <div>Donations feature removed</div>;
 }
 
 function getSystemTraySettingValues(
@@ -190,8 +168,7 @@ function getSystemTraySettingValues(
   if (systemTraySetting === undefined) {
     return {
       hasMinimizeToAndStartInSystemTray: undefined,
-      hasMinimizeToSystemTray: undefined,
-    };
+      hasMinimizeToSystemTray: undefined};
   }
 
   const parsedSystemTraySetting = parseSystemTraySetting(systemTraySetting);
@@ -204,8 +181,7 @@ function getSystemTraySettingValues(
 
   return {
     hasMinimizeToAndStartInSystemTray,
-    hasMinimizeToSystemTray,
-  };
+    hasMinimizeToSystemTray};
 }
 
 export function SmartPreferences(): JSX.Element | null {
@@ -218,14 +194,21 @@ export function SmartPreferences(): JSX.Element | null {
     savePreferredLeftPaneWidth,
     setEmojiSkinToneDefault: onEmojiSkinToneDefaultChange,
     setGlobalDefaultConversationColor,
-    toggleNavTabsCollapse,
-  } = useItemsActions();
+    toggleNavTabsCollapse} = useItemsActions();
   const { removeCustomColorOnConversations, resetAllChatColors } =
     useConversationsActions();
   const { startUpdate } = useUpdatesActions();
   const { changeLocation } = useNavActions();
   const { showToast } = useToastActions();
+
+  // STUB: Donations removed for Orbital - stub the hook
+  const useDonationsActions = () => ({ internalAddDonationReceipt: () => {} });
   const { internalAddDonationReceipt } = useDonationsActions();
+
+  // STUB: generateDonationReceiptBlob removed for Orbital
+  const generateDonationReceiptBlob = async (_receipt: any, _i18n: any): Promise<Blob> => {
+    return new Blob([''], { type: 'text/plain' });
+  };
 
   // Selectors
 
@@ -237,20 +220,16 @@ export function SmartPreferences(): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const dialogType = useSelector(getUpdateDialogType);
   const items = useSelector(getItems);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  // REMOVED: const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const me = useSelector(getMe);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const theme = useSelector(getTheme);
-  const donationReceipts = useSelector(
-    (state: StateType) => state.donations.receipts
-  );
+    const theme = useSelector(getTheme);
+  const donationReceipts: ReadonlyArray<any> = []; // REMOVED: Donations feature
   const notificationProfileCount = useSelector(getProfiles).length;
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
-  const badge = getPreferredBadge(me.badges);
   const currentChatFoldersCount = useSelector(getCurrentChatFoldersCount);
   const hasAnyCurrentCustomChatFolders = useSelector(
     getHasAnyCurrentCustomChatFolders
@@ -363,8 +342,7 @@ export function SmartPreferences(): JSX.Element | null {
       const {
         availableCameras: cameras,
         availableMicrophones: microphones,
-        availableSpeakers: speakers,
-      } = await calling.getAvailableIODevices();
+        availableSpeakers: speakers} = await calling.getAvailableIODevices();
 
       if (canceled) {
         return;
@@ -564,8 +542,7 @@ export function SmartPreferences(): JSX.Element | null {
     backupMediaDownloadCompletedBytes,
     backupMediaDownloadTotalBytes,
     attachmentDownloadManagerIdled,
-    backupMediaDownloadPaused,
-  } = items;
+    backupMediaDownloadPaused} = items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
   const hasLinkPreviews = items.linkPreviews ?? false;
@@ -736,8 +713,7 @@ export function SmartPreferences(): JSX.Element | null {
       // Write profile after updating storage so that the write has up-to-date
       // information.
       await writeProfile(getConversation(account), {
-        keepAvatar: true,
-      });
+        keepAvatar: true});
     }
   );
 
@@ -759,11 +735,13 @@ export function SmartPreferences(): JSX.Element | null {
   const setSettingsLocation = (location: SettingsLocation) => {
     changeLocation({
       tab: NavTab.Settings,
-      details: location,
-    });
+      details: location});
   };
 
   const accountEntropyPool = itemStorage.get('accountEntropyPool');
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
 
   return (
     <StrictMode>
@@ -787,10 +765,8 @@ export function SmartPreferences(): JSX.Element | null {
             completedBytes: backupMediaDownloadCompletedBytes ?? 0,
             totalBytes: backupMediaDownloadTotalBytes ?? 0,
             isPaused: Boolean(backupMediaDownloadPaused),
-            isIdle: Boolean(attachmentDownloadManagerIdled),
-          }}
+            isIdle: Boolean(attachmentDownloadManagerIdled)}}
           backupLocalBackupsEnabled={backupLocalBackupsEnabled}
-          badge={badge}
           blockedCount={blockedCount}
           chatFoldersFeatureEnabled={isChatFoldersEnabled(version)}
           currentChatFoldersCount={currentChatFoldersCount}
@@ -820,7 +796,6 @@ export function SmartPreferences(): JSX.Element | null {
           hasCallRingtoneNotification={hasCallRingtoneNotification}
           hasContentProtection={hasContentProtection}
           hasCountMutedConversations={hasCountMutedConversations}
-          hasFailedStorySends={hasFailedStorySends}
           hasHideMenuBar={hasHideMenuBar}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
           hasLinkPreviews={hasLinkPreviews}

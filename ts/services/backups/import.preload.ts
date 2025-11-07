@@ -4,8 +4,7 @@
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import {
   BackupLevel,
-  ReceiptCredentialPresentation,
-} from '@signalapp/libsignal-client/zkgroup.js';
+  ReceiptCredentialPresentation} from '@signalapp/libsignal-client/zkgroup.js';
 import { v7 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'node:stream';
@@ -18,38 +17,32 @@ import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
-  type IdentityKeyType,
-} from '../../sql/Interface.std.js';
+  type IdentityKeyType} from '../../sql/Interface.std.js';
 import { createLogger } from '../../logging/log.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.js';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
 import * as LinkPreview from '../../types/LinkPreview.std.js';
 import {
   fromAciObject,
   fromPniObject,
-  fromServiceIdObject,
-} from '../../types/ServiceId.std.js';
+  fromServiceIdObject} from '../../types/ServiceId.std.js';
 import { isStoryDistributionId } from '../../types/StoryDistributionId.std.js';
 import * as Errors from '../../types/errors.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import {
   ContactFormType,
-  AddressType as ContactAddressType,
-} from '../../types/EmbeddedContact.std.js';
+  AddressType as ContactAddressType} from '../../types/EmbeddedContact.std.js';
 import {
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
   createPacksFromBackup,
-  type StickerPackPointerType,
-} from '../../types/Stickers.preload.js';
+  type StickerPackPointerType} from '../../types/Stickers.preload.js';
 import type {
   ConversationColorType,
   CustomColorsItemType,
   CustomColorType,
-  CustomColorDataType,
-} from '../../types/Colors.std.js';
+  CustomColorDataType} from '../../types/Colors.std.js';
 import { SEALED_SENDER } from '../../types/SealedSender.std.js';
 import type {
   ConversationAttributesType,
@@ -57,15 +50,13 @@ import type {
   MessageAttributesType,
   MessageReactionType,
   EditHistoryType,
-  QuotedMessageType,
-} from '../../model-types.d.ts';
+  QuotedMessageType} from '../../model-types.d.ts';
 import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { upgradeMessageSchema } from '../../util/migrations.preload.js';
 import {
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
-  getTimestampOrUndefinedFromLong,
-} from '../../util/timestampLongUtils.std.js';
+  getTimestampOrUndefinedFromLong} from '../../util/timestampLongUtils.std.js';
 import { MAX_SAFE_DATE } from '../../util/timestamp.std.js';
 import { DurationInSeconds, SECOND } from '../../util/durations/index.std.js';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
@@ -74,8 +65,7 @@ import {
   deriveGroupID,
   deriveGroupSecretParams,
   deriveGroupPublicParams,
-  deriveAccessKeyFromProfileKey,
-} from '../../util/zkgroup.node.js';
+  deriveAccessKeyFromProfileKey} from '../../util/zkgroup.node.js';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
 import { generateMessageId } from '../../util/generateMessageId.node.js';
 import { isAciString } from '../../util/isAciString.std.js';
@@ -102,16 +92,13 @@ import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
 import { rgbIntToHSL } from '../../util/rgbToHSL.std.js';
 import {
   convertBackupMessageAttachmentToAttachment,
-  convertFilePointerToAttachment,
-} from './util/filePointers.preload.js';
+  convertFilePointerToAttachment} from './util/filePointers.preload.js';
 import {
   filterAndClean,
-  trimMessageWhitespace,
-} from '../../types/BodyRange.std.js';
+  trimMessageWhitespace} from '../../types/BodyRange.std.js';
 import {
   APPLICATION_OCTET_STREAM,
-  stringToMIMEType,
-} from '../../types/MIME.std.js';
+  stringToMIMEType} from '../../types/MIME.std.js';
 import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue.preload.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
 import {
@@ -120,33 +107,27 @@ import {
   CallMode,
   CallType,
   DirectCallStatus,
-  GroupCallStatus,
-} from '../../types/CallDisposition.std.js';
+  GroupCallStatus} from '../../types/CallDisposition.std.js';
 import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
 import {
   CallLinkRestrictions,
-  isCallLinkAdmin,
-} from '../../types/CallLink.std.js';
+  isCallLinkAdmin} from '../../types/CallLink.std.js';
 import type { CallLinkType } from '../../types/CallLink.std.js';
 import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import {
   fromAdminKeyBytes,
-  toCallHistoryFromUnusedCallLink,
-} from '../../util/callLinks.std.js';
+  toCallHistoryFromUnusedCallLink} from '../../util/callLinks.std.js';
 import {
   getRoomIdFromRootKey,
-  fromEpochBytes,
-} from '../../util/callLinksRingrtc.node.js';
+  fromEpochBytes} from '../../util/callLinksRingrtc.node.js';
 import { loadAllAndReinitializeRedux } from '../allLoaders.preload.js';
 import {
   startBackupMediaDownload,
-  resetBackupMediaDownloadStats,
-} from '../../util/backupMediaDownload.preload.js';
+  resetBackupMediaDownloadStats} from '../../util/backupMediaDownload.preload.js';
 import {
   getEnvironment,
   isTestEnvironment,
-  isTestOrMockEnvironment,
-} from '../../environment.std.js';
+  isTestOrMockEnvironment} from '../../environment.std.js';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads.std.js';
 import { isAdhoc, isNightly } from '../../util/version.std.js';
 import { ToastType } from '../../types/Toast.dom.js';
@@ -158,8 +139,7 @@ import { MessageModel } from '../../models/messages.preload.js';
 import {
   DEFAULT_PROFILE_COLOR,
   fromDayOfWeekArray,
-  type NotificationProfileType,
-} from '../../types/NotificationProfile.std.js';
+  type NotificationProfileType} from '../../types/NotificationProfile.std.js';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
 import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
@@ -346,8 +326,7 @@ export class BackupImportStream extends Writable {
           this.#aboutMe = {
             aci: serviceId,
             pni,
-            e164,
-          };
+            e164};
         }
       }
       done();
@@ -458,8 +437,7 @@ export class BackupImportStream extends Writable {
         );
         if (isNightly(window.getVersion()) || isAdhoc(window.getVersion())) {
           window.reduxActions.toast.showToast({
-            toastType: ToastType.FailedToImportBackup,
-          });
+            toastType: ToastType.FailedToImportBackup});
         }
       } else {
         log.info(`${this.#logId}: successfully processed all frames.`);
@@ -662,8 +640,7 @@ export class BackupImportStream extends Writable {
     await DataWriter.saveMessages(batch, {
       forceSave: true,
       ourAci,
-      postSaveUpdates,
-    });
+      postSaveUpdates});
 
     const attachmentDownloadJobPromises: Array<Promise<unknown>> = [];
 
@@ -682,8 +659,7 @@ export class BackupImportStream extends Writable {
 
             // Main message will track this
             readStatus: ReadStatus.Read,
-            sentAt: timestamp,
-          }))
+            sentAt: timestamp}))
         );
       }
 
@@ -696,8 +672,7 @@ export class BackupImportStream extends Writable {
               source: this.#isMediaEnabledBackup()
                 ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
                 : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
-              isManualDownload: false,
-            })
+              isManualDownload: false})
           );
         }
       }
@@ -722,12 +697,10 @@ export class BackupImportStream extends Writable {
     backupsSubscriberData,
     donationSubscriberData,
     accountSettings,
-    svrPin,
-  }: Backups.IAccountData): Promise<void> {
+    svrPin}: Backups.IAccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
     const me = {
-      ...window.ConversationController.getOurConversationOrThrow().attributes,
-    };
+      ...window.ConversationController.getOurConversationOrThrow().attributes};
     this.#ourConversation = me;
 
     strictAssert(Bytes.isNotEmpty(profileKey), 'Missing profile key');
@@ -744,8 +717,7 @@ export class BackupImportStream extends Writable {
       if (Bytes.isNotEmpty(entropy) && Bytes.isNotEmpty(serverId)) {
         await itemStorage.put('usernameLink', {
           entropy,
-          serverId,
-        });
+          serverId});
       }
 
       // Same numeric value, no conversion needed
@@ -905,8 +877,7 @@ export class BackupImportStream extends Writable {
     if (defaultChatStyle.color != null) {
       await itemStorage.put('defaultConversationColor', {
         color: defaultChatStyle.color,
-        customColorData: defaultChatStyle.customColorData,
-      });
+        customColorData: defaultChatStyle.customColorData});
     }
 
     if (defaultChatStyle.wallpaperPhotoPointer != null) {
@@ -1009,8 +980,7 @@ export class BackupImportStream extends Writable {
       nicknameFamilyName: dropNull(contact.nickname?.family),
       note: dropNull(contact.note),
       color: fromAvatarColor(contact.avatarColor),
-      colorFromPrimary: dropNull(contact.avatarColor),
-    };
+      colorFromPrimary: dropNull(contact.avatarColor)};
 
     if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
       const verified = contact.identityState || 0;
@@ -1020,8 +990,7 @@ export class BackupImportStream extends Writable {
         verified,
         firstUse: true,
         timestamp: this.#now,
-        nonblockingApproval: true,
-      });
+        nonblockingApproval: true});
       attrs.verified = verified;
     }
 
@@ -1072,8 +1041,7 @@ export class BackupImportStream extends Writable {
       membersPendingAdminApproval,
       membersBanned,
       inviteLinkPassword,
-      announcementsOnly,
-    } = snapshot;
+      announcementsOnly} = snapshot;
 
     const expirationTimerS =
       disappearingMessagesTimer?.disappearingMessagesDuration;
@@ -1108,8 +1076,7 @@ export class BackupImportStream extends Writable {
       storySendMode,
       avatar: avatarUrl
         ? {
-            url: avatarUrl,
-          }
+            url: avatarUrl}
         : undefined,
       color: fromAvatarColor(group.avatarColor),
       colorFromPrimary: dropNull(group.avatarColor),
@@ -1131,8 +1098,7 @@ export class BackupImportStream extends Writable {
               SignalService.AccessControl.AccessRequired.UNKNOWN,
             addFromInviteLink:
               dropNull(accessControl.addFromInviteLink) ??
-              SignalService.AccessControl.AccessRequired.UNKNOWN,
-          }
+              SignalService.AccessControl.AccessRequired.UNKNOWN}
         : undefined,
       membersV2: members?.map(({ userId, role, joinedAtVersion }) => {
         strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
@@ -1143,8 +1109,7 @@ export class BackupImportStream extends Writable {
         return {
           aci: fromAciObject(Aci.fromUuidBytes(userId)),
           role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
-          joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
-        };
+          joinedAtVersion: dropNull(joinedAtVersion) ?? 0};
       }),
       pendingMembersV2: membersPendingProfileKey?.map(
         ({ member, addedByUserId, timestamp }) => {
@@ -1168,8 +1133,7 @@ export class BackupImportStream extends Writable {
             role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
             addedByUserId: fromAciObject(Aci.fromUuidBytes(addedByUserId)),
             timestamp:
-              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
-          };
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0};
         }
       ),
       pendingAdminApprovalV2: membersPendingAdminApproval?.map(
@@ -1182,8 +1146,7 @@ export class BackupImportStream extends Writable {
           return {
             aci: fromAciObject(Aci.fromUuidBytes(userId)),
             timestamp:
-              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
-          };
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0};
         }
       ),
       bannedMembersV2: membersBanned?.map(({ userId, timestamp }) => {
@@ -1199,15 +1162,13 @@ export class BackupImportStream extends Writable {
         return {
           serviceId,
           timestamp:
-            timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
-        };
+            timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0};
       }),
       revision: dropNull(version),
       groupInviteLinkPassword: Bytes.isNotEmpty(inviteLinkPassword)
         ? Bytes.toBase64(inviteLinkPassword)
         : undefined,
-      announcementsOnly: dropNull(announcementsOnly),
-    };
+      announcementsOnly: dropNull(announcementsOnly)};
     if (avatarUrl) {
       this.#pendingGroupAvatars.set(attrs.id, avatarUrl);
     }
@@ -1234,8 +1195,7 @@ export class BackupImportStream extends Writable {
 
       // Default values
       senderKeyInfo: undefined,
-      storageNeedsSync: false,
-    };
+      storageNeedsSync: false};
 
     let result: StoryDistributionWithMembersType;
     if (listItem.deletionTimestamp == null) {
@@ -1295,8 +1255,7 @@ export class BackupImportStream extends Writable {
           );
 
           return convo.serviceId;
-        }),
-      };
+        })};
     } else {
       result = {
         ...commonFields,
@@ -1308,8 +1267,7 @@ export class BackupImportStream extends Writable {
 
         deletedAtTimestamp: getCheckedTimestampFromLong(
           listItem.deletionTimestamp
-        ),
-      };
+        )};
     }
 
     await DataWriter.createNewStoryDistribution(result);
@@ -1325,8 +1283,7 @@ export class BackupImportStream extends Writable {
       adminKey,
       name,
       restrictions,
-      expirationMs,
-    } = callLinkProto;
+      expirationMs} = callLinkProto;
 
     strictAssert(rootKeyBytes?.length, 'fromCallLink: rootKey is required');
     strictAssert(name, 'fromCallLink: name is required');
@@ -1342,8 +1299,7 @@ export class BackupImportStream extends Writable {
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
       expiration: getTimestampOrUndefinedFromLong(expirationMs) ?? null,
-      storageNeedsSync: false,
-    };
+      storageNeedsSync: false};
 
     this.#recipientIdToCallLink.set(recipientId, callLink);
 
@@ -1473,8 +1429,7 @@ export class BackupImportStream extends Writable {
     const {
       patch: directionDetails,
       newActiveAt,
-      unread,
-    } = this.#fromDirectionDetails(item, timestamp);
+      unread} = this.#fromDirectionDetails(item, timestamp);
 
     if (
       newActiveAt != null &&
@@ -1497,8 +1452,7 @@ export class BackupImportStream extends Writable {
 
     const expirationTimestamp = calculateExpirationTimestamp({
       expireTimer,
-      expirationStartTimestamp,
-    });
+      expirationStartTimestamp});
 
     if (expirationTimestamp != null && expirationTimestamp < this.#now) {
       // Drop expired messages
@@ -1516,8 +1470,7 @@ export class BackupImportStream extends Writable {
       expirationStartTimestamp,
       expireTimer,
       sms: item.sms === true ? true : undefined,
-      ...directionDetails,
-    };
+      ...directionDetails};
     const additionalMessages: Array<MessageAttributesType> = [];
 
     if (item.incoming) {
@@ -1537,14 +1490,11 @@ export class BackupImportStream extends Writable {
         ...attributes,
         ...(await this.#fromStandardMessage({
           logId,
-          data: item.standardMessage,
-        })),
-      };
+          data: item.standardMessage}))};
     } else if (item.viewOnceMessage) {
       attributes = {
         ...attributes,
-        ...(await this.#fromViewOnceMessage(item)),
-      };
+        ...(await this.#fromViewOnceMessage(item))};
     } else if (item.directStoryReplyMessage) {
       strictAssert(item.directionless == null, 'reply cannot be directionless');
       let storyAuthorAci: AciString | undefined;
@@ -1563,15 +1513,13 @@ export class BackupImportStream extends Writable {
         ...this.#fromDirectStoryReplyMessage(
           item.directStoryReplyMessage,
           storyAuthorAci
-        ),
-      };
+        )};
     } else {
       const result = await this.#fromNonBubbleChatItem(item, {
         aboutMe,
         author: authorConvo,
         conversation: chatConvo,
-        timestamp,
-      });
+        timestamp});
 
       if (!result) {
         throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
@@ -1579,8 +1527,7 @@ export class BackupImportStream extends Writable {
 
       attributes = {
         ...attributes,
-        ...result.message,
-      };
+        ...result.message};
 
       let sentAt = attributes.sent_at;
       (result.additionalMessages || []).forEach(additional => {
@@ -1589,8 +1536,7 @@ export class BackupImportStream extends Writable {
           ...attributes,
           ...generateMessageId(incrementMessageCounter()),
           sent_at: sentAt,
-          ...additional,
-        });
+          ...additional});
       });
     }
 
@@ -1603,8 +1549,7 @@ export class BackupImportStream extends Writable {
       const history = await this.#fromRevisions({
         mainMessage: attributes,
         revisions: item.revisions,
-        logId,
-      });
+        logId});
       attributes.editHistory = history;
 
       // Update timestamps on the parent message
@@ -1665,8 +1610,7 @@ export class BackupImportStream extends Writable {
           {
             recipientId: item.authorId,
             read: new Backups.SendStatus.Read(),
-            timestamp: item.dateSent,
-          },
+            timestamp: item.dateSent},
         ];
       }
 
@@ -1720,23 +1664,20 @@ export class BackupImportStream extends Writable {
                 serviceId,
                 name: 'OutgoingIdentityKeyError',
                 // See: ts/textsecure/Errors
-                message: `The identity of ${serviceId} has changed.`,
-              });
+                message: `The identity of ${serviceId} has changed.`});
               break;
             case Backups.SendStatus.Failed.FailureReason.NETWORK:
               errors.push({
                 serviceId,
                 name: 'OutgoingMessageError',
                 // See: ts/textsecure/Errors
-                message: 'no http error',
-              });
+                message: 'no http error'});
               break;
             case Backups.SendStatus.Failed.FailureReason.UNKNOWN:
               errors.push({
                 serviceId,
                 name: 'UnknownError',
-                message: 'unknown error',
-              });
+                message: 'unknown error'});
               break;
             default:
               throw missingCaseError(status.failed.reason);
@@ -1758,8 +1699,7 @@ export class BackupImportStream extends Writable {
           updatedAt:
             status.timestamp != null && !status.timestamp.isZero()
               ? getCheckedTimestampFromLong(status.timestamp)
-              : undefined,
-        };
+              : undefined};
       }
 
       return {
@@ -1771,10 +1711,8 @@ export class BackupImportStream extends Writable {
           unidentifiedDeliveries: unidentifiedDeliveries.length
             ? unidentifiedDeliveries
             : undefined,
-          errors: errors.length ? errors : undefined,
-        },
-        newActiveAt: timestamp,
-      };
+          errors: errors.length ? errors : undefined},
+        newActiveAt: timestamp};
     }
     if (incoming) {
       const receivedAtMs =
@@ -1793,10 +1731,8 @@ export class BackupImportStream extends Writable {
             seenStatus: SeenStatus.Seen,
             received_at_ms: receivedAtMs,
             serverTimestamp,
-            unidentifiedDeliveryReceived,
-          },
-          newActiveAt: receivedAtMs,
-        };
+            unidentifiedDeliveryReceived},
+          newActiveAt: receivedAtMs};
       }
 
       return {
@@ -1805,21 +1741,17 @@ export class BackupImportStream extends Writable {
           seenStatus: SeenStatus.Unseen,
           received_at_ms: receivedAtMs,
           serverTimestamp,
-          unidentifiedDeliveryReceived,
-        },
+          unidentifiedDeliveryReceived},
         newActiveAt: receivedAtMs,
-        unread: true,
-      };
+        unread: true};
     }
 
     strictAssert(directionless, 'Absent direction state');
     return {
       patch: {
         readStatus: ReadStatus.Read,
-        seenStatus: SeenStatus.Seen,
-      },
-      newActiveAt: timestamp,
-    };
+        seenStatus: SeenStatus.Seen},
+      newActiveAt: timestamp};
   }
 
   /**
@@ -1888,8 +1820,7 @@ export class BackupImportStream extends Writable {
 
   async #fromStandardMessage({
     logId,
-    data,
-  }: {
+    data}: {
     logId: string;
     data: Backups.IStandardMessage;
   }): Promise<Partial<MessageAttributesType>> {
@@ -1899,12 +1830,10 @@ export class BackupImportStream extends Writable {
       ...(data.longText
         ? {
             body: data.text?.body || undefined,
-            bodyRanges: this.#fromBodyRanges(data.text),
-          }
+            bodyRanges: this.#fromBodyRanges(data.text)}
         : trimMessageWhitespace({
             body: data.text?.body || undefined,
-            bodyRanges: this.#fromBodyRanges(data.text),
-          })),
+            bodyRanges: this.#fromBodyRanges(data.text)})),
       bodyAttachment: data.longText
         ? convertFilePointerToAttachment(
             data.longText,
@@ -1925,19 +1854,16 @@ export class BackupImportStream extends Writable {
         ? this.#fromLinkPreview({
             logId,
             body: data.text?.body,
-            previews: data.linkPreview,
-          })
+            previews: data.linkPreview})
         : undefined,
       reactions: this.#fromReactions(data.reactions),
-      quote: data.quote ? await this.#fromQuote(data.quote) : undefined,
-    };
+      quote: data.quote ? await this.#fromQuote(data.quote) : undefined};
   }
 
   #fromLinkPreview({
     logId,
     body,
-    previews,
-  }: {
+    previews}: {
     logId: string;
     body: string | null | undefined;
     previews: Array<Backups.ILinkPreview>;
@@ -1947,8 +1873,7 @@ export class BackupImportStream extends Writable {
       .map(preview => {
         if (
           !LinkPreview.isValidLinkPreview(urlsInBody, preview, {
-            isStory: false,
-          })
+            isStory: false})
         ) {
           log.warn(`${logId}: dropping invalid link preview`);
           return;
@@ -1966,8 +1891,7 @@ export class BackupImportStream extends Writable {
                 preview.image,
                 this.#getFilePointerOptions()
               )
-            : undefined,
-        };
+            : undefined};
       })
       .filter(isNotNil);
   }
@@ -1989,8 +1913,7 @@ export class BackupImportStream extends Writable {
           ].filter(isNotNil)
         : undefined,
       reactions: this.#fromReactions(reactions),
-      isViewOnce: true,
-    };
+      isViewOnce: true};
 
     if (!result.attachments?.length) {
       result.isErased = true;
@@ -2016,8 +1939,7 @@ export class BackupImportStream extends Writable {
       storyReplyContext: {
         authorAci: storyAuthorAci,
         messageId: '', // stories are never imported
-      },
-    };
+      }};
 
     if (textReply) {
       result.body = textReply.text?.body ?? undefined;
@@ -2060,15 +1982,13 @@ export class BackupImportStream extends Writable {
             textReply.longText,
             this.#getFilePointerOptions()
           )
-        : undefined,
-    };
+        : undefined};
   }
 
   async #fromRevisions({
     mainMessage,
     revisions,
-    logId,
-  }: {
+    logId}: {
     mainMessage: MessageAttributesType;
     revisions: ReadonlyArray<Backups.IChatItem>;
     logId: string;
@@ -2090,9 +2010,7 @@ export class BackupImportStream extends Writable {
               received_at_ms,
               serverTimestamp,
               readStatus,
-              unidentifiedDeliveryReceived,
-            },
-          } = this.#fromDirectionDetails(rev, timestamp);
+              unidentifiedDeliveryReceived}} = this.#fromDirectionDetails(rev, timestamp);
 
           const commonFields = {
             timestamp,
@@ -2102,17 +2020,14 @@ export class BackupImportStream extends Writable {
             received_at_ms,
             serverTimestamp,
             readStatus,
-            unidentifiedDeliveryReceived,
-          };
+            unidentifiedDeliveryReceived};
 
           if (rev.standardMessage) {
             return {
               ...(await this.#fromStandardMessage({
                 logId,
-                data: rev.standardMessage,
-              })),
-              ...commonFields,
-            };
+                data: rev.standardMessage})),
+              ...commonFields};
           }
 
           if (rev.directStoryReplyMessage) {
@@ -2120,8 +2035,7 @@ export class BackupImportStream extends Writable {
               ...(await this.#fromDirectStoryReplyRevision(
                 rev.directStoryReplyMessage
               )),
-              ...commonFields,
-            };
+              ...commonFields};
           }
           throw new Error(
             'Edit history on a message that does not support revisions'
@@ -2148,8 +2062,7 @@ export class BackupImportStream extends Writable {
       received_at_ms: mainMessage.received_at_ms,
       serverTimestamp: mainMessage.serverTimestamp,
       readStatus: mainMessage.readStatus,
-      unidentifiedDeliveryReceived: mainMessage.unidentifiedDeliveryReceived,
-    });
+      unidentifiedDeliveryReceived: mainMessage.unidentifiedDeliveryReceived});
 
     return result;
   }
@@ -2186,10 +2099,8 @@ export class BackupImportStream extends Writable {
                   thumbnail.pointer,
                   this.#getFilePointerOptions()
                 )
-              : undefined,
-          };
-        }) ?? [],
-    };
+              : undefined};
+        }) ?? []};
   }
 
   #fromBodyRanges(
@@ -2208,8 +2119,7 @@ export class BackupImportStream extends Writable {
         ...range,
         mentionAci: range.mentionAci
           ? Aci.parseFromServiceIdBinary(range.mentionAci).getServiceIdString()
-          : undefined,
-      }))
+          : undefined}))
     );
   }
 
@@ -2245,8 +2155,7 @@ export class BackupImportStream extends Writable {
           emoji,
           fromId: authorConvo.id,
           targetTimestamp: getCheckedTimestampFromLong(sentTimestamp),
-          timestamp: getCheckedTimestampFromLong(sentTimestamp),
-        };
+          timestamp: getCheckedTimestampFromLong(sentTimestamp)};
       });
   }
 
@@ -2282,8 +2191,7 @@ export class BackupImportStream extends Writable {
                     prefix: name.prefix || undefined,
                     suffix: name.suffix || undefined,
                     middleName: name.middleName || undefined,
-                    nickname: name.nickname || undefined,
-                  }
+                    nickname: name.nickname || undefined}
                 : undefined,
               number: number?.length
                 ? number
@@ -2295,8 +2203,7 @@ export class BackupImportStream extends Writable {
                       return {
                         value,
                         type: phoneToContactFormType(type),
-                        label: label || undefined,
-                      };
+                        label: label || undefined};
                     })
                     .filter(isNotNil)
                 : undefined,
@@ -2310,8 +2217,7 @@ export class BackupImportStream extends Writable {
                       return {
                         value,
                         type: emailToContactFormType(type),
-                        label: label || undefined,
-                      };
+                        label: label || undefined};
                     })
                     .filter(isNotNil)
                 : undefined,
@@ -2326,8 +2232,7 @@ export class BackupImportStream extends Writable {
                       city,
                       region,
                       postcode,
-                      country,
-                    } = addr;
+                      country} = addr;
 
                     return {
                       type: addressToContactAddressType(type),
@@ -2338,8 +2243,7 @@ export class BackupImportStream extends Writable {
                       city: city || undefined,
                       region: region || undefined,
                       postcode: postcode || undefined,
-                      country: country || undefined,
-                    };
+                      country: country || undefined};
                   })
                 : undefined,
               organization: organization || undefined,
@@ -2349,24 +2253,18 @@ export class BackupImportStream extends Writable {
                       avatar,
                       this.#getFilePointerOptions()
                     ),
-                    isProfile: false,
-                  }
-                : undefined,
-            },
+                    isProfile: false}
+                : undefined},
           ],
-          reactions: this.#fromReactions(chatItem.contactMessage.reactions),
-        },
-        additionalMessages: [],
-      };
+          reactions: this.#fromReactions(chatItem.contactMessage.reactions)},
+        additionalMessages: []};
     }
     if (chatItem.remoteDeletedMessage) {
       return {
         message: {
           isErased: true,
-          deletedForEveryone: true,
-        },
-        additionalMessages: [],
-      };
+          deletedForEveryone: true},
+        additionalMessages: []};
     }
     if (chatItem.stickerMessage) {
       strictAssert(
@@ -2375,9 +2273,7 @@ export class BackupImportStream extends Writable {
       );
       const {
         stickerMessage: {
-          sticker: { emoji, packId, packKey, stickerId, data },
-        },
-      } = chatItem;
+          sticker: { emoji, packId, packKey, stickerId, data }}} = chatItem;
       strictAssert(
         packId?.length === STICKERPACK_ID_BYTE_LEN,
         'stickerMessage must have a valid pack id'
@@ -2400,12 +2296,9 @@ export class BackupImportStream extends Writable {
                   data,
                   this.#getFilePointerOptions()
                 )
-              : undefined,
-          },
-          reactions: this.#fromReactions(chatItem.stickerMessage.reactions),
-        },
-        additionalMessages: [],
-      };
+              : undefined},
+          reactions: this.#fromReactions(chatItem.stickerMessage.reactions)},
+        additionalMessages: []};
     }
     if (chatItem.paymentNotification) {
       const { paymentNotification: notification } = chatItem;
@@ -2413,20 +2306,9 @@ export class BackupImportStream extends Writable {
         message: {
           payment: {
             kind: PaymentEventKind.Notification,
-            amountMob: dropNull(notification.amountMob),
-            feeMob: dropNull(notification.feeMob),
-            note: notification.note ?? null,
-            transactionDetailsBase64: notification.transactionDetails
-              ? Bytes.toBase64(
-                  Backups.PaymentNotification.TransactionDetails.encode(
-                    notification.transactionDetails
-                  ).finish()
-                )
-              : undefined,
-          },
-        },
-        additionalMessages: [],
-      };
+            note: notification.note ?? undefined,
+          }},
+        additionalMessages: []};
     }
     if (chatItem.giftBadge) {
       const { giftBadge } = chatItem;
@@ -2434,11 +2316,8 @@ export class BackupImportStream extends Writable {
         return {
           message: {
             giftBadge: {
-              state: GiftBadgeStates.Failed,
-            },
-          },
-          additionalMessages: [],
-        };
+              state: "removed"}},
+          additionalMessages: []};
       }
 
       strictAssert(
@@ -2446,21 +2325,8 @@ export class BackupImportStream extends Writable {
         'Gift badge must have a presentation'
       );
 
-      let state: GiftBadgeStates;
-      switch (giftBadge.state) {
-        case Backups.GiftBadge.State.OPENED:
-          state = GiftBadgeStates.Opened;
-          break;
-
-        case Backups.GiftBadge.State.REDEEMED:
-          state = GiftBadgeStates.Redeemed;
-          break;
-
-        case Backups.GiftBadge.State.UNOPENED:
-        default:
-          state = GiftBadgeStates.Unopened;
-          break;
-      }
+      // STUB: All gift badge states import as "removed"
+      const state = "removed";
 
       const receipt = new ReceiptCredentialPresentation(
         giftBadge.receiptCredentialPresentation
@@ -2475,11 +2341,8 @@ export class BackupImportStream extends Writable {
             expiration: Number(receipt.getReceiptExpirationTime()) * SECOND,
             id: undefined,
             level: Number(receipt.getReceiptLevel()),
-            state,
-          },
-        },
-        additionalMessages: [],
-      };
+            state}},
+        additionalMessages: []};
     }
     if (chatItem.updateMessage) {
       return this.#fromChatItemUpdateMessage(chatItem.updateMessage, options);
@@ -2524,11 +2387,8 @@ export class BackupImportStream extends Writable {
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
-            sourceServiceId,
-          },
-        },
-        additionalMessages: [],
-      };
+            sourceServiceId}},
+        additionalMessages: []};
     }
 
     if (updateMessage.simpleUpdate) {
@@ -2543,8 +2403,7 @@ export class BackupImportStream extends Writable {
 
       return {
         message,
-        additionalMessages: [],
-      };
+        additionalMessages: []};
     }
 
     if (updateMessage.profileChange) {
@@ -2558,11 +2417,8 @@ export class BackupImportStream extends Writable {
           profileChange: {
             type: 'name',
             oldName,
-            newName,
-          },
-        },
-        additionalMessages: [],
-      };
+            newName}},
+        additionalMessages: []};
     }
 
     if (updateMessage.learnedProfileChange) {
@@ -2580,12 +2436,8 @@ export class BackupImportStream extends Writable {
             renderInfo: {
               type: 'private',
               e164: e164 && !e164.isZero() ? `+${e164}` : undefined,
-              username: dropNull(username),
-            },
-          },
-        },
-        additionalMessages: [],
-      };
+              username: dropNull(username)}}},
+        additionalMessages: []};
     }
 
     if (updateMessage.threadMerge) {
@@ -2597,12 +2449,8 @@ export class BackupImportStream extends Writable {
           conversationMerge: {
             renderInfo: {
               type: 'private',
-              e164: `+${previousE164}`,
-            },
-          },
-        },
-        additionalMessages: [],
-      };
+              e164: `+${previousE164}`}}},
+        additionalMessages: []};
     }
 
     if (updateMessage.sessionSwitchover) {
@@ -2612,11 +2460,8 @@ export class BackupImportStream extends Writable {
         message: {
           type: 'phone-number-discovery',
           phoneNumberDiscovery: {
-            e164: `+${e164}`,
-          },
-        },
-        additionalMessages: [],
-      };
+            e164: `+${e164}`}},
+        additionalMessages: []};
     }
 
     if (updateMessage.groupCall) {
@@ -2636,8 +2481,7 @@ export class BackupImportStream extends Writable {
         startedCallRecipientId: startedCallRecipientIdLong,
         startedCallTimestamp,
         endedCallTimestamp,
-        read,
-      } = updateMessage.groupCall;
+        read} = updateMessage.groupCall;
 
       const ringerRecipientId = ringerRecipientIdLong?.toNumber();
       const startedCallRecipientId = startedCallRecipientIdLong?.toNumber();
@@ -2674,8 +2518,7 @@ export class BackupImportStream extends Writable {
         direction: isRingerMe ? CallDirection.Outgoing : CallDirection.Incoming,
         timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
         endedTimestamp:
-          getCheckedTimestampOrUndefinedFromLong(endedCallTimestamp) ?? null,
-      };
+          getCheckedTimestampOrUndefinedFromLong(endedCallTimestamp) ?? null};
 
       await this.#saveCallHistory(callHistory);
 
@@ -2686,10 +2529,8 @@ export class BackupImportStream extends Writable {
           sourceServiceId: undefined,
           source: undefined,
           readStatus: ReadStatus.Read,
-          seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen,
-        },
-        additionalMessages: [],
-      };
+          seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen},
+        additionalMessages: []};
     }
 
     if (updateMessage.individualCall) {
@@ -2699,8 +2540,7 @@ export class BackupImportStream extends Writable {
         direction: protoDirection,
         state,
         startedCallTimestamp,
-        read,
-      } = updateMessage.individualCall;
+        read} = updateMessage.individualCall;
 
       let callId: string;
       if (callIdLong?.toNumber()) {
@@ -2734,8 +2574,7 @@ export class BackupImportStream extends Writable {
         peerId,
         direction,
         timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
-        endedTimestamp: null,
-      };
+        endedTimestamp: null};
 
       await this.#saveCallHistory(callHistory);
 
@@ -2746,10 +2585,8 @@ export class BackupImportStream extends Writable {
           sourceServiceId: undefined,
           source: undefined,
           readStatus: ReadStatus.Read,
-          seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen,
-        },
-        additionalMessages: [],
-      };
+          seenStatus: read ? SeenStatus.Seen : SeenStatus.Unseen},
+        additionalMessages: []};
     }
 
     return undefined;
@@ -2777,9 +2614,7 @@ export class BackupImportStream extends Writable {
         groupMigration: {
           areWeInvited: false,
           droppedMemberCount: 0,
-          invitedMemberCount: 0,
-        },
-      };
+          invitedMemberCount: 0}};
     }
 
     let openApprovalServiceId: ServiceIdString | undefined;
@@ -2792,8 +2627,7 @@ export class BackupImportStream extends Writable {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
         details.push({
-          type: 'summary',
-        });
+          type: 'summary'});
       }
       if (update.groupCreationUpdate) {
         const { updaterAci } = update.groupCreationUpdate;
@@ -2801,8 +2635,7 @@ export class BackupImportStream extends Writable {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
         details.push({
-          type: 'create',
-        });
+          type: 'create'});
       }
       if (update.groupNameUpdate) {
         const { updaterAci, newGroupName } = update.groupNameUpdate;
@@ -2811,8 +2644,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'title',
-          newTitle: dropNull(newGroupName),
-        });
+          newTitle: dropNull(newGroupName)});
       }
       if (update.groupAvatarUpdate) {
         const { updaterAci, wasRemoved } = update.groupAvatarUpdate;
@@ -2821,8 +2653,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'avatar',
-          removed: Boolean(dropNull(wasRemoved)),
-        });
+          removed: Boolean(dropNull(wasRemoved))});
       }
       if (update.groupDescriptionUpdate) {
         const { updaterAci, newDescription } = update.groupDescriptionUpdate;
@@ -2836,8 +2667,7 @@ export class BackupImportStream extends Writable {
           removed:
             description === undefined || description.length === 0
               ? true
-              : undefined,
-        });
+              : undefined});
       }
       if (update.groupMembershipAccessLevelChangeUpdate) {
         const { updaterAci, accessLevel } =
@@ -2849,8 +2679,7 @@ export class BackupImportStream extends Writable {
           type: 'access-members',
           newPrivilege:
             dropNull(accessLevel) ??
-            SignalService.AccessControl.AccessRequired.UNKNOWN,
-        });
+            SignalService.AccessControl.AccessRequired.UNKNOWN});
       }
       if (update.groupAttributesAccessLevelChangeUpdate) {
         const { updaterAci, accessLevel } =
@@ -2862,8 +2691,7 @@ export class BackupImportStream extends Writable {
           type: 'access-attributes',
           newPrivilege:
             dropNull(accessLevel) ??
-            SignalService.AccessControl.AccessRequired.UNKNOWN,
-        });
+            SignalService.AccessControl.AccessRequired.UNKNOWN});
       }
       if (update.groupAnnouncementOnlyChangeUpdate) {
         const { updaterAci, isAnnouncementOnly } =
@@ -2873,8 +2701,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'announcements-only',
-          announcementsOnly: Boolean(dropNull(isAnnouncementOnly)),
-        });
+          announcementsOnly: Boolean(dropNull(isAnnouncementOnly))});
       }
       if (update.groupAdminStatusUpdate) {
         const { updaterAci, memberAci, wasAdminStatusGranted } =
@@ -2892,8 +2719,7 @@ export class BackupImportStream extends Writable {
           aci: fromAciObject(Aci.fromUuidBytes(memberAci)),
           newPrivilege: wasAdminStatusGranted
             ? SignalService.Member.Role.ADMINISTRATOR
-            : SignalService.Member.Role.DEFAULT,
-        });
+            : SignalService.Member.Role.DEFAULT});
       }
       if (update.groupMemberLeftUpdate) {
         const { aci } = update.groupMemberLeftUpdate;
@@ -2903,8 +2729,7 @@ export class BackupImportStream extends Writable {
         from = fromAciObject(Aci.fromUuidBytes(aci));
         details.push({
           type: 'member-remove',
-          aci: fromAciObject(Aci.fromUuidBytes(aci)),
-        });
+          aci: fromAciObject(Aci.fromUuidBytes(aci))});
       }
       if (update.groupMemberRemovedUpdate) {
         const { removerAci, removedAci } = update.groupMemberRemovedUpdate;
@@ -2918,8 +2743,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'member-remove',
-          aci: fromAciObject(Aci.fromUuidBytes(removedAci)),
-        });
+          aci: fromAciObject(Aci.fromUuidBytes(removedAci))});
       }
       if (update.selfInvitedToGroupUpdate) {
         const { inviterAci } = update.selfInvitedToGroupUpdate;
@@ -2928,8 +2752,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'pending-add-one',
-          serviceId: aboutMe.aci,
-        });
+          serviceId: aboutMe.aci});
       }
       if (update.selfInvitedOtherUserToGroupUpdate) {
         const { inviteeServiceId } = update.selfInvitedOtherUserToGroupUpdate;
@@ -2943,8 +2766,7 @@ export class BackupImportStream extends Writable {
           type: 'pending-add-one',
           serviceId: fromServiceIdObject(
             ServiceId.parseFromServiceIdBinary(inviteeServiceId)
-          ),
-        });
+          )});
       }
       if (update.groupUnknownInviteeUpdate) {
         const { inviterAci, inviteeCount } = update.groupUnknownInviteeUpdate;
@@ -2958,8 +2780,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'pending-add-many',
-          count: inviteeCount,
-        });
+          count: inviteeCount});
       }
       if (update.groupInvitationAcceptedUpdate) {
         const { inviterAci, newMemberAci } =
@@ -2977,8 +2798,7 @@ export class BackupImportStream extends Writable {
         details.push({
           type: 'member-add-from-invite',
           aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
-          inviter,
-        });
+          inviter});
       }
       if (update.groupInvitationDeclinedUpdate) {
         const { inviterAci, inviteeAci } = update.groupInvitationDeclinedUpdate;
@@ -2990,8 +2810,7 @@ export class BackupImportStream extends Writable {
           inviter: Bytes.isNotEmpty(inviterAci)
             ? fromAciObject(Aci.fromUuidBytes(inviterAci))
             : undefined,
-          serviceId: from,
-        });
+          serviceId: from});
       }
       if (update.groupMemberJoinedUpdate) {
         const { newMemberAci } = update.groupMemberJoinedUpdate;
@@ -3003,8 +2822,7 @@ export class BackupImportStream extends Writable {
         from = fromAciObject(Aci.fromUuidBytes(newMemberAci));
         details.push({
           type: 'member-add',
-          aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
-        });
+          aci: fromAciObject(Aci.fromUuidBytes(newMemberAci))});
       }
       if (update.groupMemberAddedUpdate) {
         const { hadOpenInvitation, inviterAci, newMemberAci, updaterAci } =
@@ -3025,13 +2843,11 @@ export class BackupImportStream extends Writable {
           details.push({
             type: 'member-add-from-invite',
             aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
-            inviter,
-          });
+            inviter});
         } else {
           details.push({
             type: 'member-add',
-            aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
-          });
+            aci: fromAciObject(Aci.fromUuidBytes(newMemberAci))});
         }
       }
       if (update.groupSelfInvitationRevokedUpdate) {
@@ -3041,8 +2857,7 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'pending-remove-one',
-          serviceId: aboutMe.aci,
-        });
+          serviceId: aboutMe.aci});
       }
       if (update.groupInvitationRevokedUpdate) {
         const { updaterAci, invitees } = update.groupInvitationRevokedUpdate;
@@ -3077,21 +2892,18 @@ export class BackupImportStream extends Writable {
             details.push({
               type: 'pending-remove-one',
               serviceId,
-              inviter: inviterAci,
-            });
+              inviter: inviterAci});
           } else {
             details.push({
               type: 'pending-remove-many',
               count: 1,
-              inviter: inviterAci,
-            });
+              inviter: inviterAci});
           }
         } else {
           details.push({
             type: 'pending-remove-many',
             count: invitees.length,
-            inviter: inviterAci,
-          });
+            inviter: inviterAci});
         }
       }
       if (update.groupJoinRequestUpdate) {
@@ -3105,8 +2917,7 @@ export class BackupImportStream extends Writable {
         openApprovalServiceId = from;
         details.push({
           type: 'admin-approval-add-one',
-          aci: from,
-        });
+          aci: from});
       }
       if (update.groupJoinRequestApprovalUpdate) {
         const { updaterAci, requestorAci, wasApproved } =
@@ -3124,13 +2935,11 @@ export class BackupImportStream extends Writable {
         if (wasApproved) {
           details.push({
             type: 'member-add-from-admin-approval',
-            aci,
-          });
+            aci});
         } else {
           details.push({
             type: 'admin-approval-remove-one',
-            aci,
-          });
+            aci});
         }
       }
       if (update.groupJoinRequestCanceledUpdate) {
@@ -3143,8 +2952,7 @@ export class BackupImportStream extends Writable {
         from = fromAciObject(Aci.fromUuidBytes(requestorAci));
         details.push({
           type: 'admin-approval-remove-one',
-          aci: from,
-        });
+          aci: from});
       }
       if (update.groupInviteLinkResetUpdate) {
         const { updaterAci } = update.groupInviteLinkResetUpdate;
@@ -3152,8 +2960,7 @@ export class BackupImportStream extends Writable {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
         details.push({
-          type: 'group-link-reset',
-        });
+          type: 'group-link-reset'});
       }
       if (update.groupInviteLinkEnabledUpdate) {
         const { updaterAci, linkRequiresAdminApproval } =
@@ -3165,8 +2972,7 @@ export class BackupImportStream extends Writable {
           type: 'group-link-add',
           privilege: linkRequiresAdminApproval
             ? SignalService.AccessControl.AccessRequired.ADMINISTRATOR
-            : SignalService.AccessControl.AccessRequired.ANY,
-        });
+            : SignalService.AccessControl.AccessRequired.ANY});
       }
       if (update.groupInviteLinkAdminApprovalUpdate) {
         const { updaterAci, linkRequiresAdminApproval } =
@@ -3178,8 +2984,7 @@ export class BackupImportStream extends Writable {
           type: 'access-invite-link',
           newPrivilege: linkRequiresAdminApproval
             ? SignalService.AccessControl.AccessRequired.ADMINISTRATOR
-            : SignalService.AccessControl.AccessRequired.ANY,
-        });
+            : SignalService.AccessControl.AccessRequired.ANY});
       }
       if (update.groupInviteLinkDisabledUpdate) {
         const { updaterAci } = update.groupInviteLinkDisabledUpdate;
@@ -3187,8 +2992,7 @@ export class BackupImportStream extends Writable {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
         details.push({
-          type: 'group-link-remove',
-        });
+          type: 'group-link-remove'});
       }
       if (update.groupMemberJoinedByLinkUpdate) {
         const { newMemberAci } = update.groupMemberJoinedByLinkUpdate;
@@ -3200,8 +3004,7 @@ export class BackupImportStream extends Writable {
         from = fromAciObject(Aci.fromUuidBytes(newMemberAci));
         details.push({
           type: 'member-add-from-link',
-          aci: from,
-        });
+          aci: from});
       }
       if (update.groupV2MigrationUpdate) {
         migrationMessage = migrationMessage || getDefaultMigrationMessage();
@@ -3271,8 +3074,7 @@ export class BackupImportStream extends Writable {
           aci,
           times: count,
           // This will be set later if we find an open approval request for this aci
-          isApprovalPending: false,
-        });
+          isApprovalPending: false});
       }
       if (update.groupExpirationTimerUpdate) {
         const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
@@ -3296,9 +3098,7 @@ export class BackupImportStream extends Writable {
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
-            sourceServiceId,
-          },
-        });
+            sourceServiceId}});
       }
     });
 
@@ -3323,8 +3123,7 @@ export class BackupImportStream extends Writable {
           if (bounceMatch) {
             return {
               ...item,
-              isApprovalPending: true,
-            };
+              isApprovalPending: true};
           }
 
           return item;
@@ -3339,8 +3138,7 @@ export class BackupImportStream extends Writable {
     if (finalDetails.length === 0 && additionalMessages.length > 0) {
       return {
         message: additionalMessages[0],
-        additionalMessages: additionalMessages.slice(1),
-      };
+        additionalMessages: additionalMessages.slice(1)};
     }
 
     if (finalDetails.length === 0) {
@@ -3352,19 +3150,15 @@ export class BackupImportStream extends Writable {
         type: 'group-v2-change',
         groupV2Change: {
           from,
-          details: finalDetails,
-        },
-      },
-      additionalMessages,
-    };
+          details: finalDetails}},
+      additionalMessages};
   }
 
   async #fromSimpleUpdateMessage(
     simpleUpdate: Backups.ISimpleChatUpdate,
     {
       author,
-      conversation,
-    }: {
+      conversation}: {
       author?: ConversationAttributesType;
       conversation: ConversationAttributesType;
     }
@@ -3374,85 +3168,68 @@ export class BackupImportStream extends Writable {
     switch (simpleUpdate.type) {
       case Type.END_SESSION:
         return {
-          flags: SignalService.DataMessage.Flags.END_SESSION,
-        };
+          flags: SignalService.DataMessage.Flags.END_SESSION};
       case Type.CHAT_SESSION_REFRESH:
         return {
-          type: 'chat-session-refreshed',
-        };
+          type: 'chat-session-refreshed'};
       case Type.IDENTITY_UPDATE:
         return {
           type: 'keychange',
-          key_changed: isGroup(conversation) ? author?.serviceId : undefined,
-        };
+          key_changed: isGroup(conversation) ? author?.serviceId : undefined};
       case Type.IDENTITY_VERIFIED:
         strictAssert(author != null, 'IDENTITY_VERIFIED must have an author');
         return {
           type: 'verified-change',
           verifiedChanged: author.id,
-          verified: true,
-        };
+          verified: true};
       case Type.IDENTITY_DEFAULT:
         strictAssert(author != null, 'IDENTITY_UNVERIFIED must have an author');
         return {
           type: 'verified-change',
           verifiedChanged: author.id,
-          verified: false,
-        };
+          verified: false};
       case Type.CHANGE_NUMBER:
         return {
-          type: 'change-number-notification',
-        };
+          type: 'change-number-notification'};
       case Type.JOINED_SIGNAL:
         return {
-          type: 'joined-signal-notification',
-        };
+          type: 'joined-signal-notification'};
       case Type.BAD_DECRYPT:
         return {
-          type: 'delivery-issue',
-        };
+          type: 'delivery-issue'};
       case Type.RELEASE_CHANNEL_DONATION_REQUEST:
         log.warn('backups: dropping boost request from release notes');
         return undefined;
       case Type.PAYMENTS_ACTIVATED:
         return {
           payment: {
-            kind: PaymentEventKind.Activation,
-          },
-        };
+            kind: PaymentEventKind.Activation}};
       case Type.PAYMENT_ACTIVATION_REQUEST:
         return {
           payment: {
-            kind: PaymentEventKind.ActivationRequest,
-          },
-        };
+            kind: PaymentEventKind.ActivationRequest}};
       case Type.UNSUPPORTED_PROTOCOL_MESSAGE:
         return {
           supportedVersionAtReceive:
             SignalService.DataMessage.ProtocolVersion.CURRENT - 2,
           requiredProtocolVersion:
-            SignalService.DataMessage.ProtocolVersion.CURRENT - 1,
-        };
+            SignalService.DataMessage.ProtocolVersion.CURRENT - 1};
       case Type.REPORTED_SPAM:
         return {
           type: 'message-request-response-event',
-          messageRequestResponseEvent: MessageRequestResponseEvent.SPAM,
-        };
+          messageRequestResponseEvent: MessageRequestResponseEvent.SPAM};
       case Type.BLOCKED:
         return {
           type: 'message-request-response-event',
-          messageRequestResponseEvent: MessageRequestResponseEvent.BLOCK,
-        };
+          messageRequestResponseEvent: MessageRequestResponseEvent.BLOCK};
       case Type.UNBLOCKED:
         return {
           type: 'message-request-response-event',
-          messageRequestResponseEvent: MessageRequestResponseEvent.UNBLOCK,
-        };
+          messageRequestResponseEvent: MessageRequestResponseEvent.UNBLOCK};
       case Type.MESSAGE_REQUEST_ACCEPTED:
         return {
           type: 'message-request-response-event',
-          messageRequestResponseEvent: MessageRequestResponseEvent.ACCEPT,
-        };
+          messageRequestResponseEvent: MessageRequestResponseEvent.ACCEPT};
       default:
         throw new Error(`Unsupported update type: ${simpleUpdate.type}`);
     }
@@ -3460,8 +3237,7 @@ export class BackupImportStream extends Writable {
 
   async #fromStickerPack({
     packId: packIdBytes,
-    packKey: packKeyBytes,
-  }: Backups.IStickerPack): Promise<void> {
+    packKey: packKeyBytes}: Backups.IStickerPack): Promise<void> {
     strictAssert(
       packIdBytes?.length === STICKERPACK_ID_BYTE_LEN,
       'Sticker pack must have a valid pack id'
@@ -3482,8 +3258,7 @@ export class BackupImportStream extends Writable {
     callId: callIdLong,
     recipientId: recipientIdLong,
     state,
-    callTimestamp,
-  }: Backups.IAdHocCall): Promise<void> {
+    callTimestamp}: Backups.IAdHocCall): Promise<void> {
     let callId: string;
     if (callIdLong?.toNumber()) {
       callId = callIdLong.toString();
@@ -3517,8 +3292,7 @@ export class BackupImportStream extends Writable {
       direction: CallDirection.Unknown,
       timestamp: getCheckedTimestampFromLong(callTimestamp),
       status: fromAdHocCallStateProto(state),
-      endedTimestamp: null,
-    };
+      endedTimestamp: null};
 
     await this.#saveCallHistory(callHistory);
 
@@ -3542,8 +3316,7 @@ export class BackupImportStream extends Writable {
       scheduleEnabled,
       scheduleStartTime,
       scheduleEndTime,
-      scheduleDaysEnabled,
-    } = incomingProfile;
+      scheduleDaysEnabled} = incomingProfile;
     strictAssert(name, 'notification profile must have a valid name');
     if (!id || !id.length) {
       log.warn('Dropping notification profile; it was missing an id');
@@ -3580,8 +3353,7 @@ export class BackupImportStream extends Writable {
       storageNeedsSync: false,
       storageID: undefined,
       storageUnknownFields: undefined,
-      storageVersion: undefined,
-    };
+      storageVersion: undefined};
 
     await DataWriter.createNotificationProfile(profile);
   }
@@ -3600,8 +3372,7 @@ export class BackupImportStream extends Writable {
     const customColors: CustomColorsItemType = {
       version: 1,
       colors: {},
-      order,
-    };
+      order};
 
     for (const color of customChatColors) {
       const uuid = generateUuid();
@@ -3611,8 +3382,7 @@ export class BackupImportStream extends Writable {
 
       if (color.solid) {
         value = {
-          start: rgbIntToDesktopHSL(color.solid),
-        };
+          start: rgbIntToDesktopHSL(color.solid)};
       } else if (color.gradient) {
         strictAssert(color.gradient != null, 'Either solid or gradient');
         strictAssert(color.gradient.colors != null, 'Missing gradient colors');
@@ -3628,8 +3398,7 @@ export class BackupImportStream extends Writable {
         value = {
           start: rgbIntToDesktopHSL(start),
           end: rgbIntToDesktopHSL(end),
-          deg,
-        };
+          deg};
       } else {
         log.error(
           'CustomChatColor missing both solid and gradient fields, dropping'
@@ -3641,8 +3410,7 @@ export class BackupImportStream extends Writable {
       customColors.colors[uuid] = value;
       this.#customColorById.set(color.id?.toNumber() || 0, {
         id: uuid,
-        value,
-      });
+        value});
     }
 
     await itemStorage.put('customColors', customColors);
@@ -3661,8 +3429,7 @@ export class BackupImportStream extends Writable {
         color: undefined,
         customColorData: undefined,
         dimWallpaperInDarkMode: undefined,
-        autoBubbleColor: true,
-      };
+        autoBubbleColor: true};
     }
 
     let wallpaperPhotoPointer: Uint8Array | undefined;
@@ -3789,15 +3556,12 @@ export class BackupImportStream extends Writable {
             autoBubbleColor,
             wallpaperPhotoPointer,
             wallpaperPreset,
-            dimWallpaperInDarkMode,
-          }
+            dimWallpaperInDarkMode}
         : {
             autoBubbleColor: undefined,
             wallpaperPhotoPointer: undefined,
             wallpaperPreset: undefined,
-            dimWallpaperInDarkMode: undefined,
-          }),
-    };
+            dimWallpaperInDarkMode: undefined})};
   }
 
   #getFilePointerOptions() {

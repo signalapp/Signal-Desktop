@@ -1,23 +1,28 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Payments feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: PaymentEventNotification component removed for Orbital
+// This file provides stub types to maintain compatibility
 
 import React from 'react';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
 import type { LocalizerType } from '../../types/Util.std.js';
 
-export type PropsType = {
+export enum PaymentEventNotificationSize {
+  Small = 'Small',
+  Large = 'Large',
+}
+
+export type Props = {
   event: AnyPaymentEvent;
   i18n: LocalizerType;
-  isIncoming: boolean;
-  sender: {
-    firstName?: string;
-    title: string;
-  };
+  sender: string;
+  conversationTitle: string;
+  size?: PaymentEventNotificationSize;
 };
 
-export function PaymentEventNotification(_props: PropsType): JSX.Element {
-  return <div>Payment notification removed</div>;
+export type PropsType = Props;
+
+export function PaymentEventNotification(_props: Props): JSX.Element {
+  return <div>Payment feature removed</div>;
 }

@@ -16,14 +16,11 @@ import {
   DataReader,
   DataWriter,
   pauseWriteAccess,
-  resumeWriteAccess,
-} from '../../sql/Client.preload.js';
+  resumeWriteAccess} from '../../sql/Client.preload.js';
 import type {
   PageMessagesCursorType,
-  IdentityKeyType,
-} from '../../sql/Interface.std.js';
+  IdentityKeyType} from '../../sql/Interface.std.js';
 import { createLogger } from '../../logging/log.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
 import { type CustomColorType } from '../../types/Colors.std.js';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.js';
 import { getStickerPacksForBackup } from '../../types/Stickers.preload.js';
@@ -31,16 +28,14 @@ import {
   isPniString,
   isServiceIdString,
   type AciString,
-  type ServiceIdString,
-} from '../../types/ServiceId.std.js';
+  type ServiceIdString} from '../../types/ServiceId.std.js';
 import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import { PaymentEventKind, isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
-  QuotedAttachmentType,
-} from '../../model-types.d.ts';
+  QuotedAttachmentType} from '../../model-types.d.ts';
 import { drop } from '../../util/drop.std.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
 import { explodePromise } from '../../util/explodePromise.std.js';
@@ -49,8 +44,7 @@ import {
   isGroup,
   isGroupV1,
   isGroupV2,
-  isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
+  isMe} from '../../util/whatTypeOfConversation.dom.js';
 import { uuidToBytes } from '../../util/uuidToBytes.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.js';
@@ -58,16 +52,13 @@ import {
   DAY,
   MINUTE,
   SECOND,
-  DurationInSeconds,
-} from '../../util/durations/index.std.js';
+  DurationInSeconds} from '../../util/durations/index.std.js';
 import {
   PhoneNumberDiscoverability,
-  parsePhoneNumberDiscoverability,
-} from '../../util/phoneNumberDiscoverability.std.js';
+  parsePhoneNumberDiscoverability} from '../../util/phoneNumberDiscoverability.std.js';
 import {
   PhoneNumberSharingMode,
-  parsePhoneNumberSharingMode,
-} from '../../types/PhoneNumberSharingMode.std.js';
+  parsePhoneNumberSharingMode} from '../../types/PhoneNumberSharingMode.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import {
   isCallHistory,
@@ -92,29 +83,25 @@ import {
   isChangeNumberNotification,
   isJoinedSignalNotification,
   isTitleTransitionNotification,
-  isMessageRequestResponse,
-} from '../../state/selectors/message.preload.js';
+  isMessageRequestResponse} from '../../state/selectors/message.preload.js';
 import * as Bytes from '../../Bytes.std.js';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.js';
 import { SendStatus } from '../../messages/MessageSendState.std.js';
 import { BACKUP_VERSION } from './constants.std.js';
 import {
   getMessageIdForLogging,
-  getConversationIdForLogging,
-} from '../../util/idForLogging.preload.js';
+  getConversationIdForLogging} from '../../util/idForLogging.preload.js';
 import { makeLookup } from '../../util/makeLookup.std.js';
 import type {
   CallHistoryDetails,
-  CallStatus,
-} from '../../types/CallDisposition.std.js';
+  CallStatus} from '../../types/CallDisposition.std.js';
 import {
   CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-  AdhocCallStatus,
-} from '../../types/CallDisposition.std.js';
+  AdhocCallStatus} from '../../types/CallDisposition.std.js';
 import { isAciString } from '../../util/isAciString.std.js';
 import { hslToRGBInt } from '../../util/hslToRGB.std.js';
 import type { AboutMe, LocalChatStyle } from './types.std.js';
@@ -122,38 +109,32 @@ import { BackupType } from './types.std.js';
 import { messageHasPaymentEvent } from '../../messages/payments.std.js';
 import {
   numberToAddressType,
-  numberToPhoneType,
-} from '../../types/EmbeddedContact.std.js';
+  numberToPhoneType} from '../../types/EmbeddedContact.std.js';
 import { toLogFormat } from '../../types/errors.std.js';
 import type { AttachmentType } from '../../types/Attachment.std.js';
 import {
   isGIF,
   isDownloaded,
-  hasRequiredInformationForBackup,
-} from '../../util/Attachment.std.js';
+  hasRequiredInformationForBackup} from '../../util/Attachment.std.js';
 import { getFilePointerForAttachment } from './util/filePointers.preload.js';
 import { getBackupMediaRootKey } from './crypto.preload.js';
 import type {
   CoreAttachmentBackupJobType,
-  PartialAttachmentLocalBackupJobType,
-} from '../../types/AttachmentBackup.std.js';
+  PartialAttachmentLocalBackupJobType} from '../../types/AttachmentBackup.std.js';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.js';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.preload.js';
 import {
   getBackupCdnInfo,
-  getMediaNameForAttachment,
-} from './util/mediaId.preload.js';
+  getMediaNameForAttachment} from './util/mediaId.preload.js';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import { CallLinkRestrictions } from '../../types/CallLink.std.js';
 import {
   isCallHistoryForUnusedCallLink,
-  toAdminKeyBytes,
-} from '../../util/callLinks.std.js';
+  toAdminKeyBytes} from '../../util/callLinks.std.js';
 import {
   getRoomIdFromRootKey,
-  toEpochBytes,
-} from '../../util/callLinksRingrtc.node.js';
+  toEpochBytes} from '../../util/callLinksRingrtc.node.js';
 import { SeenStatus } from '../../MessageSeenStatus.std.js';
 import { migrateAllMessages } from '../../messages/migrateMessageData.preload.js';
 import { isBodyTooLong, trimBody } from '../../util/longAttachment.std.js';
@@ -161,16 +142,14 @@ import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData
 import {
   getEnvironment,
   isTestEnvironment,
-  isTestOrMockEnvironment,
-} from '../../environment.std.js';
+  isTestOrMockEnvironment} from '../../environment.std.js';
 import { calculateLightness } from '../../util/getHSL.std.js';
 import { isSignalServiceId } from '../../util/isSignalConversation.dom.js';
 import { isValidE164 } from '../../util/isValidE164.std.js';
 import { toDayOfWeekArray } from '../../types/NotificationProfile.std.js';
 import {
   getLinkPreviewSetting,
-  getTypingIndicatorSetting,
-} from '../../util/Settings.preload.js';
+  getTypingIndicatorSetting} from '../../util/Settings.preload.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
@@ -226,8 +205,7 @@ type NonBubbleOptionsType = Pick<
 enum NonBubbleResultKind {
   Directed = 'Directed',
   Directionless = 'Directionless',
-  Drop = 'Drop',
-}
+  Drop = 'Drop'}
 
 type NonBubbleResultType = Readonly<
   | {
@@ -273,8 +251,7 @@ export class BackupExportStream extends Readable {
     notificationProfiles: 0,
     skippedMessages: 0,
     stickerPacks: 0,
-    fixedDirectMessages: 0,
-  };
+    fixedDirectMessages: 0};
   #ourConversation?: ConversationAttributesType;
   #attachmentBackupJobs: Array<
     CoreAttachmentBackupJobType | PartialAttachmentLocalBackupJobType
@@ -331,8 +308,7 @@ export class BackupExportStream extends Readable {
 
                 return AttachmentLocalBackupManager.addJob({
                   ...job,
-                  backupsBaseDir: localBackupsBaseDir,
-                });
+                  backupsBaseDir: localBackupsBaseDir});
               })
             );
             drop(AttachmentLocalBackupManager.start());
@@ -384,13 +360,11 @@ export class BackupExportStream extends Readable {
         backupTimeMs: this.#backupTimeMs,
         mediaRootBackupKey: getBackupMediaRootKey().serialize(),
         firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion'),
-        currentAppVersion: `Desktop ${window.getVersion()}`,
-      }).finish()
+        currentAppVersion: `Desktop ${window.getVersion()}`}).finish()
     );
 
     this.#pushFrame({
-      account: await this.#toAccountData(),
-    });
+      account: await this.#toAccountData()});
     await this.#flush();
 
     const identityKeys = await DataReader.getAllIdentityKeys();
@@ -416,8 +390,7 @@ export class BackupExportStream extends Readable {
       }
 
       this.#pushFrame({
-        recipient,
-      });
+        recipient});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -427,9 +400,7 @@ export class BackupExportStream extends Readable {
     this.#pushFrame({
       recipient: {
         id: Long.fromNumber(this.#getNextRecipientId()),
-        releaseNotes: {},
-      },
-    });
+        releaseNotes: {}}});
     await this.#flush();
 
     const distributionLists =
@@ -470,11 +441,7 @@ export class BackupExportStream extends Readable {
                   privacyMode,
                   memberRecipientIds: list.members.map(serviceId =>
                     this.#getOrPushPrivateRecipient({ serviceId })
-                  ),
-                },
-          },
-        },
-      });
+                  )}}}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -491,8 +458,7 @@ export class BackupExportStream extends Readable {
         name,
         restrictions,
         revoked,
-        expiration,
-      } = link;
+        expiration} = link;
 
       if (revoked) {
         continue;
@@ -515,10 +481,7 @@ export class BackupExportStream extends Readable {
             restrictions: toCallLinkRestrictionsProto(restrictions),
             expirationMs: isNumber(expiration)
               ? getSafeLongFromTimestamp(expiration)
-              : null,
-          },
-        },
-      });
+              : null}}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -531,9 +494,7 @@ export class BackupExportStream extends Readable {
       this.#pushFrame({
         stickerPack: {
           packId: Bytes.fromHex(id),
-          packKey: Bytes.fromBase64(key),
-        },
-      });
+          packKey: Bytes.fromBase64(key)}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -609,10 +570,7 @@ export class BackupExportStream extends Readable {
             color: attributes.conversationColor,
             customColorId: attributes.customColorId,
             dimWallpaperInDarkMode: attributes.dimWallpaperInDarkMode,
-            autoBubbleColor: attributes.autoBubbleColor,
-          }),
-        },
-      });
+            autoBubbleColor: attributes.autoBubbleColor})}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -627,8 +585,7 @@ export class BackupExportStream extends Readable {
         type,
         peerId: roomId,
         status,
-        timestamp,
-      } = item;
+        timestamp} = item;
 
       if (type !== CallType.Adhoc || isCallHistoryForUnusedCallLink(item)) {
         continue;
@@ -662,9 +619,7 @@ export class BackupExportStream extends Readable {
           callId,
           recipientId: Long.fromNumber(recipientId),
           state: toAdHocCallStateProto(status),
-          callTimestamp: Long.fromNumber(timestamp),
-        },
-      });
+          callTimestamp: Long.fromNumber(timestamp)}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -687,8 +642,7 @@ export class BackupExportStream extends Readable {
         scheduleEnabled,
         scheduleStartTime,
         scheduleEndTime,
-        scheduleDaysEnabled,
-      } = profile;
+        scheduleDaysEnabled} = profile;
 
       const allowedRecipients = Array.from(allowedMembers)
         .map(conversationId => {
@@ -716,9 +670,7 @@ export class BackupExportStream extends Readable {
           scheduleEnabled,
           scheduleStartTime,
           scheduleEndTime,
-          scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled),
-        },
-      });
+          scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled)}});
 
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
@@ -736,8 +688,7 @@ export class BackupExportStream extends Readable {
     strictAssert(aci, 'We must have our own ACI');
     const aboutMe = {
       aci,
-      pni: me.get('pni'),
-    };
+      pni: me.get('pni')};
 
     try {
       while (!cursor?.done) {
@@ -753,8 +704,7 @@ export class BackupExportStream extends Readable {
               aboutMe,
               callHistoryByCallId,
               backupLevel,
-              isLocalBackup,
-            });
+              isLocalBackup});
 
             if (chatItem === undefined) {
               this.#stats.skippedMessages += 1;
@@ -763,8 +713,7 @@ export class BackupExportStream extends Readable {
             }
 
             this.#pushFrame({
-              chatItem,
-            });
+              chatItem});
 
             this.#stats.messages += 1;
           },
@@ -786,8 +735,7 @@ export class BackupExportStream extends Readable {
 
     log.warn('backups: final stats', {
       ...this.#stats,
-      attachmentBackupJobs: this.#attachmentBackupJobs.length,
-    });
+      attachmentBackupJobs: this.#attachmentBackupJobs.length});
 
     this.push(null);
   }
@@ -874,8 +822,7 @@ export class BackupExportStream extends Readable {
             ...usernameLink,
 
             // Same numeric value, no conversion needed
-            color: itemStorage.get('usernameLinkColor'),
-          }
+            color: itemStorage.get('usernameLinkColor')}
         : null,
       givenName: me.get('profileName'),
       familyName: me.get('profileFamilyName'),
@@ -889,8 +836,7 @@ export class BackupExportStream extends Readable {
               manuallyCancelled: itemStorage.get(
                 'donorSubscriptionManuallyCancelled',
                 false
-              ),
-            }
+              )}
           : null,
       svrPin: itemStorage.get('svrPin'),
       accountSettings: {
@@ -928,11 +874,8 @@ export class BackupExportStream extends Readable {
           ? {
               optimizeOnDeviceStorage: itemStorage.get(
                 'optimizeOnDeviceStorage'
-              ),
-            }
-          : {}),
-      },
-    };
+              )}
+          : {})}};
   }
 
   #getExistingRecipientId(
@@ -991,9 +934,7 @@ export class BackupExportStream extends Readable {
           type: 'private',
           serviceId,
           pni: isPniString(serviceId) ? serviceId : undefined,
-          e164,
-        }),
-      });
+          e164})});
     }
 
     return result;
@@ -1015,13 +956,11 @@ export class BackupExportStream extends Readable {
     identityKeysById?: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>
   ): Backups.IRecipient | undefined {
     const res: Backups.IRecipient = {
-      id: recipientId,
-    };
+      id: recipientId};
 
     if (isMe(convo)) {
       res.self = {
-        avatarColor: toAvatarColor(convo.color),
-      };
+        avatarColor: toAvatarColor(convo.color)};
     } else if (isDirectConversation(convo)) {
       // Skip story onboarding conversation and other internal conversations.
       if (
@@ -1091,12 +1030,9 @@ export class BackupExportStream extends Readable {
               notRegistered: {
                 unregisteredTimestamp: convo.firstUnregisteredAt
                   ? getSafeLongFromTimestamp(convo.firstUnregisteredAt)
-                  : null,
-              },
-            }
+                  : null}}
           : {
-              registered: {},
-            }),
+              registered: {}}),
         profileKey: convo.profileKey
           ? Bytes.fromBase64(convo.profileKey)
           : null,
@@ -1116,11 +1052,9 @@ export class BackupExportStream extends Readable {
           nicknameGivenName || nicknameFamilyName
             ? {
                 given: nicknameGivenName,
-                family: nicknameFamilyName,
-              }
+                family: nicknameFamilyName}
             : null,
-        note,
-      };
+        note};
     } else if (isGroupV2(convo) && convo.masterKey) {
       let storySendMode: Backups.Group.StorySendMode;
       switch (convo.storySendMode) {
@@ -1148,13 +1082,11 @@ export class BackupExportStream extends Readable {
         avatarColor: toAvatarColor(convo.color),
         snapshot: {
           title: {
-            title: convo.name?.trim() ?? '',
-          },
+            title: convo.name?.trim() ?? ''},
           description:
             convo.description != null
               ? {
-                  descriptionText: convo.description.trim(),
-                }
+                  descriptionText: convo.description.trim()}
               : null,
           avatarUrl: convo.avatar?.url,
           disappearingMessagesTimer:
@@ -1162,8 +1094,7 @@ export class BackupExportStream extends Readable {
               ? {
                   disappearingMessagesDuration: DurationInSeconds.toSeconds(
                     convo.expireTimer
-                  ),
-                }
+                  )}
               : null,
           accessControl: convo.accessControl,
           version: convo.revision || 0,
@@ -1171,40 +1102,33 @@ export class BackupExportStream extends Readable {
             return {
               userId: this.#aciToBytes(member.aci),
               role: member.role,
-              joinedAtVersion: member.joinedAtVersion,
-            };
+              joinedAtVersion: member.joinedAtVersion};
           }),
           membersPendingProfileKey: convo.pendingMembersV2?.map(member => {
             return {
               member: {
                 userId: this.#serviceIdToBytes(member.serviceId),
                 role: member.role,
-                joinedAtVersion: 0,
-              },
+                joinedAtVersion: 0},
               addedByUserId: this.#aciToBytes(member.addedByUserId),
-              timestamp: getSafeLongFromTimestamp(member.timestamp),
-            };
+              timestamp: getSafeLongFromTimestamp(member.timestamp)};
           }),
           membersPendingAdminApproval: convo.pendingAdminApprovalV2?.map(
             member => {
               return {
                 userId: this.#aciToBytes(member.aci),
-                timestamp: getSafeLongFromTimestamp(member.timestamp),
-              };
+                timestamp: getSafeLongFromTimestamp(member.timestamp)};
             }
           ),
           membersBanned: convo.bannedMembersV2?.map(member => {
             return {
               userId: this.#serviceIdToBytes(member.serviceId),
-              timestamp: getSafeLongFromTimestamp(member.timestamp),
-            };
+              timestamp: getSafeLongFromTimestamp(member.timestamp)};
           }),
           inviteLinkPassword: convo.groupInviteLinkPassword
             ? Bytes.fromBase64(convo.groupInviteLinkPassword)
             : null,
-          announcementsOnly: convo.announcementsOnly === true,
-        },
-      };
+          announcementsOnly: convo.announcementsOnly === true}};
     } else {
       return undefined;
     }
@@ -1218,8 +1142,7 @@ export class BackupExportStream extends Readable {
       aboutMe,
       callHistoryByCallId,
       backupLevel,
-      isLocalBackup,
-    }: ToChatItemOptionsType
+      isLocalBackup}: ToChatItemOptionsType
   ): Promise<Backups.IChatItem | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
@@ -1271,13 +1194,11 @@ export class BackupExportStream extends Readable {
     if (message.sourceServiceId) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: message.sourceServiceId,
-        e164: message.source,
-      });
+        e164: message.source});
     } else if (message.source) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: message.sourceServiceId,
-        e164: message.source,
-      });
+        e164: message.source});
 
       if (
         isIncoming &&
@@ -1285,8 +1206,7 @@ export class BackupExportStream extends Readable {
         isDirectConversation(conversation.attributes)
       ) {
         const convoAuthor = this.#getOrPushPrivateRecipient({
-          id: conversation.attributes.id,
-        });
+          id: conversation.attributes.id});
 
         // Fix conversation id for misattributed e164-only incoming 1:1
         // messages.
@@ -1300,8 +1220,7 @@ export class BackupExportStream extends Readable {
 
       // Author must be always present, even if we are directionless
       authorId = this.#getOrPushPrivateRecipient({
-        serviceId: aboutMe.aci,
-      });
+        serviceId: aboutMe.aci});
     }
 
     if (isOutgoing || isIncoming) {
@@ -1332,16 +1251,14 @@ export class BackupExportStream extends Readable {
       expireStartDate,
       expiresInMs,
       revisions: [],
-      sms: message.sms === true,
-    };
+      sms: message.sms === true};
 
     if (!isNormalBubble(message)) {
       const { patch, kind } = await this.#toChatItemFromNonBubble({
         authorId,
         message,
         aboutMe,
-        callHistoryByCallId,
-      });
+        callHistoryByCallId});
 
       if (kind === NonBubbleResultKind.Drop) {
         return undefined;
@@ -1353,8 +1270,7 @@ export class BackupExportStream extends Readable {
           'Incoming/outgoing non-bubble messages require an author'
         );
         const me = this.#getOrPushPrivateRecipient({
-          serviceId: aboutMe.aci,
-        });
+          serviceId: aboutMe.aci});
 
         if (authorId === me) {
           result.outgoing = this.#getOutgoingMessageDetails(
@@ -1379,8 +1295,7 @@ export class BackupExportStream extends Readable {
       result.viewOnceMessage = await this.#toViewOnceMessage({
         message,
         backupLevel,
-        isLocalBackup,
-      });
+        isLocalBackup});
     } else if (message.deletedForEveryone) {
       result.remoteDeletedMessage = {};
     } else if (messageHasPaymentEvent(message)) {
@@ -1394,36 +1309,26 @@ export class BackupExportStream extends Readable {
           result.directionless = {};
           result.updateMessage = {
             simpleUpdate: {
-              type: Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST,
-            },
-          };
+              type: Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST}};
           break;
         }
         case PaymentEventKind.Activation: {
           result.directionless = {};
           result.updateMessage = {
             simpleUpdate: {
-              type: Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED,
-            },
-          };
+              type: Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED}};
           break;
         }
         case PaymentEventKind.Notification:
+          // STUB: Payment notification details removed
           if (isPaymentNotificationEvent(payment)) {
             result.paymentNotification = {
               note: payment.note ?? null,
-              amountMob: payment.amountMob,
-              feeMob: payment.feeMob,
-              transactionDetails: payment.transactionDetailsBase64
-                ? Backups.PaymentNotification.TransactionDetails.decode(
-                    Bytes.fromBase64(payment.transactionDetailsBase64)
-                  )
-                : undefined,
             };
           }
           break;
         default:
-          throw missingCaseError(payment);
+          throw missingCaseError(payment.kind);
       }
     } else if (contact && contact[0]) {
       const [contactDetails] = contact;
@@ -1433,25 +1338,20 @@ export class BackupExportStream extends Readable {
         ...contactDetails,
         number: contactDetails.number?.map(number => ({
           ...number,
-          type: numberToPhoneType(number.type),
-        })),
+          type: numberToPhoneType(number.type)})),
         email: contactDetails.email?.map(email => ({
           ...email,
-          type: numberToPhoneType(email.type),
-        })),
+          type: numberToPhoneType(email.type)})),
         address: contactDetails.address?.map(address => ({
           ...address,
-          type: numberToAddressType(address.type),
-        })),
+          type: numberToAddressType(address.type)})),
         avatar: contactDetails.avatar?.avatar
           ? await this.#processAttachment({
               attachment: contactDetails.avatar.avatar,
               backupLevel,
               isLocalBackup,
-              messageReceivedAt: message.received_at,
-            })
-          : undefined,
-      };
+              messageReceivedAt: message.received_at})
+          : undefined};
 
       const reactions = this.#getMessageReactions(message);
       if (reactions != null) {
@@ -1470,51 +1370,25 @@ export class BackupExportStream extends Readable {
             attachment: sticker.data,
             backupLevel,
             isLocalBackup,
-            messageReceivedAt: message.received_at,
-          })
+            messageReceivedAt: message.received_at})
         : undefined;
 
       result.stickerMessage = {
         sticker: stickerProto,
-        reactions: this.#getMessageReactions(message),
-      };
+        reactions: this.#getMessageReactions(message)};
     } else if (isGiftBadge(message)) {
+      // STUB: Gift badge feature removed - always export as FAILED state
       const { giftBadge } = message;
       strictAssert(giftBadge != null, 'Message must have gift badge');
 
-      if (giftBadge.state === GiftBadgeStates.Failed) {
-        result.giftBadge = {
-          state: Backups.GiftBadge.State.FAILED,
-        };
-      } else {
-        let state: Backups.GiftBadge.State;
-        switch (giftBadge.state) {
-          case GiftBadgeStates.Unopened:
-            state = Backups.GiftBadge.State.UNOPENED;
-            break;
-          case GiftBadgeStates.Opened:
-            state = Backups.GiftBadge.State.OPENED;
-            break;
-          case GiftBadgeStates.Redeemed:
-            state = Backups.GiftBadge.State.REDEEMED;
-            break;
-          default:
-            throw missingCaseError(giftBadge);
-        }
-
-        result.giftBadge = {
-          receiptCredentialPresentation: Bytes.fromBase64(
-            giftBadge.receiptCredentialPresentation
-          ),
-          state,
-        };
-      }
+      result.giftBadge = {
+        state: Backups.GiftBadge.State.FAILED,
+      };
     } else if (message.storyReplyContext) {
       result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
         message,
         backupLevel,
-        isLocalBackup,
-      });
+        isLocalBackup});
 
       result.revisions = await this.#toChatItemRevisions(
         result,
@@ -1526,8 +1400,7 @@ export class BackupExportStream extends Readable {
       result.standardMessage = await this.#toStandardMessage({
         message,
         backupLevel,
-        isLocalBackup,
-      });
+        isLocalBackup});
 
       result.revisions = await this.#toChatItemRevisions(
         result,
@@ -1580,8 +1453,7 @@ export class BackupExportStream extends Readable {
     const updateMessage = new Backups.ChatUpdateMessage();
 
     const patch: Backups.IChatItem = {
-      updateMessage,
-    };
+      updateMessage};
 
     if (isCallHistory(message)) {
       const conversation = window.ConversationController.get(
@@ -1731,12 +1603,10 @@ export class BackupExportStream extends Readable {
         if (sourceServiceId) {
           patch.authorId = this.#getOrPushPrivateRecipient({
             id: source,
-            serviceId: sourceServiceId,
-          });
+            serviceId: sourceServiceId});
         } else if (source) {
           patch.authorId = this.#getOrPushPrivateRecipient({
-            id: source,
-          });
+            id: source});
         }
       }
 
@@ -1819,8 +1689,7 @@ export class BackupExportStream extends Readable {
       if (message.verifiedChanged) {
         // This will override authorId on the original chatItem
         patch.authorId = this.#getOrPushPrivateRecipient({
-          id: message.verifiedChanged,
-        });
+          id: message.verifiedChanged});
       }
 
       return { kind: NonBubbleResultKind.Directionless, patch };
@@ -1828,16 +1697,14 @@ export class BackupExportStream extends Readable {
 
     if (isChangeNumberNotification(message)) {
       updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.CHANGE_NUMBER,
-      };
+        type: Backups.SimpleChatUpdate.Type.CHANGE_NUMBER};
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isJoinedSignalNotification(message)) {
       updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.JOINED_SIGNAL,
-      };
+        type: Backups.SimpleChatUpdate.Type.JOINED_SIGNAL};
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -1850,8 +1717,7 @@ export class BackupExportStream extends Readable {
       const { renderInfo } = message.titleTransition;
       if (renderInfo.e164) {
         updateMessage.learnedProfileChange = {
-          e164: Long.fromString(renderInfo.e164),
-        };
+          e164: Long.fromString(renderInfo.e164)};
       } else {
         strictAssert(
           renderInfo.username,
@@ -1895,8 +1761,7 @@ export class BackupExportStream extends Readable {
 
     if (isDeliveryIssue(message)) {
       updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT,
-      };
+        type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT};
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -1914,8 +1779,7 @@ export class BackupExportStream extends Readable {
       // However, we need to include proper `authorId` for compatibility with
       // other clients.
       patch.authorId = this.#getOrPushPrivateRecipient({
-        id: message.conversationId,
-      });
+        id: message.conversationId});
 
       updateMessage.threadMerge = threadMerge;
 
@@ -1929,8 +1793,7 @@ export class BackupExportStream extends Readable {
       }
 
       updateMessage.sessionSwitchover = {
-        e164: Long.fromString(e164),
-      };
+        e164: Long.fromString(e164)};
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
@@ -1952,11 +1815,8 @@ export class BackupExportStream extends Readable {
             genericGroupUpdate: {
               updaterAci: message.sourceServiceId
                 ? this.#aciToBytesOrUndefined(message.sourceServiceId)
-                : undefined,
-            },
-          },
-        ],
-      };
+                : undefined}},
+        ]};
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2347,8 +2207,7 @@ export class BackupExportStream extends Readable {
               : undefined,
             inviteePni: isPniString(detail.serviceId)
               ? this.#serviceIdToBytes(detail.serviceId)
-              : undefined,
-          },
+              : undefined},
         ];
 
         update.groupInvitationRevokedUpdate = innerUpdate;
@@ -2453,8 +2312,7 @@ export class BackupExportStream extends Readable {
   async #toQuote({
     message,
     backupLevel,
-    isLocalBackup,
-  }: {
+    isLocalBackup}: {
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
     backupLevel: BackupLevel;
     isLocalBackup: boolean;
@@ -2468,13 +2326,11 @@ export class BackupExportStream extends Readable {
     if (quote.authorAci) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: quote.authorAci,
-        e164: quote.author,
-      });
+        e164: quote.author});
     } else if (quote.author) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: quote.authorAci,
-        e164: quote.author,
-      });
+        e164: quote.author});
     } else {
       log.warn('backups: quote has no author id');
       return null;
@@ -2505,8 +2361,7 @@ export class BackupExportStream extends Readable {
               body: quote.text,
               bodyRanges: quote.bodyRanges?.map(range =>
                 this.#toBodyRange(range)
-              ),
-            }
+              )}
           : null,
       attachments: await Promise.all(
         quote.attachments.map(
@@ -2521,15 +2376,12 @@ export class BackupExportStream extends Readable {
                     attachment: attachment.thumbnail,
                     backupLevel,
                     message,
-                    isLocalBackup,
-                  })
-                : undefined,
-            };
+                    isLocalBackup})
+                : undefined};
           }
         )
       ),
-      type: quoteType,
-    };
+      type: quoteType};
   }
 
   #toBodyRange(range: RawBodyRange): Backups.IBodyRange {
@@ -2539,13 +2391,10 @@ export class BackupExportStream extends Readable {
 
       ...('mentionAci' in range
         ? {
-            mentionAci: this.#aciToBytes(range.mentionAci),
-          }
+            mentionAci: this.#aciToBytes(range.mentionAci)}
         : {
             // Numeric values are compatible between backup and message protos
-            style: range.style,
-          }),
-    };
+            style: range.style})};
   }
 
   #getMessageAttachmentFlag(
@@ -2580,8 +2429,7 @@ export class BackupExportStream extends Readable {
     attachment,
     backupLevel,
     message,
-    isLocalBackup,
-  }: {
+    isLocalBackup}: {
     attachment: AttachmentType;
     backupLevel: BackupLevel;
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
@@ -2592,23 +2440,20 @@ export class BackupExportStream extends Readable {
       attachment,
       backupLevel,
       messageReceivedAt: message.received_at,
-      isLocalBackup,
-    });
+      isLocalBackup});
 
     return new Backups.MessageAttachment({
       pointer: filePointer,
       flag: this.#getMessageAttachmentFlag(message, attachment),
       wasDownloaded: isDownloaded(attachment),
-      clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
-    });
+      clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined});
   }
 
   async #processAttachment({
     attachment,
     backupLevel,
     isLocalBackup,
-    messageReceivedAt,
-  }: {
+    messageReceivedAt}: {
     attachment: AttachmentType;
     backupLevel: BackupLevel;
     isLocalBackup: boolean;
@@ -2619,8 +2464,7 @@ export class BackupExportStream extends Readable {
       isLocalBackup,
       backupLevel,
       messageReceivedAt,
-      getBackupCdnInfo,
-    });
+      getBackupCdnInfo});
 
     if (hasRequiredInformationForBackup(attachment)) {
       const mediaName = getMediaNameForAttachment(attachment);
@@ -2649,8 +2493,7 @@ export class BackupExportStream extends Readable {
   }
 
   #getMessageReactions({
-    reactions,
-  }: Pick<MessageAttributesType, 'reactions'>):
+    reactions}: Pick<MessageAttributesType, 'reactions'>):
     | Array<Backups.IReaction>
     | undefined {
     if (reactions == null) {
@@ -2661,11 +2504,9 @@ export class BackupExportStream extends Readable {
       return {
         emoji: reaction.emoji,
         authorId: this.#getOrPushPrivateRecipient({
-          id: reaction.fromId,
-        }),
+          id: reaction.fromId}),
         sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
-        sortOrder: Long.fromNumber(sortOrder),
-      };
+        sortOrder: Long.fromNumber(sortOrder)};
     });
   }
 
@@ -2674,8 +2515,7 @@ export class BackupExportStream extends Readable {
     editMessageReceivedAtMs,
     serverTimestamp,
     readStatus,
-    unidentifiedDeliveryReceived,
-  }: Pick<
+    unidentifiedDeliveryReceived}: Pick<
     MessageAttributesType,
     | 'received_at_ms'
     | 'editMessageReceivedAtMs'
@@ -2692,8 +2532,7 @@ export class BackupExportStream extends Readable {
           ? getSafeLongFromTimestamp(serverTimestamp)
           : null,
       read: readStatus === ReadStatus.Read || readStatus === ReadStatus.Viewed,
-      sealedSender: unidentifiedDeliveryReceived === true,
-    };
+      sealedSender: unidentifiedDeliveryReceived === true};
   }
 
   #getOutgoingMessageDetails(
@@ -2703,8 +2542,7 @@ export class BackupExportStream extends Readable {
       unidentifiedDeliveries = [],
       errors = [],
       received_at_ms: receivedAtMs,
-      editMessageReceivedAtMs,
-    }: Pick<
+      editMessageReceivedAtMs}: Pick<
       MessageAttributesType,
       | 'sendStateByConversationId'
       | 'unidentifiedDeliveries'
@@ -2758,23 +2596,19 @@ export class BackupExportStream extends Readable {
           break;
         case SendStatus.Sent:
           sendStatus.sent = new Backups.SendStatus.Sent({
-            sealedSender,
-          });
+            sealedSender});
           break;
         case SendStatus.Delivered:
           sendStatus.delivered = new Backups.SendStatus.Delivered({
-            sealedSender,
-          });
+            sealedSender});
           break;
         case SendStatus.Read:
           sendStatus.read = new Backups.SendStatus.Read({
-            sealedSender,
-          });
+            sealedSender});
           break;
         case SendStatus.Viewed:
           sendStatus.viewed = new Backups.SendStatus.Viewed({
-            sealedSender,
-          });
+            sealedSender});
           break;
         case SendStatus.Skipped:
           sendStatus.skipped = {};
@@ -2814,15 +2648,13 @@ export class BackupExportStream extends Readable {
     return {
       sendStatus: sendStatuses,
       dateReceived:
-        dateReceived != null ? getSafeLongFromTimestamp(dateReceived) : null,
-    };
+        dateReceived != null ? getSafeLongFromTimestamp(dateReceived) : null};
   }
 
   async #toStandardMessage({
     message,
     backupLevel,
-    isLocalBackup,
-  }: {
+    isLocalBackup}: {
     message: Pick<
       MessageAttributesType,
       | 'quote'
@@ -2849,8 +2681,7 @@ export class BackupExportStream extends Readable {
       quote: await this.#toQuote({
         message,
         backupLevel,
-        isLocalBackup,
-      }),
+        isLocalBackup}),
       attachments: message.attachments?.length
         ? await Promise.all(
             message.attachments.map(attachment => {
@@ -2858,8 +2689,7 @@ export class BackupExportStream extends Readable {
                 attachment,
                 backupLevel,
                 message,
-                isLocalBackup,
-              });
+                isLocalBackup});
             })
           )
         : undefined,
@@ -2871,8 +2701,7 @@ export class BackupExportStream extends Readable {
               attachment: message.bodyAttachment,
               backupLevel,
               isLocalBackup,
-              messageReceivedAt: message.received_at,
-            })
+              messageReceivedAt: message.received_at})
           : undefined,
       text:
         message.body != null
@@ -2882,8 +2711,7 @@ export class BackupExportStream extends Readable {
                 : undefined,
               bodyRanges: message.bodyRanges?.map(range =>
                 this.#toBodyRange(range)
-              ),
-            }
+              )}
           : undefined,
       linkPreview: message.preview
         ? await Promise.all(
@@ -2898,22 +2726,18 @@ export class BackupExportStream extends Readable {
                       attachment: preview.image,
                       backupLevel,
                       isLocalBackup,
-                      messageReceivedAt: message.received_at,
-                    })
-                  : undefined,
-              };
+                      messageReceivedAt: message.received_at})
+                  : undefined};
             })
           )
         : undefined,
-      reactions: this.#getMessageReactions(message),
-    };
+      reactions: this.#getMessageReactions(message)};
   }
 
   async #toDirectStoryReplyMessage({
     message,
     backupLevel,
-    isLocalBackup,
-  }: {
+    isLocalBackup}: {
     message: Pick<
       MessageAttributesType,
       | 'body'
@@ -2927,8 +2751,7 @@ export class BackupExportStream extends Readable {
     isLocalBackup: boolean;
   }): Promise<Backups.IDirectStoryReplyMessage> {
     const result = new Backups.DirectStoryReplyMessage({
-      reactions: this.#getMessageReactions(message),
-    });
+      reactions: this.#getMessageReactions(message)});
 
     if (message.storyReaction) {
       result.emoji = message.storyReaction.emoji;
@@ -2939,8 +2762,7 @@ export class BackupExportStream extends Readable {
               attachment: message.bodyAttachment,
               backupLevel,
               isLocalBackup,
-              messageReceivedAt: message.received_at,
-            })
+              messageReceivedAt: message.received_at})
           : undefined,
         text:
           message.body != null
@@ -2948,10 +2770,8 @@ export class BackupExportStream extends Readable {
                 body: message.body ? trimBody(message.body) : undefined,
                 bodyRanges: message.bodyRanges?.map(range =>
                   this.#toBodyRange(range)
-                ),
-              }
-            : undefined,
-      };
+                )}
+            : undefined};
     }
     return result;
   }
@@ -2959,8 +2779,7 @@ export class BackupExportStream extends Readable {
   async #toViewOnceMessage({
     message,
     backupLevel,
-    isLocalBackup,
-  }: {
+    isLocalBackup}: {
     message: Pick<
       MessageAttributesType,
       'attachments' | 'received_at' | 'reactions'
@@ -2980,10 +2799,8 @@ export class BackupExportStream extends Readable {
               attachment,
               backupLevel,
               message,
-              isLocalBackup,
-            }),
-      reactions: this.#getMessageReactions(message),
-    };
+              isLocalBackup}),
+      reactions: this.#getMessageReactions(message)};
   }
 
   async #toChatItemRevisions(
@@ -3016,27 +2833,23 @@ export class BackupExportStream extends Readable {
             // Directional details
             outgoing: isOutgoing
               ? this.#getOutgoingMessageDetails(history.timestamp, history, {
-                  conversationId: message.conversationId,
-                })
+                  conversationId: message.conversationId})
               : undefined,
             incoming: isOutgoing
               ? undefined
-              : this.#getIncomingMessageDetails(history),
-          };
+              : this.#getIncomingMessageDetails(history)};
 
           if (parent.directStoryReplyMessage) {
             result.directStoryReplyMessage =
               await this.#toDirectStoryReplyMessage({
                 message: history,
                 backupLevel,
-                isLocalBackup,
-              });
+                isLocalBackup});
           } else {
             result.standardMessage = await this.#toStandardMessage({
               message: history,
               backupLevel,
-              isLocalBackup,
-            });
+              isLocalBackup});
           }
           return result;
         })
@@ -3086,8 +2899,7 @@ export class BackupExportStream extends Readable {
       if (color.end == null) {
         result.push({
           id,
-          solid: start,
-        });
+          solid: start});
       } else {
         const end = desktopHslToRgbInt(
           color.end.hue,
@@ -3100,9 +2912,7 @@ export class BackupExportStream extends Readable {
           gradient: {
             colors: [start, end],
             positions: [0, 1],
-            angle: color.deg,
-          },
-        });
+            angle: color.deg}});
       }
     }
 
@@ -3127,8 +2937,7 @@ export class BackupExportStream extends Readable {
       color: defaultColor?.color,
       customColorId: defaultColor?.customColorData?.id,
       dimWallpaperInDarkMode,
-      autoBubbleColor,
-    });
+      autoBubbleColor});
   }
 
   #toChatStyle({
@@ -3137,11 +2946,9 @@ export class BackupExportStream extends Readable {
     color,
     customColorId,
     dimWallpaperInDarkMode,
-    autoBubbleColor,
-  }: LocalChatStyle): Backups.IChatStyle | null {
+    autoBubbleColor}: LocalChatStyle): Backups.IChatStyle | null {
     const result: Backups.IChatStyle = {
-      dimWallpaperInDarkMode,
-    };
+      dimWallpaperInDarkMode};
 
     // The defaults
     if (

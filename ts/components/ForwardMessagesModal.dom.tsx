@@ -8,8 +8,7 @@ import React, {
   useMemo,
   useRef,
   useState,
-  Fragment,
-} from 'react';
+  Fragment} from 'react';
 import { AttachmentList } from './conversation/AttachmentList.dom.js';
 import type { AttachmentForUIType } from '../types/Attachment.std.js';
 import { Button } from './Button.dom.js';
@@ -18,7 +17,6 @@ import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbo
 import type { Row } from './ConversationList.dom.js';
 import { ConversationList, RowType } from './ConversationList.dom.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.js';
 import { SearchInput } from './SearchInput.dom.js';
@@ -26,8 +24,7 @@ import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.js';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.js';
 import {
   shouldNeverBeCalled,
-  asyncShouldNeverBeCalled,
-} from '../util/shouldNeverBeCalled.std.js';
+  asyncShouldNeverBeCalled} from '../util/shouldNeverBeCalled.std.js';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
 import { LinkPreviewSourceType } from '../types/LinkPreview.std.js';
 import { ToastType } from '../types/Toast.dom.js';
@@ -40,16 +37,14 @@ import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
 import {
   isDraftEditable,
   isDraftForwardable,
-  type MessageForwardDraft,
-} from '../types/ForwardDraft.std.js';
+  type MessageForwardDraft} from '../types/ForwardDraft.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { Theme } from '../util/theme.std.js';
 import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 export enum ForwardMessagesModalType {
   Forward,
-  ShareCallLink,
-}
+  ShareCallLink}
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -58,7 +53,7 @@ export type DataPropsType = {
     drafts: ReadonlyArray<MessageForwardDraft>
   ) => void;
   drafts: ReadonlyArray<MessageForwardDraft>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   isInFullScreenCall: boolean;
 
@@ -100,8 +95,7 @@ export function ForwardMessagesModal({
   RenderCompositionTextArea,
   showToast,
   theme,
-  regionCode,
-}: PropsType): JSX.Element {
+  regionCode}: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
@@ -152,19 +146,16 @@ export function ForwardMessagesModal({
           const result = applyRangesToText(
             {
               body: draft.messageBody ?? '',
-              bodyRanges: draft.bodyRanges ?? [],
-            },
+              bodyRanges: draft.bodyRanges ?? []},
             {
               replaceMentions: true,
-              replaceSpoilers: false,
-            }
+              replaceSpoilers: false}
           );
 
           return {
             ...draft,
             messageBody: result.body,
-            bodyRanges: result.bodyRanges,
-          };
+            bodyRanges: result.bodyRanges};
         })
       );
     }
@@ -259,8 +250,7 @@ export function ForwardMessagesModal({
       type: RowType.ContactCheckbox,
       contact,
       isChecked: isSelected,
-      disabledReason,
-    };
+      disabledReason};
   };
 
   useEffect(() => {
@@ -461,8 +451,7 @@ function ForwardMessageEditor({
   onChange,
   onChangeAttachments,
   onSubmit,
-  theme,
-}: ForwardMessageEditorProps): JSX.Element {
+  theme}: ForwardMessageEditorProps): JSX.Element {
   const { attachments } = draft;
   return (
     <div className="module-ForwardMessageModal__main-body">

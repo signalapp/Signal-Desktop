@@ -7,8 +7,7 @@ import { getIntl, getTheme } from '../selectors/user.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getConversationByIdSelector,
-  getConversationByServiceIdSelector,
-} from '../selectors/conversations.dom.js';
+  getConversationByServiceIdSelector} from '../selectors/conversations.dom.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import { assertDev } from '../../util/assert.std.js';
 import type { AciString } from '../../types/ServiceId.std.js';
@@ -21,12 +20,10 @@ export type SmartPendingInvitesProps = {
 
 export const SmartPendingInvites = memo(function SmartPendingInvites({
   conversationId,
-  ourAci,
-}: SmartPendingInvitesProps) {
+  ourAci}: SmartPendingInvitesProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const conversationSelector = useSelector(getConversationByIdSelector);
+    const conversationSelector = useSelector(getConversationByIdSelector);
   const conversationByServiceIdSelector = useSelector(
     getConversationByServiceIdSelector
   );
@@ -41,8 +38,10 @@ export const SmartPendingInvites = memo(function SmartPendingInvites({
   );
   const {
     approvePendingMembershipFromGroupV2,
-    revokePendingMembershipsFromGroupV2,
-  } = useConversationsActions();
+    revokePendingMembershipsFromGroupV2} = useConversationsActions();
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <PendingInvites
       i18n={i18n}

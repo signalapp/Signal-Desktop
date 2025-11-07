@@ -8,7 +8,6 @@ import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import type { BadgeType } from '../../badges/types.std.js';
 import { isConversationUnread } from '../../util/isConversationUnread.std.js';
 import { cleanId } from '../_util.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
@@ -83,7 +82,7 @@ type PropsType = {
 > &
   (
     | { badge?: undefined; theme?: ThemeType }
-    | { badge: BadgeType; theme: ThemeType }
+    | { badge: any; theme: ThemeType }
   );
 
 export const BaseConversationListItem: FunctionComponent<PropsType> =
@@ -122,8 +121,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       unreadCount,
       unreadMentionsCount,
       serviceId,
-      renderConversationListItemContextMenu,
-    } = props;
+      renderConversationListItemContextMenu} = props;
 
     const identifier = id ? cleanId(id) : undefined;
     const htmlId = useMemo(() => generateUuid(), []);
@@ -150,16 +148,13 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       let ariaLabel: string;
       if (disabled) {
         ariaLabel = i18n('icu:cannotSelectContact', {
-          name: title,
-        });
+          name: title});
       } else if (checked) {
         ariaLabel = i18n('icu:deselectContact', {
-          name: title,
-        });
+          name: title});
       } else {
         ariaLabel = i18n('icu:selectContact', {
-          name: title,
-        });
+          name: title});
       }
       actionNode = (
         <div className={CHECKBOX_CONTAINER_CLASS_NAME}>
@@ -260,8 +255,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     );
 
     const commonClassNames = classNames(BASE_CLASS_NAME, {
-      [`${BASE_CLASS_NAME}--is-selected`]: isSelected,
-    });
+      [`${BASE_CLASS_NAME}--is-selected`]: isSelected});
 
     if (isCheckbox) {
       return (
@@ -292,8 +286,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           aria-label={
             buttonAriaLabel ||
             i18n('icu:BaseConversationListItem__aria-label', {
-              title,
-            })
+              title})
           }
           className={classNames(
             commonClassNames,
@@ -324,8 +317,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     if (renderConversationListItemContextMenu != null && id != null) {
       return renderConversationListItemContextMenu({
         conversationId: id,
-        children: wrapper,
-      });
+        children: wrapper});
     }
 
     return wrapper;
@@ -333,8 +325,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
 
 function Timestamp({
   i18n,
-  timestamp,
-}: Readonly<{ i18n: LocalizerType; timestamp?: number }>) {
+  timestamp}: Readonly<{ i18n: LocalizerType; timestamp?: number }>) {
   const getText = useCallback(
     () => (isNumber(timestamp) ? formatDateTimeShort(i18n, timestamp) : ''),
     [i18n, timestamp]
@@ -365,8 +356,7 @@ function Timestamp({
 enum UnreadIndicatorVariant {
   MARKED_UNREAD = 'marked-unread',
   UNREAD_MESSAGES = 'unread-messages',
-  UNREAD_MENTIONS = 'unread-mentions',
-}
+  UNREAD_MENTIONS = 'unread-mentions'}
 
 type UnreadIndicatorPropsType =
   | {

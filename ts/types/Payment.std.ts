@@ -1,38 +1,29 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Payments feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: Payments feature removed for Orbital
+// This file provides stub types to maintain compatibility
 
 export enum PaymentEventKind {
-  Notification = 1,
-  ActivationRequest = 2,
-  Activation = 3,
+  Notification = 'notification',
+  Activation = 'activation',
+  ActivationRequest = 'activationRequest',
 }
 
-export type PaymentNotificationEvent = Readonly<{
-  kind: PaymentEventKind.Notification;
-  note: string | null;
-  transactionDetailsBase64?: string;
-  amountMob?: string;
-  feeMob?: string;
-}>;
+export type PaymentEventData = {
+  kind: PaymentEventKind;
+  note?: string;
+};
 
-export type PaymentActivationRequestEvent = Readonly<{
-  kind: PaymentEventKind.ActivationRequest;
-}>;
+export type AnyPaymentEvent = PaymentEventData;
 
-export type PaymentActivatedEvent = Readonly<{
-  kind: PaymentEventKind.Activation;
-}>;
+export function isPaymentNotificationEvent(_event: unknown): boolean {
+  return false;
+}
 
-export type AnyPaymentEvent =
-  | PaymentNotificationEvent
-  | PaymentActivationRequestEvent
-  | PaymentActivatedEvent;
-
-export function isPaymentNotificationEvent(
-  event: AnyPaymentEvent
-): event is PaymentNotificationEvent {
-  return event.kind === PaymentEventKind.Notification;
+// Gift badge states enum (stub for removed feature)
+export enum GiftBadgeStates {
+  Failed = 'Failed',
+  Pending = 'Pending',
+  Redeemed = 'Redeemed',
 }

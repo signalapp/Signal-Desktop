@@ -25,8 +25,8 @@ export function useInputMask(
 export const CC_NUMBER_FORMATTER: Formatter = input => {
   const [cardType] = creditCardType(input);
 
-  const maxLength = cardType != null ? Math.max(...cardType.lengths) : 16;
-  const gaps = cardType != null ? cardType.gaps : [4, 8, 12];
+  const maxLength = cardType?.lengths ? Math.max(...cardType.lengths) : 16;
+  const gaps = cardType?.gaps || [4, 8, 12];
 
   const tokens: Array<FormatterToken> = [];
   let digits = 0;

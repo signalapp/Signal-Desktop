@@ -1,9 +1,9 @@
-// Copyright 2022 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// REMOVED: Orbital cleanup - Stories feature removed
-// This file exists as a stub to prevent import errors during the transition
+import type { MessageAttributesType } from '../model-types.d';
 
-export function shouldDownloadStory(..._args: Array<unknown>): boolean {
+export function shouldDownloadStory(
+  _message: MessageAttributesType
+): false {
   return false;
 }

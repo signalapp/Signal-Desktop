@@ -1,10 +1,9 @@
-// Copyright 2024 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// Stub: Stories feature removed
+import type { StateType } from '../reducer';
 
-export const hasStories = () => false;
-export const getStoriesEnabled = () => false;
-export const shouldShowStoriesView = () => false;
-export const getStoriesNotificationCount = () => 0;
-export const getHasStoriesSelector = () => () => false;
+export function getHasStoriesSelector(
+  _state: StateType
+): () => false {
+  return () => false;
+}

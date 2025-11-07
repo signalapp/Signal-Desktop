@@ -5,7 +5,6 @@ import { getEmptyState as accountsEmptyState } from './ducks/accounts.preload.js
 import { getEmptyState as appEmptyState } from './ducks/app.preload.js';
 import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.preload.js';
 import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.preload.js';
-import { getEmptyState as badgesEmptyState } from './ducks/badges.preload.js';
 import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.preload.js';
 import { getEmptyState as callingEmptyState } from './ducks/calling.preload.js';
 import {
@@ -15,7 +14,6 @@ import {
 import { getEmptyState as composerEmptyState } from './ducks/composer.preload.js';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations.preload.js';
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.preload.js';
-import { getEmptyState as donationsEmptyState } from './ducks/donations.preload.js';
 import { getEmptyState as emojiEmptyState } from './ducks/emojis.preload.js';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration.std.js';
 import { getEmptyState as gifsEmptyState } from './ducks/gifs.preload.js';
@@ -64,19 +62,16 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 
 export function getInitialState(
   {
-    badgesState,
     callLinks,
     callHistory: calls,
     callHistoryUnreadCount,
     chatFolders,
-    donations,
     gifs,
     mainWindowStats,
     menuOptions,
     notificationProfiles,
     recentEmoji,
     // stickers, // REMOVED: Orbital cleanup
-    stories, // Stub only
     storyDistributionLists, // Stub only
     theme,
   }: ReduxInitData,
@@ -88,7 +83,6 @@ export function getInitialState(
 
   return {
     ...baseState,
-    badges: badgesState,
     callHistory: {
       ...callHistoryEmptyState(),
       callHistoryByCallId: makeLookup(calls, 'callId'),
@@ -99,7 +93,6 @@ export function getInitialState(
       callLinks: makeLookup(callLinks, 'roomId'),
     },
     chatFolders: getInitialChatFoldersState(chatFolders),
-    donations,
     emojis: recentEmoji,
     gifs,
     items,
@@ -109,10 +102,6 @@ export function getInitialState(
       profiles: notificationProfiles,
     },
     // stickers, // REMOVED: Orbital cleanup
-    stories: { // Stub only
-      ...storiesEmptyState(),
-      stories,
-    },
     storyDistributionLists: generateStoryDistributionListState(
       storyDistributionLists
     ), // Stub only
@@ -149,14 +138,12 @@ function getEmptyState(): StateType {
     app: appEmptyState(),
     audioPlayer: audioPlayerEmptyState(),
     audioRecorder: audioRecorderEmptyState(),
-    badges: badgesEmptyState(),
     callHistory: callHistoryEmptyState(),
     calling: callingEmptyState(),
     chatFolders: chatFoldersEmptyState(),
     composer: composerEmptyState(),
     conversations: generateConversationsState(),
     crashReports: crashReportsEmptyState(),
-    donations: donationsEmptyState(),
     emojis: emojiEmptyState(),
     gifs: gifsEmptyState(),
     expiration: expirationEmptyState(),

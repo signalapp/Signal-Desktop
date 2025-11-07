@@ -9,8 +9,7 @@ import Quill, { Delta } from '@signalapp/quill-cjs';
 import {
   matchText,
   matchNewline,
-  matchBreak,
-} from '@signalapp/quill-cjs/modules/clipboard.js';
+  matchBreak} from '@signalapp/quill-cjs/modules/clipboard.js';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { Context } from '@signalapp/quill-cjs/modules/keyboard.js';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
@@ -18,32 +17,27 @@ import type { Range as RangeStatic } from '@signalapp/quill-cjs';
 import { MentionCompletion } from '../quill/mentions/completion.dom.js';
 import {
   FormattingMenu,
-  QuillFormattingStyle,
-} from '../quill/formatting/menu.dom.js';
+  QuillFormattingStyle} from '../quill/formatting/menu.dom.js';
 import { MonospaceBlot } from '../quill/formatting/monospaceBlot.std.js';
 import { SpoilerBlot } from '../quill/formatting/spoilerBlot.std.js';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.dom.js';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-  RangeNode,
-} from '../types/BodyRange.std.js';
+  RangeNode} from '../types/BodyRange.std.js';
 import {
   BodyRange,
   areBodyRangesEqual,
   collapseRangeTree,
-  insertRange,
-} from '../types/BodyRange.std.js';
+  insertRange} from '../types/BodyRange.std.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { isAciString } from '../util/isAciString.std.js';
 import { MentionBlot } from '../quill/mentions/blot.dom.js';
 import {
   matchEmojiImage,
   matchEmojiBlot,
-  matchEmojiText,
-} from '../quill/emoji/matchers.dom.js';
+  matchEmojiText} from '../quill/emoji/matchers.dom.js';
 import { matchMention } from '../quill/mentions/matchers.std.js';
 import { MemberRepository } from '../quill/memberRepository.std.js';
 import {
@@ -54,8 +48,7 @@ import {
   getDeltaToRestartMention,
   getDeltaToRestartEmoji,
   insertEmojiOps,
-  insertFormattingAndMentionsOps,
-} from '../quill/util.dom.js';
+  insertFormattingAndMentionsOps} from '../quill/util.dom.js';
 import { SignalClipboard } from '../quill/signal-clipboard/index.dom.js';
 import { DirectionalBlot } from '../quill/block/blot.dom.js';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
@@ -70,8 +63,7 @@ import {
   matchItalic,
   matchMonospace,
   matchSpoiler,
-  matchStrikethrough,
-} from '../quill/formatting/matchers.dom.js';
+  matchStrikethrough} from '../quill/formatting/matchers.dom.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis/index.dom.js';
 import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.dom.js';
@@ -79,8 +71,7 @@ import { dropNull } from '../util/dropNull.std.js';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper.dom.js';
 import {
   getEmojiVariantByKey,
-  type EmojiSkinTone,
-} from './fun/data/emojis.std.js';
+  type EmojiSkinTone} from './fun/data/emojis.std.js';
 import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.dom.js';
 import { useFunEmojiSearch } from './fun/useFunEmojiSearch.dom.js';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.js';
@@ -101,8 +92,7 @@ Quill.register(
     'modules/emojiCompletion': EmojiCompletion,
     'modules/mentionCompletion': MentionCompletion,
     'modules/formattingMenu': FormattingMenu,
-    'modules/signalClipboard': SignalClipboard,
-  },
+    'modules/signalClipboard': SignalClipboard},
   true
 );
 
@@ -124,7 +114,7 @@ export type Props = Readonly<{
   i18n: LocalizerType;
   disabled?: boolean;
   draftEditMessage: DraftEditMessageType | null;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   large: boolean | null;
   inputApi: React.MutableRefObject<InputApi | undefined> | null;
   isFormattingEnabled: boolean;
@@ -197,8 +187,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     emojiSkinToneDefault,
     sendCounter,
     sortedGroupMembers,
-    theme,
-  } = props;
+    theme} = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
     React.useState<JSX.Element | null>();
@@ -273,8 +262,7 @@ export function CompositionInput(props: Props): React.ReactElement {
           return true;
         }
         throw missingCaseError(range);
-      }),
-    };
+      })};
   };
 
   const focus = () => {
@@ -377,8 +365,7 @@ export function CompositionInput(props: Props): React.ReactElement {
       insertEmoji,
       setContents,
       reset,
-      submit,
-    };
+      submit};
   }
 
   React.useEffect(() => {
@@ -418,8 +405,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
       formattingMenu.updateOptions({
         isMenuEnabled: isFormattingEnabled,
-        isMouseDown,
-      });
+        isMouseDown});
     }
   }, [
     isFormattingEnabled,
@@ -440,8 +426,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     signalClipboard.updateOptions({
-      isDisabled: !isActive,
-    });
+      isDisabled: !isActive});
   }, [isActive]);
 
   const onEnter = (): boolean => {
@@ -639,8 +624,7 @@ export function CompositionInput(props: Props): React.ReactElement {
             caretLocation: selection ? selection.index : undefined,
             conversationId: conversationId ?? undefined,
             messageText: text,
-            sendCounter,
-          });
+            sendCounter});
         }, 0);
       }
     }
@@ -772,8 +756,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onEscape,
     onSelectEmoji,
     onShortKeyEnter,
-    onTab,
-  };
+    onTab};
   const callbacksRef = React.useRef(unstaleCallbacks);
   callbacksRef.current = unstaleCallbacks;
 
@@ -792,8 +775,7 @@ export function CompositionInput(props: Props): React.ReactElement {
           modules={{
             toolbar: false,
             signalClipboard: {
-              isDisabled: !isActive,
-            },
+              isDisabled: !isActive},
             clipboard: {
               defaultMatchersOverride: [],
               disableDefaultListeners: true,
@@ -813,23 +795,19 @@ export function CompositionInput(props: Props): React.ReactElement {
                 ['SPAN', matchSpoiler],
                 [Node.TEXT_NODE, matchEmojiText],
                 ['SPAN', matchMention(memberRepositoryRef)],
-              ],
-            },
+              ]},
             keyboard: {
               bindings: {
                 ShortEnter: {
                   key: 'Enter',
                   shortKey: true,
-                  handler: () => callbacksRef.current.onShortKeyEnter(),
-                },
+                  handler: () => callbacksRef.current.onShortKeyEnter()},
                 Enter: {
                   key: 'Enter',
-                  handler: () => callbacksRef.current.onEnter(),
-                },
+                  handler: () => callbacksRef.current.onEnter()},
                 Escape: {
                   key: 'Escape',
-                  handler: () => callbacksRef.current.onEscape(),
-                },
+                  handler: () => callbacksRef.current.onEscape()},
                 Backspace: {
                   key: 'Backspace',
                   // We want to be called no matter the state of these keys
@@ -838,36 +816,28 @@ export function CompositionInput(props: Props): React.ReactElement {
                   shiftKey: null,
                   metaKey: null,
                   handler: (_: RangeStatic, context: Context) =>
-                    callbacksRef.current.onBackspace(_, context),
-                },
-              },
-            },
+                    callbacksRef.current.onBackspace(_, context)}}},
             emojiCompletion: {
               setEmojiPickerElement: setEmojiCompletionElement,
               onSelectEmoji: (emojiSelection: FunEmojiSelection) =>
                 callbacksRef.current.onSelectEmoji(emojiSelection),
               emojiSkinToneDefault,
               emojiSearch,
-              emojiLocalizer,
-            } satisfies EmojiCompletionOptions,
+              emojiLocalizer} satisfies EmojiCompletionOptions,
             autoSubstituteAsciiEmojis: {
-              emojiSkinToneDefault,
-            } satisfies AutoSubstituteAsciiEmojisOptions,
+              emojiSkinToneDefault} satisfies AutoSubstituteAsciiEmojisOptions,
             formattingMenu: {
               i18n,
               isMenuEnabled: isFormattingEnabled,
               platform,
-              setFormattingChooserElement,
-            },
+              setFormattingChooserElement},
             mentionCompletion: {
               getPreferredBadge,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
               ourConversationId,
               i18n,
-              theme,
-            },
-          }}
+              theme}}}
           formats={getQuillFormats()}
           placeholder={placeholder || i18n('icu:sendMessage')}
           readOnly={disabled}
@@ -913,8 +883,7 @@ export function CompositionInput(props: Props): React.ReactElement {
             const tabKey = 'Tab';
             quill.keyboard.addBinding({
               key: tabKey,
-              handler: () => callbacksRef.current.onTab(),
-            });
+              handler: () => callbacksRef.current.onTab()});
             const ourHandler = quill.keyboard.bindings[tabKey].pop();
             if (ourHandler) {
               quill.keyboard.bindings[tabKey].unshift(ourHandler);
@@ -1003,8 +972,7 @@ export function CompositionInput(props: Props): React.ReactElement {
               <div className={getClassName('__editing-message__attachment')}>
                 <img
                   alt={i18n('icu:stagedImageAttachment', {
-                    path: draftEditMessage.attachmentThumbnail,
-                  })}
+                    path: draftEditMessage.attachmentThumbnail})}
                   src={draftEditMessage.attachmentThumbnail}
                 />
               </div>

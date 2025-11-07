@@ -27,7 +27,6 @@ import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetad
 import { LeftPaneMode } from '../types/leftPane.std.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import { ScrollBehavior } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { usePrevious } from '../hooks/usePrevious.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import type { DurationInSeconds } from '../util/durations/index.std.js';
@@ -45,20 +44,17 @@ import { LeftPaneBanner } from './LeftPaneBanner.dom.js';
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
-  SaveAvatarToDiskActionType,
-} from '../types/Avatar.std.js';
+  SaveAvatarToDiskActionType} from '../types/Avatar.std.js';
 import { useSizeObserver } from '../hooks/useSizeObserver.dom.js';
 import {
   NavSidebar,
   NavSidebarActionButton,
-  NavSidebarSearchHeader,
-} from './NavSidebar.dom.js';
+  NavSidebarSearchHeader} from './NavSidebar.dom.js';
 import type { UnreadStats } from '../util/countUnreadStats.std.js';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.js';
 import type {
   ServerAlertsType,
-  ServerAlert,
-} from '../types/ServerAlert.std.js';
+  ServerAlert} from '../types/ServerAlert.std.js';
 import { getServerAlertDialog } from './ServerAlerts.dom.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
 import type { Location } from '../types/Nav.std.js';
@@ -82,7 +78,6 @@ export type PropsType = {
   otherTabsUnreadStats: UnreadStats;
   hasAnyCurrentCustomChatFolders: boolean;
   hasExpiredDialog: boolean;
-  hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
   hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
@@ -121,7 +116,7 @@ export type PropsType = {
     | ({
         mode: LeftPaneMode.SetGroupMetadata;
       } & LeftPaneSetGroupMetadataPropsType);
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   getServerAlertToShow: (alerts: ServerAlertsType) => ServerAlert | null;
   i18n: LocalizerType;
   isMacOS: boolean;
@@ -235,7 +230,6 @@ export function LeftPane({
   getServerAlertToShow,
   hasAnyCurrentCustomChatFolders,
   hasExpiredDialog,
-  hasFailedStorySends,
   hasNetworkDialog,
   hasPendingUpdate,
   hasRelinkDialog,
@@ -304,8 +298,7 @@ export function LeftPane({
   usernameLinkCorrupted,
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
-  updateFilterByUnread,
-}: PropsType): JSX.Element {
+  updateFilterByUnread}: PropsType): JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -442,8 +435,7 @@ export function LeftPane({
         const backAction = helper.getBackAction({
           showInbox,
           startComposing,
-          showChooseGroupMembers,
-        });
+          showChooseGroupMembers});
         if (backAction) {
           event.preventDefault();
           event.stopPropagation();
@@ -518,8 +510,7 @@ export function LeftPane({
       helper.onKeyDown(event, {
         searchInConversation,
         selectedConversationId,
-        startSearch,
-      });
+        startSearch});
     };
 
     document.addEventListener('keydown', onKeyDown);
@@ -558,8 +549,7 @@ export function LeftPane({
     setComposeGroupAvatar,
     setComposeGroupExpireTimer,
     setComposeGroupName,
-    toggleComposeEditingAvatar,
-  });
+    toggleComposeEditingAvatar});
   const footerContents = helper.getFooterContents({
     createGroup,
     i18n,
@@ -568,8 +558,7 @@ export function LeftPane({
     showUserNotFoundModal,
     setIsFetchingUUID,
     showInbox,
-    showConversation,
-  });
+    showConversation});
 
   const getRow = useMemo(() => helper.getRow.bind(helper), [helper]);
 
@@ -578,8 +567,7 @@ export function LeftPane({
       showConversation({
         conversationId,
         messageId,
-        switchToAssociatedView: true,
-      });
+        switchToAssociatedView: true});
     },
     [showConversation]
   );
@@ -601,8 +589,7 @@ export function LeftPane({
 
   const commonDialogProps = {
     i18n,
-    containerWidthBreakpoint: widthBreakpoint,
-  };
+    containerWidthBreakpoint: widthBreakpoint};
 
   // Control scroll position
   const previousSelectedConversationId = usePrevious(
@@ -657,8 +644,7 @@ export function LeftPane({
   if (unsupportedOSDialogType === 'warning') {
     maybeYellowDialog = renderUnsupportedOSDialog({
       type: 'warning',
-      ...commonDialogProps,
-    });
+      ...commonDialogProps});
   } else if (hasNetworkDialog) {
     maybeYellowDialog = renderNetworkStatus(commonDialogProps);
   } else if (hasRelinkDialog) {
@@ -678,8 +664,7 @@ export function LeftPane({
   if (unsupportedOSDialogType === 'error') {
     maybeRedDialog = renderUnsupportedOSDialog({
       type: 'error',
-      ...commonDialogProps,
-    });
+      ...commonDialogProps});
   } else if (hasExpiredDialog) {
     maybeRedDialog = renderExpiredBuildDialog(commonDialogProps);
   }
@@ -713,9 +698,7 @@ export function LeftPane({
             tab: NavTab.Settings,
             details: {
               page: SettingsPage.Profile,
-              state: ProfileEditorPage.Username,
-            },
-          });
+              state: ProfileEditorPage.Username}});
         }}
       >
         {i18n('icu:LeftPane--corrupted-username--text')}
@@ -730,9 +713,7 @@ export function LeftPane({
             tab: NavTab.Settings,
             details: {
               page: SettingsPage.Profile,
-              state: ProfileEditorPage.UsernameLink,
-            },
-          });
+              state: ProfileEditorPage.UsernameLink}});
         }}
       >
         {i18n('icu:LeftPane--corrupted-username-link--text')}
@@ -765,7 +746,6 @@ export function LeftPane({
       hideHeader={hideHeader}
       i18n={i18n}
       otherTabsUnreadStats={otherTabsUnreadStats}
-      hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
@@ -854,8 +834,7 @@ export function LeftPane({
             i18n,
             showInbox,
             startComposing,
-            showChooseGroupMembers,
-          })}
+            showChooseGroupMembers})}
         </div>
         {(widthBreakpoint === WidthBreakpoint.Wide ||
           modeSpecificProps.mode !== LeftPaneMode.Inbox) && (
@@ -876,8 +855,7 @@ export function LeftPane({
               showUserNotFoundModal,
               setIsFetchingUUID,
               showInbox,
-              updateFilterByUnread,
-            })}
+              updateFilterByUnread})}
           </NavSidebarSearchHeader>
         )}
 
@@ -906,8 +884,7 @@ export function LeftPane({
             helper.getEmptyViewNode({
               i18n,
               selectedChatFolder,
-              changeLocation,
-            })}
+              changeLocation})}
           {!isEmpty && (
             <div className="module-left-pane__list--wrapper">
               <div
@@ -987,8 +964,7 @@ export function LeftPane({
           renderCaptchaDialog({
             onSkip() {
               setChallengeStatus('idle');
-            },
-          })}
+            }})}
         {crashReportCount > 0 && renderCrashReportDialog()}
       </nav>
     </NavSidebar>

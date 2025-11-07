@@ -38,9 +38,10 @@ function renderNavTabs(props: SmartNavTabsProps) {
   return <SmartNavTabs {...props} />;
 }
 
-function renderStoriesTab() {
-  return <SmartStoriesTab />;
-}
+// REMOVED: Stories feature
+// function renderStoriesTab() {
+//   return <SmartStoriesTab />;
+// }
 
 function renderSettingsTab() {
   return <SmartPreferences />;
@@ -74,7 +75,6 @@ export const SmartInbox = memo(function SmartInbox(): JSX.Element {
         renderCustomizingPreferredReactionsModal
       }
       renderNavTabs={renderNavTabs}
-      renderStoriesTab={renderStoriesTab}
       renderSettingsTab={renderSettingsTab}
     />
   );

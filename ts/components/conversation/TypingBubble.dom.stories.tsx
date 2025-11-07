@@ -9,7 +9,6 @@ import { getDefaultConversation } from '../../test-helpers/getDefaultConversatio
 import type { TypingBubblePropsType } from './TypingBubble.dom.js';
 import { TypingBubble } from './TypingBubble.dom.js';
 import { AvatarColors } from '../../types/Colors.std.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 
 const { times } = lodash;
@@ -19,8 +18,7 @@ const { i18n } = window.SignalContext;
 export default {
   title: 'Components/Conversation/TypingBubble',
   argTypes: {},
-  args: {},
-} satisfies Meta<TypingBubblePropsType>;
+  args: {}} satisfies Meta<TypingBubblePropsType>;
 
 const CONTACTS = times(10, index => {
   const letter = (index + 10).toString(36).toUpperCase();
@@ -28,15 +26,13 @@ const CONTACTS = times(10, index => {
     id: `contact-${index}`,
     acceptedMessageRequest: false,
     avatarUrl: '',
-    badges: [],
     color: AvatarColors[index],
     name: `${letter} ${letter}`,
     phoneNumber: '(202) 555-0001',
     profileName: `${letter} ${letter}`,
     isMe: false,
     sharedGroupNames: [],
-    title: `${letter} ${letter}`,
-  });
+    title: `${letter} ${letter}`});
 });
 const CONTACT_IDS = CONTACTS.map(contact => contact.id);
 const CONTACTS_BY_ID = new Map(CONTACTS.map(contact => [contact.id, contact]));
@@ -44,7 +40,7 @@ const getConversation = (id: string) =>
   CONTACTS_BY_ID.get(id) || getDefaultConversation();
 
 const CONTACTS_WITH_BADGES = CONTACTS.map(contact => {
-  return { ...contact, badges: [getFakeBadge()] };
+  return { ...contact, badges: [] };
 });
 const CONTACTS_WITH_BADGES_BY_ID = new Map(
   CONTACTS_WITH_BADGES.map(contact => [contact.id, contact])
@@ -68,11 +64,10 @@ const createProps = (
     conversationId: '123',
     conversationType: overrideProps.conversationType ?? 'direct',
     getConversation: overrideProps.getConversation || getConversation,
-    getPreferredBadge: badges =>
-      badges.length > 0 ? getFakeBadge() : undefined,
+    getPreferredBadge: (_badges: ReadonlyArray<{ id: string } | { id: string; expiresAt: number; isVisible: boolean }>) =>
+      undefined,
     showContactModal: action('showContactModal'),
-    theme: ThemeType.light,
-  };
+    theme: ThemeType.light};
 };
 
 export function Direct(): JSX.Element {
@@ -88,8 +83,7 @@ export function DirectStoppedTyping(): JSX.Element {
     setTimeout(
       () =>
         setAfterTimeoutProps({
-          typingContactIdTimestamps: {},
-        }),
+          typingContactIdTimestamps: {}}),
       500
     );
   }, []);
@@ -105,15 +99,13 @@ export function Group(): JSX.Element {
 export function GroupStartsTyping(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: {},
-  });
+    typingContactIdTimestamps: {}});
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
     setTimeout(
       () =>
         setAfterTimeoutProps({
-          typingContactIdTimestamps: getTypingContactIdTimestamps(1),
-        }),
+          typingContactIdTimestamps: getTypingContactIdTimestamps(1)}),
       500
     );
   }, []);
@@ -124,8 +116,7 @@ export function GroupStartsTyping(): JSX.Element {
 export function GroupStoppedTyping(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: getTypingContactIdTimestamps(1),
-  });
+    typingContactIdTimestamps: getTypingContactIdTimestamps(1)});
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
     setTimeout(
@@ -141,8 +132,7 @@ export function GroupWithBadge(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(1),
-    getConversation: getConversationWithBadges,
-  });
+    getConversation: getConversationWithBadges});
 
   return <TypingBubble {...props} />;
 }
@@ -150,15 +140,13 @@ export function GroupWithBadge(): JSX.Element {
 export function GroupMultiTyping1To2(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: getTypingContactIdTimestamps(1),
-  });
+    typingContactIdTimestamps: getTypingContactIdTimestamps(1)});
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
     setTimeout(
       () =>
         setAfterTimeoutProps({
-          typingContactIdTimestamps: getTypingContactIdTimestamps(2),
-        }),
+          typingContactIdTimestamps: getTypingContactIdTimestamps(2)}),
       500
     );
   }, []);
@@ -169,15 +157,13 @@ export function GroupMultiTyping1To2(): JSX.Element {
 export function GroupMultiTyping2Then1PersonStops(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: getTypingContactIdTimestamps(2),
-  });
+    typingContactIdTimestamps: getTypingContactIdTimestamps(2)});
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
     setTimeout(
       () =>
         setAfterTimeoutProps({
-          typingContactIdTimestamps: getTypingContactIdTimestamps(1),
-        }),
+          typingContactIdTimestamps: getTypingContactIdTimestamps(1)}),
       500
     );
   }, []);
@@ -188,15 +174,13 @@ export function GroupMultiTyping2Then1PersonStops(): JSX.Element {
 export function GroupMultiTyping3To4(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: getTypingContactIdTimestamps(3),
-  });
+    typingContactIdTimestamps: getTypingContactIdTimestamps(3)});
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
     setTimeout(
       () =>
         setAfterTimeoutProps({
-          typingContactIdTimestamps: getTypingContactIdTimestamps(4),
-        }),
+          typingContactIdTimestamps: getTypingContactIdTimestamps(4)}),
       500
     );
   }, []);
@@ -207,8 +191,7 @@ export function GroupMultiTyping3To4(): JSX.Element {
 export function GroupMultiTyping10(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
-    typingContactIdTimestamps: getTypingContactIdTimestamps(10),
-  });
+    typingContactIdTimestamps: getTypingContactIdTimestamps(10)});
 
   return <TypingBubble {...props} />;
 }
@@ -217,8 +200,7 @@ export function GroupMultiTypingWithBadges(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(3),
-    getConversation: getConversationWithBadges,
-  });
+    getConversation: getConversationWithBadges});
 
   return <TypingBubble {...props} />;
 }

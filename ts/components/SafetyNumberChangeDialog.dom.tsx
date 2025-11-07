@@ -12,7 +12,6 @@ import { InContactsIcon } from './InContactsIcon.dom.js';
 import { Modal } from './Modal.dom.js';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { ThemeType } from '../types/Util.std.js';
 import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
@@ -31,8 +30,7 @@ enum DialogState {
   StartingInReview = 'StartingInReview',
   ExplicitReviewNeeded = 'ExplicitReviewNeeded',
   ExplicitReviewStep = 'ExplicitReviewStep',
-  ExplicitReviewComplete = 'ExplicitReviewComplete',
-}
+  ExplicitReviewComplete = 'ExplicitReviewComplete'}
 
 export type SafetyNumberProps = {
   contactID: string;
@@ -54,7 +52,7 @@ export type ContactsByStory = Array<StoryContacts>;
 export type Props = Readonly<{
   confirmText?: string;
   contacts: ContactsByStory;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   onCancel: () => void;
   onConfirm: () => void;
@@ -91,8 +89,7 @@ export function SafetyNumberChangeDialog({
   onConfirm,
   removeFromStory,
   renderSafetyNumber,
-  theme,
-}: Props): JSX.Element {
+  theme}: Props): JSX.Element {
   const totalCount = contacts.reduce(
     (count, item) => count + item.contacts.length,
     0
@@ -169,8 +166,7 @@ export function SafetyNumberChangeDialog({
               }
             },
             text,
-            style: 'affirmative',
-          },
+            style: 'affirmative'},
         ]}
         hasXButton
         i18n={i18n}
@@ -214,15 +210,13 @@ export function SafetyNumberChangeDialog({
     {
       action: onConfirm,
       text,
-      style: 'affirmative',
-    },
+      style: 'affirmative'},
   ];
 
   if (dialogState === DialogState.ExplicitReviewNeeded) {
     actions.unshift({
       action: () => setDialogState(DialogState.ExplicitReviewStep),
-      text: i18n('icu:safetyNumberChangeDialog__review'),
-    });
+      text: i18n('icu:safetyNumberChangeDialog__review')});
   }
 
   return (
@@ -252,8 +246,7 @@ export function SafetyNumberChangeDialog({
       >
         {dialogState === DialogState.ExplicitReviewNeeded
           ? i18n('icu:safetyNumberChangeDialog__many-contacts', {
-              count: totalCount,
-            })
+              count: totalCount})
           : i18n('icu:safetyNumberChangeDialog__post-review')}
       </div>
     </ConfirmationDialog>
@@ -266,10 +259,9 @@ function ContactSection({
   i18n,
   removeFromStory,
   setSelectedContact,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   section: StoryContacts;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   removeFromStory?: (
     distributionId: StoryDistributionIdString,
@@ -323,8 +315,7 @@ function ContactSection({
         {distributionId && removeFromStory && serviceIds.length > 1 && (
           <SectionButtonWithMenu
             ariaLabel={i18n('icu:safetyNumberChangeDialog__actions-story', {
-              story: sectionName,
-            })}
+              story: sectionName})}
             i18n={i18n}
             memberCount={serviceIds.length}
             storyName={sectionName}
@@ -364,8 +355,7 @@ function SectionButtonWithMenu({
   removeFromStory,
   storyName,
   memberCount,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   ariaLabel: string;
   i18n: LocalizerType;
   removeFromStory: () => unknown;
@@ -384,8 +374,7 @@ function SectionButtonWithMenu({
           {
             icon: 'module-SafetyNumberChangeDialog__menu-icon--delete',
             label: i18n('icu:safetyNumberChangeDialog__remove-all'),
-            onClick: () => setIsConfirming(true),
-          },
+            onClick: () => setIsConfirming(true)},
         ]}
         moduleClassName="module-SafetyNumberChangeDialog__row__chevron"
         theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
@@ -401,8 +390,7 @@ function SectionButtonWithMenu({
                 setIsConfirming(false);
               },
               text: i18n('icu:safetyNumberChangeDialog__remove-all'),
-              style: 'affirmative',
-            },
+              style: 'affirmative'},
           ]}
           i18n={i18n}
           noMouseClose
@@ -411,8 +399,7 @@ function SectionButtonWithMenu({
         >
           {i18n('icu:safetyNumberChangeDialog__confirm-remove-all', {
             story: storyName,
-            count: memberCount,
-          })}
+            count: memberCount})}
         </ConfirmationDialog>
       )}
     </>
@@ -427,11 +414,10 @@ function ContactRow({
   removeFromStory,
   setSelectedContact,
   shouldShowNumber,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   contact: ConversationType;
   distributionId?: StoryDistributionIdString;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   removeFromStory?: (
     distributionId: StoryDistributionIdString,
@@ -493,8 +479,7 @@ function ContactRow({
       {distributionId && removeFromStory && serviceId ? (
         <RowButtonWithMenu
           ariaLabel={i18n('icu:safetyNumberChangeDialog__actions-contact', {
-            contact: contact.title,
-          })}
+            contact: contact.title})}
           i18n={i18n}
           theme={theme}
           removeFromStory={() => removeFromStory(distributionId, [serviceId])}
@@ -521,8 +506,7 @@ function RowButtonWithMenu({
   i18n,
   removeFromStory,
   verifyContact,
-  theme,
-}: Readonly<{
+  theme}: Readonly<{
   ariaLabel: string;
   i18n: LocalizerType;
   removeFromStory: () => unknown;
@@ -537,13 +521,11 @@ function RowButtonWithMenu({
         {
           icon: 'module-SafetyNumberChangeDialog__menu-icon--verify',
           label: i18n('icu:safetyNumberChangeDialog__verify-number'),
-          onClick: verifyContact,
-        },
+          onClick: verifyContact},
         {
           icon: 'module-SafetyNumberChangeDialog__menu-icon--delete',
           label: i18n('icu:safetyNumberChangeDialog__remove'),
-          onClick: removeFromStory,
-        },
+          onClick: removeFromStory},
       ]}
       moduleClassName="module-SafetyNumberChangeDialog__row__chevron"
       theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}

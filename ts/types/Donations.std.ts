@@ -1,52 +1,33 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Donations feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: Donations feature removed for Orbital
+// This file provides stub types to maintain compatibility
 
-import { z } from 'zod';
+export type DonationReceipt = {
+  id: string;
+  timestamp: number;
+  amount: number;
+  currency: string;
+};
 
-// Minimal stub types for database compatibility
-export const donationReceiptSchema = z.object({
-  id: z.string(),
-  currencyType: z.string(),
-  paymentAmount: z.number(),
-  timestamp: z.number(),
-});
+export type DonationReceiptAttributes = DonationReceipt;
 
-export type DonationReceipt = z.infer<typeof donationReceiptSchema>;
+export type SubscriptionData = {
+  id: string;
+  status: string;
+};
 
-// Export other minimal stubs to prevent import errors
-export const donationStateSchema = z.enum([
-  'INTENT',
-  'INTENT_METHOD',
-  'INTENT_CONFIRMED',
-  'INTENT_REDIRECT',
-  'RECEIPT',
-  'DONE',
-]);
+export type OneTimeDonationData = {
+  id: string;
+  amount: number;
+};
 
-export type DonationStateType = z.infer<typeof donationStateSchema>;
+export enum DonationWorkflow {
+  OneTime = 'OneTime',
+  Subscription = 'Subscription',
+}
 
-export const donationErrorTypeSchema = z.enum([
-  'Failed3dsValidation',
-  'GeneralError',
-  'PaymentDeclined',
-  'TimedOut',
-  'BadgeApplicationFailed',
-]);
-
-export type DonationErrorType = z.infer<typeof donationErrorTypeSchema>;
-
-// Stub for other types
-export type DonationWorkflow = never;
-export type CardDetail = never;
-export type HumanDonationAmount = never;
-export type StripeDonationAmount = never;
-export type OneTimeDonationHumanAmounts = never;
-
-export const subscriptionConfigurationCurrencyZod = z.object({
-  currency: z.string(),
-  minimumAmount: z.number(),
-  supportedPaymentMethods: z.array(z.string()),
-});
+export type OneTimeDonationHumanAmounts = {
+  amounts: number[];
+};

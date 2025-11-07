@@ -11,8 +11,7 @@ import {
   getIntl,
   getInteractionMode,
   getTheme,
-  getPlatform,
-} from '../selectors/user.std.js';
+  getPlatform} from '../selectors/user.std.js';
 import { getMessageDetails } from '../selectors/message.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
@@ -31,8 +30,7 @@ export type OwnProps = Pick<
 export const SmartMessageDetail = memo(
   function SmartMessageDetail(): JSX.Element | null {
     const getContactNameColor = useSelector(getContactNameColorSelector);
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const i18n = useSelector(getIntl);
+        const i18n = useSelector(getIntl);
     const platform = useSelector(getPlatform);
     const interactionMode = useSelector(getInteractionMode);
     const messageDetails = useSelector(getMessageDetails);
@@ -58,14 +56,12 @@ export const SmartMessageDetail = memo(
       showExpiredOutgoingTapToViewToast,
       showMediaNoLongerAvailableToast,
       showSpoiler,
-      startConversation,
-    } = useConversationsActions();
+      startConversation} = useConversationsActions();
     const {
       showContactModal,
       showEditHistoryModal,
       showTapToViewNotAvailableModal,
-      toggleSafetyNumberModal,
-    } = useGlobalModalActions();
+      toggleSafetyNumberModal} = useGlobalModalActions();
     const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
     const { viewStory } = useStoriesActions();
 
@@ -85,6 +81,9 @@ export const SmartMessageDetail = memo(
       message.conversationType === 'group'
         ? getContactNameColor(message.conversationId, message.author.id)
         : undefined;
+
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
 
     return (
       <MessageDetail

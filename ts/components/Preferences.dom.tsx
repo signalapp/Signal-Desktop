@@ -1,15 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AudioDevice } from '@signalapp/ringrtc';
+// ORBITAL: AudioDevice removed - using MediaDeviceInfo directly now
 import React, {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-  useId,
-} from 'react';
+  useId} from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
@@ -28,8 +27,7 @@ import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
-  format as formatExpirationTimer,
-} from '../util/expirationTimer.std.js';
+  format as formatExpirationTimer} from '../util/expirationTimer.std.js';
 import { DurationInSeconds } from '../util/durations/index.std.js';
 import { focusableSelector } from '../util/focusableSelectors.std.js';
 import { Modal } from './Modal.dom.js';
@@ -43,8 +41,7 @@ import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   SettingsRadio,
-  SettingsRow,
-} from './PreferencesUtil.dom.js';
+  SettingsRow} from './PreferencesUtil.dom.js';
 import { PreferencesBackups } from './PreferencesBackups.dom.js';
 import { PreferencesInternal } from './PreferencesInternal.dom.js';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.js';
@@ -61,8 +58,7 @@ import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
-  ZoomFactorType,
-} from '../types/Storage.d.ts';
+  ZoomFactorType} from '../types/Storage.d.ts';
 import type { ThemeSettingType } from '../types/StorageUIKeys.std.js';
 import type { AnyToast } from '../types/Toast.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
@@ -70,28 +66,23 @@ import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type {
   ConversationColorType,
   CustomColorType,
-  DefaultConversationColorType,
-} from '../types/Colors.std.js';
+  DefaultConversationColorType} from '../types/Colors.std.js';
 import type {
   LocalizerType,
   SentMediaQualityType,
-  ThemeType,
-} from '../types/Util.std.js';
+  ThemeType} from '../types/Util.std.js';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
-  BackupStatusType,
-} from '../types/backups.node.js';
+  BackupStatusType} from '../types/backups.node.js';
 import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { BadgeType } from '../badges/types.std.js';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { isBackupPage } from '../types/PreferencesBackupPage.std.js';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.js';
 import type {
   PromptOSAuthReasonType,
-  PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
+  PromptOSAuthResultType} from '../util/os/promptOSAuthMain.main.js';
 import type { DonationReceipt } from '../types/Donations.std.js';
 import type { ChatFolderId } from '../types/ChatFolder.std.js';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
@@ -158,8 +149,8 @@ export type PropsDataType = {
   notificationContent: NotificationSettingType;
   phoneNumber: string | undefined;
   selectedCamera?: string;
-  selectedMicrophone?: AudioDevice;
-  selectedSpeaker?: AudioDevice;
+  selectedMicrophone?: MediaDeviceInfo;
+  selectedSpeaker?: MediaDeviceInfo;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -174,8 +165,6 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
-  badge: BadgeType | undefined;
-  hasFailedStorySends: boolean;
   initialSpellCheckSetting: boolean;
   me: ConversationType;
   navTabsCollapsed: boolean;
@@ -312,8 +301,8 @@ type PropsFunctionType = {
   onNotificationsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
-  onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
-  onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSelectedMicrophoneChange: SelectChangeHandlerType<MediaDeviceInfo | undefined>;
+  onSelectedSpeakerChange: SelectChangeHandlerType<MediaDeviceInfo | undefined>;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
@@ -345,30 +334,24 @@ function isDonationsPage(page: SettingsPage): boolean {
 
 enum LanguageDialog {
   Selection,
-  Confirmation,
-}
+  Confirmation}
 
 const DEFAULT_ZOOM_FACTORS = [
   {
     text: '75%',
-    value: 0.75,
-  },
+    value: 0.75},
   {
     text: '100%',
-    value: 1,
-  },
+    value: 1},
   {
     text: '125%',
-    value: 1.25,
-  },
+    value: 1.25},
   {
     text: '150%',
-    value: 1.5,
-  },
+    value: 1.5},
   {
     text: '200%',
-    value: 2,
-  },
+    value: 2},
 ];
 
 export function Preferences({
@@ -390,7 +373,6 @@ export function Preferences({
   backupTier,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
-  badge,
   blockedCount,
   currentChatFoldersCount,
   cloudBackupStatus,
@@ -413,7 +395,6 @@ export function Preferences({
   hasCallRingtoneNotification,
   hasContentProtection,
   hasCountMutedConversations,
-  hasFailedStorySends,
   hasHideMenuBar,
   hasIncomingCallNotifications,
   hasLinkPreviews,
@@ -531,8 +512,7 @@ export function Preferences({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
-  __dangerouslyRunAbitraryReadOnlySqlQuery,
-}: PropsType): JSX.Element {
+  __dangerouslyRunAbitraryReadOnlySqlQuery}: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
   const zoomSelectId = useId();
@@ -562,8 +542,7 @@ export function Preferences({
         page: SettingsPage.EditChatFolder,
         chatFolderId,
         initChatFolderParams: null,
-        previousLocation: null,
-      });
+        previousLocation: null});
     },
     [setSettingsLocation]
   );
@@ -588,8 +567,7 @@ export function Preferences({
   let maybeUpdateDialog: JSX.Element | undefined;
   if (shouldShowUpdateDialog) {
     maybeUpdateDialog = renderUpdateDialog({
-      containerWidthBreakpoint: WidthBreakpoint.Wide,
-    });
+      containerWidthBreakpoint: WidthBreakpoint.Wide});
   }
 
   const onZoomSelectChange = useCallback(
@@ -668,8 +646,7 @@ export function Preferences({
           type: 'language',
           languageDisplay: 'standard',
           style: 'long',
-          fallback: 'code',
-        }).of(ofLocale)
+          fallback: 'code'}).of(ofLocale)
       );
     },
     [localeDisplayNames]
@@ -710,8 +687,7 @@ export function Preferences({
         matchingLocaleLabel: getLocaleDisplayName(
           preferredSystemLocaleMatch,
           preferredSystemLocaleMatch
-        ),
-      },
+        )},
       ...localeOverrideNonMatches,
     ];
   }, [
@@ -746,8 +722,7 @@ export function Preferences({
 
   if (settingsLocation.page === SettingsPage.Profile) {
     content = renderProfileEditor({
-      contentsRef: settingsPaneRef,
-    });
+      contentsRef: settingsPaneRef});
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
       <>
@@ -880,8 +855,7 @@ export function Preferences({
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
       settingsLocation,
-      setSettingsLocation,
-    });
+      setSettingsLocation});
   } else if (settingsLocation.page === SettingsPage.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
@@ -893,8 +867,7 @@ export function Preferences({
         ...zoomFactors,
         {
           text: `${Math.round(zoomFactor * 100)}%`,
-          value: zoomFactor,
-        },
+          value: zoomFactor},
       ].sort((a, b) => a.value - b.value);
     }
     let localeText = '';
@@ -970,8 +943,7 @@ export function Preferences({
             {localeSearchResults.length === 0 && (
               <div className="Preferences__LanguageModal__NoResults">
                 {i18n('icu:Preferences__Language__NoResults', {
-                  searchTerm: languageSearchInput.trim(),
-                })}
+                  searchTerm: languageSearchInput.trim()})}
               </div>
             )}
             {localeSearchResults.map(option => {
@@ -1024,8 +996,7 @@ export function Preferences({
                 style: 'affirmative',
                 action: () => {
                   onLocaleChange(selectedLanguageLocale);
-                },
-              },
+                }},
             ]}
           >
             {i18n('icu:Preferences__LanguageModal__Restart__Description')}
@@ -1046,16 +1017,13 @@ export function Preferences({
               options={[
                 {
                   text: i18n('icu:themeSystem'),
-                  value: 'system',
-                },
+                  value: 'system'},
                 {
                   text: i18n('icu:themeLight'),
-                  value: 'light',
-                },
+                  value: 'light'},
                 {
                   text: i18n('icu:themeDark'),
-                  value: 'dark',
-                },
+                  value: 'dark'},
               ]}
               value={themeSetting}
             />
@@ -1073,8 +1041,7 @@ export function Preferences({
               style={{
                 ...getCustomColorStyle(
                   defaultConversationColor.customColorData?.value
-                ),
-              }}
+                )}}
             />
           }
         />
@@ -1215,8 +1182,7 @@ export function Preferences({
                   onClick={() => {
                     setSettingsLocation({
                       page: SettingsPage.ChatFolders,
-                      previousLocation: null,
-                    });
+                      previousLocation: null});
                   }}
                 >
                   {hasAnyCurrentCustomChatFolders
@@ -1242,8 +1208,7 @@ export function Preferences({
                     {i18n('icu:syncExplanation')}{' '}
                     {i18n('icu:Preferences--lastSynced', {
                       date: lastSyncDate.toLocaleDateString(),
-                      time: lastSyncDate.toLocaleTimeString(),
-                    })}
+                      time: lastSyncDate.toLocaleTimeString()})}
                   </div>
                   {showSyncFailed && (
                     <div className="Preferences__description Preferences__description--error">
@@ -1326,15 +1291,13 @@ export function Preferences({
                     availableCameras.length
                       ? availableCameras.map(device => ({
                           text: localizeDefault(i18n, device.label),
-                          value: device.deviceId,
-                        }))
+                          value: device.deviceId}))
                       : [
                           {
                             text: i18n(
                               'icu:callingDeviceSelection__select--no-device'
                             ),
-                            value: 'undefined',
-                          },
+                            value: 'undefined'},
                         ]
                   }
                   value={selectedCamera}
@@ -1362,20 +1325,18 @@ export function Preferences({
                   onChange={onAudioInputSelectChange}
                   options={
                     availableMicrophones.length
-                      ? availableMicrophones.map(device => ({
-                          text: localizeDefault(i18n, device.name),
-                          value: device.index,
-                        }))
+                      ? availableMicrophones.map((device, index) => ({
+                          text: device.label || `Microphone ${index + 1}`,
+                          value: index}))
                       : [
                           {
                             text: i18n(
                               'icu:callingDeviceSelection__select--no-device'
                             ),
-                            value: 'undefined',
-                          },
+                            value: 'undefined'},
                         ]
                   }
-                  value={selectedMicrophone?.index}
+                  value={availableMicrophones.indexOf(selectedMicrophone!)}
                 />
               </>
             }
@@ -1400,20 +1361,18 @@ export function Preferences({
                   onChange={onAudioOutputSelectChange}
                   options={
                     availableSpeakers.length
-                      ? availableSpeakers.map(device => ({
-                          text: localizeDefault(i18n, device.name),
-                          value: device.index,
-                        }))
+                      ? availableSpeakers.map((device, index) => ({
+                          text: device.label || `Speaker ${index + 1}`,
+                          value: index}))
                       : [
                           {
                             text: i18n(
                               'icu:callingDeviceSelection__select--no-device'
                             ),
-                            value: 'undefined',
-                          },
+                            value: 'undefined'},
                         ]
                   }
-                  value={selectedSpeaker?.index}
+                  value={availableSpeakers.indexOf(selectedSpeaker!)}
                 />
               </>
             }
@@ -1485,16 +1444,13 @@ export function Preferences({
                 options={[
                   {
                     text: i18n('icu:nameAndMessage'),
-                    value: 'message',
-                  },
+                    value: 'message'},
                   {
                     text: i18n('icu:nameOnly'),
-                    value: 'name',
-                  },
+                    value: 'name'},
                   {
                     text: i18n('icu:noNameOrMessage'),
-                    value: 'count',
-                  },
+                    value: 'count'},
                 ]}
                 value={notificationContent}
               />
@@ -1526,8 +1482,7 @@ export function Preferences({
             )}
             onClick={() =>
               setSettingsLocation({
-                page: SettingsPage.NotificationProfilesHome,
-              })
+                page: SettingsPage.NotificationProfilesHome})
             }
           >
             <div className={tw('grow text-start')}>
@@ -1538,8 +1493,7 @@ export function Preferences({
             </div>
             <span className={tw('ms-4')}>
               {i18n('icu:NotificationProfiles--manage-profiles', {
-                profileCount: notificationProfileCount,
-              })}
+                profileCount: notificationProfileCount})}
             </span>
           </FullWidthButton>
         ) : (
@@ -1559,8 +1513,7 @@ export function Preferences({
                   size="large"
                   onClick={() =>
                     setSettingsLocation({
-                      page: SettingsPage.NotificationProfilesHome,
-                    })
+                      page: SettingsPage.NotificationProfilesHome})
                   }
                 >
                   {i18n('icu:NotificationProfiles--setup')}
@@ -1618,8 +1571,7 @@ export function Preferences({
           <Control
             left={i18n('icu:Preferences--blocked')}
             right={i18n('icu:Preferences--blocked-count', {
-              num: blockedCount,
-            })}
+              num: blockedCount})}
           />
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--messaging')}>
@@ -1687,12 +1639,10 @@ export function Preferences({
                 }}
                 options={DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
                   const text = formatExpirationTimer(i18n, seconds, {
-                    capitalizeOff: true,
-                  });
+                    capitalizeOff: true});
                   return {
                     value: seconds,
-                    text,
-                  };
+                    text};
                 }).concat([
                   {
                     value: isCustomDisappearingMessageValue
@@ -1700,8 +1650,7 @@ export function Preferences({
                       : DurationInSeconds.fromSeconds(-1),
                     text: isCustomDisappearingMessageValue
                       ? formatExpirationTimer(i18n, universalExpireTimer)
-                      : i18n('icu:selectedCustomDisappearingTimeOption'),
-                  },
+                      : i18n('icu:selectedCustomDisappearingTimeOption')},
                 ])}
                 value={universalExpireTimer}
               />
@@ -1732,8 +1681,7 @@ export function Preferences({
                 style: 'negative',
                 text: i18n(
                   'icu:Preferences__content-protection__modal--disable'
-                ),
-              },
+                )},
             ]}
             i18n={i18n}
             onClose={() => {
@@ -1820,8 +1768,7 @@ export function Preferences({
               {
                 action: doDeleteAllData,
                 style: 'negative',
-                text: i18n('icu:clearDataButton'),
-              },
+                text: i18n('icu:clearDataButton')},
             ]}
             i18n={i18n}
             onClose={() => {
@@ -1839,8 +1786,7 @@ export function Preferences({
               {
                 action: () => onHasStoriesDisabledChanged(true),
                 style: 'negative',
-                text: i18n('icu:Preferences__turn-stories-off--action'),
-              },
+                text: i18n('icu:Preferences__turn-stories-off--action')},
             ]}
             i18n={i18n}
             onClose={() => {
@@ -1871,8 +1817,7 @@ export function Preferences({
             onChange={(newValue: boolean) =>
               onAutoDownloadAttachmentChange({
                 ...autoDownloadAttachment,
-                photos: newValue,
-              })
+                photos: newValue})
             }
           />
           <Checkbox
@@ -1883,8 +1828,7 @@ export function Preferences({
             onChange={(newValue: boolean) =>
               onAutoDownloadAttachmentChange({
                 ...autoDownloadAttachment,
-                videos: newValue,
-              })
+                videos: newValue})
             }
           />
           <Checkbox
@@ -1895,8 +1839,7 @@ export function Preferences({
             onChange={(newValue: boolean) =>
               onAutoDownloadAttachmentChange({
                 ...autoDownloadAttachment,
-                audio: newValue,
-              })
+                audio: newValue})
             }
           />
           <Checkbox
@@ -1907,8 +1850,7 @@ export function Preferences({
             onChange={(newValue: boolean) =>
               onAutoDownloadAttachmentChange({
                 ...autoDownloadAttachment,
-                documents: newValue,
-              })
+                documents: newValue})
             }
           />
           <div className="Preferences__padding">
@@ -1950,12 +1892,10 @@ export function Preferences({
                 options={[
                   {
                     text: i18n('icu:sentMediaQualityStandard'),
-                    value: 'standard',
-                  },
+                    value: 'standard'},
                   {
                     text: i18n('icu:sentMediaQualityHigh'),
-                    value: 'high',
-                  },
+                    value: 'high'},
                 ]}
                 value={sentMediaQualitySetting}
               />
@@ -2011,15 +1951,13 @@ export function Preferences({
     content = renderPreferencesChatFoldersPage({
       previousLocation: settingsLocation.previousLocation,
       onOpenEditChatFoldersPage: handleOpenEditChatFoldersPage,
-      settingsPaneRef,
-    });
+      settingsPaneRef});
   } else if (settingsLocation.page === SettingsPage.EditChatFolder) {
     content = renderPreferencesEditChatFolderPage({
       previousLocation: settingsLocation.previousLocation,
       settingsPaneRef,
       existingChatFolderId: settingsLocation.chatFolderId,
-      initChatFolderParams: settingsLocation.initChatFolderParams,
-    });
+      initChatFolderParams: settingsLocation.initChatFolderParams});
   } else if (settingsLocation.page === SettingsPage.PNP) {
     let sharingDescription: string;
 
@@ -2051,20 +1989,17 @@ export function Preferences({
           title={i18n('icu:Preferences__pnp__sharing--title')}
           className={classNames('Preferences__settings-row--pnp-sharing', {
             'Preferences__settings-row--pnp-sharing--nobody':
-              whoCanSeeMe === PhoneNumberSharingMode.Nobody,
-          })}
+              whoCanSeeMe === PhoneNumberSharingMode.Nobody})}
         >
           <SettingsRadio
             onChange={onWhoCanSeeMeChange}
             options={[
               {
                 text: i18n('icu:Preferences__pnp__sharing__everyone'),
-                value: PhoneNumberSharingMode.Everybody,
-              },
+                value: PhoneNumberSharingMode.Everybody},
               {
                 text: i18n('icu:Preferences__pnp__sharing__nobody'),
-                value: PhoneNumberSharingMode.Nobody,
-              },
+                value: PhoneNumberSharingMode.Nobody},
             ]}
             value={whoCanSeeMe}
           />
@@ -2087,8 +2022,7 @@ export function Preferences({
             options={[
               {
                 text: i18n('icu:Preferences__pnp__discoverability__everyone'),
-                value: PhoneNumberDiscoverability.Discoverable,
-              },
+                value: PhoneNumberDiscoverability.Discoverable},
               {
                 text: i18n('icu:Preferences__pnp__discoverability__nobody'),
                 value: PhoneNumberDiscoverability.NotDiscoverable,
@@ -2097,8 +2031,7 @@ export function Preferences({
                   whoCanSeeMe === PhoneNumberSharingMode.Everybody
                     ? () =>
                         showToast({ toastType: ToastType.WhoCanFindMeReadOnly })
-                    : noop,
-              },
+                    : noop},
             ]}
             value={whoCanFindMe}
           />
@@ -2131,8 +2064,7 @@ export function Preferences({
                     PhoneNumberDiscoverability.NotDiscoverable
                   ),
                 style: 'affirmative',
-                text: i18n('icu:ok'),
-              },
+                text: i18n('icu:ok')},
             ]}
           >
             {i18n(
@@ -2146,8 +2078,7 @@ export function Preferences({
                 ),
                 nobodyLabel: i18n(
                   'icu:Preferences__pnp__discoverability__nobody'
-                ),
-              }
+                )}
             )}
           </ConfirmationDialog>
         )}
@@ -2228,15 +2159,13 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.NotificationProfilesHome) {
     content = renderNotificationProfilesHome({
       setSettingsLocation,
-      contentsRef: settingsPaneRef,
-    });
+      contentsRef: settingsPaneRef});
   } else if (
     settingsLocation.page === SettingsPage.NotificationProfilesCreateFlow
   ) {
     content = renderNotificationProfilesCreateFlow({
       setSettingsLocation,
-      contentsRef: settingsPaneRef,
-    });
+      contentsRef: settingsPaneRef});
   } else if (settingsLocation.page === SettingsPage.Internal) {
     content = (
       <PreferencesContent
@@ -2269,7 +2198,6 @@ export function Preferences({
           title={i18n('icu:Preferences--header')}
           i18n={i18n}
           otherTabsUnreadStats={otherTabsUnreadStats}
-          hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={false}
           navTabsCollapsed={navTabsCollapsed}
           onToggleNavTabsCollapse={onToggleNavTabsCollapse}
@@ -2291,13 +2219,12 @@ export function Preferences({
                 className={classNames({
                   'Preferences__profile-chip': true,
                   'Preferences__profile-chip--selected':
-                    settingsLocation.page === SettingsPage.Profile,
-                })}
+                    settingsLocation.page === SettingsPage.Profile})}
               >
                 <div className="Preferences__profile-chip__avatar">
                   <Avatar
                     avatarUrl={me.avatarUrl}
-                    badge={badge}
+                    badge={undefined}
                     className="module-main-header__avatar"
                     color={me.color}
                     conversationType="direct"
@@ -2332,8 +2259,7 @@ export function Preferences({
                   onClick={() => {
                     setSettingsLocation({
                       page: SettingsPage.Profile,
-                      state: ProfileEditorPage.None,
-                    });
+                      state: ProfileEditorPage.None});
                   }}
                 >
                   <span className="Preferences__profile-chip__screenreader-only">
@@ -2347,8 +2273,7 @@ export function Preferences({
                   onClick={() => {
                     setSettingsLocation({
                       page: SettingsPage.Profile,
-                      state: ProfileEditorPage.UsernameLink,
-                    });
+                      state: ProfileEditorPage.UsernameLink});
                   }}
                 >
                   <div className="Preferences__profile-chip__qr-icon" />
@@ -2360,8 +2285,7 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--general': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.General,
-                })}
+                    settingsLocation.page === SettingsPage.General})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.General })
                 }
@@ -2375,8 +2299,7 @@ export function Preferences({
                   'Preferences__button--appearance': true,
                   'Preferences__button--selected':
                     settingsLocation.page === SettingsPage.Appearance ||
-                    settingsLocation.page === SettingsPage.ChatColor,
-                })}
+                    settingsLocation.page === SettingsPage.ChatColor})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Appearance })
                 }
@@ -2389,8 +2312,7 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--chats': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Chats,
-                })}
+                    settingsLocation.page === SettingsPage.Chats})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Chats })
                 }
@@ -2403,8 +2325,7 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--calls': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Calls,
-                })}
+                    settingsLocation.page === SettingsPage.Calls})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Calls })
                 }
@@ -2417,8 +2338,7 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--notifications': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Notifications,
-                })}
+                    settingsLocation.page === SettingsPage.Notifications})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Notifications })
                 }
@@ -2432,8 +2352,7 @@ export function Preferences({
                   'Preferences__button--privacy': true,
                   'Preferences__button--selected':
                     settingsLocation.page === SettingsPage.Privacy ||
-                    settingsLocation.page === SettingsPage.PNP,
-                })}
+                    settingsLocation.page === SettingsPage.PNP})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Privacy })
                 }
@@ -2446,8 +2365,7 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--data-usage': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.DataUsage,
-                })}
+                    settingsLocation.page === SettingsPage.DataUsage})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.DataUsage })
                 }
@@ -2462,8 +2380,7 @@ export function Preferences({
                     'Preferences__button--backups': true,
                     'Preferences__button--selected': isBackupPage(
                       settingsLocation.page
-                    ),
-                  })}
+                    )})}
                   onClick={() =>
                     setSettingsLocation({ page: SettingsPage.Backups })
                   }
@@ -2478,8 +2395,7 @@ export function Preferences({
                   'Preferences__button--donations': true,
                   'Preferences__button--selected': isDonationsPage(
                     settingsLocation.page
-                  ),
-                })}
+                  )})}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Donations })
                 }
@@ -2493,8 +2409,7 @@ export function Preferences({
                     Preferences__button: true,
                     'Preferences__button--internal': true,
                     'Preferences__button--selected':
-                      settingsLocation.page === SettingsPage.Internal,
-                  })}
+                      settingsLocation.page === SettingsPage.Internal})}
                   onClick={() =>
                     setSettingsLocation({ page: SettingsPage.Internal })
                   }
@@ -2525,8 +2440,7 @@ export function PreferencesContent({
   contents,
   contentsRef,
   title,
-  actions,
-}: {
+  actions}: {
   backButton?: JSX.Element | undefined;
   contents: JSX.Element | undefined;
   contentsRef: MutableRefObject<HTMLDivElement | null>;

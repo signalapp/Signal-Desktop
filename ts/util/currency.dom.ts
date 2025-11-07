@@ -1,49 +1,17 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Donations feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: Currency utilities removed for Orbital (payments feature removed)
+// This file provides stub functions to maintain compatibility
 
-export type CurrencyFormatResult = {
-  value: string;
-  symbol: string;
-};
-
-export function getCurrencyFormat(
-  amount: number,
-  currency: string
-): CurrencyFormatResult {
-  return {
-    value: amount.toString(),
-    symbol: currency,
-  };
+export function getCurrencyList(): string[] {
+  return [];
 }
 
-export function brandHumanDonationAmount(amount: number): number {
-  return amount;
+export function formatCurrency(_amount: number, _currency: string): string {
+  return '';
 }
 
-export function toHumanCurrencyString(amount: number, currency: string): string {
-  return `${amount} ${currency}`;
+export function getHumanDonationAmount(_amount: number, _currency: string): string {
+  return '';
 }
-
-export function parseCurrencyString(value: string, _currency: string): number {
-  return parseFloat(value) || 0;
-}
-
-export function toStripeDonationAmount(amount: number, _currency: string): number {
-  return Math.round(amount * 100);
-}
-
-export function getMaximumStripeAmount(_currency: string): number {
-  return 999999;
-}
-
-export function getHumanDonationAmount(amount: number): string {
-  return amount.toString();
-}
-
-export const ZERO_DECIMAL_CURRENCIES = new Set<string>([
-  'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA',
-  'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF',
-]);

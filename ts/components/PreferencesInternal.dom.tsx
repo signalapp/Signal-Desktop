@@ -158,8 +158,8 @@ export function PreferencesInternal({
   const handleAddTestReceipt = useCallback(async () => {
     const testReceipt: DonationReceipt = {
       id: uuid(),
-      currencyType: 'USD',
-      paymentAmount: Math.floor(Math.random() * 10000) + 100, // Random amount between $1 and $100 (in cents)
+      currency: 'USD',
+      amount: Math.floor(Math.random() * 10000) + 100, // Random amount between $1 and $100 (in cents)
       timestamp: Date.now(),
     };
 
@@ -441,7 +441,7 @@ export function PreferencesInternal({
                         {new Date(receipt.timestamp).toLocaleDateString()}
                       </td>
                       <td style={{ padding: '8px' }}>
-                        {getHumanDonationAmount(receipt.paymentAmount)} {receipt.currencyType}
+                        {getHumanDonationAmount(receipt.amount, receipt.currency)} {receipt.currency}
                       </td>
                       <td
                         style={{

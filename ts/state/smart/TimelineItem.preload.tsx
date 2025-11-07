@@ -14,23 +14,21 @@ import { useAccountsActions } from '../ducks/accounts.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+// REMOVED: Badge imports
+// import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
-  getPlatform,
-} from '../selectors/user.std.js';
+  getPlatform} from '../selectors/user.std.js';
 import {
   getTargetedMessage,
-  getTargetedMessageSource,
-} from '../selectors/conversations.dom.js';
+  getTargetedMessageSource} from '../selectors/conversations.dom.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   areMessagesInSameGroup,
   shouldCurrentMessageHideMetadata,
-  UnreadIndicatorPlacement,
-} from '../../util/timelineUtil.std.js';
+  UnreadIndicatorPlacement} from '../../util/timelineUtil.std.js';
 
 import { SmartContactName } from './ContactName.preload.js';
 import { SmartUniversalTimerNotification } from './UniversalTimerNotification.dom.js';
@@ -73,12 +71,10 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     messageId,
     nextMessageId,
     previousMessageId,
-    unreadIndicatorPlacement,
-  } = props;
+    unreadIndicatorPlacement} = props;
 
   const i18n = useSelector(getIntl);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const interactionMode = useSelector(getInteractionMode);
+    const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
 
@@ -144,8 +140,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     showSpoiler,
     startConversation,
     targetMessage,
-    toggleSelectMessage,
-  } = useConversationsActions();
+    toggleSelectMessage} = useConversationsActions();
 
   const { reactToMessage, scrollToQuotedMessage, setQuoteByMessageId } =
     useComposerActions();
@@ -158,16 +153,14 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     toggleDeleteMessagesModal,
     toggleEditNicknameAndNoteModal,
     toggleForwardMessagesModal,
-    toggleSafetyNumberModal,
-  } = useGlobalModalActions();
+    toggleSafetyNumberModal} = useGlobalModalActions();
   const { checkForAccount } = useAccountsActions();
   const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
   const { viewStory } = useStoriesActions();
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
-    returnToActiveCall,
-  } = useCallingActions();
+    returnToActiveCall} = useCallingActions();
 
   const onOpenEditNicknameAndNoteModal = useCallback(
     (contactId: string) => {
@@ -182,6 +175,9 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     },
     [conversationId, toggleMessageRequestActionsConfirmation]
   );
+
+  // REMOVED: Badge support - stub function
+  const getPreferredBadge = () => undefined;
 
   return (
     <TimelineItem

@@ -84,32 +84,38 @@ function conversationSelector(conversationId?: string) {
   return found;
 }
 
-const availableMicrophones = [
+const availableMicrophones: ReadonlyArray<MediaDeviceInfo> = [
   {
-    name: 'DefAuLt (Headphones)',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
-  },
+    deviceId: 'Default',
+    kind: 'audioinput' as MediaDeviceKind,
+    label: 'Default (Headphones)',
+    groupId: 'default',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
 ];
 
-const availableSpeakers = [
+const availableSpeakers: ReadonlyArray<MediaDeviceInfo> = [
   {
-    name: 'Default',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
-  },
+    deviceId: 'Default',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: 'Default',
+    groupId: 'default',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
   {
-    name: "Natalie's Airpods (Bluetooth)",
-    index: 1,
-    uniqueId: 'aa',
-  },
+    deviceId: 'aa',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: "Natalie's Airpods (Bluetooth)",
+    groupId: 'aa',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
   {
-    name: 'UE Boom (Bluetooth)',
-    index: 2,
-    uniqueId: 'bb',
-  },
+    deviceId: 'bb',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: 'UE Boom (Bluetooth)',
+    groupId: 'bb',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
 ];
 
 const validateBackupResult = {
@@ -250,7 +256,7 @@ function renderDonationsPane(_props: {
   showToast: (toast: AnyToast) => void;
   workflow?: DonationWorkflow;
 }): JSX.Element {
-  return <PreferencesDonations />;
+  return <PreferencesDonations i18n={i18n} />;
 }
 
 function renderToastManager(): JSX.Element {
@@ -384,7 +390,6 @@ export default {
     backupLocalBackupsEnabled: false,
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
-    badge: undefined,
     blockedCount: 0,
     currentChatFoldersCount: 0,
     customColors: {},
@@ -401,7 +406,6 @@ export default {
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
     hasCountMutedConversations: false,
-    hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
     hasLinkPreviews: true,
@@ -846,14 +850,14 @@ DonationReceipts.args = {
       donationReceipts: [
         {
           id: '9f9288a1-acb6-4d2e-a4fe-0a736a318a26',
-          currencyType: 'usd',
-          paymentAmount: 1000,
+          currency: 'usd',
+          amount: 1000,
           timestamp: 1754000413436,
         },
         {
           id: '22defee0-8797-4a49-bac8-1673232706fa',
-          currencyType: 'jpy',
-          paymentAmount: 1000,
+          currency: 'jpy',
+          amount: 1000,
           timestamp: 1753995255509,
         },
       ],
@@ -1179,7 +1183,6 @@ NavTabsCollapsed.args = {
 export const NavTabsCollapsedWithBadges = Template.bind({});
 NavTabsCollapsedWithBadges.args = {
   navTabsCollapsed: true,
-  hasFailedStorySends: false,
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,
@@ -1190,7 +1193,6 @@ NavTabsCollapsedWithBadges.args = {
 export const NavTabsCollapsedWithExclamation = Template.bind({});
 NavTabsCollapsedWithExclamation.args = {
   navTabsCollapsed: true,
-  hasFailedStorySends: true,
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,

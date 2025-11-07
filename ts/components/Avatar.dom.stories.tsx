@@ -11,17 +11,12 @@ import { Avatar, AvatarBlur, AvatarSize } from './Avatar.dom.js';
 import { AvatarColors } from '../types/Colors.std.js';
 import { HasStories } from '../types/Stories.std.js';
 import { ThemeType } from '../types/Util.std.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
-
 const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Avatar',
   component: Avatar,
   argTypes: {
-    badge: {
-      control: false,
-    },
     blur: {
       control: { type: 'radio' },
       options: [
@@ -29,22 +24,17 @@ export default {
         AvatarBlur.NoBlur,
         AvatarBlur.BlurPicture,
         AvatarBlur.BlurPictureWithClickToView,
-      ],
-    },
+      ]},
     color: {
-      options: AvatarColors,
-    },
+      options: AvatarColors},
     conversationType: {
       control: { type: 'radio' },
-      options: ['direct', 'group'],
-    },
+      options: ['direct', 'group']},
     size: {
-      control: false,
-    },
+      control: false},
     storyRing: {
       control: { type: 'radio' },
-      options: [undefined, ...Object.values(HasStories)],
-    },
+      options: [undefined, ...Object.values(HasStories)]},
     theme: {
       control: { type: 'radio' },
       options: [ThemeType.light, ThemeType.dark],
@@ -60,7 +50,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   avatarUrl: overrideProps.avatarUrl || '',
-  badge: overrideProps.badge,
+  badge: undefined,
   blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
   conversationType: overrideProps.conversationType || 'direct',
@@ -78,8 +68,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   size: 80,
   title: overrideProps.title || '',
   theme: overrideProps.theme || ThemeType.light,
-  storyRing: overrideProps.storyRing,
-});
+  storyRing: overrideProps.storyRing});
 
 const sizes = Object.values(AvatarSize).filter(
   x => typeof x === 'number'
@@ -103,8 +92,7 @@ const TemplateSingle: StoryFn<Props> = (args: Props) => (
 
 export const Default = Template.bind({});
 Default.args = createProps({
-  avatarUrl: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
-});
+  avatarUrl: '/fixtures/giphy-GVNvOUpeYmI7e.gif'});
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 Default.play = async (context: any) => {
   const { args, canvasElement } = context;
@@ -117,51 +105,42 @@ Default.play = async (context: any) => {
 export const WithBadge = Template.bind({});
 WithBadge.args = createProps({
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  badge: getFakeBadge(),
 });
 
 export const WideImage = Template.bind({});
 WideImage.args = createProps({
-  avatarUrl: '/fixtures/wide.jpg',
-});
+  avatarUrl: '/fixtures/wide.jpg'});
 
 export const OneWordName = Template.bind({});
 OneWordName.args = createProps({
-  title: 'John',
-});
+  title: 'John'});
 
 export const TwoWordName = Template.bind({});
 TwoWordName.args = createProps({
-  title: 'John Smith',
-});
+  title: 'John Smith'});
 
 export const WideInitials = Template.bind({});
 WideInitials.args = createProps({
-  title: 'Walter White',
-});
+  title: 'Walter White'});
 
 export const ThreeWordName = Template.bind({});
 ThreeWordName.args = createProps({
-  title: 'Walter H. White',
-});
+  title: 'Walter H. White'});
 
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = createProps({
-  noteToSelf: true,
-});
+  noteToSelf: true});
 
 export const ContactIcon = Template.bind({});
 ContactIcon.args = createProps();
 
 export const GroupIcon = Template.bind({});
 GroupIcon.args = createProps({
-  conversationType: 'group',
-});
+  conversationType: 'group'});
 
 export const SearchIcon = Template.bind({});
 SearchIcon.args = createProps({
-  searchResult: true,
-});
+  searchResult: true});
 
 export function Colors(): JSX.Element {
   const props = createProps();
@@ -177,52 +156,43 @@ export function Colors(): JSX.Element {
 
 export const BrokenColor = Template.bind({});
 BrokenColor.args = createProps({
-  color: 'nope' as AvatarColorType,
-});
+  color: 'nope' as AvatarColorType});
 
 export const BrokenAvatar = Template.bind({});
 BrokenAvatar.args = createProps({
-  avatarUrl: 'badimage.png',
-});
+  avatarUrl: 'badimage.png'});
 
 export const BrokenAvatarForGroup = Template.bind({});
 BrokenAvatarForGroup.args = createProps({
   avatarUrl: 'badimage.png',
-  conversationType: 'group',
-});
+  conversationType: 'group'});
 
 export const Loading = Template.bind({});
 Loading.args = createProps({
-  loading: true,
-});
+  loading: true});
 
 export const BlurredBasedOnProps = TemplateSingle.bind({});
 BlurredBasedOnProps.args = createProps({
   hasAvatar: true,
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  blur: AvatarBlur.BlurPicture,
-});
+  blur: AvatarBlur.BlurPicture});
 
 export const ForceBlurred = TemplateSingle.bind({});
 ForceBlurred.args = createProps({
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  blur: AvatarBlur.BlurPicture,
-});
+  blur: AvatarBlur.BlurPicture});
 
 export const BlurredWithClickToView = TemplateSingle.bind({});
 BlurredWithClickToView.args = createProps({
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  blur: AvatarBlur.BlurPictureWithClickToView,
-});
+  blur: AvatarBlur.BlurPictureWithClickToView});
 
 export const StoryUnread = TemplateSingle.bind({});
 StoryUnread.args = createProps({
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  storyRing: HasStories.Unread,
-});
+  storyRing: HasStories.Unread});
 
 export const StoryRead = TemplateSingle.bind({});
 StoryRead.args = createProps({
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
-  storyRing: HasStories.Read,
-});
+  storyRing: HasStories.Read});

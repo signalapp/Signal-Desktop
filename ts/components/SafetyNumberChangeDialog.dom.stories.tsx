@@ -8,7 +8,6 @@ import type { Props } from './SafetyNumberChangeDialog.dom.js';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
 import { MY_STORY_ID } from '../types/Stories.std.js';
 import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
 
@@ -20,8 +19,7 @@ const contactWithAllData = getDefaultConversation({
   profileName: '-*Smartest Dude*-',
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
-  phoneNumber: '(305) 123-4567',
-});
+  phoneNumber: '(305) 123-4567'});
 
 const contactWithJustProfileVerified = getDefaultConversation({
   id: 'def',
@@ -30,8 +28,7 @@ const contactWithJustProfileVerified = getDefaultConversation({
   profileName: '-*Smartest Dude*-',
   name: undefined,
   phoneNumber: '(305) 123-4567',
-  isVerified: true,
-});
+  isVerified: true});
 
 const contactWithJustNumberVerified = getDefaultConversation({
   id: 'xyz',
@@ -40,8 +37,7 @@ const contactWithJustNumberVerified = getDefaultConversation({
   name: undefined,
   title: '(305) 123-4567',
   phoneNumber: '(305) 123-4567',
-  isVerified: true,
-});
+  isVerified: true});
 
 const contactWithNothing = getDefaultConversation({
   id: 'some-guid',
@@ -49,14 +45,12 @@ const contactWithNothing = getDefaultConversation({
   profileName: undefined,
   name: undefined,
   phoneNumber: undefined,
-  title: 'Unknown contact',
-});
+  title: 'Unknown contact'});
 
 const useTheme = () => React.useContext(StorybookThemeContext);
 
 export default {
-  title: 'Components/SafetyNumberChangeDialog',
-} satisfies Meta<Props>;
+  title: 'Components/SafetyNumberChangeDialog'} satisfies Meta<Props>;
 
 export function SingleContactDialog(): JSX.Element {
   const theme = useTheme();
@@ -65,8 +59,7 @@ export function SingleContactDialog(): JSX.Element {
       contacts={[
         {
           story: undefined,
-          contacts: [contactWithAllData],
-        },
+          contacts: [contactWithAllData]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -90,8 +83,7 @@ export function DifferentConfirmationText(): JSX.Element {
       contacts={[
         {
           story: undefined,
-          contacts: [contactWithAllData],
-        },
+          contacts: [contactWithAllData]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -114,12 +106,10 @@ export function MultiContactDialog(): JSX.Element {
       contacts={[
         {
           story: undefined,
-          contacts: [contactWithAllData, contactWithJustProfileVerified],
-        },
+          contacts: [contactWithAllData, contactWithJustProfileVerified]},
         {
           story: undefined,
-          contacts: [contactWithJustNumberVerified, contactWithNothing],
-        },
+          contacts: [contactWithJustNumberVerified, contactWithNothing]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -145,8 +135,7 @@ export function AllVerified(): JSX.Element {
           contacts: [
             contactWithJustProfileVerified,
             contactWithJustNumberVerified,
-          ],
-        },
+          ]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -174,10 +163,9 @@ export function MultipleContactsAllWithBadges(): JSX.Element {
             contactWithJustProfileVerified,
             contactWithJustNumberVerified,
             contactWithNothing,
-          ],
-        },
+          ]},
       ]}
-      getPreferredBadge={() => getFakeBadge()}
+      getPreferredBadge={() => undefined}
       i18n={i18n}
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
@@ -209,8 +197,7 @@ export function TenContacts(): JSX.Element {
             contactWithAllData,
             contactWithAllData,
             contactWithAllData,
-          ],
-        },
+          ]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -235,18 +222,14 @@ export function NoContacts(): JSX.Element {
           story: {
             name: 'My Story',
             conversationId: 'our-conversation-id',
-            distributionId: MY_STORY_ID,
-          },
-          contacts: [],
-        },
+            distributionId: MY_STORY_ID},
+          contacts: []},
         {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: generateStoryDistributionId(),
-          },
-          contacts: [],
-        },
+            distributionId: generateStoryDistributionId()},
+          contacts: []},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}
@@ -271,33 +254,27 @@ export function InMultipleStories(): JSX.Element {
           story: {
             name: 'Not to be trusted',
             conversationId: 'our-conversation-id',
-            distributionId: MY_STORY_ID,
-          },
-          contacts: [contactWithAllData, contactWithJustProfileVerified],
-        },
+            distributionId: MY_STORY_ID},
+          contacts: [contactWithAllData, contactWithJustProfileVerified]},
         {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: generateStoryDistributionId(),
-          },
+            distributionId: generateStoryDistributionId()},
           contacts: [
             contactWithAllData,
             contactWithAllData,
             contactWithAllData,
-          ],
-        },
+          ]},
         {
           story: {
             name: 'Hiking Buds',
-            conversationId: 'hiking-group-id',
-          },
+            conversationId: 'hiking-group-id'},
           contacts: [
             contactWithJustNumberVerified,
             contactWithAllData,
             contactWithAllData,
-          ],
-        },
+          ]},
       ]}
       getPreferredBadge={() => undefined}
       i18n={i18n}

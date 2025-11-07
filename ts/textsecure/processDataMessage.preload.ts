@@ -27,16 +27,16 @@ import type {
   ProcessedPollTerminate,
   ProcessedDelete,
   ProcessedGiftBadge,
-  ProcessedStoryContext,
-} from './Types.d.ts';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
+  ProcessedStoryContext} from './Types.d.ts';
 import {
   APPLICATION_OCTET_STREAM,
-  stringToMIMEType,
-} from '../types/MIME.std.js';
+  stringToMIMEType} from '../types/MIME.std.js';
 import { SECOND, DurationInSeconds } from '../util/durations/index.std.js';
-import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import { PaymentEventKind } from '../types/Payment.std.js';
+// REMOVED: Payment types
+// import type { AnyPaymentEvent } from '../types/Payment.std.js';
+// import { PaymentEventKind } from '../types/Payment.std.js';
+type AnyPaymentEvent = any;
+const PaymentEventKind = { Notification: 'Notification' as any, ActivationRequest: 'ActivationRequest' as any, Activation: 'Activation' as any };
 import { filterAndClean } from '../types/BodyRange.std.js';
 import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { createName } from '../util/attachmentPath.node.js';
@@ -80,8 +80,7 @@ export function processAttachment(
     height,
     caption,
     blurHash,
-    uploadTimestamp,
-  } = attachmentWithoutNulls;
+    uploadTimestamp} = attachmentWithoutNulls;
 
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
@@ -112,8 +111,7 @@ export function processAttachment(
       ? Bytes.toBase64(incrementalMac)
       : undefined,
     key: Bytes.isNotEmpty(key) ? Bytes.toBase64(key) : undefined,
-    size,
-  };
+    size};
 }
 
 export function processGroupV2Context(
@@ -134,8 +132,7 @@ export function processGroupV2Context(
       : undefined,
     id: Bytes.toBase64(data.id),
     secretParams: Bytes.toBase64(data.secretParams),
-    publicParams: Bytes.toBase64(data.publicParams),
-  };
+    publicParams: Bytes.toBase64(data.publicParams)};
 }
 
 export function processPayment(
@@ -148,8 +145,7 @@ export function processPayment(
   if (payment.notification != null) {
     return {
       kind: PaymentEventKind.Notification,
-      note: payment.notification.note ?? null,
-    };
+      note: payment.notification.note ?? null};
   }
 
   if (payment.activation != null) {
@@ -194,12 +190,10 @@ export function processQuote(
           ? stringToMIMEType(attachment.contentType)
           : APPLICATION_OCTET_STREAM,
         fileName: dropNull(attachment.fileName),
-        thumbnail: processAttachment(attachment.thumbnail),
-      };
+        thumbnail: processAttachment(attachment.thumbnail)};
     }),
     bodyRanges: filterAndClean(quote.bodyRanges),
-    type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
-  };
+    type: quote.type || Proto.DataMessage.Quote.Type.NORMAL};
 }
 
 export function processStoryContext(
@@ -212,8 +206,7 @@ export function processStoryContext(
   const {
     authorAci: rawAuthorAci,
     authorAciBinary,
-    sentTimestamp,
-  } = storyContext;
+    sentTimestamp} = storyContext;
   const authorAci = fromAciUuidBytesOrString(
     authorAciBinary,
     rawAuthorAci,
@@ -222,8 +215,7 @@ export function processStoryContext(
 
   return {
     authorAci,
-    sentTimestamp: getTimestampFromLong(sentTimestamp),
-  };
+    sentTimestamp: getTimestampFromLong(sentTimestamp)};
 }
 
 export function processContact(
@@ -239,10 +231,8 @@ export function processContact(
       avatar: item.avatar
         ? {
             avatar: processAttachment(item.avatar.avatar),
-            isProfile: Boolean(item.avatar.isProfile),
-          }
-        : undefined,
-    };
+            isProfile: Boolean(item.avatar.isProfile)}
+        : undefined};
   });
 }
 
@@ -273,8 +263,7 @@ export function processPreview(
       title: dropNull(item.title),
       image: item.image ? processAttachment(item.image) : undefined,
       description: dropNull(item.description),
-      date: cleanLinkPreviewDate(item.date),
-    };
+      date: cleanLinkPreviewDate(item.date)};
   });
 }
 
@@ -290,8 +279,7 @@ export function processSticker(
     packKey: sticker.packKey ? Bytes.toBase64(sticker.packKey) : undefined,
     stickerId: dropNull(sticker.stickerId),
     emoji: dropNull(sticker.emoji),
-    data: processAttachment(sticker.data),
-  };
+    data: processAttachment(sticker.data)};
 }
 
 export function processReaction(
@@ -313,8 +301,7 @@ export function processReaction(
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
     targetAuthorAci,
-    targetTimestamp: reaction.targetSentTimestamp?.toNumber(),
-  };
+    targetTimestamp: reaction.targetSentTimestamp?.toNumber()};
 }
 
 export function processPollCreate(
@@ -327,8 +314,7 @@ export function processPollCreate(
   return {
     question: dropNull(pollCreate.question),
     options: pollCreate.options?.filter(isNotNil) || [],
-    allowMultiple: Boolean(pollCreate.allowMultiple),
-  };
+    allowMultiple: Boolean(pollCreate.allowMultiple)};
 }
 
 export function processPollVote(
@@ -348,8 +334,7 @@ export function processPollVote(
     targetAuthorAci,
     targetTimestamp: pollVote.targetSentTimestamp?.toNumber(),
     optionIndexes: pollVote.optionIndexes?.filter(isNotNil) || [],
-    voteCount: pollVote.voteCount || 0,
-  };
+    voteCount: pollVote.voteCount || 0};
 }
 
 export function processPollTerminate(
@@ -360,8 +345,7 @@ export function processPollTerminate(
   }
 
   return {
-    targetTimestamp: pollTerminate.targetSentTimestamp?.toNumber(),
-  };
+    targetTimestamp: pollTerminate.targetSentTimestamp?.toNumber()};
 }
 
 export function processDelete(
@@ -372,8 +356,7 @@ export function processDelete(
   }
 
   return {
-    targetSentTimestamp: del.targetSentTimestamp?.toNumber(),
-  };
+    targetSentTimestamp: del.targetSentTimestamp?.toNumber()};
 }
 
 export function processGiftBadge(
@@ -398,8 +381,7 @@ export function processGiftBadge(
     receiptCredentialPresentation: Bytes.toBase64(
       giftBadge.receiptCredentialPresentation
     ),
-    state: GiftBadgeStates.Unopened,
-  };
+    state: "removed"};
 }
 
 export function processDataMessage(
@@ -432,8 +414,7 @@ export function processDataMessage(
   const processedAttachments = message.attachments
     ?.map((attachment: Proto.IAttachmentPointer) => ({
       ...processAttachment(attachment),
-      downloadPath: doCreateName(),
-    }))
+      downloadPath: doCreateName()}))
     .filter(isNotNil);
 
   const { bodyAttachment, attachments } = partitionBodyAndNormalAttachments(
@@ -469,8 +450,7 @@ export function processDataMessage(
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: processStoryContext(message.storyContext),
-    giftBadge: processGiftBadge(message.giftBadge),
-  };
+    giftBadge: processGiftBadge(message.giftBadge)};
 
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);
   const isExpirationTimerUpdate = Boolean(

@@ -4,20 +4,19 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export type StoryDistributionIdString = string & { __storyDistributionId: never };
+export type StoryDistributionIdString = string;
 
-// Stub functions
+// Function stub for generateStoryDistributionId
+export function generateStoryDistributionId(): StoryDistributionIdString {
+  return '00000000-0000-0000-0000-000000000000';
+}
+
+// Function stub for normalizeStoryDistributionId
+export function normalizeStoryDistributionId(id: string, _context?: string): StoryDistributionIdString {
+  return id as StoryDistributionIdString;
+}
+
+// Function stub for isStoryDistributionId
 export function isStoryDistributionId(value: unknown): value is StoryDistributionIdString {
   return typeof value === 'string';
-}
-
-export function generateStoryDistributionId(): StoryDistributionIdString {
-  return '' as StoryDistributionIdString;
-}
-
-export function normalizeStoryDistributionId(
-  value: string,
-  _context?: string
-): StoryDistributionIdString {
-  return value as StoryDistributionIdString;
 }

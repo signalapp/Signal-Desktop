@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // loader services
-import { getBadgesForRedux, loadBadges } from './badgeLoader.preload.js';
 import {
   getCallsHistoryForRedux,
   getCallsHistoryUnreadCountForRedux,
@@ -16,11 +15,6 @@ import {
   getDistributionListsForRedux,
   loadDistributionLists,
 } from './distributionListLoader.preload.js'; // Stub only
-import {
-  getDonationsForRedux,
-  loadDonationReceipts,
-} from './donationsLoader.preload.js';
-import { getStoriesForRedux, loadStories } from './storyLoader.preload.js'; // Stub only
 import { getUserDataForRedux, loadUserData } from './userLoader.dom.js';
 import {
   loadCachedProfiles as loadNotificationProfiles,
@@ -47,17 +41,14 @@ import {
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
-    loadBadges(),
     loadCallHistory(),
     loadCallLinks(),
     loadChatFolders(),
     loadDistributionLists(), // Stub only
-    loadDonationReceipts(),
     loadGifsState(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
     loadStickers(),
-    loadStories(), // Stub only
     loadUserData(),
   ]);
 }
@@ -71,19 +62,16 @@ export function getParametersForRedux(): ReduxInitData {
   const { mainWindowStats, menuOptions, theme } = getUserDataForRedux();
 
   return {
-    badgesState: getBadgesForRedux(),
     callHistory: getCallsHistoryForRedux(),
     callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
     callLinks: getCallLinksForRedux(),
     chatFolders: getChatFoldersForRedux(),
-    donations: getDonationsForRedux(),
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,
     notificationProfiles: getNotificationProfiles(),
     recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
-    stories: getStoriesForRedux(), // Stub only
     storyDistributionLists: getDistributionListsForRedux(), // Stub only
     theme,
   };

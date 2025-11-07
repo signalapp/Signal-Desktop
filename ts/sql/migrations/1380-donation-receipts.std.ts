@@ -1,19 +1,16 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// STUB: Donation receipts migration removed for Orbital
+// This file provides stub migration to maintain compatibility
+
 import type { WritableDB } from '../Interface.std.js';
+import type { LoggerType } from '../../types/Logging.std.js';
 
-export default function updateToSchemaVersion1380(db: WritableDB): void {
-  db.exec(`
-    CREATE TABLE donationReceipts(
-      id TEXT NOT NULL PRIMARY KEY,
-      currencyType TEXT NOT NULL,
-      paymentAmount INTEGER NOT NULL,
-      paymentDetailJson TEXT NOT NULL,
-      paymentType TEXT NOT NULL,
-      timestamp INTEGER NOT NULL
-    ) STRICT;
-
-    CREATE INDEX donationReceipts_byTimestamp on donationReceipts(timestamp);
-  `);
+export default function updateToSchemaVersion1380(
+  _db: WritableDB,
+  _logger: LoggerType,
+  _startingVersion: number
+): void {
+  // No-op: donations feature removed
 }

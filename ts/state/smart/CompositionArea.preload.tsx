@@ -7,8 +7,7 @@ import { CompositionArea } from '../../components/CompositionArea.dom.js';
 import { useContactNameData } from '../../components/conversation/ContactName.dom.js';
 import type {
   DraftBodyRanges,
-  HydratedBodyRangesType,
-} from '../../types/BodyRange.std.js';
+  HydratedBodyRangesType} from '../../types/BodyRange.std.js';
 import { hydrateRanges } from '../../types/BodyRange.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
@@ -18,8 +17,8 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   getErrorDialogAudioRecorderType,
-  getRecordingState,
-} from '../selectors/audioRecorder.std.js';
+  getRecordingState} from '../selectors/audioRecorder.std.js';
+// STUB: Badges removed - import getPreferredBadgeSelector for compatibility
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getComposerStateForConversationIdSelector } from '../selectors/composer.preload.js';
 import {
@@ -29,20 +28,17 @@ import {
   getLastEditableMessageId,
   getMessages,
   getSelectedMessageIds,
-  isMissingRequiredProfileSharing,
-} from '../selectors/conversations.dom.js';
+  isMissingRequiredProfileSharing} from '../selectors/conversations.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
-  getTextFormattingEnabled,
-} from '../selectors/items.dom.js';
+  getTextFormattingEnabled} from '../selectors/items.dom.js';
 import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
 import {
   getIntl,
   getPlatform,
   getTheme,
-  getUserConversationId,
-} from '../selectors/user.std.js';
+  getUserConversationId} from '../selectors/user.std.js';
 import { SmartCompositionRecording } from './CompositionRecording.preload.js';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.preload.js';
 import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft.preload.js';
@@ -69,8 +65,7 @@ function renderSmartCompositionRecordingDraft(
 }
 
 export const SmartCompositionArea = memo(function SmartCompositionArea({
-  id,
-}: {
+  id}: {
   id: string;
 }) {
   const conversationSelector = useSelector(getConversationSelector);
@@ -93,8 +88,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const hasGlobalModalOpen = useSelector(isShowingAnyModal);
   const hasPanelOpen = useSelector(getHasPanelOpen);
   const getGroupAdmins = useSelector(getGroupAdminsSelector);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const composerStateForConversationIdSelector = useSelector(
+    const composerStateForConversationIdSelector = useSelector(
     getComposerStateForConversationIdSelector
   );
   const composerState = composerStateForConversationIdSelector(id);
@@ -108,8 +102,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     linkPreviewResult,
     messageCompositionId,
     sendCounter,
-    shouldSendHighQualityAttachments,
-  } = composerState;
+    shouldSendHighQualityAttachments} = composerState;
 
   const isDisabled = disabledCounter > 0;
 
@@ -159,8 +152,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   if (!quotedMessage && draftEditMessage?.quote) {
     quotedMessage = {
       conversationId: id,
-      quote: draftEditMessage.quote,
-    };
+      quote: draftEditMessage.quote};
   }
 
   const ourConversationId = useSelector(getUserConversationId);
@@ -171,8 +163,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
           ourConversationId,
-          defaultConversationColor,
-        })
+          defaultConversationColor})
       : undefined;
   }, [
     quotedMessage,
@@ -194,8 +185,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     sendStickerMessage,
     sendEditedMessage,
     sendMultiMediaMessage,
-    setComposerFocus,
-  } = useComposerActions();
+    setComposerFocus} = useComposerActions();
   const {
     pushPanelForConversation,
     discardEditMessage,
@@ -208,20 +198,21 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     scrollToMessage,
     setMessageToEdit,
     setMuteExpiration,
-    showConversation,
-  } = useConversationsActions();
+    showConversation} = useConversationsActions();
   const { cancelRecording, completeRecording, startRecording, errorRecording } =
     useAudioRecorderActions();
   const { onUseEmoji } = useEmojisActions();
   const {
     showGV2MigrationDialog,
     toggleForwardMessagesModal,
-    toggleDraftGifMessageSendModal,
-  } = useGlobalModalActions();
+    toggleDraftGifMessageSendModal} = useGlobalModalActions();
   const { showToast } = useToastActions();
   const { onEditorStateChange } = useComposerActions();
 
   AutoSubstituteAsciiEmojis.enable(itemStorage.get('autoConvertEmoji', true));
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
 
   return (
     <CompositionArea

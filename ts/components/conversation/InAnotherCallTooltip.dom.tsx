@@ -1,31 +1,20 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+// ORBITAL: InAnotherCallTooltip removed - stub only
 
-import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
+import React, { type ReactNode } from 'react';
+import type { LocalizerType } from '../../types/Util.std.js';
 
-import type { LocalizerType } from '../../types/I18N.std.js';
-
-type Props = {
+export type PropsType = {
+  children: ReactNode;
   i18n: LocalizerType;
-  children: React.ReactNode;
 };
 
-export function getTooltipContent(i18n: LocalizerType): string {
-  return i18n('icu:calling__in-another-call-tooltip');
+export function InAnotherCallTooltip({ children }: PropsType): JSX.Element {
+  return <>{children}</>;
 }
 
-export function InAnotherCallTooltip({ i18n, children }: Props): JSX.Element {
-  return (
-    <Tooltip
-      className="InAnotherCallTooltip"
-      content={getTooltipContent(i18n)}
-      direction={TooltipPlacement.Top}
-      popperModifiers={[offsetDistanceModifier(5)]}
-    >
-      {children}
-    </Tooltip>
-  );
+export function getTooltipContent(_i18n: LocalizerType): string {
+  return '';
 }

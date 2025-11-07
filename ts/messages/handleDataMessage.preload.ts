@@ -14,8 +14,7 @@ import { messageHasPaymentEvent } from './payments.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 import {
   deliveryReceiptQueue,
-  deliveryReceiptBatcher,
-} from '../util/deliveryReceipt.preload.js';
+  deliveryReceiptBatcher} from '../util/deliveryReceipt.preload.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.dom.js';
 import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { upgradeMessageSchema } from '../util/migrations.preload.js';
@@ -23,19 +22,16 @@ import { getOwn } from '../util/getOwn.std.js';
 import {
   SendActionType,
   sendStateReducer,
-  SendStatus,
-} from './MessageSendState.std.js';
+  SendStatus} from './MessageSendState.std.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { eraseMessageContents } from '../util/cleanup.preload.js';
 import {
   isDirectConversation,
   isGroup,
-  isGroupV1,
-} from '../util/whatTypeOfConversation.dom.js';
+  isGroupV1} from '../util/whatTypeOfConversation.dom.js';
 import {
   respondToGroupV2Migration,
-  maybeUpdateGroup,
-} from '../groups.preload.js';
+  maybeUpdateGroup} from '../groups.preload.js';
 import { generateMessageId } from '../util/generateMessageId.node.js';
 import {
   hasErrors,
@@ -43,8 +39,7 @@ import {
   isExpirationTimerUpdate,
   isGroupUpdate,
   isTapToView,
-  isUnsupportedMessage,
-} from '../state/selectors/message.preload.js';
+  isUnsupportedMessage} from '../state/selectors/message.preload.js';
 import { drop } from '../util/drop.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import { isAciString } from '../util/isAciString.std.js';
@@ -59,13 +54,10 @@ import { isMessageEmpty } from '../util/isMessageEmpty.preload.js';
 import { isValidTapToView } from '../util/isValidTapToView.std.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
 import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import {
   modifyTargetMessage,
-  ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage.preload.js';
+  ModifyTargetMessageResult} from '../util/modifyTargetMessage.preload.js';
 import { saveAndNotify } from './saveAndNotify.preload.js';
 import { MessageModel } from '../models/messages.preload.js';
 import { safeParsePartial } from '../util/schemas.std.js';
@@ -74,8 +66,7 @@ import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.dom.js';
 import type { SentEventData } from '../textsecure/messageReceiverEvents.std.js';
 import type {
   ProcessedDataMessage,
-  ProcessedUnidentifiedDeliveryStatus,
-} from '../textsecure/Types.d.ts';
+  ProcessedUnidentifiedDeliveryStatus} from '../textsecure/Types.d.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
@@ -84,6 +75,9 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
+
+// STUB: Badges removed - parseBoostBadgeListFromServer stub
+const parseBoostBadgeListFromServer = (_response: unknown, _updatesUrl: string): unknown[] => [];
 
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
@@ -162,8 +156,7 @@ export async function handleDataMessage(
           toUpdate.get('unidentifiedDeliveries') ?? []
         );
         const sendStateByConversationId = {
-          ...(toUpdate.get('sendStateByConversationId') || {}),
-        };
+          ...(toUpdate.get('sendStateByConversationId') || {})};
 
         const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> =
           data && Array.isArray(data.unidentifiedStatus)
@@ -178,8 +171,7 @@ export async function handleDataMessage(
           const destinationConversation =
             window.ConversationController.lookupOrCreate({
               serviceId: destinationServiceId,
-              reason: `handleDataMessage(${initialMessage.timestamp})`,
-            });
+              reason: `handleDataMessage(${initialMessage.timestamp})`});
           if (!destinationConversation) {
             return;
           }
@@ -197,12 +189,10 @@ export async function handleDataMessage(
             previousSendState
               ? sendStateReducer(previousSendState, {
                   type: SendActionType.Sent,
-                  updatedAt,
-                })
+                  updatedAt})
               : {
                   status: SendStatus.Sent,
-                  updatedAt,
-                };
+                  updatedAt};
 
           if (unidentified) {
             unidentifiedDeliveriesSet.add(destinationServiceId);
@@ -211,8 +201,7 @@ export async function handleDataMessage(
 
         toUpdate.set({
           sendStateByConversationId,
-          unidentifiedDeliveries: [...unidentifiedDeliveriesSet],
-        });
+          unidentifiedDeliveries: [...unidentifiedDeliveriesSet]});
         await window.MessageCache.saveMessage(toUpdate.attributes);
 
         confirm();
@@ -250,13 +239,11 @@ export async function handleDataMessage(
           groupChange: groupChange
             ? {
                 base64: groupChange,
-                isTrusted: false,
-              }
+                isTrusted: false}
             : undefined,
           newRevision: revision,
           receivedAt: message.get('received_at'),
-          sentAt: message.get('sent_at'),
-        });
+          sentAt: message.get('sent_at')});
       } else if (
         initialMessage.groupV2.masterKey &&
         initialMessage.groupV2.secretParams &&
@@ -266,8 +253,7 @@ export async function handleDataMessage(
         await conversation.maybeRepairGroupV2({
           masterKey: initialMessage.groupV2.masterKey,
           secretParams: initialMessage.groupV2.secretParams,
-          publicParams: initialMessage.groupV2.publicParams,
-        });
+          publicParams: initialMessage.groupV2.publicParams});
 
         const existingRevision = conversation.get('revision');
         const isFirstUpdate = !isNumber(existingRevision);
@@ -286,13 +272,11 @@ export async function handleDataMessage(
               groupChange: groupChange
                 ? {
                     base64: groupChange,
-                    isTrusted: false,
-                  }
+                    isTrusted: false}
                 : undefined,
               newRevision: revision,
               receivedAt: message.get('received_at'),
-              sentAt: message.get('sent_at'),
-            });
+              sentAt: message.get('sent_at')});
           } catch (error) {
             const errorText = Errors.toLogFormat(error);
             log.error(
@@ -309,8 +293,7 @@ export async function handleDataMessage(
     const sender = window.ConversationController.lookupOrCreate({
       e164: source,
       serviceId: sourceServiceId,
-      reason: 'handleDataMessage',
-    })!;
+      reason: 'handleDataMessage'})!;
     const hasGroupV2Prop = Boolean(initialMessage.groupV2);
 
     // Drop if from blocked user. Only GroupV2 messages should need to be dropped here.
@@ -399,8 +382,7 @@ export async function handleDataMessage(
             senderE164: source,
             senderAci: sourceServiceId,
             timestamp: message.get('sent_at'),
-            isDirectConversation: isDirectConversation(conversation.attributes),
-          });
+            isDirectConversation: isDirectConversation(conversation.attributes)});
         })
       );
     }
@@ -417,8 +399,7 @@ export async function handleDataMessage(
     if (initialMessage.quote) {
       window.ConversationController.lookupOrCreate({
         serviceId: initialMessage.quote.authorAci,
-        reason: 'handleDataMessage.quote.author',
-      });
+        reason: 'handleDataMessage.quote.author'});
     }
 
     const [quote, storyQuotes] = await Promise.all([
@@ -428,7 +409,7 @@ export async function handleDataMessage(
       findStoryMessages(conversation.id, storyContext),
     ]);
 
-    const storyQuote = storyQuotes.find(candidateQuote => {
+    const storyQuote = storyQuotes.find((candidateQuote: any) => {
       const sendStateByConversationId =
         candidateQuote.sendStateByConversationId || {};
       const sendState = sendStateByConversationId[sender.id];
@@ -529,8 +510,7 @@ export async function handleDataMessage(
       ...message.attributes,
       ...initialMessage,
       quote,
-      storyId: storyQuote?.id,
-    };
+      storyId: storyQuote?.id};
 
     // There are type conflicts between ModelAttributesType and protos passed in here
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -550,14 +530,12 @@ export async function handleDataMessage(
             return {
               ...item,
               isCallLink: true,
-              callLinkRoomId: getRoomIdFromCallLink(item.url),
-            };
+              callLinkRoomId: getRoomIdFromCallLink(item.url)};
           }
 
           if (
             !LinkPreview.isValidLinkPreview(urls, item, {
-              isStory: isStory(message.attributes),
-            })
+              isStory: isStory(message.attributes)})
           ) {
             return null;
           }
@@ -588,12 +566,10 @@ export async function handleDataMessage(
         ...(dataMessage.bodyAttachment
           ? {
               body: dataMessage.body,
-              bodyRanges: dataMessage.bodyRanges,
-            }
+              bodyRanges: dataMessage.bodyRanges}
           : trimMessageWhitespace({
               body: dataMessage.body,
-              bodyRanges: dataMessage.bodyRanges,
-            })),
+              bodyRanges: dataMessage.bodyRanges})),
         contact: dataMessage.contact,
         conversationId: conversation.id,
         decrypted_at: now,
@@ -625,16 +601,13 @@ export async function handleDataMessage(
               question: validatedPollCreate.question,
               options: validatedPollCreate.options,
               allowMultiple: Boolean(validatedPollCreate.allowMultiple),
-              votes: [],
-            }
+              votes: []}
           : undefined,
-        storyId: dataMessage.storyId,
-      });
+        storyId: dataMessage.storyId});
 
       if (storyQuote) {
         await hydrateStoryContext(message.id, storyQuote, {
-          shouldSave: true,
-        });
+          shouldSave: true});
       }
 
       const isSupported = !isUnsupportedMessage(message.attributes);
@@ -644,8 +617,7 @@ export async function handleDataMessage(
 
       if (isSupported) {
         const attributes = {
-          ...conversation.attributes,
-        };
+          ...conversation.attributes};
 
         // Drop empty messages after. This needs to happen after the initial
         // message.set call and after GroupV1 processing to make sure all possible
@@ -669,8 +641,7 @@ export async function handleDataMessage(
         if (isGroupStoryReply && storyQuote) {
           message.set({
             expireTimer: storyQuote.expireTimer,
-            expirationStartTimestamp: storyQuote.expirationStartTimestamp,
-          });
+            expirationStartTimestamp: storyQuote.expirationStartTimestamp});
         }
 
         if (dataMessage.expireTimer && !isExpirationTimerUpdate(dataMessage)) {
@@ -678,8 +649,7 @@ export async function handleDataMessage(
           if (isStory(message.attributes)) {
             log.info(`${idLog}: Starting story expiration`);
             message.set({
-              expirationStartTimestamp: dataMessage.timestamp,
-            });
+              expirationStartTimestamp: dataMessage.timestamp});
           }
         }
 
@@ -689,19 +659,15 @@ export async function handleDataMessage(
               expirationTimerUpdate: {
                 source,
                 sourceServiceId,
-                expireTimer: initialMessage.expireTimer,
-              },
-            });
+                expireTimer: initialMessage.expireTimer}});
 
             if (conversation.get('expireTimer') !== dataMessage.expireTimer) {
               log.info('Incoming expirationTimerUpdate changed timer', {
                 id: conversation.idForLogging(),
                 expireTimer: dataMessage.expireTimer || 'disabled',
-                source: idLog,
-              });
+                source: idLog});
               conversation.set({
-                expireTimer: dataMessage.expireTimer,
-              });
+                expireTimer: dataMessage.expireTimer});
             }
           }
 
@@ -715,8 +681,7 @@ export async function handleDataMessage(
               receivedAtMS: message.get('received_at_ms'),
               sentAt: message.get('sent_at'),
               reason: idLog,
-              version: initialMessage.expireTimerVersion,
-            });
+              version: initialMessage.expireTimerVersion});
           } else if (
             // We won't turn off timers for these kinds of messages:
             !isGroupUpdate(message.attributes) &&
@@ -728,8 +693,7 @@ export async function handleDataMessage(
               receivedAtMS: message.get('received_at_ms'),
               sentAt: message.get('sent_at'),
               reason: idLog,
-              version: initialMessage.expireTimerVersion,
-            });
+              version: initialMessage.expireTimerVersion});
           }
         }
 
@@ -743,19 +707,16 @@ export async function handleDataMessage(
           } else if (isDirectConversation(conversation.attributes)) {
             drop(
               conversation.setProfileKey(profileKey, {
-                reason: 'handleDataMessage',
-              })
+                reason: 'handleDataMessage'})
             );
           } else {
             const local = window.ConversationController.lookupOrCreate({
               e164: source,
               serviceId: sourceServiceId,
-              reason: 'handleDataMessage:setProfileKey',
-            });
+              reason: 'handleDataMessage:setProfileKey'});
             drop(
               local?.setProfileKey(profileKey, {
-                reason: 'handleDataMessage',
-              })
+                reason: 'handleDataMessage'})
             );
           }
         }
@@ -773,8 +734,7 @@ export async function handleDataMessage(
             `${idLog}: Received tap to view message with invalid data. Erasing contents.`
           );
           message.set({
-            isTapToViewInvalid: true,
-          });
+            isTapToViewInvalid: true});
           await eraseMessageContents(message);
         }
       }
@@ -790,8 +750,7 @@ export async function handleDataMessage(
         conversation.set({
           lastMessage: getNotificationTextForMessage(message.attributes),
           lastMessageAuthor: getMessageAuthorText(message.attributes),
-          timestamp: message.get('sent_at'),
-        });
+          timestamp: message.get('sent_at')});
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -805,34 +764,16 @@ export async function handleDataMessage(
 
       await DataWriter.updateConversation(conversation.attributes);
 
+      // STUB: Badges removed - gift badge logic disabled
       const giftBadge = message.get('giftBadge');
-      if (giftBadge && giftBadge.state !== GiftBadgeStates.Failed) {
-        const { level } = giftBadge;
-        const { updatesUrl } = window.SignalContext.config;
-        strictAssert(
-          typeof updatesUrl === 'string',
-          'getProfile: expected updatesUrl to be a defined string'
-        );
-        const response = await getCachedSubscriptionConfiguration();
-        const boostBadgesByLevel = parseBoostBadgeListFromServer(
-          response,
-          updatesUrl
-        );
-        const badge = boostBadgesByLevel[level];
-        if (!badge) {
-          log.error(
-            `${idLog}: gift badge with level ${level} not found on server`
-          );
-        } else {
-          await window.reduxActions.badges.updateOrCreate([badge]);
-          giftBadge.id = badge.id;
-        }
+      if (giftBadge && giftBadge.state !== "removed") {
+        log.info(`${idLog}: gift badge feature removed, skipping badge processing`);
+        // Gift badge feature has been removed from Orbital
       }
 
       const result = await modifyTargetMessage(message, conversation, {
         isFirstRun: true,
-        skipEdits: false,
-      });
+        skipEdits: false});
       if (result === ModifyTargetMessageResult.Deleted) {
         confirm();
         return;

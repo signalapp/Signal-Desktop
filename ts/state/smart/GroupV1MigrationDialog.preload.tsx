@@ -32,14 +32,11 @@ export const SmartGroupV1MigrationDialog = memo(
     areWeInvited,
     hasMigrated,
     droppedMemberIds,
-    invitedMemberIds,
-  }: PropsType) {
+    invitedMemberIds}: PropsType) {
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const getConversation = useSelector(getConversationSelector);
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-
-    const { initiateMigrationToGroupV2 } = useConversationsActions();
+        const { initiateMigrationToGroupV2 } = useConversationsActions();
     const { closeGV2MigrationDialog } = useGlobalModalActions();
 
     const droppedMembers = useMemo(() => {
@@ -65,6 +62,9 @@ export const SmartGroupV1MigrationDialog = memo(
     const handleMigrate = useCallback(() => {
       initiateMigrationToGroupV2(conversationId);
     }, [initiateMigrationToGroupV2, conversationId]);
+
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
 
     return (
       <GroupV1MigrationDialog

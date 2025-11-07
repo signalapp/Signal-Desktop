@@ -408,8 +408,9 @@ export const TimelineItem = memo(function TimelineItem({
     } else if (item.type === 'paymentEvent') {
       notification = (
         <PaymentEventNotification
-          {...reducedProps}
-          {...item.data}
+          event={item.data.event}
+          sender={item.data.sender}
+          conversationTitle={item.data.conversationTitle || ''}
           i18n={i18n}
         />
       );

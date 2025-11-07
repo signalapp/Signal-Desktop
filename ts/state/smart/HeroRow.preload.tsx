@@ -11,12 +11,10 @@ import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
-  getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.dom.js';
+  getPendingAvatarDownloadSelector} from '../selectors/conversations.dom.js';
 import {
   type ConversationType,
-  useConversationsActions,
-} from '../ducks/conversations.preload.js';
+  useConversationsActions} from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
@@ -44,12 +42,10 @@ function isFromOrAddedByTrustedContact(
 }
 
 export const SmartHeroRow = memo(function SmartHeroRow({
-  id,
-}: SmartHeroRowProps) {
+  id}: SmartHeroRowProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const hasStoriesSelector = useSelector(getHasStoriesSelector);
+    const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const conversationSelector = useSelector(getConversationSelector);
   const conversationByServiceIdSelector = useSelector(
     getConversationByServiceIdSelector
@@ -65,7 +61,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   );
   const { memberships, pendingMemberships, pendingApprovalMemberships } =
     groupMemberships;
-  const badge = getPreferredBadge([]); // Badges removed
+  // Badges removed
   const hasStories = hasStoriesSelector(); // Stories removed
   const isSignalConversationValue = isSignalConversation(conversation);
   const fromOrAddedByTrustedContact =
@@ -94,8 +90,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     profileName,
     sharedGroupNames,
     title,
-    type,
-  } = conversation;
+    type} = conversation;
 
   const isDirectConvoAndHasNickname =
     type === 'direct' && Boolean(nicknameGivenName || nicknameFamilyName);
@@ -103,13 +98,16 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationHero
       avatarPlaceholderGradient={avatarPlaceholderGradient}
       about={about}
       acceptedMessageRequest={acceptedMessageRequest}
       avatarUrl={avatarUrl}
-      badge={badge}
+      badge={undefined}
       color={color}
       conversationType={type}
       fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}

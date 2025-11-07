@@ -27,8 +27,7 @@ export const SmartSendAnywayDialog = memo(
       useStoryDistributionListsActions();
     const { cancelConversationVerification, verifyConversationsStoppingSend } =
       useConversationsActions();
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const i18n = useSelector(getIntl);
+        const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
 
     const contacts = useSelector(
@@ -81,6 +80,9 @@ export const SmartSendAnywayDialog = memo(
       explodedPromise,
       hideBlockingSafetyNumberChangeDialog,
     ]);
+
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
 
     return (
       <SafetyNumberChangeDialog

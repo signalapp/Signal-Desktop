@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.dom.js';
 import {
   getGroupSizeHardLimit,
-  getGroupSizeRecommendedLimit,
-} from '../../groups/limits.dom.js';
+  getGroupSizeRecommendedLimit} from '../../groups/limits.dom.js';
 import { SignalService as Proto } from '../../protobuf/index.std.js';
 import type { CallHistoryGroup } from '../../types/CallDisposition.std.js';
 import { assertDev } from '../../util/assert.std.js';
@@ -16,19 +15,16 @@ import { getConversationColorAttributes } from '../../util/getConversationColorA
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
   getBadgesSelector,
-  getPreferredBadgeSelector,
-} from '../selectors/badges.preload.js';
+  getPreferredBadgeSelector} from '../selectors/badges.preload.js';
 import { getActiveCallState } from '../selectors/calling.std.js';
 import {
   getAllComposableConversations,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
-  getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.dom.js';
+  getPendingAvatarDownloadSelector} from '../selectors/conversations.dom.js';
 import {
   getAreWeASubscriber,
-  getDefaultConversationColor,
-} from '../selectors/items.dom.js';
+  getDefaultConversationColor} from '../selectors/items.dom.js';
 import { getSelectedNavTab } from '../selectors/nav.preload.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.js';
@@ -88,8 +84,7 @@ function getGroupsInCommonSorted(
 
 export const SmartConversationDetails = memo(function SmartConversationDetails({
   conversationId,
-  callHistoryGroup,
-}: SmartConversationDetailsProps) {
+  callHistoryGroup}: SmartConversationDetailsProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const activeCall = useSelector(getActiveCallState);
@@ -101,8 +96,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   );
   const conversationSelector = useSelector(getConversationByIdSelector);
   const defaultConversationColor = useSelector(getDefaultConversationColor);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
+    const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
 
   const {
@@ -120,20 +114,17 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     showConversation,
     startAvatarDownload,
     updateGroupAttributes,
-    updateNicknameAndNote,
-  } = useConversationsActions();
+    updateNicknameAndNote} = useConversationsActions();
   const {
     onOutgoingAudioCallInConversation,
-    onOutgoingVideoCallInConversation,
-  } = useCallingActions();
+    onOutgoingVideoCallInConversation} = useCallingActions();
   const { searchInConversation } = useSearchActions();
   const {
     showContactModal,
     toggleAboutContactModal,
     toggleAddUserToAnotherGroupModal,
     toggleEditNicknameAndNoteModal,
-    toggleSafetyNumberModal,
-  } = useGlobalModalActions();
+    toggleSafetyNumberModal} = useGlobalModalActions();
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -142,8 +133,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   );
   const conversationWithColorAttributes = {
     ...conversation,
-    ...getConversationColorAttributes(conversation, defaultConversationColor),
-  };
+    ...getConversationColorAttributes(conversation, defaultConversationColor)};
 
   const groupMemberships = getGroupMemberships(
     conversation,
@@ -198,12 +188,14 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     };
   }, [conversationId]);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationDetails
       acceptConversation={acceptConversation}
       addMembersToGroup={addMembersToGroup}
       areWeASubscriber={areWeASubscriber}
-      badges={badges}
       blockConversation={blockConversation}
       callHistoryGroup={callHistoryGroup}
       canAddNewMembers={canAddNewMembers}

@@ -11,32 +11,26 @@ import { ContactModal } from './ContactModal.dom.js';
 import { HasStories } from '../../types/Stories.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.js';
-
 const { i18n } = window.SignalContext;
 
 const defaultContact: ConversationType = getDefaultConversation({
-  about: '👍 Free to chat',
-});
+  about: '👍 Free to chat'});
 
 const defaultGroup: ConversationType = getDefaultConversation({
   areWeAdmin: true,
   groupLink: casual.url,
   title: casual.title,
-  type: 'group',
-});
+  type: 'group'});
 
 export default {
   title: 'Components/Conversation/ContactModal',
   component: ContactModal,
   argTypes: {
-    hasActiveCall: { control: { type: 'boolean' } },
-  },
+    hasActiveCall: { control: { type: 'boolean' } }},
   args: {
     i18n,
     areWeASubscriber: false,
     areWeAdmin: false,
-    badges: [],
     blockConversation: action('blockConversation'),
     contact: defaultContact,
     conversation: defaultGroup,
@@ -61,73 +55,57 @@ export default {
     updateConversationModelSharedGroups: action(
       'updateConversationModelSharedGroups'
     ),
-    viewUserStories: action('viewUserStories'),
-  },
-} satisfies Meta<PropsType>;
+    viewUserStories: action('viewUserStories')}} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <ContactModal {...args} />;
 
 export const AsNonAdmin = Template.bind({});
 AsNonAdmin.args = {
-  areWeAdmin: false,
-};
+  areWeAdmin: false};
 
 export const AsAdmin = Template.bind({});
 AsAdmin.args = {
-  areWeAdmin: true,
-};
+  areWeAdmin: true};
 
 export const AsAdminWithNoGroupLink = Template.bind({});
 AsAdminWithNoGroupLink.args = {
   areWeAdmin: true,
   conversation: {
     ...defaultGroup,
-    groupLink: undefined,
-  },
-};
+    groupLink: undefined}};
 
 export const AsAdminViewingNonMemberOfGroup = Template.bind({});
 AsAdminViewingNonMemberOfGroup.args = {
-  isMember: false,
-};
+  isMember: false};
 
 export const WithoutPhoneNumber = Template.bind({});
 WithoutPhoneNumber.args = {
   contact: {
     ...defaultContact,
-    phoneNumber: undefined,
-  },
-};
+    phoneNumber: undefined}};
 
 export const ViewingSelf = Template.bind({});
 ViewingSelf.args = {
   contact: {
     ...defaultContact,
-    isMe: true,
-  },
-};
+    isMe: true}};
 
 export const WithBadges = Template.bind({});
 WithBadges.args = {
-  badges: getFakeBadges(2),
 };
 
 export const WithUnreadStories = Template.bind({});
 WithUnreadStories.args = {
-  hasStories: HasStories.Unread,
-};
+  hasStories: HasStories.Unread};
 WithUnreadStories.storyName = 'Unread Stories';
 
 export const InSystemContacts = Template.bind({});
 InSystemContacts.args = {
   contact: {
     ...defaultContact,
-    systemGivenName: defaultContact.title,
-  },
-};
+    systemGivenName: defaultContact.title}};
 
 export const InAnotherCall = Template.bind({});
 InAnotherCall.args = {
-  hasActiveCall: true,
-};
+  hasActiveCall: true};

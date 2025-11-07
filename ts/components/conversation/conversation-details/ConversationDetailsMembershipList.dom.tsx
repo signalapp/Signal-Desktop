@@ -10,10 +10,8 @@ import { Emojify } from '../Emojify.dom.js';
 
 import {
   ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.js';
+  IconType} from './ConversationDetailsIcon.dom.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
 
@@ -25,7 +23,7 @@ export type GroupV2Membership = {
 export type Props = {
   canAddNewMembers: boolean;
   conversationId: string;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
@@ -82,8 +80,7 @@ export function ConversationDetailsMembershipList({
   memberships,
   showContactModal,
   startAddingNewMembers,
-  theme,
-}: Props): JSX.Element {
+  theme}: Props): JSX.Element {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
 
@@ -97,8 +94,7 @@ export function ConversationDetailsMembershipList({
   return (
     <PanelSection
       title={i18n('icu:ConversationDetailsMembershipList--title', {
-        number: sortedMemberships.length,
-      })}
+        number: sortedMemberships.length})}
     >
       {canAddNewMembers && (
         <PanelRow

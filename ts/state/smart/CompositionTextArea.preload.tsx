@@ -7,8 +7,7 @@ import { CompositionTextArea } from '../../components/CompositionTextArea.dom.js
 import {
   getIntl,
   getPlatform,
-  getUserConversationId,
-} from '../selectors/user.std.js';
+  getUserConversationId} from '../selectors/user.std.js';
 import { useEmojisActions as useEmojiActions } from '../ducks/emojis.preload.js';
 import { useItemsActions } from '../ducks/items.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
@@ -42,9 +41,11 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   const { setEmojiSkinToneDefault } = useItemsActions();
   const { onTextTooLong } = useComposerActions();
 
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+    const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const conversationSelector = useSelector(getConversationSelector);
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
 
   return (
     <CompositionTextArea

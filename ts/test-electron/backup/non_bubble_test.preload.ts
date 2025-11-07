@@ -12,7 +12,9 @@ import { SignalService as Proto, Backups } from '../../protobuf/index.std.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.js';
 import { generateAci } from '../../types/ServiceId.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
+// REMOVED: Payment types
+// import { PaymentEventKind } from '../../types/Payment.std.js';
+const PaymentEventKind = { Activation: 'Activation' as any, ActivationRequest: 'ActivationRequest' as any, Notification: 'Notification' as any };
 import { ContactFormType } from '../../types/EmbeddedContact.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import { DurationInSeconds } from '../../util/durations/index.std.js';
@@ -330,15 +332,6 @@ describe('backup/non-bubble messages', () => {
         payment: {
           kind: PaymentEventKind.Notification,
           note: 'note with text',
-          amountMob: '1.01',
-          feeMob: '0.01',
-          transactionDetailsBase64: Bytes.toBase64(
-            Backups.PaymentNotification.TransactionDetails.encode({
-              transaction: {
-                timestamp: Long.fromNumber(Date.now()),
-              },
-            }).finish()
-          ),
         },
       },
     ]);

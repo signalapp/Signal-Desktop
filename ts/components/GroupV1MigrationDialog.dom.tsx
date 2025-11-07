@@ -4,7 +4,6 @@
 import * as React from 'react';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { GroupDialog } from './GroupDialog.dom.js';
 import { sortByTitle } from '../util/sortByTitle.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
@@ -16,7 +15,7 @@ export type DataPropsType = {
   readonly hasMigrated: boolean;
   readonly invitedMembers?: Array<ConversationType>;
   readonly invitedMemberCount: number;
-  readonly getPreferredBadge: PreferredBadgeSelectorType;
+  readonly getPreferredBadge: any;
   readonly i18n: LocalizerType;
   readonly theme: ThemeType;
 };
@@ -40,8 +39,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
     invitedMemberCount,
     theme,
     onClose,
-    onMigrate,
-  }: PropsType) {
+    onMigrate}: PropsType) {
     const title = hasMigrated
       ? i18n('icu:GroupV1--Migration--info--title')
       : i18n('icu:GroupV1--Migration--migrate--title');
@@ -65,8 +63,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
       onClickPrimaryButton = onMigrate;
       secondaryButtonProps = {
         secondaryButtonText: i18n('icu:cancel'),
-        onClickSecondaryButton: onClose,
-      };
+        onClickSecondaryButton: onClose};
     }
 
     return (
@@ -95,8 +92,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               count: invitedMemberCount,
               hasMigrated,
               kind: 'invited',
-              theme,
-            })}
+              theme})}
             {renderMembers({
               getPreferredBadge,
               i18n,
@@ -104,8 +100,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               count: droppedMemberCount,
               hasMigrated,
               kind: 'dropped',
-              theme,
-            })}
+              theme})}
           </>
         )}
       </GroupDialog>
@@ -119,9 +114,8 @@ function renderMembers({
   count,
   hasMigrated,
   kind,
-  theme,
-}: Readonly<{
-  getPreferredBadge: PreferredBadgeSelectorType;
+  theme}: Readonly<{
+  getPreferredBadge: any;
   i18n: LocalizerType;
   members?: Array<ConversationType>;
   count: number;
@@ -145,8 +139,7 @@ function renderMembers({
       return (
         <GroupDialog.Paragraph>
           {i18n('icu:GroupV1--Migration--info--removed--after--count', {
-            count,
-          })}
+            count})}
         </GroupDialog.Paragraph>
       );
     }
@@ -154,8 +147,7 @@ function renderMembers({
     return (
       <GroupDialog.Paragraph>
         {i18n('icu:GroupV1--Migration--info--removed--before--count', {
-          count,
-        })}
+          count})}
       </GroupDialog.Paragraph>
     );
   }

@@ -10,8 +10,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import {
   getConversationSelector,
   getConversationByServiceIdSelector,
-  getSafeConversationWithSameTitle,
-} from '../selectors/conversations.dom.js';
+  getSafeConversationWithSameTitle} from '../selectors/conversations.dom.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import { assertDev } from '../../util/assert.std.js';
 import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
@@ -19,8 +18,7 @@ import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import { isSignalConnection } from '../../util/getSignalConnections.preload.js';
 import {
   getCollisionsFromMemberships,
-  invertIdsByTitle,
-} from '../../util/groupMemberNameCollisions.std.js';
+  invertIdsByTitle} from '../../util/groupMemberNameCollisions.std.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
@@ -45,12 +43,10 @@ export const SmartContactSpoofingReviewDialog = memo(
       blockConversation,
       deleteConversation,
       removeMember,
-      updateSharedGroups,
-    } = useConversationsActions();
+      updateSharedGroups} = useConversationsActions();
     const { showContactModal, toggleSignalConnectionsModal } =
       useGlobalModalActions();
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const i18n = useSelector(getIntl);
+        const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const getConversationByServiceId = useSelector(
       getConversationByServiceIdSelector
@@ -61,12 +57,14 @@ export const SmartContactSpoofingReviewDialog = memo(
     const safeConversationSelector = useCallback(
       (state: StateType) => {
         return getSafeConversationWithSameTitle(state, {
-          possiblyUnsafeConversation: conversation,
-        });
+          possiblyUnsafeConversation: conversation});
       },
       [conversation]
     );
     const safeConvo = useSelector(safeConversationSelector);
+
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
 
     const sharedProps = {
       ...props,
@@ -81,8 +79,7 @@ export const SmartContactSpoofingReviewDialog = memo(
       updateSharedGroups,
       showContactModal,
       toggleSignalConnectionsModal,
-      theme,
-    };
+      theme};
 
     if (conversation.type === 'group') {
       const { memberships } = getGroupMemberships(
@@ -99,8 +96,7 @@ export const SmartContactSpoofingReviewDialog = memo(
         collisions.map(collision => ({
           conversation: collision,
           isSignalConnection: isSignalConnection(collision),
-          oldName: getOwn(previouslyAcknowledgedTitlesById, collision.id),
-        }))
+          oldName: getOwn(previouslyAcknowledgedTitlesById, collision.id)}))
       );
 
       return (
@@ -126,12 +122,10 @@ export const SmartContactSpoofingReviewDialog = memo(
 
     const possiblyUnsafe = {
       conversation: possiblyUnsafeConvo,
-      isSignalConnection: isSignalConnection(possiblyUnsafeConvo),
-    };
+      isSignalConnection: isSignalConnection(possiblyUnsafeConvo)};
     const safe = {
       conversation: safeConvo,
-      isSignalConnection: isSignalConnection(safeConvo),
-    };
+      isSignalConnection: isSignalConnection(safeConvo)};
 
     return (
       <ContactSpoofingReviewDialog

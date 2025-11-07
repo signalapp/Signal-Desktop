@@ -15,19 +15,18 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import lodash from 'lodash';
 
-import { parseBadgeCategory } from '../badges/BadgeCategory.std.js';
 import {
   parseBadgeImageTheme,
   type BadgeImageTheme,
-} from '../badges/BadgeImageTheme.std.js';
-import type { BadgeImageType, BadgeType } from '../badges/types.std.js';
+  type BadgeType,
+  type BadgeImageType,
+  parseBadgeCategory} from '../badges/light.js';
 import type { StoredJob } from '../jobs/types.std.js';
 import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
 import { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import type {
   GroupV2MemberType,
-  MessageAttributesType,
-} from '../model-types.d.ts';
+  MessageAttributesType} from '../model-types.d.ts';
 import type { ReactionType } from '../types/Reactions.std.js';
 import { ReactionReadStatus } from '../types/Reactions.std.js';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
@@ -43,8 +42,7 @@ import {
   dropNull,
   shallowConvertUndefinedToNull,
   type ShallowNullToUndefined,
-  type ShallowUndefinedToNull,
-} from '../util/dropNull.std.js';
+  type ShallowUndefinedToNull} from '../util/dropNull.std.js';
 import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
@@ -69,33 +67,28 @@ import {
   sqlFragment,
   sqlJoin,
   QueryFragment,
-  convertOptionalBooleanToInteger,
-} from './util.std.js';
+  convertOptionalBooleanToInteger} from './util.std.js';
 import {
   hydrateMessage,
   hydrateMessages,
   convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
-  ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
-} from './hydration.std.js';
+  ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX} from './hydration.std.js';
 
 import { SeenStatus } from '../MessageSeenStatus.std.js';
 import {
   attachmentBackupJobSchema,
-  type AttachmentBackupJobType,
-} from '../types/AttachmentBackup.std.js';
+  type AttachmentBackupJobType} from '../types/AttachmentBackup.std.js';
 import {
   attachmentDownloadJobSchema,
   type MessageAttachmentType,
-  type AttachmentDownloadJobType,
-} from '../types/AttachmentDownload.std.js';
+  type AttachmentDownloadJobType} from '../types/AttachmentDownload.std.js';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
-  CallLogEventTarget,
-} from '../types/CallDisposition.std.js';
+  CallLogEventTarget} from '../types/CallDisposition.std.js';
 import {
   CallDirection,
   CallHistoryFilterStatus,
@@ -105,20 +98,17 @@ import {
   DirectCallStatus,
   GroupCallStatus,
   callHistoryDetailsSchema,
-  callHistoryGroupSchema,
-} from '../types/CallDisposition.std.js';
+  callHistoryGroupSchema} from '../types/CallDisposition.std.js';
 import { redactGenericText } from '../util/privacy.node.js';
 import {
   parseLoose,
   parseStrict,
   parseUnknown,
-  safeParseUnknown,
-} from '../util/schemas.std.js';
+  safeParseUnknown} from '../util/schemas.std.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
-  SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.std.js';
+  SNIPPET_TRUNCATION_PLACEHOLDER} from '../util/search.std.js';
 import type { SyncTaskType } from '../util/syncTasks.preload.js';
 import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.js';
 import type {
@@ -190,14 +180,12 @@ import type {
   MessageCountBySchemaVersionType,
   BackupAttachmentDownloadProgress,
   GetMessagesBetweenOptions,
-  MaybeStaleCallHistory,
-} from './Interface.std.js';
+  MaybeStaleCallHistory} from './Interface.std.js';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_ATTACHMENT_COLUMNS,
-  MESSAGE_NON_PRIMARY_KEY_COLUMNS,
-} from './Interface.std.js';
+  MESSAGE_NON_PRIMARY_KEY_COLUMNS} from './Interface.std.js';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -221,22 +209,19 @@ import {
   updateCallLink,
   updateCallLinkState,
   updateCallLinkStateAndEpoch,
-  updateDefunctCallLink,
-} from './server/callLinks.node.js';
+  updateDefunctCallLink} from './server/callLinks.node.js';
 import {
   _deleteAllDonationReceipts,
   createDonationReceipt,
   deleteDonationReceiptById,
   getAllDonationReceipts,
-  getDonationReceiptById,
-} from './server/donationReceipts.std.js';
+  getDonationReceiptById} from './server/donationReceipts.std.js';
 import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
   getGroupSendMemberEndorsement,
-  replaceAllEndorsementsForGroup,
-} from './server/groupSendEndorsements.std.js';
+  replaceAllEndorsementsForGroup} from './server/groupSendEndorsements.std.js';
 import {
   getAllChatFolders,
   getCurrentChatFolders,
@@ -251,8 +236,7 @@ import {
   getOldestDeletedChatFolder,
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
-  deleteExpiredChatFolders,
-} from './server/chatFolders.std.js';
+  deleteExpiredChatFolders} from './server/chatFolders.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -262,8 +246,7 @@ import { isFile, isVisualMedia } from '../util/Attachment.std.js';
 import { generateMessageId } from '../util/generateMessageId.node.js';
 import type {
   ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.js';
+  CustomColorType} from '../types/Colors.std.js';
 import { sqlLogger } from './sqlLogger.node.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
 import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
@@ -282,8 +265,7 @@ const {
   noop,
   omit,
   partition,
-  pick,
-} = lodash;
+  pick} = lodash;
 
 type ConversationRow = Readonly<{
   json: string;
@@ -522,8 +504,7 @@ export const DataReader: ServerReadableInterface = {
   getKnownDownloads,
   getKnownConversationAttachments,
 
-  __dangerouslyRunAbitraryReadOnlySqlQuery,
-};
+  __dangerouslyRunAbitraryReadOnlySqlQuery};
 
 export const DataWriter: ServerWritableInterface = {
   close: closeWritable,
@@ -740,8 +721,7 @@ export const DataWriter: ServerWritableInterface = {
 
   removeKnownStickers,
   removeKnownDraftAttachments,
-  runCorruptionChecks,
-};
+  runCorruptionChecks};
 
 const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
   column => new QueryFragment(column, [])
@@ -765,8 +745,7 @@ function rowToConversation(row: ConversationRow): ConversationType {
   return {
     ...parsedJson,
     expireTimerVersion,
-    profileLastFetchedAt,
-  };
+    profileLastFetchedAt};
 }
 
 function rowToSticker(row: StickerRow): StickerType {
@@ -776,8 +755,7 @@ function rowToSticker(row: StickerRow): StickerType {
     emoji: dropNull(row.emoji),
     version: row.version || 1,
     localKey: dropNull(row.localKey),
-    size: dropNull(row.size),
-  };
+    size: dropNull(row.size)};
 }
 
 function keyDatabase(db: WritableDB, key: string): void {
@@ -813,8 +791,7 @@ function openAndMigrateDatabase(filePath: string, key: string): WritableDB {
   // First, we try to open the database without any cipher changes
   try {
     db = new SQL(filePath, {
-      cacheStatements: true,
-    }) as WritableDB;
+      cacheStatements: true}) as WritableDB;
     keyDatabase(db, key);
     switchToWAL(db);
     migrateSchemaVersion(db);
@@ -915,8 +892,7 @@ setSqliteLogger((code, message) => {
 export function initialize({
   configDir,
   key,
-  isPrimary,
-}: {
+  isPrimary}: {
   appVersion: string;
   configDir: string;
   key: string;
@@ -940,8 +916,7 @@ export function initialize({
 
   try {
     db = openAndSetUpSQLCipher(databaseFilePath, {
-      key,
-    });
+      key});
 
     // For profiling use:
     // db.pragma('cipher_profile=\'sqlcipher.log\'');
@@ -965,8 +940,7 @@ export function initialize({
 export function setupTests(db: WritableDB): void {
   const silentLogger = {
     ...consoleLogger,
-    info: noop,
-  };
+    info: noop};
   logger = silentLogger;
 
   updateSchema(db, logger);
@@ -1081,8 +1055,7 @@ function removeKyberPreKeysByServiceId(
   serviceId: ServiceIdString
 ): void {
   db.prepare('DELETE FROM kyberPreKeys WHERE ourServiceId IS $serviceId;').run({
-    serviceId,
-  });
+    serviceId});
 }
 function markKyberTripleSeenOrFail(
   db: WritableDB,
@@ -1142,8 +1115,7 @@ function removePreKeysByServiceId(
   serviceId: ServiceIdString
 ): void {
   db.prepare('DELETE FROM preKeys WHERE ourServiceId IS $serviceId;').run({
-    serviceId,
-  });
+    serviceId});
 }
 function removeAllPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, PRE_KEYS_TABLE);
@@ -1183,8 +1155,7 @@ function removeSignedPreKeysByServiceId(
 ): void {
   db.prepare('DELETE FROM signedPreKeys WHERE ourServiceId IS $serviceId;').run(
     {
-      serviceId,
-    }
+      serviceId}
   );
 }
 function removeAllSignedPreKeys(db: WritableDB): number {
@@ -1270,8 +1241,7 @@ function getSenderKeyById(
   return db
     .prepare('SELECT * FROM senderKeys WHERE id = $id')
     .get<SenderKeyType>({
-      id,
-    });
+      id});
 }
 function removeAllSenderKeys(db: WritableDB): void {
   db.prepare('DELETE FROM senderKeys').run();
@@ -1318,8 +1288,7 @@ function insertSentProto(
       .run({
         ...proto,
         urgent: proto.urgent ? 1 : 0,
-        hasPniSignatureMessage: proto.hasPniSignatureMessage ? 1 : 0,
-      });
+        hasPniSignatureMessage: proto.hasPniSignatureMessage ? 1 : 0});
     const id = parseIntOrThrow(
       info.lastInsertRowid,
       'insertSentProto/lastInsertRowid'
@@ -1352,8 +1321,7 @@ function insertSentProto(
         recipientStatement.run({
           id,
           recipientServiceId,
-          deviceId,
-        });
+          deviceId});
       }
     }
 
@@ -1373,8 +1341,7 @@ function insertSentProto(
     for (const messageId of new Set(messageIds)) {
       messageStatement.run({
         id,
-        messageId,
-      });
+        messageId});
     }
 
     return id;
@@ -1390,8 +1357,7 @@ function deleteSentProtosOlderThan(db: WritableDB, timestamp: number): void {
       timestamp < $timestamp;
     `
   ).run({
-    timestamp,
-  });
+    timestamp});
 }
 
 function deleteSentProtoByMessageId(db: WritableDB, messageId: string): void {
@@ -1403,8 +1369,7 @@ function deleteSentProtoByMessageId(db: WritableDB, messageId: string): void {
     );
     `
   ).run({
-    messageId,
-  });
+    messageId});
 }
 
 function insertProtoRecipients(
@@ -1412,8 +1377,7 @@ function insertProtoRecipients(
   {
     id,
     recipientServiceId,
-    deviceIds,
-  }: {
+    deviceIds}: {
     id: number;
     recipientServiceId: ServiceIdString;
     deviceIds: Array<number>;
@@ -1438,8 +1402,7 @@ function insertProtoRecipients(
       statement.run({
         id,
         recipientServiceId,
-        deviceId,
-      });
+        deviceId});
     }
   })();
 }
@@ -1551,8 +1514,7 @@ function deleteSentProtoRecipient(
       );
 
       db.prepare('DELETE FROM sendLogPayloads WHERE id = $id;').run({
-        id,
-      });
+        id});
     }
 
     return { successfulPhoneNumberShares };
@@ -1564,8 +1526,7 @@ function getSentProtoByRecipient(
   {
     now,
     recipientServiceId,
-    timestamp,
-  }: {
+    timestamp}: {
     now: number;
     recipientServiceId: ServiceIdString;
     timestamp: number;
@@ -1597,8 +1558,7 @@ function getSentProtoByRecipient(
       }
     >({
       timestamp,
-      recipientServiceId,
-    });
+      recipientServiceId});
 
   if (!row) {
     return undefined;
@@ -1611,8 +1571,7 @@ function getSentProtoByRecipient(
     hasPniSignatureMessage: isNumber(row.hasPniSignatureMessage)
       ? Boolean(row.hasPniSignatureMessage)
       : true,
-    messageIds: messageIds ? messageIds.split(',') : [],
-  };
+    messageIds: messageIds ? messageIds.split(',') : []};
 }
 function removeAllSentProtos(db: WritableDB): void {
   db.prepare('DELETE FROM sendLogPayloads;').run();
@@ -1627,8 +1586,7 @@ function getAllSentProtos(db: ReadableDB): Array<SentProtoType> {
     urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
     hasPniSignatureMessage: isNumber(row.hasPniSignatureMessage)
       ? Boolean(row.hasPniSignatureMessage)
-      : true,
-  }));
+      : true}));
 }
 function _getAllSentProtoRecipients(
   db: ReadableDB
@@ -1682,8 +1640,7 @@ function createOrUpdateSession(db: WritableDB, data: SessionType): void {
     ourServiceId,
     serviceId,
     deviceId,
-    record,
-  });
+    record});
 }
 
 function createOrUpdateSessions(
@@ -1705,8 +1662,7 @@ function commitDecryptResult(
     senderKeys,
     sessions,
     unprocessed,
-    kyberTriples,
-  }: {
+    kyberTriples}: {
     kyberPreKeysToRemove: Array<PreKeyIdType>;
     preKeysToRemove: Array<PreKeyIdType>;
     senderKeys: Array<SenderKeyType>;
@@ -1773,8 +1729,7 @@ function removeSessionsByConversation(
     WHERE conversationId = $conversationId;
     `
   ).run({
-    conversationId,
-  });
+    conversationId});
 }
 function removeSessionsByServiceId(
   db: WritableDB,
@@ -1786,8 +1741,7 @@ function removeSessionsByServiceId(
     WHERE serviceId = $serviceId;
     `
   ).run({
-    serviceId,
-  });
+    serviceId});
 }
 function removeAllSessions(db: WritableDB): number {
   return removeAllFromTable(db, SESSIONS_TABLE);
@@ -1826,8 +1780,7 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     profileLastFetchedAt,
     type,
     serviceId,
-    expireTimerVersion,
-  } = data;
+    expireTimerVersion} = data;
 
   const membersList = getConversationMembersList(data);
 
@@ -1887,8 +1840,7 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     profileFamilyName: profileFamilyName || null,
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
-    expireTimerVersion,
-  });
+    expireTimerVersion});
 }
 
 function saveConversations(
@@ -1913,8 +1865,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileLastFetchedAt,
     e164,
     serviceId,
-    expireTimerVersion,
-  } = data;
+    expireTimerVersion} = data;
 
   const membersList = getConversationMembersList(data);
 
@@ -1952,8 +1903,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileFamilyName: profileFamilyName || null,
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
-    expireTimerVersion,
-  });
+    expireTimerVersion});
 }
 
 function updateConversations(
@@ -1985,8 +1935,7 @@ function removeConversations(
 function removeConversation(db: WritableDB, id: Array<string> | string): void {
   if (!Array.isArray(id)) {
     db.prepare('DELETE FROM conversations WHERE id = $id;').run({
-      id,
-    });
+      id});
 
     return;
   }
@@ -2057,8 +2006,7 @@ function searchMessages(
     query,
     options,
     conversationId,
-    contactServiceIdsMatchingQuery,
-  }: {
+    contactServiceIdsMatchingQuery}: {
     query: string;
     options?: { limit?: number };
     conversationId?: string;
@@ -2241,8 +2189,7 @@ function searchMessages(
         ftsSnippet: row.ftsSnippet,
         mentionAci: row.mentionAci,
         mentionStart: row.mentionStart,
-        mentionLength: row.mentionLength,
-      };
+        mentionLength: row.mentionLength};
     });
   })();
 }
@@ -2257,8 +2204,7 @@ function getStoryCount(db: ReadableDB, conversationId: string): number {
     WHERE conversationId = $conversationId AND isStory = 1;
     `,
         {
-          pluck: true,
-        }
+          pluck: true}
       )
       .get<number>({ conversationId }) ?? 0
   );
@@ -2277,8 +2223,7 @@ function getMessageCount(db: ReadableDB, conversationId?: string): number {
     WHERE conversationId = $conversationId;
     `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .get<number>({ conversationId });
 
@@ -2303,8 +2248,7 @@ function hasUserInitiatedMessages(
   );
   `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .get<number>({ conversationId });
 
@@ -2492,8 +2436,7 @@ export function dequeueOldestSyncTasks(
       const { rowid: _rowid, ...rest } = row;
       return {
         ...rest,
-        data: jsonToObject(row.data),
-      };
+        data: jsonToObject(row.data)};
     });
 
     if (incrementAttempts) {
@@ -2561,8 +2504,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     sent_at: sentAt,
     received_at: receivedAt,
     received_at_ms: receivedAtMs,
-    isViewOnce,
-  } = message;
+    isViewOnce} = message;
 
   const mainAttachments = message.attachments;
   if (mainAttachments) {
@@ -2580,8 +2522,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
         attachment,
         orderInMessage: i,
         editHistoryIndex,
-        isViewOnce,
-      });
+        isViewOnce});
     }
   }
 
@@ -2599,8 +2540,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       attachment: bodyAttachment,
       orderInMessage: 0,
       editHistoryIndex,
-      isViewOnce,
-    });
+      isViewOnce});
   }
 
   const previewAttachments = message.preview?.map(preview => preview.image);
@@ -2622,8 +2562,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
         attachment,
         orderInMessage: i,
         editHistoryIndex,
-        isViewOnce,
-      });
+        isViewOnce});
     }
   }
 
@@ -2646,8 +2585,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
         attachment: attachment.thumbnail,
         orderInMessage: i,
         editHistoryIndex,
-        isViewOnce,
-      });
+        isViewOnce});
     }
   }
 
@@ -2672,8 +2610,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
         attachment,
         orderInMessage: i,
         editHistoryIndex,
-        isViewOnce,
-      });
+        isViewOnce});
     }
   }
 
@@ -2691,8 +2628,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       attachment: stickerAttachment,
       orderInMessage: 0,
       editHistoryIndex,
-      isViewOnce,
-    });
+      isViewOnce});
   }
 }
 function saveMessageAttachments(
@@ -2707,8 +2643,7 @@ function saveMessageAttachments(
   db.prepare(deleteQuery).run(deleteParams);
 
   saveMessageAttachmentsForRootOrEditedVersion(db, message, {
-    editHistoryIndex: null,
-  });
+    editHistoryIndex: null});
 
   message.editHistory?.forEach((editHistory, idx) => {
     saveMessageAttachmentsForRootOrEditedVersion(
@@ -2719,8 +2654,7 @@ function saveMessageAttachments(
         conversationId: message.conversationId,
         sent_at: editHistory.timestamp,
         isViewOnce: message.isViewOnce,
-        ...editHistory,
-      },
+        ...editHistory},
       { editHistoryIndex: idx }
     );
   });
@@ -2738,8 +2672,7 @@ function saveMessageAttachment({
   attachment,
   orderInMessage,
   editHistoryIndex,
-  isViewOnce,
-}: {
+  isViewOnce}: {
   db: WritableDB;
   messageId: string;
   messageType: string;
@@ -2815,8 +2748,7 @@ function saveMessageAttachment({
         ? convertOptionalBooleanToInteger(attachment.copied)
         : undefined,
     version: attachment.version,
-    pending: convertOptionalBooleanToInteger(attachment.pending),
-  };
+    pending: convertOptionalBooleanToInteger(attachment.pending)};
 
   try {
     const values: MessageAttachmentDBType =
@@ -2883,8 +2815,7 @@ function saveMessage(
     return db.transaction(() => {
       return saveMessage(db, message, {
         ...options,
-        alreadyInTransaction: true,
-      });
+        alreadyInTransaction: true});
     })();
   }
 
@@ -2942,8 +2873,7 @@ function saveMessage(
     // eslint-disable-next-line no-param-reassign
     message = {
       ...message,
-      seenStatus: SeenStatus.Unseen,
-    };
+      seenStatus: SeenStatus.Unseen};
     seenStatus = SeenStatus.Unseen;
   }
 
@@ -2978,13 +2908,11 @@ function saveMessage(
           ...message.quote,
           attachments: message.quote.attachments.map(quoteAttachment =>
             omit(quoteAttachment, 'thumbnail')
-          ),
-        }
+          )}
       : undefined;
     dataToSaveAsJSON.contact = message.contact?.map(contact => ({
       ...contact,
-      avatar: omit(contact.avatar, 'avatar'),
-    }));
+      avatar: omit(contact.avatar, 'avatar')}));
     dataToSaveAsJSON.sticker = message.sticker
       ? omit(message.sticker, 'data')
       : undefined;
@@ -2998,8 +2926,7 @@ function saveMessage(
             ...editHistory.quote,
             attachments: editHistory.quote.attachments.map(quoteAttachment =>
               omit(quoteAttachment, 'thumbnail')
-            ),
-          }
+            )}
         : undefined;
       editHistoryWithoutAttachments.preview = editHistory.preview?.map(
         preview => omit(preview, 'image')
@@ -3043,8 +2970,7 @@ function saveMessage(
     readStatus: readStatus ?? null,
     seenStatus: seenStatus ?? SeenStatus.NotApplicable,
     serverTimestamp: serverTimestamp ?? null,
-    unidentifiedDeliveryReceived: unidentifiedDeliveryReceived ? 1 : 0,
-  } satisfies Omit<MessageTypeUnhydrated, 'json'>;
+    unidentifiedDeliveryReceived: unidentifiedDeliveryReceived ? 1 : 0} satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
     const result = db
@@ -3091,8 +3017,7 @@ function saveMessage(
   ).run({
     ...payloadWithoutJson,
     id: createdId,
-    json: objectToJSON(dataToSaveAsJSON),
-  });
+    json: objectToJSON(dataToSaveAsJSON)});
 
   if (normalizeAttachmentData) {
     saveMessageAttachments(db, message);
@@ -3120,8 +3045,7 @@ function saveMessages(
       result.push(
         saveMessage(db, message, {
           ...options,
-          alreadyInTransaction: true,
-        })
+          alreadyInTransaction: true})
       );
     }
     return result;
@@ -3188,8 +3112,7 @@ export function getMessageById(
     `
       )
       .get<MessageTypeUnhydrated>({
-        id,
-      });
+        id});
 
     if (!row) {
       return undefined;
@@ -3263,8 +3186,7 @@ function getMessageBySender(
     source,
     sourceServiceId,
     sourceDevice,
-    sent_at,
-  }: {
+    sent_at}: {
     source?: string;
     sourceServiceId?: ServiceIdString;
     sourceDevice?: number;
@@ -3286,16 +3208,14 @@ function getMessageBySender(
         source: source || null,
         sourceServiceId: sourceServiceId || null,
         sourceDevice: sourceDevice || null,
-        sent_at,
-      });
+        sent_at});
 
     if (rows.length > 1) {
       logger.warn('getMessageBySender: More than one message found for', {
         sent_at,
         source,
         sourceServiceId,
-        sourceDevice,
-      });
+        sourceDevice});
     }
 
     if (rows.length < 1) {
@@ -3330,8 +3250,7 @@ function getUnreadByConversationAndMarkRead(
     readMessageReceivedAt,
     storyId,
     readAt,
-    now = Date.now(),
-  }: {
+    now = Date.now()}: {
     conversationId: string;
     includeStoryReplies: boolean;
     readMessageReceivedAt: number;
@@ -3385,8 +3304,7 @@ function getUnreadByConversationAndMarkRead(
 
     const statusJsonPatch = JSON.stringify({
       readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Seen,
-    });
+      seenStatus: SeenStatus.Seen});
 
     const [updateStatusQuery, updateStatusParams] = sql`
       UPDATE messages
@@ -3415,8 +3333,7 @@ function getUnreadByConversationAndMarkRead(
           'source',
           'sourceServiceId',
           'type',
-        ]),
-      };
+        ])};
     });
   })();
 }
@@ -3426,8 +3343,7 @@ function getUnreadReactionsAndMarkRead(
   {
     conversationId,
     readMessageReceivedAt,
-    storyId,
-  }: {
+    storyId}: {
     conversationId: string;
     readMessageReceivedAt: number;
     storyId?: string;
@@ -3452,8 +3368,7 @@ function getUnreadReactionsAndMarkRead(
       .all({
         conversationId,
         readMessageReceivedAt,
-        storyId: storyId || null,
-      });
+        storyId: storyId || null});
 
     const idsToUpdate = unreadMessages.map(item => item.rowid);
     batchMultiVarQuery(
@@ -3496,8 +3411,7 @@ function markReactionAsRead(
       )
       .get<ReactionType>({
         targetAuthorAci: targetAuthorServiceId,
-        targetTimestamp,
-      });
+        targetTimestamp});
 
     db.prepare(
       `
@@ -3508,8 +3422,7 @@ function markReactionAsRead(
       `
     ).run({
       targetAuthorAci: targetAuthorServiceId,
-      targetTimestamp,
-    });
+      targetTimestamp});
 
     return readReaction;
   })();
@@ -3538,8 +3451,7 @@ function addReaction(
     messageReceivedAt,
     targetAuthorAci,
     targetTimestamp,
-    timestamp,
-  }: ReactionType,
+    timestamp}: ReactionType,
   { readStatus }: { readStatus: ReactionReadStatus }
 ): void {
   db.prepare(
@@ -3573,8 +3485,7 @@ function addReaction(
     targetAuthorAci,
     targetTimestamp,
     timestamp,
-    unread: readStatus === ReactionReadStatus.Unread ? 1 : 0,
-  });
+    unread: readStatus === ReactionReadStatus.Unread ? 1 : 0});
 }
 
 function removeReactionFromConversation(
@@ -3583,8 +3494,7 @@ function removeReactionFromConversation(
     emoji,
     fromId,
     targetAuthorServiceId,
-    targetTimestamp,
-  }: {
+    targetTimestamp}: {
     emoji: string;
     fromId: string;
     targetAuthorServiceId: ServiceIdString;
@@ -3601,8 +3511,7 @@ function removeReactionFromConversation(
     emoji,
     fromId,
     targetAuthorAci: targetAuthorServiceId,
-    targetTimestamp,
-  });
+    targetTimestamp});
 }
 
 function _getAllReactions(db: ReadableDB): Array<ReactionType> {
@@ -3614,8 +3523,7 @@ function _removeAllReactions(db: WritableDB): void {
 
 enum AdjacentDirection {
   Older = 'Older',
-  Newer = 'Newer',
-}
+  Newer = 'Newer'}
 
 // This function needs to pull story replies from all conversations, because when we send
 //   a story to one or more distribution lists, each reply to it will be in the sender's
@@ -3627,13 +3535,11 @@ function getRecentStoryReplies(
     limit = 100,
     messageId,
     receivedAt = Number.MAX_VALUE,
-    sentAt = Number.MAX_VALUE,
-  }: GetRecentStoryRepliesOptionsType = {}
+    sentAt = Number.MAX_VALUE}: GetRecentStoryRepliesOptionsType = {}
 ): Array<MessageType> {
   const timeFilters = {
     first: sqlFragment`received_at = ${receivedAt} AND sent_at < ${sentAt}`,
-    second: sqlFragment`received_at < ${receivedAt}`,
-  };
+    second: sqlFragment`received_at < ${receivedAt}`};
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
@@ -3675,8 +3581,7 @@ function getAdjacentMessagesByConversation(
     sentAt = direction === AdjacentDirection.Older ? Number.MAX_VALUE : 0,
     requireVisualMediaAttachments,
     requireFileAttachments,
-    storyId,
-  }: AdjacentMessagesByConversationOptionsType
+    storyId}: AdjacentMessagesByConversationOptionsType
 ): Array<MessageType> {
   let timeFilters: { first: QueryFragment; second: QueryFragment };
   let timeOrder: QueryFragment;
@@ -3684,14 +3589,12 @@ function getAdjacentMessagesByConversation(
   if (direction === AdjacentDirection.Older) {
     timeFilters = {
       first: sqlFragment`received_at = ${receivedAt} AND sent_at < ${sentAt}`,
-      second: sqlFragment`received_at < ${receivedAt}`,
-    };
+      second: sqlFragment`received_at < ${receivedAt}`};
     timeOrder = sqlFragment`DESC`;
   } else {
     timeFilters = {
       first: sqlFragment`received_at = ${receivedAt} AND sent_at > ${sentAt}`,
-      second: sqlFragment`received_at > ${receivedAt}`,
-    };
+      second: sqlFragment`received_at > ${receivedAt}`};
     timeOrder = sqlFragment`ASC`;
   }
 
@@ -3761,8 +3664,7 @@ function getAllStories(
   db: ReadableDB,
   {
     conversationId,
-    sourceServiceId,
-  }: {
+    sourceServiceId}: {
     conversationId?: string;
     sourceServiceId?: ServiceIdString;
   }
@@ -3802,8 +3704,7 @@ function getAllStories(
   `;
     const repliesFromSelf = db
       .prepare(repliesFromSelfQuery, {
-        pluck: true,
-      })
+        pluck: true})
       .all<string>(repliesFromSelfParams);
 
     const repliesLookup = new Set(replies);
@@ -3812,8 +3713,7 @@ function getAllStories(
     return hydrateMessages(db, rows).map(msg => ({
       ...msg,
       hasReplies: Boolean(repliesLookup.has(msg.id)),
-      hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(msg.id)),
-    }));
+      hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(msg.id))}));
   })();
 }
 
@@ -3832,8 +3732,7 @@ function getOldestMessageForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId?: string;
     includeStoryReplies: boolean;
   }
@@ -3864,8 +3763,7 @@ function getNewestMessageForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId?: string;
     includeStoryReplies: boolean;
   }
@@ -3936,8 +3834,7 @@ function getNearbyMessageFromDeletedSet(
     lastSelectedMessage,
     deletedMessageIds,
     storyId,
-    includeStoryReplies,
-  }: GetNearbyMessageFromDeletedSetOptionsType
+    includeStoryReplies}: GetNearbyMessageFromDeletedSetOptionsType
 ): string | null {
   function runQuery(after: boolean) {
     const dir = after ? sqlFragment`ASC` : sqlFragment`DESC`;
@@ -3961,8 +3858,7 @@ function getNearbyMessageFromDeletedSet(
 
     return db
       .prepare(query, {
-        pluck: true,
-      })
+        pluck: true})
       .get<string>(params);
   }
 
@@ -3983,8 +3879,7 @@ function getLastConversationActivity(
   db: ReadableDB,
   {
     conversationId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     conversationId: string;
     includeStoryReplies: boolean;
   }
@@ -4006,8 +3901,7 @@ function getLastConversationActivity(
       `
       )
       .get<MessageTypeUnhydrated>({
-        conversationId,
-      });
+        conversationId});
 
     if (!row) {
       return undefined;
@@ -4020,8 +3914,7 @@ function getLastConversationPreview(
   db: ReadableDB,
   {
     conversationId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     conversationId: string;
     includeStoryReplies: boolean;
   }
@@ -4050,8 +3943,7 @@ function getLastConversationPreview(
       )
       .get({
         conversationId,
-        now: Date.now(),
-      });
+        now: Date.now()});
 
     return row ? hydrateMessage(db, row) : undefined;
   })();
@@ -4061,8 +3953,7 @@ function getConversationMessageStats(
   db: ReadableDB,
   {
     conversationId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     conversationId: string;
     includeStoryReplies: boolean;
   }
@@ -4071,22 +3962,18 @@ function getConversationMessageStats(
     return {
       activity: getLastConversationActivity(db, {
         conversationId,
-        includeStoryReplies,
-      }),
+        includeStoryReplies}),
       preview: getLastConversationPreview(db, {
         conversationId,
-        includeStoryReplies,
-      }),
-      hasUserInitiatedMessages: hasUserInitiatedMessages(db, conversationId),
-    };
+        includeStoryReplies}),
+      hasUserInitiatedMessages: hasUserInitiatedMessages(db, conversationId)};
   })();
 }
 
 function getLastConversationMessage(
   db: ReadableDB,
   {
-    conversationId,
-  }: {
+    conversationId}: {
     conversationId: string;
   }
 ): MessageType | undefined {
@@ -4101,8 +3988,7 @@ function getLastConversationMessage(
       `
       )
       .get<MessageTypeUnhydrated>({
-        conversationId,
-      });
+        conversationId});
 
     if (!row) {
       return undefined;
@@ -4117,8 +4003,7 @@ function getOldestUnseenMessageForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId?: string;
     includeStoryReplies: boolean;
   }
@@ -4171,8 +4056,7 @@ function getTotalUnreadForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId: string | undefined;
     includeStoryReplies: boolean;
   }
@@ -4188,8 +4072,7 @@ function getTotalUnreadForConversation(
   `;
   const row = db
     .prepare(query, {
-      pluck: true,
-    })
+      pluck: true})
     .get<number>(params);
 
   return row ?? 0;
@@ -4199,8 +4082,7 @@ function getTotalUnreadMentionsOfMeForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId?: string;
     includeStoryReplies: boolean;
   }
@@ -4217,8 +4099,7 @@ function getTotalUnreadMentionsOfMeForConversation(
   `;
   const row = db
     .prepare(query, {
-      pluck: true,
-    })
+      pluck: true})
     .get<number>(params);
 
   return row ?? 0;
@@ -4228,8 +4109,7 @@ function getTotalUnseenForConversation(
   conversationId: string,
   {
     storyId,
-    includeStoryReplies,
-  }: {
+    includeStoryReplies}: {
     storyId?: string;
     includeStoryReplies: boolean;
   }
@@ -4245,8 +4125,7 @@ function getTotalUnseenForConversation(
   `;
   const row = db
     .prepare(query, {
-      pluck: true,
-    })
+      pluck: true})
     .get<number>(params);
 
   return row ?? 0;
@@ -4278,8 +4157,7 @@ function getMessageMetricsForConversation(
     oldest,
     newest,
     oldestUnseen,
-    totalUnseen,
-  };
+    totalUnseen};
 }
 
 function getConversationRangeCenteredOnMessage(
@@ -4298,8 +4176,7 @@ function getConversationRangeCenteredOnMessage(
         AdjacentDirection.Newer,
         options
       ),
-      metrics: getMessageMetricsForConversation(db, options),
-    };
+      metrics: getMessageMetricsForConversation(db, options)};
   })();
 }
 
@@ -4346,8 +4223,7 @@ function clearCallHistory(
 
     const adminCallLinkIds: ReadonlyArray<string> = db
       .prepare(selectAdminCallLinksQuery, {
-        pluck: true,
-      })
+        pluck: true})
       .all(selectAdminCallLinksParams);
     const adminCallLinkIdsFragment = sqlJoin(adminCallLinkIds);
 
@@ -4369,8 +4245,7 @@ function clearCallHistory(
 
     const deletedCallIds: ReadonlyArray<string> = db
       .prepare(selectCallsQuery, {
-        pluck: true,
-      })
+        pluck: true})
       .all(selectCallsParams);
 
     let deletedMessageIds: ReadonlyArray<string> = [];
@@ -4400,8 +4275,7 @@ function clearCallHistory(
       const batchDeletedMessageIds = db
         .prepare(deleteMessagesQuery, {
           pluck: true,
-          persistent,
-        })
+          persistent})
         .all<string>(deleteMessagesParams);
 
       deletedMessageIds = deletedMessageIds.concat(batchDeletedMessageIds);
@@ -4501,16 +4375,14 @@ function getCallHistoryUnreadCount(db: ReadableDB): number {
   `;
   const row = db
     .prepare(query, {
-      pluck: true,
-    })
+      pluck: true})
     .get<number>(params);
   return row ?? 0;
 }
 
 function markCallHistoryRead(db: WritableDB, callId: string): void {
   const jsonPatch = JSON.stringify({
-    seenStatus: SeenStatus.Seen,
-  });
+    seenStatus: SeenStatus.Seen});
 
   const [query, params] = sql`
     UPDATE messages
@@ -4576,8 +4448,7 @@ function getCallHistoryForCallLogEventTarget(
     const resultForConversation = getCallHistoryForCallLogEventTarget(db, {
       callId,
       timestamp,
-      peerId: target.peerIdAsConversationId,
-    });
+      peerId: target.peerIdAsConversationId});
     if (resultForConversation) {
       return resultForConversation;
     }
@@ -4585,8 +4456,7 @@ function getCallHistoryForCallLogEventTarget(
     const resultForCallLink = getCallHistoryForCallLogEventTarget(db, {
       callId,
       timestamp,
-      peerId: target.peerIdAsRoomId,
-    });
+      peerId: target.peerIdAsRoomId});
     if (resultForCallLink) {
       return resultForCallLink;
     }
@@ -4623,8 +4493,7 @@ function getConversationIdForCallHistory(
 
   const conversationId = db
     .prepare(selectConversationIdQuery, {
-      pluck: true,
-    })
+      pluck: true})
     .get(selectConversationIdParams);
 
   if (typeof conversationId !== 'string') {
@@ -4651,8 +4520,7 @@ function getMessageReceivedAtForCall(
 
   const receivedAt = db
     .prepare(selectQuery, {
-      pluck: true,
-    })
+      pluck: true})
     .get<number>(selectParams);
   if (receivedAt == null) {
     logger.warn('getMessageReceivedAtForCall: Target call message not found');
@@ -4717,8 +4585,7 @@ export function markAllCallHistoryRead(
 
     const jsonPatch = JSON.stringify({
       readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Seen,
-    });
+      seenStatus: SeenStatus.Seen});
 
     logger.info(
       `markAllCallHistoryRead: Marking calls before ${receivedAt} read`
@@ -4949,8 +4816,7 @@ function getCallHistoryGroupData(
     const result = isCount
       ? db
           .prepare(query, {
-            pluck: true,
-          })
+            pluck: true})
           .get(params)
       : db.prepare(query).all(params);
 
@@ -4977,8 +4843,7 @@ function getCallHistoryGroupsCount(
   const writable = toUnsafeWritableDB(db, 'only temp table use');
   const result = getCallHistoryGroupData(writable, true, filter, {
     limit: 0,
-    offset: 0,
-  });
+    offset: 0});
 
   if (result == null) {
     return 0;
@@ -4990,15 +4855,13 @@ function getCallHistoryGroupsCount(
 const groupsDataSchema = z.array(
   callHistoryGroupSchema.omit({ children: true }).extend({
     possibleChildren: z.string(),
-    inPeriod: z.string(),
-  })
+    inPeriod: z.string()})
 );
 
 const possibleChildrenSchema = z.array(
   callHistoryDetailsSchema.pick({
     callId: true,
-    timestamp: true,
-  })
+    timestamp: true})
 );
 
 function getCallHistoryGroups(
@@ -5024,8 +4887,7 @@ function getCallHistoryGroups(
           possibleChildrenSchema,
           JSON.parse(groupData.possibleChildren) as unknown
         ),
-        inPeriod: new Set(groupData.inPeriod.split(',')),
-      };
+        inPeriod: new Set(groupData.inPeriod.split(','))};
     })
     .reverse()
     .map(group => {
@@ -5098,13 +4960,11 @@ function hasGroupCallHistoryMessage(
       );
       `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .get<number>({
       conversationId,
-      eraId,
-    });
+      eraId});
 
   return exists === 1;
 }
@@ -5139,13 +4999,11 @@ function getOlderMedia(
     messageId,
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
-    type,
-  }: GetOlderMediaOptionsType
+    type}: GetOlderMediaOptionsType
 ): Array<MediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
-    second: sqlFragment`receivedAt < ${maxReceivedAt}`,
-  };
+    second: sqlFragment`receivedAt < ${maxReceivedAt}`};
 
   let contentFilter: QueryFragment;
   if (type === 'media') {
@@ -5207,11 +5065,9 @@ function getOlderMedia(
         conversationId,
         receivedAt,
         receivedAtMs: receivedAtMs ?? undefined,
-        sentAt,
-      },
+        sentAt},
       index: orderInMessage,
-      attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
-    };
+      attachment: convertAttachmentDBFieldsToAttachmentType(attachment)};
   });
 }
 
@@ -5319,8 +5175,7 @@ export function migrateConversationMessages(
           conversationId: currentId,
           sendStateByConversationId: {
             [obsoleteId]: null,
-            [currentId]: sendState[obsoleteId],
-          },
+            [currentId]: sendState[obsoleteId]},
 
           // Unlike above here we have to provide the full object with all
           // existing properties because arrays can't be patched and can only
@@ -5337,18 +5192,14 @@ export function migrateConversationMessages(
                 sendStateByConversationId: {
                   ...sendStateByConversationId,
                   [obsoleteId]: undefined,
-                  [currentId]: existingState,
-                },
-              };
+                  [currentId]: existingState}};
             }
-          ),
-        };
+          )};
 
         updateOne.run({
           rowid,
           patch: JSON.stringify(patch),
-          currentId,
-        });
+          currentId});
       }
 
       if (parts.length < PAGE_SIZE) {
@@ -5447,8 +5298,7 @@ function getSoonestMessageExpiry(db: ReadableDB): undefined | number {
       FROM messages;
       `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .get<number | null>();
 
@@ -5505,8 +5355,7 @@ function getTapToViewMessagesNeedingErase(
       `
       )
       .all({
-        maxTimestamp,
-      });
+        maxTimestamp});
 
     return hydrateMessages(db, rows);
   })();
@@ -5536,8 +5385,7 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
     urgent,
     story,
     reportingToken,
-    groupId,
-  } = data;
+    groupId} = data;
   if (!id) {
     throw new Error('saveUnprocessed: id was falsey');
   }
@@ -5611,8 +5459,7 @@ function saveUnprocessed(db: WritableDB, data: UnprocessedType): string {
     urgent: urgent || !isBoolean(urgent) ? 1 : 0,
     story: story ? 1 : 0,
     reportingToken: reportingToken || null,
-    groupId: groupId || null,
-  });
+    groupId: groupId || null});
 
   return id;
 }
@@ -5629,8 +5476,7 @@ function getAllUnprocessedIds(db: WritableDB): Array<string> {
         'DELETE FROM unprocessed WHERE receivedAtDate < $messageQueueCutoff'
       )
       .run({
-        messageQueueCutoff: Date.now() - 45 * durations.DAY,
-      });
+        messageQueueCutoff: Date.now() - 45 * durations.DAY});
 
     if (deletedStaleCount !== 0) {
       logger.warn(
@@ -5663,8 +5509,7 @@ function getAllUnprocessedIds(db: WritableDB): Array<string> {
       ORDER BY receivedAtCounter ASC
     `,
         {
-          pluck: true,
-        }
+          pluck: true}
       )
       .all<string>();
   })();
@@ -5675,8 +5520,7 @@ function getUnprocessedByIdsAndIncrementAttempts(
   ids: ReadonlyArray<string>
 ): Array<UnprocessedType> {
   logger.info('getUnprocessedByIdsAndIncrementAttempts', {
-    totalIds: ids.length,
-  });
+    totalIds: ids.length});
 
   batchMultiVarQuery(db, ids, (batch, persistent) => {
     return db
@@ -5707,8 +5551,7 @@ function getUnprocessedByIdsAndIncrementAttempts(
         ...row,
         urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
         story: Boolean(row.story),
-        isEncrypted: Boolean(row.isEncrypted),
-      }));
+        isEncrypted: Boolean(row.isEncrypted)}));
   });
 }
 
@@ -5776,8 +5619,7 @@ function _getAttachmentDownloadJob(
     ...fields,
     active: Boolean(row.active),
     attachment: JSON.parse(attachmentJson),
-    ciphertextSize: row.ciphertextSize || 0,
-  } as unknown);
+    ciphertextSize: row.ciphertextSize || 0} as unknown);
 }
 
 function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
@@ -5810,8 +5652,7 @@ function getBackupAttachmentDownloadProgress(
   return (
     db.prepare(query).get<BackupAttachmentDownloadProgress>(params) ?? {
       totalBytes: 0,
-      completedBytes: 0,
-    }
+      completedBytes: 0}
   );
 }
 
@@ -5822,8 +5663,7 @@ function getNextAttachmentDownloadJobs(
     sources,
     prioritizeMessageIds,
     timestamp = Date.now(),
-    maxLastAttemptForPrioritizedMessages,
-  }: {
+    maxLastAttemptForPrioritizedMessages}: {
     limit: number;
     prioritizeMessageIds?: Array<string>;
     sources?: Array<AttachmentDownloadSource>;
@@ -5894,8 +5734,7 @@ function getNextAttachmentDownloadJobs(
         return parseUnknown(attachmentDownloadJobSchema, {
           ...row,
           active: Boolean(row.active),
-          attachment: jsonToObject(row.attachmentJson),
-        } as unknown);
+          attachment: jsonToObject(row.attachmentJson)} as unknown);
       } catch (error) {
         logger.error(
           `getNextAttachmentDownloadJobs: Error with job for message ${row.messageId}, deleting.`
@@ -5911,8 +5750,7 @@ function getNextAttachmentDownloadJobs(
         limit,
         prioritizeMessageIds,
         timestamp,
-        maxLastAttemptForPrioritizedMessages,
-      });
+        maxLastAttemptForPrioritizedMessages});
     }
     throw error;
   }
@@ -5959,8 +5797,7 @@ function saveAttachmentDownloadJob(
 
     const messageExists = db
       .prepare(messageExistsQuery, {
-        pluck: true,
-      })
+        pluck: true})
       .get<number>(messageExistsParams);
 
     if (messageExists !== 1) {
@@ -5982,8 +5819,7 @@ function saveAttachmentDownloadJob(
       attachmentJson: objectToJSON(job.attachment),
       ciphertextSize: job.ciphertextSize,
       originalSource: job.originalSource,
-      source: job.source,
-    } as const satisfies Record<
+      source: job.source} as const satisfies Record<
       (typeof ATTACHMENT_DOWNLOADS_COLUMNS)[number],
       unknown
     >;
@@ -6105,8 +5941,7 @@ function getNextAttachmentBackupJobs(
   db: WritableDB,
   {
     limit,
-    timestamp = Date.now(),
-  }: {
+    timestamp = Date.now()}: {
     limit: number;
     timestamp?: number;
   }
@@ -6132,8 +5967,7 @@ function getNextAttachmentBackupJobs(
       const parseResult = safeParseUnknown(attachmentBackupJobSchema, {
         ...row,
         active: Boolean(row.active),
-        data: jsonToObject(row.data),
-      } as unknown);
+        data: jsonToObject(row.data)} as unknown);
       if (!parseResult.success) {
         const redactedMediaName = redactGenericText(row.mediaName);
         logger.error(
@@ -6221,8 +6055,7 @@ function createOrUpdateStickerPack(
     lastUsed,
     status,
     stickerCount,
-    title,
-  } = pack;
+    title} = pack;
   if (!id) {
     throw new Error(
       'createOrUpdateStickerPack: Provided data did not have a truthy id'
@@ -6250,8 +6083,7 @@ function createOrUpdateStickerPack(
     lastUsed: lastUsed || null,
     status,
     stickerCount,
-    title,
-  };
+    title};
 
   if (row) {
     db.prepare(
@@ -6286,8 +6118,7 @@ function createOrUpdateStickerPack(
     FROM sticker_packs
     `,
         {
-          pluck: true,
-        }
+          pluck: true}
       )
       .get();
   }
@@ -6353,8 +6184,7 @@ function updateStickerPackStatus(
     const oldStatus =
       db
         .prepare(select, {
-          pluck: true,
-        })
+          pluck: true})
         .get<StickerPackRow['status']>(selectParams) ?? null;
 
     const [update, updateParams] = sql`
@@ -6377,8 +6207,7 @@ function updateStickerPackInfo(
     storageUnknownFields,
     storageNeedsSync,
     uninstalledAt,
-    position,
-  }: StickerPackInfoType
+    position}: StickerPackInfoType
 ): void {
   if (uninstalledAt) {
     db.prepare(
@@ -6396,8 +6225,7 @@ function updateStickerPackInfo(
       storageID: storageID ?? null,
       storageVersion: storageVersion ?? null,
       storageUnknownFields: storageUnknownFields ?? null,
-      storageNeedsSync: storageNeedsSync ? 1 : 0,
-    });
+      storageNeedsSync: storageNeedsSync ? 1 : 0});
   } else {
     db.prepare(
       `
@@ -6416,8 +6244,7 @@ function updateStickerPackInfo(
       storageVersion: storageVersion ?? null,
       storageUnknownFields: storageUnknownFields ?? null,
       storageNeedsSync: storageNeedsSync ? 1 : 0,
-      position: position || 0,
-    });
+      position: position || 0});
   }
 }
 function clearAllErrorStickerPackAttempts(db: WritableDB): void {
@@ -6441,8 +6268,7 @@ function createOrUpdateSticker(db: WritableDB, sticker: StickerType): void {
     width,
     version,
     localKey,
-    size,
-  } = sticker;
+    size} = sticker;
 
   if (!isNumber(id)) {
     throw new Error(
@@ -6494,8 +6320,7 @@ function createOrUpdateSticker(db: WritableDB, sticker: StickerType): void {
     width,
     version: version || 1,
     localKey: localKey || null,
-    size: size || null,
-  });
+    size: size || null});
 }
 function createOrUpdateStickers(
   db: WritableDB,
@@ -6522,8 +6347,7 @@ function updateStickerLastUsed(
   ).run({
     id: stickerId,
     packId,
-    lastUsed,
-  });
+    lastUsed});
   db.prepare(
     `
     UPDATE sticker_packs
@@ -6532,8 +6356,7 @@ function updateStickerLastUsed(
     `
   ).run({
     id: packId,
-    lastUsed,
-  });
+    lastUsed});
 }
 function addStickerPackReference(
   db: WritableDB,
@@ -6603,8 +6426,7 @@ function deleteStickerPackReference(
         `
     ).run({
       messageId,
-      packId,
-    });
+      packId});
 
     const count =
       db
@@ -6614,8 +6436,7 @@ function deleteStickerPackReference(
       WHERE packId = $packId;
       `,
           {
-            pluck: true,
-          }
+            pluck: true}
         )
         .get<number>({ packId }) ?? 0;
     if (count > 0) {
@@ -6648,16 +6469,14 @@ function deleteStickerPackReference(
           `
       )
       .all({
-        packId,
-      });
+        packId});
     db.prepare(
       `
         DELETE FROM sticker_packs
         WHERE id = $packId;
         `
     ).run({
-      packId,
-    });
+      packId});
 
     return (stickerPathRows || []).map(row => row.path);
   })();
@@ -6681,8 +6500,7 @@ function getUnresolvedStickerPackReferences(
       messageId,
       packId,
       stickerId,
-      isUnresolved: true,
-    }));
+      isUnresolved: true}));
   })();
 }
 
@@ -6710,8 +6528,7 @@ function deleteStickerPack(db: WritableDB, packId: string): Array<string> {
           `
       )
       .all({
-        packId,
-      });
+        packId});
     db.prepare(
       `
         DELETE FROM sticker_packs
@@ -6745,8 +6562,7 @@ function getAllStickerPacks(db: ReadableDB): Array<StickerPackType> {
       // The columns have STRING type so if they have numeric value, sqlite
       // will return integers.
       author: String(row.author),
-      title: String(row.title),
-    };
+      title: String(row.title)};
   });
 }
 function addUninstalledStickerPack(
@@ -6772,8 +6588,7 @@ function addUninstalledStickerPack(
     storageID: pack.storageID ?? null,
     storageVersion: pack.storageVersion ?? null,
     unknownFields: pack.storageUnknownFields ?? null,
-    storageNeedsSync: pack.storageNeedsSync ? 1 : 0,
-  });
+    storageNeedsSync: pack.storageNeedsSync ? 1 : 0});
 }
 function addUninstalledStickerPacks(
   db: WritableDB,
@@ -6800,8 +6615,7 @@ function getUninstalledStickerPacks(
 
   return rows.map(row => ({
     ...row,
-    storageNeedsSync: row.storageNeedsSync === 1,
-  }));
+    storageNeedsSync: row.storageNeedsSync === 1}));
 }
 function getInstalledStickerPacks(db: ReadableDB): Array<StickerPackType> {
   // If sticker pack has a storageID - it is being downloaded and about to be
@@ -6822,8 +6636,7 @@ function getInstalledStickerPacks(db: ReadableDB): Array<StickerPackType> {
   return rows.map(row => ({
     ...row,
     storageNeedsSync: row.storageNeedsSync === 1,
-    stickers: {},
-  }));
+    stickers: {}}));
 }
 function getStickerPackInfo(
   db: ReadableDB,
@@ -6843,8 +6656,7 @@ function getStickerPackInfo(
         ...uninstalled,
         storageNeedsSync: uninstalled.storageNeedsSync === 1,
         key: undefined,
-        position: undefined,
-      };
+        position: undefined};
     }
 
     const installed = db
@@ -6861,8 +6673,7 @@ function getStickerPackInfo(
       return {
         ...installed,
         storageNeedsSync: installed.storageNeedsSync === 1,
-        uninstalledAt: undefined,
-      };
+        uninstalledAt: undefined};
     }
 
     return undefined;
@@ -6877,8 +6688,7 @@ function installStickerPack(
     const status = 'installed';
     removeUninstalledStickerPack(db, packId);
     const oldStatus = updateStickerPackStatus(db, packId, status, {
-      timestamp,
-    });
+      timestamp});
 
     const wasPreviouslyUninstalled = oldStatus !== 'installed';
 
@@ -6919,8 +6729,7 @@ function uninstallStickerPack(
     addUninstalledStickerPack(db, {
       id: packId,
       uninstalledAt: timestamp,
-      storageNeedsSync: wasPreviouslyInstalled,
-    });
+      storageNeedsSync: wasPreviouslyInstalled});
 
     return wasPreviouslyInstalled;
   })();
@@ -6953,8 +6762,7 @@ function getRecentStickers(
       `
     )
     .all<StickerRow>({
-      limit: limit || 24,
-    });
+      limit: limit || 24});
 
   return (rows || []).map(row => rowToSticker(row));
 }
@@ -6974,8 +6782,7 @@ function updateEmojiUsage(
         `
       )
       .get({
-        shortName,
-      });
+        shortName});
 
     if (rows) {
       db.prepare(
@@ -7021,8 +6828,7 @@ const RecentGifsRow = z.object({
   attachmentMedia_url: z.string(),
   attachmentMedia_width: z.number().int(),
   attachmentMedia_height: z.number().int(),
-  lastUsedAt: z.number().int(),
-});
+  lastUsedAt: z.number().int()});
 
 function getRecentGifs(db: ReadableDB, limit: number): ReadonlyArray<GifType> {
   const [query, params] = sql`
@@ -7042,14 +6848,11 @@ function getRecentGifs(db: ReadableDB, limit: number): ReadonlyArray<GifType> {
         previewMedia: {
           url: row.previewMedia_url,
           width: row.previewMedia_width,
-          height: row.previewMedia_height,
-        },
+          height: row.previewMedia_height},
         attachmentMedia: {
           url: row.attachmentMedia_url,
           width: row.attachmentMedia_width,
-          height: row.attachmentMedia_height,
-        },
-      };
+          height: row.attachmentMedia_height}};
     });
 }
 
@@ -7131,13 +6934,13 @@ function getAllBadges(db: ReadableDB): Array<BadgeType> {
     for (const badgeImageFileRow of badgeImageFileRows) {
       const { badgeId, order, localPath, url, theme } = badgeImageFileRow;
       const badgeImages = badgeImagesByBadge.get(badgeId) || [];
+      const existingBadge = badgeImages[order] as BadgeImageType | undefined;
       badgeImages[order] = {
-        ...(badgeImages[order] || {}),
+        url: existingBadge?.url || url,
+        ...(existingBadge || {}),
         [parseBadgeImageTheme(theme)]: {
           localPath: dropNull(localPath),
-          url,
-        },
-      };
+          url}};
       badgeImagesByBadge.set(badgeId, badgeImages);
     }
 
@@ -7146,15 +6949,14 @@ function getAllBadges(db: ReadableDB): Array<BadgeType> {
       category: parseBadgeCategory(badgeRow.category),
       name: badgeRow.name,
       descriptionTemplate: badgeRow.descriptionTemplate,
-      images: (badgeImagesByBadge.get(badgeRow.id) || []).filter(isNotNil),
-    }));
+      images: (badgeImagesByBadge.get(badgeRow.id) || []).filter(isNotNil)}));
   })();
 }
 
 // This should match the logic in the badges Redux reducer.
 function updateOrCreateBadges(
   db: WritableDB,
-  badges: ReadonlyArray<BadgeType>
+  badges: ReadonlyArray<any>
 ): void {
   const insertBadge = db.prepare(
     `
@@ -7210,19 +7012,21 @@ function updateOrCreateBadges(
         id: badgeId,
         category: badge.category,
         name: badge.name,
-        descriptionTemplate: badge.descriptionTemplate,
-      });
+        descriptionTemplate: badge.descriptionTemplate});
 
       for (const [order, image] of badge.images.entries()) {
         for (const [theme, imageFile] of Object.entries(image)) {
+          if (theme === 'url' || typeof imageFile !== 'object' || imageFile == null) {
+            continue;
+          }
+          const typedImageFile = imageFile as { localPath?: string; url: string };
           insertBadgeImageFile.run({
             badgeId,
             localPath:
-              imageFile.localPath || oldLocalPaths.get(imageFile.url) || null,
+              typedImageFile.localPath || oldLocalPaths.get(typedImageFile.url) || null,
             order,
             theme,
-            url: imageFile.url,
-          });
+            url: typedImageFile.url});
         }
       }
     });
@@ -7244,8 +7048,7 @@ function getAllBadgeImageFileLocalPaths(db: ReadableDB): Set<string> {
     .prepare(
       'SELECT localPath FROM badgeImageFiles WHERE localPath IS NOT NULL',
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .all<string>();
   return new Set(localPaths);
@@ -7336,8 +7139,7 @@ function hydrateStoryDistribution(
     storageID: fromDatabase.storageID || undefined,
     storageVersion: fromDatabase.storageVersion || undefined,
     storageNeedsSync: Boolean(fromDatabase.storageNeedsSync),
-    storageUnknownFields: fromDatabase.storageUnknownFields || undefined,
-  };
+    storageUnknownFields: fromDatabase.storageUnknownFields || undefined};
 }
 function freezeStoryDistribution(
   story: StoryDistributionType
@@ -7353,8 +7155,7 @@ function freezeStoryDistribution(
     storageID: story.storageID || null,
     storageVersion: story.storageVersion || null,
     storageNeedsSync: story.storageNeedsSync ? 1 : 0,
-    storageUnknownFields: story.storageUnknownFields || null,
-  };
+    storageUnknownFields: story.storageUnknownFields || null};
 }
 
 function _getAllStoryDistributions(
@@ -7431,8 +7232,7 @@ function createNewStoryDistribution(
     for (const serviceId of members) {
       memberInsertStatement.run({
         listId,
-        serviceId,
-      });
+        serviceId});
     }
   })();
 }
@@ -7446,8 +7246,7 @@ function getAllStoryDistributionsWithMembers(
 
   return allDistributions.map(list => ({
     ...list,
-    members: (byListId[list.id] || []).map(member => member.serviceId),
-  }));
+    members: (byListId[list.id] || []).map(member => member.serviceId)}));
 }
 function getStoryDistributionWithMembers(
   db: ReadableDB,
@@ -7456,8 +7255,7 @@ function getStoryDistributionWithMembers(
   const storyDistribution = db
     .prepare('SELECT * FROM storyDistributions WHERE id = $id;')
     .get<StoryDistributionForDatabase>({
-      id,
-    });
+      id});
 
   if (!storyDistribution) {
     return undefined;
@@ -7468,13 +7266,11 @@ function getStoryDistributionWithMembers(
       'SELECT serviceId FROM storyDistributionMembers WHERE listId = $id;'
     )
     .all<{ serviceId: ServiceIdString }>({
-      id,
-    });
+      id});
 
   return {
     ...hydrateStoryDistribution(storyDistribution),
-    members: members.map(({ serviceId }) => serviceId),
-  };
+    members: members.map(({ serviceId }) => serviceId)};
 }
 function modifyStoryDistribution(
   db: WritableDB,
@@ -7516,8 +7312,7 @@ function modifyStoryDistributionMembers(
   listId: string,
   {
     toAdd,
-    toRemove,
-  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
+    toRemove}: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): void {
   const memberInsertStatement = db.prepare(
     `
@@ -7534,8 +7329,7 @@ function modifyStoryDistributionMembers(
   for (const serviceId of toAdd) {
     memberInsertStatement.run({
       listId,
-      serviceId,
-    });
+      serviceId});
   }
 
   batchMultiVarQuery(
@@ -7556,8 +7350,7 @@ function modifyStoryDistributionWithMembers(
   distribution: StoryDistributionType,
   {
     toAdd,
-    toRemove,
-  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
+    toRemove}: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): void {
   if (toAdd.length || toRemove.length) {
     db.transaction(() => {
@@ -7573,8 +7366,7 @@ function deleteStoryDistribution(
   id: StoryDistributionIdString
 ): void {
   db.prepare('DELETE FROM storyDistributions WHERE id = $id;').run({
-    id,
-  });
+    id});
 }
 
 function _getAllStoryReads(db: ReadableDB): Array<StoryReadType> {
@@ -7605,8 +7397,7 @@ function getLastStoryReadsForAuthor(
   {
     authorId,
     conversationId,
-    limit: initialLimit,
-  }: {
+    limit: initialLimit}: {
     authorId: ServiceIdString;
     conversationId?: string;
     limit?: number;
@@ -7628,8 +7419,7 @@ function getLastStoryReadsForAuthor(
     .all({
       authorId,
       conversationId: conversationId || null,
-      limit,
-    });
+      limit});
 }
 
 function countStoryReadsByConversation(
@@ -7644,8 +7434,7 @@ function countStoryReadsByConversation(
       WHERE conversationId = $conversationId;
       `,
         {
-          pluck: true,
-        }
+          pluck: true}
       )
       .get<number>({ conversationId }) ?? 0
   );
@@ -7703,8 +7492,7 @@ function hydrateNotificationProfile(
     storageID: profile.storageID || undefined,
     storageVersion: profile.storageVersion || undefined,
     storageNeedsSync: Boolean(profile.storageNeedsSync),
-    storageUnknownFields: profile.storageUnknownFields || undefined,
-  };
+    storageUnknownFields: profile.storageUnknownFields || undefined};
 }
 function freezeNotificationProfile(
   profile: NotificationProfileType
@@ -7727,8 +7515,7 @@ function freezeNotificationProfile(
     storageID: profile.storageID || null,
     storageVersion: profile.storageVersion || null,
     storageNeedsSync: profile.storageNeedsSync ? 1 : 0,
-    storageUnknownFields: profile.storageUnknownFields || null,
-  };
+    storageUnknownFields: profile.storageUnknownFields || null};
 }
 
 function getAllNotificationProfiles(
@@ -7923,7 +7710,6 @@ function removeAll(db: WritableDB): void {
 
       INSERT INTO messages_fts(messages_fts) VALUES('optimize');
 
-
       --- Re-create the messages delete trigger
       --- See migration 45
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
@@ -7970,8 +7756,7 @@ function removeAllConfiguration(db: WritableDB): void {
 
     const itemIds: ReadonlyArray<string> = db
       .prepare('SELECT id FROM items', {
-        pluck: true,
-      })
+        pluck: true})
       .all();
 
     const allowedSet = new Set<string>(STORAGE_UI_KEYS);
@@ -8086,8 +7871,7 @@ function getMessagesNeedingUpgrade(
       .all({
         maxVersion,
         maxAttempts: MAX_MESSAGE_MIGRATION_ATTEMPTS,
-        limit,
-      });
+        limit});
 
     return hydrateMessages(db, rows);
   })();
@@ -8138,8 +7922,7 @@ function getMessageServerGuidsForSpam(
   LIMIT 3;
   `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .all({ conversationId });
 }
@@ -8206,8 +7989,7 @@ function getKnownMessageAttachments(
   return {
     attachments: Array.from(attachments),
     downloads: Array.from(downloads),
-    cursor: newCursor as MessageCursorType as MessageAttachmentsCursorType,
-  };
+    cursor: newCursor as MessageCursorType as MessageAttachmentsCursorType};
 }
 
 function finishGetKnownMessageAttachments(
@@ -8284,8 +8066,7 @@ function pageMessages(
       LIMIT $chunkSize;
     `,
         {
-          pluck: true,
-        }
+          pluck: true}
       )
       .all({ chunkSize });
 
@@ -8315,8 +8096,7 @@ function pageMessages(
 
     return {
       messages,
-      cursor: newCursor as PageMessagesCursorType,
-    };
+      cursor: newCursor as PageMessagesCursorType};
   })();
 }
 
@@ -8375,8 +8155,7 @@ function getKnownConversationAttachments(db: ReadableDB): Array<string> {
   while (!complete) {
     const rows = fetchConversations.all<{ json: string }>({
       id,
-      chunkSize,
-    });
+      chunkSize});
 
     const conversations: Array<ConversationType> = map(rows, row =>
       jsonToObject(row.json)
@@ -8428,8 +8207,7 @@ function removeKnownStickers(
       )
       .all({
         rowid,
-        chunkSize,
-      });
+        chunkSize});
 
     const files: Array<string> = rows.map(row => row.path);
     files.forEach(file => {
@@ -8481,8 +8259,7 @@ function removeKnownDraftAttachments(
       )
       .all({
         id,
-        chunkSize,
-      });
+        chunkSize});
 
     const conversations: Array<ConversationType> = rows.map(row =>
       jsonToObject(row.json)
@@ -8527,8 +8304,7 @@ export function getJobsInQueue(
       id: row.id,
       queueType,
       timestamp: row.timestamp,
-      data: isNotNil(row.data) ? JSON.parse(row.data) : undefined,
-    }));
+      data: isNotNil(row.data) ? JSON.parse(row.data) : undefined}));
 }
 
 export function insertJob(db: WritableDB, job: Readonly<StoredJob>): void {
@@ -8543,8 +8319,7 @@ export function insertJob(db: WritableDB, job: Readonly<StoredJob>): void {
     id: job.id,
     queueType: job.queueType,
     timestamp: job.timestamp,
-    data: isNotNil(job.data) ? JSON.stringify(job.data) : null,
-  });
+    data: isNotNil(job.data) ? JSON.stringify(job.data) : null});
 }
 
 function deleteJob(db: WritableDB, id: string): void {
@@ -8567,13 +8342,11 @@ function wasGroupCallRingPreviouslyCanceled(
   `,
         {
           pluck: true,
-          bigint: true,
-        }
+          bigint: true}
       )
       .get<bigint>({
         ringId,
-        ringsOlderThanThisAreIgnored: Date.now() - MAX_GROUP_CALL_RING_AGE,
-      }) === 1n
+        ringsOlderThanThisAreIgnored: Date.now() - MAX_GROUP_CALL_RING_AGE}) === 1n
   );
 }
 
@@ -8602,8 +8375,7 @@ function cleanExpiredGroupCallRingCancellations(db: WritableDB): void {
     WHERE createdAt < $expiredRingTime;
     `
   ).run({
-    expiredRingTime: Date.now() - MAX_GROUP_CALL_RING_AGE,
-  });
+    expiredRingTime: Date.now() - MAX_GROUP_CALL_RING_AGE});
 }
 
 function getMaxMessageCounter(db: ReadableDB): number | undefined {
@@ -8619,8 +8391,7 @@ FROM
   )
 `,
       {
-        pluck: true,
-      }
+        pluck: true}
     )
     .get();
 }
@@ -8630,8 +8401,7 @@ function getStatisticsForLogging(db: ReadableDB): Record<string, string> {
     messageCount: getMessageCount(db),
     conversationCount: getConversationCount(db),
     sessionCount: getCountFromTable(db, 'sessions'),
-    senderKeyCount: getCountFromTable(db, 'senderKeys'),
-  };
+    senderKeyCount: getCountFromTable(db, 'senderKeys')};
   return mapValues(counts, formatCountForLogging);
 }
 
@@ -8652,9 +8422,7 @@ function updateAllConversationColors(
     patch: JSON.stringify({
       conversationColor: conversationColor || null,
       customColor: customColorData?.value || null,
-      customColorId: customColorData?.id || null,
-    }),
-  });
+      customColorId: customColorData?.id || null})});
 }
 
 function removeAllProfileKeyCredentials(db: WritableDB): void {
@@ -8676,8 +8444,7 @@ function saveEditedMessages(
   db.transaction(() => {
     saveMessage(db, mainMessage, {
       ourAci,
-      alreadyInTransaction: true,
-    });
+      alreadyInTransaction: true});
 
     try {
       for (const { conversationId, messageId, readStatus, sentAt } of history) {
@@ -8706,8 +8473,7 @@ function saveEditedMessages(
       `;
       const messageExists = db
         .prepare(messageExistsQuery, {
-          pluck: true,
-        })
+          pluck: true})
         .get<number>(messageExistsParams);
 
       if (messageExists !== 1) {
@@ -8747,8 +8513,7 @@ function getUnreadEditedMessagesAndMarkRead(
   db: WritableDB,
   {
     conversationId,
-    readMessageReceivedAt,
-  }: {
+    readMessageReceivedAt}: {
     conversationId: string;
     readMessageReceivedAt: number;
   }
@@ -8808,8 +8573,7 @@ function getUnreadEditedMessagesAndMarkRead(
           'sourceServiceId',
           'timestamp',
           'type',
-        ]),
-      } satisfies MessageType & { originalReadStatus: ReadStatus | undefined };
+        ])} satisfies MessageType & { originalReadStatus: ReadStatus | undefined };
     });
   })();
 }
@@ -8849,8 +8613,7 @@ function disableMessageInsertTriggers(db: WritableDB): void {
   db.transaction(() => {
     createOrUpdateItem(db, {
       id: 'messageInsertTriggersDisabled',
-      value: true,
-    });
+      value: true});
     db.exec('DROP TRIGGER IF EXISTS messages_on_insert;');
     db.exec('DROP TRIGGER IF EXISTS messages_on_insert_insert_mentions;');
   })();
@@ -8903,8 +8666,7 @@ function enableMessageInsertTriggersAndBackfill(db: WritableDB): void {
     db.exec(createTriggersQuery);
     createOrUpdateItem(db, {
       id: 'messageInsertTriggersDisabled',
-      value: false,
-    });
+      value: false});
   })();
 }
 

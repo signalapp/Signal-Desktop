@@ -9,20 +9,17 @@ import type { Props as AvatarProps } from '../Avatar.dom.js';
 import { Avatar } from '../Avatar.dom.js';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.js';
 import type { ThemeType } from '../../types/Util.std.js';
 import type {
   EmojiParentKey,
-  EmojiVariantKey,
-} from '../fun/data/emojis.std.js';
+  EmojiVariantKey} from '../fun/data/emojis.std.js';
 import {
   EMOJI_PARENT_KEY_CONSTANTS,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
+  isEmojiVariantValue} from '../fun/data/emojis.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
@@ -48,7 +45,7 @@ export type Reaction = {
 };
 
 export type OwnProps = {
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   reactions: Array<Reaction>;
   pickedReaction?: string;
   onClose?: () => unknown;
@@ -141,8 +138,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       return mapValues(
         {
           all: reactionsWithEmojiData,
-          ...groups,
-        },
+          ...groups},
         groupedReactions => orderBy(groupedReactions, ['timestamp'], ['desc'])
       );
     }, [reactionsWithEmojiData]);
@@ -153,8 +149,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
           {
             id: 'all',
             index: 0,
-            count: reactionsWithEmojiData.length,
-          },
+            count: reactionsWithEmojiData.length},
           ...Object.entries(groupedAndSortedReactions)
             .filter(([key]) => key !== 'all')
             .map(([, groupedReactions]) => {
@@ -167,8 +162,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   ? DEFAULT_EMOJI_ORDER.indexOf(firstReaction.parentKey)
                   : Infinity,
                 emoji: firstReaction.emoji,
-                count: groupedReactions.length,
-              };
+                count: groupedReactions.length};
             }),
         ].sort((a, b) => a.index - b.index),
       [reactionsWithEmojiData, groupedAndSortedReactions]

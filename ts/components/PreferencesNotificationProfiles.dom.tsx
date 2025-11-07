@@ -12,8 +12,7 @@ import { Popper } from 'react-popper';
 import {
   isEmojiVariantValue,
   getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-} from './fun/data/emojis.std.js';
+  getEmojiVariantKeyByValue} from './fun/data/emojis.std.js';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
@@ -30,8 +29,7 @@ import { PreferencesSelectChatsDialog } from './preferences/PreferencesSelectCha
 import {
   DayOfWeek,
   getMidnight,
-  scheduleToTime,
-} from '../types/NotificationProfile.std.js';
+  scheduleToTime} from '../types/NotificationProfile.std.js';
 import { Avatar } from './Avatar.dom.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { formatTimestamp } from '../util/formatTimestamp.dom.js';
@@ -52,27 +50,23 @@ import type { LocalizerType } from '../types/I18N.std.js';
 import type { ThemeType } from '../types/Util.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import type {
   NotificationProfileIdString,
   NotificationProfileType,
-  ScheduleDays,
-} from '../types/NotificationProfile.std.js';
+  ScheduleDays} from '../types/NotificationProfile.std.js';
 import type { SettingsLocation } from '../types/Nav.std.js';
 
 enum CreateFlowPage {
   Name = 'Name',
   Allowed = 'Allowed',
   Schedule = 'Schedule',
-  Done = 'Done',
-}
+  Done = 'Done'}
 
 enum HomePage {
   List = 'List',
   Edit = 'Edit',
   Name = 'Name',
-  Schedule = 'Schedule',
-}
+  Schedule = 'Schedule'}
 
 const DEFAULT_ALLOW_CALLS = true;
 const DEFAULT_ALLOW_MENTIONS = false;
@@ -91,8 +85,7 @@ const WEEKDAY_SCHEDULE: ScheduleDays = {
   [DayOfWeek.THURSDAY]: true,
   [DayOfWeek.FRIDAY]: true,
   [DayOfWeek.SATURDAY]: false,
-  [DayOfWeek.SUNDAY]: false,
-};
+  [DayOfWeek.SUNDAY]: false};
 const WEEKEND_SCHEDULE: ScheduleDays = {
   [DayOfWeek.MONDAY]: false,
   [DayOfWeek.TUESDAY]: false,
@@ -100,8 +93,7 @@ const WEEKEND_SCHEDULE: ScheduleDays = {
   [DayOfWeek.THURSDAY]: false,
   [DayOfWeek.FRIDAY]: false,
   [DayOfWeek.SATURDAY]: true,
-  [DayOfWeek.SUNDAY]: true,
-};
+  [DayOfWeek.SUNDAY]: true};
 const DAILY_SCHEDULE: ScheduleDays = {
   [DayOfWeek.MONDAY]: true,
   [DayOfWeek.TUESDAY]: true,
@@ -109,8 +101,7 @@ const DAILY_SCHEDULE: ScheduleDays = {
   [DayOfWeek.THURSDAY]: true,
   [DayOfWeek.FRIDAY]: true,
   [DayOfWeek.SATURDAY]: true,
-  [DayOfWeek.SUNDAY]: true,
-};
+  [DayOfWeek.SUNDAY]: true};
 
 const DEFAULT_SCHEDULE = WEEKDAY_SCHEDULE;
 
@@ -121,7 +112,7 @@ type CreateFlowProps = {
   createProfile: (profile: Omit<NotificationProfileType, 'id'>) => void;
   i18n: LocalizerType;
   setSettingsLocation: (location: SettingsLocation) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   theme: ThemeType;
 };
 
@@ -136,7 +127,7 @@ type HomeProps = {
   isSyncEnabled: boolean;
   loading: boolean;
   markProfileDeleted: (id: string) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   setHasOnboardingBeenSeen: (value: boolean) => void;
   setIsSyncEnabled: (value: boolean) => void;
   setSettingsLocation: (location: SettingsLocation) => void;
@@ -192,25 +183,21 @@ function hourFrom24HourTime(hours: number): { hours: number; period: PERIOD } {
   if (hours === 0) {
     return {
       hours: 12,
-      period: 'AM',
-    };
+      period: 'AM'};
   }
   if (hours === 12) {
     return {
       hours: 12,
-      period: 'PM',
-    };
+      period: 'PM'};
   }
   if (hours > 12) {
     return {
       hours: hours - 12,
-      period: 'PM',
-    };
+      period: 'PM'};
   }
   return {
     hours,
-    period: 'AM',
-  };
+    period: 'AM'};
 }
 function makeTime(
   rawHours: number,
@@ -240,8 +227,7 @@ function getTimeDetails(
   return {
     hours,
     minutes,
-    period,
-  };
+    period};
 }
 
 const ARGB_BITS = 0xff000000;
@@ -283,8 +269,7 @@ export function NotificationProfilesCreateFlow({
   i18n,
   preferredBadgeSelector,
   setSettingsLocation,
-  theme,
-}: CreateFlowProps): JSX.Element {
+  theme}: CreateFlowProps): JSX.Element {
   const [page, setPage] = React.useState(CreateFlowPage.Name);
 
   const [name, setName] = React.useState<string | undefined>();
@@ -307,8 +292,7 @@ export function NotificationProfilesCreateFlow({
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'NotificationProfilesCreateFlow',
-    tryClose,
-  });
+    tryClose});
 
   const onTryClose = React.useCallback(() => {
     const isDirty =
@@ -339,8 +323,7 @@ export function NotificationProfilesCreateFlow({
       scheduleDaysEnabled: scheduleDays,
 
       deletedAtTimestampMs: undefined,
-      storageNeedsSync: true,
-    };
+      storageNeedsSync: true};
   }
 
   const goToNotificationsProfilesHome = React.useCallback(() => {
@@ -456,8 +439,7 @@ export function NotificationProfilesHome({
   setSettingsLocation,
   setProfileOverride,
   theme,
-  updateProfile,
-}: HomeProps): JSX.Element {
+  updateProfile}: HomeProps): JSX.Element {
   const [page, setPage] = React.useState(HomePage.List);
   const [profile, setProfile] = React.useState<
     NotificationProfileType | undefined
@@ -542,8 +524,7 @@ export function NotificationProfilesHome({
               const newProfile = {
                 ...profile,
                 emoji,
-                name,
-              };
+                name};
               updateProfile(newProfile);
               setProfile(newProfile);
             }}
@@ -567,32 +548,28 @@ export function NotificationProfilesHome({
             onSetIsEnabled={(scheduleEnabled: boolean) => {
               const newProfile = {
                 ...profile,
-                scheduleEnabled,
-              };
+                scheduleEnabled};
               updateProfile(newProfile);
               setProfile(newProfile);
             }}
             onSetScheduleDays={(scheduleDaysEnabled: ScheduleDays) => {
               const newProfile = {
                 ...profile,
-                scheduleDaysEnabled,
-              };
+                scheduleDaysEnabled};
               updateProfile(newProfile);
               setProfile(newProfile);
             }}
             onSetStartTime={(scheduleStartTime: number) => {
               const newProfile = {
                 ...profile,
-                scheduleStartTime,
-              };
+                scheduleStartTime};
               updateProfile(newProfile);
               setProfile(newProfile);
             }}
             onSetEndTime={(scheduleEndTime: number) => {
               const newProfile = {
                 ...profile,
-                scheduleEndTime,
-              };
+                scheduleEndTime};
               updateProfile(newProfile);
               setProfile(newProfile);
             }}
@@ -650,8 +627,7 @@ export function NotificationProfilesHome({
 
 function NotificationProfilesOnboardingDialog({
   i18n,
-  onDismiss,
-}: {
+  onDismiss}: {
   i18n: LocalizerType;
   onDismiss: VoidFunction;
 }) {
@@ -686,8 +662,7 @@ function NotificationProfilesNamePage({
   onBack,
   onNext,
   onUpdate,
-  theme,
-}: {
+  theme}: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
   initialEmoji: string | undefined;
@@ -708,24 +683,19 @@ function NotificationProfilesNamePage({
     return [
       {
         emoji: '💪',
-        text: i18n('icu:NotificationProfiles--sample-name__work'),
-      },
+        text: i18n('icu:NotificationProfiles--sample-name__work')},
       {
         emoji: '😴',
-        text: i18n('icu:NotificationProfiles--sample-name__sleep'),
-      },
+        text: i18n('icu:NotificationProfiles--sample-name__sleep')},
       {
         emoji: '🚗',
-        text: i18n('icu:NotificationProfiles--sample-name__driving'),
-      },
+        text: i18n('icu:NotificationProfiles--sample-name__driving')},
       {
         emoji: '😊',
-        text: i18n('icu:NotificationProfiles--sample-name__downtime'),
-      },
+        text: i18n('icu:NotificationProfiles--sample-name__downtime')},
       {
         emoji: '💡',
-        text: i18n('icu:NotificationProfiles--sample-name__focus'),
-      },
+        text: i18n('icu:NotificationProfiles--sample-name__focus')},
     ] as const;
   }, [i18n]);
 
@@ -863,8 +833,7 @@ function NotificationProfilesAllowedPage({
   onSetAllowAllCalls,
   onSetAllowAllMentions,
   preferredBadgeSelector,
-  theme,
-}: {
+  theme}: {
   allowAllCalls: boolean;
   allowedMembers: ReadonlyArray<string>;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
@@ -877,7 +846,7 @@ function NotificationProfilesAllowedPage({
   onSetAllowedMembers: (members: ReadonlyArray<string>) => void;
   onSetAllowAllCalls: (value: boolean) => void;
   onSetAllowAllMentions: (value: boolean) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   theme: ThemeType;
 }) {
   return (
@@ -936,8 +905,7 @@ function NotificationProfilesSchedulePage({
   onSetScheduleDays,
   onSetStartTime,
   onSetEndTime,
-  theme,
-}: {
+  theme}: {
   isEnabled: boolean;
   scheduleDays: ScheduleDays;
   startTime: number;
@@ -957,32 +925,25 @@ function NotificationProfilesSchedulePage({
     return [
       {
         dayOfWeek: DayOfWeek.SUNDAY,
-        label: i18n('icu:NotificationProfiles--schedule-sunday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-sunday')},
       {
         dayOfWeek: DayOfWeek.MONDAY,
-        label: i18n('icu:NotificationProfiles--schedule-monday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-monday')},
       {
         dayOfWeek: DayOfWeek.TUESDAY,
-        label: i18n('icu:NotificationProfiles--schedule-tuesday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-tuesday')},
       {
         dayOfWeek: DayOfWeek.WEDNESDAY,
-        label: i18n('icu:NotificationProfiles--schedule-wednesday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-wednesday')},
       {
         dayOfWeek: DayOfWeek.THURSDAY,
-        label: i18n('icu:NotificationProfiles--schedule-thursday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-thursday')},
       {
         dayOfWeek: DayOfWeek.FRIDAY,
-        label: i18n('icu:NotificationProfiles--schedule-friday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-friday')},
       {
         dayOfWeek: DayOfWeek.SATURDAY,
-        label: i18n('icu:NotificationProfiles--schedule-saturday'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-saturday')},
     ];
   }, [i18n]);
 
@@ -1093,8 +1054,7 @@ function NotificationProfilesDonePage({
   contentsRef,
   i18n,
   onNext,
-  profile,
-}: {
+  profile}: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
   onNext: () => void;
@@ -1133,8 +1093,7 @@ function NotificationProfilesListPage({
   onBack,
   onCreateProfile,
   onEditProfile,
-  setIsSyncEnabled,
-}: {
+  setIsSyncEnabled}: {
   allProfiles: ReadonlyArray<NotificationProfileType>;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
@@ -1227,8 +1186,7 @@ function NotificationProfilesEditPage({
   onUpdateOverrideState,
   preferredBadgeSelector,
   profile,
-  theme,
-}: {
+  theme}: {
   activeProfileId: NotificationProfileIdString | undefined;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   conversations: ReadonlyArray<ConversationType>;
@@ -1240,7 +1198,7 @@ function NotificationProfilesEditPage({
   onEditSchedule: () => void;
   onEditProfile: (profile: NotificationProfileType) => void;
   onUpdateOverrideState: (value: boolean) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   profile: NotificationProfileType;
   theme: ThemeType;
 }) {
@@ -1264,8 +1222,7 @@ function NotificationProfilesEditPage({
             {
               action: onDeleteProfile,
               text: i18n('icu:NotificationProfiles--delete-button'),
-              style: 'affirmative',
-            },
+              style: 'affirmative'},
           ]}
           i18n={i18n}
           onClose={() => setIsConfirmingDelete(false)}
@@ -1341,8 +1298,7 @@ function NotificationProfilesEditPage({
           onSetAllowedMembers={allowedMembers => {
             onEditProfile({
               ...profile,
-              allowedMembers: new Set(allowedMembers),
-            });
+              allowedMembers: new Set(allowedMembers)});
           }}
           preferredBadgeSelector={preferredBadgeSelector}
           theme={theme}
@@ -1366,8 +1322,7 @@ function NotificationProfilesEditPage({
                 ),
                 endTime: formatTimeForDisplay(
                   profile.scheduleEndTime ?? DEFAULT_END
-                ),
-              })}
+                )})}
             </div>
             <div className={tw('mt-0.5 type-body-small text-label-secondary')}>
               <ScheduleSummary
@@ -1425,8 +1380,7 @@ export function FullWidthButton({
   children,
   className,
   onClick,
-  testId,
-}: {
+  testId}: {
   children: React.ReactNode;
   className?: string;
   onClick: () => void;
@@ -1451,8 +1405,7 @@ export function FullWidthButton({
 
 function FullWidthRow({
   children,
-  className,
-}: {
+  className}: {
   children: React.ReactNode;
   className?: string;
 }) {
@@ -1477,8 +1430,7 @@ function FullWidthDivider() {
 function Header({
   onBack,
   title,
-  i18n,
-}: {
+  i18n}: {
   onBack?: VoidFunction;
   title?: string;
   i18n: LocalizerType;
@@ -1500,8 +1452,7 @@ function Header({
 
 function Container({
   children,
-  contentsRef,
-}: {
+  contentsRef}: {
   children: React.ReactNode;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
 }) {
@@ -1539,8 +1490,7 @@ function ButtonContainer({ children }: { children: React.ReactNode }) {
 
 function MidFloatingContainer({
   children,
-  contentsRef,
-}: {
+  contentsRef}: {
   children: React.ReactNode;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
 }) {
@@ -1563,8 +1513,7 @@ function DayCheckbox({
   dayOfWeek,
   isEnabled,
   scheduleDays,
-  onSetScheduleDays,
-}: {
+  onSetScheduleDays}: {
   label: string;
   dayOfWeek: DayOfWeek;
   isEnabled: boolean;
@@ -1581,8 +1530,7 @@ function DayCheckbox({
         onChange={value => {
           onSetScheduleDays({
             ...scheduleDays,
-            [dayOfWeek]: value,
-          });
+            [dayOfWeek]: value});
         }}
       />
     </div>
@@ -1595,8 +1543,7 @@ function EmojiOrMoon({
   emoji,
   forceLightTheme,
   i18n,
-  size,
-}: {
+  size}: {
   emoji?: EmojiVariantKey | undefined;
   forceLightTheme?: boolean;
   i18n: LocalizerType;
@@ -1608,8 +1555,7 @@ function EmojiOrMoon({
       large: 48 as const,
       medium: 20 as const,
       'medium-small': 16 as const,
-      small: 12 as const,
-    }),
+      small: 12 as const}),
     []
   );
 
@@ -1622,8 +1568,7 @@ function EmojiOrMoon({
         style={
           forceLightTheme
             ? {
-                colorScheme: 'light',
-              }
+                colorScheme: 'light'}
             : {}
         }
       >
@@ -1670,14 +1615,13 @@ function AllowedMembersSection({
   onSetAllowedMembers,
   preferredBadgeSelector,
   theme,
-  title,
-}: {
+  title}: {
   allowedMembers: ReadonlyArray<string>;
   conversations: ReadonlyArray<ConversationType>;
   conversationSelector: GetConversationByIdType;
   i18n: LocalizerType;
   onSetAllowedMembers: (members: ReadonlyArray<string>) => void;
-  preferredBadgeSelector: PreferredBadgeSelectorType;
+  preferredBadgeSelector: any;
   theme: ThemeType;
   title: string;
 }) {
@@ -1700,8 +1644,7 @@ function AllowedMembersSection({
           initialSelection={{
             selectedRecipientIds: Array.from(allowedMembers),
             selectAllIndividualChats: false,
-            selectAllGroupChats: false,
-          }}
+            selectAllGroupChats: false}}
           showChatTypes={false}
         />
       ) : null}
@@ -1717,8 +1660,6 @@ function AllowedMembersSection({
       </FullWidthButton>
       {allowedMembers.map(member => {
         const conversation = conversationSelector(member);
-        const badge = preferredBadgeSelector(conversation.badges);
-
         return (
           <FullWidthButton
             key={conversation.id}
@@ -1732,7 +1673,7 @@ function AllowedMembersSection({
             >
               <Avatar
                 {...conversation}
-                badge={badge}
+                badge={undefined}
                 conversationType={conversation.type}
                 i18n={i18n}
                 size={36}
@@ -1752,8 +1693,7 @@ function ExceptionsSection({
   allowAllMentions,
   i18n,
   onSetAllowAllMentions,
-  onSetAllowAllCalls,
-}: {
+  onSetAllowAllCalls}: {
   allowAllCalls: boolean;
   allowAllMentions: boolean;
   i18n: LocalizerType;
@@ -1797,8 +1737,7 @@ export function ProfileAvatar({
   i18n,
   isActive,
   profile,
-  size,
-}: {
+  size}: {
   i18n: LocalizerType;
   isActive?: boolean;
   profile?: ProfileToSave;
@@ -1815,8 +1754,7 @@ export function ProfileAvatar({
       large: tw('size-[80px]'),
       medium: tw('size-[36px]'),
       'medium-small': tw('size-[28px]'),
-      small: tw('size-[20px]'),
-    }),
+      small: tw('size-[20px]')}),
     []
   );
   const sizeClass = sizeMap[size];
@@ -1843,8 +1781,7 @@ export function ProfileAvatar({
 
 function ScheduleSummary({
   i18n,
-  scheduleDays,
-}: {
+  scheduleDays}: {
   i18n: LocalizerType;
   scheduleDays: ScheduleDays;
 }): string {
@@ -1852,32 +1789,25 @@ function ScheduleSummary({
     return [
       {
         dayOfWeek: DayOfWeek.SUNDAY,
-        label: i18n('icu:NotificationProfiles--schedule-sunday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-sunday-short')},
       {
         dayOfWeek: DayOfWeek.MONDAY,
-        label: i18n('icu:NotificationProfiles--schedule-monday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-monday-short')},
       {
         dayOfWeek: DayOfWeek.TUESDAY,
-        label: i18n('icu:NotificationProfiles--schedule-tuesday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-tuesday-short')},
       {
         dayOfWeek: DayOfWeek.WEDNESDAY,
-        label: i18n('icu:NotificationProfiles--schedule-wednesday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-wednesday-short')},
       {
         dayOfWeek: DayOfWeek.THURSDAY,
-        label: i18n('icu:NotificationProfiles--schedule-thursday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-thursday-short')},
       {
         dayOfWeek: DayOfWeek.FRIDAY,
-        label: i18n('icu:NotificationProfiles--schedule-friday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-friday-short')},
       {
         dayOfWeek: DayOfWeek.SATURDAY,
-        label: i18n('icu:NotificationProfiles--schedule-saturday-short'),
-      },
+        label: i18n('icu:NotificationProfiles--schedule-saturday-short')},
     ];
   }, [i18n]);
 
@@ -1917,8 +1847,7 @@ function TimePicker({
   labelId,
   theme,
   time,
-  onUpdateTime,
-}: {
+  onUpdateTime}: {
   i18n: LocalizerType;
   isDisabled: boolean;
   labelId: string;
@@ -1932,8 +1861,7 @@ function TimePicker({
   const periodLookup = React.useMemo(() => {
     return {
       AM: i18n('icu:NotificationProfile--am'),
-      PM: i18n('icu:NotificationProfile--pm'),
-    };
+      PM: i18n('icu:NotificationProfile--pm')};
   }, [i18n]);
   const [timeFieldElement, setTimeFieldElement] = React.useState<
     HTMLDivElement | undefined
@@ -1959,8 +1887,7 @@ function TimePicker({
       },
       {
         containerElements: [popupElement],
-        name: 'TimePicker.popup',
-      }
+        name: 'TimePicker.popup'}
     );
   }, [isShowingPopup, popupElement, setIsShowingPopup]);
 

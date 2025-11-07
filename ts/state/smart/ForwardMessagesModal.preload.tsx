@@ -16,8 +16,7 @@ import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { maybeForwardMessages } from '../../util/maybeForwardMessages.preload.js';
 import {
   maybeGrabLinkPreview,
-  resetLinkPreview,
-} from '../../services/LinkPreview.preload.js';
+  resetLinkPreview} from '../../services/LinkPreview.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useLinkPreviewActions } from '../ducks/linkPreviews.preload.js';
 import { SmartCompositionTextArea } from './CompositionTextArea.preload.js';
@@ -27,8 +26,7 @@ import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type {
   ForwardMessageData,
-  MessageForwardDraft,
-} from '../../types/ForwardDraft.std.js';
+  MessageForwardDraft} from '../../types/ForwardDraft.std.js';
 import { getForwardMessagesProps } from '../selectors/globalModals.std.js';
 
 const log = createLogger('ForwardMessagesModal');
@@ -48,6 +46,9 @@ export function SmartForwardMessagesModal(): JSX.Element | null {
     return null;
   }
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <SmartForwardMessagesModalInner
       forwardMessagesProps={forwardMessagesProps}
@@ -56,19 +57,20 @@ export function SmartForwardMessagesModal(): JSX.Element | null {
 }
 
 function SmartForwardMessagesModalInner({
-  forwardMessagesProps,
-}: {
+  forwardMessagesProps}: {
   forwardMessagesProps: ForwardMessagesPropsType;
 }): JSX.Element | null {
   const { type } = forwardMessagesProps;
 
   const candidateConversations = useSelector(getAllComposableConversations);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const i18n = useSelector(getIntl);
+    const i18n = useSelector(getIntl);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const regionCode = useSelector(getRegionCode);
   const theme = useSelector(getTheme);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = () => undefined;
 
   const { removeLinkPreview } = useLinkPreviewActions();
   const { toggleForwardMessagesModal } = useGlobalModalActions();
@@ -123,8 +125,7 @@ function SmartForwardMessagesModalInner({
             strictAssert(message, 'no message found');
             return {
               draft,
-              originalMessage: message.attributes,
-            };
+              originalMessage: message.attributes};
           })
         );
 

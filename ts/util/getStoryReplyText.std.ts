@@ -1,8 +1,9 @@
-// Copyright 2024 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// Stub: Stories feature removed
+import type { MessageAttributesType } from '../model-types.d';
 
-export function getStoryReplyText(..._args: Array<unknown>): string {
+export function getStoryReplyText(
+  _message: MessageAttributesType
+): string {
   return '';
 }

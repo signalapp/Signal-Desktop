@@ -9,17 +9,14 @@ import { strictAssert } from '../util/assert.std.js';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
-  SenderKeyInfoType,
-} from '../model-types.d.ts';
+  SenderKeyInfoType} from '../model-types.d.ts';
 import type { StoredJob } from '../jobs/types.std.js';
 import type {
   ReactionType,
-  ReactionReadStatus,
-} from '../types/Reactions.std.js';
+  ReactionReadStatus} from '../types/Reactions.std.js';
 import type {
   ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.js';
+  CustomColorType} from '../types/Colors.std.js';
 import type { StorageAccessType } from '../types/Storage.d.ts';
 import type { BytesToStrings } from '../types/Util.std.js';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress.std.js';
@@ -27,9 +24,7 @@ import type { StoryDistributionIdString } from '../types/StoryDistributionId.std
 import type {
   AciString,
   PniString,
-  ServiceIdString,
-} from '../types/ServiceId.std.js';
-import type { BadgeType } from '../badges/types.std.js';
+  ServiceIdString} from '../types/ServiceId.std.js';
 import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import type { RawBodyRange } from '../types/BodyRange.std.js';
 import type { MessageTimestamps } from '../state/ducks/conversations.preload.js';
@@ -38,25 +33,24 @@ import type {
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
-  CallLogEventTarget,
-} from '../types/CallDisposition.std.js';
+  CallLogEventTarget} from '../types/CallDisposition.std.js';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
-  DefunctCallLinkType,
-} from '../types/CallLink.std.js';
+  DefunctCallLinkType} from '../types/CallLink.std.js';
 import type {
   AttachmentDownloadJobType,
-  MessageAttachmentType,
-} from '../types/AttachmentDownload.std.js';
+  MessageAttachmentType} from '../types/AttachmentDownload.std.js';
 import type {
   GroupSendEndorsementsData,
-  GroupSendMemberEndorsementRecord,
-} from '../types/GroupSendEndorsements.std.js';
+  GroupSendMemberEndorsementRecord} from '../types/GroupSendEndorsements.std.js';
 import type { SyncTaskType } from '../util/syncTasks.preload.js';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
+
+// STUB: BadgeType removed for Orbital
+type BadgeType = { id: string };
 import type { MediaItemMessageType } from '../types/MediaItem.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -562,8 +556,7 @@ export enum AttachmentDownloadSource {
   // Imported when paid (media) backups were not enabled
   BACKUP_IMPORT_NO_MEDIA = 'backup_import_no_media',
   STANDARD = 'standard',
-  BACKFILL = 'backfill',
-}
+  BACKFILL = 'backfill'}
 
 export type MessageCountBySchemaVersionType = Array<{
   schemaVersion: number;
@@ -1228,7 +1221,7 @@ type WritableInterface = {
   addRecentGif: (gif: GifType, lastUsedAt: number, maxRecents: number) => void;
   removeRecentGif: (gif: Pick<GifType, 'id'>) => void;
 
-  updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): void;
+  updateOrCreateBadges(badges: ReadonlyArray<any>): void;
   badgeImageFileDownloaded(url: string, localPath: string): void;
 
   _deleteAllStoryDistributions(): void;
@@ -1321,8 +1314,7 @@ export type ServerReadableDirectInterface = ReadableInterface & {
     query,
     conversationId,
     options,
-    contactServiceIdsMatchingQuery,
-  }: {
+    contactServiceIdsMatchingQuery}: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };
@@ -1454,8 +1446,7 @@ export type ClientOnlyReadableInterface = ClientInterfaceWrap<{
     query,
     conversationId,
     options,
-    contactServiceIdsMatchingQuery,
-  }: {
+    contactServiceIdsMatchingQuery}: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };

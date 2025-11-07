@@ -16,15 +16,13 @@ type SmartMessageSearchResultProps = {
 };
 
 export const SmartMessageSearchResult = memo(function SmartMessageSearchResult({
-  id,
-}: SmartMessageSearchResultProps) {
+  id}: SmartMessageSearchResultProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const messageSearchResultSelector = useSelector(
     getMessageSearchResultSelector
   );
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const { showConversation } = useConversationsActions();
+    const { showConversation } = useConversationsActions();
 
   const messageResult = messageSearchResultSelector(id);
   if (messageResult == null) {
@@ -33,6 +31,9 @@ export const SmartMessageSearchResult = memo(function SmartMessageSearchResult({
   }
   const { conversationId, snippet, body, bodyRanges, from, to, sentAt } =
     messageResult;
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
 
   return (
     <MessageSearchResult

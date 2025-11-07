@@ -493,7 +493,7 @@ async function checkDistributionListAndAddSKDM({
   const membersByListId = new Map<string, Set<ServiceIdString>>();
   const listsById = new Map<string, StoryDistributionListDataType>();
   storyDistributionLists.distributionLists.forEach(list => {
-    membersByListId.set(list.id, new Set(list.memberServiceIds));
+    membersByListId.set(list.id, new Set(list.memberServiceIds as Array<ServiceIdString>));
     listsById.set(list.id, list);
   });
 

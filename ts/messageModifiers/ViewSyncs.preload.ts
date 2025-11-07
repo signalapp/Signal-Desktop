@@ -6,7 +6,6 @@ import { z } from 'zod';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import * as Errors from '../types/errors.std.js';
 import { createLogger } from '../logging/log.std.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
 import { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
@@ -27,8 +26,7 @@ export const viewSyncTaskSchema = z.object({
   senderE164: z.string().optional(),
   senderId: z.string(),
   timestamp: z.number(),
-  viewedAt: z.number(),
-});
+  viewedAt: z.number()});
 
 export type ViewSyncTaskType = z.infer<typeof viewSyncTaskSchema>;
 
@@ -54,11 +52,9 @@ export async function forMessage(
   const sender = window.ConversationController.lookupOrCreate({
     e164: message.source,
     serviceId: message.sourceServiceId,
-    reason: logId,
-  });
+    reason: logId});
   const messageTimestamp = getMessageSentTimestamp(message, {
-    log,
-  });
+    log});
 
   const viewSyncValues = Array.from(viewSyncs.values());
 
@@ -97,8 +93,7 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
       const sender = window.ConversationController.lookupOrCreate({
         e164: item.source,
         serviceId: item.sourceServiceId,
-        reason: logId,
-      });
+        reason: logId});
 
       return sender?.id === viewSync.senderId;
     });
@@ -124,16 +119,14 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
     }
 
     const giftBadge = message.get('giftBadge');
-    if (giftBadge && giftBadge.state !== GiftBadgeStates.Failed) {
+    if (giftBadge && giftBadge.state !== "removed") {
       didChangeMessage = true;
       message.set({
         giftBadge: {
           ...giftBadge,
           state: isIncoming(message.attributes)
-            ? GiftBadgeStates.Redeemed
-            : GiftBadgeStates.Opened,
-        },
-      });
+            ? "removed"
+            : "removed"}});
     }
 
     if (didChangeMessage) {

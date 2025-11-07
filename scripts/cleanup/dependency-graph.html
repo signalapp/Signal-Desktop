@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Feature Removal - Dependency Graph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .graph {
+            margin-bottom: 40px;
+        }
+        .feature-box {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+        .feature-box.low-risk {
+            border-left: 6px solid #10b981;
+        }
+        .feature-box.medium-risk {
+            border-left: 6px solid #f59e0b;
+        }
+        .feature-box.high-risk {
+            border-left: 6px solid #ef4444;
+        }
+        .feature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+        .risk-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+        }
+        .risk-low { background: #10b981; }
+        .risk-medium { background: #f59e0b; }
+        .risk-high { background: #ef4444; }
+        .feature-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .meta-icon {
+            font-size: 1.2em;
+        }
+        .dependencies {
+            margin-top: 15px;
+        }
+        .dep-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .dep-tag {
+            background: #e5e7eb;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-family: monospace;
+        }
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #9ca3af;
+            margin: 10px 0;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legend-color {
+            width: 40px;
+            height: 20px;
+            border-radius: 5px;
+        }
+        .impact-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .impact-cell {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .impact-header {
+            font-weight: bold;
+            background: #333;
+            color: white;
+        }
+        .impact-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .timeline {
+            margin-top: 40px;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+        .timeline-content {
+            flex: 1;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .warning-title {
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .warning-list {
+            margin-left: 20px;
+            color: #78350f;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Orbital Feature Removal Strategy</h1>
+        <div class="subtitle">Issue #3: Remove Unnecessary Signal Features</div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">927</div>
+                <div class="stat-label">Files to Remove</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Features</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Database Tables</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">313k</div>
+                <div class="stat-label">Current LOC</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #10b981;"></div>
+                <span>Low Risk</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f59e0b;"></div>
+                <span>Medium Risk</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ef4444;"></div>
+                <span>High Risk</span>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 20px;">Removal Order (Safest to Riskiest)</h2>
+
+        <div class="graph">
+            <!-- Badge Feature -->
+            <div class="feature-box low-risk">
+                <div class="feature-header">
+                    <div class="feature-title">1. Badges</div>
+                    <div class="risk-badge risk-low">LOW RISK</div>
+                </div>
+                <div class="feature-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📁</span>
+                        <span><strong>22</strong> files</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span><strong>2-3</strong> hours</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🗄️</span>
+                        <span><strong>2</strong> DB tables</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📦</span>
+                        <span><strong>0</strong> dependencies</span>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>Key Locations:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">ts/badges/</div>
+                        <div class="dep-tag">ts/state/ducks/badges.preload.ts</div>
+                        <div class="dep-tag">ts/services/badgeLoader.preload.ts</div>
+                        <div class="dep-tag">ts/axo/AxoBadge.dom.tsx</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; color: #059669;">
+                    ✅ <strong>Why first?</strong> Smallest footprint, mostly cosmetic, well-isolated module, no protocol impact
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Payments Feature -->
+            <div class="feature-box medium-risk">
+                <div class="feature-header">
+                    <div class="feature-title">2. Payments/Donations</div>
+                    <div class="risk-badge risk-medium">MEDIUM RISK</div>
+                </div>
+                <div class="feature-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📁</span>
+                        <span><strong>211</strong> files</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span><strong>8-12</strong> hours</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🗄️</span>
+                        <span><strong>1</strong> DB table</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📦</span>
+                        <span><strong>3</strong> dependencies</span>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>NPM Packages to Remove:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">card-validator</div>
+                        <div class="dep-tag">credit-card-type</div>
+                        <div class="dep-tag">parsecurrency</div>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>Key Locations:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">ts/components/PaymentEventNotification.dom.tsx</div>
+                        <div class="dep-tag">ts/components/PreferencesDonations.dom.tsx</div>
+                        <div class="dep-tag">ts/state/ducks/donations.preload.ts</div>
+                        <div class="dep-tag">ts/messages/payments.std.ts</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; color: #d97706;">
+                    ⚠️ <strong>Watch out:</strong> Payment messages in timeline history - need graceful handling
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Stories Feature -->
+            <div class="feature-box medium-risk">
+                <div class="feature-header">
+                    <div class="feature-title">3. Stories</div>
+                    <div class="risk-badge risk-medium">MEDIUM-HIGH RISK</div>
+                </div>
+                <div class="feature-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📁</span>
+                        <span><strong>255</strong> files</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span><strong>12-16</strong> hours</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🗄️</span>
+                        <span><strong>3</strong> DB tables</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📦</span>
+                        <span><strong>0</strong> dependencies</span>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>Key Locations:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">ts/state/ducks/stories.preload.ts</div>
+                        <div class="dep-tag">ts/state/ducks/storyDistributionLists.preload.ts</div>
+                        <div class="dep-tag">ts/services/storyLoader.preload.ts</div>
+                        <div class="dep-tag">ts/util/*story*.ts (13+ files)</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; color: #d97706;">
+                    ⚠️ <strong>Watch out:</strong> Story replies in message history, distribution lists, group story mode settings
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Calling Feature -->
+            <div class="feature-box high-risk">
+                <div class="feature-header">
+                    <div class="feature-title">4. Calling/Video</div>
+                    <div class="risk-badge risk-high">HIGH RISK</div>
+                </div>
+                <div class="feature-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📁</span>
+                        <span><strong>439</strong> files</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span><strong>20-30</strong> hours</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🗄️</span>
+                        <span><strong>2</strong> DB tables</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📦</span>
+                        <span><strong>1</strong> dependency (50MB!)</span>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>NPM Packages to Remove:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">@signalapp/ringrtc (~50MB native module)</div>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <strong>Components:</strong>
+                    <div class="dep-list">
+                        <div class="dep-tag">ts/calling/ (10 core files)</div>
+                        <div class="dep-tag">Call*.tsx (52 components)</div>
+                        <div class="dep-tag">Calling*.tsx (30 components)</div>
+                        <div class="dep-tag">GroupCall*.tsx (5 components)</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; color: #dc2626;">
+                    🚨 <strong>Critical:</strong> Touches every system - UI, state, protocol, database. Call events in timeline. Build config impact. Test thoroughly!
+                </div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">Signal Protocol Impact Assessment</h2>
+
+        <div class="impact-matrix">
+            <div class="impact-cell impact-header">Feature</div>
+            <div class="impact-cell impact-header">Protocol Impact</div>
+            <div class="impact-cell impact-header">E2EE Risk</div>
+            <div class="impact-cell impact-header">Safe?</div>
+
+            <div class="impact-cell" style="background: #d1fae5;">Badges</div>
+            <div class="impact-cell" style="background: #d1fae5;">NONE</div>
+            <div class="impact-cell" style="background: #d1fae5;">Zero</div>
+            <div class="impact-cell" style="background: #d1fae5;">✅</div>
+
+            <div class="impact-cell" style="background: #d1fae5;">Payments</div>
+            <div class="impact-cell" style="background: #d1fae5;">NONE</div>
+            <div class="impact-cell" style="background: #d1fae5;">Zero</div>
+            <div class="impact-cell" style="background: #d1fae5;">✅</div>
+
+            <div class="impact-cell" style="background: #fef3c7;">Stories</div>
+            <div class="impact-cell" style="background: #fef3c7;">MINIMAL</div>
+            <div class="impact-cell" style="background: #fef3c7;">Low</div>
+            <div class="impact-cell" style="background: #fef3c7;">⚠️</div>
+
+            <div class="impact-cell" style="background: #fecaca;">Calling</div>
+            <div class="impact-cell" style="background: #fecaca;">MODERATE</div>
+            <div class="impact-cell" style="background: #fecaca;">Medium</div>
+            <div class="impact-cell" style="background: #fecaca;">⚠️</div>
+        </div>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ Critical Warnings</div>
+            <ul class="warning-list">
+                <li><strong>Never remove:</strong> Message encryption/decryption, libsignal, core protocol handling</li>
+                <li><strong>Test after each removal:</strong> Build, types, tests, manual app launch</li>
+                <li><strong>Create git tags:</strong> Before each feature removal for easy rollback</li>
+                <li><strong>Calling removal:</strong> Most complex - plan 3-4 days, test extensively</li>
+                <li><strong>Historical messages:</strong> Keep handlers to gracefully skip old payment/call/story events</li>
+            </ul>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">Timeline Estimate</h2>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background: #10b981;">1</div>
+                <div class="timeline-content">
+                    <strong>Day 1: Badges (2-3 hours)</strong>
+                    <div>Quick win - Remove badges directory, state, UI. Test build. Commit.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background: #f59e0b;">2</div>
+                <div class="timeline-content">
+                    <strong>Day 2: Payments (8-12 hours)</strong>
+                    <div>Remove payment components, services, npm packages. Update message handling. Test.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background: #f59e0b;">3</div>
+                <div class="timeline-content">
+                    <strong>Days 3-4: Stories (12-16 hours)</strong>
+                    <div>Remove Stories tab, distribution lists, Redux state. Update message timeline. Test.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background: #ef4444;">4</div>
+                <div class="timeline-content">
+                    <strong>Days 5-8: Calling (20-30 hours)</strong>
+                    <div>Phase 1: UI removal. Phase 2: State/services. Phase 3: Backend/protocol. Phase 4: RingRTC removal & cleanup. Extensive testing.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">Expected Results</h2>
+
+        <div style="background: #f3f4f6; padding: 20px; border-radius: 10px;">
+            <h3 style="margin-bottom: 15px;">After Complete Removal:</h3>
+            <ul style="line-height: 2; margin-left: 20px;">
+                <li>✅ <strong>~927 files</strong> removed or modified</li>
+                <li>✅ <strong>40k-60k lines</strong> of code removed (30-40% reduction)</li>
+                <li>✅ <strong>Final codebase:</strong> ~180k-220k lines (from 313k)</li>
+                <li>✅ <strong>4 npm packages</strong> removed (including 50MB RingRTC)</li>
+                <li>✅ <strong>10 database tables</strong> removed</li>
+                <li>✅ <strong>Build time:</strong> <60 seconds (from ~90s, 30-40% faster)</li>
+                <li>✅ <strong>Bundle size:</strong> 20-30% smaller</li>
+                <li>✅ <strong>Signal Protocol:</strong> 100% intact and functional</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p><strong>Analysis Date:</strong> 2025-11-07</p>
+            <p><strong>Tool:</strong> <code>/scripts/cleanup/analyze-remaining-features.js</code></p>
+            <p><strong>Documentation:</strong> See <code>/scripts/cleanup/REMOVAL_STRATEGY.md</code> for full details</p>
+            <p style="margin-top: 20px; color: #9ca3af;">Generated for Orbital-Desktop Issue #3</p>
+        </div>
+    </div>
+</body>
+</html>

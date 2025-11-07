@@ -7,7 +7,6 @@ import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
 import { SystemMessage } from './SystemMessage.dom.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { I18n } from '../I18n.dom.js';
 import { ContactName } from './ContactName.dom.js';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog.dom.js';
@@ -25,7 +24,7 @@ export type PropsDataType = {
 };
 
 export type PropsHousekeepingType = {
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getPreferredBadge: any;
   i18n: LocalizerType;
   theme: ThemeType;
 };
@@ -41,8 +40,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
     i18n,
     invitedMembers,
     invitedMemberCount,
-    theme,
-  } = props;
+    theme} = props;
   const [showingDialog, setShowingDialog] = React.useState(false);
 
   const showDialog = React.useCallback(() => {
@@ -70,14 +68,12 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
                     members: invitedMembers,
                     count: invitedMemberCount,
                     i18n,
-                    kind: 'invited',
-                  })}
+                    kind: 'invited'})}
                   {renderUsers({
                     members: droppedMembers,
                     count: droppedMemberCount,
                     i18n,
-                    kind: 'removed',
-                  })}
+                    kind: 'removed'})}
                 </>
               )}
             </p>
@@ -116,8 +112,7 @@ function renderUsers({
   members,
   count,
   i18n,
-  kind,
-}: {
+  kind}: {
   members?: Array<ConversationType>;
   count: number;
   i18n: LocalizerType;

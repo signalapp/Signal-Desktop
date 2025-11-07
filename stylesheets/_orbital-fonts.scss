@@ -1,0 +1,32 @@
+// Copyright 2025 Orbital
+// SPDX-License-Identifier: AGPL-3.0-only
+
+/**
+ * Orbital Font Declarations
+ *
+ * OpenMoji: Standard emoji font for the entire application
+ * https://openmoji.org/
+ */
+
+@font-face {
+  font-family: 'OpenMoji';
+  src: url('/fonts/OpenMoji-color.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  /* Restrict to emoji codepoints only - prevents affecting regular text spacing */
+  unicode-range:
+    U+1F000-1F02F, /* Mahjong/Domino Tiles */
+    U+1F0A0-1F0FF, /* Playing Cards */
+    U+1F100-1F64F, /* Enclosed characters */
+    U+1F680-1F6FF, /* Transport and Map Symbols */
+    U+1F700-1F77F, /* Alchemical Symbols */
+    U+1F780-1F7FF, /* Geometric Shapes Extended */
+    U+1F800-1F8FF, /* Supplemental Arrows-C */
+    U+1F900-1F9FF, /* Supplemental Symbols and Pictographs */
+    U+1FA00-1FA6F, /* Chess Symbols */
+    U+1FA70-1FAFF, /* Symbols and Pictographs Extended-A */
+    U+2600-26FF,   /* Miscellaneous Symbols (weather, zodiac) */
+    U+2700-27BF,   /* Dingbats */
+    U+FE00-FE0F;   /* Variation Selectors */
+}

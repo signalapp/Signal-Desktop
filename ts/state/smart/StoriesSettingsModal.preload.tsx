@@ -1,8 +1,7 @@
-// Copyright 2024 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// Stub: Stories feature removed
+import React from 'react';
 
-export const SmartStoriesSettingsModal = () => {
+export const SmartStoriesSettingsModal = React.memo(function SmartStoriesSettingsModal() {
   return null;
-};
+});

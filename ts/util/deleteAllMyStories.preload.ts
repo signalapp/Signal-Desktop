@@ -1,8 +1,5 @@
-// Copyright 2024 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// Stub: Stories feature removed
-
-export async function deleteAllMyStories(..._args: Array<unknown>): Promise<void> {
+export async function deleteAllMyStories(): Promise<void> {
   // No-op: Stories feature removed
 }

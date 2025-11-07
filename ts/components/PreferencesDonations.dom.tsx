@@ -1,11 +1,16 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Donations feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: PreferencesDonations component removed for Orbital
+// This file provides stub component to maintain compatibility
 
 import React from 'react';
+import type { LocalizerType } from '../types/Util.std.js';
 
-export function PreferencesDonations(): JSX.Element {
+export type Props = {
+  i18n: LocalizerType;
+};
+
+export function PreferencesDonations(_props: Props): JSX.Element {
   return <div>Donations feature removed</div>;
 }

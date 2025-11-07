@@ -1,44 +1,36 @@
-// Copyright 2025 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// REMOVED: Orbital cleanup - Payments feature removed
-// This file exists as a stub to prevent import errors during the transition
+// STUB: Payments feature removed for Orbital
+// This file provides stub functions to maintain compatibility
 
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 
-export type MessageAttributesWithPaymentEvent = {
-  payment?: AnyPaymentEvent;
-  sourceServiceId?: ServiceIdString;
-  conversationId?: string;
-  sendStateByConversationId?: Record<string, unknown>;
+export type MessageAttributesWithPaymentEvent = MessageAttributesType & {
+  payment: AnyPaymentEvent;
 };
 
-export function messageHasPaymentEvent(
-  _message: MessageAttributesWithPaymentEvent
-): boolean {
+export function messageHasPaymentEvent(_attributes: any): boolean {
   return false;
 }
 
-export function getPaymentEventDescription(
-  _event: AnyPaymentEvent,
+export function getPaymentEventNotificationText(
+  _payment: AnyPaymentEvent,
   _senderTitle: string,
-  _conversationTitle: string | null,
-  _i18n: LocalizerType,
-  _isGroup: boolean
+  _conversationTitle: string,
+  _i18n: any,
+  _isFromMe?: boolean
 ): string {
-  // Return empty string for stub
   return '';
 }
 
-export function getPaymentEventNotificationText(
-  _event: AnyPaymentEvent,
+export function getPaymentEventDescription(
+  _payment: AnyPaymentEvent,
   _senderTitle: string,
-  _conversationTitle: string | null,
-  _i18n: LocalizerType,
-  _isGroup: boolean
+  _conversationTitle: string,
+  _i18n: any,
+  _isMe?: boolean
 ): string {
-  // Return empty string for stub
   return '';
 }

@@ -4,6 +4,7 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export function hydrateStoryContext(..._args: Array<unknown>): undefined {
+export async function hydrateStoryContext(..._args: Array<any>): Promise<any> {
+  // Stub - Stories feature removed
   return undefined;
 }

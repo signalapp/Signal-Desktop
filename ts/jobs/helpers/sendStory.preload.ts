@@ -1,9 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export async function sendStory(): Promise<void> {
-  throw new Error('Stories feature has been removed');
+export async function sendStory(..._args: Array<any>): Promise<void> {
+  // Stub - Stories feature removed
 }

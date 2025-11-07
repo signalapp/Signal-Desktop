@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { messageHasPaymentEvent } from '../messages/payments.std.js';
+// REMOVED: import { messageHasPaymentEvent } from '../messages/payments.std.js';
+const messageHasPaymentEvent = (_attributes: any) => false; // STUB: Payments removed
 import type { MessageAttributesType } from '../model-types.d.ts';
 import {
   hasErrors,

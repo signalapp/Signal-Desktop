@@ -5,14 +5,12 @@ import { actions as accounts } from './ducks/accounts.preload.js';
 import { actions as app } from './ducks/app.preload.js';
 import { actions as audioPlayer } from './ducks/audioPlayer.preload.js';
 import { actions as audioRecorder } from './ducks/audioRecorder.preload.js';
-import { actions as badges } from './ducks/badges.preload.js';
 import { actions as callHistory } from './ducks/callHistory.preload.js';
 import { actions as calling } from './ducks/calling.preload.js';
 import { actions as chatFolders } from './ducks/chatFolders.preload.js';
 import { actions as composer } from './ducks/composer.preload.js';
 import { actions as conversations } from './ducks/conversations.preload.js';
 import { actions as crashReports } from './ducks/crashReports.preload.js';
-import { actions as donations } from './ducks/donations.preload.js';
 import { actions as emojis } from './ducks/emojis.preload.js';
 import { actions as expiration } from './ducks/expiration.std.js';
 import { actions as gifs } from './ducks/gifs.preload.js';
@@ -42,14 +40,12 @@ export const actionCreators: ReduxActions = {
   app,
   audioPlayer,
   audioRecorder,
-  badges,
   callHistory,
   calling,
   chatFolders,
   composer,
   conversations,
   crashReports,
-  donations,
   emojis,
   expiration,
   gifs,

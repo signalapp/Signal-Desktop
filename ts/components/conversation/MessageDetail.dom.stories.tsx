@@ -11,7 +11,6 @@ import { MessageDetail } from './MessageDetail.dom.js';
 import { SendStatus } from '../../messages/MessageSendState.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 
 const { i18n } = window.SignalContext;
@@ -19,8 +18,7 @@ const { i18n } = window.SignalContext;
 const defaultMessage: MessageDataPropsType = {
   author: getDefaultConversation({
     id: 'some-id',
-    title: 'Max',
-  }),
+    title: 'Max'}),
   canDeleteForEveryone: true,
   conversationColor: 'crimson',
   conversationId: 'my-convo',
@@ -41,33 +39,29 @@ const defaultMessage: MessageDataPropsType = {
   status: 'sent',
   text: 'A message from Max',
   textDirection: TextDirection.Default,
-  timestamp: Date.now(),
-};
+  timestamp: Date.now()};
 
 export default {
   title: 'Components/Conversation/MessageDetail',
   argTypes: {
     message: { control: { type: 'text' } },
     receivedAt: { control: { type: 'number' } },
-    sentAt: { control: { type: 'number' } },
-  },
+    sentAt: { control: { type: 'number' } }},
   args: {
     contacts: [
       {
         ...getDefaultConversation({
-          title: 'Just Max',
-        }),
+          title: 'Just Max'}),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        status: SendStatus.Delivered,
-      },
+        status: SendStatus.Delivered},
     ],
     errors: [],
     message: defaultMessage,
     receivedAt: Date.now(),
     sentAt: Date.now(),
 
-    getPreferredBadge: () => getFakeBadge(),
+    getPreferredBadge: () => undefined,
     i18n,
     platform: 'darwin',
     interactionMode: 'keyboard',
@@ -100,9 +94,7 @@ export default {
     ),
     showLightbox: action('showLightbox'),
     startConversation: action('startConversation'),
-    viewStory: action('viewStory'),
-  },
-} satisfies Meta<Props>;
+    viewStory: action('viewStory')}} satisfies Meta<Props>;
 
 export function DeliveredIncoming(args: Props): JSX.Element {
   return (
@@ -112,12 +104,10 @@ export function DeliveredIncoming(args: Props): JSX.Element {
         {
           ...getDefaultConversation({
             color: 'A100',
-            title: 'Max',
-          }),
+            title: 'Max'}),
           status: undefined,
           isOutgoingKeyError: false,
-          isUnidentifiedDelivery: false,
-        },
+          isUnidentifiedDelivery: false},
       ]}
     />
   );
@@ -130,8 +120,7 @@ export function DeliveredOutgoing(args: Props): JSX.Element {
       message={{
         ...defaultMessage,
         direction: 'outgoing',
-        text: 'A message to Max',
-      }}
+        text: 'A message to Max'}}
     />
   );
 }
@@ -143,50 +132,39 @@ export function MessageStatuses(args: Props): JSX.Element {
       contacts={[
         {
           ...getDefaultConversation({
-            title: 'Max',
-          }),
+            title: 'Max'}),
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Sent,
-        },
+          status: SendStatus.Sent},
         {
           ...getDefaultConversation({
-            title: 'Sally',
-          }),
+            title: 'Sally'}),
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Pending,
-        },
+          status: SendStatus.Pending},
         {
           ...getDefaultConversation({
-            title: 'Terry',
-          }),
+            title: 'Terry'}),
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Failed,
-        },
+          status: SendStatus.Failed},
         {
           ...getDefaultConversation({
-            title: 'Theo',
-          }),
+            title: 'Theo'}),
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Delivered,
-        },
+          status: SendStatus.Delivered},
         {
           ...getDefaultConversation({
-            title: 'Nikki',
-          }),
+            title: 'Nikki'}),
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Read,
-        },
+          status: SendStatus.Read},
       ]}
       message={{
         ...defaultMessage,
         conversationType: 'group',
-        text: 'A message to you all!',
-      }}
+        text: 'A message to you all!'}}
     />
   );
 }
@@ -200,8 +178,7 @@ export function NotDelivered(args: Props): JSX.Element {
       message={{
         ...defaultMessage,
         direction: 'outgoing',
-        text: 'A message to Max',
-      }}
+        text: 'A message to Max'}}
     />
   );
 }
@@ -214,8 +191,7 @@ export function NoContacts(args: Props): JSX.Element {
       message={{
         ...defaultMessage,
         direction: 'outgoing',
-        text: 'Is anybody there?',
-      }}
+        text: 'Is anybody there?'}}
     />
   );
 }
@@ -227,40 +203,32 @@ export function AllErrors(args: Props): JSX.Element {
       errors={[
         {
           name: 'Another Error',
-          message: 'Wow, that went bad.',
-        },
+          message: 'Wow, that went bad.'},
       ]}
       contacts={[
         {
           ...getDefaultConversation({
-            title: 'Max',
-          }),
+            title: 'Max'}),
           isOutgoingKeyError: true,
           isUnidentifiedDelivery: false,
-          status: SendStatus.Failed,
-        },
+          status: SendStatus.Failed},
         {
           ...getDefaultConversation({
-            title: 'Sally',
-          }),
+            title: 'Sally'}),
           errors: [
             {
               name: 'Big Error',
-              message: 'Stuff happened, in a bad way.',
-            },
+              message: 'Stuff happened, in a bad way.'},
           ],
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: true,
-          status: SendStatus.Failed,
-        },
+          status: SendStatus.Failed},
         {
           ...getDefaultConversation({
-            title: 'Terry',
-          }),
+            title: 'Terry'}),
           isOutgoingKeyError: true,
           isUnidentifiedDelivery: true,
-          status: SendStatus.Failed,
-        },
+          status: SendStatus.Failed},
       ]}
     />
   );

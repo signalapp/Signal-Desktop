@@ -6,22 +6,18 @@ import type {
   FC,
   ForwardedRef,
   HTMLAttributes,
-  ReactNode,
-} from 'react';
+  ReactNode} from 'react';
 import React, {
   createContext,
   forwardRef,
   memo,
   useContext,
   useId,
-  useMemo,
-} from 'react';
+  useMemo} from 'react';
 import type { Transition } from 'framer-motion';
 import { motion } from 'framer-motion';
 import type { TailwindStyles } from '../tw.dom.js';
 import { tw } from '../tw.dom.js';
-import { ExperimentalAxoBadge } from '../AxoBadge.dom.js';
-
 const Namespace = 'AxoBaseSegmentedControl';
 
 /**
@@ -82,8 +78,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     indicatorStyles: tw(
       'pointer-events-none absolute inset-0 z-10 rounded-full',
       'forced-colors:bg-[Highlight]'
-    ),
-  };
+    )};
 
   const Variants: Record<Variant, VariantConfig> = {
     track: {
@@ -92,20 +87,16 @@ export namespace ExperimentalAxoBaseSegmentedControl {
         base.indicatorStyles,
         'bg-fill-primary',
         'shadow-elevation-1'
-      ),
-    },
+      )},
     'no-track': {
       rootStyles: tw(base.rootStyles),
-      indicatorStyles: tw(base.indicatorStyles, 'bg-fill-selected'),
-    },
-  };
+      indicatorStyles: tw(base.indicatorStyles, 'bg-fill-selected')}};
 
   const IndicatorTransition: Transition = {
     type: 'spring',
     stiffness: 422,
     damping: 37.3,
-    mass: 1,
-  };
+    mass: 1};
 
   /**
    * Component: <AxoBaseSegmentedControl.Root>
@@ -114,8 +105,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
 
   const RootWidths: Record<RootWidth, TailwindStyles> = {
     fit: tw('w-fit'),
-    full: tw('w-full'),
-  };
+    full: tw('w-full')};
 
   export type RootProps = HTMLAttributes<HTMLDivElement> &
     Readonly<{
@@ -155,8 +145,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
 
   const ItemWidths: Record<ItemWidth, TailwindStyles> = {
     fit: tw('min-w-0 shrink grow basis-auto'),
-    equal: tw('flex-1'),
-  };
+    equal: tw('flex-1')};
 
   export type ItemProps = ButtonHTMLAttributes<HTMLButtonElement> &
     Readonly<{
@@ -244,24 +233,19 @@ export namespace ExperimentalAxoBaseSegmentedControl {
    * ----------------------------------------------
    */
 
-  export type ExperimentalItemBadgeProps = Omit<
-    ExperimentalAxoBadge.RootProps,
-    'size'
-  >;
+  // Badge component removed - not needed for Orbital
+
+  export type ExperimentalItemBadgeProps = {
+    value?: number;
+    max?: number;
+    maxDisplay?: number;
+    'aria-label'?: string;
+  };
 
   export const ExperimentalItemBadge = memo(
     (props: ExperimentalItemBadgeProps) => {
-      return (
-        <span className={tw('relative z-20 ms-[5px]')}>
-          <ExperimentalAxoBadge.Root
-            size="md"
-            value={props.value}
-            max={props.max}
-            maxDisplay={props.maxDisplay}
-            aria-label={props['aria-label']}
-          />
-        </span>
-      );
+      // Badge feature removed - return null
+      return null;
     }
   );
 

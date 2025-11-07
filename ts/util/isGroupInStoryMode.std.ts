@@ -1,11 +1,9 @@
-// Copyright 2024 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+// STUB: Stories removed
 
-// Stub: Stories feature removed
+import type { ConversationAttributesType } from '../model-types.d';
 
 export function isGroupInStoryMode(
-  _conversation: unknown,
-  _conversationIdsWithStories: Set<string>
-): boolean {
+  _attributes: ConversationAttributesType
+): false {
   return false;
 }

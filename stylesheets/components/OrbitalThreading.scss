@@ -1,0 +1,942 @@
+// Copyright 2025 Orbital
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// =============================================================================
+// ORBITAL THREADING UI STYLES
+// Threaded discussion forum with early 2000s aesthetic
+// =============================================================================
+
+@use '../mixins';
+@use '../orbital-variables' as *;
+
+// =============================================================================
+// THREAD LIST VIEW
+// =============================================================================
+
+.OrbitalThreadList {
+  display: flex;
+  flex-direction: column;
+  // Match ConversationView height constraint (subtract header + title bar drag area)
+  height: calc(100% - 52px - var(--title-bar-drag-area-height));
+  background: $orbital-bg;
+  font-family: $orbital-font-body;
+  font-size: $orbital-font-size-base;
+
+  @include mixins.dark-theme {
+    background: $orbital-dark-bg;
+  }
+
+  &__header {
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-bottom: 1px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-bottom-color: $orbital-dark-border-strong;
+    }
+
+    h2 {
+      font-family: $orbital-font-header;
+      font-size: $orbital-font-size-xl;
+      font-weight: bold;
+      color: $orbital-text-primary;
+      margin: 0;
+      line-height: $orbital-line-height-snug;
+
+      @include mixins.dark-theme {
+        color: $orbital-dark-text-primary;
+      }
+    }
+  }
+
+  // Search Bar - Retro 2000s style
+  &__search {
+    position: relative;
+    padding: $orbital-space-base;
+    padding-top: $orbital-space-sm;
+    padding-bottom: $orbital-space-sm;
+    background: $orbital-surface-elevated;
+    border-bottom: 1px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-bottom-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    padding: 8px 32px 8px 12px; // Extra padding on right for clear button
+    border: 2px inset $orbital-border-strong; // Retro inset border
+    border-radius: $orbital-radius-base;
+    background: white;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    color: $orbital-text-primary;
+    height: 34px;
+    box-sizing: border-box;
+    transition: border-color $orbital-duration-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+      font-style: italic; // Retro placeholder style
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface;
+      color: $orbital-dark-text-primary;
+      border-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__search-clear {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: $orbital-text-tertiary;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $orbital-duration-fast;
+
+    &:hover {
+      background: $orbital-text-secondary;
+    }
+
+    &:active {
+      background: $orbital-text-primary;
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-text-tertiary;
+
+      &:hover {
+        background: $orbital-dark-text-secondary;
+      }
+
+      &:active {
+        background: $orbital-dark-text-primary;
+      }
+    }
+  }
+
+  &__container {
+    flex: 1;
+    overflow-y: auto;
+    padding: $orbital-space-base;
+  }
+
+  // Toggle Buttons - Bottom of sidebar (retro solid button style)
+  &__toggle {
+    display: flex;
+    gap: 0; // No gap, buttons touch
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-top: 2px solid $orbital-border-strong;
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface-elevated;
+      border-top-color: $orbital-dark-border-strong;
+    }
+  }
+
+  &__toggle-button {
+    flex: 1; // Equal width buttons (50/50 split)
+    height: 36px;
+    padding: 8px 12px;
+    background: $orbital-surface;
+    color: $orbital-text-secondary;
+    border: 2px solid $orbital-border-strong;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all $orbital-duration-fast;
+    border-radius: 0; // Remove radius between buttons
+
+    // First button - left rounded corners
+    &:first-child {
+      border-top-left-radius: $orbital-radius-base;
+      border-bottom-left-radius: $orbital-radius-base;
+      border-right-width: 1px; // Half border between buttons
+    }
+
+    // Last button - right rounded corners
+    &:last-child {
+      border-top-right-radius: $orbital-radius-base;
+      border-bottom-right-radius: $orbital-radius-base;
+      border-left-width: 1px; // Half border between buttons
+    }
+
+    &:hover:not(&--active) {
+      background: $orbital-blue-tint-light;
+      border-color: $orbital-blue;
+      color: $orbital-blue;
+    }
+
+    // Active state - solid blue (retro style)
+    &--active {
+      background: $orbital-blue;
+      color: white;
+      border-color: $orbital-blue-dark;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle inset shadow (retro pressed look)
+    }
+
+    @include mixins.dark-theme {
+      background: $orbital-dark-surface;
+      color: $orbital-dark-text-secondary;
+      border-color: $orbital-dark-border-strong;
+
+      &:hover:not(&--active) {
+        background: rgba(107, 168, 240, 0.15);
+        border-color: $orbital-dark-blue;
+        color: $orbital-dark-blue;
+      }
+
+      &--active {
+        background: $orbital-dark-blue;
+        color: white;
+        border-color: $orbital-blue-dark;
+      }
+    }
+  }
+}
+
+// Thread List Item
+.OrbitalThreadItem {
+  background: $orbital-surface-elevated;
+  padding: $orbital-thread-item-padding;
+  margin-bottom: $orbital-space-md;
+  border: 2px double $orbital-border-strong; // Double-line border (retro)
+  border-left: $orbital-thread-item-border-left-width solid transparent;
+  border-radius: $orbital-thread-item-border-radius;
+  cursor: pointer;
+  transition: $orbital-thread-item-transition;
+  font-family: $orbital-font-body;
+
+  &:hover {
+    background: $orbital-blue-tint-light;
+  }
+
+  &--active {
+    border-left-color: $orbital-blue;
+    border-color: $orbital-blue;
+    background: $orbital-blue-tint-light;
+  }
+
+  &--has-new {
+    border-left-color: $orbital-purple;
+    border-color: $orbital-purple;
+  }
+
+  &__title {
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    color: $orbital-text-primary;
+    margin: 0 0 $orbital-space-xs 0;
+    line-height: $orbital-line-height-normal;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+    margin-top: $orbital-space-xs;
+  }
+
+  &__author {
+    font-weight: bold;
+    color: $orbital-text-primary;
+  }
+
+  &__date {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-xs;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    margin-left: auto;
+  }
+
+  &__reply-count {
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+  }
+
+  &__media-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: $orbital-space-xs;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+  }
+
+  &__last-reply {
+    margin-top: $orbital-space-xs;
+    font-size: $orbital-font-size-xs;
+    color: $orbital-text-tertiary;
+  }
+}
+
+// =============================================================================
+// THREAD DETAIL VIEW
+// =============================================================================
+
+.OrbitalThreadDetail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $orbital-bg;
+  font-family: $orbital-font-body;
+
+  &__header {
+    padding: $orbital-space-base;
+    background: $orbital-surface-elevated;
+    border-bottom: 3px double $orbital-border-strong; // Double-line border (retro)
+
+    h1 {
+      font-family: $orbital-font-header;
+      font-size: $orbital-font-size-xl;
+      font-weight: bold;
+      color: $orbital-text-primary;
+      margin: 0 0 $orbital-space-sm 0;
+      line-height: $orbital-line-height-snug;
+    }
+  }
+
+  &__timeline {
+    flex: 1;
+    overflow-y: auto;
+    padding: $orbital-space-base;
+  }
+
+  &__composer-area {
+    border-top: 2px solid $orbital-border-strong;
+    background: $orbital-surface-elevated;
+  }
+}
+
+// =============================================================================
+// THREADED MESSAGES (Reddit-Style Threading with Color-Coded Depth)
+// =============================================================================
+//
+// REDDIT-STYLE THREADING MODEL:
+// - Original Post: Level 0 (no indent)
+// - Top-level contributions (replying to thread): Level 0 (no indent)
+// - Reply to a specific comment: Level 1+ (indented, color-coded)
+//
+// COLOR SYSTEM:
+// Level 0: White background, gray border (original + top-level contributions)
+// Level 1: Light blue, indented 24px (replying to a comment)
+// Level 2: Light purple, indented 48px (nested reply)
+// Level 3: Stronger blue, indented 72px (deeper nesting)
+// Level 4+: Stronger purple, indented 96px max (deepest nesting)
+//
+// =============================================================================
+
+.OrbitalMessage {
+  padding: $orbital-message-padding;
+  border-radius: $orbital-message-border-radius;
+  border: 2px solid $orbital-border-strong; // Thicker border (retro)
+  border-left: $orbital-message-border-left-width solid transparent;
+  transition: $orbital-message-transition;
+  margin-bottom: $orbital-space-md;
+  font-family: $orbital-font-body;
+  font-size: $orbital-font-size-base;
+  line-height: $orbital-line-height-relaxed;
+
+  &:hover {
+    border-color: $orbital-border-strong;
+  }
+
+  // Level 0 - Top-level posts (White background, gray border)
+  &--level-0 {
+    background: $orbital-level-0-bg;
+    border-left-color: $orbital-level-0-border;
+    margin-left: $orbital-level-0-indent;
+  }
+
+  // Level 1 - First-level replies (Light blue)
+  &--level-1 {
+    background: $orbital-level-1-bg;
+    border-left-color: $orbital-level-1-border;
+    margin-left: $orbital-level-1-indent;
+  }
+
+  // Level 2 - Second-level replies (Light purple)
+  &--level-2 {
+    background: $orbital-level-2-bg;
+    border-left-color: $orbital-level-2-border;
+    margin-left: $orbital-level-2-indent;
+  }
+
+  // Level 3 - Third-level replies (Stronger blue)
+  &--level-3 {
+    background: $orbital-level-3-bg;
+    border-left-color: $orbital-level-3-border;
+    margin-left: $orbital-level-3-indent;
+  }
+
+  // Level 4+ - Fourth-level+ replies (Stronger purple, max indent)
+  &--level-4-plus {
+    background: $orbital-level-4-bg;
+    border-left-color: $orbital-level-4-border;
+    margin-left: $orbital-level-4-indent;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-sm;
+    margin-bottom: $orbital-space-sm;
+  }
+
+  // Avatar (48x48 pixel art)
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: $orbital-radius-base;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Border colors based on reply depth (match message level colors)
+    &--level-0 {
+      border-color: $orbital-level-0-border; // Gray
+    }
+
+    &--level-1,
+    &--level-3 {
+      border-color: $orbital-level-1-border; // Blue
+    }
+
+    &--level-2,
+    &--level-4-plus {
+      border-color: $orbital-level-2-border; // Purple
+    }
+  }
+
+  &__avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // Pixelated rendering for crisp retro pixel art
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  &__avatar-placeholder {
+    background: linear-gradient(135deg, $orbital-blue 0%, $orbital-purple 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: $orbital-font-header;
+    user-select: none;
+  }
+
+  &__avatar-initials {
+    display: block;
+    text-align: center;
+  }
+
+  &__author {
+    font-weight: bold;
+    color: $orbital-text-primary;
+    font-size: $orbital-font-size-base;
+  }
+
+  &__contribution-badge {
+    display: inline-block;
+    margin-left: $orbital-space-xs;
+    padding: 1px 4px;
+    font-size: $orbital-font-size-xs;
+    font-weight: normal;
+    color: $orbital-text-tertiary;
+    background: $orbital-surface;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-sm;
+    font-family: $orbital-font-mono;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
+  &__timestamp {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-xs;
+    color: $orbital-text-tertiary;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
+  &__body {
+    color: $orbital-text-primary;
+    font-size: $orbital-font-size-base;
+    line-height: $orbital-line-height-relaxed;
+    margin-bottom: $orbital-space-sm;
+
+    p {
+      margin: 0 0 $orbital-space-sm 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Links - retro style with underline
+    a {
+      color: $orbital-blue;
+      text-decoration: underline;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        color: $orbital-blue-hover;
+      }
+    }
+
+    // Bold emphasis
+    strong, b {
+      font-weight: bold;
+    }
+
+    // Code blocks
+    code {
+      font-family: $orbital-font-mono;
+      background: $orbital-surface;
+      padding: 2px 4px;
+      border-radius: $orbital-radius-sm;
+      font-size: $orbital-font-size-sm;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $orbital-space-base;
+    margin-top: $orbital-space-sm;
+  }
+
+  &__reply-button,
+  &__quote-button {
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-secondary;
+    cursor: pointer;
+    user-select: none;
+    transition: color $orbital-duration-fast;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: $orbital-font-body;
+
+    &:hover {
+      color: $orbital-blue;
+      text-decoration: underline;
+    }
+  }
+
+  // Reply indicator (optional)
+  &__reply-to {
+    font-size: $orbital-font-size-sm;
+    font-family: $orbital-font-mono;
+    color: $orbital-text-tertiary;
+    margin-bottom: $orbital-space-xs;
+
+    &__arrow {
+      margin-right: $orbital-space-xs;
+    }
+
+    &__author {
+      color: $orbital-blue;
+      font-weight: bold;
+    }
+  }
+}
+
+// =============================================================================
+// THREAD COMPOSER
+// =============================================================================
+
+.OrbitalComposer {
+  padding: $orbital-space-lg;
+  padding-bottom: 60px; // Large bottom padding to prevent button cutoff
+  background: $orbital-surface-elevated;
+  font-family: $orbital-font-body;
+
+  &__title-input {
+    width: 100%;
+    padding: $orbital-input-padding-y $orbital-input-padding-x;
+    border: $orbital-input-border-width inset $orbital-border-strong; // Inset border (retro)
+    border-radius: $orbital-input-border-radius;
+    background: white;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    font-weight: bold;
+    color: $orbital-text-primary;
+    transition: $orbital-input-transition;
+    margin-bottom: $orbital-space-md;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+      font-weight: normal;
+    }
+  }
+
+  &__body-input {
+    width: 100%;
+    min-height: 44px; // Single line height for cleaner look
+    max-height: 200px; // Allow growth
+    padding: $orbital-input-padding-y $orbital-input-padding-x;
+    border: $orbital-input-border-width inset $orbital-border-strong; // Inset border (retro)
+    border-radius: $orbital-input-border-radius;
+    background: white;
+    font-family: $orbital-font-body;
+    font-size: $orbital-font-size-base;
+    color: $orbital-text-primary;
+    line-height: $orbital-line-height-relaxed;
+    transition: $orbital-input-transition;
+    resize: vertical;
+    margin-bottom: $orbital-space-md;
+
+    &:focus {
+      outline: none;
+      border-color: $orbital-blue;
+    }
+
+    &::placeholder {
+      color: $orbital-text-tertiary;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $orbital-space-sm;
+  }
+
+  &__tools {
+    display: flex;
+    gap: $orbital-space-sm;
+  }
+
+  &__icon-btn {
+    padding: 6px 12px;
+    border-radius: $orbital-radius-base;
+    background: $orbital-surface-elevated;
+    border: 1px solid $orbital-border-strong;
+    color: $orbital-text-secondary;
+    cursor: pointer;
+    font-size: 18px; // Increased for better emoji visibility
+    transition: all $orbital-duration-fast ease;
+    line-height: 1.2; // Adjusted for OpenMoji metrics
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px; // Ensure consistent button width
+    min-height: 32px; // Ensure consistent button height
+
+    // Override emoji styling when used in buttons
+    .emoji,
+    img.emoji {
+      margin: 0; // Remove default emoji margins in buttons
+      vertical-align: baseline; // Reset vertical align for button context
+      height: 1em; // Match button font-size
+      width: 1em;
+    }
+
+    &:hover {
+      background: $orbital-blue-tint-light;
+      border-color: $orbital-blue;
+    }
+
+    &:active {
+      background: $orbital-blue-tint;
+    }
+  }
+
+  &__button-primary {
+    background: $orbital-blue;
+    color: white;
+    padding: $orbital-btn-padding-y $orbital-btn-padding-x;
+    border: $orbital-btn-border-width solid $orbital-blue-dark;
+    border-radius: $orbital-btn-border-radius;
+    font-family: $orbital-font-body;
+    font-size: $orbital-btn-font-size;
+    font-weight: $orbital-btn-font-weight;
+    cursor: pointer;
+    transition: $orbital-btn-transition;
+
+    &:hover {
+      background: $orbital-blue-hover;
+    }
+
+    &:active {
+      background: $orbital-blue-dark;
+    }
+
+    &:disabled {
+      background: $orbital-text-tertiary;
+      border-color: $orbital-border-subtle;
+      cursor: not-allowed;
+    }
+  }
+
+  &__button-secondary {
+    background: $orbital-purple;
+    color: white;
+    padding: $orbital-btn-padding-y $orbital-btn-padding-x;
+    border: $orbital-btn-border-width solid $orbital-purple-dark;
+    border-radius: $orbital-btn-border-radius;
+    font-family: $orbital-font-body;
+    font-size: $orbital-btn-font-size;
+    font-weight: $orbital-btn-font-weight;
+    cursor: pointer;
+    transition: $orbital-btn-transition;
+
+    &:hover {
+      background: $orbital-purple-hover;
+    }
+
+    &:active {
+      background: $orbital-purple-dark;
+    }
+  }
+
+  &__reply-context {
+    padding: $orbital-space-sm;
+    background: $orbital-surface;
+    border-left: 3px solid $orbital-blue;
+    border-radius: $orbital-radius-sm;
+    margin-bottom: $orbital-space-md;
+    font-size: $orbital-font-size-sm;
+
+    &__label {
+      color: $orbital-text-tertiary;
+      font-size: $orbital-font-size-sm;
+      margin-bottom: $orbital-space-xs;
+    }
+
+    &__author {
+      font-weight: bold;
+      color: $orbital-blue;
+    }
+
+    &__preview {
+      color: $orbital-text-secondary;
+      font-size: $orbital-font-size-sm;
+      line-height: $orbital-line-height-normal;
+      margin-top: $orbital-space-xs;
+    }
+  }
+}
+
+// =============================================================================
+// ASCII ART SEPARATORS & DECORATIVE ELEMENTS
+// =============================================================================
+
+.OrbitalASCII {
+  font-family: $orbital-font-mono;
+  color: $orbital-text-tertiary;
+  text-align: center;
+  font-size: $orbital-ascii-font-size;
+  padding: $orbital-ascii-padding-y $orbital-ascii-padding-x;
+  user-select: none;
+  line-height: $orbital-line-height-tight;
+
+  &--separator {
+    letter-spacing: $orbital-letter-spacing-wide;
+  }
+
+  &--day-separator {
+    padding: $orbital-space-md 0;
+  }
+
+  &--box {
+    padding: $orbital-space-sm;
+    white-space: pre;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-base;
+  }
+}
+
+// Day separator with ASCII
+.OrbitalDaySeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $orbital-space-md 0;
+  margin: $orbital-space-base 0;
+
+  &__text {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Empty state with ASCII
+.OrbitalEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $orbital-space-2xl;
+  text-align: center;
+
+  &__ascii {
+    font-family: $orbital-font-mono;
+    font-size: $orbital-font-size-sm;
+    color: $orbital-text-tertiary;
+    white-space: pre;
+    line-height: $orbital-line-height-tight;
+    margin-bottom: $orbital-space-base;
+    padding: $orbital-space-md;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-base;
+    background: $orbital-surface;
+  }
+
+  &__message {
+    font-size: $orbital-font-size-md;
+    color: $orbital-text-secondary;
+    margin-top: $orbital-space-sm;
+  }
+}
+
+// =============================================================================
+// NOTIFICATIONS & BADGES
+// =============================================================================
+
+.OrbitalBadge {
+  background: $orbital-yellow;
+  color: $orbital-text-primary;
+  font-size: $orbital-badge-font-size;
+  font-weight: $orbital-badge-font-weight;
+  padding: $orbital-badge-padding-y $orbital-badge-padding-x;
+  border-radius: $orbital-badge-border-radius;
+  min-width: $orbital-badge-min-width;
+  text-align: center;
+  border: $orbital-badge-border-width solid $orbital-yellow-dark;
+  display: inline-block;
+}
+
+// @Mention highlighting
+.OrbitalMention {
+  background: $orbital-yellow-tint;
+  color: $orbital-text-primary;
+  padding: 1px 3px;
+  border-radius: $orbital-radius-sm;
+  font-weight: bold;
+  border: 1px solid rgba(255, 199, 0, 0.3);
+}
+
+// Presence indicator
+.OrbitalPresence {
+  width: $orbital-presence-size;
+  height: $orbital-presence-size;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: $orbital-space-xs;
+  border: $orbital-presence-border-width solid $orbital-yellow-dark;
+
+  &--online {
+    background: $orbital-yellow;
+  }
+
+  &--offline {
+    background: $orbital-text-tertiary;
+    border-color: $orbital-border-strong;
+  }
+}
+
+// =============================================================================
+// EMOJI SUPPORT (OpenMoji)
+// =============================================================================
+
+.emoji,
+img.emoji {
+  display: inline-block;
+  height: $orbital-emoji-size;
+  width: $orbital-emoji-size;
+  margin: $orbital-emoji-margin;
+  vertical-align: $orbital-emoji-vertical-align;
+  // Ensure crisp rendering
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  // Prevent emoji from being selected/dragged
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.emoji--large {
+  height: $orbital-emoji-large-size;
+  width: $orbital-emoji-large-size;
+}
+
+// Button-specific emoji adjustments
+button .emoji,
+button img.emoji,
+.OrbitalComposer__icon-btn .emoji,
+.OrbitalComposer__icon-btn img.emoji {
+  margin: 0;
+  vertical-align: middle; // Better for button context
+  // Ensure emoji doesn't cause button height expansion
+  line-height: 0;
+}
+
+
+// =============================================================================
+// ACCESSIBILITY
+// =============================================================================
+
+// Focus indicators
+*:focus {
+  outline: $orbital-focus-outline-width solid $orbital-focus-outline-color;
+  outline-offset: $orbital-focus-outline-offset;
+}
+
+// Screen reader only
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

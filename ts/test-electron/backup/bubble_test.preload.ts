@@ -5,8 +5,6 @@ import { v4 as generateGuid } from 'uuid';
 
 import { SendStatus } from '../../messages/MessageSendState.std.js';
 import type { ConversationModel } from '../../models/conversations.preload.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
-
 import { DataWriter } from '../../sql/Client.preload.js';
 import { getRandomBytes } from '../../Crypto.node.js';
 import * as Bytes from '../../Bytes.std.js';
@@ -19,8 +17,7 @@ import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
-  OUR_ACI,
-} from './helpers.preload.js';
+  OUR_ACI} from './helpers.preload.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { MessageAttributesType } from '../../model-types.d.ts';
@@ -71,8 +68,7 @@ describe('backup/bubble messages', () => {
       'group',
       {
         groupVersion: 1,
-        active_at: 1,
-      }
+        active_at: 1}
     );
 
     await loadAllAndReinitializeRedux();
@@ -102,26 +98,22 @@ describe('backup/bubble messages', () => {
             received_at: 5,
             received_at_ms: 5,
             readStatus: ReadStatus.Unread,
-            unidentifiedDeliveryReceived: true,
-          },
+            unidentifiedDeliveryReceived: true},
           {
             body: 'c',
             timestamp: 4,
             received_at: 4,
             received_at_ms: 4,
             readStatus: ReadStatus.Unread,
-            unidentifiedDeliveryReceived: false,
-          },
+            unidentifiedDeliveryReceived: false},
           {
             body: 'b',
             timestamp: 3,
             received_at: 3,
             received_at_ms: 3,
             readStatus: ReadStatus.Read,
-            unidentifiedDeliveryReceived: false,
-          },
-        ],
-      },
+            unidentifiedDeliveryReceived: false},
+        ]},
     ]);
   });
 
@@ -139,9 +131,7 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
           [contactA.id]: {
-            status: SendStatus.Delivered,
-          },
-        },
+            status: SendStatus.Delivered}},
         unidentifiedDeliveries: [CONTACT_A],
         timestamp: 3,
         editMessageTimestamp: 5,
@@ -155,10 +145,7 @@ describe('backup/bubble messages', () => {
             received_at_ms: 45,
             sendStateByConversationId: {
               [contactA.id]: {
-                status: SendStatus.Delivered,
-              },
-            },
-          },
+                status: SendStatus.Delivered}}},
           {
             body: 'c',
             timestamp: 4,
@@ -166,10 +153,7 @@ describe('backup/bubble messages', () => {
             received_at_ms: 44,
             sendStateByConversationId: {
               [contactA.id]: {
-                status: SendStatus.Viewed,
-              },
-            },
-          },
+                status: SendStatus.Viewed}}},
           {
             body: 'b',
             timestamp: 3,
@@ -177,12 +161,8 @@ describe('backup/bubble messages', () => {
             received_at_ms: 43,
             sendStateByConversationId: {
               [contactA.id]: {
-                status: SendStatus.Viewed,
-              },
-            },
-          },
-        ],
-      },
+                status: SendStatus.Viewed}}},
+        ]},
     ]);
   });
 
@@ -205,9 +185,7 @@ describe('backup/bubble messages', () => {
           level: 100,
           expiration: 1723248000000,
           receiptCredentialPresentation: BADGE_RECEIPT,
-          state: GiftBadgeStates.Opened,
-        },
-      },
+          state: "removed"}},
     ]);
   });
 
@@ -230,9 +208,7 @@ describe('backup/bubble messages', () => {
           level: 100,
           expiration: 1723248000000,
           receiptCredentialPresentation: BADGE_RECEIPT,
-          state: GiftBadgeStates.Opened,
-        },
-      },
+          state: "removed"}},
     ]);
   });
 
@@ -252,8 +228,7 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
           timestamp: 3,
-          body: 'hello',
-        },
+          body: 'hello'},
       ],
       [
         {
@@ -268,8 +243,7 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
           timestamp: 3,
-          body: 'hello',
-        },
+          body: 'hello'},
       ]
     );
   });
@@ -294,9 +268,7 @@ describe('backup/bubble messages', () => {
             level: 100,
             expiration: 1723248000000,
             receiptCredentialPresentation: BADGE_RECEIPT,
-            state: GiftBadgeStates.Opened,
-          },
-        },
+            state: "removed"}},
         {
           conversationId: contactA.id,
           id: generateGuid(),
@@ -316,9 +288,7 @@ describe('backup/bubble messages', () => {
             id: 3,
             isViewOnce: false,
             isGiftBadge: true,
-            referencedMessageNotFound: false,
-          },
-        },
+            referencedMessageNotFound: false}},
       ]);
     });
     it('roundtrips quote with referenced message found', async () => {
@@ -343,9 +313,7 @@ describe('backup/bubble messages', () => {
             isGiftBadge: false,
             text: 'quote text',
             isViewOnce: false,
-            referencedMessageNotFound: false,
-          },
-        },
+            referencedMessageNotFound: false}},
       ]);
     });
     it('roundtrips quote without referenced message found', async () => {
@@ -369,9 +337,7 @@ describe('backup/bubble messages', () => {
           text: 'quote text',
           isViewOnce: false,
           isGiftBadge: false,
-          referencedMessageNotFound: true,
-        },
-      } as const;
+          referencedMessageNotFound: true}} as const;
 
       await asymmetricRoundtripHarness(
         [message],
@@ -381,9 +347,7 @@ describe('backup/bubble messages', () => {
             quote: {
               ...message.quote,
               // id is removed during roundtrip
-              id: null,
-            },
-          },
+              id: null}},
         ]
       );
     });
@@ -409,9 +373,7 @@ describe('backup/bubble messages', () => {
           text: 'quote text',
           isViewOnce: true,
           isGiftBadge: false,
-          referencedMessageNotFound: true,
-        },
-      } as const;
+          referencedMessageNotFound: true}} as const;
 
       await asymmetricRoundtripHarness(
         [message],
@@ -421,9 +383,7 @@ describe('backup/bubble messages', () => {
             quote: {
               ...message.quote,
               // id is removed during roundtrip
-              id: null,
-            },
-          },
+              id: null}},
         ]
       );
     });
@@ -443,8 +403,7 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: false,
         timestamp: 3,
-        body: 'unsealed',
-      },
+        body: 'unsealed'},
       {
         conversationId: contactA.id,
         id: generateGuid(),
@@ -457,8 +416,7 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         timestamp: 4,
-        body: 'sealed',
-      },
+        body: 'sealed'},
     ]);
   });
 
@@ -474,13 +432,10 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
           [contactA.id]: {
-            status: SendStatus.Delivered,
-          },
-        },
+            status: SendStatus.Delivered}},
         unidentifiedDeliveries: undefined,
         timestamp: 3,
-        body: 'unsealed',
-      },
+        body: 'unsealed'},
       {
         conversationId: contactA.id,
         id: generateGuid(),
@@ -493,13 +448,10 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
           [contactA.id]: {
-            status: SendStatus.Delivered,
-          },
-        },
+            status: SendStatus.Delivered}},
         unidentifiedDeliveries: [CONTACT_A],
         timestamp: 4,
-        body: 'sealed',
-      },
+        body: 'sealed'},
     ]);
   });
 
@@ -515,22 +467,17 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
           [contactA.id]: {
-            status: SendStatus.Delivered,
-          },
+            status: SendStatus.Delivered},
           [contactB.id]: {
-            status: SendStatus.Failed,
-          },
-        },
+            status: SendStatus.Failed}},
         errors: [
           {
             serviceId: CONTACT_B,
             name: 'OutgoingIdentityKeyError',
-            message: `The identity of ${CONTACT_B} has changed.`,
-          },
+            message: `The identity of ${CONTACT_B} has changed.`},
         ],
         timestamp: 3,
-        body: 'body',
-      },
+        body: 'body'},
       {
         conversationId: contactA.id,
         id: generateGuid(),
@@ -543,22 +490,17 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
           [contactA.id]: {
-            status: SendStatus.Failed,
-          },
+            status: SendStatus.Failed},
           [contactB.id]: {
-            status: SendStatus.Delivered,
-          },
-        },
+            status: SendStatus.Delivered}},
         errors: [
           {
             serviceId: CONTACT_A,
             name: 'OutgoingMessageError',
-            message: 'no http error',
-          },
+            message: 'no http error'},
         ],
         timestamp: 4,
-        body: 'body',
-      },
+        body: 'body'},
     ]);
   });
 
@@ -577,8 +519,7 @@ describe('backup/bubble messages', () => {
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
-        sms: true,
-      },
+        sms: true},
     ]);
   });
 
@@ -597,8 +538,7 @@ describe('backup/bubble messages', () => {
           body: 'd',
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
-          unidentifiedDeliveryReceived: true,
-        },
+          unidentifiedDeliveryReceived: true},
       ],
       []
     );
@@ -621,8 +561,7 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
           expirationStartTimestamp: Date.now(),
-          expireTimer: DurationInSeconds.fromSeconds(1),
-        },
+          expireTimer: DurationInSeconds.fromSeconds(1)},
       ],
       []
     );
@@ -644,8 +583,7 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         expirationStartTimestamp: Date.now(),
-        expireTimer: DurationInSeconds.fromMillis(WEEK),
-      },
+        expireTimer: DurationInSeconds.fromMillis(WEEK)},
     ]);
   });
 
@@ -665,8 +603,7 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: true,
-          expireTimer: DurationInSeconds.fromDays(1),
-        },
+          expireTimer: DurationInSeconds.fromDays(1)},
       ],
       []
     );
@@ -687,8 +624,7 @@ describe('backup/bubble messages', () => {
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
-        expireTimer: DurationInSeconds.fromDays(1.01),
-      },
+        expireTimer: DurationInSeconds.fromDays(1.01)},
     ]);
   });
 
@@ -711,10 +647,8 @@ describe('backup/bubble messages', () => {
           preview: [
             {
               url: 'https://signal.org',
-              title: 'Signal',
-            },
-          ],
-        },
+              title: 'Signal'},
+          ]},
       ]);
     });
     it('drops preview if URL does not exist in body', async () => {
@@ -730,8 +664,7 @@ describe('backup/bubble messages', () => {
         body: 'no urls here',
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
-        unidentifiedDeliveryReceived: true,
-      };
+        unidentifiedDeliveryReceived: true};
       await asymmetricRoundtripHarness(
         [
           {
@@ -739,16 +672,13 @@ describe('backup/bubble messages', () => {
             preview: [
               {
                 url: 'https://signal.org',
-                title: 'Signal',
-              },
-            ],
-          },
+                title: 'Signal'},
+            ]},
         ],
         [
           {
             ...message,
-            preview: [],
-          },
+            preview: []},
         ]
       );
     });
@@ -766,8 +696,7 @@ describe('backup/bubble messages', () => {
           groupVersion: 2,
           masterKey: Bytes.toBase64(getRandomBytes(32)),
           name: 'Rock Enthusiasts',
-          active_at: 1,
-        }
+          active_at: 1}
       );
       ourConversation = window.ConversationController.get(OUR_ACI);
     });
@@ -789,11 +718,9 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Read,
           seenStatus: SeenStatus.Seen,
           sendStateByConversationId: {
-            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
-          },
+            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 }},
           expirationStartTimestamp: Date.now(),
-          expireTimer: DurationInSeconds.fromMillis(WEEK),
-        },
+          expireTimer: DurationInSeconds.fromMillis(WEEK)},
       ]);
     });
     it(
@@ -815,23 +742,19 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Read,
           seenStatus: SeenStatus.Seen,
           expirationStartTimestamp: Date.now(),
-          expireTimer: DurationInSeconds.fromMillis(WEEK),
-        };
+          expireTimer: DurationInSeconds.fromMillis(WEEK)};
 
         await asymmetricRoundtripHarness(
           [
             {
               ...message,
-              sendStateByConversationId: {},
-            },
+              sendStateByConversationId: {}},
           ],
           [
             {
               ...message,
               sendStateByConversationId: {
-                [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
-              },
-            },
+                [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 }}},
           ]
         );
       }
@@ -852,8 +775,7 @@ describe('backup/bubble messages', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         expirationStartTimestamp: Date.now(),
-        expireTimer: DurationInSeconds.fromMillis(WEEK),
-      };
+        expireTimer: DurationInSeconds.fromMillis(WEEK)};
 
       await asymmetricRoundtripHarness(
         [
@@ -861,17 +783,13 @@ describe('backup/bubble messages', () => {
             ...message,
             sendStateByConversationId: {
               [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
-              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 },
-            },
-          },
+              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 }}},
         ],
         [
           {
             ...message,
             sendStateByConversationId: {
-              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 },
-            },
-          },
+              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 }}},
         ]
       );
     });
@@ -890,17 +808,14 @@ describe('backup/bubble messages', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         expirationStartTimestamp: Date.now(),
-        expireTimer: DurationInSeconds.fromMillis(WEEK),
-      };
+        expireTimer: DurationInSeconds.fromMillis(WEEK)};
       ourConversation.set({ active_at: 3 });
 
       await symmetricRoundtripHarness([
         {
           ...message,
           sendStateByConversationId: {
-            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
-          },
-        },
+            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 }}},
       ]);
     });
   });
@@ -917,8 +832,7 @@ describe('backup/bubble messages', () => {
           groupVersion: 2,
           masterKey: Bytes.toBase64(getRandomBytes(32)),
           name: 'Rock Enthusiasts',
-          active_at: 1,
-        }
+          active_at: 1}
       );
       ourConversation = window.ConversationController.get(OUR_ACI);
     });
@@ -940,28 +854,23 @@ describe('backup/bubble messages', () => {
               color: 4285041620,
               text: 'test',
               textForegroundColor: 4294967295,
-              textStyle: 1,
-            },
-          },
+              textStyle: 1}},
         ],
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         expirationStartTimestamp: Date.now(),
-        expireTimer: DurationInSeconds.fromMillis(WEEK),
-      } satisfies Partial<MessageAttributesType>;
+        expireTimer: DurationInSeconds.fromMillis(WEEK)} satisfies Partial<MessageAttributesType>;
 
       const directStory: MessageAttributesType = {
         ...commonProps,
         id: generateGuid(),
         conversationId: ourConversation.id,
-        storyDistributionListId: MY_STORY_ID,
-      };
+        storyDistributionListId: MY_STORY_ID};
 
       const groupStory: MessageAttributesType = {
         ...commonProps,
         id: generateGuid(),
-        conversationId: group.id,
-      };
+        conversationId: group.id};
 
       await asymmetricRoundtripHarness([directStory, groupStory], []);
     });
@@ -974,8 +883,7 @@ describe('backup/bubble messages', () => {
         timestamp: 3,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
-        conversationId: contactA.id,
-      } satisfies Partial<MessageAttributesType>;
+        conversationId: contactA.id} satisfies Partial<MessageAttributesType>;
 
       const incomingReply: MessageAttributesType = {
         ...commonProps,
@@ -990,9 +898,7 @@ describe('backup/bubble messages', () => {
         },
         storyReplyContext: {
           authorAci: OUR_ACI,
-          messageId: '',
-        },
-      };
+          messageId: ''}};
 
       const outgoingReply: MessageAttributesType = {
         ...commonProps,
@@ -1006,15 +912,11 @@ describe('backup/bubble messages', () => {
         },
         storyReplyContext: {
           authorAci: CONTACT_A,
-          messageId: '',
-        },
+          messageId: ''},
         sendStateByConversationId: {
           [CONTACT_A]: {
             status: SendStatus.Read,
-            updatedAt: 3,
-          },
-        },
-      };
+            updatedAt: 3}}};
 
       await symmetricRoundtripHarness([incomingReply, outgoingReply]);
     });
@@ -1028,8 +930,7 @@ describe('backup/bubble messages', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         conversationId: contactA.id,
-        body: 'text reply to story',
-      } satisfies Partial<MessageAttributesType>;
+        body: 'text reply to story'} satisfies Partial<MessageAttributesType>;
 
       const incomingReply: MessageAttributesType = {
         ...commonProps,
@@ -1039,9 +940,7 @@ describe('backup/bubble messages', () => {
         sourceServiceId: CONTACT_A,
         storyReplyContext: {
           authorAci: OUR_ACI,
-          messageId: '',
-        },
-      };
+          messageId: ''}};
 
       const outgoingReply: MessageAttributesType = {
         ...commonProps,
@@ -1050,15 +949,11 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         storyReplyContext: {
           authorAci: CONTACT_A,
-          messageId: '',
-        },
+          messageId: ''},
         sendStateByConversationId: {
           [CONTACT_A]: {
             status: SendStatus.Read,
-            updatedAt: 3,
-          },
-        },
-      };
+            updatedAt: 3}}};
 
       await symmetricRoundtripHarness([incomingReply, outgoingReply]);
     });
@@ -1074,8 +969,7 @@ describe('backup/bubble messages', () => {
         timestamp: 3,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
-        body: 'text reply to story',
-      } satisfies Partial<MessageAttributesType>;
+        body: 'text reply to story'} satisfies Partial<MessageAttributesType>;
 
       const incomingReply: MessageAttributesType = {
         ...commonProps,
@@ -1085,9 +979,7 @@ describe('backup/bubble messages', () => {
         sourceServiceId: CONTACT_A,
         storyReplyContext: {
           authorAci: OUR_ACI,
-          messageId: '',
-        },
-      };
+          messageId: ''}};
 
       const outgoingReply: MessageAttributesType = {
         ...commonProps,
@@ -1096,15 +988,11 @@ describe('backup/bubble messages', () => {
         sourceServiceId: OUR_ACI,
         storyReplyContext: {
           authorAci: CONTACT_A,
-          messageId: '',
-        },
+          messageId: ''},
         sendStateByConversationId: {
           [CONTACT_A]: {
             status: SendStatus.Read,
-            updatedAt: 3,
-          },
-        },
-      };
+            updatedAt: 3}}};
 
       await asymmetricRoundtripHarness([incomingReply, outgoingReply], []);
     });
@@ -1126,8 +1014,7 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Viewed,
           seenStatus: SeenStatus.Seen,
           unidentifiedDeliveryReceived: false,
-          timestamp: 3,
-        },
+          timestamp: 3},
       ]);
     });
     it('roundtrips incoming unviewed view-once message', async () => {
@@ -1146,8 +1033,7 @@ describe('backup/bubble messages', () => {
               uploadTimestamp: 2001,
               key: Bytes.toBase64(generateAttachmentKeys()),
               digest: Bytes.toBase64(getRandomBytes(32)),
-              caption: 'shhhh',
-            },
+              caption: 'shhhh'},
           ],
           received_at: 3,
           received_at_ms: 3,
@@ -1156,8 +1042,7 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: false,
-          timestamp: 3,
-        },
+          timestamp: 3},
       ]);
     });
     it('roundtrips outgoing view-once message', async () => {
@@ -1175,12 +1060,9 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Seen,
           sendStateByConversationId: {
             [contactA.id]: {
-              status: SendStatus.Delivered,
-            },
-          },
+              status: SendStatus.Delivered}},
           unidentifiedDeliveries: [CONTACT_A],
-          timestamp: 3,
-        },
+          timestamp: 3},
       ]);
     });
   });
