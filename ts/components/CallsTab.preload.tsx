@@ -49,7 +49,6 @@ type CallsTabProps = Readonly<{
   getConversation: (id: string) => ConversationType | void;
   hangUpActiveCall: (reason: string) => void;
   hasAnyAdminCallLinks: boolean;
-  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
   navTabsCollapsed: boolean;
@@ -105,7 +104,6 @@ export function CallsTab({
   getConversation,
   hangUpActiveCall,
   hasAnyAdminCallLinks,
-  hasFailedStorySends,
   hasPendingUpdate,
   i18n,
   navTabsCollapsed,
@@ -209,7 +207,6 @@ export function CallsTab({
               : i18n('icu:CallsTab__HeaderTitle--NewCall')
           }
           otherTabsUnreadStats={otherTabsUnreadStats}
-          hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}
           onBack={

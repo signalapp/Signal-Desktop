@@ -6,6 +6,6 @@
 
 import React from 'react';
 
-export function StoryLinkPreview(): JSX.Element {
+export function StoryLinkPreview(_props: any): JSX.Element {
   return <></>;
 }

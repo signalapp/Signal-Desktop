@@ -16,7 +16,6 @@ const { i18n } = window.SignalContext;
 const createProps = (
   overrideProps: Partial<NavTabsProps> = {}
 ): NavTabsProps => ({
-  hasFailedStorySends: Boolean(overrideProps.hasFailedStorySends),
   hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
   i18n,
   me: getDefaultConversation(),
@@ -27,11 +26,9 @@ const createProps = (
   profileMovedModalNeeded: false,
   renderCallsTab: () => <div>Calls Tab goes here</div>,
   renderChatsTab: () => <div>Chats Tab goes here</div>,
-  renderStoriesTab: () => <div>Stories Tab goes here</div>,
   renderSettingsTab: () => <div>Settings Tab goes here</div>,
   selectedNavTab: overrideProps.selectedNavTab ?? NavTab.Chats,
   shouldShowProfileIcon: Boolean(overrideProps.shouldShowProfileIcon),
-  storiesEnabled: Boolean(overrideProps.storiesEnabled),
   theme: overrideProps.theme ?? ThemeType.light,
   unreadCallsCount: overrideProps.unreadCallsCount ?? 0,
   unreadConversationsStats: overrideProps.unreadConversationsStats ?? {
@@ -39,7 +36,6 @@ const createProps = (
     unreadMentionsCount: 0,
     readChatsMarkedUnreadCount: 0,
   },
-  unreadStoriesCount: overrideProps.unreadStoriesCount ?? 0,
 });
 
 export default {

@@ -19,7 +19,6 @@ import { isStagingServer } from '../../util/isStagingServer.dom.js';
 import { ToastType } from '../../types/Toast.dom.js';
 import { getNavTabsCollapsed } from '../selectors/items.dom.js';
 import { useItemsActions } from '../ducks/items.preload.js';
-import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
 import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
 import {
@@ -43,7 +42,6 @@ function renderMiniPlayer(options: { shouldFlow: boolean }) {
 export const SmartChatsTab = memo(function SmartChatsTab() {
   const i18n = useSelector(getIntl);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const selectedConversationId = useSelector(getSelectedConversationId);
@@ -139,7 +137,6 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       otherTabsUnreadStats={otherTabsUnreadStats}
       i18n={i18n}
       isStaging={isStagingServer()}
-      hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}

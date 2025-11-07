@@ -827,7 +827,6 @@ export const getGroupStories = createSelector(
       )
       .map(conversation => ({
         ...conversation,
-        // @ts-expect-error - Stub function signature changed, arguments ignored
         hasStories: hasStoriesSelector(conversation.id),
       }));
   }

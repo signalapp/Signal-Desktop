@@ -165,7 +165,6 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
-  hasFailedStorySends: boolean;
   initialSpellCheckSetting: boolean;
   me: ConversationType;
   navTabsCollapsed: boolean;
@@ -396,7 +395,6 @@ export function Preferences({
   hasCallRingtoneNotification,
   hasContentProtection,
   hasCountMutedConversations,
-  hasFailedStorySends,
   hasHideMenuBar,
   hasIncomingCallNotifications,
   hasLinkPreviews,
@@ -2200,7 +2198,6 @@ export function Preferences({
           title={i18n('icu:Preferences--header')}
           i18n={i18n}
           otherTabsUnreadStats={otherTabsUnreadStats}
-          hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={false}
           navTabsCollapsed={navTabsCollapsed}
           onToggleNavTabsCollapse={onToggleNavTabsCollapse}

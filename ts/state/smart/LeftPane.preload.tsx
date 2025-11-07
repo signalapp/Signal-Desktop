@@ -281,7 +281,6 @@ async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
 }
 
 export const SmartLeftPane = memo(function SmartLeftPane({
-  hasFailedStorySends,
   hasPendingUpdate,
   otherTabsUnreadStats}: NavTabPanelProps) {
   const version = window.SignalContext.getVersion();
@@ -432,7 +431,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       getServerAlertToShow={getServerAlertToShow}
       hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
       hasExpiredDialog={hasExpiredDialog}
-      hasFailedStorySends={hasFailedStorySends}
       hasNetworkDialog={hasNetworkDialog}
       hasPendingUpdate={hasPendingUpdate}
       hasRelinkDialog={hasRelinkDialog}

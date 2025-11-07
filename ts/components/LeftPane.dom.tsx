@@ -78,7 +78,6 @@ export type PropsType = {
   otherTabsUnreadStats: UnreadStats;
   hasAnyCurrentCustomChatFolders: boolean;
   hasExpiredDialog: boolean;
-  hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
   hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
@@ -231,7 +230,6 @@ export function LeftPane({
   getServerAlertToShow,
   hasAnyCurrentCustomChatFolders,
   hasExpiredDialog,
-  hasFailedStorySends,
   hasNetworkDialog,
   hasPendingUpdate,
   hasRelinkDialog,
@@ -748,7 +746,6 @@ export function LeftPane({
       hideHeader={hideHeader}
       i18n={i18n}
       otherTabsUnreadStats={otherTabsUnreadStats}
-      hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}

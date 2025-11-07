@@ -400,7 +400,6 @@ export default {
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
     hasCountMutedConversations: false,
-    hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
     hasLinkPreviews: true,
@@ -1178,7 +1177,6 @@ NavTabsCollapsed.args = {
 export const NavTabsCollapsedWithBadges = Template.bind({});
 NavTabsCollapsedWithBadges.args = {
   navTabsCollapsed: true,
-  hasFailedStorySends: false,
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,
@@ -1189,7 +1187,6 @@ NavTabsCollapsedWithBadges.args = {
 export const NavTabsCollapsedWithExclamation = Template.bind({});
 NavTabsCollapsedWithExclamation.args = {
   navTabsCollapsed: true,
-  hasFailedStorySends: true,
   otherTabsUnreadStats: {
     unreadCount: 1,
     unreadMentionsCount: 2,

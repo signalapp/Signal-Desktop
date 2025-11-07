@@ -8,3 +8,6 @@ export function findStoryMessage(..._args: Array<any>): any {
   // Stub - Stories feature removed
   return undefined;
 }
+
+// Alias for compatibility with plural import
+export const findStoryMessages = findStoryMessage;

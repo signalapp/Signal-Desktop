@@ -24,7 +24,6 @@ export default {
     },
     isStaging: false,
     hasPendingUpdate: false,
-    hasFailedStorySends: false,
     navTabsCollapsed: false,
     onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
     renderConversationView: () => <>{null}</>,
