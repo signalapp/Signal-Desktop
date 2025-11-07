@@ -13,7 +13,6 @@ import type { actions as chatFolders } from './ducks/chatFolders.preload.js';
 import type { actions as composer } from './ducks/composer.preload.js';
 import type { actions as conversations } from './ducks/conversations.preload.js';
 import type { actions as crashReports } from './ducks/crashReports.preload.js';
-import type { actions as donations } from './ducks/donations.preload.js';
 import type { actions as emojis } from './ducks/emojis.preload.js';
 import type { actions as expiration } from './ducks/expiration.std.js';
 import type { actions as gifs } from './ducks/gifs.preload.js';
@@ -48,7 +47,6 @@ export type ReduxActions = {
   composer: typeof composer;
   conversations: typeof conversations;
   crashReports: typeof crashReports;
-  donations: typeof donations;
   emojis: typeof emojis;
   expiration: typeof expiration;
   gifs: typeof gifs;

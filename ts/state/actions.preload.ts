@@ -11,7 +11,6 @@ import { actions as chatFolders } from './ducks/chatFolders.preload.js';
 import { actions as composer } from './ducks/composer.preload.js';
 import { actions as conversations } from './ducks/conversations.preload.js';
 import { actions as crashReports } from './ducks/crashReports.preload.js';
-import { actions as donations } from './ducks/donations.preload.js';
 import { actions as emojis } from './ducks/emojis.preload.js';
 import { actions as expiration } from './ducks/expiration.std.js';
 import { actions as gifs } from './ducks/gifs.preload.js';
@@ -47,7 +46,6 @@ export const actionCreators: ReduxActions = {
   composer,
   conversations,
   crashReports,
-  donations,
   emojis,
   expiration,
   gifs,

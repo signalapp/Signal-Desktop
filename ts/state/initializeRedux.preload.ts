@@ -7,7 +7,6 @@ import { createStore } from './createStore.preload.js';
 import { getInitialState } from './getInitialState.preload.js';
 
 import type { CallHistoryDetails } from '../types/CallDisposition.std.js';
-import type { DonationsStateType } from './ducks/donations.preload.js';
 import type { MainWindowStatsType } from '../windows/context.preload.js';
 import type { MenuOptionsType } from '../types/menu.std.js';
 import type { StoryDataType } from './ducks/stories.preload.js'; // Stub only
@@ -25,7 +24,6 @@ export type ReduxInitData = {
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
   chatFolders: ReadonlyArray<CurrentChatFolder>;
-  donations: DonationsStateType;
   gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
@@ -67,7 +65,6 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
-    donations: bindActionCreators(actionCreators.donations, store.dispatch),
     emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
     expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
     gifs: bindActionCreators(actionCreators.gifs, store.dispatch),

@@ -15,10 +15,6 @@ import {
   getDistributionListsForRedux,
   loadDistributionLists,
 } from './distributionListLoader.preload.js'; // Stub only
-import {
-  getDonationsForRedux,
-  loadDonationReceipts,
-} from './donationsLoader.preload.js';
 import { getStoriesForRedux, loadStories } from './storyLoader.preload.js'; // Stub only
 import { getUserDataForRedux, loadUserData } from './userLoader.dom.js';
 import {
@@ -50,7 +46,6 @@ export async function loadAll(): Promise<void> {
     loadCallLinks(),
     loadChatFolders(),
     loadDistributionLists(), // Stub only
-    loadDonationReceipts(),
     loadGifsState(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
@@ -73,7 +68,6 @@ export function getParametersForRedux(): ReduxInitData {
     callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
     callLinks: getCallLinksForRedux(),
     chatFolders: getChatFoldersForRedux(),
-    donations: getDonationsForRedux(),
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,

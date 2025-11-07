@@ -13,7 +13,6 @@ import { reducer as chatFolders } from './ducks/chatFolders.preload.js';
 import { reducer as composer } from './ducks/composer.preload.js';
 import { reducer as conversations } from './ducks/conversations.preload.js';
 import { reducer as crashReports } from './ducks/crashReports.preload.js';
-import { reducer as donations } from './ducks/donations.preload.js';
 import { reducer as emojis } from './ducks/emojis.preload.js';
 import { reducer as expiration } from './ducks/expiration.std.js';
 import { reducer as gifs } from './ducks/gifs.preload.js';
@@ -49,7 +48,6 @@ export const reducer = combineReducers({
   composer,
   conversations,
   crashReports,
-  donations,
   emojis,
   expiration,
   gifs,

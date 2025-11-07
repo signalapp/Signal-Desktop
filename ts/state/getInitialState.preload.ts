@@ -14,7 +14,6 @@ import {
 import { getEmptyState as composerEmptyState } from './ducks/composer.preload.js';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations.preload.js';
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.preload.js';
-import { getEmptyState as donationsEmptyState } from './ducks/donations.preload.js';
 import { getEmptyState as emojiEmptyState } from './ducks/emojis.preload.js';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration.std.js';
 import { getEmptyState as gifsEmptyState } from './ducks/gifs.preload.js';
@@ -67,7 +66,6 @@ export function getInitialState(
     callHistory: calls,
     callHistoryUnreadCount,
     chatFolders,
-    donations,
     gifs,
     mainWindowStats,
     menuOptions,
@@ -96,7 +94,6 @@ export function getInitialState(
       callLinks: makeLookup(callLinks, 'roomId'),
     },
     chatFolders: getInitialChatFoldersState(chatFolders),
-    donations,
     emojis: recentEmoji,
     gifs,
     items,
@@ -152,7 +149,6 @@ function getEmptyState(): StateType {
     composer: composerEmptyState(),
     conversations: generateConversationsState(),
     crashReports: crashReportsEmptyState(),
-    donations: donationsEmptyState(),
     emojis: emojiEmptyState(),
     gifs: gifsEmptyState(),
     expiration: expirationEmptyState(),
