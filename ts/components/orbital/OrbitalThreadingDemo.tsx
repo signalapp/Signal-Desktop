@@ -11,6 +11,7 @@ import { OrbitalThreadDetail, type OrbitalMessageType } from './OrbitalThreadDet
  *
  * This demo illustrates:
  * - Thread list with day separators
+ * - Reddit-style threading model (top-level contributions stay flat)
  * - Color-coded reply depth system (Blue → Purple → Blue → Purple)
  * - Retro 2000s styling
  * - Thread composer
@@ -138,12 +139,18 @@ const MOCK_THREADS: ReadonlyArray<OrbitalThread> = [
 ];
 
 /**
- * Mock messages demonstrating the color-coded depth system
+ * Mock messages demonstrating the Reddit-style threading model
  *
- * Level 0: White background, gray border (top-level)
- * Level 1: Light blue (8%), blue border ← FIRST REPLY
- * Level 2: Light purple (8%), purple border ← NESTED REPLY
- * Level 3: Stronger blue (12%), blue border ← DEEPER NESTING
+ * REDDIT-STYLE THREADING:
+ * - Original Post: Level 0 (white background, no indent)
+ * - Top-level contributions (replying to thread, not to comments): Level 0 (white background, no indent)
+ * - Reply to a specific comment: Level 1+ (indented, color-coded)
+ *
+ * COLOR SYSTEM:
+ * Level 0: White background, gray border (original post AND top-level contributions)
+ * Level 1: Light blue (8%), blue border (replying to a comment)
+ * Level 2: Light purple (8%), purple border (nested reply)
+ * Level 3: Stronger blue (12%), blue border (deeper nesting)
  * Level 4+: Stronger purple (12%), purple border (max indent 96px)
  */
 const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
@@ -239,6 +246,7 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
     },
   ],
   'thread-2': [
+    // Original post (Level 0)
     {
       id: 'msg-2-1',
       author: 'Dad',
@@ -248,13 +256,15 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       level: 0,
       hasMedia: false,
     },
+    // REDDIT-STYLE: Multiple people contributing to thread (all Level 0 - no nesting!)
+    // These are NOT replies to each other, they're independent contributions to the thread
     {
       id: 'msg-2-2',
       author: 'Mom',
       authorId: 'user-mom',
       timestamp: Date.now() - 4 * 60 * 60 * 1000,
       body: "I'm in! Saturday or Sunday?",
-      level: 1,
+      level: 0, // CHANGED: Top-level contribution, not a nested reply
       parentId: 'msg-2-1',
       hasMedia: false,
     },
@@ -262,20 +272,181 @@ const MOCK_MESSAGES: Record<string, ReadonlyArray<OrbitalMessageType>> = {
       id: 'msg-2-3',
       author: 'Grandma',
       authorId: 'user-grandma',
-      timestamp: Date.now() - 3 * 60 * 60 * 1000,
+      timestamp: Date.now() - 3 * 60 * 60 * 1000 + 30 * 60 * 1000,
       body: 'Saturday works better for me!',
-      level: 2,
-      parentId: 'msg-2-2',
+      level: 0, // CHANGED: Another top-level contribution
+      parentId: 'msg-2-1',
       hasMedia: false,
     },
     {
       id: 'msg-2-4',
       author: 'Uncle',
       authorId: 'user-uncle',
-      timestamp: Date.now() - 1 * 60 * 60 * 1000,
-      body: "Saturday it is! I'll bring dessert!",
-      level: 1,
+      timestamp: Date.now() - 3 * 60 * 60 * 1000,
+      body: "Count me in! I'll bring dessert!",
+      level: 0, // CHANGED: Top-level contribution
       parentId: 'msg-2-1',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-2-5',
+      author: 'Aunt Sarah',
+      authorId: 'user-aunt',
+      timestamp: Date.now() - 2 * 60 * 60 * 1000,
+      body: 'We can host at our place if you want! We have plenty of space.',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-2-1',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-2-6',
+      author: 'Cousin',
+      authorId: 'user-cousin',
+      timestamp: Date.now() - 1 * 60 * 60 * 1000 + 30 * 60 * 1000,
+      body: 'Can I bring my famous mac and cheese?',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-2-1',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-2-7',
+      author: 'Dad',
+      authorId: 'user-dad',
+      timestamp: Date.now() - 1 * 60 * 60 * 1000,
+      body: 'Sounds like a plan! Saturday at Sarah and John\'s place. See you all at 6pm!',
+      level: 0, // CHANGED: Top-level contribution (Dad wrapping up)
+      parentId: 'msg-2-1',
+      hasMedia: false,
+    },
+  ],
+  'thread-3': [
+    // Original post
+    {
+      id: 'msg-3-1',
+      author: 'Aunt Sarah',
+      authorId: 'user-aunt',
+      timestamp: Date.now() - 24 * 60 * 60 * 1000,
+      body: 'Just got back from our vacation! Here are some photos from the beach.',
+      level: 0,
+      hasMedia: true,
+      mediaType: 'image',
+      mediaUrl: 'https://via.placeholder.com/400x300/9B87F5/FFFFFF?text=Beach+Photo',
+    },
+    // REDDIT-STYLE: First wave of reactions (all level 0 - top-level contributions)
+    {
+      id: 'msg-3-2',
+      author: 'Mom',
+      authorId: 'user-mom',
+      timestamp: Date.now() - 23 * 60 * 60 * 1000,
+      body: 'Gorgeous! The water looks so clear!',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-3-1',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-3-3',
+      author: 'Grandma',
+      authorId: 'user-grandma',
+      timestamp: Date.now() - 23 * 60 * 60 * 1000 + 15 * 60 * 1000,
+      body: 'What a beautiful sunset! Where was this taken?',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-3-1',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-3-4',
+      author: 'Uncle',
+      authorId: 'user-uncle',
+      timestamp: Date.now() - 23 * 60 * 60 * 1000 + 20 * 60 * 1000,
+      body: 'The kids look like they had a blast!',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-3-1',
+      hasMedia: false,
+    },
+    // Now Mom's comment gets a NESTED reply (level 1+)
+    {
+      id: 'msg-3-5',
+      author: 'Aunt Sarah',
+      authorId: 'user-aunt',
+      timestamp: Date.now() - 22 * 60 * 60 * 1000,
+      body: 'It was crystal clear! Best snorkeling ever.',
+      level: 1, // CHANGED from 2 to 1: First nesting level (replying to Mom's comment)
+      parentId: 'msg-3-2',
+      hasMedia: false,
+    },
+    // Mom and Dad have a side conversation (nested deeper)
+    {
+      id: 'msg-3-6',
+      author: 'Mom',
+      authorId: 'user-mom',
+      timestamp: Date.now() - 21 * 60 * 60 * 1000,
+      body: 'We should plan a beach trip too! Emma would love it.',
+      level: 2, // CHANGED from 3 to 2: Replying to Aunt's comment
+      parentId: 'msg-3-5',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-3-7',
+      author: 'Dad',
+      authorId: 'user-dad',
+      timestamp: Date.now() - 20 * 60 * 60 * 1000,
+      body: 'I was thinking the same thing! Maybe next summer?',
+      level: 3, // CHANGED from 4 to 3: Replying to Mom's nested comment
+      parentId: 'msg-3-6',
+      hasMedia: false,
+    },
+    // Meanwhile, Grandma's question gets answered (another branch)
+    {
+      id: 'msg-3-8',
+      author: 'Aunt Sarah',
+      authorId: 'user-aunt',
+      timestamp: Date.now() - 20 * 60 * 60 * 1000,
+      body: 'This was at Maui! Stayed there for a week.',
+      level: 1, // CHANGED from 2 to 1: Replying to Grandma's comment
+      parentId: 'msg-3-3',
+      hasMedia: false,
+    },
+    {
+      id: 'msg-3-9',
+      author: 'Grandma',
+      authorId: 'user-grandma',
+      timestamp: Date.now() - 19 * 60 * 60 * 1000,
+      body: 'Oh how wonderful! I went there in the 80s. Still beautiful!',
+      level: 2, // CHANGED from 3 to 2: Replying to Aunt's nested answer
+      parentId: 'msg-3-8',
+      hasMedia: false,
+    },
+    // More top-level contributions
+    {
+      id: 'msg-3-10',
+      author: 'Cousin',
+      authorId: 'user-cousin',
+      timestamp: Date.now() - 18 * 60 * 60 * 1000,
+      body: 'Love the sandcastle pic! Did the kids build that?',
+      level: 0, // CHANGED: Top-level contribution
+      parentId: 'msg-3-1',
+      hasMedia: false,
+    },
+    // Cousin's question gets a nested answer
+    {
+      id: 'msg-3-11',
+      author: 'Aunt Sarah',
+      authorId: 'user-aunt',
+      timestamp: Date.now() - 17 * 60 * 60 * 1000,
+      body: 'Yes! Took them 2 hours but they were so proud!',
+      level: 1, // CHANGED from 2 to 1: Replying to Cousin's comment
+      parentId: 'msg-3-10',
+      hasMedia: false,
+    },
+    // Another top-level contribution
+    {
+      id: 'msg-3-12',
+      author: 'Dad',
+      authorId: 'user-dad',
+      timestamp: Date.now() - 16 * 60 * 60 * 1000,
+      body: 'Thanks for sharing! These photos are making me jealous 😄',
+      level: 0, // UNCHANGED: Already a top-level contribution
+      parentId: 'msg-3-1',
       hasMedia: false,
     },
   ],

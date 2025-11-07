@@ -58,3 +58,8 @@ ts/protobuf/*.d.ts
 # Cleanup analysis and temporary files
 /scripts/cleanup/reports/
 /scripts/cleanup/backups/
+
+# Playwright test results
+/test-results/
+/playwright-report/
+/playwright/.cache/

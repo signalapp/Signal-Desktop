@@ -61,7 +61,7 @@
   background: $orbital-surface-elevated;
   padding: $orbital-thread-item-padding;
   margin-bottom: $orbital-space-md;
-  border: $orbital-thread-item-border-width solid $orbital-border-subtle;
+  border: 2px double $orbital-border-strong; // Double-line border (retro)
   border-left: $orbital-thread-item-border-left-width solid transparent;
   border-radius: $orbital-thread-item-border-radius;
   cursor: pointer;
@@ -146,7 +146,7 @@
   &__header {
     padding: $orbital-space-base;
     background: $orbital-surface-elevated;
-    border-bottom: 2px solid $orbital-border-strong;
+    border-bottom: 3px double $orbital-border-strong; // Double-line border (retro)
 
     h1 {
       font-family: $orbital-font-header;
@@ -171,13 +171,27 @@
 }
 
 // =============================================================================
-// THREADED MESSAGES (Color-Coded Depth System)
+// THREADED MESSAGES (Reddit-Style Threading with Color-Coded Depth)
+// =============================================================================
+//
+// REDDIT-STYLE THREADING MODEL:
+// - Original Post: Level 0 (no indent)
+// - Top-level contributions (replying to thread): Level 0 (no indent)
+// - Reply to a specific comment: Level 1+ (indented, color-coded)
+//
+// COLOR SYSTEM:
+// Level 0: White background, gray border (original + top-level contributions)
+// Level 1: Light blue, indented 24px (replying to a comment)
+// Level 2: Light purple, indented 48px (nested reply)
+// Level 3: Stronger blue, indented 72px (deeper nesting)
+// Level 4+: Stronger purple, indented 96px max (deepest nesting)
+//
 // =============================================================================
 
 .OrbitalMessage {
   padding: $orbital-message-padding;
   border-radius: $orbital-message-border-radius;
-  border: $orbital-message-border-width solid $orbital-border-subtle;
+  border: 2px solid $orbital-border-strong; // Thicker border (retro)
   border-left: $orbital-message-border-left-width solid transparent;
   transition: $orbital-message-transition;
   margin-bottom: $orbital-space-md;
@@ -237,6 +251,20 @@
     font-size: $orbital-font-size-base;
   }
 
+  &__contribution-badge {
+    display: inline-block;
+    margin-left: $orbital-space-xs;
+    padding: 1px 4px;
+    font-size: $orbital-font-size-xs;
+    font-weight: normal;
+    color: $orbital-text-tertiary;
+    background: $orbital-surface;
+    border: 1px solid $orbital-border-subtle;
+    border-radius: $orbital-radius-sm;
+    font-family: $orbital-font-mono;
+    letter-spacing: $orbital-letter-spacing-tight;
+  }
+
   &__timestamp {
     font-family: $orbital-font-mono;
     font-size: $orbital-font-size-xs;
@@ -292,15 +320,21 @@
     margin-top: $orbital-space-sm;
   }
 
-  &__reply-button {
+  &__reply-button,
+  &__quote-button {
     font-size: $orbital-font-size-sm;
     color: $orbital-text-secondary;
     cursor: pointer;
     user-select: none;
     transition: color $orbital-duration-fast;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: $orbital-font-body;
 
     &:hover {
       color: $orbital-blue;
+      text-decoration: underline;
     }
   }
 
@@ -335,9 +369,9 @@
   &__title-input {
     width: 100%;
     padding: $orbital-input-padding-y $orbital-input-padding-x;
-    border: $orbital-input-border-width solid $orbital-border-strong;
+    border: $orbital-input-border-width inset $orbital-border-strong; // Inset border (retro)
     border-radius: $orbital-input-border-radius;
-    background: $orbital-surface-elevated;
+    background: white;
     font-family: $orbital-font-body;
     font-size: $orbital-font-size-base;
     font-weight: bold;
@@ -361,9 +395,9 @@
     min-height: 44px; // Single line height for cleaner look
     max-height: 200px; // Allow growth
     padding: $orbital-input-padding-y $orbital-input-padding-x;
-    border: $orbital-input-border-width solid $orbital-border-strong;
+    border: $orbital-input-border-width inset $orbital-border-strong; // Inset border (retro)
     border-radius: $orbital-input-border-radius;
-    background: $orbital-surface-elevated;
+    background: white;
     font-family: $orbital-font-body;
     font-size: $orbital-font-size-base;
     color: $orbital-text-primary;

@@ -183,7 +183,7 @@ export function OrbitalComposer({
           disabled={isSubmitDisabled}
           aria-label={mode === 'thread' ? 'Create thread' : 'Send reply'}
         >
-          {mode === 'thread' ? 'Create Thread' : 'Send'}
+          {mode === 'thread' ? 'Create Thread >>' : 'Send >>'}
         </button>
       </div>
     </div>

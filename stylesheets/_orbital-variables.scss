@@ -139,30 +139,39 @@ $orbital-sidebar-width: 320px;
 $orbital-content-min-width: 600px;
 
 // -----------------------------------------------------------------------------
-// THREADED REPLY DEPTH SYSTEM
+// THREADED REPLY DEPTH SYSTEM (Reddit-Style Threading)
+// -----------------------------------------------------------------------------
+//
+// REDDIT-STYLE MODEL:
+// - Original Post: Level 0 (white, no indent)
+// - Top-level contributions (replying to thread, not comments): Level 0 (white, no indent)
+// - Reply to a specific comment: Level 1+ (indented, color-coded)
+//
+// This differs from traditional forum threading where ANY reply gets indented.
+// Only NESTED replies (replying to comments) get indented in Reddit-style.
 // -----------------------------------------------------------------------------
 
-// Level 0 (Top-level posts)
+// Level 0 (Original post AND top-level contributions)
 $orbital-level-0-bg: $orbital-surface-elevated;
 $orbital-level-0-border: $orbital-border-strong;
 $orbital-level-0-indent: 0px;
 
-// Level 1 (First-level replies - Blue)
+// Level 1 (Replying to a comment - Blue)
 $orbital-level-1-bg: $orbital-blue-tint-light;
 $orbital-level-1-border: $orbital-blue;
 $orbital-level-1-indent: $orbital-indent-unit;
 
-// Level 2 (Second-level replies - Purple)
+// Level 2 (Nested reply - Purple)
 $orbital-level-2-bg: $orbital-purple-tint-light;
 $orbital-level-2-border: $orbital-purple;
 $orbital-level-2-indent: $orbital-indent-unit * 2;
 
-// Level 3 (Third-level replies - Stronger Blue)
+// Level 3 (Deeper nesting - Stronger Blue)
 $orbital-level-3-bg: $orbital-blue-tint;
 $orbital-level-3-border: $orbital-blue;
 $orbital-level-3-indent: $orbital-indent-unit * 3;
 
-// Level 4+ (Fourth-level+ replies - Stronger Purple, max indent)
+// Level 4+ (Deepest nesting - Stronger Purple, max indent)
 $orbital-level-4-bg: $orbital-purple-tint;
 $orbital-level-4-border: $orbital-purple;
 $orbital-level-4-indent: $orbital-indent-max;

@@ -10,23 +10,29 @@ export type OrbitalMessageProps = {
   message: OrbitalMessageType;
   isOwnMessage: boolean;
   onReply: (messageId: string) => void;
+  onQuote?: (messageId: string) => void;
   i18n: LocalizerType;
 };
 
 /**
  * OrbitalMessage - Individual message with color-coded reply depth
  *
+ * REDDIT-STYLE THREADING MODEL:
+ * - Original Post: Level 0 (white background, no indent)
+ * - Top-level contributions (replying to thread, not specific comments): Level 0 (white, no indent)
+ * - Reply to a specific comment: Level 1+ (indented, color-coded)
+ *
  * Reply Depth Color System (Signature Orbital Feature):
- * - Level 0: White background, gray border (top-level posts)
- * - Level 1: Light blue (8% opacity), blue border (first-level replies)
- * - Level 2: Light purple (8% opacity), purple border (second-level replies)
- * - Level 3: Stronger blue (12% opacity), blue border (third-level replies)
+ * - Level 0: White background, gray border (original post AND top-level contributions)
+ * - Level 1: Light blue (8% opacity), blue border (replying to a comment)
+ * - Level 2: Light purple (8% opacity), purple border (nested reply)
+ * - Level 3: Stronger blue (12% opacity), blue border (deeper nesting)
  * - Level 4+: Stronger purple (12% opacity), purple border (max indent)
  *
  * Pattern: Blue → Purple → Blue → Purple, with increasing opacity
  *
  * Features:
- * - Left margin indentation (24px per level, max 96px)
+ * - Left margin indentation (24px per level, max 96px at level 4+)
  * - 3px left border matching background tint color
  * - Author name and timestamp
  * - Message body with markdown support
@@ -38,11 +44,18 @@ export function OrbitalMessage({
   message,
   isOwnMessage,
   onReply,
+  onQuote,
   i18n,
 }: OrbitalMessageProps): JSX.Element {
   const handleReply = useCallback(() => {
     onReply(message.id);
   }, [onReply, message.id]);
+
+  const handleQuote = useCallback(() => {
+    if (onQuote) {
+      onQuote(message.id);
+    }
+  }, [onQuote, message.id]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
@@ -68,12 +81,18 @@ export function OrbitalMessage({
       {/* Message Header */}
       <div className="OrbitalMessage__header">
         <span className="OrbitalMessage__author">{message.author}</span>
+        {/* Show "replied" badge for top-level contributions (level 0 but has parentId) */}
+        {message.parentId && message.level === 0 && (
+          <span className="OrbitalMessage__contribution-badge" title="Top-level contribution to thread">
+            replied
+          </span>
+        )}
         <span className="OrbitalMessage__timestamp">
           {formatTimestamp(message.timestamp, i18n)}
         </span>
       </div>
 
-      {/* Optional "Replying to" indicator */}
+      {/* Optional "Replying to" indicator (only for nested replies, not top-level contributions) */}
       {message.parentId && message.level > 0 && (
         <div className="OrbitalMessage__reply-to">
           <span className="OrbitalMessage__reply-to__arrow">↳</span>
@@ -124,6 +143,16 @@ export function OrbitalMessage({
         >
           Reply
         </button>
+        {onQuote && (
+          <button
+            type="button"
+            className="OrbitalMessage__quote-button"
+            onClick={handleQuote}
+            aria-label="Quote this message"
+          >
+            Quote
+          </button>
+        )}
       </div>
     </div>
   );
