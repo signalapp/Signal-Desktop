@@ -1647,9 +1647,60 @@ function getSQLKey(): string {
 
     log.info('getSQLKey: decrypting key');
     const encrypted = Buffer.from(modernKeyValue, 'hex');
-    key = safeStorage.decryptString(encrypted);
+    
+    let decryptedKey: string | undefined;
+    let decryptionSucceeded = false;
+    
+    try {
+      decryptedKey = safeStorage.decryptString(encrypted);
+      
+      // Validate the decrypted key is a valid hex string of correct length
+      // SQLCipher expects a 32-byte (64 hex character) key
+      if (!decryptedKey || typeof decryptedKey !== 'string') {
+        throw new Error('Decrypted key is not a valid string');
+      }
+      
+      // Check if it's a valid hex string
+      const INVALID_KEY = /[^0-9A-Fa-f]/;
+      if (INVALID_KEY.test(decryptedKey) || decryptedKey.length !== 64) {
+        throw new Error('Decrypted key is not a valid 64-character hex string');
+      }
+      
+      key = decryptedKey;
+      decryptionSucceeded = true;
+    } catch (error) {
+      log.error(
+        'getSQLKey: Failed to decrypt database key:',
+        error instanceof Error ? error.message : String(error)
+      );
+      
+      // If we have a legacy key, try to use it as a fallback
+      if (typeof legacyKeyValue === 'string') {
+        log.warn('getSQLKey: Falling back to legacy key due to decryption failure');
+        const nextStep = handleSafeStorageDecryptionError();
+        if (nextStep === 'quit') {
+          throw new SafeStorageDecryptionError();
+        }
+        
+        key = legacyKeyValue;
+      } else {
+        // No fallback available, we must handle the error
+        log.error('getSQLKey: No legacy key available for fallback');
+        const nextStep = handleSafeStorageDecryptionError();
+        if (nextStep === 'quit') {
+          throw new SafeStorageDecryptionError();
+        }
+        
+        // User chose to continue, generate a new key
+        // This will result in data loss, but it's the user's choice
+        log.warn('getSQLKey: Generating new key after decryption failure (data loss will occur)');
+        key = generateSQLKey();
+        update = true;
+      }
+    }
 
-    if (typeof legacyKeyValue === 'string') {
+    // Only validate against legacy key if decryption succeeded
+    if (decryptionSucceeded && typeof legacyKeyValue === 'string') {
       if (key === legacyKeyValue) {
         // Confirmed roundtrip encryption, we can remove the legacy key
         log.info('getSQLKey: removing legacy key');
@@ -1665,7 +1716,7 @@ function getSQLKey(): string {
       }
     }
 
-    if (isLinux && previousBackend == null) {
+    if (isLinux && previousBackend == null && decryptionSucceeded) {
       log.info(`getSQLKey: saving safeStorageBackend: ${safeStorageBackend}`);
       userConfig.set('safeStorageBackend', safeStorageBackend);
     }
