@@ -5391,9 +5391,14 @@ function getMessagesBySentAt(
   })();
 }
 
-function getExpiredMessages(db: ReadableDB): Array<MessageType> {
+function getExpiredMessages(
+  db: ReadableDB,
+  { limit }: { limit?: number } = {}
+): Array<MessageType> {
   return db.transaction(() => {
     const now = Date.now();
+
+    const limitClause = limit != null ? `LIMIT ${limit}` : '';
 
     const rows: Array<MessageTypeUnhydrated> = db
       .prepare(
@@ -5402,7 +5407,8 @@ function getExpiredMessages(db: ReadableDB): Array<MessageType> {
       FROM messages
       WHERE
         expiresAt <= $now
-      ORDER BY expiresAt ASC;
+      ORDER BY expiresAt ASC
+      ${limitClause};
       `
       )
       .all({ now });

@@ -18,6 +18,9 @@ const { debounce } = lodash;
 
 const log = createLogger('expiringMessagesDeletion');
 
+// Batch size for processing expired messages to prevent memory exhaustion
+const EXPIRED_MESSAGES_BATCH_SIZE = 1000;
+
 class ExpiringMessagesDeletionService {
   #timeout?: ReturnType<typeof setTimeout>;
   #debouncedCheckExpiringMessages = debounce(this.#checkExpiringMessages, 1000);
@@ -28,37 +31,71 @@ class ExpiringMessagesDeletionService {
 
   async #destroyExpiredMessages() {
     try {
-      log.info('destroyExpiredMessages: Loading messages...');
-      const messages = await DataReader.getExpiredMessages();
-      log.info(
-        `destroyExpiredMessages: found ${messages.length} messages to expire`
-      );
+      log.info('destroyExpiredMessages: Starting batch processing...');
+      let totalProcessed = 0;
+      let batchNumber = 0;
 
-      const messageIds: Array<string> = [];
-      const inMemoryMessages: Array<MessageModel> = [];
-
-      messages.forEach(dbMessage => {
-        const message = window.MessageCache.register(
-          new MessageModel(dbMessage)
+      // Process expired messages in batches to prevent memory exhaustion
+      while (true) {
+        batchNumber += 1;
+        log.info(
+          `destroyExpiredMessages: Processing batch ${batchNumber}...`
         );
-        messageIds.push(message.id);
-        inMemoryMessages.push(message);
-      });
 
-      await DataWriter.removeMessages(messageIds, {
-        cleanupMessages,
-      });
-
-      batch(() => {
-        inMemoryMessages.forEach(message => {
-          log.info('Message expired', {
-            sentAt: message.get('sent_at'),
-          });
-
-          // We do this to update the UI, if this message is being displayed somewhere
-          window.reduxActions.conversations.messageExpired(message.id);
+        const messages = await DataReader.getExpiredMessages({
+          limit: EXPIRED_MESSAGES_BATCH_SIZE,
         });
-      });
+
+        if (messages.length === 0) {
+          log.info(
+            `destroyExpiredMessages: No more expired messages found. Total processed: ${totalProcessed}`
+          );
+          break;
+        }
+
+        log.info(
+          `destroyExpiredMessages: Found ${messages.length} messages in batch ${batchNumber}`
+        );
+
+        const messageIds: Array<string> = [];
+        const inMemoryMessages: Array<MessageModel> = [];
+
+        messages.forEach(dbMessage => {
+          const message = window.MessageCache.register(
+            new MessageModel(dbMessage)
+          );
+          messageIds.push(message.id);
+          inMemoryMessages.push(message);
+        });
+
+        await DataWriter.removeMessages(messageIds, {
+          cleanupMessages,
+        });
+
+        batch(() => {
+          inMemoryMessages.forEach(message => {
+            log.info('Message expired', {
+              sentAt: message.get('sent_at'),
+            });
+
+            // We do this to update the UI, if this message is being displayed somewhere
+            window.reduxActions.conversations.messageExpired(message.id);
+          });
+        });
+
+        totalProcessed += messages.length;
+
+        // If we got fewer messages than the batch size, we're done
+        if (messages.length < EXPIRED_MESSAGES_BATCH_SIZE) {
+          log.info(
+            `destroyExpiredMessages: Processed final batch. Total: ${totalProcessed}`
+          );
+          break;
+        }
+
+        // Small delay between batches to prevent overwhelming the system
+        await sleep(100);
+      }
     } catch (error) {
       log.error(
         'destroyExpiredMessages: Error deleting expired messages',
