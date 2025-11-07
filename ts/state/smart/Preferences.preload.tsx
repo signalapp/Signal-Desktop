@@ -73,9 +73,9 @@ import { useToastActions } from '../ducks/toast.preload.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
-import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
-import { useDonationsActions } from '../ducks/donations.preload.js';
-import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
+// REMOVED: import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
+// REMOVED: import { useDonationsActions } from '../ducks/donations.preload.js';
+// REMOVED: import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
 
 import type {
   StorageAccessType,
@@ -89,7 +89,7 @@ import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload} from '../../util/backupMediaDownload.preload.js';
-import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
+// REMOVED: import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
@@ -158,15 +158,8 @@ function renderDonationsPane({
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
 }): JSX.Element {
-  return (
-    <DonationsErrorBoundary>
-      <SmartPreferencesDonations
-        contentsRef={contentsRef}
-        settingsLocation={settingsLocation}
-        setSettingsLocation={setSettingsLocation}
-      />
-    </DonationsErrorBoundary>
-  );
+  // REMOVED: Donations feature
+  return <div>Donations feature removed</div>;
 }
 
 function getSystemTraySettingValues(
@@ -227,11 +220,8 @@ export function SmartPreferences(): JSX.Element | null {
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const theme = useSelector(getTheme);
-  const donationReceipts = useSelector(
-    (state: StateType) => state.donations.receipts
-  );
+    const theme = useSelector(getTheme);
+  const donationReceipts: ReadonlyArray<any> = []; // REMOVED: Donations feature
   const notificationProfileCount = useSelector(getProfiles).length;
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;

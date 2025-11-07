@@ -73,8 +73,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     unreadIndicatorPlacement} = props;
 
   const i18n = useSelector(getIntl);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const interactionMode = useSelector(getInteractionMode);
+    const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
 

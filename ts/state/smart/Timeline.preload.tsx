@@ -153,8 +153,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     getConversationMessagesSelector
   );
   const conversationSelector = useSelector(getConversationSelector);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const hasContactSpoofingReview = useSelector(getHasContactSpoofingReview);
+    const hasContactSpoofingReview = useSelector(getHasContactSpoofingReview);
   const i18n = useSelector(getIntl);
   const invitedContactsForNewlyCreatedGroup = useSelector(
     getInvitedContactsForNewlyCreatedGroup

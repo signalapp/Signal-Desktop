@@ -94,8 +94,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const hasStories = hasStoriesSelector(); // Stories removed
 
-  const badgeSelector = useSelector(getPreferredBadgeSelector);
-  // Badges removed
+    // Badges removed
   const i18n = useSelector(getIntl);
   const hasPanelShowing = useSelector(getHasPanelOpen);
   const outgoingCallButtonStyle = useOutgoingCallButtonStyle(conversation);

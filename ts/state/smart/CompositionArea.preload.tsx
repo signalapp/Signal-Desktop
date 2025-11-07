@@ -87,8 +87,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const hasGlobalModalOpen = useSelector(isShowingAnyModal);
   const hasPanelOpen = useSelector(getHasPanelOpen);
   const getGroupAdmins = useSelector(getGroupAdminsSelector);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const composerStateForConversationIdSelector = useSelector(
+    const composerStateForConversationIdSelector = useSelector(
     getComposerStateForConversationIdSelector
   );
   const composerState = composerStateForConversationIdSelector(id);

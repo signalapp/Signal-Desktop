@@ -23,8 +23,7 @@ export const SmartPendingInvites = memo(function SmartPendingInvites({
   ourAci}: SmartPendingInvitesProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const conversationSelector = useSelector(getConversationByIdSelector);
+    const conversationSelector = useSelector(getConversationByIdSelector);
   const conversationByServiceIdSelector = useSelector(
     getConversationByServiceIdSelector
   );

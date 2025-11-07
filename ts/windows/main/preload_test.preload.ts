@@ -116,11 +116,6 @@ window.testUtilities = {
         recents: []},
       stories: [],
       storyDistributionLists: [],
-      donations: {
-        currentWorkflow: undefined,
-        didResumeWorkflowAtStartup: false,
-        lastError: undefined,
-        receipts: []},
       stickers: {
         installedPack: null,
         packs: {},

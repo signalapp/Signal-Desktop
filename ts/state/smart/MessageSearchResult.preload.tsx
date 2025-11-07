@@ -22,8 +22,7 @@ export const SmartMessageSearchResult = memo(function SmartMessageSearchResult({
   const messageSearchResultSelector = useSelector(
     getMessageSearchResultSelector
   );
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const { showConversation } = useConversationsActions();
+    const { showConversation } = useConversationsActions();
 
   const messageResult = messageSearchResultSelector(id);
   if (messageResult == null) {

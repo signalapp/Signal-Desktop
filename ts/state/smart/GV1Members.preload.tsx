@@ -20,8 +20,7 @@ export type PropsType = {
 
 export const SmartGV1Members = memo(function SmartGV1Members({
   conversationId}: PropsType): JSX.Element {
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const i18n = useSelector(getIntl);
+    const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const { showContactModal } = useGlobalModalActions();
 

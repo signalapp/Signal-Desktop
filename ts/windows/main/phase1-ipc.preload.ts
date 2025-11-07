@@ -21,7 +21,8 @@ import { drop } from '../../util/drop.std.js';
 import { explodePromise } from '../../util/explodePromise.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import type { WindowsNotificationData } from '../../services/notifications.preload.js';
-import { finish3dsValidation } from '../../services/donations.preload.js';
+// REMOVED: import { finish3dsValidation } from '../../services/donations.preload.js';
+const finish3dsValidation = async () => {}; // STUB: Donations removed
 import { AggregatedStats } from '../../textsecure/WebsocketResources.preload.js';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.preload.js';
 import { isProduction } from '../../util/version.std.js';

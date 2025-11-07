@@ -60,8 +60,7 @@ function SmartForwardMessagesModalInner({
   const { type } = forwardMessagesProps;
 
   const candidateConversations = useSelector(getAllComposableConversations);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const i18n = useSelector(getIntl);
+    const i18n = useSelector(getIntl);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const regionCode = useSelector(getRegionCode);
   const theme = useSelector(getTheme);

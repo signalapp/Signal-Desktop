@@ -45,8 +45,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   id}: SmartHeroRowProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const hasStoriesSelector = useSelector(getHasStoriesSelector);
+    const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const conversationSelector = useSelector(getConversationSelector);
   const conversationByServiceIdSelector = useSelector(
     getConversationByServiceIdSelector

@@ -36,9 +36,7 @@ export const SmartGroupV1MigrationDialog = memo(
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const getConversation = useSelector(getConversationSelector);
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-
-    const { initiateMigrationToGroupV2 } = useConversationsActions();
+        const { initiateMigrationToGroupV2 } = useConversationsActions();
     const { closeGV2MigrationDialog } = useGlobalModalActions();
 
     const droppedMembers = useMemo(() => {

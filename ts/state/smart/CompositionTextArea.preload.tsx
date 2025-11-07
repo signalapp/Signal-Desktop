@@ -41,8 +41,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   const { setEmojiSkinToneDefault } = useItemsActions();
   const { onTextTooLong } = useComposerActions();
 
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+    const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const conversationSelector = useSelector(getConversationSelector);
 
   return (

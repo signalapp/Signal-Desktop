@@ -288,8 +288,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const challengeStatus = useSelector(getChallengeStatus);
   const composerStep = useSelector(getComposerStep);
   const crashReportCount = useSelector(getCrashReportCount);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const hasAppExpired = useSelector(hasExpired);
+    const hasAppExpired = useSelector(hasExpired);
   const hasAnyCurrentCustomChatFolders = useSelector(
     getHasAnyCurrentCustomChatFolders
   );

@@ -11,7 +11,6 @@ import { getIntl, getTheme, getIsNightly } from '../selectors/user.std.js';
 import {
   getAllConversationsUnreadStats,
   getMe} from '../selectors/conversations.dom.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount} from '../selectors/stories.preload.js';

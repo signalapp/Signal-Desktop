@@ -30,8 +30,7 @@ export type OwnProps = Pick<
 export const SmartMessageDetail = memo(
   function SmartMessageDetail(): JSX.Element | null {
     const getContactNameColor = useSelector(getContactNameColorSelector);
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const i18n = useSelector(getIntl);
+        const i18n = useSelector(getIntl);
     const platform = useSelector(getPlatform);
     const interactionMode = useSelector(getInteractionMode);
     const messageDetails = useSelector(getMessageDetails);

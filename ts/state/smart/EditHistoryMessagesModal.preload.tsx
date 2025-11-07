@@ -24,8 +24,7 @@ export const SmartEditHistoryMessagesModal = memo(
       useConversationsActions();
     const { showLightbox } = useLightboxActions();
 
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const messagesAttributes = useSelector(getEditHistoryMessages);
+        const messagesAttributes = useSelector(getEditHistoryMessages);
     const messagePropsSelector = useSelector(getMessagePropsSelector);
 
     strictAssert(messagesAttributes, 'messages not provided');
@@ -35,8 +34,7 @@ export const SmartEditHistoryMessagesModal = memo(
         ...messagePropsSelector(
           messageAttributes as ReadonlyMessageAttributesType
         ),
-        // Make sure the messages don't get an "edited" badge
-        isEditedMessage: false,
+        // Make sure the messages don't get an "edited"         isEditedMessage: false,
         // Do not show the same reactions in the message history UI
         reactions: undefined,
         // Make sure that the timestamp is the correct timestamp from attributes

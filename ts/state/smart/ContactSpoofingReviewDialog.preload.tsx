@@ -46,8 +46,7 @@ export const SmartContactSpoofingReviewDialog = memo(
       updateSharedGroups} = useConversationsActions();
     const { showContactModal, toggleSignalConnectionsModal } =
       useGlobalModalActions();
-    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-    const i18n = useSelector(getIntl);
+        const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
     const getConversationByServiceId = useSelector(
       getConversationByServiceIdSelector

@@ -96,8 +96,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   );
   const conversationSelector = useSelector(getConversationByIdSelector);
   const defaultConversationColor = useSelector(getDefaultConversationColor);
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
+    const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
 
   const {

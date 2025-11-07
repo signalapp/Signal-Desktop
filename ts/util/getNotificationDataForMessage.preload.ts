@@ -49,9 +49,9 @@ import {
   isConversationMerge,
   isMessageRequestResponse} from '../state/selectors/message.preload.js';
 import { getAuthor } from '../messages/sources.preload.js';
-import {
-  messageHasPaymentEvent,
-  getPaymentEventNotificationText} from '../messages/payments.std.js';
+// REMOVED: import { messageHasPaymentEvent, getPaymentEventNotificationText } from '../messages/payments.std.js';
+const messageHasPaymentEvent = (_attributes: any) => false; // STUB: Payments removed
+const getPaymentEventNotificationText = () => ''; // STUB: Payments removed
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.std.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { getUserConversationId } from '../state/selectors/user.std.js';
