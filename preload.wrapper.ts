@@ -39,6 +39,45 @@ const filename = process.env.GENERATE_PRELOAD_CACHE
   ? 'preload.bundle.js'
   : srcPath;
 
+// Create a custom require function that can handle ES modules
+// by using dynamic import() for packages that are known to be ESM-only
+const esmPackages = new Set([
+  '@signalapp/libsignal-client',
+  '@signalapp/libsignal-client/zkgroup',
+]);
+
+// Check if a module path is an ESM package or subpath
+function isEsmPackage(modulePath: string): boolean {
+  for (const pkg of esmPackages) {
+    if (modulePath === pkg || modulePath.startsWith(`${pkg}/`)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Cache for dynamically imported ES modules
+const esmCache = new Map<string, unknown>();
+
+// Custom require function that handles both CJS and ESM
+function customRequire(modulePath: string): unknown {
+  if (isEsmPackage(modulePath)) {
+    // For ES modules, we need to use dynamic import
+    // Since require is synchronous but import is async, we throw an error
+    // that provides guidance on how to fix the code
+    throw new Error(
+      `Cannot require ES module "${modulePath}". ` +
+        `Please use dynamic import() instead: ` +
+        `const module = await import("${modulePath}");`
+    );
+  }
+  return require(modulePath);
+}
+
+// Copy properties from original require
+Object.setPrototypeOf(customRequire, require);
+Object.assign(customRequire, require);
+
 const script = new Script(
   `(function(require, __dirname){${source.toString()}})`,
   {
@@ -63,13 +102,13 @@ const fn = script.runInThisContext({
 if (process.env.GENERATE_PRELOAD_CACHE) {
   // Use hottest cache possible in CI
   if (process.env.CI) {
-    fn(require, __dirname);
+    fn(customRequire, __dirname);
     window.startApp();
   }
   writeFileSync(cachePath, script.createCachedData());
   ipcRenderer.send('shutdown');
 } else {
-  fn(require, __dirname);
+  fn(customRequire, __dirname);
   window.SignalCI?.setPreloadCacheHit(
     cachedData != null && !cachedDataRejected
   );

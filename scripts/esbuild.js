@@ -64,6 +64,7 @@ const bundleDefaults = {
     // Native libraries
     '@signalapp/libsignal-client',
     '@signalapp/libsignal-client/zkgroup',
+    '@signalapp/libsignal-client/dist/*',
     '@signalapp/ringrtc',
     '@signalapp/sqlcipher',
     '@signalapp/mute-state-change',
