@@ -33,7 +33,7 @@ export class SimpleQuillWrapper extends React.Component<Props> {
       );
     }
 
-    this.quill.on(Emitter.events.EDITOR_CHANGE, this.props.onChange);
+    this.quill.on(Emitter.events.TEXT_CHANGE, this.props.onChange);
 
     const { defaultValue } = this.props;
     if (defaultValue) {
@@ -46,7 +46,7 @@ export class SimpleQuillWrapper extends React.Component<Props> {
       return;
     }
 
-    this.quill.off('editor-change', this.props.onChange);
+    this.quill.off('text-change', this.props.onChange);
     this.quill = undefined;
   }
 
