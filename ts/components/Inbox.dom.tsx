@@ -24,7 +24,6 @@ export type PropsType = {
   renderChatsTab: () => JSX.Element;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderNavTabs: (props: SmartNavTabsProps) => JSX.Element;
-  renderStoriesTab: () => JSX.Element;
   renderSettingsTab: () => JSX.Element;
 };
 
@@ -43,7 +42,6 @@ export function Inbox({
   renderChatsTab,
   renderCustomizingPreferredReactionsModal,
   renderNavTabs,
-  renderStoriesTab,
   renderSettingsTab,
 }: PropsType): JSX.Element {
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
@@ -203,7 +201,6 @@ export function Inbox({
           onToggleNavTabsCollapse,
           renderChatsTab,
           renderCallsTab,
-          renderStoriesTab,
           renderSettingsTab,
         })}
       </div>

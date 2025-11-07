@@ -29,8 +29,6 @@ import type { actions as notificationProfiles } from './ducks/notificationProfil
 import type { actions as safetyNumber } from './ducks/safetyNumber.preload.js';
 import type { actions as search } from './ducks/search.preload.js';
 import type { actions as stickers } from './ducks/stickers.preload.js'; // Stub only
-import type { actions as stories } from './ducks/stories.preload.js'; // Stub only
-import type { actions as storyDistributionLists } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import type { actions as toast } from './ducks/toast.preload.js';
 import type { actions as updates } from './ducks/updates.preload.js';
 import type { actions as user } from './ducks/user.preload.js';
@@ -63,8 +61,6 @@ export type ReduxActions = {
   safetyNumber: typeof safetyNumber;
   search: typeof search;
   stickers: typeof stickers; // Stub only
-  stories: typeof stories; // Stub only
-  storyDistributionLists: typeof storyDistributionLists; // Stub only
   toast: typeof toast;
   updates: typeof updates;
   user: typeof user;

@@ -13,7 +13,6 @@ export type ChatsTabProps = Readonly<{
   i18n: LocalizerType;
   isStaging: boolean;
   hasPendingUpdate: boolean;
-  hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   renderConversationView: (props: SmartConversationViewProps) => JSX.Element;
@@ -28,7 +27,6 @@ export function ChatsTab({
   i18n,
   isStaging,
   hasPendingUpdate,
-  hasFailedStorySends,
   navTabsCollapsed,
   onToggleNavTabsCollapse,
   renderConversationView,
@@ -44,7 +42,6 @@ export function ChatsTab({
           otherTabsUnreadStats,
           collapsed: navTabsCollapsed,
           hasPendingUpdate,
-          hasFailedStorySends,
           onToggleCollapse: onToggleNavTabsCollapse,
         })}
       </div>

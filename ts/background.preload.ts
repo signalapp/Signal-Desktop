@@ -414,7 +414,7 @@ export async function startApp(): Promise<void> {
   );
 
   signalProtocolStore.on('removeAllData', () => {
-    window.reduxActions.stories.removeAllStories();
+    // REMOVED: Stories feature removed - window.reduxActions.stories.removeAllStories();
   });
 
   signalProtocolStore.on('nullMessage', ({ conversationId, idForTracking }) => {

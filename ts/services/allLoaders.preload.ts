@@ -15,7 +15,6 @@ import {
   getDistributionListsForRedux,
   loadDistributionLists,
 } from './distributionListLoader.preload.js'; // Stub only
-import { getStoriesForRedux, loadStories } from './storyLoader.preload.js'; // Stub only
 import { getUserDataForRedux, loadUserData } from './userLoader.dom.js';
 import {
   loadCachedProfiles as loadNotificationProfiles,
@@ -50,7 +49,6 @@ export async function loadAll(): Promise<void> {
     loadNotificationProfiles(),
     loadRecentEmojis(),
     loadStickers(),
-    loadStories(), // Stub only
     loadUserData(),
   ]);
 }
@@ -74,7 +72,6 @@ export function getParametersForRedux(): ReduxInitData {
     notificationProfiles: getNotificationProfiles(),
     recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
-    stories: getStoriesForRedux(), // Stub only
     storyDistributionLists: getDistributionListsForRedux(), // Stub only
     theme,
   };

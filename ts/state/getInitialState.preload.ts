@@ -31,7 +31,6 @@ import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferred
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
 import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
 import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.js'; // Stub only
-import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.js'; // Stub only
 import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import { getEmptyState as toastEmptyState } from './ducks/toast.preload.js';
 import { getEmptyState as updatesEmptyState } from './ducks/updates.preload.js';
@@ -72,7 +71,6 @@ export function getInitialState(
     notificationProfiles,
     recentEmoji,
     // stickers, // REMOVED: Orbital cleanup
-    stories, // Stub only
     storyDistributionLists, // Stub only
     theme,
   }: ReduxInitData,
@@ -103,10 +101,6 @@ export function getInitialState(
       profiles: notificationProfiles,
     },
     // stickers, // REMOVED: Orbital cleanup
-    stories: { // Stub only
-      ...storiesEmptyState(),
-      stories,
-    },
     storyDistributionLists: generateStoryDistributionListState(
       storyDistributionLists
     ), // Stub only
@@ -166,7 +160,6 @@ function getEmptyState(): StateType {
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),
     stickers: stickersEmptyState(), // Stub only
-    stories: storiesEmptyState(), // Stub only
     storyDistributionLists: storyDistributionListsEmptyState(), // Stub only
     toast: toastEmptyState(),
     updates: updatesEmptyState(),

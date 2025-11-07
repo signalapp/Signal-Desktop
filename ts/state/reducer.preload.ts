@@ -30,8 +30,6 @@ import { reducer as preferredReactions } from './ducks/preferredReactions.preloa
 import { reducer as safetyNumber } from './ducks/safetyNumber.preload.js';
 import { reducer as search } from './ducks/search.preload.js';
 import { reducer as stickers } from './ducks/stickers.preload.js'; // Stub only
-import { reducer as stories } from './ducks/stories.preload.js'; // Stub only
-import { reducer as storyDistributionLists } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import { reducer as toast } from './ducks/toast.preload.js';
 import { reducer as updates } from './ducks/updates.preload.js';
 import { reducer as user } from './ducks/user.preload.js';
@@ -65,8 +63,6 @@ export const reducer = combineReducers({
   safetyNumber,
   search,
   stickers, // Stub only
-  stories, // Stub only
-  storyDistributionLists, // Stub only
   toast,
   updates,
   user,

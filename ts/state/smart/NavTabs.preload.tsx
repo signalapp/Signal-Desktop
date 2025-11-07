@@ -12,11 +12,7 @@ import {
   getAllConversationsUnreadStats,
   getMe} from '../selectors/conversations.dom.js';
 import {
-  getHasAnyFailedStorySends,
-  getStoriesNotificationCount} from '../selectors/stories.preload.js';
-import {
-  getProfileMovedModalNeeded,
-  getStoriesEnabled} from '../selectors/items.dom.js';
+  getProfileMovedModalNeeded} from '../selectors/items.dom.js';
 import { getSelectedNavTab } from '../selectors/nav.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
@@ -31,7 +27,6 @@ export type SmartNavTabsProps = Readonly<{
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   renderCallsTab: () => ReactNode;
   renderChatsTab: () => ReactNode;
-  renderStoriesTab: () => ReactNode;
   renderSettingsTab: () => ReactNode;
 }>;
 
@@ -40,17 +35,13 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   onToggleNavTabsCollapse,
   renderCallsTab,
   renderChatsTab,
-  renderStoriesTab,
   renderSettingsTab}: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const me = useSelector(getMe);
   const theme = useSelector(getTheme);
-  const storiesEnabled = useSelector(getStoriesEnabled);
   const unreadConversationsStats = useSelector(getAllConversationsUnreadStats);
-  const unreadStoriesCount = useSelector(getStoriesNotificationCount);
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const profileMovedModalNeeded = useSelector(getProfileMovedModalNeeded);
   const isNightly = useSelector(getIsNightly);
@@ -80,7 +71,6 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 
   return (
     <NavTabs
-      hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
       me={me}
@@ -91,15 +81,12 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       onDismissProfileMovedModal={onDismissProfileMovedModal}
       renderCallsTab={renderCallsTab}
       renderChatsTab={renderChatsTab}
-      renderStoriesTab={renderStoriesTab}
       renderSettingsTab={renderSettingsTab}
       selectedNavTab={selectedNavTab}
       shouldShowProfileIcon={shouldShowProfileIcon}
-      storiesEnabled={storiesEnabled}
       theme={theme}
       unreadCallsCount={unreadCallsCount}
       unreadConversationsStats={unreadConversationsStats}
-      unreadStoriesCount={unreadStoriesCount}
     />
   );
 });

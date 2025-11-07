@@ -4,4 +4,8 @@
 // REMOVED: Orbital cleanup - Stories feature removed
 // This file exists as a stub to prevent import errors during the transition
 
-export const StoryLinkPreview = (_props: any): null => null;
+import React from 'react';
+
+export function StoryLinkPreview(): JSX.Element {
+  return <></>;
+}

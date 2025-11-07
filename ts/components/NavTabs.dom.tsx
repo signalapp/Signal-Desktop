@@ -127,7 +127,6 @@ function NavTabsItem({
 export type NavTabPanelProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
   collapsed: boolean;
-  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   onToggleCollapse(collapsed: boolean): void;
 }>;
@@ -135,7 +134,6 @@ export type NavTabPanelProps = Readonly<{
 export type NavTabsToggleProps = Readonly<{
   otherTabsUnreadStats: UnreadStats | null;
   i18n: LocalizerType;
-  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse(navTabsCollapsed: boolean): void;
@@ -143,7 +141,6 @@ export type NavTabsToggleProps = Readonly<{
 
 export function NavTabsToggle({
   i18n,
-  hasFailedStorySends,
   hasPendingUpdate,
   navTabsCollapsed,
   otherTabsUnreadStats,
@@ -177,7 +174,6 @@ export function NavTabsToggle({
             <NavTabsItemBadges
               i18n={i18n}
               unreadStats={otherTabsUnreadStats}
-              hasError={hasFailedStorySends}
               hasPendingUpdate={hasPendingUpdate}
             />
           </span>
@@ -188,7 +184,6 @@ export function NavTabsToggle({
 }
 
 export type NavTabsProps = Readonly<{
-  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
   me: ConversationType;
@@ -199,19 +194,15 @@ export type NavTabsProps = Readonly<{
   profileMovedModalNeeded: boolean;
   renderCallsTab: () => ReactNode;
   renderChatsTab: () => ReactNode;
-  renderStoriesTab: () => ReactNode;
   renderSettingsTab: () => ReactNode;
   selectedNavTab: NavTab;
   shouldShowProfileIcon: boolean;
-  storiesEnabled: boolean;
   theme: ThemeType;
   unreadCallsCount: number;
   unreadConversationsStats: UnreadStats;
-  unreadStoriesCount: number;
 }>;
 
 export function NavTabs({
-  hasFailedStorySends,
   hasPendingUpdate,
   i18n,
   me,
@@ -222,15 +213,12 @@ export function NavTabs({
   profileMovedModalNeeded,
   renderCallsTab,
   renderChatsTab,
-  renderStoriesTab,
   renderSettingsTab,
   selectedNavTab,
   shouldShowProfileIcon,
-  storiesEnabled,
   theme,
   unreadCallsCount,
-  unreadConversationsStats,
-  unreadStoriesCount}: NavTabsProps): JSX.Element {
+  unreadConversationsStats}: NavTabsProps): JSX.Element {
   const [showingProfileMovedModal, setShowingProfileMovedModal] =
     useState(false);
 
@@ -276,7 +264,6 @@ export function NavTabs({
           navTabsCollapsed={navTabsCollapsed}
           onToggleNavTabsCollapse={onToggleNavTabsCollapse}
           // These are all shown elsewhere when nav tabs are shown
-          hasFailedStorySends={false}
           hasPendingUpdate={false}
           otherTabsUnreadStats={null}
         />
@@ -300,20 +287,6 @@ export function NavTabs({
               unreadMentionsCount: 0,
               readChatsMarkedUnreadCount: 0}}
           />
-          {storiesEnabled && (
-            <NavTabsItem
-              i18n={i18n}
-              id={NavTab.Stories}
-              label={i18n('icu:NavTabs__ItemLabel--Stories')}
-              iconClassName="NavTabs__ItemIcon--Stories"
-              hasError={hasFailedStorySends}
-              navTabClassName="NavTabs__Item--Stories"
-              unreadStats={{
-                unreadCount: unreadStoriesCount,
-                unreadMentionsCount: 0,
-                readChatsMarkedUnreadCount: 0}}
-            />
-          )}
           <NavTabsItem
             i18n={i18n}
             id={NavTab.Settings}
@@ -376,9 +349,6 @@ export function NavTabs({
       </TabPanel>
       <TabPanel id={NavTab.Calls} className="NavTabs__TabPanel">
         {renderCallsTab}
-      </TabPanel>
-      <TabPanel id={NavTab.Stories} className="NavTabs__TabPanel">
-        {renderStoriesTab}
       </TabPanel>
       <TabPanel id={NavTab.Settings} className="NavTabs__TabPanel">
         {renderSettingsTab}

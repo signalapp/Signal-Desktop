@@ -49,7 +49,6 @@ export type NavSidebarProps = Readonly<{
   actions?: ReactNode;
   children: ReactNode;
   i18n: LocalizerType;
-  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   hideHeader?: boolean;
   navTabsCollapsed: boolean;
@@ -76,7 +75,6 @@ export function NavSidebar({
   children,
   hideHeader,
   i18n,
-  hasFailedStorySends,
   hasPendingUpdate,
   navTabsCollapsed,
   onBack,
@@ -174,7 +172,6 @@ export function NavSidebar({
                 i18n={i18n}
                 navTabsCollapsed={navTabsCollapsed}
                 onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-                hasFailedStorySends={hasFailedStorySends}
                 hasPendingUpdate={hasPendingUpdate}
                 otherTabsUnreadStats={otherTabsUnreadStats}
               />

@@ -9,7 +9,6 @@ import { getInitialState } from './getInitialState.preload.js';
 import type { CallHistoryDetails } from '../types/CallDisposition.std.js';
 import type { MainWindowStatsType } from '../windows/context.preload.js';
 import type { MenuOptionsType } from '../types/menu.std.js';
-import type { StoryDataType } from './ducks/stories.preload.js'; // Stub only
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists.preload.js'; // Stub only
 import type { ThemeType } from '../types/Util.std.js';
 import type { CallLinkType } from '../types/CallLink.std.js';
@@ -30,7 +29,6 @@ export type ReduxInitData = {
   notificationProfiles: ReadonlyArray<NotificationProfileType>;
   recentEmoji: RecentEmojiObjectType;
   stickers: StickersStateType;
-  stories: Array<StoryDataType>; // Stub only
   storyDistributionLists: Array<StoryDistributionListDataType>; // Stub only
   theme: ThemeType;
 };
@@ -94,7 +92,6 @@ export function initializeRedux(data: ReduxInitData): void {
     ),
     search: bindActionCreators(actionCreators.search, store.dispatch),
     stickers: bindActionCreators(actionCreators.stickers, store.dispatch), // Stub only
-    stories: bindActionCreators(actionCreators.stories, store.dispatch), // Stub only
     storyDistributionLists: bindActionCreators(
       actionCreators.storyDistributionLists,
       store.dispatch
