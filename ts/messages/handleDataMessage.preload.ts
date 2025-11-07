@@ -49,7 +49,7 @@ import { drop } from '../util/drop.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import { isAciString } from '../util/isAciString.std.js';
 import { copyFromQuotedMessage } from './copyQuote.preload.js';
-import { findStoryMessages } from '../util/findStoryMessage.preload.js';
+import { findStoryMessage } from '../util/findStoryMessage.preload.js';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { normalizeServiceId } from '../types/ServiceId.std.js';
@@ -421,38 +421,16 @@ export async function handleDataMessage(
       });
     }
 
-    const [quote, storyQuotes] = await Promise.all([
+    const [quote, storyQuote] = await Promise.all([
       initialMessage.quote
         ? copyFromQuotedMessage(initialMessage.quote, conversation.id)
         : undefined,
-      findStoryMessages(conversation.id, storyContext),
+      findStoryMessage({
+        conversation: conversation.attributes,
+        senderId: sender.id,
+        storyContext,
+      }),
     ]);
-
-    const storyQuote = storyQuotes.find(candidateQuote => {
-      const sendStateByConversationId =
-        candidateQuote.sendStateByConversationId || {};
-      const sendState = sendStateByConversationId[sender.id];
-
-      const storyQuoteIsFromSelf =
-        candidateQuote.sourceServiceId === itemStorage.user.getCheckedAci();
-
-      if (!storyQuoteIsFromSelf) {
-        return true;
-      }
-
-      // The sender is not a recipient for this story
-      if (sendState === undefined) {
-        return false;
-      }
-
-      // Group replies are always allowed
-      if (!isDirectConversation(conversation.attributes)) {
-        return true;
-      }
-
-      // For 1:1 stories, we need to check if they can be replied to
-      return sendState.isAllowedToReplyToStory !== false;
-    });
 
     if (
       storyContext &&

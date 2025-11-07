@@ -3,48 +3,94 @@
 
 import type {
   ReadonlyMessageAttributesType,
-  MessageAttributesType,
+  ConversationAttributesType,
 } from '../model-types.d.ts';
 import { type AciString } from '../types/ServiceId.std.js';
 import type { ProcessedStoryContext } from '../textsecure/Types.d.ts';
-import { DataReader } from '../sql/Client.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import { getAuthorId } from '../messages/sources.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 
 const log = createLogger('findStoryMessage');
 
-export async function findStoryMessages(
-  conversationId: string,
-  storyContext?: ProcessedStoryContext
-): Promise<Array<MessageAttributesType>> {
+export type FindStoryMessageOptionsType = Readonly<{
+  conversation: ConversationAttributesType;
+  senderId: string;
+  storyContext?: ProcessedStoryContext;
+}>;
+
+export async function findStoryMessage({
+  conversation,
+  senderId,
+  storyContext,
+}: FindStoryMessageOptionsType): Promise<
+  ReadonlyMessageAttributesType | undefined
+> {
   if (!storyContext) {
-    return [];
+    return undefined;
   }
 
   const { authorAci, sentTimestamp: sentAt } = storyContext;
 
   if (!sentAt) {
-    return [];
+    return undefined;
   }
 
   if (authorAci == null) {
-    return [];
+    return undefined;
   }
 
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
+  const ourAci = itemStorage.user.getCheckedAci();
 
-  const messages = await DataReader.getMessagesBySentAt(sentAt);
-  const found = messages.filter(item =>
-    isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
+  const found = await window.MessageCache.findBySentAt(
+    sentAt,
+    ({ attributes: candidate }) => {
+      if (
+        !isStoryAMatch(
+          candidate,
+          conversation.id,
+          ourConversationId,
+          authorAci,
+          sentAt
+        )
+      ) {
+        return false;
+      }
+
+      const sendStateByConversationId =
+        candidate.sendStateByConversationId || {};
+      const sendState = sendStateByConversationId[senderId];
+
+      const storyQuoteIsFromSelf = candidate.sourceServiceId === ourAci;
+
+      if (!storyQuoteIsFromSelf) {
+        return true;
+      }
+
+      // The sender is not a recipient for this story
+      if (sendState === undefined) {
+        return false;
+      }
+
+      // Group replies are always allowed
+      if (!isDirectConversation(conversation)) {
+        return true;
+      }
+
+      // For 1:1 stories, we need to check if they can be replied to
+      return sendState.isAllowedToReplyToStory !== false;
+    }
   );
 
-  if (found.length === 0) {
+  if (found == null) {
     log.info('findStoryMessages: message not found', sentAt);
-    return [];
+    return undefined;
   }
 
-  return found;
+  return found.attributes;
 }
 
 function isStoryAMatch(
