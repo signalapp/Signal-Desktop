@@ -609,6 +609,6 @@ Payment.args = {
   text: '',
   payment: {
     kind: PaymentEventKind.Notification,
-    note: null,
+    note: undefined,
   },
 };

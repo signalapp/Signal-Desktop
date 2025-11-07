@@ -75,7 +75,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
-    badge,
     buttonAriaLabel,
     color,
     draftPreview,
@@ -209,7 +208,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       <BaseConversationListItem
         avatarPlaceholderGradient={avatarPlaceholderGradient}
         avatarUrl={avatarUrl}
-        badge={badge}
         buttonAriaLabel={buttonAriaLabel}
         color={color}
         conversationType={type}

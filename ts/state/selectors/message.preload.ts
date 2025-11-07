@@ -899,7 +899,6 @@ export const getPropsForMessage = (
       expireTimer,
       expirationStartTimestamp,
     }),
-    giftBadge: message.giftBadge,
     poll: getPollForMessage(message, {
       conversationSelector: options.conversationSelector,
       ourConversationId,

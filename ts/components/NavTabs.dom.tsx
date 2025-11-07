@@ -211,7 +211,6 @@ export type NavTabsProps = Readonly<{
 }>;
 
 export function NavTabs({
-  badge,
   hasFailedStorySends,
   hasPendingUpdate,
   i18n,
@@ -351,7 +350,7 @@ export function NavTabs({
                   <span className="NavTabs__ItemContent">
                     <Avatar
                       avatarUrl={me.avatarUrl}
-                      badge={badge}
+                      badge={undefined}
                       className="module-main-header__avatar"
                       color={me.color}
                       conversationType="direct"

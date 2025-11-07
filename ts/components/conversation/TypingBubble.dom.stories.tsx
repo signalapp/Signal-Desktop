@@ -40,7 +40,7 @@ const getConversation = (id: string) =>
   CONTACTS_BY_ID.get(id) || getDefaultConversation();
 
 const CONTACTS_WITH_BADGES = CONTACTS.map(contact => {
-  return { ...contact, badges: [undefined] };
+  return { ...contact, badges: [] };
 });
 const CONTACTS_WITH_BADGES_BY_ID = new Map(
   CONTACTS_WITH_BADGES.map(contact => [contact.id, contact])
@@ -64,8 +64,8 @@ const createProps = (
     conversationId: '123',
     conversationType: overrideProps.conversationType ?? 'direct',
     getConversation: overrideProps.getConversation || getConversation,
-    getPreferredBadge: badges =>
-      badges.length > 0 ? undefined : undefined,
+    getPreferredBadge: (_badges: ReadonlyArray<{ id: string } | { id: string; expiresAt: number; isVisible: boolean }>) =>
+      undefined,
     showContactModal: action('showContactModal'),
     theme: ThemeType.light};
 };

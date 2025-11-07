@@ -449,6 +449,7 @@ function HeaderContent({
             : undefined
         }
         avatarUrl={conversation.avatarUrl ?? undefined}
+        badge={undefined}
         color={conversation.color ?? undefined}
         conversationType={conversation.type}
         hasAvatar={conversation.hasAvatar}

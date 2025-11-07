@@ -205,6 +205,11 @@ export function SmartPreferences(): JSX.Element | null {
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
 
+  // STUB: generateDonationReceiptBlob removed for Orbital
+  const generateDonationReceiptBlob = async (_receipt: any, _i18n: any): Promise<Blob> => {
+    return new Blob([''], { type: 'text/plain' });
+  };
+
   // Selectors
 
   const currentLocation = useSelector(getSelectedLocation);
@@ -762,7 +767,6 @@ export function SmartPreferences(): JSX.Element | null {
             isPaused: Boolean(backupMediaDownloadPaused),
             isIdle: Boolean(attachmentDownloadManagerIdled)}}
           backupLocalBackupsEnabled={backupLocalBackupsEnabled}
-          badge={badge}
           blockedCount={blockedCount}
           chatFoldersFeatureEnabled={isChatFoldersEnabled(version)}
           currentChatFoldersCount={currentChatFoldersCount}

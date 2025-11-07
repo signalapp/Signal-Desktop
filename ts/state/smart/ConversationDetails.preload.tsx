@@ -196,7 +196,6 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       acceptConversation={acceptConversation}
       addMembersToGroup={addMembersToGroup}
       areWeASubscriber={areWeASubscriber}
-      badges={badges}
       blockConversation={blockConversation}
       callHistoryGroup={callHistoryGroup}
       canAddNewMembers={canAddNewMembers}

@@ -2306,16 +2306,8 @@ export class BackupImportStream extends Writable {
         message: {
           payment: {
             kind: PaymentEventKind.Notification,
-            amountMob: dropNull(notification.amountMob),
-            feeMob: dropNull(notification.feeMob),
-            note: notification.note ?? null,
-            transactionDetailsBase64: notification.transactionDetails
-              ? Bytes.toBase64(
-                  Backups.PaymentNotification.TransactionDetails.encode(
-                    notification.transactionDetails
-                  ).finish()
-                )
-              : undefined}},
+            note: notification.note ?? undefined,
+          }},
         additionalMessages: []};
     }
     if (chatItem.giftBadge) {
@@ -2333,21 +2325,8 @@ export class BackupImportStream extends Writable {
         'Gift badge must have a presentation'
       );
 
-      let state: GiftBadgeStates;
-      switch (giftBadge.state) {
-        case Backups.GiftBadge.State.OPENED:
-          state = "removed";
-          break;
-
-        case Backups.GiftBadge.State.REDEEMED:
-          state = "removed";
-          break;
-
-        case Backups.GiftBadge.State.UNOPENED:
-        default:
-          state = "removed";
-          break;
-      }
+      // STUB: All gift badge states import as "removed"
+      const state = "removed";
 
       const receipt = new ReceiptCredentialPresentation(
         giftBadge.receiptCredentialPresentation

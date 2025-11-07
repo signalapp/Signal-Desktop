@@ -48,6 +48,9 @@ import type {
 import type { SyncTaskType } from '../util/syncTasks.preload.js';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
+
+// STUB: BadgeType removed for Orbital
+type BadgeType = { id: string };
 import type { MediaItemMessageType } from '../types/MediaItem.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';

@@ -508,7 +508,6 @@ export function ConversationList({
                 title,
                 unreadCount: unreadCount ?? 0})}
               key={key}
-              badge={getPreferredBadge(badges)}
               onMouseDown={onPreloadConversation}
               onClick={onSelectConversation}
               i18n={i18n}

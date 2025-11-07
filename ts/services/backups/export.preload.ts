@@ -1320,16 +1320,11 @@ export class BackupExportStream extends Readable {
           break;
         }
         case PaymentEventKind.Notification:
+          // STUB: Payment notification details removed
           if (isPaymentNotificationEvent(payment)) {
             result.paymentNotification = {
               note: payment.note ?? null,
-              amountMob: payment.amountMob,
-              feeMob: payment.feeMob,
-              transactionDetails: payment.transactionDetailsBase64
-                ? Backups.PaymentNotification.TransactionDetails.decode(
-                    Bytes.fromBase64(payment.transactionDetailsBase64)
-                  )
-                : undefined};
+            };
           }
           break;
         default:
@@ -1382,34 +1377,13 @@ export class BackupExportStream extends Readable {
         sticker: stickerProto,
         reactions: this.#getMessageReactions(message)};
     } else if (isGiftBadge(message)) {
+      // STUB: Gift badge feature removed - always export as FAILED state
       const { giftBadge } = message;
       strictAssert(giftBadge != null, 'Message must have gift badge');
 
-      if (giftBadge.state === "removed") {
-        result.giftBadge = {
-          state: Backups.GiftBadge.State.FAILED};
-      } else {
-        let state: Backups.GiftBadge.State;
-        switch (giftBadge.state) {
-          case "removed":
-            state = Backups.GiftBadge.State.UNOPENED;
-            break;
-          case "removed":
-            state = Backups.GiftBadge.State.OPENED;
-            break;
-          case "removed":
-            state = Backups.GiftBadge.State.REDEEMED;
-            break;
-          default:
-            throw missingCaseError(giftBadge);
-        }
-
-        result.giftBadge = {
-          receiptCredentialPresentation: Bytes.fromBase64(
-            giftBadge.receiptCredentialPresentation
-          ),
-          state};
-      }
+      result.giftBadge = {
+        state: Backups.GiftBadge.State.FAILED,
+      };
     } else if (message.storyReplyContext) {
       result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
         message,

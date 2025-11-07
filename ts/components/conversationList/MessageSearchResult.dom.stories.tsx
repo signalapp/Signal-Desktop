@@ -64,9 +64,9 @@ export function SenderHasABadge(): JSX.Element {
   const props = useProps({
     from: { ...someone, badges: [{ id: 'sender badge' }] },
     to: me,
-    getPreferredBadge: badges => {
+    getPreferredBadge: (_badges: ReadonlyArray<{ id: string } | { id: string; expiresAt: number; isVisible: boolean }>) => {
       strictAssert(
-        badges[0]?.id === 'sender badge',
+        _badges[0]?.id === 'sender badge',
         'Rendering the wrong badge!'
       );
       return undefined;

@@ -78,12 +78,8 @@ export const SmartNavTabs = memo(function SmartNavTabs({
     [changeLocation, selectedNavTab]
   );
 
-  // STUB: Badges removed - badge always undefined
-  const badge = undefined;
-
   return (
     <NavTabs
-      badge={badge}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}

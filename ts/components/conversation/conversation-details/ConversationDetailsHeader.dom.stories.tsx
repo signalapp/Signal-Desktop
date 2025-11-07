@@ -80,7 +80,6 @@ export function OneOnOne(): JSX.Element {
   return (
     <Wrapper
       isGroup={false}
-      badges={[]}
       conversation={getDefaultConversation({
         title: 'Maya Johnson',
         type: 'direct'})}

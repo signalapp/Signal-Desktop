@@ -21,6 +21,8 @@ export type Props = {
   size?: PaymentEventNotificationSize;
 };
 
+export type PropsType = Props;
+
 export function PaymentEventNotification(_props: Props): JSX.Element {
   return <div>Payment feature removed</div>;
 }

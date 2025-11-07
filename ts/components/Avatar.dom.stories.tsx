@@ -50,6 +50,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   avatarUrl: overrideProps.avatarUrl || '',
+  badge: undefined,
   blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
   conversationType: overrideProps.conversationType || 'direct',

@@ -1673,7 +1673,7 @@ function AllowedMembersSection({
             >
               <Avatar
                 {...conversation}
-                badge={badge}
+                badge={undefined}
                 conversationType={conversation.type}
                 i18n={i18n}
                 size={36}

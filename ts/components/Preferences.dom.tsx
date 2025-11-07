@@ -374,7 +374,6 @@ export function Preferences({
   backupTier,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
-  badge,
   blockedCount,
   currentChatFoldersCount,
   cloudBackupStatus,
@@ -2228,7 +2227,7 @@ export function Preferences({
                 <div className="Preferences__profile-chip__avatar">
                   <Avatar
                     avatarUrl={me.avatarUrl}
-                    badge={badge}
+                    badge={undefined}
                     className="module-main-header__avatar"
                     color={me.color}
                     conversationType="direct"

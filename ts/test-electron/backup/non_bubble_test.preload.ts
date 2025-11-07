@@ -332,15 +332,6 @@ describe('backup/non-bubble messages', () => {
         payment: {
           kind: PaymentEventKind.Notification,
           note: 'note with text',
-          amountMob: '1.01',
-          feeMob: '0.01',
-          transactionDetailsBase64: Bytes.toBase64(
-            Backups.PaymentNotification.TransactionDetails.encode({
-              transaction: {
-                timestamp: Long.fromNumber(Date.now()),
-              },
-            }).finish()
-          ),
         },
       },
     ]);

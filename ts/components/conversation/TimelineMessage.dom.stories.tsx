@@ -692,7 +692,6 @@ Quote.args = {
     title: 'Quoter Dude',
     sharedGroupNames: [],
     acceptedMessageRequest: true,
-    conversationType: 'group',
   },
 };
 

@@ -725,21 +725,8 @@ async function doGetProfile(
     }
   }
 
-  // Step #: Save profile `badges` to conversation and update redux
-  const badges = parseBadgesFromServer(profile.badges, updatesUrl);
-  if (badges.length) {
-    window.reduxActions.badges.updateOrCreate(badges);
-    c.set({
-      badges: badges.map(badge => ({
-        id: badge.id,
-        ...('expiresAt' in badge
-          ? {
-              expiresAt: badge.expiresAt,
-              isVisible: badge.isVisible}
-          : {})}))});
-  } else {
-    c.set({ badges: undefined });
-  }
+  // STUB: Badges feature removed - always clear badges
+  c.set({ badges: undefined });
 
   // Step #: Save updated (or clear if missing) profile `credential` to conversation
   if (options.profileCredentialRequestContext != null) {

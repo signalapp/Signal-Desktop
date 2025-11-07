@@ -2204,15 +2204,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public getWidth(): number | undefined {
-    const { attachments, giftBadge, isSticker, isTapToView, previews } =
+    const { attachments, isSticker, isTapToView, previews } =
       this.props;
 
     if (isTapToView) {
       return undefined;
-    }
-
-    if (giftBadge) {
-      return 240;
     }
 
     if (attachments && attachments.length) {
@@ -2614,7 +2610,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderContents(): JSX.Element | null {
-    const { deletedForEveryone, giftBadge, isTapToView } = this.props;
+    const { deletedForEveryone, isTapToView } = this.props;
 
     if (deletedForEveryone) {
       return (
@@ -2623,10 +2619,6 @@ export class Message extends React.PureComponent<Props, State> {
           {this.#renderMetadata()}
         </>
       );
-    }
-
-    if (giftBadge) {
-      return this.renderGiftBadge();
     }
 
     if (isTapToView) {
@@ -2663,13 +2655,11 @@ export class Message extends React.PureComponent<Props, State> {
       cancelAttachmentDownload,
       contact,
       direction,
-      giftBadge,
       id,
       isTapToView,
       isTapToViewError,
       isTapToViewExpired,
       kickOffAttachmentDownload,
-      openGiftBadge,
       pushPanelForConversation,
       readStatus,
       showExpiredIncomingTapToViewToast,
@@ -2680,11 +2670,6 @@ export class Message extends React.PureComponent<Props, State> {
     const { imageBroken } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
-
-    if (giftBadge && giftBadge.state === "removed") {
-      openGiftBadge(id);
-      return;
-    }
 
     if (isTapToView) {
       event.preventDefault();

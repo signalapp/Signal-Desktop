@@ -260,7 +260,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   return (
     <ConversationHeader
       addedByName={addedByName}
-      badge={badge}
       cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
       conversation={minimalConversation}
       conversationName={conversationName}
