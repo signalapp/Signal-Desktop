@@ -14,3 +14,31 @@ export function fromRingrtcCallLinkState(): never {
 export function getRoomIdFromRootKey(): string {
   return '';
 }
+
+export function getRoomIdFromCallLink(): string {
+  return '';
+}
+
+export function getRoomIdFromRootKeyString(): string {
+  return '';
+}
+
+export function toEpochBytes(): Uint8Array {
+  return new Uint8Array();
+}
+
+export function fromEpochBytes(): string {
+  return '';
+}
+
+export function toRootKeyBytes(): Uint8Array {
+  return new Uint8Array();
+}
+
+export function fromRootKeyBytes(): string {
+  return '';
+}
+
+export function callLinkFromRecord(): never {
+  throw new Error('Call links not supported');
+}

@@ -3,6 +3,8 @@
 
 // ORBITAL: Call link colors removed - stub only
 
-export function getColorForCallLink(_key: string): string {
-  return '#000000';
+import type { AvatarColorType } from '../types/Colors.std.js';
+
+export function getColorForCallLink(_key: string): AvatarColorType {
+  return 'A100';
 }

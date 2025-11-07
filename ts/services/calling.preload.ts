@@ -3,6 +3,8 @@
 
 // ORBITAL: Calling service removed - stub only
 
+import type { MediaDeviceSettings } from '../types/Calling.std.js';
+
 export class CallingClass {
   public async initialize(..._args: Array<unknown>): Promise<void> {
     // Stub implementation
@@ -18,6 +20,17 @@ export class CallingClass {
 
   public async readCallLink(..._args: Array<unknown>): Promise<unknown> {
     return null;
+  }
+
+  public async getAvailableIODevices(): Promise<MediaDeviceSettings> {
+    return {
+      availableCameras: [],
+      availableMicrophones: [],
+      availableSpeakers: [],
+      selectedCamera: undefined,
+      selectedMicrophone: undefined,
+      selectedSpeaker: undefined,
+    };
   }
 }
 

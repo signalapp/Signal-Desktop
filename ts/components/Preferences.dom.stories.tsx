@@ -84,32 +84,38 @@ function conversationSelector(conversationId?: string) {
   return found;
 }
 
-const availableMicrophones = [
+const availableMicrophones: ReadonlyArray<MediaDeviceInfo> = [
   {
-    name: 'DefAuLt (Headphones)',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
-  },
+    deviceId: 'Default',
+    kind: 'audioinput' as MediaDeviceKind,
+    label: 'Default (Headphones)',
+    groupId: 'default',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
 ];
 
-const availableSpeakers = [
+const availableSpeakers: ReadonlyArray<MediaDeviceInfo> = [
   {
-    name: 'Default',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
-  },
+    deviceId: 'Default',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: 'Default',
+    groupId: 'default',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
   {
-    name: "Natalie's Airpods (Bluetooth)",
-    index: 1,
-    uniqueId: 'aa',
-  },
+    deviceId: 'aa',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: "Natalie's Airpods (Bluetooth)",
+    groupId: 'aa',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
   {
-    name: 'UE Boom (Bluetooth)',
-    index: 2,
-    uniqueId: 'bb',
-  },
+    deviceId: 'bb',
+    kind: 'audiooutput' as MediaDeviceKind,
+    label: 'UE Boom (Bluetooth)',
+    groupId: 'bb',
+    toJSON: () => ({}),
+  } as MediaDeviceInfo,
 ];
 
 const validateBackupResult = {

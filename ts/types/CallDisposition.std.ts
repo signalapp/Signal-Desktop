@@ -67,3 +67,24 @@ export type CallHistoryDetails = {
 export type CallHistoryGroup = never;
 export type CallHistoryPagination = never;
 export type CallHistoryFilter = never;
+
+// Additional types required by various modules
+export type CallLogEventTarget = never;
+export type CallStatusValue = CallStatus;
+export type CallHistoryFilterStatus = never;
+export type CallEventDetails = never;
+export type CallLogEventDetails = never;
+export type CallDetails = never;
+
+// Schema stubs for migrations
+export const callHistoryDetailsSchema = {
+  parse: (_data: unknown): CallHistoryDetails => {
+    throw new Error('Call history not supported');
+  },
+};
+
+export const callHistoryGroupSchema = {
+  parse: (_data: unknown): never => {
+    throw new Error('Call history not supported');
+  },
+};

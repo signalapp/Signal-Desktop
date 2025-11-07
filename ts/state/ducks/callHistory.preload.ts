@@ -9,9 +9,17 @@ export type CallHistoryState = Record<string, never>;
 
 const initialState: CallHistoryState = {};
 
+export function getEmptyState(): CallHistoryState {
+  return initialState;
+}
+
 export const actions = {
   updateCallHistoryUnreadCount: () => ({ type: 'callHistory/NOOP' as const }),
 };
+
+export function markCallHistoryReadInConversation(_conversationId: string): void {
+  // Stub - no-op
+}
 
 export const reducer = (
   state: CallHistoryState = initialState,

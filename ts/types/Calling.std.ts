@@ -25,3 +25,10 @@ export type MediaDeviceSettings = {
   selectedMicrophone: MediaDeviceInfo | undefined;
   selectedSpeaker: MediaDeviceInfo | undefined;
 };
+
+export type PresentableSource = {
+  id: string;
+  name: string;
+  thumbnail: string;
+  appIcon?: string;
+};

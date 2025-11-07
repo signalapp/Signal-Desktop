@@ -15,6 +15,6 @@ export function InAnotherCallTooltip({ children }: PropsType): JSX.Element {
   return <>{children}</>;
 }
 
-export function getTooltipContent(): string {
+export function getTooltipContent(_i18n: LocalizerType): string {
   return '';
 }

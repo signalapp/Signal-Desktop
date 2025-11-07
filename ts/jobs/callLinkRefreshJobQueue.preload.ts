@@ -11,6 +11,22 @@ export class CallLinkRefreshJobQueue {
   async shutdown(): Promise<void> {
     // No-op
   }
+
+  updatePendingCallLinkStorageFields(_roomId: string, _fields: unknown): void {
+    // No-op
+  }
+
+  getPendingAdminCallLinks(): unknown[] {
+    return [];
+  }
+
+  hasPendingCallLink(_roomId: string): boolean {
+    return false;
+  }
+
+  add(_job: unknown): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 export const callLinkRefreshJobQueue = new CallLinkRefreshJobQueue();

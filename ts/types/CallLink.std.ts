@@ -5,6 +5,7 @@
 
 export type CallLinkType = never;
 export type CallLinkStateType = never;
+export type CallLinkUpdateSyncType = never;
 
 export type CallLinkRecord = {
   roomId: string;

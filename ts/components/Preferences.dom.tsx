@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// ORBITAL: AudioDevice stub - calling removed
-type AudioDevice = MediaDeviceInfo & { name: string; index: number };
+// ORBITAL: AudioDevice removed - using MediaDeviceInfo directly now
 import React, {
   useCallback,
   useEffect,
@@ -150,8 +149,8 @@ export type PropsDataType = {
   notificationContent: NotificationSettingType;
   phoneNumber: string | undefined;
   selectedCamera?: string;
-  selectedMicrophone?: AudioDevice;
-  selectedSpeaker?: AudioDevice;
+  selectedMicrophone?: MediaDeviceInfo;
+  selectedSpeaker?: MediaDeviceInfo;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -302,8 +301,8 @@ type PropsFunctionType = {
   onNotificationsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
-  onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
-  onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSelectedMicrophoneChange: SelectChangeHandlerType<MediaDeviceInfo | undefined>;
+  onSelectedSpeakerChange: SelectChangeHandlerType<MediaDeviceInfo | undefined>;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
@@ -1326,9 +1325,9 @@ export function Preferences({
                   onChange={onAudioInputSelectChange}
                   options={
                     availableMicrophones.length
-                      ? availableMicrophones.map(device => ({
-                          text: localizeDefault(i18n, device.name),
-                          value: device.index}))
+                      ? availableMicrophones.map((device, index) => ({
+                          text: device.label || `Microphone ${index + 1}`,
+                          value: index}))
                       : [
                           {
                             text: i18n(
@@ -1337,7 +1336,7 @@ export function Preferences({
                             value: 'undefined'},
                         ]
                   }
-                  value={selectedMicrophone?.index}
+                  value={availableMicrophones.indexOf(selectedMicrophone!)}
                 />
               </>
             }
@@ -1362,9 +1361,9 @@ export function Preferences({
                   onChange={onAudioOutputSelectChange}
                   options={
                     availableSpeakers.length
-                      ? availableSpeakers.map(device => ({
-                          text: localizeDefault(i18n, device.name),
-                          value: device.index}))
+                      ? availableSpeakers.map((device, index) => ({
+                          text: device.label || `Speaker ${index + 1}`,
+                          value: index}))
                       : [
                           {
                             text: i18n(
@@ -1373,7 +1372,7 @@ export function Preferences({
                             value: 'undefined'},
                         ]
                   }
-                  value={selectedSpeaker?.index}
+                  value={availableSpeakers.indexOf(selectedSpeaker!)}
                 />
               </>
             }

@@ -12,3 +12,24 @@ export async function updateLocalGroupCallHistoryTimestamp(
 ): Promise<void> {
   // Stub implementation
 }
+
+// Additional exports required by SendMessage and MessageReceiver
+export function getCallEventForProto(_proto: unknown): null {
+  return null;
+}
+
+export function getCallLogEventForProto(_proto: unknown): null {
+  return null;
+}
+
+export function getBytesForPeerId(_peerId: unknown): Uint8Array {
+  return new Uint8Array();
+}
+
+export function getCallIdForProto(_callId: unknown): string {
+  return '';
+}
+
+export function getProtoForCallHistory(_callHistory: unknown): null {
+  return null;
+}
