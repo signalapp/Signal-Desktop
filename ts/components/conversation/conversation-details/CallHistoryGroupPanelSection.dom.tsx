@@ -6,10 +6,10 @@
 import type { LocalizerType } from '../../../types/Util.std.js';
 
 export type PropsType = {
-  callHistoryGroup: never;
+  callHistoryGroup: unknown;
   i18n: LocalizerType;
 };
 
-export function CallHistoryGroupPanelSection(): null {
+export function CallHistoryGroupPanelSection(_props: PropsType): null {
   return null;
 }

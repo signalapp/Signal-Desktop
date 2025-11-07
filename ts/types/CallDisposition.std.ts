@@ -6,6 +6,7 @@
 export enum CallDirection {
   Incoming = 'Incoming',
   Outgoing = 'Outgoing',
+  Unknown = 'Unknown',
 }
 
 export enum DirectCallStatus {
@@ -15,6 +16,7 @@ export enum DirectCallStatus {
   Deleted = 'Deleted',
   Pending = 'Pending',
   MissedNotificationProfile = 'MissedNotificationProfile',
+  Unknown = 'Unknown',
 }
 
 export enum GroupCallStatus {
@@ -32,6 +34,9 @@ export enum GroupCallStatus {
 export enum AdhocCallStatus {
   Generic = 'Generic',
   Unknown = 'Unknown',
+  Deleted = 'Deleted',
+  Joined = 'Joined',
+  Pending = 'Pending',
 }
 
 export type CallStatus = DirectCallStatus | GroupCallStatus | AdhocCallStatus;
@@ -41,6 +46,7 @@ export enum CallType {
   Video = 'Video',
   Group = 'Group',
   Adhoc = 'Adhoc',
+  Unknown = 'Unknown',
 }
 
 export enum CallMode {
@@ -49,7 +55,15 @@ export enum CallMode {
   Adhoc = 'Adhoc',
 }
 
-export type CallHistoryDetails = never;
+export type CallHistoryDetails = {
+  callId: string;
+  type: CallType;
+  peerId: string;
+  status: CallStatus;
+  timestamp: number;
+  [key: string]: unknown;
+};
+
 export type CallHistoryGroup = never;
 export type CallHistoryPagination = never;
 export type CallHistoryFilter = never;

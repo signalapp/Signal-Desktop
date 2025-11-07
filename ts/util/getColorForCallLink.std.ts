@@ -3,6 +3,6 @@
 
 // ORBITAL: Call link colors removed - stub only
 
-export function getColorForCallLink(): string {
+export function getColorForCallLink(_key: string): string {
   return '#000000';
 }

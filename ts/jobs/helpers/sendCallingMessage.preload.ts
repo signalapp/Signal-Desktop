@@ -3,6 +3,10 @@
 
 // ORBITAL: sendCallingMessage removed - stub only
 
-export async function sendCallingMessage(): Promise<void> {
+export async function sendCallingMessage(
+  _conversation: unknown,
+  _jobBundle: unknown,
+  _data: unknown
+): Promise<void> {
   throw new Error('Calling not supported');
 }

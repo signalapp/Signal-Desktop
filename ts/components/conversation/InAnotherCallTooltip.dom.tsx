@@ -3,7 +3,7 @@
 
 // ORBITAL: InAnotherCallTooltip removed - stub only
 
-import type { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/Util.std.js';
 
 export type PropsType = {

@@ -3,8 +3,12 @@
 
 // ORBITAL: Call disposition removed - stub only
 
-export const getCallIdFromEra = () => '';
-export const getCallEventDetails = () => null;
-export async function updateLocalGroupCallHistoryTimestamp(): Promise<void> {
+export const getCallIdFromEra = (_eraId: string) => '';
+export const getCallEventDetails = (_message: unknown, _ourAci: unknown) => null;
+export async function updateLocalGroupCallHistoryTimestamp(
+  _conversationId: string,
+  _eraId: string,
+  _createdAt: number
+): Promise<void> {
   // Stub implementation
 }

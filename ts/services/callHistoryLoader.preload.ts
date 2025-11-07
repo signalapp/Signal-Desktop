@@ -8,3 +8,15 @@ export class CallHistoryLoader {
 }
 
 export const callHistoryLoader = new CallHistoryLoader();
+
+export async function loadCallHistory(): Promise<void> {
+  // No-op
+}
+
+export function getCallsHistoryForRedux(): Array<unknown> {
+  return [];
+}
+
+export function getCallsHistoryUnreadCountForRedux(): number {
+  return 0;
+}

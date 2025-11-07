@@ -3,6 +3,6 @@
 
 // ORBITAL: CallHistory selectors removed - stub only
 
-export const getCallHistoryUnreadCount = () => 0;
-export const getCallHistoryEdition = () => 0;
-export const getCallHistorySelector = () => () => [];
+export const getCallHistoryUnreadCount = (_state: unknown) => 0;
+export const getCallHistoryEdition = (_state: unknown) => 0;
+export const getCallHistorySelector = (_state: unknown) => (_callId: string) => undefined;

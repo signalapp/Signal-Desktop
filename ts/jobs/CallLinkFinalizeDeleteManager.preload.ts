@@ -4,5 +4,11 @@
 // ORBITAL: CallLinkFinalizeDeleteManager removed - stub only
 
 export class CallLinkFinalizeDeleteManager {
-  // Stub implementation
+  static start(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  static async stop(): Promise<void> {
+    // No-op
+  }
 }

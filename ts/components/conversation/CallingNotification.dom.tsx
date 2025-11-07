@@ -5,12 +5,13 @@
 
 import type { LocalizerType } from '../../types/Util.std.js';
 
-export type PropsActionsType = Record<string, never>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PropsActionsType = Record<string, any>;
 
 export type CallingNotificationPropsType = {
   i18n: LocalizerType;
 } & PropsActionsType;
 
-export function CallingNotification(): null {
+export function CallingNotification(_props: CallingNotificationPropsType): null {
   return null;
 }

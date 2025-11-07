@@ -4,7 +4,13 @@
 // ORBITAL: callLinkRefreshJobQueue removed - stub only
 
 export class CallLinkRefreshJobQueue {
-  // Stub implementation
+  streamJobs(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  async shutdown(): Promise<void> {
+    // No-op
+  }
 }
 
 export const callLinkRefreshJobQueue = new CallLinkRefreshJobQueue();

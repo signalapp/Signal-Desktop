@@ -3,8 +3,8 @@
 
 // ORBITAL: Calling selectors removed - stub only
 
-export const getActiveCall = () => undefined;
-export const getIncomingCall = () => undefined;
-export const areAnyCallsActiveOrRinging = () => false;
-export const isInFullScreenCall = () => false;
-export const isInCall = () => false;
+export const getActiveCall = (_state: unknown) => undefined;
+export const getIncomingCall = (_state: unknown) => undefined;
+export const areAnyCallsActiveOrRinging = (_state: unknown) => false;
+export const isInFullScreenCall = (_state: unknown) => false;
+export const isInCall = (_state: unknown) => false;

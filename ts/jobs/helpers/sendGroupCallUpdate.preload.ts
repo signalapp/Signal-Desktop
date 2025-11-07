@@ -3,6 +3,10 @@
 
 // ORBITAL: sendGroupCallUpdate removed - stub only
 
-export async function sendGroupCallUpdate(): Promise<void> {
+export async function sendGroupCallUpdate(
+  _conversation: unknown,
+  _jobBundle: unknown,
+  _data: unknown
+): Promise<void> {
   throw new Error('Calling not supported');
 }
