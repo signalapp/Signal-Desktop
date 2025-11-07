@@ -14,7 +14,8 @@ import { useAccountsActions } from '../ducks/accounts.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+// REMOVED: Badge imports
+// import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getIntl,
   getInteractionMode,
@@ -174,6 +175,9 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     },
     [conversationId, toggleMessageRequestActionsConfirmation]
   );
+
+  // REMOVED: Badge support - stub function
+  const getPreferredBadge = () => undefined;
 
   return (
     <TimelineItem

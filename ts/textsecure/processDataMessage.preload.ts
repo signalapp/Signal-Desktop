@@ -32,8 +32,11 @@ import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType} from '../types/MIME.std.js';
 import { SECOND, DurationInSeconds } from '../util/durations/index.std.js';
-import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import { PaymentEventKind } from '../types/Payment.std.js';
+// REMOVED: Payment types
+// import type { AnyPaymentEvent } from '../types/Payment.std.js';
+// import { PaymentEventKind } from '../types/Payment.std.js';
+type AnyPaymentEvent = any;
+const PaymentEventKind = { Notification: 'Notification' as any, ActivationRequest: 'ActivationRequest' as any, Activation: 'Activation' as any };
 import { filterAndClean } from '../types/BodyRange.std.js';
 import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { createName } from '../util/attachmentPath.node.js';

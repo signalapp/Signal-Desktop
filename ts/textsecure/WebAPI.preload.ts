@@ -96,11 +96,16 @@ import type { ServerAlert } from '../types/ServerAlert.std.js';
 import { isAbortError } from '../util/isAbortError.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { drop } from '../util/drop.std.js';
-import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
-import type {
-  StripeDonationAmount,
-  CardDetail} from '../types/Donations.std.js';
-import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
+// REMOVED: Donations and currency types
+// import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
+// import type {
+//   StripeDonationAmount,
+//   CardDetail} from '../types/Donations.std.js';
+// import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
+type StripeDonationAmount = any;
+type CardDetail = any;
+const subscriptionConfigurationCurrencyZod = { parse: (_x: any) => 'usd' as any };
+const ZERO_DECIMAL_CURRENCIES: string[] = [];
 import type { JobCancelReason } from '../jobs/types.std.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;

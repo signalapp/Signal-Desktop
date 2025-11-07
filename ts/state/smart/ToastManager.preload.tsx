@@ -30,7 +30,8 @@ import { getHasCompletedUsernameOnboarding } from '../selectors/items.dom.js';
 import { ToastManager } from '../../components/ToastManager.dom.js';
 import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { getToast } from '../selectors/toast.std.js';
-import { useDonationsActions } from '../ducks/donations.preload.js';
+// REMOVED: Donations support
+// import { useDonationsActions } from '../ducks/donations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 export type SmartPropsType = Readonly<{
@@ -60,7 +61,8 @@ export const SmartToastManager = memo(function SmartToastManager({
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const { changeLocation } = useNavActions();
-  const { setDidResume } = useDonationsActions();
+  // REMOVED: Donations support - stub function
+  const setDidResume = () => {};
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();

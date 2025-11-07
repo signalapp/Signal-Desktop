@@ -51,7 +51,7 @@ import {
 import { getAuthor } from '../messages/sources.preload.js';
 // REMOVED: import { messageHasPaymentEvent, getPaymentEventNotificationText } from '../messages/payments.std.js';
 const messageHasPaymentEvent = (_attributes: any) => false; // STUB: Payments removed
-const getPaymentEventNotificationText = () => ''; // STUB: Payments removed
+const getPaymentEventNotificationText = (_message: any, _payment: any, _senderTitle: any, _conversationTitle: any, _receivedDate: any) => ''; // STUB: Payments removed - fixed argument count
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.std.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { getUserConversationId } from '../state/selectors/user.std.js';
