@@ -409,7 +409,7 @@ export async function handleDataMessage(
       findStoryMessages(conversation.id, storyContext),
     ]);
 
-    const storyQuote = storyQuotes.find(candidateQuote => {
+    const storyQuote = storyQuotes.find((candidateQuote: any) => {
       const sendStateByConversationId =
         candidateQuote.sendStateByConversationId || {};
       const sendState = sendStateByConversationId[sender.id];

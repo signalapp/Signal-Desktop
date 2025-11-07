@@ -12,7 +12,7 @@ export function generateStoryDistributionId(): StoryDistributionIdString {
 }
 
 // Function stub for normalizeStoryDistributionId
-export function normalizeStoryDistributionId(id: string): StoryDistributionIdString {
+export function normalizeStoryDistributionId(id: string, _context?: string): StoryDistributionIdString {
   return id as StoryDistributionIdString;
 }
 

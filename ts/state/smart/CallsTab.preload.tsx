@@ -157,7 +157,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const callHistoryEdition = useSelector(getCallHistoryEdition);
 
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  // REMOVED: const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const {
@@ -239,7 +239,6 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       callHistoryEdition={callHistoryEdition}
       hangUpActiveCall={hangUpActiveCall}
       hasAnyAdminCallLinks={hasAnyAdminCallLinks}
-      hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
       navTabsCollapsed={navTabsCollapsed}

@@ -6,3 +6,4 @@
 
 export const getHasAnyFailedStorySends = () => false;
 export const getStoriesNotificationCount = () => 0;
+export const hasSelectedStoryData = () => false;

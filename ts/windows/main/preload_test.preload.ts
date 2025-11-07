@@ -114,7 +114,6 @@ window.testUtilities = {
       notificationProfiles: [],
       recentEmoji: {
         recents: []},
-      stories: [],
       storyDistributionLists: [],
       stickers: {
         installedPack: null,

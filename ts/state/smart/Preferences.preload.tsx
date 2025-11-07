@@ -220,7 +220,7 @@ export function SmartPreferences(): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const dialogType = useSelector(getUpdateDialogType);
   const items = useSelector(getItems);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  // REMOVED: const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const me = useSelector(getMe);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
@@ -796,7 +796,6 @@ export function SmartPreferences(): JSX.Element | null {
           hasCallRingtoneNotification={hasCallRingtoneNotification}
           hasContentProtection={hasContentProtection}
           hasCountMutedConversations={hasCountMutedConversations}
-          hasFailedStorySends={hasFailedStorySends}
           hasHideMenuBar={hasHideMenuBar}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
           hasLinkPreviews={hasLinkPreviews}
