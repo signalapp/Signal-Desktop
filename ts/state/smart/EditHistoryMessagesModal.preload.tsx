@@ -42,6 +42,9 @@ export const SmartEditHistoryMessagesModal = memo(
         timestamp: messageAttributes.timestamp}));
     }, [messagesAttributes, messagePropsSelector]);
 
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
+
     return (
       <EditHistoryMessagesModal
         cancelAttachmentDownload={cancelAttachmentDownload}

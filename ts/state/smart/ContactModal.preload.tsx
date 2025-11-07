@@ -71,6 +71,9 @@ export const SmartContactModal = memo(function SmartContactModal() {
     toggleEditNicknameAndNoteModal({ conversationId: contactId });
   }, [toggleEditNicknameAndNoteModal, contactId]);
 
+  // STUB: Badges removed - badges always empty array
+  const badges: readonly any[] = [];
+
   return (
     <ContactModal
       areWeAdmin={areWeAdmin}

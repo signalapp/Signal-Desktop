@@ -44,6 +44,9 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
     const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const conversationSelector = useSelector(getConversationSelector);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <CompositionTextArea
       {...props}

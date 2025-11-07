@@ -18,6 +18,7 @@ import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
   getErrorDialogAudioRecorderType,
   getRecordingState} from '../selectors/audioRecorder.std.js';
+// STUB: Badges removed - import getPreferredBadgeSelector for compatibility
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getComposerStateForConversationIdSelector } from '../selectors/composer.preload.js';
 import {
@@ -209,6 +210,9 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const { onEditorStateChange } = useComposerActions();
 
   AutoSubstituteAsciiEmojis.enable(itemStorage.get('autoConvertEmoji', true));
+
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
 
   return (
     <CompositionArea

@@ -40,6 +40,9 @@ export const SmartGV1Members = memo(function SmartGV1Members({
     conversationByServiceIdSelector
   );
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationDetailsMembershipList
       canAddNewMembers={false}

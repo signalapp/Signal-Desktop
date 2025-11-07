@@ -32,6 +32,9 @@ export const SmartMessageSearchResult = memo(function SmartMessageSearchResult({
   const { conversationId, snippet, body, bodyRanges, from, to, sentAt } =
     messageResult;
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <MessageSearchResult
       i18n={i18n}

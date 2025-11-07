@@ -53,6 +53,9 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('profiles');
 
+// STUB: Badges removed - parseBadgesFromServer stub
+const parseBadgesFromServer = (_badges: unknown, _updatesUrl: string): unknown[] => [];
+
 type JobType = {
   resolve: () => void;
   reject: (error: Error) => void;

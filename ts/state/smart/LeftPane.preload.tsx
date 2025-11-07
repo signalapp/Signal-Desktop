@@ -405,6 +405,9 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const targetedMessageId = targetedMessage?.id;
   const isNotificationProfileActive = Boolean(useSelector(getActiveProfile));
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <LeftPane
       backupMediaDownloadProgress={backupMediaDownloadProgress}

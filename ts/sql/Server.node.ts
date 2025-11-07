@@ -17,7 +17,10 @@ import lodash from 'lodash';
 
 import {
   parseBadgeImageTheme,
-  type BadgeImageTheme} from '../badges/"light".js';
+  type BadgeImageTheme,
+  type BadgeType,
+  type BadgeImageType,
+  parseBadgeCategory} from '../badges/light.js';
 import type { StoredJob } from '../jobs/types.std.js';
 import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
 import { ReadStatus } from '../messages/MessageReadStatus.std.js';

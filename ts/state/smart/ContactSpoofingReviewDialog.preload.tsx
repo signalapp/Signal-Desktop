@@ -63,6 +63,9 @@ export const SmartContactSpoofingReviewDialog = memo(
     );
     const safeConvo = useSelector(safeConversationSelector);
 
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
+
     const sharedProps = {
       ...props,
       acceptConversation,

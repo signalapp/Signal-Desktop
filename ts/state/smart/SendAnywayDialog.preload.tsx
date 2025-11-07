@@ -81,6 +81,9 @@ export const SmartSendAnywayDialog = memo(
       hideBlockingSafetyNumberChangeDialog,
     ]);
 
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
+
     return (
       <SafetyNumberChangeDialog
         confirmText={confirmText}

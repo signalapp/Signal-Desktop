@@ -98,6 +98,9 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationHero
       avatarPlaceholderGradient={avatarPlaceholderGradient}

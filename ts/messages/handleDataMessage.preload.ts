@@ -76,6 +76,9 @@ const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 
+// STUB: Badges removed - parseBoostBadgeListFromServer stub
+const parseBoostBadgeListFromServer = (_response: unknown, _updatesUrl: string): unknown[] => [];
+
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
 
@@ -761,27 +764,11 @@ export async function handleDataMessage(
 
       await DataWriter.updateConversation(conversation.attributes);
 
+      // STUB: Badges removed - gift badge logic disabled
       const giftBadge = message.get('giftBadge');
       if (giftBadge && giftBadge.state !== "removed") {
-        const { level } = giftBadge;
-        const { updatesUrl } = window.SignalContext.config;
-        strictAssert(
-          typeof updatesUrl === 'string',
-          'getProfile: expected updatesUrl to be a defined string'
-        );
-        const response = await getCachedSubscriptionConfiguration();
-        const boostBadgesByLevel = parseBoostBadgeListFromServer(
-          response,
-          updatesUrl
-        );
-        if (!badge) {
-          log.error(
-            `${idLog}: gift badge with level ${level} not found on server`
-          );
-        } else {
-          await window.reduxActions.badges.updateOrCreate([badge]);
-          giftBadge.id = badge.id;
-        }
+        log.info(`${idLog}: gift badge feature removed, skipping badge processing`);
+        // Gift badge feature has been removed from Orbital
       }
 
       const result = await modifyTargetMessage(message, conversation, {

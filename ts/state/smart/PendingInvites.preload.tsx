@@ -39,6 +39,9 @@ export const SmartPendingInvites = memo(function SmartPendingInvites({
   const {
     approvePendingMembershipFromGroupV2,
     revokePendingMembershipsFromGroupV2} = useConversationsActions();
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <PendingInvites
       i18n={i18n}

@@ -46,6 +46,9 @@ export function SmartForwardMessagesModal(): JSX.Element | null {
     return null;
   }
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <SmartForwardMessagesModalInner
       forwardMessagesProps={forwardMessagesProps}

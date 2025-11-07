@@ -188,6 +188,9 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     };
   }, [conversationId]);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationDetails
       acceptConversation={acceptConversation}

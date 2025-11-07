@@ -63,6 +63,9 @@ export const SmartGroupV1MigrationDialog = memo(
       initiateMigrationToGroupV2(conversationId);
     }, [initiateMigrationToGroupV2, conversationId]);
 
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
+
     return (
       <GroupV1MigrationDialog
         i18n={i18n}

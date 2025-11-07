@@ -735,6 +735,9 @@ export function SmartPreferences(): JSX.Element | null {
 
   const accountEntropyPool = itemStorage.get('accountEntropyPool');
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <StrictMode>
       <AxoProvider dir={i18n.getLocaleDirection()}>

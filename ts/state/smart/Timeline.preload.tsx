@@ -61,6 +61,9 @@ function renderItem({
   nextMessageId,
   previousMessageId,
   unreadIndicatorPlacement}: SmartTimelineItemProps): JSX.Element {
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <SmartTimelineItem
       containerElementRef={containerElementRef}

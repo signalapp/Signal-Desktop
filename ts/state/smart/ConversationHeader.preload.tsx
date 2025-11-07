@@ -254,6 +254,9 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const setLocalDeleteWarningShown = () =>
     putItem('localDeleteWarningShown', true);
 
+  // STUB: Badges removed - getPreferredBadge always returns undefined
+  const getPreferredBadge = getPreferredBadgeSelector();
+
   return (
     <ConversationHeader
       addedByName={addedByName}

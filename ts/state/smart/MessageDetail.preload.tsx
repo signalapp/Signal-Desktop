@@ -82,6 +82,9 @@ export const SmartMessageDetail = memo(
         ? getContactNameColor(message.conversationId, message.author.id)
         : undefined;
 
+    // STUB: Badges removed - getPreferredBadge always returns undefined
+    const getPreferredBadge = getPreferredBadgeSelector();
+
     return (
       <MessageDetail
         checkForAccount={checkForAccount}
