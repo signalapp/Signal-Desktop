@@ -28,22 +28,22 @@ Orbital transforms Signal's chat into threaded discussions for small groups. Sha
 
 ## 📚 Essential Documentation
 
-**All Orbital-specific documentation lives in [`orbital-docs/`](orbital-docs/)** (local-only, not in git)
+**All Orbital-specific documentation lives in [`planning-docs/`](planning-docs/)** (local-only, not in git)
 
 ### Start Here - Read in This Order
 
-1. **[Product Requirements Document](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)** (20 min)
+1. **[Product Requirements Document](planning-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)** (20 min)
    - **Single source of truth** for all product decisions
    - Complete product vision, user journeys, and MVP scope
    - Target launch: 2025-11-26
    - All team members reference this as the master document
 
-2. **[Signal Fork Strategy](orbital-docs/signal-fork-strategy.md)** (20 min)
+2. **[Signal Fork Strategy](planning-docs/signal-fork-strategy.md)** (20 min)
    - Complete implementation plan and 21-day timeline
    - Technical architecture and component breakdown
    - Database schema for hybrid approach
 
-3. **[Branch Strategy](orbital-docs/BRANCH_STRATEGY.md)** (10 min)
+3. **[Branch Strategy](planning-docs/BRANCH_STRATEGY.md)** (10 min)
    - Git workflow and branch management
    - Feature development process
    - Upstream Signal tracking
@@ -51,18 +51,18 @@ Orbital transforms Signal's chat into threaded discussions for small groups. Sha
 ### Additional Documentation
 
 **Architecture & Strategy:**
-- **[ARCHITECTURE-DECISION.md](orbital-docs/ARCHITECTURE-DECISION.md)** - Why we're forking Signal
-- **[orbital-mvp-overview.md](orbital-docs/orbital-mvp-overview.md)** - Product vision & goals
-- **[CODEBASE_CLEANUP_PLAN.md](orbital-docs/CODEBASE_CLEANUP_PLAN.md)** - Phase 1 cleanup strategy (✅ completed)
+- **[ARCHITECTURE-DECISION.md](planning-docs/ARCHITECTURE-DECISION.md)** - Why we're forking Signal
+- **[orbital-mvp-overview.md](planning-docs/orbital-mvp-overview.md)** - Product vision & goals
+- **[CODEBASE_CLEANUP_PLAN.md](planning-docs/CODEBASE_CLEANUP_PLAN.md)** - Phase 1 cleanup strategy (✅ completed)
 
 **Implementation Guides:**
-- **[database-schema.md](orbital-docs/database-schema.md)** - PostgreSQL schema
-- **[testing-strategy.md](orbital-docs/testing-strategy.md)** - Testing approach
-- **[deployment-operations.md](orbital-docs/deployment-operations.md)** - DigitalOcean deployment
-- **[encryption-and-security.md](orbital-docs/encryption-and-security.md)** - Signal Protocol integration
-- **[api-specification.md](orbital-docs/api-specification.md)** - Backend API design
-- **[frontend-architecture.md](orbital-docs/frontend-architecture.md)** - React/TypeScript UI
-- **[websocket-realtime.md](orbital-docs/websocket-realtime.md)** - Real-time updates
+- **[database-schema.md](planning-docs/database-schema.md)** - PostgreSQL schema
+- **[testing-strategy.md](planning-docs/testing-strategy.md)** - Testing approach
+- **[deployment-operations.md](planning-docs/deployment-operations.md)** - DigitalOcean deployment
+- **[encryption-and-security.md](planning-docs/encryption-and-security.md)** - Signal Protocol integration
+- **[api-specification.md](planning-docs/api-specification.md)** - Backend API design
+- **[frontend-architecture.md](planning-docs/frontend-architecture.md)** - React/TypeScript UI
+- **[websocket-realtime.md](planning-docs/websocket-realtime.md)** - Real-time updates
 
 ---
 
@@ -73,7 +73,7 @@ Orbital transforms Signal's chat into threaded discussions for small groups. Sha
 - **Issues** - All features, tasks, and bugs tracked in GitHub Issues
 - **Milestones** - Organized by development phases (Phase 1, Phase 2, etc.)
 - **Pull Requests** - All changes reviewed and merged to `develop` branch
-- **Branch Strategy** - See [BRANCH_STRATEGY.md](orbital-docs/BRANCH_STRATEGY.md) for workflow
+- **Branch Strategy** - See [BRANCH_STRATEGY.md](planning-docs/BRANCH_STRATEGY.md) for workflow
 
 **Current Milestone:** Phase 2 - Threading Implementation
 
@@ -108,7 +108,7 @@ cp .env.example .env
 pnpm start
 ```
 
-For detailed setup, see [orbital-docs/deployment-operations.md](orbital-docs/deployment-operations.md)
+For detailed setup, see [planning-docs/deployment-operations.md](planning-docs/deployment-operations.md)
 
 ---
 
@@ -160,8 +160,8 @@ See **GitHub Issues** for detailed task breakdown.
 
 We welcome contributions! Please:
 
-1. Read [PRODUCT-REQUIREMENTS-DOCUMENT.md](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md) to understand our vision
-2. Review [BRANCH_STRATEGY.md](orbital-docs/BRANCH_STRATEGY.md) for workflow
+1. Read [PRODUCT-REQUIREMENTS-DOCUMENT.md](planning-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md) to understand our vision
+2. Review [BRANCH_STRATEGY.md](planning-docs/BRANCH_STRATEGY.md) for workflow
 3. Check GitHub Issues for available tasks
 4. Follow Signal's code style (see [SIGNAL_README.md](SIGNAL_README.md))
 5. Submit PRs to the `develop` branch
@@ -222,9 +222,9 @@ See [LICENSE](LICENSE) for full text.
 
 ## 🆘 Support & Questions
 
-- **Documentation:** [orbital-docs/](orbital-docs/)
+- **Documentation:** [planning-docs/](planning-docs/)
 - **Issues:** [GitHub Issues](https://github.com/alexg-g/Orbital-Desktop/issues)
-- **PRD (Product Requirements):** [PRODUCT-REQUIREMENTS-DOCUMENT.md](orbital-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)
+- **PRD (Product Requirements):** [PRODUCT-REQUIREMENTS-DOCUMENT.md](planning-docs/PRODUCT-REQUIREMENTS-DOCUMENT.md)
 
 ---
 

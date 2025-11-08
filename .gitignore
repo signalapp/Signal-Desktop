@@ -52,8 +52,10 @@ ts/protobuf/*.d.ts
 *.map
 
 # Orbital local development folders
-/.claude/
+/.claude/settings.local.json
+/.claude/.DS_Store
 /orbital-docs/
+/planning-docs/
 
 # Cleanup analysis and temporary files
 /scripts/cleanup/reports/

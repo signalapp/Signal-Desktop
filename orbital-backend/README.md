@@ -72,7 +72,7 @@ GRANT ALL ON SCHEMA public TO orbital_user;
 \q
 
 # Run database schema
-psql -U orbital_user -d orbital -f ../orbital-docs/database-schema.sql
+psql -U orbital_user -d orbital -f ../planning-docs/database-schema.sql
 ```
 
 ### 3. Configure Environment
@@ -178,7 +178,7 @@ Server will start on `http://localhost:3000` (or your configured PORT).
 
 ## Database Schema
 
-See `/orbital-docs/database-schema.md` for complete schema definition.
+See `/planning-docs/database-schema.md` for complete schema definition.
 
 **Core Tables:**
 - `signal_messages` - Encrypted Signal Protocol envelopes
@@ -432,8 +432,8 @@ kill -9 <PID>
 ## API Documentation
 
 For complete API specification, see:
-- `/orbital-docs/api-specification.md` - Full API reference
-- `/orbital-docs/websocket-realtime.md` - WebSocket protocol
+- `/planning-docs/api-specification.md` - Full API reference
+- `/planning-docs/websocket-realtime.md` - WebSocket protocol
 
 ---
 
