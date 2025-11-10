@@ -22,6 +22,7 @@ type MessageContextProps = {
   onEdit: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
   onReact: (() => void) | undefined;
+  onEndPoll: (() => void) | undefined;
   onRetryMessageSend: (() => void) | undefined;
   onRetryDeleteForEveryone: (() => void) | undefined;
   onCopy: (() => void) | undefined;
@@ -39,6 +40,7 @@ export const MessageContextMenu = ({
   onEdit,
   onReplyToMessage,
   onReact,
+  onEndPoll,
   onMoreInfo,
   onCopy,
   onSelect,
@@ -102,6 +104,22 @@ export const MessageContextMenu = ({
             </MenuItem>
           )}
         </>
+      )}
+      {onEndPoll && (
+        <MenuItem
+          attributes={{
+            className:
+              'module-message__context--icon module-message__context__end-poll',
+          }}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onEndPoll();
+          }}
+        >
+          {i18n('icu:Poll__end-poll')}
+        </MenuItem>
       )}
       {onForward && (
         <MenuItem

@@ -52,6 +52,7 @@ const MESSAGE_DEFAULT_PROPS = {
   previews: [],
   retryMessageSend: shouldNeverBeCalled,
   sendPollVote: shouldNeverBeCalled,
+  endPoll: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
   renderingContext: 'EditHistoryMessagesModal',

@@ -3495,6 +3495,44 @@ export class ConversationModel {
     }
   }
 
+  async addPollTerminateNotification(params: {
+    pollQuestion: string;
+    pollMessageId: string;
+    terminatorId: string;
+    timestamp: number;
+    isMeTerminating: boolean;
+  }): Promise<void> {
+    const terminatorConversation = window.ConversationController.get(
+      params.terminatorId
+    );
+    const terminatorServiceId = terminatorConversation?.getServiceId();
+
+    const message = new MessageModel({
+      ...generateMessageId(incrementMessageCounter()),
+      conversationId: this.id,
+      type: 'poll-terminate',
+      sent_at: params.timestamp,
+      timestamp: params.timestamp,
+      received_at_ms: params.timestamp,
+      sourceServiceId: terminatorServiceId,
+      pollTerminateNotification: {
+        question: params.pollQuestion,
+        pollMessageId: params.pollMessageId,
+      },
+      readStatus: params.isMeTerminating ? ReadStatus.Read : ReadStatus.Unread,
+      seenStatus: params.isMeTerminating ? SeenStatus.Seen : SeenStatus.Unseen,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+    });
+
+    await window.MessageCache.saveMessage(message, { forceSave: true });
+    window.MessageCache.register(message);
+
+    drop(this.onNewMessage(message));
+
+    this.throttledUpdateUnread();
+    await maybeNotify({ message: message.attributes, conversation: this });
+  }
+
   async addNotification(
     type: MessageAttributesType['type'],
     extra: Partial<MessageAttributesType> = {}

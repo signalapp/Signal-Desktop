@@ -7,6 +7,7 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
 import type { MessagePollVoteType } from '../types/Polls.dom.js';
+import { PollTerminateSendStatus } from '../types/Polls.dom.js';
 import { MessageModel } from '../models/messages.preload.js';
 import { DataReader } from '../sql/Client.preload.js';
 import * as Errors from '../types/errors.std.js';
@@ -523,10 +524,16 @@ export async function handlePollTerminate(
     return;
   }
 
+  const isFromThisDevice = terminate.source === PollSource.FromThisDevice;
+
   message.set({
     poll: {
       ...poll,
       terminatedAt: terminate.timestamp,
+      // Track send status (only for our own terminates)
+      terminateSendStatus: isFromThisDevice
+        ? PollTerminateSendStatus.Pending
+        : PollTerminateSendStatus.NotInitiated,
     },
   });
 
@@ -537,6 +544,15 @@ export async function handlePollTerminate(
 
   if (shouldPersist) {
     await window.MessageCache.saveMessage(message.attributes);
+
+    await conversation.addPollTerminateNotification({
+      pollQuestion: poll.question,
+      pollMessageId: message.id,
+      terminatorId: terminate.fromConversationId,
+      timestamp: terminate.timestamp,
+      isMeTerminating: isMe(author.attributes),
+    });
+
     window.reduxActions.conversations.markOpenConversationRead(conversation.id);
   }
 }

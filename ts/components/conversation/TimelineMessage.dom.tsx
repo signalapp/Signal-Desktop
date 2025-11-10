@@ -57,6 +57,7 @@ export type PropsData = {
   canDownload: boolean;
   canCopy: boolean;
   canEditMessage: boolean;
+  canEndPoll: boolean;
   canForward: boolean;
   canRetry: boolean;
   canRetryDeleteForEveryone: boolean;
@@ -70,6 +71,7 @@ export type PropsActions = {
   pushPanelForConversation: PushPanelForConversationActionType;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
   toggleForwardMessagesModal: (payload: ForwardMessagesPayload) => void;
+  endPoll: (id: string) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -109,6 +111,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canDownload,
     canCopy,
     canEditMessage,
+    canEndPoll,
     canForward,
     canReact,
     canReply,
@@ -123,6 +126,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     isTargeted,
     kickOffAttachmentDownload,
     copyMessageText,
+    endPoll,
     pushPanelForConversation,
     reactToMessage,
     renderReactionPicker,
@@ -400,6 +404,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         }
         onReplyToMessage={handleReplyToMessage}
         onReact={handleReact}
+        onEndPoll={canEndPoll ? () => endPoll(id) : undefined}
         onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
         onRetryDeleteForEveryone={
           canRetryDeleteForEveryone

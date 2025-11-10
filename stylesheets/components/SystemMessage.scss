@@ -53,7 +53,7 @@
       }
     }
 
-    &::before {
+    &--has-icon::before {
       content: '';
       display: inline-block;
       height: 16px;
