@@ -50,3 +50,27 @@ export type LocalChatStyle = Readonly<{
   dimWallpaperInDarkMode: boolean | undefined;
   autoBubbleColor: boolean | undefined;
 }>;
+
+export type StatsType = {
+  adHocCalls: number;
+  callLinks: number;
+  conversations: number;
+  chatFolders: number;
+  chats: number;
+  distributionLists: number;
+  messages: number;
+  notificationProfiles: number;
+  skippedMessages: number;
+  stickerPacks: number;
+  fixedDirectMessages: number;
+};
+
+export type ExportResultType = Readonly<{
+  totalBytes: number;
+  duration: number;
+  stats: Readonly<StatsType>;
+}>;
+
+export type LocalBackupExportResultType = ExportResultType & {
+  snapshotDir: string;
+};

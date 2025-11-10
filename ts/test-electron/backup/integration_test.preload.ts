@@ -80,8 +80,6 @@ describe('backup/integration', () => {
 
       if (
         expectedString.includes('ReleaseChannelDonationRequest') ||
-        // TODO (DESKTOP-8025) roundtrip these frames
-        fullPath.includes('chat_folder') ||
         // TODO (DESKTOP-9209) roundtrip these frames when feature is added
         fullPath.includes('poll_terminate')
       ) {

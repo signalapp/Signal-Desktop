@@ -58,6 +58,10 @@ import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/Pre
 import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
+import type {
+  ExportResultType,
+  LocalBackupExportResultType,
+} from '../services/backups/types.std.js';
 import { BackupLevel } from '../services/backups/types.std.js';
 
 const { shuffle } = lodash;
@@ -112,13 +116,14 @@ const availableSpeakers = [
   },
 ];
 
-const validateBackupResult = {
+const validateBackupResult: ExportResultType = {
   totalBytes: 100,
   duration: 10000,
   stats: {
     adHocCalls: 1,
     callLinks: 2,
     conversations: 3,
+    chatFolders: 3,
     chats: 4,
     distributionLists: 5,
     messages: 6,
@@ -129,7 +134,7 @@ const validateBackupResult = {
   },
 };
 
-const exportLocalBackupResult = {
+const exportLocalBackupResult: LocalBackupExportResultType = {
   ...validateBackupResult,
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };

@@ -164,6 +164,8 @@ import {
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
 import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { ChatFolderType } from '../../types/ChatFolder.std.js';
+import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.js';
 
 const { isNumber } = lodash;
 
@@ -543,9 +545,7 @@ export class BackupImportStream extends Writable {
       } else if (frame.notificationProfile) {
         await this.#fromNotificationProfile(frame.notificationProfile);
       } else if (frame.chatFolder) {
-        log.warn(
-          `${this.#logId}: Received currently unsupported feature: chat folder. Dropping.`
-        );
+        await this.#fromChatFolder(frame.chatFolder);
       } else {
         log.warn(
           `${this.#logId}: unknown unsupported frame item ${frame.item}`
@@ -3632,6 +3632,68 @@ export class BackupImportStream extends Writable {
     };
 
     await DataWriter.createNotificationProfile(profile);
+  }
+
+  #chatFolderPositionCursor = 0;
+
+  async #fromChatFolder(proto: Backups.IChatFolder): Promise<void> {
+    if (proto.id == null || proto.id.length === 0) {
+      log.warn('Dropping chat folder; it was missing an id');
+      return;
+    }
+    const id = bytesToUuid(proto.id) as ChatFolderId | undefined;
+    if (id == null) {
+      log.warn('Dropping chat folder; invalid uuid bytes');
+      return;
+    }
+
+    let folderType: ChatFolderType;
+    if (proto.folderType === Backups.ChatFolder.FolderType.ALL) {
+      folderType = ChatFolderType.ALL;
+    } else if (proto.folderType === Backups.ChatFolder.FolderType.CUSTOM) {
+      folderType = ChatFolderType.CUSTOM;
+    } else {
+      log.warn('Dropping chat folder; unknown folder type');
+      return;
+    }
+
+    const position = this.#chatFolderPositionCursor;
+    this.#chatFolderPositionCursor += 1;
+
+    const includedRecipientIds = proto.includedRecipientIds ?? [];
+    const excludedRecipientIds = proto.excludedRecipientIds ?? [];
+
+    const chatFolder: ChatFolder = {
+      id,
+      name: proto.name ?? '',
+      folderType,
+      showOnlyUnread: proto.showOnlyUnread ?? false,
+      showMutedChats: proto.showMutedChats ?? false,
+      includeAllIndividualChats: proto.includeAllIndividualChats ?? false,
+      includeAllGroupChats: proto.includeAllGroupChats ?? false,
+      includedConversationIds: includedRecipientIds.map(recipientId => {
+        const convo = this.#recipientIdToConvo.get(recipientId.toNumber());
+        strictAssert(convo != null, 'Missing chat folder included recipient');
+        return convo.id;
+      }),
+      excludedConversationIds: excludedRecipientIds.map(recipientId => {
+        const convo = this.#recipientIdToConvo.get(recipientId.toNumber());
+        strictAssert(convo != null, 'Missing chat folder included recipient');
+        return convo.id;
+      }),
+      position,
+      deletedAtTimestampMs: 0,
+      storageID: null,
+      storageVersion: null,
+      storageUnknownFields: null,
+      storageNeedsSync: false,
+    };
+
+    if (folderType === ChatFolderType.ALL) {
+      await DataWriter.upsertAllChatsChatFolderFromSync(chatFolder);
+    } else {
+      await DataWriter.createChatFolder(chatFolder);
+    }
   }
 
   async #fromCustomChatColors(

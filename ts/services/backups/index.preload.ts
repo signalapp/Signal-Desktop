@@ -55,7 +55,7 @@ import { measureSize } from '../../AttachmentCrypto.node.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 import { isTestOrMockEnvironment } from '../../environment.std.js';
 import { runStorageServiceSyncJob } from '../storage.preload.js';
-import { BackupExportStream, type StatsType } from './export.preload.js';
+import { BackupExportStream } from './export.preload.js';
 import { BackupImportStream } from './import.preload.js';
 import {
   getBackupId,
@@ -69,7 +69,12 @@ import {
   validateBackupStream,
   ValidationType,
 } from './validator.preload.js';
-import type { BackupExportOptions, BackupImportOptions } from './types.std.js';
+import type {
+  BackupExportOptions,
+  BackupImportOptions,
+  ExportResultType,
+  LocalBackupExportResultType,
+} from './types.std.js';
 import {
   BackupInstallerError,
   BackupDownloadFailedError,
@@ -125,16 +130,6 @@ type DoDownloadOptionsType = Readonly<{
     totalBytes: number
   ) => void;
 }>;
-
-export type ExportResultType = Readonly<{
-  totalBytes: number;
-  duration: number;
-  stats: Readonly<StatsType>;
-}>;
-
-export type LocalBackupExportResultType = ExportResultType & {
-  snapshotDir: string;
-};
 
 export type ValidationResultType = Readonly<
   | {
