@@ -120,6 +120,7 @@ import type {
   AboutMe,
   BackupExportOptions,
   LocalChatStyle,
+  StatsType,
 } from './types.std.js';
 import { messageHasPaymentEvent } from '../../messages/payments.std.js';
 import {
@@ -177,6 +178,7 @@ import {
 } from '../../util/Settings.preload.js';
 import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { ChatFolderType } from '../../types/ChatFolder.std.js';
 
 const { isNumber } = lodash;
 
@@ -242,19 +244,6 @@ type NonBubbleResultType = Readonly<
     }
 >;
 
-export type StatsType = {
-  adHocCalls: number;
-  callLinks: number;
-  conversations: number;
-  chats: number;
-  distributionLists: number;
-  messages: number;
-  notificationProfiles: number;
-  skippedMessages: number;
-  stickerPacks: number;
-  fixedDirectMessages: number;
-};
-
 export class BackupExportStream extends Readable {
   // Shared between all methods for consistency.
   #now = Date.now();
@@ -269,6 +258,7 @@ export class BackupExportStream extends Readable {
     adHocCalls: 0,
     callLinks: 0,
     conversations: 0,
+    chatFolders: 0,
     chats: 0,
     distributionLists: 0,
     messages: 0,
@@ -726,6 +716,42 @@ export class BackupExportStream extends Readable {
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.notificationProfiles += 1;
+    }
+
+    const currentChatFolders = await DataReader.getCurrentChatFolders();
+
+    for (const chatFolder of currentChatFolders) {
+      let folderType: Backups.ChatFolder.FolderType;
+      if (chatFolder.folderType === ChatFolderType.ALL) {
+        folderType = Backups.ChatFolder.FolderType.ALL;
+      } else if (chatFolder.folderType === ChatFolderType.CUSTOM) {
+        folderType = Backups.ChatFolder.FolderType.CUSTOM;
+      } else {
+        log.warn('backups: Dropping chat folder; unknown folder type');
+        continue;
+      }
+
+      this.#pushFrame({
+        chatFolder: {
+          id: uuidToBytes(chatFolder.id),
+          name: chatFolder.name,
+          folderType,
+          showOnlyUnread: chatFolder.showOnlyUnread,
+          showMutedChats: chatFolder.showMutedChats,
+          includeAllIndividualChats: chatFolder.includeAllIndividualChats,
+          includeAllGroupChats: chatFolder.includeAllGroupChats,
+          includedRecipientIds: chatFolder.includedConversationIds.map(id => {
+            return this.#getOrPushPrivateRecipient({ id });
+          }),
+          excludedRecipientIds: chatFolder.excludedConversationIds.map(id => {
+            return this.#getOrPushPrivateRecipient({ id });
+          }),
+        },
+      });
+
+      // eslint-disable-next-line no-await-in-loop
+      await this.#flush();
+      this.#stats.chatFolders += 1;
     }
 
     let cursor: PageMessagesCursorType | undefined;
