@@ -566,8 +566,9 @@ describe('backup/non-bubble messages', () => {
         timestamp: 1,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
-        supportedVersionAtReceive: 5,
-        requiredProtocolVersion: 6,
+        supportedVersionAtReceive:
+          Proto.DataMessage.ProtocolVersion.CURRENT - 2,
+        requiredProtocolVersion: Proto.DataMessage.ProtocolVersion.CURRENT - 1,
       },
     ]);
   });
