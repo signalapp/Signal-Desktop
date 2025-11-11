@@ -10,7 +10,7 @@ export type Props = {
   value?: number | 'indeterminate'; // default: 'indeterminate'
   min?: number; // default: 0
   max?: number; // default: 1
-  variant?: SpinnerVariant;
+  variant?: SpinnerVariant | SpinnerVariantStyles;
   ariaLabel?: string;
   marginRatio?: number;
   size: number;
@@ -85,7 +85,8 @@ export function SpinnerV2({
   );
   const circumference = radius * 2 * Math.PI;
 
-  const { bg, fg } = SpinnerVariants[variant];
+  const { bg, fg } =
+    typeof variant === 'string' ? SpinnerVariants[variant] : variant;
 
   const bgElem = (
     <circle

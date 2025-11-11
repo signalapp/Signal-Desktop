@@ -506,6 +506,7 @@ export type PollWithResolvedVotersType = PollMessageAttribute & {
   votesByOption: Map<number, ReadonlyArray<PollVoteWithUserType>>;
   totalNumVotes: number;
   uniqueVoters: number;
+  pendingVoteDiff?: Map<number, 'PENDING_VOTE' | 'PENDING_UNVOTE'>;
 };
 
 const getPollForMessage = (
@@ -532,10 +533,53 @@ const getPollForMessage = (
     };
   }
 
+  let successfulVote: MessagePollVoteType | undefined;
+  let pendingVote: MessagePollVoteType | undefined;
+
+  for (const vote of poll.votes) {
+    if (vote.fromConversationId === ourConversationId) {
+      if (
+        vote.sendStateByConversationId &&
+        Object.keys(vote.sendStateByConversationId).length > 0
+      ) {
+        pendingVote = vote;
+      } else {
+        successfulVote = vote;
+      }
+    }
+  }
+
+  // Compute diff between successful and pending vote
+  let pendingVoteDiff:
+    | Map<number, 'PENDING_VOTE' | 'PENDING_UNVOTE'>
+    | undefined;
+  if (pendingVote) {
+    pendingVoteDiff = new Map();
+    const successfulIndexes = new Set(successfulVote?.optionIndexes ?? []);
+    const pendingIndexes = new Set(pendingVote.optionIndexes);
+
+    for (const index of pendingIndexes) {
+      if (!successfulIndexes.has(index)) {
+        pendingVoteDiff.set(index, 'PENDING_VOTE');
+      }
+    }
+
+    for (const index of successfulIndexes) {
+      if (!pendingIndexes.has(index)) {
+        pendingVoteDiff.set(index, 'PENDING_UNVOTE');
+      }
+    }
+  }
+
+  // Filter out pending votes from the votes we'll display
+  const votesToProcess = poll.votes.filter(
+    vote => !vote.sendStateByConversationId
+  );
+
   // Deduplicate votes by sender - keep only the newest vote per sender
   // (highest voteCount, or newest timestamp if voteCount is equal)
   const voteByFrom = new Map<string, MessagePollVoteType>();
-  for (const vote of poll.votes) {
+  for (const vote of votesToProcess) {
     const existingVote = voteByFrom.get(vote.fromConversationId);
     if (
       !existingVote ||
@@ -596,6 +640,7 @@ const getPollForMessage = (
     votesByOption,
     totalNumVotes,
     uniqueVoters: uniqueVoterIds.size,
+    pendingVoteDiff,
   };
 };
 

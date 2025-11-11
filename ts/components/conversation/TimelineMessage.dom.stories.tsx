@@ -1992,6 +1992,7 @@ function createMockPollWithVotes(
     fromId: string;
     optionIndexes: Array<number>;
   }>,
+  pendingVoteDiff?: Map<number, 'PENDING_VOTE' | 'PENDING_UNVOTE'>,
   terminatedAt?: number
 ) {
   const resolvedVotes =
@@ -2041,6 +2042,7 @@ function createMockPollWithVotes(
     totalNumVotes,
     uniqueVoters: uniqueVoterIds.size,
     terminatedAt,
+    pendingVoteDiff,
     votes: votes?.map(v => ({
       fromConversationId: v.fromId,
       optionIndexes: v.optionIndexes,
@@ -2102,6 +2104,34 @@ PollWithVotes.args = {
   status: 'read',
 };
 
+export const PollWithPendingVotes = Template.bind({});
+PollWithPendingVotes.args = {
+  conversationType: 'group',
+  poll: createMockPollWithVotes(
+    'Best day for the team meeting?',
+    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    false,
+    [
+      { fromId: 'alice', optionIndexes: [0] },
+      { fromId: 'user1', optionIndexes: [0] },
+      { fromId: 'user2', optionIndexes: [0] },
+      { fromId: 'bob', optionIndexes: [1] },
+      { fromId: 'user3', optionIndexes: [1] },
+      { fromId: 'charlie', optionIndexes: [2] },
+      { fromId: 'user4', optionIndexes: [2] },
+      { fromId: 'user5', optionIndexes: [2] },
+      { fromId: 'user6', optionIndexes: [2] },
+      { fromId: 'user7', optionIndexes: [2] },
+      { fromId: 'me', optionIndexes: [3] },
+    ],
+    new Map([
+      [3, 'PENDING_UNVOTE'],
+      [1, 'PENDING_VOTE'],
+    ])
+  ),
+  status: 'read',
+};
+
 export const PollTerminated = Template.bind({});
 PollTerminated.args = {
   conversationType: 'group',
@@ -2122,6 +2152,7 @@ PollTerminated.args = {
       { fromId: 'user7', optionIndexes: [1] },
       { fromId: 'user8', optionIndexes: [1] },
     ],
+    undefined,
     Date.now() - 60000
   ),
   status: 'read',

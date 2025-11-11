@@ -2358,5 +2358,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-11-02T17:27:24.705Z",
     "reasonDetail": "Map of refs for poll option inputs to manage focus"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/poll-message/PollMessageContents.dom.tsx",
+    "line": "  const pendingCheckTimer = useRef<NodeJS.Timeout | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-06T20:28:00.760Z",
+    "reasonDetail": "Ref for timer"
   }
 ]

@@ -1,15 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'radix-ui';
-import { tw } from '../../../axo/tw.dom.js';
+import { type TailwindStyles, tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import type { DirectionType } from '../Message.dom.js';
 import type { PollWithResolvedVotersType } from '../../../state/selectors/message.preload.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import { PollVotesModal } from './PollVotesModal.dom.js';
+import { SpinnerV2 } from '../../SpinnerV2.dom.js';
+import { usePrevious } from '../../../hooks/usePrevious.std.js';
 
 function VotedCheckmark({
   isIncoming,
@@ -41,39 +43,78 @@ type PollCheckboxProps = {
   checked: boolean;
   onCheckedChange: (nextChecked: boolean) => void;
   isIncoming: boolean;
+  isPending: boolean;
 };
 
 const PollCheckbox = memo((props: PollCheckboxProps) => {
-  const { isIncoming } = props;
+  const { isIncoming, isPending, checked } = props;
+
+  let bgColor: TailwindStyles;
+  let borderColor: TailwindStyles;
+  let strokeColor: TailwindStyles | undefined;
+  let checkmarkColor: TailwindStyles | undefined;
+
+  if (isPending || !checked) {
+    bgColor = tw('bg-transparent');
+    borderColor = isIncoming
+      ? tw('border-label-placeholder')
+      : tw('border-label-primary-on-color');
+    strokeColor = isIncoming
+      ? tw('stroke-label-placeholder')
+      : tw('stroke-label-primary-on-color');
+    checkmarkColor = isIncoming
+      ? tw('text-label-placeholder')
+      : tw('text-label-primary-on-color');
+  } else {
+    bgColor = isIncoming
+      ? tw('bg-color-fill-primary')
+      : tw('bg-label-primary-on-color');
+    borderColor = isIncoming
+      ? tw('border-color-fill-primary')
+      : tw('border-label-primary-on-color');
+    strokeColor = isIncoming
+      ? tw('stroke-color-fill-primary')
+      : tw('stroke-label-primary-on-color');
+    checkmarkColor = isIncoming
+      ? tw('text-label-primary-on-color')
+      : tw('text-color-fill-primary');
+  }
 
   return (
-    <Checkbox.Root
-      checked={props.checked}
-      onCheckedChange={props.onCheckedChange}
-      className={tw(
-        'flex size-6 items-center justify-center rounded-full',
-        'border-[1.5px]',
-        'outline-0 outline-border-focused focused:outline-[2.5px]',
-        'overflow-hidden',
-        // Unchecked states
-        'data-[state=unchecked]:bg-transparent',
-        isIncoming
-          ? 'data-[state=unchecked]:border-label-placeholder'
-          : 'data-[state=unchecked]:border-label-primary-on-color',
-        // Checked states
-        isIncoming
-          ? 'data-[state=checked]:border-color-fill-primary data-[state=checked]:bg-color-fill-primary'
-          : 'data-[state=checked]:border-label-primary-on-color data-[state=checked]:bg-label-primary-on-color'
-      )}
-    >
-      <Checkbox.Indicator
+    <>
+      {isPending ? (
+        <div className={tw('pointer-events-none absolute')}>
+          <SpinnerV2
+            value="indeterminate"
+            size={24}
+            strokeWidth={1.5}
+            marginRatio={1}
+            variant={{
+              bg: tw('stroke-none'),
+              fg: strokeColor,
+            }}
+          />
+        </div>
+      ) : null}
+      <Checkbox.Root
+        checked={props.checked}
+        onCheckedChange={props.onCheckedChange}
         className={tw(
-          isIncoming ? 'text-label-primary-on-color' : 'text-color-fill-primary'
+          'flex size-6 items-center justify-center rounded-full',
+          isPending ? '' : 'border-[1.5px]',
+          'outline-0 outline-border-focused focused:outline-[2.5px]',
+          'overflow-hidden',
+          bgColor,
+          borderColor
         )}
       >
-        <AxoSymbol.Icon symbol="check" size={16} label={null} />
-      </Checkbox.Indicator>
-    </Checkbox.Root>
+        <Checkbox.Indicator
+          className={tw(checkmarkColor, 'flex items-center justify-center')}
+        >
+          <AxoSymbol.Icon symbol="check" size={16} label={null} />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
+    </>
   );
 });
 
@@ -92,6 +133,7 @@ export type PollMessageContentsProps = {
   canEndPoll?: boolean;
 };
 
+const DELAY_BEFORE_SHOWING_PENDING_ANIMATION = 500;
 export function PollMessageContents({
   poll,
   direction,
@@ -102,9 +144,34 @@ export function PollMessageContents({
   canEndPoll,
 }: PollMessageContentsProps): JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  const hasPendingVotes = poll.pendingVoteDiff && poll.pendingVoteDiff.size > 0;
+  const hadPendingVotesInLastRender = usePrevious(hasPendingVotes, undefined);
+
+  const pendingCheckTimer = useRef<NodeJS.Timeout | null>(null);
   const isIncoming = direction === 'incoming';
 
   const { totalNumVotes: totalVotes, uniqueVoters } = poll;
+  // Handle pending vote state changes
+  useEffect(() => {
+    if (!hasPendingVotes) {
+      // Vote completed, clear pending state
+      setIsPending(false);
+      clearTimeout(pendingCheckTimer.current ?? undefined);
+      pendingCheckTimer.current = null;
+    } else if (!hadPendingVotesInLastRender) {
+      pendingCheckTimer.current = setTimeout(() => {
+        setIsPending(true);
+      }, DELAY_BEFORE_SHOWING_PENDING_ANIMATION);
+    }
+  }, [hadPendingVotesInLastRender, hasPendingVotes]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(pendingCheckTimer.current ?? undefined);
+    };
+  }, []);
 
   let pollStatusText: string;
   if (poll.terminatedAt) {
@@ -115,10 +182,7 @@ export function PollMessageContents({
     pollStatusText = i18n('icu:PollMessage--SelectOne');
   }
 
-  async function handlePollOptionClicked(
-    index: number,
-    nextChecked: boolean
-  ): Promise<void> {
+  function handlePollOptionClicked(index: number, nextChecked: boolean): void {
     const existingSelections = Array.from(
       poll.votesByOption
         .entries()
@@ -126,6 +190,16 @@ export function PollMessageContents({
         .map(([optionIndex]) => optionIndex)
     );
     const optionIndexes = new Set<number>(existingSelections);
+
+    if (poll.pendingVoteDiff) {
+      for (const [idx, pendingVoteOrUnvote] of poll.pendingVoteDiff.entries()) {
+        if (pendingVoteOrUnvote === 'PENDING_VOTE') {
+          optionIndexes.add(idx);
+        } else if (pendingVoteOrUnvote === 'PENDING_UNVOTE') {
+          optionIndexes.delete(idx);
+        }
+      }
+    }
 
     if (nextChecked) {
       if (!poll.allowMultiple) {
@@ -174,6 +248,12 @@ export function PollMessageContents({
             uniqueVoters > 0 ? (optionVotes / uniqueVoters) * 100 : 0;
 
           const weVotedForThis = (pollVoteEntries ?? []).some(v => v.isMe);
+          const pendingVoteOrUnvote = poll.pendingVoteDiff?.get(index);
+          const isVotePending = isPending && pendingVoteOrUnvote != null;
+
+          const shouldShowCheckmark = isVotePending
+            ? pendingVoteOrUnvote === 'PENDING_VOTE'
+            : weVotedForThis;
 
           return (
             // eslint-disable-next-line react/no-array-index-key
@@ -183,11 +263,12 @@ export function PollMessageContents({
                 // creating 3px space above text. This aligns checkbox with text baseline.
                 <div className={tw('mt-[3px] self-start')}>
                   <PollCheckbox
-                    checked={weVotedForThis}
+                    checked={shouldShowCheckmark}
                     onCheckedChange={next =>
                       handlePollOptionClicked(index, Boolean(next))
                     }
                     isIncoming={isIncoming}
+                    isPending={isVotePending}
                   />
                 </div>
               )}
