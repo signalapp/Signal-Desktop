@@ -1462,6 +1462,10 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll",
+    "description": "Label for button/menu item to end a poll. Shown in the poll votes modal and in the message context menu"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Poll · Select one",
     "description": "Status text for single-choice poll where user can select one option"
@@ -1482,6 +1486,18 @@
     "messageformat": "You voted",
     "description": "Accessibility label for checkmark indicating user voted for this poll option"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: \"{poll}\"",
+    "description": "Chat event shown when you end a poll"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: \"{poll}\"",
+    "description": "Chat event shown when someone else ends a poll"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll",
+    "description": "Button in poll terminate chat event to scroll to and select the original poll message"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Poll details",
     "description": "Modal title for viewing poll votes and who voted on which option"
@@ -1497,6 +1513,10 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "No votes",
     "description": "Message shown when poll has no votes"
+  },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found",
+    "description": "Toast shown when user tries to view a poll that no longer exists"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "New poll",

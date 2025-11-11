@@ -138,6 +138,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           onEdit={undefined}
           onReplyToMessage={undefined}
           onReact={undefined}
+          onEndPoll={undefined}
           onRetryMessageSend={undefined}
           onRetryDeleteForEveryone={undefined}
           onCopy={undefined}

@@ -52,6 +52,8 @@ import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileC
 import { ProfileChangeNotification } from './ProfileChangeNotification.dom.js';
 import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification.dom.js';
 import { PaymentEventNotification } from './PaymentEventNotification.dom.js';
+import type { PropsType as PollTerminateNotificationPropsType } from './PollTerminateNotification.dom.js';
+import { PollTerminateNotification } from './PollTerminateNotification.dom.js';
 import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification.dom.js';
 import { ConversationMergeNotification } from './ConversationMergeNotification.dom.js';
 import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification.dom.js';
@@ -152,6 +154,13 @@ type MessageRequestResponseNotificationType = {
   type: 'messageRequestResponse';
   data: MessageRequestResponseNotificationData;
 };
+type PollTerminateNotificationType = {
+  type: 'pollTerminate';
+  data: Omit<
+    PollTerminateNotificationPropsType,
+    'i18n' | 'scrollToPollMessage'
+  >;
+};
 
 export type TimelineItemType = (
   | CallHistoryType
@@ -165,6 +174,7 @@ export type TimelineItemType = (
   | JoinedSignalNotificationType
   | MessageType
   | PhoneNumberDiscoveryNotificationType
+  | PollTerminateNotificationType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
@@ -187,6 +197,7 @@ type PropsLocalType = {
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
+  scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;
@@ -235,6 +246,7 @@ export const TimelineItem = memo(function TimelineItem({
   platform,
   renderUniversalTimerNotification,
   returnToActiveCall,
+  scrollToPollMessage,
   targetMessage,
   setMessageToEdit,
   shouldCollapseAbove,
@@ -411,6 +423,15 @@ export const TimelineItem = memo(function TimelineItem({
           {...reducedProps}
           {...item.data}
           i18n={i18n}
+        />
+      );
+    } else if (item.type === 'pollTerminate') {
+      notification = (
+        <PollTerminateNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+          scrollToPollMessage={scrollToPollMessage}
         />
       );
     } else if (item.type === 'messageRequestResponse') {

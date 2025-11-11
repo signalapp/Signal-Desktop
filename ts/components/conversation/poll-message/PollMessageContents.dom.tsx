@@ -88,6 +88,8 @@ export type PollMessageContentsProps = {
     messageId: string;
     optionIndexes: ReadonlyArray<number>;
   }) => void;
+  endPoll: (messageId: string) => void;
+  canEndPoll?: boolean;
 };
 
 export function PollMessageContents({
@@ -96,6 +98,8 @@ export function PollMessageContents({
   i18n,
   messageId,
   sendPollVote,
+  endPoll,
+  canEndPoll,
 }: PollMessageContentsProps): JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const isIncoming = direction === 'incoming';
@@ -268,6 +272,9 @@ export function PollMessageContents({
           i18n={i18n}
           poll={poll}
           onClose={() => setShowVotesModal(false)}
+          endPoll={endPoll}
+          canEndPoll={canEndPoll}
+          messageId={messageId}
         />
       )}
     </div>

@@ -20,6 +20,7 @@ import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone.preload.j
 import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone.preload.js';
 import { sendProfileKey } from './helpers/sendProfileKey.preload.js';
 import { sendReaction } from './helpers/sendReaction.preload.js';
+import { sendPollTerminate } from './helpers/sendPollTerminate.preload.js';
 import { sendPollVote } from './helpers/sendPollVote.preload.js';
 import { sendStory } from './helpers/sendStory.preload.js';
 import { sendReceipts } from './helpers/sendReceipts.preload.js';
@@ -70,10 +71,11 @@ export const conversationQueueJobEnum = z.enum([
   'GroupUpdate',
   'NormalMessage',
   'NullMessage',
+  'PollTerminate',
+  'PollVote',
   'ProfileKey',
   'ProfileKeyForCall',
   'Reaction',
-  'PollVote',
   'ResendRequest',
   'SavedProto',
   'SenderKeyDistribution',
@@ -206,6 +208,15 @@ const pollVoteJobDataSchema = z.object({
 });
 export type PollVoteJobData = z.infer<typeof pollVoteJobDataSchema>;
 
+const pollTerminateJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.PollTerminate),
+  conversationId: z.string(),
+  pollMessageId: z.string(),
+  targetTimestamp: z.number(),
+  revision: z.number().optional(),
+});
+export type PollTerminateJobData = z.infer<typeof pollTerminateJobDataSchema>;
+
 const resendRequestJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.ResendRequest),
   conversationId: z.string(),
@@ -268,9 +279,10 @@ export const conversationQueueJobDataSchema = z.union([
   groupUpdateJobDataSchema,
   normalMessageSendJobDataSchema,
   nullMessageJobDataSchema,
+  pollTerminateJobDataSchema,
+  pollVoteJobDataSchema,
   profileKeyJobDataSchema,
   reactionJobDataSchema,
-  pollVoteJobDataSchema,
   resendRequestJobDataSchema,
   savedProtoJobDataSchema,
   senderKeyDistributionJobDataSchema,
@@ -327,8 +339,11 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   if (type === 'Reaction') {
     return false;
   }
+  if (type === 'PollTerminate') {
+    return true;
+  }
   if (type === 'PollVote') {
-    return false;
+    return true;
   }
   if (type === 'Receipts') {
     return false;
@@ -973,6 +988,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           break;
         case jobSet.Reaction:
           await sendReaction(conversation, jobBundle, data);
+          break;
+        case jobSet.PollTerminate:
+          await sendPollTerminate(conversation, jobBundle, data);
           break;
         case jobSet.PollVote:
           await sendPollVote(conversation, jobBundle, data);

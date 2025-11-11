@@ -92,6 +92,7 @@ export type PropsReduxActions = Pick<
   | 'checkForAccount'
   | 'clearTargetedMessage'
   | 'doubleCheckMissingQuoteReference'
+  | 'endPoll'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'messageExpanded'
@@ -137,6 +138,7 @@ export function MessageDetail({
   clearTargetedMessage,
   contactNameColor,
   doubleCheckMissingQuoteReference,
+  endPoll,
   getPreferredBadge,
   i18n,
   interactionMode,
@@ -346,6 +348,7 @@ export function MessageDetail({
             displayLimit={Number.MAX_SAFE_INTEGER}
             showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+            endPoll={endPoll}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             interactionMode={interactionMode}

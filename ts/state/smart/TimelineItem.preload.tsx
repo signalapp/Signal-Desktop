@@ -147,8 +147,13 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     toggleSelectMessage,
   } = useConversationsActions();
 
-  const { reactToMessage, scrollToQuotedMessage, setQuoteByMessageId } =
-    useComposerActions();
+  const {
+    endPoll,
+    reactToMessage,
+    scrollToPollMessage,
+    scrollToQuotedMessage,
+    setQuoteByMessageId,
+  } = useComposerActions();
 
   const {
     showContactModal,
@@ -218,6 +223,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       messageExpanded={messageExpanded}
       openGiftBadge={openGiftBadge}
       pushPanelForConversation={pushPanelForConversation}
+      endPoll={endPoll}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
       onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
@@ -232,6 +238,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       returnToActiveCall={returnToActiveCall}
       saveAttachment={saveAttachment}
       saveAttachments={saveAttachments}
+      scrollToPollMessage={scrollToPollMessage}
       scrollToQuotedMessage={scrollToQuotedMessage}
       targetMessage={targetMessage}
       setQuoteByMessageId={setQuoteByMessageId}

@@ -77,6 +77,7 @@ import { canReply, isNormalBubble } from '../selectors/message.preload.js';
 import { getAuthorId } from '../../messages/sources.preload.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.js';
+import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import {
   CONVERSATION_UNLOADED,
@@ -242,6 +243,7 @@ export const actions = {
   addAttachment,
   addPendingAttachment,
   cancelJoinRequest,
+  endPoll,
   incrementSendCounter,
   onClearAttachments,
   onCloseLinkPreview,
@@ -253,6 +255,7 @@ export const actions = {
   replaceAttachments,
   resetComposer,
   saveDraftRecordingIfNeeded,
+  scrollToPollMessage,
   scrollToQuotedMessage,
   sendEditedMessage,
   sendMultiMediaMessage,
@@ -371,6 +374,40 @@ function scrollToQuotedMessage({
     }
 
     scrollToMessage(conversationId, message.id)(dispatch, getState, undefined);
+  };
+}
+
+function scrollToPollMessage(
+  pollMessageId: string,
+  conversationId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowToastActionType | ScrollToMessageActionType
+> {
+  return async (dispatch, getState) => {
+    const pollMessage = await getMessageById(pollMessageId);
+
+    if (!pollMessage) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.PollNotFound,
+        },
+      });
+      return;
+    }
+
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
+    }
+
+    scrollToMessage(conversationId, pollMessageId)(
+      dispatch,
+      getState,
+      undefined
+    );
   };
 }
 
@@ -1343,6 +1380,33 @@ function reactToMessage(
         type: SHOW_TOAST,
         payload: {
           toastType: ToastType.ReactionFailed,
+        },
+      });
+    }
+  };
+}
+
+function endPoll(
+  messageId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    try {
+      await enqueuePollTerminateForSend({ messageId });
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    } catch (error) {
+      log.error('endPoll: Error sending poll terminate', error, messageId);
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.Error,
         },
       });
     }

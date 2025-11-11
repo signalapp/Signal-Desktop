@@ -44,6 +44,7 @@ export async function wrapWithSyncMessageSend({
       messageIds,
       sendType,
     });
+
     didSuccessfullySendOne = true;
   } catch (thrown) {
     if (thrown instanceof SendMessageProtoError) {
