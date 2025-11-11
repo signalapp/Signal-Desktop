@@ -11,6 +11,8 @@ import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
 
 const Namespace = 'AxoButton';
 
+type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
 const baseAxoButtonStyles = tw(
   'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full select-none',
   'outline-0 outline-border-focused focused:outline-[2.5px]',
@@ -133,11 +135,6 @@ const AxoButtonSizes = {
   sm: tw('min-w-12 px-2 py-1 type-body-small font-medium'),
 } as const satisfies Record<string, TailwindStyles>;
 
-type BaseButtonAttrs = Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'className' | 'style' | 'children'
->;
-
 type AxoButtonVariant = keyof typeof AxoButtonVariants;
 type AxoButtonSize = keyof typeof AxoButtonSizes;
 
@@ -215,16 +212,19 @@ export namespace AxoButton {
     full: tw('w-full'),
   };
 
-  export type RootProps = BaseButtonAttrs &
-    Readonly<{
-      variant: AxoButtonVariant;
-      size: AxoButtonSize;
-      width?: Width;
-      symbol?: AxoSymbol.InlineGlyphName;
-      arrow?: boolean;
-      experimentalSpinner?: { 'aria-label': string } | null;
-      children: ReactNode;
-    }>;
+  export type RootProps = Readonly<{
+    variant: AxoButtonVariant;
+    size: AxoButtonSize;
+    width?: Width;
+    symbol?: AxoSymbol.InlineGlyphName;
+    arrow?: boolean;
+    experimentalSpinner?: { 'aria-label': string } | null;
+    disabled?: GenericButtonProps['disabled'];
+    onClick?: GenericButtonProps['onClick'];
+    children: ReactNode;
+    // Note: Technically we forward all props for Radix, but we restrict the
+    // props that the type accepts
+  }>;
 
   export const Root: FC<RootProps> = memo(
     forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
@@ -251,9 +251,9 @@ export namespace AxoButton {
       return (
         <button
           ref={ref}
+          {...rest}
           type="button"
           className={tw(variantStyles, sizeStyles, widthStyles)}
-          {...rest}
         >
           <span
             className={tw(

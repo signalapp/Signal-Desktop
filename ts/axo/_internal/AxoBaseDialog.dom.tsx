@@ -36,7 +36,8 @@ export namespace AxoBaseDialog {
     // Allow the entire overlay to be scrolled in case the window is extremely small
     'overflow-auto scrollbar-width-none',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
-    'animate-opacity-0'
+    'animate-opacity-0',
+    'forced-colors:bg-[Canvas]'
   );
 
   /**
@@ -48,9 +49,10 @@ export namespace AxoBaseDialog {
     'relative',
     'max-h-full min-h-fit max-w-full min-w-fit',
     'rounded-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
-    'outline-0 outline-border-focused focused:outline-[2.5px]',
+    'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
-    'animate-scale-98 animate-translate-y-1'
+    'animate-scale-98 animate-translate-y-1',
+    'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]'
   );
 
   export type ContentEscape = 'cancel-is-noop' | 'cancel-is-destructive';

@@ -837,8 +837,6 @@ function NotificationProfilesNamePage({
         <AxoButton.Root
           variant="primary"
           size="lg"
-          type="button"
-          form="notificationProfileName"
           disabled={!isValid}
           onClick={onNext}
         >
@@ -907,16 +905,9 @@ function NotificationProfilesAllowedPage({
         />
       </Container>
       <ButtonContainer>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            onNext();
-          }}
-        >
-          <AxoButton.Root variant="primary" size="lg" type="submit">
-            {i18n('icu:next2')}
-          </AxoButton.Root>
-        </form>
+        <AxoButton.Root variant="primary" size="lg" onClick={onNext}>
+          {i18n('icu:next2')}
+        </AxoButton.Root>
       </ButtonContainer>
     </>
   );
@@ -1076,12 +1067,7 @@ function NotificationProfilesSchedulePage({
         </FullWidthRow>
       </Container>
       <ButtonContainer>
-        <AxoButton.Root
-          variant="primary"
-          size="lg"
-          type="button"
-          onClick={onNext}
-        >
+        <AxoButton.Root variant="primary" size="lg" onClick={onNext}>
           {isEditing ? i18n('icu:done') : i18n('icu:next2')}
         </AxoButton.Root>
       </ButtonContainer>
@@ -1111,12 +1097,7 @@ function NotificationProfilesDonePage({
         <p className={tw('mt-4 mb-6 max-w-[350px] text-center leading-5')}>
           {i18n('icu:NotificationProfiles--done-description')}
         </p>
-        <AxoButton.Root
-          variant="primary"
-          size="lg"
-          type="button"
-          onClick={onNext}
-        >
+        <AxoButton.Root variant="primary" size="lg" onClick={onNext}>
           {i18n('icu:done')}
         </AxoButton.Root>
       </MidFloatingContainer>
@@ -1406,12 +1387,7 @@ function NotificationProfilesEditPage({
         </FullWidthButton>
       </Container>
       <ButtonContainer>
-        <AxoButton.Root
-          variant="primary"
-          size="lg"
-          type="button"
-          onClick={onBack}
-        >
+        <AxoButton.Root variant="primary" size="lg" onClick={onBack}>
           {i18n('icu:done')}
         </AxoButton.Root>
       </ButtonContainer>

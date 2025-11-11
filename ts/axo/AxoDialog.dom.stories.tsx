@@ -41,6 +41,7 @@ function Template(props: {
   back?: boolean;
   contentSize: AxoDialog.ContentSize;
   bodyPadding?: AxoDialog.BodyPadding;
+  iconAction?: boolean;
   footerContent?: ReactNode;
   children: ReactNode;
 }): JSX.Element {
@@ -68,12 +69,26 @@ function Template(props: {
             </AxoDialog.FooterContent>
           )}
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="secondary" onClick={action('onCancel')}>
-              Cancel
-            </AxoDialog.Action>
-            <AxoDialog.Action variant="primary" onClick={action('onSave')}>
-              Save
-            </AxoDialog.Action>
+            {props.iconAction ? (
+              <AxoDialog.IconAction
+                aria-label="Send"
+                variant="primary"
+                symbol="send-fill"
+                onClick={action('onSend')}
+              />
+            ) : (
+              <>
+                <AxoDialog.Action
+                  variant="secondary"
+                  onClick={action('onCancel')}
+                >
+                  Cancel
+                </AxoDialog.Action>
+                <AxoDialog.Action variant="primary" onClick={action('onSave')}>
+                  Save
+                </AxoDialog.Action>
+              </>
+            )}
           </AxoDialog.Actions>
         </AxoDialog.Footer>
       </AxoDialog.Content>
@@ -100,6 +115,14 @@ export function Small(): JSX.Element {
 
 export function Large(): JSX.Element {
   return <Template contentSize="lg">{TEXT_LONG}</Template>;
+}
+
+export function IconAction(): JSX.Element {
+  return (
+    <Template contentSize="sm" iconAction>
+      {TEXT_SHORT}
+    </Template>
+  );
 }
 
 export function LongContent(): JSX.Element {
@@ -166,7 +189,8 @@ function TextInputField(props: { placeholder: string }) {
           'w-full px-3 py-1.5',
           'border-[0.5px] border-border-primary shadow-elevation-0',
           'rounded-lg bg-fill-primary',
-          'placeholder:text-label-placeholder'
+          'placeholder:text-label-placeholder',
+          'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
         )}
       />
     </div>
@@ -193,7 +217,10 @@ export function ExampleNicknameAndNoteDialog(): JSX.Element {
             encrypted. They are only visible to you.
           </p>
           <div
-            className={tw('mx-auto size-20 rounded-full bg-color-fill-primary')}
+            className={tw(
+              'mx-auto size-20 rounded-full bg-color-fill-primary',
+              'forced-colors:border'
+            )}
           />
           <Spacer height={12} />
           <TextInputField placeholder="First name" />
@@ -331,7 +358,10 @@ export function ExampleLanguageDialog(): JSX.Element {
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             placeholder="Search languages"
-            className={tw('w-full rounded-lg bg-fill-secondary px-3 py-[5px]')}
+            className={tw(
+              'w-full rounded-lg bg-fill-secondary px-3 py-[5px]',
+              'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
+            )}
           />
         </AxoDialog.ExperimentalSearch>
         <AxoDialog.Body padding="only-scrollbar-gutter">

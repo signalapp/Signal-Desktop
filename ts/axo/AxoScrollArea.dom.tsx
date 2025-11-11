@@ -141,8 +141,7 @@ export namespace AxoScrollArea {
               'rounded-[2px] outline-border-focused',
               // Move the outline from the viewport to the parent
               // so it doesn't get cut off by <Mask>
-              '[:where(.keyboard-mode)_&:has([data-axo-scroll-area-viewport]:focus)]:outline-[2.5px]',
-              'forced-colors:border forced-colors:border-[ButtonBorder]'
+              '[:where(.keyboard-mode)_&:has([data-axo-scroll-area-viewport]:focus)]:outline-[2.5px]'
             )}
             style={style}
           >
@@ -310,15 +309,16 @@ export namespace AxoScrollArea {
     'absolute z-10',
     'opacity-0',
     'from-shadow-outline to-transparent dark:from-shadow-elevation-1',
-    'animate-duration-1 [animation-name:axo-scroll-area-hint-reveal]'
+    'animate-duration-1 [animation-name:axo-scroll-area-hint-reveal]',
+    'forced-colors:bg-[ButtonBorder]'
   );
 
   // Need `animation-fill-mode` so we can customize the `animation-range`
-  const edgeStartStyles = tw('animate-forwards');
-  const edgeEndStyles = tw('animate-backwards animate-reverse');
+  const edgeStartStyles = tw('animate-both');
+  const edgeEndStyles = tw('animate-both animate-reverse');
 
-  const edgeYStyles = tw('inset-x-0 h-0.5');
-  const edgeXStyles = tw('inset-y-0 w-0.5');
+  const edgeYStyles = tw('inset-x-0 h-0.5 forced-colors:h-px');
+  const edgeXStyles = tw('inset-y-0 w-0.5 forced-colors:w-px');
 
   const HintEdges: Record<Edge, TailwindStyles> = {
     top: tw(

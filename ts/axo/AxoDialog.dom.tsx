@@ -16,6 +16,7 @@ import { tw } from './tw.dom.js';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
 import { getScrollbarGutters } from './_internal/scrollbars.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
+import { AxoIconButton } from './AxoIconButton.dom.js';
 
 const Namespace = 'AxoDialog';
 
@@ -237,9 +238,11 @@ export namespace AxoDialog {
   export const Back: FC<BackProps> = memo(props => {
     return (
       <div className={tw('col-[back-slot] text-start')}>
-        <HeaderIconButton
-          label={props['aria-label']}
+        <AxoIconButton.Root
+          size="sm"
+          variant="borderless-secondary"
           symbol="chevron-[start]"
+          aria-label={props['aria-label']}
         />
       </div>
     );
@@ -260,7 +263,12 @@ export namespace AxoDialog {
     return (
       <div className={tw('col-[close-slot] text-end')}>
         <Dialog.Close asChild>
-          <HeaderIconButton label={props['aria-label']} symbol="x" />
+          <AxoIconButton.Root
+            size="sm"
+            variant="borderless-secondary"
+            symbol="x"
+            aria-label={props['aria-label']}
+          />
         </Dialog.Close>
       </div>
     );
@@ -462,4 +470,31 @@ export namespace AxoDialog {
   });
 
   Action.displayName = `${Namespace}.Action`;
+
+  /**
+   * Component: <AxoDialog.Actions>
+   * ------------------------------
+   */
+
+  export type IconActionVariant = 'primary' | 'destructive' | 'secondary';
+
+  export type IconActionProps = Readonly<{
+    'aria-label': string;
+    variant: ActionVariant;
+    symbol: AxoSymbol.IconName;
+    onClick: () => void;
+  }>;
+
+  export const IconAction: FC<IconActionProps> = memo(props => {
+    return (
+      <AxoIconButton.Root
+        aria-label={props['aria-label']}
+        variant={props.variant}
+        size="md"
+        symbol={props.symbol}
+      />
+    );
+  });
+
+  IconAction.displayName = `${Namespace}.IconAction`;
 }
