@@ -652,6 +652,10 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.PollNotFound) {
+    return <Toast onClose={hideToast}>{i18n('icu:Toast--PollNotFound')}</Toast>;
+  }
+
   if (toastType === ToastType._InternalMainProcessLoggingError) {
     return (
       <Toast

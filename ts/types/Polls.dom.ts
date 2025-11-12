@@ -84,6 +84,13 @@ export const PollTerminateSchema = z
   })
   .describe('PollTerminate');
 
+export enum PollTerminateSendStatus {
+  NotInitiated = 'NotInitiated',
+  Pending = 'Pending',
+  Complete = 'Complete',
+  Failed = 'Failed',
+}
+
 export type MessagePollVoteType = {
   fromConversationId: string;
   optionIndexes: ReadonlyArray<number>;
@@ -98,6 +105,7 @@ export type PollMessageAttribute = {
   allowMultiple: boolean;
   votes?: ReadonlyArray<MessagePollVoteType>;
   terminatedAt?: number;
+  terminateSendStatus?: PollTerminateSendStatus;
 };
 
 export type PollCreateType = Pick<

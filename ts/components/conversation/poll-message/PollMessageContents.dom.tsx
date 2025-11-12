@@ -129,6 +129,8 @@ export type PollMessageContentsProps = {
     messageId: string;
     optionIndexes: ReadonlyArray<number>;
   }) => void;
+  endPoll: (messageId: string) => void;
+  canEndPoll?: boolean;
 };
 
 const DELAY_BEFORE_SHOWING_PENDING_ANIMATION = 500;
@@ -138,6 +140,8 @@ export function PollMessageContents({
   i18n,
   messageId,
   sendPollVote,
+  endPoll,
+  canEndPoll,
 }: PollMessageContentsProps): JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -349,6 +353,9 @@ export function PollMessageContents({
           i18n={i18n}
           poll={poll}
           onClose={() => setShowVotesModal(false)}
+          endPoll={endPoll}
+          canEndPoll={canEndPoll}
+          messageId={messageId}
         />
       )}
     </div>

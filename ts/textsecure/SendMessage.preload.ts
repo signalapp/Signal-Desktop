@@ -217,6 +217,9 @@ export type MessageOptionsType = {
   reaction?: ReactionType;
   pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
+  pollTerminate?: Readonly<{
+    targetTimestamp: number;
+  }>;
   deletedForEveryoneTimestamp?: number;
   targetTimestampForEdit?: number;
   timestamp: number;
@@ -243,10 +246,18 @@ export type GroupSendOptionsType = {
   timestamp: number;
   pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
+  pollTerminate?: Readonly<{
+    targetTimestamp: number;
+  }>;
 };
 
 export type PollVoteBuildOptions = Required<
   Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollVote'>
+> &
+  Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
+
+export type PollTerminateBuildOptions = Required<
+  Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollTerminate'>
 > &
   Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
 
@@ -288,6 +299,10 @@ class Message {
 
   pollCreate?: PollCreateType;
 
+  pollTerminate?: Readonly<{
+    targetTimestamp: number;
+  }>;
+
   timestamp: number;
 
   dataMessage?: Proto.DataMessage;
@@ -318,6 +333,7 @@ class Message {
     this.sticker = options.sticker;
     this.reaction = options.reaction;
     this.pollCreate = options.pollCreate;
+    this.pollTerminate = options.pollTerminate;
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
     this.groupCallUpdate = options.groupCallUpdate;
@@ -887,6 +903,62 @@ export class MessageSender {
     return contentMessage;
   }
 
+  createDataMessageProtoForPollTerminate({
+    groupV2,
+    timestamp,
+    profileKey,
+    expireTimer,
+    expireTimerVersion,
+    pollTerminate,
+  }: PollTerminateBuildOptions): Proto.DataMessage {
+    const dataMessage = new Proto.DataMessage();
+    dataMessage.timestamp = Long.fromNumber(timestamp);
+
+    const groupContext = new Proto.GroupContextV2();
+    groupContext.masterKey = groupV2.masterKey;
+    groupContext.revision = groupV2.revision;
+    dataMessage.groupV2 = groupContext;
+
+    if (typeof expireTimer !== 'undefined') {
+      dataMessage.expireTimer = expireTimer;
+    }
+    if (typeof expireTimerVersion !== 'undefined') {
+      dataMessage.expireTimerVersion = expireTimerVersion;
+    }
+    if (profileKey) {
+      dataMessage.profileKey = profileKey;
+    }
+
+    const terminate = new Proto.DataMessage.PollTerminate();
+    terminate.targetSentTimestamp = Long.fromNumber(
+      pollTerminate.targetTimestamp
+    );
+    dataMessage.pollTerminate = terminate;
+
+    return dataMessage;
+  }
+
+  async getPollTerminateContentMessage({
+    groupV2,
+    timestamp,
+    profileKey,
+    expireTimer,
+    expireTimerVersion,
+    pollTerminate,
+  }: PollTerminateBuildOptions): Promise<Proto.Content> {
+    const dataMessage = this.createDataMessageProtoForPollTerminate({
+      groupV2,
+      timestamp,
+      profileKey,
+      expireTimer,
+      expireTimerVersion,
+      pollTerminate,
+    });
+    const contentMessage = new Proto.Content();
+    contentMessage.dataMessage = dataMessage;
+    return contentMessage;
+  }
+
   async getStoryMessage({
     allowsReplies,
     bodyRanges,
@@ -1057,6 +1129,7 @@ export class MessageSender {
       timestamp,
       pollVote,
       pollCreate,
+      pollTerminate,
     } = options;
 
     if (!groupV2) {
@@ -1102,6 +1175,7 @@ export class MessageSender {
       timestamp,
       pollVote,
       pollCreate,
+      pollTerminate,
     };
   }
 

@@ -166,6 +166,7 @@ type MessageType =
   | 'keychange'
   | 'outgoing'
   | 'phone-number-discovery'
+  | 'poll-terminate'
   | 'profile-change'
   | 'story'
   | 'timer-notification'
@@ -212,6 +213,10 @@ export type MessageAttributesType = {
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
   poll?: PollMessageAttribute;
+  pollTerminateNotification?: {
+    question: string;
+    pollMessageId: string;
+  };
   requiredProtocolVersion?: number;
   sms?: boolean;
   sourceDevice?: number;

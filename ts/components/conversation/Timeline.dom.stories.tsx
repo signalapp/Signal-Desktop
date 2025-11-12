@@ -53,6 +53,7 @@ function mockMessageTimelineItem(
       canDeleteForEveryone: false,
       canDownload: true,
       canEditMessage: true,
+      canEndPoll: false,
       canForward: true,
       canReact: true,
       canReply: true,
@@ -286,6 +287,7 @@ const actions = () => ({
   clearTargetedMessage: action('clearTargetedMessage'),
   updateSharedGroups: action('updateSharedGroups'),
 
+  endPoll: action('endPoll'),
   reactToMessage: action('reactToMessage'),
   setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
@@ -309,6 +311,7 @@ const actions = () => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
   openGiftBadge: action('openGiftBadge'),
+  scrollToPollMessage: action('scrollToPollMessage'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showAttachmentDownloadStillInProgressToast: action(
     'showAttachmentDownloadStillInProgressToast'

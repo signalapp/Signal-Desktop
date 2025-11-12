@@ -934,6 +934,7 @@ export const getPropsForMessage = (
     canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
     canDownload: canDownload(message, conversationSelector),
+    canEndPoll: canEndPoll(message),
     canForward: canForward(message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
@@ -1110,6 +1111,13 @@ export function getPropsForBubble(
     return {
       type: 'profileChange',
       data: getPropsForProfileChange(message, options),
+      timestamp,
+    };
+  }
+  if (isPollTerminate(message)) {
+    return {
+      type: 'pollTerminate',
+      data: getPropsForPollTerminate(message, options),
       timestamp,
     };
   }
@@ -1724,6 +1732,35 @@ function getPropsForProfileChange(
   } as ProfileChangeNotificationPropsType;
 }
 
+// Poll Terminate
+
+export function isPollTerminate(message: MessageWithUIFieldsType): boolean {
+  return message.type === 'poll-terminate';
+}
+
+function getPropsForPollTerminate(
+  message: MessageWithUIFieldsType,
+  { conversationSelector }: GetPropsForBubbleOptions
+) {
+  const { pollTerminateNotification, sourceServiceId, conversationId } =
+    message;
+
+  if (!pollTerminateNotification) {
+    throw new Error(
+      'getPropsForPollTerminate: pollTerminateNotification is undefined'
+    );
+  }
+
+  const sender = conversationSelector(sourceServiceId);
+
+  return {
+    sender,
+    pollQuestion: pollTerminateNotification.question,
+    pollMessageId: pollTerminateNotification.pollMessageId,
+    conversationId,
+  };
+}
+
 // Message Request Response Event
 
 export function isMessageRequestResponse(
@@ -2264,6 +2301,25 @@ export function canRetryDeleteForEveryone(
       // Is it too old to delete?
       isMoreRecentThan(message.sent_at, DAY)
   );
+}
+
+export function canEndPoll(
+  message: Pick<MessageWithUIFieldsType, 'type' | 'poll'>
+): boolean {
+  if (message.type !== 'outgoing') {
+    return false;
+  }
+
+  const { poll } = message;
+  if (!poll) {
+    return false;
+  }
+
+  if (poll.terminatedAt != null) {
+    return false;
+  }
+
+  return true;
 }
 
 export function canDownload(

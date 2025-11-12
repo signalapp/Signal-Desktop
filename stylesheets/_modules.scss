@@ -6785,6 +6785,13 @@ button.module-calling-participants-list__contact {
     }
   }
 
+  &__end-poll::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/stop/stop-circle.svg',
+      light-dark(variables.$color-black, variables.$color-gray-15)
+    );
+  }
+
   &__more-info::before {
     @include mixins.light-theme {
       @include mixins.color-svg(

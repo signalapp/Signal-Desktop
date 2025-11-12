@@ -235,6 +235,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
   canCopy: true,
   canEditMessage: true,
+  canEndPoll: overrideProps.direction === 'outgoing',
   canReact: true,
   canReply: true,
   canDownload: true,
@@ -294,6 +295,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   previews: overrideProps.previews || [],
   quote: overrideProps.quote || undefined,
   reactions: overrideProps.reactions,
+  endPoll: action('endPoll'),
   reactToMessage: action('reactToMessage'),
   readStatus:
     overrideProps.readStatus === undefined
@@ -384,6 +386,7 @@ const renderBothDirections = (props: Props) => (
       ...props,
       author: { ...props.author, id: getDefaultConversation().id },
       direction: 'outgoing',
+      canEndPoll: true,
     })}
   </>
 );

@@ -521,6 +521,25 @@ export function getNotificationDataForMessage(
     };
   }
 
+  const { pollTerminateNotification } = attributes;
+  if (pollTerminateNotification) {
+    const sender = findAndFormatContact(attributes.sourceServiceId);
+
+    const text = sender.isMe
+      ? i18n('icu:PollTerminate--you', {
+          poll: pollTerminateNotification.question,
+        })
+      : i18n('icu:PollTerminate--other', {
+          name: sender.title,
+          poll: pollTerminateNotification.question,
+        });
+
+    return {
+      emoji: '📊',
+      text,
+    };
+  }
+
   if (body) {
     return {
       text: body,

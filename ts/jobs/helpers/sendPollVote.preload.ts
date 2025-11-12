@@ -254,7 +254,7 @@ export async function sendPollVote(
         }
       );
 
-      await send(ephemeral, {
+      const messageSendPromise = send(ephemeral, {
         promise: handleMessageSend(promise, {
           messageIds: [pollMessageId],
           sendType: 'pollVote',
@@ -263,7 +263,9 @@ export async function sendPollVote(
         targetTimestamp: currentTimestamp,
       });
 
-      // Await the inner promise to get SendMessageProtoError for upstream processors
+      // Because message.send swallows and processes errors, we'll await the inner promise
+      //   to get the SendMessageProtoError, which gives us information upstream
+      //   processors need to detect certain kinds of situations.
       try {
         await promise;
       } catch (error) {
@@ -277,6 +279,8 @@ export async function sendPollVote(
           );
         }
       }
+
+      await messageSendPromise;
 
       // Check if the send fully succeeded
       ephemeralSendStateByConversationId =

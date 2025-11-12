@@ -249,6 +249,7 @@ export type PropsData = {
   isSelectMode: boolean;
   isSMS: boolean;
   isSpoilerExpanded?: Record<number, boolean>;
+  canEndPoll?: boolean;
   direction: DirectionType;
   timestamp: number;
   receivedAtMS?: number;
@@ -363,6 +364,7 @@ export type PropsActions = {
     messageId: string;
     optionIndexes: ReadonlyArray<number>;
   }) => void;
+  endPoll: (messageId: string) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
@@ -2023,7 +2025,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderPoll(): JSX.Element | null {
-    const { poll, direction, i18n, id } = this.props;
+    const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
     if (!poll || !isPollReceiveEnabled()) {
       return null;
     }
@@ -2034,6 +2036,8 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         messageId={id}
         sendPollVote={this.props.sendPollVote}
+        endPoll={endPoll}
+        canEndPoll={canEndPoll}
       />
     );
   }

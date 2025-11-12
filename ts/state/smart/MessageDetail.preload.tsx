@@ -17,6 +17,7 @@ import { getMessageDetails } from '../selectors/message.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
 import { useAccountsActions } from '../ducks/accounts.preload.js';
+import { useComposerActions } from '../ducks/composer.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
@@ -38,6 +39,7 @@ export const SmartMessageDetail = memo(
     const messageDetails = useSelector(getMessageDetails);
     const theme = useSelector(getTheme);
     const { checkForAccount } = useAccountsActions();
+    const { endPoll } = useComposerActions();
     const {
       cancelAttachmentDownload,
       clearTargetedMessage: clearSelectedMessage,
@@ -93,6 +95,7 @@ export const SmartMessageDetail = memo(
         contactNameColor={contactNameColor}
         contacts={contacts}
         doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+        endPoll={endPoll}
         errors={errors}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
