@@ -365,7 +365,8 @@ message DataMessage {
     CDN_SELECTOR_ATTACHMENTS = 5;
     MENTIONS = 6;
     PAYMENTS = 7;
-    CURRENT = 7;
+    POLLS = 8;
+    CURRENT = 8;
   }
 
   message GiftBadge {
