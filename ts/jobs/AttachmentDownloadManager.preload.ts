@@ -19,6 +19,7 @@ import {
   isIncrementalMacVerificationError,
 } from '../util/downloadAttachment.preload.js';
 import {
+  deleteAttachmentData as doDeleteAttachmentData,
   deleteDownloadData as doDeleteDownloadData,
   processNewAttachment as doProcessNewAttachment,
 } from '../util/migrations.preload.js';
@@ -39,6 +40,7 @@ import {
   getUndownloadedAttachmentSignature,
   isIncremental,
   hasRequiredInformationForRemoteBackup,
+  deleteAllAttachmentFilesOnDisk,
 } from '../util/Attachment.std.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.preload.js';
@@ -48,7 +50,10 @@ import {
   getMaximumIncomingAttachmentSizeInKb,
   getMaximumIncomingTextAttachmentSizeInKb,
 } from '../types/AttachmentSize.std.js';
-import { addAttachmentToMessage } from '../messageModifiers/AttachmentDownloads.preload.js';
+import {
+  addAttachmentToMessage,
+  AttachmentNotNeededForMessageError,
+} from '../messageModifiers/AttachmentDownloads.preload.js';
 import * as Errors from '../types/errors.std.js';
 import { redactGenericText } from '../util/privacy.node.js';
 import {
@@ -491,6 +496,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 }
 
 type DependenciesType = {
+  deleteAttachmentData: typeof doDeleteAttachmentData;
   deleteDownloadData: typeof doDeleteDownloadData;
   downloadAttachment: typeof downloadAttachmentUtil;
   processNewAttachment: typeof doProcessNewAttachment;
@@ -503,6 +509,7 @@ export async function runDownloadAttachmentJob({
   isLastAttempt,
   options,
   dependencies = {
+    deleteAttachmentData: doDeleteAttachmentData,
     deleteDownloadData: doDeleteDownloadData,
     downloadAttachment: downloadAttachmentUtil,
     processNewAttachment: doProcessNewAttachment,
@@ -564,6 +571,23 @@ export async function runDownloadAttachmentJob({
         logId,
         { type: job.attachmentType }
       );
+      return { status: 'finished' };
+    }
+
+    if (error instanceof AttachmentNotNeededForMessageError) {
+      if (job.attachmentType === 'quote') {
+        log.info(
+          `${logId}: quote attachment not needed, likely the thumbnail was already copied from original message`
+        );
+      } else {
+        log.error(`${logId}: attachment not found on message`);
+      }
+
+      await deleteAllAttachmentFilesOnDisk({
+        deleteDownloadOnDisk: dependencies.deleteDownloadData,
+        deleteAttachmentOnDisk: dependencies.deleteAttachmentData,
+      })(error.attachment);
+
       return { status: 'finished' };
     }
 
@@ -884,6 +908,11 @@ export async function runDownloadAttachmentJobInner({
     if (isAbortError(error)) {
       throw error;
     }
+
+    if (error instanceof AttachmentNotNeededForMessageError) {
+      throw error;
+    }
+
     if (mightHaveBackupThumbnailToDownload && !attemptBackupThumbnailFirst) {
       log.error(
         `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,

@@ -41,6 +41,9 @@ import {
   type ExplodePromiseResultType,
 } from '../../util/explodePromise.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.js';
+import { MessageCache } from '../../services/MessageCache.preload.js';
+import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.js';
 
 const { omit } = lodash;
 
@@ -109,6 +112,7 @@ describe('AttachmentDownloadManager', () => {
   beforeEach(async () => {
     await DataWriter.removeAll();
     await itemStorage.user.setAciAndDeviceId(generateAci(), 1);
+    MessageCache.install();
 
     sandbox = sinon.createSandbox();
     clock = sandbox.useFakeTimers();
@@ -179,6 +183,7 @@ describe('AttachmentDownloadManager', () => {
         timestamp: job.sentAt,
         received_at: job.receivedAt + 1,
         conversationId: 'convoId',
+        attachments: [job.attachment],
       },
       {
         forceSave: true,
@@ -625,6 +630,7 @@ describe('AttachmentDownloadManager', () => {
                   downloadStarted.resolve();
                 });
               }),
+            deleteAttachmentData: sandbox.stub(),
             deleteDownloadData: sandbox.stub(),
             processNewAttachment: sandbox.stub(),
             runDownloadAttachmentJobInner,
@@ -741,9 +747,117 @@ describe('AttachmentDownloadManager', () => {
     });
   });
 });
+describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
+  let sandbox: sinon.SinonSandbox;
+  let deleteAttachmentData: sinon.SinonStub;
+  let deleteDownloadData: sinon.SinonStub;
+  let downloadAttachment: sinon.SinonStub;
+  let processNewAttachment: sinon.SinonStub;
+
+  const downloadedAttachment: Awaited<
+    ReturnType<typeof downloadAttachmentUtil>
+  > = {
+    path: '/path/to/file',
+    digest: 'digest',
+    plaintextHash: 'plaintextHash',
+    localKey: 'localKey',
+    version: 2,
+    size: 128,
+  };
+  beforeEach(async () => {
+    await DataWriter.removeAll();
+    await itemStorage.user.setAciAndDeviceId(generateAci(), 1);
+    sandbox = sinon.createSandbox();
+    downloadAttachment = sandbox
+      .stub()
+      .returns(Promise.resolve(downloadedAttachment));
+    deleteAttachmentData = sandbox.stub();
+    deleteDownloadData = sandbox.stub();
+
+    processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
+  });
+
+  afterEach(async () => {
+    sandbox.restore();
+  });
+
+  it('will delete attachment files if attachment not found on message', async () => {
+    const messageId = 'messageId';
+    const attachment = composeAttachment();
+    const abortController = new AbortController();
+
+    await window.MessageCache.saveMessage(
+      {
+        id: messageId,
+        type: 'incoming',
+        sent_at: Date.now(),
+        timestamp: Date.now(),
+        received_at: Date.now(),
+        conversationId: 'convoId',
+        attachments: [attachment],
+      },
+      {
+        forceSave: true,
+      }
+    );
+
+    const job = composeJob({
+      messageId: 'messageId',
+      receivedAt: Date.now(),
+      attachmentOverrides: attachment,
+    });
+    const result = await runDownloadAttachmentJob({
+      job,
+      isLastAttempt: false,
+      options: {
+        isForCurrentlyVisibleMessage: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100000,
+        maxTextAttachmentSizeInKib: 100000,
+        hasMediaBackups: false,
+      },
+      dependencies: {
+        downloadAttachment,
+        deleteAttachmentData,
+        deleteDownloadData,
+        processNewAttachment,
+        runDownloadAttachmentJobInner: sandbox.stub().throws(
+          new AttachmentNotNeededForMessageError({
+            contentType: MIME.IMAGE_PNG,
+            size: 128,
+            path: 'main/path',
+            downloadPath: '/downloadPath',
+            thumbnail: {
+              contentType: MIME.IMAGE_PNG,
+              size: 128,
+              path: 'thumbnail/path',
+            },
+          })
+        ),
+      },
+    });
+
+    assert.strictEqual(result.status, 'finished');
+    assert.deepStrictEqual(
+      deleteAttachmentData
+        .getCalls()
+        .map(call => call.args[0])
+        .flat(),
+      ['main/path', 'thumbnail/path']
+    );
+    assert.deepStrictEqual(
+      deleteDownloadData
+        .getCalls()
+        .map(call => call.args[0])
+        .flat(),
+      ['/downloadPath']
+    );
+  });
+});
 
 describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   let sandbox: sinon.SinonSandbox;
+  let deleteAttachmentData: sinon.SinonStub;
   let deleteDownloadData: sinon.SinonStub;
   let downloadAttachment: sinon.SinonStub;
   let processNewAttachment: sinon.SinonStub;
@@ -761,6 +875,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   };
 
   beforeEach(async () => {
+    await DataWriter.removeAll();
+    MessageCache.install();
+    await itemStorage.user.setAciAndDeviceId(generateAci(), 1);
     sandbox = sinon.createSandbox();
     downloadAttachment = sandbox
       .stub()
@@ -791,6 +908,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -829,6 +947,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -884,6 +1003,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -921,6 +1041,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -959,6 +1080,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -995,6 +1117,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
+          deleteAttachmentData,
           deleteDownloadData,
           downloadAttachment,
           processNewAttachment,
@@ -1050,6 +1173,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           maxAttachmentSizeInKib: 100 * MEBIBYTE,
           maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
           dependencies: {
+            deleteAttachmentData,
             deleteDownloadData,
             downloadAttachment,
             processNewAttachment,
