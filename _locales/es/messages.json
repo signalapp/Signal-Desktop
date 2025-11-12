@@ -1110,7 +1110,7 @@
     "messageformat": "Ver votos"
   },
   "icu:PollMessage--YouVoted": {
-    "messageformat": "Has votado"
+    "messageformat": "Tu voto"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detalles de la encuesta"
@@ -1125,31 +1125,31 @@
     "messageformat": "Sin votos"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nueva encuesta"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "¿Qué pedimos para comer?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opciones"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opción {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Permitir varios votos"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Enviar"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "La pregunta de la encuesta es obligatoria"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Incluye al menos 2 opciones en la encuesta"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -2346,7 +2346,7 @@
     "messageformat": "Encuesta: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Encuesta: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Adjuntar archivo"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotos y vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Archivo"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Encuesta"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Añadir archivo o encuesta"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Esta persona no usa Signal"
@@ -6766,10 +6766,10 @@
     "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión del {OS} de tu equipo de escritorio. Para seguir usando Signal, actualiza el sistema operativo de tu equipo antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Signal Desktop ya no es compatible con este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio."
+    "messageformat": "Signal Desktop ya no es compatible con este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del {OS} de tu equipo de escritorio."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Editado"
@@ -7322,9 +7322,9 @@
     "messageformat": "También hemos corregido un error que podía impedir que las notificaciones aparecieran en Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Hemos renovado la apariencia de las barras de desplazamiento en toda la app para que todo se vea más coherente. Por lo general, desplazarse demasiado rápido puede hacer que te pierdas algo, pero esta vez es la única forma de apreciar las mejoras."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "También hemos mejorado la función de copiar y pegar: ahora puedes seleccionar y reemplazar texto sin preocuparte por heredar el formato anterior. ¡Gracias, <brianHarder></brianHarder>!"
   }
 }

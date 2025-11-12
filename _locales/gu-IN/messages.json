@@ -1125,31 +1125,31 @@
     "messageformat": "કોઈ મત નથી"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "નવું મતદાન"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "પ્રશ્ન"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "બપોરના ભોજનમાં આપણે શું ઓર્ડર કરવું જોઈએ?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "વિકલ્પો"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "વિકલ્પ {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "એકથી વધુ મતોની મંજૂરી આપો"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "મોકલો"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "મતદાન પ્રશ્ન જરૂરી છે"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "મતદાન માટે ઓછામાં ઓછા 2 વિકલ્પોની જરૂર છે"
   },
   "icu:deleteConversation": {
     "messageformat": "ડિલીટ કરો"
@@ -2346,7 +2346,7 @@
     "messageformat": "મતદાન: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "મતદાન: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text} "
@@ -4413,16 +4413,16 @@
     "messageformat": "અટેચ ફાઈલ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ફોટા અને વીડિયો"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ફાઈલ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "મતદાન"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "જોડાણ અથવા મતદાન ઉમેરો"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "આ વ્યક્તિ Signal નો ઉપયોગ કરી રહી નથી"
@@ -7322,9 +7322,9 @@
     "messageformat": "અમે એક એ બગ પણ સુધર્યો છે જે Windows પર નોટિફિકેશન દેખાતા અટકાવતો હતો."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "અમે સમગ્ર ઍપમાં સ્ક્રોલબારના દેખાવ અને શૈલીયુક્ત સુસંગતતાને અપડેટ કરી છે જેથી તેઓ દેખાવમાં વધુ સુસંગત બને."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "કૉપિ/પેસ્ટ ફોર્મેટિંગ સુધારાઓ. આભાર, <brianHarder></brianHarder>!"
   }
 }

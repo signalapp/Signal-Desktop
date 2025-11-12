@@ -1125,31 +1125,31 @@
     "messageformat": "Sense vots"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nova enquesta"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Què demanem per dinar?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opcions"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opció {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Permetre més d'un vot"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Envia"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "La pregunta de l'enquesta és obligatòria"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "L'enquesta requereix com a mínim 2 opcions"
   },
   "icu:deleteConversation": {
     "messageformat": "Suprimeix"
@@ -2346,7 +2346,7 @@
     "messageformat": "Enquesta: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Enquesta: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Adjunta un fitxer"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotos i vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fitxer"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Enquesta"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Afegeix un adjunt o una enquesta"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Aquesta persona no usa el Signal."
@@ -7322,9 +7322,9 @@
     "messageformat": "També hem corregit un error que podia impedir que apareguessin notificacions a Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Hem actualitzat l'aspecte de les barres de desplaçament a tota l'aplicació perquè tingui més cohesió visualment."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Millores de format al copiar i enganxar. Gràcies, <brianHarder></brianHarder>!"
   }
 }

@@ -1125,31 +1125,31 @@
     "messageformat": "কোনো ভোট নেই"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "নতুন ভোট"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "প্রশ্ন"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "দুপুরের খাবারের জন্য আমাদের কী অর্ডার করা উচিত?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "অপশন"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "বিকল্প {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "একাধিক ভোটের অনুমতি দিন"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "পাঠান"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "জরিপের জন্য প্রশ্ন প্রয়োজন"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "জরিপটির জন্য অন্তত 2টি বিকল্প প্রয়োজন"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -2346,7 +2346,7 @@
     "messageformat": "জরিপ: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "জরিপ: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "ফাইল সংযুক্ত করুন"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ছবি ও ভিডিও"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ফাইল"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "জরিপ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "সংযুক্তি বা জরিপ যোগ করুন"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "এই ব্যক্তিটি Signal ব্যবহার করছেন না"
@@ -7322,9 +7322,9 @@
     "messageformat": "আমরা এমন একটি বাগও সংশোধন করেছি, যা Windows-এ নোটিফিকেশন প্রদর্শিত হতে বাধা দিতে পারত।"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "আমরা অ্যাপ জুড়ে স্ক্রলবারগুলোর অবয়ব আপডেট করেছি যাতে সেগুলো দেখতে আরো সামঞ্জস্যপূর্ণ হয়।"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "কপি/পেস্ট ফরম্যাটিং উন্নত করা হয়েছে। ধন্যবাদ, <brianHarder>@brianHarder</brianHarder>!"
   }
 }

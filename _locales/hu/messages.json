@@ -1125,31 +1125,31 @@
     "messageformat": "Nincs szavazat"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Új szavazás"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Kérdés"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Mit rendeljünk ebédre?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opciók"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number} lehetőség"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Több szavazat engedélyezése"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Küldés"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "A szavazáshoz tartozó kérdés kitöltése kötelező"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "A szavazáshoz legalább 2 lehetőség szükséges"
   },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
@@ -2346,7 +2346,7 @@
     "messageformat": "Szavazás: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Szavazás: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Fájl csatolása"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotók és videók"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fájl"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Szavazás"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Melléklet vagy szavazás hozzáadása"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ez a személy nem használ Signalt"
@@ -7322,9 +7322,9 @@
     "messageformat": "Ezenkívül kijavítottunk egy olyan hibát is, amely megakadályozhatta az értesítések megjelenését Windows operációs rendszeren."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Frissítettük a görgetősávok megjelenését az alkalmazásban, hogy vizuálisan egységesebbé tegyük azokat."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Másolással/beillesztéssel kapcsolatos formázási fejlesztések. Köszönjük, @brianHarder! Köszönjük, <brianHarder></brianHarder>!"
   }
 }

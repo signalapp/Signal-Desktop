@@ -1125,31 +1125,31 @@
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "ការស្ទង់មតិថ្មី"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "សំណួរ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "តើយើងគួរកុម្ម៉ង់អ្វីសម្រាប់អាហារថ្ងៃត្រង់?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ជម្រើស"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ជម្រើស {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "អនុញ្ញាតការបោះឆ្នោតជាច្រើន"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "ផ្ញើ"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "ត្រូវមានសំណួរស្ទង់មតិ"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "ការស្ទង់មតិទាមទារយ៉ាងហោចណាស់ 2 ជម្រើស"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -2346,7 +2346,7 @@
     "messageformat": "ការស្ទង់មតិ៖ {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "ការស្ទង់មតិ៖ {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "ភ្ជាប់ឯកសារ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "រូបថត និងវីដេអូ"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ឯកសារ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ការស្ទង់មតិ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "បញ្ចូលឯកសារភ្ជាប់ ឬការស្ទង់មតិ"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "បុគ្គលនេះមិនប្រើ Signal ទេ"
@@ -7322,9 +7322,9 @@
     "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយដែលអាចធ្វើឱ្យការជូនដំណឹងមិនអាចបង្ហាញឡើងនៅលើវីនដូបាន។"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "យើងបានធ្វើបច្ចុប្បន្នភាពរូបរាង និងភាពស៊ីសង្វាក់គ្នានៃរចនាប័ទ្មរបស់របារអូសទូទាំងកម្មវិធី។ ជាធម្មតា ប្រសិនបើអ្នកអូសលឿនពេក អ្នកអាចនឹងរំលងអ្វីមួយ ប៉ុន្តែក្នុងករណីនេះ សូមអូសរំកិលមើលវាកុំលឿនពេក។"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "ការកែលម្អការចម្លង/បិទភ្ជាប់ធ្វើឱ្យការជ្រើសរើសទាំងអស់ និងប្តូរអក្សរដែលមានស្រាប់កាន់តែងាយស្រួល ដោយមិនចាំបាច់យកពីទម្រង់ចាស់។ អរគុណ <brianHarder></brianHarder>!"
   }
 }

@@ -1125,31 +1125,31 @@
     "messageformat": "ఓట్లు లేవు"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "కొత్త పోల్"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ప్రశ్న"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "మనం మధ్యాహ్న భోజనం కోసం ఏమి ఆర్డర్ చేయాలి?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ఎంపికలు"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ఎంపిక {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "బహుళ ఓట్లను అనుమతించండి"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "పంపండి"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "పోల్ ప్రశ్న అవసరం"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "పోల్‌కు కనీసం 2 ఎంపికలు కావాలి"
   },
   "icu:deleteConversation": {
     "messageformat": "తొలగించండి"
@@ -2346,7 +2346,7 @@
     "messageformat": "పోల్: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "పోల్: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "ఫైలు జత చేయుము"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ఫోటోలు & వీడియోలు"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "పత్రం"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "పోల్"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "జోడింపు లేదా పోల్‌ను జోడించండి"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ఈ వ్యక్తి Signal ఉపయోగించడం లేదు"
@@ -7322,9 +7322,9 @@
     "messageformat": "Windows లో నోటిఫికేషన్‌లు కనిపించకుండా నిరోధించే బగ్‌ను కూడా మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "యాప్ అంతటా స్క్రోల్‌బార్‌ల రూపాన్ని మరింత దృశ్యమానంగా స్థిరంగా ఉండేలా మేము నవీకరించాము."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "కాపీ/పేస్ట్ ఫార్మాటింగ్ మెరుగుదలలు. ధన్యవాదాలు, @brianHarder!"
   }
 }

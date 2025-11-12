@@ -1125,31 +1125,31 @@
     "messageformat": "بېلەت تاشلانمىدى"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "يېڭى راي سىناش"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوئال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "چۈشلۈك تاماققا نېمە بۇيرۇتۇشىمىز كېرەك؟"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "تاللاش"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "تاللاش {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "كۆپ بېلەت چۈشۈشكە يول قويۇش"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "يوللاش"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "راي سىناش سۇئالى تەلەپ قىلىندى"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "راي سىناش كەم دېگەندە 2 تال تاللاشنى تەلەپ قىلىدۇ"
   },
   "icu:deleteConversation": {
     "messageformat": "ئۆچۈر"
@@ -2346,7 +2346,7 @@
     "messageformat": "راي سىناش: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "راي سىناش: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "قوشۇمچە ھۆججەت"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "رەسىملەر ۋە سىنلار"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ھۆججەت"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ئشلەتكۈچىلەرنىڭ رايىنى سىناش"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "قوشۇمچە ھۆججەت ياكى راي سىناشنى قوشۇش"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "بۇ كىشى Signal ئىشلەتمەيدۇ"
@@ -7322,9 +7322,9 @@
     "messageformat": "بىز يەنە Windows تا ئۇقتۇرۇشنىڭ پەيدا بولۇشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلۈكنى تۈزەتتۇق."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "بىز پۈتۈن ئەپتىكى سۈرگۈچ بالداقلىرىنىڭ تاشقى كۆرۈنۈشى ۋە ئۇسلۇب جەھەتتىكى بىردەكلىكىنى يېڭىلىدۇق. ئادەتتە بەك تېز سۈرسىڭىز بەزەن مىزمۇنلارنى قولدىن بېرىپ قويۇشىڭىز مۇمكىن، بۇ قېتىملىق يېڭىلاشتا سۈرۈش سۈپىتى ياخشىلاندى."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "كۆپەيتىش / چاپلاش فورماتى ياخشىلاندى. رەھمەت سىزگە <brianHarder></brianHarder>!"
   }
 }

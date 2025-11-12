@@ -1125,31 +1125,31 @@
     "messageformat": "Nessun voto"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nuovo sondaggio"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Domanda"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Cosa ordiniamo per pranzo?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opzioni"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opzione {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Consenti più voti"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Invia"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Scrivi una domanda per il sondaggio"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Aggiungi almeno 2 opzioni al sondaggio"
   },
   "icu:deleteConversation": {
     "messageformat": "Elimina"
@@ -2346,7 +2346,7 @@
     "messageformat": "Sondaggio: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Sondaggio: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Allega file"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Foto e video"
   },
   "icu:CompositionArea__AttachMenu__File": {
     "messageformat": "File"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Sondaggio"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Aggiungi allegato o sondaggio"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Questa persona non sta usando Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "Abbiamo anche risolto un bug che impediva alle notifiche di apparire correttamente su Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Abbiamo aggiornato e uniformato l'aspetto delle varie barre di scorrimento nell'app… così puoi scrollare con più stile."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Abbiamo migliorato la funzione di copia/incolla per selezionare più facilmente un testo intero e sostituirlo senza applicare in automatico la formattazione esistente. Grazie, <brianHarder></brianHarder>!"
   }
 }

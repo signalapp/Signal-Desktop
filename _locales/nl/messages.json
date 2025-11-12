@@ -1125,31 +1125,31 @@
     "messageformat": "Geen stemmen"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nieuwe peiling"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Vraag"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Wat wil je voor de lunch?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opties"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Optie {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Meerdere antwoorden toestaan"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Verzenden"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Voeg een vraag voor de peiling toe"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Voor een peiling zijn minstens 2 opties nodig"
   },
   "icu:deleteConversation": {
     "messageformat": "Verwijderen"
@@ -2346,7 +2346,7 @@
     "messageformat": "Peiling: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Peiling: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Bestand bijvoegen"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Foto's en video's"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Bestand"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Peiling"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Bijlage of peiling toevoegen"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Deze persoon maakt geen gebruik van Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "We hebben ook een bug opgelost die zorgde dat meldingen soms niet konden worden weergegeven op Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "We hebben het uiterlijk van de schuifbalken in de app vernieuwd zodat ze er overal hetzelfde uitzien."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Verbeteringen voor kopiëren en plakken maken het gemakkelijker om alles te selecteren en bestaande tekst te vervangen zonder de oude opmaak over te nemen. Bedankt, <brianHarder></brianHarder>!"
   }
 }

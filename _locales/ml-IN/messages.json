@@ -1125,31 +1125,31 @@
     "messageformat": "വോട്ടുകളൊന്നുമില്ല"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "പുതിയ പോൾ"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ചോദ്യം"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "ഉച്ചഭക്ഷണത്തിന് നമ്മൾ എന്താണ് ഓർഡർ ചെയ്യേണ്ടത്?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ഓപ്ഷനുകൾ"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ഓപ്ഷൻ {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "ഒന്നിലധികം വോട്ടുകൾ അനുവദിക്കുക"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "അയയ്‌ക്കുക"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "പോൾ ചോദ്യം ആവശ്യമാണ്"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "പോളിന് കുറഞ്ഞത് 2 ഓപ്ഷനുകളെങ്കിലും ആവശ്യമാണ്"
   },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
@@ -2346,7 +2346,7 @@
     "messageformat": "പോൾ: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "പോൾ: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "ഫയൽ അറ്റാച്ചുചെയ്യുക"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ഫോട്ടോകളും വീഡിയോകളും"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ഫയൽ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "പോൾ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "അറ്റാച്ചുമെൻ്റ് അല്ലെങ്കിൽ പോൾ ചേർക്കുക"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ഈ വ്യക്തി Signal ഉപയോഗിക്കുന്നില്ല"
@@ -7322,9 +7322,9 @@
     "messageformat": "Windows-ൽ അറിയിപ്പുകൾ ദൃശ്യമാകുന്നത് തടയുന്ന ഒരു ബഗും ഞങ്ങൾ പരിഹരിച്ചു."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "ആപ്പിലുടനീളം സ്ക്രോൾബാറുകളുടെ രൂപഭാവവും സ്റ്റൈലിസ്റ്റിക് സ്ഥിരതയും ഞങ്ങൾ അപ്ഡേറ്റ് ചെയ്തു. സാധാരണയായി നിങ്ങൾ വളരെ വേഗത്തിൽ സ്ക്രോൾ ചെയ്താൽ നിങ്ങൾക്ക് എന്തെങ്കിലും നഷ്ടപ്പെട്ടേക്കാം, എന്നാൽ ഈ സാഹചര്യത്തിൽ സ്ക്രോളിംഗ് വഴി മാത്രമേ അത് കാണാനാകൂ."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "പഴയ ഫോർമാറ്റിംഗ് ഉപയോഗിക്കാതെ തന്നെ, എല്ലാം തിരഞ്ഞെടുത്ത് നിലവിലുള്ള വാചകം മാറ്റിസ്ഥാപിക്കുന്നത് കോപ്പി/പേസ്റ്റ് മെച്ചപ്പെടുത്തലുകൾ എളുപ്പമാക്കുന്നു. നന്ദി, <brianHarder></brianHarder>!"
   }
 }

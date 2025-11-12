@@ -1125,13 +1125,13 @@
     "messageformat": "Walang boto"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Bagong poll"
   },
   "icu:PollCreateModal__questionLabel": {
     "messageformat": "Question"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ano ang o-orderin nating lunch?"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Options"
@@ -1140,16 +1140,16 @@
     "messageformat": "Option {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Payagan ang maramihang pagboto"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "I-send"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Required ang poll question"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Nangangailangan ng hindi bababa sa 2 options ang poll"
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -4413,7 +4413,7 @@
     "messageformat": "Attach file"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Photos at videos"
   },
   "icu:CompositionArea__AttachMenu__File": {
     "messageformat": "File"
@@ -4422,7 +4422,7 @@
     "messageformat": "Poll"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Magdagdag ng attachment o poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ang taong ito'y hindi gumagamit ng Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "Inayos din namin ang bug na pumipigil sa pagpapakita ng notifications sa Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "In-update namin ang itsura ng scrollbars sa kabuuan ng app para maging mas visually consistent sila."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Improvements sa copy/paste. Maraming salamat, <brianHarder></brianHarder>!"
   }
 }

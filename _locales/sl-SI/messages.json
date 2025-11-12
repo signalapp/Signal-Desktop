@@ -1125,31 +1125,31 @@
     "messageformat": "Brez glasov"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nova anketa"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Vprašanje"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Kaj naj naročimo za kosilo?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Možnosti"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Možnost {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Dovoli več glasov"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Pošlji"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Vprašanje ankete je obvezno"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Anketa zahteva vsaj 2 možnosti"
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -2346,7 +2346,7 @@
     "messageformat": "Anketa: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Anketa: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Dodajanje datoteke"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotografije in videoposnetki"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Datoteka"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Anketa"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Dodaj prilogo ali anketo"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Oseba ne uporablja aplikacije Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "Odpravili smo tudi napako, ki je lahko preprečevala prikazovanje obvestil v sistemu Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Posodobili smo videz in slogovno doslednost drsnih trakov v celotni aplikaciji. Običajno lahko s prehitrim pomikanjem kaj spregledate, vendar je v tem primeru pomikanje edini način, da to vidite."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Izboljšave kopiranja/lepljenja. Hvala, <brianHarder></brianHarder>!"
   }
 }

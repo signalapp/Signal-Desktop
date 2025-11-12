@@ -1125,31 +1125,31 @@
     "messageformat": "Səs yoxdur"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Yeni anket səsverməsi"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Sual"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Qəlyanaltı üçün nə sifariş etməliyik?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Seçimlər"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Seçim {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Çoxlu səslərə icazə verin"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Göndər"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Səsvermə sualı tələb olunur"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Səsvermə minimum 2 seçim tələb edir"
   },
   "icu:deleteConversation": {
     "messageformat": "Sil"
@@ -2346,7 +2346,7 @@
     "messageformat": "Səsvermə: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Səsvermə: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Fayl əlavə et"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotolar və videolar"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fayl"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Səsvermə"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Qoşma və ya səsvermə əlavə et"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Bu şəxs Signal istifadə etmir"
@@ -7322,9 +7322,9 @@
     "messageformat": "Həmçinin biz Windows-da bildirişlərin görünməsinə mane olan nasazlığı da aradan qaldırdıq."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Tətbiqdə sürüşdürmə panellərinin görünüşünü və stilistik ardıcıllığını yenilədik. Ekranı daha tez fırlatsanız, nəzərinizdən nəsə qaça bilər, bu halda sürüşdürmə bunu görməyin yeganə yoludur."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Kopiyala/əlavə et təkmilləşdirmələri köhnə formatdan asılı olmadan bütün mətni seçməyi və mövcud mətni əvəzləməyi asanlaşdırır. Təşəkkürlər, <brianHarder></brianHarder>!"
   }
 }

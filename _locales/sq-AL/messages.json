@@ -1125,31 +1125,31 @@
     "messageformat": "Asnjë votë"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Sondazh i ri"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pyetje"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Çfarë duhet të porosisim për drekë?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opsione"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opsioni {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Lejo vota të shumëfishta"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Dërgo"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Pyetja e sondazhit është e detyrueshme"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Sondazhi kërkon të paktën 2 opsione"
   },
   "icu:deleteConversation": {
     "messageformat": "Fshije"
@@ -2346,7 +2346,7 @@
     "messageformat": "Sondazh: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Sondazh: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Bashkëngjitni kartelë"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Foto dhe video"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Kartelë"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Sondazh"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Shto bashkëngjitje ose sondazh"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ky person s’përdor Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "Gjithashtu rregulluam një defekt që mund të parandalonte shfaqjen e njoftimeve në Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Pamja dhe qëndrueshmëria stilistike e shiritave të lëvizjes u përditësuan në të gjithë aplikacionin. Zakonisht, nëse lëviz shumë shpejt, mund të humbasësh diçka, por në këtë rast, lëvizja është e vetmja mënyrë për ta parë atë."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Përmirësimet e kopjimit/ngjitjes e bëjnë më të lehtë përzgjedhjen e të gjithë tekstit dhe zëvendësimin e tij ekzistues pa trashëguar formatimin e vjetër. Faleminderit, <brianHarder></brianHarder>!"
   }
 }

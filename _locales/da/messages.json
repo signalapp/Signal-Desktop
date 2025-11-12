@@ -1125,31 +1125,31 @@
     "messageformat": "Ingen stemmer"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Ny afstemning"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Spørgsmål"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Hvad skal vi bestille til frokost?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Valgmuligheder"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Mulighed {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Tillad flere stemmer"
   },
   "icu:PollCreateModal__sendButton": {
     "messageformat": "Send"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Afstemningsspørgsmål er påkrævet"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Afstemningen kræver mindst to valgmuligheder"
   },
   "icu:deleteConversation": {
     "messageformat": "Slet"
@@ -2346,7 +2346,7 @@
     "messageformat": "Afstemning: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Afstemning: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Vedhæft fil"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Billeder og videoer"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fil"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Meningsmåling"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Tilføj vedhæftet fil eller afstemning"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Denne person bruger ikke Signal"
@@ -7322,9 +7322,9 @@
     "messageformat": "Vi har også rettet en fejl, der kunne forhindre, at notifikationer blev vist på Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Vi har opdateret udseendet og den stilistiske ensartethed af rullepaneler i hele appen. Normalt kan du gå glip af noget, hvis du scroller for hurtigt, men i dette tilfælde er scrolling den eneste måde at se det på."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Funktionen Kopiér/indsæt er forbedret, så det nu er lettere at markere alt og erstatte tekst uden at den gamle formatering følger med. Tak, <brianHarder></brianHarder>!"
   }
 }

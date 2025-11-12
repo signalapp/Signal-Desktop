@@ -1125,31 +1125,31 @@
     "messageformat": "Níl Aon Vótaí Ann"
   },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Suirbhé nua"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Ceist"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Cad é ba chóir dúinn a ordú don lón?"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Roghanna"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Rogha {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Ceadaigh iliomad vótaí"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Seol"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Éilítear ceist suirbhé"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Éilíonn an suirbhé 2 rogha ar a laghad"
   },
   "icu:deleteConversation": {
     "messageformat": "Scrios"
@@ -2346,7 +2346,7 @@
     "messageformat": "Suirbhé: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Suirbhé: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -4413,16 +4413,16 @@
     "messageformat": "Cuir comhad i gceangal"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Grianghraif agus físeáin"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Comhad"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Suirbhé"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Cuir ceangaltán nó suirbhé leis"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Níl Signal á úsáid ag an duine seo"
@@ -7322,9 +7322,9 @@
     "messageformat": "Chomh maith leis sin, réitíomar fabht a d'fhéadfadh bac a chur ar fhógraí a thaispeáint ar Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Nuashonraíomar an chuma atá ar scrollbharraí ar fud na haipe lena n-infheictheacht a dhéanamh níos comhsheasmhaí."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Feabhsuithe ar fhormáidiú &quot;cóipeáil/greamú&quot;. GRMA, @brianHarder!"
   }
 }
