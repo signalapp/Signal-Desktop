@@ -3349,28 +3349,40 @@ function getUnreadByConversationAndMarkRead(
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
 
-    const expirationJsonPatch = JSON.stringify({ expirationStartTimestamp });
-
-    const [updateExpirationQuery, updateExpirationParams] = sql`
+    const updateExpirationFragment = sqlFragment`
       UPDATE messages
-      INDEXED BY expiring_message_by_conversation_and_received_at
       SET
-        expirationStartTimestamp = ${expirationStartTimestamp},
-        json = json_patch(json, ${expirationJsonPatch})
+        expirationStartTimestamp = ${expirationStartTimestamp}
       WHERE
         conversationId = ${conversationId} AND
         (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-        isStory IS 0 AND
-        type IS 'incoming' AND
-        (
-          expirationStartTimestamp IS NULL OR
-          expirationStartTimestamp > ${expirationStartTimestamp}
-        ) AND
-        expireTimer > 0 AND
-        received_at <= ${readMessageReceivedAt};
+        type IN ('incoming', 'poll-terminate') AND
+        hasExpireTimer IS 1 AND 
+        received_at <= ${readMessageReceivedAt}
     `;
 
-    db.prepare(updateExpirationQuery).run(updateExpirationParams);
+    // 1. Update expirationStartTimestamps for messages without an
+    //    expirationStartTimestamp
+    const [updateNullEpirationStartQuery, updateNullExpirationStartParams] =
+      sql`
+      ${updateExpirationFragment} AND
+        expirationStartTimestamp IS NULL;
+    `;
+    db.prepare(updateNullEpirationStartQuery).run(
+      updateNullExpirationStartParams
+    );
+
+    // 2. Update expirationStartTimestamps for messages with a later
+    //    expirationStartTimestamp. These are run in two separate queries to allow
+    //    each to use the index on expirationStartTimestamp
+    const [updateLateExpirationStartQuery, updateLateExpirationStartParams] =
+      sql`
+      ${updateExpirationFragment} AND
+        expirationStartTimestamp > ${expirationStartTimestamp};
+    `;
+    db.prepare(updateLateExpirationStartQuery).run(
+      updateLateExpirationStartParams
+    );
 
     const [selectQuery, selectParams] = sql`
       SELECT
@@ -5497,7 +5509,8 @@ function getMessagesUnexpectedlyMissingExpirationStartTimestamp(
             readStatus = ${ReadStatus.Read} OR
             readStatus = ${ReadStatus.Viewed} OR
             readStatus IS NULL
-          ))
+          )) OR
+          (type IS 'poll-terminate')
         );
       `
       )

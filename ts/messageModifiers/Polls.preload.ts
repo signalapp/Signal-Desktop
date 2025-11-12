@@ -23,6 +23,7 @@ import { strictAssert } from '../util/assert.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 import { drop } from '../util/drop.std.js';
 import { maybeNotify } from '../messages/maybeNotify.preload.js';
+import type { DurationInSeconds } from '../util/durations/duration-in-seconds.std.js';
 
 const log = createLogger('Polls');
 
@@ -53,6 +54,8 @@ export type PollTerminateAttributesType = {
   targetTimestamp: number;
   timestamp: number;
   receivedAtDate: number;
+  expireTimer: DurationInSeconds | undefined;
+  expirationStartTimestamp: number | undefined;
 };
 
 const pollVoteCache = new Map<string, PollVoteAttributesType>();
@@ -578,6 +581,8 @@ export async function handlePollTerminate(
       terminatorId: terminate.fromConversationId,
       timestamp: terminate.timestamp,
       isMeTerminating: isMe(author.attributes),
+      expireTimer: terminate.expireTimer,
+      expirationStartTimestamp: terminate.expirationStartTimestamp,
     });
 
     window.reduxActions.conversations.markOpenConversationRead(conversation.id);

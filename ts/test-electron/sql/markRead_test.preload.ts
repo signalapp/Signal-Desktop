@@ -330,7 +330,7 @@ describe('sql/markRead', () => {
     const now = Date.now();
     assert.lengthOf(await _getAllMessages(), 0);
 
-    const start = Date.now();
+    const start = now;
     const readAt = start + 20;
     const conversationId = generateUuid();
     const expireTimer = DurationInSeconds.fromSeconds(15);
@@ -345,7 +345,7 @@ describe('sql/markRead', () => {
       received_at: start + 1,
       timestamp: start + 1,
       expireTimer,
-      expirationStartTimestamp: start + 1,
+      expirationStartTimestamp: start + 100,
       readStatus: ReadStatus.Read,
     };
     const message2: MessageAttributesType = {
@@ -436,16 +436,23 @@ describe('sql/markRead', () => {
       (left, right) => left.timestamp - right.timestamp
     );
 
+    assert.strictEqual(sorted[0].id, message1.id, 'checking message 1');
+    assert.strictEqual(
+      sorted[0].expirationStartTimestamp,
+      now,
+      "message1's expirationStartTimestamp was moved earlier"
+    );
+
     assert.strictEqual(sorted[1].id, message2.id, 'checking message 2');
-    assert.isAtMost(
-      sorted[1].expirationStartTimestamp ?? Infinity,
+    assert.strictEqual(
+      sorted[1].expirationStartTimestamp,
       now,
       'checking message 2 expirationStartTimestamp'
     );
 
     assert.strictEqual(sorted[3].id, message4.id, 'checking message 4');
-    assert.isAtMost(
-      sorted[3].expirationStartTimestamp ?? Infinity,
+    assert.strictEqual(
+      sorted[3].expirationStartTimestamp,
       now,
       'checking message 4 expirationStartTimestamp'
     );

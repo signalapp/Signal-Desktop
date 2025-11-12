@@ -2530,7 +2530,7 @@ export async function startApp(): Promise<void> {
         confirm();
         return;
       }
-      const { pollTerminate, timestamp } = data.message;
+      const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
       if (!parsedTerm.success) {
@@ -2562,6 +2562,8 @@ export async function startApp(): Promise<void> {
         targetTimestamp: parsedTerm.data.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
         timestamp,
+        expireTimer,
+        expirationStartTimestamp: undefined,
       };
 
       drop(Polls.onPollTerminate(attributes));
@@ -3026,7 +3028,7 @@ export async function startApp(): Promise<void> {
         confirm();
         return;
       }
-      const { pollTerminate, timestamp } = data.message;
+      const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
       if (!parsedTerm.success) {
@@ -3052,6 +3054,8 @@ export async function startApp(): Promise<void> {
         source: Polls.PollSource.FromSync,
         targetTimestamp: parsedTerm.data.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
+        expireTimer,
+        expirationStartTimestamp: data.expirationStartTimestamp,
         timestamp,
       };
 

@@ -10,7 +10,10 @@ import { StartupQueue } from '../util/StartupQueue.std.js';
 import { drop } from '../util/drop.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { isIncoming } from '../state/selectors/message.preload.js';
+import {
+  isIncoming,
+  isPollTerminate,
+} from '../state/selectors/message.preload.js';
 import { isMessageUnread } from '../util/isMessageUnread.std.js';
 import { notificationService } from '../services/notifications.preload.js';
 import { queueUpdateMessage } from '../util/messageBatcher.preload.js';
@@ -175,8 +178,10 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         serviceId: item.sourceServiceId,
         reason: logId,
       });
-
-      return isIncoming(item) && sender?.id === readSync.senderId;
+      return (
+        (isIncoming(item) || isPollTerminate(item)) &&
+        sender?.id === readSync.senderId
+      );
     });
 
     if (!found) {

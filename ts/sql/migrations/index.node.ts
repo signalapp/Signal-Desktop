@@ -128,6 +128,7 @@ import updateToSchemaVersion1490 from './1490-lowercase-notification-profiles.st
 import updateToSchemaVersion1500 from './1500-search-polls.std.js';
 import updateToSchemaVersion1510 from './1510-chat-folders-normalize-all-chats.std.js';
 import updateToSchemaVersion1520 from './1520-poll-votes-unread.std.js';
+import updateToSchemaVersion1530 from './1530-update-expiring-index.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1614,6 +1615,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1500, update: updateToSchemaVersion1500 },
   { version: 1510, update: updateToSchemaVersion1510 },
   { version: 1520, update: updateToSchemaVersion1520 },
+  { version: 1530, update: updateToSchemaVersion1530 },
 ];
 
 export class DBVersionFromFutureError extends Error {

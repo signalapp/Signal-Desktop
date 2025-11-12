@@ -3501,6 +3501,8 @@ export class ConversationModel {
     terminatorId: string;
     timestamp: number;
     isMeTerminating: boolean;
+    expireTimer: DurationInSeconds | undefined;
+    expirationStartTimestamp: number | undefined;
   }): Promise<void> {
     const terminatorConversation = window.ConversationController.get(
       params.terminatorId
@@ -3522,6 +3524,8 @@ export class ConversationModel {
       readStatus: params.isMeTerminating ? ReadStatus.Read : ReadStatus.Unread,
       seenStatus: params.isMeTerminating ? SeenStatus.Seen : SeenStatus.Unseen,
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+      expireTimer: params.expireTimer,
+      expirationStartTimestamp: params.expirationStartTimestamp,
     });
 
     await window.MessageCache.saveMessage(message, { forceSave: true });
