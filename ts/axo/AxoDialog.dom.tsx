@@ -14,36 +14,12 @@ import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import { getScrollbarGutters } from './_internal/scrollbars.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
 import { AxoIconButton } from './AxoIconButton.dom.js';
 
 const Namespace = 'AxoDialog';
 
 const { useContentEscapeBehavior } = AxoBaseDialog;
-
-// We want to have 24px of padding on either side of header/body/footer, but
-// it's import that we remain aligned with the vertical scrollbar gutters that
-// we need to measure in the browser to know the value of.
-//
-// Chrome currently renders vertical scrollbars as 11px with
-// `scrollbar-width: thin` but that could change someday or based on some OS
-// settings. So we'll target 24px but we'll tolerate different values.
-function getPadding(target: number, scrollbars: boolean): number {
-  const scrollbarWidthExpected = 11;
-  const paddingBeforeScrollbarWidth = target - scrollbarWidthExpected;
-
-  if (scrollbars) {
-    // If this element has scrollbars we should just rely on the rendered gutter
-    return paddingBeforeScrollbarWidth;
-  }
-
-  const scrollbarWidthActual = getScrollbarGutters('thin', 'custom').vertical;
-
-  // If this element doesn't have scrollbars, we need to add the exact value of
-  // the actual scrollbar gutter
-  return scrollbarWidthActual + paddingBeforeScrollbarWidth;
-}
 
 export namespace AxoDialog {
   /**
@@ -140,18 +116,12 @@ export namespace AxoDialog {
   }>;
 
   export const Header: FC<HeaderProps> = memo(props => {
-    const style = useMemo(() => {
-      return {
-        paddingInline: getPadding(10, false),
-      };
-    }, []);
     return (
       <div
         className={tw(
-          'grid items-center py-2.5',
+          'grid items-center p-2.5',
           'grid-cols-[[back-slot]_1fr_[title-slot]_auto_[close-slot]_1fr]'
         )}
-        style={style}
       >
         {props.children}
       </div>
@@ -204,20 +174,14 @@ export namespace AxoDialog {
   }>;
 
   export const Title: FC<TitleProps> = memo(props => {
-    const style = useMemo(() => {
-      return {
-        paddingInline: 24 - getPadding(10, false),
-      };
-    }, []);
     return (
       <Dialog.Title
         className={tw(
-          'col-[title-slot] py-0.5',
+          'col-[title-slot] px-3.5 py-0.5',
           'truncate text-center',
           'type-body-medium font-semibold text-label-primary',
           props.screenReaderOnly && 'sr-only'
         )}
-        style={style}
       >
         {props.children}
       </Dialog.Title>
@@ -281,14 +245,7 @@ export namespace AxoDialog {
   }>;
 
   export const ExperimentalSearch: FC<ExperimentalSearchProps> = memo(props => {
-    const style = useMemo(() => {
-      return { paddingInline: getPadding(16, false) };
-    }, []);
-    return (
-      <div style={style} className={tw('pb-2')}>
-        {props.children}
-      </div>
-    );
+    return <div className={tw('px-4 pb-2')}>{props.children}</div>;
   });
 
   ExperimentalSearch.displayName = `${Namespace}.ExperimentalSearch`;
@@ -308,9 +265,13 @@ export namespace AxoDialog {
   export const Body: FC<BodyProps> = memo(props => {
     const { padding = 'normal' } = props;
 
-    const style = useMemo((): CSSProperties => {
+    const style = useMemo((): CSSProperties | undefined => {
+      if (padding === 'only-scrollbar-gutter') {
+        return;
+      }
+
       return {
-        paddingInline: padding === 'normal' ? getPadding(24, true) : undefined,
+        paddingInline: 'calc(24px - var(--axo-scrollbar-gutter-thin-vertical))',
       };
     }, [padding]);
 
@@ -358,17 +319,8 @@ export namespace AxoDialog {
   }>;
 
   export const Footer: FC<FooterProps> = memo(props => {
-    const style = useMemo((): CSSProperties => {
-      return {
-        paddingInline: getPadding(12, false),
-      };
-    }, []);
-
     return (
-      <div
-        className={tw('flex flex-wrap items-center gap-3 py-2.5')}
-        style={style}
-      >
+      <div className={tw('flex flex-wrap items-center gap-3 px-3 py-2.5')}>
         {props.children}
       </div>
     );
@@ -386,12 +338,10 @@ export namespace AxoDialog {
   }>;
 
   export const FooterContent: FC<FooterContentProps> = memo(props => {
-    const style = useMemo(() => {
-      return { paddingInlineStart: 24 - getPadding(12, false) };
-    }, []);
     return (
       <div
         className={tw(
+          'px-3',
           // Allow the flex layout to place it in the same row as the actions
           // if it can be wrapped to fit within the available space:
           'basis-[min-content]',
@@ -402,7 +352,6 @@ export namespace AxoDialog {
           'flex-grow',
           'type-body-large text-label-primary'
         )}
-        style={style}
       >
         {props.children}
       </div>

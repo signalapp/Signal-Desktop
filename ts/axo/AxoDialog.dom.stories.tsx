@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { useId, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -8,7 +8,6 @@ import { AxoDialog } from './AxoDialog.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoCheckbox } from './AxoCheckbox.dom.js';
-import { getScrollbarGutters } from './_internal/scrollbars.dom.js';
 
 export default {
   title: 'Axo/AxoDialog',
@@ -306,12 +305,6 @@ function ExampleItem(props: { label: string; description: string }) {
   const labelId = useId();
   const descriptionId = useId();
 
-  const style = useMemo((): CSSProperties => {
-    return {
-      paddingInline: 24 - getScrollbarGutters('thin', 'custom').vertical,
-    };
-  }, []);
-
   return (
     <div
       role="option"
@@ -319,8 +312,7 @@ function ExampleItem(props: { label: string; description: string }) {
       aria-labelledby={labelId}
       aria-describedby={descriptionId}
       tabIndex={0}
-      className={tw('rounded-lg py-2.5 hover:bg-fill-secondary')}
-      style={style}
+      className={tw('rounded-lg px-[13px] py-2.5 hover:bg-fill-secondary')}
     >
       <div
         id={labelId}
@@ -365,7 +357,13 @@ export function ExampleLanguageDialog(): JSX.Element {
           />
         </AxoDialog.ExperimentalSearch>
         <AxoDialog.Body padding="only-scrollbar-gutter">
-          <div role="listbox">
+          <div
+            role="listbox"
+            style={{
+              paddingInline:
+                'calc(11px - var(--axo-scrollbar-gutter-thin-vertical)',
+            }}
+          >
             <ExampleItem label="System Language" description="English" />
             <ExampleItem label="Afrikaans" description="Afrikaans" />
             <ExampleItem label="Arabic" description="العربية" />

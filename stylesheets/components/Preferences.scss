@@ -54,6 +54,12 @@ $secondary-text-color: light-dark(
   &__scroll-area {
     overflow-y: scroll;
     max-height: 100%;
+
+    scrollbar-gutter: stable;
+    padding-inline-start: 11px;
+    padding-inline-end: calc(11px - var(--axo-scrollbar-gutter-thin-vertical));
+
+    @include mixins.scrollbar-on-hover;
   }
 
   &__padding {
@@ -70,10 +76,6 @@ $secondary-text-color: light-dark(
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    width: calc(100% - 11px);
-    margin-inline-start: 10px;
-    margin-inline-end: 1px;
 
     margin-bottom: 4px;
     border-radius: 8px;
@@ -212,12 +214,10 @@ $secondary-text-color: light-dark(
       @include mixins.font-body-1;
       align-items: center;
       display: flex;
+      width: 100%;
       height: 40px;
-      width: calc(100% - 11px);
       padding-block: 14px;
       padding-inline: 0;
-      margin-inline-start: 10px;
-      margin-inline-end: 1px;
       border-radius: 10px;
       margin-bottom: 4px;
     }
