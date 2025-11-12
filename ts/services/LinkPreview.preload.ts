@@ -96,11 +96,15 @@ function _maybeGrabLinkPreview(
     return;
   }
 
-  const links = LinkPreview.findLinks(message, caretLocation);
-  if (currentlyMatchedLink && links.includes(currentlyMatchedLink)) {
-    return;
+  if (currentlyMatchedLink) {
+    const allLinks = LinkPreview.findLinks(message);
+
+    if (allLinks.includes(currentlyMatchedLink)) {
+      return;
+    }
   }
 
+  const links = LinkPreview.findLinks(message, caretLocation);
   currentlyMatchedLink = undefined;
   excludedPreviewUrls = excludedPreviewUrls || [];
 
