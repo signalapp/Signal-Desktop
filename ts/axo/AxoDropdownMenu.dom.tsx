@@ -3,7 +3,7 @@
 import React, { memo, useEffect, useId, useRef } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
-import { getRole, computeAccessibleName } from 'dom-accessibility-api';
+import { computeAccessibleName } from 'dom-accessibility-api';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
@@ -13,6 +13,10 @@ import {
   useCreateAriaLabellingContext,
 } from './_internal/AriaLabellingContext.dom.js';
 import { assert } from './_internal/assert.dom.js';
+import {
+  getElementAriaRole,
+  isAriaWidgetRole,
+} from './_internal/ariaRoles.dom.js';
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -107,8 +111,8 @@ export namespace AxoDropdownMenu {
           `${triggerDisplayName} child must forward ref`
         );
         assert(
-          getRole(ref.current) === 'button',
-          `${triggerDisplayName} child must be a <button> or role=button`
+          isAriaWidgetRole(getElementAriaRole(ref.current)),
+          `${triggerDisplayName} child must have a widget role like 'button'`
         );
         assert(
           computeAccessibleName(ref.current) !== '',
@@ -118,7 +122,7 @@ export namespace AxoDropdownMenu {
     });
 
     return (
-      <DropdownMenu.Trigger ref={ref} asChild>
+      <DropdownMenu.Trigger ref={ref} asChild disabled={props.disabled}>
         {props.children}
       </DropdownMenu.Trigger>
     );
@@ -412,6 +416,8 @@ export namespace AxoDropdownMenu {
       <DropdownMenu.RadioItem
         value={props.value}
         className={AxoBaseMenu.menuRadioItemStyles}
+        disabled={props.disabled}
+        textValue={props.textValue}
         onSelect={props.onSelect}
       >
         <AxoBaseMenu.ItemLeadingSlot>
@@ -501,7 +507,11 @@ export namespace AxoDropdownMenu {
    */
   export const SubTrigger: FC<SubTriggerProps> = memo(props => {
     return (
-      <DropdownMenu.SubTrigger className={AxoBaseMenu.menuSubTriggerStyles}>
+      <DropdownMenu.SubTrigger
+        disabled={props.disabled}
+        textValue={props.textValue}
+        className={AxoBaseMenu.menuSubTriggerStyles}
+      >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
             <AxoBaseMenu.ItemSymbol symbol={props.symbol} />

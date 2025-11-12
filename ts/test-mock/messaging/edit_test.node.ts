@@ -110,8 +110,9 @@ describe('editing', function (this: Mocha.Suite) {
   ) {
     await page
       .getByTestId(`${timestamp}`)
-      .locator('.module-message__buttons__menu')
+      .getByRole('button', { name: 'More actions' })
       .click();
+
     await page.getByRole('menuitem', { name: 'Edit' }).click();
     const input = await waitForEnabledComposer(page);
     await typeIntoInput(input, additionalText, previousText);

@@ -61,10 +61,10 @@ describe('storage service', function (this: Mocha.Suite) {
         await leftPane.locator(`[data-testid="${testid}"]`).click();
 
         await conversationStack
-          .locator('button.module-ConversationHeader__button--more')
+          .getByRole('button', { name: 'More Info' })
           .click();
 
-        await window.locator('.react-contextmenu-item >> "Archive"').click();
+        await window.getByRole('menuitem', { name: 'Archive' }).click();
 
         const newState = await phone.waitForStorageState({
           after: state,
@@ -102,10 +102,10 @@ describe('storage service', function (this: Mocha.Suite) {
       await leftPane.locator(`[data-testid="${testid}"]`).click();
 
       await conversationStack
-        .locator('button.module-ConversationHeader__button--more')
+        .getByRole('button', { name: 'More Info' })
         .click();
 
-      await window.locator('.react-contextmenu-item >> "Unarchive"').click();
+      await window.getByRole('menuitem', { name: 'Unarchive' }).click();
 
       await app.waitForManifestVersion(archivedVersion);
 
@@ -114,10 +114,10 @@ describe('storage service', function (this: Mocha.Suite) {
 
       // Conversation should be still open
       await conversationStack
-        .locator('button.module-ConversationHeader__button--more')
+        .getByRole('button', { name: 'More Info' })
         .click();
 
-      await window.locator('.react-contextmenu-item >> "Unarchive"').waitFor();
+      await window.getByRole('menuitem', { name: 'Unarchive' }).waitFor();
 
       debug('Verifying the final manifest version');
       const finalState = await phone.expectStorageState('final state');
@@ -148,10 +148,10 @@ describe('storage service', function (this: Mocha.Suite) {
       await leftPane.locator(`[data-testid="${second.device.aci}"]`).click();
 
       await conversationStack
-        .locator('button.module-ConversationHeader__button--more')
+        .getByRole('button', { name: 'More Info' })
         .click();
 
-      await window.locator('.react-contextmenu-item >> "Pin chat"').click();
+      await window.getByRole('menuitem', { name: 'Pin chat' }).click();
 
       const newState = await phone.waitForStorageState({
         after: state,
@@ -172,20 +172,16 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     debug('unpinning second contact');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
+    await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window.locator('.react-contextmenu-item >> "Unpin chat"').click();
+    await window.getByRole('menuitem', { name: 'Unpin chat' }).click();
 
     await app.waitForManifestVersion(archivedVersion);
 
     debug('verifying that second contact is still unpinned');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
+    await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window.locator('.react-contextmenu-item >> "Unpin chat"').waitFor();
+    await window.getByRole('menuitem', { name: 'Unpin chat' }).waitFor();
 
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('final state');

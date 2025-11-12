@@ -1,11 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { ContextMenu } from 'radix-ui';
-import type { FC } from 'react';
+import type {
+  FC,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEvent as ReactMouseEvent,
+} from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
+import { assert } from './_internal/assert.dom.js';
 
 const Namespace = 'AxoContextMenu';
 
@@ -57,7 +63,11 @@ export namespace AxoContextMenu {
   export type RootProps = AxoBaseMenu.MenuRootProps;
 
   export const Root: FC<RootProps> = memo(props => {
-    return <ContextMenu.Root>{props.children}</ContextMenu.Root>;
+    return (
+      <ContextMenu.Root onOpenChange={props.onOpenChange}>
+        {props.children}
+      </ContextMenu.Root>
+    );
   });
 
   Root.displayName = `${Namespace}.Root`;
@@ -67,13 +77,110 @@ export namespace AxoContextMenu {
    * -----------------------------------
    */
 
+  type TriggerElementGetter = (event: KeyboardEvent) => Element;
+
+  // eslint-disable-next-line no-inner-declarations
+  function useContextMenuTriggerKeyboardEventHandler(
+    getTriggerElement: TriggerElementGetter
+  ) {
+    const getTriggerElementRef =
+      useRef<TriggerElementGetter>(getTriggerElement);
+
+    useEffect(() => {
+      getTriggerElementRef.current = getTriggerElement;
+    }, [getTriggerElement]);
+
+    return useCallback(
+      (event: KeyboardEvent) => {
+        const isMacOS = window.platform === 'darwin';
+
+        if (
+          (isMacOS ? event.metaKey : !event.metaKey) &&
+          (isMacOS ? !event.ctrlKey : event.ctrlKey) &&
+          (isMacOS ? !event.shiftKey : event.shiftKey) &&
+          !event.altKey &&
+          (isMacOS ? event.key === 'F12' : event.key === 'F10')
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const trigger = getTriggerElement(event);
+
+          const clientRect = trigger.getBoundingClientRect();
+
+          trigger.dispatchEvent(
+            new MouseEvent('contextmenu', {
+              bubbles: true,
+              cancelable: true,
+              clientX: clientRect.left,
+              clientY: clientRect.bottom,
+            })
+          );
+        }
+      },
+      [getTriggerElement]
+    );
+  }
+
   export type TriggerProps = AxoBaseMenu.MenuTriggerProps;
 
   export const Trigger: FC<TriggerProps> = memo(props => {
-    return <ContextMenu.Trigger asChild>{props.children}</ContextMenu.Trigger>;
+    const [disableCurrentEvent, setDisableCurrentEvent] = useState(false);
+
+    const handleContextMenuCapture = useCallback(
+      (event: ReactMouseEvent<HTMLElement>) => {
+        const { target, currentTarget } = event;
+        if (
+          target instanceof HTMLElement &&
+          target.closest('a[href], [role=link]') != null
+        ) {
+          setDisableCurrentEvent(true);
+        }
+
+        const selection = window.getSelection();
+        if (
+          selection != null &&
+          !selection.isCollapsed &&
+          selection.containsNode(currentTarget, true)
+        ) {
+          setDisableCurrentEvent(true);
+        }
+      },
+      []
+    );
+
+    const handleContextMenu = useCallback(() => {
+      setDisableCurrentEvent(false);
+    }, []);
+
+    const handleKeyDown = useContextMenuTriggerKeyboardEventHandler(event => {
+      return event.currentTarget;
+    });
+
+    return (
+      <ContextMenu.Trigger
+        asChild
+        onContextMenuCapture={handleContextMenuCapture}
+        onContextMenu={handleContextMenu}
+        onKeyDown={handleKeyDown}
+        disabled={disableCurrentEvent || props.disabled}
+        data-axo-context-menu-trigger
+      >
+        {props.children}
+      </ContextMenu.Trigger>
+    );
   });
 
   Trigger.displayName = `${Namespace}.Trigger`;
+
+  export function useAxoContextMenuOutsideKeyboardTrigger(): KeyboardEventHandler {
+    return useContextMenuTriggerKeyboardEventHandler(event => {
+      return assert(
+        event.currentTarget.querySelector('[data-axo-context-menu-trigger]'),
+        `Couldn't find <${Namespace}.Trigger> element, did you forget to pass all html props through?`
+      );
+    });
+  }
 
   /**
    * Component: <AxoContextMenu.Content>

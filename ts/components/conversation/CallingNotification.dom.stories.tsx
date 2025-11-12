@@ -63,7 +63,6 @@ const getCommonProps = (options: {
     id: 'message-id',
     conversationId: conversation.id,
     i18n,
-    interactionMode: 'mouse',
     isNextItemCallingNotification: false,
     onOutgoingAudioCallInConversation: action(
       'onOutgoingAudioCallInConversation'

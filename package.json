@@ -201,7 +201,6 @@
     "react-aria": "3.35.1",
     "react-aria-components": "1.4.1",
     "react-blurhash": "0.3.0",
-    "react-contextmenu": "2.14.0",
     "react-dom": "18.3.1",
     "react-intl": "7.1.11",
     "react-popper": "2.3.0",
@@ -377,9 +376,7 @@
       "canvas": "-",
       "jsdom": "-",
       "thenify-all>thenify": "3.3.1",
-      "@electron/rebuild@3.7.2>@electron/node-gyp": "10.2.0-electron.2",
-      "react-contextmenu>react": "18.3.1",
-      "react-contextmenu>react-dom": "18.3.1"
+      "@electron/rebuild@3.7.2>@electron/node-gyp": "10.2.0-electron.2"
     },
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
@@ -390,7 +387,6 @@
       "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",
       "@types/node-fetch@2.6.12": "patches/@types+node-fetch+2.6.12.patch",
       "fabric@4.6.0": "patches/fabric+4.6.0.patch",
-      "react-contextmenu@2.14.0": "patches/react-contextmenu+2.14.0.patch",
       "@vitest/expect@2.0.5": "patches/@vitest+expect+2.0.5.patch",
       "got@11.8.5": "patches/got+11.8.5.patch",
       "growing-file@0.1.3": "patches/growing-file+0.1.3.patch",

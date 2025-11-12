@@ -173,12 +173,10 @@ describe('backups', function (this: Mocha.Suite) {
       debug('setting bubble color');
       const conversationStack = window.locator('.Inbox__conversation-stack');
       await conversationStack
-        .locator('button.module-ConversationHeader__button--more')
+        .getByRole('button', { name: 'More Info' })
         .click();
 
-      await window
-        .locator('.react-contextmenu-item >> "Chat settings"')
-        .click();
+      await window.getByRole('menuitem', { name: 'Chat settings' }).click();
 
       await conversationStack
         .locator('.ConversationDetails__chat-color')

@@ -10,8 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import type { Ref } from 'react';
-import { ContextMenuTrigger } from 'react-contextmenu';
+import type { ReactNode, Ref } from 'react';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
@@ -19,7 +18,6 @@ import { isDownloaded } from '../../util/Attachment.std.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
 import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
-import { StopPropagation } from '../StopPropagation.dom.js';
 import { WidthBreakpoint } from '../_util.std.js';
 import { Message } from './Message.dom.js';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
@@ -33,7 +31,6 @@ import type { PushPanelForConversationActionType } from '../../state/ducks/conve
 import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.js';
 import {
   useKeyboardShortcutsConditionally,
-  useOpenContextMenu,
   useToggleReactionPicker,
 } from '../../hooks/useKeyboardShortcuts.dom.js';
 import { PanelType } from '../../types/Panels.std.js';
@@ -45,11 +42,14 @@ import { useScrollerLock } from '../../hooks/useScrollLock.dom.js';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,
-  useHandleMessageContextMenu,
 } from './MessageContextMenu.dom.js';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
+import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
+import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
+
+const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
 const { noop } = lodash;
 
@@ -267,8 +267,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     ]
   );
 
-  const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
-
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
 
@@ -291,11 +289,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     handleReact || noop
   );
 
-  const openContextMenuKeyboard = useOpenContextMenu(handleContextMenu);
-
   useKeyboardShortcutsConditionally(
     Boolean(isTargeted),
-    openContextMenuKeyboard,
     toggleReactionPickerKeyboard
   );
 
@@ -312,6 +307,82 @@ export function TimelineMessage(props: Props): JSX.Element {
       .filter(isNotNil);
   }, [groupedReactions]);
 
+  const renderMessageContextMenu = useCallback(
+    (renderer: AxoMenuBuilder.Renderer, children: ReactNode): JSX.Element => {
+      return (
+        <MessageContextMenu
+          i18n={i18n}
+          renderer={renderer}
+          shouldShowAdditional={shouldShowAdditional}
+          onDownload={handleDownload}
+          onEdit={
+            canEditMessage
+              ? () => setMessageToEdit(conversationId, id)
+              : undefined
+          }
+          onReplyToMessage={handleReplyToMessage}
+          onReact={handleReact}
+          onEndPoll={canEndPoll ? () => endPoll(id) : undefined}
+          onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
+          onRetryDeleteForEveryone={
+            canRetryDeleteForEveryone
+              ? () => retryDeleteForEveryone(id)
+              : undefined
+          }
+          onCopy={canCopy ? () => copyMessageText(id) : undefined}
+          onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
+          onForward={
+            canForward
+              ? () =>
+                  toggleForwardMessagesModal({
+                    type: ForwardMessagesModalType.Forward,
+                    messageIds: [id],
+                  })
+              : undefined
+          }
+          onDeleteMessage={() => {
+            toggleDeleteMessagesModal({
+              conversationId,
+              messageIds: [id],
+            });
+          }}
+          onMoreInfo={() =>
+            pushPanelForConversation({
+              type: PanelType.MessageDetails,
+              args: { messageId: id },
+            })
+          }
+        >
+          {children}
+        </MessageContextMenu>
+      );
+    },
+    [
+      canCopy,
+      canEditMessage,
+      canForward,
+      canRetry,
+      canEndPoll,
+      canRetryDeleteForEveryone,
+      conversationId,
+      copyMessageText,
+      handleDownload,
+      handleReact,
+      endPoll,
+      handleReplyToMessage,
+      i18n,
+      id,
+      pushPanelForConversation,
+      retryDeleteForEveryone,
+      retryMessageSend,
+      setMessageToEdit,
+      shouldShowAdditional,
+      toggleDeleteMessagesModal,
+      toggleForwardMessagesModal,
+      toggleSelectMessage,
+    ]
+  );
+
   const renderMenu = useCallback(() => {
     return (
       <Manager>
@@ -321,10 +392,10 @@ export function TimelineMessage(props: Props): JSX.Element {
           isWindowWidthNotNarrow={isWindowWidthNotNarrow}
           direction={direction}
           menuTriggerRef={menuTriggerRef}
-          showMenu={handleContextMenu}
           onDownload={handleDownload}
           onReplyToMessage={canReply ? handleReplyToMessage : undefined}
           onReact={canReact ? handleReact : undefined}
+          renderMessageContextMenu={renderMessageContextMenu}
         />
         {reactionPickerRoot &&
           createPortal(
@@ -364,7 +435,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     menuTriggerRef,
     canReply,
     canReact,
-    handleContextMenu,
     handleDownload,
     handleReplyToMessage,
     handleReact,
@@ -376,66 +446,23 @@ export function TimelineMessage(props: Props): JSX.Element {
     toggleReactionPicker,
     id,
     messageEmojis,
+    renderMessageContextMenu,
   ]);
 
-  return (
-    <>
-      <Message
-        {...props}
-        renderingContext="conversation/TimelineItem"
-        onContextMenu={handleContextMenu}
-        renderMenu={renderMenu}
-        onToggleSelect={(selected, shift) => {
-          toggleSelectMessage(conversationId, id, shift, selected);
-        }}
-        onReplyToMessage={handleReplyToMessage}
-      />
+  const handleWrapperKeyDown = useAxoContextMenuOutsideKeyboardTrigger();
 
-      <MessageContextMenu
-        i18n={i18n}
-        triggerId={triggerId}
-        shouldShowAdditional={shouldShowAdditional}
-        interactionMode={props.interactionMode}
-        onDownload={handleDownload}
-        onEdit={
-          canEditMessage
-            ? () => setMessageToEdit(conversationId, id)
-            : undefined
-        }
-        onReplyToMessage={handleReplyToMessage}
-        onReact={handleReact}
-        onEndPoll={canEndPoll ? () => endPoll(id) : undefined}
-        onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
-        onRetryDeleteForEveryone={
-          canRetryDeleteForEveryone
-            ? () => retryDeleteForEveryone(id)
-            : undefined
-        }
-        onCopy={canCopy ? () => copyMessageText(id) : undefined}
-        onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
-        onForward={
-          canForward
-            ? () =>
-                toggleForwardMessagesModal({
-                  type: ForwardMessagesModalType.Forward,
-                  messageIds: [id],
-                })
-            : undefined
-        }
-        onDeleteMessage={() => {
-          toggleDeleteMessagesModal({
-            conversationId,
-            messageIds: [id],
-          });
-        }}
-        onMoreInfo={() =>
-          pushPanelForConversation({
-            type: PanelType.MessageDetails,
-            args: { messageId: id },
-          })
-        }
-      />
-    </>
+  return (
+    <Message
+      {...props}
+      renderingContext="conversation/TimelineItem"
+      renderMenu={renderMenu}
+      renderMessageContextMenu={renderMessageContextMenu}
+      onToggleSelect={(selected, shift) => {
+        toggleSelectMessage(conversationId, id, shift, selected);
+      }}
+      onReplyToMessage={handleReplyToMessage}
+      onWrapperKeyDown={handleWrapperKeyDown}
+    />
   );
 }
 
@@ -444,62 +471,25 @@ type MessageMenuProps = {
   triggerId: string;
   isWindowWidthNotNarrow: boolean;
   menuTriggerRef: Ref<ContextMenuTriggerType>;
-  showMenu: (event: React.MouseEvent<HTMLDivElement>) => void;
   onDownload: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
   onReact: (() => void) | undefined;
+  renderMessageContextMenu: (
+    renderer: AxoMenuBuilder.Renderer,
+    children: ReactNode
+  ) => ReactNode;
 } & Pick<MessageProps, 'i18n' | 'direction'>;
 
 function MessageMenu({
   i18n,
-  triggerId,
   direction,
   isWindowWidthNotNarrow,
-  menuTriggerRef,
-  showMenu,
   onDownload,
   onReplyToMessage,
   onReact,
+  renderMessageContextMenu,
 }: MessageMenuProps) {
   // This a menu meant for mouse use only
-  /* eslint-disable jsx-a11y/interactive-supports-focus */
-  /* eslint-disable jsx-a11y/click-events-have-key-events */
-  const menuButton = (
-    <Reference>
-      {({ ref: popperRef }) => {
-        // Only attach the popper reference to the collapsed menu button if the reaction
-        //   button is not visible (it is hidden when the timeline is narrow)
-        const maybePopperRef = !isWindowWidthNotNarrow ? popperRef : undefined;
-
-        return (
-          <StopPropagation className="module-message__buttons__menu--container">
-            <ContextMenuTrigger
-              id={triggerId}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ref={menuTriggerRef as any}
-            >
-              <div
-                ref={maybePopperRef}
-                role="button"
-                onClick={showMenu}
-                aria-label={i18n('icu:messageContextMenuButton')}
-                className={classNames(
-                  'module-message__buttons__menu',
-                  `module-message__buttons__download--${direction}`
-                )}
-                onDoubleClick={ev => {
-                  // Prevent double click from triggering the replyToMessage action
-                  ev.stopPropagation();
-                }}
-              />
-            </ContextMenuTrigger>
-          </StopPropagation>
-        );
-      }}
-    </Reference>
-  );
-  /* eslint-enable jsx-a11y/interactive-supports-focus */
-  /* eslint-enable jsx-a11y/click-events-have-key-events */
 
   return (
     <div
@@ -589,7 +579,21 @@ function MessageMenu({
           )}
         </>
       )}
-      {menuButton}
+      {renderMessageContextMenu(
+        'AxoDropdownMenu',
+        <button
+          type="button"
+          aria-label={i18n('icu:messageContextMenuButton')}
+          className={classNames(
+            'module-message__buttons__menu',
+            `module-message__buttons__download--${direction}`
+          )}
+          onDoubleClick={ev => {
+            // Prevent double click from triggering the replyToMessage action
+            ev.stopPropagation();
+          }}
+        />
+      )}
     </div>
   );
 }

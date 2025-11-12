@@ -329,13 +329,4 @@
       }
     }
   }
-
-  &__disappearing-timer__item {
-    padding-inline-start: 25px;
-
-    &--active {
-      padding-inline-start: 0px;
-      @include icon-element('../images/icons/v3/check/check-compact.svg', 12px);
-    }
-  }
 }

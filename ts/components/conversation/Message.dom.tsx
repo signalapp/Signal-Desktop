@@ -124,6 +124,7 @@ import {
   isEmojiVariantValue,
 } from '../fun/data/emojis.std.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
+import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 
 const { drop, take, unescape } = lodash;
 
@@ -327,6 +328,10 @@ export type PropsData = {
   bodyRanges?: HydratedBodyRangesType;
 
   renderMenu?: () => JSX.Element | undefined;
+  renderMessageContextMenu?: (
+    renderer: AxoMenuBuilder.Renderer,
+    children: ReactNode
+  ) => JSX.Element;
 
   item?: never;
   // test-only, to force GIF's reduced motion experience
@@ -345,7 +350,7 @@ export type PropsHousekeeping = {
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
-  onContextMenu?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onWrapperKeyDown?: (event: React.KeyboardEvent) => void;
   theme: ThemeType;
 };
 
@@ -3176,7 +3181,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       isSticker,
       isTapToView,
-      onContextMenu,
+      renderMessageContextMenu,
       text,
       textDirection,
     } = this.props;
@@ -3234,28 +3239,36 @@ export class Message extends React.PureComponent<Props, State> {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
     }
 
+    function maybeWrapWithContextMenu(children: ReactNode): ReactNode {
+      if (renderMessageContextMenu) {
+        return renderMessageContextMenu('AxoContextMenu', children);
+      }
+      return children;
+    }
+
     return (
       <div className="module-message__container-outer">
-        {/* the keyboard handler is a level higher in hierarchy due to selection */}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <div
-          className={containerClassnames}
-          id={`message-accessibility-contents:${id}`}
-          style={containerStyles}
-          onContextMenu={onContextMenu}
-          role="row"
-          onClick={this.handleClick}
-          onDoubleClick={ev => {
-            // Prevent double click from triggering the replyToMessage action
-            ev.stopPropagation();
-          }}
-          tabIndex={-1}
-        >
-          {this.#renderAuthor()}
-          <div dir={TextDirectionToDirAttribute[textDirection]}>
-            {this.renderContents()}
+        {maybeWrapWithContextMenu(
+          // the keyboard handler is a level higher in hierarchy due to selection
+          //  eslint-disable-next-line jsx-a11y/click-events-have-key-events
+          <div
+            className={containerClassnames}
+            id={`message-accessibility-contents:${id}`}
+            style={containerStyles}
+            role="row"
+            onClick={this.handleClick}
+            onDoubleClick={ev => {
+              // Prevent double click from triggering the replyToMessage action
+              ev.stopPropagation();
+            }}
+            tabIndex={-1}
+          >
+            {this.#renderAuthor()}
+            <div dir={TextDirectionToDirAttribute[textDirection]}>
+              {this.renderContents()}
+            </div>
           </div>
-        </div>
+        )}
         {this.renderReactions(direction === 'outgoing')}
       </div>
     );
@@ -3296,6 +3309,7 @@ export class Message extends React.PureComponent<Props, State> {
       timestamp,
       onToggleSelect,
       onReplyToMessage,
+      onWrapperKeyDown,
     } = this.props;
     const isMacOS = platform === 'darwin';
     const { expired, expiring, isTargeted, imageBroken } = this.state;
@@ -3363,7 +3377,10 @@ export class Message extends React.PureComponent<Props, State> {
             onReplyToMessage();
           }
         },
-        onKeyDown: event => this.handleKeyDown(event),
+        onKeyDown: event => {
+          this.handleKeyDown(event);
+          onWrapperKeyDown?.(event);
+        },
       };
     }
 

@@ -65,14 +65,14 @@ describe('storage service', function (this: Mocha.Suite) {
         const convo = leftPane.getByTestId(group.id);
         await convo.click();
 
-        const moreButton = conversationStack.locator(
-          'button.module-ConversationHeader__button--more'
-        );
+        const moreButton = conversationStack.getByRole('button', {
+          name: 'More Info',
+        });
         await moreButton.click();
 
-        const pinButton = window.locator(
-          '.react-contextmenu-item >> "Pin chat"'
-        );
+        const pinButton = window.getByRole('menuitem', {
+          name: 'Pin chat',
+        });
         await pinButton.click();
 
         const newState = await phone.waitForStorageState({
@@ -113,14 +113,14 @@ describe('storage service', function (this: Mocha.Suite) {
           );
           await convo.click();
 
-          const moreButton = conversationStack.locator(
-            'button.module-ConversationHeader__button--more'
-          );
+          const moreButton = conversationStack.getByRole('button', {
+            name: 'More Info',
+          });
           await moreButton.click();
 
-          const pinButton = window.locator(
-            '.react-contextmenu-item >> "Pin chat"'
-          );
+          const pinButton = window.getByRole('menuitem', {
+            name: 'Pin chat',
+          });
           await pinButton.click();
 
           if (isLast) {

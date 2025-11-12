@@ -1,6 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactNode } from 'react';
 import React, { useCallback, useState, useRef } from 'react';
 import lodash from 'lodash';
 
@@ -15,7 +16,9 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
 import { useTheme } from '../hooks/useTheme.dom.js';
 import { isSameDay } from '../util/timestamp.std.js';
 import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.js';
+import { AxoContextMenu } from '../axo/AxoContextMenu.dom.js';
 import { drop } from '../util/drop.std.js';
+import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.js';
 
 const { noop } = lodash;
 
@@ -145,13 +148,6 @@ export function EditHistoryMessagesModal({
             };
             setDisplayLimitById(update);
           }}
-          onContextMenu={() => {
-            drop(
-              window.navigator.clipboard.writeText(
-                String(currentMessage.timestamp)
-              )
-            );
-          }}
           platform={platform}
           showLightbox={closeAndShowLightbox}
           showSpoiler={(messageId, data) => {
@@ -162,6 +158,19 @@ export function EditHistoryMessagesModal({
             setRevealedSpoilersById(update);
           }}
           theme={theme}
+          renderMessageContextMenu={(
+            _renderer: AxoMenuBuilder.Renderer,
+            children
+          ) => {
+            return (
+              <EditHistoryMessageContextMenu
+                i18n={i18n}
+                timestamp={currentMessage.timestamp}
+              >
+                {children}
+              </EditHistoryMessageContextMenu>
+            );
+          }}
         />
 
         <hr className="EditHistoryMessagesModal__divider" />
@@ -213,13 +222,6 @@ export function EditHistoryMessagesModal({
                   };
                   setDisplayLimitById(update);
                 }}
-                onContextMenu={() => {
-                  drop(
-                    window.navigator.clipboard.writeText(
-                      String(messageAttributes.timestamp)
-                    )
-                  );
-                }}
                 platform={platform}
                 showLightbox={closeAndShowLightbox}
                 showSpoiler={(messageId, data) => {
@@ -230,11 +232,49 @@ export function EditHistoryMessagesModal({
                   setRevealedSpoilersById(update);
                 }}
                 theme={theme}
+                renderMessageContextMenu={(
+                  _renderer: AxoMenuBuilder.Renderer,
+                  children
+                ) => {
+                  return (
+                    <EditHistoryMessageContextMenu
+                      i18n={i18n}
+                      timestamp={messageAttributes.timestamp}
+                    >
+                      {children}
+                    </EditHistoryMessageContextMenu>
+                  );
+                }}
               />
             </React.Fragment>
           );
         })}
       </div>
     </Modal>
+  );
+}
+
+function EditHistoryMessageContextMenu(props: {
+  i18n: LocalizerType;
+  timestamp: number;
+  children: ReactNode;
+}) {
+  const { i18n, timestamp } = props;
+
+  const onCopyTimestamp = useCallback(() => {
+    drop(window.navigator.clipboard.writeText(`${timestamp}`));
+  }, [timestamp]);
+
+  return (
+    <AxoContextMenu.Root>
+      <AxoContextMenu.Trigger>{props.children}</AxoContextMenu.Trigger>
+      <AxoContextMenu.Content>
+        <AxoContextMenu.Item symbol="copy" onSelect={onCopyTimestamp}>
+          {i18n(
+            'icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp'
+          )}
+        </AxoContextMenu.Item>
+      </AxoContextMenu.Content>
+    </AxoContextMenu.Root>
   );
 }

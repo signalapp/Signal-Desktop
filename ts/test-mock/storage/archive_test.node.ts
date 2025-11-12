@@ -92,14 +92,14 @@ describe('storage service', function (this: Mocha.Suite) {
         .locator(`[data-testid="${firstContact.device.aci}"]`)
         .click();
 
-      const moreButton = conversationStack.locator(
-        'button.module-ConversationHeader__button--more'
-      );
+      const moreButton = conversationStack.getByRole('button', {
+        name: 'More Info',
+      });
       await moreButton.click();
 
-      const archiveButton = window.locator(
-        '.react-contextmenu-item >> "Archive"'
-      );
+      const archiveButton = window.getByRole('menuitem', {
+        name: 'Archive',
+      });
       await archiveButton.click();
 
       const newState = await phone.waitForStorageState({

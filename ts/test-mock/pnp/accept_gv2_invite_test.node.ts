@@ -143,11 +143,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .locator('.module-message-request-actions button >> "Accept"')
       .waitFor({ state: 'hidden' });
 
-    await window
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
-
-    await window.locator('.react-contextmenu-item >> "Group settings"').click();
+    await window.getByRole('button', { name: 'More Info' }).click();
+    await window.getByRole('menuitem', { name: 'Group settings' }).click();
 
     debug(
       'Checking that we see all members of group, including (previously) unknown contact'

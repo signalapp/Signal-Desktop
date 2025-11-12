@@ -11,8 +11,6 @@ overrides:
   jsdom: '-'
   thenify-all>thenify: 3.3.1
   '@electron/rebuild@3.7.2>@electron/node-gyp': 10.2.0-electron.2
-  react-contextmenu>react: 18.3.1
-  react-contextmenu>react-dom: 18.3.1
 
 patchedDependencies:
   '@types/express@4.17.21':
@@ -63,9 +61,6 @@ patchedDependencies:
   qrcode-generator@1.4.4:
     hash: 1f10c592d849ed4cfc9f81301196d39857b79240997ef5772138218cb3717e80
     path: patches/qrcode-generator+1.4.4.patch
-  react-contextmenu@2.14.0:
-    hash: 0a61a588d4e16ca308a33d4765e00ccade23abac650b981439a128bd5be785d7
-    path: patches/react-contextmenu+2.14.0.patch
   websocket@1.0.34:
     hash: b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355
     path: patches/websocket+1.0.34.patch
@@ -335,9 +330,6 @@ importers:
       react-blurhash:
         specifier: 0.3.0
         version: 0.3.0(blurhash@2.0.5)(react@18.3.1)
-      react-contextmenu:
-        specifier: 2.14.0
-        version: 2.14.0(patch_hash=0a61a588d4e16ca308a33d4765e00ccade23abac650b981439a128bd5be785d7)(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
@@ -9200,13 +9192,6 @@ packages:
     peerDependencies:
       blurhash: ^2.0.3
       react: '>=15'
-
-  react-contextmenu@2.14.0:
-    resolution: {integrity: sha512-ktqMOuad6sCFNJs/ltEwppN8F0YeXmqoZfwycgtZR/MxOXMYx1xgYC44SzWH259HdGyshk1/7sXGuIRwj9hzbw==}
-    peerDependencies:
-      prop-types: ^15.0.0
-      react: 18.3.1
-      react-dom: 18.3.1
 
   react-devtools-core@6.0.1:
     resolution: {integrity: sha512-II3iSJhnR5nAscYDa9FCgPLq8mO5aEx/EKKtdXYTDnvdFEa3K7gs3jn1SKRXwQf9maOmIilmjnnx7Qy+3annPA==}
@@ -21232,14 +21217,6 @@ snapshots:
     dependencies:
       blurhash: 2.0.5
       react: 18.3.1
-
-  react-contextmenu@2.14.0(patch_hash=0a61a588d4e16ca308a33d4765e00ccade23abac650b981439a128bd5be785d7)(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      classnames: 2.5.1
-      object-assign: 4.1.1
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   react-devtools-core@6.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10):
     dependencies:

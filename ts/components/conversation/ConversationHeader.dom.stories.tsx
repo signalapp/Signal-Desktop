@@ -400,6 +400,60 @@ export function Unaccepted(): JSX.Element {
   );
 }
 
+export function Blocked(): JSX.Element {
+  const items: ItemsType = [
+    {
+      title: 'Unaccepted & Blocked',
+      props: {
+        ...commonProps,
+        outgoingCallButtonStyle: OutgoingCallButtonStyle.None,
+        conversation: getDefaultConversation({
+          color: getRandomColor(),
+          title: '(202) 555-0007',
+          phoneNumber: '(202) 555-0007',
+          id: '16',
+          type: 'direct',
+          isMe: false,
+          acceptedMessageRequest: false,
+          isBlocked: true,
+        }),
+      },
+    },
+    {
+      title: 'Accepted & Blocked',
+      props: {
+        ...commonProps,
+        outgoingCallButtonStyle: OutgoingCallButtonStyle.None,
+        conversation: getDefaultConversation({
+          color: getRandomColor(),
+          title: '(202) 555-0007',
+          phoneNumber: '(202) 555-0007',
+          id: '16',
+          type: 'direct',
+          isMe: false,
+          acceptedMessageRequest: true,
+          isBlocked: true,
+        }),
+      },
+    },
+  ];
+
+  const theme = useContext(StorybookThemeContext);
+
+  return (
+    <>
+      {items.map(({ title: subtitle, props }, i) => {
+        return (
+          <div key={i}>
+            {subtitle ? <h3>{subtitle}</h3> : null}
+            <ConversationHeader {...props} theme={theme} />
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
 export function NeedsDeleteConfirmation(): JSX.Element {
   const [localDeleteWarningShown, setLocalDeleteWarningShown] =
     React.useState(false);

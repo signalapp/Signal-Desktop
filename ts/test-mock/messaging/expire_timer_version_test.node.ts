@@ -279,19 +279,13 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('setting timer to 1 week');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
+    await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
     await window
-      .locator('.react-contextmenu-item >> "Disappearing messages"')
+      .getByRole('menuitem', { name: 'Disappearing messages' })
       .click();
 
-    await window
-      .locator(
-        '.module-ConversationHeader__disappearing-timer__item >> "1 week"'
-      )
-      .click();
+    await window.getByRole('menuitemradio', { name: '1 week' }).click();
 
     debug('Getting first expiration update');
     {
@@ -305,19 +299,13 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     }
 
     debug('setting timer to 4 weeks');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
+    await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
     await window
-      .locator('.react-contextmenu-item >> "Disappearing messages"')
+      .getByRole('menuitem', { name: 'Disappearing messages' })
       .click();
 
-    await window
-      .locator(
-        '.module-ConversationHeader__disappearing-timer__item >> "4 weeks"'
-      )
-      .click();
+    await window.getByRole('menuitemradio', { name: '4 weeks' }).click();
 
     debug('Getting second expiration update');
     {

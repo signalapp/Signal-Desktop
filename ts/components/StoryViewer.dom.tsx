@@ -563,7 +563,7 @@ export function StoryViewer({
   };
 
   return (
-    <FocusScope contain autoFocus>
+    <FocusScope contain={currentViewTarget == null} autoFocus>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="StoryViewer"

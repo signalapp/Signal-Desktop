@@ -159,11 +159,9 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
 
     debug('opening group settings');
 
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
+    await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window.locator('.react-contextmenu-item >> "Group settings"').click();
+    await window.getByRole('menuitem', { name: 'Group settings' }).click();
 
     debug('editing group title');
     {

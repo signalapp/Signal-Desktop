@@ -9058,6 +9058,10 @@
     "messageformat": "Edit history",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp",
+    "description": "Context menu item to help debugging"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "This edit could not be sent. Check your connection and try again",
     "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"

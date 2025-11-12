@@ -157,7 +157,6 @@ const DOM_PACKAGES = new Set([
   'react-aria',
   'react-aria-components',
   'react-blurhash',
-  'react-contextmenu',
   'react-popper',
   'react-virtualized',
   // Note that: react-dom/server is categorized separately

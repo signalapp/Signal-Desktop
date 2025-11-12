@@ -8,7 +8,6 @@ import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
 import { getHasPanelOpen } from '../state/selectors/conversations.dom.js';
 import { isInFullScreenCall } from '../state/selectors/calling.std.js';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.js';
-import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu.dom.js';
 
 const { get } = lodash;
 
@@ -292,39 +291,6 @@ export function useToggleReactionPicker(
       return false;
     },
     [handleReact, hasOverlay]
-  );
-}
-
-export function useOpenContextMenu(
-  openContextMenu: ContextMenuTriggerType['handleContextClick'] | undefined
-): KeyboardShortcutHandlerType {
-  const hasOverlay = useHasAnyOverlay();
-
-  return useCallback(
-    ev => {
-      if (hasOverlay) {
-        return false;
-      }
-
-      const { shiftKey } = ev;
-      const key = KeyboardLayout.lookup(ev);
-
-      const isMacOS = get(window, 'platform') === 'darwin';
-
-      if (
-        (!isMacOS && shiftKey && key === 'F10') ||
-        (isMacOS && isCmdOrCtrl(ev) && key === 'F12')
-      ) {
-        ev.preventDefault();
-        ev.stopPropagation();
-
-        openContextMenu?.(new MouseEvent('click'));
-        return true;
-      }
-
-      return false;
-    },
-    [hasOverlay, openContextMenu]
   );
 }
 

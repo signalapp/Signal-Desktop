@@ -94,7 +94,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/lodash/.+',
     '^node_modules/react/.+',
     '^node_modules/react-aria-components/.+',
-    '^node_modules/react-contextmenu/.+',
     '^node_modules/react-dom/.+',
     '^node_modules/react-icon-base/.+',
     '^node_modules/react-input-autosize/.+',

@@ -2,15 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import type { ReactNode, RefObject } from 'react';
-import React, { memo, useRef, useState } from 'react';
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
-import { createPortal } from 'react-dom';
+import type { RefObject } from 'react';
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import type { BadgeType } from '../../badges/types.std.js';
 import {
   useKeyboardShortcuts,
@@ -20,7 +13,7 @@ import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
 import type { ConversationTypeType } from '../../state/ducks/conversations.preload.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
+import type { DurationInSeconds } from '../../util/durations/index.std.js';
 import * as expirationTimer from '../../util/expirationTimer.std.js';
 import { getMuteOptions } from '../../util/getMuteOptions.std.js';
 import { isConversationMuted } from '../../util/isConversationMuted.std.js';
@@ -40,6 +33,8 @@ import {
 import type { MinimalConversation } from '../../hooks/useMinimalConversation.std.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
+import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 function HeaderInfoTitle({
   name,
@@ -153,8 +148,6 @@ export type PropsType = PropsDataType &
   PropsActionsType &
   PropsHousekeepingType;
 
-const TIMER_ITEM_CLASS = 'module-ConversationHeader__disappearing-timer__item';
-
 export const ConversationHeader = memo(function ConversationHeader({
   addedByName,
   badge,
@@ -198,8 +191,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   theme,
 }: PropsType): JSX.Element | null {
   // Comes from a third-party dependency
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const menuTriggerRef = useRef<any>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
   const [
@@ -218,8 +209,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   const [messageRequestState, setMessageRequestState] = useState(
     MessageRequestState.default
   );
-
-  const triggerId = `conversation-${conversation.id}`;
 
   if (hasPanelShowing) {
     return null;
@@ -324,75 +313,70 @@ export const ConversationHeader = memo(function ConversationHeader({
               )}
               aria-label={i18n('icu:search')}
             />
-            <ContextMenuTrigger
-              id={triggerId}
-              ref={menuTriggerRef}
-              disable={isSelectMode}
-            >
-              <button
-                type="button"
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                  menuTriggerRef.current?.handleContextClick(event);
-                }}
-                className={classNames(
-                  'module-ConversationHeader__button',
-                  'module-ConversationHeader__button--more'
-                )}
-                aria-label={i18n('icu:moreInfo')}
-                disabled={isSelectMode}
-              />
-            </ContextMenuTrigger>
-            <HeaderMenu
-              i18n={i18n}
-              conversation={conversation}
-              isMissingMandatoryProfileSharing={
-                isMissingMandatoryProfileSharing ?? false
-              }
-              isSelectMode={isSelectMode}
-              isSignalConversation={isSignalConversation ?? false}
-              onChangeDisappearingMessages={
-                onConversationDisappearingMessagesChange
-              }
-              onChangeMuteExpiration={onConversationMuteExpirationChange}
-              onConversationAccept={onConversationAccept}
-              onConversationArchive={onConversationArchive}
-              onConversationBlock={() => {
-                setMessageRequestState(MessageRequestState.blocking);
-              }}
-              onConversationDelete={() => {
-                setMessageRequestState(MessageRequestState.deleting);
-              }}
-              onConversationDeleteMessages={() => {
-                setHasDeleteMessagesConfirmation(true);
-              }}
-              onConversationLeaveGroup={() => {
-                if (cannotLeaveBecauseYouAreLastAdmin) {
-                  setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
-                } else {
-                  setHasLeaveGroupConfirmation(true);
+
+            <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Trigger disabled={isSelectMode}>
+                <button
+                  type="button"
+                  className={classNames(
+                    'module-ConversationHeader__button',
+                    'module-ConversationHeader__button--more'
+                  )}
+                  aria-label={i18n('icu:moreInfo')}
+                />
+              </AxoDropdownMenu.Trigger>
+              <HeaderDropdownMenuContent
+                i18n={i18n}
+                conversation={conversation}
+                isMissingMandatoryProfileSharing={
+                  isMissingMandatoryProfileSharing ?? false
                 }
-              }}
-              onConversationMarkUnread={onConversationMarkUnread}
-              onConversationPin={onConversationPin}
-              onConversationReportAndMaybeBlock={() => {
-                setMessageRequestState(
-                  MessageRequestState.reportingAndMaybeBlocking
-                );
-              }}
-              onConversationUnarchive={onConversationUnarchive}
-              onConversationUnblock={() => {
-                setMessageRequestState(MessageRequestState.unblocking);
-              }}
-              onConversationUnpin={onConversationUnpin}
-              onSelectModeEnter={onSelectModeEnter}
-              onSetupCustomDisappearingTimeout={() => {
-                setHasCustomDisappearingTimeoutModal(true);
-              }}
-              onShowMembers={onShowMembers}
-              onViewAllMedia={onViewAllMedia}
-              onViewConversationDetails={onViewConversationDetails}
-              triggerId={triggerId}
-            />
+                isSelectMode={isSelectMode}
+                isSignalConversation={isSignalConversation ?? false}
+                onChangeDisappearingMessages={
+                  onConversationDisappearingMessagesChange
+                }
+                onChangeMuteExpiration={onConversationMuteExpirationChange}
+                onConversationAccept={onConversationAccept}
+                onConversationArchive={onConversationArchive}
+                onConversationBlock={() => {
+                  setMessageRequestState(MessageRequestState.blocking);
+                }}
+                onConversationDelete={() => {
+                  setMessageRequestState(MessageRequestState.deleting);
+                }}
+                onConversationDeleteMessages={() => {
+                  setHasDeleteMessagesConfirmation(true);
+                }}
+                onConversationLeaveGroup={() => {
+                  if (cannotLeaveBecauseYouAreLastAdmin) {
+                    setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
+                  } else {
+                    setHasLeaveGroupConfirmation(true);
+                  }
+                }}
+                onConversationMarkUnread={onConversationMarkUnread}
+                onConversationPin={onConversationPin}
+                onConversationReportAndMaybeBlock={() => {
+                  setMessageRequestState(
+                    MessageRequestState.reportingAndMaybeBlocking
+                  );
+                }}
+                onConversationUnarchive={onConversationUnarchive}
+                onConversationUnblock={() => {
+                  setMessageRequestState(MessageRequestState.unblocking);
+                }}
+                onConversationUnpin={onConversationUnpin}
+                onSelectModeEnter={onSelectModeEnter}
+                onSetupCustomDisappearingTimeout={() => {
+                  setHasCustomDisappearingTimeoutModal(true);
+                }}
+                onShowMembers={onShowMembers}
+                onViewAllMedia={onViewAllMedia}
+                onViewConversationDetails={onViewConversationDetails}
+              />
+            </AxoDropdownMenu.Root>
+
             <MessageRequestActionsConfirmation
               i18n={i18n}
               conversationId={conversation.id}
@@ -536,7 +520,7 @@ function HeaderContent({
   );
 }
 
-function HeaderMenu({
+function HeaderDropdownMenuContent({
   conversation,
   i18n,
   isMissingMandatoryProfileSharing,
@@ -561,7 +545,6 @@ function HeaderMenu({
   onShowMembers,
   onViewAllMedia,
   onViewConversationDetails,
-  triggerId,
 }: {
   conversation: MinimalConversation;
   i18n: LocalizerType;
@@ -587,9 +570,7 @@ function HeaderMenu({
   onShowMembers: () => void;
   onViewAllMedia: () => void;
   onViewConversationDetails: () => void;
-  triggerId: string;
 }) {
-  const isRTL = i18n.getLocaleDirection() === 'rtl';
   const muteOptions = getMuteOptions(conversation.muteExpiresAt, i18n);
   const isGroup = conversation.type === 'group';
   const disableTimerChanges = Boolean(
@@ -600,19 +581,31 @@ function HeaderMenu({
   );
   const hasGV2AdminEnabled = isGroup && conversation.groupVersion === 2;
 
-  const isActiveExpireTimer = (value: number): boolean => {
-    if (!conversation.expireTimer) {
-      return value === 0;
+  const disappearingMessagesValue = useMemo(() => {
+    const { expireTimer } = conversation;
+    if (expireTimer == null) {
+      return '0';
     }
 
-    // Custom time...
-    if (value === -1) {
-      return !expirationTimer.DEFAULT_DURATIONS_SET.has(
-        conversation.expireTimer
-      );
+    if (expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.includes(expireTimer)) {
+      return `${expireTimer}`;
     }
-    return value === conversation.expireTimer;
-  };
+
+    return 'custom';
+  }, [conversation]);
+
+  const onDisappearingMessagesValueChange = useCallback(
+    (value: string) => {
+      if (value === 'custom') {
+        return;
+      }
+
+      const seconds = Number(value);
+      strictAssert(Number.isFinite(seconds), 'Invalid value in radio item');
+      onChangeDisappearingMessages(seconds as DurationInSeconds);
+    },
+    [onChangeDisappearingMessages]
+  );
 
   if (isSelectMode) {
     return null;
@@ -626,213 +619,266 @@ function HeaderMenu({
       conversation.muteExpiresAt && isConversationMuted(conversation);
 
     return (
-      <ContextMenu id={triggerId} rtl={isRTL}>
-        <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
-          {isMuted ? (
-            <MenuItem
-              onClick={() => {
-                onChangeMuteExpiration(0);
-              }}
-            >
-              {i18n('icu:unmute')}
-            </MenuItem>
-          ) : (
-            <MenuItem
-              onClick={() => {
-                onChangeMuteExpiration(Number.MAX_SAFE_INTEGER);
-              }}
-            >
-              {i18n('icu:muteAlways')}
-            </MenuItem>
-          )}
-        </SubMenu>
+      <AxoDropdownMenu.Content>
+        <AxoDropdownMenu.Sub>
+          <AxoDropdownMenu.SubTrigger symbol="bell-slash">
+            {muteTitle}
+          </AxoDropdownMenu.SubTrigger>
+          <AxoDropdownMenu.SubContent>
+            {isMuted ? (
+              <AxoDropdownMenu.Item
+                onSelect={() => {
+                  onChangeMuteExpiration(0);
+                }}
+              >
+                {i18n('icu:unmute')}
+              </AxoDropdownMenu.Item>
+            ) : (
+              <AxoDropdownMenu.Item
+                onSelect={() => {
+                  onChangeMuteExpiration(Number.MAX_SAFE_INTEGER);
+                }}
+              >
+                {i18n('icu:muteAlways')}
+              </AxoDropdownMenu.Item>
+            )}
+          </AxoDropdownMenu.SubContent>
+        </AxoDropdownMenu.Sub>
         {conversation.isArchived ? (
-          <MenuItem onClick={onConversationUnarchive}>
+          <AxoDropdownMenu.Item
+            symbol="archive-up"
+            onSelect={onConversationUnarchive}
+          >
             {i18n('icu:moveConversationToInbox')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
         ) : (
-          <MenuItem onClick={onConversationArchive}>
+          <AxoDropdownMenu.Item
+            symbol="archive"
+            onSelect={onConversationArchive}
+          >
             {i18n('icu:archiveConversation')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
         )}
-
-        <MenuItem onClick={onConversationDeleteMessages}>
+        <AxoDropdownMenu.Item
+          symbol="trash"
+          onSelect={onConversationDeleteMessages}
+        >
           {i18n('icu:deleteConversation')}
-        </MenuItem>
-      </ContextMenu>
+        </AxoDropdownMenu.Item>
+      </AxoDropdownMenu.Content>
     );
   }
 
   if (isGroup && conversation.groupVersion !== 2) {
     return (
-      <ContextMenu id={triggerId}>
-        <MenuItem onClick={onShowMembers}>{i18n('icu:showMembers')}</MenuItem>
-        <MenuItem onClick={onViewAllMedia}>
+      <AxoDropdownMenu.Content>
+        <AxoDropdownMenu.Item symbol="group" onSelect={onShowMembers}>
+          {i18n('icu:showMembers')}
+        </AxoDropdownMenu.Item>
+        <AxoDropdownMenu.Item symbol="album" onSelect={onViewAllMedia}>
           {i18n('icu:allMediaMenuItem')}
-        </MenuItem>
-        <MenuItem divider />
+        </AxoDropdownMenu.Item>
+        <AxoDropdownMenu.Separator />
         {conversation.isArchived ? (
-          <MenuItem onClick={onConversationUnarchive}>
+          <AxoDropdownMenu.Item
+            symbol="archive-up"
+            onSelect={onConversationUnarchive}
+          >
             {i18n('icu:moveConversationToInbox')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
         ) : (
-          <MenuItem onClick={onConversationArchive}>
+          <AxoDropdownMenu.Item
+            symbol="archive"
+            onSelect={onConversationArchive}
+          >
             {i18n('icu:archiveConversation')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
         )}
-
-        <MenuItem onClick={onConversationDeleteMessages}>
+        <AxoDropdownMenu.Item
+          symbol="trash"
+          onSelect={onConversationDeleteMessages}
+        >
           {i18n('icu:deleteConversation')}
-        </MenuItem>
-      </ContextMenu>
+        </AxoDropdownMenu.Item>
+      </AxoDropdownMenu.Content>
     );
   }
 
-  const expireDurations: ReadonlyArray<ReactNode> = [
-    ...expirationTimer.DEFAULT_DURATIONS_IN_SECONDS,
-    DurationInSeconds.fromSeconds(-1),
-  ].map(seconds => {
-    let text: string;
-
-    if (seconds === -1) {
-      text = i18n('icu:customDisappearingTimeOption');
-    } else {
-      text = expirationTimer.format(i18n, seconds, {
-        capitalizeOff: true,
-      });
-    }
-
-    const onDurationClick = () => {
-      if (seconds === -1) {
-        onSetupCustomDisappearingTimeout();
-      } else {
-        onChangeDisappearingMessages(seconds);
-      }
-    };
-
-    return (
-      <MenuItem key={seconds} onClick={onDurationClick}>
-        <div
-          className={classNames(
-            TIMER_ITEM_CLASS,
-            isActiveExpireTimer(seconds) && `${TIMER_ITEM_CLASS}--active`
-          )}
-        >
-          {text}
-        </div>
-      </MenuItem>
-    );
-  });
-
-  return createPortal(
-    <ContextMenu id={triggerId} rtl={isRTL}>
+  return (
+    <AxoDropdownMenu.Content>
       {!conversation.acceptedMessageRequest && (
         <>
           {!conversation.isBlocked && (
-            <MenuItem onClick={onConversationBlock}>
+            <AxoDropdownMenu.Item symbol="block" onSelect={onConversationBlock}>
               {i18n('icu:ConversationHeader__MenuItem--Block')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
           {conversation.isBlocked && (
-            <MenuItem onClick={onConversationUnblock}>
+            <AxoDropdownMenu.Item
+              symbol="message-thread"
+              onSelect={onConversationUnblock}
+            >
               {i18n('icu:ConversationHeader__MenuItem--Unblock')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
           {!conversation.isBlocked && (
-            <MenuItem onClick={onConversationAccept}>
+            <AxoDropdownMenu.Item
+              symbol="message-thread"
+              onSelect={onConversationAccept}
+            >
               {i18n('icu:ConversationHeader__MenuItem--Accept')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
-          <MenuItem onClick={onConversationReportAndMaybeBlock}>
+          <AxoDropdownMenu.Item
+            symbol="error-octagon"
+            onSelect={onConversationReportAndMaybeBlock}
+          >
             {i18n('icu:ConversationHeader__MenuItem--ReportSpam')}
-          </MenuItem>
-          <MenuItem onClick={onConversationDelete}>
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item symbol="trash" onSelect={onConversationDelete}>
             {i18n('icu:ConversationHeader__MenuItem--DeleteChat')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
         </>
       )}
       {conversation.acceptedMessageRequest && (
         <>
           {disableTimerChanges ? null : (
-            <SubMenu hoverDelay={1} title={disappearingTitle} rtl={!isRTL}>
-              {expireDurations}
-            </SubMenu>
+            <AxoDropdownMenu.Sub>
+              <AxoDropdownMenu.SubTrigger symbol="timer">
+                <span data-testid="ConversationHeader__ContextMenu__DisappearingTimer">
+                  {disappearingTitle}
+                </span>
+              </AxoDropdownMenu.SubTrigger>
+              <AxoDropdownMenu.SubContent>
+                <AxoDropdownMenu.RadioGroup
+                  value={disappearingMessagesValue}
+                  onValueChange={onDisappearingMessagesValueChange}
+                >
+                  {expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
+                    return (
+                      <AxoDropdownMenu.RadioItem value={`${seconds}`}>
+                        {expirationTimer.format(i18n, seconds, {
+                          capitalizeOff: true,
+                        })}
+                      </AxoDropdownMenu.RadioItem>
+                    );
+                  })}
+                  <AxoDropdownMenu.RadioItem
+                    value="custom"
+                    onSelect={onSetupCustomDisappearingTimeout}
+                  >
+                    {i18n('icu:customDisappearingTimeOption')}
+                  </AxoDropdownMenu.RadioItem>
+                </AxoDropdownMenu.RadioGroup>
+              </AxoDropdownMenu.SubContent>
+            </AxoDropdownMenu.Sub>
           )}
-          <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
-            {muteOptions.map(item => (
-              <MenuItem
-                key={item.name}
-                disabled={item.disabled}
-                onClick={() => {
-                  onChangeMuteExpiration(item.value);
-                }}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </SubMenu>
+          <AxoDropdownMenu.Sub>
+            <AxoDropdownMenu.SubTrigger symbol="bell-slash">
+              {muteTitle}
+            </AxoDropdownMenu.SubTrigger>
+            <AxoDropdownMenu.SubContent>
+              {muteOptions.map(item => (
+                <AxoDropdownMenu.Item
+                  key={item.name}
+                  disabled={item.disabled}
+                  onSelect={() => {
+                    onChangeMuteExpiration(item.value);
+                  }}
+                >
+                  {item.name}
+                </AxoDropdownMenu.Item>
+              ))}
+            </AxoDropdownMenu.SubContent>
+          </AxoDropdownMenu.Sub>
           {!isGroup || hasGV2AdminEnabled ? (
-            <MenuItem onClick={onViewConversationDetails}>
+            <AxoDropdownMenu.Item
+              symbol="settings"
+              onSelect={onViewConversationDetails}
+            >
               {isGroup
                 ? i18n('icu:showConversationDetails')
                 : i18n('icu:showConversationDetails--direct')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           ) : null}
-          <MenuItem onClick={onViewAllMedia}>
+          <AxoDropdownMenu.Item symbol="album" onSelect={onViewAllMedia}>
             {i18n('icu:allMediaMenuItem')}
-          </MenuItem>
-          <MenuItem divider />
-          <MenuItem onClick={onSelectModeEnter}>
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Separator />
+          <AxoDropdownMenu.Item
+            symbol="check-circle"
+            onSelect={onSelectModeEnter}
+          >
             {i18n('icu:ConversationHeader__menu__selectMessages')}
-          </MenuItem>
-          <MenuItem divider />
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Separator />
           {!conversation.markedUnread ? (
-            <MenuItem onClick={onConversationMarkUnread}>
+            <AxoDropdownMenu.Item
+              symbol="message-badge"
+              onSelect={onConversationMarkUnread}
+            >
               {i18n('icu:markUnread')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           ) : null}
           {conversation.isPinned ? (
-            <MenuItem onClick={onConversationUnpin}>
+            <AxoDropdownMenu.Item
+              symbol="pin-slash"
+              onSelect={onConversationUnpin}
+            >
               {i18n('icu:unpinConversation')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           ) : (
-            <MenuItem onClick={onConversationPin}>
+            <AxoDropdownMenu.Item symbol="pin" onSelect={onConversationPin}>
               {i18n('icu:pinConversation')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
           {conversation.isArchived ? (
-            <MenuItem onClick={onConversationUnarchive}>
+            <AxoDropdownMenu.Item
+              symbol="archive-up"
+              onSelect={onConversationUnarchive}
+            >
               {i18n('icu:moveConversationToInbox')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           ) : (
-            <MenuItem onClick={onConversationArchive}>
+            <AxoDropdownMenu.Item
+              symbol="archive"
+              onSelect={onConversationArchive}
+            >
               {i18n('icu:archiveConversation')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
           {!conversation.isBlocked && (
-            <MenuItem onClick={onConversationBlock}>
+            <AxoDropdownMenu.Item symbol="block" onSelect={onConversationBlock}>
               {i18n('icu:ConversationHeader__MenuItem--Block')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
           {conversation.isBlocked && (
-            <MenuItem onClick={onConversationUnblock}>
+            <AxoDropdownMenu.Item
+              symbol="message-thread"
+              onSelect={onConversationUnblock}
+            >
               {i18n('icu:ConversationHeader__MenuItem--Unblock')}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
-          <MenuItem onClick={onConversationDeleteMessages}>
+          <AxoDropdownMenu.Item
+            symbol="trash"
+            onSelect={onConversationDeleteMessages}
+          >
             {i18n('icu:deleteConversation')}
-          </MenuItem>
+          </AxoDropdownMenu.Item>
           {isGroup && (
-            <MenuItem onClick={onConversationLeaveGroup}>
+            <AxoDropdownMenu.Item
+              symbol="leave"
+              onSelect={onConversationLeaveGroup}
+            >
               {i18n(
                 'icu:ConversationHeader__ContextMenu__LeaveGroupAction__title'
               )}
-            </MenuItem>
+            </AxoDropdownMenu.Item>
           )}
         </>
       )}
-    </ContextMenu>,
-    document.body
+    </AxoDropdownMenu.Content>
   );
 }
 

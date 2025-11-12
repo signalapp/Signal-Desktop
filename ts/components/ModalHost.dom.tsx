@@ -72,7 +72,7 @@ export const ModalHost = React.memo(function ModalHostInner({
       node => {
         // In strange event propagation situations we can get the actual document.body
         // node here. We don't want to handle those events.
-        if (node === document.body) {
+        if (node === document.body || node === document.documentElement) {
           return false;
         }
 
@@ -81,7 +81,13 @@ export const ModalHost = React.memo(function ModalHostInner({
         if (
           modalContainer === document.body &&
           node instanceof Element &&
-          node.closest('.module-calling__modal-container, [data-fun-overlay]')
+          node.closest(
+            [
+              '.module-calling__modal-container',
+              '[data-fun-overlay]',
+              '[data-radix-popper-content-wrapper]',
+            ].join(', ')
+          ) != null
         ) {
           return false;
         }
@@ -114,7 +120,7 @@ export const ModalHost = React.memo(function ModalHostInner({
   );
 
   return createPortal(
-    <FocusScope contain autoFocus restoreFocus>
+    <FocusScope contain={false} autoFocus restoreFocus>
       {modalContent}
     </FocusScope>,
     document.body

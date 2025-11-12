@@ -4,14 +4,21 @@ import React from 'react';
 import type { ReactNode } from 'react';
 import { tw } from '../tw.dom.js';
 import { AxoSymbol } from '../AxoSymbol.dom.js';
+import { isTestOrMockEnvironment } from '../../environment.std.js';
+
+// Pulled from $z-index-context-menu. In the future we should be relying more
+// on insert order of dialogs/popovers/menus into portals
+const LEGACY_CONTEXT_MENU_Z_INDEX = tw('z-[125]');
 
 export namespace AxoBaseMenu {
   // <Content/SubContent>
   const baseContentStyles = tw(
+    LEGACY_CONTEXT_MENU_Z_INDEX,
     'max-w-[300px] min-w-[200px]',
     'select-none',
     'rounded-xl bg-elevated-background-tertiary shadow-elevation-3',
-    'animate-opacity-0 data-[state=closed]:animate-exit',
+    isTestOrMockEnvironment() ||
+      'animate-opacity-0 data-[state=closed]:animate-exit',
     'forced-colors:border',
     'forced-colors:bg-[Canvas]',
     'forced-colors:text-[CanvasText]'
@@ -168,6 +175,9 @@ export namespace AxoBaseMenu {
    */
 
   export type MenuRootProps = Readonly<{
+    // Note: Radix context menus don't have an `open` prop
+    // so we have to push it down to the dropdown menu props
+    onOpenChange?: (open: boolean) => void;
     children: ReactNode;
   }>;
 
@@ -178,7 +188,7 @@ export namespace AxoBaseMenu {
 
   export type MenuTriggerProps = Readonly<{
     /**
-     * When true, the context menu won't open when right-clicking.
+     * When true, the menu won't open when right-clicking.
      * Note that this will also restore the native context menu.
      */
     disabled?: boolean;
