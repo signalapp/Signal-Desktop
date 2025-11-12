@@ -12,6 +12,7 @@ import * as RemoteConfig from '../RemoteConfig.dom.js';
 import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 import { aciSchema } from './ServiceId.std.js';
+import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
 
 export const POLL_QUESTION_MAX_LENGTH = 100;
 export const POLL_OPTIONS_MIN_COUNT = 2;
@@ -28,7 +29,13 @@ export const PollCreateSchema = z
       .min(1)
       .refine(value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH), {
         message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
-      }),
+      })
+      .refine(
+        value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
+        {
+          message: `question must contain at most ${MAX_MESSAGE_BODY_BYTE_LENGTH} bytes`,
+        }
+      ),
     options: z
       .array(
         z
@@ -38,6 +45,12 @@ export const PollCreateSchema = z
             value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH),
             {
               message: `option must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
+            }
+          )
+          .refine(
+            value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
+            {
+              message: `option must contain at most ${MAX_MESSAGE_BODY_BYTE_LENGTH} bytes`,
             }
           )
       )

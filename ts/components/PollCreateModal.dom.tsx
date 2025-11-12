@@ -23,6 +23,7 @@ import {
   POLL_OPTIONS_MAX_COUNT,
 } from '../types/Polls.dom.js';
 import { count as countGraphemes } from '../util/grapheme.std.js';
+import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
 
 type PollOption = {
   id: string;
@@ -212,20 +213,34 @@ export function PollCreateModal({
     hasQuestionError: boolean;
     hasOptionsError: boolean;
   } => {
-    const errors: Array<string> = [];
-    const hasQuestionError = !question.trim();
-    const nonEmptyOptions = options.filter(opt => opt.value.trim());
-    const hasOptionsError = nonEmptyOptions.length < POLL_OPTIONS_MIN_COUNT;
+    const questionErrors: Array<string> = [];
+    const optionErrors: Array<string> = [];
 
-    if (hasQuestionError) {
-      errors.push(i18n('icu:PollCreateModal__Error--RequiresQuestion'));
+    const questionValue = question.trim();
+    if (!questionValue) {
+      questionErrors.push(i18n('icu:PollCreateModal__Error--RequiresQuestion'));
+    }
+    if (Buffer.byteLength(questionValue) > MAX_MESSAGE_BODY_BYTE_LENGTH) {
+      questionErrors.push(i18n('icu:PollCreateModal__Error--QuestionTooLong'));
     }
 
-    if (hasOptionsError) {
-      errors.push(i18n('icu:PollCreateModal__Error--RequiresTwoOptions'));
+    const optionValues = options.map(opt => opt.value.trim());
+    const nonEmptyOptions = optionValues.filter(value => value);
+    if (nonEmptyOptions.length < POLL_OPTIONS_MIN_COUNT) {
+      optionErrors.push(i18n('icu:PollCreateModal__Error--RequiresTwoOptions'));
+    }
+    const optionOverByteLength = optionValues.find(
+      value => Buffer.byteLength(value) > MAX_MESSAGE_BODY_BYTE_LENGTH
+    );
+    if (optionOverByteLength) {
+      optionErrors.push(i18n('icu:PollCreateModal__Error--OptionTooLong'));
     }
 
-    return { errors, hasQuestionError, hasOptionsError };
+    return {
+      errors: questionErrors.concat(optionErrors),
+      hasQuestionError: questionErrors.length > 0,
+      hasOptionsError: optionErrors.length > 0,
+    };
   }, [question, options, i18n]);
 
   const handleSend = useCallback(() => {

@@ -4,7 +4,7 @@
 import { unicodeSlice } from './unicodeSlice.std.js';
 
 const KIBIBYTE = 1024;
-const MAX_MESSAGE_BODY_BYTE_LENGTH = 2 * KIBIBYTE;
+export const MAX_MESSAGE_BODY_BYTE_LENGTH = 2 * KIBIBYTE;
 
 export const MAX_BODY_ATTACHMENT_BYTE_LENGTH = 64 * KIBIBYTE;
 

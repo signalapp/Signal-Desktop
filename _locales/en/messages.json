@@ -1534,6 +1534,14 @@
     "messageformat": "Poll requires at least 2 options",
     "description": "Error message shown when poll has fewer than 2 non-empty options"
   },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long",
+    "description": "Error message shown when poll question string exceeds the byte limit"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long",
+    "description": "Error message shown when poll option string exceeds the byte limit"
+  },
   "icu:deleteConversation": {
     "messageformat": "Delete",
     "description": "Menu item for deleting a conversation (including messages), title case."
