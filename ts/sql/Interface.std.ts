@@ -153,6 +153,7 @@ export const MESSAGE_NON_PRIMARY_KEY_COLUMNS = [
   'hasAttachments',
   'hasFileAttachments',
   'hasVisualMediaAttachments',
+  'hasUnreadPollVotes',
   'isChangeCreatedByUs',
   'isErased',
   'isViewOnce',
@@ -190,6 +191,7 @@ export type MessageTypeUnhydrated = {
   hasAttachments: 0 | 1 | null;
   hasFileAttachments: 0 | 1 | null;
   hasVisualMediaAttachments: 0 | 1 | null;
+  hasUnreadPollVotes: 0 | 1 | null;
   isChangeCreatedByUs: 0 | 1 | null;
   isErased: 0 | 1 | null;
   isViewOnce: 0 | 1 | null;
@@ -480,6 +482,13 @@ export type ReactionResultType = Pick<
   ReactionType,
   'targetAuthorAci' | 'targetTimestamp' | 'messageId'
 > & { rowid: number };
+
+export type PollVoteReadResultType = {
+  id: string;
+  conversationId: string;
+  targetTimestamp: number;
+  type: MessageType['type'];
+};
 
 export type GetUnreadByConversationAndMarkReadResultType = Array<
   { originalReadStatus: ReadStatus | undefined } & Pick<
@@ -1069,10 +1078,17 @@ type WritableInterface = {
     readMessageReceivedAt: number;
     storyId?: string;
   }) => Array<ReactionResultType>;
+  getUnreadPollVotesAndMarkRead: (options: {
+    conversationId: string;
+    readMessageReceivedAt: number;
+  }) => Array<PollVoteReadResultType>;
   markReactionAsRead: (
     targetAuthorServiceId: ServiceIdString,
     targetTimestamp: number
   ) => ReactionType | undefined;
+  markPollVoteAsRead: (
+    targetTimestamp: number
+  ) => MessageAttributesType | undefined;
   removeReactionFromConversation: (reaction: {
     emoji: string;
     fromId: string;

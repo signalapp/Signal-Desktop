@@ -57,12 +57,20 @@ export function hydrateMessages(
   db: ReadableDB,
   unhydratedMessages: Array<MessageTypeUnhydrated>
 ): Array<MessageType> {
-  const messagesWithColumnsHydrated = unhydratedMessages.map(msg => ({
-    ...hydrateMessageTableColumns(msg),
-    hasAttachments: msg.hasAttachments === 1,
-    hasFileAttachments: msg.hasFileAttachments === 1,
-    hasVisualMediaAttachments: msg.hasVisualMediaAttachments === 1,
-  }));
+  const messagesWithColumnsHydrated = unhydratedMessages.map(msg => {
+    const base = {
+      ...hydrateMessageTableColumns(msg),
+      hasAttachments: msg.hasAttachments === 1,
+      hasFileAttachments: msg.hasFileAttachments === 1,
+      hasVisualMediaAttachments: msg.hasVisualMediaAttachments === 1,
+    };
+
+    if (msg.hasUnreadPollVotes === 1) {
+      return { ...base, hasUnreadPollVotes: true };
+    }
+
+    return base;
+  });
 
   return hydrateMessagesWithAttachments(db, messagesWithColumnsHydrated);
 }

@@ -21,6 +21,8 @@ import { isMe } from '../util/whatTypeOfConversation.dom.js';
 
 import { strictAssert } from '../util/assert.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+import { drop } from '../util/drop.std.js';
+import { maybeNotify } from '../messages/maybeNotify.preload.js';
 
 const log = createLogger('Polls');
 
@@ -369,10 +371,11 @@ export async function handlePollVote(
     return;
   }
 
-  const conversation = window.ConversationController.get(
+  const conversationContainingThisPoll = window.ConversationController.get(
     message.attributes.conversationId
   );
-  if (!conversation) {
+  if (!conversationContainingThisPoll) {
+    log.warn('handlePollVote: cannot find conversation containing this poll');
     return;
   }
 
@@ -394,7 +397,7 @@ export async function handlePollVote(
     timestamp: vote.timestamp,
     sendStateByConversationId: isFromThisDevice
       ? Object.fromEntries(
-          Array.from(conversation.getMemberConversationIds())
+          Array.from(conversationContainingThisPoll.getMemberConversationIds())
             .filter(id => id !== ourConversationId)
             .map(id => [
               id,
@@ -456,11 +459,16 @@ export async function handlePollVote(
     }
   }
 
+  // Set hasUnreadPollVotes flag if someone else voted on our poll
+  const shouldMarkAsUnread =
+    isOutgoing(message.attributes) && isFromSomeoneElse;
+
   message.set({
     poll: {
       ...poll,
       votes: updatedVotes,
     },
+    ...(shouldMarkAsUnread ? { hasUnreadPollVotes: true } : {}),
   });
 
   log.info(
@@ -468,9 +476,22 @@ export async function handlePollVote(
     `Done processing vote for poll ${getMessageIdForLogging(message.attributes)}.`
   );
 
+  // Notify poll author when someone else votes
+  if (shouldMarkAsUnread) {
+    drop(
+      maybeNotify({
+        pollVote: vote,
+        targetMessage: message.attributes,
+        conversation: conversationContainingThisPoll,
+      })
+    );
+  }
+
   if (shouldPersist) {
     await window.MessageCache.saveMessage(message.attributes);
-    window.reduxActions.conversations.markOpenConversationRead(conversation.id);
+    window.reduxActions.conversations.markOpenConversationRead(
+      conversationContainingThisPoll.id
+    );
   }
 }
 
@@ -507,6 +528,14 @@ export async function handlePollTerminate(
     return;
   }
 
+  const isFromThisDevice = terminate.source === PollSource.FromThisDevice;
+  const isFromSync = terminate.source === PollSource.FromSync;
+  const isFromSomeoneElse = terminate.source === PollSource.FromSomeoneElse;
+  strictAssert(
+    isFromThisDevice || isFromSync || isFromSomeoneElse,
+    'Terminate can only be from this device, from sync, or from someone else'
+  );
+
   // Verify the terminator is the poll creator
   const author = getAuthor(attributes);
   const terminatorConversation = window.ConversationController.get(
@@ -523,8 +552,6 @@ export async function handlePollTerminate(
     );
     return;
   }
-
-  const isFromThisDevice = terminate.source === PollSource.FromThisDevice;
 
   message.set({
     poll: {

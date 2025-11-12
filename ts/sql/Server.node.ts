@@ -149,6 +149,7 @@ import type {
   PageMessagesCursorType,
   PageMessagesResultType,
   PreKeyIdType,
+  PollVoteReadResultType,
   ReactionResultType,
   ReadableDB,
   SenderKeyIdType,
@@ -587,6 +588,7 @@ export const DataWriter: ServerWritableInterface = {
   removeAllProfileKeyCredentials,
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
+  getUnreadPollVotesAndMarkRead,
 
   replaceAllEndorsementsForGroup,
   deleteAllEndorsementsForGroup,
@@ -597,6 +599,7 @@ export const DataWriter: ServerWritableInterface = {
   removeMessage,
   removeMessages,
   markReactionAsRead,
+  markPollVoteAsRead,
   addReaction,
   removeReactionFromConversation,
   _removeAllReactions,
@@ -2913,6 +2916,7 @@ function saveMessage(
     seenStatus: originalSeenStatus,
     serverTimestamp,
     unidentifiedDeliveryReceived,
+    hasUnreadPollVotes,
 
     ...json
   } = message;
@@ -3026,6 +3030,7 @@ function saveMessage(
     hasVisualMediaAttachments: downloadedAttachments?.some(isVisualMedia)
       ? 1
       : 0,
+    hasUnreadPollVotes: hasUnreadPollVotes ? 1 : 0,
     isChangeCreatedByUs: groupV2Change?.from === ourAci ? 1 : 0,
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
@@ -3513,6 +3518,69 @@ function markReactionAsRead(
     });
 
     return readReaction;
+  })();
+}
+
+function getUnreadPollVotesAndMarkRead(
+  db: WritableDB,
+  {
+    conversationId,
+    readMessageReceivedAt,
+  }: {
+    conversationId: string;
+    readMessageReceivedAt: number;
+  }
+): Array<PollVoteReadResultType> {
+  return db.transaction(() => {
+    const unreadPollVoteMessages: Array<PollVoteReadResultType> = db
+      .prepare(
+        `
+        UPDATE messages
+        INDEXED BY messages_unread_poll_votes
+        SET hasUnreadPollVotes = 0
+        WHERE
+          conversationId = $conversationId AND
+          hasUnreadPollVotes = 1 AND
+          received_at <= $readMessageReceivedAt AND
+          type IS 'outgoing'
+        RETURNING id, conversationId, sent_at AS targetTimestamp, type;
+      `
+      )
+      .all({
+        conversationId,
+        readMessageReceivedAt,
+      });
+
+    return unreadPollVoteMessages;
+  })();
+}
+
+function markPollVoteAsRead(
+  db: WritableDB,
+  targetTimestamp: number
+): MessageAttributesType | undefined {
+  return db.transaction(() => {
+    const row = db
+      .prepare(
+        `
+        UPDATE messages
+        SET hasUnreadPollVotes = 0
+        WHERE
+          sent_at = $sent_at AND
+          hasUnreadPollVotes = 1 AND
+          type IS 'outgoing'
+        RETURNING ${MESSAGE_COLUMNS.join(', ')};
+      `
+      )
+      .get<MessageTypeUnhydrated>({
+        sent_at: targetTimestamp,
+      });
+
+    if (!row) {
+      return undefined;
+    }
+
+    return hydrateMessage(db, row);
   })();
 }
 

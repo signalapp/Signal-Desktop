@@ -20,6 +20,8 @@ import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { markRead } from '../services/MessageUpdater.preload.js';
 import { MessageModel } from '../models/messages.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { getMessageById } from '../messages/getMessageById.preload.js';
+import { getSourceServiceId } from '../messages/sources.preload.js';
 
 const log = createLogger('ReadSyncs');
 
@@ -52,7 +54,7 @@ async function remove(sync: ReadSyncAttributesType): Promise<void> {
 
 async function maybeItIsAReactionReadSync(
   sync: ReadSyncAttributesType
-): Promise<void> {
+): Promise<boolean> {
   const { readSync } = sync;
   const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
 
@@ -71,7 +73,7 @@ async function maybeItIsAReactionReadSync(
       readSync.sender,
       readSync.senderAci
     );
-    return;
+    return false;
   }
 
   log.info(
@@ -82,14 +84,47 @@ async function maybeItIsAReactionReadSync(
     readSync.senderAci
   );
 
-  await remove(sync);
-
   notificationService.removeBy({
     conversationId: readReaction.conversationId,
     emoji: readReaction.emoji,
     targetAuthorAci: readReaction.targetAuthorAci,
     targetTimestamp: readReaction.targetTimestamp,
   });
+
+  return true;
+}
+
+async function maybeItIsAPollVoteReadSync(
+  sync: ReadSyncAttributesType
+): Promise<boolean> {
+  const { readSync } = sync;
+  const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
+
+  const pollMessage = await DataWriter.markPollVoteAsRead(readSync.timestamp);
+
+  if (!pollMessage) {
+    log.info(`${logId} poll vote read sync not found`);
+    return false;
+  }
+
+  const pollMessageModel = await getMessageById(pollMessage.id);
+  if (!pollMessageModel) {
+    log.warn(
+      `${logId} found message for poll, but could not get the message model`
+    );
+    return false;
+  }
+  pollMessageModel.set({ hasUnreadPollVotes: false });
+  drop(queueUpdateMessage(pollMessageModel.attributes));
+
+  notificationService.removeBy({
+    conversationId: pollMessage.conversationId,
+    targetAuthorAci: getSourceServiceId(pollMessageModel.attributes),
+    targetTimestamp: pollMessage.sent_at,
+    onlyRemoveAssociatedPollVotes: true,
+  });
+
+  return true;
 }
 
 export async function forMessage(
@@ -145,7 +180,13 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
     });
 
     if (!found) {
-      await maybeItIsAReactionReadSync(sync);
+      const foundReaction = await maybeItIsAReactionReadSync(sync);
+
+      const foundPollVote = await maybeItIsAPollVoteReadSync(sync);
+
+      if (foundReaction || foundPollVote) {
+        await remove(sync);
+      }
       return;
     }
 

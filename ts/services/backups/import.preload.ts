@@ -1851,6 +1851,7 @@ export class BackupImportStream extends Writable {
           patch: {
             readStatus: ReadStatus.Read,
             seenStatus: SeenStatus.Seen,
+            hasUnreadPollVotes: false,
             received_at_ms: receivedAtMs,
             serverTimestamp,
             unidentifiedDeliveryReceived,
@@ -1863,6 +1864,7 @@ export class BackupImportStream extends Writable {
         patch: {
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
+          hasUnreadPollVotes: false,
           received_at_ms: receivedAtMs,
           serverTimestamp,
           unidentifiedDeliveryReceived,
@@ -1877,6 +1879,7 @@ export class BackupImportStream extends Writable {
       patch: {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
+        hasUnreadPollVotes: false,
       },
       newActiveAt: timestamp,
     };

@@ -45,23 +45,31 @@ export async function markConversationRead(
 ): Promise<boolean> {
   const { id: conversationId } = conversationAttrs;
 
-  const [unreadMessages, unreadEditedMessages, unreadReactions] =
-    await Promise.all([
-      DataWriter.getUnreadByConversationAndMarkRead({
-        conversationId,
-        readMessageReceivedAt: readMessage.received_at,
-        readAt: options.readAt,
-        includeStoryReplies: !isGroup(conversationAttrs),
-      }),
-      DataWriter.getUnreadEditedMessagesAndMarkRead({
-        conversationId,
-        readMessageReceivedAt: readMessage.received_at,
-      }),
-      DataWriter.getUnreadReactionsAndMarkRead({
-        conversationId,
-        readMessageReceivedAt: readMessage.received_at,
-      }),
-    ]);
+  const [
+    unreadMessages,
+    unreadEditedMessages,
+    unreadReactions,
+    unreadPollVotes,
+  ] = await Promise.all([
+    DataWriter.getUnreadByConversationAndMarkRead({
+      conversationId,
+      readMessageReceivedAt: readMessage.received_at,
+      readAt: options.readAt,
+      includeStoryReplies: !isGroup(conversationAttrs),
+    }),
+    DataWriter.getUnreadEditedMessagesAndMarkRead({
+      conversationId,
+      readMessageReceivedAt: readMessage.received_at,
+    }),
+    DataWriter.getUnreadReactionsAndMarkRead({
+      conversationId,
+      readMessageReceivedAt: readMessage.received_at,
+    }),
+    DataWriter.getUnreadPollVotesAndMarkRead({
+      conversationId,
+      readMessageReceivedAt: readMessage.received_at,
+    }),
+  ]);
 
   const convoId = getConversationIdForLogging(conversationAttrs);
   const logId = `(${convoId})`;
@@ -73,33 +81,36 @@ export async function markConversationRead(
     },
     unreadMessages: unreadMessages.length,
     unreadReactions: unreadReactions.length,
+    unreadPollVotes: unreadPollVotes.length,
   });
 
   if (
     !unreadMessages.length &&
     !unreadEditedMessages.length &&
-    !unreadReactions.length
+    !unreadReactions.length &&
+    !unreadPollVotes.length
   ) {
     return false;
   }
 
   notificationService.removeBy({ conversationId });
 
-  const unreadReactionSyncData = new Map<
+  const unreadReadSyncData = new Map<
     string,
     {
       messageId?: string;
-      senderAci?: AciString;
-      senderE164?: string;
       timestamp: number;
-    }
+    } & (
+      | { senderAci: AciString; senderE164?: string }
+      | { senderE164: string; senderAci?: AciString }
+    )
   >();
   unreadReactions.forEach(reaction => {
     const targetKey = `${reaction.targetAuthorAci}/${reaction.targetTimestamp}`;
-    if (unreadReactionSyncData.has(targetKey)) {
+    if (unreadReadSyncData.has(targetKey)) {
       return;
     }
-    unreadReactionSyncData.set(targetKey, {
+    unreadReadSyncData.set(targetKey, {
       messageId: reaction.messageId,
       senderE164: undefined,
       senderAci: reaction.targetAuthorAci,
@@ -107,9 +118,38 @@ export async function markConversationRead(
     });
   });
 
+  unreadPollVotes.forEach(pollVote => {
+    if (pollVote.type !== 'outgoing') {
+      log.warn(
+        'Found a message with unread poll votes that is not outgoing, not sending read sync'
+      );
+      return;
+    }
+    const targetAuthorAci = itemStorage.user.getCheckedAci();
+    const targetKey = `${targetAuthorAci}/${pollVote.targetTimestamp}`;
+    if (unreadReadSyncData.has(targetKey)) {
+      return;
+    }
+    unreadReadSyncData.set(targetKey, {
+      messageId: pollVote.id,
+      senderE164: undefined,
+      senderAci: targetAuthorAci,
+      timestamp: pollVote.targetTimestamp,
+    });
+  });
+
   const allUnreadMessages = [...unreadMessages, ...unreadEditedMessages];
 
   const updatedMessages: Array<MessageModel> = [];
+
+  // Update in-memory MessageModels for poll votes
+  unreadPollVotes.forEach(pollVote => {
+    const message = window.MessageCache.getById(pollVote.id);
+    if (message) {
+      message.set({ hasUnreadPollVotes: false });
+      updatedMessages.push(message);
+    }
+  });
   const allReadMessagesSync = allUnreadMessages
     .map(messageSyncData => {
       const message = window.MessageCache.getById(messageSyncData.id);
@@ -200,7 +240,7 @@ export async function markConversationRead(
     senderId?: string;
     timestamp: number;
     hasErrors?: string;
-  }> = [...unreadMessagesSyncData, ...unreadReactionSyncData.values()];
+  }> = [...unreadMessagesSyncData, ...unreadReadSyncData.values()];
 
   if (readSyncs.length && options.sendReadReceipts) {
     log.info(logId, `Sending ${readSyncs.length} read syncs`);

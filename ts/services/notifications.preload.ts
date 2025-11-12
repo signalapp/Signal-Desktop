@@ -35,6 +35,11 @@ type NotificationDataType = Readonly<{
     targetAuthorAci: string;
     targetTimestamp: number;
   };
+  pollVote?: {
+    voterConversationId: string;
+    targetAuthorAci: string;
+    targetTimestamp: number;
+  };
   senderTitle: string;
   sentAt: number;
   storyId?: string;
@@ -244,20 +249,29 @@ class NotificationService extends EventEmitter {
   // Remove the last notification if both conditions hold:
   //
   // 1. Either `conversationId` or `messageId` matches (if present)
-  // 2. `emoji`, `targetAuthorAci`, `targetTimestamp` matches (if present)
-  public removeBy({
-    conversationId,
-    messageId,
-    emoji,
-    targetAuthorAci,
-    targetTimestamp,
-  }: Readonly<{
-    conversationId?: string;
-    messageId?: string;
-    emoji?: string;
-    targetAuthorAci?: string;
-    targetTimestamp?: number;
-  }>): void {
+  // 2. Reaction: `emoji`, `targetAuthorAci`, `targetTimestamp` matches
+  // 3. Poll vote: `onlyRemoveAssociatedPollVotes` flag is true
+  public removeBy(
+    options: Readonly<
+      {
+        emoji?: string;
+        targetAuthorAci?: string;
+        targetTimestamp?: number;
+        onlyRemoveAssociatedPollVotes?: boolean;
+      } & (
+        | { conversationId: string; messageId?: string }
+        | { messageId: string; conversationId?: string }
+      )
+    >
+  ): void {
+    const {
+      conversationId,
+      messageId,
+      emoji,
+      targetAuthorAci,
+      targetTimestamp,
+      onlyRemoveAssociatedPollVotes,
+    } = options;
     if (!this.#notificationData) {
       log.info('NotificationService#removeBy: no notification data');
       return;
@@ -280,17 +294,38 @@ class NotificationService extends EventEmitter {
       return;
     }
 
+    // If reaction filters are provided, only remove reaction notifications that match
     const { reaction } = this.#notificationData;
-    if (
-      reaction &&
-      emoji &&
-      targetAuthorAci &&
-      targetTimestamp &&
-      (reaction.emoji !== emoji ||
+    const hasReactionFilters = Boolean(
+      emoji && targetAuthorAci && targetTimestamp
+    );
+    if (hasReactionFilters) {
+      if (!reaction) {
+        // Looking for reactions but this isn't one
+        return;
+      }
+      if (
+        reaction.emoji !== emoji ||
         reaction.targetAuthorAci !== targetAuthorAci ||
-        reaction.targetTimestamp !== targetTimestamp)
-    ) {
-      return;
+        reaction.targetTimestamp !== targetTimestamp
+      ) {
+        // Reaction doesn't match the filter
+        return;
+      }
+    }
+
+    // If onlyRemoveAssociatedPollVotes is true, only remove poll vote notifications
+    // that match the targetAuthorAci and targetTimestamp
+    if (onlyRemoveAssociatedPollVotes && targetAuthorAci && targetTimestamp) {
+      const { pollVote } = this.#notificationData;
+      if (
+        !pollVote ||
+        pollVote.targetAuthorAci !== targetAuthorAci ||
+        pollVote.targetTimestamp !== targetTimestamp
+      ) {
+        // Looking for poll votes but this isn't one
+        return;
+      }
     }
 
     this.clear();
@@ -360,6 +395,7 @@ class NotificationService extends EventEmitter {
       message,
       messageId,
       reaction,
+      pollVote,
       senderTitle,
       storyId,
       sentAt,
@@ -401,6 +437,11 @@ class NotificationService extends EventEmitter {
             sender: senderTitle,
             emoji: reaction.emoji,
             message,
+          });
+        } else if (pollVote) {
+          notificationMessage = i18n('icu:notificationPollVoteMessage', {
+            sender: senderTitle,
+            pollQuestion: message,
           });
         } else {
           notificationMessage = message;
