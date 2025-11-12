@@ -1527,7 +1527,7 @@
     "description": "Label for the poll question input field"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?",
+    "messageformat": "Ask a question",
     "description": "Placeholder text for the poll question input field"
   },
   "icu:PollCreateModal__optionsLabel": {
