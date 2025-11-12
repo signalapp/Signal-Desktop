@@ -50,6 +50,8 @@ export async function enqueuePollTerminateForSend({
     targetTimestamp,
     receivedAtDate: timestamp,
     timestamp,
+    expireTimer: conversation.get('expireTimer'),
+    expirationStartTimestamp: Date.now(),
   };
 
   await handlePollTerminate(message, terminate, { shouldPersist: true });

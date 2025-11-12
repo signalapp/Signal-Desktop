@@ -1110,8 +1110,17 @@ export async function migrateBodyAttachmentToDisk(
 export const isUserMessage = (message: MessageAttributesType): boolean =>
   message.type === 'incoming' || message.type === 'outgoing';
 
-export const hasExpiration = (message: MessageAttributesType): boolean => {
-  if (!isUserMessage(message)) {
+// NB: if adding more expiring message types, be sure to also update
+// getUnreadByConversationAndMarkRead &
+// getMessagesUnexpectedlyMissingExpirationStartTimestamp
+export const EXPIRING_MESSAGE_TYPES = new Set([
+  'incoming',
+  'outgoing',
+  'poll-terminate',
+]);
+
+export const isExpiringMessage = (message: MessageAttributesType): boolean => {
+  if (!EXPIRING_MESSAGE_TYPES.has(message.type)) {
     return false;
   }
 

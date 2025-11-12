@@ -12,7 +12,7 @@ import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/
 import { NotificationType } from '../types/notifications.std.js';
 import { isMessageUnread } from '../util/isMessageUnread.std.js';
 import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
-import { hasExpiration } from '../types/Message2.preload.js';
+import { isExpiringMessage } from '../types/Message2.preload.js';
 import { notificationService } from '../services/notifications.preload.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
@@ -128,7 +128,6 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
   const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
 
   const messageId = messageForNotification.id;
-  const isExpiringMessage = hasExpiration(messageForNotification);
 
   notificationService.add({
     senderTitle,
@@ -138,7 +137,7 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
       : messageForNotification.storyId,
     notificationIconUrl: url,
     notificationIconAbsolutePath: absolutePath,
-    isExpiringMessage,
+    isExpiringMessage: isExpiringMessage(messageForNotification),
     message: getNotificationTextForMessage(messageForNotification),
     messageId,
     reaction: reaction
