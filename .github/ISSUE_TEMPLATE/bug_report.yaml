@@ -21,7 +21,7 @@ body:
       label: "Using a supported version?"
       description: "Search issues here: https://github.com/signalapp/Signal-Desktop/issues"
       options:
-        - label: I have searched searched open and closed issues for duplicates.
+        - label: I have searched open and closed issues for duplicates.
           required: true
         - label: I am using Signal-Desktop as provided by the Signal team, not a 3rd-party package.
           required: true
