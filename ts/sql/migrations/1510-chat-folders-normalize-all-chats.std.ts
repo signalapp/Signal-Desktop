@@ -5,7 +5,7 @@ import type { LoggerType } from '../../types/Logging.std.js';
 import type { WritableDB } from '../Interface.std.js';
 import { sql } from '../util.std.js';
 
-export default function updateToSchemaVersion1500(
+export default function updateToSchemaVersion1510(
   db: WritableDB,
   logger: LoggerType
 ): void {
