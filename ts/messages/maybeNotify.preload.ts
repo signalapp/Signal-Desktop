@@ -3,7 +3,7 @@
 
 import { createLogger } from '../logging/log.std.js';
 
-import { isIncoming, isOutgoing } from './helpers.std.js';
+import { isOutgoing } from './helpers.std.js';
 import { getAuthor } from './sources.preload.js';
 
 import type { ConversationModel } from '../models/conversations.preload.js';
@@ -17,6 +17,10 @@ import { notificationService } from '../services/notifications.preload.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions.preload.js';
+import {
+  type PollVoteAttributesType,
+  PollSource,
+} from '../messageModifiers/Polls.preload.js';
 import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.preload.js';
 import { ReactionSource } from '../reactions/ReactionSource.std.js';
 
@@ -29,8 +33,23 @@ type MaybeNotifyArgs = {
       reaction: Readonly<ReactionAttributesType>;
       targetMessage: Readonly<MessageAttributesType>;
     }
-  | { message: Readonly<MessageAttributesType>; reaction?: never }
+  | {
+      pollVote: Readonly<PollVoteAttributesType>;
+      targetMessage: Readonly<MessageAttributesType>;
+    }
+  | {
+      message: Readonly<MessageAttributesType>;
+      reaction?: never;
+      pollVote?: never;
+    }
 );
+
+function isMention(args: MaybeNotifyArgs): boolean {
+  if ('reaction' in args || 'pollVote' in args) {
+    return false;
+  }
+  return Boolean(args.message.mentionsMe);
+}
 
 export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
   if (!notificationService.isEnabled) {
@@ -39,14 +58,28 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
 
   const { i18n } = window.SignalContext;
 
-  const { conversation, reaction } = args;
+  const { conversation } = args;
+  const reaction = 'reaction' in args ? args.reaction : undefined;
+  const pollVote = 'pollVote' in args ? args.pollVote : undefined;
 
   let warrantsNotification: boolean;
-  if (reaction) {
-    warrantsNotification = doesReactionWarrantNotification(args);
+  if ('reaction' in args && 'targetMessage' in args) {
+    warrantsNotification = doesReactionWarrantNotification({
+      reaction: args.reaction,
+      targetMessage: args.targetMessage,
+    });
+  } else if ('pollVote' in args && 'targetMessage' in args) {
+    warrantsNotification = doesPollVoteWarrantNotification({
+      pollVote: args.pollVote,
+      targetMessage: args.targetMessage,
+    });
   } else {
-    warrantsNotification = await doesMessageWarrantNotification(args);
+    warrantsNotification = await doesMessageWarrantNotification({
+      message: args.message,
+      conversation,
+    });
   }
+
   if (!warrantsNotification) {
     return;
   }
@@ -56,12 +89,13 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
   }
 
   const activeProfile = getActiveProfile(window.reduxStore.getState());
+
   if (
     !shouldNotifyDuringNotificationProfile({
       activeProfile,
       conversationId: conversation.id,
       isCall: false,
-      isMention: args.reaction ? false : Boolean(args.message.mentionsMe),
+      isMention: isMention(args),
     })
   ) {
     log.info('Would notify for message, but notification profile prevented it');
@@ -69,16 +103,20 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
   }
 
   const conversationId = conversation.get('id');
-  const messageForNotification = args.reaction
-    ? args.targetMessage
-    : args.message;
+  const messageForNotification =
+    'targetMessage' in args ? args.targetMessage : args.message;
   const isMessageInDirectConversation = isDirectConversation(
     conversation.attributes
   );
 
-  const sender = reaction
-    ? window.ConversationController.get(reaction.fromId)
-    : getAuthor(args.message);
+  let sender: ConversationModel | undefined;
+  if (reaction) {
+    sender = window.ConversationController.get(reaction.fromId);
+  } else if (pollVote) {
+    sender = window.ConversationController.get(pollVote.fromConversationId);
+  } else if ('message' in args) {
+    sender = getAuthor(args.message);
+  }
   const senderName = sender ? sender.getTitle() : i18n('icu:unknownContact');
   const senderTitle = isMessageInDirectConversation
     ? senderName
@@ -110,6 +148,13 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
           targetTimestamp: reaction.targetTimestamp,
         }
       : undefined,
+    pollVote: pollVote
+      ? {
+          voterConversationId: pollVote.fromConversationId,
+          targetAuthorAci: pollVote.targetAuthorAci,
+          targetTimestamp: pollVote.targetTimestamp,
+        }
+      : undefined,
     sentAt: messageForNotification.timestamp,
     type: reaction ? NotificationType.Reaction : NotificationType.Message,
   });
@@ -128,6 +173,18 @@ function doesReactionWarrantNotification({
   );
 }
 
+function doesPollVoteWarrantNotification({
+  pollVote,
+  targetMessage,
+}: {
+  targetMessage: MessageAttributesType;
+  pollVote: PollVoteAttributesType;
+}): boolean {
+  return (
+    pollVote.source === PollSource.FromSomeoneElse && isOutgoing(targetMessage)
+  );
+}
+
 async function doesMessageWarrantNotification({
   message,
   conversation,
@@ -135,7 +192,7 @@ async function doesMessageWarrantNotification({
   message: MessageAttributesType;
   conversation: ConversationModel;
 }): Promise<boolean> {
-  if (!isIncoming(message)) {
+  if (!(message.type === 'incoming' || message.type === 'poll-terminate')) {
     return false;
   }
 
@@ -154,19 +211,15 @@ async function doesMessageWarrantNotification({
 }
 
 function isAllowedByConversation(args: MaybeNotifyArgs): boolean {
-  const { conversation, reaction } = args;
+  const { conversation } = args;
 
   if (!conversation.isMuted()) {
     return true;
-  }
-
-  if (reaction) {
-    return false;
   }
 
   if (conversation.get('dontNotifyForMentionsIfMuted')) {
     return false;
   }
 
-  return args.message.mentionsMe === true;
+  return isMention(args);
 }

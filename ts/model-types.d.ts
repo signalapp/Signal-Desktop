@@ -217,6 +217,8 @@ export type MessageAttributesType = {
     question: string;
     pollMessageId: string;
   };
+  // This field will only be set to true for outgoing messages
+  hasUnreadPollVotes?: boolean;
   requiredProtocolVersion?: number;
   sms?: boolean;
   sourceDevice?: number;

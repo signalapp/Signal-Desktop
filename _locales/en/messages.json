@@ -1487,11 +1487,11 @@
     "description": "Accessibility label for checkmark indicating user voted for this poll option"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: \"{poll}\"",
+    "messageformat": "You ended the poll: {poll}",
     "description": "Chat event shown when you end a poll"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: \"{poll}\"",
+    "messageformat": "{name} ended the poll: {poll}",
     "description": "Chat event shown when someone else ends a poll"
   },
   "icu:PollTerminate__view-poll": {
@@ -2635,6 +2635,10 @@
   },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reacted {emoji} to: {message}"
+  },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\"",
+    "description": "Notification text when someone votes in your poll"
   },
   "icu:sendFailed": {
     "messageformat": "Send failed",
