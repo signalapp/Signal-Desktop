@@ -122,7 +122,7 @@ describe('electron/state/ducks/username', () => {
         delay: 1000,
       })(dispatch, () => emptyState, null);
 
-      await clock.runToLastAsync();
+      await clock.tickAsync(1000);
       assert.strictEqual(clock.now, 1000);
 
       sinon.assert.calledOnce(dispatch);
