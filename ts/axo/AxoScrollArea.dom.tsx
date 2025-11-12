@@ -5,7 +5,6 @@ import type { CSSProperties, FC, ReactNode } from 'react';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
 import { assert } from './_internal/assert.dom.js';
-import { getScrollbarGutters } from './_internal/scrollbars.dom.js';
 
 const Namespace = 'AxoScrollArea';
 
@@ -182,6 +181,23 @@ export namespace AxoScrollArea {
     smooth: tw('scroll-smooth'),
   };
 
+  type GutterCss = { horizontal: string; vertical: string };
+
+  const ScrollbarWidthToGutterCss: Record<ScrollbarWidth, GutterCss> = {
+    wide: {
+      vertical: 'var(--axo-scrollbar-gutter-auto-vertical)',
+      horizontal: 'var(--axo-scrollbar-gutter-auto-horizontal)',
+    },
+    thin: {
+      vertical: 'var(--axo-scrollbar-gutter-thin-vertical)',
+      horizontal: 'var(--axo-scrollbar-gutter-thin-horizontal)',
+    },
+    none: {
+      vertical: '0px',
+      horizontal: '0px',
+    },
+  };
+
   export type ViewportProps = Readonly<{
     children: ReactNode;
   }>;
@@ -198,15 +214,15 @@ export namespace AxoScrollArea {
       // `scrollbar-gutter: stable both-edges` is broken in Chrome
       // See: https://issues.chromium.org/issues/40064879)
       // Instead we use padding to polyfill the feature
-      let paddingTop: number | undefined;
-      let paddingInlineStart: number | undefined;
+      let paddingTop: string | undefined;
+      let paddingInlineStart: string | undefined;
       if (scrollbarGutter === 'stable-both-edges') {
-        const scrollbarGutters = getScrollbarGutters(scrollbarWidth, 'custom');
         if (hasVerticalScrollbar) {
-          paddingInlineStart = scrollbarGutters.vertical;
+          paddingInlineStart =
+            ScrollbarWidthToGutterCss[scrollbarWidth].vertical;
         }
         if (hasHorizontalScrollbar) {
-          paddingTop = scrollbarGutters.horizontal;
+          paddingTop = ScrollbarWidthToGutterCss[scrollbarWidth].horizontal;
         }
       }
 
@@ -346,19 +362,17 @@ export namespace AxoScrollArea {
     const { scrollbarWidth } = useAxoScrollAreaConfig();
 
     const style = useMemo((): CSSProperties => {
-      const scrollbarGutters = getScrollbarGutters(scrollbarWidth, 'custom');
-
       const isVerticalEdge = edge === 'top' || edge === 'bottom';
       const isStartEdge = edge === 'top' || edge === 'inline-start';
 
       return {
         insetInlineEnd:
           edge !== 'inline-start' && orientation === 'both'
-            ? scrollbarGutters.horizontal
+            ? ScrollbarWidthToGutterCss[scrollbarWidth].horizontal
             : undefined,
         bottom:
           edge !== 'top' && orientation === 'both'
-            ? scrollbarGutters.vertical
+            ? ScrollbarWidthToGutterCss[scrollbarWidth].vertical
             : undefined,
         animationTimeline: isVerticalEdge
           ? AXO_SCROLL_AREA_TIMELINE_VERTICAL
@@ -417,16 +431,14 @@ export namespace AxoScrollArea {
     const { scrollbarWidth } = useAxoScrollAreaConfig();
 
     const style = useMemo(() => {
-      const scrollbarGutters = getScrollbarGutters(scrollbarWidth, 'custom');
-
       const hasVerticalScrollbar = orientation !== 'horizontal';
       const hasHorizontalScrollbar = orientation !== 'vertical';
 
       const verticalGutter = hasVerticalScrollbar
-        ? `${scrollbarGutters.vertical}px`
+        ? ScrollbarWidthToGutterCss[scrollbarWidth].vertical
         : '0px';
       const horizontalGutter = hasHorizontalScrollbar
-        ? `${scrollbarGutters.horizontal}px`
+        ? ScrollbarWidthToGutterCss[scrollbarWidth].horizontal
         : '0px';
 
       return {

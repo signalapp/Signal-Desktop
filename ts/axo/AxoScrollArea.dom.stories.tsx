@@ -1,11 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { useMemo } from 'react';
+import React from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
 import { tw } from './tw.dom.js';
-import { getScrollbarGutters } from './_internal/scrollbars.dom.js';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 
 export default {
@@ -39,18 +38,9 @@ function VerticalTemplate(props: {
   hints?: boolean;
   mask?: boolean;
 }) {
-  const paddingInline = useMemo(() => {
-    return getScrollbarGutters('thin', 'custom').vertical;
-  }, []);
-
   return (
     <div className={tw('w-64 rounded-2xl bg-background-secondary')}>
-      <h1
-        className={tw('pt-3 pb-2 type-title-large')}
-        style={{ paddingInline }}
-      >
-        Header
-      </h1>
+      <h1 className={tw('px-3 pt-3 pb-2 type-title-large')}>Header</h1>
       <div className={tw(props.fit || 'h-100')}>
         <AxoScrollArea.Root
           scrollbarWidth="thin"
@@ -76,9 +66,7 @@ function VerticalTemplate(props: {
           </MaybeMask>
         </AxoScrollArea.Root>
       </div>
-      <p className={tw('pt-2 pb-3 type-title-large')} style={{ paddingInline }}>
-        Footer
-      </p>
+      <p className={tw('px-3 pt-2 pb-3 type-title-large')}>Footer</p>
     </div>
   );
 }
