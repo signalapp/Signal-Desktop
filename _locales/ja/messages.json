@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "詳細"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "1つ選んで投票してください"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "あなたは投票済みです"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "投票の詳細"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "投票なし"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "新しい投票"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "質問"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "選択肢"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "選択肢{number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "複数投票を許可"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "送信"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "投票の質問は必須です"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "投票には少なくとも2つの選択肢が必要です"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "消去"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{emoji}のリアクションを、{sender}さんが「{message}」にしました"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "送信できませんでした"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "投票：{pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "投票：{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "元のメッセージがない場合は、このステッカーパックを再インストールできないかもしれません。"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "ステッカーのご紹介: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "ステッカーのご紹介"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "言葉ではなくステッカーを使いませんか？"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "ステッカー選択画面を開く"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "ステッカーパックを追加"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "次のページ"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "前のページ"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "最近使ったステッカー"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "一部のステッカーをダウンロードできませんでした。"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "ステッカーパックをインストールしています…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "ステッカーはありません"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "メッセージ内の新しいステッカーパックをインストールできます。"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "ステッカーパックはありません"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "最近使用したステッカーはここに表示されます。"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "最近使ったもの"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "人気"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "アナログ時間"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "ステッカーパック"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "ステッカーパックを開けませんでした。インターネット接続を確認して再度試してください。"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "該当する絵文字はありません"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "絵文字検索をキャンセルする"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "絵文字を検索"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "肌色: {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "最近使ったもの"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "絵文字"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "動物"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "食べ物"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "活動"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "旅行"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "オブジェクト"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "記号"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "旗"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "絵文字"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration}までミュート"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "絵文字"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "エラーが発生しました！"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "ファイルを添付する"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "写真と動画"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ファイル"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "投票"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "添付ファイルまたは投票を追加する"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "この方はSignalを使用していません"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "ブロックする"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "連絡先からこのグループに追加することができます。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "連絡先をこのグループに追加することができます。"
@@ -7322,9 +7250,12 @@
     "messageformat": "また、Windowsで通知が表示されないことがあるバグも修正しました。"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "アプリデザインに、より統一感を持たせるためにスクロールバーの外観をアップデートしました。"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "コピー＆ペーストのフォーマットを改善しました。<brianHarder></brianHarder>様、ありがとうございます！"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

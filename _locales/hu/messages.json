@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Részletek"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Szavazás · Válassz egyet"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Szavaztál"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Szavazás részletei"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nincs szavazat"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Új szavazás"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Kérdés"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opciók"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number} lehetőség"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Több szavazat engedélyezése"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Küldés"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "A szavazáshoz tartozó kérdés kitöltése kötelező"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "A szavazáshoz legalább 2 lehetőség szükséges"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} {emoji} reakciót küldött erre: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Küldés sikertelen"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Szavazás: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Szavazás: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Ha kitörlöd a matricákat tartalmazó eredeti üzeneteket, akkor már nem fogod tudni újratelepíteni ezt a matricacsomagot."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Bemutatkozik a Matricák: Bandit, a macska"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Bemutatkozik a Matricák"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Miért használnál szavakat, ha használhatsz matricákat is?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Matricaválasztó megnyitása"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Matricacsomag létrehozása"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Következő oldal"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Előző oldal"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Legutóbbi matricák"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Bizonyos matricákat nem sikerült letölteni."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Matricacsomag telepítése…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Nem található matrica"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "A beérkezett üzeneteid révén újabb matricacsomagok váltak telepíthetővé"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Nem található matricacsomag"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "A legutóbb használt matricák itt fognak megjelenni."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Előzmények"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Kiemelt"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analóg idő"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Matricsacsomag"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Nem sikerült megnyitni a matricacsomagot. Ellenőrizd a hálózati kapcsolatot, majd próbáld újra!"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Nem található emoji"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Hangulatjel keresés bezárása"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Emoji keresése"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Bőrszín: {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Előzmények"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Állat"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Étel"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Tevékenység"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Utazás"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Tárgy"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Szimbólum"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Zászló"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Némítva eddig: {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Probléma merült fel!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Fájl csatolása"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotók és videók"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fájl"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Szavazás"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Melléklet vagy szavazás hozzáadása"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ez a személy nem használ Signalt"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Letiltás"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "A névjegyeid hozzá fognak tudni adni ehhez a csoporthoz."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "A névjegyeid hozzá fognak tudni téged adni ehhez a csoporthoz."
@@ -7322,9 +7250,12 @@
     "messageformat": "Ezenkívül kijavítottunk egy olyan hibát is, amely megakadályozhatta az értesítések megjelenését Windows operációs rendszeren."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Frissítettük a görgetősávok megjelenését az alkalmazásban, hogy vizuálisan egységesebbé tegyük azokat."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Másolással/beillesztéssel kapcsolatos formázási fejlesztések. Köszönjük, @brianHarder! Köszönjük, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

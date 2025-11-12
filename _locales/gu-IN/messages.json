@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "માહિતી"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "મતદાન · એક પસંદ કરો"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "તમે મતદાન કર્યું"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "મતદાન વિગતો"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "કોઈ મત નથી"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "નવું મતદાન"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "પ્રશ્ન"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "વિકલ્પો"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "વિકલ્પ {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "એકથી વધુ મતોની મંજૂરી આપો"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "મોકલો"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "મતદાન પ્રશ્ન જરૂરી છે"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "મતદાન માટે ઓછામાં ઓછા 2 વિકલ્પોની જરૂર છે"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "ડિલીટ કરો"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} એ {message}માં {emoji} પ્રતિક્રિયા આપી"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "મોકલવામાં નિષ્ફળ"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "મતદાન: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "મતદાન: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text} "
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "જો તમારી પાસે સોર્સ મેસેજ ન હોય તો તમે આ સ્ટીકર પેકને ફરીથી ઇન્સ્ટોલ કરી શકશો નહીં."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "ઈંટ્રોડ્યુસિંગ સ્ટીકર્સ: ડાકુ એક બિલાડી"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "ઈંટ્રોડ્યુસિંગ સ્ટિકર્સ"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "જ્યારે તમે સ્ટીકરોનો ઉપયોગ કરી શકો ત્યારે શબ્દોનો ઉપયોગ કેમ કરવો?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "સ્ટીકર પીકર ખોલો"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "સ્ટીકર પેક ઉમેરો"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "આગલું પાનું"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "અગાઉનું પાનું"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "રિસન્ટ સ્ટીકર"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "કેટલાક સ્ટીકરો ડાઉનલોડ કરી શકાતા નથી."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "સ્ટીકર પેક ઈન્સ્ટોલ થઈ રહ્યું છે ..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "કોઈ સ્ટીકરો મળ્યા નથી"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "તમારા મેસેજનાં નવા સ્ટીકર પેક ઈન્સ્ટોલ કરવા માટે ઉપલબ્ધ છે"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "કોઈ સ્ટીકર પેક મળ્યાં નથી"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "કોઈ સ્ટીકર પેક મળ્યાં નથી"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "તાજેતરનું"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ફીચર્ડ"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "એનાલોગ સમય"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "સ્ટીકર પેક"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "સ્ટીકર પેક ખોલવામાં ભૂલ. તમારું ઇન્ટરનેટ કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "કોઈ ઈમોજી મળ્યું નથી"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ઇમોજી શોધ બંધ કરો"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ઈમોજી શોધો"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "સ્કીન ટોન {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "તાજેતરનું"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "ઈમોજી"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "પ્રાણી"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "ખોરાક"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "પ્રવૃત્તિ"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "મુસાફરી"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "વસ્તુ"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "ચિન્હ"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "ઝંડા"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ઇમોજી"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} સુધી મ્યૂટ કરેલ છે"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "ઈમોજી"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "કંઈક ખોટું થયું!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "અટેચ ફાઈલ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ફોટા અને વીડિયો"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ફાઈલ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "મતદાન"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "જોડાણ અથવા મતદાન ઉમેરો"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "આ વ્યક્તિ Signal નો ઉપયોગ કરી રહી નથી"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "બ્લૉક કરો"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "તમારા સંપર્કો તમને આ ગ્રુપમાં ઉમેરી શકશે."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "તમારા સંપર્કો તમને આ ગ્રૂપમાં ઉમેરી શકશે."
@@ -7322,9 +7250,12 @@
     "messageformat": "અમે એક એ બગ પણ સુધર્યો છે જે Windows પર નોટિફિકેશન દેખાતા અટકાવતો હતો."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "અમે સમગ્ર ઍપમાં સ્ક્રોલબારના દેખાવ અને શૈલીયુક્ત સુસંગતતાને અપડેટ કરી છે જેથી તેઓ દેખાવમાં વધુ સુસંગત બને."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "કૉપિ/પેસ્ટ ફોર્મેટિંગ સુધારાઓ. આભાર, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

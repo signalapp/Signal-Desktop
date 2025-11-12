@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Inligting"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Meningsopname · Kies een"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Jy het gestem"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Besonderhede van meningsopname"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Geen stemme nie"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nuwe meningsopname"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Vraag"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opsies"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opsie {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Laat veelvuldige stemme toe"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Stuur"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Meningsopname-vraag word vereis"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Meningsopname vereis minstens 2 opsies"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Skrap"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} het {emoji} gereageer op: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Kon nie stuur nie"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Meningsopname: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Meningsopname: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Jy mag dalk nie in staat wees om hierdie plakkerpakket weer te installeer as jy nie meer die bronboodskap het nie."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Stel plakkers bekend: Bandiet, die Kat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Stel plakkers bekend"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Waarom woorde gebruik as jy plakkers kan gebruik?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Maak die plakker-kieser oop"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Voeg ’n plakkerpakket by"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Volgende bladsy"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Vorige bladsy"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Onlangse plakker"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Sommige plakkers kon nie afgelaai word nie."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Installeer tans plakkerpakket…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Geen plakkers gevind nie."
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Nuwe plakkerpakket van jou boodskappe is beskikbaar om te installeer"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Geen plakkerpakkette gevind nie."
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Onlangs gebruikte plakkers sal hier verskyn."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Onlangs"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Beskikbaar"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analoogtyd"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Plakkerpakket"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Kon nie plakkerpakket oopmaak nie. Kontroleer jou internetverbinding en probeer weer."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Geen emoji gevind nie"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Sluit emoji-soektog"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Soek emoji"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Velkleur {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Onlangs"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Dier"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Voedsel"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Aktiwiteit"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Reis"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Voorwerp"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Simbool"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Vlag"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Gedemp tot {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Iets het verkeerd geloop!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Heg lêer aan"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Foto's en video's"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Lêer"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Meningsopname"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Voeg aanhangsel of meningsopname by"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Hierdie persoon gebruik nie Signal nie"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Versper"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Jou kontakte sal jou by hierdie groep kan toevoeg."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Jou kontakte sal jou by hierdie groep kan voeg."
@@ -7322,9 +7250,12 @@
     "messageformat": "Ons het ook 'n fout reggestel wat kon verhoed dat kennisgewings in Windows verskyn."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Ons het die voorkoms van op- en afrolbalke dwarsdeur die toepassing opgedateer om dit meer visueel eenvormig te maak."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Verbeterings aan kopieer/plak-formatering. Dankie, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

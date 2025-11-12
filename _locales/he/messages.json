@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "מידע"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "סקר · יש לבחור 1"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "אפשרות שהצבעת לה"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "פרטי סקר"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "אין הצבעות"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "סקר חדש"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "שאלה"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "אפשרויות"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "אפשרות {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "לאפשר הצבעות מרובות"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "שליחה"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "חייבים להוסיף שאלת סקר"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "הסקר דורש לפחות 2 אפשרויות"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "מחיקה"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} הגיב/ה {emoji} ל: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "שליחה נכשלה"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "סקר: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "סקר: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "ייתכן שלא תוכל להתקין מחדש חבילת מדבקות זו אם אין לך עוד את הודעת המקור."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "היכרות עם מדבקות: בנדיט החתול"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "היכרות עם מדבקות"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "למה להשתמש במילים כשאתה יכול להשתמש במדבקות?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "פתח את בוחר המדבקות"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "הוסף חבילת מדבקות"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "הדף הבא"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "הדף הקודם"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "מדבקות אחרונות"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "מספר מדבקות לא יכלו לרדת."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "מתקין חבילת מדבקות…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "לא נמצאו מדבקות"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "חבילות חדשות של מדבקות מההודעות שלך זמינות להתקנה"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "לא נמצאו חבילות מדבקות"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "מדבקות שהיו בשימוש לאחרונה יופיעו כאן."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "אחרונים"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "מומלצים"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "זמן אנלוגי"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "חבילת מדבקות"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "שגיאה בפתיחת חבילת מדבקות. בדוק את חיבור האינטרנט שלך ונסה שוב."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "אמוג'י לא נמצא"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "סגירת חיפוש אימוג׳י"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "חפש אמוג'י"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "גוון עור {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "אחרונים"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "אמוג'י"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "חיה"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "אוכל"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "פעילות"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "טיול"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "חפץ"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "סמל"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "דגל"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "אמוג'י"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "מושתק עד {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "אמוג'י"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "משהו השתבש!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "צרף קובץ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "תמונות וסרטונים"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "קובץ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "סקר"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "הוספת קובץ מצורף או סקר"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "האיש הזה לא משתמש ב־Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "חסימה"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "אנשי הקשר שלך יוכלו להוסיף אותך לקבוצה הזו."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "אנשי הקשר שלך יוכלו להוסיף אותך לקבוצה הזו."
@@ -7322,9 +7250,12 @@
     "messageformat": "תיקנו גם באג שיכול היה למנוע הופעת התראות ב–Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "עדכנו את העיצוב של סרגלי הגלילה ברחבי האפליקציה, כדי להפוך אותם לאחידים יותר מבחינה ויזואלית."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "שיפרנו את פעולות ההעתק הדבק וההדבקה, כך שקל יותר לסמן את כל הטקסט ולהחליף אותו בלי שהעיצוב הישן יעבור יחד איתו. תודה, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "தகவல்"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "வாக்கெடுப்பு · ஒன்றைத் தேர்ந்தெடுக்கவும்"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "நீங்கள் வாக்களித்துள்ளீர்கள்"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "வாக்கெடுப்பு விவரங்கள்"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "வாக்குகள் இல்லை"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "புதிய வாக்கெடுப்பு"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "கேள்வி"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "விருப்பங்கள்"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number} விருப்பம்"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "பல வாக்குகளை அனுமதி"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "அனுப்புக"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "வாக்கெடுப்புக்கான கேள்வி அவசியம்"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "வாக்கெடுப்புக்குக் குறைந்தது 2 விருப்பங்கள் தேவை"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "நீக்கு"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} {emoji} என்று எதிர்வினையாற்றினார்: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "அனுப்புவது தோல்வியுற்றது"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "வாக்கெடுப்பு:{pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "வாக்கெடுப்பு:{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "உங்களிடம் இனி மூல செய்தி இல்லையென்றால் இந்த ஸ்டிக்கர் பேக்கை மீண்டும் நிறுவ முடியாது."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "ஓட்டிகளை அறிமுகப்படுத்துகிறோம்: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "ஸ்டிக்கர்களை அறிமுகப்படுத்துகிறோம்"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "நீங்கள் ஸ்டிக்கர்களைப் பயன்படுத்தும்போது ஏன் வார்த்தைகளைப் பயன்படுத்த வேண்டும்?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "திற தி ஓட்டி எடுப்பவர்"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "ஒரு ஸ்டிக்கர் பேக் சேர்க்கவும்"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "அடுத்த பக்கம்"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "முந்தைய பக்கம்"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "சமீபத்திய ஓட்டி"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "சில ஸ்டிக்கர்களை பதிவிறக்கம் செய்ய முடியவில்லை."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "ஸ்டிக்கர் பேக்கை நிறுவுகிறது…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "உங்கள் செய்திகளிலிருந்து புதிய ஸ்டிக்கர் பொதிகள் நிறுவ கிடைக்கும்"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "ஸ்டிக்கர் பொதிகள் எதுவும் கிடைக்கவில்லை"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்ட ஸ்டிக்கர்கள் இங்கே தோன்றும்."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "அண்மையில்"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "இடம்பெற்றது"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "அனலாக் நேரம்"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "ஸ்டிக்கர் பேக்"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "ஸ்டிக்கர் பேக் திறப்பதில் பிழை. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ஈமோஜிகள் எதுவும் கிடைக்கவில்லை"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ஈமோஜி தேடலை மூடுக"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ஈமோஜியைத் தேடுங்கள்"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "தோல் தொனி {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "அண்மையில்"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "உணர்வு படங்கள்"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "விலங்கு"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "உணவு"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "செயல்பாடு"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "பயணம்"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "பொருள்"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "சின்னம்"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "கொடி"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "உணர்வு படங்கள்"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "அறிவிப்புகள் {duration} வரை முடக்கப்பட்டன"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "உணர்வு படங்கள்"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "ஏதோ தவறு நடைபெற்றிருக்கிறது!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "கோப்பினை இணைக்கவும்"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "படங்கள் & காணொளிகள்"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "கோப்பு"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "வாக்கெடுப்பு"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "இணைப்பு அல்லது வாக்கெடுப்பைச் சேர்த்திடுக"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "இந்த நபர் பயன்படுத்தவில்லை Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "தடைசெய்"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "உங்கள் தொடர்புகளால் இந்தக் குழுவில் உங்களைச் சேர்க்க முடியும்."
@@ -7322,9 +7250,12 @@
     "messageformat": "Windowsஇல் அறிவிப்புகள் தோன்றுவதைத் தடுக்கும் பிழையையும் நாங்கள் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "செயலி முழுவதும் ஸ்க்ரோல்பார்களின் தோற்றத்தைப் புதுப்பித்துள்ளோம்."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "நகலெடுத்தல்/ஒட்டுதல் வடிவமைப்பு மேம்பாடுகள். நன்றி, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

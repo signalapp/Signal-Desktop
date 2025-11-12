@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Thông tin"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Hỏi ý kiến · Chọn một"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Bạn đã bình chọn"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Hỏi ý kiến"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Không có bình chọn"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Câu hỏi mới"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Câu hỏi"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Tùy chọn"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Lựa chọn {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Nhiều bình chọn"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Gửi"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Cần có câu hỏi"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Cần ít nhất 2 lựa chọn để hỏi ý kiến"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Xóa"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} đã phản hồi {emoji} cho: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Không gửi được"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Hỏi ý kiến: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Hỏi ý kiến: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Bạn có thể sẽ không cài lại được gói nhãn dán này nếu bạn không còn tin nhắn nguồn."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Xin giới thiệu nhãn dán: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Xin giới thiệu Nhãn dán"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Tại sao phải sử dụng từ ngữ khi mà bạn có thể sử dụng nhãn dán?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Mở bộ chọn nhãn dán"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Đã thêm bộ nhãn dán"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Trang Tiếp theo"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Trang Trước"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Nhãn dán Gần đây"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Một vài nhãn dán đã không thể tải xuống."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Đang cài đặt gói nhãn dán…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Không tìm thấy nhãn dán"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Gói nhãn dán mới từ tin nhắn của bạn có sẵn để cài đặt"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Không tìm thấy gói nhãn dán"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Các nhãn dán mói được sử dụng sẽ xuất hiện ở đây."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Gần đây"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Nổi bật"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Đồng hồ analog"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Gói Nhãn dán"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Lỗi khi mở gói nhãn dán. Kiểm tra kết nối internet của bạn và thử lại."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Không tìm thấy biểu tượng cảm xúc"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Đóng tìm kiếm emoji"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Tìm kiếm Biểu tượng cảm xúc"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Màu da {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Gần đây"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Thú vật"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Thức ăn"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Hoạt động"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Du lịch"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Vật dụng"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Biểu tượng"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Cờ"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Tắt tiếng cho tới {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Đã xảy ra lỗi!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Đính kèm tệp"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Ảnh & video"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Tệp"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Hỏi ý kiến"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Thêm tập tin hoặc hỏi ý kiến"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Người này đang không dùng Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Chặn"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Các liên hệ của bạn sẽ được thêm vào nhóm này."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Các liên hệ sẽ có thể thêm bạn vào nhóm này."
@@ -7322,9 +7250,12 @@
     "messageformat": "Chúng tôi cũng đã sửa một lỗi có thể ngăn các thông báo xuất hiện trên Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Chúng tôi đã cập nhật thiết kế của thanh cuộn trên toàn bộ ứng dụng để chúng hiển thị nhất quán hơn."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Cải thiện định dạng sao chép/dán. Cảm ơn, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

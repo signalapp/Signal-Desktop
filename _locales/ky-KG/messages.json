@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Маалымат"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Добуш берүү · Бирөөсүн тандаңыз"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Сиз добуш бердиңиз"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Добуш берүү чоо-жайы"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Эч ким добуш бере элек"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Жаңы добуш берүү"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Суроо берүү"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Параметрлер"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number}-вариант"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Бир нече добушка уруксат берүү"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Жөнөтүү"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Суроо беришиңиз керек"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Сурамжылоодо кеминде 2 вариант болушу керек"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Өчүрүү"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} {emoji} деген сезимин {message} үчүн билдирди"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Жөнөтүлбөй калды"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Добуш бергиле: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Добуш бергиле: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Эгер сизде баштапкы билдирүү жок болсо, бул стикер топтомун кайра орното албай каласыз."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Стикерлер менен тааныштыруу: Бандит мышык"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Стикерлер менен тааныштыруу"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Стикерлерди колдонсоңуз, сөздөрдү колдонууга кереги жок."
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Стикер тандагычты ачуу"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Стикерлер топтомун кошуу"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Кийинки бет"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Мурунку бет"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Акыркы стикер"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Кээ бир стикерлер жүктөлүп алынбай койду."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Стикерлер топтому орнотулууда..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Стикерлер табылган жок"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Билдирүүлөрүңүздөн жаңы стикерлер топтомдорун орнотууга болот"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Стикерлер топтомдору табылган жок"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Бул жерде жакында колдонулган стикерлер пайда болот."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Соңкулар"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Өзгөчөлөнгөндөр"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Аналог убакыты"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Стикерлер топтому"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Стикерлер топтомун ачуу катасы. Интернет туташууңузду текшерип, кайра аракет кылыңыз."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Быйтыкчалар табылган жок"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Быйтыкчаларды издөөнү жабуу"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Быйтыкчаларды издөө"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Теринин өңү {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Соңкулар"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Быйтыкча"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Жаныбар"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Тамак-аш"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Активдүүлүк"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Саякат"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Объект"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Символ"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Желек"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Быйтыкча"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} чейин үнү басылды"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Быйтыкча"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Бир жерден ката кетти!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Файлды тиркөө"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Сүрөттөр/Видеолор"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Файл"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Добуш берүү"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Тиркеме же сурамжылоо кошуу"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Бул адам Signal колдонбойт"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Бөгөттөө"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Байланыштарыңыз сизди ушул топко кошо алышат."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Байланыштарыңыз сизди ушул топко кошо алышат."
@@ -7322,9 +7250,12 @@
     "messageformat": "Ошондой эле Windows'то билдирмелерди көрсөтпөй жаткан мүчүлүштүк да чечилди."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Колдонмодогу сыдырмалардын көрүнүшү менен стилин өзгөрттүк. Адатта, өтө тез сыдырганда кээ бир нерселер көрүнбөй калчу, эми аларды сыдырып гана көрөсүз."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Көчүрүү/Чаптоо функциялары жакшырып, эми баарын оңоюраак тандап, учурдагы текстти жаңы форматта алмаштырасыз. Чоң рахмат <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

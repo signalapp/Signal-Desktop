@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "信息"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "投票 · 选择一个选项"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "您已投票"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "投票详情"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "无投票"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "新投票"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "问题"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "选项"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "选项 {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "允许多次投票"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "发送"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "需要输入一个投票问题"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "投票至少需要 2 个选项"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "删除"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender}用 {emoji} 回应了：{message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "发送失败"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "投票：{pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "投票：{pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "如果您没有原始信息，可能无法重新安装此表情包。"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "新推出贴纸功能：Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "隆重推出“表情包”功能"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "既然可以用表情，为何还要打字呢？"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "打开表情选取器"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "添加表情包"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "下一页"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "上一页"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "最近表情"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "一些表情无法下载"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "正在安装表情包……"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "没有找到表情"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "您消息中的新表情包已可以安装"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "没有找到表情包"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "最近使用过的表情会显示在这里。"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "最近"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "精选"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "模拟时间"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "表情包"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "无法打开表情包。请在检查网络连接后重试。"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "没有找到符合条件的表情"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "关闭表情符号搜索"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "搜索表情"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "肤色 {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "最近"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "表情符号"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "动物"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "食物"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "活动"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "旅行"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "物品"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "符号"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "旗帜"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "表情符号"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "静音至 {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "表情符号"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "出错了！"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "附加文件"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "照片和视频"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "文件"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "投票"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "添加附件或投票"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "此人未使用 Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "屏蔽"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "您的联系人将可以把您添加到此群组。"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "您的联系人将能把您添加到此群组。"
@@ -7322,9 +7250,12 @@
     "messageformat": "我们还修复了一个漏洞，该漏洞会导致 Windows 上的通知无法显示。"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "我们更新了整个应用程序中的滚动条外观，使视觉风格更统一。"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "改进了复制/粘贴格式，为此我们要感谢 <brianHarder>@brianHarder</brianHarder>！"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

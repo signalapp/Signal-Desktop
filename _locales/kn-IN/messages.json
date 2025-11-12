@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ಮಾಹಿತಿ"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "ನೀವು ವೋಟ್ ಮಾಡಿದ್ದೀರಿ"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "ಸಮೀಕ್ಷೆಯ ವಿವರಗಳು"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "ಹೊಸ ಸಮೀಕ್ಷೆ"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ಪ್ರಶ್ನೆ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ಆಯ್ಕೆಗಳು"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ಆಯ್ಕೆ {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "ಅನೇಕ ವೋಟ್‌ಗಳನ್ನು ಅನುಮತಿಸಿ"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "ಕಳುಹಿಸಿ"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "ಸಮೀಕ್ಷೆಯ ಪ್ರಶ್ನೆ ಅಗತ್ಯವಿದೆ"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "ಸಮೀಕ್ಷೆಗೆ ಕನಿಷ್ಠ 2 ಆಯ್ಕೆಗಳು ಬೇಕು"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "ಅಳಿಸಿ"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "ಇದಕ್ಕೆ {sender} ಅವರು {emoji} ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "ಸಮೀಕ್ಷೆ: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "ಸಮೀಕ್ಷೆ: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "ನೀವು ಇನ್ನು ಮೂಲ ಸಂದೇಶವನ್ನು ಹೊಂದಿಲ್ಲದಿದ್ದರೆ ಈ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ನೀವು ಪುನಃ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "ಪರಿಚಯಿಸಲಾಗುತ್ತಿದೆ ಸ್ಟಿಕ್ಕರ್‌ಗಳು: ಕಳ್ಳಬೆಕ್ಕು"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಪರಿಚಯಿಸಲಾಗುತ್ತಿದೆ"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "ಯಾವಾಗ ಪದಗಳನ್ನು ಬಳಸಬೇಕು ನೀವು ಉಪಯೋಗಿಸಬಹುದು ಸ್ಟಿಕ್ಕರ್‌ಗಳು?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪಿಕ್ಕರ್ ತೆರೆಯಿರಿ"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಸೇರಿಸಿ"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "ಮುಂದಿನ ಪುಟ"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "ಹಿಂದಿನ ಪುಟ"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "ಇತ್ತೀಚಿನ ಸ್ಟಿಕ್ಕರ್"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "ಕೆಲವು ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗದು"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "ನಿಮ್ಮ ಸಂದೇಶಗಳಿಂದ ಹೊಸ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಲಭ್ಯವಿದೆ"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಿದ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "ಇತ್ತೀಚಿನವುಗಳು"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಲಾಗಿದೆ"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "ಅನಲಾಗ್ ಸಮಯ"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ತೆರೆಯುವಲ್ಲಿ ದೋಷ. ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ಯಾವುದೇ ಎಮೋಜಿ ಕಂಡುಬಂದಿಲ್ಲ"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ಎಮೋಜಿ ಹುಡುಕಾಟ ಮುಚ್ಚಿ"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ಎಮೋಜಿ ಹುಡುಕಿ"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "ಚರ್ಮದ ಟೋನ್ {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "ಇತ್ತೀಚಿನವುಗಳು"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "ಎಮೋಜಿ"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "ಪ್ರಾಣಿ"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "ಆಹಾರ"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "ಚಟುವಟಿಕೆ"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "ಪ್ರವಾಸ"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "ವಸ್ತು"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "ಚಿಹ್ನೆ"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "ಫ್ಲ್ಯಾಗ್"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ಎಮೋಜಿ"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} ತನಕ ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "ಎಮೋಜಿ"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "ಏನೋ ತಪ್ಪಾಗಿದೆ!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "ಫೈಲ್ ಅಟ್ಯಾಚ್ ಮಾಡಿ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ಫೊಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊ"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ಫೈಲ್"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ಸಮೀಕ್ಷೆ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಅಥವಾ ಸಮೀಕ್ಷೆಯನ್ನು ಸೇರಿಸಿ"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ಈ ವ್ಯಕ್ತಿಯು Signal ಬಳಸುತ್ತಿಲ್ಲ"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧಿಸಿ"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ನಿಮ್ಮನ್ನು ಸೇರಿಸಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಸಾಧ್ಯವಾಗುತ್ತದೆ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ."
@@ -7322,9 +7250,12 @@
     "messageformat": "Windows ನಲ್ಲಿ ನೋಟಿಫಿಕೇಷನ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುವುದನ್ನು ತಡೆಯುವ ಬಗ್ ಅನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "ನಾವು ಆ್ಯಪ್‌ನಾದ್ಯಂತ ಸ್ಕ್ರಾಲ್‌ಬಾರ್‌ಗಳ ರೂಪ ಮತ್ತು ಶೈಲಿಯ ಸ್ಥಿರತೆಯನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ. ಸಾಮಾನ್ಯವಾಗಿ ನೀವು ತುಂಬಾ ವೇಗವಾಗಿ ಸ್ಕ್ರಾಲ್ ಮಾಡಿದರೆ ನಿಮಗೆ ಏನಾದರೂ ಮಿಸ್ ಆಗಬಹುದು, ಆದರೆ ಈ ಸಂದರ್ಭದಲ್ಲಿ ಸ್ಕ್ರಾಲಿಂಗ್ ಮಾತ್ರ ಅದನ್ನು ನೋಡಲು ಏಕೈಕ ಮಾರ್ಗವಾಗಿದೆ."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "ಕಾಪಿ/ಪೇಸ್ಟ್ ಗಳಲ್ಲಿನ ಸುಧಾರಣೆಗಳು ಹಳೆಯ ಫಾರ್ಮ್ಯಾಟಿಂಗ್ ಅನ್ನು ಯಥಾಪ್ರಕಾರವಾಗಿ ಪಡೆಯದೆ ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆ ಮಾಡಲು ಮತ್ತು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಪಠ್ಯವನ್ನು ಬದಲಾಯಿಸಲು ಸುಲಭಗೊಳಿಸುತ್ತವೆ. ಧನ್ಯವಾದಗಳು, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

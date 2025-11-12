@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Інформація"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Опитування · Оберіть один варіант"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Ви проголосували"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Підсумки опитування"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Голосів немає"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Нове опитування"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Запитання"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Відповіді"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Відповідь {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Можна вибирати кілька відповідей"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Надіслати"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Потрібно додати запитання"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Потрібно принаймні два варіанти відповіді"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Видалити"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "Користувач {sender} поставив реакцію {emoji} на: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Не вдалося надіслати"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Опитування: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Опитування: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Можливо, ви не зможете встановити цей набір стікерів знову, якщо вже видалили повідомлення, з якого ви його отримали."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Представляємо стікери: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Представляємо стікери"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Навіщо використовувати слова, коли можна використовувати стікери?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Відкрити панель стікерів"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Додати набір стікерів"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Наступна сторінка"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Попередня сторінка"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Недавні стікери"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Не всі стікери вдалося завантажити."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Встановлюємо набір стікерів…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Не знайдено жодного стікера"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Ви можете встановити нові набори стікерів зі своїх повідомлень"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Не знайдено жодного набору стікерів"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Тут будуть нещодавно використані стікери."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Нещодавні"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Обрані"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Годинник зі стрілками"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Набір стікерів"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Під час відкриття набору стікерів сталася помилка. Перевірте з'єднання з інтернетом і відкрийте його ще раз."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Емоджі не знайдено"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Закрити пошук емоджі"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Пошук емоджі"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "відтінок шкіри {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Нещодавні"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Емоджі"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Тварини"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Їжа і напої"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Заняття"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Подорожі"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Предмети"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Символи"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Прапори"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Емоджі"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Сповіщення вимкнено до {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Емоджі"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Сталася помилка!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Прикріпити файл"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Фото і відео"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Файл"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Опитування"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Додати вкладення / опитування"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ця людина не використовує Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Заблокувати"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Ваші контакти зможуть додати вас до цієї групи."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Ваші контакти зможуть додати вас до цієї групи."
@@ -7322,9 +7250,12 @@
     "messageformat": "Також ми виправили помилку, через яку у Windows не з'являлися сповіщення."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Ми оновили вигляд і уніфікували стиль панелі прокручування в застосунку. Зазвичай, якщо прокручувати надто швидко, то щось пропускаєш, але в цьому випадку тільки так і можна помітити це оновлення."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "З поліпшеннями копіювання і вставлення стало простіше вибрати все й замінити текст, не застосовуючи старого форматування. Дякуємо, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

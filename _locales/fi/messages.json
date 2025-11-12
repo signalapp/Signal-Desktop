@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Tietoja"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Kysely · Valitse yksi"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Olet äänestänyt"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Kyselyn tiedot"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ei ääniä"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Uusi kysely"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Kysymys"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Valinnat"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Vaihtoehto {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Salli usean vaihtoehdon äänestäminen"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Lähetä"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Kyselyn kysymys on pakollinen"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Kyselyssä on oltava vähintään kaksi vaihtoehtoa"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Poista"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} lähetti reaktion {emoji} viestiin: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Lähetys epäonnistui"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Kysely: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Kysely: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Tarrapakettia ei voi asentaa uudelleen, jos sen lähdeviesti on poistettu."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Esittelyssä tarrat: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Esittelyssä tarrat"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Miksi käyttää sanoja, kun voit käyttää tarroja?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Avaa tarra-valitsin"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Lisää tarrapaketti"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Seuraava sivu"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Edellinen sivu"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Äskeiset tarrat"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Joitakin tarroja ei voitu ladata."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Tarrapakettia asennetaan…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Tarroja ei löytynyt"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Uusia tarrapaketteja on saatavilla asennettaviksi viesteistäsi"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Tarrapaketteja ei löytynyt"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Viimeksi käytetyt tarrat näytetään tässä."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Viimeisimmät"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Esittelyssä"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analoginen aika"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Tarrapaketti"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Virhe tarrapaketin avaamisessa. Tarkista verkkoyhteytesi ja yritä uudelleen."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Emojia ei löytynyt"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Sulje emojihaku"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Hae emojia"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Ihonväri {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Viimeisimmät"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Eläimet"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Ruoka"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Toiminta"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Matkailu"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Esineet"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Symbolit"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Liput"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Mykistetty {duration} asti"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Jokin meni pieleen!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Liitä tiedosto"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Kuvat ja videot"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Tiedosto"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Kysely"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Lisää liite tai kysely"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Tämä henkilö ei käytä Signalia."
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Estä"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Yhteystietosi voivat lisätä sinut takaisin tähän ryhmään."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Yhteystietosi voivat lisätä sinut takaisin tähän ryhmään."
@@ -7322,9 +7250,12 @@
     "messageformat": "Korjasimme myös virheen, joka saattoi estää ilmoitusten näkymisen Windowsissa."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Päivitimme vierityspalkkien ulkoasun koko sovelluksessa yhtenäisemmän ilmeen saavuttamiseksi."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Parannuksia kopiointiin ja liittämiseen. Kiitos, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

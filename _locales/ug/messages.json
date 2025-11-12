@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ئۇچۇر"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "راي سىناش · بىرنى تاللاڭ"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "بېلەت تاشلىدىڭىز"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "راي سىناش تەپسىلاتلىرى"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "بېلەت تاشلانمىدى"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "يېڭى راي سىناش"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوئال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "تاللاش"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "تاللاش {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "كۆپ بېلەت چۈشۈشكە يول قويۇش"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "يوللاش"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "راي سىناش سۇئالى تەلەپ قىلىندى"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "راي سىناش كەم دېگەندە 2 تال تاللاشنى تەلەپ قىلىدۇ"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "ئۆچۈر"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} «{message}» گە قايتۇرغان ئىنكاس {emoji}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "ئەۋەتەلمىدى"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "راي سىناش: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "راي سىناش: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "ئەگەر ئەسلى ئۇچۇر بولمىسا، بۇ چاپلاق بولىقىنى قايتا قاچىلىيالماسلىقىڭىز مۇمكىن."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "يېڭى چاپلاقلار: باندېت مۈشۈك"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "يېڭى چاپلاقلار"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "چاپلاق تۇرسا گەپ قىلىشنىڭ نېمە ھاجىتى؟"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "چاپلاق تاللىغۇچنى ئېچىش"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "چاپلاق بوغچىسى قوشۇش"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "كېيىنكى بەت"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "ئالدىنقى بەت"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "يېقىنقى چاپلاق"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "بەزى چاپلاقلارنى چۈشۈرگىلى بولماسلىقى مۇمكىن."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "چاپلاق بوغچىسىنى ئورنىتىۋاتىدۇ..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "چاپلاق تېپىلمىدى"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "ئۇچۇرلىرىڭىزدىكى يېڭى چاپلاق بوغچىلىرىنى قاچىلاشقا بولىدۇ"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "چاپلاق بوغچىسى تېپىلمىدى"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "يېقىندا ئىشلىتىلگەن چاپلاقلار بۇ يەردە كۆرۈنىدۇ."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "يېقىنقى"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ئالاھىدە"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "تەقلىد ۋاقتى"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "چاپلاق بوغچىسى"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "چاپلاق بوغچىسىنى ئېچىشتا خاتالىق كۆرۈلدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Emoji تېپىلمىدى"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "emoji ئىزدەش رامكىسىنى تاقاش"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "چىراي بەلگە ئىزدە"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "تېرە رەڭگى {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "يېقىنقى"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "چىراي بەلگە"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "ھايۋانات"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "يېمەكلىك"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "پائالىيەت"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "ساياھەت"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "نەرسە"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "بەلگە"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "بايراق"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "چىراي بەلگە"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} غىچە ئۈنسىز قىلىش"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "چىراي بەلگە"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "خاتالىق كۆرۈلدى!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "قوشۇمچە ھۆججەت"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "رەسىملەر ۋە سىنلار"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ھۆججەت"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ئشلەتكۈچىلەرنىڭ رايىنى سىناش"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "قوشۇمچە ھۆججەت ياكى راي سىناشنى قوشۇش"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "بۇ كىشى Signal ئىشلەتمەيدۇ"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "چەكلەش"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "ئالاقىداشلىرىڭىز سىزنى بۇ گۇرۇپپىغا قوشالايدۇ."
@@ -7322,9 +7250,12 @@
     "messageformat": "بىز يەنە Windows تا ئۇقتۇرۇشنىڭ پەيدا بولۇشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلۈكنى تۈزەتتۇق."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "بىز پۈتۈن ئەپتىكى سۈرگۈچ بالداقلىرىنىڭ تاشقى كۆرۈنۈشى ۋە ئۇسلۇب جەھەتتىكى بىردەكلىكىنى يېڭىلىدۇق. ئادەتتە بەك تېز سۈرسىڭىز بەزەن مىزمۇنلارنى قولدىن بېرىپ قويۇشىڭىز مۇمكىن، بۇ قېتىملىق يېڭىلاشتا سۈرۈش سۈپىتى ياخشىلاندى."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "كۆپەيتىش / چاپلاش فورماتى ياخشىلاندى. رەھمەت سىزگە <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

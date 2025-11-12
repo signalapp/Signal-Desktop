@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ព័ត៌មាន"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "អ្នកបានបោះឆ្នោត"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីការស្ទង់មតិ"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "ការស្ទង់មតិថ្មី"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "សំណួរ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ជម្រើស"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ជម្រើស {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "អនុញ្ញាតការបោះឆ្នោតជាច្រើន"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "ផ្ញើ"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "ត្រូវមានសំណួរស្ទង់មតិ"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "ការស្ទង់មតិទាមទារយ៉ាងហោចណាស់ 2 ជម្រើស"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} បានប្រតិកម្ម {emoji} ទៅនឹង៖ {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "ផ្ញើបរាជ័យ"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "ការស្ទង់មតិ៖ {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "ការស្ទង់មតិ៖ {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "អ្នកប្រហែលមិនអាចដំឡើងកញ្ចប់ស្ទីកគ័រនេះឡើងវិញ ប្រសិនបើអ្នកមិនមានសារដើម។"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "ការណែនាំ ស្ទីកគ័រ៖ សត្វឆ្មាមេចោរ"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "ការណែនាំ ស្ទីកគ័រ"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "ហេតុអ្វីបានជាប្រើប្រាស់ពាក្យ នៅពេលអ្នកអាចប្រើប្រាស់ស្ទីកគ័រ?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "បើកកម្មវិធីជ្រើសរើសស្ទីគ័រ"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "បញ្ចូលកញ្ចប់ស្ទីគ័រ"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "ទំព័របន្ទាប់"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "ទំព័រមុន"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "ស្ទីគ័រថ្មីៗនេះ"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "ស្ទីកគ័រមួយចំនួនមិនអាចទាញយកបាន។"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "កំពុងដំឡើងកញ្ចប់ស្ទីកគ័រ…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "ពុំមានស្ទីកគ័រ"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "មានកញ្ចប់ស្ទីកគ័រថ្មីពីសាររបស់អ្នក សម្រាប់ដំឡើង"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "ពុំមានកញ្ចប់ស្ទីកគ័រ"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "ស្ទីកគ័រដែលបានប្រើប្រស់ថ្មីៗ នឹងបង្ហាញទីនេះ។"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "ថ្មីៗ"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ពិសេស"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "ម៉ោងនាឡិកាទ្រនិច"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "កញ្ចប់ស្ទីកគ័រ"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "បញ្ហាក្នុងការបើកកញ្ចប់ស្ទីកគ័រ។ សូមពិនិត្យការតភ្ជាប់បណ្តាញ ហើយព្យាយាមម្តងទៀត។"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ពុំមាន emoji"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "បិទការស្វែងរករូបអារម្មណ៍"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ស្វែងរកEmoji"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "ពណ៌ស្បែក {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "ថ្មីៗ"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "រូបតំណាងអារម្មណ៍"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "សត្វ"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "អាហារ"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "សកម្មភាព"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "ការធ្វើដំណើរ"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "វត្ថុ"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "និមិត្តសញ្ញា"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "ទង់ជាតិ"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "រូបអារម្មណ៍"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "បានបិទសំឡេងរហូតដល់ {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "រូបតំណាងអារម្មណ៍"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "មានបញ្ហាខុសប្រក្រតី!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "ភ្ជាប់ឯកសារ"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "រូបថត និងវីដេអូ"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ឯកសារ"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ការស្ទង់មតិ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "បញ្ចូលឯកសារភ្ជាប់ ឬការស្ទង់មតិ"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "បុគ្គលនេះមិនប្រើ Signal ទេ"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "ទប់ស្កាត់"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "ឈ្មោះទំនាក់ទំនងរបស់អ្នកនឹងអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះបាន។"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "ទំនាក់ទំនងរបស់អ្នកនឹងអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះបាន។"
@@ -7322,9 +7250,12 @@
     "messageformat": "យើងក៏បានដោះស្រាយបញ្ហាមួយដែលអាចធ្វើឱ្យការជូនដំណឹងមិនអាចបង្ហាញឡើងនៅលើវីនដូបាន។"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "យើងបានធ្វើបច្ចុប្បន្នភាពរូបរាង និងភាពស៊ីសង្វាក់គ្នានៃរចនាប័ទ្មរបស់របារអូសទូទាំងកម្មវិធី។ ជាធម្មតា ប្រសិនបើអ្នកអូសលឿនពេក អ្នកអាចនឹងរំលងអ្វីមួយ ប៉ុន្តែក្នុងករណីនេះ សូមអូសរំកិលមើលវាកុំលឿនពេក។"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "ការកែលម្អការចម្លង/បិទភ្ជាប់ធ្វើឱ្យការជ្រើសរើសទាំងអស់ និងប្តូរអក្សរដែលមានស្រាប់កាន់តែងាយស្រួល ដោយមិនចាំបាច់យកពីទម្រង់ចាស់។ អរគុណ <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

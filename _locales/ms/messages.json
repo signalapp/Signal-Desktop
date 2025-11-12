@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Maklumat"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Undian · Pilih Satu"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Anda mengundi"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Butiran Undian"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Tiada Undian"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Undian Baharu"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Soalan"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Pilihan"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Pilihan {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Benarkan Berbilang Undian"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Hantar"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Soalan undian diperlukan"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Undian memerlukan sekurang-kurangnya 2 pilihan"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Padam"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} telah memberi reaksi {emoji} terhadap: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Penghantaran gagal"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Undian: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Undian: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Anda mungkin tidak dapat memasang semula pek pelekat ini jika anda tidak lagi mempunyai sumber mesej."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Memperkenalkan Pelekat: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Memperkenalkan Pelekat"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Mengapa menggunakan kata-kata apabila anda boleh menggunakan pelekat?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Buka pemilih pelekat"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Tambah pek pelekat"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Halaman Seterusnya"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Halaman Sebelumnya"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Pelekat Terkini"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Sesetengah pelekat tidak dapat dimuat turun."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Memasang pek pelekat..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Tiada pelekat dicari"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Pek pelekat baru daripada mesej anda sedia dipasang"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Tiada pek pelekat dicari"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Pelekat yang diguna baru-baru ini akan muncul di sini."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Terkini"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Dipaparkan"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Masa analog"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Pek Pelekat"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Ralat membuka pek pelekat. Semak sambungan rangkaian dan cuba lagi."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Tiada emoji dijumpai"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Tutup carian emoji"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Cari Emoji"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Warna kulit {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Terkini"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Haiwan"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Makanan"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Aktiviti"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Perjalanan"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Objek"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Simbol"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Bendera"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Redam sehingga {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Ada yang tidak kena!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Lampirkan fail"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Foto & video"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fail"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Undian"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Tambah lampiran atau undian"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Orang ini tidak menggunakan Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Sekat"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Kenalan anda boleh menambah anda ke kumpulan ini."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Kenalan anda boleh menambah anda ke kumpulan ini."
@@ -7322,9 +7250,12 @@
     "messageformat": "Kami juga telah membetulkan pepijat yang menghalang pemberitahuan daripada muncul pada Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Kami telah mengemas kini penampilan palang skrol di seluruh apl untuk menjadikannya lebih konsisten dari segi visual."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Penambahbaikan pemformatan salin/tampal. Terima kasih, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

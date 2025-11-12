@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informacija"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Apklausa · Pasirinkite vieną"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Jūs balsavote"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Apklausos informacija"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Balsų nėra"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nauja apklausa"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Klausimas"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Parinktys"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number} variantas"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Leisti balsuoti kelis kartus"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Siųsti"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Reikia pateikti apklausos klausimą"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Apklausai reikia bent 2 variantų"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Ištrinti"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} sureagavo {emoji} į „{message}“"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Išsiuntimas nepavyko"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Apklausa: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Apklausa: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Jei neturite pradinės žinutės, gali būti, kad negalėsite iš naujo įdiegti šio lipdukų paketo."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Pristatome lipdukus: Katiną banditą"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Pristatome lipdukus"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Kam naudoti žodžius, kai galima naudoti lipdukus?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Atverti lipdukų parinkiklį"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Pridėti lipdukų paketą"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Kitas puslapis"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Ankstesnis puslapis"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Paskiausiai naudoti lipdukai"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Kai kurių lipdukų atsisiųsti nepavyko."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Įdiegiamas lipdukų paketas…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Nerasta jokių lipdukų"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Yra prieinami įdiegti nauji lipdukų paketai iš jūsų žinučių"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Nerasta jokių lipdukų paketų"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Čia bus rodomi paskiausiai naudoti lipdukai."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Paskiausi"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Pagrindiniai"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analoginis laikas"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Lipdukų paketas"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Klaida atveriant lipdukų paketą. Patikrinkite savo interneto ryšį ir bandykite dar kartą."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Nerasta jokių šypsenėlių"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Uždaryti jaustukų paiešką"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Ieškoti šypsenėlių"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Odos atspalvis {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Paskiausi"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Šypsenėlės"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Gyvūnai"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Maistas"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Veiklos"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Kelionės"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Objektai"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Simboliai"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Vėliavos"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Šypsenėlės"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Nutildyta iki {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Šypsenėlės"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Kažkas nutiko!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Pridėti failą"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Nuotraukos ir vaizdo įrašai"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Failas"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Apklausa"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Pridėti priedą arba apklausą"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Šis žmogus nesinaudoja Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Užblokuoti"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Tavo adresatai galės pridėti tave į šią grupę"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Tavo adresatai galės pridėti tave į šią grupę."
@@ -7322,9 +7250,12 @@
     "messageformat": "Be to, ištaisėme klaidą, dėl kurios sistemoje „Windows“ galėjo būti nerodomi pranešimai."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Atnaujinome slinkties juostų išvaizdą visoje programėlėje, kad jos būtų to paties stiliaus."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Patobulintos kopijavimo / įklijavimo funkcijos. Ačiū, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }
