@@ -663,6 +663,7 @@ class Message {
       create.allowMultiple = Boolean(this.pollCreate.allowMultiple);
       create.options = this.pollCreate.options.slice();
       proto.pollCreate = create;
+      proto.requiredProtocolVersion = Proto.DataMessage.ProtocolVersion.POLLS;
     }
 
     this.dataMessage = proto;
