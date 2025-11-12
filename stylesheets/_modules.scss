@@ -4856,8 +4856,9 @@ button.module-calling-participants-list__contact {
 .module-conversation-list {
   $normal-row-height: 72px;
 
-  padding-inline-start: 10px;
-  padding-inline-end: 1px; /* leaving room for scrollbar */
+  scrollbar-gutter: stable;
+  padding-inline-start: 11px;
+  padding-inline-end: calc(11px - var(--axo-scrollbar-gutter-thin-vertical));
 
   @include mixins.scrollbar-on-hover;
 
@@ -4865,13 +4866,6 @@ button.module-calling-participants-list__contact {
   .module-left-pane--mode-choose-group-members &,
   .module-left-pane--mode-compose & {
     padding-inline: 0;
-  }
-
-  // Center chat list icons in narrow mode by reserving scrollbar space, preventing
-  // scrollbar from pushing content
-  &--width-narrow {
-    padding-inline: 10px 1px;
-    scrollbar-gutter: stable;
   }
 
   &--has-dialog-padding {

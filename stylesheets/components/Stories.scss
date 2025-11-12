@@ -105,8 +105,11 @@
       flex-direction: column;
       flex: 1;
       overflow-y: auto;
-      padding-inline: 16px;
-
+      scrollbar-gutter: stable;
+      padding-inline-start: 11px;
+      padding-inline-end: calc(
+        11px - var(--axo-scrollbar-gutter-thin-vertical)
+      );
       @include mixins.scrollbar-on-hover;
 
       &--empty {

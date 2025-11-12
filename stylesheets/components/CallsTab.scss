@@ -209,6 +209,9 @@
 }
 
 .CallsList__List {
+  scrollbar-gutter: stable;
+  padding-inline-start: 11px;
+  padding-inline-end: calc(11px - var(--axo-scrollbar-gutter-thin-vertical));
   @include mixins.scrollbar-on-hover;
 }
 
@@ -310,6 +313,8 @@
 // Override .ListTile
 .ListTile.CallsList__ItemTile {
   padding-block: 10px;
+  border: none;
+  border-radius: 12px;
 
   // Override .ListTile__subtitle with correct font size
   .ListTile__subtitle {

@@ -1,12 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoDialog } from './AxoDialog.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
 import { tw } from './tw.dom.js';
+import { AxoCheckbox } from './AxoCheckbox.dom.js';
 
 export default {
   title: 'Axo/AxoDialog',
@@ -141,5 +142,227 @@ export function FooterContentLongAndTight(): JSX.Element {
     <Template contentSize="sm" footerContent={TEXT_LONG}>
       {TEXT_LONG}
     </Template>
+  );
+}
+
+function Spacer(props: { height: 8 | 12 }) {
+  return <div style={{ height: props.height }} />;
+}
+
+function TextInputField(props: { placeholder: string }) {
+  const style = useMemo(() => {
+    const bodyPadding = 24;
+    const inputPadding = 16;
+
+    return { marginInline: inputPadding - bodyPadding };
+  }, []);
+
+  return (
+    <div className={tw('py-1.5')} style={style}>
+      <input
+        placeholder={props.placeholder}
+        className={tw(
+          'w-full px-3 py-1.5',
+          'border-[0.5px] border-border-primary shadow-elevation-0',
+          'rounded-lg bg-fill-primary',
+          'placeholder:text-label-placeholder',
+          'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
+        )}
+      />
+    </div>
+  );
+}
+
+export function ExampleNicknameAndNoteDialog(): JSX.Element {
+  const [open, setOpen] = useState(true);
+  return (
+    <AxoDialog.Root open={open} onOpenChange={setOpen}>
+      <AxoDialog.Trigger>
+        <AxoButton.Root variant="secondary" size="medium">
+          Open Dialog
+        </AxoButton.Root>
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Nickname</AxoDialog.Title>
+          <AxoDialog.Close aria-label="Close" />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <p className={tw('mb-4 type-body-small text-label-secondary')}>
+            Nicknames &amp; notes are stored with Signal and end-to-end
+            encrypted. They are only visible to you.
+          </p>
+          <div
+            className={tw(
+              'mx-auto size-20 rounded-full bg-color-fill-primary',
+              'forced-colors:border'
+            )}
+          />
+          <Spacer height={12} />
+          <TextInputField placeholder="First name" />
+          <TextInputField placeholder="Last name" />
+          <TextInputField placeholder="Note" />
+          <Spacer height={12} />
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="secondary" onClick={action('onCancel')}>
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action variant="primary" onClick={action('onSave')}>
+              Save
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+function CheckboxField(props: { label: string }) {
+  const id = useId();
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <div className={tw('flex gap-3 py-2.5')}>
+      <AxoCheckbox.Root
+        id={id}
+        checked={checked}
+        onCheckedChange={setChecked}
+      />
+      <label
+        htmlFor={id}
+        className={tw('truncate type-body-large text-label-primary')}
+      >
+        {props.label}
+      </label>
+    </div>
+  );
+}
+
+export function ExampleMuteNotificationsDialog(): JSX.Element {
+  const [open, setOpen] = useState(true);
+  return (
+    <AxoDialog.Root open={open} onOpenChange={setOpen}>
+      <AxoDialog.Trigger>
+        <AxoButton.Root variant="secondary" size="medium">
+          Open Dialog
+        </AxoButton.Root>
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Mute notifications</AxoDialog.Title>
+          <AxoDialog.Close aria-label="Close" />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <Spacer height={8} />
+          <CheckboxField label="Mute for 1 hour" />
+          <CheckboxField label="Mute for 8 hours" />
+          <CheckboxField label="Mute for 1 day" />
+          <CheckboxField label="Mute for 1 week" />
+          <CheckboxField label="Mute always" />
+          <Spacer height={8} />
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="secondary" onClick={action('onCancel')}>
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action variant="primary" onClick={action('onSave')}>
+              Save
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+function ExampleItem(props: { label: string; description: string }) {
+  const labelId = useId();
+  const descriptionId = useId();
+
+  return (
+    <div
+      role="option"
+      aria-selected={false}
+      aria-labelledby={labelId}
+      aria-describedby={descriptionId}
+      tabIndex={0}
+      className={tw('rounded-lg px-[13px] py-2.5 hover:bg-fill-secondary')}
+    >
+      <div
+        id={labelId}
+        className={tw('truncate type-body-large text-label-primary')}
+      >
+        {props.label}
+      </div>
+      <div
+        id={descriptionId}
+        className={tw('truncate type-body-small text-label-secondary')}
+      >
+        {props.description}
+      </div>
+    </div>
+  );
+}
+
+export function ExampleLanguageDialog(): JSX.Element {
+  const [open, setOpen] = useState(true);
+  return (
+    <AxoDialog.Root open={open} onOpenChange={setOpen}>
+      <AxoDialog.Trigger>
+        <AxoButton.Root variant="secondary" size="medium">
+          Open Dialog
+        </AxoButton.Root>
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Language</AxoDialog.Title>
+          <AxoDialog.Close aria-label="Close" />
+        </AxoDialog.Header>
+        <AxoDialog.ExperimentalSearch>
+          <input
+            type="search"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            placeholder="Search languages"
+            className={tw(
+              'w-full rounded-lg bg-fill-secondary px-3 py-[5px]',
+              'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
+            )}
+          />
+        </AxoDialog.ExperimentalSearch>
+        <AxoDialog.Body padding="only-scrollbar-gutter">
+          <div
+            role="listbox"
+            style={{
+              paddingInline:
+                'calc(11px - var(--axo-scrollbar-gutter-thin-vertical)',
+            }}
+          >
+            <ExampleItem label="System Language" description="English" />
+            <ExampleItem label="Afrikaans" description="Afrikaans" />
+            <ExampleItem label="Arabic" description="العربية" />
+            <ExampleItem label="Azerbaijani" description="Azərbaycan dili" />
+            <ExampleItem label="Bulgarian" description="Български" />
+            <ExampleItem label="Bangla" description="বাংলা" />
+            <ExampleItem label="Bosnian" description="bosanski" />
+            <ExampleItem label="Catalan" description="català" />
+            <ExampleItem label="Czech" description="Čeština" />
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="secondary" onClick={action('onCancel')}>
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action variant="primary" onClick={action('onSet')}>
+              Set
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
