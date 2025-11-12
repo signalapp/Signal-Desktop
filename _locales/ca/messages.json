@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informació"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Enquesta · Selecciona una opció"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Has votat"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Detalls de l'enquesta"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Sense vots"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nova enquesta"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opcions"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opció {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Permetre més d'un vot"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Envia"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "La pregunta de l'enquesta és obligatòria"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "L'enquesta requereix com a mínim 2 opcions"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Suprimeix"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} ha reaccionat amb {emoji} a: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "L'enviament ha fallat"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Enquesta: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Enquesta: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Potser no podreu reinstal·lar aquest paquet d'adhesius si ja no teniu el missatge original."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "S'introdueixen els adhesius: el gat Bandit"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "S'introdueixen els adhesius."
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Per què usar paraules quan podeu fer servir adhesius?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Obre el selector d'adhesius"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Afegeix un paquet d'adhesius"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Pàgina següent"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Pàgina anterior"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Adhesiu recent"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "No s'han pogut baixar alguns adhesius."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Instal·lant el paquet de stickers…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "No s'ha trobat cap adhesiu."
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Hi ha paquets d'adhesius nous procedents dels missatges per instal·lar."
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "No s'ha trobat cap paquet d'adhesius."
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Els adhesius usats recentment apareixeran aquí."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Recents"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Destacats"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Temps analògic"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Paquet d'adhesius"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Error en processar el paquet d'adhesius. Comproveu la connexió a Internet i torneu-ho a provar."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "No s'ha trobat cap emoticona."
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Tanca la cerca d'emoticones"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Cerca una emoticona"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "To de la pell {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Recents"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoticones"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Animal"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Menjar"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Activitat"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Viatges"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Objectes"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Símbols"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Banderes"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoticones"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "En silenci: {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoticones"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Quelcom ha anat malament!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Adjunta un fitxer"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotos i vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fitxer"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Enquesta"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Afegeix un adjunt o una enquesta"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Aquesta persona no usa el Signal."
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Bloquejar"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Els teus contactes podran afegir-te a aquest grup."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Els teus contactes podran afegir-te a aquest grup."
@@ -7322,9 +7250,12 @@
     "messageformat": "També hem corregit un error que podia impedir que apareguessin notificacions a Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Hem actualitzat l'aspecte de les barres de desplaçament a tota l'aplicació perquè tingui més cohesió visualment."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Millores de format al copiar i enganxar. Gràcies, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "معلومات"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "استطلاع · اختر خيارًا واحدًا"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "قُمتَ بالتصويت"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "تفاصيل الاستطلاع"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "لا أصوات"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "استطلاع جديد"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سؤال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "الخيارات"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "خيار {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "السماح بالتصويت عدة مرّات"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "إرسال"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "سؤال الاستطلاع ضروري"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "يتطلب الاستطلاع خيارين على الأقل"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "تفاعَلَ {sender} مع الرسالة {message} باستخدام {emoji}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "فشل الإرسال"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "استطلاع: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "استطلاع: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "قد يتعذَّر عليك إعادة تثبيت هذه المجموعة من المُلصَقات إذا لم تعد لديك الرسالة الأصلية."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "‫نُقدِّم لكم المُلصَقات: القطة Bandit‬"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "‫نُقدِّم لكم المُلصَقات"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "ما الذي يدعوك لاستخدام الكلمات بينما يمكنك استخدام المُلصَقات؟"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "فتح مُنتقي المُلصَقات"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "إضافة مجموعة مُلصَقات"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "الصفحة التالية"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "الصفحة السابقة"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "المُلصَق السابق"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "فشل تنزيل بعض المُلصَقات."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "جارٍ تثبيت مجموعة المُلصَقات…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "لم يُعثَر على أي مُلصَقات."
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "هناك مجموعات مُلصَقات جديدة متاحة للاستخدام مع رسائلك، وهي جاهزة للتثبيت"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "لم يُعثَر على أي مجموعات مُلصَقات"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "ستظهر المُلصَقات المُستخدَمة مؤخرًا هنا."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "الأحدث"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "المُميَّزة"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "وقت تناظري"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "مجموعة المُلصَقات"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "حدث خطأ عند فتح مجموعة المُلصَقات. تحقَّق من اتصالك بالإنترنت ثم حاوِل مرّة أخرى."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "لم يُعثَر على رموز تعبيرية (إيموجي)"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "إغلاق البحث عن الرموز التعبيرية (الإيموجي)"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "البحث في الرموز التعبيرية (الإيموجي)"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "لون البشرة {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "الأحدث"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "الإيموجي"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "الحيوانات"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "الطعام"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "الأنشطة"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "السفر"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "الأشياء"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "الرموز الخاصة"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "الأعلام"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "الإيموجي"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "مكتومة حتى {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "رمز تعبيري (إيموجي)"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "حدث خطأ ما!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "إرفاق ملف"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "الصور والفيديوهات"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ملف"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "استطلاع"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "إضافة مرفق أو استطلاع"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "‫لا يستخدم هذا الشخص سيجنال"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "حظر"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "ستتمكن جهات الاتصال الخاصة بك من إضافتك إلى هذه المجموعة."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "ستتمكّن جهات الاتصال الخاصة بك من إضافتك إلى هذه المجموعة."
@@ -7322,9 +7250,12 @@
     "messageformat": "أصلحنا أيضًا خطًأ كان قد يمنع ظهور الإشعارات على نظام التشغيل ويندوز."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "قُمنا بتحديث مظهر وأسلوب أشرطة التمرير عبر التطبيق لتعزيز الاتساق. عادةً، إذا قُمتَ بالتمرير بسرعة كبيرة، قد يفوتك شيء ما، ولكن في هذه الحالة، فإن التمرير هو الطريقة الوحيدة لرؤيته."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "تحسينات النسخ/اللصق تُسهِّل تحديد النص بالكامل واستبداله دون اكتساب التنسيق القديم. شكرًا، <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

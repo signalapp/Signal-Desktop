@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ข้อมูล"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "โพล · เลือกหนึ่งข้อ"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "คุณโหวตข้อนี้"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "รายละเอียดโพล"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ยังไม่มีคะแนนโหวต"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "โพลใหม่"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "คำถาม"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ตัวเลือก"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ตัวเลือก {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "อนุญาตให้ตอบได้มากกว่าหนึ่งข้อ"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "ส่ง"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "โพลต้องมีคำถาม"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "โพลต้องมีตัวเลือกอย่างน้อย 2 รายการ"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "ลบ"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} แสดงความรู้สึก {emoji} ต่อ: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "การส่งล้มเหลว"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "โพล: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "โพล: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "คุณอาจไม่สามารถติดตั้งชุดสติกเกอร์นี้ได้อีก หากคุณไม่มีข้อความต้นทางอีกแล้ว"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "รู้จักกับสติกเกอร์: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "รู้จักกับสติกเกอร์"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "ทำไมต้องใช้คำเมื่อคุณใช้สติกเกอร์ได้"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "เปิดชุดสติกเกอร์"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "เพิ่มชุดสติกเกอร์"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "หน้าถัดไป"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "หน้าก่อนหน้า"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "สติกเกอร์ล่าสุด"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "ไม่สามารถดาวน์โหลดบางสติกเกอร์ได้"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "กำลังติดตั้งชุดสติกเกอร์…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "ไม่พบสติกเกอร์"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "ชุดสติกเกอร์ใหม่จากข้อความของคุณพร้อมให้ติดตั้งแล้ว"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "ไม่พบชุดสติกเกอร์"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "สติกเกอร์ที่เพิ่งใช้จะปรากฏตรงนี้"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "ล่าสุด"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "แนะนำ"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "เวลาแบบแอนะล็อก"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "ชุดสติกเกอร์"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "ผิดพลาดระหว่างเปิดชุดสติกเกอร์ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ไม่พบอีโมจิ"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ปิดการค้นหาอีโมจิ"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ค้นอีโมจิ"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "สีผิว  {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "ล่าสุด"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "อีโมจิ"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "สัตว์"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "อาหาร"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "กิจกรรม"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "การเดินทาง"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "วัตถุ"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "สัญลักษณ์"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "ธง"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "อีโมจิ"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "ปิดเสียงจนถึง {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "อีโมจิ"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "เกิดข้อผิดพลาดบางอย่าง"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "แนบแฟ้ม"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "รูปภาพและวิดีโอ"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ไฟล์"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "โพล"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "แนบไฟล์หรือสร้างโพล"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "บุคคลนี้ไม่ได้ใช้ Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "บล็อก"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "ผู้ติดต่อของคุณจะสามารถเพิ่มคุณเข้ากลุ่มนี้ได้"
@@ -7322,9 +7250,12 @@
     "messageformat": "แก้ไขบั๊กที่อาจเคยทำให้การแจ้งเตือนไม่ขึ้นในอุปกรณ์ Windows"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "อัปเดตรูปลักษณ์ของแถบเลื่อนเพื่อปรับสไตล์ให้ลงตัวและสอดรับกันทั่วทั้งแอป"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "พัฒนารูปแบบการคัดลอก-วางให้ตอบโจทย์การใช้งานยิ่งขึ้นอีก ขอขอบคุณ <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

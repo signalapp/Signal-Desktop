@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Информация"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Опрос · Выберите один вариант"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Вы проголосовали"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Детали опроса"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нет голосов"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Новый опрос"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Вопрос"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Варианты:"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Вариант {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Разрешить несколько голосов"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Отправить"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Вопрос для опроса обязателен"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Для опроса требуется минимум 2 варианта"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Удалить"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} отреагировал(-а) {emoji} на: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Отправка не удалась"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Опрос: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Опрос: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Возможно, вы не сможете установить этот набор стикеров снова, если у вас уже нет исходного сообщения."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Представляем стикеры: Bandit the Cat (Кот-бандит)"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Представляем стикеры"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Зачем использовать слова, когда можно использовать стикеры?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Открыть панель стикеров"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Добавить набор стикеров"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Следующая страница"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Предыдущая страница"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Недавний стикер"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Не удалось загрузить некоторые стикеры."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Установка набора стикеров…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Стикеры не найдены"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Новые наборы стикеров из ваших сообщений доступны для установки"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Наборы стикеров не найдены"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Недавно использованные стикеры появятся здесь."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Недавние"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Избранные"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Аналоговое время"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Набор стикеров"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Ошибка при открытии набора стикеров. Проверьте ваше подключение к интернету и попробуйте еще раз."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Эмодзи не найдено"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Закрыть поиск эмодзи"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Поиск эмодзи"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Оттенок кожи {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Недавние"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Эмодзи"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Животные"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Еда"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Активность"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Путешествия"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Предметы"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Символы"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Флаги"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Эмодзи"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Звук отключён до {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Эмодзи"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Что-то пошло не так!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Прикрепить файл"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Фото и видео"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Файл"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Опрос"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Добавить вложение или опрос"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Этот человек не использует Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Заблокировать"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Ваши контакты смогут добавить вас в эту группу."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Ваши контакты смогут добавить вас в эту группу."
@@ -7322,9 +7250,12 @@
     "messageformat": "Мы также исправили ошибку, из-за которой уведомления не появлялись в Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Мы обновили настройки интерфейса и сделали стиль ползунков прокрутки единым во всём приложении. Обычно, прокручивая слишком быстро, вы можете что-то пропустить, но в данном случае прокрутка — единственный способ это увидеть."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Улучшения функции копирования и вставки упрощают выделение всего текста и замену существующего текста без использования старого форматирования. Спасибо, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

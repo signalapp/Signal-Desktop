@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "సమాచారం"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "పోల్ · ఒకదాన్ని ఎంచుకోండి"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "మీరు ఓటు వేశారు"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "పోల్ వివరాలు"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ఓట్లు లేవు"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "కొత్త పోల్"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "ప్రశ్న"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "ఎంపికలు"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "ఎంపిక {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "బహుళ ఓట్లను అనుమతించండి"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "పంపండి"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "పోల్ ప్రశ్న అవసరం"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "పోల్‌కు కనీసం 2 ఎంపికలు కావాలి"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "తొలగించండి"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "దీనికి {sender} {emoji} తో ప్రతిస్పందించారు: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "పంపడం విఫలమైంది"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "పోల్: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "పోల్: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "మీకు ఇకపై మూల సందేశం లేకపోతే మీరు ఈ స్టిక్కర్ ప్యాక్‌ను తిరిగి ఇన్‌స్టాల్ చేయలేరు."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "పరిచయం చేసే స్టిక్కర్లు: బందిపోటు పిల్లి"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "స్టిక్కర్లను పరిచయం చేస్తున్నాము"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "స్టిక్కెర్లు వుందగా పదాలు ఎందుకు?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "స్టిక్కర్ ఎంపికను తెరవండి"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "స్టిక్కర్ ప్యాక్ జోడించండి"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "తరువాతి పేజీ"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "ముందు పేజి"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "ఇటీవలి స్టిక్కర్"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "కొన్ని స్టిక్కర్లను డౌన్‌లోడ్ చేయడం సాధ్యం కాలేదు."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "స్టిక్కర్ ప్యాక్‌ను ఇన్‌స్టాల్ చేస్తోంది..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "మీ సందేశాల నుండి కొత్త స్టిక్కర్ ప్యాక్‌లు ఇన్‌స్టాల్ చేయడానికి అందుబాటులో ఉన్నాయి"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "స్టిక్కర్ ప్యాక్‌లు కనుగొనబడలేదు"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "ఇటీవల ఉపయోగించిన స్టిక్కర్లు ఇక్కడ కనిపిస్తాయి."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "ఇటీవలివి"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ఫీచర్ చేయబడింది"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "అనలాగ్ సమయం"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "స్టిక్కర్ ప్యాక్"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "స్టిక్కర్ ప్యాక్ తెరవడంలో లోపం. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ఎమోజీలు కనుగొనబడలేదు"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ఎమోజీ శోధన మూసివేయండి"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ఎమోజిని శోధించండి"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "స్కిన్ టోన్ {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "ఇటీవలివి"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "ఎమోజి"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "జంతువు"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "ఆహారం"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "కార్యాచరణ"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "ప్రయాణం"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "వస్తువు"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "చిహ్నం"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "జెండా"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ఎమోజి"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} వరకు మ్యూట్ చేయబడింది"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "ఎమోజి"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "ఏదో తప్పు జరిగినది."
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "ఫైలు జత చేయుము"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ఫోటోలు & వీడియోలు"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "పత్రం"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "పోల్"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "జోడింపు లేదా పోల్‌ను జోడించండి"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "ఈ వ్యక్తి Signal ఉపయోగించడం లేదు"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "బ్లాక్"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "మీ కాంటాక్ట్‌లు ఈ గ్రూప్‌కు జోడించబడతారు."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "మీ పరిచయాలు మిమ్మల్ని ఈ గ్రూప్‌కు జోడించగలరు."
@@ -7322,9 +7250,12 @@
     "messageformat": "Windows లో నోటిఫికేషన్‌లు కనిపించకుండా నిరోధించే బగ్‌ను కూడా మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "యాప్ అంతటా స్క్రోల్‌బార్‌ల రూపాన్ని మరింత దృశ్యమానంగా స్థిరంగా ఉండేలా మేము నవీకరించాము."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "కాపీ/పేస్ట్ ఫార్మాటింగ్ మెరుగుదలలు. ధన్యవాదాలు, @brianHarder!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

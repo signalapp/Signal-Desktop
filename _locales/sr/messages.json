@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Информације"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Анкета · Изаберите један одговор"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Гласали сте"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Детаљи анкете"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нема гласова"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Нова анкета"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Питање"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Опције"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Опција {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Дозволи више гласова"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Пошаљи"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Анкета мора садржати питање"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Анкета захтева бар 2 опције"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Избриши"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} је реаговао/ла {emoji} на: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Слање није успело"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Анкета: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Анкета: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Можда више нећете моћи да поново инсталирате овај пакет налепница ако више немате изворну поруку."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Представљамо налепнице: Мачак бандит"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Представљамо налепнице"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Зашто да користите речи када можете да користите налепнице?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Отворите бирач налепница"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Додај пакет налепница"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Следећа страна"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Претходна страна"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Недавна налепница"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Преузимање неких налепница није успело."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Инсталира се пакет налепница…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Немате налепнице"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Нови пакети налепница за ваше поруке доступни су за инсталирање"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Нису пронађени пакети налепница"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Овде ће се појавити недавно коришћене налепнице."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Недавно"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Истакнути"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Аналогно време"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Пакет налепница"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Догодила се грешка приликом отварања пакета налепница. Проверите да ли сте повезани на интернет и пробајте поново."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Није пронађен ниједан емоџи"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Затворите претрагу емоџија"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Претрага емоџија"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Нијанса боје коже {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Недавно"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Емоџи"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Животиње"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Јело"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Активности"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Путовања"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Објекти"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Симболи"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Заставе"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Емоџи"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Обавештења су искључена до {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Емоџи"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Дошло је до грешке!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Приложи фајл"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Фотографије и видео-снимци"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Фајл"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Анкета"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Додај прилог или анкету"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ова особа не користи Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Блокирај"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Ваши контакти ће моћи да вас додају у ову групу."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Ваши контакти ће моћи да вас додају у ову групу."
@@ -7322,9 +7250,12 @@
     "messageformat": "Такође смо исправили грешку која је спречавала појаву обавештења на оперативном систему Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Ажурирали смо изглед траке за померање у целој апликацији како би била визуелно доследнија."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Побољшање форматирања копирања/лепљења. Хвала, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "তথ্য"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "জরিপ · একটি বেছে নিন"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "আপনি ভোট দিয়েছেন"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "ভোটের বিস্তারিত"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "কোনো ভোট নেই"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "নতুন ভোট"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "প্রশ্ন"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "অপশন"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "বিকল্প {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "একাধিক ভোটের অনুমতি দিন"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "পাঠান"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "জরিপের জন্য প্রশ্ন প্রয়োজন"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "জরিপটির জন্য অন্তত 2টি বিকল্প প্রয়োজন"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} {emoji} রিঅ্যাক্ট করেছেন: {message}-এ"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "পাঠাতে ব্যর্থ হয়েছে"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "জরিপ: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "জরিপ: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "আপনার যদি আর উৎস বার্তা না থাকে তবে আপনি এই স্টিকার প্যাকটি পুনরায় ইনস্টল করতে পারবেন না।"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "স্টিকারের পরিচয়: ব্যান্ডিট দ্য ক্যাট"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "স্টিকারের সাথে পরিচিত হন"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "আপনি যখন স্টিকার ব্যবহার করতে পারেন তখন কেন শব্দ ব্যবহার করবেন?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "স্টিকার বাছাইকারী খুলুন"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "একটি স্টিকার প্যাক যোগ করুন"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "পরবর্তী পৃষ্ঠা"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "পূর্ববর্তী পৃষ্ঠা"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "সাম্প্রতিক স্টিকার"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "কিছু স্টিকার ডাউনলোড করা যায়নি।"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "স্টিকার প্যাক ইনস্টল করা হচ্ছে …"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "আপনার বার্তাগুলি থেকে নতুন স্টিকার প্যাকগুলি ইনস্টল করার জন্য পাওয়া যাচ্ছে"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "সম্প্রতি ব্যবহৃত স্টিকারগুলি এখানে দেখা যাবে।"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "সাম্প্রতিক"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ফিচারকৃত"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "অ্যানালাগ সময়"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "স্টিকার প্যাক"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "স্টিকার প্যাকটি খোলার সময় ত্রুটি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করে দেখুন এবং আবার চেষ্টা করুন।"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "কোনও ইমোজি পাওয়া যায়নি"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "ইমোজি অনুসন্ধান বন্ধ করুন"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "ইমোজি অনুসন্ধান করুন"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "ত্বকের ধরন {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "সাম্প্রতিক"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "ইমোজি"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "জীবজন্তু"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "খাবার"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "কার্যকলাপ"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "ভ্রমণ"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "বস্তু"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "প্রতীক"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "পতাকা"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ইমোজি"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} পর্যন্ত মিউট করা হয়েছে"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "ইমোজি"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "কিছু ভুল হয়েছে!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "ফাইল সংযুক্ত করুন"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "ছবি ও ভিডিও"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "ফাইল"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "জরিপ"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "সংযুক্তি বা জরিপ যোগ করুন"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "এই ব্যক্তিটি Signal ব্যবহার করছেন না"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "ব্লক করুন"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "আপনার কন্টাক্টরা আপনাকে এই গ্ৰুপে যোগ করতে পারবেন।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "আপনার কন্টাক্টগণ আপনাকে এই গ্ৰুপে যোগ করতে পারবেন।"
@@ -7322,9 +7250,12 @@
     "messageformat": "আমরা এমন একটি বাগও সংশোধন করেছি, যা Windows-এ নোটিফিকেশন প্রদর্শিত হতে বাধা দিতে পারত।"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "আমরা অ্যাপ জুড়ে স্ক্রলবারগুলোর অবয়ব আপডেট করেছি যাতে সেগুলো দেখতে আরো সামঞ্জস্যপূর্ণ হয়।"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "কপি/পেস্ট ফরম্যাটিং উন্নত করা হয়েছে। ধন্যবাদ, <brianHarder>@brianHarder</brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

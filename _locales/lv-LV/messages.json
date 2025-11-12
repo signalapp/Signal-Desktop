@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informācija"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Aptauja · Izvēlieties vienu atbildi"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Jūs balsojāt"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Informācija par aptauju"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nav balsu"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Jauna aptauja"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Jautājums"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Iespējas"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "{number}. opcija"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Atļaut vairākus variantus"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Sūtīt"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Aptaujā jābūt jautājumam"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Aptaujā jābūt vismaz 2 opcijām"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reaģēja ar {emoji} uz: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Sūtīšana neizidevās"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Aptauja: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Aptauja: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Iespējams, nevarēsiet atkārtoti instalēt šo uzlīmju komplektu, ja jums vairs nebūs avota ziņojuma."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Jaunās uzlīmes: Kaķis negantnieks"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Jaunās uzlīmes"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Kāpēc lietot vārdus, ja var izmantot uzlīmes?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Atvērt uzlīmju atlasītāju"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Pievienot uzlīmju komplektu"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Nākamā lapa"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Iepriekšējā lapa"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Pēdējās uzlīmes"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Dažas uzlīmes nevarēja lejupielādēt."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Instalē uzlīmju komplektu…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Nav atrasta neviena uzlīme"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Instalēšanai ir pieejami jauni uzlīmju komplekti no jūsu ziņām"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Nav atrasts neviens uzlīmju komplekts"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Pēdējās izmantotās uzlīmes būs redzamas šeit."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Pēdējās"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Piedāvātās"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analogais laiks"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Uzlīmju komplekts"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Kļūda, atverot uzlīmju komplektu. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Neviena emocijzīme netika atrasta"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Aizvērt emocijzīmju meklēšanu"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Meklēt emocijzīmes"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Apdares tonis {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Pēdējās"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emocijzīme"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Dzīvnieks"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Ēdiens"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Aktivitāte"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Ceļošana"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Objekts"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Simbols"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Karogs"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emocijzīme"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Paziņojumi izslēgti līdz {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emocijzīme"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Kaut kas sagāja grīstē!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Pievienot failu"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotoattēli un video"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fails"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Aptauja"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Pievienot pielikumu vai aptauju"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Šis cilvēks neizmanto Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Bloķēt"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Jūsu kontakti varēs jūs pievienot šai grupai."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Jūsu kontaktpersonas varēs jūs pievienot šai grupai."
@@ -7322,9 +7250,12 @@
     "messageformat": "Mēs arī izlabojām kļūdu, kas mēdza traucēt paziņojumu parādīšanos Windows ierīcēs."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Atjauninājām ritināšanas joslu izskatu un stilistisko saskaņotību visā lietotnē. Parasti, ritinot pārāk ātri, jūs palaidīsiet lietas garām, taču šoreiz ritināšana ir vienīgais veids, kā atjauninājumu pamanīt."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Kopēšanas/ielīmēšanas uzlabojumi atvieglo visa teksta iezīmēšanu un aizstāšanu, nepārņemot veco formatējumu. Paldies, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

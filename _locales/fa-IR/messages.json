@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "اطلاعات"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "نظرسنجی · یک مورد را انتخاب کنید"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "شما رأی دادید"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "جزئیات نظرسنجی"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "بدون رأی"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "نظرسنجی جدید"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "سوال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "گزینه‌ها"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "گزینه {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "اجازه دادن به رأی‌دهی چندگانه"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "ارسال"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "سؤال نظرسنجی الزامی است"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "نظرسنجی نیازمند حداقل ۲ گزینه است"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} با {emoji} به {message} واکنش نشان داد"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "ارسال ناموفق بود"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "نظرسنجی: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "نظرسنجی: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "شاید نتوانید دوباره این پکیج استیکر را نصب کنید اگر پیام اصلی را دیگر ندارید."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "معرفی استیکرها: گربه راهزن"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "معرفی استیکرها"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "چرا از کلمات استفاده می کنید وقتی میتوانید از استیکر استفاده کنید؟"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "باز کردن گزینش‌گر استیکر"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "افزودن بسته استیکر"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "صفحه بعدی"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "صفحه قبلی"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "استیکرهای اخیر"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "بعضی استیکر ها نمی توانند بارگیری شوند."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "در حال نصب بسته برچسب..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "هیچ استیکری یافت نشد"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "پک های استیکر جدید از پیام های شما برای نصب موجود می باشد"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "هیچ پک استیکری یافت نشد"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "استیکر های که جدیدا استفاده شده اند در اینجا پدیدار خواهند شد."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "موارد اخیر"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "ویژه"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "ساعت عقربه‌ای"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "پک استیکر"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "خطا در باز کردن بسته‌ی استیکر. ارتباط اینترنت خود را بررسی کنید و دوباره تلاش کنید."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "ایموجی پیدا نشد"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "بستن جستجوی ایموجی"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "جستجوی ایموجی"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "رنگ پوست {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "موارد اخیر"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "ایموجی"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "حیوان"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "غذا"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "فعالیت"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "سفر"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "شی"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "نماد"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "پرچم"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ایموجی"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "بی‌صدا تا {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "ایموجی"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "خطایی رخ‌ داد!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "پیوست فایل"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "عکس‌ها و ویدیوها"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "فایل"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "نظرسنجی"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "افزودن پیوست یا نظرسنجی"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "این فرد از سیگنال استفاده نمی‌کند"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "مسدود کردن"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "مخاطبان شما می‌توانند شما را به این گروه اضافه کنند."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "مخاطبانتان می‌توانند شما را به این گروه اضافه کنند."
@@ -7322,9 +7250,12 @@
     "messageformat": "ما همچنین اشکالی را برطرف کردیم که مانع از نمایش اعلان‌ها در ویندوز می‌شد."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "ظاهر نوارهای پیمایش در سراسر برنامه را به‌روزرسانی کردیم تا هماهنگی بصری بیشتری داشته باشند."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "قالب‌بندی کپی کردن/چسباندن را بهبود دادیم. با تشکر از <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

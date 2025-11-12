@@ -1,6 +1,6 @@
 {
   "icu:AddUserToAnotherGroupModal__title": {
-    "messageformat": "किसी समूह में शामिल करें"
+    "messageformat": "ग्रुप में जोड़ें"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
     "messageformat": "नया सदस्य जोड़ना है?"
@@ -9,13 +9,13 @@
     "messageformat": "जोड़ें"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "\"{contact}\" को \"{group}\" में जोड़ें"
+    "messageformat": "\"{contact}\" को \"{group}\" ग्रुप में जोड़ें"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "सर्च"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} को {group} में शामिल किया गया था"
+    "messageformat": "{contact} को {group} में जोड़ा गया"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "{contact} जोड़े जा रहे हैं…"
@@ -36,7 +36,7 @@
     "messageformat": "सदस्यता लंबित है"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "मीडिया क्वालिटी भेजी गई"
+    "messageformat": "भेजे गए मीडिया की क्वालिटी"
   },
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "हाई क्वालिटी मीडिया भेजने के लिए अधिक डेटा खर्च होगा।"
@@ -45,13 +45,13 @@
     "messageformat": "Signal को डोनेट करें"
   },
   "icu:sentMediaQualityStandard": {
-    "messageformat": "मानक"
+    "messageformat": "स्टैंडर्ड"
   },
   "icu:sentMediaQualityHigh": {
-    "messageformat": "उच्च"
+    "messageformat": "हाई"
   },
   "icu:softwareAcknowledgments": {
-    "messageformat": "सॉफ्टवेयर स्वीकृतियाँ"
+    "messageformat": "सॉफ़्टवेयर से जुड़ी स्वीकृतियां"
   },
   "icu:privacyPolicy": {
     "messageformat": "नियम और गोपनीयता नीति"
@@ -66,16 +66,16 @@
     "messageformat": "{appEnv} (Intel)"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "त्रुटि कॉपी करें और ऐप बंद करें"
+    "messageformat": "एरर कॉपी करें और ऐप बंद करें"
   },
   "icu:unknownContact": {
-    "messageformat": "अज्ञात संपर्क"
+    "messageformat": "अनजान कॉन्टैक्ट"
   },
   "icu:unknownContactShort": {
     "messageformat": "अनजान"
   },
   "icu:unknownGroup": {
-    "messageformat": "अंजान ग्रुप"
+    "messageformat": "अनजान ग्रुप"
   },
   "icu:cantOpenSignalError": {
     "messageformat": "Signal नहीं खोला जा सकता"
@@ -84,7 +84,7 @@
     "messageformat": "समस्या ठीक करने के लिए, सपोर्ट पेज पर रिकवरी गाइड का पालन करें या समस्या ठीक करने में मदद पाने के लिए, Signal समर्थन से संपर्क करें।\n\nअगर आपको Signal तुरंत इस्तेमाल करना हो, तो आप अपना डेटा डिलीट कर सकते हैं और यह डेस्कटॉप फिर से लिंक कर सकते हैं। आपके पास अपने फ़ोन से संदेश इतिहास ट्रांसफ़र करने का विकल्प होगा।"
   },
   "icu:databaseError": {
-    "messageformat": "डेटाबेस त्रुटि"
+    "messageformat": "डेटाबेस से जुड़ी गड़बड़ी"
   },
   "icu:deleteAndRestart": {
     "messageformat": "डेटा को डिलीट करें और रीस्टार्ट करें"
@@ -117,7 +117,7 @@
     "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "स्टिकर पैक बनाएँ/अपलोड करें"
+    "messageformat": "स्टिकर पैक बनाएं/अपलोड करें"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Edit"
@@ -132,49 +132,49 @@
     "messageformat": "&Help"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "प्राथमिकताएँ..."
+    "messageformat": "प्राथमिकताएं…"
   },
   "icu:appMenuServices": {
     "messageformat": "सेवाएं"
   },
   "icu:appMenuHide": {
-    "messageformat": "छुपा दें"
+    "messageformat": "छिपाएं"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "अन्य को छिपाएँ"
+    "messageformat": "अन्य को छिपाएं"
   },
   "icu:appMenuUnhide": {
-    "messageformat": "सब दिखाएँ"
+    "messageformat": "सब दिखाएं"
   },
   "icu:appMenuQuit": {
     "messageformat": "Signal बंद करें"
   },
   "icu:editMenuUndo": {
-    "messageformat": "पूर्ववत"
+    "messageformat": "पहले जैसा करें"
   },
   "icu:editMenuRedo": {
-    "messageformat": "रीडू करें"
+    "messageformat": "फिर से करें"
   },
   "icu:editMenuCut": {
     "messageformat": "कट करें"
   },
   "icu:editMenuCopy": {
-    "messageformat": "कॉपी"
+    "messageformat": "कॉपी करें"
   },
   "icu:editMenuPaste": {
     "messageformat": "पेस्ट करें"
   },
   "icu:editMenuPasteAndMatchStyle": {
-    "messageformat": "पेस्ट करें और स्टाइल मिलाएँ"
+    "messageformat": "पेस्ट करें और स्टाइल मिलाएं"
   },
   "icu:editMenuDelete": {
     "messageformat": "डिलीट करें"
   },
   "icu:editMenuSelectAll": {
-    "messageformat": "सभी चुनें"
+    "messageformat": "सभी को चुनें"
   },
   "icu:editMenuStartSpeaking": {
-    "messageformat": "बोलना शुरु करें"
+    "messageformat": "बोलना शुरू करें"
   },
   "icu:editMenuStopSpeaking": {
     "messageformat": "बोलना बंद करें"
@@ -189,55 +189,55 @@
     "messageformat": "ज़ूम करें"
   },
   "icu:windowMenuBringAllToFront": {
-    "messageformat": "सब आगे ले आएँ"
+    "messageformat": "सभी को सामने की तरफ़ लाएं"
   },
   "icu:viewMenuResetZoom": {
-    "messageformat": "असल आकार का करें"
+    "messageformat": "असली साइज़ पर जाएं"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "बड़ा करें"
+    "messageformat": "ज़ूम इन करें"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "छोटा करें"
+    "messageformat": "ज़ूम आउट करें"
   },
   "icu:viewMenuToggleFullScreen": {
-    "messageformat": "पूरी स्क्रीन करें/हटाएँ"
+    "messageformat": "पूरी स्क्रीन चालू या बंद करें"
   },
   "icu:viewMenuToggleDevTools": {
-    "messageformat": "डेवलपर टूल्स दिखाएँ/हटाएँ"
+    "messageformat": "डेवलपर टूल दिखाएं या छिपाएं"
   },
   "icu:viewMenuOpenCallingDevTools": {
     "messageformat": "कॉलिंग डेवलपर टूल्स खोलें"
   },
   "icu:menuSetupAsNewDevice": {
-    "messageformat": "नये डिवाइस कि तरह स्थापना करें"
+    "messageformat": "नए डिवाइस के तौर पर सेटअप करें"
   },
   "icu:menuSetupAsStandalone": {
-    "messageformat": "स्टैंडअलोन डिवाइस की तरह स्थापना करें"
+    "messageformat": "स्टैंडअलोन डिवाइस के तौर पर सेटअप करें"
   },
   "icu:menuStageLocalBackupForImport": {
     "messageformat": "Stage Local Backup for Import…"
   },
   "icu:messageContextMenuButton": {
-    "messageformat": "अधिक कनेक्शन"
+    "messageformat": "और गतिविधियां"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "लिंक कॉपी करें"
   },
   "icu:contextMenuCopyImage": {
-    "messageformat": "तस्वीर को कॉपी करें"
+    "messageformat": "इमेज कॉपी करें"
   },
   "icu:contextMenuNoSuggestions": {
     "messageformat": "कोई सुझाव नहीं"
   },
   "icu:avatarMenuViewArchive": {
-    "messageformat": "संग्रह देखें"
+    "messageformat": "आर्काइव देखें"
   },
   "icu:loading": {
-    "messageformat": "लोड हो रहा है"
+    "messageformat": "लोड हो रहा है..."
   },
   "icu:optimizingApplication": {
-    "messageformat": "ऐप्लिकेशन को बेहतर कर रहे हैं..."
+    "messageformat": "ऐप्लिकेशन को बेहतर बनाया जा रहा है..."
   },
   "icu:archivedConversations": {
     "messageformat": "संग्रहीत की हुई चैट"
@@ -372,10 +372,10 @@
     "messageformat": "कोई संग्रहीत चैट नहीं।"
   },
   "icu:archiveConversation": {
-    "messageformat": "संग्रहित करें"
+    "messageformat": "आर्काइव करें"
   },
   "icu:markUnread": {
-    "messageformat": "न पढ़ा हुआ मार्क करें"
+    "messageformat": "'अनरीड' के तौर पर मार्क करें"
   },
   "icu:markRead": {
     "messageformat": "'पढ़ा गया' के तौर पर मार्क करें"
@@ -432,7 +432,7 @@
     "messageformat": "आपके डिवाइस के संपर्कों में इस व्यक्ति को सहेजा जा चुका है। उन्हें अपने मोबाइल डिवाइस पर अपने संपर्कों से हटाएं और पुनः प्रयास करें।"
   },
   "icu:moveConversationToInbox": {
-    "messageformat": "अनारक्षित करें"
+    "messageformat": "आर्काइव से वापस लाएं"
   },
   "icu:pinConversation": {
     "messageformat": "चैट पिन करें"
@@ -453,46 +453,46 @@
     "messageformat": "आज से संदेश लोड हो रहे हैं..."
   },
   "icu:view": {
-    "messageformat": "राय"
+    "messageformat": "देखें"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "आप अब ग्रुप के मेंबर नहीं हैं।"
+    "messageformat": "अब आप इस ग्रुप के सदस्य नहीं हैं।"
   },
   "icu:invalidConversation": {
-    "messageformat": "यह ग्रुप अवैध है। कृपया एक नया ग्रुप बनाएँ।"
+    "messageformat": "यह ग्रुप मान्य नहीं है। कृपया, नया ग्रुप बनाएं।"
   },
   "icu:scrollDown": {
     "messageformat": "चैट के नीचे स्क्रॉल करें"
   },
   "icu:messagesBelow": {
-    "messageformat": "नीचे नया मेसेज"
+    "messageformat": "नीचे नया मैसेज आया है"
   },
   "icu:mentionsBelow": {
     "messageformat": "नए मेंशन नीचे दिए गए हैं"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} अपठित मेसेज} other {{count,number}अपठित मेसेज}}"
+    "messageformat": "{count, plural, one {{count,number} अनरीड मैसेज} other {{count,number} अनरीड मैसेज}}"
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "आपने {name} के साथ अपने सुरक्षा नंबर को सत्यापित मार्क किया है"
+    "messageformat": "आपने {name} के साथ अपना सेफ़्टी नंबर वेरिफ़ाइड के तौर पर मार्क किया है"
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "आपने {name} के साथ अपने सुरक्षा नंबर को असत्यापित मार्क किया है"
+    "messageformat": "आपने {name} के साथ अपना सेफ़्टी नंबर 'वेरिफ़ाइड नहीं है' के तौर पर मार्क किया है"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "आपने {name} के साथ अपने सुरक्षा नंबर को दूसरे डिवाइस से सत्यापित मार्क किया है"
+    "messageformat": "आपने दूसरे डिवाइस से {name} के साथ अपना सेफ़्टी नंबर वेरिफ़ाइड के तौर पर मार्क किया है"
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "आपने {name} के साथ अपने सुरक्षा नंबर को दूसरे डिवाइस से असत्यापित मार्क किया है"
+    "messageformat": "आपने दूसरे डिवाइस {name} के साथ अपना सेफ़्टी नंबर 'वेरिफ़ाइड नहीं है' के तौर पर मार्क किया है"
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "आप जिस सुरक्षा नंबर को वेरिफाई करने की कोशिश कर रहे हैं, वह बदल गया है। कृपया {name1} के साथ अपने नए सुरक्षा नंबर की समीक्षा करें। याद रखें, इस बदलाव का मतलब हो सकता है कि कोई आपके संवाद को रोकने का प्रयास कर रहा है या बस {name2} ने Signal को री-इंस्टॉल किया है।"
+    "messageformat": "आपने जिस सेफ़्टी नंबर को वेरिफ़ाई करने की कोशिश की वह बदल गया है। कृपया, {name1} के साथ अपने नए सेफ़्टी नंबर की समीक्षा करें। याद रखें कि इस बदलाव का यह मतलब हो सकता है कि कोई व्यक्ति आप दोनों के बीच की बातचीत को बीच में इंटरसेप्ट करने की कोशिश कर रहा है या फिर {name2} ने Signal को फिर से इंस्टॉल किया है।"
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "निम्नलिखित लोगों ने शायद Signal को फिर से इंस्टॉल किया हो या डिवाइस बदले हों। किसी प्राप्तकर्ता पर क्लिक करके अपनी नई सुरक्षा संख्या की पुष्टि करें। यह वैकल्पिक है।"
+    "messageformat": "हो सकता है कि इन लोगों ने Signal को फिर से इंस्टॉल किया हो या फिर अपने डिवाइस बदले हों। उनके नए सेफ़्टी नंबर की पुष्टि करने के लिए किसी एक नाम पर टैप करें। यह वैकल्पिक है।"
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
-    "messageformat": "लंबित संदेश भेजें"
+    "messageformat": "पेंडिंग मैसेज भेजें"
   },
   "icu:safetyNumberChangeDialog__review": {
     "messageformat": "समीक्षा करें"
@@ -501,25 +501,25 @@
     "messageformat": "{count, plural, one {आपका {count,number} कनेक्शन है जिसने शायद Signal फिर से इंस्टॉल किया हो या डिवाइस बदले हों। आप उसे भेजने से पहले वैकल्पिक तौर पर उनकी सुरक्षा संख्याओं की समीक्षा कर सकते हैं।} other {आपके {count,number} कनेक्शन हैं जिन्होंने शायद Signal फिर से इंस्टॉल किया हो या डिवाइस बदले हों। आप उन्हें भेजने से पहले वैकल्पिक तौर पर उनकी सुरक्षा संख्याओं की समीक्षा कर सकते हैं।}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
-    "messageformat": "सभी कनेक्शन की समीक्षा कर ली गई है, जारी रखने के लिए भेजें को क्लिक करें।"
+    "messageformat": "सभी कनेक्शन की समीक्षा कर ली गई है, जारी रखने के लिए 'भेजें' पर क्लिक करें।"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
     "messageformat": "{count, plural, one {क्या आप वाकई 1 प्राप्तकर्ता को {story} स्टोरी से हटाना चाहते हैं?} other {क्या आप वाक़ई {count,number} प्राप्तकर्ताओं को {story} स्टोरी से हटाना चाहते हैं?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
-    "messageformat": "सभी हटाएँ"
+    "messageformat": "सभी को हटाएं"
   },
   "icu:safetyNumberChangeDialog__verify-number": {
-    "messageformat": "सुरक्षा संख्या सत्यापित करें"
+    "messageformat": "सेफ़्टी नंबर वेरिफ़ाई करें"
   },
   "icu:safetyNumberChangeDialog__remove": {
-    "messageformat": "स्टोरी से हटाएँ"
+    "messageformat": "स्टोरी से हटाएं"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
-    "messageformat": "{contact} संपर्क के लिए कार्रवाइयाँ"
+    "messageformat": "{contact} कॉन्टैक्ट के लिए ऐक्शन"
   },
   "icu:safetyNumberChangeDialog__actions-story": {
-    "messageformat": "{story} स्टोरी के लिए कार्रवाइयाँ"
+    "messageformat": "{story} कॉन्टैक्ट के लिए ऐक्शन"
   },
   "icu:sendAnyway": {
     "messageformat": "फिर भी भेजें"
@@ -528,7 +528,7 @@
     "messageformat": "भेजें"
   },
   "icu:safetyNumberChangeDialog_done": {
-    "messageformat": "पूर्ण"
+    "messageformat": "हो गया"
   },
   "icu:callAnyway": {
     "messageformat": "फिर भी कॉल करें"
@@ -537,34 +537,34 @@
     "messageformat": "फिर भी जुड़ें"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "जब आप सबमिट करें पर क्लिक करते हैं तब एक विशेष, अप्रकाशित URL पर 30 दिनों के लिए आपका लॉग ऑनलाइन पोस्ट किया जाएगा। आप इसे अपने पास सबसे पहले सहेज कर रख सकते हैं।"
+    "messageformat": "'सबमिट करें' पर क्लिक करने पर, आपका लॉग एक यूनीक और अनपब्लिश URL पर 30 दिनों के लिए ऑनलाइन पोस्ट हो जाएगा। आप चाहें, तो इसे अपने पास सेव करके रख लें।"
   },
   "icu:debugLogError": {
-    "messageformat": "अपलोड में कुछ गड़बड़ी हुई! कृपया support@signal.org पर ईमेल करें और अपने लॉग को टेक्स्ट फ़ाइल के रूप में लगाएं ."
+    "messageformat": "अपलोड में कोई गड़बड़ी हुई! कृपया support@signal.org पर ईमेल करें और टेक्स्ट फ़ाइल के रूप में अपना लॉग अटैच करें।"
   },
   "icu:debugLogSuccess": {
     "messageformat": "डीबग लॉग सबमिट किया गया"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "डीबग लॉग अपलोड किया गया। जब आप सपोर्ट से संपर्क करें तब नीचे दिए URL को कॉपी करके उसे अपने द्वारा देखी गई समस्या व उसे फिर से उत्पन्न करके के चरणों के विवरण के साथ जोड़ दें।"
+    "messageformat": "डीबग लॉग अपलोड किया गया। सपोर्ट टीम को नीचे दिया गया URL भेजें। साथ में आपको आ रही समस्या की जानकारी और उसे देखने के स्टेप भी भेजें।"
   },
   "icu:debugLogLogIsIncomplete": {
-    "messageformat": "... पूरा लॉग देखने के लिए सहेजें पर क्लिक करें"
+    "messageformat": "... पूरा लॉग देखने के लिए 'सेव करें' पर क्लिक करें"
   },
   "icu:debugLogCopy": {
     "messageformat": "लिंक कॉपी करें"
   },
   "icu:debugLogSave": {
-    "messageformat": "संरक्षित करें"
+    "messageformat": "सेव करें"
   },
   "icu:debugLogLinkCopied": {
-    "messageformat": "लिंक आपके क्लिपबोर्ड में कॉपी किया गया"
+    "messageformat": "लिंक आपके क्लिपबोर्ड पर कॉपी किया गया"
   },
   "icu:reportIssue": {
-    "messageformat": "समर्थन से संपर्क करें"
+    "messageformat": "सपोर्ट टीम से संपर्क करें"
   },
   "icu:submit": {
-    "messageformat": "जमा करें"
+    "messageformat": "सबमिट करें"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "साटिपिट होने का मार्क कीजीये"
@@ -585,13 +585,13 @@
     "messageformat": "अधिक जानें"
   },
   "icu:verified": {
-    "messageformat": "सत्यापित"
+    "messageformat": "वेरिफ़ाइड है"
   },
   "icu:newIdentity": {
-    "messageformat": "नया सुरक्षा नंबर"
+    "messageformat": "नया सेफ़्टी नंबर"
   },
   "icu:incomingError": {
-    "messageformat": "आने वाले मेसेज को संभालने में त्रुटि"
+    "messageformat": "आने वाले मैसेज को मैनेज करने में कोई गड़बड़ी हुई"
   },
   "icu:media": {
     "messageformat": "मीडिया"
@@ -603,7 +603,7 @@
     "messageformat": "सभी मीडिया"
   },
   "icu:documents": {
-    "messageformat": "डॉक्युमेंट्स"
+    "messageformat": "डॉक्यूमेंट"
   },
   "icu:documentsEmptyState": {
     "messageformat": "इस चैट में आपके पास कोई दस्तावेज़ नहीं है"
@@ -612,37 +612,37 @@
     "messageformat": "आज"
   },
   "icu:yesterday": {
-    "messageformat": "कल"
+    "messageformat": "बीते हुए कल"
   },
   "icu:thisWeek": {
-    "messageformat": "इस हफ़ते"
+    "messageformat": "इस हफ़्ते"
   },
   "icu:thisMonth": {
     "messageformat": "इस महीने"
   },
   "icu:unsupportedAttachment": {
-    "messageformat": "असमर्थित अनुलग्नक प्रकार सहेजने के लिए क्लिक करें"
+    "messageformat": "इस टाइप का अटैचमेंट काम नहीं करता। सेव करने के लिए क्लिक करें।"
   },
   "icu:voiceMessage": {
-    "messageformat": "ऑडियो मेसेज"
+    "messageformat": "वॉइस मैसेज"
   },
   "icu:dangerousFileType": {
-    "messageformat": "इस प्रकार के अटैचमेंट की सुरक्षा कारणों से अनुमति नहीं है"
+    "messageformat": "सुरक्षा कारणों से इस टाइप के अटैचमेंट नहीं भेजे जा सकते"
   },
   "icu:loadingPreview": {
     "messageformat": "प्रीव्यू लोड हो रहा है..."
   },
   "icu:stagedPreviewThumbnail": {
-    "messageformat": "{domain} के लिये ड्राफ्ट थंबनेल लिंक पूर्वावलोकन"
+    "messageformat": "{domain} के लिए ड्राफ़्ट थंबनेल लिंक का प्रीव्यू"
   },
   "icu:previewThumbnail": {
-    "messageformat": "{domain} के लिये थंबनेल लिंक पूर्वावलोकन"
+    "messageformat": "{domain} के लिए थंबनेल लिंक का प्रीव्यू"
   },
   "icu:stagedImageAttachment": {
-    "messageformat": "ड्राफ्ट तस्वीर अटैचमेंट: {path}"
+    "messageformat": "ड्राफ़्ट इमेज अटैचमेंट: {path}"
   },
   "icu:decryptionErrorToast": {
-    "messageformat": "डेस्कटॉप को {name}, डिवाइस {deviceId} की ओर से एक डीक्रिप्शन एरर हुआ।"
+    "messageformat": "डेस्कटॉप को {name} (डिवाइस {deviceId}) से मैसेज डिक्रिप्ट करने में समस्या हुई"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "लॉग सबमिट करें"
@@ -675,46 +675,46 @@
     "messageformat": "{chatFolderName} फ़ोल्डर जोड़ा गया"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "आप फ़ाइलों के साथ फ़ोटो और वीडियो नहीं चुन सकते।"
+    "messageformat": "फ़ाइलों के साथ फ़ोटो और वीडियो नहीं चुने जा सकते।"
   },
   "icu:cannotSelectMultipleFileAttachments": {
-    "messageformat": "आप एक बार में केवल एक फ़ाइल चुन सकते हैं।"
+    "messageformat": "एक बार में एक ही फ़ाइल चुनी जा सकती।"
   },
   "icu:maximumAttachments": {
-    "messageformat": "आप इस मेसेज में और अटैचमेंट का इस्तेमाल नहीं कर सकते"
+    "messageformat": "इस मैसेज में और अटैचमेंट नहीं जोड़े जा सकते।"
   },
   "icu:fileSizeWarning": {
     "messageformat": "क्षमा करें, चयनित दस्तावेज का मेसेज माप प्रतिबंध से अधिक है। {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
-    "messageformat": "चुना हुआ अटैचमेंट लोड नहीं हो रहा।"
+    "messageformat": "चुना हुआ अटैचमेंट लोड नहीं हो पाया।"
   },
   "icu:disconnected": {
-    "messageformat": "डिस्कनेक्ट किया गया"
+    "messageformat": "सर्वर से कनेक्ट नहीं है"
   },
   "icu:connecting": {
-    "messageformat": "जोड़ने"
+    "messageformat": "कनेक्ट किया जा रहा है..."
   },
   "icu:connect": {
     "messageformat": "फिर से कनेक्ट करने के लिए क्लिक करें."
   },
   "icu:connectingHangOn": {
-    "messageformat": "ज़्यादा वक़्त नहीं लगेगा"
+    "messageformat": "ज़्यादा समय नहीं लगेगा"
   },
   "icu:offline": {
-    "messageformat": "ऑफ़लाइन"
+    "messageformat": "ऑफ़लाइन है"
   },
   "icu:checkNetworkConnection": {
-    "messageformat": "अपने नेटवर्क कनेक्शन की जांच करें।"
+    "messageformat": "अपना इंटरनेट कनेक्शन देखें।"
   },
   "icu:submitDebugLog": {
     "messageformat": "डीबग लॉग"
   },
   "icu:debugLog": {
-    "messageformat": "लॉग को डीबग करें"
+    "messageformat": "डीबग लॉग"
   },
   "icu:forceUpdate": {
-    "messageformat": "बलपूर्वक जानकारी"
+    "messageformat": "तुरंत अपडेट करें"
   },
   "icu:helpMenuShowKeyboardShortcuts": {
     "messageformat": "कीबोर्ड के शॉर्टकट दिखाएं"
@@ -723,16 +723,16 @@
     "messageformat": "हमसे संपर्क करें"
   },
   "icu:goToReleaseNotes": {
-    "messageformat": "रिलीज़ नोट्स पर जाएँ"
+    "messageformat": "रिलीज़ नोट पर जाएं"
   },
   "icu:goToForums": {
-    "messageformat": "फ़ोरम पर जाएँ"
+    "messageformat": "फ़ोरम पर जाएं"
   },
   "icu:goToSupportPage": {
-    "messageformat": "समर्थन पेज पर जाएँ"
+    "messageformat": "सपोर्ट पेज पर जाएं"
   },
   "icu:joinTheBeta": {
-    "messageformat": "बीटा के साथ जुड़ें"
+    "messageformat": "बीटा कैसे इंस्टॉल करें"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "स्टिकर पैक निर्माता"
@@ -741,7 +741,7 @@
     "messageformat": "Signal डेस्कटॉप के बारे में"
   },
   "icu:screenShareWindow": {
-    "messageformat": "स्क्रीन साझा करना"
+    "messageformat": "स्क्रीन शेयर करना"
   },
   "icu:callingDeveloperTools": {
     "messageformat": "कॉलिंग डेवलपर टूल्स"
@@ -750,22 +750,22 @@
     "messageformat": "इस विंडो का इस्तेमाल डेवलपमेंट के दौरान चल रही कॉल से डायग्नोस्टिक्स प्रदर्शित करने के लिए किया जाता है।"
   },
   "icu:speech": {
-    "messageformat": "भाषण"
+    "messageformat": "स्पीच"
   },
   "icu:show": {
-    "messageformat": "दिखाना"
+    "messageformat": "दिखाएं"
   },
   "icu:hide": {
-    "messageformat": "छुपा दें"
+    "messageformat": "छिपाएं"
   },
   "icu:quit": {
     "messageformat": "बंद करें"
   },
   "icu:signalDesktop": {
-    "messageformat": "Signal Desktop"
+    "messageformat": "Signal डेस्कटॉप"
   },
   "icu:search": {
-    "messageformat": "सर्च"
+    "messageformat": "खोजें"
   },
   "icu:searchUnreadChats": {
     "messageformat": "अपठित चैट में ढूँढ़ें"
@@ -777,7 +777,7 @@
     "messageformat": "चैट सर्च करें"
   },
   "icu:noSearchResults": {
-    "messageformat": "\"{searchTerm}\" के लिये कोई परिणाम नहीं मिले"
+    "messageformat": "\"{searchTerm}\" के लिए कोई नतीजा नहीं मिला"
   },
   "icu:noSearchResultsWithUnreadFilter": {
     "messageformat": "पढ़ी न गई चैट में, \"{searchTerm}\" के लिए कोई नतीजा नहीं"
@@ -801,25 +801,25 @@
     "messageformat": "चैट"
   },
   "icu:contactsHeader": {
-    "messageformat": "संपर्क"
+    "messageformat": "कॉन्टैक्ट"
   },
   "icu:groupsHeader": {
     "messageformat": "ग्रुप"
   },
   "icu:messagesHeader": {
-    "messageformat": "मेसेज"
+    "messageformat": "मैसेज"
   },
   "icu:findByUsernameHeader": {
     "messageformat": "यूज़रनेम द्वारा खोजें"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "फोन नंबर द्वारा खोजें"
+    "messageformat": "फ़ोन नंबर से खोजें"
   },
   "icu:welcomeToSignal": {
     "messageformat": "Signal में आपका स्वागत है"
   },
   "icu:whatsNew": {
-    "messageformat": "इस अपडेट में {whatsNew} देखें"
+    "messageformat": "देखें कि इस अपडेट {whatsNew} में क्या है"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "नया क्या है"
@@ -828,19 +828,19 @@
     "messageformat": "इस चैट के लिए एनिमेशन टाइप कर रहा है"
   },
   "icu:contactInAddressBook": {
-    "messageformat": "यह व्यक्ति आपके संपर्क में है।"
+    "messageformat": "यह व्यक्ति आपके कॉन्टैक्ट में है।"
   },
   "icu:contactAvatarAlt": {
-    "messageformat": "{name} संपर्क के लिये अवतार"
+    "messageformat": "{name} कॉन्टैक्ट के लिए अवतार"
   },
   "icu:sendMessageToContact": {
-    "messageformat": "मेसेज भेजें"
+    "messageformat": "मैसेज भेजें"
   },
   "icu:home": {
     "messageformat": "घर"
   },
   "icu:work": {
-    "messageformat": "दफ़तर"
+    "messageformat": "ऑफ़िस"
   },
   "icu:mobile": {
     "messageformat": "मोबाइल"
@@ -855,40 +855,40 @@
     "messageformat": "पता"
   },
   "icu:poBox": {
-    "messageformat": "पी.ओ. बॉक्स"
+    "messageformat": "PO बॉक्स"
   },
   "icu:downloading": {
-    "messageformat": "डाउनलोड कर रहा हैं"
+    "messageformat": "डाउनलोड हो रहा है"
   },
   "icu:downloadFullMessage": {
-    "messageformat": "पूरा संदेश डाउनलोड करें"
+    "messageformat": "पूरा मैसेज डाउनलोड करें"
   },
   "icu:downloadAttachment": {
     "messageformat": "अटैचमेंट डाउनलोड करें"
   },
   "icu:reactToMessage": {
-    "messageformat": "मेसेज पर प्रतिक्रिया दें"
+    "messageformat": "मैसेज पर रिऐक्ट करें"
   },
   "icu:replyToMessage": {
-    "messageformat": "मेसेज का जवाब दें"
+    "messageformat": "मैसेज का जवाब दें"
   },
   "icu:originalMessageNotFound": {
-    "messageformat": "मूल मेसेज नहीं मिला"
+    "messageformat": "मूल मैसेज नहीं मिला"
   },
   "icu:voiceRecording--start": {
-    "messageformat": "वॉइस मेसेज रिकॉर्ड करना शुरू करें"
+    "messageformat": "वॉइस मैसेज रिकॉर्ड करना शुरू करें"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "ऑडियो मेसेज की रिकॉर्डिंग बंद हो गई क्योंकि अधिकतम समय सीमा पूरी हो गई थी।"
+    "messageformat": "वॉइस मैसेज रिकॉर्ड होना बंद हो गया, क्योंकि समय की अधिकतम सीमा पूरी हो चुकी थी।"
   },
   "icu:voiceNoteLimit": {
-    "messageformat": "वॉयस संदेशों की सीमा अधिकतम एक घंटे है। यदि आप किसी अन्य ऐप पर स्विच करेंगे तो रिकॉर्डिंग रुक जाएगी।"
+    "messageformat": "वॉइस मैसेज सिर्फ़ एक घंटे तक ही रिकॉर्ड किए जा सकते हैं। दूसरे ऐप पर स्विच करने पर रिकॉर्डिंग रुक जाएगी।"
   },
   "icu:voiceNoteMustBeOnlyAttachment": {
-    "messageformat": "एक वॉयस मेसेज में एक ही अटैचमेंट हो सकता है।"
+    "messageformat": "वॉइस मैसेज में सिर्फ़ एक अटैचमेंट ही हो सकता है।"
   },
   "icu:voiceNoteError": {
-    "messageformat": "वॉइस रिकॉर्डर के साथ कोई एरर था."
+    "messageformat": "वॉइस रिकॉर्डर में कोई गड़बड़ी हुई।"
   },
   "icu:attachmentSavedPlural": {
     "messageformat": "{count, plural, one {अटैचमेंट सेव किया गया} other {{count,number} अटैचमेंट सेव किए गए}}"
@@ -903,16 +903,16 @@
     "messageformat": "आप"
   },
   "icu:audioPermissionNeeded": {
-    "messageformat": "वॉयस मेसेज भेजने के लिए, Signal Desktop को अपने माइक्रोफ़ोन को ऐक्सेस करने की अनुमति दें।"
+    "messageformat": "वॉइस मैसेज भेजने के लिए, Signal डेस्कटॉप को अपने माइक्रोफ़ोन का ऐक्सेस दें।"
   },
   "icu:audioCallingPermissionNeeded": {
-    "messageformat": "कॉल करने के लिए, आपको अपने माइक्रोफोन को एक्सेस करने देने के लिए Signal Desktop को इजाज़त देनी होगी।"
+    "messageformat": "कॉल करने के लिए, Signal डेस्कटॉप को माइक्रोफ़ोन का ऐक्सेस दें।"
   },
   "icu:videoCallingPermissionNeeded": {
-    "messageformat": "वीडियो कॉलिंग के लिए, आपको Signal Desktop को अपना कैमरा एक्सेस करने देने के लिए इजाज़त देनी होगी।"
+    "messageformat": "वीडियो कॉल करने के लिए, Signal डेस्कटॉप को कैमरे का ऐक्सेस दें।"
   },
   "icu:allowAccess": {
-    "messageformat": "अनुमति दें"
+    "messageformat": "ऐक्सेस दें"
   },
   "icu:audio": {
     "messageformat": "ऑडियो"
@@ -921,16 +921,16 @@
     "messageformat": "वीडियो"
   },
   "icu:photo": {
-    "messageformat": "तस्वीर"
+    "messageformat": "फ़ोटो"
   },
   "icu:text": {
     "messageformat": "टेक्स्ट"
   },
   "icu:cannotUpdate": {
-    "messageformat": "अपडेट नहीं कर सकते"
+    "messageformat": "अपडेट नहीं किया जा सकता"
   },
   "icu:mute": {
-    "messageformat": "म्युट करें"
+    "messageformat": "म्यूट करें"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal अपेडट नहीं हो सका। <retryUpdateButton>फिर से अपडेट</retryUpdateButton> करने की कोशिश करें या इसे मैन्युअल तरीके से इंस्टॉल करने के लिए {url} पर जाएँ। फिर, इस समस्या के बारे में <contactSupportLink>सपोर्ट से संपर्क करें</contactSupportLink>"
@@ -939,55 +939,55 @@
     "messageformat": "Signal अपेडट नहीं हो सका। इसे मैन्युअल तरीके से इंस्टॉल करने के लिए {url} पर जाएँ। फिर, इस समस्या के बारे में <contactSupportLink>सपोर्ट से संपर्क करें</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
-    "messageformat": "Signal Desktop संभव रूप से macOS क्वारंटाइन में है, और ऑटो-अपडेट होने के योग्य नहीं है। कृपया फाइंडर के साथ  को {app}से {folder} में मूव करने का प्रयास करें।"
+    "messageformat": "लगता है कि Signal डेस्कटॉप macOS के क्वारंटीन में है और यह अपने-आप अपडेट नहीं हो पाएगा। कृपया 'फ़ाइंडर' की मदद से {app} को {folder} में ले जाने की कोशिश करें।"
   },
   "icu:ok": {
-    "messageformat": "ठीक"
+    "messageformat": "ठीक है"
   },
   "icu:cancel": {
-    "messageformat": "रद्द करें"
+    "messageformat": "कैंसिल करें"
   },
   "icu:discard": {
     "messageformat": "रद्द करें"
   },
   "icu:error": {
-    "messageformat": "त्रुटि"
+    "messageformat": "गड़बड़ी"
   },
   "icu:delete": {
     "messageformat": "डिलीट करें"
   },
   "icu:accept": {
-    "messageformat": "स्वीकृत"
+    "messageformat": "स्वीकार करें"
   },
   "icu:edit": {
     "messageformat": "संपादित करें"
   },
   "icu:forward": {
-    "messageformat": "आगे भेजें"
+    "messageformat": "फ़ॉरवर्ड करें"
   },
   "icu:done": {
-    "messageformat": "पूर्ण"
+    "messageformat": "हो गया"
   },
   "icu:update": {
-    "messageformat": "अपडेट"
+    "messageformat": "अपडेट करें"
   },
   "icu:next2": {
     "messageformat": "अगला"
   },
   "icu:on": {
-    "messageformat": "पर"
+    "messageformat": "चालू है"
   },
   "icu:off": {
-    "messageformat": "बंद"
+    "messageformat": "बंद है"
   },
   "icu:deleteWarning": {
-    "messageformat": "यह संदेश इस डिवाइस से डिलीट कर दिया जाएगा।"
+    "messageformat": "यह मैसेज इस डिवाइस से डिलीट कर दिया जाएगा।"
   },
   "icu:deleteForEveryoneWarning": {
     "messageformat": "यह मेसेज चैट में शामिल सभी के लिए डिलीट कर दिया जाएगा यदि वे Signal के नवीनमत वर्ज़न पर हैं। वे देख सकेंगे कि आपने एक मेसेज को डिलीट कर दिया है।"
   },
   "icu:from": {
-    "messageformat": "द्वारा"
+    "messageformat": "इनकी ओर से"
   },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} से {receiverGroup} को"
@@ -1005,16 +1005,16 @@
     "messageformat": "भेज दिया"
   },
   "icu:received": {
-    "messageformat": "प्राप्त किया"
+    "messageformat": "मैसेज मिला"
   },
   "icu:sendMessage": {
-    "messageformat": "मेसेज"
+    "messageformat": "मैसेज"
   },
   "icu:showMembers": {
-    "messageformat": "सदस्यों को दिखाएं"
+    "messageformat": "सदस्य दिखाएं"
   },
   "icu:showSafetyNumber": {
-    "messageformat": "सुरक्षा नंबर देखें"
+    "messageformat": "सेफ़्टी नंबर देखें"
   },
   "icu:AboutContactModal__title": {
     "messageformat": "हमारे बारे में"
@@ -1056,10 +1056,10 @@
     "messageformat": "पीछे जाएं"
   },
   "icu:goBack": {
-    "messageformat": "पीछे जाएँ"
+    "messageformat": "पीछे जाएं"
   },
   "icu:moreInfo": {
-    "messageformat": "औेर जानकारी"
+    "messageformat": "और जानकारी"
   },
   "icu:copy": {
     "messageformat": "कॉपी टेक्स्ट"
@@ -1074,10 +1074,10 @@
     "messageformat": "फिर से भेजने की कोशिश करें"
   },
   "icu:retryDeleteForEveryone": {
-    "messageformat": "सभी के लिए डिलीट का फिर से प्रयास करें"
+    "messageformat": "सभी के लिए डिलीट करने की फिर से कोशिश करें"
   },
   "icu:forwardMessage": {
-    "messageformat": "फॉर्वर्ड मेसेज"
+    "messageformat": "मैसेज फ़ॉरवर्ड करें"
   },
   "icu:MessageContextMenu__reply": {
     "messageformat": "उत्तर"
@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "जानकारी"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "पोल · कोई एक चुनें"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "आपने वोट दिया है"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "पोल का विवरण"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "कोई वोट नहीं मिला"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "नया पोल"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "सवाल"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "विकल्प"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "विकल्प {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "एक से ज़्यादा वोट की अनुमति दें"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "भेजें"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "पोल में कोई सवाल होना ज़रूरी है"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "पोल में कम से कम 2 विकल्प देना ज़रूरी है"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "डिलीट करें"
@@ -1176,7 +1197,7 @@
     "messageformat": "इससे पहले कि आप छोड़ें, आपको इस ग्रुप के लिए कम से कम एक नया एडमिन चुनना होगा।"
   },
   "icu:sessionEnded": {
-    "messageformat": "सुरक्षित सत्र पुनः स्थापित करे "
+    "messageformat": "सिक्योर सेशन रीसेट करें"
   },
   "icu:ChatRefresh--notification": {
     "messageformat": "चैट सेशन रीफ्रेश हुआ"
@@ -1188,28 +1209,28 @@
     "messageformat": "Signal एंड-टू-एंड एंक्रिप्शन का इस्तेमाल करता है और इसे कभी-कभी आपके चैट सेशन को रीफ़्रेश करने की ज़रूरत हो सकती है। इससे आपकी चैट की सुरक्षा प्रभावित नहीं होती है लेकिन हो सकता है कि इस संपर्क से कोई संदेश छूट गया हो और आप उन्हें उसे दोबारा भेजने के लिए कह सकते हैं।"
   },
   "icu:ChatRefresh--contactSupport": {
-    "messageformat": "समर्थन से संपर्क करें"
+    "messageformat": "सपोर्ट टीम से संपर्क करें"
   },
   "icu:DeliveryIssue--preview": {
-    "messageformat": "डिलिवरी का मामला"
+    "messageformat": "डिलीवरी में कोई गड़बड़ी हुई"
   },
   "icu:DeliveryIssue--notification": {
-    "messageformat": "{sender} का संदेश डिलीवर नहीं किया जा सका"
+    "messageformat": "{sender} का मैसेज डिलीवर नहीं हो सका"
   },
   "icu:DeliveryIssue--learnMore": {
     "messageformat": "और जानें"
   },
   "icu:DeliveryIssue--title": {
-    "messageformat": "डिलिवरी का मामला"
+    "messageformat": "डिलीवरी से जुड़ी गड़बड़ी"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "{sender} की ओर से आपको कोई मैसेज, स्टिकर, रिएक्शन, रीड रिसीट या मीडिया डिलीवर नहीं किया जा सका। हो सकता है कि उन्होंने इसे सीधे आपको या किसी समूह में भेजने का प्रयास किया हो।"
+    "messageformat": "{sender} की ओर से आपको भेजा गया मैसेज, स्टिकर, रिएक्शन, मीडिया, और मैसेज पढ़े जाने की सूचना आप तक नहीं पहुंच सका। हो सकता है कि उन्होंने आपको सीधे-सीधे या फिर किसी ग्रुप में भेजने की कोशिश की हो।"
   },
   "icu:DeliveryIssue--summary--group": {
     "messageformat": "इस चैट में {sender} द्वारा भेजा गया कोई संदेश, स्टिकर, प्रतिक्रिया, प्राप्ति सूचना या मीडिया आपको डिलीवर नहीं किया जा सका।"
   },
   "icu:ChangeNumber--notification": {
-    "messageformat": "{sender} ने अपने फोन नंबर बदल लिए"
+    "messageformat": "{sender} ने अपना फ़ोन नंबर बदला है"
   },
   "icu:JoinedSignal--notification": {
     "messageformat": "संपर्क Signal में शामिल हो गए"
@@ -1242,10 +1263,10 @@
     "messageformat": "आपने {oldTitle} के साथ इस चैट को शुरू किया"
   },
   "icu:imageAttachmentAlt": {
-    "messageformat": "मेसेज के साथ तस्वीर"
+    "messageformat": "मैसेज में अटैच हुई इमेज"
   },
   "icu:videoAttachmentAlt": {
-    "messageformat": "मेसेज के साथ अटैच वीडियो का सक्रीनशौट"
+    "messageformat": "मैसेज के साथ अटैच वीडियो का स्क्रीनशॉट"
   },
   "icu:lightboxImageAlt": {
     "messageformat": "तस्वीर चैट में भेजी गई"
@@ -1254,7 +1275,7 @@
     "messageformat": "{total} में से {downloaded} को डाउनलोड किया जा रहा है"
   },
   "icu:imageCaptionIconAlt": {
-    "messageformat": "आइकॅन यह दिखा रहा है कि तस्वीर में कैप्शन है"
+    "messageformat": "आइकन दिखा रहा है कि इस इमेज में कैप्शन है"
   },
   "icu:imageOpenAlt": {
     "messageformat": "इस अटैचमेंट को बड़े व्यू में खोलें"
@@ -1308,13 +1329,13 @@
     "messageformat": "यह मीडिया अब आपके फ़ोन पर उपलब्ध नहीं है और डाउनलोड नहीं किया जा सकता।"
   },
   "icu:save": {
-    "messageformat": "संरक्षित करें"
+    "messageformat": "सेव करें"
   },
   "icu:reset": {
-    "messageformat": "फिर से स्थापित करना"
+    "messageformat": "रीसेट करें"
   },
   "icu:linkedDevices": {
-    "messageformat": "लिंक की गईं डिवाइसें"
+    "messageformat": "लिंक किए गए डिवाइस"
   },
   "icu:linkNewDevice": {
     "messageformat": "नया डिवाइस लिंक करें"
@@ -1323,16 +1344,16 @@
     "messageformat": "अधिक जानें"
   },
   "icu:Install__scan-this-code": {
-    "messageformat": "इस कोड को अपने फ़ोन के Signal ऐप में स्कैन करें"
+    "messageformat": "अपने फ़ोन में Signal ऐप खोलकर इस कोड को स्कैन करें"
   },
   "icu:Install__instructions__1": {
-    "messageformat": "अपने फ़ोन पर Signal को ओपेन करें"
+    "messageformat": "अपने फ़ोन पर Signal ऐप खोलें"
   },
   "icu:Install__instructions__2": {
-    "messageformat": "{settings} में टैप करें, फिर {linkedDevices} पर टैप करें"
+    "messageformat": "{settings} पर टैप करें, फिर {linkedDevices} पर टैप करें"
   },
   "icu:Install__instructions__2__settings": {
-    "messageformat": "सेटिंग्स"
+    "messageformat": "सेटिंग"
   },
   "icu:Install__instructions__3": {
     "messageformat": "{linkNewDevice} पर टैप करें"
@@ -1557,31 +1578,31 @@
     "messageformat": "कैंसिल करें"
   },
   "icu:initialSync": {
-    "messageformat": "संपर्क और समूह सिंक हो रहे हैं"
+    "messageformat": "कॉन्टैक्ट और ग्रुप सिंक किए जा रहे हैं"
   },
   "icu:initialSync__subtitle": {
     "messageformat": "नोट : आपका चैट इतिहास इस डिवाइस के साथ सिंक नहीं किया जाएगा"
   },
   "icu:installConnectionFailed": {
-    "messageformat": "सर्वर से कनेक्ट करने में विफल"
+    "messageformat": "सर्वर से कनेक्ट नहीं हो सका।"
   },
   "icu:installTooManyDevices": {
-    "messageformat": "क्षमा करें, आपके पास बहुत से डिवाइस पहले ही लिंक किए गए हैं कुछ को निकालने का प्रयास करें"
+    "messageformat": "माफ़ करें, आपने पहले ही बहुत से डिवाइस लिंक कर लिए हैं। कृपया कुछ को हटाएं।"
   },
   "icu:installTooOld": {
-    "messageformat": "अपना फोन लिंक करने के लिए इस डिवाइस पर Signal को अपडेट करें।"
+    "messageformat": "अपना फ़ोन लिंक करने के लिए इस डिवािस पर Signal अपडेट करें।"
   },
   "icu:installErrorHeader": {
-    "messageformat": "कुछ गलत हो गया"
+    "messageformat": "कोई गड़बड़ी हुई!"
   },
   "icu:installUnknownError": {
-    "messageformat": "एक अनपेक्षित त्रुटि हुई। कृपया फिर से प्रयास करें।"
+    "messageformat": "कोई अनचाही गड़बड़ी हुई। कृपया, फिर से कोशिश करें।"
   },
   "icu:installTryAgain": {
-    "messageformat": "फिर से कोशिश करो"
+    "messageformat": "फिर से कोशिश करें"
   },
   "icu:Preferences--theme": {
-    "messageformat": "विषय"
+    "messageformat": "थीम"
   },
   "icu:calling": {
     "messageformat": "कॉल की जा रही है"
@@ -1599,13 +1620,13 @@
     "messageformat": "कॉल पर वापस जाएँ"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "messageformat": "कॉल में लोगों की संख्या के चलते माइक्रोफ़ोन म्यूट किया गया"
+    "messageformat": "कॉल में मौजूद लोगों की संख्या की वजह से माइक्रोफ़ोन म्यूट किया गया"
   },
   "icu:calling__toasts--aria-label": {
     "messageformat": "कॉल नोटिफ़िकेशन"
   },
   "icu:calling__call-is-full": {
-    "messageformat": "कॉल पूर्ण है"
+    "messageformat": "कॉल में जगह नहीं है"
   },
   "icu:calling__cant-join": {
     "messageformat": "कॉल से नहीं जुड़ सकते"
@@ -1665,7 +1686,7 @@
     "messageformat": "जुड़ने के लिए कहें"
   },
   "icu:calling__button--video-disabled": {
-    "messageformat": "कैमरा डिसेबल किया गया"
+    "messageformat": "कैमरा बंद है"
   },
   "icu:calling__button--video-off": {
     "messageformat": "कैमरा बंद करें"
@@ -1674,28 +1695,28 @@
     "messageformat": "कैमरा चालू करें"
   },
   "icu:calling__button--audio-disabled": {
-    "messageformat": "माइक्रोफोन डिसेबल किया गया"
+    "messageformat": "माइक्रोफ़ोन बंद है"
   },
   "icu:calling__button--audio-off": {
-    "messageformat": "माइक को म्यूट करें"
+    "messageformat": "माइक म्यूट करें"
   },
   "icu:calling__button--audio-on": {
-    "messageformat": "माइक को अनम्यूट करें"
+    "messageformat": "माइक अनम्यूट करें"
   },
   "icu:calling__button--presenting-disabled": {
-    "messageformat": "प्रस्तुत निर्योग्य है"
+    "messageformat": "स्क्रीन शेयर की सुविधा बंद है"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "प्रस्तुत करना शुरू करें"
+    "messageformat": "स्क्रीन शेयर करना शुरू करें"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "प्रस्तुत करना बंद करें"
+    "messageformat": "स्क्रीन शेयर करना बंद करें"
   },
   "icu:calling__button--react": {
     "messageformat": "प्रतिक्रिया दें"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "भाग लेने वालों को रिंग करने के लिए ग्रूप बहुत बड़ा है."
+    "messageformat": "ग्रुप में मौजूद लोगों की संख्या ज़्यादा है, इसलिए कॉल नहीं की जा सकती।"
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "रिंगिंग बंद करें"
@@ -1755,19 +1776,19 @@
     "messageformat": "आपका कैमरा बंद है"
   },
   "icu:calling__pre-call-info--empty-group": {
-    "messageformat": "यहाँ और कोई नहीं है"
+    "messageformat": "यहां और कोई मौजूद नहीं है"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
-    "messageformat": "{first} इस कॉल में है"
+    "messageformat": "{first} इस कॉल में मौजूद हैं"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
-    "messageformat": "आपका कोई दूसरा डिवाइस इस कॉल में है"
+    "messageformat": "आपने किसी दूसरे डिवाइस से भी कॉल जॉइन की है"
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} और {second} इस कॉल में हैं"
+    "messageformat": "{first} और {second} इस कॉल में मौजूद हैं"
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first}, {second}, और {third} इस कॉल में हैं"
+    "messageformat": "{first}, {second}, और {third} इस कॉल में मौजूद हैं"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, और {others,number} अन्य इस कॉल में हैं} other {{first}, {second}, और {others,number} अन्य इस कॉल में हैं}}"
@@ -1776,31 +1797,31 @@
     "messageformat": "{count, plural, one {{count,number} व्यक्ति इस कॉल में है} other {{count,number} लोग इस कॉल में हैं}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
-    "messageformat": "सिग्नल {person} को रिंग करेगा"
+    "messageformat": "Signal {person} को रिंग करेगा"
   },
   "icu:calling__pre-call-info--will-ring-2": {
-    "messageformat": "सिग्नल रिंग करेगा {first} और {second}"
+    "messageformat": "Signal {first} और {second} को रिंग करेगा"
   },
   "icu:calling__pre-call-info--will-ring-3": {
-    "messageformat": "सिग्नल रिंग करेगा {first}, {second}, और {third}"
+    "messageformat": "Signal {first}, {second}, और {third} को रिंग करेगा"
   },
   "icu:calling__pre-call-info--will-ring-many": {
     "messageformat": "{others, plural, one {Signal द्वारा {first}, {second}, और {others,number} अन्य को रिंग किया जाएगा} other {Signal द्वारा {first}, {second}, और {others,number} अन्य को रिंग किया जाएगा}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
-    "messageformat": "{person} को सूचित किया जाएगा"
+    "messageformat": "{person} को सूचना दी जाएगी"
   },
   "icu:calling__pre-call-info--will-notify-2": {
-    "messageformat": "{first} और {second} को सूचित किया जाएगा"
+    "messageformat": "{first} और {second} को सूचना दी जाएगी"
   },
   "icu:calling__pre-call-info--will-notify-3": {
-    "messageformat": "{first}, {second}, और {third} को सूचित किया जाएगा"
+    "messageformat": "{first}, {second}, और {third} को सूचना दी जाएगी"
   },
   "icu:calling__pre-call-info--will-notify-many": {
     "messageformat": "{others, plural, one {{first}, {second}, और {others,number} अन्य को सूचित किया जाएगा} other {{first}, {second}, और {others,number} अन्य को सूचित किया जाएगा}}"
   },
   "icu:calling__in-this-call--zero": {
-    "messageformat": "यहाँ और कोई नहीं है"
+    "messageformat": "यहां और कोई मौजूद नहीं है"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {इस कॉल में · {people,number} व्यक्ति} other {इस कॉल में · {people,number} व्यक्ति}}"
@@ -1824,16 +1845,16 @@
     "messageformat": "यह इसलिए हो सकता है क्योंकि उन्होंने आपके सुरक्षा नंबर में परिवर्तन को वेरिफाई नहीं किया है, उनके डिवाइस के साथ कोई समस्या है, या उन्होंने आपको ब्लॉक कर दिया है।"
   },
   "icu:calling__overflow__scroll-up": {
-    "messageformat": "ऊपर स्क्रॉल करें"
+    "messageformat": "ऊपर की ओर स्क्रॉल करें"
   },
   "icu:calling__overflow__scroll-down": {
-    "messageformat": "नीचे स्क्रॉल करें"
+    "messageformat": "नीचे की ओर स्क्रॉल करें"
   },
   "icu:calling__presenting--notification-title": {
-    "messageformat": "आप सबके सामने पेश कर रहे हैं।"
+    "messageformat": "आपने सबके लिए स्क्रीन शेयर की है।"
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "जब आप प्रस्तुत करना बंद करने के लिए तैयार हों तो कॉल पर लौटने के लिए यहां क्लिक करें।"
+    "messageformat": "जब आपको स्क्रीन शेयर बंद करने के लिए तैयार हों, तो कॉल पर वापस आने के लिए यहां क्लिक करें।"
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "फिर से जोड़ रहे हैं..."
@@ -1842,7 +1863,7 @@
     "messageformat": "आपका कनेक्शन टूट गया था. सिग्नल पुनः कनेक्ट कर रहा है।"
   },
   "icu:calling__presenting--info": {
-    "messageformat": "Signal {window} साझा कर रहा है।"
+    "messageformat": "Signal {window} पर शेयर कर रहा है।"
   },
   "icu:calling__presenting--info--unknown": {
     "messageformat": "Signal की स्क्रीन शेयरिंग चालू है"
@@ -1851,52 +1872,52 @@
     "messageformat": "फिर से जोड़ रहे हैं..."
   },
   "icu:calling__presenting--stop": {
-    "messageformat": "सांझा करना बंद करो"
+    "messageformat": "शेयर करना बंद करें"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "You stopped presenting"
+    "messageformat": "आपने स्क्रीन शेयर करना बंद कर दिया है"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} प्रस्तुत कर रहा है"
+    "messageformat": "{name} ने स्क्रीन शेयर की है"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} ने प्रस्तुत करना बंद कर दिया"
+    "messageformat": "{name} ने स्क्रीन शेयर करना बंद कर दिया है"
   },
   "icu:calling__presenting--permission-title": {
-    "messageformat": "अनुमति की आवश्यकता"
+    "messageformat": "अनुमति ज़रूरी है"
   },
   "icu:calling__presenting--macos-permission-description": {
-    "messageformat": "Signal को आपके कंप्यूटर की स्क्रीन रिकॉर्डिंग तक पहुँचने के लिए अनुमति की आवश्यकता है।"
+    "messageformat": "Signal को आपके कंप्यूटर की स्क्रीन रिकॉर्डिंग का ऐक्सेस चाहिए।"
   },
   "icu:calling__presenting--permission-instruction-step1": {
-    "messageformat": "सिस्टम प्रेफरेंसेज के लिए जाओ"
+    "messageformat": "'सिस्टम प्राथमिकताएं' पर जाएं।"
   },
   "icu:calling__presenting--permission-instruction-step2": {
     "messageformat": "नीचे बाईं ओर लॉक आइकन पर क्लिक करें और अपने कंप्यूटर का पासवर्ड दर्ज करें।"
   },
   "icu:calling__presenting--permission-instruction-step3": {
-    "messageformat": "दाईं ओर, Signal के आगे वाले बॉक्स को चेक करें। यदि आपको सूची में Signal नहीं दिखाई देता है, तो इसे जोड़ने के लिए + पर क्लिक करें।"
+    "messageformat": "दाईं ओर, Signal के आगे वाले बॉक्स पर सही का निशान लगाएं। अगर आपको सूची में Signal नहीं दिखाई देता है, तो इसे जोड़ने के लिए + पर क्लिक करें।"
   },
   "icu:calling__presenting--permission-open": {
-    "messageformat": "ओपन सिस्टम प्राथमिकताएं"
+    "messageformat": "'सिस्टम प्राथमिकताएं' खोलें"
   },
   "icu:calling__presenting--permission-cancel": {
-    "messageformat": "हटाएँ"
+    "messageformat": "रद्द करें"
   },
   "icu:alwaysRelayCallsDescription": {
-    "messageformat": "हमेशा कॉल रिले करें"
+    "messageformat": "हमेशा इसी तरह कॉल करें"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "अपने संपर्क में अपने IP ऐड्रेस को प्रकट करने से बचने के लिए Signal सर्वर के माध्यम से सभी कॉल रिले करें। सक्षम करने से कॉल गुणवत्ता कम हो जाएगी।"
+    "messageformat": "सभी कॉल Signal सर्वर के ज़रिए करें, ताकि आपके कॉन्टैक्ट को आपके IP ऐड्रेस का पता न चल सके। हालांकि, इससे कॉल की क्वालिटी कम हो सकती है।"
   },
   "icu:permissions": {
-    "messageformat": "अनुमतियाँ"
+    "messageformat": "अनुमतियां"
   },
   "icu:mediaPermissionsDescription": {
-    "messageformat": "माइक्रोफोन इस्तेमाल करने की अनुमति दें"
+    "messageformat": "माइक्रोफ़ोन का ऐक्सेस दें"
   },
   "icu:mediaCameraPermissionsDescription": {
-    "messageformat": "कैमरा का इस्तेमाल करने की अनुमति दें"
+    "messageformat": "कैमरे का ऐक्सेस दें"
   },
   "icu:spellCheckDescription": {
     "messageformat": "संदेश लिखने वाले बॉक्स में दर्ज वर्तनी जांच टेक्स्ट"
@@ -1905,19 +1926,19 @@
     "messageformat": "टेक्स्ट का चयन होने पर टेक्स्ट फ़ॉर्मेटिंग पॉपओवर दिखाएं"
   },
   "icu:spellCheckWillBeEnabled": {
-    "messageformat": "स्पेल चेक अगली बार Signal के शुरू होने पर एनेबल किया जाएगा।"
+    "messageformat": "अगली बार Signal ऐप चालू करने पर स्पेल चेक की सुविधा चालू हो जाएगी।"
   },
   "icu:spellCheckWillBeDisabled": {
-    "messageformat": "स्पेल चेक अगली बार Signal के शुरू होने पर डिसेबल किया जाएगा।"
+    "messageformat": "अगली बार Signal ऐप चालू करने पर स्पेल चेक की सुविधा बंद हो जाएगी।"
   },
   "icu:SystemTraySetting__minimize-to-system-tray": {
-    "messageformat": "सिस्टम ट्रे छोटा करें"
+    "messageformat": "छोटा करके सिस्टम ट्रे में भेजें"
   },
   "icu:SystemTraySetting__minimize-to-and-start-in-system-tray": {
-    "messageformat": "ट्रे में छोटा शुरू करें"
+    "messageformat": "ट्रे में छोटा करके शुरू करें"
   },
   "icu:autoLaunchDescription": {
-    "messageformat": "कंप्यूटर लॉगिन पर खोलें"
+    "messageformat": "कंप्यूटर लॉगिन करते समय अपने-आप खोलें"
   },
   "icu:clearDataHeader": {
     "messageformat": "एप्लिकेशन डेटा हटाएं"
@@ -1929,7 +1950,7 @@
     "messageformat": "डेटा हटाएं"
   },
   "icu:deleteAllDataHeader": {
-    "messageformat": "सारा डाटा डिलीट करें?"
+    "messageformat": "समूचा डेटा डिलीट करें?"
   },
   "icu:deleteAllDataBody": {
     "messageformat": "Signal डेस्कटॉप के इस संस्करण से सभी डेटा और संदेश हटाएं? आपका Signal खाता और आपके फोन या अन्य लिंक की गईं डिवाइस पर मौजूदा डेटा हटाया नहीं जाएगा।"
@@ -1938,31 +1959,34 @@
     "messageformat": "सारा डेटा डिसकनेक्ट और डिलीट किया जा रहा है…"
   },
   "icu:deleteOldIndexedDBData": {
-    "messageformat": "आपके पास Signal Desktop के पिछले इंस्टॉलेशन से बेकार डेटा है। अगर आप जारी रखने का चयन करते हैं, तो इसे डिलीट कर दिया जाएगा और आप दोबारा से शुरुआत करेंगे।"
+    "messageformat": "आपके सिस्टम में Signal डेस्कटॉप के पुराने इंस्टॉलेशन से जुड़ा कुछ पुराना डेटा मौजूद है। जारी रखने पर, यह डेटा डिलीट कर दिया जाएगा और Signal दोबाार नए सिरे से शुरू होगा।"
   },
   "icu:deleteOldData": {
-    "messageformat": "पुराने डेटा को डिलीट करें"
+    "messageformat": "पुराना डेटा डिलीट करें"
   },
   "icu:nameAndMessage": {
-    "messageformat": "नाम, जानकारी, और क्रियाएँ"
+    "messageformat": "नाम, जानकारी, और ऐक्शन"
   },
   "icu:noNameOrMessage": {
-    "messageformat": "कोई नाम या जानकारी नहीं"
+    "messageformat": "नाम या कॉन्टेंट नहीं दिखाएं"
   },
   "icu:nameOnly": {
-    "messageformat": "केवल नाम"
+    "messageformat": "सिर्फ़ नाम दिखाएं"
   },
   "icu:newMessage": {
-    "messageformat": "नया मेसेज"
+    "messageformat": "नया मैसेज"
   },
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} में {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} ने {message} पर {emoji} प्रतिक्रिया दी"
+    "messageformat": "{sender} ने {message} पर {emoji} रिएक्ट किया"
+  },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
   },
   "icu:sendFailed": {
-    "messageformat": "भेजना असफल रहा"
+    "messageformat": "भेजा नहीं जा सका"
   },
   "icu:deleteFailed": {
     "messageformat": "डिलीट नहीं किया जा सका"
@@ -1971,52 +1995,52 @@
     "messageformat": "विफल, विवरण के लिए क्लिक करें"
   },
   "icu:sendPaused": {
-    "messageformat": "भेजें रोका गया"
+    "messageformat": "भेजना रुक गया"
   },
   "icu:partiallySent": {
-    "messageformat": "आंशिक रूप से भेजा गया, विवरण के लिए क्लिक करें"
+    "messageformat": "पूरी तरह नहीं भेजा जा सका, जानकारी के लिए क्लिक करें"
   },
   "icu:partiallyDeleted": {
-    "messageformat": "आंशिक रूप से डिलीट किया गया, फिर से प्रयास करने के लिए क्लिक करें"
+    "messageformat": "पूरी तरह डिलीट नहीं हुआ, दोबारा कोशिश करने के लिए क्लिक करें"
   },
   "icu:expiredWarning": {
-    "messageformat": "Signal डेस्कटॉप का यह वर्ज़न समाप्त हो गया है। संदेश जारी रखने के लिए कृपया नवीनतम वर्ज़न में नवीनीकृत करें।"
+    "messageformat": "Signal डेस्कटॉप का यह वर्ज़न एक्सपायर हो गया है। मैसेज भेजने और पाने के लिए इसे अभी अपडेट करें।"
   },
   "icu:upgrade": {
     "messageformat": "signal.org/download पर जाने के लिए क्लिक करें"
   },
   "icu:mediaMessage": {
-    "messageformat": "मीडिया मेसेज"
+    "messageformat": "सिर्फ़ मीडिया वाला मैसेज"
   },
   "icu:sync": {
-    "messageformat": "कॉन्टैक्ट इम्पोर्ट करें"
+    "messageformat": "कॉन्टैक्ट इंपोर्ट करें"
   },
   "icu:syncExplanation": {
-    "messageformat": "अपने मोबाइल डिवाइस से सभी Signal समूहों और संपर्कों को आयात करें"
+    "messageformat": "अपने मोबाइल डिवाइस से सभी Signal ग्रुप और कॉन्टैक्ट इंपोर्ट करें।"
   },
   "icu:syncNow": {
-    "messageformat": "अब आयात करें"
+    "messageformat": "अभी इंपोर्ट करें"
   },
   "icu:syncing": {
-    "messageformat": "आयात करने"
+    "messageformat": "इंपोर्ट किया जा रहा है..."
   },
   "icu:syncFailed": {
-    "messageformat": "आयात असफल रहा। सुनिश्चित करें कि आपका कंप्यूटर और आपका फ़ोन इंटरनेट से कनेक्ट है"
+    "messageformat": "इंपोर्ट नहीं हो सका। पक्का करें कि आपका कंप्यूटर और फ़ोन इंटरनेट से कनेक्ट हो"
   },
   "icu:timestamp_s": {
     "messageformat": "अभी"
   },
   "icu:timestamp_m": {
-    "messageformat": "1 मी"
+    "messageformat": "1मि."
   },
   "icu:timestamp_h": {
-    "messageformat": "1 घंटे"
+    "messageformat": "1घं."
   },
   "icu:hoursAgo": {
-    "messageformat": "{hours,number} घंटे"
+    "messageformat": "{hours,number}घं."
   },
   "icu:minutesAgo": {
-    "messageformat": "{minutes,number} मिनट"
+    "messageformat": "{minutes,number}मि."
   },
   "icu:justNow": {
     "messageformat": "अभी"
@@ -2031,76 +2055,76 @@
     "messageformat": "Signal किसी आने वाले संदेश को प्रोसेस करने में असफल हो सकता है।"
   },
   "icu:messageBodyTooLong": {
-    "messageformat": "मेसेज बहुत लंबा है"
+    "messageformat": "मैसेज काफ़ी लंबा है।"
   },
   "icu:unblockToSend": {
-    "messageformat": "कोई संदेश भेजने के लिए इस संपर्क को अनब्लॉक करें।"
+    "messageformat": "मैसेज भेजने के लिए इस कॉन्टैक्ट को अनब्लॉक करें।"
   },
   "icu:unblockGroupToSend": {
-    "messageformat": "संदेश भेजने के लिए इस समूह को अनब्लॉक करें।"
+    "messageformat": "मैसेज भेजने के लिए इस ग्रुप को अनब्लॉक करें।"
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "आपने गायब होने वाले मेसेज के टाइम को {time} पर सेट कर दिया है।"
+    "messageformat": "आपने गायब होने वाले मैसेज का समय {time} पर सेट कर दिया है।"
   },
   "icu:timerSetOnSync": {
-    "messageformat": "गायब होने वाले मेसेज के टाइम को {time} पर अपडेट कर दिया गया है।"
+    "messageformat": "गायब होने वाले मैसेज का समय अपडेट करके अब {time} पर सेट कर दिया है।"
   },
   "icu:timerSetByMember": {
-    "messageformat": "एक मेंबर ने गायब होने वाले मेसेज के टाइम को {time} पर सेट कर दिया।"
+    "messageformat": "किसी सदस्य ने गायब होने वाले मैसेज का समय {time} पर सेट कर दिया है।"
   },
   "icu:theyChangedTheTimer": {
-    "messageformat": "{name} ने गायब होने वाले मेसेज का टाइम {time} पर सेट कर दिया है।"
+    "messageformat": "{name} ने गायब होने वाले मैसेज का टाइम {time} पर सेट कर दिया है।"
   },
   "icu:disappearingMessages__off": {
-    "messageformat": "बंद"
+    "messageformat": "बंद करें"
   },
   "icu:disappearingMessages": {
     "messageformat": "गायब होने वाले मेसेज"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "मेसेज जो गायब हो जाते हैं अक्षम"
+    "messageformat": "मैसेज गायब होने की सुविधा बंद कर दी गई है"
   },
   "icu:disappearingMessagesDisabledByMember": {
-    "messageformat": "एक मेंबर ने गायब होने वाले मेसेजेस को डिसेबल कर दिया।"
+    "messageformat": "एक मेंबर ने मैसेज गायब होने की सुविधा बंद कर दी है।"
   },
   "icu:disabledDisappearingMessages": {
-    "messageformat": "{name} ने गायब होने वाले मेसेजेस को डिसेबल कर दिया।"
+    "messageformat": "{name} ने मैसेज गायब होने की सुविधा बंद कर दी है।"
   },
   "icu:youDisabledDisappearingMessages": {
-    "messageformat": "आपने गायब मेसेज अक्षम कर दिए हैं।"
+    "messageformat": "आपने मैसेज गायब होने की सुविधा बंद कर दी है।"
   },
   "icu:timerSetTo": {
-    "messageformat": "टाइमर सेट {time} पर "
+    "messageformat": "टाइमर {time} पर सेट किया गया"
   },
   "icu:audioNotificationDescription": {
     "messageformat": "पुश नोटिफिकेशन की साउंड"
   },
   "icu:callRingtoneNotificationDescription": {
-    "messageformat": "कॉलिंग साउंड प्ले करें।"
+    "messageformat": "कॉलिंग साउंड चलाएं"
   },
   "icu:callSystemNotificationDescription": {
-    "messageformat": "कॉल्स के लिए सूचनाँए दिखाएँ"
+    "messageformat": "कॉल के लिए नोटिफ़िकेशन दिखाएं"
   },
   "icu:incomingCallNotificationDescription": {
-    "messageformat": "इनकमिंग कॉल्स को एनेबल करें"
+    "messageformat": "इनकमिंग कॉल की सुविधा चालू करें"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} ने अपना प्रोफ़ाइल नाम {oldProfile} से बदलकर {newProfile} रख दिया।"
+    "messageformat": "{sender} ने अपना प्रोफ़ाइल नेम {oldProfile} से बदलकर {newProfile} कर लिया है।"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} ने अपना प्रोफ़ाइल नाम बदल कर {newProfile} रख दिया।"
+    "messageformat": "{oldProfile} ने अपना प्रोफ़ाइल नेम बदलकर {newProfile} कर लिया है।"
   },
   "icu:SafetyNumberModal__title": {
-    "messageformat": "सुरक्षा नंबर सत्यापित करें"
+    "messageformat": "सेफ़्टी नंबर वेरिफ़ाई करें"
   },
   "icu:safetyNumberChanged": {
-    "messageformat": "सुरक्षा नंबर बदल गया है।"
+    "messageformat": "सेफ़्टी नंबर बदल गया है"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "सुरक्षा नंबर परिवर्तन"
+    "messageformat": "सेफ़्टी नंबर में बदलाव"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "{name} के साथ आपका सुरक्षा नंबर बदल गया है।"
+    "messageformat": "{name} के साथ आपका सेफ़्टी नंबर बदल गया है"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "सुरक्षा संख्या देखें"
@@ -2118,40 +2142,40 @@
     "messageformat": "सुरक्षा संख्या देखें"
   },
   "icu:cannotGenerateSafetyNumber": {
-    "messageformat": "जब तक आप इस उपभोगकर्ता के साथ मेसेजों का आदान-प्रदान नहीं करेंगे तब तक वह सत्यापित नहीं हो पायेगा।"
+    "messageformat": "इस यूज़र को तब तक वेरिफ़ाई नहीं किया जा सकता, जब तक आप उनके साथ चैट न कर लें।"
   },
   "icu:themeLight": {
-    "messageformat": "रोशनी"
+    "messageformat": "हल्का"
   },
   "icu:themeDark": {
-    "messageformat": "डार्क"
+    "messageformat": "गहरा"
   },
   "icu:themeSystem": {
     "messageformat": "सिस्टम"
   },
   "icu:noteToSelf": {
-    "messageformat": "स्वयं को लिखें"
+    "messageformat": "खुद के लिए नोट"
   },
   "icu:noteToSelfHero": {
     "messageformat": "आप इस चैट में खुद के लिए नोट्स शामिल कर सकते हैं। यदि आपके अकाउंट के कोई लिंक किए हुए डिवाइस हैं, तो नए नोट्स सिंक किए जाएँगे।"
   },
   "icu:notificationDrawAttention": {
-    "messageformat": "कोई सूचना आने पर इस विंडो की ओर ध्यान दिलाएँ"
+    "messageformat": "नोटिफ़िकेशन आने पर, Signal विंडो पर ध्यान दिलाएं"
   },
   "icu:hideMenuBar": {
-    "messageformat": "मेनू बार छुपाएं"
+    "messageformat": "मेन्यू बार छिपाएं"
   },
   "icu:newConversation": {
     "messageformat": "नई चैट"
   },
   "icu:stories": {
-    "messageformat": "स्टोरीज़"
+    "messageformat": "स्टोरी"
   },
   "icu:contactSearchPlaceholder": {
     "messageformat": "नाम, यूज़रनेम या नंबर"
   },
   "icu:noContactsFound": {
-    "messageformat": "कोई संपर्क नहीं मिला"
+    "messageformat": "कोई कॉन्टैक्ट नहीं मिला"
   },
   "icu:noGroupsFound": {
     "messageformat": "कोई ग्रुप नहीं मिला"
@@ -2163,16 +2187,16 @@
     "messageformat": "{title} को हटा दिया गया है।"
   },
   "icu:Toast--error": {
-    "messageformat": "कोई त्रुटि हुई"
+    "messageformat": "कोई गड़बड़ी हुई"
   },
   "icu:Toast--error--action": {
     "messageformat": "लॉग सबमिट करें"
   },
   "icu:Toast--failed-to-fetch-username": {
-    "messageformat": "यूज़रनेम ढूंढने में असफ़ल. अपने कनेक्शन को चेक करें और फिर से कोशिश करें."
+    "messageformat": "यूज़रनेम नहीं मिला। अपना इंटरनेट कनेक्शन देखें और फिर से कोशिश करें।"
   },
   "icu:Toast--failed-to-fetch-phone-number": {
-    "messageformat": "फोन नंबर नहीं ला सका। अपना कनेक्शन जाँचें और फिर से प्रयास करें।"
+    "messageformat": "फ़ोन नंबर नहीं मिला। अपना इंटरनेट कनेक्शन देखें और फिर से कोशिश करें।"
   },
   "icu:Toast--download-failed": {
     "messageformat": "डाउनलोड नहीं हो पाया"
@@ -2190,10 +2214,10 @@
     "messageformat": "{atUsername} मान्य यूज़रनेम नहीं है। पक्का करें कि आपने पूरा यूज़रनेम और उसके साथ दिए गए अंक सही से डाला है।"
   },
   "icu:startConversation--phone-number-not-found": {
-    "messageformat": "यूज़र नहीं मिला। \"{phoneNumber}\" एक Signal यूज़र नहीं है।"
+    "messageformat": "यूज़र नहीं मिला। \"{phoneNumber}\" Signal यूज़र नहीं है।"
   },
   "icu:startConversation--phone-number-not-valid": {
-    "messageformat": "यूज़र नहीं मिल सका। \"{phoneNumber}\" एक वैध फोन नंबर नहीं है।"
+    "messageformat": "यूज़र नहीं मिला। \"{phoneNumber}\" सही फ़ोन नंबर नहीं है।"
   },
   "icu:chooseGroupMembers__title": {
     "messageformat": "सदस्य चुनें"
@@ -2202,121 +2226,121 @@
     "messageformat": "पीछे जाएं"
   },
   "icu:chooseGroupMembers__skip": {
-    "messageformat": "छोड़ दे"
+    "messageformat": "आगे बढ़ें"
   },
   "icu:chooseGroupMembers__next": {
     "messageformat": "अगला"
   },
   "icu:chooseGroupMembers__maximum-group-size__title": {
-    "messageformat": "अधिकतम ग्रुप साइज़ पूरा हो गया"
+    "messageformat": "ग्रुप साइज़ की अधिकतम सीमा पूरी हो गई है"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
-    "messageformat": "Signal समूहों में अधिकतम {max,number} सदस्य हो सकते हैं।"
+    "messageformat": "Signal ग्रुप में अधिकतम {max,number} सदस्य हो सकते हैं।"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__title": {
-    "messageformat": "अनुशंसित मेंबर सीमा पूरी हुई"
+    "messageformat": "इससे ज़्यादा सदस्यों को नहीं जोड़ा जा सकता"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__body": {
-    "messageformat": "Signal समूह {max,number} या उससे कम सदस्यों के साथ सर्वश्रेष्ठ प्रदर्शन करते हैं। अधिक सदस्यों को जोड़ने से संदेश भेजने और प्राप्त करने में देरी होगी।"
+    "messageformat": "Signal के ग्रुप में अगर {max,number} या उससे कम सदस्य हों, तो यह सबसे सही रहता है। इससे ज़्यादा सदस्य जोड़ने पर मैसेज भेजने या पाने में थोड़ी देरी हो सकती है।"
   },
   "icu:setGroupMetadata__title": {
     "messageformat": "इस समूह को नाम दें"
   },
   "icu:setGroupMetadata__back-button": {
-    "messageformat": "सदस्य चयन पर वापस जाएं"
+    "messageformat": "'सदस्य चुनें' पर वापस जाएं"
   },
   "icu:setGroupMetadata__group-name-placeholder": {
-    "messageformat": "ग्रुप का नाम (आवश्यक)"
+    "messageformat": "ग्रुप का नाम (ज़रूरी है)"
   },
   "icu:setGroupMetadata__group-description-placeholder": {
-    "messageformat": "विवरण"
+    "messageformat": "ग्रुप के बारे में जानकारी"
   },
   "icu:setGroupMetadata__create-group": {
-    "messageformat": "बनाएँ"
+    "messageformat": "बनाएं"
   },
   "icu:setGroupMetadata__members-header": {
-    "messageformat": "सदस्यों"
+    "messageformat": "सदस्य"
   },
   "icu:setGroupMetadata__error-message": {
-    "messageformat": "यह समूह नहीं बनाया जा सका. अपने कनेक्शन की जाँच करें और पुनः प्रयास करें।"
+    "messageformat": "यह ग्रुप नहीं बनाया जा सका। अपना कनेक्शन देखें और दोबारा कोशिश करें।"
   },
   "icu:updateGroupAttributes__title": {
-    "messageformat": "समूह संपादित करें"
+    "messageformat": "ग्रुप एडिट करें"
   },
   "icu:updateGroupAttributes__error-message": {
-    "messageformat": "समूह को अपडेट करने में विफल. अपने कनेक्शन की जाँच करें और पुनः प्रयास करें।"
+    "messageformat": "ग्रुप अपडेट नहीं हो सका। अपना इंटरनेट कनेक्शन देखें और दोबारा कोशिश करें।"
   },
   "icu:unlinkedWarning": {
-    "messageformat": "मेसेजिंग जारी रखने के लिए अपने मोबाइल डिवाइस को सिग्नल डेस्कटॉप से फिर से लिंक करने के लिए क्लिक करें."
+    "messageformat": "चैटिंग की सुविधा जारी रखने के लिए Signal डेस्कटॉप को अपने मोबाइल डिवाइस से दोबारा लिंक करने के लिए क्लिक करें।"
   },
   "icu:unlinked": {
-    "messageformat": "लिंक रद्द"
+    "messageformat": "अनलिंक किया गया"
   },
   "icu:autoUpdateNewVersionTitle": {
-    "messageformat": "अपडेट उपलब्ध"
+    "messageformat": "अपडेट उपलब्ध है"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "अपडेट का फिर से प्रयास करें"
+    "messageformat": "फिर से अपडेट करने की कोशिश करें"
   },
   "icu:autoUpdateNewVersionMessage": {
-    "messageformat": "सिग्नल को रीस्टार्ट करने के लिए क्लिक करें"
+    "messageformat": "Signal को फिर से शुरू करने के लिए क्लिक करें"
   },
   "icu:downloadNewVersionMessage": {
     "messageformat": "अपडेट डाउनलोड करने के लिए क्लिक करें"
   },
   "icu:downloadFullNewVersionMessage": {
-    "messageformat": "Signal अपडेट नहीं हो सका। फिर से प्रयास करने के लिए क्लिक करें।"
+    "messageformat": "Signal अपडेट नहीं हो सका। फिर से कोशिश करने के लिए क्लिक करें।"
   },
   "icu:autoUpdateRestartButtonLabel": {
-    "messageformat": "Signal पुनः आरंभ करे"
+    "messageformat": "Signal फिर से शुरू करें"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
-    "messageformat": "अपडेट पर ध्यान न दें"
+    "messageformat": "अपडेट को नज़रअंदाज़ करें"
   },
   "icu:leftTheGroup": {
-    "messageformat": "{name} ने ग्रुप को छोड़ दिया।"
+    "messageformat": "{name} ने ग्रुप को छोड़ दिया है।"
   },
   "icu:multipleLeftTheGroup": {
     "messageformat": "{name} ने ग्रुप को छोड़ दिया।"
   },
   "icu:updatedTheGroup": {
-    "messageformat": "{name} ने ग्रुप को अपडेट किया"
+    "messageformat": "{name} ने ग्रुप को अपडेट किया है।"
   },
   "icu:youUpdatedTheGroup": {
-    "messageformat": "आपने समूह को अपडेट किया है।"
+    "messageformat": "आपने ग्रुप को अपडेट किया है।"
   },
   "icu:updatedGroupAvatar": {
-    "messageformat": "ग्रुप अवतार को अपडेट किया गया था।"
+    "messageformat": "ग्रुप अवतार को अपडेट किया गया।"
   },
   "icu:titleIsNow": {
     "messageformat": "ग्रुप का नाम अब ''{name}' है।"
   },
   "icu:youJoinedTheGroup": {
-    "messageformat": "आप ग्रुप में शामिल हो गए हैं।"
+    "messageformat": "आपने ग्रुप जॉइन किया है।"
   },
   "icu:joinedTheGroup": {
-    "messageformat": "{name} ग्रुप में शामिल हो गए।"
+    "messageformat": "{name} ने ग्रुप जॉइन किया है।"
   },
   "icu:multipleJoinedTheGroup": {
-    "messageformat": "{names} ग्रुप में शामिल हो गए।"
+    "messageformat": "{names} ने ग्रुप जॉइन किया है।"
   },
   "icu:ConversationList__aria-label": {
     "messageformat": "{unreadCount, plural, one {{title} के साथ चैट करें, {unreadCount,number} नया संदेश, अंतिम संदेश: {lastMessage}।} other {{title} के साथ चैट करें, {unreadCount,number} नया संदेश, अंतिम संदेश: {lastMessage}।}}"
   },
   "icu:ConversationList__last-message-undefined": {
-    "messageformat": "हो सकता है कि आख़िरी मेसेज डिलीट कर दिया गया हो."
+    "messageformat": "मुमकिन है कि पिछला मैसेज डिलीट कर दिया गया हो।"
   },
   "icu:BaseConversationListItem__aria-label": {
     "messageformat": "{title} के साथ चैट पर जाएं"
   },
   "icu:ConversationListItem--message-request": {
-    "messageformat": "बाच-चीत का निवेदन"
+    "messageformat": "मैसेज का अनुरोध"
   },
   "icu:ConversationListItem--blocked": {
     "messageformat": "ब्लॉक किया गया"
   },
   "icu:ConversationListItem--draft-prefix": {
-    "messageformat": "ड्राफ्ट"
+    "messageformat": "ड्राफ़्ट:"
   },
   "icu:message--getNotificationText--messageRequest": {
     "messageformat": "बाच-चीत का निवेदन"
@@ -2325,16 +2349,16 @@
     "messageformat": "GIF"
   },
   "icu:message--getNotificationText--photo": {
-    "messageformat": "तस्वीर"
+    "messageformat": "फ़ोटो"
   },
   "icu:message--getNotificationText--video": {
     "messageformat": "वीडियो"
   },
   "icu:message--getNotificationText--voice-message": {
-    "messageformat": "ऑडियो मेसेज"
+    "messageformat": "वॉइस मैसेज"
   },
   "icu:message--getNotificationText--audio-message": {
-    "messageformat": "ऑडियो मेसेज"
+    "messageformat": "ऑडियो मैसेज"
   },
   "icu:message--getNotificationText--file": {
     "messageformat": "फ़ाइल"
@@ -2346,7 +2370,7 @@
     "messageformat": "पोल: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "पोल: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "अगर आपके पास मूल संदेश नहीं है तो शायद आप स्टिकर पैक पुनः स्थापित ना कर पाएँ"
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "पेश करते हैं स्टिकर्स: बैंडिट दि कैट"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "पेश है स्टिकर"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "शब्द क्युँ इस्तेमाल करने जब आप स्टिकर इस्तेमाल कर सकते हैं?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "स्टिकर पिकर खोलें"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "एक स्टिकर पैक जोड़ें"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "अगला पृष्ठ"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "पिछला पृष्ठ"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "हाल का स्टिकर"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "कुछ स्टिकर डाउनलोड नहीं हो पाए"
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "स्टिकर पैक इंस्टॉल हो रहा है..."
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "स्टिकर नहीं मिले"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "आपके मेसेजों से आये नये स्टिकर पैक अब इंस्टॉल के लिए उपलब्ध हैं"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "स्टिकर पैक नहीं मिले"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "हाल ही मे इस्तेमाल हुए स्टिकर यहाँ दिखेंगे"
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "नवीनतम"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "फीचर्ड"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "एनालॉग टाइम"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "स्टीकर पैक"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "स्टिकर पैक खोलने में गलती हुई है। कृपया अपना इंटरनेट कनेक्शन जांच लें और फिर कोशिश करें।"
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "इमोजी नहीं मिला"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "इमोजी सर्च बंद करें"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "इमोजी खोजें"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "स्किन टोन {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "नवीनतम"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "इमोजी"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "जानवर"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "भोजन"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "गतिविधि"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "सफर"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "वस्तु"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "चिन्ह"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "झंडा"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "इमोजी"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "{duration} तक म्यूट किया गया"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "इमोजी"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "कुछ गलत हो गया"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "फ़ाइल अटैच करें"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "फ़ोटो और वीडियो"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "फ़ाइल"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "पोल"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "कोई अटैचमेंट या पोल जोड़ें"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "यह व्यक्ति Signal का उपयोग नहीं कर रहा है"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "ब्लॉक करें"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "आपके संपर्क आपको इस ग्रुप में जोड़ सकेंगे।"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "आपके कॉन्टैक्ट आपको इस ग्रुप में जोड़ पाएंगे।"
@@ -7322,9 +7250,12 @@
     "messageformat": "हमने एक गड़बड़ी भी ठीक की है जिसकी वजह से Windows पर कभी-कभी नोटिफ़िकेशन नहीं दिखते थे।"
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "हमने ऐप में हर जगह स्क्रॉलबार के लुक और स्टाइल को एक जैसा करने के लिए उन्हें अपडेट किया है। आम तौर पर, बहुत तेज़ी से स्क्रॉल करने पर हो सकता है कि कुछ छूट जाए, लेकिन यहां आपको जो देखना है वो सिर्फ़ स्क्रॉल करने पर ही नज़र आएगा।"
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "कॉपी/पेस्ट में किए गए सुधारों से अब पूरा टेक्स्ट चुनना और पुरानी फ़ॉर्मेटिंग को छेड़े बिना मौजूदा टेक्स्ट को बदलना आसान हो गया है। धन्यवाद, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

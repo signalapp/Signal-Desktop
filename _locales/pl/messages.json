@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informacje"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Ankieta · Wybierz jedną opcję"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Twój głos"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Szczegóły ankiety"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Brak głosów"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Nowa ankieta"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Pytanie"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Opcje"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Opcja {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Zezwól na wiele odpowiedzi"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Wyślij"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "W ankiecie musi być pytanie"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Ankieta musi zawierać co najmniej 2 opcje"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Usuń"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{emoji} – {sender} reaguje na: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Nie udało się wysłać"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Ankieta: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Ankieta: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Ponowna instalacja tego pakietu naklejek może być niemożliwa, jeśli nie masz już wiadomości, w której otrzymano daną naklejkę."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Przedstawiamy naklejki: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Przedstawiamy naklejki"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Po co używać słów, jeśli można wysyłać naklejki?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Otwórz okno wyboru naklejek"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Dodaj pakiet naklejek"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Następna strona"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Poprzednia strona"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Ostatnie naklejki"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Nie udało się pobrać niektórych naklejek."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Instalowanie pakietu naklejek…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Nie znaleziono naklejek"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Dostępne do zainstalowania są nowe pakiety naklejek otrzymanych w wiadomościach"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Nie znaleziono pakietów naklejek"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Tutaj pojawią się ostatnio używane naklejki."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Ostatnie"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Polecane"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Czas analogowy"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Pakiet naklejek"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Podczas otwierania pakietu naklejek wystąpił błąd. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Nie znaleziono emoji"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Zamknij wyszukanie emoji"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Wyszukaj emoji"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Odcień skóry {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Ostatnie"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Zwierzęta"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Żywność"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Aktywność"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Podróże"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Przedmioty"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Symbole"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Flagi"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Wyciszono do {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Coś poszło nie tak"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Załącz plik"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Zdjęcia i wideo"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Plik"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Ankieta"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Dodaj załącznik lub ankietę"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ta osoba nie korzysta z aplikacji Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Zablokuj"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Osoby z Twoich kontaktów będą mogły Cię dodać do tej grupy."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Osoby z Twoich kontaktów będą mogły dodać Cię do tej grupy."
@@ -7322,9 +7250,12 @@
     "messageformat": "Naprawiliśmy też błąd, przez który powiadomienia w systemie Windows mogły się nie wyświetlać."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Zaktualizowaliśmy wygląd i poprawiliśmy wizualną spójność wszystkich pasków przewijania w aplikacji. Zwykle jest tak, że przez zbyt szybkie przewijanie możemy coś przeoczyć, ale w tym przypadku żeby to zobaczyć, musisz poprzewijać."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Ulepszyliśmy funkcje kopiowania i wklejania, aby ułatwić zaznaczanie oraz zastępowanie tekstu bez poprzedniego formatowania. Dzięki, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

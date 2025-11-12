@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Poll · Pumili ng isa"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Bumoto ka"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Mga detalye ng poll"
   },
@@ -1124,14 +1136,17 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Walang boto"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Bagong poll"
   },
   "icu:PollCreateModal__questionLabel": {
     "messageformat": "Question"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Options"
@@ -1140,16 +1155,22 @@
     "messageformat": "Option {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Payagan ang maramihang pagboto"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "I-send"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Required ang poll question"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Nangangailangan ng hindi bababa sa 2 options ang poll"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "Nag-react si {sender} ng {emoji} sa: {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Failed ang pag-send"
   },
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Hindi mo pwedeng i-reinstall ang sticker pack na ito kung wala na sa'yo ang source message."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Introducing Stickers: Bandit the Cat"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Introducing Stickers"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "May gusto ka bang sabihin? Maaari mo nang daanin sa stickers!"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "I-open ang sticker picker"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Mag-add ng sticker pack"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Next Page"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Previous Page"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Recent Sticker"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Hindi ma-download ang ibang stickers."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Nagi-install ng sticker pack…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "No stickers found"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "New sticker packs from your messages are available to install"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "No sticker packs found"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Lalabas dito ang recently used stickers."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Recents"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Featured"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analog time"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Sticker Pack"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Error opening sticker pack. I-check ang iyong internet connection at subukan ulit."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "No emoji found"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Isara ang emoji search"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Mag-search ng emoji"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Skin tone {tone}"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Recents"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Animal"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Food"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Activity"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Travel"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Object"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Symbol"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Flag"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Naka-mute hanggang {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Nagkaroon ng problema!"
   },
@@ -4413,7 +4344,7 @@
     "messageformat": "Attach file"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Photos at videos"
   },
   "icu:CompositionArea__AttachMenu__File": {
     "messageformat": "File"
@@ -4422,7 +4353,7 @@
     "messageformat": "Poll"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Magdagdag ng attachment o poll"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "Ang taong ito'y hindi gumagamit ng Signal"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "I-block"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Maaari kang i-add ng contacts mo sa group na ito."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Maaari kang i-add ng contacts mo sa group na ito."
@@ -7322,9 +7250,12 @@
     "messageformat": "Inayos din namin ang bug na pumipigil sa pagpapakita ng notifications sa Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "In-update namin ang itsura ng scrollbars sa kabuuan ng app para maging mas visually consistent sila."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Improvements sa copy/paste. Maraming salamat, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }

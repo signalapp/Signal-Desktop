@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Teave"
   },
+  "icu:Poll__end-poll": {
+    "messageformat": "End poll"
+  },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Küsitlus · Vali üks"
   },
@@ -1112,6 +1115,15 @@
   "icu:PollMessage--YouVoted": {
     "messageformat": "Vastasid küsitlusele"
   },
+  "icu:PollTerminate--you": {
+    "messageformat": "You ended the poll: {poll}"
+  },
+  "icu:PollTerminate--other": {
+    "messageformat": "{name} ended the poll: {poll}"
+  },
+  "icu:PollTerminate__view-poll": {
+    "messageformat": "View poll"
+  },
   "icu:PollVotesModal__title": {
     "messageformat": "Küsitluse andmed"
   },
@@ -1124,32 +1136,41 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Vastuseid pole"
   },
+  "icu:Toast--PollNotFound": {
+    "messageformat": "Poll not found"
+  },
   "icu:PollCreateModal__title": {
-    "messageformat": "New poll"
+    "messageformat": "Uus küsitlus"
   },
   "icu:PollCreateModal__questionLabel": {
-    "messageformat": "Question"
+    "messageformat": "Küsimus"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "What should we order for lunch?"
+    "messageformat": "Ask a question"
   },
   "icu:PollCreateModal__optionsLabel": {
-    "messageformat": "Options"
+    "messageformat": "Valikud"
   },
   "icu:PollCreateModal__optionPlaceholder": {
-    "messageformat": "Option {number}"
+    "messageformat": "Valik {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Allow multiple votes"
+    "messageformat": "Luba mitu vastust"
   },
   "icu:PollCreateModal__sendButton": {
-    "messageformat": "Send"
+    "messageformat": "Saada"
   },
   "icu:PollCreateModal__Error--RequiresQuestion": {
-    "messageformat": "Poll question is required"
+    "messageformat": "Küsitluses peab olema küsimus"
   },
   "icu:PollCreateModal__Error--RequiresTwoOptions": {
-    "messageformat": "Poll requires at least 2 options"
+    "messageformat": "Küsitluses peab olema vähemalt 2 vastusevalikut"
+  },
+  "icu:PollCreateModal__Error--QuestionTooLong": {
+    "messageformat": "Question is too long"
+  },
+  "icu:PollCreateModal__Error--OptionTooLong": {
+    "messageformat": "Option is too long"
   },
   "icu:deleteConversation": {
     "messageformat": "Kustuta"
@@ -1961,6 +1982,9 @@
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reageeris {emoji} sõnumile {message}"
   },
+  "icu:notificationPollVoteMessage": {
+    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+  },
   "icu:sendFailed": {
     "messageformat": "Saatmine ei õnnestunud"
   },
@@ -2346,7 +2370,7 @@
     "messageformat": "Küsitlus: {pollQuestion}"
   },
   "icu:Poll--preview": {
-    "messageformat": "Poll: {pollQuestion}"
+    "messageformat": "Küsitlus: {pollQuestion}"
   },
   "icu:message--getNotificationText--text-with-emoji": {
     "messageformat": "{emoji} {text}"
@@ -2474,101 +2498,11 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Sa ei saa seda kleebisepakki uuesti paigaldada, kui sul pole enam algsõnumit."
   },
-  "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Tutvustame kleebiseid: Bandiit kass"
-  },
-  "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Tutvustame kleebiseid"
-  },
-  "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Miks kasutada sõnu, kui saab kasutada kleebiseid?"
-  },
-  "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Ava kleebisepakk"
-  },
-  "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Lisa kleebisepakk"
-  },
-  "icu:stickers--StickerPicker--NextPage": {
-    "messageformat": "Järgmine lehekülg"
-  },
-  "icu:stickers--StickerPicker--PrevPage": {
-    "messageformat": "Eelmine lehekülg"
-  },
-  "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Hiljutine kleebis"
-  },
-  "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Mõnede kleebiste allalaadimine ei õnnestunud."
-  },
-  "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Kleebisepaki paigaldamine…"
-  },
-  "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Kleebiseid ei leitud"
-  },
-  "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "Uued kleebisepakid sinu sõnumitest on paigaldamiseks saadaval"
-  },
-  "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Kleebisepakke ei leitud"
-  },
-  "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Siia ilmuvad hiljuti kasutatud kleebised."
-  },
-  "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Hiljutised"
-  },
-  "icu:stickers__StickerPicker__featured": {
-    "messageformat": "Esiletõstetud"
-  },
-  "icu:stickers__StickerPicker__analog-time": {
-    "messageformat": "Analoogkell"
-  },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Kleebisepakk"
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Kleebisepaki avamisel tekkis tõrge. Kontrolli internetiühendust ja proovi uuesti."
-  },
-  "icu:EmojiPicker--empty": {
-    "messageformat": "Emojisid ei leitud"
-  },
-  "icu:EmojiPicker--search-close": {
-    "messageformat": "Sulge emoji otsing"
-  },
-  "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Otsi emojisid"
-  },
-  "icu:EmojiPicker--skin-tone": {
-    "messageformat": "{tone} nahatoon"
-  },
-  "icu:EmojiPicker__button--recents": {
-    "messageformat": "Hiljutised"
-  },
-  "icu:EmojiPicker__button--emoji": {
-    "messageformat": "Emoji"
-  },
-  "icu:EmojiPicker__button--animal": {
-    "messageformat": "Loom"
-  },
-  "icu:EmojiPicker__button--food": {
-    "messageformat": "Toit"
-  },
-  "icu:EmojiPicker__button--activity": {
-    "messageformat": "Tegevus"
-  },
-  "icu:EmojiPicker__button--travel": {
-    "messageformat": "Reisimine"
-  },
-  "icu:EmojiPicker__button--object": {
-    "messageformat": "Objekt"
-  },
-  "icu:EmojiPicker__button--symbol": {
-    "messageformat": "Sümbol"
-  },
-  "icu:EmojiPicker__button--flag": {
-    "messageformat": "Lipp"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -3647,9 +3581,6 @@
   "icu:muteExpirationLabel": {
     "messageformat": "Vaigistatud kuni {duration}"
   },
-  "icu:EmojiButton__label": {
-    "messageformat": "Emoji"
-  },
   "icu:ErrorModal--title": {
     "messageformat": "Midagi läks valesti!"
   },
@@ -4413,16 +4344,16 @@
     "messageformat": "Lisa fail"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
-    "messageformat": "Photos & videos"
+    "messageformat": "Fotod ja videod"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "File"
+    "messageformat": "Fail"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Küsitlus"
   },
   "icu:CompositionArea--attach-plus": {
-    "messageformat": "Add attachment or poll"
+    "messageformat": "Lisa manus või küsitlus"
   },
   "icu:CompositionArea--sms-only__title": {
     "messageformat": "See isik ei kasuta Signalit"
@@ -4573,9 +4504,6 @@
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
     "messageformat": "Blokeeri"
-  },
-  "icu:ConversationDetailsActions--unblock-group-modal-content": {
-    "messageformat": "Sinu kontaktid saavad sind sellesse gruppi lisada."
   },
   "icu:ConversationDetailsActions--unblock-group-modal-body": {
     "messageformat": "Sinu kontaktid saavad sind sellesse gruppi lisada."
@@ -7322,9 +7250,12 @@
     "messageformat": "Parandasime ka vea, mis võis takistada teavituste ilmumist Windowsis."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "We updated the appearance and stylistic consistency of scrollbars throughout the app. Usually if you scroll too fast you might miss something, but in this case scrolling is the only way to see it."
+    "messageformat": "Värskendasime kerimisribade välimust ja stiililiühtlust rakenduse üleselt."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Copy/paste improvements make it easier to select-all and replace existing text without inheriting the old formatting. Thanks, <brianHarder></brianHarder>!"
+    "messageformat": "Parandasime kopeerimise ja kleepimise vormindust. Aitäh, <brianHarder></brianHarder>!"
+  },
+  "icu:WhatsNew__7.80-1": {
+    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
   }
 }
