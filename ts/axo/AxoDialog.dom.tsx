@@ -158,6 +158,7 @@ export namespace AxoDialog {
 
   export type BackProps = Readonly<{
     'aria-label': string;
+    onClick: () => void;
   }>;
 
   export const Back: FC<BackProps> = memo(props => {
@@ -168,6 +169,7 @@ export namespace AxoDialog {
           variant="borderless-secondary"
           symbol="chevron-[start]"
           aria-label={props['aria-label']}
+          onClick={props.onClick}
         />
       </div>
     );
@@ -373,6 +375,7 @@ export namespace AxoDialog {
         arrow={props.arrow}
         size="md"
         width="grow"
+        onClick={props.onClick}
       >
         {props.children}
       </AxoButton.Root>
@@ -402,6 +405,7 @@ export namespace AxoDialog {
         variant={props.variant}
         size="md"
         symbol={props.symbol}
+        onClick={props.onClick}
       />
     );
   });

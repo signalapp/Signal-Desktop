@@ -54,7 +54,9 @@ function Template(props: {
       </AxoDialog.Trigger>
       <AxoDialog.Content size={props.contentSize} escape="cancel-is-noop">
         <AxoDialog.Header>
-          {props.back && <AxoDialog.Back aria-label="Back" />}
+          {props.back && (
+            <AxoDialog.Back aria-label="Back" onClick={action('onBack')} />
+          )}
           <AxoDialog.Title>Title</AxoDialog.Title>
           <AxoDialog.Close aria-label="Close" />
         </AxoDialog.Header>
