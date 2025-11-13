@@ -1382,7 +1382,7 @@ async function showAbout() {
     title: getResolvedMessagesLocale().i18n('icu:aboutSignalDesktop'),
     titleBarStyle: nonMainTitleBarStyle,
     autoHideMenuBar: true,
-    backgroundColor: await getBackgroundColor({ signalColors: true }),
+    backgroundColor: await getBackgroundColor(),
     show: false,
     webPreferences: {
       ...defaultWebPrefs,
