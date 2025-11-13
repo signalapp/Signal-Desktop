@@ -2,16 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Dialog } from 'radix-ui';
-import type {
-  CSSProperties,
-  FC,
-  ForwardedRef,
-  HTMLAttributes,
-  ReactNode,
-} from 'react';
-import React, { forwardRef, memo, useMemo } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
+import React, { memo, useMemo } from 'react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
-import { AxoSymbol } from './AxoSymbol.dom.js';
+import type { AxoSymbol } from './AxoSymbol.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
@@ -129,39 +123,6 @@ export namespace AxoDialog {
   });
 
   Header.displayName = `${Namespace}.Header`;
-
-  type HeaderIconButtonProps = HTMLAttributes<HTMLButtonElement> &
-    Readonly<{
-      label: string;
-      symbol: AxoSymbol.IconName;
-    }>;
-
-  const HeaderIconButton = forwardRef(
-    (
-      props: HeaderIconButtonProps,
-      ref: ForwardedRef<HTMLButtonElement>
-    ): JSX.Element => {
-      const { label, symbol, ...rest } = props;
-
-      return (
-        <button
-          ref={ref}
-          {...rest}
-          type="button"
-          aria-label={label}
-          className={tw(
-            'rounded-full p-[5px] leading-none',
-            'hovered:bg-fill-secondary pressed:bg-fill-secondary-pressed',
-            'outline-0 outline-border-focused focused:outline-[2.5px]'
-          )}
-        >
-          <AxoSymbol.Icon symbol={symbol} size={18} label={null} />
-        </button>
-      );
-    }
-  );
-
-  HeaderIconButton.displayName = `${Namespace}._HeaderIconButton`;
 
   /**
    * Component: <AxoDialog.Title>
