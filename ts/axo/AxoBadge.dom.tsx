@@ -95,11 +95,7 @@ export namespace ExperimentalAxoBadge {
         return null;
       }
       if (value === 'mention') {
-        return (
-          <span aria-hidden>
-            <AxoSymbol.InlineGlyph symbol="at" label={null} />
-          </span>
-        );
+        return <AxoSymbol.InlineGlyph symbol="at" label={null} />;
       }
       if (typeof value === 'number') {
         return (
