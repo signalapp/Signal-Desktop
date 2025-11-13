@@ -6,12 +6,12 @@ import { type WritableDB } from '../../sql/Interface.std.js';
 import { sql, sqlFragment } from '../../sql/util.std.js';
 import { createDB, explain, updateToVersion } from './helpers.node.js';
 
-describe('SQL/updateToSchemaVersion1530', () => {
+describe('SQL/updateToSchemaVersion1540', () => {
   let db: WritableDB;
 
   beforeEach(() => {
     db = createDB();
-    updateToVersion(db, 1530);
+    updateToVersion(db, 1540);
   });
   afterEach(() => {
     db.close();
@@ -19,6 +19,7 @@ describe('SQL/updateToSchemaVersion1530', () => {
 
   const CORE_UPDATE_QUERY = sqlFragment`
     UPDATE messages
+    INDEXED BY messages_conversationId_expirationStartTimestamp
     SET
         expirationStartTimestamp = 342342
     WHERE
@@ -48,8 +49,8 @@ describe('SQL/updateToSchemaVersion1530', () => {
 
     assert.strictEqual(
       detail,
-      'SEARCH messages USING INDEX messages_conversationId_hasExpireTimer_expirationStartTimestamp' +
-        ' (conversationId=? AND hasExpireTimer=? AND expirationStartTimestamp=?)'
+      'SEARCH messages USING INDEX messages_conversationId_expirationStartTimestamp' +
+        ' (conversationId=? AND expirationStartTimestamp=?)'
     );
   });
   it('uses index efficiently with null start + no storyId condition', () => {
@@ -62,8 +63,8 @@ describe('SQL/updateToSchemaVersion1530', () => {
 
     assert.strictEqual(
       detail,
-      'SEARCH messages USING INDEX messages_conversationId_hasExpireTimer_expirationStartTimestamp' +
-        ' (conversationId=? AND hasExpireTimer=? AND expirationStartTimestamp=?)'
+      'SEARCH messages USING INDEX messages_conversationId_expirationStartTimestamp' +
+        ' (conversationId=? AND expirationStartTimestamp=?)'
     );
   });
 
@@ -72,8 +73,8 @@ describe('SQL/updateToSchemaVersion1530', () => {
 
     assert.strictEqual(
       detail,
-      'SEARCH messages USING INDEX messages_conversationId_hasExpireTimer_expirationStartTimestamp' +
-        ' (conversationId=? AND hasExpireTimer=? AND expirationStartTimestamp>?)'
+      'SEARCH messages USING INDEX messages_conversationId_expirationStartTimestamp' +
+        ' (conversationId=? AND expirationStartTimestamp>?)'
     );
   });
 
@@ -86,8 +87,8 @@ describe('SQL/updateToSchemaVersion1530', () => {
 
     assert.strictEqual(
       detail,
-      'SEARCH messages USING INDEX messages_conversationId_hasExpireTimer_expirationStartTimestamp' +
-        ' (conversationId=? AND hasExpireTimer=? AND expirationStartTimestamp>?)'
+      'SEARCH messages USING INDEX messages_conversationId_expirationStartTimestamp' +
+        ' (conversationId=? AND expirationStartTimestamp>?)'
     );
   });
 });
