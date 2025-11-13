@@ -1593,7 +1593,7 @@ function EmojiOrMoon({
     return (
       <div
         className={tw(
-          'absolute start-1/2 top-1/2 -translate-1/2 leading-none text-color-label-primary'
+          'absolute start-1/2 top-1/2 -translate-1/2 text-color-label-primary'
         )}
         style={
           forceLightTheme
@@ -2073,9 +2073,7 @@ function TimePicker({
         }}
         value={formatTimeForInput(time)}
       >
-        <DateInput
-          className={tw('inline-flex min-w-[5em] items-center leading-none')}
-        >
+        <DateInput className={tw('inline-flex min-w-[5em] items-center')}>
           {segment => {
             // We don't need the space between the time and the am/pm
             if (segment.type === 'literal' && segment.text === ' ') {
@@ -2103,9 +2101,7 @@ function TimePicker({
         </DateInput>
         <button
           className={classNames(
-            tw(
-              'ms-3 p-0.5 leading-none outline-0 focus-visible:bg-fill-selected'
-            ),
+            tw('ms-3 p-0.5 outline-0 focus-visible:bg-fill-selected'),
             isDisabled ? tw('text-label-placeholder') : null
           )}
           type="button"

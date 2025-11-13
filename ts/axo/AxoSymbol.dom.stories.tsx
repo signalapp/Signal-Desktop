@@ -52,7 +52,7 @@ const SymbolInfo = memo(function SymbolInfo(props: {
               <span className={tw('type-caption text-label-secondary')}>
                 {variant.title}
               </span>
-              <span className={tw('text-[20px] leading-none')}>
+              <span className={tw('text-[20px]')}>
                 <Direction.Provider dir={variant.dir}>
                   <AxoSymbol.InlineGlyph
                     symbol={props.symbolName}

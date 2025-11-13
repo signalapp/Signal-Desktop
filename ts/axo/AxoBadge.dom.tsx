@@ -96,7 +96,7 @@ export namespace ExperimentalAxoBadge {
       }
       if (value === 'mention') {
         return (
-          <span aria-hidden className={tw('leading-none')}>
+          <span aria-hidden>
             <AxoSymbol.InlineGlyph symbol="at" label={null} />
           </span>
         );

@@ -15,7 +15,7 @@ type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export namespace AxoIconButton {
   const baseStyles = tw(
-    'relative rounded-full align-top leading-none select-none',
+    'relative rounded-full select-none',
     'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
     'forced-colors:disabled:text-[GrayText]',

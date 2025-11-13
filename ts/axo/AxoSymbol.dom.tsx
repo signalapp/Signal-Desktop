@@ -90,7 +90,7 @@ export namespace AxoSymbol {
   }>;
 
   const iconStyles = tw(
-    'inline-flex size-[1em] shrink-0 items-center justify-center align-middle'
+    'inline-flex size-[1em] shrink-0 items-center justify-center align-middle leading-none'
   );
 
   export const Icon: FC<IconProps> = memo(props => {
