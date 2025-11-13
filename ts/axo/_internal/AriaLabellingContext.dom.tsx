@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefCallback } from 'react';
-import { createContext, useContext, useMemo, useState } from 'react';
-import { assert } from './assert.dom.js';
+import { useMemo, useState } from 'react';
+import { createStrictContext, useStrictContext } from './StrictContext.dom.js';
 
 type AriaLabellingContextType = Readonly<{
   labelRef: RefCallback<HTMLElement>;
   descriptionRef: RefCallback<HTMLElement>;
 }>;
 
-const AriaLabellingContext = createContext<AriaLabellingContextType | null>(
-  null
+const AriaLabellingContext = createStrictContext<AriaLabellingContextType>(
+  'AriaLabellingContext.Provider'
 );
 
 export type CreateAriaLabellingContextResult = Readonly<{
@@ -42,11 +42,10 @@ export function useCreateAriaLabellingContext(): CreateAriaLabellingContextResul
 export const AriaLabellingProvider = AriaLabellingContext.Provider;
 
 export function useAriaLabellingContext(
-  componentName: string,
   providerName: string
 ): AriaLabellingContextType {
-  return assert(
-    useContext(AriaLabellingContext),
-    `${componentName} must be wrapped with a ${providerName}`
+  return useStrictContext(
+    AriaLabellingContext,
+    `Must be wrapped with a <${providerName}>`
   );
 }

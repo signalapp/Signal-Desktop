@@ -1,17 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, {
-  createContext,
-  memo,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import type { ReactNode, MouseEvent, FC } from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
 import { tw } from './tw.dom.js';
 import { assert } from './_internal/assert.dom.js';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.js';
 
 const Namespace = 'AriaClickable';
 
@@ -51,8 +48,8 @@ export namespace AriaClickable {
 
   type TriggerStateUpdate = (state: TriggerState) => void;
 
-  const TriggerStateUpdateContext = createContext<TriggerStateUpdate | null>(
-    null
+  const TriggerStateUpdateContext = createStrictContext<TriggerStateUpdate>(
+    `${Namespace}.Root`
   );
 
   /**
@@ -174,13 +171,7 @@ export namespace AriaClickable {
    */
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
     const ref = useRef<HTMLButtonElement>(null);
-    const onTriggerStateUpdate = useContext(TriggerStateUpdateContext);
-
-    if (onTriggerStateUpdate == null) {
-      throw new Error(
-        `<${Namespace}.HiddenTrigger> must be wrapped with <${Namespace}.Root>`
-      );
-    }
+    const onTriggerStateUpdate = useStrictContext(TriggerStateUpdateContext);
 
     const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);
     useLayoutEffect(() => {

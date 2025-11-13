@@ -8,19 +8,13 @@ import type {
   HTMLAttributes,
   ReactNode,
 } from 'react';
-import React, {
-  createContext,
-  forwardRef,
-  memo,
-  useContext,
-  useId,
-  useMemo,
-} from 'react';
+import React, { forwardRef, memo, useId, useMemo } from 'react';
 import type { Transition } from 'framer-motion';
 import { motion } from 'framer-motion';
 import type { TailwindStyles } from '../tw.dom.js';
 import { tw } from '../tw.dom.js';
 import { ExperimentalAxoBadge } from '../AxoBadge.dom.js';
+import { createStrictContext, useStrictContext } from './StrictContext.dom.js';
 
 const Namespace = 'AxoBaseSegmentedControl';
 
@@ -54,18 +48,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     itemWidth: ItemWidth;
   }>;
 
-  const RootContext = createContext<RootContextType | null>(null);
-
-  // eslint-disable-next-line no-inner-declarations
-  function useRootContext(componentName: string): RootContextType {
-    const context = useContext(RootContext);
-    if (context == null) {
-      throw new Error(
-        `<${Namespace}.${componentName}> must be wrapped with <${Namespace}.Root>`
-      );
-    }
-    return context;
-  }
+  const RootContext = createStrictContext<RootContextType>(`${Namespace}.Root`);
 
   type VariantConfig = {
     rootStyles: TailwindStyles;
@@ -81,7 +64,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     ),
     indicatorStyles: tw(
       'pointer-events-none absolute inset-0 z-10 rounded-full',
-      'forced-colors:bg-[Highlight]'
+      'forced-colors:bg-[SelectedItem]'
     ),
   };
 
@@ -167,7 +150,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
       const { value, ...rest } = props;
 
-      const context = useRootContext('Item');
+      const context = useStrictContext(RootContext);
       const config = Variants[context.variant];
       const itemWidthStyles = ItemWidths[context.itemWidth];
 
@@ -189,12 +172,18 @@ export namespace ExperimentalAxoBaseSegmentedControl {
           type="button"
           {...rest}
           className={tw(
-            'group relative flex min-w-0 items-center justify-center px-3 py-[5px]',
+            'relative flex min-w-0 items-center justify-center px-3 py-[5px]',
             'cursor-pointer rounded-full type-body-medium font-medium text-label-primary',
             'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
             'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
+            'forced-colors:data-[axo-contextmenu-state=open]:text-[HighlightText]',
             itemWidthStyles,
-            isSelected && tw('forced-colors:text-[HighlightText]')
+            isSelected && tw('forced-colors:text-[SelectedItemText]'),
+            !isSelected &&
+              tw(
+                'data-[axo-contextmenu-state=open]:bg-fill-secondary',
+                'forced-colors:data-[axo-contextmenu-state=open]:bg-[Highlight]'
+              )
           )}
         >
           {props.children}

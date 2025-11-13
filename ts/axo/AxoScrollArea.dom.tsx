@@ -1,10 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { createContext, memo, useContext, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.js';
 
 const Namespace = 'AxoScrollArea';
 
@@ -15,13 +18,10 @@ const AXO_SCROLL_AREA_TIMELINE_HORIZONTAL =
 type AxoScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
 
 const AxoScrollAreaOrientationContext =
-  createContext<AxoScrollAreaOrientation | null>(null);
+  createStrictContext<AxoScrollAreaOrientation>(`${Namespace}.Root`);
 
 export function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
-  return assert(
-    useContext(AxoScrollAreaOrientationContext),
-    `Must be wrapped with <${Namespace}.Root>`
-  );
+  return useStrictContext(AxoScrollAreaOrientationContext);
 }
 
 /**
@@ -74,15 +74,9 @@ export namespace AxoScrollArea {
     scrollBehavior: ScrollBehavior;
   }>;
 
-  const ScrollAreaConfigContext = createContext<ScrollAreaConfig | null>(null);
-
-  // eslint-disable-next-line no-inner-declarations
-  function useAxoScrollAreaConfig(): ScrollAreaConfig {
-    return assert(
-      useContext(ScrollAreaConfigContext),
-      `Must be wrapped with <${Namespace}.Root>`
-    );
-  }
+  const ScrollAreaConfigContext = createStrictContext<ScrollAreaConfig>(
+    `${Namespace}.Root`
+  );
 
   /**
    * Component: <AxoScrollArea.Root>
@@ -221,7 +215,7 @@ export namespace AxoScrollArea {
       scrollbarGutter,
       scrollbarVisibility,
       scrollBehavior,
-    } = useAxoScrollAreaConfig();
+    } = useStrictContext(ScrollAreaConfigContext);
 
     const style = useMemo((): CSSProperties => {
       const hasVerticalScrollbar = orientation !== 'horizontal';
@@ -376,7 +370,7 @@ export namespace AxoScrollArea {
   export const Hint: FC<HintProps> = memo(props => {
     const { edge, animationStartOffset = 1, animationEndOffset = 20 } = props;
     const orientation = useAxoScrollAreaOrientation();
-    const { scrollbarWidth } = useAxoScrollAreaConfig();
+    const { scrollbarWidth } = useStrictContext(ScrollAreaConfigContext);
 
     const style = useMemo((): CSSProperties => {
       const isVerticalEdge = edge === 'top' || edge === 'bottom';
@@ -445,7 +439,7 @@ export namespace AxoScrollArea {
     } = props;
 
     const orientation = useAxoScrollAreaOrientation();
-    const { scrollbarWidth } = useAxoScrollAreaConfig();
+    const { scrollbarWidth } = useStrictContext(ScrollAreaConfigContext);
 
     const style = useMemo(() => {
       const hasVerticalScrollbar = orientation !== 'horizontal';

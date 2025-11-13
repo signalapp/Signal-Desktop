@@ -1,6 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { ContextMenu } from 'radix-ui';
 import type {
   FC,
@@ -12,6 +19,10 @@ import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
 import { assert } from './_internal/assert.dom.js';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.js';
 
 const Namespace = 'AxoContextMenu';
 
@@ -55,6 +66,14 @@ const Namespace = 'AxoContextMenu';
  * ```
  */
 export namespace AxoContextMenu {
+  export type RootContextType = Readonly<{
+    open: boolean;
+  }>;
+
+  export const RootContext = createStrictContext<RootContextType>(
+    `${Namespace}.RootContext`
+  );
+
   /**
    * Component: <AxoContextMenu.Root>
    * --------------------------------
@@ -63,10 +82,27 @@ export namespace AxoContextMenu {
   export type RootProps = AxoBaseMenu.MenuRootProps;
 
   export const Root: FC<RootProps> = memo(props => {
+    const { onOpenChange } = props;
+    const [open, setOpen] = useState(false);
+
+    const handleOpenChange = useCallback(
+      (nextOpen: boolean) => {
+        setOpen(nextOpen);
+        onOpenChange?.(nextOpen);
+      },
+      [onOpenChange]
+    );
+
+    const context = useMemo(() => {
+      return { open };
+    }, [open]);
+
     return (
-      <ContextMenu.Root onOpenChange={props.onOpenChange}>
-        {props.children}
-      </ContextMenu.Root>
+      <RootContext.Provider value={context}>
+        <ContextMenu.Root onOpenChange={handleOpenChange}>
+          {props.children}
+        </ContextMenu.Root>
+      </RootContext.Provider>
     );
   });
 
@@ -125,6 +161,7 @@ export namespace AxoContextMenu {
   export type TriggerProps = AxoBaseMenu.MenuTriggerProps;
 
   export const Trigger: FC<TriggerProps> = memo(props => {
+    const context = useStrictContext(RootContext);
     const [disableCurrentEvent, setDisableCurrentEvent] = useState(false);
 
     const handleContextMenuCapture = useCallback(
@@ -164,7 +201,8 @@ export namespace AxoContextMenu {
         onContextMenu={handleContextMenu}
         onKeyDown={handleKeyDown}
         disabled={disableCurrentEvent || props.disabled}
-        data-axo-context-menu-trigger
+        data-axo-contextmenu-trigger
+        data-axo-contextmenu-state={context.open ? 'open' : 'closed'}
       >
         {props.children}
       </ContextMenu.Trigger>
@@ -176,7 +214,7 @@ export namespace AxoContextMenu {
   export function useAxoContextMenuOutsideKeyboardTrigger(): KeyboardEventHandler {
     return useContextMenuTriggerKeyboardEventHandler(event => {
       return assert(
-        event.currentTarget.querySelector('[data-axo-context-menu-trigger]'),
+        event.currentTarget.querySelector('[data-axo-contextmenu-trigger]'),
         `Couldn't find <${Namespace}.Trigger> element, did you forget to pass all html props through?`
       );
     });
