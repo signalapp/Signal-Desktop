@@ -11,6 +11,7 @@ export default {
 
 function Template(props: {
   label: string;
+  variant: AxoCheckbox.Variant;
   defaultChecked: boolean;
   disabled?: boolean;
 }): JSX.Element {
@@ -18,6 +19,7 @@ function Template(props: {
   return (
     <label className={tw('my-2 flex items-center gap-2')}>
       <AxoCheckbox.Root
+        variant={props.variant}
         checked={checked}
         onCheckedChange={setChecked}
         disabled={props.disabled}
@@ -31,10 +33,30 @@ export function Basic(): JSX.Element {
   return (
     <>
       <h1 className={tw('type-title-large')}>AxoCheckbox</h1>
-      <Template label="Unchecked" defaultChecked={false} />
-      <Template label="Checked" defaultChecked />
-      <Template label="Unchecked+Disabled" defaultChecked={false} disabled />
-      <Template label="Checked+Disabled" defaultChecked disabled />
+      {AxoCheckbox._getAllCheckboxVariants().map(variant => {
+        return (
+          <section>
+            <Template
+              variant={variant}
+              label="Unchecked"
+              defaultChecked={false}
+            />
+            <Template variant={variant} label="Checked" defaultChecked />
+            <Template
+              variant={variant}
+              label="Unchecked+Disabled"
+              defaultChecked={false}
+              disabled
+            />
+            <Template
+              variant={variant}
+              label="Checked+Disabled"
+              defaultChecked
+              disabled
+            />
+          </section>
+        );
+      })}
     </>
   );
 }

@@ -252,6 +252,7 @@ function CheckboxField(props: { label: string }) {
     <div className={tw('flex gap-3 py-2.5')}>
       <AxoCheckbox.Root
         id={id}
+        variant="square"
         checked={checked}
         onCheckedChange={setChecked}
       />
