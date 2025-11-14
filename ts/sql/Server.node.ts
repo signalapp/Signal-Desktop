@@ -3351,6 +3351,7 @@ function getUnreadByConversationAndMarkRead(
 
     const updateExpirationFragment = sqlFragment`
       UPDATE messages
+      INDEXED BY messages_conversationId_expirationStartTimestamp
       SET
         expirationStartTimestamp = ${expirationStartTimestamp}
       WHERE
