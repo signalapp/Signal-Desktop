@@ -31,6 +31,7 @@ export namespace ExperimentalAxoBadge {
     'flex size-fit items-center justify-center-safe overflow-clip',
     'rounded-full font-semibold',
     'bg-color-fill-primary text-label-primary-on-color',
+    'forced-color-adjust-none forced-colors:bg-[Mark] forced-colors:text-[MarkText]',
     'select-none'
   );
 

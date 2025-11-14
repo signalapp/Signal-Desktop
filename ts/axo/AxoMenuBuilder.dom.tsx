@@ -2,24 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC } from 'react';
-import React, { createContext, memo, useContext } from 'react';
+import React, { memo } from 'react';
 import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { assert, unreachable } from './_internal/assert.dom.js';
+import { unreachable } from './_internal/assert.dom.js';
 import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
 import { AxoContextMenu } from './AxoContextMenu.dom.js';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.js';
 
 const Namespace = 'AxoMenuBuilder';
 
 export namespace AxoMenuBuilder {
   export type Renderer = 'AxoDropdownMenu' | 'AxoContextMenu';
 
-  const MenuBuilderContext = createContext<Renderer | null>(null);
-
-  // eslint-disable-next-line no-inner-declarations
-  function useMenuBuilderContext(): Renderer {
-    const context = useContext(MenuBuilderContext);
-    return assert(context, `Must be wrapped with <${Namespace}.Root>`);
-  }
+  const MenuBuilderContext = createStrictContext<Renderer>(`${Namespace}.Root`);
 
   export type RootProps = AxoBaseMenu.MenuRootProps &
     Readonly<{
@@ -48,7 +46,7 @@ export namespace AxoMenuBuilder {
   Root.displayName = `${Namespace}.Root`;
 
   export const Trigger: FC<AxoBaseMenu.MenuTriggerProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Trigger {...props} />;
     }
@@ -61,7 +59,7 @@ export namespace AxoMenuBuilder {
   Trigger.displayName = `${Namespace}.Trigger`;
 
   export const Content: FC<AxoBaseMenu.MenuContentProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Content {...props} />;
     }
@@ -74,7 +72,7 @@ export namespace AxoMenuBuilder {
   Content.displayName = `${Namespace}.Content`;
 
   export const Item: FC<AxoBaseMenu.MenuItemProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Item {...props} />;
     }
@@ -87,7 +85,7 @@ export namespace AxoMenuBuilder {
   Item.displayName = `${Namespace}.Item`;
 
   export const Group: FC<AxoBaseMenu.MenuGroupProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Group {...props} />;
     }
@@ -100,7 +98,7 @@ export namespace AxoMenuBuilder {
   Group.displayName = `${Namespace}.Group`;
 
   export const Label: FC<AxoBaseMenu.MenuLabelProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Label {...props} />;
     }
@@ -113,7 +111,7 @@ export namespace AxoMenuBuilder {
   Label.displayName = `${Namespace}.Label`;
 
   export const Separator: FC<AxoBaseMenu.MenuSeparatorProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Separator {...props} />;
     }
@@ -127,7 +125,7 @@ export namespace AxoMenuBuilder {
 
   export const CheckboxItem: FC<AxoBaseMenu.MenuCheckboxItemProps> = memo(
     props => {
-      const renderer = useMenuBuilderContext();
+      const renderer = useStrictContext(MenuBuilderContext);
       if (renderer === 'AxoDropdownMenu') {
         return <AxoDropdownMenu.CheckboxItem {...props} />;
       }
@@ -141,7 +139,7 @@ export namespace AxoMenuBuilder {
   CheckboxItem.displayName = `${Namespace}.CheckboxItem`;
 
   export const RadioGroup: FC<AxoBaseMenu.MenuRadioGroupProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.RadioGroup {...props} />;
     }
@@ -154,7 +152,7 @@ export namespace AxoMenuBuilder {
   RadioGroup.displayName = `${Namespace}.RadioGroup`;
 
   export const RadioItem: FC<AxoBaseMenu.MenuRadioItemProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.RadioItem {...props} />;
     }
@@ -167,7 +165,7 @@ export namespace AxoMenuBuilder {
   RadioItem.displayName = `${Namespace}.RadioItem`;
 
   export const Sub: FC<AxoBaseMenu.MenuSubProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Sub {...props} />;
     }
@@ -180,7 +178,7 @@ export namespace AxoMenuBuilder {
   Sub.displayName = `${Namespace}.Sub`;
 
   export const SubTrigger: FC<AxoBaseMenu.MenuSubTriggerProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.SubTrigger {...props} />;
     }
@@ -193,7 +191,7 @@ export namespace AxoMenuBuilder {
   SubTrigger.displayName = `${Namespace}.SubTrigger`;
 
   export const SubContent: FC<AxoBaseMenu.MenuSubContentProps> = memo(props => {
-    const renderer = useMenuBuilderContext();
+    const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.SubContent {...props} />;
     }

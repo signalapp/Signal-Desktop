@@ -161,7 +161,7 @@
 }
 
 .module-message:hover .module-message__buttons,
-.module-message__buttons:has([data-state='open']) {
+.module-message__buttons:has([data-axo-contextmenu-state='open']) {
   opacity: 1;
 }
 
@@ -5046,7 +5046,7 @@ button.module-calling-participants-list__contact {
       }
 
       &:hover:not(:disabled, &--disabled, &--is-selected),
-      &[data-state='open'] {
+      &[data-axo-contextmenu-state='open'] {
         background-color: light-dark(
           variables.$color-gray-05,
           variables.$color-gray-75

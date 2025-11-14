@@ -303,8 +303,7 @@ export namespace AxoDropdownMenu {
     const descriptionId = useId();
 
     const { labelRef, descriptionRef } = useAriaLabellingContext(
-      `<${Namespace}.Header>`,
-      `<${Namespace}.Content/SubContent>`
+      `${Namespace}.Content/SubContent`
     );
 
     return (

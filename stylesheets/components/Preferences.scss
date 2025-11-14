@@ -1099,7 +1099,7 @@ $secondary-text-color: light-dark(
 .Preferences__ChatFolders__ChatSelection__Item--Clickable {
   cursor: pointer;
   &:hover .Preferences__ChatFolders__ChatSelection__ItemContent,
-  .Preferences__ChatFolders__ChatSelection__ItemContent[data-state='open'] {
+  .Preferences__ChatFolders__ChatSelection__ItemContent[data-axo-contextmenu-state='open'] {
     background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
   }
 }
