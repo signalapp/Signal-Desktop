@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './AttachmentSection.dom.js';
 import { AttachmentSection } from './AttachmentSection.dom.js';
+import { LinkPreviewItem } from './LinkPreviewItem.dom.js';
 import {
   createRandomDocuments,
   createRandomMedia,
@@ -21,30 +22,31 @@ export default {
   component: AttachmentSection,
   argTypes: {
     header: { control: { type: 'text' } },
-    type: {
-      control: {
-        type: 'select',
-        options: ['media', 'documents'],
-      },
-    },
   },
   args: {
     i18n,
     header: 'Today',
-    type: 'media',
     mediaItems: [],
+    renderLinkPreviewItem: ({ mediaItem, onClick }) => {
+      return (
+        <LinkPreviewItem
+          i18n={i18n}
+          authorTitle="Alice"
+          mediaItem={mediaItem}
+          onClick={onClick}
+        />
+      );
+    },
     onItemClick: action('onItemClick'),
   },
 } satisfies Meta<Props>;
 
 export function Documents(args: Props) {
   const mediaItems = createRandomDocuments(Date.now(), days(1));
-  return (
-    <AttachmentSection {...args} type="documents" mediaItems={mediaItems} />
-  );
+  return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }
 
 export function Media(args: Props) {
   const mediaItems = createRandomMedia(Date.now(), days(1));
-  return <AttachmentSection {...args} type="media" mediaItems={mediaItems} />;
+  return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }

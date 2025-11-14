@@ -5,6 +5,9 @@
 @use '../variables';
 
 .ConversationPanel {
+  display: flex;
+  flex-direction: column;
+
   height: 100%;
   inset-inline-start: 0;
   overflow-y: auto;
@@ -22,13 +25,18 @@
   }
 
   &__body {
-    margin-top: calc(
+    // Used for centering EmptyState in All Media view
+    position: relative;
+
+    flex-grow: 1;
+    padding-top: calc(
       #{variables.$header-height} + var(--title-bar-drag-area-height)
     );
     padding-inline: 24px;
   }
 
   &__header {
+    flex-shrink: 0;
     align-items: center;
     display: flex;
     flex-direction: row;

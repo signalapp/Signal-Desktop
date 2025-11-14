@@ -6001,7 +6001,7 @@
     "description": "This is the number of members in a group"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media and files",
+    "messageformat": "Media, links, and files",
     "description": "Title for the show all media button in the conversation details screen"
   },
   "icu:ConversationDetailsMembershipList--title": {
@@ -6659,6 +6659,42 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Add group description...",
     "description": "Placeholder text in the details header for those that can edit the group description"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser",
+    "description": "Alt text for the link preview item button"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files",
+    "description": "Header of the links pane in the media gallery, showing files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links",
+    "description": "Header of the links pane in the media gallery, showing links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media",
+    "description": "Title of the empty state view of media gallery for media tab"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here",
+    "description": "Description of the empty state view of media gallery for media tab"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links",
+    "description": "Title of the empty state view of media gallery for links tab"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here",
+    "description": "Description of the empty state view of media gallery for links tab"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files",
+    "description": "Title of the empty state view of media gallery for files tab"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here",
+    "description": "Description of the empty state view of media gallery for files tab"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",

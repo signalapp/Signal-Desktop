@@ -3,7 +3,12 @@
 
 import lodash from 'lodash';
 import { type MIMEType, IMAGE_JPEG } from '../../../../types/MIME.std.js';
-import type { MediaItemType } from '../../../../types/MediaItem.std.js';
+import type {
+  MediaItemType,
+  LinkPreviewMediaItemType,
+  MediaItemMessageType,
+} from '../../../../types/MediaItem.std.js';
+import type { AttachmentForUIType } from '../../../../types/Attachment.std.js';
 import { randomBlurHash } from '../../../../util/randomBlurHash.std.js';
 import { SignalService } from '../../../../protobuf/index.std.js';
 
@@ -24,11 +29,7 @@ const contentTypes = {
   txt: 'application/text',
 } as unknown as Record<string, MIMEType>;
 
-function createRandomFile(
-  startTime: number,
-  timeWindow: number,
-  fileExtension: string
-): MediaItemType {
+function createRandomAttachment(fileExtension: string): AttachmentForUIType {
   const contentType = contentTypes[fileExtension];
   const fileName = `${sample(tokens)}${sample(tokens)}.${fileExtension}`;
 
@@ -36,76 +37,131 @@ function createRandomFile(
   const isPending = !isDownloaded && Math.random() > 0.5;
 
   return {
-    message: {
-      conversationId: '123',
-      type: 'incoming',
-      id: random(Date.now()).toString(),
-      receivedAt: Math.floor(Math.random() * 10),
-      receivedAtMs: random(startTime, startTime + timeWindow),
-      sentAt: Date.now(),
-    },
-    attachment: {
-      url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
-      path: isDownloaded ? 'abc' : undefined,
-      pending: isPending,
-      screenshot:
-        fileExtension === 'mp4'
-          ? {
-              url: isDownloaded
-                ? '/fixtures/cat-screenshot-3x4.png'
-                : undefined,
-              contentType: IMAGE_JPEG,
-            }
-          : undefined,
-      flags:
-        fileExtension === 'mp4' && Math.random() > 0.5
-          ? SignalService.AttachmentPointer.Flags.GIF
-          : 0,
-      width: 400,
-      height: 300,
-      fileName,
-      size: random(1000, 1000 * 1000 * 50),
-      contentType,
-      blurHash: randomBlurHash(),
-      isPermanentlyUndownloadable: false,
-    },
+    url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
+    path: isDownloaded ? 'abc' : undefined,
+    pending: isPending,
+    screenshot:
+      fileExtension === 'mp4'
+        ? {
+            url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
+            contentType: IMAGE_JPEG,
+          }
+        : undefined,
+    flags:
+      fileExtension === 'mp4' && Math.random() > 0.5
+        ? SignalService.AttachmentPointer.Flags.GIF
+        : 0,
+    width: 400,
+    height: 300,
+    fileName,
+    size: random(1000, 1000 * 1000 * 50),
+    contentType,
+    blurHash: randomBlurHash(),
+    isPermanentlyUndownloadable: false,
+  };
+}
+
+function createRandomMessage(
+  startTime: number,
+  timeWindow: number
+): MediaItemMessageType {
+  return {
+    conversationId: '123',
+    type: 'incoming',
+    id: random(Date.now()).toString(),
+    receivedAt: Math.floor(Math.random() * 10),
+    receivedAtMs: random(startTime, startTime + timeWindow),
+    sentAt: Date.now(),
+
+    // Unused for now
+    source: undefined,
+    sourceServiceId: undefined,
+  };
+}
+
+function createRandomFile(
+  type: 'media' | 'document',
+  startTime: number,
+  timeWindow: number,
+  fileExtension: string
+): MediaItemType {
+  return {
+    type,
+    message: createRandomMessage(startTime, timeWindow),
+    attachment: createRandomAttachment(fileExtension),
     index: 0,
   };
 }
 
+function createRandomLink(
+  startTime: number,
+  timeWindow: number
+): LinkPreviewMediaItemType {
+  return {
+    type: 'link',
+    message: createRandomMessage(startTime, timeWindow),
+    preview: {
+      url: 'https://signal.org/',
+      domain: 'signal.org',
+      title: 'Signal',
+      description: 'description',
+      image: Math.random() > 0.7 ? createRandomAttachment('png') : undefined,
+    },
+  };
+}
+
 function createRandomFiles(
+  type: 'media' | 'document',
   startTime: number,
   timeWindow: number,
   fileExtensions: Array<string>
 ): Array<MediaItemType> {
   return range(random(5, 10)).map(() =>
-    createRandomFile(startTime, timeWindow, sample(fileExtensions) as string)
+    createRandomFile(
+      type,
+      startTime,
+      timeWindow,
+      sample(fileExtensions) as string
+    )
   );
 }
 export function createRandomDocuments(
   startTime: number,
   timeWindow: number
 ): Array<MediaItemType> {
-  return createRandomFiles(startTime, timeWindow, [
+  return createRandomFiles('document', startTime, timeWindow, [
     'docx',
     'pdf',
     'exe',
     'txt',
   ]);
 }
+export function createRandomLinks(
+  startTime: number,
+  timeWindow: number
+): Array<LinkPreviewMediaItemType> {
+  return range(random(5, 10)).map(() =>
+    createRandomLink(startTime, timeWindow)
+  );
+}
 
 export function createRandomMedia(
   startTime: number,
   timeWindow: number
 ): Array<MediaItemType> {
-  return createRandomFiles(startTime, timeWindow, ['mp4', 'jpg', 'png', 'gif']);
+  return createRandomFiles('media', startTime, timeWindow, [
+    'mp4',
+    'jpg',
+    'png',
+    'gif',
+  ]);
 }
 
-export function createPreparedMediaItems(
-  fn: typeof createRandomDocuments | typeof createRandomMedia
-): Array<MediaItemType> {
+export function createPreparedMediaItems<
+  Item extends MediaItemType | LinkPreviewMediaItemType,
+>(fn: (startTime: number, timeWindow: number) => Array<Item>): Array<Item> {
   const now = Date.now();
-  return sortBy(
+  return sortBy<Item>(
     [
       ...fn(now, days(1)),
       ...fn(now - days(1), days(1)),
@@ -113,6 +169,6 @@ export function createPreparedMediaItems(
       ...fn(now - days(30), days(15)),
       ...fn(now - days(365), days(300)),
     ],
-    (item: MediaItemType) => -item.message.receivedAt
+    item => -item.message.receivedAt
   );
 }

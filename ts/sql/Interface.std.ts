@@ -58,6 +58,7 @@ import type { SyncTaskType } from '../util/syncTasks.preload.js';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
 import type { MediaItemMessageType } from '../types/MediaItem.std.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import type { DonationReceipt } from '../types/Donations.std.js';
@@ -590,12 +591,25 @@ export type GetOlderMediaOptionsType = Readonly<{
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
-  type: 'media' | 'files';
+  type: 'media' | 'documents';
+}>;
+
+export type GetOlderLinkPreviewsOptionsType = Readonly<{
+  conversationId: string;
+  limit: number;
+  messageId?: string;
+  receivedAt?: number;
+  sentAt?: number;
 }>;
 
 export type MediaItemDBType = Readonly<{
   attachment: AttachmentType;
   index: number;
+  message: MediaItemMessageType;
+}>;
+
+export type LinkPreviewMediaItemDBType = Readonly<{
+  preview: LinkPreviewType;
   message: MediaItemMessageType;
 }>;
 
@@ -829,6 +843,9 @@ type ReadableInterface = {
   // getOlderMessagesByConversation is JSON on server, full message on Client
   hasMedia: (conversationId: string) => boolean;
   getOlderMedia: (options: GetOlderMediaOptionsType) => Array<MediaItemDBType>;
+  getOlderLinkPreviews: (
+    options: GetOlderLinkPreviewsOptionsType
+  ) => Array<LinkPreviewMediaItemDBType>;
   getAllStories: (options: {
     conversationId?: string;
     sourceServiceId?: ServiceIdString;

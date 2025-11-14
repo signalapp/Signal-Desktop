@@ -8,18 +8,32 @@ import { getIntl, getTheme } from '../selectors/user.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
 import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
+import {
+  SmartLinkPreviewItem,
+  type PropsType as LinkPreviewItemPropsType,
+} from './LinkPreviewItem.dom.js';
 
 export type PropsType = {
   conversationId: string;
 };
 
+function renderLinkPreviewItem(props: LinkPreviewItemPropsType): JSX.Element {
+  return <SmartLinkPreviewItem {...props} />;
+}
+
 export const SmartAllMedia = memo(function SmartAllMedia({
   conversationId,
 }: PropsType) {
-  const { media, documents, haveOldestDocument, haveOldestMedia, loading } =
-    useSelector(getMediaGalleryState);
-  const { initialLoad, loadMoreMedia, loadMoreDocuments } =
-    useMediaGalleryActions();
+  const {
+    media,
+    documents,
+    links,
+    haveOldestDocument,
+    haveOldestMedia,
+    haveOldestLink,
+    loading,
+  } = useSelector(getMediaGalleryState);
+  const { initialLoad, loadMore } = useMediaGalleryActions();
   const {
     saveAttachment,
     kickOffAttachmentDownload,
@@ -34,18 +48,20 @@ export const SmartAllMedia = memo(function SmartAllMedia({
       conversationId={conversationId}
       haveOldestDocument={haveOldestDocument}
       haveOldestMedia={haveOldestMedia}
+      haveOldestLink={haveOldestLink}
       i18n={i18n}
       theme={theme}
       initialLoad={initialLoad}
       loading={loading}
-      loadMoreMedia={loadMoreMedia}
-      loadMoreDocuments={loadMoreDocuments}
+      loadMore={loadMore}
       media={media}
       documents={documents}
+      links={links}
       showLightbox={showLightbox}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       cancelAttachmentDownload={cancelAttachmentDownload}
       saveAttachment={saveAttachment}
+      renderLinkPreviewItem={renderLinkPreviewItem}
     />
   );
 });

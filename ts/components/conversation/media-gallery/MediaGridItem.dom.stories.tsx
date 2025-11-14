@@ -44,6 +44,7 @@ type OverridePropsMediaItemType = Partial<MediaItemType> & {
 const createMediaItem = (
   overrideProps: OverridePropsMediaItemType
 ): MediaItemType => ({
+  type: 'media',
   index: 0,
   attachment: overrideProps.attachment || {
     path: '123',
@@ -60,6 +61,10 @@ const createMediaItem = (
     receivedAt: Date.now(),
     receivedAtMs: Date.now(),
     sentAt: Date.now(),
+
+    // Unused for now
+    source: undefined,
+    sourceServiceId: undefined,
   },
 });
 
