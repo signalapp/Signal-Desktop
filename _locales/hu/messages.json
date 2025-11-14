@@ -1098,7 +1098,7 @@
     "messageformat": "Részletek"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Szavazás befejezése"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Szavazás · Válassz egyet"
@@ -1116,13 +1116,13 @@
     "messageformat": "Szavaztál"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Befejezted a szavazást: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} befejezte a(z) „{poll}” szavazást"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Szavazás megtekintése"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Szavazás részletei"
@@ -1137,7 +1137,7 @@
     "messageformat": "Nincs szavazat"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Nem található szavazás"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Új szavazás"
@@ -1146,7 +1146,7 @@
     "messageformat": "Kérdés"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tegyél fel egy kérdést"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opciók"

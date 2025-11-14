@@ -1098,7 +1098,7 @@
     "messageformat": "Inligting"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Beëindig meningsopname"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Meningsopname · Kies een"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Besigtig meningsopname"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Besonderhede van meningsopname"
@@ -1137,7 +1137,7 @@
     "messageformat": "Geen stemme nie"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Meningsopname nie gevind nie"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nuwe meningsopname"
@@ -1146,7 +1146,7 @@
     "messageformat": "Vraag"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Vra 'n vraag"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opsies"

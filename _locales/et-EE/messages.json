@@ -1098,7 +1098,7 @@
     "messageformat": "Teave"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Lõpeta küsitlus"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Küsitlus · Vali üks"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Vaata küsitlust"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Küsitluse andmed"
@@ -1137,7 +1137,7 @@
     "messageformat": "Vastuseid pole"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Küsitlust ei leitud"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Uus küsitlus"
@@ -1146,7 +1146,7 @@
     "messageformat": "Küsimus"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Esita küsimus"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Valikud"

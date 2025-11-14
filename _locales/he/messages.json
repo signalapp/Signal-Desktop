@@ -1098,7 +1098,7 @@
     "messageformat": "מידע"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "סיום סקר"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "סקר · יש לבחור 1"
@@ -1116,13 +1116,13 @@
     "messageformat": "אפשרות שהצבעת לה"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "סיימת את הסקר: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} סיימה את הסקר: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "הצגת סקר"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "פרטי סקר"
@@ -1137,7 +1137,7 @@
     "messageformat": "אין הצבעות"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "סקר לא נמצא"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "סקר חדש"
@@ -1146,7 +1146,7 @@
     "messageformat": "שאלה"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "לשאול שאלה"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "אפשרויות"

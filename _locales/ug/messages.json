@@ -1098,7 +1098,7 @@
     "messageformat": "ئۇچۇر"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "راي سىناشنى توختىتىش"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "راي سىناش · بىرنى تاللاڭ"
@@ -1116,13 +1116,13 @@
     "messageformat": "بېلەت تاشلىدىڭىز"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "{poll}: راي سىنىقىنى ئاخىرلاشتۇردىڭىز"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} راي سىناشنى ئاخىرلاشتۇردى: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "راي سىناشنى كۆرۈش"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "راي سىناش تەپسىلاتلىرى"
@@ -1137,7 +1137,7 @@
     "messageformat": "بېلەت تاشلانمىدى"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "راي سىناش تېپىلمىدى"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "يېڭى راي سىناش"
@@ -1146,7 +1146,7 @@
     "messageformat": "سوئال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "سۇئال سوراڭ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "تاللاش"
@@ -1167,10 +1167,10 @@
     "messageformat": "راي سىناش كەم دېگەندە 2 تال تاللاشنى تەلەپ قىلىدۇ"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "سۇئال بەك ئۇزۇن"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "تاللاش بەك ئۇزۇن"
   },
   "icu:deleteConversation": {
     "messageformat": "ئۆچۈر"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} «{message}» گە قايتۇرغان ئىنكاس {emoji}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender}«{pollQuestion}»غا بېلەت تاشلىدى"
   },
   "icu:sendFailed": {
     "messageformat": "ئەۋەتەلمىدى"
@@ -7256,6 +7256,6 @@
     "messageformat": "كۆپەيتىش / چاپلاش فورماتى ياخشىلاندى. رەھمەت سىزگە <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal راي سىناقلىرى بۇ يەردە! سىز ۋە دوستلىرىڭىز ئۆخشاش كۆز-قاراشتىمۇ ياكى قارشى پىكىردىمۇ؟ راي سىناش بولسا گۇرۇپپىڭىزدىكىلەرنىڭ ھەقىقىي ئويلىغانلىرىنى بىلىشنىڭ ئاسان ئۇسۇلى. مۇھىم تېمىلار ياكى مۇھىم ئەمەس دەپ قارىغان، مەسىلەن: «چۈشتە نېمە يەيمىز»، دىگەندەك تېمىلار ئۈستىدە راي سىناش ئېلىپ بېرىڭ. گۇرۇپپا ئەزالىرىنىڭ ھەرقاندىقى بېلەت تاشلىيالايدۇ ۋە بىر-بىرىنىڭ ئىنكاسىنى كۆرەلەيدۇ، كۆپ بېلەتكە ئەگىشىش ياكى ئەگەشمەسلىك ئۆز ئختىيارلىقىڭىزدا."
   }
 }

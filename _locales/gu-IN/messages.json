@@ -1098,7 +1098,7 @@
     "messageformat": "માહિતી"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "મતદાન સમાપ્ત કરો"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "મતદાન · એક પસંદ કરો"
@@ -1116,13 +1116,13 @@
     "messageformat": "તમે મતદાન કર્યું"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "તમે આ મતદાન સમાપ્ત કર્યું: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name}એ મતદાન સમાપ્ત કર્યું: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "મતદાન જુઓ"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "મતદાન વિગતો"
@@ -1137,7 +1137,7 @@
     "messageformat": "કોઈ મત નથી"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "મતદાન મળ્યું નથી"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "નવું મતદાન"
@@ -1146,7 +1146,7 @@
     "messageformat": "પ્રશ્ન"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "પ્રશ્ન પૂછો"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "વિકલ્પો"

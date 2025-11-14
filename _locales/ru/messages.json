@@ -1098,7 +1098,7 @@
     "messageformat": "Информация"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Завершить опрос"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Опрос · Выберите один вариант"
@@ -1116,13 +1116,13 @@
     "messageformat": "Вы проголосовали"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Вы завершили опрос «{poll}»"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} завершил(а) опрос «{poll}»"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Просмотреть опрос"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Детали опроса"
@@ -1137,7 +1137,7 @@
     "messageformat": "Нет голосов"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Опрос не найден"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Новый опрос"
@@ -1146,7 +1146,7 @@
     "messageformat": "Вопрос"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Задать вопрос"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Варианты:"

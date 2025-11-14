@@ -1098,7 +1098,7 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "បញ្ចប់ការស្ទង់មតិ"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "ការស្ទង់មតិ · ជ្រើសរើសមួយ"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "មើលការស្ទង់មតិ"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីការស្ទង់មតិ"
@@ -1137,7 +1137,7 @@
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "រកមិនឃើញការស្ទង់មតិទេ"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "ការស្ទង់មតិថ្មី"
@@ -1146,7 +1146,7 @@
     "messageformat": "សំណួរ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "សួរសំណួរ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ជម្រើស"

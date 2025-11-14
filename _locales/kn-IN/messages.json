@@ -1098,7 +1098,7 @@
     "messageformat": "ಮಾಹಿತಿ"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಕೊನೆಗೊಳಿಸಿ"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "ಸಮೀಕ್ಷೆ · ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ವೀಕ್ಷಿಸಿ"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "ಸಮೀಕ್ಷೆಯ ವಿವರಗಳು"
@@ -1137,7 +1137,7 @@
     "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "ಸಮೀಕ್ಷೆ ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "ಹೊಸ ಸಮೀಕ್ಷೆ"
@@ -1146,7 +1146,7 @@
     "messageformat": "ಪ್ರಶ್ನೆ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ಆಯ್ಕೆಗಳು"

@@ -1098,7 +1098,7 @@
     "messageformat": "Tietoja"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Lopeta kysely"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Kysely · Valitse yksi"
@@ -1116,13 +1116,13 @@
     "messageformat": "Olet äänestänyt"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Lopetit kyselyn: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} lopetti kyselyn: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Näytä kysely"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Kyselyn tiedot"
@@ -1137,7 +1137,7 @@
     "messageformat": "Ei ääniä"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Kyselyä ei löytynyt"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Uusi kysely"
@@ -1146,7 +1146,7 @@
     "messageformat": "Kysymys"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Kysy kysymys"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Valinnat"

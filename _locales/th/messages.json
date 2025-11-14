@@ -1098,7 +1098,7 @@
     "messageformat": "ข้อมูล"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "ปิดโพล"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "โพล · เลือกหนึ่งข้อ"
@@ -1116,13 +1116,13 @@
     "messageformat": "คุณโหวตข้อนี้"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "คุณปิดโพล: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ปิดโพล: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "ดูโพล"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "รายละเอียดโพล"
@@ -1137,7 +1137,7 @@
     "messageformat": "ยังไม่มีคะแนนโหวต"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "ไม่พบโพล"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "โพลใหม่"
@@ -1146,7 +1146,7 @@
     "messageformat": "คำถาม"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ตั้งคำถาม"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ตัวเลือก"

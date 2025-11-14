@@ -1098,7 +1098,7 @@
     "messageformat": "Maelezo"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Maliza kupiga kura ya maoni"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Kura ya maoni · Chagua Moja"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Tazama kura ya maoni"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Maelezo ya Kura"
@@ -1137,7 +1137,7 @@
     "messageformat": "Hakuna kura"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Kura ya maoni haijapatikana"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Kura mpya ya maoni"
@@ -1146,7 +1146,7 @@
     "messageformat": "Swali"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Uliza swali"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Chaguzi"

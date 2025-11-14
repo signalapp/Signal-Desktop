@@ -1098,7 +1098,7 @@
     "messageformat": "Thông tin"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Kết thúc"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Hỏi ý kiến · Chọn một"
@@ -1116,13 +1116,13 @@
     "messageformat": "Bạn đã bình chọn"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Bạn đã kết thúc hỏi ý kiến: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} đã kết thúc hỏi ý kiến: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Xem câu hỏi"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Hỏi ý kiến"
@@ -1137,7 +1137,7 @@
     "messageformat": "Không có bình chọn"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Không tìm thấy câu hỏi"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Câu hỏi mới"
@@ -1146,7 +1146,7 @@
     "messageformat": "Câu hỏi"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Hỏi một câu hỏi"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Tùy chọn"

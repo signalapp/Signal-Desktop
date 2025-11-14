@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Amaitu galdeketa"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Galdeketa · Hautatu bat"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ikusi galdeketa"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Galdeketaren xehetasunak"
@@ -1137,7 +1137,7 @@
     "messageformat": "Ez dago botorik"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Ez da aurkitu galdeketa"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Galdeketa berria"
@@ -1146,7 +1146,7 @@
     "messageformat": "Galdera"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Egin galdera bat"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Aukerak"

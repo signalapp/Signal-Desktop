@@ -1098,7 +1098,7 @@
     "messageformat": "Información"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Rematar enquisa"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Enquisa · Escolle unha opción"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ver enquisa"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Información da enquisa"
@@ -1137,7 +1137,7 @@
     "messageformat": "Sen votos"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Enquisa non atopada"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nova enquisa"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Fai unha pregunta"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opcións"

@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Zaključi anketo"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Anketa · Izberite eno"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ogled ankete"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Podrobnosti ankete"
@@ -1137,7 +1137,7 @@
     "messageformat": "Brez glasov"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Anketa ni bila najdena"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nova anketa"
@@ -1146,7 +1146,7 @@
     "messageformat": "Vprašanje"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Postavite vprašanje"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Možnosti"

@@ -1098,7 +1098,7 @@
     "messageformat": "Information"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Afslut afstemning"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Afstemning · Vælg en"
@@ -1116,13 +1116,13 @@
     "messageformat": "Du stemte"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Du afsluttede afstemningen: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} afsluttede afstemningen: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Se afstemning"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Afstemningsoplysninger"
@@ -1137,7 +1137,7 @@
     "messageformat": "Ingen stemmer"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Afstemning ikke fundet"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Ny afstemning"
@@ -1146,7 +1146,7 @@
     "messageformat": "Spørgsmål"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Stil et spørgsmål"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Valgmuligheder"

@@ -1098,7 +1098,7 @@
     "messageformat": "Informacje"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Zamknij ankietę"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Ankieta · Wybierz jedną opcję"
@@ -1116,13 +1116,13 @@
     "messageformat": "Twój głos"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Zamykasz ankietę: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} zamyka ankietę: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Wyświetl ankietę"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Szczegóły ankiety"
@@ -1137,7 +1137,7 @@
     "messageformat": "Brak głosów"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Nie znaleziono ankiety"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nowa ankieta"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pytanie"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Zadaj pytanie"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opcje"

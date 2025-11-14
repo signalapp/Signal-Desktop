@@ -1098,7 +1098,7 @@
     "messageformat": "जानकारी"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "पोल समाप्त करें"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "पोल · कोई एक चुनें"
@@ -1116,13 +1116,13 @@
     "messageformat": "आपने वोट दिया है"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "आपने यह पोल खत्म कर दिया है: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ने यह पोल समाप्त कर दिया है: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "पोल देखें"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "पोल का विवरण"
@@ -1137,7 +1137,7 @@
     "messageformat": "कोई वोट नहीं मिला"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "पोल नहीं मिला"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "नया पोल"
@@ -1146,7 +1146,7 @@
     "messageformat": "सवाल"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "कोई सवाल पूछें"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "विकल्प"

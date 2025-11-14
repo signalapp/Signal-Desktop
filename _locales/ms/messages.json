@@ -1098,7 +1098,7 @@
     "messageformat": "Maklumat"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Tamatkan Undian"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Undian · Pilih Satu"
@@ -1116,13 +1116,13 @@
     "messageformat": "Anda mengundi"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Anda menamatkan undian: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} menamatkan undian: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Lihat undian"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Butiran Undian"
@@ -1137,7 +1137,7 @@
     "messageformat": "Tiada Undian"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Undian tidak ditemui"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Undian Baharu"
@@ -1146,7 +1146,7 @@
     "messageformat": "Soalan"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tanya Soalan"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Pilihan"

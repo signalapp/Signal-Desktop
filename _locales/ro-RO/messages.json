@@ -1098,7 +1098,7 @@
     "messageformat": "Informații"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Încheie sondajul"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Sondaj · Selectează unul"
@@ -1116,13 +1116,13 @@
     "messageformat": "Ai votat"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ai încheiat sondajul: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} a încheiat sondajul {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Vizualizează sondajul"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detaliile sondajului"
@@ -1137,7 +1137,7 @@
     "messageformat": "Niciun vot"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Sondajul nu a fost găsit"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Sondaj nou"
@@ -1146,7 +1146,7 @@
     "messageformat": "Întrebare"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Pune o întrebare"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opțiuni"

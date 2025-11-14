@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Konec ankety"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Anketa – vyberte jednu možnost"
@@ -1116,13 +1116,13 @@
     "messageformat": "Hlasovali jste"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ukončili jste anketu: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ukončil/a anketu: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Zobrazit anketu"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Podrobnosti ankety"
@@ -1137,7 +1137,7 @@
     "messageformat": "Žádné hlasy"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Anketa nebyla nalezena"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nová anketa"
@@ -1146,7 +1146,7 @@
     "messageformat": "Otázka"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Položte otázku"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Možnosti"

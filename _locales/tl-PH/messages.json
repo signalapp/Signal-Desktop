@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Tapusin ang poll"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Poll · Pumili ng isa"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Tignan ang poll"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Mga detalye ng poll"
@@ -1137,7 +1137,7 @@
     "messageformat": "Walang boto"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Walang makitang poll"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Bagong poll"
@@ -1146,7 +1146,7 @@
     "messageformat": "Question"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Magtanong"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Options"

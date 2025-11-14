@@ -1098,7 +1098,7 @@
     "messageformat": "సమాచారం"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "పోల్‌ను ముగించండి"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "పోల్ · ఒకదాన్ని ఎంచుకోండి"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "పోల్‌ను వీక్షించండి"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "పోల్ వివరాలు"
@@ -1137,7 +1137,7 @@
     "messageformat": "ఓట్లు లేవు"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "పోల్ కనుగొనబడలేదు"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "కొత్త పోల్"
@@ -1146,7 +1146,7 @@
     "messageformat": "ప్రశ్న"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ఒక ప్రశ్నను అడగండి"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ఎంపికలు"

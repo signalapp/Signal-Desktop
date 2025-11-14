@@ -1098,7 +1098,7 @@
     "messageformat": "Bilgi"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Anketi sonlandır"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Anket · Birini seç"
@@ -1116,13 +1116,13 @@
     "messageformat": "Oyladın"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Anketi bitirdin: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} anketi sonlandırdı: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Anketi görüntüle"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Anket detayları"
@@ -1137,7 +1137,7 @@
     "messageformat": "Oy yok"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Anket bulunamadı"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Yeni anket"
@@ -1146,7 +1146,7 @@
     "messageformat": "Soru"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Bir soru sor"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Seçenekler"

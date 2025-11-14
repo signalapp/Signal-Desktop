@@ -1098,7 +1098,7 @@
     "messageformat": "Məlumat"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Səsverməni bitir"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Səsvermə · Birini seçin"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Səsverməyə bax"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Səsvermənin təfərrüatları"
@@ -1137,7 +1137,7 @@
     "messageformat": "Səs yoxdur"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Səsvermə anketi tapılmadı"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Yeni anket səsverməsi"
@@ -1146,7 +1146,7 @@
     "messageformat": "Sual"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Bir sual verin"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Seçimlər"

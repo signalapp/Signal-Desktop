@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Umfrage beenden"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Umfrage · Eine Option auswählen"
@@ -1116,13 +1116,13 @@
     "messageformat": "Du hast abgestimmt"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Du hast die Umfrage »{poll}« beendet"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} hat die Umfrage »{poll}« beendet"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Umfrage ansehen"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Umfragedetails"
@@ -1137,7 +1137,7 @@
     "messageformat": "Keine Stimmen"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Umfrage konnte nicht gefunden werden"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Neue Umfrage"
@@ -1146,7 +1146,7 @@
     "messageformat": "Frage"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Eine Frage stellen"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Optionen"

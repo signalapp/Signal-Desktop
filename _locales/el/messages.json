@@ -1098,7 +1098,7 @@
     "messageformat": "Πληροφορίες"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Λήξη δημοσκόπησης"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Δημοσκόπηση · Επίλεξε μία"
@@ -1116,13 +1116,13 @@
     "messageformat": "Ψήφισες"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ολοκλήρωσες τη δημοσκόπηση: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Ο χρήστης {name} ολοκλήρωσε τη δημοσκόπηση: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Προβολή δημοσκόπησης"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Λεπτομέρειες δημοσκόπησης"
@@ -1137,7 +1137,7 @@
     "messageformat": "Δεν υπάρχουν ψήφοι"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Δεν βρέθηκε δημοσκόπηση"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Νέα δημοσκόπηση"
@@ -1146,7 +1146,7 @@
     "messageformat": "Ερώτηση"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Κάνε μια ερώτηση"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Επιλογές"

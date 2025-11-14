@@ -1098,7 +1098,7 @@
     "messageformat": "தகவல்"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "வாக்கெடுப்பை முடி"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "வாக்கெடுப்பு · ஒன்றைத் தேர்ந்தெடுக்கவும்"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "வாக்கெடுப்பைக் காண்க"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "வாக்கெடுப்பு விவரங்கள்"
@@ -1137,7 +1137,7 @@
     "messageformat": "வாக்குகள் இல்லை"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "வாக்கெடுப்பு கிடைக்கவில்லை"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "புதிய வாக்கெடுப்பு"
@@ -1146,7 +1146,7 @@
     "messageformat": "கேள்வி"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ஒரு கேள்வியைக் கேளுங்கள்"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "விருப்பங்கள்"

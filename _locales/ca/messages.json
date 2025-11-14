@@ -1098,7 +1098,7 @@
     "messageformat": "Informació"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Finalitzar enquesta"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Enquesta · Selecciona una opció"
@@ -1116,13 +1116,13 @@
     "messageformat": "Has votat"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Has finalitzat l'enquesta \"{poll}\""
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ha finalitzat l'enquesta {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Veure enquesta"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detalls de l'enquesta"
@@ -1137,7 +1137,7 @@
     "messageformat": "Sense vots"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "No s'ha trobat l'enquesta"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nova enquesta"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Fes una pregunta"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opcions"

@@ -1098,7 +1098,7 @@
     "messageformat": "Eolas"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Cuir deireadh leis an suirbhé"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Suirbhé · Roghnaigh ceann amháin"
@@ -1116,13 +1116,13 @@
     "messageformat": "Chaith tú vóta"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Chuir tú deireadh leis an suirbhé: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Chuir {name} deireadh leis an suirbhé: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Féach ar an suirbhé"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Sonraí an tsuirbhé"
@@ -1137,7 +1137,7 @@
     "messageformat": "Níl Aon Vótaí Ann"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Níor aimsíodh an suirbhé"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Suirbhé nua"
@@ -1146,7 +1146,7 @@
     "messageformat": "Ceist"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Cuir Ceist"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Roghanna"

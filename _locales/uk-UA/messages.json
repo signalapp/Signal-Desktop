@@ -1098,7 +1098,7 @@
     "messageformat": "Інформація"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Завершити опитування"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Опитування · Оберіть один варіант"
@@ -1116,13 +1116,13 @@
     "messageformat": "Ви проголосували"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ви завершили опитування «{poll}»"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Користувач {name} завершив опитування: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Переглянути опитування"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Підсумки опитування"
@@ -1137,7 +1137,7 @@
     "messageformat": "Голосів немає"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Опитування не знайдено"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Нове опитування"
@@ -1146,7 +1146,7 @@
     "messageformat": "Запитання"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Поставте запитання"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Відповіді"

@@ -1098,7 +1098,7 @@
     "messageformat": "معلومات"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "إنهاء الاستطلاع"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "استطلاع · اختر خيارًا واحدًا"
@@ -1116,13 +1116,13 @@
     "messageformat": "قُمتَ بالتصويت"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "أنهيتَ الاستطلاع: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} أنهى الاستطلاع: \"{poll}\""
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "عرض الاستطلاع"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "تفاصيل الاستطلاع"
@@ -1137,7 +1137,7 @@
     "messageformat": "لا أصوات"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "لم يتم العثور على الاستطلاع"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "استطلاع جديد"
@@ -1146,7 +1146,7 @@
     "messageformat": "سؤال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "اطرَح سؤالًا"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "الخيارات"

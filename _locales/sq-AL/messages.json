@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Përfundo sondazhin"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Sondazh · Zgjidh një"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Shiko sondazhin"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detajet e sondazhit"
@@ -1137,7 +1137,7 @@
     "messageformat": "Asnjë votë"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Sondazhi nuk u gjet"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Sondazh i ri"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pyetje"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Bëj një pyetje"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opsione"

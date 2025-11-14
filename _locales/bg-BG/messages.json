@@ -1098,7 +1098,7 @@
     "messageformat": "Информация"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Приключване на анкетата"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Анкета · Изберете едно"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Преглед на анкетата"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Подробности за анкетата"
@@ -1137,7 +1137,7 @@
     "messageformat": "Няма гласове"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Анкетата не е намерена"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Нова анкета"
@@ -1146,7 +1146,7 @@
     "messageformat": "Въпрос"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Задайте въпрос"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Опции"

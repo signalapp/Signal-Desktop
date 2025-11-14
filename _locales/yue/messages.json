@@ -1098,7 +1098,7 @@
     "messageformat": "詳細"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "結束投票"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "投票 · 揀一項"
@@ -1116,13 +1116,13 @@
     "messageformat": "你投咗呢項"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "你摺咗個投票：{poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} 摺咗個投票：{poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "睇吓個投票"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "投票詳情"
@@ -1137,7 +1137,7 @@
     "messageformat": "未有人投票"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "搵唔到個投票"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "新嘅投票"
@@ -1146,7 +1146,7 @@
     "messageformat": "發問"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "問條問題"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "選項"

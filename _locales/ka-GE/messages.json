@@ -1098,7 +1098,7 @@
     "messageformat": "ინფორმაცია"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "გამოკითხვის დასრულება"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "გამოკითხვა · აირჩიე ერთი"
@@ -1116,13 +1116,13 @@
     "messageformat": "შენი ხმა მიღებულია"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "შენ დაასრულე გამოკითხვა: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name}-მ(ა) დაასრულა გამოკითხვა: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "გამოკითხვის ნახვა"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "გამოკითხვის დეტალები"
@@ -1137,7 +1137,7 @@
     "messageformat": "ხმები არ მიუღია"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "გამოკითხვა ვერ მოიძებნა"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "ახალი გამოკითხვა"
@@ -1146,7 +1146,7 @@
     "messageformat": "კითხვა"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "დასვი კითხვა"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ოფციები"
@@ -1167,10 +1167,10 @@
     "messageformat": "გამოკითხვას მინიმუმ 2 არჩევანი სჭირდება"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "კითხვა ზედმეტად გრძელია"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ვარიანტი ზედმეტად გრძელია"
   },
   "icu:deleteConversation": {
     "messageformat": "წაშლა"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} {emoji}-ით გამოეხმაურა {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender}-მ(ა) გამოკითხვაში მონიშნა: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "გაგზავნა ჩაიშალა"
@@ -7256,6 +7256,6 @@
     "messageformat": "კოპირების/ჩასმის გაუმჯობესებამ საგრძნობლად გაამარტივა მთელი ტექსტის მონიშვნა და მისი ჩანაცვლება ძველი ფორმატირების გარეშე. მადლობა, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal-ის გამოკითხვები უკვე აქაა! შენ და შენი მეგობრები ერთ ტალღაზე ხართ, თუ განსხვავებული პოზიციები გაქვთ? გამოკითხვა მარტივი გზაა იმის გასაგებად, რა აზრზეა შენი ჯგუფის ჩატი. შექმენი გამოკითხვა სადილის ვარიანტებით, მოგზაურობის მიმართულებებით, მომავალი მზგავრობისთვის მუსიკის პრეფერენციებით და ნებისმიერი სხვა მნიშვნელოვანი გადაწყვეტილებისთვის. ჯგუფში ყველას შეუძლია ხმის მიცემა და დანარჩენების პასუხები ნახოს, ასევე შეგიძლია გადაწყვიტო, დაუშვებ თუ არა მრავალჯერად ხმებს."
   }
 }

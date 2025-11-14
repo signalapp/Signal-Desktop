@@ -1098,7 +1098,7 @@
     "messageformat": "Ақпарат"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Сауалнаманы аяқтау"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Сауалнама · Біреуін таңдаңыз"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Сауалнаманы көру"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Сауалнама туралы мәлімет"
@@ -1137,7 +1137,7 @@
     "messageformat": "Дауыстар жоқ"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Сауалнама табылмады"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Жаңа сауалнама"
@@ -1146,7 +1146,7 @@
     "messageformat": "Сұрақ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Сұрақ қойыңыз"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Опциялар"

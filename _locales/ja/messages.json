@@ -1098,7 +1098,7 @@
     "messageformat": "詳細"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "投票を終了する"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "1つ選んで投票してください"
@@ -1116,13 +1116,13 @@
     "messageformat": "あなたは投票済みです"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "あなたが「{poll}」の投票を締め切りました"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name}が「{poll}」の投票を締め切りました"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "投票結果を見る"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "投票の詳細"
@@ -1137,7 +1137,7 @@
     "messageformat": "投票なし"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "投票が見つかりません"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "新しい投票"
@@ -1146,7 +1146,7 @@
     "messageformat": "質問"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "質問する"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "選択肢"

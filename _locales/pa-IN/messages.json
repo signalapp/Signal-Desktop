@@ -1098,7 +1098,7 @@
     "messageformat": "ਜਾਣਕਾਰੀ"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "ਪੋਲ ਸਮਾਪਤ ਕਰੋ"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "ਪੋਲ · ਇੱਕ ਵਿਕਲਪ ਚੁਣੋ"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "ਪੋਲ ਦੇਖੋ"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "ਪੋਲ ਦੇ ਵੇਰਵੇ"
@@ -1137,7 +1137,7 @@
     "messageformat": "ਕੋਈ ਵੋਟ ਨਹੀਂ"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "ਪੋਲ ਨਹੀਂ ਲੱਭਿਆ"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "ਨਵਾਂ ਪੋਲ"
@@ -1146,7 +1146,7 @@
     "messageformat": "ਸਵਾਲ"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ਕੋਈ ਸਵਾਲ ਪੁੱਛੋ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ਵਿਕਲਪ"

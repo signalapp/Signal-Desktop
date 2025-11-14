@@ -1098,7 +1098,7 @@
     "messageformat": "വിവരം"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "പോൾ അവസാനിപ്പിക്കുക"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "പോൾ · ഒന്ന് തിരഞ്ഞെടുക്കുക"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "പോൾ കാണുക"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "പോൾ വിശദാംശങ്ങൾ"
@@ -1137,7 +1137,7 @@
     "messageformat": "വോട്ടുകളൊന്നുമില്ല"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "പോൾ കണ്ടെത്തിയില്ല"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "പുതിയ പോൾ"
@@ -1146,7 +1146,7 @@
     "messageformat": "ചോദ്യം"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ഒരു ചോദ്യം ചോദിക്കൂ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ഓപ്ഷനുകൾ"

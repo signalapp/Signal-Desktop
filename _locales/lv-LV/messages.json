@@ -1098,7 +1098,7 @@
     "messageformat": "Informācija"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Pabeigt aptauju"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Aptauja · Izvēlieties vienu atbildi"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Skatīt aptauju"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Informācija par aptauju"
@@ -1137,7 +1137,7 @@
     "messageformat": "Nav balsu"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Aptauja nav atrasta"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Jauna aptauja"
@@ -1146,7 +1146,7 @@
     "messageformat": "Jautājums"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Uzdot jautājumu"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Iespējas"

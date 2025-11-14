@@ -1098,7 +1098,7 @@
     "messageformat": "資訊"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "結束投票"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "投票 · 選擇一項"
@@ -1116,13 +1116,13 @@
     "messageformat": "你投了票"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "你結束了以下投票：{poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} 結束了以下投票：{poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "檢視投票"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "投票詳情"
@@ -1137,7 +1137,7 @@
     "messageformat": "沒有投票"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "找不到投票"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "新的投票"
@@ -1146,7 +1146,7 @@
     "messageformat": "問題"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "提出問題"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "選項"

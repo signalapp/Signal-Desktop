@@ -1098,7 +1098,7 @@
     "messageformat": "Информације"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Прекини анкету"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Анкета · Изаберите један одговор"
@@ -1116,13 +1116,13 @@
     "messageformat": "Гласали сте"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Прекинули сте анкету: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} је прекинуо/-ла анкету: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Прикажи анкету"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Детаљи анкете"
@@ -1137,7 +1137,7 @@
     "messageformat": "Нема гласова"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Анкета није пронађена"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Нова анкета"
@@ -1146,7 +1146,7 @@
     "messageformat": "Питање"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Поставите питање"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Опције"

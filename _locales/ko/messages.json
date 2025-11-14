@@ -1098,7 +1098,7 @@
     "messageformat": "정보"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "설문조사 종료"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "설문조사 · 하나 선택"
@@ -1116,13 +1116,13 @@
     "messageformat": "투표했습니다."
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "투표를 종료했습니다: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} 님이 \"{poll}\" 설문조사를 종료했습니다."
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "설문조사 보기"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "설문조사 세부 정보"
@@ -1137,7 +1137,7 @@
     "messageformat": "투표 없음"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "설문조사를 찾을 수 없습니다."
   },
   "icu:PollCreateModal__title": {
     "messageformat": "새 설문조사"
@@ -1146,7 +1146,7 @@
     "messageformat": "질문"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "질문하기"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "옵션"

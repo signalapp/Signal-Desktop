@@ -1098,7 +1098,7 @@
     "messageformat": "Маалымат"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Добуш берүүнү бүтүрүү"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Добуш берүү · Бирөөсүн тандаңыз"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Добуш берүүнү карап көрүү"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Добуш берүү чоо-жайы"
@@ -1137,7 +1137,7 @@
     "messageformat": "Эч ким добуш бере элек"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Табылган жок"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Жаңы добуш берүү"
@@ -1146,7 +1146,7 @@
     "messageformat": "Суроо берүү"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Суроо"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Параметрлер"

@@ -1098,7 +1098,7 @@
     "messageformat": "তথ্য"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "ভোটগ্রহণ কার্যক্রমটি শেষ করুন"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "জরিপ · একটি বেছে নিন"
@@ -1116,13 +1116,13 @@
     "messageformat": "আপনি ভোট দিয়েছেন"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "আপনি জরিপটি শেষ করেছেন: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} জরিপটি শেষ করেছেন: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "জরিপ দেখুন"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "ভোটের বিস্তারিত"
@@ -1137,7 +1137,7 @@
     "messageformat": "কোনো ভোট নেই"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "জরিপ পাওয়া যায়নি"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "নতুন ভোট"
@@ -1146,7 +1146,7 @@
     "messageformat": "প্রশ্ন"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "একটি প্রশ্ন জিজ্ঞাসা করুন"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "অপশন"

@@ -1098,7 +1098,7 @@
     "messageformat": "اطلاعات"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "پایان نظرسنجی"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "نظرسنجی · یک مورد را انتخاب کنید"
@@ -1116,13 +1116,13 @@
     "messageformat": "شما رأی دادید"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "نظرسنجی را پایان دادید: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} نظرسنجی را به پایان رساند: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "مشاهده نظرسنجی"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "جزئیات نظرسنجی"
@@ -1137,7 +1137,7 @@
     "messageformat": "بدون رأی"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "نظرسنجی یافت نشد"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "نظرسنجی جدید"
@@ -1146,7 +1146,7 @@
     "messageformat": "سوال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "سؤال بپرسید"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "گزینه‌ها"

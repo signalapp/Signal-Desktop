@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Terminar sondagem"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Sondagem · Selecione uma"
@@ -1116,13 +1116,13 @@
     "messageformat": "Votou"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Terminou a sondagem: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} terminou a sondagem: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ver sondagem"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detalhes da sondagem"
@@ -1137,7 +1137,7 @@
     "messageformat": "Sem votos"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Sondagem não encontrada"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nova sondagem"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pergunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Fazer uma pergunta"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opções"

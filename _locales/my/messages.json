@@ -1098,7 +1098,7 @@
     "messageformat": "အချက်အလက်"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "စစ်တမ်း အဆုံးသတ်"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "စစ်တမ်း · တစ်ခုရွေးချယ်ပါ"
@@ -1122,7 +1122,7 @@
     "messageformat": "{name} ended the poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "စစ်တမ်းကို ကြည့်ရန်"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "စစ်တမ်းအသေးစိတ်"
@@ -1137,7 +1137,7 @@
     "messageformat": "မဲပေးထားခြင်းမရှိပါ"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "စစ်တမ်း မတွေ့ပါ"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "စစ်တမ်းအသစ်"
@@ -1146,7 +1146,7 @@
     "messageformat": "မေးခွန်း"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "မေးခွန်းတစ်ခုမေးပါ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ရွေးချယ်စရာများ"

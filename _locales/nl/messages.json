@@ -1098,7 +1098,7 @@
     "messageformat": "Bericht­details"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Peiling beëindigen"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Peiling · Kies een optie"
@@ -1116,13 +1116,13 @@
     "messageformat": "Je hebt gestemd"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Je hebt de peiling ‘{poll}’ beëindigd"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} heeft de peiling ‘{poll}’ beëindigd"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Peiling bekijken"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Peilinggegevens"
@@ -1137,7 +1137,7 @@
     "messageformat": "Geen stemmen"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Peiling niet gevonden"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nieuwe peiling"
@@ -1146,7 +1146,7 @@
     "messageformat": "Vraag"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Stel een vraag"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opties"

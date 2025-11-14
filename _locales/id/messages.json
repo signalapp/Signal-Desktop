@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Akhiri polling"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Polling · Pilih satu"
@@ -1116,13 +1116,13 @@
     "messageformat": "Anda menjawab"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Anda mengakhiri polling: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} mengakhiri polling: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Lihat polling"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detail polling"
@@ -1137,7 +1137,7 @@
     "messageformat": "Belum ada suara"
   },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Polling tidak ditemukan"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Polling baru"
@@ -1146,7 +1146,7 @@
     "messageformat": "Pertanyaan"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tulis pertanyaan"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opsi"
