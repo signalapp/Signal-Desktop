@@ -772,7 +772,7 @@ export const getFileExtension = (
     case 'audio/mpeg':
       return 'mp3';
     default:
-      return attachment.contentType.split('/')[1];
+      return attachment.contentType.split('/')[1].split(/[+;\s]/)[0];
   }
 };
 
