@@ -756,7 +756,10 @@ function HeaderDropdownMenuContent({
                 >
                   {expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
                     return (
-                      <AxoDropdownMenu.RadioItem value={`${seconds}`}>
+                      <AxoDropdownMenu.RadioItem
+                        key={seconds}
+                        value={`${seconds}`}
+                      >
                         {expirationTimer.format(i18n, seconds, {
                           capitalizeOff: true,
                         })}
