@@ -1462,6 +1462,10 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Pin message",
+    "description": "Shown on the drop-down menu for an individual message, pins the current message"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "End poll",
     "description": "Label for button/menu item to end a poll. Shown in the poll votes modal and in the message context menu"
@@ -1609,6 +1613,38 @@
   "icu:PinnedMessageNotification__Button": {
     "messageformat": "Go to message",
     "description": "Conversation > Chat Event > Pinned Message > Button to scroll to the pinned message"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Pin message for...",
+    "description": "Message > Context Menu > Pin Message > Dialog > Title"
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Close",
+    "description": "Message > Context Menu > Pin Message > Dialog > Close Button (Accessibility Label)"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hours",
+    "description": "Message > Context Menu > Pin Message > Dialog > Duration Option: 24 hours"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 days",
+    "description": "Message > Context Menu > Pin Message > Dialog > Duration Option: 7 days"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 days",
+    "description": "Message > Context Menu > Pin Message > Dialog > Duration Option: 30 days"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Forever",
+    "description": "Message > Context Menu > Pin Message > Dialog > Duration Option: Forever"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Message > Context Menu > Pin Message > Dialog > Cancel Button"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Pin",
+    "description": "Message > Context Menu > Pin Message > Dialog > Pin Button"
   },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",

@@ -4,6 +4,7 @@
 import React, { type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
+import { isPinnedMessagesEnabled } from '../../util/isPinnedMessagesEnabled.std.js';
 
 export type ContextMenuTriggerType = {
   handleContextClick: (
@@ -17,18 +18,19 @@ type MessageContextMenuProps = Readonly<{
   onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
   shouldShowAdditional: boolean;
-  onDownload: (() => void) | undefined;
-  onEdit: (() => void) | undefined;
-  onReplyToMessage: (() => void) | undefined;
-  onReact: (() => void) | undefined;
-  onEndPoll: (() => void) | undefined;
-  onRetryMessageSend: (() => void) | undefined;
-  onRetryDeleteForEveryone: (() => void) | undefined;
-  onCopy: (() => void) | undefined;
-  onForward: (() => void) | undefined;
-  onDeleteMessage: () => void;
-  onMoreInfo: (() => void) | undefined;
-  onSelect: (() => void) | undefined;
+  onDownload: (() => void) | null;
+  onEdit: (() => void) | null;
+  onReplyToMessage: (() => void) | null;
+  onReact: (() => void) | null;
+  onEndPoll: (() => void) | null;
+  onRetryMessageSend: (() => void) | null;
+  onRetryDeleteForEveryone: (() => void) | null;
+  onCopy: (() => void) | null;
+  onForward: (() => void) | null;
+  onDeleteMessage: (() => void) | null;
+  onPinMessage: (() => void) | null;
+  onMoreInfo: (() => void) | null;
+  onSelect: (() => void) | null;
   children: ReactNode;
 }>;
 
@@ -50,6 +52,7 @@ export function MessageContextMenu({
   onRetryDeleteForEveryone,
   onForward,
   onDeleteMessage,
+  onPinMessage,
   children,
 }: MessageContextMenuProps): JSX.Element {
   return (
@@ -102,14 +105,21 @@ export function MessageContextMenu({
             {i18n('icu:copy')}
           </AxoMenuBuilder.Item>
         )}
+        {isPinnedMessagesEnabled() && onPinMessage && (
+          <AxoMenuBuilder.Item symbol="pin" onSelect={onPinMessage}>
+            {i18n('icu:MessageContextMenu__PinMessage')}
+          </AxoMenuBuilder.Item>
+        )}
         {onMoreInfo && (
           <AxoMenuBuilder.Item symbol="info" onSelect={onMoreInfo}>
             {i18n('icu:MessageContextMenu__info')}
           </AxoMenuBuilder.Item>
         )}
-        <AxoMenuBuilder.Item symbol="trash" onSelect={onDeleteMessage}>
-          {i18n('icu:MessageContextMenu__deleteMessage')}
-        </AxoMenuBuilder.Item>
+        {onDeleteMessage && (
+          <AxoMenuBuilder.Item symbol="trash" onSelect={onDeleteMessage}>
+            {i18n('icu:MessageContextMenu__deleteMessage')}
+          </AxoMenuBuilder.Item>
+        )}
         {onRetryMessageSend && (
           <AxoMenuBuilder.Item symbol="send" onSelect={onRetryMessageSend}>
             {i18n('icu:retrySend')}

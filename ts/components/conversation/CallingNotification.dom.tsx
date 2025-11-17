@@ -73,17 +73,18 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           });
         }}
         shouldShowAdditional={false}
-        onDownload={undefined}
-        onEdit={undefined}
-        onReplyToMessage={undefined}
-        onReact={undefined}
-        onEndPoll={undefined}
-        onRetryMessageSend={undefined}
-        onRetryDeleteForEveryone={undefined}
-        onCopy={undefined}
-        onSelect={undefined}
-        onForward={undefined}
-        onMoreInfo={undefined}
+        onDownload={null}
+        onEdit={null}
+        onReplyToMessage={null}
+        onReact={null}
+        onEndPoll={null}
+        onRetryMessageSend={null}
+        onRetryDeleteForEveryone={null}
+        onCopy={null}
+        onSelect={null}
+        onForward={null}
+        onMoreInfo={null}
+        onPinMessage={null}
       >
         <div
           // @ts-expect-error -- React/TS doesn't know about inert

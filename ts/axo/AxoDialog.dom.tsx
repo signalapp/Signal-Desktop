@@ -188,7 +188,7 @@ export namespace AxoDialog {
 
   export const Close: FC<CloseProps> = memo(props => {
     return (
-      <div className={tw('col-[close-slot] text-end')}>
+      <div className={tw('col-[close-slot] text-end leading-none')}>
         <Dialog.Close asChild>
           <AxoIconButton.Root
             size="sm"
