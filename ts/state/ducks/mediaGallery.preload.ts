@@ -362,7 +362,7 @@ export function reducer(
     const linkDifference = state.links.length - linksWithout.length;
 
     if (message.deletedForEveryone || message.isErased) {
-      if (mediaDifference > 0 || documentDifference > 0) {
+      if (mediaDifference > 0 || documentDifference > 0 || linkDifference > 0) {
         return {
           ...state,
           media: mediaWithout,
@@ -437,7 +437,7 @@ export function reducer(
       !oldestLoadedMedia ||
       (message.received_at >= oldestLoadedMedia.message.receivedAt &&
         message.sent_at >= oldestLoadedMedia.message.sentAt);
-    if (mediaDifference !== media.length && inMediaTimeRange) {
+    if ((mediaDifference > 0 || newMedia.length > 0) && inMediaTimeRange) {
       media = _sortItems(mediaWithout.concat(newMedia));
     } else if (!inMediaTimeRange) {
       haveOldestMedia = false;
@@ -447,7 +447,10 @@ export function reducer(
       !oldestLoadedDocument ||
       (message.received_at >= oldestLoadedDocument.message.receivedAt &&
         message.sent_at >= oldestLoadedDocument.message.sentAt);
-    if (documentDifference !== documents.length && inDocumentTimeRange) {
+    if (
+      (documentDifference > 0 || newDocuments.length > 0) &&
+      inDocumentTimeRange
+    ) {
       documents = _sortItems(documentsWithout.concat(newDocuments));
     } else if (!inDocumentTimeRange) {
       haveOldestDocument = false;
@@ -457,7 +460,7 @@ export function reducer(
       !oldestLoadedLink ||
       (message.received_at >= oldestLoadedLink.message.receivedAt &&
         message.sent_at >= oldestLoadedLink.message.sentAt);
-    if (linkDifference !== links.length && inLinkTimeRange) {
+    if ((linkDifference > 0 || newLinks.length > 0) && inLinkTimeRange) {
       links = _sortItems(linksWithout.concat(newLinks));
     } else if (!inLinkTimeRange) {
       haveOldestLink = false;
@@ -466,8 +469,10 @@ export function reducer(
     if (
       state.haveOldestDocument !== haveOldestDocument ||
       state.haveOldestMedia !== haveOldestMedia ||
+      state.haveOldestLink !== haveOldestLink ||
       state.documents !== documents ||
-      state.media !== media
+      state.media !== media ||
+      state.links !== links
     ) {
       return {
         ...state,
@@ -476,6 +481,7 @@ export function reducer(
         haveOldestMedia,
         haveOldestLink,
         media,
+        links,
       };
     }
 
