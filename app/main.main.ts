@@ -692,7 +692,7 @@ async function createWindow() {
     systemTraySettingCache.get(),
     isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
-      : getBackgroundColor({ signalColors: true }),
+      : getBackgroundColor(),
     getSpellCheckSetting(),
   ]);
 
