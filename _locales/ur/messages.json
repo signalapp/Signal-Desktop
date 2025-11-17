@@ -1167,10 +1167,10 @@
     "messageformat": "رائے شماری کے لیے کم از کم 2 اختیارات کی ضرورت ہے"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "سوال کافی طویل ہے"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "اختیار کافی طویل ہے"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف کریں"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} نے {emoji} ری ایکٹ کیا: {message} پر"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} نے رائے شماری میں ووٹ دیا: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "بھیجنے میں ناکام"
@@ -7256,6 +7256,6 @@
     "messageformat": "کاپی/پیسٹ کی فارمیٹنگ میں بہتریاں۔ شکریہ، @brianHarder <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
   }
 }

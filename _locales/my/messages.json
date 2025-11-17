@@ -1116,10 +1116,10 @@
     "messageformat": "သင်မဲပေးခဲ့သည်"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "သင်သည် \"{poll}\"စစ်တမ်းကို အဆုံးသတ်လိုက်သည်-"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} သည် {poll} စစ်တမ်းကို အဆုံးသတ်ခဲ့သည်-"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "စစ်တမ်းကို ကြည့်ရန်"
@@ -1167,10 +1167,10 @@
     "messageformat": "စစ်တမ်းတွင် အနည်းဆုံး ရွေးချယ်စရာ 2 ခု လိုအပ်သည်"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "မေးခွန်းသည် ရှည်လွန်းပါသည်"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ရွေးစရာသည် ရှည်လွန်းပါသည်"
   },
   "icu:deleteConversation": {
     "messageformat": "ဖျက်ရန်"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} သည် ဖော်ပြပါကို {emoji} တုံ့ပြန်မှု ပေးခဲ့သည်- {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} သည် \"{pollQuestion}\" စစ်တမ်းတွင် မဲပေးခဲ့သည်"
   },
   "icu:sendFailed": {
     "messageformat": "ပေးပို့ခြင်း မအောင်မြင်ပါ"
@@ -7256,6 +7256,6 @@
     "messageformat": "ကူးယူ/ကူးထည့်ခြင်း ဖော်မတ်ကို မြှင့်တင်ထားပါသည်။ @brianHarder ကို ကျေးဇူးတင်ပါသည်။ ကျေးဇူးပါ <brianHarder></brianHarder>။"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal စစ်တမ်းများ ဤနေရာတွင်ရှိသည်။ စစ်တမ်းများသည် သင့်အဖွဲ့ချက်(တ်)အတွင်း အမှန်တကယ်ထင်မြင်ယူဆချက်ကို သိရန် လွယ်ကူသောနည်းလမ်းတစ်ခုဖြစ်သည်။ ညစာအတွက် မတူညီသောရွေးချယ်စရာများ သို့မဟုတ် အခြားအရေးကြီးသော ရွေးချယ်စရာများဖြင့် စစ်တမ်းတစ်ခုဖန်တီးပါ။ အဖွဲ့ရှိလူတိုင်းသည် မဲပေးနိုင်ပြီး အချင်းချင်း၏ တုံ့ပြန်မှုများကို ကြည့်ရှုနိုင်ကာ တစ်ခုထက်ပိုသော မဲပေးခွင့်ပြုမပြု သင် ဆုံးဖြတ်နိုင်သည်။"
   }
 }

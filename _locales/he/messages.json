@@ -1167,10 +1167,10 @@
     "messageformat": "הסקר דורש לפחות 2 אפשרויות"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "השאלה ארוכה מדי"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "האפשרות ארוכה מדי"
   },
   "icu:deleteConversation": {
     "messageformat": "מחיקה"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} הגיב/ה {emoji} ל: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} הצביע/ה בסקר: ״{pollQuestion}״"
   },
   "icu:sendFailed": {
     "messageformat": "שליחה נכשלה"
@@ -7256,6 +7256,6 @@
     "messageformat": "שיפרנו את פעולות ההעתק הדבק וההדבקה, כך שקל יותר לסמן את כל הטקסט ולהחליף אותו בלי שהעיצוב הישן יעבור יחד איתו. תודה, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "הסקרים של Signal הגיעו! סקרים הם דרך קלה לראות מה חברי הצ׳אט הקבוצתי שלך באמת חושבים. אפשר ליצור סקר עם אפשרויות לארוחת ערב או כל בחירה חשובה אחרת. כל מי שבקבוצה יכול להצביע ולראות את התשובות של האחרים, ויש לך אפשרות להחליט אם לאפשר הצבעה לכמה אפשרויות שונות או לא."
   }
 }

@@ -1116,10 +1116,10 @@
     "messageformat": "Vastasid küsitlusele"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Sa lõpetasid küsitluse „{poll}“"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} lõpetas küsitluse „{poll}“"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Vaata küsitlust"
@@ -1167,10 +1167,10 @@
     "messageformat": "Küsitluses peab olema vähemalt 2 vastusevalikut"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Küsimus on liiga pikk"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Vastusevalik on liiga pikk"
   },
   "icu:deleteConversation": {
     "messageformat": "Kustuta"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reageeris {emoji} sõnumile {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} vastas küsitlusele „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Saatmine ei õnnestunud"
@@ -7256,6 +7256,6 @@
     "messageformat": "Parandasime kopeerimise ja kleepimise vormindust. Aitäh, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signali küsitlused on kohal! Küsitlused on lihtne viis näha, mida su grupivestluse osalejad tegelikult arvavad. Loo küsitlus erinevate õhtusöögivõimaluste, puhkusepaikade, muusikaeelistustega eelolevaks autotripiks, või mõne muu olulise otsuse tegemiseks. Kõik grupi liikmed saavad hääletada ja üksteise vastuseid näha ning on sinu valik, kas lubad mitut häält või mitte."
   }
 }

@@ -1116,10 +1116,10 @@
     "messageformat": "Glasovali ste"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Zaključili ste anketo: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} je zaključil_a anketo {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Ogled ankete"
@@ -1167,10 +1167,10 @@
     "messageformat": "Anketa zahteva vsaj 2 možnosti"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Vprašanje je predolgo"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Možnost je predolga"
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} se je z {emoji} odzval_a na {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} je glasoval/-a v anketi »{pollQuestion}«"
   },
   "icu:sendFailed": {
     "messageformat": "Pošiljanje ni uspelo"
@@ -7256,6 +7256,6 @@
     "messageformat": "Izboljšave kopiranja/lepljenja. Hvala, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signalove ankete so tukaj! Ankete so preprost način, da vidite, kaj v resnici mislijo člani vaše skupine. Ustvarite anketo z različnimi možnostmi za večerjo ali drugimi pomembnimi odločitvami. Vsi v skupini lahko glasujejo in vidijo odgovore drug drugega, vi pa se lahko odločite, ali boste dovolili, da posamezniki glasujejo večkrat ali ne."
   }
 }

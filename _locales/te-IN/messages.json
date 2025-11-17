@@ -1116,10 +1116,10 @@
     "messageformat": "మీరు ఓటు వేశారు"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "మీరు పోల్‌ను ముగించారు: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} పోల్‌ను ముగించారు: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "పోల్‌ను వీక్షించండి"
@@ -1167,10 +1167,10 @@
     "messageformat": "పోల్‌కు కనీసం 2 ఎంపికలు కావాలి"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "ప్రశ్న చాలా పెద్దగా ఉంది"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ఎంపిక చాలా పెద్దగా ఉంది"
   },
   "icu:deleteConversation": {
     "messageformat": "తొలగించండి"
@@ -1983,7 +1983,7 @@
     "messageformat": "దీనికి {sender} {emoji} తో ప్రతిస్పందించారు: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "\"{pollQuestion}\" పోల్‌లో {sender} ఓటు వేశారు"
   },
   "icu:sendFailed": {
     "messageformat": "పంపడం విఫలమైంది"
@@ -7256,6 +7256,6 @@
     "messageformat": "కాపీ/పేస్ట్ ఫార్మాటింగ్ మెరుగుదలలు. ధన్యవాదాలు, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal పోల్స్ ఇక్కడ ఉన్నాయి! మీ గ్రూప్ చాట్ నిజంగా ఏమనుకుంటుందో చూడటానికి పోల్స్ సులభమైన మార్గం. వివిధ రాత్రి భోజనం ఎంపికలు లేదా ఏవైనా ఇతర ముఖ్యమైన ఎంపికలతో పోల్‌ను సృష్టించండి. గ్రూప్‌లోని ప్రతి ఒక్కరూ ఓటు వేయగలరు మరియు ఇతరుల ప్రతిస్పందనలను చూడగలరు, బహుళ ఓట్లను అనుమతించాలా వద్దా అని మీరు నిర్ణయించవచ్చు."
   }
 }

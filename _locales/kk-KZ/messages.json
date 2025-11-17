@@ -1116,10 +1116,10 @@
     "messageformat": "Дауыс бердіңіз"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Сауалнаманы аяқтадыңыз: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} сауалнаманы аяқтады: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Сауалнаманы көру"
@@ -1167,10 +1167,10 @@
     "messageformat": "Сауалнамада кемінде 2 нұсқа болуы керек"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Сұрақ тым ұзын"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Нұсқа тым ұзын"
   },
   "icu:deleteConversation": {
     "messageformat": "Жою"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} мына хабарға {emoji} эмоджиімен реакция қалдырды: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" сауалнамасында дауыс берді"
   },
   "icu:sendFailed": {
     "messageformat": "Жіберілмеді"
@@ -7256,6 +7256,6 @@
     "messageformat": "Көшіру/қою функциясына жасалған өзгерістердің арқасында барлығын таңдау және ескі форматты өзгертпей-ақ мәтінді ауыстыру оңай болады. Рақмет, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal сауалнамалары дайын! Достарыңызбен ойларыңыз бір жерден шыға ма әлде қайшы келе ме? Сауалнамалар – топтық чаттағы адамдардың шын мәнінде не ойлайтынын білудің оңай жолы. Алдағы сапарға қатысты кешкі ас мәзірлерін, демалыс бағыттарын, музыкалық жинақты немесе басқа да маңызды таңдауларды салыстыру үшін сауалнама жасаңыз. Сауалнамада топтағы барлық адам дауыс бере алады және бір-бірінің жауаптарын көре алады. Бірнеше дауыс беруге болатынын не болмайтынын өзіңіз шеше аласыз."
   }
 }

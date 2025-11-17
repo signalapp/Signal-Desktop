@@ -1167,10 +1167,10 @@
     "messageformat": "Kyselyssä on oltava vähintään kaksi vaihtoehtoa"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Kysymys on liian pitkä"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Vaihtoehto on liian pitkä"
   },
   "icu:deleteConversation": {
     "messageformat": "Poista"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} lähetti reaktion {emoji} viestiin: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} äänesti kyselyssä: ”{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "Lähetys epäonnistui"
@@ -7256,6 +7256,6 @@
     "messageformat": "Parannuksia kopiointiin ja liittämiseen. Kiitos, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signalissa voi nyt tehdä kyselyitä! Kyselyillä saat helposti selville, mitä mieltä ryhmäkeskustelussa aidosti ollaan. Luo kysely, jossa on erilaisia illallisvaihtoehtoja tai muita tärkeitä valintoja. Kaikki ryhmän jäsenet voivat äänestää ja nähdä toistensa vastaukset, ja voitte päättää, sallitteko useita ääniä vai ette."
   }
 }

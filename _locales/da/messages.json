@@ -1167,10 +1167,10 @@
     "messageformat": "Afstemningen kræver mindst to valgmuligheder"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Spørgsmålet er for langt"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Valgmuligheden er for lang"
   },
   "icu:deleteConversation": {
     "messageformat": "Slet"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagerede med {emoji} på: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} stemte i afstemningen: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Send mislykkedes"
@@ -7256,6 +7256,6 @@
     "messageformat": "Funktionen Kopiér/indsæt er forbedret, så det nu er lettere at markere alt og erstatte tekst uden at den gamle formatering følger med. Tak, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Så er Signal-afstemninger landet! Er du og dine venner på samme bølgelængde, eller skal I lige afstemme jeres meninger først? Afstemninger er en nem måde at finde ud af, hvad din gruppechat virkelig mener. Opret en afstemning om restaurantmuligheder, feriedestinationer, musikvalg til næste roadtrip eller andre vigtige beslutninger. Alle gruppemedlemmer kan stemme og se svarene, og du bestemmer, om flere stemmer er tilladt."
   }
 }

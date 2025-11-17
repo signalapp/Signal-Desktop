@@ -1167,10 +1167,10 @@
     "messageformat": "A sondagem requer pelo menos 2 opções"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "A pergunta é demasiado longa"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "A opção é demasiado longa"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagiu {emoji} a: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} votou na sondagem: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Falha no envio"
@@ -7256,6 +7256,6 @@
     "messageformat": "Melhorias no copiar/colar. Obrigado, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Chegaram as sondagens do Signal! As sondagens são uma forma fácil de saber o que o seu chat de grupo pensa realmente. Crie uma sondagem com diferentes opções de restaurante ou quaisquer outras escolhas.  Toda a gente no grupo pode votar e ver as respostas dos outros, e pode decidir permitir votos múltiplos."
   }
 }

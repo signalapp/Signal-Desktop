@@ -1167,10 +1167,10 @@
     "messageformat": "โพลต้องมีตัวเลือกอย่างน้อย 2 รายการ"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "คำถามยาวเกินไป"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ตัวเลือกยาวเกินไป"
   },
   "icu:deleteConversation": {
     "messageformat": "ลบ"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} แสดงความรู้สึก {emoji} ต่อ: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} โหวตในโพล \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "การส่งล้มเหลว"
@@ -7256,6 +7256,6 @@
     "messageformat": "พัฒนารูปแบบการคัดลอก-วางให้ตอบโจทย์การใช้งานยิ่งขึ้นอีก ขอขอบคุณ <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "แบบนี้ต้อง Signal โพล! หาคำตอบให้ทุกคำถามด้วยการสร้างโพลในแชทกลุ่ม ชวนเพื่อนคุณร่วมโหวตไม่ว่าจะเรื่องเล็กหรือใหญ่: มื้อนี้จะสั่งอะไรมาทาน ทริปหน้าจะนัดกันไปเที่ยวไหน ฯลฯ ทุกคนในกลุ่มจะสามารถโหวตและเห็นคำตอบของเพื่อนร่วมแชท นอกจากนี้ ผู้สร้างโพลยังเลือกได้อีกด้วยว่าจะให้สมาชิกลงคะแนนได้หลายคำตอบหรือไม่"
   }
 }

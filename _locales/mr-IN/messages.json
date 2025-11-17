@@ -1167,10 +1167,10 @@
     "messageformat": "पोलसाठी किमान 2 पर्याय आवश्यक आहेत"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "प्रश्न फार मोठा आहे"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "पर्याय फार मोठा आहे"
   },
   "icu:deleteConversation": {
     "messageformat": "हटवा"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ने {emoji} अशी प्रतिक्रिया {message} वर दिली"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender}ने \"{pollQuestion}\" पोलमध्ये मत दिले"
   },
   "icu:sendFailed": {
     "messageformat": "पाठविणे अयशस्वी"
@@ -7256,6 +7256,6 @@
     "messageformat": "कॉपी/पेस्टमधील सुधारणांमुळे पूर्ण मजकूर निवडून जुने फॉरमॅटिंग न आणता आधीचा मजकूर बदलणे सोपे होते. धन्यवाद, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal पोल्स आले आहेत! तुमचे आणि तुमच्या मित्रांचे पोल जुळतात, की एकमेकांपासून पार दुसऱ्या टोकाला जातात? तुमच्या ग्रूपमधील चॅटचा विचार नेमका काय आहे हे जाणून घेण्याचा पोल हा सोपा मार्ग आहे. जेवायचे वेगवेगळे पर्याय, सुट्यांची ठिकाणे, उद्याच्या रोड ट्रिपसाठी संगीत प्राधान्ये, किंवा इतर महत्त्वाच्या निवडी करण्यासाठी पोल तयार करा. ग्रूपमधील प्रत्येक जण मत देऊ शकतो, एकमेकांचे प्रतिसाद पाहू शकतो, आणि एकापेक्षा अनेक मते देता येतील का हे तुम्ही ठरवू शकता."
   }
 }

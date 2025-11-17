@@ -1116,10 +1116,10 @@
     "messageformat": "Jūs balsojāt"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Jūs pabeidzāt aptauju: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} pabeidza aptauju: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Skatīt aptauju"
@@ -1167,10 +1167,10 @@
     "messageformat": "Aptaujā jābūt vismaz 2 opcijām"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Jautājums ir pārāk garš"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Izvēles apraksts ir pārāk garš"
   },
   "icu:deleteConversation": {
     "messageformat": "Dzēst"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reaģēja ar {emoji} uz: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} nobalsoja aptaujā \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Sūtīšana neizidevās"
@@ -7256,6 +7256,6 @@
     "messageformat": "Kopēšanas/ielīmēšanas uzlabojumi atvieglo visa teksta iezīmēšanu un aizstāšanu, nepārņemot veco formatējumu. Paldies, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal aptaujas ir klāt! Vai jūs un jūsu draugi domājat līdzīgi, vai arī jūsu viedokļi pilnībā atšķiras? Aptaujas ir vienkāršs veids, kā noskaidrot, ko jūsu grupas sarunas dalībnieki domā. Izveidojiet aptauju ar dažādiem vakariņu variantiem, brīvdienu galamērķiem, koncertu izvēlēm gaidāmajam ceļojumam vai citām svarīgām izvēlēm. Visi grupas dalībnieki var balsot un redzēt cits cita atbildes, un jūs varat izlemt, vai atļaut vairākas izvēles."
   }
 }

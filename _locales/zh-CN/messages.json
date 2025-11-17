@@ -1167,10 +1167,10 @@
     "messageformat": "投票至少需要 2 个选项"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "问题太长"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "选项太长"
   },
   "icu:deleteConversation": {
     "messageformat": "删除"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender}用 {emoji} 回应了：{message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} 参与了投票“{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "发送失败"
@@ -7256,6 +7256,6 @@
     "messageformat": "改进了复制/粘贴格式，为此我们要感谢 <brianHarder>@brianHarder</brianHarder>！"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal 投票功能上线啦！投票让您能轻松了解群聊成员的真实想法。您可以创建针对不同晚餐选项或其他重要选择的投票。群里的每个人都可以投票并查看彼此的回应。您还能决定是否允许投多个选项或重复投票。"
   }
 }

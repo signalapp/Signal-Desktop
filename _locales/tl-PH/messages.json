@@ -1116,10 +1116,10 @@
     "messageformat": "Bumoto ka"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Tinapos mo ang poll: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Tinapos ni {name} ang poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Tignan ang poll"
@@ -1167,10 +1167,10 @@
     "messageformat": "Nangangailangan ng hindi bababa sa 2 options ang poll"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Masyadong mahaba ang tanong"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Masyadong mahaba ang option"
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -1983,7 +1983,7 @@
     "messageformat": "Nag-react si {sender} ng {emoji} sa: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Si {sender} ay bumoto sa poll na: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Failed ang pag-send"
@@ -7256,6 +7256,6 @@
     "messageformat": "Improvements sa copy/paste. Maraming salamat, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Narito na ang Signal polls! Ang polls ay madaling paraan para makita kung ano ang nasa isip ng group chat mo. Gumawa ng poll ng iba't-ibang dinner options o iba pang importanteng pagpipilian. Ang lahat ng nasa group ay makakaboto at makikita rin nila ang sagot ng isa't-isa, at pwede kang mamili kung papayagan mo o hindi ang maramihang pagboto."
   }
 }

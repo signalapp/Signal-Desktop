@@ -1167,10 +1167,10 @@
     "messageformat": "نظرسنجی نیازمند حداقل ۲ گزینه است"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "سؤال بیش‌ازحد طولانی است"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "گزینه بیش‌ازحد طولانی است"
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} با {emoji} به {message} واکنش نشان داد"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "‏{sender} در نظرسنجی «{pollQuestion}» رأی داد"
   },
   "icu:sendFailed": {
     "messageformat": "ارسال ناموفق بود"
@@ -7256,6 +7256,6 @@
     "messageformat": "قالب‌بندی کپی کردن/چسباندن را بهبود دادیم. با تشکر از <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "نظرسنجی‌های سیگنال اینجاست! نظرسنجی‌ها راهی آسان برای دیدن نظرات واقعی اعضای گروه هستند. یک نظرسنجی با گزینه‌های مختلف برای شام یا هر انتخاب مهم دیگری ایجاد کنید. همه افراد گروه می‌توانند رأی بدهند و پاسخ‌های یکدیگر را ببینند و شما می‌توانید تصمیم بگیرید که آیا اجازه رأی‌دهی چندگانه را بدهید یا خیر."
   }
 }

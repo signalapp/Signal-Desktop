@@ -1116,10 +1116,10 @@
     "messageformat": "നിങ്ങൾ വോട്ട് ചെയ്തു"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "നിങ്ങൾ പോൾ അവസാനിപ്പിച്ചു: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} പോൾ അവസാനിപ്പിച്ചു: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "പോൾ കാണുക"
@@ -1167,10 +1167,10 @@
     "messageformat": "പോളിന് കുറഞ്ഞത് 2 ഓപ്ഷനുകളെങ്കിലും ആവശ്യമാണ്"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "ചോദ്യം വളരെ നീണ്ടതാണ്"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ഓപ്ഷൻ വളരെ നീണ്ടതാണ്"
   },
   "icu:deleteConversation": {
     "messageformat": "ഇല്ലാതാക്കൂ"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} നിങ്ങളുടെ {message} എന്ന സന്ദേശത്തിനോട് {emoji} നൽകി പ്രതികരിച്ചു"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "\"{pollQuestion}\" പോളിൽ {sender} വോട്ട് ചെയ്തു"
   },
   "icu:sendFailed": {
     "messageformat": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു"
@@ -7256,6 +7256,6 @@
     "messageformat": "പഴയ ഫോർമാറ്റിംഗ് ഉപയോഗിക്കാതെ തന്നെ, എല്ലാം തിരഞ്ഞെടുത്ത് നിലവിലുള്ള വാചകം മാറ്റിസ്ഥാപിക്കുന്നത് കോപ്പി/പേസ്റ്റ് മെച്ചപ്പെടുത്തലുകൾ എളുപ്പമാക്കുന്നു. നന്ദി, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal പോളുകൾ ഇതാ! നിങ്ങളും നിങ്ങളുടെ സുഹൃത്തുക്കളും ഒരേ പേജിലാണോ, അതോ നിങ്ങൾ വിപരീത ദിശയിലാണോ? നിങ്ങളുടെ ഗ്രൂപ്പ് ചാറ്റ് യഥാർത്ഥത്തിൽ എന്താണ് ചിന്തിക്കുന്നതെന്ന് കാണാനുള്ള എളുപ്പവഴിയാണ് പോളുകൾ. ഒന്നിനൊന്നു മികച്ച ഡിന്നർ ഓപ്ഷനുകൾ, വെക്കേഷൻ ഡെസ്റ്റിനേഷനുകൾ, വരാനിരിക്കുന്ന റോഡ് യാത്രയ്ക്കുള്ള സംഗീത മുൻഗണനകൾ അല്ലെങ്കിൽ മറ്റ് പ്രധാനപ്പെട്ട ചോയിസുകള്‍ എന്നിവ ഉൾപ്പെടുത്തി ഒരു പോൾ സൃഷ്ടിക്കുക. ഗ്രൂപ്പിലെ എല്ലാവർക്കും വോട്ട് ചെയ്യാനും പരസ്പരം പ്രതികരണങ്ങൾ കാണാനും കഴിയും, ഒന്നിലധികം വോട്ടുകൾ അനുവദിക്കണോ വേണ്ടയോ എന്ന് നിങ്ങൾക്ക് തീരുമാനിക്കാം."
   }
 }

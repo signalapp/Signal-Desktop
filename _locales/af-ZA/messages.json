@@ -1116,10 +1116,10 @@
     "messageformat": "Jy het gestem"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Jy het die meningsopname \"{poll}\" beëindig"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} het die meningsopname \"{poll}\" beëindig"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Besigtig meningsopname"
@@ -1167,10 +1167,10 @@
     "messageformat": "Meningsopname vereis minstens 2 opsies"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Vraag is te lank"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opsie is te lank"
   },
   "icu:deleteConversation": {
     "messageformat": "Skrap"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} het {emoji} gereageer op: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} het gestem in die meningsopname \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Kon nie stuur nie"
@@ -7256,6 +7256,6 @@
     "messageformat": "Verbeterings aan kopieer/plak-formatering. Dankie, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Nou is daar Signal-meningsopnames! Meningsopnames is 'n maklike manier om te sien wat jou groepklets werklik dink. Skep 'n meningsopname met kompeterende aandete-opsies of enige ander belangrike keuses. Almal in die groep kan stem en mekaar se reaksies sien, en jy kan besluit of jy veelvuldige stemme wil toelaat of nie."
   }
 }

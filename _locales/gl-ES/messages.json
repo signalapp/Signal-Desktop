@@ -1116,10 +1116,10 @@
     "messageformat": "Votaches"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Remataches a enquisa: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} rematou a enquisa: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Ver enquisa"
@@ -1167,10 +1167,10 @@
     "messageformat": "As enquisas necesitan polo menos 2 opcións"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "A pregunta é demasiado longa"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "A opción é demasiado longa"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reaccionou con {emoji} a: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} votou «{pollQuestion}» na enquisa"
   },
   "icu:sendFailed": {
     "messageformat": "Erro no envío"
@@ -7256,6 +7256,6 @@
     "messageformat": "Realizáronse melloras no copiado e pegado de formato. Grazas, <brianHarder>@brianHarder</brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Chegan as enquisas a Signal! Teus amigos e máis ti estades na mesma onda ou sodes máis \"enquisitos\"? Un xeito rápido e cómodo de descubrir a opinión do teu grupo. Crea unha enquisa como opcións para ir, destinos para as vacacións, preferencias musicais para a vosa próxima viaxe pola estrada ou calquera outra decisión importante. Cada persoa do grupo pode votar e ver os resultados. Ti elixes se permites varios votos por persoa ou só un."
   }
 }

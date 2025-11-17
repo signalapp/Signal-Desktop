@@ -1167,10 +1167,10 @@
     "messageformat": "Η δημοσκόπηση απαιτεί τουλάχιστον 2 επιλογές"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Η ερώτηση είναι πολύ μεγάλη"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Η επιλογή είναι πολύ μεγάλη"
   },
   "icu:deleteConversation": {
     "messageformat": "Διαγραφή"
@@ -1983,7 +1983,7 @@
     "messageformat": "Ο/Η {sender} αντέδρασε με {emoji} στη δημοσίευση: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Ο χρήστης {sender} ψήφισε στη δημοσκόπηση \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Αποτυχία αποστολής"
@@ -7256,6 +7256,6 @@
     "messageformat": "Βελτιώσεις στην αντιγραφή/επικόλληση. Ευχαριστούμε, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Οι δημοσκοπήσεις Signal είναι εδώ! Οι δημοσκοπήσεις είναι ένας εύκολος τρόπος για να δεις τι πιστεύει πραγματικά η ομαδική συνομιλία σου. Δημιούργησε μια δημοσκόπηση με διαφορετικές επιλογές για δείπνο ή οποιαδήποτε άλλη σημαντική επιλογή. Όλοι οι συμμετέχοντες στην ομάδα μπορούν να ψηφίσουν και να δουν τις απαντήσεις των άλλων, ενώ εσύ μπορείς να αποφασίσεις αν θα επιτρέψεις πολλαπλές ψήφους."
   }
 }

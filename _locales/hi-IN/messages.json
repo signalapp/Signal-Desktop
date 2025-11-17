@@ -2364,7 +2364,7 @@
     "messageformat": "फ़ाइल"
   },
   "icu:message--getNotificationText--stickers": {
-    "messageformat": "स्टिकर मेसेज"
+    "messageformat": "स्टिकर मैसेज"
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "पोल: {pollQuestion}"
@@ -2376,22 +2376,22 @@
     "messageformat": "{emoji} {text}"
   },
   "icu:message--getDescription--unsupported-message": {
-    "messageformat": "असमर्थित मेसेज"
+    "messageformat": "इस वर्ज़न पर यह मैसेज काम नहीं करता"
   },
   "icu:message--getDescription--disappearing-media": {
-    "messageformat": "एक बार देखने योग्य मीडिया"
+    "messageformat": "सिर्फ़ एक बार देखे जा सकने वाला मीडिया"
   },
   "icu:message--getDescription--disappearing-photo": {
-    "messageformat": "एक बार देखने योग्य फ़ोटो"
+    "messageformat": "सिर्फ़ एक बार देखी जा सकने वाली फ़ोटो"
   },
   "icu:message--getDescription--disappearing-video": {
-    "messageformat": "एक बार देखने योग्य वीडियो"
+    "messageformat": "सिर्फ़ एक बार देखा जा सकने वाला वीडियो"
   },
   "icu:message--getDescription--gif": {
     "messageformat": "GIF"
   },
   "icu:message--deletedForEveryone": {
-    "messageformat": "यह मेसेज डिलीट कर दिया गया है।"
+    "messageformat": "यह मैसेज डिलीट कर दिया गया है।"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "अटैचमेंट प्रदर्शित करने के लिहाज से बहुत बड़ा है।"
@@ -2436,10 +2436,10 @@
     "messageformat": "दान"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {{days,number} दिन शेष} other {{days,number} दिन शेष}}"
+    "messageformat": "{days, plural, one {{days,number} दिन बचा है} other {{days,number} दिन बचे हैं}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {{hours,number} घंटे शेष} other {{hours,number} घंटे शेष}}"
+    "messageformat": "{hours, plural, one {{hours,number} घंटा बचा है} other {{hours,number} घंटे बचे हैं}}"
   },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {{minutes,number} मिनट शेष} other {{minutes,number} मिनट सहेश हैं}}"
@@ -2466,43 +2466,43 @@
     "messageformat": "आपने {name} की ओर से Signal को एक दान दिया है। उन्हें अपना सहयोग अपनी प्रोफ़ाइल पर दर्शाने का विकल्प दिया जाएगा।"
   },
   "icu:stickers--toast--InstallFailed": {
-    "messageformat": "स्टीकर पैक इंस्टॉल नहीं हो पाया"
+    "messageformat": "स्टिकर पैक इंस्टॉल नहीं हो सका"
   },
   "icu:stickers--StickerManager--Available": {
-    "messageformat": "उपलब्ध"
+    "messageformat": "उपलब्ध है"
   },
   "icu:stickers--StickerManager--InstalledPacks": {
     "messageformat": "इंस्टॉल किया गया"
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
-    "messageformat": "कोई स्टीकर इंस्टॉल नहीं है"
+    "messageformat": "कोई स्टिकर इंस्टॉल नहीं है"
   },
   "icu:stickers--StickerManager--BlessedPacks": {
-    "messageformat": "Signal की कलाकार श्रृंखला से"
+    "messageformat": "Signal की आर्टिस्ट सीरीज़"
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
-    "messageformat": "Signal कलाकार स्टिकर उपलब्ध नहीं हैं"
+    "messageformat": "Signal की आर्टिस्ट सीरीज़ का कोई स्टिकर उपलब्ध नहीं है"
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "आपको प्राप्त स्टीकर"
+    "messageformat": "आपको मिले स्टिकर"
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "आने वाले मेसेजों के स्टिकर यहां दिखाई देंगे"
+    "messageformat": "आने वाले मैसेज से स्टिकर यहां दिखेंगे"
   },
   "icu:stickers--StickerManager--Install": {
     "messageformat": "इंस्टॉल करें"
   },
   "icu:stickers--StickerManager--Uninstall": {
-    "messageformat": "अनइंस्टॉल"
+    "messageformat": "अनइंस्टॉल करें"
   },
   "icu:stickers--StickerManager--UninstallWarning": {
-    "messageformat": "अगर आपके पास मूल संदेश नहीं है तो शायद आप स्टिकर पैक पुनः स्थापित ना कर पाएँ"
+    "messageformat": "अगर आपके पास मूल मैसेज नहीं है, तो आपके पास इस स्टिकर पैक को दोबारा इंस्टॉल करने का विकल्प नहीं होगा।"
   },
   "icu:stickers--StickerPreview--Title": {
-    "messageformat": "स्टीकर पैक"
+    "messageformat": "स्टिकर पैक"
   },
   "icu:stickers--StickerPreview--Error": {
-    "messageformat": "स्टिकर पैक खोलने में गलती हुई है। कृपया अपना इंटरनेट कनेक्शन जांच लें और फिर कोशिश करें।"
+    "messageformat": "स्टिकर पैक खोलने में कोई गड़बड़ी हुई। अपना इंटरनेट कनेक्शन देख लें और दोबारा कोशिश करें।"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "इमोजी"
@@ -2736,16 +2736,16 @@
     "messageformat": "ज्यादा प्रदर्शित करने के लिए संदेश बहुत लंबा है"
   },
   "icu:Message--unsupported-message": {
-    "messageformat": "{contact} ने एक मेसेज भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।"
+    "messageformat": "{contact} ने आपको एक मैसेज भेजा है, जिसे दिखाया या प्रोसेस नहीं किया जा सकता क्योंकि इसमें Signal की एक नई सुविधा का इस्तेमाल किया गया है।"
   },
   "icu:Message--unsupported-message-ask-to-resend": {
-    "messageformat": "आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, अब आप {contact} को यह मेसेज फिर से भेजने के लिये कह सकते हैं।"
+    "messageformat": "{contact} से कहें कि वह दोबारा यह मैसेज भेजें, क्योंकि आपने अब Signal का वर्ज़न अप-टू-डेट कर लिया है।"
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "आपके किसी डिवाइस ने एक मेसेज भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।"
+    "messageformat": "आपके किसी डिवाइस से ऐसा मैसेज भेजा गया है जिसे दिखाया या प्रोसेस नहीं जा सकता, क्योंकि उसमें Signal की एक नई सुविधा का इस्तेमाल किया गया है।"
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
-    "messageformat": "अब जब आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, आपके आगे के मेसेज सिंक्रनाइज़ कर दिये जाएँगे"
+    "messageformat": "आपके आगे के मैसेज सिंक्रनाइज़ हो जाएंगे, क्योंकि आपने अब Signal का वर्ज़न अप-टू-डेट कर लिया है।"
   },
   "icu:Message--update-signal": {
     "messageformat": "Signal अपडेट करें"
@@ -2757,7 +2757,7 @@
     "messageformat": "एक बार मीडिया देखें"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
-    "messageformat": "आपने यह मेसेज पहले ही देख लिया है"
+    "messageformat": "आपने यह मैसेज पहले ही देख लिया है।"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "एक बार देखें संदेश आपके चैट इतिहास में संगृहीत नहीं होते हैं।"
@@ -2775,16 +2775,16 @@
     "messageformat": "(अटैचमेंट)"
   },
   "icu:Conversation--getDraftPreview--quote": {
-    "messageformat": "(क्वोट)"
+    "messageformat": "(कोट)"
   },
   "icu:Conversation--getDraftPreview--draft": {
-    "messageformat": "(ड्राफ्ट)"
+    "messageformat": "(ड्राफ़्ट)"
   },
   "icu:Keyboard--focus-most-recent-message": {
     "messageformat": "सबसे पुराने अपठित या अंतिम संदेश पर ध्यान दें"
   },
   "icu:Keyboard--navigate-by-section": {
-    "messageformat": "अनुभाग के हिसाब से नेविगेट करें"
+    "messageformat": "सेक्शन के हिसाब से नैविगेट करें"
   },
   "icu:Keyboard--previous-conversation": {
     "messageformat": "पिछली चैट"
@@ -2799,7 +2799,7 @@
     "messageformat": "अगली अपठित चैट"
   },
   "icu:Keyboard--preferences": {
-    "messageformat": "पसंदगी"
+    "messageformat": "प्राथमिकताएं"
   },
   "icu:Keyboard--open-conversation-menu": {
     "messageformat": "चैट मेन्यू खोलें"
@@ -2814,28 +2814,28 @@
     "messageformat": "चैट को असंग्रहीत करें"
   },
   "icu:Keyboard--search": {
-    "messageformat": "सर्च"
+    "messageformat": "खोजें"
   },
   "icu:Keyboard--search-in-conversation": {
     "messageformat": "चैट में खोजें"
   },
   "icu:Keyboard--focus-composer": {
-    "messageformat": "कंपोज़र पर फ़ोकस करें"
+    "messageformat": "कंपोज़र दिखाएं"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "सारी मीडिया व्यू खोलें"
+    "messageformat": "सभी मीडिया देखें"
   },
   "icu:Keyboard--open-emoji-chooser": {
-    "messageformat": "इमोजी चुनने वाला खोलें"
+    "messageformat": "इमोजी चुनें"
   },
   "icu:Keyboard--open-sticker-chooser": {
-    "messageformat": "स्टिकर चुनने वाला खोलें"
+    "messageformat": "स्टिकर चुनें"
   },
   "icu:Keyboard--open-gif-chooser": {
     "messageformat": "GIF चुनने वाला खोलें"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "वॉयस मेसेज रिकॉर्ड करना शुरु करें"
+    "messageformat": "वॉइस नोट रिकॉर्ड करना शुरू करें"
   },
   "icu:Keyboard--default-message-action": {
     "messageformat": "चुने गये मेसेज के लिये डिफ़ॉल्ट क्रिया"

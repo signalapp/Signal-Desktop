@@ -1167,10 +1167,10 @@
     "messageformat": "Anket için en az 2 seçenek gerekir"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Soru çok uzun"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Seçenek çok uzun"
   },
   "icu:deleteConversation": {
     "messageformat": "Sil"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} şuna {emoji} tepkisini verdi: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" anketini oyladı"
   },
   "icu:sendFailed": {
     "messageformat": "Gönderme başarısız"
@@ -7256,6 +7256,6 @@
     "messageformat": "Kopyala/yapıştır biçimlendirme iyileştirmeleri. Teşekkürler, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal anketleri burada! Sen ve arkadaşların aynı fikirde misiniz, yoksa ters kutuplar mısınız? Anketler, grup sohbetinde herkesin gerçekte ne düşündüğünü görmenin kolay bir yoludur. Farklı akşam yemeği seçenekleri veya başka önemli konular için bir anket oluşturabilirsin. Gruptaki herkes oylayabilir ve birbirinin yanıtlarını görebilir, birden fazla oy kullanmaya izin verip vermeyeceğine sen karar verirsin."
   }
 }

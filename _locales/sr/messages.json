@@ -1167,10 +1167,10 @@
     "messageformat": "Анкета захтева бар 2 опције"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Питање је предугачко"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Опција је предугачка"
   },
   "icu:deleteConversation": {
     "messageformat": "Избриши"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} је реаговао/ла {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} је гласао/-ла у анкети „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Слање није успело"
@@ -7256,6 +7256,6 @@
     "messageformat": "Побољшање форматирања копирања/лепљења. Хвала, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Представљамо вам Signal анкете! Анкете представљају добар начин да сазнате шта људи из вашег групног ћаскања заиста мисле. Креирајте анкету са опцијама за вечеру или неку другу важну ствар. Сви чланови групе могу да гласају и да виде туђе гласове, а ви одлучујете да ли ћете омогућити вишеструки избор одговора."
   }
 }

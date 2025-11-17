@@ -1167,10 +1167,10 @@
     "messageformat": "Aggiungi almeno 2 opzioni al sondaggio"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "La domanda è troppo lunga"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "L'opzione è troppo lunga"
   },
   "icu:deleteConversation": {
     "messageformat": "Elimina"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ha reagito con {emoji} a: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ha votato nel sondaggio \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Invio non riuscito"
@@ -7256,6 +7256,6 @@
     "messageformat": "Abbiamo migliorato la funzione di copia/incolla per selezionare più facilmente un testo intero e sostituirlo senza applicare in automatico la formattazione esistente. Grazie, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Sono arrivati i sondaggi su Signal! Siete davvero tutti allineati su cosa fare questo sabato sera? Vincerà il sushi o la carbonara? I sondaggi sono il modo più semplice per… beh, fare un sondaggio tra le persone in un gruppo. Creane uno inserendo tutte le opzioni che vuoi e per qualsiasi ragione: una cena fuori, piani per il weekend, vacanze o il fatidico \"cosa facciamo a capodanno\". Chiunque sia nel gruppo potrà votare e vedere i voti delle altre persone. Inoltre, potrai decidere se consentire alle persone di scegliere più opzioni."
   }
 }

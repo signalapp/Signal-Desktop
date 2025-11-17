@@ -1116,10 +1116,10 @@
     "messageformat": "អ្នកបានបោះឆ្នោត"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "អ្នកបានបញ្ចប់ការស្ទង់មតិ៖ {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} បានបញ្ចប់ការស្ទង់មតិ៖ {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "មើលការស្ទង់មតិ"
@@ -1167,10 +1167,10 @@
     "messageformat": "ការស្ទង់មតិទាមទារយ៉ាងហោចណាស់ 2 ជម្រើស"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "សំណួរវែងពេក"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ជម្រើសវែងពេក"
   },
   "icu:deleteConversation": {
     "messageformat": "លុប"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} បានប្រតិកម្ម {emoji} ទៅនឹង៖ {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} បានបោះឆ្នោតនៅក្នុងការស្ទង់មតិ \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "ផ្ញើបរាជ័យ"
@@ -7256,6 +7256,6 @@
     "messageformat": "ការកែលម្អការចម្លង/បិទភ្ជាប់ធ្វើឱ្យការជ្រើសរើសទាំងអស់ និងប្តូរអក្សរដែលមានស្រាប់កាន់តែងាយស្រួល ដោយមិនចាំបាច់យកពីទម្រង់ចាស់។ អរគុណ <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "នៅទីនេះមានការស្ទង់មតិ Signal! តើអ្នក និងមិត្តភក្តិរបស់អ្នកមានគំនិតដូចគ្នាឬទេ ឬអ្នកមានទស្សនៈផ្ទុយគ្នាទាំងស្រុង? ការស្ទង់មតិគឺជាវិធីងាយស្រួលមួយដើម្បីមើលថាតើសមាជិកក្នុងការជជែកជាក្រុមរបស់អ្នកគិតយ៉ាងណាដែរ។ បង្កើតការស្ទង់មតិជាមួយនឹងជម្រើសអាហារពេលល្ងាច គោលដៅវិស្សមកាល ចំណូលចិត្តតន្ត្រីជាច្រើនសម្រាប់ការធ្វើដំណើរតាមផ្លូវនាពេលខាងមុខ ឬជម្រើសសំខាន់ៗផ្សេងទៀត។ អ្នកគ្រប់គ្នានៅក្នុងក្រុមអាចបោះឆ្នោត និងមើលឃើញការឆ្លើយតបរបស់គ្នាទៅវិញទៅមក ហើយអ្នកអាចសម្រេចចិត្តថាតើគួរអនុញ្ញាតឱ្យមានការបោះឆ្នោតជាច្រើនឬអត់។"
   }
 }

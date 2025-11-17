@@ -1167,10 +1167,10 @@
     "messageformat": "投票には少なくとも2つの選択肢が必要です"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "質問が長すぎます"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "選択肢が長すぎます"
   },
   "icu:deleteConversation": {
     "messageformat": "消去"
@@ -1983,7 +1983,7 @@
     "messageformat": "{emoji}のリアクションを、{sender}さんが「{message}」にしました"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender}が「{pollQuestion}」に投票しました"
   },
   "icu:sendFailed": {
     "messageformat": "送信できませんでした"
@@ -7256,6 +7256,6 @@
     "messageformat": "コピー＆ペーストのフォーマットを改善しました。<brianHarder></brianHarder>様、ありがとうございます！"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signalに投票機能が登場しました！投票機能を使えば、グループチャット内の意見をまとめられやすくなります。食べたいものから大切な意見のまとめまで、なんでも投票を作成しましょう。グループメンバー全員が投票できて、他のメンバーの回答を見ることも可能です。また、一つだけに投票するか複数投票するかも設定できます。"
   }
 }

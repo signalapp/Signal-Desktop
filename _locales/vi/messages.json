@@ -1167,10 +1167,10 @@
     "messageformat": "Cần ít nhất 2 lựa chọn để hỏi ý kiến"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Câu hỏi quá dài"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Lựa chọn quá dài"
   },
   "icu:deleteConversation": {
     "messageformat": "Xóa"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} đã phản hồi {emoji} cho: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} đã bình chọn trong cuộc hỏi ý kiến: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Không gửi được"
@@ -7256,6 +7256,6 @@
     "messageformat": "Cải thiện định dạng sao chép/dán. Cảm ơn, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ra mắt tính năng Hỏi ý kiến! Tính năng này giúp bạn biết các ý kiến của người trong nhóm của mình. Bạn sẽ có thể tạo một cuộc Hỏi ý kiến với các lựa chọn khác nhau, thành viên nhóm có thể bỏ phiếu và xem phản hồi của nhau, và bạn có thể quyết định có cho phép có nhiều bình chọn hay không."
   }
 }

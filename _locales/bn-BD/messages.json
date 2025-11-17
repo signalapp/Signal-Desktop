@@ -1167,10 +1167,10 @@
     "messageformat": "জরিপটির জন্য অন্তত 2টি বিকল্প প্রয়োজন"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "প্রশ্নটি অনেক বড়"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "অপশনটি অনেক বড়"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} {emoji} রিঅ্যাক্ট করেছেন: {message}-এ"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" জরিপে ভোট দিয়েছেন"
   },
   "icu:sendFailed": {
     "messageformat": "পাঠাতে ব্যর্থ হয়েছে"
@@ -7256,6 +7256,6 @@
     "messageformat": "কপি/পেস্ট ফরম্যাটিং উন্নত করা হয়েছে। ধন্যবাদ, <brianHarder>@brianHarder</brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "চলে এলো Signal জরিপ! আপনার গ্রুপ চ্যাটের বন্ধুরা আসলে কী ভাবছেন তা বোঝার জন্য জরিপ একটি সহজ উপায়। একসাথে ডিনার করার জন্য নানাবিধ অপশন বা অন্য কোনো গুরুত্বপূর্ণ সিদ্ধান্তকে কেন্দ্র করে একটি জরিপ তৈরি করুন। এর মাধ্যমে গ্রুপের প্রত্যেকে ভোট দিতে পারবেন এবং একে অপরের প্রতিক্রিয়া দেখতে পারবেন এবং আপনি একাধিক ভোট দেওয়ার অনুমতি দেবেন কিনা সেই সিদ্ধান্ত নিতে পারবেন।"
   }
 }

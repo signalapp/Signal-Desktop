@@ -1167,10 +1167,10 @@
     "messageformat": "投票最少要有 2 個選項"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "條問題太長"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "個選項太長"
   },
   "icu:deleteConversation": {
     "messageformat": "刪除"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} 用 {emoji} 回應咗：「{message}」"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} 已經喺「{pollQuestion}」投咗票"
   },
   "icu:sendFailed": {
     "messageformat": "傳送失敗"
@@ -7256,6 +7256,6 @@
     "messageformat": "改善咗個複製/貼上功能，令到你更容易揀晒全部文字同替換現有嘅文字，而且唔會保留舊格式。唔該晒，<brianHarder></brianHarder>！"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal 嘅投票功能登場啦！你班老友係同你企喺同一陣線，定係打對台？投票係個簡單嘅方法去知道聊天谷成員嘅真正諗法。搞個投票，問下今晚食咩好、去邊度渡假、自駕遊播咩歌，或者其他重要抉擇。聊天谷入面每個人都可以投票同埋睇到大家嘅回應，而你就可以決定係咪俾人投多幾個選項。"
   }
 }

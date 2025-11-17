@@ -1233,7 +1233,7 @@
     "messageformat": "{sender} 님이 전화번호를 변경했습니다."
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "내 연락처가 Signal에 등록함"
+    "messageformat": "연락처에 있는 사용자가 Signal에 가입함"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} 님과 {conversationTitle} 님은 같은 계정입니다. 두 대화의 메시지 기록을 여기서 확인하세요."

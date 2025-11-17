@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "Konec ankety"
+    "messageformat": "Ukončit anketu"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Anketa – vyberte jednu možnost"
@@ -1146,7 +1146,7 @@
     "messageformat": "Otázka"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Položte otázku"
+    "messageformat": "Zadejte otázku"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Možnosti"
@@ -1167,10 +1167,10 @@
     "messageformat": "U ankety je potřeba zadat alespoň 2 možnosti"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Otázka je příliš dlouhá"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Možnost je příliš dlouhá"
   },
   "icu:deleteConversation": {
     "messageformat": "Odstranit"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagoval/a {emoji} na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} hlasoval/a v anketě: „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Odeslání se nezdařilo"
@@ -7256,6 +7256,6 @@
     "messageformat": "Vylepšení formátování při kopírování/vkládání. Díky, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ankety Signal jsou tady! Ankety představují snadný způsob, jak zjistit, co si vaše chatovací skupina skutečně myslí. Vytvořte anketu s různými možnostmi večeře nebo jakoukoli jinou důležitou volbou. Každý ve skupině může hlasovat a vidět odpovědi ostatních, a vy se můžete rozhodnout, zda povolíte hlasování pro více možností."
   }
 }

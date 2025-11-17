@@ -1116,10 +1116,10 @@
     "messageformat": "Гласувахте"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Приключихте анкетата: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} приключи анкетата: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Преглед на анкетата"
@@ -1167,10 +1167,10 @@
     "messageformat": "За анкетата се изискват поне 2 опции"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Въпросът е твърде дълъг"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Опцията е твърде дълга"
   },
   "icu:deleteConversation": {
     "messageformat": "Изтриване"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} реагира с {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} гласува в анкетата „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Изпращането неуспешно"
@@ -7256,6 +7256,6 @@
     "messageformat": "Подобренията за копиране/поставянe. Благодарим, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Анкетите на Signal са тук! Анкетите са лесен начин да видите какво наистина мисли груповият чат. Създайте анкета с различни опции за вечеря или за всякакви други важни избори. Всички в групата могат да гласуват и да виждат отговорите на другите, а вие можете да решите дали да разрешите гласуването за няколко опции."
   }
 }

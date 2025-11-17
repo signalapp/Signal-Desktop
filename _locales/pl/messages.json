@@ -3045,7 +3045,7 @@
     "messageformat": "Jeśli ktoś, kogo nie znasz, wysyła Ci wiadomości o kryptowalutach (takich jak Bitcoin) lub okazjach finansowych, uważaj – prawdopodobnie jest to spam."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Wiadomości ogólnikowe lub nie na temat"
+    "messageformat": "Wiadomości ogólnikowe lub wyrwane z kontekstu"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "Spamerzy często zaczynają od prostej, angażującej wiadomości, takiej jak „cześć”. Jeśli odpiszesz, mogą Cię wciągnąć w dalszą rozmowę."
@@ -3054,13 +3054,13 @@
     "messageformat": "Wiadomości z linkami"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Uważaj na wiadomości od nieznanych Ci osób zawierające linki do stron internetowych. Nigdy nie otwieraj linków przesłanych przez osoby, do których nie masz zaufania."
+    "messageformat": "Uważaj na wiadomości od nieznajomych, które zawierają linki do stron internetowych. Nigdy nie otwieraj linków przesłanych przez osoby, do których nie masz zaufania."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Fałszywe konta firm i instytucji"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Zachowaj ostrożność, jeśli rzekomo kontaktuje się z Tobą organizacja rządowa lub firma. Wiadomości, których nadawcami mieliby być kurierzy, instytucje podatkowe itd., mogą być spamem."
+    "messageformat": "Zachowaj ostrożność, jeśli rzekomo kontaktuje się z Tobą urząd lub firma. Wiadomości, których nadawcami mieliby być kurierzy, instytucje podatkowe itp., mogą być spamem."
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "Przejdź na stronę {page,number}"

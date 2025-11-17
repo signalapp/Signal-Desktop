@@ -1167,10 +1167,10 @@
     "messageformat": "Для опроса требуется минимум 2 варианта"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Вопрос слишком длинный"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Вариант слишком длинный"
   },
   "icu:deleteConversation": {
     "messageformat": "Удалить"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} отреагировал(-а) {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} проголосовал(а) в опросе «{pollQuestion}»"
   },
   "icu:sendFailed": {
     "messageformat": "Отправка не удалась"
@@ -7256,6 +7256,6 @@
     "messageformat": "Улучшения функции копирования и вставки упрощают выделение всего текста и замену существующего текста без использования старого форматирования. Спасибо, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Опросы Signal уже здесь! Вы на одной волне с друзьями или у вас противоположные мнения? Опросы — это простой способ узнать, что на самом деле думают участники вашего группового чата. Создайте опрос по различным вариантам ужина, направлениям для отдыха, музыкальным предпочтениям для предстоящей поездки или другим важным вопросам. Все участники группы могут голосовать и видеть ответы друг друга, а вы сами решаете, можно ли будет выбрать несколько вариантов."
   }
 }

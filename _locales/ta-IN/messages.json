@@ -1116,10 +1116,10 @@
     "messageformat": "நீங்கள் வாக்களித்துள்ளீர்கள்"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "நீங்க வாக்கெடுப்பை முடித்துவிட்டீர்கள்: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} என்பவர் இந்த வாக்கெடுப்பை முடித்துவிட்டார்: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "வாக்கெடுப்பைக் காண்க"
@@ -1167,10 +1167,10 @@
     "messageformat": "வாக்கெடுப்புக்குக் குறைந்தது 2 விருப்பங்கள் தேவை"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "கேள்வி மிக நீளமாக உள்ளது"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "பதில் மிக நீளமாக உள்ளது"
   },
   "icu:deleteConversation": {
     "messageformat": "நீக்கு"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} {emoji} என்று எதிர்வினையாற்றினார்: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} வாக்காளர் \"{pollQuestion}\"க்கான வாக்கெடுப்பில் வாக்களித்தார்"
   },
   "icu:sendFailed": {
     "messageformat": "அனுப்புவது தோல்வியுற்றது"
@@ -7256,6 +7256,6 @@
     "messageformat": "நகலெடுத்தல்/ஒட்டுதல் வடிவமைப்பு மேம்பாடுகள். நன்றி, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ சிக்னல் வாக்கெடுப்பு இங்கு உள்ளது! உங்கள் குழு அரட்டையில் உண்மையில் என்ன நிகழ வேண்டும் என்பதைப் பார்ப்பதற்கு வாக்கெடுப்புகள் எளிதான வழியாகும். போட்டியிடும் இரவு உணவு விருப்பங்கள், விடுமுறை இடங்கள், வரவிருக்கும் சாலைப் பயணத்திற்கான இசை விருப்பத்தேர்வுகள் அல்லது வேறு ஏதேனும் முக்கியமான தேர்வுகளுடன் வாக்கெடுப்பை உருவாக்குங்கள். குழுவில் உள்ள அனைவரும் வாக்களிக்கலாம் மற்றும் அனைவரின் பதில்களையும் பார்க்கலாம், மேலும் பல வாக்குகளை அனுமதிக்கலாமா வேண்டாமா என்பதை நீங்கள் தீர்மானிக்கலாம்."
   }
 }

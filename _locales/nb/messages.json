@@ -1167,10 +1167,10 @@
     "messageformat": "Avstemningen må ha minst to svaralternativer"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Spørsmålet er for langt"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Alternativet er for langt"
   },
   "icu:deleteConversation": {
     "messageformat": "Slett"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagerte med {emoji} på: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} stemte i avstemningen «{pollQuestion}»"
   },
   "icu:sendFailed": {
     "messageformat": "Sending feilet"
@@ -7256,6 +7256,6 @@
     "messageformat": "Vi har også gjort formateringen av funksjonen for kopiering og innliming bedre. Takk, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal har nå avstemninger! Med avstemninger blir det lett å finne ut hva gruppechatten faktisk mener. Du kan f.eks. lage en avstemning med ulike middagsalternativer eller andre viktige avgjørelser. Alle i gruppen kan stemme og se hva de andre stemmer, og du kan bestemme om det er lov å stemme flere ganger."
   }
 }
