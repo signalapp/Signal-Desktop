@@ -160,6 +160,12 @@ function getSelectedSection(
   return EmojiPickerCategory.SmileysAndPeople;
 }
 
+function isKeyboardPointerEvent(event: PointerEvent): boolean {
+  // "" means input source could not be determined (not mouse, pen, or touch)
+  // https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType
+  return event.nativeEvent.pointerType === '';
+}
+
 export type FunEmojiSelection = Readonly<{
   variantKey: EmojiVariantKey;
 }>;
@@ -664,8 +670,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         variantKey: emojiVariant.key,
       };
       const shouldClose =
-        event.nativeEvent.pointerType !== 'mouse' &&
-        !(event.ctrlKey || event.metaKey);
+        isKeyboardPointerEvent(event) && !(event.ctrlKey || event.metaKey);
       onSelectEmoji(emojiSelection, shouldClose);
     },
     [
