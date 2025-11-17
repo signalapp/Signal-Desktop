@@ -163,13 +163,15 @@ button.grey {
   }
 }
 
-a {
-  @include mixins.light-theme {
-    color: variables.$color-ultramarine;
-  }
+@layer base {
+  a {
+    @include mixins.light-theme {
+      color: variables.$color-ultramarine;
+    }
 
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
 }
 

@@ -221,6 +221,7 @@ function showLightboxForViewOnceMedia(
 
     const media = [
       {
+        type: 'media' as const,
         attachment: tempAttachment,
         index: 0,
         message: {
@@ -230,6 +231,8 @@ function showLightboxForViewOnceMedia(
           receivedAt: message.get('received_at'),
           receivedAtMs: Number(message.get('received_at_ms')),
           sentAt: message.get('sent_at'),
+          source: message.get('source'),
+          sourceServiceId: message.get('sourceServiceId'),
         },
       },
     ];
@@ -332,8 +335,11 @@ function showLightbox(opts: {
           conversationId: authorId,
           receivedAt,
           receivedAtMs: Number(message.get('received_at_ms')),
+          source: message.get('source'),
+          sourceServiceId: message.get('sourceServiceId'),
           sentAt,
         },
+        type: 'media' as const,
         attachment: getPropsForAttachment(
           item,
           'attachment',

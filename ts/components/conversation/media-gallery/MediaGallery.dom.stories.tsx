@@ -6,10 +6,12 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MediaGallery.dom.js';
 import { MediaGallery } from './MediaGallery.dom.js';
+import { LinkPreviewItem } from './LinkPreviewItem.dom.js';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
   createRandomMedia,
+  createRandomLinks,
   days,
 } from './utils/mocks.std.js';
 
@@ -26,16 +28,28 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   documents: overrideProps.documents || [],
   haveOldestDocument: overrideProps.haveOldestDocument || false,
   haveOldestMedia: overrideProps.haveOldestMedia || false,
+  haveOldestLink: overrideProps.haveOldestLink || false,
   loading: overrideProps.loading || false,
   media: overrideProps.media || [],
+  links: overrideProps.links || [],
 
   initialLoad: action('initialLoad'),
-  loadMoreDocuments: action('loadMoreDocuments'),
-  loadMoreMedia: action('loadMoreMedia'),
+  loadMore: action('loadMore'),
   saveAttachment: action('saveAttachment'),
   showLightbox: action('showLightbox'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
+
+  renderLinkPreviewItem: ({ mediaItem, onClick }) => {
+    return (
+      <LinkPreviewItem
+        i18n={i18n}
+        authorTitle="Alice"
+        mediaItem={mediaItem}
+        onClick={onClick}
+      />
+    );
+  },
 });
 
 export function Populated(): JSX.Element {
@@ -66,8 +80,9 @@ export function NoMedia(): JSX.Element {
 export function OneEach(): JSX.Element {
   const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
   const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
+  const links = createRandomLinks(Date.now(), days(1)).slice(0, 1);
 
-  const props = createProps({ documents, media });
+  const props = createProps({ documents, media, links });
 
   return <MediaGallery {...props} />;
 }

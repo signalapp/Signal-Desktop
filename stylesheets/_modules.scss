@@ -2467,7 +2467,6 @@ button.ConversationDetails__action-button {
 // Module: Media Gallery
 
 .module-media-gallery {
-  position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -2503,19 +2502,6 @@ button.ConversationDetails__action-button {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-}
-
-/* Module: Empty State*/
-
-.module-empty-state {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-
-  @include mixins.font-title-1;
-
-  color: variables.$color-gray-45;
 }
 
 // Module: Message Request Actions

@@ -136,11 +136,13 @@ import type {
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
   GetOlderMediaOptionsType,
+  GetOlderLinkPreviewsOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
   KyberPreKeyTripleType,
+  LinkPreviewMediaItemDBType,
   MediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
@@ -454,6 +456,7 @@ export const DataReader: ServerReadableInterface = {
 
   hasMedia,
   getOlderMedia,
+  getOlderLinkPreviews,
 
   getAllNotificationProfiles,
   getNotificationProfileById,
@@ -5192,25 +5195,49 @@ function hasGroupCallHistoryMessage(
 }
 
 function hasMedia(db: ReadableDB, conversationId: string): boolean {
-  const [query, params] = sql`
-    SELECT EXISTS(
-      SELECT 1 FROM message_attachments
-      INDEXED BY message_attachments_getOlderMedia
-      WHERE
-        conversationId IS ${conversationId} AND
-        editHistoryIndex IS -1 AND
-        attachmentType IS 'attachment' AND
-        messageType IN ('incoming', 'outgoing') AND
-        isViewOnce IS NOT 1 AND
-        contentType IS NOT NULL AND
-        contentType IS NOT '' AND
-        contentType IS NOT 'text/x-signal-plain' AND
-        contentType NOT LIKE 'audio/%'
-    );
-  `;
-  const exists = db.prepare(query, { pluck: true }).get<number>(params);
+  return db.transaction(() => {
+    let hasAttachments: boolean;
+    let hasPreviews: boolean;
 
-  return exists === 1;
+    {
+      const [query, params] = sql`
+        SELECT EXISTS(
+          SELECT 1 FROM message_attachments
+          INDEXED BY message_attachments_getOlderMedia
+          WHERE
+            conversationId IS ${conversationId} AND
+            editHistoryIndex IS -1 AND
+            attachmentType IS 'attachment' AND
+            messageType IN ('incoming', 'outgoing') AND
+            isViewOnce IS NOT 1 AND
+            contentType IS NOT NULL AND
+            contentType IS NOT '' AND
+            contentType IS NOT 'text/x-signal-plain' AND
+            contentType NOT LIKE 'audio/%'
+        );
+      `;
+      hasAttachments =
+        db.prepare(query, { pluck: true }).get<number>(params) === 1;
+    }
+
+    {
+      const [query, params] = sql`
+        SELECT EXISTS(
+          SELECT 1 FROM messages
+          INDEXED BY messages_hasPreviews
+          WHERE
+            conversationId IS ${conversationId} AND
+            type IN ('incoming', 'outgoing') AND
+            isViewOnce IS NOT 1 AND
+            hasPreviews IS 1
+        );
+      `;
+      hasPreviews =
+        db.prepare(query, { pluck: true }).get<number>(params) === 1;
+    }
+
+    return hasAttachments || hasPreviews;
+  })();
 }
 
 function getOlderMedia(
@@ -5225,26 +5252,30 @@ function getOlderMedia(
   }: GetOlderMediaOptionsType
 ): Array<MediaItemDBType> {
   const timeFilters = {
-    first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
-    second: sqlFragment`receivedAt < ${maxReceivedAt}`,
+    first: sqlFragment`
+      message_attachments.receivedAt = ${maxReceivedAt}
+      AND
+      message_attachments.sentAt < ${maxSentAt}
+    `,
+    second: sqlFragment`message_attachments.receivedAt < ${maxReceivedAt}`,
   };
 
   let contentFilter: QueryFragment;
   if (type === 'media') {
     // see 'isVisualMedia' in ts/types/Attachment.ts
     contentFilter = sqlFragment`
-      contentType LIKE 'image/%' OR
-      contentType LIKE 'video/%'
+      message_attachments.contentType LIKE 'image/%' OR
+      message_attachments.contentType LIKE 'video/%'
     `;
-  } else if (type === 'files') {
+  } else if (type === 'documents') {
     // see 'isFile' in ts/types/Attachment.ts
     contentFilter = sqlFragment`
-      contentType IS NOT NULL AND
-      contentType IS NOT '' AND
-      contentType IS NOT 'text/x-signal-plain' AND
-      contentType NOT LIKE 'audio/%' AND
-      contentType NOT LIKE 'image/%' AND
-      contentType NOT LIKE 'video/%'
+      message_attachments.contentType IS NOT NULL AND
+      message_attachments.contentType IS NOT '' AND
+      message_attachments.contentType IS NOT 'text/x-signal-plain' AND
+      message_attachments.contentType NOT LIKE 'audio/%' AND
+      message_attachments.contentType NOT LIKE 'image/%' AND
+      message_attachments.contentType NOT LIKE 'video/%'
     `;
   } else {
     throw missingCaseError(type);
@@ -5252,21 +5283,25 @@ function getOlderMedia(
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
-      *
+      message_attachments.*,
+      messages.source AS messageSource,
+      messages.sourceServiceId AS messageSourceServiceId
     FROM message_attachments
     INDEXED BY message_attachments_getOlderMedia
+    INNER JOIN messages ON
+      messages.id = message_attachments.messageId
     WHERE
-      conversationId IS ${conversationId} AND
-      editHistoryIndex IS -1 AND
-      attachmentType IS 'attachment' AND
+      message_attachments.conversationId IS ${conversationId} AND
+      message_attachments.editHistoryIndex IS -1 AND
+      message_attachments.attachmentType IS 'attachment' AND
       (
         ${timeFilter}
       ) AND
       (${contentFilter}) AND
-      isViewOnce IS NOT 1 AND
-      messageType IN ('incoming', 'outgoing') AND
-      (${messageId ?? null} IS NULL OR messageId IS NOT ${messageId ?? null})
-      ORDER BY receivedAt DESC, sentAt DESC
+      message_attachments.isViewOnce IS NOT 1 AND
+      message_attachments.messageType IN ('incoming', 'outgoing') AND
+      (${messageId ?? null} IS NULL OR message_attachments.messageId IS NOT ${messageId ?? null})
+      ORDER BY message_attachments.receivedAt DESC, message_attachments.sentAt DESC
       LIMIT ${limit}
   `;
 
@@ -5276,16 +5311,30 @@ function getOlderMedia(
     SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
   `;
 
-  const results: Array<MessageAttachmentDBType> = db.prepare(query).all(params);
+  const results: Array<
+    MessageAttachmentDBType & {
+      messageSource: string | null;
+      messageSourceServiceId: ServiceIdString | null;
+    }
+  > = db.prepare(query).all(params);
 
   return results.map(attachment => {
-    const { orderInMessage, messageType, sentAt, receivedAt, receivedAtMs } =
-      attachment;
+    const {
+      orderInMessage,
+      messageType,
+      messageSource,
+      messageSourceServiceId,
+      sentAt,
+      receivedAt,
+      receivedAtMs,
+    } = attachment;
 
     return {
       message: {
         id: attachment.messageId,
         type: messageType as 'incoming' | 'outgoing',
+        source: messageSource ?? undefined,
+        sourceServiceId: messageSourceServiceId ?? undefined,
         conversationId,
         receivedAt,
         receivedAtMs: receivedAtMs ?? undefined,
@@ -5293,6 +5342,67 @@ function getOlderMedia(
       },
       index: orderInMessage,
       attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
+    };
+  });
+}
+
+function getOlderLinkPreviews(
+  db: ReadableDB,
+  {
+    conversationId,
+    limit,
+    messageId,
+    receivedAt: maxReceivedAt = Number.MAX_VALUE,
+    sentAt: maxSentAt = Number.MAX_VALUE,
+  }: GetOlderLinkPreviewsOptionsType
+): Array<LinkPreviewMediaItemDBType> {
+  const timeFilters = {
+    first: sqlFragment`received_at = ${maxReceivedAt} AND sent_at < ${maxSentAt}`,
+    second: sqlFragment`received_at < ${maxReceivedAt}`,
+  };
+
+  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
+    SELECT
+      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    FROM messages
+    INDEXED BY messages_hasPreviews
+    WHERE
+      conversationId IS ${conversationId} AND
+      hasPreviews IS 1 AND
+      isViewOnce IS NOT 1 AND
+      type IN ('incoming', 'outgoing') AND
+      (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null})
+      AND (${timeFilter})
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT ${limit}
+  `;
+
+  const [query, params] = sql`
+    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
+    UNION ALL
+    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
+  `;
+
+  const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
+
+  return hydrateMessages(db, rows).map(message => {
+    strictAssert(
+      message.preview != null && message.preview.length >= 1,
+      `getOlderLinkPreviews: got message without previe ${message.id}`
+    );
+
+    return {
+      message: {
+        id: message.id,
+        type: message.type as 'incoming' | 'outgoing',
+        conversationId,
+        source: message.source,
+        sourceServiceId: message.sourceServiceId,
+        receivedAt: message.received_at,
+        receivedAtMs: message.received_at_ms ?? undefined,
+        sentAt: message.sent_at,
+      },
+      preview: message.preview[0],
     };
   });
 }

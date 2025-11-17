@@ -45,6 +45,7 @@ function createMediaItem(
       fileName: overrideProps.objectURL,
       url: overrideProps.objectURL,
     }),
+    type: 'media',
     index: 0,
     message: {
       conversationId: '1234',
@@ -53,6 +54,10 @@ function createMediaItem(
       receivedAt: 0,
       receivedAtMs: Date.now(),
       sentAt: Date.now(),
+
+      // Unused for now
+      source: undefined,
+      sourceServiceId: undefined,
     },
     ...overrideProps,
   };
@@ -86,6 +91,7 @@ export function Multimedia(): JSX.Element {
   const props = createProps({
     media: [
       {
+        type: 'media',
         attachment: fakeAttachment({
           contentType: IMAGE_JPEG,
           fileName: 'tina-rolf-269345-unsplash.jpg',
@@ -101,9 +107,13 @@ export function Multimedia(): JSX.Element {
           receivedAt: 1,
           receivedAtMs: Date.now(),
           sentAt: Date.now(),
+          // Unused for now
+          source: undefined,
+          sourceServiceId: undefined,
         },
       },
       {
+        type: 'media',
         attachment: fakeAttachment({
           contentType: VIDEO_MP4,
           fileName: 'pixabay-Soap-Bubble-7141.mp4',
@@ -117,6 +127,9 @@ export function Multimedia(): JSX.Element {
           receivedAt: 2,
           receivedAtMs: Date.now(),
           sentAt: Date.now(),
+          // Unused for now
+          source: undefined,
+          sourceServiceId: undefined,
         },
       },
       createMediaItem({
@@ -139,6 +152,7 @@ export function MissingMedia(): JSX.Element {
   const props = createProps({
     media: [
       {
+        type: 'media',
         attachment: fakeAttachment({
           contentType: IMAGE_JPEG,
           fileName: 'tina-rolf-269345-unsplash.jpg',
@@ -152,6 +166,10 @@ export function MissingMedia(): JSX.Element {
           receivedAt: 3,
           receivedAtMs: Date.now(),
           sentAt: Date.now(),
+
+          // Unused for now
+          source: undefined,
+          sourceServiceId: undefined,
         },
       },
     ],

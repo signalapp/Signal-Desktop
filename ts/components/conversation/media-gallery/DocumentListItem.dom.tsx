@@ -86,7 +86,11 @@ export function DocumentListItem({
             value={status.totalDownloaded}
           />
         )}
-        <div className={tw('absolute text-label-primary')}>
+        <div
+          className={tw(
+            'absolute flex items-center justify-center text-label-primary'
+          )}
+        >
           <AxoSymbol.Icon
             symbol={status.state === 'Downloading' ? 'x' : 'arrow-down'}
             size={16}

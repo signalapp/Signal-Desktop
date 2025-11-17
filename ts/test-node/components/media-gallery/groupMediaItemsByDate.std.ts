@@ -22,14 +22,17 @@ const testDate = (
 
 const toMediaItem = (id: string, date: Date): MediaItemType => {
   return {
+    type: 'media',
     index: 0,
     message: {
       type: 'incoming',
       conversationId: '1234',
-      id: 'id',
+      id,
       receivedAt: date.getTime(),
       receivedAtMs: date.getTime(),
       sentAt: date.getTime(),
+      source: undefined,
+      sourceServiceId: undefined,
     },
     attachment: fakeAttachment({
       fileName: 'fileName',
@@ -63,35 +66,35 @@ describe('groupMediaItemsByDate', () => {
 
     assert.strictEqual(actual[0].type, 'today');
     assert.strictEqual(actual[0].mediaItems.length, 2, 'today');
-    assert.strictEqual(actual[0].mediaItems[0].attachment.url, 'today-1');
-    assert.strictEqual(actual[0].mediaItems[1].attachment.url, 'today-2');
+    assert.strictEqual(actual[0].mediaItems[0].message.id, 'today-1');
+    assert.strictEqual(actual[0].mediaItems[1].message.id, 'today-2');
 
     assert.strictEqual(actual[1].type, 'yesterday');
     assert.strictEqual(actual[1].mediaItems.length, 2, 'yesterday');
-    assert.strictEqual(actual[1].mediaItems[0].attachment.url, 'yesterday-1');
-    assert.strictEqual(actual[1].mediaItems[1].attachment.url, 'yesterday-2');
+    assert.strictEqual(actual[1].mediaItems[0].message.id, 'yesterday-1');
+    assert.strictEqual(actual[1].mediaItems[1].message.id, 'yesterday-2');
 
     assert.strictEqual(actual[2].type, 'thisWeek');
     assert.strictEqual(actual[2].mediaItems.length, 4, 'thisWeek');
-    assert.strictEqual(actual[2].mediaItems[0].attachment.url, 'thisWeek-1');
-    assert.strictEqual(actual[2].mediaItems[1].attachment.url, 'thisWeek-2');
-    assert.strictEqual(actual[2].mediaItems[2].attachment.url, 'thisWeek-3');
-    assert.strictEqual(actual[2].mediaItems[3].attachment.url, 'thisWeek-4');
+    assert.strictEqual(actual[2].mediaItems[0].message.id, 'thisWeek-1');
+    assert.strictEqual(actual[2].mediaItems[1].message.id, 'thisWeek-2');
+    assert.strictEqual(actual[2].mediaItems[2].message.id, 'thisWeek-3');
+    assert.strictEqual(actual[2].mediaItems[3].message.id, 'thisWeek-4');
 
     assert.strictEqual(actual[3].type, 'thisMonth');
     assert.strictEqual(actual[3].mediaItems.length, 2, 'thisMonth');
-    assert.strictEqual(actual[3].mediaItems[0].attachment.url, 'thisMonth-1');
-    assert.strictEqual(actual[3].mediaItems[1].attachment.url, 'thisMonth-2');
+    assert.strictEqual(actual[3].mediaItems[0].message.id, 'thisMonth-1');
+    assert.strictEqual(actual[3].mediaItems[1].message.id, 'thisMonth-2');
 
     assert.strictEqual(actual[4].type, 'yearMonth');
     assert.strictEqual(actual[4].mediaItems.length, 2, 'mar2024');
-    assert.strictEqual(actual[4].mediaItems[0].attachment.url, 'mar2024-1');
-    assert.strictEqual(actual[4].mediaItems[1].attachment.url, 'mar2024-2');
+    assert.strictEqual(actual[4].mediaItems[0].message.id, 'mar2024-1');
+    assert.strictEqual(actual[4].mediaItems[1].message.id, 'mar2024-2');
 
     assert.strictEqual(actual[5].type, 'yearMonth');
     assert.strictEqual(actual[5].mediaItems.length, 2, 'feb2011');
-    assert.strictEqual(actual[5].mediaItems[0].attachment.url, 'feb2011-1');
-    assert.strictEqual(actual[5].mediaItems[1].attachment.url, 'feb2011-2');
+    assert.strictEqual(actual[5].mediaItems[0].message.id, 'feb2011-1');
+    assert.strictEqual(actual[5].mediaItems[1].message.id, 'feb2011-2');
 
     assert.strictEqual(actual.length, 6, 'total sections');
   });

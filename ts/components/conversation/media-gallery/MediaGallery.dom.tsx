@@ -1,38 +1,41 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 import moment from 'moment';
 
 import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type {
+  LinkPreviewMediaItemType,
+  MediaItemType,
+  GenericMediaItemType,
+} from '../../../types/MediaItem.std.js';
 import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.preload.js';
 import { AttachmentSection } from './AttachmentSection.dom.js';
 import { EmptyState } from './EmptyState.dom.js';
+import type { DataProps as LinkPreviewItemPropsType } from './LinkPreviewItem.dom.js';
 import { Tabs } from '../../Tabs.dom.js';
+import { TabViews } from './types/TabViews.std.js';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
 import { usePrevious } from '../../../hooks/usePrevious.std.js';
 import type { AttachmentType } from '../../../types/Attachment.std.js';
 
-enum TabViews {
-  Media = 'Media',
-  Documents = 'Documents',
-}
-
 export type Props = {
   conversationId: string;
-  documents: ReadonlyArray<MediaItemType>;
   i18n: LocalizerType;
   haveOldestMedia: boolean;
   haveOldestDocument: boolean;
+  haveOldestLink: boolean;
   loading: boolean;
   initialLoad: (id: string) => unknown;
-  loadMoreMedia: (id: string) => unknown;
-  loadMoreDocuments: (id: string) => unknown;
+  loadMore: (id: string, type: 'media' | 'documents' | 'links') => unknown;
   media: ReadonlyArray<MediaItemType>;
+  documents: ReadonlyArray<MediaItemType>;
+  links: ReadonlyArray<LinkPreviewMediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
   cancelAttachmentDownload: (options: { messageId: string }) => void;
@@ -41,54 +44,80 @@ export type Props = {
     messageId: string;
   }) => void;
   theme?: ThemeType;
+
+  renderLinkPreviewItem: (props: LinkPreviewItemPropsType) => JSX.Element;
 };
 
 const MONTH_FORMAT = 'MMMM YYYY';
 
 function MediaSection({
-  documents,
   i18n,
   loading,
-  media,
+  tab,
+  mediaItems,
   saveAttachment,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   showLightbox,
-  type,
   theme,
+  renderLinkPreviewItem,
 }: Pick<
   Props,
-  | 'documents'
   | 'i18n'
   | 'theme'
   | 'loading'
-  | 'media'
   | 'saveAttachment'
   | 'kickOffAttachmentDownload'
   | 'cancelAttachmentDownload'
   | 'showLightbox'
-> & { type: 'media' | 'documents' }): JSX.Element {
-  const mediaItems = type === 'media' ? media : documents;
+  | 'renderLinkPreviewItem'
+> & {
+  tab: TabViews;
+  mediaItems: ReadonlyArray<GenericMediaItemType>;
+}): JSX.Element {
+  const onItemClick = useCallback(
+    (event: ItemClickEvent) => {
+      const { state, mediaItem } = event;
+      const { message } = mediaItem;
+      if (state === 'Downloading') {
+        cancelAttachmentDownload({ messageId: message.id });
+        return;
+      }
+      if (state === 'NeedsDownload') {
+        kickOffAttachmentDownload({ messageId: message.id });
+        return;
+      }
+      if (state !== 'ReadyToShow') {
+        throw missingCaseError(state);
+      }
 
-  if (!mediaItems || mediaItems.length === 0) {
+      if (mediaItem.type === 'media') {
+        showLightbox({
+          attachment: mediaItem.attachment,
+          messageId: message.id,
+        });
+      } else if (mediaItem.type === 'document') {
+        saveAttachment(mediaItem.attachment, message.sentAt);
+      } else if (mediaItem.type === 'link') {
+        openLinkInWebBrowser(mediaItem.preview.url);
+      } else {
+        throw missingCaseError(mediaItem.type);
+      }
+    },
+    [
+      saveAttachment,
+      showLightbox,
+      cancelAttachmentDownload,
+      kickOffAttachmentDownload,
+    ]
+  );
+
+  if (mediaItems.length === 0) {
     if (loading) {
       return <div />;
     }
 
-    const label = (() => {
-      switch (type) {
-        case 'media':
-          return i18n('icu:mediaEmptyState');
-
-        case 'documents':
-          return i18n('icu:documentsEmptyState');
-
-        default:
-          throw missingCaseError(type);
-      }
-    })();
-
-    return <EmptyState data-test="EmptyState" label={label} />;
+    return <EmptyState i18n={i18n} tab={tab} />;
   }
 
   const now = Date.now();
@@ -122,43 +151,9 @@ function MediaSection({
         header={header}
         i18n={i18n}
         theme={theme}
-        type={type}
         mediaItems={section.mediaItems}
-        onItemClick={(event: ItemClickEvent) => {
-          switch (event.type) {
-            case 'documents': {
-              if (event.state === 'ReadyToShow') {
-                saveAttachment(event.attachment, event.message.sentAt);
-              } else if (event.state === 'Downloading') {
-                cancelAttachmentDownload({ messageId: event.message.id });
-              } else if (event.state === 'NeedsDownload') {
-                kickOffAttachmentDownload({ messageId: event.message.id });
-              } else {
-                throw missingCaseError(event.state);
-              }
-              break;
-            }
-
-            case 'media': {
-              if (event.state === 'ReadyToShow') {
-                showLightbox({
-                  attachment: event.attachment,
-                  messageId: event.message.id,
-                });
-              } else if (event.state === 'Downloading') {
-                cancelAttachmentDownload({ messageId: event.message.id });
-              } else if (event.state === 'NeedsDownload') {
-                kickOffAttachmentDownload({ messageId: event.message.id });
-              } else {
-                throw missingCaseError(event.state);
-              }
-              break;
-            }
-
-            default:
-              throw new TypeError(`Unknown attachment type: '${event.type}'`);
-          }
-        }}
+        onItemClick={onItemClick}
+        renderLinkPreviewItem={renderLinkPreviewItem}
       />
     );
   });
@@ -168,19 +163,21 @@ function MediaSection({
 
 export function MediaGallery({
   conversationId,
-  documents,
   haveOldestDocument,
   haveOldestMedia,
+  haveOldestLink,
   i18n,
   initialLoad,
   loading,
-  loadMoreDocuments,
-  loadMoreMedia,
+  loadMore,
   media,
+  documents,
+  links,
   saveAttachment,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   showLightbox,
+  renderLinkPreviewItem,
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
   const scrollObserverRef = useRef<HTMLDivElement | null>(null);
@@ -196,8 +193,10 @@ export function MediaGallery({
     if (
       media.length > 0 ||
       documents.length > 0 ||
+      links.length > 0 ||
       haveOldestDocument ||
-      haveOldestMedia
+      haveOldestMedia ||
+      haveOldestLink
     ) {
       return;
     }
@@ -207,9 +206,11 @@ export function MediaGallery({
     conversationId,
     haveOldestDocument,
     haveOldestMedia,
+    haveOldestLink,
     initialLoad,
     media,
     documents,
+    links,
   ]);
 
   const previousLoading = usePrevious(loading, loading);
@@ -238,13 +239,18 @@ export function MediaGallery({
         if (entry && entry.intersectionRatio > 0) {
           if (tabViewRef.current === TabViews.Media) {
             if (!haveOldestMedia) {
-              loadMoreMedia(conversationId);
+              loadMore(conversationId, 'media');
+              loadingRef.current = true;
+            }
+          } else if (tabViewRef.current === TabViews.Documents) {
+            if (!haveOldestDocument) {
+              loadMore(conversationId, 'documents');
               loadingRef.current = true;
             }
           } else {
             // eslint-disable-next-line no-lonely-if
-            if (!haveOldestDocument) {
-              loadMoreDocuments(conversationId);
+            if (!haveOldestLink) {
+              loadMore(conversationId, 'links');
               loadingRef.current = true;
             }
           }
@@ -261,9 +267,9 @@ export function MediaGallery({
     conversationId,
     haveOldestDocument,
     haveOldestMedia,
+    haveOldestLink,
     loading,
-    loadMoreDocuments,
-    loadMoreMedia,
+    loadMore,
   ]);
 
   return (
@@ -276,45 +282,44 @@ export function MediaGallery({
             label: i18n('icu:media'),
           },
           {
+            id: TabViews.Links,
+            label: i18n('icu:MediaGallery__tab__links'),
+          },
+          {
             id: TabViews.Documents,
-            label: i18n('icu:documents'),
+            label: i18n('icu:MediaGallery__tab__files'),
           },
         ]}
       >
         {({ selectedTab }) => {
-          tabViewRef.current =
-            selectedTab === TabViews.Media
-              ? TabViews.Media
-              : TabViews.Documents;
+          let mediaItems: ReadonlyArray<GenericMediaItemType>;
+
+          if (selectedTab === TabViews.Media) {
+            tabViewRef.current = TabViews.Media;
+            mediaItems = media;
+          } else if (selectedTab === TabViews.Documents) {
+            tabViewRef.current = TabViews.Documents;
+            mediaItems = documents;
+          } else if (selectedTab === TabViews.Links) {
+            tabViewRef.current = TabViews.Links;
+            mediaItems = links;
+          } else {
+            throw new Error(`Unexpected select tab: ${selectedTab}`);
+          }
 
           return (
             <div className="module-media-gallery__content">
-              {selectedTab === TabViews.Media && (
-                <MediaSection
-                  documents={documents}
-                  i18n={i18n}
-                  loading={loading}
-                  media={media}
-                  saveAttachment={saveAttachment}
-                  showLightbox={showLightbox}
-                  kickOffAttachmentDownload={kickOffAttachmentDownload}
-                  cancelAttachmentDownload={cancelAttachmentDownload}
-                  type="media"
-                />
-              )}
-              {selectedTab === TabViews.Documents && (
-                <MediaSection
-                  documents={documents}
-                  i18n={i18n}
-                  loading={loading}
-                  media={media}
-                  saveAttachment={saveAttachment}
-                  showLightbox={showLightbox}
-                  kickOffAttachmentDownload={kickOffAttachmentDownload}
-                  cancelAttachmentDownload={cancelAttachmentDownload}
-                  type="documents"
-                />
-              )}
+              <MediaSection
+                i18n={i18n}
+                loading={loading}
+                tab={tabViewRef.current}
+                mediaItems={mediaItems}
+                saveAttachment={saveAttachment}
+                showLightbox={showLightbox}
+                kickOffAttachmentDownload={kickOffAttachmentDownload}
+                cancelAttachmentDownload={cancelAttachmentDownload}
+                renderLinkPreviewItem={renderLinkPreviewItem}
+              />
             </div>
           );
         }}

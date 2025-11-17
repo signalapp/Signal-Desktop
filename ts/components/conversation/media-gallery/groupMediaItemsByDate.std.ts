@@ -3,7 +3,7 @@
 
 import moment from 'moment';
 import lodash from 'lodash';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type { GenericMediaItemType } from '../../../types/MediaItem.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 
 const { compact, groupBy, sortBy } = lodash;
@@ -13,7 +13,7 @@ type YearMonthSectionType = 'yearMonth';
 
 type GenericSection<T> = {
   type: T;
-  mediaItems: ReadonlyArray<MediaItemType>;
+  mediaItems: ReadonlyArray<GenericMediaItemType>;
 };
 type StaticSection = GenericSection<StaticSectionType>;
 type YearMonthSection = GenericSection<YearMonthSectionType> & {
@@ -23,7 +23,7 @@ type YearMonthSection = GenericSection<YearMonthSectionType> & {
 export type Section = StaticSection | YearMonthSection;
 export const groupMediaItemsByDate = (
   timestamp: number,
-  mediaItems: ReadonlyArray<MediaItemType>
+  mediaItems: ReadonlyArray<GenericMediaItemType>
 ): Array<Section> => {
   const referenceDateTime = moment(timestamp);
 
@@ -89,7 +89,7 @@ const toSection = (
 type GenericMediaItemWithSection<T> = {
   order: number;
   type: T;
-  mediaItem: MediaItemType;
+  mediaItem: GenericMediaItemType;
 };
 type MediaItemWithStaticSection =
   GenericMediaItemWithSection<StaticSectionType>;
@@ -108,7 +108,7 @@ const withSection = (referenceDateTime: moment.Moment) => {
   const thisWeek = moment(referenceDateTime).subtract(7, 'day').startOf('day');
   const thisMonth = moment(referenceDateTime).startOf('month');
 
-  return (mediaItem: MediaItemType): MediaItemWithSection => {
+  return (mediaItem: GenericMediaItemType): MediaItemWithSection => {
     const { message } = mediaItem;
     const messageTimestamp = moment(message.receivedAtMs || message.receivedAt);
 
