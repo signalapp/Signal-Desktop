@@ -311,6 +311,7 @@ const actions = () => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
   openGiftBadge: action('openGiftBadge'),
+  scrollToPinnedMessage: action('scrollToPinnedMessage'),
   scrollToPollMessage: action('scrollToPollMessage'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showAttachmentDownloadStillInProgressToast: action(

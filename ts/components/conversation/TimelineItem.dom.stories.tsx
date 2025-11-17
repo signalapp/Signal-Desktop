@@ -92,6 +92,7 @@ const getDefaultProps = () => ({
   ),
   showMediaNoLongerAvailableToast: action('showMediaNoLongerAvailableToast'),
   showTapToViewNotAvailableModal: action('showTapToViewNotAvailableModal'),
+  scrollToPinnedMessage: action('scrollToPinnedMessage'),
   scrollToPollMessage: action('scrollToPollMessage'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
@@ -501,6 +502,20 @@ export function Notification(): JSX.Element {
           isMe: true,
         }),
         conversation: getDefaultConversation(),
+      },
+    },
+    {
+      type: 'pinnedMessage',
+      data: {
+        sender: getDefaultConversation({ isMe: true }),
+        pinnedMessageId: '1',
+      },
+    },
+    {
+      type: 'pinnedMessage',
+      data: {
+        sender: getDefaultConversation({ isMe: false }),
+        pinnedMessageId: '1',
       },
     },
     {

@@ -51,6 +51,7 @@ import {
   isUnsupportedMessage,
   isConversationMerge,
   isMessageRequestResponse,
+  isPinnedMessageNotification,
 } from '../state/selectors/message.preload.js';
 import { getAuthor } from '../messages/sources.preload.js';
 import {
@@ -508,6 +509,10 @@ export function getNotificationDataForMessage(
             })
           : i18n('icu:message--donation--preview--redeemed'),
     };
+  }
+
+  if (isPinnedMessageNotification(attributes)) {
+    throw new Error('unimplemented');
   }
 
   const { poll } = attributes;

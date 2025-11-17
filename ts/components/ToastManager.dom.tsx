@@ -652,6 +652,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.PinnedMessageNotFound) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--PinnedMessageNotFound')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.PollNotFound) {
     return <Toast onClose={hideToast}>{i18n('icu:Toast--PollNotFound')}</Toast>;
   }

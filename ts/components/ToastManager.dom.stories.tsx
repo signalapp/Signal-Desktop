@@ -189,6 +189,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.OriginalMessageNotFound };
     case ToastType.PinnedConversationsFull:
       return { toastType: ToastType.PinnedConversationsFull };
+    case ToastType.PinnedMessageNotFound:
+      return { toastType: ToastType.PinnedMessageNotFound };
     case ToastType.PollNotFound:
       return { toastType: ToastType.PollNotFound };
     case ToastType.ReactionFailed:

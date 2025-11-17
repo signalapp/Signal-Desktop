@@ -165,6 +165,7 @@ type MessageType =
   | 'joined-signal-notification'
   | 'keychange'
   | 'outgoing'
+  | 'pinned-message-notification'
   | 'phone-number-discovery'
   | 'poll-terminate'
   | 'profile-change'
@@ -212,6 +213,7 @@ export type MessageAttributesType = {
   payment?: AnyPaymentEvent;
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
+  pinnedMessageId?: string;
   poll?: PollMessageAttribute;
   pollTerminateNotification?: {
     question: string;

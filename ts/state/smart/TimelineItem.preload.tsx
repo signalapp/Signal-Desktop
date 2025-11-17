@@ -150,6 +150,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const {
     endPoll,
     reactToMessage,
+    scrollToPinnedMessage,
     scrollToPollMessage,
     scrollToQuotedMessage,
     setQuoteByMessageId,
@@ -232,6 +233,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       }
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      scrollToPinnedMessage={scrollToPinnedMessage}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
       sendPollVote={sendPollVote}

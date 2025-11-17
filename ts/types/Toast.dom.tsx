@@ -65,6 +65,7 @@ export enum ToastType {
   NotificationProfileUpdate = 'NotificationProfileUpdate',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
+  PinnedMessageNotFound = 'PinnedMessageNotFound',
   PollNotFound = 'PollNotFound',
   ReactionFailed = 'ReactionFailed',
   ReceiptSaved = 'ReceiptSaved',
@@ -197,6 +198,7 @@ export type AnyToast =
     }
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
+  | { toastType: ToastType.PinnedMessageNotFound }
   | { toastType: ToastType.PollNotFound }
   | { toastType: ToastType.ReactionFailed }
   | {

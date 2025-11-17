@@ -165,6 +165,7 @@ import { CallMode, CallDirection } from '../../types/CallDisposition.std.js';
 import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
+import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -1107,6 +1108,13 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isPinnedMessageNotification(message)) {
+    return {
+      type: 'pinnedMessage',
+      data: getPropsForPinnedMessageNotification(message, options),
+      timestamp,
+    };
+  }
   if (isProfileChange(message)) {
     return {
       type: 'profileChange',
@@ -1227,6 +1235,7 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
     !isKeyChange(message) &&
     !isPhoneNumberDiscovery(message) &&
     !isTitleTransitionNotification(message) &&
+    !isPinnedMessageNotification(message) &&
     !isProfileChange(message) &&
     !isUniversalTimerNotification(message) &&
     !isUnsupportedMessage(message) &&
@@ -1705,6 +1714,25 @@ export function getPropsForCallHistory(
     maxDevices,
     isSelectMode,
     isTargeted: message.id === targetedMessageId,
+  };
+}
+
+// Pinned Message Notification
+
+export function isPinnedMessageNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'pinned-message-notification';
+}
+
+export function getPropsForPinnedMessageNotification(
+  message: MessageWithUIFieldsType,
+  { conversationSelector }: GetPropsForBubbleOptions
+): PinnedMessageNotificationData {
+  strictAssert(message.pinnedMessageId, 'Missing pinnedMessageId');
+  return {
+    sender: conversationSelector(message.sourceServiceId),
+    pinnedMessageId: message.pinnedMessageId,
   };
 }
 

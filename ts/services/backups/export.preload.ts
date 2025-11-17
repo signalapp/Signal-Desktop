@@ -92,6 +92,7 @@ import {
   isJoinedSignalNotification,
   isTitleTransitionNotification,
   isMessageRequestResponse,
+  isPinnedMessageNotification,
 } from '../../state/selectors/message.preload.js';
 import * as Bytes from '../../Bytes.std.js';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.js';
@@ -1828,6 +1829,10 @@ export class BackupExportStream extends Readable {
       updateMessage.simpleUpdate = simpleUpdate;
 
       return { kind: NonBubbleResultKind.Directionless, patch };
+    }
+
+    if (isPinnedMessageNotification(message)) {
+      throw new Error('unimplemented');
     }
 
     if (isProfileChange(message)) {

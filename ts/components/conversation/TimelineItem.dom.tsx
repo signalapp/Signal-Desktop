@@ -58,6 +58,8 @@ import type { PropsDataType as ConversationMergeNotificationPropsType } from './
 import { ConversationMergeNotification } from './ConversationMergeNotification.dom.js';
 import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification.dom.js';
 import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.dom.js';
+import type { PinnedMessageNotificationData } from './pinned-messages/PinnedMessageNotification.dom.js';
+import { PinnedMessageNotification } from './pinned-messages/PinnedMessageNotification.dom.js';
 import { SystemMessage } from './SystemMessage.dom.js';
 import { TimelineMessage } from './TimelineMessage.dom.js';
 import {
@@ -150,6 +152,10 @@ type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
 };
+type PinnedMessageNotificationType = {
+  type: 'pinnedMessage';
+  data: PinnedMessageNotificationData;
+};
 type MessageRequestResponseNotificationType = {
   type: 'messageRequestResponse';
   data: MessageRequestResponseNotificationData;
@@ -185,6 +191,7 @@ export type TimelineItemType = (
   | UnsupportedMessageType
   | VerificationNotificationType
   | PaymentEventType
+  | PinnedMessageNotificationType
   | MessageRequestResponseNotificationType
 ) & { timestamp: number };
 
@@ -197,11 +204,12 @@ type PropsLocalType = {
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
+  scrollToPinnedMessage: (pinnedMessageId: string) => void;
   scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;
-  onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
+  onOpenMessageRequestActionsConfirmation: (state: MessageRequestState) => void;
   platform: string;
   renderContact: SmartContactRendererType<JSX.Element>;
   renderUniversalTimerNotification: () => JSX.Element;
@@ -246,6 +254,7 @@ export const TimelineItem = memo(function TimelineItem({
   platform,
   renderUniversalTimerNotification,
   returnToActiveCall,
+  scrollToPinnedMessage,
   scrollToPollMessage,
   targetMessage,
   setMessageToEdit,
@@ -422,6 +431,14 @@ export const TimelineItem = memo(function TimelineItem({
           {...reducedProps}
           {...item.data}
           i18n={i18n}
+        />
+      );
+    } else if (item.type === 'pinnedMessage') {
+      notification = (
+        <PinnedMessageNotification
+          {...item.data}
+          i18n={i18n}
+          onScrollToPinnedMessage={scrollToPinnedMessage}
         />
       );
     } else if (item.type === 'pollTerminate') {

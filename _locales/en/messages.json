@@ -1514,6 +1514,10 @@
     "messageformat": "No votes",
     "description": "Message shown when poll has no votes"
   },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found",
+    "description": "Toast shown when user tries to view a pinned message that no longer exists"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Poll not found",
     "description": "Toast shown when user tries to view a poll that no longer exists"
@@ -1593,6 +1597,18 @@
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "Before you leave, you must choose at least one new admin for this group.",
     "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "You pinned a message",
+    "description": "Conversation > Chat Event > Pinned Message > When you pinned a message"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} pinned a message",
+    "description": "Conversation > Chat Event > Pinned Message > When someone else pinned a message"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Go to message",
+    "description": "Conversation > Chat Event > Pinned Message > Button to scroll to the pinned message"
   },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",

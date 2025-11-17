@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Selector } from 'reselect';
+import type { ThunkAction } from 'redux-thunk';
+import type { Action } from 'redux';
 import type { StateType } from './reducer.preload.js';
 import type { actions as accounts } from './ducks/accounts.preload.js';
 import type { actions as app } from './ducks/app.preload.js';
@@ -76,3 +78,9 @@ export type ReduxActions = {
 };
 
 export type StateSelector<T> = Selector<StateType, T>;
+export type StateThunk<A extends Action = never> = ThunkAction<
+  void,
+  StateType,
+  unknown,
+  A
+>;

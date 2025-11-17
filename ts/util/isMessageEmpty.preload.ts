@@ -15,6 +15,7 @@ import {
   isGroupUpdate,
   isGroupV2Change,
   isKeyChange,
+  isPinnedMessageNotification,
   isPhoneNumberDiscovery,
   isProfileChange,
   isTapToView,
@@ -59,6 +60,8 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
   const isPhoneNumberDiscoveryValue = isPhoneNumberDiscovery(attributes);
   const isTitleTransitionNotificationValue =
     isTitleTransitionNotification(attributes);
+  const isPinnedMessageNotificationValue =
+    isPinnedMessageNotification(attributes);
 
   const isPayment = messageHasPaymentEvent(attributes);
 
@@ -93,7 +96,8 @@ export function isMessageEmpty(attributes: MessageAttributesType): boolean {
     isUniversalTimerNotificationValue ||
     isConversationMergeValue ||
     isPhoneNumberDiscoveryValue ||
-    isTitleTransitionNotificationValue;
+    isTitleTransitionNotificationValue ||
+    isPinnedMessageNotificationValue;
 
   return !hasSomethingToDisplay;
 }

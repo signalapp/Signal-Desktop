@@ -39,7 +39,7 @@ import {
 import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
 import type { AciString } from '../../types/ServiceId.std.js';
 import { completeRecording, getIsRecording } from './audioRecorder.preload.js';
-import { SHOW_TOAST } from './toast.preload.js';
+import { SHOW_TOAST, showToast } from './toast.preload.js';
 import type { AnyToast } from '../../types/Toast.dom.js';
 import { ToastType } from '../../types/Toast.dom.js';
 import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
@@ -75,7 +75,10 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.js
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { canReply, isNormalBubble } from '../selectors/message.preload.js';
 import { getAuthorId } from '../../messages/sources.preload.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
+import {
+  getConversationSelector,
+  getSelectedConversationId,
+} from '../selectors/conversations.dom.js';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.js';
 import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
@@ -99,6 +102,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome.std.js';
+import type { StateThunk } from '../types.std.js';
 
 const { debounce, isEqual } = lodash;
 
@@ -255,6 +259,7 @@ export const actions = {
   replaceAttachments,
   resetComposer,
   saveDraftRecordingIfNeeded,
+  scrollToPinnedMessage,
   scrollToPollMessage,
   scrollToQuotedMessage,
   sendEditedMessage,
@@ -374,6 +379,32 @@ function scrollToQuotedMessage({
     }
 
     scrollToMessage(conversationId, message.id)(dispatch, getState, undefined);
+  };
+}
+
+function scrollToPinnedMessage(
+  pinnedMessageId: string
+): StateThunk<ShowToastActionType | ScrollToMessageActionType> {
+  return async (dispatch, getState) => {
+    const pinnedMessage = await getMessageById(pinnedMessageId);
+
+    if (!pinnedMessage) {
+      dispatch(
+        showToast({
+          toastType: ToastType.PinnedMessageNotFound,
+        })
+      );
+      return;
+    }
+
+    const selectedConversationId = getSelectedConversationId(getState());
+    const pinnedMessageConversationId = pinnedMessage.get('conversationId');
+
+    if (selectedConversationId !== pinnedMessageConversationId) {
+      return;
+    }
+
+    dispatch(scrollToMessage(pinnedMessageConversationId, pinnedMessageId));
   };
 }
 
