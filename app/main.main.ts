@@ -2807,7 +2807,6 @@ ipc.on('get-config', async event => {
 
     // paths
     crashDumpsPath: app.getPath('crashDumps'),
-    downloadsPath: app.getPath('downloads'),
     homePath: app.getPath('home'),
     installPath: app.getAppPath(),
     userDataPath: app.getPath('userData'),
