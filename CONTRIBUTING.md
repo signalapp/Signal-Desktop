@@ -162,6 +162,11 @@ Now make a copy of this production data directory in the same directory (a sibli
 directory), and call it `Signal-development`. Now start up the development version of the app as normal,
 and you'll see all of your contacts and messages!
 
+> [!IMPORTANT]
+> In case you are using WSL2, you will first need to install the Linux version of Signal,
+> link it to your phone, and then copy its application data instead. Copying the application
+> data of the Windows app won't work.
+
 You'll notice a prompt to re-link, because your production credentials won't work on
 staging. Click 'Relink', then 'Standalone', then verify the phone number and click
 'Send SMS.'
