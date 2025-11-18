@@ -492,6 +492,7 @@ export function reducer(
     return {
       ...state,
       media: state.media.filter(item => item.message.id !== action.payload.id),
+      links: state.links.filter(item => item.message.id !== action.payload.id),
       documents: state.documents.filter(
         item => item.message.id !== action.payload.id
       ),
