@@ -215,7 +215,7 @@ export namespace AxoAlertDialog {
    * ----------------------------------
    */
 
-  export type ActionVariant = 'primary' | 'destructive';
+  export type ActionVariant = 'primary' | 'secondary' | 'destructive';
 
   export type ActionProps = Readonly<{
     variant: ActionVariant;

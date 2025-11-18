@@ -22,7 +22,7 @@ import {
 import { strictAssert } from '../../../util/assert.std.js';
 import type {
   CoreAttachmentBackupJobType,
-  PartialAttachmentLocalBackupJobType,
+  CoreAttachmentLocalBackupJobType,
 } from '../../../types/AttachmentBackup.std.js';
 import {
   type GetBackupCdnInfoType,
@@ -208,7 +208,7 @@ export async function getFilePointerForAttachment({
   messageReceivedAt: number;
 }): Promise<{
   filePointer: Backups.FilePointer;
-  backupJob?: CoreAttachmentBackupJobType | PartialAttachmentLocalBackupJobType;
+  backupJob?: CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType;
 }> {
   const attachment = maybeFixupAttachment(rawAttachment);
 
@@ -246,7 +246,9 @@ export async function getFilePointerForAttachment({
     ? await getBackupCdnInfo(remoteMediaId.string)
     : { isInBackupTier: false };
 
-  const isLocalBackup = backupOptions.type === 'local-encrypted';
+  const isLocalBackup =
+    backupOptions.type === 'local-encrypted' ||
+    backupOptions.type === 'plaintext-export';
   filePointer.locatorInfo = getLocatorInfoForAttachment({
     attachment,
     backupOptions,
@@ -262,10 +264,15 @@ export async function getFilePointerForAttachment({
       return {
         filePointer,
         backupJob: {
+          isPlaintextExport: backupOptions.type === 'plaintext-export',
           mediaName: getLocalBackupFileNameForAttachment(attachment),
           type: 'local',
           data: {
+            contentType: attachment.contentType,
+            fileName: attachment.fileName,
+            localKey: attachment.localKey,
             path: attachment.path,
+            size: attachment.size,
           },
         },
       };
@@ -362,7 +369,9 @@ function getLocatorInfoForAttachment({
 }): Backups.FilePointer.LocatorInfo {
   const locatorInfo = new Backups.FilePointer.LocatorInfo();
 
-  const isLocalBackup = backupOptions.type === 'local-encrypted';
+  const isLocalBackup =
+    backupOptions.type === 'local-encrypted' ||
+    backupOptions.type === 'plaintext-export';
 
   const shouldBeLocallyBackedUp =
     isLocalBackup &&

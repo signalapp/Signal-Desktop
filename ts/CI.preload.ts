@@ -201,8 +201,13 @@ export function getCI({
   }
 
   async function exportLocalBackup(backupsBaseDir: string): Promise<string> {
-    const { snapshotDir } =
-      await backupsService.exportLocalBackup(backupsBaseDir);
+    const { snapshotDir } = await backupsService.exportLocalBackup(
+      backupsBaseDir,
+      {
+        type: 'local-encrypted',
+        localBackupSnapshotDir: backupsBaseDir,
+      }
+    );
     return snapshotDir;
   }
 

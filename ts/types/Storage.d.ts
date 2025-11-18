@@ -246,6 +246,17 @@ export type StorageAccessType = {
   // Stored solely for pesistance during import/export sequence
   svrPin: string;
   optimizeOnDeviceStorage: boolean;
+  pinReminders: boolean | undefined;
+  screenLockTimeoutMinutes: number | undefined;
+  'auto-download-attachment-primary':
+    | undefined
+    | {
+        photos: number;
+        audio: number;
+        videos: number;
+        documents: number;
+      };
+  androidSpecificSettings: unknown;
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 

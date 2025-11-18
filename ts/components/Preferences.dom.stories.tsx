@@ -117,6 +117,7 @@ const availableSpeakers = [
 ];
 
 const validateBackupResult: ExportResultType = {
+  attachmentBackupJobs: [],
   totalBytes: 100,
   duration: 10000,
   stats: {
@@ -137,6 +138,7 @@ const validateBackupResult: ExportResultType = {
 const exportLocalBackupResult: LocalBackupExportResultType = {
   ...validateBackupResult,
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
+  totalAttachmentBytes: 1000000,
 };
 
 const donationAmountsConfig = {
@@ -466,6 +468,7 @@ export default {
     isContentProtectionSupported: true,
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
+    isPlaintextExportEnabled: true,
     lastSyncTime: Date.now(),
     localeOverride: null,
     localBackupFolder: undefined,
@@ -614,6 +617,7 @@ export default {
     ),
     setSettingsLocation: action('setSettingsLocation'),
     showToast: action('showToast'),
+    startPlaintextExport: action('startPlaintextExport'),
     validateBackup: async () => {
       return {
         result: validateBackupResult,
@@ -703,7 +707,13 @@ export const Donations = Template.bind({});
 Donations.args = {
   settingsLocation: { page: SettingsPage.Donations },
 };
-
+export const ChatsWithDisabledPlaintextExport = Template.bind({});
+ChatsWithDisabledPlaintextExport.args = {
+  settingsLocation: {
+    page: SettingsPage.Chats,
+  },
+  isPlaintextExportEnabled: false,
+};
 export const NotificationsPageWithThreeProfiles = Template.bind({});
 const threeProfiles = [
   {

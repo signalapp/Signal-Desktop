@@ -46,7 +46,10 @@ export async function validateBackup(
       `Backup validation failed: ${outcome.errorMessage}`
     );
   } else if (type === ValidationType.Export) {
-    strictAssert(outcome.ok, 'Backup validation failed');
+    strictAssert(
+      outcome.ok,
+      `Backup validation failed: ${outcome.errorMessage}`
+    );
   } else {
     throw missingCaseError(type);
   }

@@ -70,7 +70,7 @@ export function createExpiringEntityCleanupService(
 
   function cancelNextScheduledRun(reason: string) {
     if (controller != null) {
-      log.warn(`cancel(${reason}) cancelling next scheduled run`);
+      log.warn(`cancel(${reason}) canceling next scheduled run`);
       controller.abort(reason);
       controller = null;
     }

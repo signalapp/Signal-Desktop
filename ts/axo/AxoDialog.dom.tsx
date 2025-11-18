@@ -363,6 +363,7 @@ export namespace AxoDialog {
     variant: ActionVariant;
     symbol?: AxoSymbol.InlineGlyphName;
     arrow?: boolean;
+    experimentalSpinner?: { 'aria-label': string } | null;
     onClick: () => void;
     children: ReactNode;
   }>;
@@ -373,9 +374,10 @@ export namespace AxoDialog {
         variant={props.variant}
         symbol={props.symbol}
         arrow={props.arrow}
+        experimentalSpinner={props.experimentalSpinner}
+        onClick={props.onClick}
         size="md"
         width="grow"
-        onClick={props.onClick}
       >
         {props.children}
       </AxoButton.Root>

@@ -156,6 +156,9 @@ export type PropsType = {
   // LowDiskSpaceBackupImportModal
   lowDiskSpaceBackupImportModal: { bytesNeeded: number } | null;
   hideLowDiskSpaceBackupImportModal: () => void;
+  // PlaintextExportWorkflow
+  shouldShowPlaintextExportWorkflow: boolean;
+  renderPlaintextExportWorkflow: () => JSX.Element;
 };
 
 export function GlobalModalContainer({
@@ -255,12 +258,20 @@ export function GlobalModalContainer({
   // LowDiskSpaceBackupImportModal
   lowDiskSpaceBackupImportModal,
   hideLowDiskSpaceBackupImportModal,
+  // PlaintextExportWorkflow
+  shouldShowPlaintextExportWorkflow,
+  renderPlaintextExportWorkflow,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
+  // 0. Stateful multi-modal workflows
   // 1. Errors
   // 2. Safety Number Changes
   // 3. Forward Modal, so other modals can open it
   // 4. The Rest (in no particular order, but they're ordered alphabetically)
+
+  if (shouldShowPlaintextExportWorkflow) {
+    return renderPlaintextExportWorkflow();
+  }
 
   // Errors
   if (errorModalProps) {

@@ -237,7 +237,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
     // Confirm they are saved to DB
     const allJobs = await getAllSavedJobs();
-    assert.strictEqual(allJobs.length, 10);
+    assert.strictEqual(allJobs.length, 10, 'initial setup');
 
     await backupManager?.start();
     await waitForJobToBeStarted(jobs[2]);
@@ -246,11 +246,11 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     assertRunJobCalledWith([jobs[4], jobs[3], jobs[2]]);
 
     await waitForJobToBeStarted(jobs[0]);
-    assert.strictEqual(runJob.callCount, 5);
+    assert.strictEqual(runJob.callCount, 5, 'first calls');
     assertRunJobCalledWith([jobs[4], jobs[3], jobs[2], jobs[1], jobs[0]]);
 
     await waitForJobToBeCompleted(thumbnailJobs[0]);
-    assert.strictEqual(runJob.callCount, 10);
+    assert.strictEqual(runJob.callCount, 10, 'all calls');
 
     assertRunJobCalledWith([
       jobs[4],

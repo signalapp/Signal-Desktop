@@ -3,6 +3,10 @@
 
 import type { AciString, PniString } from '../../types/ServiceId.std.js';
 import type { ConversationColorType } from '../../types/Colors.std.js';
+import type {
+  CoreAttachmentBackupJobType,
+  CoreAttachmentLocalBackupJobType,
+} from '../../types/AttachmentBackup.std.js';
 
 // Duplicated here to allow loading it in a non-node environment
 export enum BackupLevel {
@@ -25,8 +29,22 @@ export type AboutMe = {
   e164?: string;
 };
 
+export type OnProgressCallback = (
+  currentBytes: number,
+  totalBytes: number
+) => void;
+
 export type BackupExportOptions =
-  | { type: 'remote' | 'cross-client-integration-test'; level: BackupLevel }
+  | {
+      type: 'remote' | 'cross-client-integration-test';
+      level: BackupLevel;
+    }
+  | {
+      type: 'plaintext-export';
+      abortSignal: AbortSignal;
+      onProgress: OnProgressCallback;
+      shouldIncludeMedia: boolean;
+    }
   | {
       type: 'local-encrypted';
       localBackupSnapshotDir: string;
@@ -39,7 +57,7 @@ export type BackupImportOptions = (
     }
 ) & {
   ephemeralKey?: Uint8Array;
-  onProgress?: (currentBytes: number, totalBytes: number) => void;
+  onProgress?: OnProgressCallback;
 };
 
 export type LocalChatStyle = Readonly<{
@@ -66,6 +84,9 @@ export type StatsType = {
 };
 
 export type ExportResultType = Readonly<{
+  attachmentBackupJobs: ReadonlyArray<
+    CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
+  >;
   totalBytes: number;
   duration: number;
   stats: Readonly<StatsType>;
@@ -73,4 +94,5 @@ export type ExportResultType = Readonly<{
 
 export type LocalBackupExportResultType = ExportResultType & {
   snapshotDir: string;
+  totalAttachmentBytes: number;
 };

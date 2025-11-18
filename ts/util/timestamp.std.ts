@@ -42,3 +42,15 @@ export const MIN_SAFE_DATE = -8640000000000000;
 export function toBoundedDate(timestamp: number): Date {
   return new Date(Math.max(MIN_SAFE_DATE, Math.min(timestamp, MAX_SAFE_DATE)));
 }
+
+export function addLeadingZero(amount: number): string {
+  if (amount < 10) {
+    return `0${amount}`;
+  }
+  return amount.toString();
+}
+
+export function getTimestampForFolder(): string {
+  const date = new Date();
+  return `${date.getFullYear()}-${addLeadingZero(date.getMonth() + 1)}-${addLeadingZero(date.getDate())}-${addLeadingZero(date.getHours())}-${addLeadingZero(date.getMinutes())}-${addLeadingZero(date.getSeconds())}`;
+}

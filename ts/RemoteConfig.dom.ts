@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
+import semver from 'semver';
 
 import type { getConfig } from './textsecure/WebAPI.preload.js';
 import { createLogger } from './logging/log.std.js';
@@ -14,12 +15,21 @@ import { HashType } from './types/Crypto.std.js';
 import { getCountryCode } from './types/PhoneNumber.std.js';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.js';
 import type { StorageInterface } from './types/Storage.d.ts';
+import { ToastType } from './types/Toast.dom.js';
 
 const { get, throttle } = lodash;
 
 const log = createLogger('RemoteConfig');
 
-const KnownConfigKeys = [
+// Semver flags must always be set to a valid semver (no empty enabled-only keys)
+const SemverKeys = [
+  'desktop.plaintextExport.beta',
+  'desktop.plaintextExport.prod',
+] as const;
+
+export type SemverKeyType = (typeof SemverKeys)[number];
+
+const ScalarKeys = [
   'desktop.chatFolders.alpha',
   'desktop.chatFolders.beta',
   'desktop.chatFolders.prod',
@@ -55,6 +65,8 @@ const KnownConfigKeys = [
   'global.nicknames.min',
   'global.textAttachmentLimitBytes',
 ] as const;
+
+const KnownConfigKeys = [...SemverKeys, ...ScalarKeys] as const;
 
 export type ConfigKeyType = (typeof KnownConfigKeys)[number];
 
@@ -139,6 +151,7 @@ export const _refreshRemoteConfig = async ({
   }
 
   const oldConfig = config;
+  let semverError = false;
   config = Array.from(newConfigValues.entries()).reduce(
     (acc, [name, value]) => {
       const enabled = value !== undefined && value.toLowerCase() !== 'false';
@@ -169,6 +182,17 @@ export const _refreshRemoteConfig = async ({
       const hasChanged =
         previouslyEnabled !== enabled || previousValue !== configValue.value;
 
+      if (
+        SemverKeys.includes(configValue.name as SemverKeyType) &&
+        configValue.enabled &&
+        (!configValue.value || !semver.parse(configValue.value))
+      ) {
+        log.error(
+          `Key ${name} had invalid semver value '${configValue.value}'`
+        );
+        semverError = true;
+      }
+
       // If enablement changes at all, notify listeners
       const currentListeners = listeners[name] || [];
       if (hasChanged) {
@@ -186,6 +210,12 @@ export const _refreshRemoteConfig = async ({
     },
     {}
   );
+
+  if (semverError && config['desktop.internalUser']?.enabled) {
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.Error,
+    });
+  }
 
   const remoteExpirationValue = getValue('desktop.clientExpiration');
   if (!remoteExpirationValue) {

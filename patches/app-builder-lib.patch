@@ -11,10 +11,10 @@ index 47e6f48fcbed88b6ac07cff15c888c1b8b59721f..76dd6cc7265054222f2d70c76aa8456d
              productFilename: packager.appInfo.productFilename,
              ...packager.platformSpecificBuildOptions,
 diff --git a/templates/linux/after-install.tpl b/templates/linux/after-install.tpl
-index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a19f9610d7101c925bdad8a88c434d839ebdf8f8 100644
+index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a3cb08a6dc7970ab2b32c731f41ea6e471204a19 100644
 --- a/templates/linux/after-install.tpl
 +++ b/templates/linux/after-install.tpl
-@@ -55,3 +55,24 @@ if apparmor_status --enabled > /dev/null 2>&1; then
+@@ -55,3 +55,26 @@ if apparmor_status --enabled > /dev/null 2>&1; then
      echo "Skipping the installation of the AppArmor profile as this version of AppArmor does not seem to support the bundled profile"
    fi
  fi
@@ -27,10 +27,12 @@ index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a19f9610d7101c925bdad8a88c434d83
 +  POLICY_ORG='org.signalapp'
 +  POLICY_ENABLE_BACKUPS='enable-backups.policy'
 +  POLICY_VIEW_AEP='view-aep.policy'
++  POLICY_EXPORT='plaintext-export.policy'
 +  mkdir -p "$POLICY_TARGET_PATH";
 +  # Separate policies for staging and production builds
 +  cp -f "$POLICY_SOURCE_PATH/$POLICY_ORG.$POLICY_ENABLE_BACKUPS" "$POLICY_TARGET_PATH/$POLICY_ORG.${sanitizedName}.$POLICY_ENABLE_BACKUPS"
 +  cp -f "$POLICY_SOURCE_PATH/$POLICY_ORG.$POLICY_VIEW_AEP" "$POLICY_TARGET_PATH/$POLICY_ORG.${sanitizedName}.$POLICY_VIEW_AEP"
++  cp -f "$POLICY_SOURCE_PATH/$POLICY_ORG.$POLICY_EXPORT" "$POLICY_TARGET_PATH/$POLICY_ORG.${sanitizedName}.$POLICY_EXPORT"
 +else
 +  echo "Skipping installation of policies as polkit does not seem to be installed. This may affect the availability of some features.";
 +fi
@@ -40,7 +42,7 @@ index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a19f9610d7101c925bdad8a88c434d83
 +
 +# SIGNAL CHANGES END
 diff --git a/templates/linux/after-remove.tpl b/templates/linux/after-remove.tpl
-index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b5011d1b8cdb741ba6453f942a3c0660b66d41a0 100644
+index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..676e76bae609cd3309be87a4606346f75945e900 100644
 --- a/templates/linux/after-remove.tpl
 +++ b/templates/linux/after-remove.tpl
 @@ -13,3 +13,12 @@ APPARMOR_PROFILE_DEST='/etc/apparmor.d/${executable}'
@@ -56,7 +58,6 @@ index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b5011d1b8cdb741ba6453f942a3c0660
 +fi
 +
 +# SIGNAL CHANGES END
-\ No newline at end of file
 diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91dfe82fdbb2e929820f2e8deb771b7f7893c..73bfffc6c227a018cbbeb690d6d7b882ed142fc8 100644
 --- a/templates/nsis/include/installer.nsh

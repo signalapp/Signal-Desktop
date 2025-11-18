@@ -5,6 +5,7 @@ import { getEmptyState as accountsEmptyState } from './ducks/accounts.preload.js
 import { getEmptyState as appEmptyState } from './ducks/app.preload.js';
 import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.preload.js';
 import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.preload.js';
+import { getEmptyState as backupsEmptyState } from './ducks/backups.preload.js';
 import { getEmptyState as badgesEmptyState } from './ducks/badges.preload.js';
 import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.preload.js';
 import { getEmptyState as callingEmptyState } from './ducks/calling.preload.js';
@@ -149,6 +150,7 @@ function getEmptyState(): StateType {
     app: appEmptyState(),
     audioPlayer: audioPlayerEmptyState(),
     audioRecorder: audioRecorderEmptyState(),
+    backups: backupsEmptyState(),
     badges: badgesEmptyState(),
     callHistory: callHistoryEmptyState(),
     calling: callingEmptyState(),

@@ -722,6 +722,9 @@ export class BackupImportStream extends Writable {
     donationSubscriberData,
     accountSettings,
     svrPin,
+    androidSpecificSettings,
+    bioText,
+    bioEmoji,
   }: Backups.IAccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
     const me = {
@@ -757,6 +760,12 @@ export class BackupImportStream extends Writable {
     if (familyName != null) {
       me.profileFamilyName = familyName;
     }
+    if (bioText != null) {
+      me.about = bioText;
+    }
+    if (bioEmoji != null) {
+      me.aboutEmoji = bioEmoji;
+    }
     if (avatarUrlPath != null) {
       await itemStorage.put('avatarUrl', avatarUrlPath);
     }
@@ -775,6 +784,10 @@ export class BackupImportStream extends Writable {
           manuallyCancelled
         );
       }
+    }
+    if (isTestOrMockEnvironment()) {
+      // Only relevant for tests
+      await itemStorage.put('androidSpecificSettings', androidSpecificSettings);
     }
 
     await saveBackupsSubscriberData(backupsSubscriberData);
@@ -855,12 +868,44 @@ export class BackupImportStream extends Writable {
         'optimizeOnDeviceStorage',
         accountSettings?.optimizeOnDeviceStorage === true
       );
+      await itemStorage.put(
+        'pinReminders',
+        dropNull(accountSettings?.pinReminders)
+      );
+      await itemStorage.put(
+        'screenLockTimeoutMinutes',
+        dropNull(accountSettings?.screenLockTimeoutMinutes)
+      );
+
+      const autoDownload = accountSettings?.autoDownloadSettings;
+      if (autoDownload) {
+        const autoDownloadEnum =
+          Backups.AccountData.AutoDownloadSettings.AutoDownloadOption;
+        await itemStorage.put('auto-download-attachment-primary', {
+          photos: autoDownload?.images || autoDownloadEnum.NEVER,
+          audio: autoDownload?.audio || autoDownloadEnum.NEVER,
+          videos: autoDownload?.video || autoDownloadEnum.NEVER,
+          documents: autoDownload?.documents || autoDownloadEnum.NEVER,
+        });
+      }
     }
 
     this.#backupTier = accountSettings?.backupTier?.toNumber();
     await itemStorage.put(
       'backupTier',
       accountSettings?.backupTier?.toNumber()
+    );
+
+    await itemStorage.put(
+      'sealedSenderIndicators',
+      accountSettings?.sealedSenderIndicators === true
+    );
+    await itemStorage.put(
+      'sent-media-quality',
+      accountSettings?.defaultSentMediaQuality ===
+        Backups.AccountData.SentMediaQuality.HIGH
+        ? 'high'
+        : 'standard'
     );
 
     const { PhoneNumberSharingMode: BackupMode } = Backups.AccountData;

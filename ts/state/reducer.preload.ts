@@ -7,6 +7,7 @@ import { reducer as accounts } from './ducks/accounts.preload.js';
 import { reducer as app } from './ducks/app.preload.js';
 import { reducer as audioPlayer } from './ducks/audioPlayer.preload.js';
 import { reducer as audioRecorder } from './ducks/audioRecorder.preload.js';
+import { reducer as backups } from './ducks/backups.preload.js';
 import { reducer as badges } from './ducks/badges.preload.js';
 import { reducer as calling } from './ducks/calling.preload.js';
 import { reducer as callHistory } from './ducks/callHistory.preload.js';
@@ -44,6 +45,7 @@ export const reducer = combineReducers({
   app,
   audioPlayer,
   audioRecorder,
+  backups,
   badges,
   calling,
   callHistory,

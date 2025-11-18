@@ -192,6 +192,7 @@ export type PropsDataType = {
   isContentProtectionSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
+  isPlaintextExportEnabled: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
@@ -269,6 +270,7 @@ type PropsFunctionType = {
   ) => unknown;
   setSettingsLocation: (settingsLocation: SettingsLocation) => unknown;
   showToast: (toast: AnyToast) => unknown;
+  startPlaintextExport: () => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
 
   internalAddDonationReceipt: (receipt: DonationReceipt) => void;
@@ -439,6 +441,7 @@ export function Preferences({
   isContentProtectionSupported,
   isHideMenuBarSupported,
   isNotificationAttentionSupported,
+  isPlaintextExportEnabled,
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
@@ -519,6 +522,7 @@ export function Preferences({
   setSettingsLocation,
   shouldShowUpdateDialog,
   showToast,
+  startPlaintextExport,
   localeOverride,
   theme,
   themeSetting,
@@ -1227,6 +1231,34 @@ export function Preferences({
                         'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
                       )}
                 </AxoButton.Root>
+              }
+            />
+          </SettingsRow>
+        )}
+
+        {isPlaintextExportEnabled && (
+          <SettingsRow>
+            <Control
+              left={
+                <>
+                  <div>
+                    {i18n('icu:PlaintextExport--PreferencesRow--Header')}
+                  </div>
+                  <div className="Preferences__description">
+                    {i18n('icu:PlaintextExport--PreferencesRow--Description')}
+                  </div>
+                </>
+              }
+              right={
+                <div className="Preferences__right-button">
+                  <AxoButton.Root
+                    variant="secondary"
+                    size="lg"
+                    onClick={startPlaintextExport}
+                  >
+                    {i18n('icu:PlaintextExport--ActionButton')}
+                  </AxoButton.Root>
+                </div>
               }
             />
           </SettingsRow>

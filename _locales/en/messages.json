@@ -7200,6 +7200,118 @@
     "messageformat": "Notification content",
     "description": "Label for the notification content setting select box"
   },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Export chat history",
+    "description": "Shown in the Preferences/Chats page, header for a row"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Export a machine-readable JSON copy of all your chats",
+    "description": "Shown in the Preferences/Chats page, detail text for a row"
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Export",
+    "description": "Shown on a button to take the action of exporting chat history"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Export chat history?",
+    "description": "Title of confirmation dialog shown before the export starts"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions.",
+    "description": "Description of confirmation dialog shown before the export starts"
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Include media <secondary>(larger file size)</secondary>",
+    "description": "Description for a checkbox shown on the confirmation dialog, to choose whether to include media in the export"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continue",
+    "description": "Button on confirmation dialog to continue on through the export process"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Waiting for input",
+    "description": "Label for spinner on Confirmation dialog when user as pressed Continue, and OS Auth/Export Location dialogs are show"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "export your chat history",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to export your chat history'"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to export your chat history.",
+    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Export",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before doing an export"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to export your chat history.",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before doing an export"
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporting chat history",
+    "description": "Title of a progress dialog that shows while the export happens"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage, number, percent})...",
+    "description": "Shown on progress dialog below the progress bar to provide the details of progress. currentBytes and totalBytes will be like 5 GB or 10 GB."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "This may take a few minutes",
+    "description": "Shown on progress dialog to explain that it might take a while"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Export complete",
+    "description": "Title of the dialog shown once the export is complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. ",
+    "description": "Additional explanation on the dialog shown when the export is complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Show in Finder",
+    "description": "Button on the dialog shown when the export is complete to show the exported files - on a mac computer"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Show in folder",
+    "description": "Button on the dialog shown when the export is complete to show the exported files - on a linux computer"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Show in folder",
+    "description": "Button on the dialog shown when the export is complete to show the exported files - on a windows computer"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Couldn’t export chat history",
+    "description": "Title of dialog shown when a general plaintext export error has happened"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "An error occurred and your chat history could not be exported.",
+    "description": "Detail text in dialog shown when a general plaintext export error has happened"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Not enough storage space",
+    "description": "Title of dialog shown when we detect that user doesn't have enough space for export"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again.",
+    "description": "Detail text in dialog shown when we detect that user doesn't have enough space for export. Bytes will be formatted like 12 MB"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Couldn’t export chat history",
+    "description": "Title of dialog shown when we attempted to save a file during export but disk is out of space"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again.",
+    "description": "Detail text in dialog shown when we attempted to save a file during export but disk is out of space. Bytes will formated like 12 MB"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Can’t export chat history",
+    "description": "Title of dialog shown when we attempted to save a file during export but got a permissions error"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again.",
+    "description": "Detail text in dialog shown when we attempted to save a file during export but got a permissions error"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Moon icon",
     "description": "Screenreader description for the moon icon used to signify notification profiles"
@@ -7632,6 +7744,22 @@
     "messageformat": "Done",
     "description": "Button to dismiss the backup key viewer, shown when reviewing your backup key for local on-device backups."
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "show your backup key",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your backup key.",
+    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "View backup key",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your backup key.",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box",
     "description": "ARIA label for the text box used to view or confirm the backup key for local message backups."
@@ -7687,6 +7815,22 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied",
     "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "enable backups",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to enable backups'"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verify your identity to enable backups.",
+    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Enable backups",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before enabling backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to enable backups.",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
   },
   "icu:Preferences__view-key": {
     "messageformat": "View key",

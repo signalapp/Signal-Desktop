@@ -477,8 +477,13 @@ describe('getFilePointerForAttachment', () => {
             }),
           }),
           backupJob: {
+            isPlaintextExport: false,
             data: {
+              contentType: defaultAttachment.contentType,
+              fileName: defaultAttachment.fileName,
+              localKey: defaultAttachment.localKey,
               path: defaultAttachment.path,
+              size: defaultAttachment.size,
             },
             mediaName: defaultLocalMediaName,
             type: 'local',

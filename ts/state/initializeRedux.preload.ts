@@ -56,6 +56,7 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.audioRecorder,
       store.dispatch
     ),
+    backups: bindActionCreators(actionCreators.backups, store.dispatch),
     badges: bindActionCreators(actionCreators.badges, store.dispatch),
     callHistory: bindActionCreators(actionCreators.callHistory, store.dispatch),
     calling: bindActionCreators(actionCreators.calling, store.dispatch),

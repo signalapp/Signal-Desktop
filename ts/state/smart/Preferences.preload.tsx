@@ -73,7 +73,6 @@ import {
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { SmartProfileEditor } from './ProfileEditor.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
-import type { SettingsLocation } from '../../types/Nav.std.js';
 import { NavTab } from '../../types/Nav.std.js';
 import { SmartToastManager } from './ToastManager.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
@@ -83,7 +82,24 @@ import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
 import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
 import { useDonationsActions } from '../ducks/donations.preload.js';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
+import { getProfiles } from '../selectors/notificationProfiles.dom.js';
+import { backupLevelFromNumber } from '../../services/backups/types.std.js';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.js';
+import { useBackupActions } from '../ducks/backups.preload.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
+import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.js';
+import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.js';
+import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+import {
+  getCurrentChatFoldersCount,
+  getHasAnyCurrentCustomChatFolders,
+} from '../selectors/chatFolders.std.js';
+import {
+  SmartNotificationProfilesCreateFlow,
+  SmartNotificationProfilesHome,
+} from './PreferencesNotificationProfiles.preload.js';
 
+import type { SettingsLocation } from '../../types/Nav.std.js';
 import type {
   StorageAccessType,
   ZoomFactorType,
@@ -100,22 +116,8 @@ import {
 } from '../../util/backupMediaDownload.preload.js';
 import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
-import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
-import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
-import {
-  getCurrentChatFoldersCount,
-  getHasAnyCurrentCustomChatFolders,
-} from '../selectors/chatFolders.std.js';
-import {
-  SmartNotificationProfilesCreateFlow,
-  SmartNotificationProfilesHome,
-} from './PreferencesNotificationProfiles.preload.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
-import { getProfiles } from '../selectors/notificationProfiles.dom.js';
-import { backupLevelFromNumber } from '../../services/backups/types.std.js';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -226,6 +228,7 @@ export function SmartPreferences(): JSX.Element | null {
   const { changeLocation } = useNavActions();
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
+  const { startPlaintextExport } = useBackupActions();
 
   // Selectors
 
@@ -585,6 +588,13 @@ export function SmartPreferences(): JSX.Element | null {
   const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
   const backupFreeMediaDays = getMessageQueueTime(items.remoteConfig) / DAY;
 
+  const isPlaintextExportEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.plaintextExport.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.plaintextExport.prod',
+  });
+
   // Two-way items
 
   function createItemsAccess<K extends keyof StorageAccessType>(
@@ -848,6 +858,7 @@ export function SmartPreferences(): JSX.Element | null {
             isMinimizeToAndStartInSystemTraySupported
           }
           isNotificationAttentionSupported={isNotificationAttentionSupported}
+          isPlaintextExportEnabled={isPlaintextExportEnabled}
           isSyncSupported={isSyncSupported}
           isSystemTraySupported={isSystemTraySupported}
           isInternalUser={isInternalUser}
@@ -937,6 +948,7 @@ export function SmartPreferences(): JSX.Element | null {
           setSettingsLocation={setSettingsLocation}
           shouldShowUpdateDialog={shouldShowUpdateDialog}
           showToast={showToast}
+          startPlaintextExport={startPlaintextExport}
           theme={theme}
           themeSetting={themeSetting}
           universalExpireTimer={universalExpireTimer}

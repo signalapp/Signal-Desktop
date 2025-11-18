@@ -32,6 +32,8 @@ import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipa
 import { SmartProfileNameWarningModal } from './ProfileNameWarningModal.preload.js';
 import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal.preload.js';
 import { DebugLogErrorModal } from '../../components/DebugLogErrorModal.dom.js';
+import { SmartPlaintextExportWorkflow } from './PlaintextExportWorkflow.preload.js';
+import { shouldShowPlaintextWorkflow } from '../selectors/backups.std.js';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -89,6 +91,10 @@ function renderNotePreviewModal(): JSX.Element {
   return <SmartNotePreviewModal />;
 }
 
+function renderPlaintextExportWorkflow(): JSX.Element {
+  return <SmartPlaintextExportWorkflow />;
+}
+
 function renderStoriesSettings(): JSX.Element {
   return <SmartStoriesSettingsModal />;
 }
@@ -110,6 +116,9 @@ export const SmartGlobalModalContainer = memo(
     const conversationsStoppingSend = useSelector(getConversationsStoppingSend);
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
+    const shouldShowPlaintextExportWorkflow = useSelector(
+      shouldShowPlaintextWorkflow
+    );
 
     const hasSafetyNumberChangeModal = conversationsStoppingSend.length > 0;
 
@@ -282,6 +291,7 @@ export const SmartGlobalModalContainer = memo(
           renderMessageRequestActionsConfirmation
         }
         renderNotePreviewModal={renderNotePreviewModal}
+        renderPlaintextExportWorkflow={renderPlaintextExportWorkflow}
         renderProfileNameWarningModal={renderProfileNameWarningModal}
         renderUsernameOnboarding={renderUsernameOnboarding}
         renderSafetyNumber={renderSafetyNumber}
@@ -291,6 +301,7 @@ export const SmartGlobalModalContainer = memo(
         renderStoriesSettings={renderStoriesSettings}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}
+        shouldShowPlaintextExportWorkflow={shouldShowPlaintextExportWorkflow}
         stickerPackPreviewId={stickerPackPreviewId}
         tapToViewNotAvailableModalProps={tapToViewNotAvailableModalProps}
         theme={theme}

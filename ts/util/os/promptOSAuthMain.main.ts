@@ -14,7 +14,10 @@ import { missingCaseError } from '../missingCaseError.std.js';
 
 const log = createLogger('promptOSAuthMain');
 
-export type PromptOSAuthReasonType = 'enable-backups' | 'view-aep';
+export type PromptOSAuthReasonType =
+  | 'enable-backups'
+  | 'view-aep'
+  | 'plaintext-export';
 
 export type PromptOSAuthResultType =
   | 'error'
@@ -101,6 +104,9 @@ async function promptOSAuthLinux(
       'pkcheck -u --process $$ --action-id org.signalapp.enable-backups';
   } else if (reason === 'view-aep') {
     command = 'pkcheck -u --process $$ --action-id org.signalapp.view-aep';
+  } else if (reason === 'plaintext-export') {
+    command =
+      'pkcheck -u --process $$ --action-id org.signalapp.plaintext-export';
   } else {
     throw missingCaseError(reason);
   }
@@ -112,6 +118,7 @@ async function promptOSAuthLinux(
       } else if (code === 3) {
         resolve('unauthorized');
       } else {
+        log.warn(`promptOSAuthLinux: Got code ${code} from call to pkcheck`);
         resolve('error');
       }
     });

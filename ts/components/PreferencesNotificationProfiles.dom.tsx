@@ -59,6 +59,7 @@ import type {
   ScheduleDays,
 } from '../types/NotificationProfile.std.js';
 import type { SettingsLocation } from '../types/Nav.std.js';
+import { addLeadingZero } from '../util/timestamp.std.js';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -162,12 +163,6 @@ function need24HourTime(): boolean {
 function formatTimeForInput(time: number): Time {
   const { hours, minutes } = getTimeDetails(time, true);
   return new Time(hours, minutes);
-}
-function addLeadingZero(minutes: number): string {
-  if (minutes < 10) {
-    return `0${minutes}`;
-  }
-  return minutes.toString();
 }
 
 function parseTimeFromInput(time: Time): number {

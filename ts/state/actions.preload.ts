@@ -5,6 +5,7 @@ import { actions as accounts } from './ducks/accounts.preload.js';
 import { actions as app } from './ducks/app.preload.js';
 import { actions as audioPlayer } from './ducks/audioPlayer.preload.js';
 import { actions as audioRecorder } from './ducks/audioRecorder.preload.js';
+import { actions as backups } from './ducks/backups.preload.js';
 import { actions as badges } from './ducks/badges.preload.js';
 import { actions as callHistory } from './ducks/callHistory.preload.js';
 import { actions as calling } from './ducks/calling.preload.js';
@@ -42,6 +43,7 @@ export const actionCreators: ReduxActions = {
   app,
   audioPlayer,
   audioRecorder,
+  backups,
   badges,
   callHistory,
   calling,

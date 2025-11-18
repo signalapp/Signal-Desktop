@@ -3,7 +3,7 @@
 
 import Long from 'long';
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import { dirname } from 'node:path';
+import { BackupJsonExporter } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import pMap from 'p-map';
 import pTimeout from 'p-timeout';
 import { Readable } from 'node:stream';
@@ -140,10 +140,9 @@ import { getFilePointerForAttachment } from './util/filePointers.preload.js';
 import { getBackupMediaRootKey } from './crypto.preload.js';
 import type {
   CoreAttachmentBackupJobType,
-  PartialAttachmentLocalBackupJobType,
+  CoreAttachmentLocalBackupJobType,
 } from '../../types/AttachmentBackup.std.js';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.js';
-import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.preload.js';
 import {
   getBackupCdnInfo,
   getLocalBackupFileNameForAttachment,
@@ -196,6 +195,7 @@ const FLUSH_TIMEOUT = 30 * MINUTE;
 const REPORTING_THRESHOLD = SECOND;
 
 const BACKUP_LONG_ATTACHMENT_TEXT_LIMIT = 128 * KIBIBYTE;
+const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
 type GetRecipientIdOptionsType =
   | Readonly<{
@@ -270,11 +270,12 @@ export class BackupExportStream extends Readable {
   };
   #ourConversation?: ConversationAttributesType;
   #attachmentBackupJobs: Array<
-    CoreAttachmentBackupJobType | PartialAttachmentLocalBackupJobType
+    CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
   > = [];
   #buffers = new Array<Uint8Array>();
   #nextRecipientId = 1;
   #flushResolve: (() => void) | undefined;
+  #jsonExporter: BackupJsonExporter | undefined;
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
@@ -289,7 +290,6 @@ export class BackupExportStream extends Readable {
       (async () => {
         log.info('BackupExportStream: starting...');
         drop(AttachmentBackupManager.stop());
-        drop(AttachmentLocalBackupManager.stop());
         log.info('BackupExportStream: message migration starting...');
         await migrateAllMessages();
 
@@ -303,34 +303,6 @@ export class BackupExportStream extends Readable {
           // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
           const { type } = this.options;
           switch (type) {
-            case 'local-encrypted':
-              {
-                log.info(
-                  `BackupExportStream: Adding ${this.#attachmentBackupJobs.length} jobs for AttachmentLocalBackupManager`
-                );
-                const backupsBaseDir = dirname(
-                  this.options.localBackupSnapshotDir
-                );
-
-                AttachmentLocalBackupManager.clearAllJobs();
-                await Promise.all(
-                  this.#attachmentBackupJobs.map(job => {
-                    if (job.type !== 'local') {
-                      log.error(
-                        "BackupExportStream: Can't enqueue remote backup jobs during local backup, skipping"
-                      );
-                      return Promise.resolve();
-                    }
-
-                    return AttachmentLocalBackupManager.addJob({
-                      ...job,
-                      backupsBaseDir,
-                    });
-                  })
-                );
-                drop(AttachmentLocalBackupManager.start());
-              }
-              break;
             case 'remote':
               await DataWriter.clearAllAttachmentBackupJobs();
               await Promise.all(
@@ -347,14 +319,21 @@ export class BackupExportStream extends Readable {
                   );
                 })
               );
-              drop(AttachmentBackupManager.start());
+              this.#attachmentBackupJobs = [];
               break;
+            case 'plaintext-export':
+            case 'local-encrypted':
             case 'cross-client-integration-test':
+              log.info(
+                `Type is ${this.options.type}, not doing anything with ${this.#attachmentBackupJobs.length} attachment jobs`
+              );
               break;
             default:
               // eslint-disable-next-line no-unsafe-finally
               throw missingCaseError(type);
           }
+
+          drop(AttachmentBackupManager.start());
           log.info('BackupExportStream: finished');
         }
       })()
@@ -368,18 +347,29 @@ export class BackupExportStream extends Readable {
   public getStats(): Readonly<StatsType> {
     return this.#stats;
   }
+  public getAttachmentBackupJobs(): ReadonlyArray<
+    CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
+  > {
+    return this.#attachmentBackupJobs;
+  }
 
   async #unsafeRun(): Promise<void> {
     this.#ourConversation =
       window.ConversationController.getOurConversationOrThrow().attributes;
+    const backupInfo: Backups.IBackupInfo = {
+      version: Long.fromNumber(BACKUP_VERSION),
+      backupTimeMs: this.#backupTimeMs,
+      mediaRootBackupKey: getBackupMediaRootKey().serialize(),
+      firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion'),
+      currentAppVersion: `Desktop ${window.getVersion()}`,
+    };
+
     this.push(
-      Backups.BackupInfo.encodeDelimited({
-        version: Long.fromNumber(BACKUP_VERSION),
-        backupTimeMs: this.#backupTimeMs,
-        mediaRootBackupKey: getBackupMediaRootKey().serialize(),
-        firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion'),
-        currentAppVersion: `Desktop ${window.getVersion()}`,
-      }).finish()
+      this.#getJsonIfNeeded(
+        this.options.type === 'plaintext-export'
+          ? Backups.BackupInfo.encode(backupInfo).finish()
+          : Backups.BackupInfo.encodeDelimited(backupInfo).finish()
+      )
     );
 
     this.#pushFrame({
@@ -779,6 +769,11 @@ export class BackupExportStream extends Readable {
         await pMap(
           messages,
           async message => {
+            if (skippedConversationIds.has(message.conversationId)) {
+              this.#stats.skippedMessages += 1;
+              return;
+            }
+
             const chatItem = await this.#toChatItem(message, {
               aboutMe,
               callHistoryByCallId,
@@ -817,6 +812,22 @@ export class BackupExportStream extends Readable {
       attachmentBackupJobs: this.#attachmentBackupJobs.length,
     });
 
+    if (this.#jsonExporter) {
+      try {
+        const result = this.#jsonExporter.finish();
+        if (result?.errorMessage) {
+          log.warn(
+            'backups: jsonExporter.finish() returned validation error:',
+            result.errorMessage
+          );
+        }
+      } catch (error) {
+        // We only warn because this isn't that big of a deal - the export is complete.
+        // All we need from the exporter at the end is any validation errors it found.
+        log.warn('backups: jsonExporter returned error', toLogFormat(error));
+      }
+    }
+
     this.push(null);
   }
 
@@ -824,8 +835,50 @@ export class BackupExportStream extends Readable {
     this.#buffers.push(buffer);
   }
 
+  #frameToJson(encodedFrame: Uint8Array): string {
+    let lines = '';
+
+    if (!this.#jsonExporter) {
+      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
+        encodedFrame,
+        { validate: false }
+      );
+
+      lines = `${initialChunk}\n`;
+      this.#jsonExporter = exporter;
+    } else {
+      const results = this.#jsonExporter.exportFrames(encodedFrame);
+      for (const result of results) {
+        if (result.errorMessage) {
+          log.warn(
+            'frameToJson: frame had a validation error:',
+            result.errorMessage
+          );
+        }
+        if (!result.line) {
+          log.error('frameToJson: frame was filtered out by libsignal');
+        } else {
+          lines += `${result.line}\n`;
+        }
+      }
+    }
+
+    return lines;
+  }
+
+  #getJsonIfNeeded(encoded: Uint8Array): Uint8Array {
+    if (this.options.type === 'plaintext-export') {
+      const json = this.#frameToJson(encoded);
+      return Buffer.from(json, 'utf-8');
+    }
+
+    return encoded;
+  }
+
   #pushFrame(frame: Backups.IFrame): void {
-    this.#pushBuffer(Backups.Frame.encodeDelimited(frame).finish());
+    const encodedFrame = Backups.Frame.encodeDelimited(frame).finish();
+    const toPush = this.#getJsonIfNeeded(encodedFrame);
+    this.#pushBuffer(toPush);
   }
 
   async #flush(): Promise<void> {
@@ -893,6 +946,9 @@ export class BackupExportStream extends Readable {
 
     const backupsSubscriberData = generateBackupsSubscriberData();
     const backupTier = itemStorage.get('backupTier');
+    const autoDownloadPrimary = itemStorage.get(
+      'auto-download-attachment-primary'
+    );
 
     return {
       profileKey: itemStorage.get('profileKey'),
@@ -921,6 +977,14 @@ export class BackupExportStream extends Readable {
             }
           : null,
       svrPin: itemStorage.get('svrPin'),
+      bioText: me.get('about'),
+      bioEmoji: me.get('aboutEmoji'),
+      // Test only values
+      ...(isTestOrMockEnvironment()
+        ? {
+            androidSpecificSettings: itemStorage.get('androidSpecificSettings'),
+          }
+        : {}),
       accountSettings: {
         readReceipts: itemStorage.get('read-receipt-setting'),
         sealedSenderIndicators: itemStorage.get('sealedSenderIndicators'),
@@ -957,8 +1021,24 @@ export class BackupExportStream extends Readable {
               optimizeOnDeviceStorage: itemStorage.get(
                 'optimizeOnDeviceStorage'
               ),
+              pinReminders: itemStorage.get('pinReminders'),
+              screenLockTimeoutMinutes: itemStorage.get(
+                'screenLockTimeoutMinutes'
+              ),
+              autoDownloadSettings: autoDownloadPrimary
+                ? {
+                    images: autoDownloadPrimary.photos,
+                    audio: autoDownloadPrimary.audio,
+                    video: autoDownloadPrimary.videos,
+                    documents: autoDownloadPrimary.documents,
+                  }
+                : undefined,
             }
           : {}),
+        defaultSentMediaQuality:
+          itemStorage.get('sent-media-quality') === 'high'
+            ? Backups.AccountData.SentMediaQuality.HIGH
+            : Backups.AccountData.SentMediaQuality.STANDARD,
       },
     };
   }
@@ -1279,6 +1359,11 @@ export class BackupExportStream extends Readable {
     }
 
     if (message.expireTimer) {
+      if (this.options.type === 'plaintext-export') {
+        // All disappearing messages are excluded in plaintext export
+        return undefined;
+      }
+
       if (DurationInSeconds.toMillis(message.expireTimer) <= DAY) {
         // Message has an expire timer that's too short for export
         return undefined;
@@ -2562,7 +2647,7 @@ export class BackupExportStream extends Readable {
       text:
         quote.text != null
           ? {
-              body: quote.text,
+              body: trimBody(quote.text, BACKUP_QUOTE_BODY_LIMIT),
               bodyRanges: quote.bodyRanges?.map(range =>
                 this.#toBodyRange(range)
               ),
@@ -2670,7 +2755,10 @@ export class BackupExportStream extends Readable {
     });
 
     let mediaName: string | undefined;
-    if (this.options.type === 'local-encrypted') {
+    if (
+      this.options.type === 'local-encrypted' ||
+      this.options.type === 'plaintext-export'
+    ) {
       if (hasRequiredInformationForLocalBackup(attachment)) {
         mediaName = getLocalBackupFileNameForAttachment(attachment);
       }
@@ -3002,7 +3090,8 @@ export class BackupExportStream extends Readable {
     const attachment = message.attachments?.at(0);
     // Integration tests use the 'link-and-sync' version of export, which will include
     // view-once attachments
-    const shouldIncludeAttachments = isTestOrMockEnvironment();
+    const shouldIncludeAttachments =
+      this.options.type !== 'plaintext-export' && isTestOrMockEnvironment();
     return {
       attachment:
         !shouldIncludeAttachments || attachment == null
