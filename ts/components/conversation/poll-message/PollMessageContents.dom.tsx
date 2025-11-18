@@ -12,6 +12,7 @@ import type { LocalizerType } from '../../../types/Util.std.js';
 import { PollVotesModal } from './PollVotesModal.dom.js';
 import { SpinnerV2 } from '../../SpinnerV2.dom.js';
 import { usePrevious } from '../../../hooks/usePrevious.std.js';
+import { UserText } from '../../UserText.dom.js';
 
 function VotedCheckmark({
   isIncoming,
@@ -224,11 +225,13 @@ export function PollMessageContents({
         'text-start break-words whitespace-pre-wrap',
         'type-body-large',
         isIncoming ? 'text-label-primary' : 'text-label-primary-on-color',
-        'min-w-[275px]',
+        'w-[275px] max-w-full',
         'mt-1'
       )}
     >
-      <div className={tw('mb-1 font-semibold')}>{poll.question}</div>
+      <div className={tw('mb-1 font-semibold')}>
+        <UserText text={poll.question} />
+      </div>
 
       <div
         className={tw(
@@ -273,9 +276,11 @@ export function PollMessageContents({
                 </div>
               )}
 
-              <div className={tw('flex flex-1 flex-col gap-1')}>
+              <div className={tw('flex min-w-0 flex-1 flex-col gap-1')}>
                 <div className={tw('flex items-start justify-between gap-3')}>
-                  <span className={tw('type-body-large')}>{option}</span>
+                  <span className={tw('min-w-0 type-body-large break-words')}>
+                    <UserText text={option} />
+                  </span>
                   {totalVotes > 0 && (
                     <div className={tw('flex shrink-0 items-center gap-1')}>
                       {poll.terminatedAt != null && weVotedForThis && (

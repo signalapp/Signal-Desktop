@@ -1518,6 +1518,10 @@
     "messageformat": "No votes",
     "description": "Message shown when poll has no votes"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning",
+    "description": "Accessibility label for the star icon indicating the winning option in a poll"
+  },
   "icu:Toast--PinnedMessageNotFound": {
     "messageformat": "Pinned message not found",
     "description": "Toast shown when user tries to view a pinned message that no longer exists"
