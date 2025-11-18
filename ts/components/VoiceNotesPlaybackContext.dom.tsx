@@ -39,7 +39,7 @@ const computeQueue = new PQueue({
   concurrency: MAX_PARALLEL_COMPUTE,
 });
 
-async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
+export async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
   const blob = new Blob([buffer]);
   const blobURL = URL.createObjectURL(blob);
   const audio = new Audio();

@@ -4,28 +4,24 @@
 import React, { Fragment } from 'react';
 
 import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import type {
   GenericMediaItemType,
   MediaItemType,
   LinkPreviewMediaItemType,
 } from '../../../types/MediaItem.std.js';
-import { MediaGridItem } from './MediaGridItem.dom.js';
-import { DocumentListItem } from './DocumentListItem.dom.js';
-import type { DataProps as LinkPreviewItemPropsType } from './LinkPreviewItem.dom.js';
-import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 
 export type Props = {
   header?: string;
-  i18n: LocalizerType;
   onItemClick: (event: ItemClickEvent) => unknown;
-  theme?: ThemeType;
   mediaItems: ReadonlyArray<GenericMediaItemType>;
 
-  renderLinkPreviewItem: (props: LinkPreviewItemPropsType) => JSX.Element;
+  renderMediaItem: (props: {
+    onItemClick: (event: ItemClickEvent) => unknown;
+    mediaItem: GenericMediaItemType;
+  }) => JSX.Element;
 };
 
 function getMediaItemKey(mediaItem: GenericMediaItemType): string {
@@ -38,7 +34,7 @@ function getMediaItemKey(mediaItem: GenericMediaItemType): string {
 
 type VerifiedMediaItems =
   | {
-      type: 'media' | 'document';
+      type: 'media' | 'audio' | 'document';
       entries: ReadonlyArray<MediaItemType>;
     }
   | {
@@ -68,13 +64,11 @@ function verifyMediaItems(
 }
 
 export function AttachmentSection({
-  i18n,
   header,
   mediaItems,
   onItemClick,
-  theme,
 
-  renderLinkPreviewItem,
+  renderMediaItem,
 }: Props): JSX.Element {
   const verified = verifyMediaItems(mediaItems);
   switch (verified.type) {
@@ -84,68 +78,31 @@ export function AttachmentSection({
           <h2 className={tw('ps-1 pt-4 pb-2 font-semibold')}>{header}</h2>
           <div className={tw('flex flex-row flex-wrap gap-1 pb-1')}>
             {verified.entries.map(mediaItem => {
-              const onClick = (state: AttachmentStatusType['state']) => {
-                onItemClick({ mediaItem, state });
-              };
-
               return (
-                <MediaGridItem
-                  key={getMediaItemKey(mediaItem)}
-                  mediaItem={mediaItem}
-                  onClick={onClick}
-                  i18n={i18n}
-                  theme={theme}
-                />
+                <Fragment key={getMediaItemKey(mediaItem)}>
+                  {renderMediaItem({
+                    mediaItem,
+                    onItemClick,
+                  })}
+                </Fragment>
               );
             })}
           </div>
         </section>
       );
     case 'document':
-      return (
-        <section
-          className={tw(
-            'px-6',
-            'mb-3 border-b border-b-border-primary pb-3',
-            'last:mb-0 last:border-b-0 last:pb-0'
-          )}
-        >
-          <h2 className={tw('pt-1.5 pb-2 font-semibold')}>{header}</h2>
-          <div>
-            {verified.entries.map(mediaItem => {
-              const onClick = (state: AttachmentStatusType['state']) => {
-                onItemClick({ mediaItem, state });
-              };
-
-              return (
-                <DocumentListItem
-                  i18n={i18n}
-                  key={getMediaItemKey(mediaItem)}
-                  mediaItem={mediaItem}
-                  onClick={onClick}
-                />
-              );
-            })}
-          </div>
-        </section>
-      );
+    case 'audio':
     case 'link':
       return (
-        <section
-          className={tw('px-6', 'mb-3 divide-y border-b-border-primary pb-3')}
-        >
+        <section className={tw('mb-3 border-b-border-primary px-6 pb-3')}>
           <h2 className={tw('pt-1.5 pb-2 font-semibold')}>{header}</h2>
           <div>
             {verified.entries.map(mediaItem => {
-              const onClick = (state: AttachmentStatusType['state']) => {
-                onItemClick({ mediaItem, state });
-              };
-
               return (
                 <Fragment key={getMediaItemKey(mediaItem)}>
-                  {renderLinkPreviewItem({
+                  {renderMediaItem({
                     mediaItem,
-                    onClick,
+                    onItemClick,
                   })}
                 </Fragment>
               );

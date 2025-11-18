@@ -2476,7 +2476,6 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-gallery__content {
-  display: flex;
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -2487,7 +2486,6 @@ button.ConversationDetails__action-button {
   position: absolute;
   bottom: 0;
   height: 30px;
-  width: 100%;
 
   &::after {
     content: '';

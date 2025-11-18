@@ -1,9 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import moment from 'moment';
 import {
   getAlt,
   getUrl,
@@ -15,13 +14,11 @@ import { tw } from '../../../axo/tw.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
 import { ImageOrBlurhash } from '../../ImageOrBlurhash.dom.js';
+import { ListItem } from './ListItem.dom.js';
 
 export type DataProps = Readonly<{
-  // Required
   mediaItem: LinkPreviewMediaItemType;
-
-  // Optional
-  onClick?: (status: AttachmentStatusType['state']) => void;
+  onClick: (status: AttachmentStatusType['state']) => void;
 }>;
 
 // Provided by smart layer
@@ -39,17 +36,7 @@ export function LinkPreviewItem({
   authorTitle,
   onClick,
 }: Props): JSX.Element {
-  const { preview, message } = mediaItem;
-
-  const timestamp = message.receivedAtMs || message.receivedAt;
-
-  const handleClick = useCallback(
-    (ev: React.MouseEvent) => {
-      ev.preventDefault();
-      onClick?.('ReadyToShow');
-    },
-    [onClick]
-  );
+  const { preview } = mediaItem;
 
   const url = preview.image == null ? undefined : getUrl(preview.image);
   let imageOrPlaceholder: JSX.Element;
@@ -83,39 +70,30 @@ export function LinkPreviewItem({
     );
   }
 
+  const subtitle = (
+    <>
+      <a
+        className={tw('type-body-medium text-label-secondary underline')}
+        href={preview.url}
+        rel="noreferrer"
+        target="_blank"
+      >
+        {preview.url}
+      </a>
+      <br />
+      {authorTitle} · {preview.domain}
+    </>
+  );
+
   return (
-    <button
-      className={tw('flex w-full flex-row gap-3 py-2')}
-      type="button"
-      onClick={handleClick}
-      aria-label={i18n('icu:LinkPreviewItem__alt')}
-    >
-      <div className={tw('shrink-0')}>{imageOrPlaceholder}</div>
-      <div className={tw('grow overflow-hidden text-start')}>
-        <h3 className={tw('truncate type-body-large')}>
-          {preview.title ?? ''}
-        </h3>
-        <div
-          className={tw(
-            'truncate type-body-small leading-4 text-label-secondary'
-          )}
-        >
-          <a
-            className={tw('type-body-medium text-label-secondary underline')}
-            href={preview.url}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {preview.url}
-          </a>
-        </div>
-        <div className={tw('truncate type-body-small text-label-secondary')}>
-          {authorTitle} · {preview.domain}
-        </div>
-      </div>
-      <div className={tw('shrink-0 type-body-small text-label-secondary')}>
-        {moment(timestamp).format('MMM D')}
-      </div>
-    </button>
+    <ListItem
+      i18n={i18n}
+      mediaItem={mediaItem}
+      thumbnail={imageOrPlaceholder}
+      title={preview.title ?? ''}
+      subtitle={subtitle}
+      readyLabel={i18n('icu:LinkPreviewItem__alt')}
+      onClick={onClick}
+    />
   );
 }

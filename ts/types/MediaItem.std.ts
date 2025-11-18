@@ -18,7 +18,7 @@ export type MediaItemMessageType = Readonly<{
 }>;
 
 export type MediaItemType = {
-  type: 'media' | 'document';
+  type: 'media' | 'audio' | 'document';
   attachment: AttachmentForUIType;
   index: number;
   message: MediaItemMessageType;

@@ -22,6 +22,10 @@ export function EmptyState({ i18n, tab }: Props): JSX.Element {
       title = i18n('icu:MediaGallery__EmptyState__title--media');
       description = i18n('icu:MediaGallery__EmptyState__description--media');
       break;
+    case TabViews.Audio:
+      title = i18n('icu:MediaGallery__EmptyState__title--audio');
+      description = i18n('icu:MediaGallery__EmptyState__description--audio');
+      break;
     case TabViews.Documents:
       title = i18n('icu:MediaGallery__EmptyState__title--documents');
       description = i18n(

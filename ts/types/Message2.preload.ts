@@ -12,12 +12,15 @@ import type {
   LocalAttachmentV2Type,
 } from './Attachment.std.js';
 import {
+  isAudio,
+  isVoiceMessage,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
   shouldGenerateThumbnailForAttachmentType,
 } from '../util/Attachment.std.js';
 import { captureDimensionsAndScreenshot } from '../util/captureDimensionsAndScreenshot.dom.js';
+import { captureAudioDuration } from '../util/captureAudioDuration.dom.js';
 import type { MakeVideoScreenshotResultType } from './VisualAttachment.dom.js';
 import * as Errors from './errors.std.js';
 import * as SchemaVersion from './SchemaVersion.std.js';
@@ -822,22 +825,30 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const finalAttachment = await captureDimensionsAndScreenshot(
-    attachment,
-    {
-      generateThumbnail:
-        shouldGenerateThumbnailForAttachmentType(attachmentType),
-    },
-    {
-      writeNewAttachmentData,
-      makeObjectUrl,
-      revokeObjectUrl,
-      getImageDimensions,
-      makeImageThumbnail,
-      makeVideoScreenshot,
+  let finalAttachment: AttachmentType;
+
+  if (isVoiceMessage(attachment) || isAudio([attachment])) {
+    finalAttachment = await captureAudioDuration(attachment, {
       logger,
-    }
-  );
+    });
+  } else {
+    finalAttachment = await captureDimensionsAndScreenshot(
+      attachment,
+      {
+        generateThumbnail:
+          shouldGenerateThumbnailForAttachmentType(attachmentType),
+      },
+      {
+        writeNewAttachmentData,
+        makeObjectUrl,
+        revokeObjectUrl,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+      }
+    );
+  }
 
   return finalAttachment;
 };

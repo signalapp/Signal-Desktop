@@ -3,6 +3,7 @@
 
 export enum TabViews {
   Media = 'Media',
+  Audio = 'Audio',
   Documents = 'Documents',
   Links = 'Links',
 }
