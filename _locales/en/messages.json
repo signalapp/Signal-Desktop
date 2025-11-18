@@ -7205,7 +7205,7 @@
     "description": "Shown in the Preferences/Chats page, header for a row"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats",
+    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported.",
     "description": "Shown in the Preferences/Chats page, detail text for a row"
   },
   "icu:PlaintextExport--ActionButton": {
