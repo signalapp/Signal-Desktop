@@ -6716,9 +6716,21 @@
     "messageformat": "Add group description...",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message",
+    "description": "Subtitle of the voice message list item in the audio tab of media gallery"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio",
+    "description": "Subtitle of the audio list item in the audio tab of media gallery"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Open the link in a browser",
     "description": "Alt text for the link preview item button"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio",
+    "description": "Header of the links pane in the media gallery, showing audio"
   },
   "icu:MediaGallery__tab__files": {
     "messageformat": "Files",
@@ -6735,6 +6747,14 @@
   "icu:MediaGallery__EmptyState__description--media": {
     "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here",
     "description": "Description of the empty state view of media gallery for media tab"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio",
+    "description": "Title of the empty state view of media gallery for audio tab"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here",
+    "description": "Description of the empty state view of media gallery for audio tab"
   },
   "icu:MediaGallery__EmptyState__title--links": {
     "messageformat": "No Links",

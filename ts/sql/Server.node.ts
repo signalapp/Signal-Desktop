@@ -79,6 +79,7 @@ import {
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
 } from './hydration.std.js';
 
+import { SignalService } from '../protobuf/index.std.js';
 import { SeenStatus } from '../MessageSeenStatus.std.js';
 import {
   attachmentBackupJobSchema,
@@ -5212,8 +5213,7 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
             isViewOnce IS NOT 1 AND
             contentType IS NOT NULL AND
             contentType IS NOT '' AND
-            contentType IS NOT 'text/x-signal-plain' AND
-            contentType NOT LIKE 'audio/%'
+            contentType IS NOT 'text/x-signal-plain'
         );
       `;
       hasAttachments =
@@ -5240,6 +5240,8 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
   })();
 }
 
+const { VOICE_MESSAGE } = SignalService.AttachmentPointer.Flags;
+
 function getOlderMedia(
   db: ReadableDB,
   {
@@ -5262,14 +5264,24 @@ function getOlderMedia(
 
   let contentFilter: QueryFragment;
   if (type === 'media') {
-    // see 'isVisualMedia' in ts/types/Attachment.ts
+    // see 'isVisualMedia' in ts/util/Attachment.std.ts
     contentFilter = sqlFragment`
-      message_attachments.contentType LIKE 'image/%' OR
-      message_attachments.contentType LIKE 'video/%'
+      message_attachments.flags IS NOT ${VOICE_MESSAGE} AND
+      (
+        message_attachments.contentType LIKE 'image/%' OR
+        message_attachments.contentType LIKE 'video/%'
+      )
+    `;
+  } else if (type === 'audio') {
+    // see 'isVoiceMessage'/'isAudio' in ts/util/Attachment.std.ts
+    contentFilter = sqlFragment`
+      message_attachments.flags IS ${VOICE_MESSAGE} OR
+      message_attachments.contentType LIKE 'audio/%'
     `;
   } else if (type === 'documents') {
-    // see 'isFile' in ts/types/Attachment.ts
+    // see 'isFile' in ts/util/Attachment.std.ts
     contentFilter = sqlFragment`
+      message_attachments.flags IS NOT ${VOICE_MESSAGE} AND
       message_attachments.contentType IS NOT NULL AND
       message_attachments.contentType IS NOT '' AND
       message_attachments.contentType IS NOT 'text/x-signal-plain' AND

@@ -31,7 +31,12 @@ import type {
   MediaItemType,
   LinkPreviewMediaItemType,
 } from '../../types/MediaItem.std.js';
-import { isFile, isVisualMedia } from '../../util/Attachment.std.js';
+import {
+  isFile,
+  isVisualMedia,
+  isVoiceMessage,
+  isAudio,
+} from '../../util/Attachment.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import { getPropsForAttachment } from '../selectors/message.preload.js';
@@ -44,9 +49,11 @@ export type MediaGalleryStateType = ReadonlyDeep<{
   conversationId: string | undefined;
   haveOldestDocument: boolean;
   haveOldestMedia: boolean;
+  haveOldestAudio: boolean;
   haveOldestLink: boolean;
   loading: boolean;
   media: ReadonlyArray<MediaItemType>;
+  audio: ReadonlyArray<MediaItemType>;
   documents: ReadonlyArray<MediaItemType>;
   links: ReadonlyArray<LinkPreviewMediaItemType>;
 }>;
@@ -63,6 +70,7 @@ type InitialLoadActionType = ReadonlyDeep<{
     conversationId: string;
     documents: ReadonlyArray<MediaItemType>;
     media: ReadonlyArray<MediaItemType>;
+    audio: ReadonlyArray<MediaItemType>;
     links: ReadonlyArray<LinkPreviewMediaItemType>;
   };
 }>;
@@ -71,6 +79,7 @@ type LoadMoreActionType = ReadonlyDeep<{
   payload: {
     conversationId: string;
     media: ReadonlyArray<MediaItemType>;
+    audio: ReadonlyArray<MediaItemType>;
     documents: ReadonlyArray<MediaItemType>;
     links: ReadonlyArray<LinkPreviewMediaItemType>;
   };
@@ -103,7 +112,7 @@ function _sortItems<
 }
 
 function _cleanAttachments(
-  type: 'media' | 'document',
+  type: 'media' | 'audio' | 'document',
   rawMedia: ReadonlyArray<MediaItemDBType>
 ): ReadonlyArray<MediaItemType> {
   return rawMedia.map(({ message, index, attachment }) => {
@@ -148,24 +157,31 @@ function initialLoad(
       payload: { loading: true },
     });
 
-    const [rawMedia, rawDocuments, rawLinkPreviews] = await Promise.all([
-      DataReader.getOlderMedia({
-        conversationId,
-        limit: FETCH_CHUNK_COUNT,
-        type: 'media',
-      }),
-      DataReader.getOlderMedia({
-        conversationId,
-        limit: FETCH_CHUNK_COUNT,
-        type: 'documents',
-      }),
-      DataReader.getOlderLinkPreviews({
-        conversationId,
-        limit: FETCH_CHUNK_COUNT,
-      }),
-    ]);
+    const [rawMedia, rawAudio, rawDocuments, rawLinkPreviews] =
+      await Promise.all([
+        DataReader.getOlderMedia({
+          conversationId,
+          limit: FETCH_CHUNK_COUNT,
+          type: 'media',
+        }),
+        DataReader.getOlderMedia({
+          conversationId,
+          limit: FETCH_CHUNK_COUNT,
+          type: 'audio',
+        }),
+        DataReader.getOlderMedia({
+          conversationId,
+          limit: FETCH_CHUNK_COUNT,
+          type: 'documents',
+        }),
+        DataReader.getOlderLinkPreviews({
+          conversationId,
+          limit: FETCH_CHUNK_COUNT,
+        }),
+      ]);
 
     const media = _cleanAttachments('media', rawMedia);
+    const audio = _cleanAttachments('audio', rawAudio);
     const documents = _cleanAttachments('document', rawDocuments);
     const links = _cleanLinkPreviews(rawLinkPreviews);
 
@@ -175,6 +191,7 @@ function initialLoad(
         conversationId,
         documents,
         media,
+        audio,
         links,
       },
     });
@@ -183,7 +200,7 @@ function initialLoad(
 
 function loadMore(
   conversationId: string,
-  type: 'media' | 'documents' | 'links'
+  type: 'media' | 'audio' | 'documents' | 'links'
 ): ThunkAction<
   void,
   RootStateType,
@@ -203,6 +220,8 @@ function loadMore(
     let previousItems: ReadonlyArray<MediaItemType | LinkPreviewMediaItemType>;
     if (type === 'media') {
       previousItems = mediaGallery.media;
+    } else if (type === 'audio') {
+      previousItems = mediaGallery.audio;
     } else if (type === 'documents') {
       previousItems = mediaGallery.documents;
     } else if (type === 'links') {
@@ -234,6 +253,7 @@ function loadMore(
     };
 
     let media: ReadonlyArray<MediaItemType> = [];
+    let audio: ReadonlyArray<MediaItemType> = [];
     let documents: ReadonlyArray<MediaItemType> = [];
     let links: ReadonlyArray<LinkPreviewMediaItemType> = [];
     if (type === 'media') {
@@ -243,6 +263,13 @@ function loadMore(
       });
 
       media = _cleanAttachments('media', rawMedia);
+    } else if (type === 'audio') {
+      const rawAudio = await DataReader.getOlderMedia({
+        ...sharedOptions,
+        type: 'audio',
+      });
+
+      audio = _cleanAttachments('audio', rawAudio);
     } else if (type === 'documents') {
       const rawDocuments = await DataReader.getOlderMedia({
         ...sharedOptions,
@@ -261,6 +288,7 @@ function loadMore(
       payload: {
         conversationId,
         media,
+        audio,
         documents,
         links,
       },
@@ -282,9 +310,11 @@ export function getEmptyState(): MediaGalleryStateType {
     conversationId: undefined,
     haveOldestDocument: false,
     haveOldestMedia: false,
+    haveOldestAudio: false,
     haveOldestLink: false,
     loading: true,
     media: [],
+    audio: [],
     documents: [],
     links: [],
   };
@@ -311,16 +341,18 @@ export function reducer(
       loading: false,
       conversationId: payload.conversationId,
       haveOldestMedia: payload.media.length === 0,
-      haveOldestDocument: payload.documents.length === 0,
+      haveOldestAudio: payload.audio.length === 0,
       haveOldestLink: payload.links.length === 0,
+      haveOldestDocument: payload.documents.length === 0,
       media: _sortItems(payload.media),
-      documents: _sortItems(payload.documents),
+      audio: _sortItems(payload.audio),
       links: _sortItems(payload.links),
+      documents: _sortItems(payload.documents),
     };
   }
 
   if (action.type === LOAD_MORE) {
-    const { conversationId, media, documents, links } = action.payload;
+    const { conversationId, media, audio, documents, links } = action.payload;
     if (state.conversationId !== conversationId) {
       return state;
     }
@@ -329,11 +361,13 @@ export function reducer(
       ...state,
       loading: false,
       haveOldestMedia: media.length === 0,
+      haveOldestAudio: audio.length === 0,
       haveOldestDocument: documents.length === 0,
       haveOldestLink: links.length === 0,
       media: _sortItems(media.concat(state.media)),
-      documents: _sortItems(documents.concat(state.documents)),
+      audio: _sortItems(audio.concat(state.audio)),
       links: _sortItems(links.concat(state.links)),
+      documents: _sortItems(documents.concat(state.documents)),
     };
   }
 
@@ -351,6 +385,9 @@ export function reducer(
     const mediaWithout = state.media.filter(
       item => item.message.id !== message.id
     );
+    const audioWithout = state.audio.filter(
+      item => item.message.id !== message.id
+    );
     const documentsWithout = state.documents.filter(
       item => item.message.id !== message.id
     );
@@ -358,14 +395,21 @@ export function reducer(
       item => item.message.id !== message.id
     );
     const mediaDifference = state.media.length - mediaWithout.length;
+    const audioDifference = state.audio.length - audioWithout.length;
     const documentDifference = state.documents.length - documentsWithout.length;
     const linkDifference = state.links.length - linksWithout.length;
 
     if (message.deletedForEveryone || message.isErased) {
-      if (mediaDifference > 0 || documentDifference > 0 || linkDifference > 0) {
+      if (
+        mediaDifference > 0 ||
+        audioDifference > 0 ||
+        documentDifference > 0 ||
+        linkDifference > 0
+      ) {
         return {
           ...state,
           media: mediaWithout,
+          audio: audioWithout,
           documents: documentsWithout,
           links: linksWithout,
         };
@@ -374,6 +418,7 @@ export function reducer(
     }
 
     const oldestLoadedMedia = state.media[0];
+    const oldestLoadedAudio = state.audio[0];
     const oldestLoadedDocument = state.documents[0];
     const oldestLoadedLink = state.links[0];
 
@@ -400,6 +445,12 @@ export function reducer(
       'media',
       messageMediaItems.filter(({ attachment }) => isVisualMedia(attachment))
     );
+    const newAudio = _cleanAttachments(
+      'audio',
+      messageMediaItems.filter(
+        ({ attachment }) => isVoiceMessage(attachment) || isAudio([attachment])
+      )
+    );
     const newDocuments = _cleanAttachments(
       'document',
       messageMediaItems.filter(({ attachment }) => isFile(attachment))
@@ -425,12 +476,14 @@ export function reducer(
     );
 
     let {
-      documents,
-      haveOldestDocument,
-      haveOldestMedia,
       media,
-      haveOldestLink,
+      audio,
       links,
+      documents,
+      haveOldestMedia,
+      haveOldestAudio,
+      haveOldestLink,
+      haveOldestDocument,
     } = state;
 
     const inMediaTimeRange =
@@ -441,6 +494,16 @@ export function reducer(
       media = _sortItems(mediaWithout.concat(newMedia));
     } else if (!inMediaTimeRange) {
       haveOldestMedia = false;
+    }
+
+    const inAudioTimeRange =
+      !oldestLoadedAudio ||
+      (message.received_at >= oldestLoadedAudio.message.receivedAt &&
+        message.sent_at >= oldestLoadedAudio.message.sentAt);
+    if ((audioDifference > 0 || newAudio.length > 0) && inAudioTimeRange) {
+      audio = _sortItems(audioWithout.concat(newAudio));
+    } else if (!inAudioTimeRange) {
+      haveOldestAudio = false;
     }
 
     const inDocumentTimeRange =
@@ -467,21 +530,25 @@ export function reducer(
     }
 
     if (
-      state.haveOldestDocument !== haveOldestDocument ||
       state.haveOldestMedia !== haveOldestMedia ||
+      state.haveOldestAudio !== haveOldestAudio ||
       state.haveOldestLink !== haveOldestLink ||
-      state.documents !== documents ||
+      state.haveOldestDocument !== haveOldestDocument ||
       state.media !== media ||
-      state.links !== links
+      state.audio !== audio ||
+      state.links !== links ||
+      state.documents !== documents
     ) {
       return {
         ...state,
-        documents,
-        haveOldestDocument,
         haveOldestMedia,
+        haveOldestAudio,
         haveOldestLink,
+        haveOldestDocument,
         media,
+        audio,
         links,
+        documents,
       };
     }
 
@@ -492,6 +559,7 @@ export function reducer(
     return {
       ...state,
       media: state.media.filter(item => item.message.id !== action.payload.id),
+      audio: state.audio.filter(item => item.message.id !== action.payload.id),
       links: state.links.filter(item => item.message.id !== action.payload.id),
       documents: state.documents.filter(
         item => item.message.id !== action.payload.id

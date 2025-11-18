@@ -28,11 +28,20 @@ export type AttachmentStatusType = Readonly<
 
 export function useAttachmentStatus(
   attachment: AttachmentForUIType
-): AttachmentStatusType {
-  const isAttachmentNotAvailable =
-    attachment.isPermanentlyUndownloadable && !attachment.wasTooBig;
+): AttachmentStatusType;
 
-  const url = getUrl(attachment);
+export function useAttachmentStatus(
+  attachment: AttachmentForUIType | undefined
+): AttachmentStatusType | undefined;
+
+export function useAttachmentStatus(
+  attachment: AttachmentForUIType | undefined
+): AttachmentStatusType | undefined {
+  const isAttachmentNotAvailable =
+    attachment == null ||
+    (attachment.isPermanentlyUndownloadable && !attachment.wasTooBig);
+
+  const url = attachment == null ? undefined : getUrl(attachment);
 
   let nextState: InternalState = 'ReadyToShow';
   if (attachment && isAttachmentNotAvailable) {
@@ -44,6 +53,10 @@ export function useAttachmentStatus(
   }
 
   const state = useDelayedValue(nextState, TRANSITION_DELAY);
+
+  if (attachment == null) {
+    return undefined;
+  }
 
   // Idle
   if (state === 'NeedsDownload' && nextState === state) {

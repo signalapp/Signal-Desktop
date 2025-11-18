@@ -36,21 +36,33 @@ function createRandomAttachment(fileExtension: string): AttachmentForUIType {
   const isDownloaded = Math.random() > 0.4;
   const isPending = !isDownloaded && Math.random() > 0.5;
 
+  let file: string;
+
+  if (fileExtension === 'mp3') {
+    file = '/fixtures/incompetech-com-Agnus-Dei-X.mp3';
+  } else if (fileExtension === 'mp4') {
+    file = '/fixtures/cat-gif.mp4';
+  } else {
+    file = '/fixtures/cat-screenshot-3x4.png';
+  }
+
+  let flags = 0;
+  if (fileExtension === 'mp4' && Math.random() > 0.5) {
+    flags = SignalService.AttachmentPointer.Flags.GIF;
+  }
+
   return {
-    url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
+    url: isDownloaded ? file : undefined,
     path: isDownloaded ? 'abc' : undefined,
     pending: isPending,
     screenshot:
       fileExtension === 'mp4'
         ? {
-            url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
+            url: isDownloaded ? file : undefined,
             contentType: IMAGE_JPEG,
           }
         : undefined,
-    flags:
-      fileExtension === 'mp4' && Math.random() > 0.5
-        ? SignalService.AttachmentPointer.Flags.GIF
-        : 0,
+    flags,
     width: 400,
     height: 300,
     fileName,
@@ -80,7 +92,7 @@ function createRandomMessage(
 }
 
 function createRandomFile(
-  type: 'media' | 'document',
+  type: 'media' | 'document' | 'audio',
   startTime: number,
   timeWindow: number,
   fileExtension: string
@@ -111,7 +123,7 @@ function createRandomLink(
 }
 
 function createRandomFiles(
-  type: 'media' | 'document',
+  type: 'media' | 'document' | 'audio',
   startTime: number,
   timeWindow: number,
   fileExtensions: Array<string>
@@ -143,6 +155,12 @@ export function createRandomLinks(
   return range(random(5, 10)).map(() =>
     createRandomLink(startTime, timeWindow)
   );
+}
+export function createRandomAudio(
+  startTime: number,
+  timeWindow: number
+): Array<MediaItemType> {
+  return createRandomFiles('audio', startTime, timeWindow, ['mp3']);
 }
 
 export function createRandomMedia(

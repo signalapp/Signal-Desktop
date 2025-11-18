@@ -6,14 +6,15 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MediaGallery.dom.js';
 import { MediaGallery } from './MediaGallery.dom.js';
-import { LinkPreviewItem } from './LinkPreviewItem.dom.js';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
   createRandomMedia,
+  createRandomAudio,
   createRandomLinks,
   days,
 } from './utils/mocks.std.js';
+import { MediaItem } from './utils/storybook.dom.js';
 
 const { i18n } = window.SignalContext;
 
@@ -25,31 +26,27 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
 
   conversationId: '123',
-  documents: overrideProps.documents || [],
-  haveOldestDocument: overrideProps.haveOldestDocument || false,
   haveOldestMedia: overrideProps.haveOldestMedia || false,
+  haveOldestAudio: overrideProps.haveOldestAudio || false,
   haveOldestLink: overrideProps.haveOldestLink || false,
+  haveOldestDocument: overrideProps.haveOldestDocument || false,
   loading: overrideProps.loading || false,
+
   media: overrideProps.media || [],
+  audio: overrideProps.audio || [],
   links: overrideProps.links || [],
+  documents: overrideProps.documents || [],
 
   initialLoad: action('initialLoad'),
   loadMore: action('loadMore'),
   saveAttachment: action('saveAttachment'),
+  playAudio: action('playAudio'),
   showLightbox: action('showLightbox'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
 
-  renderLinkPreviewItem: ({ mediaItem, onClick }) => {
-    return (
-      <LinkPreviewItem
-        i18n={i18n}
-        authorTitle="Alice"
-        mediaItem={mediaItem}
-        onClick={onClick}
-      />
-    );
-  },
+  renderMediaItem: props => <MediaItem {...props} />,
+  renderMiniPlayer: () => <div />,
 });
 
 export function Populated(): JSX.Element {
@@ -79,10 +76,11 @@ export function NoMedia(): JSX.Element {
 
 export function OneEach(): JSX.Element {
   const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
+  const audio = createRandomAudio(Date.now(), days(1)).slice(0, 1);
   const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
   const links = createRandomLinks(Date.now(), days(1)).slice(0, 1);
 
-  const props = createProps({ documents, media, links });
+  const props = createProps({ documents, audio, media, links });
 
   return <MediaGallery {...props} />;
 }

@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import moment from 'moment';
 
 import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
+import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
   LinkPreviewMediaItemType,
   MediaItemType,
@@ -15,37 +15,46 @@ import type {
 import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.preload.js';
 import { AttachmentSection } from './AttachmentSection.dom.js';
 import { EmptyState } from './EmptyState.dom.js';
-import type { DataProps as LinkPreviewItemPropsType } from './LinkPreviewItem.dom.js';
 import { Tabs } from '../../Tabs.dom.js';
 import { TabViews } from './types/TabViews.std.js';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
 import { usePrevious } from '../../../hooks/usePrevious.std.js';
-import type { AttachmentType } from '../../../types/Attachment.std.js';
+import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
+import { tw } from '../../../axo/tw.dom.js';
 
 export type Props = {
   conversationId: string;
   i18n: LocalizerType;
   haveOldestMedia: boolean;
-  haveOldestDocument: boolean;
+  haveOldestAudio: boolean;
   haveOldestLink: boolean;
+  haveOldestDocument: boolean;
   loading: boolean;
   initialLoad: (id: string) => unknown;
-  loadMore: (id: string, type: 'media' | 'documents' | 'links') => unknown;
+  loadMore: (
+    id: string,
+    type: 'media' | 'audio' | 'documents' | 'links'
+  ) => unknown;
   media: ReadonlyArray<MediaItemType>;
+  audio: ReadonlyArray<MediaItemType>;
   documents: ReadonlyArray<MediaItemType>;
   links: ReadonlyArray<LinkPreviewMediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
   cancelAttachmentDownload: (options: { messageId: string }) => void;
+  playAudio: (attachment: MediaItemType) => void;
   showLightbox: (options: {
-    attachment: AttachmentType;
+    attachment: AttachmentForUIType;
     messageId: string;
   }) => void;
-  theme?: ThemeType;
 
-  renderLinkPreviewItem: (props: LinkPreviewItemPropsType) => JSX.Element;
+  renderMiniPlayer: () => JSX.Element;
+  renderMediaItem: (props: {
+    onItemClick: (event: ItemClickEvent) => unknown;
+    mediaItem: GenericMediaItemType;
+  }) => JSX.Element;
 };
 
 const MONTH_FORMAT = 'MMMM YYYY';
@@ -59,18 +68,18 @@ function MediaSection({
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   showLightbox,
-  theme,
-  renderLinkPreviewItem,
+  playAudio,
+  renderMediaItem,
 }: Pick<
   Props,
   | 'i18n'
-  | 'theme'
   | 'loading'
   | 'saveAttachment'
   | 'kickOffAttachmentDownload'
   | 'cancelAttachmentDownload'
   | 'showLightbox'
-  | 'renderLinkPreviewItem'
+  | 'playAudio'
+  | 'renderMediaItem'
 > & {
   tab: TabViews;
   mediaItems: ReadonlyArray<GenericMediaItemType>;
@@ -100,6 +109,8 @@ function MediaSection({
         saveAttachment(mediaItem.attachment, message.sentAt);
       } else if (mediaItem.type === 'link') {
         openLinkInWebBrowser(mediaItem.preview.url);
+      } else if (mediaItem.type === 'audio') {
+        playAudio(mediaItem);
       } else {
         throw missingCaseError(mediaItem.type);
       }
@@ -109,6 +120,7 @@ function MediaSection({
       showLightbox,
       cancelAttachmentDownload,
       kickOffAttachmentDownload,
+      playAudio,
     ]
   );
 
@@ -149,35 +161,39 @@ function MediaSection({
       <AttachmentSection
         key={header}
         header={header}
-        i18n={i18n}
-        theme={theme}
         mediaItems={section.mediaItems}
         onItemClick={onItemClick}
-        renderLinkPreviewItem={renderLinkPreviewItem}
+        renderMediaItem={renderMediaItem}
       />
     );
   });
 
-  return <div className="module-media-gallery__sections">{sections}</div>;
+  return (
+    <div className={tw('flex min-w-0 grow flex-col divide-y')}>{sections}</div>
+  );
 }
 
 export function MediaGallery({
   conversationId,
-  haveOldestDocument,
   haveOldestMedia,
+  haveOldestAudio,
   haveOldestLink,
+  haveOldestDocument,
   i18n,
   initialLoad,
   loading,
   loadMore,
   media,
-  documents,
+  audio,
   links,
+  documents,
   saveAttachment,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
+  playAudio,
   showLightbox,
-  renderLinkPreviewItem,
+  renderMediaItem,
+  renderMiniPlayer,
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
   const scrollObserverRef = useRef<HTMLDivElement | null>(null);
@@ -192,11 +208,13 @@ export function MediaGallery({
   useEffect(() => {
     if (
       media.length > 0 ||
-      documents.length > 0 ||
+      audio.length > 0 ||
       links.length > 0 ||
-      haveOldestDocument ||
+      documents.length > 0 ||
       haveOldestMedia ||
-      haveOldestLink
+      haveOldestAudio ||
+      haveOldestLink ||
+      haveOldestDocument
     ) {
       return;
     }
@@ -204,13 +222,15 @@ export function MediaGallery({
     loadingRef.current = true;
   }, [
     conversationId,
-    haveOldestDocument,
     haveOldestMedia,
+    haveOldestDocument,
+    haveOldestAudio,
     haveOldestLink,
     initialLoad,
-    media,
-    documents,
-    links,
+    media.length,
+    audio.length,
+    links.length,
+    documents.length,
   ]);
 
   const previousLoading = usePrevious(loading, loading);
@@ -242,17 +262,23 @@ export function MediaGallery({
               loadMore(conversationId, 'media');
               loadingRef.current = true;
             }
+          } else if (tabViewRef.current === TabViews.Audio) {
+            if (!haveOldestMedia) {
+              loadMore(conversationId, 'audio');
+              loadingRef.current = true;
+            }
           } else if (tabViewRef.current === TabViews.Documents) {
             if (!haveOldestDocument) {
               loadMore(conversationId, 'documents');
               loadingRef.current = true;
             }
-          } else {
-            // eslint-disable-next-line no-lonely-if
+          } else if (tabViewRef.current === TabViews.Links) {
             if (!haveOldestLink) {
               loadMore(conversationId, 'links');
               loadingRef.current = true;
             }
+          } else {
+            throw missingCaseError(tabViewRef.current);
           }
         }
       }
@@ -282,6 +308,10 @@ export function MediaGallery({
             label: i18n('icu:media'),
           },
           {
+            id: TabViews.Audio,
+            label: i18n('icu:MediaGallery__tab__audio'),
+          },
+          {
             id: TabViews.Links,
             label: i18n('icu:MediaGallery__tab__links'),
           },
@@ -297,6 +327,9 @@ export function MediaGallery({
           if (selectedTab === TabViews.Media) {
             tabViewRef.current = TabViews.Media;
             mediaItems = media;
+          } else if (selectedTab === TabViews.Audio) {
+            tabViewRef.current = TabViews.Audio;
+            mediaItems = audio;
           } else if (selectedTab === TabViews.Documents) {
             tabViewRef.current = TabViews.Documents;
             mediaItems = documents;
@@ -308,19 +341,23 @@ export function MediaGallery({
           }
 
           return (
-            <div className="module-media-gallery__content">
-              <MediaSection
-                i18n={i18n}
-                loading={loading}
-                tab={tabViewRef.current}
-                mediaItems={mediaItems}
-                saveAttachment={saveAttachment}
-                showLightbox={showLightbox}
-                kickOffAttachmentDownload={kickOffAttachmentDownload}
-                cancelAttachmentDownload={cancelAttachmentDownload}
-                renderLinkPreviewItem={renderLinkPreviewItem}
-              />
-            </div>
+            <>
+              {renderMiniPlayer()}
+              <div className="module-media-gallery__content">
+                <MediaSection
+                  i18n={i18n}
+                  loading={loading}
+                  tab={tabViewRef.current}
+                  mediaItems={mediaItems}
+                  saveAttachment={saveAttachment}
+                  showLightbox={showLightbox}
+                  kickOffAttachmentDownload={kickOffAttachmentDownload}
+                  cancelAttachmentDownload={cancelAttachmentDownload}
+                  playAudio={playAudio}
+                  renderMediaItem={renderMediaItem}
+                />
+              </div>
+            </>
           );
         }}
       </Tabs>

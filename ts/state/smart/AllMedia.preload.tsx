@@ -1,24 +1,36 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+import type { MediaItemType } from '../../types/MediaItem.std.js';
+import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
+import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer.preload.js';
+import { getIntl, getUserConversationId } from '../selectors/user.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
 import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
 import {
-  SmartLinkPreviewItem,
-  type PropsType as LinkPreviewItemPropsType,
-} from './LinkPreviewItem.dom.js';
+  MediaItem,
+  type PropsType as MediaItemPropsType,
+} from './MediaItem.dom.js';
+import { SmartMiniPlayer } from './MiniPlayer.preload.js';
+
+const log = createLogger('AllMedia');
 
 export type PropsType = {
   conversationId: string;
 };
 
-function renderLinkPreviewItem(props: LinkPreviewItemPropsType): JSX.Element {
-  return <SmartLinkPreviewItem {...props} />;
+function renderMiniPlayer(): JSX.Element {
+  return <SmartMiniPlayer shouldFlow />;
+}
+
+function renderMediaItem(props: MediaItemPropsType): JSX.Element {
+  return <MediaItem {...props} />;
 }
 
 export const SmartAllMedia = memo(function SmartAllMedia({
@@ -26,11 +38,13 @@ export const SmartAllMedia = memo(function SmartAllMedia({
 }: PropsType) {
   const {
     media,
-    documents,
+    audio,
     links,
-    haveOldestDocument,
+    documents,
     haveOldestMedia,
+    haveOldestAudio,
     haveOldestLink,
+    haveOldestDocument,
     loading,
   } = useSelector(getMediaGalleryState);
   const { initialLoad, loadMore } = useMediaGalleryActions();
@@ -40,28 +54,86 @@ export const SmartAllMedia = memo(function SmartAllMedia({
     cancelAttachmentDownload,
   } = useConversationsActions();
   const { showLightbox } = useLightboxActions();
+  const { loadVoiceNoteAudio } = useAudioPlayerActions();
   const i18n = useSelector(getIntl);
-  const theme = useSelector(getTheme);
+  const ourConversationId = useSelector(getUserConversationId);
+
+  const playAudio = useCallback(
+    async (mediaItem: MediaItemType) => {
+      const fullMessage = await getMessageById(mediaItem.message.id);
+      if (fullMessage == null) {
+        log.warn('message not found', {
+          message: mediaItem.message.id,
+        });
+        return;
+      }
+
+      const voiceNote = extractVoiceNoteForPlayback(
+        fullMessage.attributes,
+        ourConversationId
+      );
+
+      if (!voiceNote) {
+        log.warn('voice note not found', {
+          message: mediaItem.message.id,
+        });
+        return;
+      }
+
+      if (!ourConversationId) {
+        log.warn('no ourConversationId');
+        return;
+      }
+
+      const index = audio.indexOf(mediaItem);
+      if (index === -1) {
+        log.warn('audio no longer loaded');
+        return;
+      }
+
+      const prev = index === 0 ? undefined : audio.at(index - 1);
+      const next = audio.at(index);
+
+      loadVoiceNoteAudio({
+        voiceNoteData: {
+          voiceNote,
+          conversationId: mediaItem.message.conversationId,
+          previousMessageId: prev?.message.id,
+          playbackRate: 1,
+          consecutiveVoiceNotes: [],
+          nextMessageTimestamp: next?.message.sentAt,
+        },
+        position: 0,
+        context: 'AllMedia',
+        ourConversationId,
+        playbackRate: 1,
+      });
+    },
+    [audio, loadVoiceNoteAudio, ourConversationId]
+  );
 
   return (
     <MediaGallery
       conversationId={conversationId}
-      haveOldestDocument={haveOldestDocument}
       haveOldestMedia={haveOldestMedia}
+      haveOldestAudio={haveOldestAudio}
       haveOldestLink={haveOldestLink}
+      haveOldestDocument={haveOldestDocument}
       i18n={i18n}
-      theme={theme}
       initialLoad={initialLoad}
       loading={loading}
       loadMore={loadMore}
       media={media}
-      documents={documents}
+      audio={audio}
       links={links}
+      documents={documents}
       showLightbox={showLightbox}
+      playAudio={playAudio}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       cancelAttachmentDownload={cancelAttachmentDownload}
       saveAttachment={saveAttachment}
-      renderLinkPreviewItem={renderLinkPreviewItem}
+      renderMediaItem={renderMediaItem}
+      renderMiniPlayer={renderMiniPlayer}
     />
   );
 });

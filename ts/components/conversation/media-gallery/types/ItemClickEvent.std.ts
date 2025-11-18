@@ -4,7 +4,7 @@
 import type { GenericMediaItemType } from '../../../../types/MediaItem.std.js';
 import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.js';
 
-export type ItemClickEvent = {
+export type ItemClickEvent = Readonly<{
   state: AttachmentStatusType['state'];
   mediaItem: GenericMediaItemType;
-};
+}>;
