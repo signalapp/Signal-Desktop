@@ -26,9 +26,6 @@ const log = createLogger('VoiceNotesPlaybackProvider');
 const stateChangeConfirmDownSound = new Sound({
   soundType: SoundType.VoiceNoteStart,
 });
-const stateChangeConfirmUpSound = new Sound({
-  soundType: SoundType.VoiceNoteEnd,
-});
 
 /**
  * Synchronizes the audioPlayer redux state with globalMessageAudio
@@ -45,14 +42,11 @@ export const SmartVoiceNotesPlaybackProvider = memo(
     let messageId: undefined | string;
     let messageIdForLogging: undefined | string;
     let playNextConsecutiveSound = false;
-    let playFinishConsecutiveSound = false;
 
     if (content && AudioPlayerContent.isVoiceNote(content)) {
       ({ url, id: messageId } = content.current);
       messageIdForLogging = content.current.messageIdForLogging;
       playNextConsecutiveSound = content.isConsecutive;
-      playFinishConsecutiveSound =
-        content.isConsecutive && content.queue.length === 0;
     }
     if (content && AudioPlayerContent.isDraft(content)) {
       url = content.url;
@@ -123,7 +117,6 @@ export const SmartVoiceNotesPlaybackProvider = memo(
         messageId,
         messageIdForLogging,
         startPosition: active.startPosition,
-        playFinishConsecutiveSound,
         durationChanged,
         unloadMessageAudio,
         currentTimeUpdated,
@@ -162,7 +155,6 @@ export const SmartVoiceNotesPlaybackProvider = memo(
       messageAudioEnded,
       messageId,
       messageIdForLogging,
-      playFinishConsecutiveSound,
       playNextConsecutiveSound,
       previousStartPosition,
       unloadMessageAudio,
@@ -179,7 +171,6 @@ function loadAudio({
   messageId,
   messageIdForLogging,
   startPosition,
-  playFinishConsecutiveSound,
   durationChanged,
   currentTimeUpdated,
   messageAudioEnded,
@@ -190,7 +181,6 @@ function loadAudio({
   messageId: string | undefined;
   messageIdForLogging: string | undefined;
   startPosition: number;
-  playFinishConsecutiveSound: boolean;
   durationChanged: (value: number | undefined) => void;
   currentTimeUpdated: (value: number) => void;
   messageAudioEnded: () => void;
@@ -225,9 +215,6 @@ function loadAudio({
       currentTimeUpdated(globalMessageAudio.currentTime);
     },
     onEnded() {
-      if (playFinishConsecutiveSound) {
-        drop(stateChangeConfirmUpSound.play());
-      }
       messageAudioEnded();
     },
     onError(error) {

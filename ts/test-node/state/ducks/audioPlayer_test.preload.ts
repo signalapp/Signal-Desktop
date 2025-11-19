@@ -30,16 +30,14 @@ function voiceNoteDataForMessage(
     voiceNote: {
       id: messageId,
       type: 'outgoing',
-      timestamp: 0,
+      receivedAt: 0,
+      sentAt: 0,
       url: undefined,
       source: undefined,
       sourceServiceId: undefined,
       messageIdForLogging: messageId,
       isPlayed: false,
     },
-    consecutiveVoiceNotes: [],
-    previousMessageId: undefined,
-    nextMessageTimestamp: undefined,
     playbackRate: 1,
   };
 }
@@ -57,7 +55,6 @@ describe('both/state/ducks/audioPlayer', () => {
         voiceNoteData: voiceNoteDataForMessage(MESSAGE_ID),
         position: 0,
         context: 'context',
-        ourConversationId: 'convo',
         playbackRate: 1,
       })
     );
@@ -85,7 +82,6 @@ describe('both/state/ducks/audioPlayer', () => {
           voiceNoteData: voiceNoteDataForMessage('test'),
           position: 0,
           context: 'context',
-          ourConversationId: 'convo',
           playbackRate: 1,
         })
       );

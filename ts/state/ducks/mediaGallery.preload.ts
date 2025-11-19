@@ -112,12 +112,12 @@ function _sortItems<
 }
 
 function _cleanAttachments(
-  type: 'media' | 'audio' | 'document',
+  type: 'media' | 'audio' | 'documents',
   rawMedia: ReadonlyArray<MediaItemDBType>
 ): ReadonlyArray<MediaItemType> {
   return rawMedia.map(({ message, index, attachment }) => {
     return {
-      type,
+      type: type === 'documents' ? 'document' : type,
       index,
       attachment: getPropsForAttachment(attachment, 'attachment', message),
       message,
@@ -159,20 +159,23 @@ function initialLoad(
 
     const [rawMedia, rawAudio, rawDocuments, rawLinkPreviews] =
       await Promise.all([
-        DataReader.getOlderMedia({
+        DataReader.getSortedMedia({
           conversationId,
           limit: FETCH_CHUNK_COUNT,
           type: 'media',
+          order: 'older',
         }),
-        DataReader.getOlderMedia({
+        DataReader.getSortedMedia({
           conversationId,
           limit: FETCH_CHUNK_COUNT,
           type: 'audio',
+          order: 'older',
         }),
-        DataReader.getOlderMedia({
+        DataReader.getSortedMedia({
           conversationId,
           limit: FETCH_CHUNK_COUNT,
           type: 'documents',
+          order: 'older',
         }),
         DataReader.getOlderLinkPreviews({
           conversationId,
@@ -182,7 +185,7 @@ function initialLoad(
 
     const media = _cleanAttachments('media', rawMedia);
     const audio = _cleanAttachments('audio', rawAudio);
-    const documents = _cleanAttachments('document', rawDocuments);
+    const documents = _cleanAttachments('documents', rawDocuments);
     const links = _cleanLinkPreviews(rawLinkPreviews);
 
     dispatch({
@@ -256,26 +259,23 @@ function loadMore(
     let audio: ReadonlyArray<MediaItemType> = [];
     let documents: ReadonlyArray<MediaItemType> = [];
     let links: ReadonlyArray<LinkPreviewMediaItemType> = [];
-    if (type === 'media') {
-      const rawMedia = await DataReader.getOlderMedia({
+    if (type === 'media' || type === 'audio' || type === 'documents') {
+      const rawMedia = await DataReader.getSortedMedia({
         ...sharedOptions,
-        type: 'media',
+        order: 'older',
+        type,
       });
 
-      media = _cleanAttachments('media', rawMedia);
-    } else if (type === 'audio') {
-      const rawAudio = await DataReader.getOlderMedia({
-        ...sharedOptions,
-        type: 'audio',
-      });
-
-      audio = _cleanAttachments('audio', rawAudio);
-    } else if (type === 'documents') {
-      const rawDocuments = await DataReader.getOlderMedia({
-        ...sharedOptions,
-        type: 'documents',
-      });
-      documents = _cleanAttachments('document', rawDocuments);
+      const result = _cleanAttachments(type, rawMedia);
+      if (type === 'media') {
+        media = result;
+      } else if (type === 'audio') {
+        audio = result;
+      } else if (type === 'documents') {
+        documents = result;
+      } else {
+        throw missingCaseError(type);
+      }
     } else if (type === 'links') {
       const rawPreviews = await DataReader.getOlderLinkPreviews(sharedOptions);
       links = _cleanLinkPreviews(rawPreviews);
@@ -452,7 +452,7 @@ export function reducer(
       )
     );
     const newDocuments = _cleanAttachments(
-      'document',
+      'documents',
       messageMediaItems.filter(({ attachment }) => isFile(attachment))
     );
     const newLinks = _cleanLinkPreviews(

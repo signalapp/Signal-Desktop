@@ -17,16 +17,14 @@ function voiceNoteDataForMessage(
     voiceNote: {
       id: messageId,
       type: 'outgoing',
-      timestamp: 0,
+      receivedAt: 0,
+      sentAt: 0,
       url: undefined,
       source: undefined,
       sourceServiceId: undefined,
       messageIdForLogging: messageId,
       isPlayed: false,
     },
-    consecutiveVoiceNotes: [],
-    previousMessageId: undefined,
-    nextMessageTimestamp: undefined,
     playbackRate: 1,
   };
 }
@@ -51,7 +49,6 @@ describe('state/selectors/audioPlayer', () => {
           voiceNoteData: voiceNoteDataForMessage('id'),
           position: 0,
           context: 'context',
-          ourConversationId: 'convo',
           playbackRate: 1,
         })
       );
