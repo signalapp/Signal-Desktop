@@ -1167,10 +1167,10 @@
     "messageformat": "Éilíonn an suirbhé 2 rogha ar a laghad"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Tá an cheist ró-fhada"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Tá an rogha ró-fhada"
   },
   "icu:deleteConversation": {
     "messageformat": "Scrios"
@@ -1983,7 +1983,7 @@
     "messageformat": "Thug {sender} freagairt {emoji} do: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Chaith {sender} vóta sa suirbhé \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Theip ar an seoladh"
@@ -7256,6 +7256,6 @@
     "messageformat": "Feabhsuithe ar fhormáidiú &quot;cóipeáil/greamú&quot;. GRMA, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Tá suirbhéanna Signal anseo! Is bealach éasca iad suirbhéanna le tuairimí do ghrúpchomhrá a nochtadh i ndáiríre. Cruthaigh suirbhé ina bhfuil roghanna difriúla dinnéir nó cinn eile atá tábhachtach. Beidh vóta ag gach duine sa ghrúpa agus feicfidh siad freagairtí na ndaoine eile, agus beidh tú in ann vóta aonair nó ilvótaí a shocrú."
   }
 }

@@ -1119,7 +1119,7 @@
     "messageformat": "Ви завершили опитування «{poll}»"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "Користувач {name} завершив опитування: {poll}"
+    "messageformat": "Користувач {name} завершив опитування «{poll}»"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Переглянути опитування"
@@ -1167,10 +1167,10 @@
     "messageformat": "Потрібно принаймні два варіанти відповіді"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Запитання задовге"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Відповідь задовга"
   },
   "icu:deleteConversation": {
     "messageformat": "Видалити"
@@ -1983,7 +1983,7 @@
     "messageformat": "Користувач {sender} поставив реакцію {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Користувач {sender} взяв участь в опитуванні «{pollQuestion}»"
   },
   "icu:sendFailed": {
     "messageformat": "Не вдалося надіслати"
@@ -7256,6 +7256,6 @@
     "messageformat": "З поліпшеннями копіювання і вставлення стало простіше вибрати все й замінити текст, не застосовуючи старого форматування. Дякуємо, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Тепер у Signal є опитування! Приймайте групові рішення без сварок і надто палких дискусій. Опитування — це простий спосіб дізнатися думку групи. Створіть опитування, щоб визначитися з вечерею, відпусткою, плейлистом для довгої дороги чи іншими важливими питаннями. Голосувати й бачити відповіді можуть усі в групі, а ще ви можете дозволити вибирати по кілька відповідей."
   }
 }

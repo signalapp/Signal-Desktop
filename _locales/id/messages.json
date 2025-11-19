@@ -1167,10 +1167,10 @@
     "messageformat": "Harus ada minimal 2 opsi untuk polling"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Pertanyaan terlalu panjang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opsi terlalu panjang"
   },
   "icu:deleteConversation": {
     "messageformat": "Hapus"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} menanggapi {emoji} pada: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} menjawab polling \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Pengiriman gagal"
@@ -7256,6 +7256,6 @@
     "messageformat": "Pengalaman salin/tempel makin mudah. Kini Anda dapat memilih semua teks dan mengganti teks yang ada tanpa menyamakan pemformatannya juga. Terima kasih, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Fitur polling telah tersedia di Signal! Ingin tahu apakah Anda dan teman Anda punya pendapat sama atau berbeda? Polling adalah cara mudah untuk mengadakan jajak pendapat di chat grup. Misalnya, Anda bisa membuat polling untuk opsi makan malam, destinasi wisata, preferensi musik untuk rencana road trip, atau berbagai pilihan penting lainnya. Semua orang di grup dapat memilih dan melihat tanggapan satu sama lain. Anda juga dapat menentukan apakah anggota bisa memilih beberapa opsi atau satu opsi saja."
   }
 }

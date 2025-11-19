@@ -1116,7 +1116,7 @@
     "messageformat": "आपने वोट दिया है"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "आपने यह पोल खत्म कर दिया है: {poll}"
+    "messageformat": "आपने यह पोल समाप्त कर दिया है: {poll}"
   },
   "icu:PollTerminate--other": {
     "messageformat": "{name} ने यह पोल समाप्त कर दिया है: {poll}"
@@ -1167,10 +1167,10 @@
     "messageformat": "पोल में कम से कम 2 विकल्प देना ज़रूरी है"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "सवाल बहुत लंबा है"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "विकल्प बहुत लंबा है"
   },
   "icu:deleteConversation": {
     "messageformat": "डिलीट करें"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ने {message} पर {emoji} रिएक्ट किया"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ने इस पोल में वोट दिया है: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "भेजा नहीं जा सका"
@@ -2838,43 +2838,43 @@
     "messageformat": "वॉइस नोट रिकॉर्ड करना शुरू करें"
   },
   "icu:Keyboard--default-message-action": {
-    "messageformat": "चुने गये मेसेज के लिये डिफ़ॉल्ट क्रिया"
+    "messageformat": "चुने गए मैसेज के लिए डिफ़ॉल्ट ऐक्शन"
   },
   "icu:Keyboard--view-details-for-selected-message": {
-    "messageformat": "चुने हुए मेसेजों की माहिती देखें"
+    "messageformat": "चुने गए मैसेज का ब्योरा देखें"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "चुने हुए मेसेज के जवाब को टॉगल करें"
+    "messageformat": "चुने गए मैसेज का जवाब टॉगल करें"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "चुने हुए मेसेज के लिए इमोजी-प्रतिक्रिया पिकर को टॉगल करें"
+    "messageformat": "चुने गए मैसेज के लिए इमोजी रिएक्शन टॉगल करें"
   },
   "icu:Keyboard--save-attachment": {
-    "messageformat": "चुने हुए मेसेज का अटैचमेंट सहेजें"
+    "messageformat": "चुने गए मैसेज में मौजूद अटैचमेंट सेव करें"
   },
   "icu:Keyboard--delete-messages": {
-    "messageformat": "चुने हुए संदेशों को डिलीट करें"
+    "messageformat": "चुने गए मैसेज डिलीट करें"
   },
   "icu:Keyboard--forward-messages": {
     "messageformat": "चुने हुए संदेशों को फ़ॉरवर्ड करें"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "मेसेज में नयी पंक्ति जोङें"
+    "messageformat": "मैसेज में नई पंक्ति जोड़ें"
   },
   "icu:Keyboard--expand-composer": {
-    "messageformat": "कंपोज़र विस्तृत करें"
+    "messageformat": "कंपोज़र बड़ा करें"
   },
   "icu:Keyboard--send-in-expanded-composer": {
-    "messageformat": "भेजें (विस्तृत कंपोज़र से)"
+    "messageformat": "भेजें (बड़े कंपोज़र में)"
   },
   "icu:Keyboard--attach-file": {
     "messageformat": "फ़ाइल अटैच करें"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "ड्राफ्ट लिंक प्रिव्यु हटाएँ"
+    "messageformat": "ड्राफ़्ट लिंक का प्रीव्यू हटाएं"
   },
   "icu:Keyboard--remove-draft-attachments": {
-    "messageformat": "सारे ड्राफ्ट अटैचमेंट हटाएँ"
+    "messageformat": "सभी ड्राफ़्ट अटैचमेंट हटाएं"
   },
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "चैट पर जाएँ"
@@ -2886,7 +2886,7 @@
     "messageformat": "Ctrl"
   },
   "icu:Keyboard--Key--option": {
-    "messageformat": "विकल्प"
+    "messageformat": "Option"
   },
   "icu:Keyboard--Key--alt": {
     "messageformat": "Alt"
@@ -2898,7 +2898,7 @@
     "messageformat": "Enter"
   },
   "icu:Keyboard--Key--tab": {
-    "messageformat": "टैब"
+    "messageformat": "Tab"
   },
   "icu:Keyboard--Key--one-to-nine-range": {
     "messageformat": "1 से 9"
@@ -2907,10 +2907,10 @@
     "messageformat": "कीबोर्ड शॉर्टकट"
   },
   "icu:Keyboard--navigation-header": {
-    "messageformat": "नेविगेशन"
+    "messageformat": "नैविगेशन"
   },
   "icu:Keyboard--messages-header": {
-    "messageformat": "मेसेज"
+    "messageformat": "मैसेज"
   },
   "icu:Keyboard--composer-header": {
     "messageformat": "कंपोज़र"
@@ -2949,10 +2949,10 @@
     "messageformat": "स्पॉइलर"
   },
   "icu:Keyboard--scroll-to-top": {
-    "messageformat": "सूची की शुरुवात पर स्क्रॉल करें"
+    "messageformat": "लिस्ट में सबसे ऊपर तक स्क्रॉल करें"
   },
   "icu:Keyboard--scroll-to-bottom": {
-    "messageformat": "सूची के अंत पर स्क्रॉल करें"
+    "messageformat": "लिस्ट में सबसे नीचे तक स्क्रॉल करें"
   },
   "icu:Keyboard--close-curent-conversation": {
     "messageformat": "वर्तमान चैट बंद करें"
@@ -2961,10 +2961,10 @@
     "messageformat": "कॉल की जा रही है"
   },
   "icu:Keyboard--toggle-audio": {
-    "messageformat": "टॉगल म्यूट चालू और बंद"
+    "messageformat": "म्यूट बटन टॉगल करके चालू और बंद करें"
   },
   "icu:Keyboard--toggle-video": {
-    "messageformat": "टॉगल वीडियो चालू और बंद"
+    "messageformat": "टॉगल करके वीडियो चालू या बंद करें"
   },
   "icu:Keyboard--toggle-preview": {
     "messageformat": "बढ़ाए गए प्रीव्यू को टॉगल ऑन और ऑफ़ करें"
@@ -2976,16 +2976,16 @@
     "messageformat": "वीडियो के बिना कॉल का जवाब दें"
   },
   "icu:Keyboard--start-audio-call": {
-    "messageformat": "वॉयस कॉल शुरू करें"
+    "messageformat": "वॉइस कॉल शुरू करें"
   },
   "icu:Keyboard--start-video-call": {
     "messageformat": "वीडियो कॉल शुरू करें"
   },
   "icu:Keyboard--decline-call": {
-    "messageformat": "कॉल अस्वीकार करें"
+    "messageformat": "कॉल खारिज करें"
   },
   "icu:Keyboard--hang-up": {
-    "messageformat": "कॉल बंद"
+    "messageformat": "कॉल बंद करें"
   },
   "icu:close-popup": {
     "messageformat": "पॉपअप बंद करें"
@@ -2994,16 +2994,16 @@
     "messageformat": "इमेज या वीडियो अटैचमेंट जोड़ें"
   },
   "icu:remove-attachment": {
-    "messageformat": "अटैचमेंट हटाएँ"
+    "messageformat": "अटैचमेंट हटाएं"
   },
   "icu:backToInbox": {
-    "messageformat": "इनबॉक्स पर वापस जाएँ"
+    "messageformat": "इनबॉक्स में वापस जाएं"
   },
   "icu:conversationArchived": {
     "messageformat": "चैट संग्रहित की गई"
   },
   "icu:conversationArchivedUndo": {
-    "messageformat": "पूर्ववत"
+    "messageformat": "पहले जैसा करें"
   },
   "icu:conversationReturnedToInbox": {
     "messageformat": "चैट इनबॉक्स में वापस आ गई"
@@ -3015,16 +3015,16 @@
     "messageformat": "स्टिकर पैक क्रिएटर का उपयोग करने के लिए कृपया अपने फोन और डेस्कटॉप पर Signal को सेट अप करें"
   },
   "icu:Reactions--remove": {
-    "messageformat": "प्रतिक्रिया को हटाएँ"
+    "messageformat": "रिएक्शन हटाएं"
   },
   "icu:Reactions--error": {
-    "messageformat": "प्रतिक्रिया भेजी नहीं जा सकी। कृपया फिर से प्रयास करें।"
+    "messageformat": "रिएक्शन नहीं भेजी जा सकी। दोबारा कोशिश करें।"
   },
   "icu:Reactions--more": {
-    "messageformat": "अधिक"
+    "messageformat": "और"
   },
   "icu:ReactionsViewer--all": {
-    "messageformat": "सब"
+    "messageformat": "सभी"
   },
   "icu:SafetyTipsModal__Title": {
     "messageformat": "सुरक्षा टिप्स"
@@ -3075,19 +3075,19 @@
     "messageformat": "पूर्ण"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "{name} को आपको मेसेज करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? उन्हें पता नहीं चलेगा कि आपने उनका मेसेजेस को देख लिया है जब तक आप स्वीकार नहीं करते।"
+    "messageformat": "क्या {name} को यह अनुमति देनी है कि वह आपको मैसेज भेज सकें और आपका नाम और फ़ोटो देख सकें? आपकी ओर से अनुरोध स्वीकार करने के बाद ही उन्हें पता चल पाएगा कि आपने उनका मैसेज देखा है"
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "{name} को आपको संदेश भेजने और अपना नाम और फ़ोटो उनके साथ साझा करने दें? आपने इस व्यक्ति को पहले हटाया है।"
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "{name} को आपको संदेश करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।"
+    "messageformat": "क्या {name} को यह अनुमित देनी है कि वह आपको मैसेज भेज सकें और आपका नाम और फ़ोटो देख सकें? आपकी ओर से अनब्लॉक किए जाने के बाद ही वे आपको मैसेज भेज पाएंगे।"
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "इस ग्रुप में जुड़ना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? उन्हें पता नहीं चलेगा कि आपने उनके मेसेज देख लिए हैं जब तक आप स्वीकार नहीं करते।"
+    "messageformat": "क्या आपको इस ग्रुप में शामिल होना है और अपना नाम और फ़ोटो इसके सदस्यों के साथ शेयर करना है? आपकी ओर से अनुरोध स्वीकार करने के बाद ही उन्हें पता चल पाएगा कि आपने उनके मैसेज देखे हैं।"
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।"
+    "messageformat": "क्या इस ग्रुप को अनब्लॉक करके इसमें मौजूद सदस्यों के साथ अपना नाम और फ़ोटो शेयर करने हैं? अनब्लॉक करने से पहले आपको उनकी ओर से कोई मैसेज नहीं मिलेगा।"
   },
   "icu:MessageRequests--block": {
     "messageformat": "ब्लॉक करें"
@@ -3099,25 +3099,25 @@
     "messageformat": "{name} को अनब्लॉक करना है?"
   },
   "icu:MessageRequests--unblock-direct-confirm-body": {
-    "messageformat": "आप एक दूसरे को मेसेज और काॅल कर पाएंगे|"
+    "messageformat": "अब एक-दूसरे को मैसेज और कॉल किए जा सकते हैं।"
   },
   "icu:MessageRequests--unblock-group-confirm-body": {
-    "messageformat": "ग्रूप के सदस्य आपको इस ग्रूप में फ़िर शामिल कर पाएँगे।"
+    "messageformat": "ग्रुप के सदस्य आपको फिर से इस ग्रुप में जोड़ पाएंगे।"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
-    "messageformat": "स्पैम के रूप में रिपोर्ट किया गया और अवरुद्ध कर दिया गया।"
+    "messageformat": "स्पैम के तौर पर रिपोर्ट किया गया और ब्लॉक किया गया।"
   },
   "icu:MessageRequests--block-direct-confirm-title": {
     "messageformat": "{title} को ब्लॉक करना है?"
   },
   "icu:MessageRequests--block-direct-confirm-body": {
-    "messageformat": "ब्लॉक किये गए लोग आपको कॉल नहीं कर पाएंगे या आपको संदेश नहीं भेज पाएंगे।"
+    "messageformat": "ब्लॉक किए गए लोग आपको कॉल नहीं कर पाएंगेा और न ही आपको मैसेज भेज पाएंगे।"
   },
   "icu:MessageRequests--block-group-confirm-title": {
-    "messageformat": "{title} को ब्लॉक करके छोड़ना है?"
+    "messageformat": "{title} को ब्लॉक करके इसे छोड़ना है?"
   },
   "icu:MessageRequests--block-group-confirm-body": {
-    "messageformat": "फिर आपको इस ग्रुप से संदेश या अपडेट प्राप्त नहीं होंगे, और अन्य मेंबर आपको इस ग्रुप में फिर से नहीं जोड़ पाएंगे।"
+    "messageformat": "इसके बाद आपको इस ग्रुप से कोई मैसेज या अपडेट नहीं मिल पाएगा। साथ ही, इसके सदस्य आपको दोबारा इस ग्रुप में नहीं जोड़ पाएंगे।"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "रिपोर्ट करें..."
@@ -3156,13 +3156,13 @@
     "messageformat": "इस चैट को आपके सभी डिवाइसेस से डिलीट कर दिया जाएगा।"
   },
   "icu:MessageRequests--delete-group-confirm-title": {
-    "messageformat": "{title} को डिलीट कर के छोड़ना है?"
+    "messageformat": "{title} को डिलीट करके इसे छोड़ना है?"
   },
   "icu:MessageRequests--delete-direct": {
     "messageformat": "डिलीट करें"
   },
   "icu:MessageRequests--delete-group": {
-    "messageformat": "डिलीट करें और छोङ दें"
+    "messageformat": "डिलीट करें और छोड़ें"
   },
   "icu:MessageRequests--delete-group-confirm-body": {
     "messageformat": "आप इस ग्रूप को छोङ देंगे और यह ग्रूप आपके सभी डिवाइस से डिलीट कर दिया जाएगा।"
@@ -7256,6 +7256,6 @@
     "messageformat": "कॉपी/पेस्ट में किए गए सुधारों से अब पूरा टेक्स्ट चुनना और पुरानी फ़ॉर्मेटिंग को छेड़े बिना मौजूदा टेक्स्ट को बदलना आसान हो गया है। धन्यवाद, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signal पोल अब उपलब्ध हैं! क्या आपकी और आपके दोस्तों की सोच एक जैसी है या वह कभी नहीं मिलती? पोल से तुरंत पता करें कि आपके ग्रुप चैट में मौजूद लोग क्या सोचते हैं। डिनर के विकल्प, छुट्टी की जगहें, आने वाली रोड ट्रिप के लिए  सही म्यूज़िक या किसी भी ज़रूरी बात के लिए एक पोल बनाएं। ग्रुप में मौजूद सभी लोग वोट कर सकते हैं और एक-दूसरे के जवाब देख सकते हैं। आप खुद तय करें कि एक से ज़्यादा वोट देने की अनुमति देनी है या नहीं।"
   }
 }

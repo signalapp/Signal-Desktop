@@ -1167,10 +1167,10 @@
     "messageformat": "Ankieta musi zawierać co najmniej 2 opcje"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Pytanie jest za długie"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opcja jest za długa"
   },
   "icu:deleteConversation": {
     "messageformat": "Usuń"
@@ -1983,7 +1983,7 @@
     "messageformat": "{emoji} – {sender} reaguje na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} głosuje w ankiecie „{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "Nie udało się wysłać"
@@ -7256,6 +7256,6 @@
     "messageformat": "Ulepszyliśmy funkcje kopiowania i wklejania, aby ułatwić zaznaczanie oraz zastępowanie tekstu bez poprzedniego formatowania. Dzięki, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Przedstawiamy ankiety Signal. Czy w Waszej grupie panuje jednomyślność? Sprawdźmy, jak odpowiadali ankietowani. Ankiety to łatwy sposób na zbadanie nastrojów w czacie grupowym. Spytaj, dokąd Twoi znajomi chcieliby pójść na pizzę bądź wyjechać na długi weekend. Poznaj ich gusta muzyczne lub dowiedz się, czy wakacje wolą spędzić w górach, czy nad morzem. Ankiety pomogą Wam podjąć każdą decyzję. Wszyscy w grupie mogą głosować i wyświetlać odpowiedzi innych, a Ty możesz zdecydować, czy zezwolić na udzielanie wielu odpowiedzi."
   }
 }

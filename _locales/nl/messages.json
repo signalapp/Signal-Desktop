@@ -1167,10 +1167,10 @@
     "messageformat": "Voor een peiling zijn minstens 2 opties nodig"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Vraag is te lang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Optie is te lang"
   },
   "icu:deleteConversation": {
     "messageformat": "Verwijderen"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reageerde met {emoji} op: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} heeft gestemd in de peiling ‘{pollQuestion}’"
   },
   "icu:sendFailed": {
     "messageformat": "Verzenden is mislukt"
@@ -7256,6 +7256,6 @@
     "messageformat": "Verbeteringen voor kopiëren en plakken maken het gemakkelijker om alles te selecteren en bestaande tekst te vervangen zonder de oude opmaak over te nemen. Bedankt, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Je kunt in Signal nu peilingen houden! Een peiling is een makkelijke manier om te zien wat je groepschat ergens van vindt. Maak een peiling voor de leukste restaurantopties, vakantiebestemmingen, muziekvoorkeuren voor een aanstaande roadtrip of andere belangrijke keuzes. Iedereen in de groep kan stemmen en elkaars antwoorden zien, en je kunt zelf bepalen of je meerdere stemmen wilt toestaan of niet."
   }
 }

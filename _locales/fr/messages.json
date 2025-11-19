@@ -1167,10 +1167,10 @@
     "messageformat": "Proposez au moins 2 options"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Question trop longue"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Option trop longue"
   },
   "icu:deleteConversation": {
     "messageformat": "Supprimer"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} a réagi par {emoji} à : {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} a répondu au sondage \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Non envoyé."
@@ -2241,7 +2241,7 @@
     "messageformat": "Votre groupe a atteint la taille maximale recommandée"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__body": {
-    "messageformat": "Pour un fonctionnement optimal, les groupes Signal peuvent accueillir jusqu'à {max,number} membres. Si vous dépassez cette limite, l'envoi et la réception des messages risquent de s'en trouver ralentis."
+    "messageformat": "Pour un fonctionnement optimal, les groupes Signal peuvent accueillir jusqu'à {max,number} membres. Si vous dépassez cette limite, l'envoi et la réception de messages risquent de s'en trouver ralentis."
   },
   "icu:setGroupMetadata__title": {
     "messageformat": "Nommez ce groupe"
@@ -7256,6 +7256,6 @@
     "messageformat": "Côté fonctionnalités, le copier-coller devient plus simple : vous pouvez maintenant tout sélectionner et remplacer du texte sans conserver la mise en forme initiale. Merci, <brianHarder></brianHarder> !"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "• Un vent de démocratie souffle sur Signal avec l'arrivée des sondages ! Plutôt restaurant chinois ou pizzeria ? Vacances à la mer ou à la montagne ? Et cette AG, au fait, on l'organise à quelle date ? Faites voter vos amis et prenez ensemble les décisions qui vous tiennent à cœur. Tous les membres du groupe peuvent voter et voir les réponses des autres participants. Et vous pouvez même autoriser plusieurs réponses par personne."
   }
 }

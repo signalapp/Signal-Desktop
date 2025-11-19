@@ -1167,10 +1167,10 @@
     "messageformat": "L'enquesta requereix com a mínim 2 opcions"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "La pregunta és massa llarga"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "L'opció és massa llarga"
   },
   "icu:deleteConversation": {
     "messageformat": "Suprimeix"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ha reaccionat amb {emoji} a: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ha votat a l'enquesta \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "L'enviament ha fallat"
@@ -7256,6 +7256,6 @@
     "messageformat": "Millores de format al copiar i enganxar. Gràcies, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ja són aquí les enquestes de Signal! Les enquestes són una manera fàcil de veure què pensa realment el teu xat de grup. Crea una enquesta amb diferents opcions de sopar o qualsevol altra decisió important. Tothom del grup pot votar i veure les respostes dels altres, i pots decidir si es permet o no votar més d'una opció."
   }
 }

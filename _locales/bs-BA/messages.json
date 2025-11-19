@@ -1116,10 +1116,10 @@
     "messageformat": "Glasali ste"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Završili ste anketu: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} je završio/la anketu: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Prikaži anketu"
@@ -1167,10 +1167,10 @@
     "messageformat": "Anketa zahtijeva najmanje 2 opcije"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Pitanje je predugo"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opcija je predugačka"
   },
   "icu:deleteConversation": {
     "messageformat": "Izbriši"
@@ -1983,7 +1983,7 @@
     "messageformat": "Pošiljalac {sender} je reagirao sa {emoji} na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} je glasao/la u anketi: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Neuspjelo slanje"
@@ -7256,6 +7256,6 @@
     "messageformat": "Poboljšanja kopiranja i lijepljenja. Hvala, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ankete Signala su stigle! Ankete su jednostavan način da vidite šta vaš grupni chat zaista misli. Napravite anketu s konkurentnim opcijama za večeru ili bilo kojim drugim važnim izborima. Svi u grupi mogu glasati i vidjeti odgovore jedni drugih, a vi možete odlučiti hoćete li dozvoliti višestruko glasanje ili ne."
   }
 }

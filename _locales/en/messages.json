@@ -1520,7 +1520,7 @@
   },
   "icu:Toast--PinnedMessageNotFound": {
     "messageformat": "Pinned message not found",
-    "description": "Toast shown when user tries to view a pinned message that no longer exists"
+    "description": "(Deleted 2025/11/19) Toast shown when user tries to view a pinned message that no longer exists"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Poll not found",

@@ -1116,7 +1116,7 @@
     "messageformat": "투표했습니다."
   },
   "icu:PollTerminate--you": {
-    "messageformat": "투표를 종료했습니다: {poll}"
+    "messageformat": "\"{poll}\" 설문조사를 종료했습니다."
   },
   "icu:PollTerminate--other": {
     "messageformat": "{name} 님이 \"{poll}\" 설문조사를 종료했습니다."
@@ -1167,10 +1167,10 @@
     "messageformat": "설문조사에는 옵션이 2개 이상 필요합니다."
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "질문이 너무 깁니다."
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "옵션이 너무 깁니다."
   },
   "icu:deleteConversation": {
     "messageformat": "삭제"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} 님이 다음에 {emoji} 이모지로 반응함: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} 님이 \"{pollQuestion}\" 설문조사에 투표했습니다."
   },
   "icu:sendFailed": {
     "messageformat": "보내기 실패"
@@ -7256,6 +7256,6 @@
     "messageformat": "복사/붙여넣기 서식을 개선했습니다. 감사합니다, <brianHarder></brianHarder> 님!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal 설문조사 기능이 추가되었습니다! 설문조사는 그룹의 의견을 모을 수 있는 간편한 방법입니다. 다양한 저녁 옵션이나 다른 중요한 선택지를 사용하여 설문조사를 만들어 보세요. 그룹의 모든 사용자가 설문조사에 참여할 수 있으며 서로의 의견을 확인할 수 있습니다. 또한, 설문조사를 만들 때 다중 옵션 선택 가능 여부도 선택할 수 있습니다."
   }
 }

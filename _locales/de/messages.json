@@ -1167,10 +1167,10 @@
     "messageformat": "Eine Umfrage erfordert mindestens zwei Auswahlmöglichkeiten"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Die Frage ist zu lang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Die Option ist zu lang"
   },
   "icu:deleteConversation": {
     "messageformat": "Löschen"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} hat mit {emoji} reagiert auf: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} hat an der Umfrage »{pollQuestion}« teilgenommen"
   },
   "icu:sendFailed": {
     "messageformat": "Senden gescheitert"
@@ -7256,6 +7256,6 @@
     "messageformat": "Dank der Verbesserungen beim Kopieren und Einfügen kannst du den gesamten Text jetzt einfacher markieren und ersetzen, ohne die alte Formatierung zu übernehmen. Danke, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "• Auf Signal gibt's jetzt Umfragen! Seid ihr euch einig oder habt ihr total unterschiedliche Meinungen? Mit Umfragen kannst du ganz einfach herausfinden, was dein Gruppenchat wirklich denkt. Erstelle eine Umfrage mit verschiedenen Essensoptionen, Reisezielen, Musikwünschen für den nächsten Kurztrip oder zu einer anderen wichtigen Entscheidung. Alle Mitglieder der Gruppe können abstimmen und die Antworten der anderen sehen. Du kannst auch festlegen, ob mehrere Antworten möglich sind oder nicht."
   }
 }

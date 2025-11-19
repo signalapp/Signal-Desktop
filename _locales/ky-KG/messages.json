@@ -1116,10 +1116,10 @@
     "messageformat": "Сиз добуш бердиңиз"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Сурамжылоону бүтүрдүңүз: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} сурамжылоону бүтүрдү: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Добуш берүүнү карап көрүү"
@@ -1167,10 +1167,10 @@
     "messageformat": "Сурамжылоодо кеминде 2 вариант болушу керек"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Суроо өтө узун болуп калды"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Вариант өтө узун болуп калды"
   },
   "icu:deleteConversation": {
     "messageformat": "Өчүрүү"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} {emoji} деген сезимин {message} үчүн билдирди"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" деген суроого добуш берди"
   },
   "icu:sendFailed": {
     "messageformat": "Жөнөтүлбөй калды"
@@ -7256,6 +7256,6 @@
     "messageformat": "Көчүрүү/Чаптоо функциялары жакшырып, эми баарын оңоюраак тандап, учурдагы текстти жаңы форматта алмаштырасыз. Чоң рахмат <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signal сурамжылоолорун байкап көрүңүз! Досторуңуз менен оюңуз бирби же таптакыр башкабы? Сурамжылоолор аркылуу тобуңуздун кандайдыр бир нерселер боюнча пикирин биле аласыз. Кечки тамактанууга, эс алууга, унаа менен сапарга чыкканда угуучу музыкага жана башка маанилүү нерселерге бир нече вариант сунуштап сурамжылоо жүргүзүңүз. Топтогулардын баары добуш берип, бири-биринин жоопторун көрүп турушат. Кааласаңыз, бир же бир нече добушту кабыл алсаңыз болот."
   }
 }

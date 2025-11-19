@@ -1167,10 +1167,10 @@
     "messageformat": "يتطلب الاستطلاع خيارين على الأقل"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "السؤال طويل جدًا"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "الخيار طويل جدًا"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف"
@@ -1983,7 +1983,7 @@
     "messageformat": "تفاعَلَ {sender} مع الرسالة {message} باستخدام {emoji}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} صوّت في الاستطلاع: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "فشل الإرسال"
@@ -7256,6 +7256,6 @@
     "messageformat": "تحسينات النسخ/اللصق تُسهِّل تحديد النص بالكامل واستبداله دون اكتساب التنسيق القديم. شكرًا، <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "• استطلاعات سيجنال قد بدأت! هل أنت وأصدقاؤك متفقون تمامًا أم أن كلًا منكم له رأي مختلف؟ الاستطلاعات طريقة سهلة لِمعرفة رأي مجموعة الدردشة التي أنت جزءٌ منها. أنشِئ استطلاعًا يتضمن خيارات مختلفة للعشاء، أو وجهات للسفر، أو تفضيلات موسيقية لرحلة قادمة، أو أي اختيارات مهمة أخرى. يمكن للجميع في الدردشة الجماعية التصويت ورؤية أجوبة الآخرين، ويمكنك اختيار ما إذا كُنتَ تريد السماح بتصويتات متعددة أم لا."
   }
 }

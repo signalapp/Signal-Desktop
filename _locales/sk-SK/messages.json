@@ -1167,10 +1167,10 @@
     "messageformat": "Anketa vyžaduje aspoň 2 možnosti"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Otázka je príliš dlhá"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Možnosť je príliš dlhá"
   },
   "icu:deleteConversation": {
     "messageformat": "Vymazať"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagoval/a {emoji} na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Používateľ {sender} hlasoval v ankete: „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Odoslanie zlyhalo"
@@ -7256,6 +7256,6 @@
     "messageformat": "Vylepšili sme formátovanie pri kopírovaní/vkladaní. Ďakujeme, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ankety Signal sú tu! Ankety predstavujú jednoduchý spôsob, ako zistiť, čo si váš skupinový čet naozaj myslí. Vytvorte anketu s ponukou viacerých možností, kam zájsť na večeru alebo inými dôležitými témami. Každý v skupine môže hlasovať a vidieť odpovede ostatných a vy sa môžete rozhodnúť, či povolíte výber viacerých odpovedí."
   }
 }

@@ -1116,10 +1116,10 @@
     "messageformat": "Honen alde bozkatu duzu"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Galdeketa hau amaitu duzu: \"{poll}\""
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} erabiltzaileak galdeketa hau amaitu du: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Ikusi galdeketa"
@@ -1167,10 +1167,10 @@
     "messageformat": "Galdeketak gutxienez 2 aukera izan behar ditu"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Galdera luzeegia da"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Aukera luzeegia da"
   },
   "icu:deleteConversation": {
     "messageformat": "Ezabatu"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} erabiltzaileak {emoji} erreakzioa bidali dio honi: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} erabiltzaileak \"{pollQuestion}\" galdeketan bozkatu du"
   },
   "icu:sendFailed": {
     "messageformat": "Bidaltzeak huts egin du"
@@ -7256,6 +7256,6 @@
     "messageformat": "Formatua kopiatu eta itsasteko aukera hobetu dugu. Aupa zu, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Hemen dira Signal-eko galdeketak! Taldeko txatak benetan zer pentsatzen duen jakiteko modu erraza dira galdeketak. Sortu galdeketa bat afaltzeko aukera ezberdinekin, edo bestelako aukera garrantzitsuekin. Taldeko guztiek, bozkatu, eta besteen erantzunak ikusi ahalko dituzte; zuk, aldiz, boto bat baino gehiago eman daitekeen aukeratu ahalko duzu."
   }
 }

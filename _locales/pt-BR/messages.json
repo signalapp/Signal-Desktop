@@ -1167,10 +1167,10 @@
     "messageformat": "É obrigatório adicionar pelo menos 2 opções à enquete"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "A pergunta é muito longa"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "A opção é muito longa"
   },
   "icu:deleteConversation": {
     "messageformat": "Excluir"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} reagiu com {emoji} à mensagem: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} votou na enquete \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Falha no envio"
@@ -7256,6 +7256,6 @@
     "messageformat": "As melhorias na função de copiar e colar facilitam selecionar tudo e substituir o texto existente sem manter a formatação anterior. Valeu, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Chegaram as enquetes do Signal! Você e seus amigos estão em sintonia ou têm opiniões completamente opostas? As enquetes são uma maneira fácil de ver o que o seu grupo realmente pensa. Crie uma enquete com opções para jantar, destinos de férias, preferências musicais para uma próxima viagem de carro ou outras escolhas importantes. Todos no grupo podem votar e ver as respostas uns dos outros, e você pode decidir se permite ou não votos múltiplos."
   }
 }

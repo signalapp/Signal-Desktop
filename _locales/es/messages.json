@@ -1167,10 +1167,10 @@
     "messageformat": "Incluye al menos 2 opciones en la encuesta"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "La pregunta es demasiado larga"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "La opción es demasiado larga"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ha reaccionado con {emoji} a \"{message}\""
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ha votado en la encuesta \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "No enviado"
@@ -2859,7 +2859,7 @@
     "messageformat": "Reenviar mensajes seleccionados"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "Añadir una nueva línea al mensaje"
+    "messageformat": "Añadir nueva línea al mensaje"
   },
   "icu:Keyboard--expand-composer": {
     "messageformat": "Expandir campo de escritura"
@@ -2949,10 +2949,10 @@
     "messageformat": "Spoiler"
   },
   "icu:Keyboard--scroll-to-top": {
-    "messageformat": "Desplazarse al inicio de la lista"
+    "messageformat": "Desplazarse hacia arriba en el chat"
   },
   "icu:Keyboard--scroll-to-bottom": {
-    "messageformat": "Desplazarse al final de la lista"
+    "messageformat": "Desplazarse al final del chat"
   },
   "icu:Keyboard--close-curent-conversation": {
     "messageformat": "Cerrar chat actual"
@@ -7256,6 +7256,6 @@
     "messageformat": "También hemos mejorado la función de copiar y pegar: ahora puedes seleccionar y reemplazar texto sin preocuparte por heredar el formato anterior. ¡Gracias, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "¡Llegaron las encuestas de Signal! ¿Tu grupo va alineado o se vuelve \"en-cuesta arriba\" llegar a un acuerdo? Las encuestas son una forma sencilla de ver qué prefiere cada persona del grupo. Crea una encuesta con distintas opciones para decidir qué cenar, a dónde ir de vacaciones, qué lista de reproducción poner en el próximo viaje o cualquier otra decisión importante. Todas las personas del grupo pueden votar y ver las respuestas, y podrás decidir si se permite votar por más de una opción."
   }
 }

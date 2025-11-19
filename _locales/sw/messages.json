@@ -1116,10 +1116,10 @@
     "messageformat": "Umepiga kura"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ulifunga kura ya maoni: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} alifunga kura ya maoni: {poll}"
   },
   "icu:PollTerminate__view-poll": {
     "messageformat": "Tazama kura ya maoni"
@@ -1167,10 +1167,10 @@
     "messageformat": "Kura ya maoni inahitaji angalau chaguo 2"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Swali ni refu sana"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Chaguo ni refu sana"
   },
   "icu:deleteConversation": {
     "messageformat": "Futa"
@@ -1983,7 +1983,7 @@
     "messageformat": "{sender} ame-react kwa kutuma {emoji} kwa: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} alipiga kura ya maoni: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Kutuma kumeshindwa"
@@ -7256,6 +7256,6 @@
     "messageformat": "Uboreshaji wa kunakili/kubandika unarahisisha kuchagua yote na kubadilisha maandishi yaliyopo bila kurithi uumbizaji wa awali. Asante, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Hii hapa kura ya maoni ya Signal! Je, wewe na marafiki zako mko sawa au mpo mbali kabisa kimtazamo? Kura za maoni ni njia rahisi ya kujua vile gumzo lenu la kikundi hufikiri hasa. Unda kura ya maoni yenye chaguo za chakula cha usiku, maeneo ya likizo, mapendeleo ya muziki kwa safari yenu ya barabarani ijayo au maamuzi mengine yoyote muhimu. Kila mtu kwenye kikundi anaweza kupiga kura na kuona majibu ya wengine na mnaweza kuamua kama mtaruhusu mtu kupiga kura zaidi ya mara moja au la."
   }
 }
