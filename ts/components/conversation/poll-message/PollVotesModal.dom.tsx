@@ -1,12 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import { Modal } from '../../Modal.dom.js';
 import { Avatar, AvatarSize } from '../../Avatar.dom.js';
 import { ContactName } from '../ContactName.dom.js';
+import { UserText } from '../../UserText.dom.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
   PollVoteWithUserType,
@@ -30,6 +32,12 @@ export function PollVotesModal({
   canEndPoll,
   messageId,
 }: PollVotesModalProps): JSX.Element {
+  const maxVoteCount = useMemo(() => {
+    return poll.votesByOption.values().reduce((max, voters) => {
+      return Math.max(max, voters.length);
+    }, 0);
+  }, [poll.votesByOption]);
+
   return (
     <Modal
       modalName="PollVotesModal"
@@ -45,13 +53,20 @@ export function PollVotesModal({
             {i18n('icu:PollVotesModal__questionLabel')}
           </div>
 
-          <div className={tw('type-body-large')}>{poll.question}</div>
+          <div
+            className={tw(
+              'rounded-md bg-fill-secondary px-3 py-1 type-body-large'
+            )}
+          >
+            <UserText text={poll.question} />
+          </div>
         </div>
 
         {poll.options.map((option, index, array) => {
           const voters = poll.votesByOption.get(index) || [];
           const optionKey = `option-${index}`;
           const isLastOption = index === array.length - 1;
+          const isWinning = voters.length > 0 && voters.length === maxVoteCount;
 
           return (
             <React.Fragment key={optionKey}>
@@ -62,45 +77,62 @@ export function PollVotesModal({
                     'mb-3 flex items-start gap-3 text-label-primary'
                   )}
                 >
-                  <div className={tw('type-title-small')}>{option}</div>
+                  <div className={tw('type-title-small')}>
+                    <UserText text={option} />
+                  </div>
                   <div
-                    className={tw('ms-auto mt-[2px] shrink-0 type-body-medium')}
+                    className={tw(
+                      'ms-auto mt-[2px] flex shrink-0 items-center gap-1 type-body-medium'
+                    )}
                   >
-                    {i18n('icu:PollVotesModal__voteCount', {
-                      count: voters.length,
-                    })}
+                    {isWinning && (
+                      <AxoSymbol.InlineGlyph
+                        symbol="star-fill"
+                        label={i18n('icu:PollVotesModal__winningOption')}
+                      />
+                    )}
+                    {voters.length > 0 &&
+                      i18n('icu:PollVotesModal__voteCount', {
+                        count: voters.length,
+                      })}
                   </div>
                 </div>
 
                 {/* Voters List */}
-                <div className={tw('flex flex-col gap-4')}>
-                  {voters.map((vote: PollVoteWithUserType) => (
-                    <div
-                      key={vote.from.id}
-                      className={tw('flex items-center gap-3')}
-                    >
-                      <Avatar
-                        avatarUrl={vote.from.avatarUrl}
-                        badge={undefined}
-                        color={vote.from.color}
-                        conversationType="direct"
-                        i18n={i18n}
-                        noteToSelf={false}
-                        phoneNumber={vote.from.phoneNumber}
-                        profileName={vote.from.profileName}
-                        sharedGroupNames={vote.from.sharedGroupNames}
-                        size={AvatarSize.THIRTY_SIX}
-                        title={vote.from.title}
-                      />
-                      <div className={tw('min-w-0 flex-1')}>
-                        <ContactName
+                {voters.length === 0 ? (
+                  <div className={tw('type-body-medium text-label-secondary')}>
+                    {i18n('icu:PollVotesModal__noVotes')}
+                  </div>
+                ) : (
+                  <div className={tw('flex flex-col gap-4')}>
+                    {voters.map((vote: PollVoteWithUserType) => (
+                      <div
+                        key={vote.from.id}
+                        className={tw('flex items-center gap-3')}
+                      >
+                        <Avatar
+                          avatarUrl={vote.from.avatarUrl}
+                          badge={undefined}
+                          color={vote.from.color}
+                          conversationType="direct"
+                          i18n={i18n}
+                          noteToSelf={false}
+                          phoneNumber={vote.from.phoneNumber}
+                          profileName={vote.from.profileName}
+                          sharedGroupNames={vote.from.sharedGroupNames}
+                          size={AvatarSize.THIRTY_SIX}
                           title={vote.from.title}
-                          module={tw('type-body-large text-label-primary')}
                         />
+                        <div className={tw('min-w-0 flex-1')}>
+                          <ContactName
+                            title={vote.from.title}
+                            module={tw('type-body-large text-label-primary')}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
               {!isLastOption && (
                 <hr className={tw('border-t-[0.5px] border-label-secondary')} />
