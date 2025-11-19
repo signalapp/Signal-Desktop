@@ -16,7 +16,7 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
 import {
   MediaItem,
   type PropsType as MediaItemPropsType,
-} from './MediaItem.dom.js';
+} from './MediaItem.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 
 const log = createLogger('AllMedia');

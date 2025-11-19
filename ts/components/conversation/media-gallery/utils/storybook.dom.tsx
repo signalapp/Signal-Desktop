@@ -1,7 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback } from 'react';
-import type { PropsType } from '../../../../state/smart/MediaItem.dom.js';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { action } from '@storybook/addon-actions';
+
+import type { PropsType } from '../../../../state/smart/MediaItem.preload.js';
 import { getSafeDomain } from '../../../../types/LinkPreview.std.js';
 import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.js';
 import { missingCaseError } from '../../../../util/missingCaseError.std.js';
@@ -19,6 +23,7 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
     },
     [mediaItem, onItemClick]
   );
+  const onShowMessage = action('onShowMessage');
 
   switch (mediaItem.type) {
     case 'audio':
@@ -28,6 +33,7 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
           authorTitle="Alice"
           mediaItem={mediaItem}
           onClick={onClick}
+          onShowMessage={onShowMessage}
         />
       );
     case 'media':
@@ -36,7 +42,12 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
       );
     case 'document':
       return (
-        <DocumentListItem i18n={i18n} mediaItem={mediaItem} onClick={onClick} />
+        <DocumentListItem
+          i18n={i18n}
+          mediaItem={mediaItem}
+          onClick={onClick}
+          onShowMessage={onShowMessage}
+        />
       );
     case 'link': {
       const hydratedMediaItem = {
@@ -53,6 +64,7 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
           authorTitle="Alice"
           mediaItem={hydratedMediaItem}
           onClick={onClick}
+          onShowMessage={onShowMessage}
         />
       );
     }

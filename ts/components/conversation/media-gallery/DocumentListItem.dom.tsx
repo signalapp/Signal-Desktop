@@ -18,12 +18,14 @@ export type Props = {
   i18n: LocalizerType;
   mediaItem: MediaItemType;
   onClick: (status: AttachmentStatusType['state']) => void;
+  onShowMessage: () => void;
 };
 
 export function DocumentListItem({
   i18n,
   mediaItem,
   onClick,
+  onShowMessage,
 }: Props): JSX.Element {
   const { attachment } = mediaItem;
 
@@ -57,6 +59,7 @@ export function DocumentListItem({
       subtitle={subtitle}
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}
+      onShowMessage={onShowMessage}
     />
   );
 }

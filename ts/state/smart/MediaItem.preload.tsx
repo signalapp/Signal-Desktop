@@ -13,6 +13,7 @@ import type { AttachmentStatusType } from '../../hooks/useAttachmentStatus.std.j
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export type PropsType = Readonly<{
   onItemClick: (event: ItemClickEvent) => unknown;
@@ -27,12 +28,14 @@ export const MediaItem = memo(function MediaItem({
   const theme = useSelector(getTheme);
   const getConversation = useSelector(getConversationSelector);
 
+  const { showConversation } = useConversationsActions();
+
+  const { message } = mediaItem;
+
   const authorTitle =
-    mediaItem.message.type === 'outgoing'
+    message.type === 'outgoing'
       ? i18n('icu:you')
-      : getConversation(
-          mediaItem.message.sourceServiceId ?? mediaItem.message.source
-        ).title;
+      : getConversation(message.sourceServiceId ?? message.source).title;
 
   const onClick = useCallback(
     (state: AttachmentStatusType['state']) => {
@@ -40,6 +43,13 @@ export const MediaItem = memo(function MediaItem({
     },
     [mediaItem, onItemClick]
   );
+
+  const onShowMessage = useCallback(() => {
+    showConversation({
+      conversationId: message.conversationId,
+      messageId: message.id,
+    });
+  }, [message.conversationId, message.id, showConversation]);
 
   switch (mediaItem.type) {
     case 'audio':
@@ -49,6 +59,7 @@ export const MediaItem = memo(function MediaItem({
           authorTitle={authorTitle}
           mediaItem={mediaItem}
           onClick={onClick}
+          onShowMessage={onShowMessage}
         />
       );
     case 'media':
@@ -62,7 +73,12 @@ export const MediaItem = memo(function MediaItem({
       );
     case 'document':
       return (
-        <DocumentListItem i18n={i18n} mediaItem={mediaItem} onClick={onClick} />
+        <DocumentListItem
+          i18n={i18n}
+          mediaItem={mediaItem}
+          onClick={onClick}
+          onShowMessage={onShowMessage}
+        />
       );
     case 'link': {
       const hydratedMediaItem = {
@@ -80,6 +96,7 @@ export const MediaItem = memo(function MediaItem({
           authorTitle={authorTitle}
           mediaItem={hydratedMediaItem}
           onClick={onClick}
+          onShowMessage={onShowMessage}
         />
       );
     }

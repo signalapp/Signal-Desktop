@@ -10,6 +10,7 @@ import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import { SpinnerV2 } from '../../SpinnerV2.dom.js';
 import { tw } from '../../../axo/tw.dom.js';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import {
   useAttachmentStatus,
@@ -24,6 +25,7 @@ export type Props = {
   subtitle: React.ReactNode;
   readyLabel: string;
   onClick: (status: AttachmentStatusType['state']) => void;
+  onShowMessage: () => void;
 };
 
 export function ListItem({
@@ -34,6 +36,7 @@ export function ListItem({
   subtitle,
   readyLabel,
   onClick,
+  onShowMessage,
 }: Props): JSX.Element {
   const { message } = mediaItem;
   let attachment: AttachmentForUIType | undefined;
@@ -53,9 +56,19 @@ export function ListItem({
   const handleClick = useCallback(
     (ev: React.MouseEvent) => {
       ev.preventDefault();
-      onClick?.(status?.state || 'ReadyToShow');
+      ev.stopPropagation();
+      onClick(status?.state || 'ReadyToShow');
     },
     [onClick, status?.state]
+  );
+
+  const handleDateClick = useCallback(
+    (ev: React.MouseEvent) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      onShowMessage();
+    },
+    [onShowMessage]
   );
 
   if (status == null || status.state === 'ReadyToShow') {
@@ -108,14 +121,11 @@ export function ListItem({
   }
 
   return (
-    <button
+    <AriaClickable.Root
       className={tw(
         'flex w-full flex-row gap-3 py-2',
         mediaItem.type === 'link' ? undefined : 'items-center'
       )}
-      type="button"
-      onClick={handleClick}
-      aria-label={label}
     >
       <div className={tw('shrink-0')}>{thumbnail}</div>
       <div className={tw('grow overflow-hidden text-start')}>
@@ -124,10 +134,22 @@ export function ListItem({
           {subtitle}
         </div>
       </div>
-      <div className={tw('shrink-0 type-body-small text-label-secondary')}>
-        {moment(timestamp).format('MMM D')}
-      </div>
+      <AriaClickable.HiddenTrigger aria-label={label} onClick={handleClick} />
+      <AriaClickable.SubWidget>
+        <button
+          type="button"
+          className={tw(
+            'shrink-0 self-stretch',
+            mediaItem.type === 'link' ? undefined : 'flex items-center',
+            'type-body-small text-label-secondary'
+          )}
+          aria-label={i18n('icu:ListItem__show-message')}
+          onClick={handleDateClick}
+        >
+          {moment(timestamp).format('MMM D')}
+        </button>
+      </AriaClickable.SubWidget>
       {button}
-    </button>
+    </AriaClickable.Root>
   );
 }

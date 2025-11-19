@@ -6756,6 +6756,10 @@
     "messageformat": "Open the link in a browser",
     "description": "Alt text for the link preview item button"
   },
+  "icu:ListItem__show-message": {
+    "messageformat": "Show message in conversation",
+    "description": "Alt text for the button in media gallery list view"
+  },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio",
     "description": "Header of the links pane in the media gallery, showing audio"

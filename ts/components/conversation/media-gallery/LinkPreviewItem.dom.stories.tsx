@@ -29,6 +29,7 @@ export function Multiple(): JSX.Element {
           authorTitle="Alice"
           mediaItem={mediaItem}
           onClick={action('onClick')}
+          onShowMessage={action('onShowMessage')}
         />
       ))}
     </>

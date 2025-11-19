@@ -19,6 +19,7 @@ import { ListItem } from './ListItem.dom.js';
 export type DataProps = Readonly<{
   mediaItem: LinkPreviewMediaItemType;
   onClick: (status: AttachmentStatusType['state']) => void;
+  onShowMessage: () => void;
 }>;
 
 // Provided by smart layer
@@ -35,6 +36,7 @@ export function LinkPreviewItem({
   mediaItem,
   authorTitle,
   onClick,
+  onShowMessage,
 }: Props): JSX.Element {
   const { preview } = mediaItem;
 
@@ -94,6 +96,7 @@ export function LinkPreviewItem({
       subtitle={subtitle}
       readyLabel={i18n('icu:LinkPreviewItem__alt')}
       onClick={onClick}
+      onShowMessage={onShowMessage}
     />
   );
 }

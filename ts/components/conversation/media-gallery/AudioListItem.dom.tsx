@@ -20,6 +20,7 @@ const MIN_PEAK_HEIGHT = 2;
 export type DataProps = Readonly<{
   mediaItem: MediaItemType;
   onClick: (status: AttachmentStatusType['state']) => void;
+  onShowMessage: () => void;
 }>;
 
 // Provided by smart layer
@@ -35,6 +36,7 @@ export function AudioListItem({
   mediaItem,
   authorTitle,
   onClick,
+  onShowMessage,
 }: Props): JSX.Element {
   const { attachment } = mediaItem;
 
@@ -102,6 +104,7 @@ export function AudioListItem({
       subtitle={subtitle.join(' · ')}
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}
+      onShowMessage={onShowMessage}
     />
   );
 }
