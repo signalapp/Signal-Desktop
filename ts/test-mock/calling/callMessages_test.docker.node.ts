@@ -72,10 +72,8 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
   after(async () => {
     tearDownTurnContainer();
 
-    // Despite the API suggesting otherwise, we actually only need to call
-    // `teardown` once: it will tear down **all** sources and sinks it has set
-    // up, not just the ones passed here.
     await tearDownAudio('input_source_a', 'output_sink_a');
+    await tearDownAudio('input_source_b', 'output_sink_b');
   });
 
   beforeEach(async () => {
