@@ -80,36 +80,18 @@ export const SmartAllMedia = memo(function SmartAllMedia({
         return;
       }
 
-      if (!ourConversationId) {
-        log.warn('no ourConversationId');
-        return;
-      }
-
-      const index = audio.indexOf(mediaItem);
-      if (index === -1) {
-        log.warn('audio no longer loaded');
-        return;
-      }
-
-      const prev = index === 0 ? undefined : audio.at(index - 1);
-      const next = audio.at(index);
-
       loadVoiceNoteAudio({
         voiceNoteData: {
           voiceNote,
           conversationId: mediaItem.message.conversationId,
-          previousMessageId: prev?.message.id,
           playbackRate: 1,
-          consecutiveVoiceNotes: [],
-          nextMessageTimestamp: next?.message.sentAt,
         },
         position: 0,
         context: 'AllMedia',
-        ourConversationId,
         playbackRate: 1,
       });
     },
-    [audio, loadVoiceNoteAudio, ourConversationId]
+    [loadVoiceNoteAudio, ourConversationId]
   );
 
   return (

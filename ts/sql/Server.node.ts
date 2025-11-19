@@ -136,7 +136,7 @@ import type {
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
-  GetOlderMediaOptionsType,
+  GetSortedMediaOptionsType,
   GetOlderLinkPreviewsOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
@@ -456,7 +456,7 @@ export const DataReader: ServerReadableInterface = {
   hasGroupCallHistoryMessage,
 
   hasMedia,
-  getOlderMedia,
+  getSortedMedia,
   getOlderLinkPreviews,
 
   getAllNotificationProfiles,
@@ -5242,25 +5242,52 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
 
 const { VOICE_MESSAGE } = SignalService.AttachmentPointer.Flags;
 
-function getOlderMedia(
+function getSortedMedia(
   db: ReadableDB,
   {
+    order,
     conversationId,
     limit,
     messageId,
-    receivedAt: maxReceivedAt = Number.MAX_VALUE,
-    sentAt: maxSentAt = Number.MAX_VALUE,
+    receivedAt: givenReceivedAt,
+    sentAt: givenSentAt,
     type,
-  }: GetOlderMediaOptionsType
+  }: GetSortedMediaOptionsType
 ): Array<MediaItemDBType> {
-  const timeFilters = {
-    first: sqlFragment`
-      message_attachments.receivedAt = ${maxReceivedAt}
-      AND
-      message_attachments.sentAt < ${maxSentAt}
-    `,
-    second: sqlFragment`message_attachments.receivedAt < ${maxReceivedAt}`,
+  let timeFilters: {
+    first: QueryFragment;
+    second: QueryFragment;
   };
+  let timeOrder: QueryFragment;
+  if (order === 'older') {
+    const maxReceivedAt = givenReceivedAt ?? Number.MAX_VALUE;
+    const maxSentAt = givenSentAt ?? Number.MAX_VALUE;
+
+    timeFilters = {
+      first: sqlFragment`
+        message_attachments.receivedAt = ${maxReceivedAt}
+        AND
+        message_attachments.sentAt < ${maxSentAt}
+      `,
+      second: sqlFragment`message_attachments.receivedAt < ${maxReceivedAt}`,
+    };
+    timeOrder = sqlFragment`DESC`;
+  } else if (order === 'newer') {
+    const minReceivedAt = givenReceivedAt ?? Number.MIN_VALUE;
+    const minSentAt = givenSentAt ?? Number.MIN_VALUE;
+
+    timeFilters = {
+      first: sqlFragment`
+        message_attachments.receivedAt = ${minReceivedAt}
+        AND
+        message_attachments.sentAt > ${minSentAt}
+      `,
+      second: sqlFragment`message_attachments.receivedAt > ${minReceivedAt}`,
+    };
+    timeOrder = sqlFragment`ASC`;
+  } else {
+    throw missingCaseError(order);
+  }
 
   let contentFilter: QueryFragment;
   if (type === 'media') {
@@ -5313,7 +5340,9 @@ function getOlderMedia(
       message_attachments.isViewOnce IS NOT 1 AND
       message_attachments.messageType IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR message_attachments.messageId IS NOT ${messageId ?? null})
-      ORDER BY message_attachments.receivedAt DESC, message_attachments.sentAt DESC
+      ORDER BY
+        message_attachments.receivedAt ${timeOrder},
+        message_attachments.sentAt ${timeOrder}
       LIMIT ${limit}
   `;
 

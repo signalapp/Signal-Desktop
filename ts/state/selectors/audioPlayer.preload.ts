@@ -22,7 +22,6 @@ import {
 import type { StateType } from '../reducer.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.js';
-import type { MessageWithUIFieldsType } from '../ducks/conversations.preload.js';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { getMessageIdForLogging } from '../../util/idForLogging.preload.js';
 import * as Attachment from '../../util/Attachment.std.js';
@@ -41,7 +40,8 @@ export type VoiceNoteForPlayback = {
   sourceServiceId: ServiceIdString | undefined;
   isPlayed: boolean;
   messageIdForLogging: string;
-  timestamp: number;
+  sentAt: number;
+  receivedAt: number;
 };
 
 export const isPaused = (state: StateType): boolean => {
@@ -106,7 +106,8 @@ export function extractVoiceNoteForPlayback(
     type,
     isPlayed: isPlayed(type, status, message.readStatus),
     messageIdForLogging: getMessageIdForLogging(message),
-    timestamp: message.timestamp,
+    sentAt: message.sent_at,
+    receivedAt: message.received_at,
     source: message.source,
     sourceServiceId: message.sourceServiceId,
   };
@@ -116,11 +117,7 @@ export function extractVoiceNoteForPlayback(
 export type VoiceNoteAndConsecutiveForPlayback = {
   conversationId: string;
   voiceNote: VoiceNoteForPlayback;
-  previousMessageId: string | undefined;
-  consecutiveVoiceNotes: ReadonlyArray<VoiceNoteForPlayback>;
   playbackRate: number;
-  // timestamp of the message after all the once in the queue
-  nextMessageTimestamp: number | undefined;
 };
 export const selectVoiceNoteAndConsecutive = createSelector(
   getConversations,
@@ -160,57 +157,12 @@ export const selectVoiceNoteAndConsecutive = createSelector(
         return undefined;
       }
 
-      const conversationMessages =
-        conversations.messagesByConversation[selectedConversationId];
-
-      if (!conversationMessages) {
-        log.warn('selectedVoiceNote: no conversation messages', {
-          message: messageId,
-        });
-        return;
-      }
-
-      let idx = conversationMessages.messageIds.indexOf(messageId);
-
-      // useful if inserting into an active queue
-      const previousMessageId = conversationMessages.messageIds[idx - 1];
-
-      const consecutiveVoiceNotes: Array<VoiceNoteForPlayback> = [];
-      let nextMessageId: string;
-      let nextMessage: MessageWithUIFieldsType | undefined;
-      let nextVoiceNote: VoiceNoteForPlayback | undefined;
-      do {
-        idx += 1;
-        nextMessageId = conversationMessages.messageIds[idx];
-        if (!nextMessageId) {
-          nextMessage = undefined;
-          break;
-        }
-        nextMessage = conversations.messagesLookup[nextMessageId];
-        if (!nextMessage) {
-          break;
-        }
-        if (nextMessage.deletedForEveryone) {
-          continue;
-        }
-        nextVoiceNote = extractVoiceNoteForPlayback(
-          nextMessage,
-          ourConversationId
-        );
-        if (nextVoiceNote) {
-          consecutiveVoiceNotes.push(nextVoiceNote);
-        }
-      } while (nextVoiceNote);
-
       const conversation = getConversationById(selectedConversationId);
 
       return {
         conversationId: selectedConversationId,
         voiceNote,
-        consecutiveVoiceNotes,
         playbackRate: conversation?.voiceNotePlaybackRate ?? 1,
-        previousMessageId,
-        nextMessageTimestamp: nextMessage?.timestamp,
       };
     };
   }

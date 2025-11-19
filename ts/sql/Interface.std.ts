@@ -585,12 +585,13 @@ export type BackupAttachmentDownloadProgress = {
   completedBytes: number;
 };
 
-export type GetOlderMediaOptionsType = Readonly<{
+export type GetSortedMediaOptionsType = Readonly<{
   conversationId: string;
   limit: number;
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
+  order: 'older' | 'newer';
   type: 'media' | 'audio' | 'documents';
 }>;
 
@@ -842,7 +843,9 @@ type ReadableInterface = {
   ) => Array<MessageType>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
   hasMedia: (conversationId: string) => boolean;
-  getOlderMedia: (options: GetOlderMediaOptionsType) => Array<MediaItemDBType>;
+  getSortedMedia: (
+    options: GetSortedMediaOptionsType
+  ) => Array<MediaItemDBType>;
   getOlderLinkPreviews: (
     options: GetOlderLinkPreviewsOptionsType
   ) => Array<LinkPreviewMediaItemDBType>;
