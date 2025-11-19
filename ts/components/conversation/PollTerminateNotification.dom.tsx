@@ -6,6 +6,8 @@ import type { LocalizerType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import { SystemMessage } from './SystemMessage.dom.js';
 import { Button, ButtonVariant, ButtonSize } from '../Button.dom.js';
+import { UserText } from '../UserText.dom.js';
+import { I18n } from '../I18n.dom.js';
 
 export type PropsType = {
   sender: ConversationType;
@@ -24,16 +26,28 @@ export function PollTerminateNotification({
   i18n,
   scrollToPollMessage,
 }: PropsType): JSX.Element {
-  const message = sender.isMe
-    ? i18n('icu:PollTerminate--you', { poll: pollQuestion })
-    : i18n('icu:PollTerminate--other', {
-        name: sender.title,
-        poll: pollQuestion,
-      });
-
   const handleViewPoll = () => {
     scrollToPollMessage(pollMessageId, conversationId);
   };
+
+  const message = sender.isMe ? (
+    <I18n
+      i18n={i18n}
+      id="icu:PollTerminate--you"
+      components={{
+        poll: <UserText text={pollQuestion} />,
+      }}
+    />
+  ) : (
+    <I18n
+      i18n={i18n}
+      id="icu:PollTerminate--other"
+      components={{
+        name: <UserText text={sender.title} />,
+        poll: <UserText text={pollQuestion} />,
+      }}
+    />
+  );
 
   return (
     <SystemMessage
