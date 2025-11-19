@@ -66,11 +66,11 @@ const Namespace = 'AxoContextMenu';
  * ```
  */
 export namespace AxoContextMenu {
-  export type RootContextType = Readonly<{
+  type RootContextType = Readonly<{
     open: boolean;
   }>;
 
-  export const RootContext = createStrictContext<RootContextType>(
+  const RootContext = createStrictContext<RootContextType>(
     `${Namespace}.RootContext`
   );
 

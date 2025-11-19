@@ -36,31 +36,38 @@ export namespace AxoIconButton {
   const Variants: Record<Variant, TailwindStyles> = {
     secondary: tw(
       'bg-fill-secondary pressed:bg-fill-secondary-pressed',
+      'data-[axo-dropdownmenu-state=open]:bg-fill-secondary-pressed',
       'text-label-primary disabled:text-label-disabled',
       pressedStyles.fillInverted
     ),
     primary: tw(
       'bg-color-fill-primary pressed:bg-color-fill-primary-pressed',
+      'data-[axo-dropdownmenu-state=open]:bg-color-fill-primary-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     affirmative: tw(
       'bg-color-fill-affirmative pressed:bg-color-fill-affirmative-pressed',
+      'data-[axo-dropdownmenu-state=open]:bg-color-fill-affirmative-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     destructive: tw(
       'bg-color-fill-destructive pressed:bg-color-fill-destructive-pressed',
+      'data-[axo-dropdownmenu-state=open]:bg-color-fill-destructive-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     'borderless-secondary': tw(
       'hovered:bg-fill-secondary pressed:bg-fill-secondary-pressed',
+      'focus:bg-fill-secondary',
+      'data-[axo-dropdownmenu-state=open]:bg-fill-secondary-pressed',
       'text-label-primary disabled:text-label-disabled',
       pressedStyles.colorFillPrimary
     ),
     'floating-secondary': tw(
       'bg-fill-floating pressed:bg-fill-floating-pressed',
+      'data-[axo-dropdownmenu-state=open]:bg-fill-floating-pressed',
       'text-label-primary disabled:text-label-disabled',
       'shadow-elevation-1',
       pressedStyles.fillInverted
@@ -130,7 +137,7 @@ export namespace AxoIconButton {
         >
           <span
             className={tw(
-              'forced-color-adjust-none',
+              'align-top leading-none forced-color-adjust-none',
               experimentalSpinner != null ? 'opacity-0' : null
             )}
           >

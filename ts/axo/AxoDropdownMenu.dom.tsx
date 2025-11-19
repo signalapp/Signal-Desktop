@@ -1,6 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useEffect, useId, useRef } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
 import { computeAccessibleName } from 'dom-accessibility-api';
@@ -17,6 +25,10 @@ import {
   getElementAriaRole,
   isAriaWidgetRole,
 } from './_internal/ariaRoles.dom.js';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.js';
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -63,6 +75,14 @@ const Namespace = 'AxoDropdownMenu';
  * ```
  */
 export namespace AxoDropdownMenu {
+  type RootContextType = Readonly<{
+    open: boolean;
+  }>;
+
+  const RootContext = createStrictContext<RootContextType>(
+    `${Namespace}.RootContext`
+  );
+
   /**
    * Component: <AxoDropdownMenu.Root>
    * ---------------------------------
@@ -71,17 +91,37 @@ export namespace AxoDropdownMenu {
   export type RootProps = AxoBaseMenu.MenuRootProps &
     Readonly<{
       open?: boolean;
-      onOpenChange?: (open: boolean) => void;
     }>;
 
   /**
    * Contains all the parts of a dropdown menu.
    */
   export const Root: FC<RootProps> = memo(props => {
+    const { onOpenChange } = props;
+    const [open, setOpen] = useState(false);
+
+    if (typeof props.open === 'boolean' && open !== props.open) {
+      setOpen(props.open);
+    }
+
+    const handleOpenChange = useCallback(
+      (nextOpen: boolean) => {
+        setOpen(nextOpen);
+        onOpenChange?.(nextOpen);
+      },
+      [onOpenChange]
+    );
+
+    const context = useMemo((): RootContextType => {
+      return { open };
+    }, [open]);
+
     return (
-      <DropdownMenu.Root open={props.open} onOpenChange={props.onOpenChange}>
-        {props.children}
-      </DropdownMenu.Root>
+      <RootContext.Provider value={context}>
+        <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
+          {props.children}
+        </DropdownMenu.Root>
+      </RootContext.Provider>
     );
   });
 
@@ -102,6 +142,7 @@ export namespace AxoDropdownMenu {
    * against the trigger.
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
+    const context = useStrictContext(RootContext);
     const ref = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
@@ -122,7 +163,13 @@ export namespace AxoDropdownMenu {
     });
 
     return (
-      <DropdownMenu.Trigger ref={ref} asChild disabled={props.disabled}>
+      <DropdownMenu.Trigger
+        ref={ref}
+        asChild
+        disabled={props.disabled}
+        data-axo-dropdownmenu-trigger
+        data-axo-dropdownmenu-state={context.open ? 'open' : 'closed'}
+      >
         {props.children}
       </DropdownMenu.Trigger>
     );

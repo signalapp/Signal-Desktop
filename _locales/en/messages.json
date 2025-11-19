@@ -1650,6 +1650,34 @@
     "messageformat": "Pin",
     "description": "Message > Context Menu > Pin Message > Dialog > Pin Button"
   },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Accessibility label"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Go to pin {pinNumber, number}",
+    "description": "Conversation > With *multiple* pinned messages > Pinned messages bar > Vertical tabs > Tab item > Accessibility Label"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Go to message",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Clickable area (Goes to pinned message) > Accessibility label"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "More actions",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu button > Accessibility label"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Unpin message",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > Unpin message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Go to message",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "See all messages",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > See all messages"
+  },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."

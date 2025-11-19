@@ -1,8 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode, MouseEvent, FC } from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
+import { computeAccessibleName } from 'dom-accessibility-api';
 import { tw } from './tw.dom.js';
 import { assert } from './_internal/assert.dom.js';
 import {
@@ -147,6 +148,10 @@ export namespace AriaClickable {
 
   export type HiddenTriggerProps = Readonly<{
     /**
+     * Describe the action to be taken `onClick`
+     */
+    'aria-label'?: string;
+    /**
      * This should reference the ID of an element that describes the action that
      * will be taken `onClick`, not the entire clickable root.
      *
@@ -156,9 +161,11 @@ export namespace AriaClickable {
      * <HiddenTrigger aria-labelledby="see-more-1"/>
      * ```
      */
-    'aria-labelledby': string;
+    'aria-labelledby'?: string;
     onClick: (event: MouseEvent) => void;
   }>;
+
+  const hiddenTriggerDisplayName = `${Namespace}.HiddenTrigger`;
 
   /**
    * Provides an invisible button that fills the entire area of
@@ -221,16 +228,26 @@ export namespace AriaClickable {
       };
     }, []);
 
+    useEffect(() => {
+      if (process.env.NODE_ENV === 'development') {
+        assert(
+          computeAccessibleName(assert(ref.current)) !== '',
+          `${hiddenTriggerDisplayName} child must have an accessible name`
+        );
+      }
+    });
+
     return (
       <button
         ref={ref}
         type="button"
         className={tw('absolute inset-0 z-10 outline-0')}
+        aria-label={props['aria-label']}
         aria-labelledby={props['aria-labelledby']}
         onClick={props.onClick}
       />
     );
   });
 
-  HiddenTrigger.displayName = `${Namespace}.HiddenTrigger`;
+  HiddenTrigger.displayName = hiddenTriggerDisplayName;
 }
