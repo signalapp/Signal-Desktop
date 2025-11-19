@@ -1458,6 +1458,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/MediaEditor.dom.tsx",
+    "line": "  const initialSnapshotTaken = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-19T18:44:48.727Z",
+    "reasonDetail": "Tracking whether initial snapshot has been taken"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/MediaQualitySelector.dom.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
