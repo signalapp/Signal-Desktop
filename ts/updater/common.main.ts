@@ -282,6 +282,10 @@ export abstract class Updater {
     markShouldQuit();
   }
 
+  protected getUpdatesPublicKey(): Buffer {
+    return hexToBinary(config.get('updatesPublicKey'));
+  }
+
   //
   // Private methods
   //
@@ -390,12 +394,11 @@ export abstract class Updater {
 
       const { updateFilePath, signature } = downloadResult;
 
-      const publicKey = hexToBinary(config.get('updatesPublicKey'));
       const verified = await verifySignature(
         updateFilePath,
         this.version,
         signature,
-        publicKey
+        this.getUpdatesPublicKey()
       );
       if (!verified) {
         // Note: We don't delete the cache here, because we don't want to continually
@@ -989,6 +992,10 @@ export function getUpdatesFileName(): string {
     return `${prefix}-mac.yml`;
   }
 
+  if (process.platform === 'linux') {
+    return `${prefix}-linux.yml`;
+  }
+
   return `${prefix}.yml`;
 }
 
@@ -1020,7 +1027,7 @@ export function getVersion(info: JSONUpdateSchema): string | null {
   return info && info.version;
 }
 
-const validFile = /^[A-Za-z0-9.-]+$/;
+const validFile = /^[A-Za-z0-9._-]+$/;
 export function isUpdateFileNameValid(name: string): boolean {
   return validFile.test(name);
 }
@@ -1041,6 +1048,8 @@ export function getUpdateFileName(
     fileFilter = ({ url }) => url.includes(arch) && url.endsWith('.zip');
   } else if (platform === 'win32') {
     fileFilter = ({ url }) => url.includes(arch) && url.endsWith('.exe');
+  } else if (platform === 'linux' && process.env.APPIMAGE != null) {
+    fileFilter = ({ url }) => url.endsWith('.AppImage');
   }
 
   if (fileFilter) {

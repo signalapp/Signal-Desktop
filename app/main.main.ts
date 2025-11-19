@@ -135,6 +135,7 @@ import { getOwn } from '../ts/util/getOwn.std.js';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
+import { appRelaunch } from '../ts/util/relaunch.main.js';
 import { sendDummyKeystroke } from './WindowsNotifications.main.js';
 
 const { chmod, realpath, writeFile } = fsExtra;
@@ -1935,7 +1936,7 @@ const onDatabaseInitializationError = async (error: Error) => {
       log.error(
         'onDatabaseInitializationError: Requesting immediate restart after quit'
       );
-      app.relaunch();
+      appRelaunch();
     }
   } else if (buttonIndex === goToSupportPageButtonIndex) {
     drop(
@@ -2343,6 +2344,11 @@ app.on('ready', async () => {
 
 function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
   const { platform } = process;
+  const platformForMenu =
+    platform === 'linux' && process.env.APPIMAGE != null
+      ? 'linux-appimage'
+      : platform;
+
   const version = app.getVersion();
   menuOptions = {
     // options
@@ -2351,7 +2357,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     includeSetup: false,
     isNightly: isNightly(version),
     isProduction: isProduction(version),
-    platform,
+    platform: platformForMenu,
 
     // actions
     forceUpdate,
@@ -2630,7 +2636,7 @@ ipc.on('draw-attention', () => {
 
 ipc.on('restart', () => {
   log.info('Relaunching application');
-  app.relaunch();
+  appRelaunch();
   app.quit();
 });
 ipc.on('shutdown', () => {

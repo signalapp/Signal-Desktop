@@ -23,6 +23,7 @@ export type OSType = {
   getClassName: () => string;
   getName: () => string;
   isLinux: (minVersion?: string) => boolean;
+  isLinuxAppImage: () => boolean;
   isMacOS: (minVersion?: string) => boolean;
   isWindows: (minVersion?: string) => boolean;
 };
@@ -31,6 +32,10 @@ export function getOSFunctions(osRelease: string): OSType {
   const isMacOS = createIsPlatform('darwin', osRelease);
   const isLinux = createIsPlatform('linux', osRelease);
   const isWindows = createIsPlatform('win32', osRelease);
+
+  const isLinuxAppImage = (): boolean => {
+    return process.platform === 'linux' && process.env.APPIMAGE != null;
+  };
 
   const getName = (): string => {
     if (isMacOS()) {
@@ -56,6 +61,7 @@ export function getOSFunctions(osRelease: string): OSType {
     getClassName,
     getName,
     isLinux,
+    isLinuxAppImage,
     isMacOS,
     isWindows,
   };

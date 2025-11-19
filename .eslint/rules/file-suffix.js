@@ -90,6 +90,7 @@ const NODE_PACKAGES = new Set([
   '@signalapp/mock-server',
   '@tailwindcss/cli',
   '@tailwindcss/postcss',
+  'better-blockmap',
   'chokidar-cli',
   'cross-env',
   'electron-builder',

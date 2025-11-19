@@ -6,6 +6,7 @@ import { app } from 'electron';
 import type { Updater, UpdaterOptionsType } from './common.main.js';
 import { MacOSUpdater } from './macos.main.js';
 import { WindowsUpdater } from './windows.main.js';
+import { LinuxAppImageUpdater } from './linuxAppImage.main.js';
 import { initLinux } from './linux.main.js';
 
 let initialized = false;
@@ -38,7 +39,11 @@ export async function start(options: UpdaterOptionsType): Promise<void> {
   } else if (platform === 'darwin') {
     updater = new MacOSUpdater(options);
   } else if (platform === 'linux') {
-    initLinux(options);
+    if (process.env.APPIMAGE != null) {
+      updater = new LinuxAppImageUpdater(options);
+    } else {
+      initLinux(options);
+    }
   } else {
     throw new Error(`updater/start: Unsupported platform ${platform}`);
   }

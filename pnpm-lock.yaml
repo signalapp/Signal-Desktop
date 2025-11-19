@@ -622,6 +622,9 @@ importers:
       babel-plugin-lodash:
         specifier: 3.3.4
         version: 3.3.4
+      better-blockmap:
+        specifier: 1.0.2
+        version: 1.0.2
       casual:
         specifier: 1.6.2
         version: 1.6.2(patch_hash=b88b5052437cbdc1882137778b76ca5037f71b2a030ae9ef39dc97f51670d599)

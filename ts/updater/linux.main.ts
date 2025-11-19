@@ -13,6 +13,7 @@ import type { LoggerType } from '../types/Logging.std.js';
 import { DialogType } from '../types/Dialogs.std.js';
 import * as Errors from '../types/errors.std.js';
 import type { UpdaterOptionsType } from './common.main.js';
+import { appRelaunch } from '../util/relaunch.main.js';
 
 const MIN_UBUNTU_VERSION = '22.04';
 
@@ -60,7 +61,7 @@ export function initLinux({ logger, getMainWindow }: UpdaterOptionsType): void {
   ipcMain.handle('start-update', () => {
     logger?.info('updater/linux: restarting');
     markShouldQuit();
-    app.relaunch();
+    appRelaunch();
     app.quit();
   });
 

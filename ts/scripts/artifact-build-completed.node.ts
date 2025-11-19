@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { tmpdir } from 'node:os';
-import { mkdtemp, rm, rename, stat } from 'node:fs/promises';
+
+import { mkdtemp, rm, rename, stat, writeFile } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import type { ArtifactCreated } from 'electron-builder';
+import { BlockMap } from 'better-blockmap';
 
 export async function artifactBuildCompleted({
   target,
@@ -15,6 +17,14 @@ export async function artifactBuildCompleted({
   packager,
   updateInfo,
 }: ArtifactCreated): Promise<void> {
+  if (packager.platform.name === 'linux' && file.endsWith('.AppImage')) {
+    const blockMapPath = `${file}.blockmap`;
+    console.log(`Generating blockmap ${blockMapPath}`);
+    const blockMapGenerator = new BlockMap({ detectZipBoundary: true });
+    await pipeline(createReadStream(file), blockMapGenerator);
+    await writeFile(blockMapPath, blockMapGenerator.compress());
+  }
+
   if (packager.platform.name !== 'mac') {
     return;
   }

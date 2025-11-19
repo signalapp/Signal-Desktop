@@ -301,6 +301,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "9.2.1",
     "babel-plugin-lodash": "3.3.4",
+    "better-blockmap": "1.0.2",
     "casual": "1.6.2",
     "chai": "4.4.1",
     "chai-as-promised": "7.1.1",
@@ -526,11 +527,17 @@
           "StartupWMClass": "signal"
         }
       },
+      "artifactName": "${name}_${version}_${arch}.${ext}",
       "target": [
         "deb"
       ],
       "icon": "build/icons/png",
-      "publish": [],
+      "publish": [
+        {
+          "provider": "generic",
+          "url": ""
+        }
+      ],
       "extraResources": [
         {
           "from": "build",

@@ -12,6 +12,7 @@
   "updatesUrl": "https://updates2.signal.org/desktop",
   "resourcesUrl": "https://updates2.signal.org",
   "updatesPublicKey": "05fd7dd3de7149dc0a127909fee7de0f7620ddd0de061b37a2c303e37de802a401",
+  "appImageUpdatesPublicKey": "05dc20ac83f663c517718b6057f2fe34e273b88455f2149513912f24a9a380cc63",
   "sfuUrl": "https://sfu.staging.voip.signal.org/",
   "challengeUrl": "https://signalcaptchas.org/staging/challenge/generate.html",
   "registrationChallengeUrl": "https://signalcaptchas.org/staging/registration/generate.html",

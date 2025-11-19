@@ -18,7 +18,17 @@ function getLinuxName(): string | undefined {
     return undefined;
   }
 
-  return match[1];
+  const name = match[1];
+  if (isAppImage()) {
+    return `${name} (AppImage)`;
+  }
+  // Flatpak is noted already in /etc/os-release
+
+  return name;
+}
+
+function isAppImage(): boolean {
+  return process.platform === 'linux' && process.env.APPIMAGE != null;
 }
 
 function isFlatpak(): boolean {
@@ -45,6 +55,7 @@ function isLinuxUsingKDE(): boolean {
 const OS = {
   ...getOSFunctions(os.release()),
   getLinuxName,
+  isAppImage,
   isFlatpak,
   isLinuxUsingKDE,
   isWaylandEnabled,
