@@ -65,6 +65,11 @@ import type { DonationReceipt } from '../types/Donations.std.js';
 import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.node.js';
 import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.std.js';
 import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
+import type {
+  PinnedMessage,
+  PinnedMessageId,
+  PinnedMessageParams,
+} from '../types/PinnedMessage.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -965,6 +970,11 @@ type ReadableInterface = {
   hasAllChatsChatFolder: () => boolean;
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
+  getPinnedMessagesForConversation: (
+    conversationId: string
+  ) => ReadonlyArray<PinnedMessage>;
+  getNextExpiringPinnedMessageAcrossConversations: () => PinnedMessage | null;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -1323,6 +1333,14 @@ type WritableInterface = {
   deleteExpiredChatFolders: (
     messageQueueTime: number
   ) => ReadonlyArray<ChatFolderId>;
+
+  createPinnedMessage: (
+    pinnedMessageParams: PinnedMessageParams
+  ) => PinnedMessage;
+  deletePinnedMessage: (pinnedMessageId: PinnedMessageId) => void;
+  deleteAllExpiredPinnedMessagesBefore: (
+    beforeTimestamp: number
+  ) => ReadonlyArray<PinnedMessageId>;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

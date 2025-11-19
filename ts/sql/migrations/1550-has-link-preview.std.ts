@@ -3,7 +3,7 @@
 
 import type { WritableDB } from '../Interface.std.js';
 
-export default function updateToSchemaVersion1520(db: WritableDB): void {
+export default function updateToSchemaVersion1550(db: WritableDB): void {
   db.exec(`
     ALTER TABLE messages
       ADD COLUMN hasPreviews INTEGER NOT NULL

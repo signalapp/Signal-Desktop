@@ -257,6 +257,13 @@ import {
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
 } from './server/chatFolders.std.js';
+import {
+  getPinnedMessagesForConversation,
+  getNextExpiringPinnedMessageAcrossConversations,
+  createPinnedMessage,
+  deletePinnedMessage,
+  deleteAllExpiredPinnedMessagesBefore,
+} from './server/pinnedMessages.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -470,6 +477,9 @@ export const DataReader: ServerReadableInterface = {
   getChatFolder,
   hasAllChatsChatFolder,
   getOldestDeletedChatFolder,
+
+  getPinnedMessagesForConversation,
+  getNextExpiringPinnedMessageAcrossConversations,
 
   callLinkExists,
   defunctCallLinkExists,
@@ -724,6 +734,10 @@ export const DataWriter: ServerWritableInterface = {
   updateChatFolderDeletedAtTimestampMsFromSync,
   markChatFolderDeleted,
   deleteExpiredChatFolders,
+
+  createPinnedMessage,
+  deletePinnedMessage,
+  deleteAllExpiredPinnedMessagesBefore,
 
   removeAll,
   removeAllConfiguration,
@@ -8136,6 +8150,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM messages_fts;
       DELETE FROM messages;
       DELETE FROM notificationProfiles;
+      DELETE FROM pinnedMessages;
       DELETE FROM preKeys;
       DELETE FROM reactions;
       DELETE FROM recentGifs;
