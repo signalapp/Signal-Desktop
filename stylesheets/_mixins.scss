@@ -248,18 +248,6 @@
 }
 
 $rtl-icon-map: (
-  'chevron-left-16.svg': 'chevron-right-16.svg',
-  'chevron-right-16.svg': 'chevron-left-16.svg',
-
-  'chevron-left-20.svg': 'chevron-right-20.svg',
-  'chevron-right-20.svg': 'chevron-left-20.svg',
-
-  'chevron-left-24.svg': 'chevron-right-24.svg',
-  'chevron-right-24.svg': 'chevron-left-24.svg',
-
-  'arrow-left-32.svg': 'arrow-right-32.svg',
-  'arrow-right-32.svg': 'arrow-left-32.svg',
-
   // v3 icons
   'chevron-left.svg': 'chevron-right.svg',
   'chevron-right.svg': 'chevron-left.svg',
@@ -269,11 +257,7 @@ $rtl-icon-map: (
   'chevron-right-compact-bold.svg': 'chevron-left-compact-bold.svg',
   'chevron-right-bold.svg': 'chevron-left-bold.svg',
   'arrow-left.svg': 'arrow-right.svg',
-  'arrow-right.svg': 'arrow-left.svg',
-
-  // Ignored cases:
-  'phone-right-outline-24.svg': '',
-  'phone-right-solid-24.svg': '',
+  'arrow-right.svg': 'arrow-left.svg'
 );
 
 @function get-rtl-svg($svg) {
