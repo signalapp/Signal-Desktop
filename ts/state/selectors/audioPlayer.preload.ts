@@ -8,11 +8,7 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user.std.js';
-import {
-  getMessagePropStatus,
-  getSource,
-  getSourceServiceId,
-} from './message.preload.js';
+import { getSource, getSourceServiceId } from './message.preload.js';
 import {
   getConversationByIdSelector,
   getConversations,
@@ -26,7 +22,7 @@ import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { getMessageIdForLogging } from '../../util/idForLogging.preload.js';
 import * as Attachment from '../../util/Attachment.std.js';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
-import { isPlayed } from '../../util/Attachment.std.js';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
 
 const log = createLogger('audioPlayer');
@@ -81,7 +77,20 @@ export const selectVoiceNoteTitle = createSelector(
 );
 
 export function extractVoiceNoteForPlayback(
-  message: ReadonlyMessageAttributesType,
+  message: Pick<
+    ReadonlyMessageAttributesType,
+    | 'id'
+    | 'type'
+    | 'attachments'
+    | 'isErased'
+    | 'errors'
+    | 'readStatus'
+    | 'sendStateByConversationId'
+    | 'sent_at'
+    | 'received_at'
+    | 'source'
+    | 'sourceServiceId'
+  >,
   ourConversationId: string | undefined
 ): VoiceNoteForPlayback | undefined {
   const { type } = message;
@@ -98,13 +107,12 @@ export function extractVoiceNoteForPlayback(
   const voiceNoteUrl = attachment.path
     ? getLocalAttachmentUrl(attachment)
     : undefined;
-  const status = getMessagePropStatus(message, ourConversationId);
 
   return {
     id: message.id,
     url: voiceNoteUrl,
     type,
-    isPlayed: isPlayed(type, status, message.readStatus),
+    isPlayed: isVoiceMessagePlayed(message, ourConversationId),
     messageIdForLogging: getMessageIdForLogging(message),
     sentAt: message.sent_at,
     receivedAt: message.received_at,

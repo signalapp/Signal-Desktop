@@ -9,6 +9,7 @@ import type { PropsType } from '../../../../state/smart/MediaItem.preload.js';
 import { getSafeDomain } from '../../../../types/LinkPreview.std.js';
 import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.js';
 import { missingCaseError } from '../../../../util/missingCaseError.std.js';
+import { isVoiceMessagePlayed } from '../../../../util/isVoiceMessagePlayed.std.js';
 import { LinkPreviewItem } from '../LinkPreviewItem.dom.js';
 import { MediaGridItem } from '../MediaGridItem.dom.js';
 import { DocumentListItem } from '../DocumentListItem.dom.js';
@@ -31,6 +32,7 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
         <AudioListItem
           i18n={i18n}
           authorTitle="Alice"
+          isPlayed={isVoiceMessagePlayed(mediaItem.message, undefined)}
           mediaItem={mediaItem}
           onClick={onClick}
           onShowMessage={onShowMessage}
@@ -44,6 +46,7 @@ export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
       return (
         <DocumentListItem
           i18n={i18n}
+          authorTitle="Alice"
           mediaItem={mediaItem}
           onClick={onClick}
           onShowMessage={onShowMessage}

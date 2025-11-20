@@ -5368,6 +5368,10 @@ function getSortedMedia(
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
       message_attachments.*,
+      messages.json -> '$.sendStateByConversationId' AS messageSendState,
+      messages.json -> '$.errors' AS messageErrors,
+      messages.isErased AS messageIsErased,
+      messages.readStatus AS messageReadStatus,
       messages.source AS messageSource,
       messages.sourceServiceId AS messageSourceServiceId
     FROM message_attachments
@@ -5399,6 +5403,10 @@ function getSortedMedia(
 
   const results: Array<
     MessageAttachmentDBType & {
+      messageSendState: string | null;
+      messageErrors: string | null;
+      messageIsErased: number | null;
+      messageReadStatus: ReadStatus | null;
       messageSource: string | null;
       messageSourceServiceId: ServiceIdString | null;
     }
@@ -5410,6 +5418,10 @@ function getSortedMedia(
       messageType,
       messageSource,
       messageSourceServiceId,
+      messageSendState,
+      messageErrors,
+      messageIsErased,
+      messageReadStatus,
       sentAt,
       receivedAt,
       receivedAtMs,
@@ -5425,6 +5437,11 @@ function getSortedMedia(
         receivedAt,
         receivedAtMs: receivedAtMs ?? undefined,
         sentAt,
+        sendStateByConversationId:
+          messageSendState == null ? undefined : JSON.parse(messageSendState),
+        errors: messageErrors == null ? undefined : JSON.parse(messageErrors),
+        isErased: messageIsErased === 1,
+        readStatus: messageReadStatus ?? undefined,
       },
       index: orderInMessage,
       attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
@@ -5487,6 +5504,10 @@ function getOlderLinkPreviews(
         receivedAt: message.received_at,
         receivedAtMs: message.received_at_ms ?? undefined,
         sentAt: message.sent_at,
+        errors: message.errors,
+        sendStateByConversationId: message.sendStateByConversationId,
+        readStatus: message.readStatus,
+        isErased: !!message.isErased,
       },
       preview: message.preview[0],
     };

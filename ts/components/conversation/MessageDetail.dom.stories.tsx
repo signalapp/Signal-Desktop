@@ -36,6 +36,7 @@ const defaultMessage: MessageDataPropsType = {
   isSelectMode: false,
   isSMS: false,
   isSpoilerExpanded: {},
+  isVoiceMessagePlayed: false,
   previews: [],
   readStatus: ReadStatus.Read,
   status: 'sent',

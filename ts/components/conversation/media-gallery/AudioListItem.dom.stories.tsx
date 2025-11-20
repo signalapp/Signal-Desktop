@@ -27,6 +27,7 @@ export function Multiple(): JSX.Element {
           i18n={i18n}
           key={index}
           mediaItem={mediaItem}
+          isPlayed={Math.random() > 0.5}
           authorTitle="Alice"
           onClick={action('onClick')}
           onShowMessage={action('onShowMessage')}

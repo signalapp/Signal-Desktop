@@ -5,6 +5,7 @@ import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
+import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { createLogger } from '../../logging/log.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import type {
@@ -109,6 +110,25 @@ function _sortItems<
     'message.sentAt',
     'message.index',
   ]);
+}
+
+function _cleanMessage(
+  message: ReadonlyMessageAttributesType
+): MediaItemMessageType {
+  return {
+    id: message.id,
+    type: message.type,
+    source: message.source,
+    sourceServiceId: message.sourceServiceId,
+    conversationId: message.conversationId,
+    receivedAt: message.received_at,
+    receivedAtMs: message.received_at_ms,
+    sentAt: message.sent_at,
+    isErased: !!message.isErased,
+    errors: message.errors,
+    readStatus: message.readStatus,
+    sendStateByConversationId: message.sendStateByConversationId,
+  };
 }
 
 function _cleanAttachments(
@@ -428,16 +448,7 @@ export function reducer(
       return {
         index,
         attachment,
-        message: {
-          id: message.id,
-          type: message.type,
-          source: message.source,
-          sourceServiceId: message.sourceServiceId,
-          conversationId: message.conversationId,
-          receivedAt: message.received_at,
-          receivedAtMs: message.received_at_ms,
-          sentAt: message.sent_at,
-        },
+        message: _cleanMessage(message),
       };
     });
 
@@ -460,16 +471,7 @@ export function reducer(
         ? [
             {
               preview: message.preview[0],
-              message: {
-                id: message.id,
-                type: message.type,
-                source: message.source,
-                sourceServiceId: message.sourceServiceId,
-                conversationId: message.conversationId,
-                receivedAt: message.received_at,
-                receivedAtMs: message.received_at_ms,
-                sentAt: message.sent_at,
-              },
+              message: _cleanMessage(message),
             },
           ]
         : []

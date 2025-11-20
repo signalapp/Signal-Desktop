@@ -65,6 +65,10 @@ const createMediaItem = (
     // Unused for now
     source: undefined,
     sourceServiceId: undefined,
+    readStatus: undefined,
+    isErased: false,
+    errors: undefined,
+    sendStateByConversationId: undefined,
   },
 });
 

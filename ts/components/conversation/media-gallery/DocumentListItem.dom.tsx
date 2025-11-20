@@ -17,6 +17,7 @@ import { ListItem } from './ListItem.dom.js';
 export type Props = {
   i18n: LocalizerType;
   mediaItem: MediaItemType;
+  authorTitle: string;
   onClick: (status: AttachmentStatusType['state']) => void;
   onShowMessage: () => void;
 };
@@ -24,6 +25,7 @@ export type Props = {
 export function DocumentListItem({
   i18n,
   mediaItem,
+  authorTitle,
   onClick,
   onShowMessage,
 }: Props): JSX.Element {
@@ -50,12 +52,18 @@ export function DocumentListItem({
     </>
   );
 
+  const title = new Array<string>();
+  if (fileName) {
+    title.push(fileName);
+  }
+  title.push(authorTitle);
+
   return (
     <ListItem
       i18n={i18n}
       mediaItem={mediaItem}
       thumbnail={<FileThumbnail {...attachment} />}
-      title={fileName}
+      title={title.join(' · ')}
       subtitle={subtitle}
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}

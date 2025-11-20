@@ -24,8 +24,6 @@ import {
 } from './GoogleChrome.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { ThemeType } from '../types/Util.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import type { MessageStatusType } from '../types/message/MessageStatus.std.js';
 import { isMoreRecentThan } from './timestamp.std.js';
 import { DAY } from './durations/index.std.js';
 import {
@@ -268,17 +266,6 @@ export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
       !attachments[0].isCorrupted &&
       MIME.isAudio(attachments[0].contentType)
   );
-}
-
-export function isPlayed(
-  direction: 'outgoing' | 'incoming',
-  status: MessageStatusType | undefined,
-  readStatus: ReadStatus | undefined
-): boolean {
-  if (direction === 'outgoing') {
-    return status === 'viewed';
-  }
-  return readStatus === ReadStatus.Viewed;
 }
 
 export function canRenderAudio(

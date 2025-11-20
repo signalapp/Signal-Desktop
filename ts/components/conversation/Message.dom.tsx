@@ -70,7 +70,6 @@ import {
   isGIF,
   isImage,
   isImageAttachment,
-  isPlayed,
   isVideo,
 } from '../../util/Attachment.std.js';
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
@@ -250,6 +249,7 @@ export type PropsData = {
   isSelectMode: boolean;
   isSMS: boolean;
   isSpoilerExpanded?: Record<number, boolean>;
+  isVoiceMessagePlayed: boolean;
   canEndPoll?: boolean;
   direction: DirectionType;
   timestamp: number;
@@ -1145,11 +1145,11 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       isSticker,
+      isVoiceMessagePlayed,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       pushPanelForConversation,
       quote,
-      readStatus,
       renderAudioAttachment,
       renderingContext,
       retryMessageSend,
@@ -1282,8 +1282,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (isAttachmentAudio) {
-      const played = isPlayed(direction, status, readStatus);
-
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
@@ -1299,7 +1297,7 @@ export class Message extends React.PureComponent<Props, State> {
         expirationTimestamp,
         id,
         conversationId,
-        played,
+        played: isVoiceMessagePlayed,
         pushPanelForConversation,
         status,
         textPending: textAttachment?.pending,

@@ -286,6 +286,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
+  isVoiceMessagePlayed: false,
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
