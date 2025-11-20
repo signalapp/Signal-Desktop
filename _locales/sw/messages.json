@@ -1098,7 +1098,7 @@
     "messageformat": "Maelezo"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Maliza kupiga kura ya maoni"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Kura ya maoni · Chagua Moja"
@@ -1116,13 +1116,13 @@
     "messageformat": "Umepiga kura"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ulifunga kura ya maoni: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} alifunga kura ya maoni: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Tazama kura ya maoni"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Maelezo ya Kura"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Hakuna kura"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Kura ya maoni haijapatikana"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Kura mpya ya maoni"
@@ -1146,7 +1152,7 @@
     "messageformat": "Swali"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Uliza swali"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Chaguzi"
@@ -1167,10 +1173,10 @@
     "messageformat": "Kura ya maoni inahitaji angalau chaguo 2"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Swali ni refu sana"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Chaguo ni refu sana"
   },
   "icu:deleteConversation": {
     "messageformat": "Futa"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} ame-react kwa kutuma {emoji} kwa: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} alipiga kura ya maoni: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Kutuma kumeshindwa"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Picha, video na faili"
+    "messageformat": "Picha na video, viungo na faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Ongeza maelezo ya kikundi..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chagua ubora wa media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Jina la wasifu"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Chagua umbo"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Kazi"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Kumakinika"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Arifa zinazoruhusiwa"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Arifa zinazoruhusiwa"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Wasifu wako utasawazishwa kwenye vifaa vyako vyote. Unapowasha wasifu wa kifaa kimoja utauwasha kwenye vifaa vingine."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Wasifu mpya"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Futa wasifu"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historia ya uhariri"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Uhariri huu umeshindwa kutumwa. Angalia muunganisho wako wa mtandao kisha ujaribu tena"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Uboreshaji wa kunakili/kubandika unarahisisha kuchagua yote na kubadilisha maandishi yaliyopo bila kurithi uumbizaji wa awali. Asante, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Hii hapa kura ya maoni ya Signal! Je, wewe na marafiki zako mko sawa au mpo mbali kabisa kimtazamo? Kura za maoni ni njia rahisi ya kujua vile gumzo lenu la kikundi hufikiri hasa. Unda kura ya maoni yenye chaguo za chakula cha usiku, maeneo ya likizo, mapendeleo ya muziki kwa safari yenu ya barabarani ijayo au maamuzi mengine yoyote muhimu. Kila mtu kwenye kikundi anaweza kupiga kura na kuona majibu ya wengine na mnaweza kuamua kama mtaruhusu mtu kupiga kura zaidi ya mara moja au la."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

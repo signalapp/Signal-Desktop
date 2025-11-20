@@ -1098,7 +1098,7 @@
     "messageformat": "Məlumat"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Səsverməni bitir"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Səsvermə · Birini seçin"
@@ -1116,13 +1116,13 @@
     "messageformat": "Səs verdiniz"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Səsverməni bitirdiniz: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} səsverməni bitirdi: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Səsverməyə bax"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Səsvermənin təfərrüatları"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Səs yoxdur"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Səsvermə anketi tapılmadı"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Yeni anket səsverməsi"
@@ -1146,7 +1152,7 @@
     "messageformat": "Sual"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Bir sual verin"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Seçimlər"
@@ -1167,10 +1173,10 @@
     "messageformat": "Səsvermə minimum 2 seçim tələb edir"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Sual çox uzundur"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Seçim çox uzundur"
   },
   "icu:deleteConversation": {
     "messageformat": "Sil"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} {emoji} reakiyası verdi: {message} mesajı"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" səsverməsində iştirak etdi"
   },
   "icu:sendFailed": {
     "messageformat": "Göndərilmədi"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media və fayllar"
+    "messageformat": "Media, keçidlər və fayllar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Qrup açıqlaması əlavə edin..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Media keyfiyyətini seçin"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profil adı"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Bir avatar seçin"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "İşdə"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokuslanmış"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "İcazə verilən bildirişlər"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "İcazə verilən bildirişlər"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profilləriniz cihazlarınız arasında sınxronlaşdırılacaq. Bir cihazda profilin açılması, digərlərində də açılmasına səbəb olacaq."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Yeni profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profili sil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redaktə tarixçəsi"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bu redaktəni göndərmək mümkün olmadı. Bağlantınızı yoxlayıb yenidən cəhd edin"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Kopiyala/əlavə et təkmilləşdirmələri köhnə formatdan asılı olmadan bütün mətni seçməyi və mövcud mətni əvəzləməyi asanlaşdırır. Təşəkkürlər, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal səsvermələri buradadır! Dostlarınızla eyni fikirdəsiniz, yoxsa zidd fikirlər də var? Səsvermələr qrup çatlarınızdakı düşüncələri öyrənməyin asan yoludur. Bir-biri ilə yarışan yemək seçimləri, tətil yerləri, növbəti səyahət üçün musiqi seçimləri, yaxud da istənilən başqa vacib seçimlər üçün səsvermə yaradın. Qrupdakı hər kəs səsvermədə iştirak edə və digərlərinin cavablarını görə bilər, sizə isə səs çoxluğunu qəbul edib-etməmək haqqında qərar qalır."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

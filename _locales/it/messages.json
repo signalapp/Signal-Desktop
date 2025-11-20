@@ -1098,7 +1098,7 @@
     "messageformat": "Informazioni"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Termina sondaggio"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Sondaggio · Una risposta"
@@ -1116,13 +1116,13 @@
     "messageformat": "Hai votato"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Hai terminato il sondaggio: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ha terminato il sondaggio: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Vedi sondaggio"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Dettagli del sondaggio"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nessun voto"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Sondaggio non trovato"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nuovo sondaggio"
@@ -1146,7 +1152,7 @@
     "messageformat": "Domanda"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Fai una domanda"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opzioni"
@@ -1167,10 +1173,10 @@
     "messageformat": "Aggiungi almeno 2 opzioni al sondaggio"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "La domanda è troppo lunga"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "L'opzione è troppo lunga"
   },
   "icu:deleteConversation": {
     "messageformat": "Elimina"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} ha reagito con {emoji} a: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ha votato nel sondaggio \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Invio non riuscito"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media e file"
+    "messageformat": "Media, link e file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Aggiungi descrizione gruppo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleziona qualità media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nome profilo"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Seleziona un avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Ufficio"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentrazione"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notifiche permesse"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notifiche permesse"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "I tuoi profili verranno sincronizzati sui tuoi dispositivi. Attivare un profilo per un dispositivo comporterà l'attivazione anche per gli altri."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nuovo profilo"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Elimina profilo"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Cronologia delle modifiche"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Impossibile inviare questa modifica. Controlla la tua connessione e riprova"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Abbiamo migliorato la funzione di copia/incolla per selezionare più facilmente un testo intero e sostituirlo senza applicare in automatico la formattazione esistente. Grazie, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Sono arrivati i sondaggi su Signal! Siete davvero tutti allineati su cosa fare questo sabato sera? Vincerà il sushi o la carbonara? I sondaggi sono il modo più semplice per… beh, fare un sondaggio tra le persone in un gruppo. Creane uno inserendo tutte le opzioni che vuoi e per qualsiasi ragione: una cena fuori, piani per il weekend, vacanze o il fatidico \"cosa facciamo a capodanno\". Chiunque sia nel gruppo potrà votare e vedere i voti delle altre persone. Inoltre, potrai decidere se consentire alle persone di scegliere più opzioni."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

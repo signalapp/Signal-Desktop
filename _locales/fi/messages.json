@@ -1098,7 +1098,7 @@
     "messageformat": "Tietoja"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Lopeta kysely"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Kysely · Valitse yksi"
@@ -1116,13 +1116,13 @@
     "messageformat": "Olet äänestänyt"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Lopetit kyselyn: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} lopetti kyselyn: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Näytä kysely"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Kyselyn tiedot"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ei ääniä"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Kyselyä ei löytynyt"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Uusi kysely"
@@ -1146,7 +1152,7 @@
     "messageformat": "Kysymys"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Kysy kysymys"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Valinnat"
@@ -1167,10 +1173,10 @@
     "messageformat": "Kyselyssä on oltava vähintään kaksi vaihtoehtoa"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Kysymys on liian pitkä"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Vaihtoehto on liian pitkä"
   },
   "icu:deleteConversation": {
     "messageformat": "Poista"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} lähetti reaktion {emoji} viestiin: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} äänesti kyselyssä: ”{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "Lähetys epäonnistui"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media ja tiedostot"
+    "messageformat": "Media, linkit ja tiedostot"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lisää ryhmän kuvaus…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Valitse median laatu"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profiilin nimi"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Valitse avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Työ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Keskittyminen"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Sallitut ilmoitukset"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Sallitut ilmoitukset"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profiilisi synkronoidaan laitteidesi välillä. Profiilin ottaminen käyttöön yhdessä laitteessa ottaa sen käyttöön muissakin laitteissa."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Uusi profiili"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Poista profiili"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Muokkaushistoria"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Muokkausta ei voitu lähettää. Tarkasta verkkoyhteys ja yritä uudelleen"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Parannuksia kopiointiin ja liittämiseen. Kiitos, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signalissa voi nyt tehdä kyselyitä! Kyselyillä saat helposti selville, mitä mieltä ryhmäkeskustelussa aidosti ollaan. Luo kysely, jossa on erilaisia illallisvaihtoehtoja tai muita tärkeitä valintoja. Kaikki ryhmän jäsenet voivat äänestää ja nähdä toistensa vastaukset, ja voitte päättää, sallitteko useita ääniä vai ette."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

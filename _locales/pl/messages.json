@@ -1098,7 +1098,7 @@
     "messageformat": "Informacje"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Zamknij ankietę"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Ankieta · Wybierz jedną opcję"
@@ -1116,13 +1116,13 @@
     "messageformat": "Twój głos"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Zamykasz ankietę: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} zamyka ankietę: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Wyświetl ankietę"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Szczegóły ankiety"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Brak głosów"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Nie znaleziono ankiety"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nowa ankieta"
@@ -1146,7 +1152,7 @@
     "messageformat": "Pytanie"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Zadaj pytanie"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opcje"
@@ -1167,10 +1173,10 @@
     "messageformat": "Ankieta musi zawierać co najmniej 2 opcje"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Pytanie jest za długie"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opcja jest za długa"
   },
   "icu:deleteConversation": {
     "messageformat": "Usuń"
@@ -1983,7 +1989,7 @@
     "messageformat": "{emoji} – {sender} reaguje na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} głosuje w ankiecie „{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "Nie udało się wysłać"
@@ -3045,7 +3051,7 @@
     "messageformat": "Jeśli ktoś, kogo nie znasz, wysyła Ci wiadomości o kryptowalutach (takich jak Bitcoin) lub okazjach finansowych, uważaj – prawdopodobnie jest to spam."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Wiadomości ogólnikowe lub nie na temat"
+    "messageformat": "Wiadomości ogólnikowe lub wyrwane z kontekstu"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "Spamerzy często zaczynają od prostej, angażującej wiadomości, takiej jak „cześć”. Jeśli odpiszesz, mogą Cię wciągnąć w dalszą rozmowę."
@@ -3054,13 +3060,13 @@
     "messageformat": "Wiadomości z linkami"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Uważaj na wiadomości od nieznanych Ci osób zawierające linki do stron internetowych. Nigdy nie otwieraj linków przesłanych przez osoby, do których nie masz zaufania."
+    "messageformat": "Uważaj na wiadomości od nieznajomych, które zawierają linki do stron internetowych. Nigdy nie otwieraj linków przesłanych przez osoby, do których nie masz zaufania."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Fałszywe konta firm i instytucji"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Zachowaj ostrożność, jeśli rzekomo kontaktuje się z Tobą organizacja rządowa lub firma. Wiadomości, których nadawcami mieliby być kurierzy, instytucje podatkowe itd., mogą być spamem."
+    "messageformat": "Zachowaj ostrożność, jeśli rzekomo kontaktuje się z Tobą urząd lub firma. Wiadomości, których nadawcami mieliby być kurierzy, instytucje podatkowe itp., mogą być spamem."
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "Przejdź na stronę {page,number}"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multimedia i pliki"
+    "messageformat": "Multimedia, linki i pliki"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Dodaj opis grupy…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Wybierz jakość multimediów"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nazwa profilu"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Wybierz awatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Praca"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Koncentracja"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Dozwolone powiadomienia"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Dozwolone powiadomienia"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profile będą synchronizowane na wszystkich Twoich urządzeniach. Gdy włączysz profil na jednym z nich, zostanie on włączony także na pozostałych urządzeniach."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nowy profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Usuń profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historia edycji"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Nie udało się wysłać edytowanej wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Ulepszyliśmy funkcje kopiowania i wklejania, aby ułatwić zaznaczanie oraz zastępowanie tekstu bez poprzedniego formatowania. Dzięki, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Przedstawiamy ankiety Signal. Czy w Waszej grupie panuje jednomyślność? Sprawdźmy, jak odpowiadali ankietowani. Ankiety to łatwy sposób na zbadanie nastrojów w czacie grupowym. Spytaj, dokąd Twoi znajomi chcieliby pójść na pizzę bądź wyjechać na długi weekend. Poznaj ich gusta muzyczne lub dowiedz się, czy wakacje wolą spędzić w górach, czy nad morzem. Ankiety pomogą Wam podjąć każdą decyzję. Wszyscy w grupie mogą głosować i wyświetlać odpowiedzi innych, a Ty możesz zdecydować, czy zezwolić na udzielanie wielu odpowiedzi."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

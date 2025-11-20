@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Amaitu galdeketa"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Galdeketa · Hautatu bat"
@@ -1116,13 +1116,13 @@
     "messageformat": "Honen alde bozkatu duzu"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Galdeketa hau amaitu duzu: \"{poll}\""
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} erabiltzaileak galdeketa hau amaitu du: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ikusi galdeketa"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Galdeketaren xehetasunak"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ez dago botorik"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Ez da aurkitu galdeketa"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Galdeketa berria"
@@ -1146,7 +1152,7 @@
     "messageformat": "Galdera"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Egin galdera bat"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Aukerak"
@@ -1167,10 +1173,10 @@
     "messageformat": "Galdeketak gutxienez 2 aukera izan behar ditu"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Galdera luzeegia da"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Aukera luzeegia da"
   },
   "icu:deleteConversation": {
     "messageformat": "Ezabatu"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} erabiltzaileak {emoji} erreakzioa bidali dio honi: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} erabiltzaileak \"{pollQuestion}\" galdeketan bozkatu du"
   },
   "icu:sendFailed": {
     "messageformat": "Bidaltzeak huts egin du"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multimedia-edukia eta fitxategiak"
+    "messageformat": "Multimedia-edukia, estekak eta fitxategiak"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Gehitu taldearen deskribapena…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Hautatu multimedia-edukiaren kalitatea"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profileko izena"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Hautatu abatar bat"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Lana"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Kontzentratu"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Baimendutako jakinarazpenak"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Baimendutako jakinarazpenak"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Zure profilak gailu artean sinkronizatuko dira. Profil bat gailu baterako aktibatzen baduzu, beste gailuetarako ere aktibatuko da."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil berria"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ezabatu profila"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edizio-historia"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ezin izan da bidali aldaketa hau. Egiaztatu konexioa eta saiatu berriro."
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Formatua kopiatu eta itsasteko aukera hobetu dugu. Aupa zu, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Hemen dira Signal-eko galdeketak! Taldeko txatak benetan zer pentsatzen duen jakiteko modu erraza dira galdeketak. Sortu galdeketa bat afaltzeko aukera ezberdinekin, edo bestelako aukera garrantzitsuekin. Taldeko guztiek, bozkatu, eta besteen erantzunak ikusi ahalko dituzte; zuk, aldiz, boto bat baino gehiago eman daitekeen aukeratu ahalko duzu."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

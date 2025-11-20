@@ -1098,7 +1098,7 @@
     "messageformat": "အချက်အလက်"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "စစ်တမ်း အဆုံးသတ်"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "စစ်တမ်း · တစ်ခုရွေးချယ်ပါ"
@@ -1116,13 +1116,13 @@
     "messageformat": "သင်မဲပေးခဲ့သည်"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "သင်သည် \"{poll}\"စစ်တမ်းကို အဆုံးသတ်လိုက်သည်-"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} သည် {poll} စစ်တမ်းကို အဆုံးသတ်ခဲ့သည်-"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "စစ်တမ်းကို ကြည့်ရန်"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "စစ်တမ်းအသေးစိတ်"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "မဲပေးထားခြင်းမရှိပါ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "စစ်တမ်း မတွေ့ပါ"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "စစ်တမ်းအသစ်"
@@ -1146,7 +1152,7 @@
     "messageformat": "မေးခွန်း"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "မေးခွန်းတစ်ခုမေးပါ"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "ရွေးချယ်စရာများ"
@@ -1167,10 +1173,10 @@
     "messageformat": "စစ်တမ်းတွင် အနည်းဆုံး ရွေးချယ်စရာ 2 ခု လိုအပ်သည်"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "မေးခွန်းသည် ရှည်လွန်းပါသည်"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "ရွေးစရာသည် ရှည်လွန်းပါသည်"
   },
   "icu:deleteConversation": {
     "messageformat": "ဖျက်ရန်"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} သည် ဖော်ပြပါကို {emoji} တုံ့ပြန်မှု ပေးခဲ့သည်- {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} သည် \"{pollQuestion}\" စစ်တမ်းတွင် မဲပေးခဲ့သည်"
   },
   "icu:sendFailed": {
     "messageformat": "ပေးပို့ခြင်း မအောင်မြင်ပါ"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "မီဒီယာနှင့် ဖိုင်များ"
+    "messageformat": "မီဒီယာ၊ လင့်ခ်များနှင့် ဖိုင်များ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "အဖွဲ့ ဖော်ပြချက် ပေါင်းထည့်ရန်…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "မီဒီယာ အရည်အသွေး ရွေးချယ်ရန်"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ပရိုဖိုင်း အမည်"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ရုပ်ပုံ ရွေးရန်"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "အလုပ်"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "အာရုံစိုက်ချိန်"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "ခွင့်ပြုထားသော အသိပေးချက်များ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "ခွင့်ပြုထားသော အသိပေးချက်များ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "သင့် ပရိုဖိုင်သည် သင်ချိတ်ထားသော စက်များနှင့် ချိန်ကိုက်ထားပါမည်။ စက်ပစ္စည်းတစ်ခုအတွက် ပရိုဖိုင်ကိုဖွင့်ခြင်းသည် အခြားစက်များတွင်လည်း ၎င်းကိုဖွင့်ပေးမည်ဖြစ်သည်။"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ပရိုဖိုင် အသစ်ပြုလုပ်ရန်"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ပရိုဖိုင်ကို ဖျက်ရန်"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ထိုတည်းဖြတ်မှုကို ပေးပို့၍ မရနိုင်ပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "ကူးယူ/ကူးထည့်ခြင်း ဖော်မတ်ကို မြှင့်တင်ထားပါသည်။ @brianHarder ကို ကျေးဇူးတင်ပါသည်။ ကျေးဇူးပါ <brianHarder></brianHarder>။"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal စစ်တမ်းများ ဤနေရာတွင်ရှိသည်။ စစ်တမ်းများသည် သင့်အဖွဲ့ချက်(တ်)အတွင်း အမှန်တကယ်ထင်မြင်ယူဆချက်ကို သိရန် လွယ်ကူသောနည်းလမ်းတစ်ခုဖြစ်သည်။ ညစာအတွက် မတူညီသောရွေးချယ်စရာများ သို့မဟုတ် အခြားအရေးကြီးသော ရွေးချယ်စရာများဖြင့် စစ်တမ်းတစ်ခုဖန်တီးပါ။ အဖွဲ့ရှိလူတိုင်းသည် မဲပေးနိုင်ပြီး အချင်းချင်း၏ တုံ့ပြန်မှုများကို ကြည့်ရှုနိုင်ကာ တစ်ခုထက်ပိုသော မဲပေးခွင့်ပြုမပြု သင် ဆုံးဖြတ်နိုင်သည်။"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

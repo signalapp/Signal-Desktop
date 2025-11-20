@@ -1098,7 +1098,7 @@
     "messageformat": "מידע"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "סיום סקר"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "סקר · יש לבחור 1"
@@ -1116,13 +1116,13 @@
     "messageformat": "אפשרות שהצבעת לה"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "סיימת את הסקר: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} סיימה את הסקר: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "הצגת סקר"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "פרטי סקר"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "אין הצבעות"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "סקר לא נמצא"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "סקר חדש"
@@ -1146,7 +1152,7 @@
     "messageformat": "שאלה"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "לשאול שאלה"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "אפשרויות"
@@ -1167,10 +1173,10 @@
     "messageformat": "הסקר דורש לפחות 2 אפשרויות"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "השאלה ארוכה מדי"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "האפשרות ארוכה מדי"
   },
   "icu:deleteConversation": {
     "messageformat": "מחיקה"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} הגיב/ה {emoji} ל: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} הצביע/ה בסקר: ״{pollQuestion}״"
   },
   "icu:sendFailed": {
     "messageformat": "שליחה נכשלה"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "מדיה וקבצים"
+    "messageformat": "מדיה, קישורים וקבצים"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "הוסף תיאור קבוצה…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "בחר איכות מדיה"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "שם פרופיל"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "בחר יצגן"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "עבודה"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "מיקוד"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "התראות מותרות"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "התראות מותרות"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "הפרופילים שלך יסונכרנו בין המכשירים שלך. הפעלת פרופיל עבור מכשיר אחד תפעיל אותו עבור האחרים."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "פרופיל חדש"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "מחיקת פרופיל"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "היסטוריית עריכות"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "לא הצלחנו לשלוח את העריכה. כדאי לבדוק את החיבור שלך ולנסות שוב"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "שיפרנו את פעולות ההעתק הדבק וההדבקה, כך שקל יותר לסמן את כל הטקסט ולהחליף אותו בלי שהעיצוב הישן יעבור יחד איתו. תודה, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "הסקרים של Signal הגיעו! סקרים הם דרך קלה לראות מה חברי הצ׳אט הקבוצתי שלך באמת חושבים. אפשר ליצור סקר עם אפשרויות לארוחת ערב או כל בחירה חשובה אחרת. כל מי שבקבוצה יכול להצביע ולראות את התשובות של האחרים, ויש לך אפשרות להחליט אם לאפשר הצבעה לכמה אפשרויות שונות או לא."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

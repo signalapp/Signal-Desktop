@@ -1098,7 +1098,7 @@
     "messageformat": "معلومات"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "إنهاء الاستطلاع"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "استطلاع · اختر خيارًا واحدًا"
@@ -1116,13 +1116,13 @@
     "messageformat": "قُمتَ بالتصويت"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "أنهيتَ الاستطلاع: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} أنهى الاستطلاع: \"{poll}\""
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "عرض الاستطلاع"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "تفاصيل الاستطلاع"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "لا أصوات"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "لم يتم العثور على الاستطلاع"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "استطلاع جديد"
@@ -1146,7 +1152,7 @@
     "messageformat": "سؤال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "اطرَح سؤالًا"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "الخيارات"
@@ -1167,10 +1173,10 @@
     "messageformat": "يتطلب الاستطلاع خيارين على الأقل"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "السؤال طويل جدًا"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "الخيار طويل جدًا"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف"
@@ -1983,7 +1989,7 @@
     "messageformat": "تفاعَلَ {sender} مع الرسالة {message} باستخدام {emoji}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} صوّت في الاستطلاع: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "فشل الإرسال"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ملفات الوسائط والملفات"
+    "messageformat": "ملفات الوسائط والروابط والملفات"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "إضافة وصف للمجموعة…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "تحديد جودة الوسائط"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "اسم الحساب الشخصي"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "اختر صورة رمزية"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "العمل"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فترة التركيز"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "الإشعارات المسموح بها"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "الإشعارات المسموح بها"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ستتم مزامنة ملفاتك الشخصية عبر أجهزتك. تفعيل ملف شخصي لِجهاز ما سَيؤدي إلى تفعيله بالنسبة للأجهزة الأخرى."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ملف إشعارات جديد"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "حذف ملف الإشعارات"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "سجل التعديلات"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "تعذَّر إرسال هذا التعديل. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "تحسينات النسخ/اللصق تُسهِّل تحديد النص بالكامل واستبداله دون اكتساب التنسيق القديم. شكرًا، <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "• استطلاعات سيجنال قد بدأت! هل أنت وأصدقاؤك متفقون تمامًا أم أن كلًا منكم له رأي مختلف؟ الاستطلاعات طريقة سهلة لِمعرفة رأي مجموعة الدردشة التي أنت جزءٌ منها. أنشِئ استطلاعًا يتضمن خيارات مختلفة للعشاء، أو وجهات للسفر، أو تفضيلات موسيقية لرحلة قادمة، أو أي اختيارات مهمة أخرى. يمكن للجميع في الدردشة الجماعية التصويت ورؤية أجوبة الآخرين، ويمكنك اختيار ما إذا كُنتَ تريد السماح بتصويتات متعددة أم لا."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }
