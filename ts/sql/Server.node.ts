@@ -3334,16 +3334,32 @@ export function _storyIdPredicate(
   storyId: string | undefined,
   includeStoryReplies: boolean
 ): QueryFragment {
+  return _storyIdPredicateAndInfo(storyId, includeStoryReplies).predicate;
+}
+
+function _storyIdPredicateAndInfo(
+  storyId: string | undefined,
+  includeStoryReplies: boolean
+): {
+  predicate: QueryFragment;
+  isFilteringOnStoryId: boolean;
+} {
   // This is unintuitive, but 'including story replies' means that we need replies to
   //   lots of different stories. So, we remove the storyId check with a clause that will
   //   always be true. We don't just return TRUE because we want to use our passed-in
   //   $storyId parameter.
   if (includeStoryReplies && storyId === undefined) {
-    return sqlFragment`NULL IS NULL`;
+    return {
+      predicate: sqlFragment`NULL IS NULL`,
+      isFilteringOnStoryId: false,
+    };
   }
 
   // In contrast to: replies to a specific story
-  return sqlFragment`storyId IS ${storyId ?? null}`;
+  return {
+    predicate: sqlFragment`storyId IS ${storyId ?? null}`,
+    isFilteringOnStoryId: true,
+  };
 }
 
 function getUnreadByConversationAndMarkRead(
@@ -3367,6 +3383,9 @@ function getUnreadByConversationAndMarkRead(
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
 
+    const { predicate: storyReplyFilter, isFilteringOnStoryId } =
+      _storyIdPredicateAndInfo(storyId, includeStoryReplies);
+
     const updateExpirationFragment = sqlFragment`
       UPDATE messages
       INDEXED BY messages_conversationId_expirationStartTimestamp
@@ -3374,7 +3393,7 @@ function getUnreadByConversationAndMarkRead(
         expirationStartTimestamp = ${expirationStartTimestamp}
       WHERE
         conversationId = ${conversationId} AND
-        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+        ${storyReplyFilter} AND
         type IN ('incoming', 'poll-terminate') AND
         hasExpireTimer IS 1 AND 
         received_at <= ${readMessageReceivedAt}
@@ -3403,56 +3422,68 @@ function getUnreadByConversationAndMarkRead(
       updateLateExpirationStartParams
     );
 
+    const indexToUse = isFilteringOnStoryId
+      ? sqlFragment`messages_unseen_with_story`
+      : sqlFragment`messages_unseen_no_story`;
+
     const [selectQuery, selectParams] = sql`
       SELECT
-        ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+        id, readStatus, expirationStartTimestamp, sent_at, source, sourceServiceId, type
         FROM messages
+        INDEXED BY ${indexToUse}
         WHERE
           conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+          ${storyReplyFilter} AND
           received_at <= ${readMessageReceivedAt}
         ORDER BY received_at DESC, sent_at DESC;
     `;
 
     const rows = db
       .prepare(selectQuery)
-      .all<MessageTypeUnhydrated>(selectParams);
-
-    const statusJsonPatch = JSON.stringify({
-      readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Seen,
-    });
+      .all<
+        Pick<
+          MessageTypeUnhydrated,
+          | 'id'
+          | 'readStatus'
+          | 'expirationStartTimestamp'
+          | 'sent_at'
+          | 'source'
+          | 'sourceServiceId'
+          | 'type'
+        >
+      >(selectParams);
 
     const [updateStatusQuery, updateStatusParams] = sql`
       UPDATE messages
+        INDEXED BY ${indexToUse}
         SET
           readStatus = ${ReadStatus.Read},
-          seenStatus = ${SeenStatus.Seen},
-          json = json_patch(json, ${statusJsonPatch})
+          seenStatus = ${SeenStatus.Seen}
         WHERE
           conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+          ${storyReplyFilter} AND
           received_at <= ${readMessageReceivedAt};
-    `;
+       `;
 
     db.prepare(updateStatusQuery).run(updateStatusParams);
-    return hydrateMessages(db, rows).map(msg => {
+    return rows.map(msg => {
       return {
-        originalReadStatus: msg.readStatus,
+        originalReadStatus:
+          msg.readStatus == null ? undefined : (msg.readStatus as ReadStatus),
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
-        ...pick(msg, [
-          'expirationStartTimestamp',
-          'id',
-          'sent_at',
-          'source',
-          'sourceServiceId',
-          'type',
-        ]),
+        id: msg.id,
+        expirationStartTimestamp: dropNull(msg.expirationStartTimestamp),
+        sent_at: msg.sent_at || 0,
+        source: dropNull(msg.source),
+        sourceServiceId: dropNull(msg.sourceServiceId) as
+          | ServiceIdString
+          | undefined,
+        type: msg.type as MessageType['type'],
       };
     });
   })();
