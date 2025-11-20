@@ -9,7 +9,11 @@ import type { AttachmentType } from '../types/Attachment.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import type { MessagePropsType } from '../state/selectors/message.preload.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { Message, TextDirection } from './conversation/Message.dom.js';
+import {
+  Message,
+  MessageInteractivity,
+  TextDirection,
+} from './conversation/Message.dom.js';
 import { Modal } from './Modal.dom.js';
 import { WidthBreakpoint } from './_util.std.js';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
@@ -132,6 +136,7 @@ export function EditHistoryMessagesModal({
           displayLimit={displayLimitById[currentMessageId]}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          interactivity={MessageInteractivity.Static}
           isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
@@ -204,6 +209,7 @@ export function EditHistoryMessagesModal({
                 {...MESSAGE_DEFAULT_PROPS}
                 {...messageAttributes}
                 id={syntheticId}
+                interactivity={MessageInteractivity.Static}
                 containerElementRef={containerElementRef}
                 displayLimit={displayLimitById[syntheticId]}
                 getPreferredBadge={getPreferredBadge}

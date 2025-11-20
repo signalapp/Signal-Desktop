@@ -47,6 +47,10 @@ export function getConversationTitleForPanelType(
     return i18n('icu:ConversationDetails--notifications');
   }
 
+  if (panelType === PanelType.PinnedMessages) {
+    return i18n('icu:PinnedMessagesPanel__Title');
+  }
+
   if (panelType === PanelType.StickerManager) {
     return '';
   }

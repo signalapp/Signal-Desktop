@@ -1678,6 +1678,10 @@
     "messageformat": "See all messages",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > See all messages"
   },
+  "icu:PinnedMessagesPanel__Title": {
+    "messageformat": "Pinned messages",
+    "description": "Conversation > Pinned messages panel (view all) > Title"
+  },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."

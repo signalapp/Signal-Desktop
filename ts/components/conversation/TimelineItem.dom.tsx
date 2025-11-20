@@ -67,6 +67,7 @@ import {
   type MessageRequestResponseNotificationData,
 } from './MessageRequestResponseNotification.dom.js';
 import type { MessageRequestState } from './MessageRequestActionsConfirmation.dom.js';
+import type { MessageInteractivity } from './Message.dom.js';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -200,6 +201,7 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
+  interactivity: MessageInteractivity;
   isBlocked: boolean;
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
@@ -242,6 +244,7 @@ export const TimelineItem = memo(function TimelineItem({
   getPreferredBadge,
   i18n,
   id,
+  interactivity,
   isBlocked,
   isGroup,
   isNextItemCallingNotification,
@@ -281,6 +284,7 @@ export const TimelineItem = memo(function TimelineItem({
       <TimelineMessage
         {...reducedProps}
         {...item.data}
+        interactivity={interactivity}
         isTargeted={isTargeted}
         targetMessage={targetMessage}
         setMessageToEdit={setMessageToEdit}

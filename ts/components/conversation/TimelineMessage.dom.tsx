@@ -13,7 +13,7 @@ import type { LocalizerType } from '../../types/I18N.std.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
 import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
 import { WidthBreakpoint } from '../_util.std.js';
-import { Message } from './Message.dom.js';
+import { Message, MessageInteractivity } from './Message.dom.js';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
 import type {
   Props as MessageProps,
@@ -114,6 +114,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     direction,
     i18n,
     id,
+    interactivity,
     isTargeted,
     kickOffAttachmentDownload,
     copyMessageText,
@@ -257,6 +258,8 @@ export function TimelineMessage(props: Props): JSX.Element {
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
 
+  const canSelect = interactivity === MessageInteractivity.Normal;
+
   const handleDownload = canDownload ? openGenericAttachment : null;
 
   const handleReplyToMessage = useCallback(() => {
@@ -317,7 +320,11 @@ export function TimelineMessage(props: Props): JSX.Element {
             canRetryDeleteForEveryone ? () => retryDeleteForEveryone(id) : null
           }
           onCopy={canCopy ? () => copyMessageText(id) : null}
-          onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
+          onSelect={
+            canSelect
+              ? () => toggleSelectMessage(conversationId, id, false, true)
+              : null
+          }
           onForward={
             canForward
               ? () =>
@@ -350,6 +357,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       canEditMessage,
       canForward,
       canRetry,
+      canSelect,
       canEndPoll,
       canRetryDeleteForEveryone,
       conversationId,

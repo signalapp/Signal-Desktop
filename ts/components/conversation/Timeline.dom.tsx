@@ -49,6 +49,7 @@ import {
   createScrollerLock,
   ScrollerLockContext,
 } from '../../hooks/useScrollLock.dom.js';
+import { MessageInteractivity } from './Message.dom.js';
 
 const { first, get, isNumber, last, throttle } = lodash;
 
@@ -132,6 +133,7 @@ type PropsHousekeepingType = {
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
+    interactivity: MessageInteractivity;
     isBlocked: boolean;
     isGroup: boolean;
     isOldestTimelineItem: boolean;
@@ -1069,6 +1071,7 @@ export class Timeline extends React.Component<
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
               isBlocked,
+              interactivity: MessageInteractivity.Normal,
               isGroup,
               isOldestTimelineItem: haveOldest && itemIndex === 0,
               messageId,

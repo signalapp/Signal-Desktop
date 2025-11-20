@@ -14,7 +14,7 @@ import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
 } from './Message.dom.js';
-import { Message } from './Message.dom.js';
+import { Message, MessageInteractivity } from './Message.dom.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
@@ -351,6 +351,7 @@ export function MessageDetail({
             endPoll={endPoll}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
+            interactivity={MessageInteractivity.Static}
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}

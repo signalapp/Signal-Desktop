@@ -39,11 +39,13 @@ import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
 import { renderReactionPicker } from './renderReactionPicker.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
+import type { MessageInteractivity } from '../../components/conversation/Message.dom.js';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
+  interactivity: MessageInteractivity;
   isBlocked: boolean;
   isGroup: boolean;
   isOldestTimelineItem: boolean;
@@ -67,6 +69,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
+    interactivity,
     isBlocked,
     isGroup,
     isOldestTimelineItem,
@@ -209,6 +212,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       shouldRenderDateHeader={shouldRenderDateHeader}
       showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
+      interactivity={interactivity}
       interactionMode={interactionMode}
       isBlocked={isBlocked}
       isGroup={isGroup}

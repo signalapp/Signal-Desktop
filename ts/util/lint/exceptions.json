@@ -1952,6 +1952,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/pinned-messages/PinnedMessagesPanel.dom.tsx",
+    "line": "  const containerElementRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-11-20T18:33:59.075Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/fun/FunGif.dom.tsx",
     "line": "  const ref = useRef<HTMLVideoElement>(null);",
     "reasonCategory": "usageTrusted",

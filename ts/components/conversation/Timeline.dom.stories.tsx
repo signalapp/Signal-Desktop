@@ -19,7 +19,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import type { WidthBreakpoint } from '../_util.std.js';
 import { ThemeType } from '../../types/Util.std.js';
-import { TextDirection } from './Message.dom.js';
+import { MessageInteractivity, TextDirection } from './Message.dom.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage.dom.js';
 import { CollidingAvatars } from '../CollidingAvatars.dom.js';
@@ -373,6 +373,7 @@ const renderItem = ({
     isBlocked={false}
     isGroup={false}
     i18n={i18n}
+    interactivity={MessageInteractivity.Normal}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
     theme={ThemeType.light}

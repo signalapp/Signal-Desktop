@@ -10,7 +10,7 @@ import { ConversationColors } from '../../types/Colors.std.js';
 import { pngUrl } from '../../storybook/Fixtures.std.js';
 import type { Props as TimelineMessagesProps } from './TimelineMessage.dom.js';
 import { TimelineMessage } from './TimelineMessage.dom.js';
-import { TextDirection } from './Message.dom.js';
+import { MessageInteractivity, TextDirection } from './Message.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -101,6 +101,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   platform: 'darwin',
   id: 'messageId',
   // renderingContext: 'storybook',
+  interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,

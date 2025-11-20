@@ -76,6 +76,7 @@ import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { canReply, isNormalBubble } from '../selectors/message.preload.js';
 import { getAuthorId } from '../../messages/sources.preload.js';
 import {
+  getActivePanel,
   getConversationSelector,
   getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
@@ -833,6 +834,13 @@ export function setQuoteByMessageId(
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('setQuoteByMessageId: No conversation found');
+    }
+
+    const activePanel = getActivePanel(getState());
+    if (activePanel != null && messageId != null) {
+      // Reset the conversation panels and scroll to the message
+      // in case we're inside of a conversation panel like pinned messages
+      dispatch(scrollToMessage(conversationId, messageId));
     }
 
     const draftEditMessage = conversation.get('draftEditMessage');

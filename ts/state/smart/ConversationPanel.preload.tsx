@@ -37,6 +37,7 @@ import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -381,6 +382,10 @@ function PanelElement({
     );
   }
 
+  if (panel.type === PanelType.PinnedMessages) {
+    return <SmartPinnedMessagesPanel conversationId={conversationId} />;
+  }
+
   if (panel.type === PanelType.StickerManager) {
     return <SmartStickerManager />;
   }
@@ -399,6 +404,7 @@ function getPanelKey(panel: PanelRenderType): string {
     case PanelType.GroupPermissions:
     case PanelType.GroupV1Members:
     case PanelType.NotificationSettings:
+    case PanelType.PinnedMessages:
     case PanelType.StickerManager:
       return panel.type;
     case PanelType.MessageDetails:

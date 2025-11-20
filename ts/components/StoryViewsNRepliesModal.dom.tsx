@@ -22,7 +22,11 @@ import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { CompositionInput } from './CompositionInput.dom.js';
 import { ContactName } from './conversation/ContactName.dom.js';
 import { Emojify } from './conversation/Emojify.dom.js';
-import { Message, TextDirection } from './conversation/Message.dom.js';
+import {
+  Message,
+  MessageInteractivity,
+  TextDirection,
+} from './conversation/Message.dom.js';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
 import { Modal } from './Modal.dom.js';
 import { ReactionPicker } from './conversation/ReactionPicker.dom.js';
@@ -673,6 +677,7 @@ function ReplyOrReactionMessage({
         i18n={i18n}
         platform={platform}
         id={reply.id}
+        interactivity={MessageInteractivity.Normal}
         interactionMode="mouse"
         isSpoilerExpanded={isSpoilerExpanded}
         isVoiceMessagePlayed={false}

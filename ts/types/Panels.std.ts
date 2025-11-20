@@ -16,6 +16,7 @@ export enum PanelType {
   GroupV1Members = 'GroupV1Members',
   MessageDetails = 'MessageDetails',
   NotificationSettings = 'NotificationSettings',
+  PinnedMessages = 'PinnedMessages',
   StickerManager = 'StickerManager',
 }
 
@@ -35,6 +36,7 @@ export type PanelRequestType = ReadonlyDeep<
   | { type: PanelType.GroupV1Members }
   | { type: PanelType.MessageDetails; args: { messageId: string } }
   | { type: PanelType.NotificationSettings }
+  | { type: PanelType.PinnedMessages }
   | { type: PanelType.StickerManager }
 >;
 
@@ -57,5 +59,6 @@ export type PanelRenderType = ReadonlyDeep<
       args: { message: ReadonlyMessageAttributesType };
     }
   | { type: PanelType.NotificationSettings }
+  | { type: PanelType.PinnedMessages }
   | { type: PanelType.StickerManager }
 >;

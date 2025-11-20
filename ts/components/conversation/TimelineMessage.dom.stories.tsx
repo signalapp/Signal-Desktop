@@ -12,7 +12,7 @@ import { ConversationColors } from '../../types/Colors.std.js';
 import type { AudioAttachmentProps } from './Message.dom.js';
 import type { Props } from './TimelineMessage.dom.js';
 import { TimelineMessage } from './TimelineMessage.dom.js';
-import { TextDirection } from './Message.dom.js';
+import { MessageInteractivity, TextDirection } from './Message.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -265,6 +265,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   platform: 'darwin',
   id: overrideProps.id ?? 'random-message-id',
   // renderingContext: 'storybook',
+  interactivity: MessageInteractivity.Normal,
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker

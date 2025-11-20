@@ -15,6 +15,7 @@ import { WidthBreakpoint } from '../_util.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import { ErrorBoundary } from './ErrorBoundary.dom.js';
+import { MessageInteractivity } from './Message.dom.js';
 
 const { i18n } = window.SignalContext;
 
@@ -43,6 +44,7 @@ const getDefaultProps = () => ({
   isTargeted: false,
   isBlocked: false,
   isGroup: false,
+  interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
   platform: 'darwin',

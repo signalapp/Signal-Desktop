@@ -168,6 +168,15 @@ const TextDirectionToDirAttribute = {
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = (typeof Directions)[number];
 
+export enum MessageInteractivity {
+  /** Enable all interactions for message type */
+  Normal = 'Normal',
+  /** Disable all interactions for message type */
+  Static = 'Static',
+  /** Enable some interactions for embedded messages (ex: PinnedMessagesPanel) */
+  Embed = 'Embed',
+}
+
 export type AudioAttachmentProps = {
   renderingContext: string;
   i18n: LocalizerType;
@@ -344,6 +353,7 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  interactivity: MessageInteractivity;
   interactionMode: InteractionModeType;
   platform: string;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
@@ -3297,6 +3307,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       i18n,
+      interactivity,
       isSticker,
       isSelected,
       isSelectMode,
@@ -3352,6 +3363,10 @@ export class Message extends React.PureComponent<Props, State> {
         // prevent other click handlers from firing.
         onClickCapture: event => {
           if (isMacOS ? event.metaKey : event.ctrlKey) {
+            if (interactivity !== MessageInteractivity.Normal) {
+              return;
+            }
+
             if (this.#hasSelectedTextRef.current) {
               return;
             }

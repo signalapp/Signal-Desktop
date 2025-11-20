@@ -63,6 +63,9 @@ import {
   getTooltipContent,
 } from '../InAnotherCallTooltip.dom.js';
 import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import { isInternalFeaturesEnabled } from '../../../util/isInternalFeaturesEnabled.dom.js';
+import { tw } from '../../../axo/tw.dom.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -723,6 +726,23 @@ export function ConversationDetails({
               }
             />
           )}
+        </PanelSection>
+      )}
+      {isInternalFeaturesEnabled() && (
+        <PanelSection title="Internal">
+          <PanelRow
+            onClick={() =>
+              pushPanelForConversation({
+                type: PanelType.PinnedMessages,
+              })
+            }
+            icon={
+              <div className={tw('flex size-8 items-center justify-center')}>
+                <AxoSymbol.Icon symbol="pin" size={20} label={null} />
+              </div>
+            }
+            label="View all pinned messages"
+          />
         </PanelSection>
       )}
       {isGroup && (

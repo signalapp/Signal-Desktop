@@ -58,6 +58,7 @@ function renderItem({
   containerElementRef,
   containerWidthBreakpoint,
   conversationId,
+  interactivity,
   isBlocked,
   isGroup,
   isOldestTimelineItem,
@@ -71,6 +72,7 @@ function renderItem({
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
+      interactivity={interactivity}
       isBlocked={isBlocked}
       isGroup={isGroup}
       isOldestTimelineItem={isOldestTimelineItem}

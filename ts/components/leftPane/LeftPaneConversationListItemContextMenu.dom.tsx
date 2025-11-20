@@ -6,12 +6,6 @@ import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import { isConversationUnread } from '../../util/isConversationUnread.std.js';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../../environment.std.js';
-import { isAlpha } from '../../util/version.std.js';
 import { drop } from '../../util/drop.std.js';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
 import { getMuteOptions } from '../../util/getMuteOptions.std.js';
@@ -29,28 +23,7 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { UserText } from '../UserText.dom.js';
 import { isConversationMuted } from '../../util/isConversationMuted.std.js';
-
-function isEnabled() {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    isMockEnvironment()
-  ) {
-    return true;
-  }
-
-  const version = window.getVersion?.();
-
-  if (version != null) {
-    if (isAlpha(version)) {
-      return true;
-    }
-  }
-
-  return false;
-}
+import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
 
 export type ChatFolderToggleChat = (
   chatFolderId: ChatFolderId,
@@ -281,7 +254,7 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
             >
               {i18n('icu:deleteConversation')}
             </AxoContextMenu.Item>
-            {isEnabled() && (
+            {isInternalFeaturesEnabled() && (
               <>
                 <AxoContextMenu.Separator />
                 <AxoContextMenu.Group>

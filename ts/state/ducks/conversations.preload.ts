@@ -95,6 +95,7 @@ import {
   getMessagesByConversation,
   getPendingAvatarDownloadSelector,
   getAllConversations,
+  getActivePanel,
 } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import type {
@@ -2100,6 +2101,13 @@ function setMessageToEdit(
         },
       });
       return;
+    }
+
+    const activePanel = getActivePanel(getState());
+    if (activePanel != null) {
+      // Reset the conversation panels and scroll to the message
+      // in case we're inside of a conversation panel like pinned messages
+      dispatch(scrollToMessage(conversationId, messageId));
     }
 
     setQuoteByMessageId(conversationId, undefined)(
