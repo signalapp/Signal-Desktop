@@ -86,6 +86,7 @@ import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessage
 import { JobCancelReason } from './types.std.js';
 import { isAbortError } from '../util/isAbortError.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { calculateExpirationTimestamp } from '../util/expirationTimer.std.js';
 
 const { noop, omit, throttle } = lodash;
 
@@ -541,6 +542,8 @@ export async function runDownloadAttachmentJob({
       maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
       maxTextAttachmentSizeInKib: options.maxTextAttachmentSizeInKib,
       dependencies,
+      messageExpiresAt:
+        calculateExpirationTimestamp(message.attributes) ?? null,
     });
 
     if (result.downloadedVariant === AttachmentVariant.ThumbnailFromBackup) {
@@ -714,10 +717,12 @@ export async function runDownloadAttachmentJobInner({
   maxAttachmentSizeInKib,
   maxTextAttachmentSizeInKib,
   hasMediaBackups,
+  messageExpiresAt,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
   dependencies: Omit<DependenciesType, 'runDownloadAttachmentJobInner'>;
+  messageExpiresAt: number | null;
 } & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
@@ -778,6 +783,7 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         dependencies,
         logId,
+        messageExpiresAt,
       });
       await addAttachmentToMessage(
         messageId,
@@ -847,6 +853,7 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         hasMediaBackups,
         logId,
+        messageExpiresAt,
       },
     });
 
@@ -924,6 +931,7 @@ export async function runDownloadAttachmentJobInner({
           abortSignal,
           dependencies,
           logId,
+          messageExpiresAt,
         });
 
         await addAttachmentToMessage(
@@ -981,10 +989,12 @@ async function downloadBackupThumbnail({
   abortSignal,
   logId,
   dependencies,
+  messageExpiresAt,
 }: {
   attachment: AttachmentType;
   abortSignal: AbortSignal;
   logId: string;
+  messageExpiresAt: number | null;
   dependencies: {
     downloadAttachment: typeof downloadAttachmentUtil;
   };
@@ -995,6 +1005,7 @@ async function downloadBackupThumbnail({
       onSizeUpdate: noop,
       variant: AttachmentVariant.ThumbnailFromBackup,
       abortSignal,
+      messageExpiresAt,
       hasMediaBackups: true,
       logId,
     },

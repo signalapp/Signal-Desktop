@@ -3,6 +3,7 @@
 import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   hasRequiredInformationForRemoteBackup,
+  hasRequiredInformationToDownloadFromTransitTier,
   wasImportedFromLocalBackup,
 } from './Attachment.std.js';
 import {
@@ -24,6 +25,7 @@ import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
 import * as RemoteConfig from '../RemoteConfig.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
 import { isAbortError } from './isAbortError.std.js';
+import { expiresTooSoonForBackup } from '../services/backups/util/expiration.std.js';
 
 const log = createLogger('downloadAttachment');
 
@@ -35,6 +37,7 @@ export async function downloadAttachment({
     abortSignal,
     hasMediaBackups,
     logId: _logId,
+    messageExpiresAt,
   },
   dependencies = {
     downloadAttachmentFromServer: doDownloadAttachment,
@@ -48,6 +51,7 @@ export async function downloadAttachment({
     abortSignal: AbortSignal;
     hasMediaBackups: boolean;
     logId: string;
+    messageExpiresAt: number | null;
   };
   dependencies?: {
     downloadAttachmentFromServer: typeof doDownloadAttachment;
@@ -61,7 +65,11 @@ export async function downloadAttachment({
   const isBackupable = hasRequiredInformationForRemoteBackup(attachment);
 
   const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
-  const mightBeOnBackupTierInTheFuture = isBackupable;
+  const mightBeExpiredFromBackupTier = expiresTooSoonForBackup({
+    messageExpiresAt,
+  });
+  const mightBeOnBackupTierInTheFuture =
+    isBackupable && !mightBeExpiredFromBackupTier;
 
   if (wasImportedFromLocalBackup(attachment)) {
     log.info(`${logId}: Downloading attachment from local backup`);
@@ -109,9 +117,13 @@ export async function downloadAttachment({
       }
 
       const shouldFallbackToTransitTier =
-        variant !== AttachmentVariant.ThumbnailFromBackup;
+        variant !== AttachmentVariant.ThumbnailFromBackup &&
+        hasRequiredInformationToDownloadFromTransitTier(attachment);
 
-      if (RemoteConfig.isEnabled('desktop.internalUser')) {
+      if (
+        RemoteConfig.isEnabled('desktop.internalUser') &&
+        !mightBeExpiredFromBackupTier
+      ) {
         window.reduxActions.toast.showToast({
           toastType: ToastType.UnableToDownloadFromBackupTier,
         });
@@ -124,6 +136,12 @@ export async function downloadAttachment({
           `${logId}: attachment not found on backup CDN`,
           shouldFallbackToTransitTier ? 'will try transit tier' : ''
         );
+
+        if (!mightBeOnBackupTierInTheFuture && !shouldFallbackToTransitTier) {
+          throw new AttachmentPermanentlyUndownloadableError(
+            `HTTP ${error.code}`
+          );
+        }
       } else {
         // We also just log this error instead of throwing, since we want to still try to
         // find it on the attachment tier.
