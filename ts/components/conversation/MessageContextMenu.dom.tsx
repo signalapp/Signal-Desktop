@@ -5,12 +5,6 @@ import React, { type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 
-export type ContextMenuTriggerType = {
-  handleContextClick: (
-    event: React.MouseEvent<HTMLDivElement> | MouseEvent
-  ) => void;
-};
-
 type MessageContextMenuProps = Readonly<{
   i18n: LocalizerType;
   renderer: AxoMenuBuilder.Renderer;

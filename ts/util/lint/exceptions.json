@@ -1853,13 +1853,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/TimelineMessage.dom.tsx",
-    "line": "  const menuTriggerRef = useRef<ContextMenuTriggerType | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-12-08T20:28:57.595Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/conversation/TypingBubble.dom.tsx",
     "line": "  const prevTypingContactIds = React.useRef<",
     "reasonCategory": "usageTrusted",

@@ -3,14 +3,8 @@
 
 import classNames from 'classnames';
 import lodash from 'lodash';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import type { ReactNode, Ref } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
@@ -39,10 +33,7 @@ import type {
   ForwardMessagesPayload,
 } from '../../state/ducks/globalModals.preload.js';
 import { useScrollerLock } from '../../hooks/useScrollLock.dom.js';
-import {
-  type ContextMenuTriggerType,
-  MessageContextMenu,
-} from './MessageContextMenu.dom.js';
+import { MessageContextMenu } from './MessageContextMenu.dom.js';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
@@ -107,7 +98,6 @@ export type Props = PropsData &
 export function TimelineMessage(props: Props): JSX.Element {
   const {
     attachments,
-    author,
     canDownload,
     canCopy,
     canEditMessage,
@@ -148,7 +138,6 @@ export function TimelineMessage(props: Props): JSX.Element {
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
     HTMLDivElement | undefined
   >(undefined);
-  const menuTriggerRef = useRef<ContextMenuTriggerType | null>(null);
 
   const isWindowWidthNotNarrow =
     containerWidthBreakpoint !== WidthBreakpoint.Narrow;
@@ -169,10 +158,6 @@ export function TimelineMessage(props: Props): JSX.Element {
         },
       };
     }, [containerElementRef]);
-
-  // This id is what connects our triple-dot click with our associated pop-up menu.
-  //   It needs to be unique.
-  const triggerId = String(id || `${author.id}-${timestamp}`);
 
   const toggleReactionPicker = useCallback(
     (onlyRemove = false): void => {
@@ -388,10 +373,8 @@ export function TimelineMessage(props: Props): JSX.Element {
       <Manager>
         <MessageMenu
           i18n={i18n}
-          triggerId={triggerId}
           isWindowWidthNotNarrow={isWindowWidthNotNarrow}
           direction={direction}
-          menuTriggerRef={menuTriggerRef}
           onDownload={handleDownload}
           onReplyToMessage={canReply ? handleReplyToMessage : undefined}
           onReact={canReact ? handleReact : undefined}
@@ -429,10 +412,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     );
   }, [
     i18n,
-    triggerId,
     isWindowWidthNotNarrow,
     direction,
-    menuTriggerRef,
     canReply,
     canReact,
     handleDownload,
@@ -468,9 +449,7 @@ export function TimelineMessage(props: Props): JSX.Element {
 
 type MessageMenuProps = {
   i18n: LocalizerType;
-  triggerId: string;
   isWindowWidthNotNarrow: boolean;
-  menuTriggerRef: Ref<ContextMenuTriggerType>;
   onDownload: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
   onReact: (() => void) | undefined;
@@ -579,21 +558,33 @@ function MessageMenu({
           )}
         </>
       )}
-      {renderMessageContextMenu(
-        'AxoDropdownMenu',
-        <button
-          type="button"
-          aria-label={i18n('icu:messageContextMenuButton')}
-          className={classNames(
-            'module-message__buttons__menu',
-            `module-message__buttons__download--${direction}`
-          )}
-          onDoubleClick={ev => {
-            // Prevent double click from triggering the replyToMessage action
-            ev.stopPropagation();
-          }}
-        />
-      )}
+      <Reference>
+        {({ ref: popperRef }) => {
+          // Only attach the popper reference to the collapsed menu button if
+          //   the reaction button is not visible (it is hidden when the
+          //   timeline is narrow)
+          const maybePopperRef = !isWindowWidthNotNarrow
+            ? popperRef
+            : undefined;
+
+          return renderMessageContextMenu(
+            'AxoDropdownMenu',
+            <button
+              ref={maybePopperRef}
+              type="button"
+              aria-label={i18n('icu:messageContextMenuButton')}
+              className={classNames(
+                'module-message__buttons__menu',
+                `module-message__buttons__download--${direction}`
+              )}
+              onDoubleClick={ev => {
+                // Prevent double click from triggering the replyToMessage action
+                ev.stopPropagation();
+              }}
+            />
+          );
+        }}
+      </Reference>
     </div>
   );
 }
