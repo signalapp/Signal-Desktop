@@ -75,7 +75,7 @@ export function AttachmentSection({
     case 'media':
       return (
         <section className={tw('ps-5')}>
-          <h2 className={tw('ps-1 pt-4 pb-2 font-semibold')}>{header}</h2>
+          <h2 className={tw('ps-1 pt-4 pb-2 type-body-medium')}>{header}</h2>
           <div className={tw('flex flex-row flex-wrap gap-1 pb-1')}>
             {verified.entries.map(mediaItem => {
               return (
@@ -94,8 +94,8 @@ export function AttachmentSection({
     case 'audio':
     case 'link':
       return (
-        <section className={tw('mb-3 border-b-border-primary px-6 pb-3')}>
-          <h2 className={tw('pt-1.5 pb-2 font-semibold')}>{header}</h2>
+        <section className={tw('mx-4 mb-3 border-b-border-primary px-2 pb-3')}>
+          <h2 className={tw('pt-1.5 pb-2 type-body-medium')}>{header}</h2>
           <div>
             {verified.entries.map(mediaItem => {
               return (
