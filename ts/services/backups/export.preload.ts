@@ -179,6 +179,7 @@ import {
 import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { ChatFolderType } from '../../types/ChatFolder.std.js';
+import { expiresTooSoonForBackup } from './util/expiration.std.js';
 
 const { isNumber } = lodash;
 
@@ -1353,8 +1354,9 @@ export class BackupExportStream extends Readable {
     }
 
     const expirationTimestamp = calculateExpirationTimestamp(message);
-    if (expirationTimestamp != null && expirationTimestamp <= this.#now + DAY) {
-      // Message expires too soon
+    if (
+      expiresTooSoonForBackup({ messageExpiresAt: expirationTimestamp ?? null })
+    ) {
       return undefined;
     }
 

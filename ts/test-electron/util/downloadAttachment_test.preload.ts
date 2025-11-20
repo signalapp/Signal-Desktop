@@ -22,6 +22,7 @@ import { toHex, toBase64 } from '../../Bytes.std.js';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
 import { getRandomBytes } from '../../Crypto.node.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { DAY, HOUR } from '../../util/durations/constants.std.js';
 
 const { noop } = lodash;
 
@@ -56,6 +57,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        messageExpiresAt: null,
         logId: '',
       },
       dependencies: {
@@ -89,6 +91,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          messageExpiresAt: Date.now() + 2 * DAY,
           logId: '',
         },
         dependencies: {
@@ -111,6 +114,60 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
+  it('throw permanently missing error if attachment fails with 404 and expiring from backup tier', async () => {
+    const stubDownload = sinon
+      .stub()
+      .throws(new HTTPError('not found', { code: 404, headers: {} }));
+
+    const attachment = backupableAttachment;
+    await assert.isRejected(
+      downloadAttachment({
+        attachment,
+        options: {
+          hasMediaBackups: true,
+          onSizeUpdate: noop,
+          abortSignal: abortController.signal,
+          messageExpiresAt: Date.now() + HOUR,
+          logId: '',
+        },
+        dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
+          downloadAttachmentFromServer: stubDownload,
+        },
+      }),
+      AttachmentPermanentlyUndownloadableError
+    );
+
+    assert.equal(stubDownload.callCount, 2);
+  });
+
+  it('throw permanently missing error if attachment fails with 404 and expiring from backup tier, if no transit tier info', async () => {
+    const stubDownload = sinon
+      .stub()
+      .throws(new HTTPError('not found', { code: 404, headers: {} }));
+
+    const attachment = { ...backupableAttachment, cdnKey: undefined };
+    await assert.isRejected(
+      downloadAttachment({
+        attachment,
+        options: {
+          hasMediaBackups: true,
+          onSizeUpdate: noop,
+          abortSignal: abortController.signal,
+          messageExpiresAt: Date.now() + HOUR,
+          logId: '',
+        },
+        dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
+          downloadAttachmentFromServer: stubDownload,
+        },
+      }),
+      AttachmentPermanentlyUndownloadableError
+    );
+
+    assert.equal(stubDownload.callCount, 1);
+  });
+
   it('throw permanently missing error if attachment fails with 403 from cdn 0 and no backup information', async () => {
     const stubDownload = sinon
       .stub()
@@ -125,6 +182,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          messageExpiresAt: null,
           logId: '',
         },
         dependencies: {
@@ -162,6 +220,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          messageExpiresAt: null,
           logId: '',
         },
         dependencies: {
@@ -182,6 +241,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        messageExpiresAt: null,
         logId: '',
       },
       dependencies: {
@@ -214,6 +274,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        messageExpiresAt: null,
         logId: '',
       },
       dependencies: {
@@ -258,6 +319,7 @@ describe('utils/downloadAttachment', () => {
         hasMediaBackups: true,
         onSizeUpdate: noop,
         abortSignal: abortController.signal,
+        messageExpiresAt: null,
         logId: '',
       },
       dependencies: {
@@ -300,6 +362,7 @@ describe('utils/downloadAttachment', () => {
           hasMediaBackups: true,
           onSizeUpdate: noop,
           abortSignal: abortController.signal,
+          messageExpiresAt: null,
           logId: '',
         },
         dependencies: {

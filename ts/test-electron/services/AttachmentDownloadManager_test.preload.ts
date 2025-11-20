@@ -907,6 +907,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -946,6 +947,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1002,6 +1004,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1040,6 +1043,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1079,6 +1083,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1116,6 +1121,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         abortSignal: abortController.signal,
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1172,6 +1178,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           abortSignal: abortController.signal,
           maxAttachmentSizeInKib: 100 * MEBIBYTE,
           maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+          messageExpiresAt: null,
           dependencies: {
             deleteAttachmentData,
             deleteDownloadData,

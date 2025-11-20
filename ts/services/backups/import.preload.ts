@@ -166,6 +166,7 @@ import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaD
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.js';
+import { expiresTooSoonForBackup } from './util/expiration.std.js';
 
 const { isNumber } = lodash;
 
@@ -690,11 +691,16 @@ export class BackupImportStream extends Writable {
         const conversation = this.#conversations.get(attributes.conversationId);
         if (conversation && isConversationAccepted(conversation)) {
           const model = new MessageModel(attributes);
+          const attachmentsAreLikelyExpired = expiresTooSoonForBackup({
+            messageExpiresAt: calculateExpirationTimestamp(attributes) ?? null,
+          });
+
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
-              source: this.#isMediaEnabledBackup()
-                ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
-                : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
+              source:
+                this.#isMediaEnabledBackup() && !attachmentsAreLikelyExpired
+                  ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+                  : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
               isManualDownload: false,
             })
           );
