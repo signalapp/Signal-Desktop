@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Avsluta omröstning"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Omröstning · Välj ett"
@@ -1116,13 +1116,13 @@
     "messageformat": "Du röstade"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Du avslutade omröstningen: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} avslutade omröstningen: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Visa omröstning"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Omröstningsdetaljer"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Inga röster"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Omröstningen hittades inte"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Ny omröstning"
@@ -1146,7 +1152,7 @@
     "messageformat": "Fråga"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Ställ en fråga"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Alternativ"
@@ -1167,10 +1173,10 @@
     "messageformat": "Omröstning kräver minst två alternativ"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Frågan är för lång"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Alternativet är för långt"
   },
   "icu:deleteConversation": {
     "messageformat": "Ta bort"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} reagerade {emoji} på: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} röstade i omröstningen: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Att skicka meddelandet misslyckades"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media och filer"
+    "messageformat": "Media, länkar och filer"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lägg till gruppbeskrivning …"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Välj mediekvalitet"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilnamn"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Välj en avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Arbete"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Tillåtna aviseringar"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Tillåtna aviseringar"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Dina profiler kommer att synkroniseras mellan dina enheter. Om du aktiverar en profil för en enhet aktiveras den även för de andra."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Ny profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ta bort profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redigeringshistorik"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Denna redigering kunde inte skickas. Kontrollera din anslutning och försök igen"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Förbättringar av formateringen vid kopiering och inklistring. Tack, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal-omröstningar är här! Omröstningar är ett enkelt sätt att se vad din gruppchatt verkligen tycker. Skapa en omröstning med olika middagsalternativ eller andra viktiga val. Alla i gruppen kan rösta och se varandras svar, och du kan bestämma om du vill tillåta flera röster eller inte."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

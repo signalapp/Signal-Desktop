@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Umfrage beenden"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Umfrage · Eine Option auswählen"
@@ -1116,13 +1116,13 @@
     "messageformat": "Du hast abgestimmt"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Du hast die Umfrage »{poll}« beendet"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} hat die Umfrage »{poll}« beendet"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Umfrage ansehen"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Umfragedetails"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Keine Stimmen"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Umfrage konnte nicht gefunden werden"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Neue Umfrage"
@@ -1146,7 +1152,7 @@
     "messageformat": "Frage"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Eine Frage stellen"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Optionen"
@@ -1167,10 +1173,10 @@
     "messageformat": "Eine Umfrage erfordert mindestens zwei Auswahlmöglichkeiten"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Die Frage ist zu lang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Die Option ist zu lang"
   },
   "icu:deleteConversation": {
     "messageformat": "Löschen"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} hat mit {emoji} reagiert auf: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} hat an der Umfrage »{pollQuestion}« teilgenommen"
   },
   "icu:sendFailed": {
     "messageformat": "Senden gescheitert"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Medien und Dateien"
+    "messageformat": "Medien, Links und Dateien"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Gruppenbeschreibung hinzufügen …"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Medienqualität auswählen"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilname"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Wähle ein Profilbild"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Arbeit"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Konzentration"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Erlaubte Benachrichtigungen"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Erlaubte Benachrichtigungen"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Deine Profile werden auf allen Geräten synchronisiert. Wenn du ein Profil auf einem Gerät aktivierst, wird es für die anderen auch aktiviert."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Neues Profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profil löschen"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Bearbeitungsverlauf"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bearbeitete Nachricht konnte nicht versendet werden. Überprüfe deine Internetverbindung und versuche es erneut."
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Dank der Verbesserungen beim Kopieren und Einfügen kannst du den gesamten Text jetzt einfacher markieren und ersetzen, ohne die alte Formatierung zu übernehmen. Danke, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "• Auf Signal gibt's jetzt Umfragen! Seid ihr euch einig oder habt ihr total unterschiedliche Meinungen? Mit Umfragen kannst du ganz einfach herausfinden, was dein Gruppenchat wirklich denkt. Erstelle eine Umfrage mit verschiedenen Essensoptionen, Reisezielen, Musikwünschen für den nächsten Kurztrip oder zu einer anderen wichtigen Entscheidung. Alle Mitglieder der Gruppe können abstimmen und die Antworten der anderen sehen. Du kannst auch festlegen, ob mehrere Antworten möglich sind oder nicht."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

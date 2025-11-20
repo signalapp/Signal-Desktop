@@ -1098,7 +1098,7 @@
     "messageformat": "Detalles"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Finalizar encuesta"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Encuesta · Elige una opción"
@@ -1116,13 +1116,13 @@
     "messageformat": "Tu voto"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Has finalizado la encuesta \"{poll}\""
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ha finalizado la encuesta \"{poll}\""
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Ver encuesta"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detalles de la encuesta"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Sin votos"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "No se ha encontrado la encuesta"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nueva encuesta"
@@ -1146,7 +1152,7 @@
     "messageformat": "Pregunta"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Escribe aquí tu pregunta"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opciones"
@@ -1167,10 +1173,10 @@
     "messageformat": "Incluye al menos 2 opciones en la encuesta"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "La pregunta es demasiado larga"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "La opción es demasiado larga"
   },
   "icu:deleteConversation": {
     "messageformat": "Eliminar"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} ha reaccionado con {emoji} a \"{message}\""
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ha votado en la encuesta \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "No enviado"
@@ -2859,7 +2865,7 @@
     "messageformat": "Reenviar mensajes seleccionados"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "Añadir una nueva línea al mensaje"
+    "messageformat": "Añadir nueva línea al mensaje"
   },
   "icu:Keyboard--expand-composer": {
     "messageformat": "Expandir campo de escritura"
@@ -2949,10 +2955,10 @@
     "messageformat": "Spoiler"
   },
   "icu:Keyboard--scroll-to-top": {
-    "messageformat": "Desplazarse al inicio de la lista"
+    "messageformat": "Desplazarse hacia arriba en el chat"
   },
   "icu:Keyboard--scroll-to-bottom": {
-    "messageformat": "Desplazarse al final de la lista"
+    "messageformat": "Desplazarse al final del chat"
   },
   "icu:Keyboard--close-curent-conversation": {
     "messageformat": "Cerrar chat actual"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Archivos multimedia y documentos"
+    "messageformat": "Archivos multimedia, enlaces y documentos"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Añadir descripción del grupo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccionar calidad de fotos y vídeos"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nombre de perfil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Selecciona una imagen"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "En el trabajo"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "No molestar"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notificaciones permitidas"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notificaciones permitidas"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Tus perfiles se sincronizarán en todos tus dispositivos. Si activas un perfil en un dispositivo, se activará en todos los demás."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nuevo perfil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Eliminar perfil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historial de cambios"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "No se ha podido enviar este mensaje editado. Comprueba tu conexión e inténtalo de nuevo."
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "También hemos mejorado la función de copiar y pegar: ahora puedes seleccionar y reemplazar texto sin preocuparte por heredar el formato anterior. ¡Gracias, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "¡Llegaron las encuestas de Signal! ¿Tu grupo va alineado o se vuelve \"en-cuesta arriba\" llegar a un acuerdo? Las encuestas son una forma sencilla de ver qué prefiere cada persona del grupo. Crea una encuesta con distintas opciones para decidir qué cenar, a dónde ir de vacaciones, qué lista de reproducción poner en el próximo viaje o cualquier otra decisión importante. Todas las personas del grupo pueden votar y ver las respuestas, y podrás decidir si se permite votar por más de una opción."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

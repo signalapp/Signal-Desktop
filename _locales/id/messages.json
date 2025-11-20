@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Akhiri polling"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Polling · Pilih satu"
@@ -1116,13 +1116,13 @@
     "messageformat": "Anda menjawab"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Anda mengakhiri polling: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} mengakhiri polling: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Lihat polling"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Detail polling"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Belum ada suara"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Polling tidak ditemukan"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Polling baru"
@@ -1146,7 +1152,7 @@
     "messageformat": "Pertanyaan"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tulis pertanyaan"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opsi"
@@ -1167,10 +1173,10 @@
     "messageformat": "Harus ada minimal 2 opsi untuk polling"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Pertanyaan terlalu panjang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Opsi terlalu panjang"
   },
   "icu:deleteConversation": {
     "messageformat": "Hapus"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} menanggapi {emoji} pada: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} menjawab polling \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Pengiriman gagal"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} anggota}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media dan file"
+    "messageformat": "Media, tautan, dan file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} anggota}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Tambahkan deskripsi grup…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualitas media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nama profil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pilih avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Kerja"
   },
@@ -5449,9 +5494,6 @@
   },
   "icu:NotificationProfiles--allowed-title": {
     "messageformat": "Notifikasi diizinkan"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Notifikasi Diizinkan"
   },
   "icu:NotificationProfiles--allowed-description": {
     "messageformat": "Tambahkan orang dan grup yang ingin diterima notifikasinya saat profil ini aktif"
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profil akan disinkronkan di semua perangkat Anda. Jika sebuah profil diaktifkan di satu perangkat, profil tersebut juga akan diaktifkan di perangkat lain."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil baru"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Hapus profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Riwayat pengeditan"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Editan ini tidak dapat dikirim. Periksa koneksi Anda dan coba lagi"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Pengalaman salin/tempel makin mudah. Kini Anda dapat memilih semua teks dan mengganti teks yang ada tanpa menyamakan pemformatannya juga. Terima kasih, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Fitur polling telah tersedia di Signal! Ingin tahu apakah Anda dan teman Anda punya pendapat sama atau berbeda? Polling adalah cara mudah untuk mengadakan jajak pendapat di chat grup. Misalnya, Anda bisa membuat polling untuk opsi makan malam, destinasi wisata, preferensi musik untuk rencana road trip, atau berbagai pilihan penting lainnya. Semua orang di grup dapat memilih dan melihat tanggapan satu sama lain. Anda juga dapat menentukan apakah anggota bisa memilih beberapa opsi atau satu opsi saja."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

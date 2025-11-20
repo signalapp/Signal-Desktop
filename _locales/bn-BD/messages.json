@@ -1098,7 +1098,7 @@
     "messageformat": "তথ্য"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "ভোটগ্রহণ কার্যক্রমটি শেষ করুন"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "জরিপ · একটি বেছে নিন"
@@ -1116,13 +1116,13 @@
     "messageformat": "আপনি ভোট দিয়েছেন"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "আপনি জরিপটি শেষ করেছেন: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} জরিপটি শেষ করেছেন: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "জরিপ দেখুন"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "ভোটের বিস্তারিত"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "কোনো ভোট নেই"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "জরিপ পাওয়া যায়নি"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "নতুন ভোট"
@@ -1146,7 +1152,7 @@
     "messageformat": "প্রশ্ন"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "একটি প্রশ্ন জিজ্ঞাসা করুন"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "অপশন"
@@ -1167,10 +1173,10 @@
     "messageformat": "জরিপটির জন্য অন্তত 2টি বিকল্প প্রয়োজন"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "প্রশ্নটি অনেক বড়"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "অপশনটি অনেক বড়"
   },
   "icu:deleteConversation": {
     "messageformat": "মুছে ফেলুন"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} {emoji} রিঅ্যাক্ট করেছেন: {message}-এ"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" জরিপে ভোট দিয়েছেন"
   },
   "icu:sendFailed": {
     "messageformat": "পাঠাতে ব্যর্থ হয়েছে"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "মিডিয়া ও ফাইল"
+    "messageformat": "মিডিয়া, লিংক ও ফাইল"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "গ্রুপের বিবরণ যোগ করুন…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "মিডিয়ার মান নির্বাচন করুন"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "প্রোফাইল নাম"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "একটি অবতার নির্বাচন করুন"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "কর্মক্ষেত্র"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ফোকাস"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "অনুমোদিত নোটিফিকেশন"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "অনুমোদিত নোটিফিকেশন"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "আপনার প্রোফাইলগুলো আপনার সকল ডিভাইসে সিঙ্ক করা হবে। একটি ডিভাইসের জন্য প্রোফাইল চালু করলে অন্য ডিভাইসগুলোতেও এটি চালু হয়ে যাবে।"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "নতুন প্রোফাইল"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "প্রোফাইল মুছে ফেলুন"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "এডিট করার ইতিহাস"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "এই এডিটটি পাঠানো যায়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "কপি/পেস্ট ফরম্যাটিং উন্নত করা হয়েছে। ধন্যবাদ, <brianHarder>@brianHarder</brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "চলে এলো Signal জরিপ! আপনার গ্রুপ চ্যাটের বন্ধুরা আসলে কী ভাবছেন তা বোঝার জন্য জরিপ একটি সহজ উপায়। একসাথে ডিনার করার জন্য নানাবিধ অপশন বা অন্য কোনো গুরুত্বপূর্ণ সিদ্ধান্তকে কেন্দ্র করে একটি জরিপ তৈরি করুন। এর মাধ্যমে গ্রুপের প্রত্যেকে ভোট দিতে পারবেন এবং একে অপরের প্রতিক্রিয়া দেখতে পারবেন এবং আপনি একাধিক ভোট দেওয়ার অনুমতি দেবেন কিনা সেই সিদ্ধান্ত নিতে পারবেন।"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

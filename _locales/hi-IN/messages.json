@@ -1098,7 +1098,7 @@
     "messageformat": "जानकारी"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "पोल समाप्त करें"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "पोल · कोई एक चुनें"
@@ -1116,13 +1116,13 @@
     "messageformat": "आपने वोट दिया है"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "आपने यह पोल समाप्त कर दिया है: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ने यह पोल समाप्त कर दिया है: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "पोल देखें"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "पोल का विवरण"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "कोई वोट नहीं मिला"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "पोल नहीं मिला"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "नया पोल"
@@ -1146,7 +1152,7 @@
     "messageformat": "सवाल"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "कोई सवाल पूछें"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "विकल्प"
@@ -1167,10 +1173,10 @@
     "messageformat": "पोल में कम से कम 2 विकल्प देना ज़रूरी है"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "सवाल बहुत लंबा है"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "विकल्प बहुत लंबा है"
   },
   "icu:deleteConversation": {
     "messageformat": "डिलीट करें"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} ने {message} पर {emoji} रिएक्ट किया"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} ने इस पोल में वोट दिया है: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "भेजा नहीं जा सका"
@@ -2364,7 +2370,7 @@
     "messageformat": "फ़ाइल"
   },
   "icu:message--getNotificationText--stickers": {
-    "messageformat": "स्टिकर मेसेज"
+    "messageformat": "स्टिकर मैसेज"
   },
   "icu:message--getNotificationText--poll": {
     "messageformat": "पोल: {pollQuestion}"
@@ -2376,22 +2382,22 @@
     "messageformat": "{emoji} {text}"
   },
   "icu:message--getDescription--unsupported-message": {
-    "messageformat": "असमर्थित मेसेज"
+    "messageformat": "इस वर्ज़न पर यह मैसेज काम नहीं करता"
   },
   "icu:message--getDescription--disappearing-media": {
-    "messageformat": "एक बार देखने योग्य मीडिया"
+    "messageformat": "सिर्फ़ एक बार देखे जा सकने वाला मीडिया"
   },
   "icu:message--getDescription--disappearing-photo": {
-    "messageformat": "एक बार देखने योग्य फ़ोटो"
+    "messageformat": "सिर्फ़ एक बार देखी जा सकने वाली फ़ोटो"
   },
   "icu:message--getDescription--disappearing-video": {
-    "messageformat": "एक बार देखने योग्य वीडियो"
+    "messageformat": "सिर्फ़ एक बार देखा जा सकने वाला वीडियो"
   },
   "icu:message--getDescription--gif": {
     "messageformat": "GIF"
   },
   "icu:message--deletedForEveryone": {
-    "messageformat": "यह मेसेज डिलीट कर दिया गया है।"
+    "messageformat": "यह मैसेज डिलीट कर दिया गया है।"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "अटैचमेंट प्रदर्शित करने के लिहाज से बहुत बड़ा है।"
@@ -2436,10 +2442,10 @@
     "messageformat": "दान"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {{days,number} दिन शेष} other {{days,number} दिन शेष}}"
+    "messageformat": "{days, plural, one {{days,number} दिन बचा है} other {{days,number} दिन बचे हैं}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {{hours,number} घंटे शेष} other {{hours,number} घंटे शेष}}"
+    "messageformat": "{hours, plural, one {{hours,number} घंटा बचा है} other {{hours,number} घंटे बचे हैं}}"
   },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {{minutes,number} मिनट शेष} other {{minutes,number} मिनट सहेश हैं}}"
@@ -2466,43 +2472,43 @@
     "messageformat": "आपने {name} की ओर से Signal को एक दान दिया है। उन्हें अपना सहयोग अपनी प्रोफ़ाइल पर दर्शाने का विकल्प दिया जाएगा।"
   },
   "icu:stickers--toast--InstallFailed": {
-    "messageformat": "स्टीकर पैक इंस्टॉल नहीं हो पाया"
+    "messageformat": "स्टिकर पैक इंस्टॉल नहीं हो सका"
   },
   "icu:stickers--StickerManager--Available": {
-    "messageformat": "उपलब्ध"
+    "messageformat": "उपलब्ध है"
   },
   "icu:stickers--StickerManager--InstalledPacks": {
     "messageformat": "इंस्टॉल किया गया"
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
-    "messageformat": "कोई स्टीकर इंस्टॉल नहीं है"
+    "messageformat": "कोई स्टिकर इंस्टॉल नहीं है"
   },
   "icu:stickers--StickerManager--BlessedPacks": {
-    "messageformat": "Signal की कलाकार श्रृंखला से"
+    "messageformat": "Signal की आर्टिस्ट सीरीज़"
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
-    "messageformat": "Signal कलाकार स्टिकर उपलब्ध नहीं हैं"
+    "messageformat": "Signal की आर्टिस्ट सीरीज़ का कोई स्टिकर उपलब्ध नहीं है"
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "आपको प्राप्त स्टीकर"
+    "messageformat": "आपको मिले स्टिकर"
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "आने वाले मेसेजों के स्टिकर यहां दिखाई देंगे"
+    "messageformat": "आने वाले मैसेज से स्टिकर यहां दिखेंगे"
   },
   "icu:stickers--StickerManager--Install": {
     "messageformat": "इंस्टॉल करें"
   },
   "icu:stickers--StickerManager--Uninstall": {
-    "messageformat": "अनइंस्टॉल"
+    "messageformat": "अनइंस्टॉल करें"
   },
   "icu:stickers--StickerManager--UninstallWarning": {
-    "messageformat": "अगर आपके पास मूल संदेश नहीं है तो शायद आप स्टिकर पैक पुनः स्थापित ना कर पाएँ"
+    "messageformat": "अगर आपके पास मूल मैसेज नहीं है, तो आपके पास इस स्टिकर पैक को दोबारा इंस्टॉल करने का विकल्प नहीं होगा।"
   },
   "icu:stickers--StickerPreview--Title": {
-    "messageformat": "स्टीकर पैक"
+    "messageformat": "स्टिकर पैक"
   },
   "icu:stickers--StickerPreview--Error": {
-    "messageformat": "स्टिकर पैक खोलने में गलती हुई है। कृपया अपना इंटरनेट कनेक्शन जांच लें और फिर कोशिश करें।"
+    "messageformat": "स्टिकर पैक खोलने में कोई गड़बड़ी हुई। अपना इंटरनेट कनेक्शन देख लें और दोबारा कोशिश करें।"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "इमोजी"
@@ -2736,16 +2742,16 @@
     "messageformat": "ज्यादा प्रदर्शित करने के लिए संदेश बहुत लंबा है"
   },
   "icu:Message--unsupported-message": {
-    "messageformat": "{contact} ने एक मेसेज भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।"
+    "messageformat": "{contact} ने आपको एक मैसेज भेजा है, जिसे दिखाया या प्रोसेस नहीं किया जा सकता क्योंकि इसमें Signal की एक नई सुविधा का इस्तेमाल किया गया है।"
   },
   "icu:Message--unsupported-message-ask-to-resend": {
-    "messageformat": "आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, अब आप {contact} को यह मेसेज फिर से भेजने के लिये कह सकते हैं।"
+    "messageformat": "{contact} से कहें कि वह दोबारा यह मैसेज भेजें, क्योंकि आपने अब Signal का वर्ज़न अप-टू-डेट कर लिया है।"
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "आपके किसी डिवाइस ने एक मेसेज भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।"
+    "messageformat": "आपके किसी डिवाइस से ऐसा मैसेज भेजा गया है जिसे दिखाया या प्रोसेस नहीं जा सकता, क्योंकि उसमें Signal की एक नई सुविधा का इस्तेमाल किया गया है।"
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
-    "messageformat": "अब जब आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, आपके आगे के मेसेज सिंक्रनाइज़ कर दिये जाएँगे"
+    "messageformat": "आपके आगे के मैसेज सिंक्रनाइज़ हो जाएंगे, क्योंकि आपने अब Signal का वर्ज़न अप-टू-डेट कर लिया है।"
   },
   "icu:Message--update-signal": {
     "messageformat": "Signal अपडेट करें"
@@ -2757,7 +2763,7 @@
     "messageformat": "एक बार मीडिया देखें"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
-    "messageformat": "आपने यह मेसेज पहले ही देख लिया है"
+    "messageformat": "आपने यह मैसेज पहले ही देख लिया है।"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "एक बार देखें संदेश आपके चैट इतिहास में संगृहीत नहीं होते हैं।"
@@ -2775,16 +2781,16 @@
     "messageformat": "(अटैचमेंट)"
   },
   "icu:Conversation--getDraftPreview--quote": {
-    "messageformat": "(क्वोट)"
+    "messageformat": "(कोट)"
   },
   "icu:Conversation--getDraftPreview--draft": {
-    "messageformat": "(ड्राफ्ट)"
+    "messageformat": "(ड्राफ़्ट)"
   },
   "icu:Keyboard--focus-most-recent-message": {
     "messageformat": "सबसे पुराने अपठित या अंतिम संदेश पर ध्यान दें"
   },
   "icu:Keyboard--navigate-by-section": {
-    "messageformat": "अनुभाग के हिसाब से नेविगेट करें"
+    "messageformat": "सेक्शन के हिसाब से नैविगेट करें"
   },
   "icu:Keyboard--previous-conversation": {
     "messageformat": "पिछली चैट"
@@ -2799,7 +2805,7 @@
     "messageformat": "अगली अपठित चैट"
   },
   "icu:Keyboard--preferences": {
-    "messageformat": "पसंदगी"
+    "messageformat": "प्राथमिकताएं"
   },
   "icu:Keyboard--open-conversation-menu": {
     "messageformat": "चैट मेन्यू खोलें"
@@ -2814,67 +2820,67 @@
     "messageformat": "चैट को असंग्रहीत करें"
   },
   "icu:Keyboard--search": {
-    "messageformat": "सर्च"
+    "messageformat": "खोजें"
   },
   "icu:Keyboard--search-in-conversation": {
     "messageformat": "चैट में खोजें"
   },
   "icu:Keyboard--focus-composer": {
-    "messageformat": "कंपोज़र पर फ़ोकस करें"
+    "messageformat": "कंपोज़र दिखाएं"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "सारी मीडिया व्यू खोलें"
+    "messageformat": "सभी मीडिया देखें"
   },
   "icu:Keyboard--open-emoji-chooser": {
-    "messageformat": "इमोजी चुनने वाला खोलें"
+    "messageformat": "इमोजी चुनें"
   },
   "icu:Keyboard--open-sticker-chooser": {
-    "messageformat": "स्टिकर चुनने वाला खोलें"
+    "messageformat": "स्टिकर चुनें"
   },
   "icu:Keyboard--open-gif-chooser": {
     "messageformat": "GIF चुनने वाला खोलें"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "वॉयस मेसेज रिकॉर्ड करना शुरु करें"
+    "messageformat": "वॉइस नोट रिकॉर्ड करना शुरू करें"
   },
   "icu:Keyboard--default-message-action": {
-    "messageformat": "चुने गये मेसेज के लिये डिफ़ॉल्ट क्रिया"
+    "messageformat": "चुने गए मैसेज के लिए डिफ़ॉल्ट ऐक्शन"
   },
   "icu:Keyboard--view-details-for-selected-message": {
-    "messageformat": "चुने हुए मेसेजों की माहिती देखें"
+    "messageformat": "चुने गए मैसेज का ब्योरा देखें"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "चुने हुए मेसेज के जवाब को टॉगल करें"
+    "messageformat": "चुने गए मैसेज का जवाब टॉगल करें"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "चुने हुए मेसेज के लिए इमोजी-प्रतिक्रिया पिकर को टॉगल करें"
+    "messageformat": "चुने गए मैसेज के लिए इमोजी रिएक्शन टॉगल करें"
   },
   "icu:Keyboard--save-attachment": {
-    "messageformat": "चुने हुए मेसेज का अटैचमेंट सहेजें"
+    "messageformat": "चुने गए मैसेज में मौजूद अटैचमेंट सेव करें"
   },
   "icu:Keyboard--delete-messages": {
-    "messageformat": "चुने हुए संदेशों को डिलीट करें"
+    "messageformat": "चुने गए मैसेज डिलीट करें"
   },
   "icu:Keyboard--forward-messages": {
     "messageformat": "चुने हुए संदेशों को फ़ॉरवर्ड करें"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "मेसेज में नयी पंक्ति जोङें"
+    "messageformat": "मैसेज में नई पंक्ति जोड़ें"
   },
   "icu:Keyboard--expand-composer": {
-    "messageformat": "कंपोज़र विस्तृत करें"
+    "messageformat": "कंपोज़र बड़ा करें"
   },
   "icu:Keyboard--send-in-expanded-composer": {
-    "messageformat": "भेजें (विस्तृत कंपोज़र से)"
+    "messageformat": "भेजें (बड़े कंपोज़र में)"
   },
   "icu:Keyboard--attach-file": {
     "messageformat": "फ़ाइल अटैच करें"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "ड्राफ्ट लिंक प्रिव्यु हटाएँ"
+    "messageformat": "ड्राफ़्ट लिंक का प्रीव्यू हटाएं"
   },
   "icu:Keyboard--remove-draft-attachments": {
-    "messageformat": "सारे ड्राफ्ट अटैचमेंट हटाएँ"
+    "messageformat": "सभी ड्राफ़्ट अटैचमेंट हटाएं"
   },
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "चैट पर जाएँ"
@@ -2886,7 +2892,7 @@
     "messageformat": "Ctrl"
   },
   "icu:Keyboard--Key--option": {
-    "messageformat": "विकल्प"
+    "messageformat": "Option"
   },
   "icu:Keyboard--Key--alt": {
     "messageformat": "Alt"
@@ -2898,7 +2904,7 @@
     "messageformat": "Enter"
   },
   "icu:Keyboard--Key--tab": {
-    "messageformat": "टैब"
+    "messageformat": "Tab"
   },
   "icu:Keyboard--Key--one-to-nine-range": {
     "messageformat": "1 से 9"
@@ -2907,10 +2913,10 @@
     "messageformat": "कीबोर्ड शॉर्टकट"
   },
   "icu:Keyboard--navigation-header": {
-    "messageformat": "नेविगेशन"
+    "messageformat": "नैविगेशन"
   },
   "icu:Keyboard--messages-header": {
-    "messageformat": "मेसेज"
+    "messageformat": "मैसेज"
   },
   "icu:Keyboard--composer-header": {
     "messageformat": "कंपोज़र"
@@ -2949,10 +2955,10 @@
     "messageformat": "स्पॉइलर"
   },
   "icu:Keyboard--scroll-to-top": {
-    "messageformat": "सूची की शुरुवात पर स्क्रॉल करें"
+    "messageformat": "लिस्ट में सबसे ऊपर तक स्क्रॉल करें"
   },
   "icu:Keyboard--scroll-to-bottom": {
-    "messageformat": "सूची के अंत पर स्क्रॉल करें"
+    "messageformat": "लिस्ट में सबसे नीचे तक स्क्रॉल करें"
   },
   "icu:Keyboard--close-curent-conversation": {
     "messageformat": "वर्तमान चैट बंद करें"
@@ -2961,10 +2967,10 @@
     "messageformat": "कॉल की जा रही है"
   },
   "icu:Keyboard--toggle-audio": {
-    "messageformat": "टॉगल म्यूट चालू और बंद"
+    "messageformat": "म्यूट बटन टॉगल करके चालू और बंद करें"
   },
   "icu:Keyboard--toggle-video": {
-    "messageformat": "टॉगल वीडियो चालू और बंद"
+    "messageformat": "टॉगल करके वीडियो चालू या बंद करें"
   },
   "icu:Keyboard--toggle-preview": {
     "messageformat": "बढ़ाए गए प्रीव्यू को टॉगल ऑन और ऑफ़ करें"
@@ -2976,16 +2982,16 @@
     "messageformat": "वीडियो के बिना कॉल का जवाब दें"
   },
   "icu:Keyboard--start-audio-call": {
-    "messageformat": "वॉयस कॉल शुरू करें"
+    "messageformat": "वॉइस कॉल शुरू करें"
   },
   "icu:Keyboard--start-video-call": {
     "messageformat": "वीडियो कॉल शुरू करें"
   },
   "icu:Keyboard--decline-call": {
-    "messageformat": "कॉल अस्वीकार करें"
+    "messageformat": "कॉल खारिज करें"
   },
   "icu:Keyboard--hang-up": {
-    "messageformat": "कॉल बंद"
+    "messageformat": "कॉल बंद करें"
   },
   "icu:close-popup": {
     "messageformat": "पॉपअप बंद करें"
@@ -2994,16 +3000,16 @@
     "messageformat": "इमेज या वीडियो अटैचमेंट जोड़ें"
   },
   "icu:remove-attachment": {
-    "messageformat": "अटैचमेंट हटाएँ"
+    "messageformat": "अटैचमेंट हटाएं"
   },
   "icu:backToInbox": {
-    "messageformat": "इनबॉक्स पर वापस जाएँ"
+    "messageformat": "इनबॉक्स में वापस जाएं"
   },
   "icu:conversationArchived": {
     "messageformat": "चैट संग्रहित की गई"
   },
   "icu:conversationArchivedUndo": {
-    "messageformat": "पूर्ववत"
+    "messageformat": "पहले जैसा करें"
   },
   "icu:conversationReturnedToInbox": {
     "messageformat": "चैट इनबॉक्स में वापस आ गई"
@@ -3015,16 +3021,16 @@
     "messageformat": "स्टिकर पैक क्रिएटर का उपयोग करने के लिए कृपया अपने फोन और डेस्कटॉप पर Signal को सेट अप करें"
   },
   "icu:Reactions--remove": {
-    "messageformat": "प्रतिक्रिया को हटाएँ"
+    "messageformat": "रिएक्शन हटाएं"
   },
   "icu:Reactions--error": {
-    "messageformat": "प्रतिक्रिया भेजी नहीं जा सकी। कृपया फिर से प्रयास करें।"
+    "messageformat": "रिएक्शन नहीं भेजी जा सकी। दोबारा कोशिश करें।"
   },
   "icu:Reactions--more": {
-    "messageformat": "अधिक"
+    "messageformat": "और"
   },
   "icu:ReactionsViewer--all": {
-    "messageformat": "सब"
+    "messageformat": "सभी"
   },
   "icu:SafetyTipsModal__Title": {
     "messageformat": "सुरक्षा टिप्स"
@@ -3075,19 +3081,19 @@
     "messageformat": "पूर्ण"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "{name} को आपको मेसेज करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? उन्हें पता नहीं चलेगा कि आपने उनका मेसेजेस को देख लिया है जब तक आप स्वीकार नहीं करते।"
+    "messageformat": "क्या {name} को यह अनुमति देनी है कि वह आपको मैसेज भेज सकें और आपका नाम और फ़ोटो देख सकें? आपकी ओर से अनुरोध स्वीकार करने के बाद ही उन्हें पता चल पाएगा कि आपने उनका मैसेज देखा है"
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "{name} को आपको संदेश भेजने और अपना नाम और फ़ोटो उनके साथ साझा करने दें? आपने इस व्यक्ति को पहले हटाया है।"
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "{name} को आपको संदेश करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।"
+    "messageformat": "क्या {name} को यह अनुमित देनी है कि वह आपको मैसेज भेज सकें और आपका नाम और फ़ोटो देख सकें? आपकी ओर से अनब्लॉक किए जाने के बाद ही वे आपको मैसेज भेज पाएंगे।"
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "इस ग्रुप में जुड़ना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? उन्हें पता नहीं चलेगा कि आपने उनके मेसेज देख लिए हैं जब तक आप स्वीकार नहीं करते।"
+    "messageformat": "क्या आपको इस ग्रुप में शामिल होना है और अपना नाम और फ़ोटो इसके सदस्यों के साथ शेयर करना है? आपकी ओर से अनुरोध स्वीकार करने के बाद ही उन्हें पता चल पाएगा कि आपने उनके मैसेज देखे हैं।"
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।"
+    "messageformat": "क्या इस ग्रुप को अनब्लॉक करके इसमें मौजूद सदस्यों के साथ अपना नाम और फ़ोटो शेयर करने हैं? अनब्लॉक करने से पहले आपको उनकी ओर से कोई मैसेज नहीं मिलेगा।"
   },
   "icu:MessageRequests--block": {
     "messageformat": "ब्लॉक करें"
@@ -3099,25 +3105,25 @@
     "messageformat": "{name} को अनब्लॉक करना है?"
   },
   "icu:MessageRequests--unblock-direct-confirm-body": {
-    "messageformat": "आप एक दूसरे को मेसेज और काॅल कर पाएंगे|"
+    "messageformat": "अब एक-दूसरे को मैसेज और कॉल किए जा सकते हैं।"
   },
   "icu:MessageRequests--unblock-group-confirm-body": {
-    "messageformat": "ग्रूप के सदस्य आपको इस ग्रूप में फ़िर शामिल कर पाएँगे।"
+    "messageformat": "ग्रुप के सदस्य आपको फिर से इस ग्रुप में जोड़ पाएंगे।"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
-    "messageformat": "स्पैम के रूप में रिपोर्ट किया गया और अवरुद्ध कर दिया गया।"
+    "messageformat": "स्पैम के तौर पर रिपोर्ट किया गया और ब्लॉक किया गया।"
   },
   "icu:MessageRequests--block-direct-confirm-title": {
     "messageformat": "{title} को ब्लॉक करना है?"
   },
   "icu:MessageRequests--block-direct-confirm-body": {
-    "messageformat": "ब्लॉक किये गए लोग आपको कॉल नहीं कर पाएंगे या आपको संदेश नहीं भेज पाएंगे।"
+    "messageformat": "ब्लॉक किए गए लोग आपको कॉल नहीं कर पाएंगेा और न ही आपको मैसेज भेज पाएंगे।"
   },
   "icu:MessageRequests--block-group-confirm-title": {
-    "messageformat": "{title} को ब्लॉक करके छोड़ना है?"
+    "messageformat": "{title} को ब्लॉक करके इसे छोड़ना है?"
   },
   "icu:MessageRequests--block-group-confirm-body": {
-    "messageformat": "फिर आपको इस ग्रुप से संदेश या अपडेट प्राप्त नहीं होंगे, और अन्य मेंबर आपको इस ग्रुप में फिर से नहीं जोड़ पाएंगे।"
+    "messageformat": "इसके बाद आपको इस ग्रुप से कोई मैसेज या अपडेट नहीं मिल पाएगा। साथ ही, इसके सदस्य आपको दोबारा इस ग्रुप में नहीं जोड़ पाएंगे।"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "रिपोर्ट करें..."
@@ -3156,13 +3162,13 @@
     "messageformat": "इस चैट को आपके सभी डिवाइसेस से डिलीट कर दिया जाएगा।"
   },
   "icu:MessageRequests--delete-group-confirm-title": {
-    "messageformat": "{title} को डिलीट कर के छोड़ना है?"
+    "messageformat": "{title} को डिलीट करके इसे छोड़ना है?"
   },
   "icu:MessageRequests--delete-direct": {
     "messageformat": "डिलीट करें"
   },
   "icu:MessageRequests--delete-group": {
-    "messageformat": "डिलीट करें और छोङ दें"
+    "messageformat": "डिलीट करें और छोड़ें"
   },
   "icu:MessageRequests--delete-group-confirm-body": {
     "messageformat": "आप इस ग्रूप को छोङ देंगे और यह ग्रूप आपके सभी डिवाइस से डिलीट कर दिया जाएगा।"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "मीडिया और फ़ाइलें"
+    "messageformat": "मीडिया, लिंक और फ़ाइलें"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "समूह विवरण जोड़ें..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "मीडिया गुणवत्ता का चयन करें"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "प्रोफ़ाइल नेम"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "कोई अवतार चुनें"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ऑफ़िस"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "फ़ोकस"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "इन नोटिफ़िकेशन को मंज़ूरी मिली हुई है"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "इन नोटिफ़िकेशन को मंज़ूरी मिली हुई है"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "आपकी प्रोफ़ाइल आपके सभी डिवाइस पर सिंक हो जाएंगी। किसी एक डिवाइस पर प्रोफ़ाइल चालू करने पर, वह अन्य डिवाइस पर भी चालू हो जाएगी।"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "नई प्रोफ़ाइल"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "प्रोफ़ाइल डिलीट करें"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "संपादित इतिहास"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "यह संपादन भेजा नहीं जा सका। अपना कनेक्शन जाँचें और फिर से प्रयास करें"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "कॉपी/पेस्ट में किए गए सुधारों से अब पूरा टेक्स्ट चुनना और पुरानी फ़ॉर्मेटिंग को छेड़े बिना मौजूदा टेक्स्ट को बदलना आसान हो गया है। धन्यवाद, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signal पोल अब उपलब्ध हैं! क्या आपकी और आपके दोस्तों की सोच एक जैसी है या वह कभी नहीं मिलती? पोल से तुरंत पता करें कि आपके ग्रुप चैट में मौजूद लोग क्या सोचते हैं। डिनर के विकल्प, छुट्टी की जगहें, आने वाली रोड ट्रिप के लिए  सही म्यूज़िक या किसी भी ज़रूरी बात के लिए एक पोल बनाएं। ग्रुप में मौजूद सभी लोग वोट कर सकते हैं और एक-दूसरे के जवाब देख सकते हैं। आप खुद तय करें कि एक से ज़्यादा वोट देने की अनुमति देनी है या नहीं।"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

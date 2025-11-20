@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Ukončiť anketu"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Anketa · Vyberte jednu možnosť"
@@ -1116,13 +1116,13 @@
     "messageformat": "Hlasovali ste"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ukončili ste anketu: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Používateľ {name} ukončil anketu: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Zobraziť anketu"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Podrobnosti o ankete"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Žiadne hlasy"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Anketa sa nenašla"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nová anketa"
@@ -1146,7 +1152,7 @@
     "messageformat": "Otázka"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Položte otázku"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Možnosti"
@@ -1167,10 +1173,10 @@
     "messageformat": "Anketa vyžaduje aspoň 2 možnosti"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Otázka je príliš dlhá"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Možnosť je príliš dlhá"
   },
   "icu:deleteConversation": {
     "messageformat": "Vymazať"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} reagoval/a {emoji} na: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Používateľ {sender} hlasoval v ankete: „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Odoslanie zlyhalo"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médiá a súbory"
+    "messageformat": "Médiá, odkazy a súbory"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Pridať popis skupiny…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Zvoliť kvalitu médií"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Názov profilu"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Vyberte avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Práca"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Sústredenie"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Povolené upozornenia"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Povolené upozornenia"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Vaše profily budú synchronizované na všetkých vašich zariadeniach. Zapnutím profilu na jednom zariadení sa zapne aj na ostatných."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nový profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Vymazať profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "História úprav"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Túto úpravu sa nepodarilo odoslať. Skontrolujte pripojenie a skúste to znova"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Vylepšili sme formátovanie pri kopírovaní/vkladaní. Ďakujeme, @brianHarder!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ankety Signal sú tu! Ankety predstavujú jednoduchý spôsob, ako zistiť, čo si váš skupinový čet naozaj myslí. Vytvorte anketu s ponukou viacerých možností, kam zájsť na večeru alebo inými dôležitými témami. Každý v skupine môže hlasovať a vidieť odpovede ostatných a vy sa môžete rozhodnúť, či povolíte výber viacerých odpovedí."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

@@ -1098,7 +1098,7 @@
     "messageformat": "資訊"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "結束投票"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "投票 · 選擇一項"
@@ -1116,13 +1116,13 @@
     "messageformat": "你投了票"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "你結束了以下投票：{poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} 結束了以下投票：{poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "檢視投票"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "投票詳情"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "沒有投票"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "找不到投票"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "新的投票"
@@ -1146,7 +1152,7 @@
     "messageformat": "問題"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "提出問題"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "選項"
@@ -1167,10 +1173,10 @@
     "messageformat": "投票需要至少 2 個選項"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "問題太長"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "選項太長"
   },
   "icu:deleteConversation": {
     "messageformat": "刪除"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} 表達 {emoji} 心情的訊息：{message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} 已對「{pollQuestion}」投票"
   },
   "icu:sendFailed": {
     "messageformat": "傳送失敗"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "媒體和檔案"
+    "messageformat": "媒體、連結和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "新增群組描述..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "選擇媒體的品質"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "個人檔案名稱"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "選擇頭像"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "工作"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "專注"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "已允許通知"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "已允許通知"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "通知情景會在各裝置間同步處理。開啟其中一個裝置的情景，也會隨之開啟其他裝置的情景。"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "新增情景"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "刪除個人資料"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "編輯的歷史紀錄"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "無法傳送此編輯。請檢查你的網絡連線，然後再試一次"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "複製/貼上功能的改進，讓你可以更輕鬆地全選和取代現有文字，同時避免繼承舊有格式。謝謝，<brianHarder></brianHarder>！"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal 投票登場！你和你的朋友站在同一陣線，還是截然相反？投票是一個簡單的方式，能了解群組聊天成員的真正想法。建立投票，內容可包括晚餐選擇、度假地點、自駕遊的音樂播放偏好，或任何重要的選擇。群組中的每個人都可以投票並查看彼此的回覆，而且你可以決定是否允許投多個選項。"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

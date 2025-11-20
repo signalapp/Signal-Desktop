@@ -1098,7 +1098,7 @@
     "messageformat": "Πληροφορίες"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Λήξη δημοσκόπησης"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Δημοσκόπηση · Επίλεξε μία"
@@ -1116,13 +1116,13 @@
     "messageformat": "Ψήφισες"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ολοκλήρωσες τη δημοσκόπηση: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Ο χρήστης {name} ολοκλήρωσε τη δημοσκόπηση: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Προβολή δημοσκόπησης"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Λεπτομέρειες δημοσκόπησης"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Δεν υπάρχουν ψήφοι"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Δεν βρέθηκε δημοσκόπηση"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Νέα δημοσκόπηση"
@@ -1146,7 +1152,7 @@
     "messageformat": "Ερώτηση"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Κάνε μια ερώτηση"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Επιλογές"
@@ -1167,10 +1173,10 @@
     "messageformat": "Η δημοσκόπηση απαιτεί τουλάχιστον 2 επιλογές"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Η ερώτηση είναι πολύ μεγάλη"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Η επιλογή είναι πολύ μεγάλη"
   },
   "icu:deleteConversation": {
     "messageformat": "Διαγραφή"
@@ -1983,7 +1989,7 @@
     "messageformat": "Ο/Η {sender} αντέδρασε με {emoji} στη δημοσίευση: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Ο χρήστης {sender} ψήφισε στη δημοσκόπηση \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Αποτυχία αποστολής"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Πολυμέσα και αρχεία"
+    "messageformat": "Πολυμέσα, σύνδεσμοι και αρχεία"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Προσθήκη περιγραφής ομάδας…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Επιλογή ποιότητας πολυμέσων"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Όνομα προφίλ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Επιλογή εικόνας προφίλ"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Εργασία"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Συγκέντρωση"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Επιτρεπόμενες ειδοποιήσεις"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Επιτρεπόμενες ειδοποιήσεις"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Τα προφίλ σου θα συγχρονιστούν σε όλες τις συσκευές σου. Η ενεργοποίηση ενός προφίλ για μία συσκευή θα το ενεργοποιήσει και για τις υπόλοιπες."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Νέο προφίλ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Διαγραφή προφίλ"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Ιστορικό επεξεργασίας"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Δεν ήταν δυνατή η αποστολή αυτής της τροποποίησης. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Βελτιώσεις στην αντιγραφή/επικόλληση. Ευχαριστούμε, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Οι δημοσκοπήσεις Signal είναι εδώ! Οι δημοσκοπήσεις είναι ένας εύκολος τρόπος για να δεις τι πιστεύει πραγματικά η ομαδική συνομιλία σου. Δημιούργησε μια δημοσκόπηση με διαφορετικές επιλογές για δείπνο ή οποιαδήποτε άλλη σημαντική επιλογή. Όλοι οι συμμετέχοντες στην ομάδα μπορούν να ψηφίσουν και να δουν τις απαντήσεις των άλλων, ενώ εσύ μπορείς να αποφασίσεις αν θα επιτρέψεις πολλαπλές ψήφους."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

@@ -1098,7 +1098,7 @@
     "messageformat": "Maklumat"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Tamatkan Undian"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Undian · Pilih Satu"
@@ -1116,13 +1116,13 @@
     "messageformat": "Anda mengundi"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Anda menamatkan undian: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} menamatkan undian: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Lihat undian"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Butiran Undian"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Tiada Undian"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Undian tidak ditemui"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Undian Baharu"
@@ -1146,7 +1152,7 @@
     "messageformat": "Soalan"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tanya Soalan"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Pilihan"
@@ -1167,10 +1173,10 @@
     "messageformat": "Undian memerlukan sekurang-kurangnya 2 pilihan"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Soalan terlalu panjang"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Pilihan terlalu panjang"
   },
   "icu:deleteConversation": {
     "messageformat": "Padam"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} telah memberi reaksi {emoji} terhadap: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} mengundi dalam undian \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Penghantaran gagal"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} ahli}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media dan fail"
+    "messageformat": "Media, pautan dan fail"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ahli}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Tambah penerangan kumpulan..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualiti media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nama profil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pilih avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Kerja"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Benarkan pemberitahuan"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Benarkan pemberitahuan"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profil anda akan disegerakkan merentasi peranti anda. Menghidupkan profil pada satu peranti akan menghidupkannya pada peranti lain juga."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil baru"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Padam profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Sejarah edit"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Edit ini tidak dapat dihantar. Periksa sambungan anda dan cuba lagi"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Penambahbaikan pemformatan salin/tampal. Terima kasih, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Undian Signal sudah tiba! Undian ialah cara mudah untuk mengetahui pendapat sebenar kumpulan sembang anda. Cipta undian dengan pelbagai pilihan makan malam atau pilihan penting yang lain. Semua orang dalam kumpulan boleh mengundi dan melihat jawapan satu sama lain, dan anda boleh menentukan sama ada membenarkan undian berbilang atau tidak."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

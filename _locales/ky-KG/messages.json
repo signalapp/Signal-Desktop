@@ -1098,7 +1098,7 @@
     "messageformat": "Маалымат"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Добуш берүүнү бүтүрүү"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Добуш берүү · Бирөөсүн тандаңыз"
@@ -1116,13 +1116,13 @@
     "messageformat": "Сиз добуш бердиңиз"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Сурамжылоону бүтүрдүңүз: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} сурамжылоону бүтүрдү: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Добуш берүүнү карап көрүү"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Добуш берүү чоо-жайы"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Эч ким добуш бере элек"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Табылган жок"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Жаңы добуш берүү"
@@ -1146,7 +1152,7 @@
     "messageformat": "Суроо берүү"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Суроо"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Параметрлер"
@@ -1167,10 +1173,10 @@
     "messageformat": "Сурамжылоодо кеминде 2 вариант болушу керек"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Суроо өтө узун болуп калды"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Вариант өтө узун болуп калды"
   },
   "icu:deleteConversation": {
     "messageformat": "Өчүрүү"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} {emoji} деген сезимин {message} үчүн билдирди"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} \"{pollQuestion}\" деген суроого добуш берди"
   },
   "icu:sendFailed": {
     "messageformat": "Жөнөтүлбөй калды"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} мүчө}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиа жана файлдар"
+    "messageformat": "Медиа файлдар, шилтемелер жана башка нерселер"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} мүчө}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Топ тууралуу учкай маалымат кошуу…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Медиа сапатын тандоо"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Профилдин аталышы"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Аватарды тандоо"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Жумуш"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Уруксат берилген билдирмелер"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Уруксат берилген билдирмелер"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профилдериңиз түзмөктөрүңүздүн ортосунда шайкештирилет. Профилди бир түзмөктө өчүрсөңүз, ал башка түзмөктөрдө да өчөт."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Жаңы профиль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Профилди жок кылуу"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Оңдолгондор"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Бул оңдолгон билдирүү жөнөтүлгөн жок. Байланышыңызды текшерип, кайталап көрүңүз"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Көчүрүү/Чаптоо функциялары жакшырып, эми баарын оңоюраак тандап, учурдагы текстти жаңы форматта алмаштырасыз. Чоң рахмат <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Signal сурамжылоолорун байкап көрүңүз! Досторуңуз менен оюңуз бирби же таптакыр башкабы? Сурамжылоолор аркылуу тобуңуздун кандайдыр бир нерселер боюнча пикирин биле аласыз. Кечки тамактанууга, эс алууга, унаа менен сапарга чыкканда угуучу музыкага жана башка маанилүү нерселерге бир нече вариант сунуштап сурамжылоо жүргүзүңүз. Топтогулардын баары добуш берип, бири-биринин жоопторун көрүп турушат. Кааласаңыз, бир же бир нече добушту кабыл алсаңыз болот."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

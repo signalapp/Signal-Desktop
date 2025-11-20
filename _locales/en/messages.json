@@ -810,7 +810,7 @@
   },
   "icu:mediaEmptyState": {
     "messageformat": "You don’t have any media in this chat",
-    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    "description": "(Deleted 2025/11/19) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:allMedia": {
     "messageformat": "All Media",
@@ -818,11 +818,11 @@
   },
   "icu:documents": {
     "messageformat": "Documents",
-    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "description": "(Deleted 2025/11/19) Header of the secondary pane in the media gallery, showing every non-media attachment"
   },
   "icu:documentsEmptyState": {
     "messageformat": "You don’t have any documents in this chat",
-    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    "description": "(Deleted 2025/11/19) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:today": {
     "messageformat": "Today",
@@ -1524,7 +1524,7 @@
   },
   "icu:Toast--PinnedMessageNotFound": {
     "messageformat": "Pinned message not found",
-    "description": "Toast shown when user tries to view a pinned message that no longer exists"
+    "description": "(Deleted 2025/11/19) Toast shown when user tries to view a pinned message that no longer exists"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Poll not found",
@@ -7476,10 +7476,6 @@
     "messageformat": "Profile name",
     "description": "Placeholder text for notification profile name text input box"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Select an avatar",
-    "description": "(Deleted 2025/10/15) Text shown above list of avatars that users can select for a notification profile"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Work",
     "description": "Sample notification profile name, shown next to a flexed biceps emoji"
@@ -7503,10 +7499,6 @@
   "icu:NotificationProfiles--allowed-title": {
     "messageformat": "Allowed notifications",
     "description": "Header text above area where users select people or groups to include in the notification profile, who will still recevive nofications"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
-    "messageformat": "Allowed Notifications",
-    "description": "(Deleted 2025/10/15) Title text for modal where users select people or groups to include in the notification profile, who will still recevive nofications"
   },
   "icu:NotificationProfiles--allowed-description": {
     "messageformat": "Add people and groups who you want notifications from when this profile is on",
@@ -7651,10 +7643,6 @@
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Your profiles will be synced across your devices. Turning on a profile for one device will turn it on for the others.",
     "description": "More details for the 'Sync across devices' setting"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "New profile",
-    "description": "(Deleted 2025/10/15) Button label text to create a new notification profile"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Delete profile",
@@ -9943,7 +9931,7 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes.",
-    "description": "Release notes for 7.80 release"
+    "description": "(Deleted 2025/11/19) Release notes for 7.80 release"
   },
   "icu:WhatsNew__7.81-1": {
     "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?",

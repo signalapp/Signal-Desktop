@@ -1098,7 +1098,7 @@
     "messageformat": "Інформація"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Завершити опитування"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Опитування · Оберіть один варіант"
@@ -1116,13 +1116,13 @@
     "messageformat": "Ви проголосували"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ви завершили опитування «{poll}»"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Користувач {name} завершив опитування «{poll}»"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Переглянути опитування"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Підсумки опитування"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Голосів немає"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Опитування не знайдено"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Нове опитування"
@@ -1146,7 +1152,7 @@
     "messageformat": "Запитання"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Поставте запитання"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Відповіді"
@@ -1167,10 +1173,10 @@
     "messageformat": "Потрібно принаймні два варіанти відповіді"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Запитання задовге"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Відповідь задовга"
   },
   "icu:deleteConversation": {
     "messageformat": "Видалити"
@@ -1983,7 +1989,7 @@
     "messageformat": "Користувач {sender} поставив реакцію {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Користувач {sender} взяв участь в опитуванні «{pollQuestion}»"
   },
   "icu:sendFailed": {
     "messageformat": "Не вдалося надіслати"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медіафайли й файли"
+    "messageformat": "Медіафайли, посилання й файли"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Додайте опис групи…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Оберіть якість медіафайлів"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Назва профілю"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Оберіть зображення"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Робота"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Зосередженість"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Від кого надходять сповіщення"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Від кого надходять сповіщення"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профілі буде синхронізовано на всіх пристроях. Якщо ввімкнути профіль на одному пристрої, він також увімкнеться на інших."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Новий профіль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Видалити профіль"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Попередній текст"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Відредаговане повідомлення не вдалося надіслати. Перевірте з'єднання з мережею і спробуйте знову"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "З поліпшеннями копіювання і вставлення стало простіше вибрати все й замінити текст, не застосовуючи старого форматування. Дякуємо, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Тепер у Signal є опитування! Приймайте групові рішення без сварок і надто палких дискусій. Опитування — це простий спосіб дізнатися думку групи. Створіть опитування, щоб визначитися з вечерею, відпусткою, плейлистом для довгої дороги чи іншими важливими питаннями. Голосувати й бачити відповіді можуть усі в групі, а ще ви можете дозволити вибирати по кілька відповідей."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

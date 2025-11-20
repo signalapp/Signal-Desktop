@@ -1098,7 +1098,7 @@
     "messageformat": "Teave"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Lõpeta küsitlus"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Küsitlus · Vali üks"
@@ -1116,13 +1116,13 @@
     "messageformat": "Vastasid küsitlusele"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Sa lõpetasid küsitluse „{poll}“"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} lõpetas küsitluse „{poll}“"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Vaata küsitlust"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Küsitluse andmed"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Vastuseid pole"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Küsitlust ei leitud"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Uus küsitlus"
@@ -1146,7 +1152,7 @@
     "messageformat": "Küsimus"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Esita küsimus"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Valikud"
@@ -1167,10 +1173,10 @@
     "messageformat": "Küsitluses peab olema vähemalt 2 vastusevalikut"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Küsimus on liiga pikk"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Vastusevalik on liiga pikk"
   },
   "icu:deleteConversation": {
     "messageformat": "Kustuta"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} reageeris {emoji} sõnumile {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} vastas küsitlusele „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Saatmine ei õnnestunud"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Meedia ja failid"
+    "messageformat": "Meedia, lingid ja failid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lisa grupi kirjeldus…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vali meedia kvaliteet"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profiilinimi"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Vali profiilipilt"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Töö"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fookus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Lubatud teavitused"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Lubatud teavitused"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Sinu profiilid sünkroonitakse su seadmete vahel. Profiili sisselülitamine ühes seadmes lülitab selle sisse ka teistes seadmetes."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Uus profiil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Kustuta profiil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Muutmiste ajalugu"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Seda muudatust ei saanud saata. Kontrolli oma ühendust ja proovi uuesti."
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Parandasime kopeerimise ja kleepimise vormindust. Aitäh, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signali küsitlused on kohal! Küsitlused on lihtne viis näha, mida su grupivestluse osalejad tegelikult arvavad. Loo küsitlus erinevate õhtusöögivõimaluste, puhkusepaikade, muusikaeelistustega eelolevaks autotripiks, või mõne muu olulise otsuse tegemiseks. Kõik grupi liikmed saavad hääletada ja üksteise vastuseid näha ning on sinu valik, kas lubad mitut häält või mitte."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

@@ -1098,7 +1098,7 @@
     "messageformat": "اطلاعات"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "پایان نظرسنجی"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "نظرسنجی · یک مورد را انتخاب کنید"
@@ -1116,13 +1116,13 @@
     "messageformat": "شما رأی دادید"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "نظرسنجی را پایان دادید: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} نظرسنجی را به پایان رساند: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "مشاهده نظرسنجی"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "جزئیات نظرسنجی"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "بدون رأی"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "نظرسنجی یافت نشد"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "نظرسنجی جدید"
@@ -1146,7 +1152,7 @@
     "messageformat": "سوال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "سؤال بپرسید"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "گزینه‌ها"
@@ -1167,10 +1173,10 @@
     "messageformat": "نظرسنجی نیازمند حداقل ۲ گزینه است"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "سؤال بیش‌ازحد طولانی است"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "گزینه بیش‌ازحد طولانی است"
   },
   "icu:deleteConversation": {
     "messageformat": "پاک کردن"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} با {emoji} به {message} واکنش نشان داد"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "‏{sender} در نظرسنجی «{pollQuestion}» رأی داد"
   },
   "icu:sendFailed": {
     "messageformat": "ارسال ناموفق بود"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "رسانه و فایل‌ها"
+    "messageformat": "رسانه، پیوندها، و فایل‌ها"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "افزودن توصیف گروه..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "انتخاب کیفیت رسانه"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "نام نمایه"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "یک آواتار انتخاب کنید"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "محل کار"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فوکوس"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "اعلان‌ها‌ی مجاز"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "اعلان‌ها‌ی مجاز"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "پروفایل‌های شما در همه دستگاه‌ها همگام‌سازی می‌شوند. روشن کردن یک پروفایل در یک دستگاه، آن را در سایر دستگاه‌ها نیز روشن می‌کند."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "پروفایل جدید"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "پاک کردن پروفایل"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تاریخچه ویرایش‌ها"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "این ویرایش ارسال نشد. اتصال خود را بررسی و دوباره امتحان کنید"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "قالب‌بندی کپی کردن/چسباندن را بهبود دادیم. با تشکر از <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "نظرسنجی‌های سیگنال اینجاست! نظرسنجی‌ها راهی آسان برای دیدن نظرات واقعی اعضای گروه هستند. یک نظرسنجی با گزینه‌های مختلف برای شام یا هر انتخاب مهم دیگری ایجاد کنید. همه افراد گروه می‌توانند رأی بدهند و پاسخ‌های یکدیگر را ببینند و شما می‌توانید تصمیم بگیرید که آیا اجازه رأی‌دهی چندگانه را بدهید یا خیر."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

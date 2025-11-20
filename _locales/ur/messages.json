@@ -1098,7 +1098,7 @@
     "messageformat": "معلومات"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "پول ختم کریں"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "پول · ایک منتخب کریں"
@@ -1116,13 +1116,13 @@
     "messageformat": "آپ نے ووٹ دیا"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "آپ نے رائے شماری ختم کر دی: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} نے رائے شماری ختم کر دی: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "پول دیکھیں"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "پول کی تفصیلات"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "کوئی ووٹس نہیں ہیں"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "پول نہیں ملے"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "نیا پول"
@@ -1146,7 +1152,7 @@
     "messageformat": "سوال"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "سوال پوچھیں"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "آپشنز"
@@ -1167,10 +1173,10 @@
     "messageformat": "رائے شماری کے لیے کم از کم 2 اختیارات کی ضرورت ہے"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "سوال کافی طویل ہے"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "اختیار کافی طویل ہے"
   },
   "icu:deleteConversation": {
     "messageformat": "حذف کریں"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} نے {emoji} ری ایکٹ کیا: {message} پر"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} نے رائے شماری میں ووٹ دیا: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "بھیجنے میں ناکام"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "میڈیا اور فائلز"
+    "messageformat": "میڈیا، لنکس، اور فائلز"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "گروپ کی تفصیل شامل کریں ..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "میڈیا کے معیار کو منتخب کریں"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "پروفائل نیم"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "اوتار کا انتخاب کریں"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "کام"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فوکس"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "اجازت یافتہ اطلاعات"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "اجازت یافتہ اطلاعات"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "آپ کی پروفائلز تمام ڈیوائسز پر سنک ہو گئیں۔ ایک ڈیوائس پر پروفائل فعال کرنے سے یہ دوسروں پر بھی فعال ہو جائے گی۔"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "نئی پروفائل"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "پروفائل حذف کریں"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ترمیم کی ہسٹری"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "یہ ترمیم نہیں بھیجی جا سکتی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "کاپی/پیسٹ کی فارمیٹنگ میں بہتریاں۔ شکریہ، @brianHarder <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

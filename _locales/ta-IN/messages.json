@@ -1098,7 +1098,7 @@
     "messageformat": "தகவல்"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "வாக்கெடுப்பை முடி"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "வாக்கெடுப்பு · ஒன்றைத் தேர்ந்தெடுக்கவும்"
@@ -1116,13 +1116,13 @@
     "messageformat": "நீங்கள் வாக்களித்துள்ளீர்கள்"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "நீங்க வாக்கெடுப்பை முடித்துவிட்டீர்கள்: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} என்பவர் இந்த வாக்கெடுப்பை முடித்துவிட்டார்: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "வாக்கெடுப்பைக் காண்க"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "வாக்கெடுப்பு விவரங்கள்"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "வாக்குகள் இல்லை"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "வாக்கெடுப்பு கிடைக்கவில்லை"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "புதிய வாக்கெடுப்பு"
@@ -1146,7 +1152,7 @@
     "messageformat": "கேள்வி"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "ஒரு கேள்வியைக் கேளுங்கள்"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "விருப்பங்கள்"
@@ -1167,10 +1173,10 @@
     "messageformat": "வாக்கெடுப்புக்குக் குறைந்தது 2 விருப்பங்கள் தேவை"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "கேள்வி மிக நீளமாக உள்ளது"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "பதில் மிக நீளமாக உள்ளது"
   },
   "icu:deleteConversation": {
     "messageformat": "நீக்கு"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} {emoji} என்று எதிர்வினையாற்றினார்: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} வாக்காளர் \"{pollQuestion}\"க்கான வாக்கெடுப்பில் வாக்களித்தார்"
   },
   "icu:sendFailed": {
     "messageformat": "அனுப்புவது தோல்வியுற்றது"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ஊடகம் மற்றும் கோப்புகள்"
+    "messageformat": "ஊடகம், இணைப்புகள் மற்றும் கோப்புகள்"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "குழு விளக்கத்தைச் சேர்க்கவும்…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "தேர்ந்தெடு மீடியா தரம்"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ப்ரொஃபைல் பெயர்"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "தேர்ந்தெடு ஒரு அவதாரம்"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "அலுவலகம்"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "கவனம்"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "அனுமதிக்கப்பட்ட அறிவிப்புகள்"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "உங்கள் சுயவிவரங்கள், உங்கள் சாதனங்கள் முழுவதும் ஒத்திசைக்கப்படும். ஒரு சாதனத்தில் சுயவிவரத்தை இயக்குவது மற்ற சாதனங்களிலும் அதை இயக்கும்."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "புதிய சுயவிவரம்"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "சுயவிவரத்தை நீக்கு"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "திருத்தங்களின் வரலாறு"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "இந்த திருத்தத்தை அனுப்ப முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "நகலெடுத்தல்/ஒட்டுதல் வடிவமைப்பு மேம்பாடுகள். நன்றி, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ சிக்னல் வாக்கெடுப்பு இங்கு உள்ளது! உங்கள் குழு அரட்டையில் உண்மையில் என்ன நிகழ வேண்டும் என்பதைப் பார்ப்பதற்கு வாக்கெடுப்புகள் எளிதான வழியாகும். போட்டியிடும் இரவு உணவு விருப்பங்கள், விடுமுறை இடங்கள், வரவிருக்கும் சாலைப் பயணத்திற்கான இசை விருப்பத்தேர்வுகள் அல்லது வேறு ஏதேனும் முக்கியமான தேர்வுகளுடன் வாக்கெடுப்பை உருவாக்குங்கள். குழுவில் உள்ள அனைவரும் வாக்களிக்கலாம் மற்றும் அனைவரின் பதில்களையும் பார்க்கலாம், மேலும் பல வாக்குகளை அனுமதிக்கலாமா வேண்டாமா என்பதை நீங்கள் தீர்மானிக்கலாம்."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

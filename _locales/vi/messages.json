@@ -1098,7 +1098,7 @@
     "messageformat": "Thông tin"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Kết thúc"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Hỏi ý kiến · Chọn một"
@@ -1116,13 +1116,13 @@
     "messageformat": "Bạn đã bình chọn"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Bạn đã kết thúc hỏi ý kiến: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} đã kết thúc hỏi ý kiến: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Xem câu hỏi"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Hỏi ý kiến"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Không có bình chọn"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Không tìm thấy câu hỏi"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Câu hỏi mới"
@@ -1146,7 +1152,7 @@
     "messageformat": "Câu hỏi"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Hỏi một câu hỏi"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Tùy chọn"
@@ -1167,10 +1173,10 @@
     "messageformat": "Cần ít nhất 2 lựa chọn để hỏi ý kiến"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Câu hỏi quá dài"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Lựa chọn quá dài"
   },
   "icu:deleteConversation": {
     "messageformat": "Xóa"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} đã phản hồi {emoji} cho: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} đã bình chọn trong cuộc hỏi ý kiến: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Không gửi được"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Đa phương tiện và tập tin"
+    "messageformat": "Đa phương tiện, đường dẫn và tập tin"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Thêm miêu tả nhóm…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Tên hồ sơ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Chọn Anhr đại diện"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Công việc"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Tập trung"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Các thông báo được phép"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Các thông báo được phép"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Các cấu hình sẽ được đồng bộ trên các thiết bị của bạn. Khi bật cấu hình cho một thiết bị, cấu hình đó cũng sẽ được bật trên các thiết bị khác."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Cấu hình mới"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Xóa cấu hình"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Lịch sử chỉnh sửa"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Không thể gửi chỉnh sửa này. Kiểm tra kết nối của bạn và thử lại"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Cải thiện định dạng sao chép/dán. Cảm ơn, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Ra mắt tính năng Hỏi ý kiến! Tính năng này giúp bạn biết các ý kiến của người trong nhóm của mình. Bạn sẽ có thể tạo một cuộc Hỏi ý kiến với các lựa chọn khác nhau, thành viên nhóm có thể bỏ phiếu và xem phản hồi của nhau, và bạn có thể quyết định có cho phép có nhiều bình chọn hay không."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

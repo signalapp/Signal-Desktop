@@ -1098,7 +1098,7 @@
     "messageformat": "माहिती"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "पोल समाप्त करा"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "पोल · एक निवडा"
@@ -1116,13 +1116,13 @@
     "messageformat": "तुम्ही मत दिलेत"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "तुम्ही पोल समाप्त केलात : {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name}ने पोल समाप्त केला : {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "पोल पाहा"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "पोल तपशील"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "शून्य मते"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "पोल सापडला नाही"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "नवीन पोल"
@@ -1146,7 +1152,7 @@
     "messageformat": "प्रश्न"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "एक प्रश्न विचारा"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "पर्याय"
@@ -1167,10 +1173,10 @@
     "messageformat": "पोलसाठी किमान 2 पर्याय आवश्यक आहेत"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "प्रश्न फार मोठा आहे"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "पर्याय फार मोठा आहे"
   },
   "icu:deleteConversation": {
     "messageformat": "हटवा"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} ने {emoji} अशी प्रतिक्रिया {message} वर दिली"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender}ने \"{pollQuestion}\" पोलमध्ये मत दिले"
   },
   "icu:sendFailed": {
     "messageformat": "पाठविणे अयशस्वी"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "मीडिया आणि फाईल्स"
+    "messageformat": "मीडिया, लिंक्स आणि फाईल्स"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ग्रुप वर्णन जोडा(...)"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "मिडिया दर्जा निवडा"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "प्रोफाईल नाव"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "अवतार निवडा"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "कार्य"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "एकाग्र"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "सूचनांची अनुमती असलेले"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "सूचनांची अनुमती असलेले"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "तुमच्या प्रोफाईल्स तुमच्या डिव्हाईसेस वर सिंक केल्या जातील. एखादी प्रोफाईल एका डिव्हाईस साठी चालू केली तर ती इतरांवरही चालू होईल."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "नवीन प्रोफाइल"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "प्रोफाइल हटवा"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "संपादनाचा इतिहास"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "हे संपादन पाठवले जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "कॉपी/पेस्टमधील सुधारणांमुळे पूर्ण मजकूर निवडून जुने फॉरमॅटिंग न आणता आधीचा मजकूर बदलणे सोपे होते. धन्यवाद, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Signal पोल्स आले आहेत! तुमचे आणि तुमच्या मित्रांचे पोल जुळतात, की एकमेकांपासून पार दुसऱ्या टोकाला जातात? तुमच्या ग्रूपमधील चॅटचा विचार नेमका काय आहे हे जाणून घेण्याचा पोल हा सोपा मार्ग आहे. जेवायचे वेगवेगळे पर्याय, सुट्यांची ठिकाणे, उद्याच्या रोड ट्रिपसाठी संगीत प्राधान्ये, किंवा इतर महत्त्वाच्या निवडी करण्यासाठी पोल तयार करा. ग्रूपमधील प्रत्येक जण मत देऊ शकतो, एकमेकांचे प्रतिसाद पाहू शकतो, आणि एकापेक्षा अनेक मते देता येतील का हे तुम्ही ठरवू शकता."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

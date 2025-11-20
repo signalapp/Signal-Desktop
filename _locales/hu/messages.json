@@ -1098,7 +1098,7 @@
     "messageformat": "Részletek"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Szavazás befejezése"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Szavazás · Válassz egyet"
@@ -1116,13 +1116,13 @@
     "messageformat": "Szavaztál"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Befejezted a szavazást: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} befejezte a(z) „{poll}” szavazást"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Szavazás megtekintése"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Szavazás részletei"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nincs szavazat"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Nem található szavazás"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Új szavazás"
@@ -1146,7 +1152,7 @@
     "messageformat": "Kérdés"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Tegyél fel egy kérdést"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Opciók"
@@ -1167,10 +1173,10 @@
     "messageformat": "A szavazáshoz legalább 2 lehetőség szükséges"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "A kérdés túl hosszú"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Az opció túl hosszú"
   },
   "icu:deleteConversation": {
     "messageformat": "Törlés"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} {emoji} reakciót küldött erre: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} szavazott a szavazáson: „{pollQuestion}”"
   },
   "icu:sendFailed": {
     "messageformat": "Küldés sikertelen"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médiatartalmak és fájlok"
+    "messageformat": "Médiatartalmak, linkek és fájlok"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Csoportleírás hozzáadása…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Médiafájl minőségének kiválasztása"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilnév"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Válassz profilképet!"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Munkahelyi"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fókusz"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Engedélyezett értesítések"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Engedélyezett értesítések"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "A profiljaid szinkronizálva lesznek az eszközeid között. Ha bekapcsolsz egy profilt az egyik eszközön, akkor az a többi eszközön is bekapcsolásra kerül."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Új profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profil törlése"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Szerkesztési előzmények"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ezt a szerkesztést nem sikerült elküldeni. Ellenőrizd az internetkapcsolatot, és próbáld újra"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Másolással/beillesztéssel kapcsolatos formázási fejlesztések. Köszönjük, @brianHarder! Köszönjük, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Megérkeztek a Signal szavazások! A szavazások egyszerű módjai annak, hogy megtudd, mit gondolnak valójában a csoportos csevegés résztvevői. Hozz létre egy szavazást különböző vacsoralehetőségekkel vagy bármilyen más fontos választási lehetőséggel. A csoport minden tagja szavazhat és láthatja a másik válaszait, és eldöntheted, hogy engedélyezed-e a többszörös szavazást."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

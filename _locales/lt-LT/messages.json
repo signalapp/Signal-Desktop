@@ -1098,7 +1098,7 @@
     "messageformat": "Informacija"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Baigti apklausą"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Apklausa · Pasirinkite vieną"
@@ -1116,13 +1116,13 @@
     "messageformat": "Jūs balsavote"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Baigėte apklausą: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} baigė apklausą: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Peržiūrėti apklausą"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Apklausos informacija"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Balsų nėra"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Apklausa nerasta"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Nauja apklausa"
@@ -1146,7 +1152,7 @@
     "messageformat": "Klausimas"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Užduokite klausimą"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Parinktys"
@@ -1167,10 +1173,10 @@
     "messageformat": "Apklausai reikia bent 2 variantų"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Klausimas per ilgas"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Variantas per ilgas"
   },
   "icu:deleteConversation": {
     "messageformat": "Ištrinti"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} sureagavo {emoji} į „{message}“"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} balsavo apklausoje „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Išsiuntimas nepavyko"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Įrašai ir failai"
+    "messageformat": "Įrašai, nuorodos ir failai"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Pridėk grupės aprašymą…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pasirinkti medijos kokybę"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilio vardas"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pasirinkti avatarą"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Darbo"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Susikaupimo laikas"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Leidžiami pranešimai"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Leidžiami pranešimai"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Jūsų profiliai bus sinchronizuoti visuose jūsų įrenginiuose. Įjungus profilį viename įrenginyje, jis bus įjungtas ir kituose."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Naujas profilis"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ištrinti profilį"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redagavimo istorija"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Šio redagavimo nepavyko išsiųsti. Patikrinkite ryšį ir bandykite vėl"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Patobulintos kopijavimo / įklijavimo funkcijos. Ačiū, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "„Signal“ apklausos jau čia! Tai paprastas būdas sužinoti, ką iš tikrųjų mano jūsų grupės pokalbių dalyviai. Sukurkite apklausą su skirtingais vakarienės variantais ar kitais svarbiais pasirinkimais. Visi grupės nariai gali balsuoti ir matyti vieni kitų atsakymus, o jūs galite nuspręsti, ar leisti balsuoti kelis kartus."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

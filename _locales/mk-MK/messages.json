@@ -1098,7 +1098,7 @@
     "messageformat": "Информации"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Затворете ја анкетата"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Анкета · Изберете еден одговор"
@@ -1116,13 +1116,13 @@
     "messageformat": "Гласавте"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Ја затворивте анкетата: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "{name} ја затвори анкетата: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Видете ја анкетата"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Детали за анкетата"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нема гласови"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Анкетата не е пронајдена"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Нова анкета"
@@ -1146,7 +1152,7 @@
     "messageformat": "Прашање"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Поставете прашање"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Опции"
@@ -1167,10 +1173,10 @@
     "messageformat": "Анкетата бара најмалку 2 опции"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Прашањето е предолго"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Одговорот е предолг"
   },
   "icu:deleteConversation": {
     "messageformat": "Избриши"
@@ -1983,7 +1989,7 @@
     "messageformat": "{sender} реагираше со {emoji} на: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "{sender} гласаше во анкетата: „{pollQuestion}“"
   },
   "icu:sendFailed": {
     "messageformat": "Испраќањето е неуспешно"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиумски датотеки и датотеки"
+    "messageformat": "Медиумски датотеки, линкови и датотеки"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Додаjте опис на групата…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Одбери квалитет на медиумска датотека"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Име на профил"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Избери аватар"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Работа"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокусиран/а"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Дозволени известувања"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Дозволени известувања"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Вашите профили ќе бидат синхронизирани на сите ваши уреди. Вклучувањето на профил за еден уред ќе го вклучи и за другите."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Нов профил"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Избриши профил"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Историја на измени"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Измената не може да биде испратена. Проверете ја интернет врската и обидете се повторно"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Подобрувања на форматирањето при сечење/лепење содржина. Благодариме, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "★ Воведуваме анкети на Signal! Дали вие и вашите пријатели ќе одговорите едногласно или не? Анкетите се лесен начин да видите што навистина мислат членовите на вашиот групен разговор. Направете анкета со различни опции за вечера, дестинации за одмор, музички избор за претстојно патување, или други важни одлуки. Секој во групата може да гласа и да ги види одговорите на другите, а вие можете да одлучите дали да дозволите повеќе одговори."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }

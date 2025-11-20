@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:Poll__end-poll": {
-    "messageformat": "End poll"
+    "messageformat": "Tapusin ang poll"
   },
   "icu:PollMessage--SelectOne": {
     "messageformat": "Poll · Pumili ng isa"
@@ -1116,13 +1116,13 @@
     "messageformat": "Bumoto ka"
   },
   "icu:PollTerminate--you": {
-    "messageformat": "You ended the poll: {poll}"
+    "messageformat": "Tinapos mo ang poll: {poll}"
   },
   "icu:PollTerminate--other": {
-    "messageformat": "{name} ended the poll: {poll}"
+    "messageformat": "Tinapos ni {name} ang poll: {poll}"
   },
   "icu:PollTerminate__view-poll": {
-    "messageformat": "View poll"
+    "messageformat": "Tignan ang poll"
   },
   "icu:PollVotesModal__title": {
     "messageformat": "Mga detalye ng poll"
@@ -1136,8 +1136,14 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Walang boto"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Winning"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pinned message not found"
+  },
   "icu:Toast--PollNotFound": {
-    "messageformat": "Poll not found"
+    "messageformat": "Walang makitang poll"
   },
   "icu:PollCreateModal__title": {
     "messageformat": "Bagong poll"
@@ -1146,7 +1152,7 @@
     "messageformat": "Question"
   },
   "icu:PollCreateModal__questionPlaceholder": {
-    "messageformat": "Ask a question"
+    "messageformat": "Magtanong"
   },
   "icu:PollCreateModal__optionsLabel": {
     "messageformat": "Options"
@@ -1167,10 +1173,10 @@
     "messageformat": "Nangangailangan ng hindi bababa sa 2 options ang poll"
   },
   "icu:PollCreateModal__Error--QuestionTooLong": {
-    "messageformat": "Question is too long"
+    "messageformat": "Masyadong mahaba ang tanong"
   },
   "icu:PollCreateModal__Error--OptionTooLong": {
-    "messageformat": "Option is too long"
+    "messageformat": "Masyadong mahaba ang option"
   },
   "icu:deleteConversation": {
     "messageformat": "Burahin"
@@ -1983,7 +1989,7 @@
     "messageformat": "Nag-react si {sender} ng {emoji} sa: {message}"
   },
   "icu:notificationPollVoteMessage": {
-    "messageformat": "{sender} voted in the poll \"{pollQuestion}\""
+    "messageformat": "Si {sender} ay bumoto sa poll na: \"{pollQuestion}\""
   },
   "icu:sendFailed": {
     "messageformat": "Failed ang pag-send"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media at files"
+    "messageformat": "Media, links, at files"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Mag-add ng group description…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Open the link in a browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Files"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "No Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "No Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "No Links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links that you send and receive will appear here"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "No Files"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Files that you send and receive will appear here"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pumili ng media quality"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profile name"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pumili ng avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Trabaho"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Focus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Allowed notifications"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Allowed notifications"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Ang profiles mo ay naka-sync sa devices mo. Ang pag-on ng isang profile sa isang device ay mangyayari rin sa ibang devices."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "New profile"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Burahin ang profile"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "History ng edits"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copy timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Hindi ma-send ang edit na ito. I-check ang iyong connection at subukan ulit"
   },
@@ -7256,6 +7298,9 @@
     "messageformat": "Improvements sa copy/paste. Maraming salamat, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal polls are here! Are you and your friends on the same page, or are you poll-ar opposites? Polls are an easy way to see what your group chat really thinks. Create a poll with competing dinner options, vacation destinations, musical preferences for an upcoming road trip, or any other important choices. Everyone in the group can vote and see each other's responses, and you can decide whether or not to allow multiple votes."
+    "messageformat": "Narito na ang Signal polls! Ang polls ay madaling paraan para makita kung ano ang nasa isip ng group chat mo. Gumawa ng poll ng iba't-ibang dinner options o iba pang importanteng pagpipilian. Ang lahat ng nasa group ay makakaboto at makikita rin nila ang sagot ng isa't-isa, at pwede kang mamili kung papayagan mo o hindi ang maramihang pagboto."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
   }
 }
