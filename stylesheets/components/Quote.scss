@@ -386,13 +386,12 @@
   align-items: center;
 }
 .module-quote__generic-file__icon {
-  background: url('../images/file-gradient.svg');
-  background-size: 75%;
+  background: url('../images/generic-file.svg');
+  background-size: contain;
+  margin-inline-end: 6px;
   background-repeat: no-repeat;
-  height: 28px;
-  width: 36px;
-  margin-inline: -4px -6px;
-  margin-bottom: 5px;
+  height: 40px;
+  width: 30px;
 }
 .module-quote__generic-file__text {
   @include mixins.font-body-2;
