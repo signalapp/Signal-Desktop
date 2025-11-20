@@ -220,7 +220,6 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.PackagedApp ||
     !isProduction(app.getVersion()),
   spellcheck: false,
-  enablePreferredSizeMode: true,
 };
 
 const DISABLE_IPV6 = process.argv.some(arg => arg === '--disable-ipv6');
