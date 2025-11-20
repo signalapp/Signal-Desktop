@@ -58,6 +58,10 @@ function createMediaItem(
       // Unused for now
       source: undefined,
       sourceServiceId: undefined,
+      isErased: false,
+      readStatus: undefined,
+      sendStateByConversationId: undefined,
+      errors: undefined,
     },
     ...overrideProps,
   };
@@ -110,6 +114,10 @@ export function Multimedia(): JSX.Element {
           // Unused for now
           source: undefined,
           sourceServiceId: undefined,
+          isErased: false,
+          readStatus: undefined,
+          sendStateByConversationId: undefined,
+          errors: undefined,
         },
       },
       {
@@ -130,6 +138,10 @@ export function Multimedia(): JSX.Element {
           // Unused for now
           source: undefined,
           sourceServiceId: undefined,
+          isErased: false,
+          readStatus: undefined,
+          sendStateByConversationId: undefined,
+          errors: undefined,
         },
       },
       createMediaItem({
@@ -170,6 +182,10 @@ export function MissingMedia(): JSX.Element {
           // Unused for now
           source: undefined,
           sourceServiceId: undefined,
+          isErased: false,
+          readStatus: undefined,
+          sendStateByConversationId: undefined,
+          errors: undefined,
         },
       },
     ],

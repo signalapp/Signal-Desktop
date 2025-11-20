@@ -233,6 +233,10 @@ function showLightboxForViewOnceMedia(
           sentAt: message.get('sent_at'),
           source: message.get('source'),
           sourceServiceId: message.get('sourceServiceId'),
+          isErased: !!message.get('isErased'),
+          readStatus: message.get('readStatus'),
+          sendStateByConversationId: message.get('sendStateByConversationId'),
+          errors: message.get('errors'),
         },
       },
     ];
@@ -338,6 +342,10 @@ function showLightbox(opts: {
           source: message.get('source'),
           sourceServiceId: message.get('sourceServiceId'),
           sentAt,
+          isErased: !!message.get('isErased'),
+          errors: message.get('errors'),
+          readStatus: message.get('readStatus'),
+          sendStateByConversationId: message.get('sendStateByConversationId'),
         },
         type: 'media' as const,
         attachment: getPropsForAttachment(

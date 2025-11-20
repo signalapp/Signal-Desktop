@@ -1,7 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType, CustomError } from '../model-types.d.ts';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
+import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import type { AttachmentForUIType } from './Attachment.std.js';
 import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
 import type { ServiceIdString } from './ServiceId.std.js';
@@ -15,6 +17,10 @@ export type MediaItemMessageType = Readonly<{
   sentAt: number;
   source: string | undefined;
   sourceServiceId: ServiceIdString | undefined;
+  isErased: boolean;
+  sendStateByConversationId: SendStateByConversationId | undefined;
+  readStatus: ReadStatus | undefined;
+  errors: ReadonlyArray<CustomError> | undefined;
 }>;
 
 export type MediaItemType = {

@@ -675,6 +675,7 @@ function ReplyOrReactionMessage({
         id={reply.id}
         interactionMode="mouse"
         isSpoilerExpanded={isSpoilerExpanded}
+        isVoiceMessagePlayed={false}
         messageExpanded={messageExpanded}
         readStatus={reply.readStatus}
         renderingContext="StoryViewsNRepliesModal"

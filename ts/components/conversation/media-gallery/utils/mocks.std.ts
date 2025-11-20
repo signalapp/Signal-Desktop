@@ -88,6 +88,10 @@ function createRandomMessage(
     // Unused for now
     source: undefined,
     sourceServiceId: undefined,
+    isErased: false,
+    readStatus: undefined,
+    sendStateByConversationId: undefined,
+    errors: undefined,
   };
 }
 

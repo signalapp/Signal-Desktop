@@ -87,6 +87,7 @@ import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
 } from '../../util/getLocalAttachmentUrl.std.js';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
 import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.preload.js';
 
 import { getAccountSelector } from './accounts.std.js';
@@ -977,6 +978,7 @@ export const getPropsForMessage = (
       isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
     isTapToViewExpired:
       isMessageTapToView && isIncoming(message) && message.isErased,
+    isVoiceMessagePlayed: isVoiceMessagePlayed(message, ourConversationId),
     readStatus: message.readStatus ?? ReadStatus.Read,
     selectedReaction,
     status: getMessagePropStatus(message, ourConversationId),

@@ -28,7 +28,6 @@ import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.js';
 import { assertDev } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
 import { Sound, SoundType } from '../../util/Sound.std.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { DataReader } from '../../sql/Client.preload.js';
 
 const stateChangeConfirmUpSound = new Sound({
@@ -110,12 +109,16 @@ async function getNextVoiceNote({
     return undefined;
   }
 
-  const next = await getMessageById(results[0].message.id);
-  if (next == null) {
-    return undefined;
-  }
-
-  return extractVoiceNoteForPlayback(next.attributes, ourConversationId);
+  const { message, attachment } = results[0];
+  return extractVoiceNoteForPlayback(
+    {
+      ...message,
+      attachments: [attachment],
+      sent_at: message.sentAt,
+      received_at: message.receivedAt,
+    },
+    ourConversationId
+  );
 }
 
 // Actions

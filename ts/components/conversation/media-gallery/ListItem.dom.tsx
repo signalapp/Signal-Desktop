@@ -12,6 +12,7 @@ import { SpinnerV2 } from '../../SpinnerV2.dom.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import { UserText } from '../../UserText.dom.js';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
@@ -21,7 +22,7 @@ export type Props = {
   i18n: LocalizerType;
   mediaItem: GenericMediaItemType;
   thumbnail: React.ReactNode;
-  title: React.ReactNode;
+  title: string;
   subtitle: React.ReactNode;
   readyLabel: string;
   onClick: (status: AttachmentStatusType['state']) => void;
@@ -129,7 +130,9 @@ export function ListItem({
     >
       <div className={tw('shrink-0')}>{thumbnail}</div>
       <div className={tw('grow overflow-hidden text-start')}>
-        <h3 className={tw('truncate')}>{title}</h3>
+        <h3 className={tw('truncate')}>
+          <UserText text={title} />
+        </h3>
         <div className={tw('type-body-small leading-4 text-label-secondary')}>
           {subtitle}
         </div>

@@ -27,6 +27,7 @@ export function Multiple(): JSX.Element {
           i18n={i18n}
           key={mediaItem.attachment.fileName}
           mediaItem={mediaItem}
+          authorTitle="Alice"
           onClick={action('onClick')}
           onShowMessage={action('onShowMessage')}
         />

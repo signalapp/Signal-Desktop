@@ -11,7 +11,12 @@ import { getSafeDomain } from '../../types/LinkPreview.std.js';
 import type { GenericMediaItemType } from '../../types/MediaItem.std.js';
 import type { AttachmentStatusType } from '../../hooks/useAttachmentStatus.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
+import {
+  getIntl,
+  getTheme,
+  getUserConversationId,
+} from '../selectors/user.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 
@@ -26,6 +31,7 @@ export const MediaItem = memo(function MediaItem({
 }: PropsType) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
+  const ourConversationId = useSelector(getUserConversationId);
   const getConversation = useSelector(getConversationSelector);
 
   const { showConversation } = useConversationsActions();
@@ -57,6 +63,7 @@ export const MediaItem = memo(function MediaItem({
         <AudioListItem
           i18n={i18n}
           authorTitle={authorTitle}
+          isPlayed={isVoiceMessagePlayed(mediaItem.message, ourConversationId)}
           mediaItem={mediaItem}
           onClick={onClick}
           onShowMessage={onShowMessage}
@@ -75,6 +82,7 @@ export const MediaItem = memo(function MediaItem({
       return (
         <DocumentListItem
           i18n={i18n}
+          authorTitle={authorTitle}
           mediaItem={mediaItem}
           onClick={onClick}
           onShowMessage={onShowMessage}
