@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { Tabs } from 'radix-ui';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { tw } from '../../../axo/tw.dom.js';
@@ -10,32 +10,58 @@ import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 import { UserText } from '../../UserText.dom.js';
+import type { PinnedMessageId } from '../../../types/PinnedMessage.std.js';
+import {
+  MessageTextRenderer,
+  RenderLocation,
+} from '../MessageTextRenderer.dom.js';
+import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.js';
 
-export type PinId = string & { PinId: never };
+export type PinMessageText = Readonly<{
+  body: string;
+  bodyRanges: HydratedBodyRangesType;
+}>;
+
+export type PinMessageAttachment = Readonly<{
+  type: 'photo' | 'video' | 'voiceMessage' | 'gif' | 'file';
+  name?: string;
+  url?: string;
+}>;
+
+export type PinMessage = Readonly<{
+  id: string;
+  text?: PinMessageText;
+  attachment?: PinMessageAttachment;
+  contact?: {
+    name?: string;
+    address?: string;
+  };
+  payment?: true;
+  poll?: {
+    question: string;
+  };
+  sticker?: true;
+}>;
 
 export type Pin = Readonly<{
-  id: PinId;
+  id: PinnedMessageId;
   sender: {
     id: string;
     title: string;
     isMe: boolean;
   };
-  message: {
-    id: string;
-    body: string;
-    attachment?: {
-      url: string;
-    };
-  };
+  message: PinMessage;
 }>;
 
 export type PinnedMessagesBarProps = Readonly<{
   i18n: LocalizerType;
   pins: ReadonlyArray<Pin>;
-  current: PinId;
-  onCurrentChange: (current: PinId) => void;
-  onPinGoTo: (pinId: PinId) => void;
-  onPinRemove: (pinId: PinId) => void;
+  current: PinnedMessageId;
+  onCurrentChange: (current: PinnedMessageId) => void;
+  onPinGoTo: (pinnedMessageId: PinnedMessageId) => void;
+  onPinRemove: (pinnedMessageId: PinnedMessageId) => void;
   onPinsShowAll: () => void;
 }>;
 
@@ -48,7 +74,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
 
   const handleValueChange = useCallback(
     (value: string) => {
-      onCurrentChange(value as PinId);
+      onCurrentChange(Number(value) as PinnedMessageId);
     },
     [onCurrentChange]
   );
@@ -72,7 +98,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
   return (
     <Tabs.Root
       orientation="vertical"
-      value={props.current}
+      value={String(props.current)}
       onValueChange={handleValueChange}
       asChild
       activationMode="manual"
@@ -86,7 +112,12 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
         />
         {props.pins.map(pin => {
           return (
-            <Tabs.Content key={pin.id} tabIndex={-1} value={pin.id} asChild>
+            <Tabs.Content
+              key={pin.id}
+              tabIndex={-1}
+              value={String(pin.id)}
+              asChild
+            >
               <Content
                 i18n={i18n}
                 pin={pin}
@@ -133,8 +164,8 @@ function Container(props: {
 function TabsList(props: {
   i18n: LocalizerType;
   pins: ReadonlyArray<Pin>;
-  current: PinId;
-  onCurrentChange: (current: PinId) => void;
+  current: PinnedMessageId;
+  onCurrentChange: (current: PinnedMessageId) => void;
 }) {
   const { i18n } = props;
 
@@ -169,7 +200,7 @@ function TabTrigger(props: {
   const { i18n } = props;
   return (
     <Tabs.Trigger
-      value={props.pin.id}
+      value={String(props.pin.id)}
       aria-label={i18n('icu:PinnedMessagesBar__Tab__AccessibilityLabel', {
         pinNumber: props.pinNumber,
       })}
@@ -194,8 +225,8 @@ function TabTrigger(props: {
 function Content(props: {
   i18n: LocalizerType;
   pin: Pin;
-  onPinGoTo: (pinId: PinId) => void;
-  onPinRemove: (pinId: PinId) => void;
+  onPinGoTo: (pinnedMessageId: PinnedMessageId) => void;
+  onPinRemove: (pinnedMessageId: PinnedMessageId) => void;
   onPinsShowAll: () => void;
 }) {
   const { i18n, pin, onPinGoTo, onPinRemove, onPinsShowAll } = props;
@@ -212,17 +243,19 @@ function Content(props: {
     onPinsShowAll();
   }, [onPinsShowAll]);
 
+  const thumbnailUrl = useMemo(() => {
+    return getThumbnailUrl(pin.message);
+  }, [pin.message]);
+
   return (
     <div className={tw('flex min-w-0 flex-1 flex-row items-center')}>
-      {props.pin.message.attachment != null && (
-        <ImageThumbnail url={props.pin.message.attachment.url} />
-      )}
+      {thumbnailUrl != null && <ImageThumbnail url={thumbnailUrl} />}
       <div className={tw('min-w-0 flex-1')}>
         <h1 className={tw('type-body-small font-semibold text-label-primary')}>
           <UserText text={props.pin.sender.title} />
         </h1>
         <p className={tw('me-2 truncate type-body-medium text-label-primary')}>
-          <UserText text={props.pin.message.body} />
+          <MessagePreview i18n={i18n} message={props.pin.message} />
         </p>
         <AriaClickable.HiddenTrigger
           aria-label={i18n(
@@ -266,12 +299,186 @@ function Content(props: {
   );
 }
 
+function getThumbnailUrl(message: PinMessage): string | null {
+  if (message.attachment == null) {
+    return null;
+  }
+  if (
+    message.attachment.type === 'photo' ||
+    message.attachment.type === 'video'
+  ) {
+    return message.attachment.url ?? null;
+  }
+  return null;
+}
+
 function ImageThumbnail(props: { url: string }) {
   return (
     <img
       alt=""
       src={props.url}
       className={tw('me-2 size-8 rounded-[10px] object-cover')}
+    />
+  );
+}
+
+type PreviewIcon = Readonly<{
+  symbol: AxoSymbol.InlineGlyphName;
+  label: string;
+}>;
+
+function getMessagePreviewIcon(
+  i18n: LocalizerType,
+  message: PinMessage
+): PreviewIcon | null {
+  if (message.attachment != null) {
+    if (message.attachment.type === 'voiceMessage') {
+      return {
+        symbol: 'audio',
+        label: i18n(
+          'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage'
+        ),
+      };
+    }
+    if (message.attachment.type === 'gif') {
+      return {
+        symbol: 'gif',
+        label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif'),
+      };
+    }
+    if (message.attachment.type === 'file') {
+      return {
+        symbol: 'file',
+        label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File'),
+      };
+    }
+  }
+  if (message.contact?.name != null) {
+    return {
+      symbol: 'person-circle',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact'
+      ),
+    };
+  }
+  if (message.contact?.address != null) {
+    return {
+      symbol: 'location',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address'
+      ),
+    };
+  }
+  if (message.payment != null) {
+    return {
+      symbol: 'creditcard',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment'
+      ),
+    };
+  }
+  if (message.poll != null) {
+    return {
+      symbol: 'poll',
+      label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll'),
+    };
+  }
+  if (message.sticker != null) {
+    return {
+      symbol: 'sticker',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker'
+      ),
+    };
+  }
+  return null;
+}
+
+function getMessagePreviewText(
+  i18n: LocalizerType,
+  message: PinMessage
+): ReactNode {
+  if (message.text != null) {
+    return <MessageTextPreview i18n={i18n} text={message.text} />;
+  }
+  if (message.attachment != null) {
+    if (message.attachment.type === 'photo') {
+      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Photo');
+    }
+    if (message.attachment.type === 'video') {
+      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Video');
+    }
+    if (message.attachment.type === 'voiceMessage') {
+      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage');
+    }
+    if (message.attachment.type === 'gif') {
+      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Gif');
+    }
+    if (message.attachment.type === 'file') {
+      return <UserText text={message.attachment.name ?? ''} />;
+    }
+    throw missingCaseError(message.attachment.type);
+  }
+  if (message.contact?.name != null) {
+    return <UserText text={message.contact.name} />;
+  }
+  if (message.contact?.address != null) {
+    return <UserText text={message.contact.address} />;
+  }
+  if (message.payment != null) {
+    return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
+  }
+  if (message.poll != null) {
+    return <UserText text={message.poll.question} />;
+  }
+  if (message.sticker != null) {
+    return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Sticker');
+  }
+  return null;
+}
+
+function MessagePreview(props: { i18n: LocalizerType; message: PinMessage }) {
+  const { i18n, message } = props;
+
+  const icon = useMemo(() => {
+    return getMessagePreviewIcon(i18n, message);
+  }, [i18n, message]);
+
+  const text = useMemo(() => {
+    return getMessagePreviewText(i18n, message);
+  }, [i18n, message]);
+
+  return (
+    <>
+      {icon != null && (
+        <>
+          <AxoSymbol.InlineGlyph symbol={icon.symbol} label={null} />{' '}
+        </>
+      )}
+      {text}
+    </>
+  );
+}
+
+function MessageTextPreview(props: {
+  i18n: LocalizerType;
+  text: PinMessageText;
+}) {
+  const { i18n } = props;
+  return (
+    <MessageTextRenderer
+      bodyRanges={props.text.bodyRanges}
+      direction={undefined}
+      disableLinks
+      jumboEmojiSize={null}
+      i18n={i18n}
+      isSpoilerExpanded={{}}
+      messageText={props.text.body}
+      originalMessageText={props.text.body}
+      onExpandSpoiler={undefined}
+      onMentionTrigger={() => null}
+      renderLocation={RenderLocation.PinnedMessagesBar}
+      textLength={props.text.body.length}
     />
   );
 }

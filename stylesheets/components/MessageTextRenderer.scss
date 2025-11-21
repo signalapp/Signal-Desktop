@@ -68,7 +68,8 @@
 
     // The left pane
     &--spoiler-ConversationList,
-    &--spoiler-SearchResult {
+    &--spoiler-SearchResult,
+    &--spoiler-PinnedMessagesBar {
       @include mixins.light-theme {
         background-color: variables.$color-gray-60;
       }

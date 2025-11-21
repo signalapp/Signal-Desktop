@@ -1678,6 +1678,62 @@
     "messageformat": "See all messages",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > See all messages"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
+    "messageformat": "Address",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Address)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
+    "messageformat": "Voice message",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Voice message)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
+    "messageformat": "GIF",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (GIF)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
+    "messageformat": "File",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (File)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
+    "messageformat": "Contact",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Contact)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
+    "messageformat": "Payment",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Payment)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
+    "messageformat": "Poll",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Poll)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
+    "messageformat": "Sticker",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Sticker)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
+    "messageformat": "Photo",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Photo)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
+    "messageformat": "Video",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Video)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
+    "messageformat": "Voice message",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Voice message)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
+    "messageformat": "GIF",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (GIF)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
+    "messageformat": "Payment",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Text (Payment)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
+    "messageformat": "Sticker",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Text (Sticker)"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Pinned messages",
     "description": "Conversation > Pinned messages panel (view all) > Title"

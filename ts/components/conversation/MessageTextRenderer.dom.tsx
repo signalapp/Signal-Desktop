@@ -34,6 +34,7 @@ export enum RenderLocation {
   ConversationList = 'ConversationList',
   Quote = 'Quote',
   MediaEditor = 'MediaEditor',
+  PinnedMessagesBar = 'PinnedMessagesBar',
   SearchResult = 'SearchResult',
   StoryViewer = 'StoryViewer',
   Timeline = 'Timeline',
