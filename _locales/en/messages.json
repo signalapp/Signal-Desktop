@@ -1682,6 +1682,10 @@
     "messageformat": "Pinned messages",
     "description": "Conversation > Pinned messages panel (view all) > Title"
   },
+  "icu:PinnedMessagesPanel__UnpinAllMessages": {
+    "messageformat": "Unpin all messages",
+    "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button"
+  },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."

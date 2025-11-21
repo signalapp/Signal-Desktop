@@ -11,6 +11,7 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import type { PanelRenderType } from '../../types/Panels.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { PanelType } from '../../types/Panels.std.js';
@@ -322,7 +323,14 @@ const PanelContainer = forwardRef<
           </div>
         )}
       </div>
-      <div className="ConversationPanel__body" ref={focusRef}>
+      <div
+        className={classNames(
+          'ConversationPanel__body',
+          panel.type !== PanelType.PinnedMessages &&
+            'ConversationPanel__body--padding'
+        )}
+        ref={focusRef}
+      >
         <PanelElement conversationId={conversationId} panel={panel} />
       </div>
     </div>

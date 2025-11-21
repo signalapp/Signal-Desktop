@@ -1,6 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { Fragment, memo, useMemo, useRef, useState } from 'react';
+import type { ForwardedRef, ReactNode } from 'react';
+import React, {
+  forwardRef,
+  Fragment,
+  memo,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
@@ -16,6 +24,8 @@ import { getWidthBreakpoint } from '../../../util/timelineUtil.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { useSizeObserver } from '../../../hooks/useSizeObserver.dom.js';
 import { MessageInteractivity } from '../Message.dom.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { AxoButton } from '../../../axo/AxoButton.dom.js';
 
 export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;
@@ -27,6 +37,7 @@ export type PinnedMessagesPanelProps = Readonly<{
 export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
   props: PinnedMessagesPanelProps
 ) {
+  const { i18n } = props;
   const containerElementRef = useRef<HTMLDivElement>(null);
   const [containerWidthBreakpoint, setContainerWidthBreakpoint] = useState(
     WidthBreakpoint.Wide
@@ -42,6 +53,44 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
     setContainerWidthBreakpoint(getWidthBreakpoint(size.width));
   });
 
+  return (
+    <div className={tw('flex h-full flex-col')}>
+      <ScrollArea ref={containerElementRef}>
+        {props.pinnedMessages.map((pinnedMessage, pinnedMessageIndex) => {
+          const next = props.pinnedMessages[pinnedMessageIndex + 1];
+          const prev = props.pinnedMessages[pinnedMessageIndex - 1];
+          return (
+            <Fragment key={pinnedMessage.id}>
+              {props.renderTimelineItem({
+                containerElementRef,
+                containerWidthBreakpoint,
+                conversationId: props.conversation.id,
+                interactivity: MessageInteractivity.Embed,
+                isBlocked: props.conversation.isBlocked ?? false,
+                isGroup: props.conversation.type === 'group',
+                isOldestTimelineItem: pinnedMessageIndex === 0,
+                messageId: pinnedMessage.messageId,
+                nextMessageId: next?.messageId,
+                previousMessageId: prev?.messageId,
+                unreadIndicatorPlacement: undefined,
+              })}
+            </Fragment>
+          );
+        })}
+      </ScrollArea>
+      <div className={tw('flex items-center justify-center p-2.5')}>
+        <AxoButton.Root variant="borderless-primary" size="lg">
+          {i18n('icu:PinnedMessagesPanel__UnpinAllMessages')}
+        </AxoButton.Root>
+      </div>
+    </div>
+  );
+});
+
+const ScrollArea = forwardRef(function ScrollArea(
+  props: { children: ReactNode },
+  ref: ForwardedRef<HTMLDivElement>
+) {
   const scrollerLock = useMemo(() => {
     return createScrollerLock('PinnedMessagesPanel', () => {
       // noop - we probably don't need to do anything here because the only
@@ -51,31 +100,13 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
 
   return (
     <AxoScrollArea.Root scrollbarWidth="wide">
+      <AxoScrollArea.Hint edge="top" />
+      <AxoScrollArea.Hint edge="bottom" />
       <AxoScrollArea.Viewport>
         <AxoScrollArea.Content>
-          <div ref={containerElementRef}>
+          <div ref={ref}>
             <ScrollerLockContext.Provider value={scrollerLock}>
-              {props.pinnedMessages.map((pinnedMessage, pinnedMessageIndex) => {
-                const next = props.pinnedMessages[pinnedMessageIndex + 1];
-                const prev = props.pinnedMessages[pinnedMessageIndex - 1];
-                return (
-                  <Fragment key={pinnedMessage.id}>
-                    {props.renderTimelineItem({
-                      containerElementRef,
-                      containerWidthBreakpoint,
-                      conversationId: props.conversation.id,
-                      interactivity: MessageInteractivity.Embed,
-                      isBlocked: props.conversation.isBlocked ?? false,
-                      isGroup: props.conversation.type === 'group',
-                      isOldestTimelineItem: pinnedMessageIndex === 0,
-                      messageId: pinnedMessage.messageId,
-                      nextMessageId: next?.messageId,
-                      previousMessageId: prev?.messageId,
-                      unreadIndicatorPlacement: undefined,
-                    })}
-                  </Fragment>
-                );
-              })}
+              {props.children}
             </ScrollerLockContext.Provider>
           </div>
         </AxoScrollArea.Content>
