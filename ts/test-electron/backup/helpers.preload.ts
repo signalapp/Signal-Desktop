@@ -240,6 +240,7 @@ export async function asymmetricRoundtripHarness(
       ourAci: OUR_ACI,
       postSaveUpdates,
     });
+    await itemStorage.put('backupTier', options.backupLevel);
 
     await backupsService.exportToDisk(targetOutputFile, {
       type: 'remote',
