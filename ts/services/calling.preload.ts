@@ -22,6 +22,8 @@ import {
   CallLinkEpoch,
   CallLogLevel,
   CallState,
+  CallEndReason,
+  CallRejectReason,
   ConnectionState,
   DataMode,
   JoinState,
@@ -67,13 +69,13 @@ import { isMe } from '../util/whatTypeOfConversation.dom.js';
 import { getAbsoluteTempPath } from '../util/migrations.preload.js';
 import type {
   AvailableIODevicesType,
-  CallEndedReason,
   IceServerType,
   IceServerCacheType,
   MediaDeviceSettings,
   PresentedSource,
 } from '../types/Calling.std.js';
 import {
+  CallEndedReason,
   GroupCallConnectionState,
   GroupCallJoinState,
   ScreenShareStatus,
@@ -132,7 +134,6 @@ import {
   formatLocalDeviceState,
   formatPeekInfo,
   getPeerIdFromConversation,
-  getLocalCallEventFromCallEndedReason,
   getCallDetailsFromEndedDirectCall,
   getCallEventDetails,
   getLocalCallEventFromJoinState,
@@ -528,8 +529,8 @@ export class CallingClass {
       this.#handleOutputDeviceChanged.bind(this);
     RingRTC.handleInputDeviceChanged =
       this.#handleInputDeviceChanged.bind(this);
-    RingRTC.handleAutoEndedIncomingCallRequest =
-      this.#handleAutoEndedIncomingCallRequest.bind(this);
+    RingRTC.handleRejectedIncomingCallRequest =
+      this.#handleRejectedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
     RingRTC.handleSendHttpRequest = this.#handleSendHttpRequest.bind(this);
     RingRTC.handleSendCallMessage = this.#handleSendCallMessage.bind(this);
@@ -710,6 +711,8 @@ export class CallingClass {
         );
         enableLocalCameraIfNecessary();
 
+        RingRTC.setMicrophoneWarmupEnabled(hasLocalAudio);
+
         log.info(`${logId}: Returning direct call`);
         return {
           callMode: CallMode.Direct,
@@ -736,6 +739,8 @@ export class CallingClass {
         groupCall.setOutgoingAudioMuted(!hasLocalAudio);
         groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
+        RingRTC.setMicrophoneWarmupEnabled(hasLocalAudio);
+
         enableLocalCameraIfNecessary();
 
         log.info(`${logId}: Returning group call`);
@@ -759,6 +764,8 @@ export class CallingClass {
     this.disableLocalVideo();
     this.#stopDeviceReselectionTimer();
     this.#lastMediaDeviceSettings = undefined;
+
+    RingRTC.setMicrophoneWarmupEnabled(false);
 
     if (conversationId) {
       this.#getGroupCall(conversationId)?.disconnect();
@@ -1065,6 +1072,8 @@ export class CallingClass {
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
+
+    RingRTC.setMicrophoneWarmupEnabled(hasLocalAudio);
 
     if (hasLocalVideo) {
       drop(this.enableLocalCamera(CallMode.Group));
@@ -1706,7 +1715,7 @@ export class CallingClass {
       requestGroupMembers: groupCall => {
         groupCall.setGroupMembers(this.#getGroupCallMembers(conversationId));
       },
-      onEnded: (groupCall, endedReason) => {
+      onEnded: (groupCall, endedReason, _summary) => {
         const localDeviceState = groupCall.getLocalDeviceState();
         const peekInfo = groupCall.getPeekInfo();
 
@@ -1716,6 +1725,8 @@ export class CallingClass {
           formatLocalDeviceState(localDeviceState),
           peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
         );
+
+        // TODO: handle call summary
 
         this.#reduxInterface?.groupCallEnded({
           conversationId,
@@ -1770,6 +1781,14 @@ export class CallingClass {
     } else if (callMode === CallMode.Adhoc) {
       this.#reduxInterface?.joinedAdhocCall(peerId);
       drop(this.#sendProfileKeysForAdhocCall({ roomId: peerId, peekInfo }));
+    }
+
+    // If it's just us, warm up
+    const call = this.#getGroupCall(peerId);
+    if (call?.getRemoteDeviceStates()?.length === 0) {
+      RingRTC.setMicrophoneWarmupEnabled(
+        !call?.getLocalDeviceState()?.audioMuted
+      );
     }
   }
 
@@ -1962,6 +1981,77 @@ export class CallingClass {
         return GroupCallConnectionState.Reconnecting;
       default:
         throw missingCaseError(connectionState);
+    }
+  }
+
+  #convertRingRtcCallRejectReason(
+    rejectReason: CallRejectReason
+  ): CallEndedReason {
+    switch (rejectReason) {
+      case CallRejectReason.GlareHandlingFailure:
+        return CallEndedReason.GlareFailure;
+      case CallRejectReason.ReceivedOfferExpired:
+        return CallEndedReason.ReceivedOfferExpired;
+      case CallRejectReason.ReceivedOfferWithGlare:
+        return CallEndedReason.ReceivedOfferWithGlare;
+      case CallRejectReason.ReceivedOfferWhileActive:
+        return CallEndedReason.ReceivedOfferWhileActive;
+      default:
+        throw missingCaseError(rejectReason);
+    }
+  }
+
+  #convertRingRtcDirectCallEndReason(
+    callEndReason: CallEndReason
+  ): CallEndedReason {
+    switch (callEndReason) {
+      case CallEndReason.LocalHangup:
+        return CallEndedReason.LocalHangup;
+      case CallEndReason.RemoteHangup:
+        return CallEndedReason.RemoteHangup;
+      case CallEndReason.RemoteHangupNeedPermission:
+        return CallEndedReason.RemoteHangupNeedPermission;
+      case CallEndReason.RemoteHangupAccepted:
+        return CallEndedReason.AcceptedOnAnotherDevice;
+      case CallEndReason.RemoteHangupDeclined:
+        return CallEndedReason.DeclinedOnAnotherDevice;
+      case CallEndReason.RemoteHangupBusy:
+        return CallEndedReason.BusyOnAnotherDevice;
+      case CallEndReason.RemoteBusy:
+        return CallEndedReason.Busy;
+      case CallEndReason.RemoteGlare:
+        return CallEndedReason.Glare;
+      case CallEndReason.RemoteReCall:
+        return CallEndedReason.ReCall;
+      case CallEndReason.Timeout:
+        return CallEndedReason.Timeout;
+      case CallEndReason.InternalFailure:
+        return CallEndedReason.InternalFailure;
+      case CallEndReason.SignalingFailure:
+        return CallEndedReason.SignalingFailure;
+      case CallEndReason.ConnectionFailure:
+        return CallEndedReason.ConnectionFailure;
+      // The rest of the values are unexpected in this context.
+      case CallEndReason.AppDroppedCall:
+      case CallEndReason.DeviceExplicitlyDisconnected:
+      case CallEndReason.ServerExplicitlyDisconnected:
+      case CallEndReason.DeniedRequestToJoinCall:
+      case CallEndReason.RemovedFromCall:
+      case CallEndReason.CallManagerIsBusy:
+      case CallEndReason.SfuClientFailedToJoin:
+      case CallEndReason.FailedToCreatePeerConnectionFactory:
+      case CallEndReason.FailedToNegotiatedSrtpKeys:
+      case CallEndReason.FailedToCreatePeerConnection:
+      case CallEndReason.FailedToStartPeerConnection:
+      case CallEndReason.FailedToUpdatePeerConnection:
+      case CallEndReason.FailedToSetMaxSendBitrate:
+      case CallEndReason.IceFailedWhileConnecting:
+      case CallEndReason.IceFailedAfterConnected:
+      case CallEndReason.ServerChangedDemuxId:
+      case CallEndReason.HasMaxDevices:
+        return CallEndedReason.UnexpectedReason;
+      default:
+        throw missingCaseError(callEndReason);
     }
   }
 
@@ -2327,6 +2417,7 @@ export class CallingClass {
         this.videoRenderer.disable();
         call.setOutgoingAudioMuted(true);
         call.setOutgoingVideoMuted(true);
+        RingRTC.setMicrophoneWarmupEnabled(false);
 
         if (
           excludeRinging &&
@@ -2341,6 +2432,7 @@ export class CallingClass {
         // This ensures that we turn off our devices.
         call.setOutgoingAudioMuted(true);
         call.setOutgoingVideoMuted(true);
+        RingRTC.setMicrophoneWarmupEnabled(false);
         call.disconnect();
       } else {
         throw missingCaseError(call);
@@ -3401,10 +3493,10 @@ export class CallingClass {
     }
   }
 
-  async #handleAutoEndedIncomingCallRequest(
+  async #handleRejectedIncomingCallRequest(
     callIdValue: CallId,
     remoteUserId: UserId,
-    callEndedReason: CallEndedReason,
+    callRejectReason: CallRejectReason,
     ageInSeconds: number,
     wasVideoCall: boolean,
     receivedAtCounter: number | undefined,
@@ -3412,7 +3504,7 @@ export class CallingClass {
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
-      log.warn('handleAutoEndedIncomingCallRequest: Conversation not found');
+      log.warn('handleRejectedIncomingCallRequest: Conversation not found');
       return;
     }
 
@@ -3421,6 +3513,20 @@ export class CallingClass {
       conversation,
     });
     log.info(logId);
+
+    if (callRejectReason === CallRejectReason.ReceivedOfferWhileActive) {
+      // This is a special case where we won't update our local call, because we have
+      // an ongoing active call. The ended call would stomp on the active call.
+      log.info(
+        `${logId}: Got offer while active for conversation ${conversation?.idForLogging()}`
+      );
+      return;
+    }
+
+    // Attempt to translate the rejection reason to its CallEndedReason
+    // counterpart.
+    const callEndedReason =
+      this.#convertRingRtcCallRejectReason(callRejectReason);
 
     const callId = Long.fromValue(callIdValue).toString();
     const peerId = getPeerIdFromConversation(conversation.attributes);
@@ -3440,17 +3546,18 @@ export class CallingClass {
       wasVideoCall,
       timestamp
     );
-    const localCallEvent =
-      getLocalCallEventFromCallEndedReason(callEndedReason);
+
+    // We classify all of the call rejection events as 'Missed'.
     const callEvent = getCallEventDetails(
       callDetails,
-      localCallEvent,
-      'CallingClass.handleAutoEndedIncomingCallRequest'
+      LocalCallEvent.Missed,
+      'CallingClass.handleRejectedIncomingCallRequest'
     );
 
     if (!this.#reduxInterface) {
       log.error(`${logId}: Unable to update redux for call`);
     }
+
     this.#reduxInterface?.callStateChange({
       acceptedTime: null,
       callEndedReason,
@@ -3504,7 +3611,15 @@ export class CallingClass {
         delete this.#callsLookup[conversationId];
       }
 
-      const localCallEvent = getLocalCallEventFromDirectCall(call);
+      const callEndedReason =
+        call.endedReason != null
+          ? this.#convertRingRtcDirectCallEndReason(call.endedReason)
+          : undefined;
+
+      const localCallEvent = getLocalCallEventFromDirectCall(
+        call,
+        callEndedReason
+      );
       if (localCallEvent != null) {
         const peerId = getPeerIdFromConversation(conversation.attributes);
         const callDetails = getCallDetailsFromDirectCall(peerId, call);
@@ -3516,10 +3631,12 @@ export class CallingClass {
         await updateCallHistoryFromLocalEvent(callEvent, null, null);
       }
 
+      // TODO: handle CallSummary here.
+
       reduxInterface.callStateChange({
         conversationId,
         callState: call.state,
-        callEndedReason: call.endedReason,
+        callEndedReason,
         acceptedTime,
       });
     };

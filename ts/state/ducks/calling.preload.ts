@@ -7,7 +7,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import {
   CallLinkEpoch,
   CallLinkRootKey,
-  GroupCallEndReason,
+  CallEndReason,
   type Reaction as CallReaction,
 } from '@signalapp/ringrtc';
 import { getOwn } from '../../util/getOwn.std.js';
@@ -799,7 +799,7 @@ type DirectCallAudioLevelsChangeActionType = ReadonlyDeep<{
 
 type GroupCallEndedActionPayloadType = ReadonlyDeep<{
   conversationId: string;
-  endedReason: GroupCallEndReason;
+  endedReason: CallEndReason;
 }>;
 
 export type GroupCallEndedActionType = ReadonlyDeep<{
@@ -1256,18 +1256,7 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { conversationId, callState, acceptedTime, callEndedReason } =
-      payload;
-
-    // This is a special case were we won't update our local call, because we have an
-    // ongoing active call. The ended call would stomp on the active call.
-    if (callEndedReason === CallEndedReason.ReceivedOfferWhileActive) {
-      const conversation = window.ConversationController.get(conversationId);
-      log.info(
-        `callStateChange: Got offer while active for conversation ${conversation?.idForLogging()}`
-      );
-      return;
-    }
+    const { callState, acceptedTime, callEndedReason } = payload;
 
     const wasAccepted = acceptedTime != null;
     const isEnded = callState === CallState.Ended && callEndedReason != null;
@@ -1485,7 +1474,7 @@ function groupCallEnded(
 > {
   return (dispatch, getState) => {
     const { endedReason } = payload;
-    if (endedReason === GroupCallEndReason.DeniedRequestToJoinCall) {
+    if (endedReason === CallEndReason.DeniedRequestToJoinCall) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,
@@ -1497,7 +1486,7 @@ function groupCallEnded(
       });
       return;
     }
-    if (endedReason === GroupCallEndReason.RemovedFromCall) {
+    if (endedReason === CallEndReason.RemovedFromCall) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,
@@ -1509,7 +1498,7 @@ function groupCallEnded(
       });
       return;
     }
-    if (endedReason === GroupCallEndReason.HasMaxDevices) {
+    if (endedReason === CallEndReason.HasMaxDevices) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,

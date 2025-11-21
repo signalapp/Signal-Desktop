@@ -124,7 +124,6 @@ export enum CallState {
   Ended = 'ended',
 }
 
-// Must be kept in sync with RingRTC.CallEndedReason
 export enum CallEndedReason {
   LocalHangup = 'LocalHangup',
   RemoteHangup = 'RemoteHangup',
@@ -144,6 +143,7 @@ export enum CallEndedReason {
   AcceptedOnAnotherDevice = 'AcceptedOnAnotherDevice',
   DeclinedOnAnotherDevice = 'DeclinedOnAnotherDevice',
   BusyOnAnotherDevice = 'BusyOnAnotherDevice',
+  UnexpectedReason = 'UnexpectedReason',
 }
 
 // Must be kept in sync with RingRTC's ConnectionState
