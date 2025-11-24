@@ -1902,12 +1902,21 @@ export class BackupExportStream extends Readable {
       const simpleUpdate = new Backups.SimpleChatUpdate();
       simpleUpdate.type = Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE;
 
-      if (message.key_changed) {
+      const conversation = window.ConversationController.get(
+        message.conversationId
+      );
+      if (
+        conversation &&
+        isGroup(conversation.attributes) &&
+        message.key_changed
+      ) {
         const target = window.ConversationController.get(message.key_changed);
         if (!target) {
-          throw new Error(
-            'toChatItemUpdate/keyCahnge: key_changed conversation not found!'
+          log.warn(
+            'toChatItemUpdate/keyChange: key_changed conversation not found!',
+            message.key_changed
           );
+          return { kind: NonBubbleResultKind.Drop };
         }
         // This will override authorId on the original chatItem
         patch.authorId = this.#getOrPushPrivateRecipient(target.attributes);
