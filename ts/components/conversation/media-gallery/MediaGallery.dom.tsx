@@ -168,8 +168,17 @@ function MediaSection({
     );
   });
 
+  const isGrid = mediaItems.at(0)?.type === 'media';
+
   return (
-    <div className={tw('flex min-w-0 grow flex-col divide-y')}>{sections}</div>
+    <div
+      className={tw(
+        'flex min-w-0 grow flex-col',
+        isGrid ? undefined : 'divide-y'
+      )}
+    >
+      {sections}
+    </div>
   );
 }
 
