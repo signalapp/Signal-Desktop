@@ -299,9 +299,7 @@ describe('backup/attachments', () => {
         }
       );
     });
-    it('includes bodyAttachment if it has not downloaded', async () => {
-      const truncatedBody = 'a'.repeat(2 * KIBIBYTE);
-
+    it('includes bodyAttachment if it has not downloaded, and truncates body to 2 KIB', async () => {
       const attachment = omit(
         composeAttachment(1, {
           contentType: LONG_MESSAGE,
@@ -319,13 +317,13 @@ describe('backup/attachments', () => {
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
-            body: truncatedBody,
+            body: 'a'.repeat(3 * KIBIBYTE),
             bodyAttachment: attachment,
           }),
         ],
         [
           composeMessage(1, {
-            body: truncatedBody,
+            body: 'a'.repeat(2 * KIBIBYTE),
             bodyAttachment: attachment,
           }),
         ],
