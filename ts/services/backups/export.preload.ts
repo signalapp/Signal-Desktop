@@ -1676,6 +1676,9 @@ export class BackupExportStream extends Readable {
       }
 
       result.poll = pollMessage;
+    } else if (message.pollTerminateNotification) {
+      // TODO (DESKTOP-9282)
+      return undefined;
     } else {
       result.standardMessage = await this.#toStandardMessage({
         message,

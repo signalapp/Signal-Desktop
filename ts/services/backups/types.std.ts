@@ -41,14 +41,12 @@ export type BackupExportOptions =
     }
   | {
       type: 'plaintext-export';
-      abortSignal: AbortSignal;
-      onProgress: OnProgressCallback;
-      shouldIncludeMedia: boolean;
     }
   | {
       type: 'local-encrypted';
-      localBackupSnapshotDir: string;
+      snapshotDir: string;
     };
+
 export type BackupImportOptions = (
   | { type: 'remote' | 'cross-client-integration-test' }
   | {
@@ -94,5 +92,4 @@ export type ExportResultType = Readonly<{
 
 export type LocalBackupExportResultType = ExportResultType & {
   snapshotDir: string;
-  totalAttachmentBytes: number;
 };

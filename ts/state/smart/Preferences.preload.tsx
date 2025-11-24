@@ -289,7 +289,8 @@ export function SmartPreferences(): JSX.Element | null {
   };
 
   const validateBackup = () => backupsService._internalValidate();
-  const exportLocalBackup = () => backupsService._internalExportLocalBackup();
+  const exportLocalBackup = () =>
+    backupsService._internalExportLocalEncryptedBackup();
   const pickLocalBackupFolder = () => backupsService.pickLocalBackupFolder();
 
   const doDeleteAllData = () => renderClearingDataView();
