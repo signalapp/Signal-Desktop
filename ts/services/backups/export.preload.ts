@@ -161,7 +161,11 @@ import {
 } from '../../util/callLinksRingrtc.node.js';
 import { SeenStatus } from '../../MessageSeenStatus.std.js';
 import { migrateAllMessages } from '../../messages/migrateMessageData.preload.js';
-import { isBodyTooLong, trimBody } from '../../util/longAttachment.std.js';
+import {
+  isBodyTooLong,
+  MAX_MESSAGE_BODY_BYTE_LENGTH,
+  trimBody,
+} from '../../util/longAttachment.std.js';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.js';
 import {
   getEnvironment,
@@ -195,7 +199,7 @@ const FLUSH_TIMEOUT = 30 * MINUTE;
 // Threshold for reporting slow flushes
 const REPORTING_THRESHOLD = SECOND;
 
-const BACKUP_LONG_ATTACHMENT_TEXT_LIMIT = 128 * KIBIBYTE;
+const MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH = 128 * KIBIBYTE;
 const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
 type GetRecipientIdOptionsType =
@@ -2986,7 +2990,7 @@ export class BackupExportStream extends Readable {
   }): Promise<Backups.IStandardMessage> {
     if (
       message.body &&
-      isBodyTooLong(message.body, BACKUP_LONG_ATTACHMENT_TEXT_LIMIT)
+      isBodyTooLong(message.body, MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH)
     ) {
       log.warn(`${message.timestamp}: Message body is too long; will truncate`);
     }
@@ -3005,26 +3009,7 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
-      longText:
-        // We only include the bodyAttachment if it's not downloaded; otherwise all text
-        // is inlined
-        message.bodyAttachment && !isDownloaded(message.bodyAttachment)
-          ? await this.#processAttachment({
-              attachment: message.bodyAttachment,
-              messageReceivedAt: message.received_at,
-            })
-          : undefined,
-      text:
-        message.body != null
-          ? {
-              body: message.body
-                ? trimBody(message.body, BACKUP_LONG_ATTACHMENT_TEXT_LIMIT)
-                : undefined,
-              bodyRanges: message.bodyRanges?.map(range =>
-                this.#toBodyRange(range)
-              ),
-            }
-          : undefined,
+      ...(await this.#toTextAndLongTextFields(message)),
       linkPreview: message.preview
         ? await Promise.all(
             message.preview.map(async preview => {
@@ -3067,25 +3052,51 @@ export class BackupExportStream extends Readable {
     if (message.storyReaction) {
       result.emoji = message.storyReaction.emoji;
     } else {
-      result.textReply = {
-        longText: message.bodyAttachment
+      result.textReply = await this.#toTextAndLongTextFields(message);
+    }
+    return result;
+  }
+
+  async #toTextAndLongTextFields(
+    message: Pick<
+      MessageAttributesType,
+      'bodyAttachment' | 'body' | 'bodyRanges' | 'received_at'
+    >
+  ): Promise<{
+    longText: Backups.IFilePointer | undefined;
+    text: Backups.IText | undefined;
+  }> {
+    const includeLongTextAttachment =
+      message.bodyAttachment && !isDownloaded(message.bodyAttachment);
+    const includeText =
+      Boolean(message.body) || Boolean(message.bodyRanges?.length);
+
+    return {
+      longText:
+        // We only include the bodyAttachment if it's not downloaded; otherwise all text
+        // is inlined
+        includeLongTextAttachment && message.bodyAttachment
           ? await this.#processAttachment({
               attachment: message.bodyAttachment,
               messageReceivedAt: message.received_at,
             })
           : undefined,
-        text:
-          message.body != null
-            ? {
-                body: message.body ? trimBody(message.body) : undefined,
-                bodyRanges: message.bodyRanges?.map(range =>
-                  this.#toBodyRange(range)
-                ),
-              }
-            : undefined,
-      };
-    }
-    return result;
+      text: includeText
+        ? {
+            body: message.body
+              ? trimBody(
+                  message.body,
+                  includeLongTextAttachment
+                    ? MAX_MESSAGE_BODY_BYTE_LENGTH
+                    : MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH
+                )
+              : undefined,
+            bodyRanges: message.bodyRanges?.map(range =>
+              this.#toBodyRange(range)
+            ),
+          }
+        : undefined,
+    };
   }
 
   async #toViewOnceMessage({
