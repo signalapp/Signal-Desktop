@@ -138,7 +138,6 @@ const validateBackupResult: ExportResultType = {
 const exportLocalBackupResult: LocalBackupExportResultType = {
   ...validateBackupResult,
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
-  totalAttachmentBytes: 1000000,
 };
 
 const donationAmountsConfig = {

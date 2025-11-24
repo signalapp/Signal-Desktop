@@ -2850,7 +2850,8 @@ export class BackupImportStream extends Writable {
     }
 
     if (updateMessage.pollTerminate) {
-      log.info('Skipping pollTerminate update (not yet supported)');
+      // TODO (DESKTOP-9282)
+      log.warn('Skipping pollTerminate update (not yet supported)');
       return SKIP;
     }
 

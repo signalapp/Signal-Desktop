@@ -78,7 +78,7 @@ export function PlaintextExportWorkflow({
               </div>
               <label
                 className={tw('mt-2 flex items-center py-[10px] ps-4')}
-                htmlFor="includ eMediaCheckbox"
+                htmlFor="includeMediaCheckbox"
               >
                 <AxoCheckbox.Root
                   id="includeMediaCheckbox"
