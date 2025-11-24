@@ -427,6 +427,7 @@ const endedReasonToEvent: Record<CallEndedReason, LocalCallEvent> = {
   [CallEndedReason.Timeout]: LocalCallEvent.Missed,
   [CallEndedReason.Declined]: LocalCallEvent.Missed,
   [CallEndedReason.DeclinedOnAnotherDevice]: LocalCallEvent.Missed,
+  [CallEndedReason.UnexpectedReason]: LocalCallEvent.Missed,
 };
 
 export function getLocalCallEventFromCallEndedReason(
@@ -437,15 +438,16 @@ export function getLocalCallEventFromCallEndedReason(
 }
 
 export function getLocalCallEventFromDirectCall(
-  call: Call
+  call: Call,
+  callEndedReason: CallEndedReason | undefined
 ): LocalCallEvent | null {
   log.info('getLocalCallEventFromDirectCall', call.state);
   if (call.state === CallState.Accepted) {
     return LocalCallEvent.Accepted;
   }
   if (call.state === CallState.Ended) {
-    strictAssert(call.endedReason != null, 'Call ended without reason');
-    return getLocalCallEventFromCallEndedReason(call.endedReason);
+    strictAssert<CallEndedReason>(callEndedReason, 'Call ended without reason');
+    return getLocalCallEventFromCallEndedReason(callEndedReason);
   }
   if (call.state === CallState.Ringing) {
     return LocalCallEvent.Ringing;
