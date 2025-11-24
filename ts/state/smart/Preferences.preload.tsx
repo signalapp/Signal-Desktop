@@ -44,6 +44,10 @@ import OS from '../../util/os/osPreload.preload.js';
 import { themeChanged } from '../../shims/themeChanged.dom.js';
 import * as Settings from '../../types/Settings.std.js';
 import * as universalExpireTimerUtil from '../../util/universalExpireTimer.preload.js';
+import type {
+  HourCycleSettingType,
+  ThemeType,
+} from '../../util/preload.preload.js';
 import {
   parseSystemTraySetting,
   shouldMinimizeToSystemTray,
@@ -104,7 +108,6 @@ import type {
   StorageAccessType,
   ZoomFactorType,
 } from '../../types/Storage.d.ts';
-import type { ThemeType } from '../../util/preload.preload.js';
 import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { DialogType } from '../../types/Dialogs.std.js';
 import { promptOSAuth } from '../../util/promptOSAuth.preload.js';
@@ -385,6 +388,8 @@ export function SmartPreferences(): React.JSX.Element | null {
     React.useState<boolean>();
   const [hasSpellCheck, setSpellCheck] = React.useState<boolean>();
   const [themeSetting, setThemeSetting] = React.useState<ThemeType>();
+  const [hourCyclePreference, setHourCyclePreference] =
+    React.useState<HourCycleSettingType>();
 
   useEffect(() => {
     let canceled = false;
@@ -431,6 +436,15 @@ export function SmartPreferences(): React.JSX.Element | null {
     };
     drop(loadThemeSetting());
 
+    const loadHourCyclePreference = async () => {
+      const value = await window.Events.getHourCyclePreference();
+      if (canceled) {
+        return;
+      }
+      setHourCyclePreference(value);
+    };
+    drop(loadHourCyclePreference());
+
     return () => {
       canceled = true;
     };
@@ -470,6 +484,10 @@ export function SmartPreferences(): React.JSX.Element | null {
     setThemeSetting(value);
     drop(window.Events.setThemeSetting(value));
     drop(themeChanged());
+  };
+  const onHourCycleChange = (value: HourCycleSettingType) => {
+    setHourCyclePreference(value);
+    drop(window.Events.setHourCyclePreference(value));
   };
 
   // Async IPC for electron configuration, all can be modified
@@ -910,6 +928,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onSpellCheckChange={onSpellCheckChange}
           onTextFormattingChange={onTextFormattingChange}
           onThemeChange={onThemeChange}
+          onHourCycleChange={onHourCycleChange}
           onToggleNavTabsCollapse={toggleNavTabsCollapse}
           onUniversalExpireTimerChange={onUniversalExpireTimerChange}
           onWhoCanFindMeChange={onWhoCanFindMeChange}
@@ -956,6 +975,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           startPlaintextExport={startPlaintextExport}
           theme={theme}
           themeSetting={themeSetting}
+          hourCyclePreference={hourCyclePreference}
           universalExpireTimer={universalExpireTimer}
           validateBackup={validateBackup}
           whoCanFindMe={whoCanFindMe}
