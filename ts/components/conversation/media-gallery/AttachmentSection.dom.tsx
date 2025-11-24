@@ -94,8 +94,8 @@ export function AttachmentSection({
     case 'audio':
     case 'link':
       return (
-        <section className={tw('mx-4 mb-3 border-b-border-primary px-2 pb-3')}>
-          <h2 className={tw('pt-1.5 pb-2 type-body-medium')}>{header}</h2>
+        <section>
+          <h2 className={tw('px-6 pt-1.5 pb-2 type-body-medium')}>{header}</h2>
           <div>
             {verified.entries.map(mediaItem => {
               return (
