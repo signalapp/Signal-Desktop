@@ -20,6 +20,7 @@ import { strictAssert } from './util/assert.std.js';
 import { MessageModel } from './models/messages.preload.js';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { BackupLevel } from './services/backups/types.std.js';
 
 const log = createLogger('CI');
 
@@ -220,6 +221,7 @@ export function getCI({
   }
 
   async function uploadBackup() {
+    await itemStorage.put('backupTier', BackupLevel.Paid);
     await backupsService.upload();
     await AttachmentBackupManager.waitForIdle();
 

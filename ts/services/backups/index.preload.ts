@@ -869,6 +869,11 @@ export class BackupsService {
     log.info('fetchAndSaveBackupCdnObjectMetadata: clearing existing metadata');
     await DataWriter.clearAllBackupCdnObjectMetadata();
 
+    strictAssert(
+      areRemoteBackupsTurnedOn(),
+      'Remote backups must be turned on to fetch cdn metadata'
+    );
+
     let cursor: string | undefined;
     const PAGE_SIZE = 1000;
     let numObjects = 0;
@@ -1081,25 +1086,33 @@ export class BackupsService {
 
     const start = Date.now();
     try {
+      if (options.type === 'remote') {
+        strictAssert(
+          areRemoteBackupsTurnedOn(),
+          'Remote backups must be turned on for a remote export'
+        );
+      }
+
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
       if (window.SignalCI || options.type === 'cross-client-integration-test') {
         strictAssert(
           isTestOrMockEnvironment(),
-          'exportBackup: Plaintext backups can be exported only in test harness'
+          'exportBackup: cross-client-integration tests must only be run in test harness'
         );
-      } else if (
-        !isOnline() &&
-        (options.type === 'local-encrypted' ||
-          options.type === 'plaintext-export')
-      ) {
-        log.info(
-          `exportBackup: Skipping CDN update; offline at type is ${options.type}`
-        );
-      } else {
-        // We first fetch the latest info on what's on the CDN, since this affects the
-        // filePointers we will generate during export
-        log.info('exportBackup: Fetching latest backup CDN metadata');
-        await this.fetchAndSaveBackupCdnObjectMetadata();
+      }
+
+      switch (options.type) {
+        case 'remote':
+          log.info('exportBackup: Fetching latest backup CDN metadata');
+          await this.fetchAndSaveBackupCdnObjectMetadata();
+          break;
+        case 'cross-client-integration-test':
+        case 'local-encrypted':
+        case 'plaintext-export':
+          // no need to fetch what's on backup CDN
+          break;
+        default:
+          throw missingCaseError(options);
       }
 
       const { aesKey, macKey } = getKeyMaterial();
