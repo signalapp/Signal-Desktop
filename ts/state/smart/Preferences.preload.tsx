@@ -102,7 +102,10 @@ import {
 
 import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import type { ThemeType } from '../../util/preload.preload.ts';
+import type {
+  ThemeType,
+  HourCycleSettingType,
+} from '../../util/preload.preload.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
@@ -405,6 +408,8 @@ export function SmartPreferences(): JSX.Element | null {
   const [hasContentProtection, setContentProtection] = useState<boolean>();
   const [hasSpellCheck, setSpellCheck] = useState<boolean>();
   const [themeSetting, setThemeSetting] = useState<ThemeType>();
+  const [hourCyclePreference, setHourCyclePreference] =
+    useState<HourCycleSettingType>();
 
   useEffect(() => {
     let canceled = false;
@@ -451,6 +456,15 @@ export function SmartPreferences(): JSX.Element | null {
     };
     drop(loadThemeSetting());
 
+    const loadHourCyclePreference = async () => {
+      const value = await window.Events.getHourCyclePreference();
+      if (canceled) {
+        return;
+      }
+      setHourCyclePreference(value);
+    };
+    drop(loadHourCyclePreference());
+
     return () => {
       canceled = true;
     };
@@ -490,6 +504,10 @@ export function SmartPreferences(): JSX.Element | null {
     setThemeSetting(value);
     drop(window.Events.setThemeSetting(value));
     drop(themeChanged());
+  };
+  const onHourCycleChange = (value: HourCycleSettingType) => {
+    setHourCyclePreference(value);
+    drop(window.Events.setHourCyclePreference(value));
   };
 
   // Async IPC for electron configuration, all can be modified
@@ -1036,6 +1054,7 @@ export function SmartPreferences(): JSX.Element | null {
         onSpellCheckChange={onSpellCheckChange}
         onTextFormattingChange={onTextFormattingChange}
         onThemeChange={onThemeChange}
+        onHourCycleChange={onHourCycleChange}
         onToggleNavTabsCollapse={toggleNavTabsCollapse}
         onTypingIndicatorsChange={onTypingIndicatorsChange}
         onUniversalExpireTimerChange={onUniversalExpireTimerChange}
@@ -1086,6 +1105,7 @@ export function SmartPreferences(): JSX.Element | null {
         startPlaintextExport={startPlaintextExport}
         theme={theme}
         themeSetting={themeSetting}
+        hourCyclePreference={hourCyclePreference}
         universalExpireTimer={universalExpireTimer}
         validateBackup={validateBackup}
         whoCanFindMe={whoCanFindMe}

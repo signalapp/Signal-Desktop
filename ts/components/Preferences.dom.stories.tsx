@@ -504,6 +504,7 @@ export default {
     sentMediaQualitySetting: 'standard',
     shouldShowUpdateDialog: false,
     themeSetting: 'system',
+    hourCyclePreference: 'system',
     theme: ThemeType.light,
     universalExpireTimer: DurationInSeconds.HOUR,
     weArePrimaryDevice: false,
@@ -605,6 +606,7 @@ export default {
     onStartUpdate: action('onStartUpdate'),
     onTextFormattingChange: action('onTextFormattingChange'),
     onThemeChange: action('onThemeChange'),
+    onHourCycleChange: action('onHourCycleChange'),
     onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
     onTypingIndicatorsChange: action('onTypingIndicatorsChange'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
@@ -704,6 +706,16 @@ General.args = {
 export const Appearance = Template.bind({});
 Appearance.args = {
   settingsLocation: { page: SettingsPage.Appearance },
+};
+export const Appearance12HourFormat = Template.bind({});
+Appearance12HourFormat.args = {
+  settingsLocation: { page: SettingsPage.Appearance },
+  hourCyclePreference: '12',
+};
+export const Appearance24HourFormat = Template.bind({});
+Appearance24HourFormat.args = {
+  settingsLocation: { page: SettingsPage.Appearance },
+  hourCyclePreference: '24',
 };
 export const Chats = Template.bind({});
 Chats.args = {
