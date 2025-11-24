@@ -62,7 +62,8 @@ export function LinkPreviewItem({
       <div
         className={tw(
           'flex size-9 items-center justify-center',
-          'overflow-hidden rounded-sm bg-label-secondary'
+          'overflow-hidden rounded-sm',
+          'bg-elevated-background-tertiary text-label-secondary'
         )}
       >
         <AxoSymbol.Icon symbol="link" size={20} label={null} />

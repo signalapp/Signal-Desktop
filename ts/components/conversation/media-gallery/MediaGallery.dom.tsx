@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useCallback } from 'react';
 
 import moment from 'moment';
 
@@ -133,7 +133,12 @@ function MediaSection({
   }
 
   const now = Date.now();
-  const sections = groupMediaItemsByDate(now, mediaItems).map(section => {
+  const groupedItems = groupMediaItemsByDate(now, mediaItems);
+
+  const isGrid = mediaItems.at(0)?.type === 'media';
+
+  const sections = groupedItems.map((section, index) => {
+    const isLast = index === groupedItems.length - 1;
     const first = section.mediaItems[0];
     const { message } = first;
     const date = moment(message.receivedAtMs || message.receivedAt);
@@ -158,25 +163,24 @@ function MediaSection({
     const header = getHeader();
 
     return (
-      <AttachmentSection
-        key={header}
-        header={header}
-        mediaItems={section.mediaItems}
-        onItemClick={onItemClick}
-        renderMediaItem={renderMediaItem}
-      />
+      <Fragment key={header}>
+        <AttachmentSection
+          header={header}
+          mediaItems={section.mediaItems}
+          onItemClick={onItemClick}
+          renderMediaItem={renderMediaItem}
+        />
+        {!isGrid && !isLast && (
+          <hr
+            className={tw('mx-4 my-3 border-[0.5px] border-border-primary')}
+          />
+        )}
+      </Fragment>
     );
   });
 
-  const isGrid = mediaItems.at(0)?.type === 'media';
-
   return (
-    <div
-      className={tw(
-        'flex min-w-0 grow flex-col',
-        isGrid ? undefined : 'divide-y'
-      )}
-    >
+    <div className={tw('flex max-w-[660px] min-w-[360px] grow flex-col')}>
       {sections}
     </div>
   );
@@ -308,7 +312,11 @@ export function MediaGallery({
   ]);
 
   return (
-    <div className="module-media-gallery" tabIndex={-1} ref={focusRef}>
+    <div
+      className={tw('flex size-full grow flex-col outline-none')}
+      tabIndex={-1}
+      ref={focusRef}
+    >
       <Tabs
         initialSelectedTab={TabViews.Media}
         tabs={[
@@ -352,7 +360,14 @@ export function MediaGallery({
           return (
             <>
               {renderMiniPlayer()}
-              <div className="module-media-gallery__content">
+              <div
+                className={tw(
+                  'grow',
+                  'flex flex-col justify-center-safe',
+                  'overflow-x-hidden overflow-y-auto',
+                  'p-5'
+                )}
+              >
                 <MediaSection
                   i18n={i18n}
                   loading={loading}
@@ -365,15 +380,12 @@ export function MediaGallery({
                   playAudio={playAudio}
                   renderMediaItem={renderMediaItem}
                 />
+                <div ref={scrollObserverRef} className={tw('h-px')} />
               </div>
             </>
           );
         }}
       </Tabs>
-      <div
-        ref={scrollObserverRef}
-        className="module-media-gallery__scroll-observer"
-      />
     </div>
   );
 }
