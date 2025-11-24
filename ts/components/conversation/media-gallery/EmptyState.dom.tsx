@@ -29,12 +29,12 @@ export function EmptyState({ i18n, tab }: Props): JSX.Element {
     case TabViews.Documents:
       title = i18n('icu:MediaGallery__EmptyState__title--documents');
       description = i18n(
-        'icu:MediaGallery__EmptyState__description--documents'
+        'icu:MediaGallery__EmptyState__description--documents-2'
       );
       break;
     case TabViews.Links:
       title = i18n('icu:MediaGallery__EmptyState__title--links');
-      description = i18n('icu:MediaGallery__EmptyState__description--links');
+      description = i18n('icu:MediaGallery__EmptyState__description--links-2');
       break;
     default:
       throw missingCaseError(tab);

@@ -124,7 +124,10 @@ export function ListItem({
   return (
     <AriaClickable.Root
       className={tw(
-        'flex w-full flex-row gap-3 py-2',
+        'mx-2.5 flex flex-row gap-3 rounded-lg px-3.5 py-2',
+        'data-hovered:bg-fill-secondary',
+        'data-focused:bg-fill-secondary',
+        'data-pressed:bg-fill-secondary-pressed',
         mediaItem.type === 'link' ? undefined : 'items-center'
       )}
     >
