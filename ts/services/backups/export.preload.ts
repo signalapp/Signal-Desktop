@@ -183,7 +183,7 @@ import { expiresTooSoonForBackup } from './util/expiration.std.js';
 
 const { isNumber } = lodash;
 
-const log = createLogger('export');
+const log = createLogger('backupExport');
 
 // Temporarily limited to preserve the received_at order
 const MAX_CONCURRENCY = 1;
@@ -297,14 +297,14 @@ export class BackupExportStream extends Readable {
         await pauseWriteAccess();
         try {
           await this.#unsafeRun();
-        } catch (error) {
-          this.emit('error', error);
-        } finally {
           await resumeWriteAccess();
           // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
           const { type } = this.options;
           switch (type) {
             case 'remote':
+              log.info(
+                `Enqueuing ${this.#attachmentBackupJobs.length} remote attachment backup jobs`
+              );
               await DataWriter.clearAllAttachmentBackupJobs();
               await Promise.all(
                 this.#attachmentBackupJobs.map(job => {
@@ -325,17 +325,17 @@ export class BackupExportStream extends Readable {
             case 'plaintext-export':
             case 'local-encrypted':
             case 'cross-client-integration-test':
-              log.info(
-                `Type is ${this.options.type}, not doing anything with ${this.#attachmentBackupJobs.length} attachment jobs`
-              );
               break;
             default:
-              // eslint-disable-next-line no-unsafe-finally
               throw missingCaseError(type);
           }
-
+          log.info('finished successfully');
+        } catch (error) {
+          await resumeWriteAccess();
+          log.error('errored', toLogFormat(error));
+          this.emit('error', error);
+        } finally {
           drop(AttachmentBackupManager.start());
-          log.info('BackupExportStream: finished');
         }
       })()
     );
@@ -530,7 +530,7 @@ export class BackupExportStream extends Readable {
 
     for (const { attributes } of window.ConversationController.getAll()) {
       if (isGroupV1(attributes)) {
-        log.warn('backups: skipping gv1 conversation');
+        log.warn('skipping gv1 conversation');
         continue;
       }
 
@@ -545,7 +545,7 @@ export class BackupExportStream extends Readable {
         const index = pinnedConversationIds.indexOf(attributes.id);
         if (index === -1) {
           const convoId = getConversationIdForLogging(attributes);
-          log.warn(`backups: ${convoId} is pinned, but is not on the list`);
+          log.warn(`${convoId} is pinned, but is not on the list`);
         }
         pinnedOrder = Math.max(1, index + 1);
       }
@@ -622,7 +622,7 @@ export class BackupExportStream extends Readable {
       const recipientId = this.#roomIdToRecipientId.get(roomId);
       if (!recipientId) {
         log.warn(
-          `backups: Dropping ad-hoc call; recipientId for roomId ${roomId.slice(-2)} not found`
+          `Dropping ad-hoc call; recipientId for roomId ${roomId.slice(-2)} not found`
         );
         continue;
       }
@@ -635,10 +635,7 @@ export class BackupExportStream extends Readable {
       try {
         callId = Long.fromString(callIdStr);
       } catch (error) {
-        log.warn(
-          'backups: Dropping ad-hoc call; invalid callId',
-          toLogFormat(error)
-        );
+        log.warn('Dropping ad-hoc call; invalid callId', toLogFormat(error));
         continue;
       }
 
@@ -719,7 +716,7 @@ export class BackupExportStream extends Readable {
       } else if (chatFolder.folderType === ChatFolderType.CUSTOM) {
         folderType = Backups.ChatFolder.FolderType.CUSTOM;
       } else {
-        log.warn('backups: Dropping chat folder; unknown folder type');
+        log.warn('Dropping chat folder; unknown folder type');
         continue;
       }
 
@@ -808,7 +805,7 @@ export class BackupExportStream extends Readable {
 
     await this.#flush();
 
-    log.warn('backups: final stats', {
+    log.warn('final stats', {
       ...this.#stats,
       attachmentBackupJobs: this.#attachmentBackupJobs.length,
     });
@@ -818,14 +815,14 @@ export class BackupExportStream extends Readable {
         const result = this.#jsonExporter.finish();
         if (result?.errorMessage) {
           log.warn(
-            'backups: jsonExporter.finish() returned validation error:',
+            'jsonExporter.finish() returned validation error:',
             result.errorMessage
           );
         }
       } catch (error) {
         // We only warn because this isn't that big of a deal - the export is complete.
         // All we need from the exporter at the end is any validation errors it found.
-        log.warn('backups: jsonExporter returned error', toLogFormat(error));
+        log.warn('jsonExporter returned error', toLogFormat(error));
       }
     }
 
@@ -896,13 +893,13 @@ export class BackupExportStream extends Readable {
     this.#flushResolve = resolve;
 
     const start = Date.now();
-    log.info('backups: flush paused due to pushback');
+    log.info('flush paused due to pushback');
     try {
       await pTimeout(promise, FLUSH_TIMEOUT);
     } finally {
       const duration = Date.now() - start;
       if (duration > REPORTING_THRESHOLD) {
-        log.info(`backups: flush resumed after ${duration}ms`);
+        log.info(`flush resumed after ${duration}ms`);
       }
       this.#flushResolve = undefined;
     }
@@ -1132,24 +1129,25 @@ export class BackupExportStream extends Readable {
         avatarColor: toAvatarColor(convo.color),
       };
     } else if (isDirectConversation(convo)) {
-      // Skip story onboarding conversation and other internal conversations.
-      if (
-        convo.serviceId != null &&
-        (isSignalServiceId(convo.serviceId) ||
-          !isServiceIdString(convo.serviceId))
-      ) {
+      if (convo.serviceId != null && isSignalServiceId(convo.serviceId)) {
+        return undefined;
+      }
+
+      if (convo.serviceId != null && !isServiceIdString(convo.serviceId)) {
         log.warn(
-          'backups: skipping conversation with invalid serviceId',
+          'skipping conversation with invalid serviceId',
           convo.serviceId
         );
         return undefined;
       }
 
       if (convo.e164 != null && !isValidE164(convo.e164, true)) {
-        log.warn(
-          'backups: skipping conversation with invalid e164',
-          convo.serviceId
-        );
+        log.warn('skipping conversation with invalid e164', convo.serviceId);
+        return undefined;
+      }
+
+      if (convo.serviceId == null && convo.e164 == null) {
+        log.warn('skipping conversation with neither serviceId nor e164');
         return undefined;
       }
 
@@ -1330,13 +1328,13 @@ export class BackupExportStream extends Readable {
     );
 
     if (conversation && isGroupV1(conversation.attributes)) {
-      log.warn('backups: skipping gv1 message');
+      log.warn('skipping gv1 message');
       return undefined;
     }
 
     const chatId = this.#getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
-      log.warn('backups: message chat not found');
+      log.warn('message chat not found');
       return undefined;
     }
 
@@ -2630,7 +2628,7 @@ export class BackupExportStream extends Readable {
         e164: quote.author,
       });
     } else {
-      log.warn('backups: quote has no author id');
+      log.warn('quote has no author id');
       return null;
     }
 
@@ -2644,7 +2642,7 @@ export class BackupExportStream extends Readable {
     } else {
       quoteType = Backups.Quote.Type.NORMAL;
       if (quote.text == null && quote.attachments.length === 0) {
-        log.warn('backups: normal quote has no text or attachments');
+        log.warn('normal quote has no text or attachments');
         return null;
       }
     }
@@ -2877,7 +2875,7 @@ export class BackupExportStream extends Readable {
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
       const target = window.ConversationController.get(id);
       if (!target) {
-        log.warn(`backups: no send target for a message ${sentAt}`);
+        log.warn(`no send target for a message ${sentAt}`);
         continue;
       }
 
