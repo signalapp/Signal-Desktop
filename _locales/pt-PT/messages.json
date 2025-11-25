@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Sem votos"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Opção vencedora"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Mensagem fixada não encontrada"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondagem não encontrada"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Ficheiros multimédia e outros ficheiros"
+    "messageformat": "Ficheiros multimédia, links e outros ficheiros"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Adicionar descrição do grupo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mensagem de voz"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Áudio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Abre o link num novo navegador"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Áudio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Ficheiros"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Sem multimédia"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "As fotos, vídeos e GIF que enviar e receber irão aparecer aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Sem áudio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "As mensagens de voz e ficheiros áudio que enviar e receber irão aparecer aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Sem links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Os ficheiros que envia e recebe irão aparecer aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Sem ficheiros"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Os ficheiros que envia e recebe irão aparecer aqui"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selecionar a qualidade dos multimédia"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nome de perfil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Selecione um avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Trabalho"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentrado"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notificações permitidas"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notificações permitidas"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Os seus perfis serão sincronizados entre os seus dispositivos. Ligar um perfil num dispositivo irá desligá-lo nos outros dispositivos."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Perfil novo"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Eliminar perfil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Histórico de edições"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copiar timestamp"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Esta edição não pôde ser enviada. Verifique a sua ligação e tente novamente."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Chegaram as sondagens do Signal! As sondagens são uma forma fácil de saber o que o seu chat de grupo pensa realmente. Crie uma sondagem com diferentes opções de restaurante ou quaisquer outras escolhas.  Toda a gente no grupo pode votar e ver as respostas dos outros, e pode decidir permitir votos múltiplos."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "A galeria de ficheiros multimédia agora inclui dois novos separadores para mensagens de áudio e pré-visualização de links."
   }
 }

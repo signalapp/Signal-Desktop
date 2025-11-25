@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "വോട്ടുകളൊന്നുമില്ല"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "വിജയിക്കുന്നു"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "പിൻ ചെയ്ത സന്ദേശം കണ്ടെത്തിയില്ല"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "പോൾ കണ്ടെത്തിയില്ല"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "മീഡിയയും ഫയലുകളും"
+    "messageformat": "മീഡിയ, ലിങ്കുകൾ, ഫയലുകൾ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ഗ്രൂപ്പ് വിവരണം ചേർക്കുക..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "വോയിസ് മെസേജ്"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ഓഡിയോ"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ബ്രൗസറിൽ, ലിങ്ക് തുറക്കുക"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ഓഡിയോ"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ഫയലുകൾ"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ലിങ്കുകൾ"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "ഒന്നുമില്ല"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ഫോട്ടോകൾ, വീഡിയോകൾ, GIF-കൾ എന്നിവ ഇവിടെ ദൃശ്യമാകും"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ഓഡിയോ ഇല്ല"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ശബ്ദ സന്ദേശങ്ങളും ഓഡിയോ ഫയലുകളും ഇവിടെ ദൃശ്യമാകും"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ലിങ്കുകളൊന്നുമില്ല"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ലിങ്കുകൾ ഇവിടെ ദൃശ്യമാകും"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ഫയലുകളൊന്നുമില്ല"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ഫയലുകൾ ഇവിടെ ദൃശ്യമാകും"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "മീഡിയ ഗുണം തിരഞ്ഞെടുക്കുക"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "പ്രൊഫൈൽ നാമം"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "അവതാർ തിരഞ്ഞെടുക്കുക"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ജോലി"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ശ്രദ്ധ കേന്ദ്രീകരിക്കല്‍"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "അനുവദിച്ചിരിക്കുന്ന അറിയിപ്പുകൾ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈലുകൾ ഉപകരണങ്ങളിലുടനീളം സമന്വയിപ്പിക്കപ്പെടും. ഒരു ഉപകരണത്തിൽ ഒരു പ്രൊഫൈൽ ഓണാക്കിയാൽ മറ്റുള്ളവയിൽ അത് ഓണാകും."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "പുതിയ പ്രൊഫൈൽ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "പ്രൊഫൈൽ ഇല്ലാതാക്കൂ"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "എഡിറ്റ് ചെയ്യൽ ചരിത്രം"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ടൈംസ്റ്റാമ്പ് പകർത്തുക"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ഈ എഡിറ്റ് അയയ്ക്കാനാകില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal പോളുകൾ ഇതാ! നിങ്ങളും നിങ്ങളുടെ സുഹൃത്തുക്കളും ഒരേ പേജിലാണോ, അതോ നിങ്ങൾ വിപരീത ദിശയിലാണോ? നിങ്ങളുടെ ഗ്രൂപ്പ് ചാറ്റ് യഥാർത്ഥത്തിൽ എന്താണ് ചിന്തിക്കുന്നതെന്ന് കാണാനുള്ള എളുപ്പവഴിയാണ് പോളുകൾ. ഒന്നിനൊന്നു മികച്ച ഡിന്നർ ഓപ്ഷനുകൾ, വെക്കേഷൻ ഡെസ്റ്റിനേഷനുകൾ, വരാനിരിക്കുന്ന റോഡ് യാത്രയ്ക്കുള്ള സംഗീത മുൻഗണനകൾ അല്ലെങ്കിൽ മറ്റ് പ്രധാനപ്പെട്ട ചോയിസുകള്‍ എന്നിവ ഉൾപ്പെടുത്തി ഒരു പോൾ സൃഷ്ടിക്കുക. ഗ്രൂപ്പിലെ എല്ലാവർക്കും വോട്ട് ചെയ്യാനും പരസ്പരം പ്രതികരണങ്ങൾ കാണാനും കഴിയും, ഒന്നിലധികം വോട്ടുകൾ അനുവദിക്കണോ വേണ്ടയോ എന്ന് നിങ്ങൾക്ക് തീരുമാനിക്കാം."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "മീഡിയ ഗാലറിയിൽ ഇപ്പോൾ ഓഡിയോ സന്ദേശങ്ങൾക്കും ലിങ്ക് പ്രിവ്യൂകൾക്കുമായി രണ്ട് പുതിയ ടാബുകൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. ഒരു ഗ്രൂപ്പ് ചാറ്റിൽ ഒരു ലിങ്ക് വീണാൽ, അത് ശബ്ദമുണ്ടാക്കുമോ?"
   }
 }

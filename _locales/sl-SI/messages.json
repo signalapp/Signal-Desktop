@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Brez glasov"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Zmaguje"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Pripetega sporočila ni bilo mogoče najti."
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anketa ni bila najdena"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Mediji in datoteke"
+    "messageformat": "Mediji, povezave in datoteke"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Dodaj opis skupine ..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Glasovno sporočilo"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Zvok"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Odpri povezavo v brskalniku"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Zvok"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Datoteke"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Povezave"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Ni multimedijskih sporočil"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Fotografije, videoposnetki in GIF-i, ki jih pošljete in prejmete, bodo prikazani tukaj."
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Ni zvoka"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Glasovna sporočila in zvočne datoteke, ki jih pošljete in prejmete, bodo prikazane tukaj."
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Ni povezav"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Povezave, ki jih pošljete in prejmete, bodo prikazane tukaj."
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Ni datotek"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Datoteke, ki jih pošljete in prejmete, bodo prikazane tukaj."
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Izberite kvaliteto medijskih datotek"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Ime profila"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Izberi avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Služba"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Dovoljena obvestila"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Dovoljena obvestila"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Vaši profili bodo sinhronizirani v vseh vaših napravah. Če profil vklopite za eno napravo, ga boste vklopili tudi za ostale."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nov profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Izbriši profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Zgodovina popravkov"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopiraj časovni žig"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Spremenjenega sporočila ni bilo mogoče poslati. Preverite povezavo in poskusite znova"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signalove ankete so tukaj! Ankete so preprost način, da vidite, kaj v resnici mislijo člani vaše skupine. Ustvarite anketo z različnimi možnostmi za večerjo ali drugimi pomembnimi odločitvami. Vsi v skupini lahko glasujejo in vidijo odgovore drug drugega, vi pa se lahko odločite, ali boste dovolili, da posamezniki glasujejo večkrat ali ne."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galerija medijev zdaj vključuje dva nova zavihka za zvočna sporočila in predoglede povezav. Ali se oglasi zvok, če se povezava pojavi v skupinskem klepetu?"
   }
 }

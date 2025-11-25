@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ingen stemmer"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Vinner"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Fant ikke den festede meldingen"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Avstemningen ble ikke funnet"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media og filer"
+    "messageformat": "Mediefiler, lenker og filer"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Legg til gruppebeskrivelse…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Talemelding"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Lyd"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Åpne lenken i en nettleser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Lyd"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Filer"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Lenker"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Ingen mediefiler"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Bilder, videoer og GIF-er som du sender og mottar, vises her"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Ingen lydfiler"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Talemeldinger og lydfiler som du sender og mottar, vises her"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Ingen lenker"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Lenker som du sender og mottar, vises her"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Ingen filer"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Filer som du sender og mottar, vises her"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Velg mediekvalitet"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilnavn"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Velg en avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Jobb"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokusert"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Tillatte varsler"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Tillatte varsler"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profilene dine synkroniseres på alle enhetene dine. Når du aktiverer en profil på en enhet, aktiveres den samtidig på de andre enhetene dine."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Ny profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Slett profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redigeringshistorikk"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopier tidsstempel"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Meldingen kan ikke redigeres. Sjekk internettilkoblingen og prøv igjen."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal har nå avstemninger! Med avstemninger blir det lett å finne ut hva gruppechatten faktisk mener. Du kan f.eks. lage en avstemning med ulike middagsalternativer eller andre viktige avgjørelser. Alle i gruppen kan stemme og se hva de andre stemmer, og du kan bestemme om det er lov å stemme flere ganger."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Mediegalleriet har nå to nye faner: en for talemeldinger og en for forhåndsvisning av lenker."
   }
 }

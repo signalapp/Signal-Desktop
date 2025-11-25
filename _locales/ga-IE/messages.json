@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Níl Aon Vótaí Ann"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Ag buachan"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Níor aimsíodh an teachtaireacht phionnáilte"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Níor aimsíodh an suirbhé"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Meáin agus comhaid"
+    "messageformat": "Meáin, naisc agus comhaid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Cuir cur síos ar an ngrúpa leis…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Glórphost"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Fuaim"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Oscail an nasc i mbrabhsálaí"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Fuaim"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Comhaid"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Naisc"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Níl aon mheán ann"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Taispeánfar anseo grianghraif, físeáin agus GIFanna a sheolann tú agus a fhaigheann tú"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Níl aon fhuaim ann"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Taispeánfar anseo glórphoist agus comhaid fuaime a sheolann tú agus a fhaigheann tú"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Níl aon nasc ann"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Taispeánfar anseo naisc a sheolann tú agus a fhaigheann tú"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Níl aon chomhad ann"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Roghnaigh caighdeán na meán"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Ainm próifíle"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Roghnaigh abhatár"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Ag obair"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Mód fócais"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Fógraí ceadaithe"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Fógraí ceadaithe"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Sioncronófar do phróifílí thar raon do ghléasanna. Má chastar próifíl d'aon ghléas air, casfar air í ar na cinn eile."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Próifíl nua"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Scrios próifíl"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Stair eagarthóireachta"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Cóipeáil an stampa ama"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Níorbh fhéidir an eagarthóireacht sin a sheoladh. Seiceáil do nasc agus triail arís"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Tá suirbhéanna Signal anseo! Is bealach éasca iad suirbhéanna le tuairimí do ghrúpchomhrá a nochtadh i ndáiríre. Cruthaigh suirbhé ina bhfuil roghanna difriúla dinnéir nó cinn eile atá tábhachtach. Beidh vóta ag gach duine sa ghrúpa agus feicfidh siad freagairtí na ndaoine eile, agus beidh tú in ann vóta aonair nó ilvótaí a shocrú."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Tá dhá tháb nua i ngailearaí na meán le haghaidh teachtaireachtaí gutha agus réamhamhairc ar naisc."
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Səs yoxdur"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Qazanmaq"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Sancaqlanan mesaj tapılmadı"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Səsvermə anketi tapılmadı"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media və fayllar"
+    "messageformat": "Media, keçidlər və fayllar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Qrup açıqlaması əlavə edin..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Səsyazmalı mesaj"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Səs"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Keçidi brauzerdə aç"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Səs"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fayllar"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Keçidlər"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Media yoxdur"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Göndərdiyiniz və aldığınız fotolar, videolar və GIF-lər burada görünəcək"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Səsli fayl yoxdur"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Göndərdiyiniz və aldığınız səsli mesajlar və səsli fayllar burada görünəcək"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Keçid yoxdur"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Heç bir fayl yoxdur"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Media keyfiyyətini seçin"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profil adı"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Bir avatar seçin"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "İşdə"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokuslanmış"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "İcazə verilən bildirişlər"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "İcazə verilən bildirişlər"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profilləriniz cihazlarınız arasında sınxronlaşdırılacaq. Bir cihazda profilin açılması, digərlərində də açılmasına səbəb olacaq."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Yeni profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profili sil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redaktə tarixçəsi"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Vaxt möhürünü kopyala"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bu redaktəni göndərmək mümkün olmadı. Bağlantınızı yoxlayıb yenidən cəhd edin"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal səsvermələri buradadır! Dostlarınızla eyni fikirdəsiniz, yoxsa zidd fikirlər də var? Səsvermələr qrup çatlarınızdakı düşüncələri öyrənməyin asan yoludur. Bir-biri ilə yarışan yemək seçimləri, tətil yerləri, növbəti səyahət üçün musiqi seçimləri, yaxud da istənilən başqa vacib seçimlər üçün səsvermə yaradın. Qrupdakı hər kəs səsvermədə iştirak edə və digərlərinin cavablarını görə bilər, sizə isə səs çoxluğunu qəbul edib-etməmək haqqında qərar qalır."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Artıq media qalereya səsli mesajlar və keçidə önbaxışlar üçün iki yeni tab-vərəqəni əhatə edir. Qrup çatına keçidin düşməsi nə anlama gəlir?"
   }
 }

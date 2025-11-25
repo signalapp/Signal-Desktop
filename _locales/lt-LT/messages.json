@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Balsų nėra"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Laimėjimo galimybė"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Prisegta žinutė nerasta"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Apklausa nerasta"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Įrašai ir failai"
+    "messageformat": "Įrašai, nuorodos ir failai"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Pridėk grupės aprašymą…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Balso žinutė"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Garso įrašas"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Atverti nuorodą naršyklėje"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Garso įrašas"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Failai"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Nuorodos"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nėra medijos"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuotraukos, vaizdo įrašai ir GIF failai"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Garso įrašų nėra"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos balso žinutės ir garso failai"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nuorodų nėra"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Failų nėra"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pasirinkti medijos kokybę"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilio vardas"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pasirinkti avatarą"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Darbo"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Susikaupimo laikas"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Leidžiami pranešimai"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Leidžiami pranešimai"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Jūsų profiliai bus sinchronizuoti visuose jūsų įrenginiuose. Įjungus profilį viename įrenginyje, jis bus įjungtas ir kituose."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Naujas profilis"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ištrinti profilį"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redagavimo istorija"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopijuoti laiko žymą"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Šio redagavimo nepavyko išsiųsti. Patikrinkite ryšį ir bandykite vėl"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "„Signal“ apklausos jau čia! Tai paprastas būdas sužinoti, ką iš tikrųjų mano jūsų grupės pokalbių dalyviai. Sukurkite apklausą su skirtingais vakarienės variantais ar kitais svarbiais pasirinkimais. Visi grupės nariai gali balsuoti ir matyti vieni kitų atsakymus, o jūs galite nuspręsti, ar leisti balsuoti kelis kartus."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Įrašų galerijoje nuo šiol yra du nauji skirtukai garso žinutėms ir nuorodų peržiūrai."
   }
 }

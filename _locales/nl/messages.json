@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Geen stemmen"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Meeste stemmen"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Vastgezet bericht niet gevonden"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Peiling niet gevonden"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media en documenten"
+    "messageformat": "Media, links en documenten"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Voeg een groepsomschrijving toe…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Spraakbericht"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Link openen in een browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Documenten"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Geen media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Foto's, video's en GIF's die je verstuurt en ontvangt worden hier weergegeven"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Geen audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Spraakberichten en audiobestanden die je verstuurt en ontvangt worden hier weergegeven"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Geen links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Links die je verstuurt en ontvangt worden hier weergegeven"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Geen documenten"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Documenten die je verstuurt en ontvangt worden hier weergegeven"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Mediakwaliteit kiezen"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profielnaam"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Selecteer een icoon"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Tijdens werk"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Nu even focussen"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Meldingen doorlaten"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Meldingen doorlaten"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Hiermee worden je meldingsprofielen gesynchroniseerd op al je apparaten. Als je een profiel op één apparaat inschakelt, wordt het ook op je andere apparaten ingeschakeld."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nieuw meldingsprofiel"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Meldingsprofiel verwijderen"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Bewerkingsgeschiedenis"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Tijdstempel kopiëren"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Deze bewerking kan niet worden verzonden. Controleer je internetverbinding en probeer het opnieuw"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "★ Je kunt in Signal nu peilingen houden! Een peiling is een makkelijke manier om te zien wat je groepschat ergens van vindt. Maak een peiling voor de leukste restaurantopties, vakantiebestemmingen, muziekvoorkeuren voor een aanstaande roadtrip of andere belangrijke keuzes. Iedereen in de groep kan stemmen en elkaars antwoorden zien, en je kunt zelf bepalen of je meerdere stemmen wilt toestaan of niet."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "De mediagalerij bevat nu twee nieuwe tabbladen voor spraakberichten en linkvoorbeelden."
   }
 }

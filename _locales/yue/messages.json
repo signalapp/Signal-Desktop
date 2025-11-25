@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "未有人投票"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "贏咗"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "搵唔到置頂嘅訊息"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "搵唔到個投票"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "媒體同檔案"
+    "messageformat": "媒體、連結和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "加入群組描述..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "語音訊息"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "音訊檔案"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "喺瀏覽器度打開連結"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "音訊檔案"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "檔案"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "連結"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "冇任何媒體"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "你收發嘅相、影片同 GIF 會喺呢度顯示"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "冇任何音訊"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "你收發嘅語音訊息同音訊檔案會喺呢度顯示"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "冇連結"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "你收發嘅連結會喺呢度顯示"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "冇檔案"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "你收發嘅檔案會喺呢度顯示"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "揀選媒體品質"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "個人檔名"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "揀個頭像"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "公司"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "專心"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "欽准嘅通知"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "欽准嘅通知"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "通知吾揀單將會喺你唔同嘅裝置度同步。開咗一個裝置嘅吾揀單，就會開埋其他機嘅吾揀單。"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "新揀單"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "刪除揀單"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "編輯嘅記錄"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "複製時間標記"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "傳送唔到呢個編輯。請你檢查吓網絡連線，然後再試過啦"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal 嘅投票功能登場啦！你班老友係同你企喺同一陣線，定係打對台？投票係個簡單嘅方法去知道聊天谷成員嘅真正諗法。搞個投票，問下今晚食咩好、去邊度渡假、自駕遊播咩歌，或者其他重要抉擇。聊天谷入面每個人都可以投票同埋睇到大家嘅回應，而你就可以決定係咪俾人投多幾個選項。"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "媒體圖庫而家新加咗兩個選項標籤，分別用嚟顯示語音訊息同埋連結預覽。喺聊天谷度 send 條 link，都可以有「聲」有色啦！"
   }
 }

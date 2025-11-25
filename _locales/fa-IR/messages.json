@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "بدون رأی"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "گزینه پیشتاز"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "پیام سنجاق‌شده یافت نشد"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "نظرسنجی یافت نشد"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "رسانه و فایل‌ها"
+    "messageformat": "رسانه، پیوندها، و فایل‌ها"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "افزودن توصیف گروه..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "پیام صوتی"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "صوت"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "باز کردن پیوند در مرورگر"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "صوت"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "فایل‌ها"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "پیوندها"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "رسانه‌ای موجود نیست"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "عکس‌ها، ویدیوها و GIFهایی که ارسال و دریافت می‌کنید اینجا ظاهر خواهند شد"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "هیچ فایل صوتی وجود ندارد"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "پیام‌های صوتی و فایل‌های صوتی که ارسال و دریافت می‌کنید اینجا ظاهر خواهند شد"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "بدون پیوند"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "پیوندهای ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "فایلی وجود ندارد"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "فایل‌های ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "انتخاب کیفیت رسانه"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "نام نمایه"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "یک آواتار انتخاب کنید"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "محل کار"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فوکوس"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "اعلان‌ها‌ی مجاز"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "اعلان‌ها‌ی مجاز"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "پروفایل‌های شما در همه دستگاه‌ها همگام‌سازی می‌شوند. روشن کردن یک پروفایل در یک دستگاه، آن را در سایر دستگاه‌ها نیز روشن می‌کند."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "پروفایل جدید"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "پاک کردن پروفایل"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تاریخچه ویرایش‌ها"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "کپی کردن برچسب زمان"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "این ویرایش ارسال نشد. اتصال خود را بررسی و دوباره امتحان کنید"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "نظرسنجی‌های سیگنال اینجاست! نظرسنجی‌ها راهی آسان برای دیدن نظرات واقعی اعضای گروه هستند. یک نظرسنجی با گزینه‌های مختلف برای شام یا هر انتخاب مهم دیگری ایجاد کنید. همه افراد گروه می‌توانند رأی بدهند و پاسخ‌های یکدیگر را ببینند و شما می‌توانید تصمیم بگیرید که آیا اجازه رأی‌دهی چندگانه را بدهید یا خیر."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "گالری رسانه اکنون شامل دو زبانه جدید برای پیام‌های صوتی و پیش‌نمایش‌های پیوندها است."
   }
 }

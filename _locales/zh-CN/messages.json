@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "无投票"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "获胜"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "未找到置顶消息"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "未找到投票"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} 名成员}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "媒体和文件"
+    "messageformat": "媒体、链接和文件"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 名成员}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "添加群组描述……"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "语音消息"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "音频"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "在浏览器中打开链接"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "音频"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "文件"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "链接"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "无媒体"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "您收发的图片、视频和 GIF 将会在这里显示"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "无音频"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "您收发的语音消息和音频文件将会在这里显示"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "无链接"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "您收发的链接会在这里显示"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "没有文件"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "您收发的文件会在这里显示"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "选择媒体质量"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "配置名称"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "选择一个头像"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "工作"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "专注"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "允许通知"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "允许通知"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "您的配置将会在您的所有设备上同步。在一台设备上启用配置会在其他设备上同步启用。"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "新配置"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "删除配置"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "编辑历史"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "复制时间戳"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "此编辑无法发送，请检查您的网络连接并重试"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal 投票功能上线啦！投票让您能轻松了解群聊成员的真实想法。您可以创建针对不同晚餐选项或其他重要选择的投票。群里的每个人都可以投票并查看彼此的回应。您还能决定是否允许投多个选项或重复投票。"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "媒体库现包括两个新选项卡，分别用于语音消息和链接预览。"
   }
 }

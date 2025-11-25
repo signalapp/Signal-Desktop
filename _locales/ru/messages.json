@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нет голосов"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Вариант-победитель"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Прикреплённое сообщение не найдено"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Опрос не найден"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиафайлы и файлы"
+    "messageformat": "Медиафайлы, ссылки и файлы"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Добавить описание группы…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Голосовое сообщение"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Откройте ссылку в браузере"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Файлы"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Ссылки"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Нет медиафайлов"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Фото, видео и GIF-файлы, которые вы отправляете и получаете, будут отображаться здесь"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Нет аудиофайлов"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Голосовые сообщения и аудиофайлы, которые вы отправляете и получаете, будут отображаться здесь"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Ссылок нет"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Нет файлов"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Выбрать качество медиа"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Имя профиля"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Выберите аватар"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Работа"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокусирование"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Разрешённые уведомления"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Разрешённые уведомления"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Ваши профили будут синхронизированы на всех устройствах. Включение профиля для одного устройства включит его и на других."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Новый профиль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Удалить профиль"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "История изменений"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Копировать отметку времени"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Не удалось отправить изменённое сообщение. Проверьте ваше подключение к интернету и попробуйте ещё раз"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Опросы Signal уже здесь! Вы на одной волне с друзьями или у вас противоположные мнения? Опросы — это простой способ узнать, что на самом деле думают участники вашего группового чата. Создайте опрос по различным вариантам ужина, направлениям для отдыха, музыкальным предпочтениям для предстоящей поездки или другим важным вопросам. Все участники группы могут голосовать и видеть ответы друг друга, а вы сами решаете, можно ли будет выбрать несколько вариантов."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "В галерее медиафайлов теперь появились две новые вкладки для аудио-сообщений и просмотра ссылок. Если ссылка появляется в групповом чате, будет ли она звучать?"
   }
 }

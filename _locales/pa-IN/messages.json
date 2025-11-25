@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ਕੋਈ ਵੋਟ ਨਹੀਂ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "ਜੇਤੂ"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "ਪਿੰਨ ਕੀਤਾ ਸੁਨੇਹਾ ਨਹੀਂ ਲੱਭਿਆ"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "ਪੋਲ ਨਹੀਂ ਲੱਭਿਆ"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ਮੀਡੀਆ ਅਤੇ ਫਾਈਲਾਂ"
+    "messageformat": "ਮੀਡੀਆ, ਲਿੰਕ, ਅਤੇ ਫ਼ਾਈਲਾਂ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਕਰੋੋੋ…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ਆਡੀਓ"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ਲਿੰਕ ਨੂੰ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ਆਡੀਓ"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ਫ਼ਾਈਲਾਂ"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ਲਿੰਕ"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "ਕੋਈ ਮੀਡੀਆ ਨਹੀਂ ਹੈ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ੋਟੋਆਂ, ਵੀਡੀਓ ਅਤੇ GIFs ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ਕੋਈ ਆਡੀਓ ਨਹੀਂ ਹੈ"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਵੌਇਸ ਸੁਨੇਹਿਆਂ ਅਤੇ ਆਡੀਓ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ਕੋਈ ਲਿੰਕ ਨਹੀਂ ਹਨ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਲਿੰਕ ਇੱਥੇ ਦਿਖਾਏ ਜਾਣਗੇ"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ਕੋਈ ਫਾਈਲਾਂ ਨਹੀਂ ਹਨ"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ਮੀਡੀਆ ਕੁਆਲਿਟੀ ਚੁਣੋ"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ਪ੍ਰੋਫਾਈਲ ਨਾਂ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ਕੋਈ ਅਵਤਾਰ ਚੁਣੋ"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ਕੰਮ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ਫੋਕਸ"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "ਸੂਚਨਾਵਾਂ ਦੀ ਇਜਾਜ਼ਤ ਹੈ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "ਸੂਚਨਾਵਾਂ ਦੀ ਇਜਾਜ਼ਤ ਹੈ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ਤੁਹਾਡੀ ਪ੍ਰੋਫ਼ਾਈਲਾਂ ਨੂੰ ਤੁਹਾਡੀਆਂ ਸਾਰੀਆਂ ਡਿਵਾਈਸਾਂ ਵਿਚਕਾਰ ਸਿੰਕ ਕੀਤਾ ਜਾਵੇਗਾ। ਇੱਕ ਡਿਵਾਈਸ ਲਈ ਪ੍ਰੋਫ਼ਾਈਲ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਇਹ ਦੂਜੇ ਡਿਵਾਈਸਾਂ ਲਈ ਵੀ ਚਾਲੂ ਹੋ ਜਾਵੇਗੀ।"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ਨਵੀਂ ਪ੍ਰੋਫ਼ਾਈਲ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ਪ੍ਰੋਫ਼ਾਈਲ ਮਿਟਾਓ"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ਸੋਧ ਦਾ ਇਤਿਹਾਸ"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ਟਾਈਮਸਟੈਂਪ ਕਾਪੀ ਕਰੋ"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ਇਹ ਸੋਧੇ ਗਏ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜ ਨਹੀਂ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal ਵਿੱਚ ਪੋਲ ਵਾਲਾ ਫੀਚਰ ਆ ਗਿਆ ਹੈ! ਪੋਲ ਇਹ ਦੇਖਣ ਦਾ ਇੱਕ ਆਸਾਨ ਤਰੀਕਾ ਹੈ ਕਿ ਤੁਹਾਡੀ ਗਰੁੱਪ ਚੈਟ ਅਸਲ ਵਿੱਚ ਕੀ ਸੋਚਦੀ ਹੈ। ਡਿਨਰ ਲਈ ਵੱਖ-ਵੱਖ ਪਕਵਾਨਾਂ ਲਈ ਜਾਂ ਕਿਸੇ ਹੋਰ ਜ਼ਰੂਰੀ ਚੀਜ਼ ਬਾਰੇ ਪਸੰਦ ਜਾਣਨ ਲਈ ਪੋਲ ਬਣਾਓ। ਗਰੁੱਪ ਵਿੱਚ ਹਰ ਕੋਈ ਵੋਟ ਕਰ ਸਕਦਾ ਹੈ ਅਤੇ ਇੱਕ-ਦੂਜੇ ਦੇ ਜਵਾਬ ਦੇਖ ਸਕਦਾ ਹੈ ਅਤੇ ਤੁਸੀਂ ਇਹ ਵੀ ਤੈਅ ਕਰ ਸਕਦੇ ਹੋ ਕਿ ਇੱਕ ਤੋਂ ਵੱਧ ਵਿਕਲਪ ਚੁਣਨ ਵਾਲਾ ਪੋਲ ਬਣਾਉਣਾ ਹੈ ਜਾਂ ਸਿਰਫ਼ ਇੱਕ ਵਿਕਲਪ ਚੁਣਨ ਵਾਲਾ।"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "ਮੀਡੀਆ ਗੈਲਰੀ ਵਿੱਚ ਹੁਣ ਆਡੀਓ ਸੁਨੇਹਿਆਂ ਅਤੇ ਲਿੰਕ ਪ੍ਰੀਵਿਊ ਲਈ ਦੋ ਨਵੇਂ ਟੈਬ ਮੌਜੂਦ ਹਨ।"
   }
 }

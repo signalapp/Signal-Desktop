@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Tiada Undian"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Menang"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Mesej yang dipinkan tidak ditemui"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Undian tidak ditemui"
   },
@@ -1155,7 +1161,7 @@
     "messageformat": "Pilihan {number}"
   },
   "icu:PollCreateModal__allowMultipleVotes": {
-    "messageformat": "Benarkan Berbilang Undian"
+    "messageformat": "Benarkan undian berbilang"
   },
   "icu:PollCreateModal__sendButton": {
     "messageformat": "Hantar"
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} ahli}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media dan fail"
+    "messageformat": "Media, pautan dan fail"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ahli}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Tambah penerangan kumpulan..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mesej Suara"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio`"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Buka pautan dalam pelayar"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio`"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fail-fail"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Pautan"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Tiada media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Foto, Video dan GIF yang anda hantar dan terima akan dipaparkan di sini"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Tiada Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Mesej Suara dan Fail Audio yang anda hantar dan terima akan dipaparkan di sini"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Tiada Pautan"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Fail yang anda hantar dan terima akan dipaparkan di sini"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Tiada Fail"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Fail yang anda hantar dan terima akan dipaparkan di sini"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualiti media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nama profil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Pilih avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Kerja"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Benarkan pemberitahuan"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Benarkan pemberitahuan"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profil anda akan disegerakkan merentasi peranti anda. Menghidupkan profil pada satu peranti akan menghidupkannya pada peranti lain juga."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil baru"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Padam profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Sejarah edit"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Salin cap masa"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Edit ini tidak dapat dihantar. Periksa sambungan anda dan cuba lagi"
   },
@@ -7250,12 +7292,15 @@
     "messageformat": "Kami juga telah membetulkan pepijat yang menghalang pemberitahuan daripada muncul pada Windows."
   },
   "icu:WhatsNew__7.79-1": {
-    "messageformat": "Kami telah mengemas kini penampilan palang skrol di seluruh apl untuk menjadikannya lebih konsisten dari segi visual."
+    "messageformat": "Kami mengemas kini rupa bar tatal di seluruh aplikasi untuk menjadikannya lebih konsisten dari segi visual."
   },
   "icu:WhatsNew__7.79-2": {
-    "messageformat": "Penambahbaikan pemformatan salin/tampal. Terima kasih, <brianHarder></brianHarder>!"
+    "messageformat": "Penambahbaikan format salin/tampal. Terima kasih, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Undian Signal sudah tiba! Undian ialah cara mudah untuk mengetahui pendapat sebenar kumpulan sembang anda. Cipta undian dengan pelbagai pilihan makan malam atau pilihan penting yang lain. Semua orang dalam kumpulan boleh mengundi dan melihat jawapan satu sama lain, dan anda boleh menentukan sama ada membenarkan undian berbilang atau tidak."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galeri media kini termasuk dua tab baharu untuk mesej audio dan pratonton pautan."
   }
 }

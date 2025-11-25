@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Vastuseid pole"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Võitja"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Kinnitatud sõnumit ei leitud"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Küsitlust ei leitud"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Meedia ja failid"
+    "messageformat": "Meedia, lingid ja failid"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lisa grupi kirjeldus…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Häälsõnum"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Ava link brauseris"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Failid"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Lingid"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Meedia puudub"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud fotod, videod ja GIF-id"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Heli puudub"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud häälsõnumid ja helifailid"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Linke ei ole"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud lingid"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Faile ei ole"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud failid"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vali meedia kvaliteet"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profiilinimi"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Vali profiilipilt"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Töö"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fookus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Lubatud teavitused"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Lubatud teavitused"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Sinu profiilid sünkroonitakse su seadmete vahel. Profiili sisselülitamine ühes seadmes lülitab selle sisse ka teistes seadmetes."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Uus profiil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Kustuta profiil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Muutmiste ajalugu"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopeeri ajatempel"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Seda muudatust ei saanud saata. Kontrolli oma ühendust ja proovi uuesti."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signali küsitlused on kohal! Küsitlused on lihtne viis näha, mida su grupivestluse osalejad tegelikult arvavad. Loo küsitlus erinevate õhtusöögivõimaluste, puhkusepaikade, muusikaeelistustega eelolevaks autotripiks, või mõne muu olulise otsuse tegemiseks. Kõik grupi liikmed saavad hääletada ja üksteise vastuseid näha ning on sinu valik, kas lubad mitut häält või mitte."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Meediagaleriis on nüüd kaks uut vahekaarti häälsõnumite ja linkide eelvaadete jaoks."
   }
 }

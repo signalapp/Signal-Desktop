@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Hakuna kura"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Kushinda"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Ujumbe uliobandikwa haujapatikana"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Kura ya maoni haijapatikana"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Picha, video na faili"
+    "messageformat": "Picha na video, viungo na faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Ongeza maelezo ya kikundi..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Ujumbe wa Sauti"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Sauti"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Fungua kiungo kwenye kivinjari"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Sauti"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Faili"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Viungo"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Hakuna media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Picha, Video na GIFs unazotuma na kupokea zitaonekana hapa"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Hakuna sauti"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Ujumbe wa Sauti na Faili za Sauti unazotuma na kupokea vitaonekana hapa"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Hakuna Viungo"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Viungo unavyotuma na kupokea vitaonekana hapa"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Hakuna Faili"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Sauti unazotuma na kupokea zitaonekana hapa"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chagua ubora wa media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Jina la wasifu"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Chagua umbo"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Kazi"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Kumakinika"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Arifa zinazoruhusiwa"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Arifa zinazoruhusiwa"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Wasifu wako utasawazishwa kwenye vifaa vyako vyote. Unapowasha wasifu wa kifaa kimoja utauwasha kwenye vifaa vingine."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Wasifu mpya"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Futa wasifu"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historia ya uhariri"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Nakili mhuri wa muda"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Uhariri huu umeshindwa kutumwa. Angalia muunganisho wako wa mtandao kisha ujaribu tena"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Hii hapa kura ya maoni ya Signal! Je, wewe na marafiki zako mko sawa au mpo mbali kabisa kimtazamo? Kura za maoni ni njia rahisi ya kujua vile gumzo lenu la kikundi hufikiri hasa. Unda kura ya maoni yenye chaguo za chakula cha usiku, maeneo ya likizo, mapendeleo ya muziki kwa safari yenu ya barabarani ijayo au maamuzi mengine yoyote muhimu. Kila mtu kwenye kikundi anaweza kupiga kura na kuona majibu ya wengine na mnaweza kuamua kama mtaruhusu mtu kupiga kura zaidi ya mara moja au la."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Matunzio ya picha na video sasa yanajumuisha vichupo vipya viwili kwa ujumbe wa sauti na matoleo hakikisho la viungo. Ikiwa kiungo kitatumwa kwenye gumzo la kundi, je, hutoa sauti?"
   }
 }

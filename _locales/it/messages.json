@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nessun voto"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Opzione più votata"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Messaggio fissato non trovato"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondaggio non trovato"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media e file"
+    "messageformat": "Media, link e file"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Aggiungi descrizione gruppo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Messaggio vocale"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Apri il link in un browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "File"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Link"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nessun file multimediale"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Foto, video e GIF che invii e ricevi verranno mostrati qui"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Nessun audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "I messaggi vocali e file audio che invii e ricevi verranno mostrati qui"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nessun link"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Qui vedrai i link che invii e ricevi"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nessun file"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Qui vedrai i file che invii e ricevi"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleziona qualità media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nome profilo"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Seleziona un avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Ufficio"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentrazione"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notifiche permesse"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notifiche permesse"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "I tuoi profili verranno sincronizzati sui tuoi dispositivi. Attivare un profilo per un dispositivo comporterà l'attivazione anche per gli altri."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nuovo profilo"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Elimina profilo"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Cronologia delle modifiche"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copia data e ora"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Impossibile inviare questa modifica. Controlla la tua connessione e riprova"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Sono arrivati i sondaggi su Signal! Siete davvero tutti allineati su cosa fare questo sabato sera? Vincerà il sushi o la carbonara? I sondaggi sono il modo più semplice per… beh, fare un sondaggio tra le persone in un gruppo. Creane uno inserendo tutte le opzioni che vuoi e per qualsiasi ragione: una cena fuori, piani per il weekend, vacanze o il fatidico \"cosa facciamo a capodanno\". Chiunque sia nel gruppo potrà votare e vedere i voti delle altre persone. Inoltre, potrai decidere se consentire alle persone di scegliere più opzioni."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "La galleria multimediale ora include due nuove schermate per i messaggi vocali e le anteprime dei link. E tu quanti link hai visto in anteprima, non al cinema, ma sul tuo telefono?"
   }
 }

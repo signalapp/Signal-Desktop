@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "بېلەت تاشلانمىدى"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "غەلىبە قىلىش"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "مىخلاپ قويغان ئۇچۇر تېپىلمىدى"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "راي سىناش تېپىلمىدى"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "مېدىيا ۋە ھۆججەتلەر"
+    "messageformat": "مېدىيا، ئۇلىنىشلار ۋە ھۆججەتلەر"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "گۇرۇپپا تونۇشتۇرۇشى قوش…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "ئاۋازلىق ئۇچۇر"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ئۈن"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ئۇلىنىشنى توربەتتىن ئېچىڭ"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ئۈن"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ھۆججەتلەر"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ئۇلانمىلار"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "مېدىيا يوق"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان رەسىم، ۋىدېيو ۋە GIF بۇ يەردە كۆرۈنىدۇ"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ئۈن يوق"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئاۋازلىق ئۇچۇرلار ۋە ئۈن ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ئۇلانمىلار يوق"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئۇلانمىلار بۇ يەردە كۆرۈنىدۇ"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ھۆججەتلەر يوق"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "مېدىيا سۈپىتىنى تاللاش"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "سەپلىمە ئاتى"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "بىر سىما تاللا"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "خىزمەت"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Focus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "رۇخسەت قىلىنغان ئۇقتۇرۇش"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ئارخىپلىرىڭىز ئۈسكۈنىلىرىڭىز ئارىسىدا ماسقەدەملىنىدۇ. بىر ئۈسكۈنىدە بىر ئارخىپىنى ئاچسىڭىز، ئۇ باشقا ئۈسكۈنىلەردىمۇ ئېچىۋېتىلىدۇ."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "يېڭى ئارخىپ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ئارخىپنى ئۆچۈرۈش"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تەھرىرلەش تارىخى"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ۋاقىت تامغىسىنى كۆچۈرۈش"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "بۇ تەھرىرلەشنى يوللىغىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal راي سىناقلىرى بۇ يەردە! سىز ۋە دوستلىرىڭىز ئۆخشاش كۆز-قاراشتىمۇ ياكى قارشى پىكىردىمۇ؟ راي سىناش بولسا گۇرۇپپىڭىزدىكىلەرنىڭ ھەقىقىي ئويلىغانلىرىنى بىلىشنىڭ ئاسان ئۇسۇلى. مۇھىم تېمىلار ياكى مۇھىم ئەمەس دەپ قارىغان، مەسىلەن: «چۈشتە نېمە يەيمىز»، دىگەندەك تېمىلار ئۈستىدە راي سىناش ئېلىپ بېرىڭ. گۇرۇپپا ئەزالىرىنىڭ ھەرقاندىقى بېلەت تاشلىيالايدۇ ۋە بىر-بىرىنىڭ ئىنكاسىنى كۆرەلەيدۇ، كۆپ بېلەتكە ئەگىشىش ياكى ئەگەشمەسلىك ئۆز ئختىيارلىقىڭىزدا."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "مېدىيا رەسىم ئامبىرى ھازىر ئاۋازلىق ئۇچۇرلار ۋە ئۇلىنىشلارنى ئالدىن كۆرۈش ئۈچۈن ئىككى يېڭى بەتكۈچنى ئۆز ئىچىگە ئالىدۇ. ئەگەر گۇرۇپپا پارىڭىغا بىر ئۇلانما يوللانسا، ئاۋاز چىقارامدۇ؟"
   }
 }

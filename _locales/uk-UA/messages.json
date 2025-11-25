@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Голосів немає"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Найпопулярніша відповідь"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Закріплене повідомлення не знайдено"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Опитування не знайдено"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медіафайли й файли"
+    "messageformat": "Медіафайли, посилання й файли"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Додайте опис групи…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Голосове повідомлення"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудіо"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Відкрити посилання в браузері"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудіо"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Файли"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Посилання"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Медіафайлів немає"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Тут будуть надіслані й отримані фото, відеофайли й GIF"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Аудіофайлів немає"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Тут будуть надіслані й отримані голосові повідомлення й аудіофайли"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Посилань немає"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Тут будуть ваші надіслані й отримані посилання"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Файлів немає"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Тут будуть ваші надіслані й отримані файли"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Оберіть якість медіафайлів"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Назва профілю"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Оберіть зображення"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Робота"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Зосередженість"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Від кого надходять сповіщення"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Від кого надходять сповіщення"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профілі буде синхронізовано на всіх пристроях. Якщо ввімкнути профіль на одному пристрої, він також увімкнеться на інших."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Новий профіль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Видалити профіль"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Попередній текст"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Скопіювати часову позначку"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Відредаговане повідомлення не вдалося надіслати. Перевірте з'єднання з мережею і спробуйте знову"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Тепер у Signal є опитування! Приймайте групові рішення без сварок і надто палких дискусій. Опитування — це простий спосіб дізнатися думку групи. Створіть опитування, щоб визначитися з вечерею, відпусткою, плейлистом для довгої дороги чи іншими важливими питаннями. Голосувати й бачити відповіді можуть усі в групі, а ще ви можете дозволити вибирати по кілька відповідей."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "У галереї медіафайлів тепер є вкладки для голосових повідомлень і посилань. Тепер буде простіше знайти той самий сайт, яким друг ділився пів року тому."
   }
 }

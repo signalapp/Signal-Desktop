@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ei ääniä"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Voittaja"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Kiinnitettyä viestiä ei löytynyt"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Kyselyä ei löytynyt"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media ja tiedostot"
+    "messageformat": "Media, linkit ja tiedostot"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lisää ryhmän kuvaus…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Ääniviesti"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Ääni"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Avaa linkki selaimessa"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Ääni"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Tiedostot"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Linkit"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Ei mediatiedostoja"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Lähettämäsi ja vastaanottamasi kuvat, videot ja GIF-tiedostot näkyvät täällä"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Ei ääntä"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Lähettämäsi ääniviestit ja -tiedostot näytetään täällä"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Ei linkkejä"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Lähettämäsi ja vastaanottamasi linkit näkyvät täällä"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Ei tiedostoja"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Lähettämäsi ja vastaanottamasi tiedostot näkyvät täällä"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Valitse median laatu"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profiilin nimi"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Valitse avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Työ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Keskittyminen"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Sallitut ilmoitukset"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Sallitut ilmoitukset"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profiilisi synkronoidaan laitteidesi välillä. Profiilin ottaminen käyttöön yhdessä laitteessa ottaa sen käyttöön muissakin laitteissa."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Uusi profiili"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Poista profiili"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Muokkaushistoria"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopioi aikaleima"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Muokkausta ei voitu lähettää. Tarkasta verkkoyhteys ja yritä uudelleen"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "★ Signalissa voi nyt tehdä kyselyitä! Kyselyillä saat helposti selville, mitä mieltä ryhmäkeskustelussa aidosti ollaan. Luo kysely, jossa on erilaisia illallisvaihtoehtoja tai muita tärkeitä valintoja. Kaikki ryhmän jäsenet voivat äänestää ja nähdä toistensa vastaukset, ja voitte päättää, sallitteko useita ääniä vai ette."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Mediagalleria sisältää nyt kaksi uutta välilehteä ääniviesteille ja linkkien esikatseluille."
   }
 }

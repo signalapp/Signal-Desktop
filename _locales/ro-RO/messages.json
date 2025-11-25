@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Niciun vot"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Câștigător"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Mesajul fixat nu a fost găsit"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondajul nu a fost găsit"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media și fișiere"
+    "messageformat": "Media, linkuri și fișiere"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Adaugă descrierea grupului..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mesaj vocal"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Deschide linkul într-un browser"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fișiere"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Link-uri"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nu ai Fișiere Media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Fotografiile, Videoclipurile și GIF-urile pe care le trimiți și le primești vor apărea aici"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Fără Audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Mesajele Vocale și Fișierele Audio pe care le trimiți și le primești vor apărea aici"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Fără linkuri"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Fără fișiere"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selectează calitatea fișierelor media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nume profil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Selectează un avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Serviciu"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentrare"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notificări permise"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notificări permise"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profilurile vor fi sincronizate pe dispozitivele tale. Dacă activezi un profil pentru un dispozitiv, îl va activa și pentru celelalte."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil nou"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Șterge profilul"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Editează istoricul"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copiază marcajul temporal"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Această modificare nu a putut fi trimisă. Verifică-ți conexiunea și încearcă din nou"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Sondajele Signal sunt aici! Tu și prietenii tăi sunteți pe aceeași lungime de undă sau sunteți, în general, opuși? Sondajele sunt o modalitate ușoară de a vedea ce părere are cu adevărat grupul tău de chat. Creează un sondaj cu opțiuni concurente pentru cină, destinații de vacanță, preferințe muzicale pentru o viitoare excursie cu mașina sau orice alte alegeri importante. Toți membrii grupului pot vota și pot vedea răspunsurile celorlalți, iar tu poți decide dacă permiți sau nu voturi multiple."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galeria media include acum două file noi pentru mesaje audio și previzualizări de linkuri. Dacă un link intră într-o conversație de grup, scoate vreun sunet?"
   }
 }

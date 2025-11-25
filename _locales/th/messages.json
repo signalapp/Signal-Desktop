@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ยังไม่มีคะแนนโหวต"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "ชนะโหวต"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "ไม่พบข้อความที่ปักหมุดไว้"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "ไม่พบโพล"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ไฟล์สื่อและไฟล์อื่นๆ"
+    "messageformat": "ไฟล์สื่อ ลิงก์ และไฟล์อื่นๆ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "เพิ่มคำอธิบายกลุ่ม…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "ข้อความเสียง"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "เสียง"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "เปิดลิงก์ในเบราว์เซอร์"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "เสียง"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ไฟล์"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ลิงก์"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "ไม่มีสื่อ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "รูปภาพ วิดีโอ และ GIF ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ไม่มีไฟล์เสียง"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "ข้อความเสียงและไฟล์เสียงที่คุณส่งและได้รับจะปรากฏในหน้านี้"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ไม่มีลิงก์"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "ลิงก์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ไม่มีไฟล์"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "ไฟล์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "เลือกคุณภาพสื่อ"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ชื่อโปรไฟล์"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "เลือกอวตาร"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ที่ทำงาน"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "โฟกัส"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "อนุญาตการแจ้งเตือนแล้ว"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "โปรไฟล์ของคุณจะซิงค์ไปยังอุปกรณ์ทุกเครื่อง การเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องหนึ่งจะเป็นการเปิดใช้โปรไฟล์บนอุปกรณ์เครื่องอื่นๆ ด้วยเช่นกัน"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "โปรไฟล์ใหม่"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ลบโปรไฟล์"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ประวัติการแก้ไข"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "คัดลอกข้อมูลเวลา"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ไม่สามารถส่งข้อความที่แก้ไขนี้ได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "แบบนี้ต้อง Signal โพล! หาคำตอบให้ทุกคำถามด้วยการสร้างโพลในแชทกลุ่ม ชวนเพื่อนคุณร่วมโหวตไม่ว่าจะเรื่องเล็กหรือใหญ่: มื้อนี้จะสั่งอะไรมาทาน ทริปหน้าจะนัดกันไปเที่ยวไหน ฯลฯ ทุกคนในกลุ่มจะสามารถโหวตและเห็นคำตอบของเพื่อนร่วมแชท นอกจากนี้ ผู้สร้างโพลยังเลือกได้อีกด้วยว่าจะให้สมาชิกลงคะแนนได้หลายคำตอบหรือไม่"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "เพิ่มสองแท็บใหม่ในหน้ารวมสื่อเพื่อแสดงข้อความเสียงและตัวอย่างลิงก์โดยเฉพาะ"
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nema glasova"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Pobjednička opcija"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Prikvačena poruka nije pronađena"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anketa nije pronađena"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} član} few {{number,number} člana} many {{number,number} članova} other {{number,number} članova}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Medijski zapisi i datoteke"
+    "messageformat": "Medijski zapisi, poveznice i datoteke"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} član} few {{number,number} člana} many {{number,number} članova} other {{number,number} članova}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Dodajte opis grupe…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Glasovna poruka"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Zvuk"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Otvorite poveznicu u pregledniku"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Zvuk"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Datoteke"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Poveznice"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nema medijskih zapisa"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Ovdje će se pojaviti fotografije, videozapisi i GIF-ovi koje šaljete i primate"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Nema zvučnih zapisa"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Ovdje će se pojaviti glasovne poruke i zvučne datoteke koje šaljete i primate"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nema poveznica"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Ovdje će se pojaviti datoteke koje šaljete i primate"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nema datoteka"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Ovdje će se pojaviti datoteke koje šaljete i primate"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Odaberite kvalitetu medija"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Ime profila"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Odaberite svog Avatara"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Posao"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Koncentracija"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Dopusti obavijesti"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Dopusti obavijesti"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Vaši će se profili sinkronizirati s vašim povezanim uređajima. Uključivanjem profila za jedan uređaj, isti će se uključiti i za ostale."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Novi profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Izbriši profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Povijest uređivanja"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopiraj vremensku oznaku"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Nije moguće poslati uređenu poruku. Provjerite internetsku vezu i pokušajte ponovno"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Ankete su stigle na Signal! Ankete su jednostavan alat koji vam omogućuje da saznate mišljenja članova vašeg grupnog razgovora o raznim temama. Možete izraditi anketu s opcijama za večeru ili bilo kojim drugim važnim izborima. Svi u grupi mogu glasati i vidjeti odgovore, a vi možete odlučiti hoćete li dozvoliti višestruke glasove ili ne."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galerija medijskih zapisa sada uključuje dvije nove kartice za glasovne poruke i preglede poveznica."
   }
 }

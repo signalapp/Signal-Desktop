@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Ez dago botorik"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Irabazten"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Ez da aurkitu mezu ainguratua"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Ez da aurkitu galdeketa"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multimedia-edukia eta fitxategiak"
+    "messageformat": "Multimedia-edukia, estekak eta fitxategiak"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Gehitu taldearen deskribapena…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Ahots-mezua"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audioa"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Ireki esteka arakatzaile batean"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audioa"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fitxategiak"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Estekak"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Euskarririk ez"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Bidaltzen eta jasotzen dituzun argazki, bideo eta GIFak hemen agertuko dira"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Ez dago audiorik"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Bidaltzen eta jasotzen dituzun ahots-mezuak eta audio-fitxategiak hemen agertuko dira"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Ez dago estekarik"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Bidaltzen eta jasotzen dituzun estekak hemen agertuko dira"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Ez dago fitxategirik"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Bidaltzen eta jasotzen dituzun fitxategiak hemen agertuko dira"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Hautatu multimedia-edukiaren kalitatea"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profileko izena"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Hautatu abatar bat"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Lana"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Kontzentratu"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Baimendutako jakinarazpenak"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Baimendutako jakinarazpenak"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Zure profilak gailu artean sinkronizatuko dira. Profil bat gailu baterako aktibatzen baduzu, beste gailuetarako ere aktibatuko da."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil berria"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ezabatu profila"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edizio-historia"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopiatu denbora-zigilua"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ezin izan da bidali aldaketa hau. Egiaztatu konexioa eta saiatu berriro."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Hemen dira Signal-eko galdeketak! Taldeko txatak benetan zer pentsatzen duen jakiteko modu erraza dira galdeketak. Sortu galdeketa bat afaltzeko aukera ezberdinekin, edo bestelako aukera garrantzitsuekin. Taldeko guztiek, bozkatu, eta besteen erantzunak ikusi ahalko dituzte; zuk, aldiz, boto bat baino gehiago eman daitekeen aukeratu ahalko duzu."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Orain, multimedia-edukiaren galeriak bi fitxa berri dauzka: bata audio-mezuetarako eta bestea esteka-aurreikuspenetarako."
   }
 }

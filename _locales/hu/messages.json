@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nincs szavazat"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Nyertes"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "A rögzített üzenet nem található"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Nem található szavazás"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médiatartalmak és fájlok"
+    "messageformat": "Médiatartalmak, linkek és fájlok"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Csoportleírás hozzáadása…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Hangüzenet"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Hang"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Hivatkozás megnyitása egy böngészőben"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Hang"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fájlok"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Hivatkozások"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nincs médiafájl"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Itt jelennek meg a küldött és fogadott fotók, videók és GIF-ek"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Nincs hang"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott hangüzenetek és hangfájlok"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nincs hivatkozás"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott hivatkozások"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nincsenek fájlok"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott fájlok"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Médiafájl minőségének kiválasztása"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilnév"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Válassz profilképet!"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Munkahelyi"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fókusz"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Engedélyezett értesítések"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Engedélyezett értesítések"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "A profiljaid szinkronizálva lesznek az eszközeid között. Ha bekapcsolsz egy profilt az egyik eszközön, akkor az a többi eszközön is bekapcsolásra kerül."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Új profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profil törlése"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Szerkesztési előzmények"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Időbélyegző másolása"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ezt a szerkesztést nem sikerült elküldeni. Ellenőrizd az internetkapcsolatot, és próbáld újra"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Megérkeztek a Signal szavazások! A szavazások egyszerű módjai annak, hogy megtudd, mit gondolnak valójában a csoportos csevegés résztvevői. Hozz létre egy szavazást különböző vacsoralehetőségekkel vagy bármilyen más fontos választási lehetőséggel. A csoport minden tagja szavazhat és láthatja a másik válaszait, és eldöntheted, hogy engedélyezed-e a többszörös szavazást."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "A médiagaléria mostantól két új lapot tartalmaz a hangüzenetek és a hivatkozások előnézetei számára. Ha egy hivatkozás egy csoportos csevegésbe kerül, akkor hangjelzés hallható?"
   }
 }

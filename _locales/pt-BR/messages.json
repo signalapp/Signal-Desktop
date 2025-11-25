@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nenhum voto"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Opção vencedora"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Mensagem fixada não encontrada"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Enquete não encontrada"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Mídia e arquivos"
+    "messageformat": "Mídia, links e arquivos"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Adicionar descrição do grupo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mensagem de voz"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Áudio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Abra o link em um navegador"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Áudio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Arquivos"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Links"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nenhuma mídia"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "As fotos, os vídeos e GIFs que você envia e recebe aparecerão aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Sem áudio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Os áudios que você envia e recebe aparecerão aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Sem links"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Os arquivos que você envia e recebe aparecerão aqui"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nenhum arquivo"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Os arquivos que você envia e recebe aparecerão aqui"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selecionar a qualidade da foto"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nome de perfil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Escolher um avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Trabalho"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentração"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notificações permitidas"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notificações permitidas"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Seus perfis serão sincronizados em todos os dispositivos. Quando ativar um perfil em um dispositivo, ele será automaticamente ativado nos outros dispositivos."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Novo perfil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Excluir perfil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Histórico das edições"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copiar marcação horária"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Não foi possível enviar esta edição. Verifique a sua conexão e tente novamente"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Chegaram as enquetes do Signal! Você e seus amigos estão em sintonia ou têm opiniões completamente opostas? As enquetes são uma maneira fácil de ver o que o seu grupo realmente pensa. Crie uma enquete com opções para jantar, destinos de férias, preferências musicais para uma próxima viagem de carro ou outras escolhas importantes. Todos no grupo podem votar e ver as respostas uns dos outros, e você pode decidir se permite ou não votos múltiplos."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Agora a galeria de mídia inclui duas novas abas para mensagens de áudio e pré-visualizações de links."
   }
 }

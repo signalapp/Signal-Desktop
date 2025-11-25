@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ხმები არ მიუღია"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "იმარჯვებს"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "აპინული წერილის მოძებნა ვერ მოხერხდა"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "გამოკითხვა ვერ მოიძებნა"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "მედია და სხვა ფაილები"
+    "messageformat": "მედია ფაილები, ბმულები და ფაილები"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ჯგუფის აღწერილობის დამატება…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Voice Message"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "აუდიო"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "გახსენი ბმული ბრაუზერში"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "აუდიო"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ფაილები"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ბმულები"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "მედია-ფაილები ვერ მოიძებნა"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "შენი გაგზავნილი ფოტოები, ვიდეოები და GIF-ები აქ გამოჩნდება"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "აუდიო ვერ მოიძებნა"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "ხმოვანი შეტყობინებები და აუდიო ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ბმულები ვერ მოიძებნა"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "ბმულები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ფაილები ვერ მოიძებნა"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "მედია-ფაილის ხარისხის არჩევა"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "პროფილის სახელი"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ავატარის არჩევა"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "სამსახური"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ფოკუსი"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "დაშვებული შეტყობინებები"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "დაშვებული შეტყობინებები"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "შენი პროფილები შენს ყველა მოწყობილობაზე დასინქრონდება. პროფილის ერთ მოწყობილობაზე ჩართვა მას ყველა სხვა მოწყობილობაზე ჩართავს."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ახალი პროფილი"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "პროფილის წაშლა"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "რედაქტირების ისტორია"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "დროის აღმნიშვნელის დაკოპირება"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ამ რედაქტირების გაგზავნა ვერ მოხერხდა. შეამოწმე ინტერნეტ კავშირი და თავიდან სცადე"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal-ის გამოკითხვები უკვე აქაა! შენ და შენი მეგობრები ერთ ტალღაზე ხართ, თუ განსხვავებული პოზიციები გაქვთ? გამოკითხვა მარტივი გზაა იმის გასაგებად, რა აზრზეა შენი ჯგუფის ჩატი. შექმენი გამოკითხვა სადილის ვარიანტებით, მოგზაურობის მიმართულებებით, მომავალი მზგავრობისთვის მუსიკის პრეფერენციებით და ნებისმიერი სხვა მნიშვნელოვანი გადაწყვეტილებისთვის. ჯგუფში ყველას შეუძლია ხმის მიცემა და დანარჩენების პასუხები ნახოს, ასევე შეგიძლია გადაწყვიტო, დაუშვებ თუ არა მრავალჯერად ხმებს."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "მედია ფაილების გალერეა წერილებისა და ბმულის წინასწარი ნახვისთვის უკვე ორ ახალ ჩანართს შეიცავს. ახლა ჯგუფის ჩატში ბმულებს უფრო მარტივად იპოვი."
   }
 }

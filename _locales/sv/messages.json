@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Inga röster"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Vinnande"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Det fästa meddelandet hittades inte"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Omröstningen hittades inte"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media och filer"
+    "messageformat": "Media, länkar och filer"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Lägg till gruppbeskrivning …"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Röstmeddelande"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Ljud"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Öppna länken i en webbläsare"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Ljud"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Filer"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Länkar"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Inga media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Foton, videor och GIF-filer som du skickar och tar emot visas här"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Inga ljudfiler"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Röstmeddelanden och ljudfiler som du skickar och tar emot visas här"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Inga länkar"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Länkar som du skickar och tar emot kommer att visas här"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Inga filer"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Filer som du skickar och tar emot kommer att visas här"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Välj mediekvalitet"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profilnamn"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Välj en avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Arbete"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Tillåtna aviseringar"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Tillåtna aviseringar"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Dina profiler kommer att synkroniseras mellan dina enheter. Om du aktiverar en profil för en enhet aktiveras den även för de andra."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Ny profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Ta bort profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redigeringshistorik"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopiera tidsstämpel"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Denna redigering kunde inte skickas. Kontrollera din anslutning och försök igen"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal-omröstningar är här! Omröstningar är ett enkelt sätt att se vad din gruppchatt verkligen tycker. Skapa en omröstning med olika middagsalternativ eller andra viktiga val. Alla i gruppen kan rösta och se varandras svar, och du kan bestämma om du vill tillåta flera röster eller inte."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Mediegalleriet innehåller nu två nya flikar för ljudmeddelanden och länkförhandsvisningar."
   }
 }

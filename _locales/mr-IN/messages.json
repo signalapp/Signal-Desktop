@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "शून्य मते"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "विजयी"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "पिन केलेला संदेश सापडला नाही"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "पोल सापडला नाही"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "मीडिया आणि फाईल्स"
+    "messageformat": "मीडिया, लिंक्स आणि फाईल्स"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ग्रुप वर्णन जोडा(...)"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "व्हॉईस संदेश"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ऑडिओ"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ब्राऊझरमध्ये लिंक उघडा"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ऑडिओ"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "फाईल"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "लिंक्स"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "कुठलीही मिडिया नाही"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "आपण जे फोटो, व्हिडिओ आणि GIF पाठवाल किंवा प्राप्त कराल ते येथे दृश्यमान होतील"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ऑडिओ नाही"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "आपण जे ध्वनी संदेश आणि ऑडिओ फाईल पाठवाल आणि प्राप्त कराल त्या या ठिकाणी दृश्यमान होतील"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "एकही लिंक नाही"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "तुम्ही पाठवलेल्या आणि तुम्हाला मिळालेल्या लिंक्स येथे दिसतील"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "कोणत्याही फाइल्स नाहीत"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "तुम्ही पाठवलेल्या आणि तुम्हाला मिळालेल्या फाईल्स येथे दिसतील"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "मिडिया दर्जा निवडा"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "प्रोफाईल नाव"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "अवतार निवडा"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "कार्य"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "एकाग्र"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "सूचनांची अनुमती असलेले"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "सूचनांची अनुमती असलेले"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "तुमच्या प्रोफाईल्स तुमच्या डिव्हाईसेस वर सिंक केल्या जातील. एखादी प्रोफाईल एका डिव्हाईस साठी चालू केली तर ती इतरांवरही चालू होईल."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "नवीन प्रोफाइल"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "प्रोफाइल हटवा"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "संपादनाचा इतिहास"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "टाईमस्टँप कॉपी करा"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "हे संपादन पाठवले जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal पोल्स आले आहेत! तुमचे आणि तुमच्या मित्रांचे पोल जुळतात, की एकमेकांपासून पार दुसऱ्या टोकाला जातात? तुमच्या ग्रूपमधील चॅटचा विचार नेमका काय आहे हे जाणून घेण्याचा पोल हा सोपा मार्ग आहे. जेवायचे वेगवेगळे पर्याय, सुट्यांची ठिकाणे, उद्याच्या रोड ट्रिपसाठी संगीत प्राधान्ये, किंवा इतर महत्त्वाच्या निवडी करण्यासाठी पोल तयार करा. ग्रूपमधील प्रत्येक जण मत देऊ शकतो, एकमेकांचे प्रतिसाद पाहू शकतो, आणि एकापेक्षा अनेक मते देता येतील का हे तुम्ही ठरवू शकता."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "मीडिया गॅलरीमध्ये आता ऑडिओ संदेशासाठी आणि लिंक पूर्वावलोकनासाठी दोन नवीन टॅब दिसतात. जर एखादी लिंक ग्रुप चॅटमध्ये पडली तर ती आवाज करते का?"
   }
 }

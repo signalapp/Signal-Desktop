@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Эч ким добуш бере элек"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Алдыда келатат"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Кадалган билдирүү табылган жок"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Табылган жок"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} мүчө}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиа жана файлдар"
+    "messageformat": "Медиа файлдар, шилтемелер жана башка нерселер"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} мүчө}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Топ тууралуу учкай маалымат кошуу…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Үн билдирүүсү"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Серепчидеги шилтемени ачуу"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Файлдар"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Шилтемелер"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Эч нерсе жок"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Жөнөтүлгөн жана алынган сүрөттөр, видеолор жана GIFтер ушул жерде көрүнөт"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Аудио файлдар жок"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Жөнөтүлгөн жана алынган үн билдирүүлөрү жана аудио файлдар ушул жерде көрүнөт"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Шилтемелер жок"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Жөнөтүлгөн жана алынган шилтемелер ушул жерде көрүнөт"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Файлдар жок"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Жөнөтүлгөн жана алынган файлдар ушул жерде көрүнөт"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Медиа сапатын тандоо"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Профилдин аталышы"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Аватарды тандоо"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Жумуш"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Уруксат берилген билдирмелер"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Уруксат берилген билдирмелер"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профилдериңиз түзмөктөрүңүздүн ортосунда шайкештирилет. Профилди бир түзмөктө өчүрсөңүз, ал башка түзмөктөрдө да өчөт."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Жаңы профиль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Профилди жок кылуу"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Оңдолгондор"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Убакыт белгисин көчүрүү"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Бул оңдолгон билдирүү жөнөтүлгөн жок. Байланышыңызды текшерип, кайталап көрүңүз"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "★ Signal сурамжылоолорун байкап көрүңүз! Досторуңуз менен оюңуз бирби же таптакыр башкабы? Сурамжылоолор аркылуу тобуңуздун кандайдыр бир нерселер боюнча пикирин биле аласыз. Кечки тамактанууга, эс алууга, унаа менен сапарга чыкканда угуучу музыкага жана башка маанилүү нерселерге бир нече вариант сунуштап сурамжылоо жүргүзүңүз. Топтогулардын баары добуш берип, бири-биринин жоопторун көрүп турушат. Кааласаңыз, бир же бир нече добушту кабыл алсаңыз болот."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Медиа файлдар галереясында эми аудио билдирүүлөргө жана шилтемелерге арналган эки жаңы өтмөк бар. Шилтеме топтук маекке түшүп калса, үн чыгабы?"
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Asnjë votë"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Fitues"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Mesazhi i fiksuar nuk u gjet"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondazhi nuk u gjet"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media dhe skedarë"
+    "messageformat": "Media, lidhje dhe skedarë"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Shtoni përshkrim grupi…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mesazh Zanor"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Hap lidhjen në një shfletues"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Kartela"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Lidhjet"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "S\\’ka media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Fotot, videot dhe GIF-et që dërgon dhe merr do të shfaqen këtu"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Nuk ka audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Mesazhet zanore dhe skedarët audio që dërgon dhe merr do të shfaqen këtu"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nuk ka lidhje"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Lidhjet që dërgon dhe merr do të shfaqen këtu"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nuk ka skedarë"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Skedarët që dërgon dhe merr do të shfaqen këtu"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Përzgjidhni cilësi media"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Emri i profilit"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Përzgjidhni një avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Pune"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Vëmendje"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Njoftime të lejuara"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Njoftime të lejuara"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profilet do të sinkronizohen në të gjitha pajisjet. Aktivizimi i profili në një pajisje do ta aktivizojë atë edhe në pajisjet e tjera."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Profil i ri"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Fshije profilin"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historiku i përpunimeve"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopjo vulën kohore"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ky ndryshim nuk mund të dërgohej. Kontrollo lidhjen e internetit dhe riprovo"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Sondazhet e Signal janë këtu! A jeni ti dhe miqtë tuaj në të njëjtën linjë mendimesh, apo jeni të kundërt me njëri-tjetrin? Sondazhet janë një rrugë e lehtë për të parë se çfarë mendon vërtet grupi juaj i bisedave. Krijo një sondazh me opsione konkurruese për darkë, destinacione pushimesh, preferenca muzikore për një udhëtim të ardhshëm me makinë ose çdo zgjedhje tjetër të rëndësishme. Të gjithë në grup mund të votojnë dhe të shohin përgjigjet e njëri-tjetrit, dhe ti mund të vendosësh nëse do të lejosh apo jo vota të shumëfishta."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galeria e mediave tani përfshin dy skeda të reja për mesazhet audio dhe pamjet paraprake të lidhjeve. Nëse lidhje bie në një bisedë në grup, a lëshon tingull?"
   }
 }

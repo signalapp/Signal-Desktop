@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нема гласови"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Одговор со најмногу гласови"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Не е пронајдена пораката закачена на врвот"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Анкетата не е пронајдена"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медиумски датотеки и датотеки"
+    "messageformat": "Медиумски датотеки, линкови и датотеки"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Додаjте опис на групата…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Гласовна порака"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Отворете го линкот во прелистувач"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Датотеки"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Линкови"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Нема медиумска датотека"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Фотографиите, видеата и GIF-овите што ги испраќате и примате ќе се појават тука"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Нема аудио"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Гласовните пораки и аудио датотеките што ги испраќате и примате ќе се појават тука"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Нема линкови"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Линковите што ги испраќате и примате ќе се појават тука"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Нема датотеки"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Датотеките што ги испраќате и примате ќе се појават тука"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Одбери квалитет на медиумска датотека"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Име на профил"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Избери аватар"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Работа"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокусиран/а"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Дозволени известувања"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Дозволени известувања"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Вашите профили ќе бидат синхронизирани на сите ваши уреди. Вклучувањето на профил за еден уред ќе го вклучи и за другите."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Нов профил"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Избриши профил"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Историја на измени"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Копирај ја временската ознака"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Измената не може да биде испратена. Проверете ја интернет врската и обидете се повторно"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "★ Воведуваме анкети на Signal! Дали вие и вашите пријатели ќе одговорите едногласно или не? Анкетите се лесен начин да видите што навистина мислат членовите на вашиот групен разговор. Направете анкета со различни опции за вечера, дестинации за одмор, музички избор за претстојно патување, или други важни одлуки. Секој во групата може да гласа и да ги види одговорите на другите, а вие можете да одлучите дали да дозволите повеќе одговори."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Галеријата на медиумски датотеки сега вклучува и две нови картички за аудио пораки и прегледи на линкови."
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Žádné hlasy"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Vítězná volba"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Připnutá zpráva nebyla nalezena"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anketa nebyla nalezena"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členové} many {{number,number} členů} other {{number,number} členů}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Média a soubory"
+    "messageformat": "Média, odkazy a soubory"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členové} many {{number,number} členů} other {{number,number} členů}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Přidejte popisek skupiny…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Hlasová zpráva"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Otevřít odkaz v prohlížeči"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Soubory"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Odkazy"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Žádná média"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Fotky, videa a GIF obrázky, které odešlete nebo obdržíte, se zobrazí zde"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Žádné audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Hlasové zprávy a zvukové soubory, které odešlete nebo obdržíte, se zobrazí zde"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Žádné odkazy"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Odkazy, které odešlete nebo obdržíte, se zobrazí zde"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Žádné soubory"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Soubory, které odešlete nebo obdržíte, se zobrazí zde"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vyberte kvalitu médií"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Název profilu"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Vybrat avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Práce"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Soustředění"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Povolená oznámení"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Povolená oznámení"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Vaše profily budou synchronizovány ve všech zařízeních. Zapnutí profilu na jednom zařízení aktivuje profil i na ostatních."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nový profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Smazat profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historie úprav"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopírovat časové razítko"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Tuto úpravu se nepodařilo odeslat. Zkontrolujte své připojení a zkuste to znovu"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Ankety Signal jsou tady! Ankety představují snadný způsob, jak zjistit, co si vaše chatovací skupina skutečně myslí. Vytvořte anketu s různými možnostmi večeře nebo jakoukoli jinou důležitou volbou. Každý ve skupině může hlasovat a vidět odpovědi ostatních, a vy se můžete rozhodnout, zda povolíte hlasování pro více možností."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Galerie médií nyní obsahuje dvě nové záložky pro zvukové zprávy a náhledy odkazů."
   }
 }

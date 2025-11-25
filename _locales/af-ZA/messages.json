@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Geen stemme nie"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Wen"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Gemerkte boodskap nie gevind nie"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Meningsopname nie gevind nie"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Media en lêers"
+    "messageformat": "Media, skakels en lêers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Voeg groepbeskrywing toe…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Stemboodskap"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Klank"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Maak die skakel in 'n blaaier oop"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Klank"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Lêers"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Skakels"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Geen media"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Foto's, video's en GIF's wat jy stuur en ontvang, sal hier verskyn"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Geen oudio nie"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Stemboodskappe en oudiolêers wat jy stuur en ontvang, sal hier verskyn"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Geen skakels nie"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Skakels wat jy stuur en ontvang, sal hier verskyn"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Geen lêers nie"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Kies mediakwaliteit"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profielnaam"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Kies ’n avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Werk"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokus"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Toegelate kennisgewings"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Toegelate kennisgewings"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Jou profiele sal oor jou toestelle heen gesinchroniseer word. As jy 'n profiel vir een toestel aanskakel, sal dit vir die ander ook aangeskakel word."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nuwe profiel"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Skrap profiel"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Wysigingsgeskiedenis"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopieer tydstempel"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Hierdie wysiging kon nie gestuur word nie. Gaan jou verbinding na en probeer weer"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Nou is daar Signal-meningsopnames! Meningsopnames is 'n maklike manier om te sien wat jou groepklets werklik dink. Skep 'n meningsopname met kompeterende aandete-opsies of enige ander belangrike keuses. Almal in die groep kan stem en mekaar se reaksies sien, en jy kan besluit of jy veelvuldige stemme wil toelaat of nie."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Die mediagalery bevat nou twee nuwe navigasie-ikone vir oudioboodskappe en skakelvoorskoue."
   }
 }

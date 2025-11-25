@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "کوئی ووٹس نہیں ہیں"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "جیتنا"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "پِن شدہ میسج نہیں ملا"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "پول نہیں ملے"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "میڈیا اور فائلز"
+    "messageformat": "میڈیا، لنکس، اور فائلز"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "گروپ کی تفصیل شامل کریں ..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "آواز کے ذریعے پیغام"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "آڈیو"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "لنک کو براؤزر میں کھولیں"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "آڈیو"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "فائلز"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "لنکس"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "کوئی میڈیا نہیں ہے"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "وہ تصاویر، ویڈیوز اور GIFs جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "کوئی آڈیو نہیں ہے"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "وائس میسجز اور آڈیو فائلز جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "کوئی لنکس نہیں ہیں"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "وہ لنکس جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گے"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "کوئی فائلز نہیں ہیں"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "وہ فائلز جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گی"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "میڈیا کے معیار کو منتخب کریں"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "پروفائل نیم"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "اوتار کا انتخاب کریں"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "کام"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فوکس"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "اجازت یافتہ اطلاعات"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "اجازت یافتہ اطلاعات"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "آپ کی پروفائلز تمام ڈیوائسز پر سنک ہو گئیں۔ ایک ڈیوائس پر پروفائل فعال کرنے سے یہ دوسروں پر بھی فعال ہو جائے گی۔"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "نئی پروفائل"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "پروفائل حذف کریں"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ترمیم کی ہسٹری"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ٹائم اسٹیمپ کاپی کریں"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "یہ ترمیم نہیں بھیجی جا سکتی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "میڈیا گیلری میں آڈیو میسجز اور لنک کے پیش منظروں کے لیے اب دو نئی ٹیبز شامل ہیں۔اگر گروپ چیٹ میں لنک پوسٹ ہو تو اس کی آواز آتی ہے یا نہیں؟"
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ఓట్లు లేవు"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "గెలిచేది"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "పిన్ చేసిన సందేశం కనుగొనబడలేదు"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "పోల్ కనుగొనబడలేదు"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "మీడియా మరియు ఫైల్‌లు"
+    "messageformat": "మీడియా, లింక్‌లు మరియు ఫైళ్ళు"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "గ్రూప్ వివరణను జోడించండి..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "వాయిస్ సందేశం"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ఆడియో"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "లింక్‌ను బ్రౌజర్‌లో తెరవండి"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ఆడియో"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ఫైళ్లు"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "లింక్‌లు"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "మీడియా లేదు"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "మీరు పంపించే మరియు అందుకునే ఫోటోలు, వీడియోలు, మరియు GIFలు ఇక్కడ కనిపిస్తాయి"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ఆడియో లేదు"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "మీరు పంపించే మరియు అందుకునే స్వర సందేశాలు మరియు ఆడియో ఫైల్‌లు ఇక్కడ కనిపిస్తాయి"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "లింక్‌లు లేవు"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "మీరు పంపించే మరియు అందుకునే లింక్‌లు ఇక్కడ కనిపిస్తాయి"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ఫైల్‌లు లేవు"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "మీరు పంపించే మరియు అందుకునే ఫైల్‌లు ఇక్కడ కనిపిస్తాయి"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "మీడియా నాణ్యతను ఎంచుకోండి"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ఖాతాదారుని పేరు"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "అవతార్‌ను ఎంచుకోండి"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "పని"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ఫోకస్"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "అనుమతించబడ్డ నోటిఫికేషన్‌లు"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "మీ ప్రొఫైళ్ళు మీ పరికరాల మధ్య సమకాలీకరించబడతాయి. ఒక పరికరం కోసం ప్రొఫైల్‌ను ఆన్ చేయడం వలన అది ఇతర పరికరాల కోసం ఆన్ చేయబడుతుంది."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "కొత్త ప్రొఫైల్"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ప్రొఫైల్‌ను తొలగించండి"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "సవరణ చరిత్ర"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "టైమ్‌స్టాంప్ కాపీ చేయండి"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ఈ సవరణ పంపడం వీలుకాలేదు. మీ కనెక్షన్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal పోల్స్ ఇక్కడ ఉన్నాయి! మీ గ్రూప్ చాట్ నిజంగా ఏమనుకుంటుందో చూడటానికి పోల్స్ సులభమైన మార్గం. వివిధ రాత్రి భోజనం ఎంపికలు లేదా ఏవైనా ఇతర ముఖ్యమైన ఎంపికలతో పోల్‌ను సృష్టించండి. గ్రూప్‌లోని ప్రతి ఒక్కరూ ఓటు వేయగలరు మరియు ఇతరుల ప్రతిస్పందనలను చూడగలరు, బహుళ ఓట్లను అనుమతించాలా వద్దా అని మీరు నిర్ణయించవచ్చు."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "మీడియా గ్యాలరీలో ఇప్పుడు ఆడియో సందేశాలు మరియు లింక్ ప్రివ్యూల కోసం రెండు కొత్త ట్యాబ్‌లు ఉన్నాయి. ఒకవేళ లింక్ గ్రూప్ చాట్‌లో పడితే, అది శబ్దం చేస్తుందా?"
   }
 }

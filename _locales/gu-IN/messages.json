@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "કોઈ મત નથી"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "વિજેતા"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "પિન કરેલો મેસેજ મળ્યો નથી"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "મતદાન મળ્યું નથી"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "મીડિયા અને ફાઇલો"
+    "messageformat": "મીડિયા, લિંક અને ફાઇલો"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ગ્રુપ ડિસ્ક્રિપ્શન ઉમેરો"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "વોઇસ મેસેજ"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ઓડિયો"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "બ્રાઉઝરમાં લિંક ખોલો"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ઓડિયો"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ફાઇલો"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "લિંક"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "કોઈ મીડિયા નથી"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "તમે મોકલો છો અને મેળવો છો તે ફોટા, વીડિયો અને GIF અહીં દેખાશે"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "કોઈ ઓડિયો નથી"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "વોઇસ મેસેજ અને ઓડિયો ફાઇલો જે તમે મોકલો છો અને મેળવો છો તે અહીં દેખાશે"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "કોઈ લિંક નથી"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી લિંક અહીં દેખાશે"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "કોઈ ફાઈલો નથી"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી ફાઈલો અહીં દેખાશે"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "મીડિયા ગુણવત્તા પસંદ કરો"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "પ્રોફાઇલ નામ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "અવતાર પસંદ કરો"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "કામ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ફોકસ"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "મંજૂર સૂચનાઓ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "મંજૂર સૂચનાઓ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "તમારી પ્રોફાઇલ તમારા બધા ડિવાઇસ પર સિંક થશે. એક ડિવાઇસ માટે પ્રોફાઇલ ચાલુ કરવાથી તે બીજા ડિવાઇસ માટે ચાલુ થઈ જશે."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "નવી પ્રોફાઇલ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "પ્રોફાઇલ ડિલીટ કરો"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ફેરફારોની હિસ્ટ્રી"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ટાઇમસ્ટેમ્પ કોપિ કરો"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "આ ફેરફાર મોકલી શકાયો ન હતો. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "પ્રસ્તુત છે Signal મતદાન! મતદાન એ તમારા ગ્રૂપ ચેટ ખરેખર શું વિચારે છે તે જોવાની એક સરળ રીત છે. સ્પર્ધાત્મક રાત્રિભોજન વિકલ્પો, વેકેશન સ્થળો, આગામી રોડ ટ્રીપ માટે મ્યુઝિકની પસંદગીઓ અથવા અન્ય કોઈ પણ મહત્ત્વપૂર્ણ પસંદગીઓ સાથે એક મતદાન બનાવો. ગ્રૂપમાં દરેક વ્યક્તિ મતદાન કરી શકે છે અને એકબીજાના પ્રતિભાવો જોઈ શકે છે અને તમે નક્કી કરી શકો છો કે બહુવિધ મત આપવા કે નહીં."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "મીડિયા ગેલેરીમાં હવે ઓડિયો મેસેજ અને લિંક પ્રિવ્યૂ માટે બે નવા ટેબનો સમાવેશ થાય છે."
   }
 }

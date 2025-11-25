@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Nav balsu"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Uzvarošā"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Atzīmētā ziņa nav atrasta"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Aptauja nav atrasta"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Multivide un faili"
+    "messageformat": "Multivide, saites un faili"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Pievienot grupas aprakstu…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Balss ziņojums"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Atvērt saiti pārlūkā"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Faili"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Saites"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Nav multivides"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Nosūtītie un saņemtie fotoattēli, video un GIF tiks rādīti šeit"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Nav audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Nosūtītie un saņemtie balss ziņojumi un audio faili tiks rādīti šeit"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Nav saišu"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Nosūtītās un saņemtās saites tiks rādītas šeit"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Nav failu"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Nosūtītie un saņemtie faili tiks rādīti šeit"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Atlasīt multivides kvalitāti"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profila nosaukums"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Atlasīt avatāru"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Darba"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Fokuss"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Atļautie paziņojumi"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Atļautie paziņojumi"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Jūsu profili tiks sinhronizēti visās ierīcēs. Ieslēdzot profilu vienā ierīcē, tas tiks ieslēgts arī citās ierīcēs."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Jauns profils"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Dzēst profilu"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Rediģēšanas vēsture"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Kopēt laika zīmogu"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Rediģēto ziņu nevarēja nosūtīt. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal aptaujas ir klāt! Vai jūs un jūsu draugi domājat līdzīgi, vai arī jūsu viedokļi pilnībā atšķiras? Aptaujas ir vienkāršs veids, kā noskaidrot, ko jūsu grupas sarunas dalībnieki domā. Izveidojiet aptauju ar dažādiem vakariņu variantiem, brīvdienu galamērķiem, koncertu izvēlēm gaidāmajam ceļojumam vai citām svarīgām izvēlēm. Visi grupas dalībnieki var balsot un redzēt cits cita atbildes, un jūs varat izlemt, vai atļaut vairākas izvēles."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Multivides galerijā tagad ir divas jaunas cilnes: audio ziņas un saišu priekšskatījumi. Ja kāds grupas sarunā iemet saiti, ar kādu skaņu tā nokrīt?"
   }
 }

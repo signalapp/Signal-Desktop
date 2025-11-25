@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Oy yok"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Kazanan"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Sabitlenmiş mesaj bulunamadı"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anket bulunamadı"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Medya ve dosyalar"
+    "messageformat": "Medya, bağlantılar ve dosyalar"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Grup açıklaması ekle"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Sesli İleti"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Ses"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Bağlantıyı bir tarayıcıda aç"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Ses"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Dosyalar"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Bağlantılar"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Medya Yok"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Gönderdiğin ve aldığın Fotoğraflar, Videolar ve GIF'ler burada görünür"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Ses Dosyası Yok"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Gönderdiğin ve aldığın Sesli Mesajlar ve Ses Dosyaları burada görünür"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Bağlantı Yok"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Gönderdiğin ve aldığın bağlantılar burada görünür"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Dosya Yok"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Gönderdiğin ve aldığın dosyalar burada görünür"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "İçerik kalitesini seç"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Profil adı"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Avatar seçin"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "İş"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Odaklanma"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "İzin verilen bildirimler"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "İzin verilen bildirimler"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Profillerin cihazların arasında senkronize edilecektir. Profil bir cihaz için açıldığında diğerleri için de açılacaktır."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Yeni profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Profili sil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Düzenleme geçmişi"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Zaman damgasını kopyala"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bu düzenleme gönderilemedi. Bağlantını kontrol edip tekrar dene"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal anketleri burada! Sen ve arkadaşların aynı fikirde misiniz, yoksa ters kutuplar mısınız? Anketler, grup sohbetinde herkesin gerçekte ne düşündüğünü görmenin kolay bir yoludur. Farklı akşam yemeği seçenekleri veya başka önemli konular için bir anket oluşturabilirsin. Gruptaki herkes oylayabilir ve birbirinin yanıtlarını görebilir, birden fazla oy kullanmaya izin verip vermeyeceğine sen karar verirsin."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Medya galerisi artık sesli mesajlar ve bağlantı ön izlemeleri için iki yeni sekme içeriyor. Bundan böyle medyanda yeni sekmelere göz atmaya başlayabilirsin!"
   }
 }

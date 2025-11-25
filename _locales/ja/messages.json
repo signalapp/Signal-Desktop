@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "投票なし"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "最多得票"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "ピン留めされたメッセージが見つかりません"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "投票が見つかりません"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "メディアとファイル"
+    "messageformat": "メディア、リンク、ファイル"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "グループの説明を追加してください…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "音声メッセージ"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "音声"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ブラウザでリンクを開く"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "音声"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ファイル"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "リンク"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "メディアがありません"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "送受信した写真、動画、GIF がここに表示されます"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "音声ファイルがありません"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "送受信した音声メッセージと音声ファイルがここに表示されます"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "リンクがありません"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "送受信したリンクはここに表示されます"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ファイルがありません"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "送受信したファイルがここに表示されます"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "メディアの画質を選択"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "モードネーム"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "アバターを選択してください"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "職場"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "集中"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "通知許可"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "通知許可"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "モードを端末間で同期します。1つの端末でモードをオンにすると、他の端末でもオンになります。"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "新規モード"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "モードを消去"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "編集履歴"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "タイムスタンプをコピーする"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "編集したメッセージを送信できませんでした。インターネット接続を確認して再度試してください"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signalに投票機能が登場しました！投票機能を使えば、グループチャット内の意見をまとめられやすくなります。食べたいものから大切な意見のまとめまで、なんでも投票を作成しましょう。グループメンバー全員が投票できて、他のメンバーの回答を見ることも可能です。また、一つだけに投票するか複数投票するかも設定できます。"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "メディアギャラリーに、音声メッセージとリンクプレビュー用の2つの新しいタブが追加されました。"
   }
 }

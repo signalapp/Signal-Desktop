@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "אין הצבעות"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "אפשרות מנצחת"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "הודעה מוצמדת לא נמצאה"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "סקר לא נמצא"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "מדיה וקבצים"
+    "messageformat": "מדיה, קישורים וקבצים"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "הוסף תיאור קבוצה…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "הודעה קולית"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "שמע"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "פתיחת קישור בדפדפן"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "שמע"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "קבצים"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "קישורים"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "אין מדיה"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "תמונות, סרטונים וגיפים ששלחת וקיבלת יופיעו כאן"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "אין שמע"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "הודעות קוליות וקבצי שמע ששלחת וקיבלת יופיעו כאן"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "אין קישורים"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "קבצים ששלחת וקיבלת יופיעו כאן"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "אין קבצים"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "קבצים ששלחת וקיבלת יופיעו כאן"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "בחר איכות מדיה"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "שם פרופיל"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "בחר יצגן"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "עבודה"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "מיקוד"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "התראות מותרות"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "התראות מותרות"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "הפרופילים שלך יסונכרנו בין המכשירים שלך. הפעלת פרופיל עבור מכשיר אחד תפעיל אותו עבור האחרים."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "פרופיל חדש"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "מחיקת פרופיל"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "היסטוריית עריכות"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "העתקת חותמת זמן"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "לא הצלחנו לשלוח את העריכה. כדאי לבדוק את החיבור שלך ולנסות שוב"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "הסקרים של Signal הגיעו! סקרים הם דרך קלה לראות מה חברי הצ׳אט הקבוצתי שלך באמת חושבים. אפשר ליצור סקר עם אפשרויות לארוחת ערב או כל בחירה חשובה אחרת. כל מי שבקבוצה יכול להצביע ולראות את התשובות של האחרים, ויש לך אפשרות להחליט אם לאפשר הצבעה לכמה אפשרויות שונות או לא."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "גלריית המדיה כוללת כעת שתי כרטיסיות חדשות להודעות שמע ולתצוגות מקדימות של קישורים."
   }
 }

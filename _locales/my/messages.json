@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "မဲပေးထားခြင်းမရှိပါ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "အနိုင်ရသည်"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "ပင်တွဲထားသော မက်ဆေ့ချ်ကိုမတွေ့ပါ"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "စစ်တမ်း မတွေ့ပါ"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "မီဒီယာနှင့် ဖိုင်များ"
+    "messageformat": "မီဒီယာ၊ လင့်ခ်များနှင့် ဖိုင်များ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "အဖွဲ့ ဖော်ပြချက် ပေါင်းထည့်ရန်…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "အသံမက်ဆေ့(ချ်)"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "အော်ဒီယို"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "လင့်ခ်ကို Browser တွင်ဖွင့်ပါ"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "အသံ"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ဖိုင်များ"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "လင့်ခ်များ"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "မီဒီယာမရှိပါ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော ဓာတ်ပုံများ၊ ဗီဒီယိုများနှင့် GIF များ ဤနေရာတွင် ပေါ်လာပါမည်"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "အသံမပါပါ"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော အသံမက်ဆေ့(ချ်)နှင့် အော်ဒီယို ဖိုင်များ ဤနေရာတွင် ပေါ်လာပါမည်"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "လင့်ခ်များမရှိပါ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော လင့်ခ်များ ဤနေရာတွင် ပေါ်လာပါမည်"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ဖိုင်များမရှိပါ"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော ဖိုင်များ ဤနေရာတွင် ပေါ်လာပါမည်"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "မီဒီယာ အရည်အသွေး ရွေးချယ်ရန်"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ပရိုဖိုင်း အမည်"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ရုပ်ပုံ ရွေးရန်"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "အလုပ်"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "အာရုံစိုက်ချိန်"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "ခွင့်ပြုထားသော အသိပေးချက်များ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "ခွင့်ပြုထားသော အသိပေးချက်များ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "သင့် ပရိုဖိုင်သည် သင်ချိတ်ထားသော စက်များနှင့် ချိန်ကိုက်ထားပါမည်။ စက်ပစ္စည်းတစ်ခုအတွက် ပရိုဖိုင်ကိုဖွင့်ခြင်းသည် အခြားစက်များတွင်လည်း ၎င်းကိုဖွင့်ပေးမည်ဖြစ်သည်။"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ပရိုဖိုင် အသစ်ပြုလုပ်ရန်"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ပရိုဖိုင်ကို ဖျက်ရန်"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Timestamp ကူးရန်"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ထိုတည်းဖြတ်မှုကို ပေးပို့၍ မရနိုင်ပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal စစ်တမ်းများ ဤနေရာတွင်ရှိသည်။ စစ်တမ်းများသည် သင့်အဖွဲ့ချက်(တ်)အတွင်း အမှန်တကယ်ထင်မြင်ယူဆချက်ကို သိရန် လွယ်ကူသောနည်းလမ်းတစ်ခုဖြစ်သည်။ ညစာအတွက် မတူညီသောရွေးချယ်စရာများ သို့မဟုတ် အခြားအရေးကြီးသော ရွေးချယ်စရာများဖြင့် စစ်တမ်းတစ်ခုဖန်တီးပါ။ အဖွဲ့ရှိလူတိုင်းသည် မဲပေးနိုင်ပြီး အချင်းချင်း၏ တုံ့ပြန်မှုများကို ကြည့်ရှုနိုင်ကာ တစ်ခုထက်ပိုသော မဲပေးခွင့်ပြုမပြု သင် ဆုံးဖြတ်နိုင်သည်။"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "ယခုအခါ မီဒီယာပြခန်းတွင် အော်ဒီယို မက်ဆေ့ချ်များနှင့် လင့်ခ်ကြိုတင်ကြည့်ရှုမှုများအတွက် တက်ဘ်အသစ်နှစ်ခု ပါဝင်သည်။"
   }
 }

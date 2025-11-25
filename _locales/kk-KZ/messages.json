@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Дауыстар жоқ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Жеңімпаз нұсқасы"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Бекітілген хабар табылмады"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Сауалнама табылмады"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Мультимедиа және файлдар"
+    "messageformat": "Мультимедиа, сілтемелер және файлдар"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Топ сипаттамасын қосу..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Дауыстық хат"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Сілтемені браузерде ашу"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Файлдар"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Сілтемелер"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Мультимедиа файлы жоқ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Сіз жіберген және алған фотосуреттер, бейнелер және GIF файлдары осы жерде пайда болады"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Аудио жоқ"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Сіз жіберген және алған дауыстық хабарлар мен аудиолар осы жерде пайда болады"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Сілтемелер жоқ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Сіз жіберген және алған сілтемелер осы жерде пайда болады"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Файлдар жоқ"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Сіз жіберген және алған файлдар осы жерде пайда болады"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Мультимедиа сапасын таңдау"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Профиль атауы"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Аватарды таңдау"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Жұмыс"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Рұқсат етілген хабарландырулар"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Рұқсат етілген хабарландырулар"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профильдеріңіз барлық құрылғыңызда синхрондалады. Профильді бір құрылғыда қоссаңыз, ол басқаларында да қосылады."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Жаңа профиль"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Профильді жою"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Өзгертулер тарихы"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Уақыт белгісін көшіру"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Бұл өңдеу жіберілмеді. Байланысты тексеріп, қайталап көріңіз"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal сауалнамалары дайын! Достарыңызбен ойларыңыз бір жерден шыға ма әлде қайшы келе ме? Сауалнамалар – топтық чаттағы адамдардың шын мәнінде не ойлайтынын білудің оңай жолы. Алдағы сапарға қатысты кешкі ас мәзірлерін, демалыс бағыттарын, музыкалық жинақты немесе басқа да маңызды таңдауларды салыстыру үшін сауалнама жасаңыз. Сауалнамада топтағы барлық адам дауыс бере алады және бір-бірінің жауаптарын көре алады. Бірнеше дауыс беруге болатынын не болмайтынын өзіңіз шеше аласыз."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Мультимедиа галереясында аудио хабарларға және сілтеменің алғы нұсқасына арналған екі жаңа қойынды бар. Сілтеме топтық чатқа түссе, оның дауысы шыға ма?"
   }
 }

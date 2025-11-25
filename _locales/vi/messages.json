@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Không có bình chọn"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Lựa chọn chiếm ưu thế"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Không tìm thấy tin nhắn ghim"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Không tìm thấy câu hỏi"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Đa phương tiện và tập tin"
+    "messageformat": "Đa phương tiện, đường dẫn và tập tin"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Thêm miêu tả nhóm…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Tin nhắn Thoại"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Âm thanh"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Mở đường dẫn trong trình duyệt"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Âm thanh"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Tệp"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Đường dẫn"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Không có đa phương tiện"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Ảnh, Video và hình GIF bạn gửi và nhận sẽ hiển thị ở đây"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Không có tệp Âm thanh"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Tin nhắn Thoại và Tệp Âm thanh bạn gửi và nhận sẽ hiển thị ở đây"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Không có đường dẫn"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Đường dẫn bạn gửi và nhận sẽ hiển thị ở đây"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Không có tập tin"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Tập tin bạn gửi và nhận sẽ hiển thị ở đây"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Tên hồ sơ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Chọn Anhr đại diện"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Công việc"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Tập trung"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Các thông báo được phép"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Các thông báo được phép"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Các cấu hình sẽ được đồng bộ trên các thiết bị của bạn. Khi bật cấu hình cho một thiết bị, cấu hình đó cũng sẽ được bật trên các thiết bị khác."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Cấu hình mới"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Xóa cấu hình"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Lịch sử chỉnh sửa"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Sao chép dấu thời gian"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Không thể gửi chỉnh sửa này. Kiểm tra kết nối của bạn và thử lại"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Ra mắt tính năng Hỏi ý kiến! Tính năng này giúp bạn biết các ý kiến của người trong nhóm của mình. Bạn sẽ có thể tạo một cuộc Hỏi ý kiến với các lựa chọn khác nhau, thành viên nhóm có thể bỏ phiếu và xem phản hồi của nhau, và bạn có thể quyết định có cho phép có nhiều bình chọn hay không."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Thư viện đa phương tiện giờ đây có hai tab mới dành cho tin nhắn âm thanh và nội dung xem trước đường dẫn."
   }
 }

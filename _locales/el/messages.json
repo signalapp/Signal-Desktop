@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Δεν υπάρχουν ψήφοι"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Κερδίζει"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Δεν βρέθηκε το καρφιτσωμένο μήνυμα"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Δεν βρέθηκε δημοσκόπηση"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Πολυμέσα και αρχεία"
+    "messageformat": "Πολυμέσα, σύνδεσμοι και αρχεία"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Προσθήκη περιγραφής ομάδας…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Μήνυμα φωνής"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Ήχος"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Άνοιγμα του συνδέσμου σε ένα πρόγραμμα περιήγησης"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Ήχος"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Αρχεία"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Σύνδεσμοι"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Κανένα πολυμέσο"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Οι φωτογραφίες, τα βίντεο και τα GIF που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Χωρίς ήχο"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Τα φωνητικά μηνύματα και τα αρχεία ήχου που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Δεν υπάρχουν σύνδεσμοι"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Οι σύνδεσμοι που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Δεν υπάρχουν αρχεία"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Τα αρχεία που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Επιλογή ποιότητας πολυμέσων"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Όνομα προφίλ"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Επιλογή εικόνας προφίλ"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Εργασία"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Συγκέντρωση"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Επιτρεπόμενες ειδοποιήσεις"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Επιτρεπόμενες ειδοποιήσεις"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Τα προφίλ σου θα συγχρονιστούν σε όλες τις συσκευές σου. Η ενεργοποίηση ενός προφίλ για μία συσκευή θα το ενεργοποιήσει και για τις υπόλοιπες."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Νέο προφίλ"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Διαγραφή προφίλ"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Ιστορικό επεξεργασίας"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Αντιγραφή χρονικής σήμανσης"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Δεν ήταν δυνατή η αποστολή αυτής της τροποποίησης. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Οι δημοσκοπήσεις Signal είναι εδώ! Οι δημοσκοπήσεις είναι ένας εύκολος τρόπος για να δεις τι πιστεύει πραγματικά η ομαδική συνομιλία σου. Δημιούργησε μια δημοσκόπηση με διαφορετικές επιλογές για δείπνο ή οποιαδήποτε άλλη σημαντική επιλογή. Όλοι οι συμμετέχοντες στην ομάδα μπορούν να ψηφίσουν και να δουν τις απαντήσεις των άλλων, ενώ εσύ μπορείς να αποφασίσεις αν θα επιτρέψεις πολλαπλές ψήφους."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Η συλλογή πολυμέσων περιλαμβάνει πλέον δύο νέες καρτέλες για ηχητικά μηνύματα και προεπισκοπήσεις συνδέσμων."
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "沒有投票"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "勝出"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "找不到置頂訊息"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "找不到投票"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "媒體和檔案"
+    "messageformat": "媒體、連結和檔案"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "新增群組描述..."
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "語音訊息"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "聲音"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "在瀏覽器中開啟連結"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "聲音"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "檔案"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "連結"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "沒有多媒體"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "你傳送和接收的相片、影片和 GIF 檔會顯示在這裡"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "沒有音訊"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "你傳送和接收的語音訊息和音訊檔案會顯示在這裡"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "沒有連結"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "你傳送和接收的連結會顯示在這裡"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "沒有檔案"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "你傳送和接收的檔案會顯示在這裡"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "選擇媒體的品質"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "個人檔案名稱"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "選擇頭像"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "工作"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "專注"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "已允許通知"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "已允許通知"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "通知情景會在各裝置間同步處理。開啟其中一個裝置的情景，也會隨之開啟其他裝置的情景。"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "新增情景"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "刪除個人資料"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "編輯的歷史紀錄"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "複製時間戳記"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "無法傳送此編輯。請檢查你的網絡連線，然後再試一次"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal 投票登場！你和你的朋友站在同一陣線，還是截然相反？投票是一個簡單的方式，能了解群組聊天成員的真正想法。建立投票，內容可包括晚餐選擇、度假地點、自駕遊的音樂播放偏好，或任何重要的選擇。群組中的每個人都可以投票並查看彼此的回覆，而且你可以決定是否允許投多個選項。"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "媒體圖庫現新增兩個選項標籤，可分別顯示語音訊息和連結預覽。"
   }
 }

@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "ಗೆಲ್ಲುವುದು"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್ ಕಂಡುಬಂದಿಲ್ಲ"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "ಸಮೀಕ್ಷೆ ಕಂಡುಬಂದಿಲ್ಲ"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ಮೀಡಿಯಾ ಮತ್ತು ಫೈಲ್‌ಗಳು"
+    "messageformat": "ಮೀಡಿಯಾ, ಲಿಂಕ್‌ಗಳು ಮತ್ತು ಫೈಲ್‌ಗಳು"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "ಧ್ವನಿ ಸಂದೇಶ"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "ಆಡಿಯೊ"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಲಿಂಕ್ ತೆರೆಯಿರಿ"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "ಆಡಿಯೊ"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ಫೈಲುಗಳು"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "ಲಿಂಕ್‌ಗಳು"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "ಮೀಡಿಯಾ ಇಲ್ಲ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಫೋಟೋಗಳು, ವೀಡಿಯೊಗಳು ಮತ್ತು GIF ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "ಆಡಿಯೊ ಇಲ್ಲ"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಆಡಿಯೊ ಫೈಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "ಯಾವುದೇ ಲಿಂಕ್‌ಗಳಿಲ್ಲ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "ಫೈಲುಗಳು ಇಲ್ಲ"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ಮಾಧ್ಯಮ ಗುಣಮಟ್ಟವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ಪ್ರೊಫೈಲ್ ಹೆಸರು"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ಒಂದು ಅವತಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ಕೆಲಸ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ಗಮನ ಕೇಂದ್ರೀಕರಿಸು"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ಗಳನ್ನು ನಿಮ್ಮ ಸಾಧನಗಳಾದ್ಯಂತ ಸಿಂಕ್ ಮಾಡಲಾಗುತ್ತದೆ. ಒಂದು ಸಾಧನಕ್ಕೆ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಆನ್ ಮಾಡುವುದರಿಂದ ಅದು ಇತರ ಸಾಧನಗಳಿಗೆ ಆನ್ ಆಗುತ್ತದೆ."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ಹೊಸ ಪ್ರೊಫೈಲ್"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "ಪ್ರೊಫೈಲ್ ಅಳಿಸಿ"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "ಎಡಿಟ್‌ನ ಇತಿಹಾಸ"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ಟೈಂಸ್ಟಾಂಪ್ ನಕಲಿಸಿ"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ಈ ಎಡಿಟ್ ಅನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Signal ಸಮೀಕ್ಷೆಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಮತ್ತು ನಿಮ್ಮ ಸ್ನೇಹಿತರು ಒಂದೇ ನಿಲುವು ಹೊಂದಿದ್ದೀರಾ ಅಥವಾ ನೀವು ಸಮೀಕ್ಷೆ ಕುರಿತು ವಿರುದ್ಧ ನಿಲುವು ಹೊಂದಿದ್ದೀರಾ? ನಿಮ್ಮ ಗುಂಪು ಚಾಟ್ ನಿಜವಾಗಿಯೂ ಏನು ಭಾವಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ನೋಡಲು ಸಮೀಕ್ಷೆಗಳು ಸುಲಭವಾದ ವಿಧಾನವಾಗಿವೆ. ಸ್ಪರ್ಧಾತ್ಮಕ ರಾತ್ರಿ ಭೋಜನ ಆಯ್ಕೆಗಳು, ರಜಾದಿನದ ತಾಣಗಳು, ಮುಂಬರುವ ರೋಡ್ ಟ್ರಿಪ್‌ಗಾಗಿ ಸಂಗೀತದ ಆದ್ಯತೆಗಳು ಅಥವಾ ಯಾವುದೇ ಇತರ ಪ್ರಮುಖ ಆಯ್ಕೆಗಳೊಂದಿಗೆ ಸಮೀಕ್ಷೆಯನ್ನು ರಚಿಸಿ. ಗುಂಪಿನಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬರೂ ವೋಟ್ ಮಾಡಬಹುದು ಮತ್ತು ಪರಸ್ಪರರ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ನೋಡಬಹುದು ಮತ್ತು ಅನೇಕ ವೋಟ್‌ಗಳನ್ನು ಅನುಮತಿಸಬೇಕೇ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನೀವು ನಿರ್ಧರಿಸಬಹುದು."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "ಮೀಡಿಯಾ ಗ್ಯಾಲರಿಯು ಈಗ ಆಡಿಯೊ ಸಂದೇಶಗಳು ಮತ್ತು ಲಿಂಕ್ ಪೂರ್ವನೋಟಗಳಿಗಾಗಿ ಎರಡು ಹೊಸ ಟ್ಯಾಬ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿದೆ. ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ಲಿಂಕ್ ಕಂಡುಬಂದರೆ, ಅದು ಸೌಂಡ್ ಮಾಡುತ್ತದೆಯೇ?"
   }
 }

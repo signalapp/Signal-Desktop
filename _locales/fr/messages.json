@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Aucun vote"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Option ayant reçu le plus de votes"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Message épinglé introuvable"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondage introuvable"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Médias et fichiers"
+    "messageformat": "Médias, liens et fichiers"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Présentez le groupe en quelques mots…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Message vocal"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Audio"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Ouvrir le lien dans un navigateur"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Audio"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Fichiers"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Liens"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Aucun média"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Les photos, vidéos et GIF que vous envoyez et recevez s'afficheront ici."
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Aucun fichier audio"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Les messages vocaux et fichiers audio que vous envoyez et recevez s'afficheront ici."
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Aucun lien"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Les liens que vous envoyez et recevez s'afficheront ici."
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Aucun fichier"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Les fichiers que vous envoyez et recevez s'afficheront ici."
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nom du profil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Sélectionner une icône"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Travail"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Concentration"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Notifications autorisées"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Notifications autorisées"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Vos profils seront synchronisés sur tous vos appareils. Si vous activez un profil sur l'un de vos appareils, il sera aussi activé sur les autres appareils."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Nouveau profil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Supprimer le profil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historique des modifications"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copier l'horodatage"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Impossible d'envoyer cette modification. Veuillez vérifier votre connexion et réessayer."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "• Un vent de démocratie souffle sur Signal avec l'arrivée des sondages ! Plutôt restaurant chinois ou pizzeria ? Vacances à la mer ou à la montagne ? Et cette AG, au fait, on l'organise à quelle date ? Faites voter vos amis et prenez ensemble les décisions qui vous tiennent à cœur. Tous les membres du groupe peuvent voter et voir les réponses des autres participants. Et vous pouvez même autoriser plusieurs réponses par personne."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Deux nouveaux onglets font leur entrée dans la galerie multimédias : les messages vocaux et les aperçus de liens. Plus besoin de faire défiler la conversation pour retrouver le dernier vocal de votre meilleure amie ou ce \"lien-à-consulter-absolument\" avant la prochaine réunion !"
   }
 }

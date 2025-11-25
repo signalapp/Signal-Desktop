@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Sen votos"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Gañando"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Non se atopou a mensaxe fixada"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Enquisa non atopada"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Contido multimedia e arquivos"
+    "messageformat": "Documentos, arquivos multimedia e ligazóns"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Engadir descrición do grupo…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Mensaxe de voz"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Son"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Abre a ligazón nun navegador"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Son"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Ficheiros"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Ligazóns"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Sen ficheiros multimedia"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "As fotos, os vídeos e os GIF que envíes e recibas aparecerán aquí"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Sen son"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "As mensaxe de voz e os arquivos de son que envíes e recibas aparecerán aquí"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Sen ligazóns"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "As ligazóns que envíes e recibas aparecerán aquí"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Sen arquivos"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Os arquivos que envíes e recibas aparecerán aquí"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccionar calidade do contido multimedia"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Nome do perfil"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Selecciona un avatar"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Traballo"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Ocupado"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Permitir notificacións"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Permitir notificacións"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Os teus perfís sincronizaranse en todos os teus dispositivo. Activar un perfil nun dispositivo tamén o activará nos demais."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Novo perfil"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Borrar perfil"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historial de edicións"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Copiar rexistro de hora"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Esta edición non pode enviarse. Comproba a túa conexión e inténtao de novo"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Chegan as enquisas a Signal! Teus amigos e máis ti estades na mesma onda ou sodes máis \"enquisitos\"? Un xeito rápido e cómodo de descubrir a opinión do teu grupo. Crea unha enquisa como opcións para ir, destinos para as vacacións, preferencias musicais para a vosa próxima viaxe pola estrada ou calquera outra decisión importante. Cada persoa do grupo pode votar e ver os resultados. Ti elixes se permites varios votos por persoa ou só un."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "A galería multimedia agora inclúe dúas novas lapelas para as mensaxes de voz e as visualizacións das ligazóns."
   }
 }

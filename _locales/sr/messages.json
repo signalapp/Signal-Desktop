@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Нема гласова"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Водећи одговор"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Закачена порука није пронађена"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Анкета није пронађена"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Медији и фајлови"
+    "messageformat": "Медији, линкови и фајлови"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Унесите опис групе…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Гласовна порука"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Отвори линк у претраживачу"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Фајлови"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Линкови"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Нема медија"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Слике, видео и GIF-ови које шаљете и примате појавиће се овде"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Нема аудио фајлова"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Гласовне поруке и аудио фајлови које шаљете и примате појавиће се овде"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Нема линкова"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Фајлови које шаљете и примате појавиће се овде"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Нема фајлова"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Фајлови које шаљете и примате појавиће се овде"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Изаберите квалитет медија"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Име на профилу"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Одаберите аватар"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Пословни"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Дозвољена обавештења"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Дозвољена обавештења"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Ваши профили ће бити синхронизовани на свим вашим уређајима. Када укључите профил на једном уређају, укључићете га и на осталим."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Нови профил"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Избриши профил"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Историја измена"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Копирај временску ознаку"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Слање ове измене није успело. Проверите да ли сте повезани на интернет и пробајте поново"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Представљамо вам Signal анкете! Анкете представљају добар начин да сазнате шта људи из вашег групног ћаскања заиста мисле. Креирајте анкету са опцијама за вечеру или неку другу важну ствар. Сви чланови групе могу да гласају и да виде туђе гласове, а ви одлучујете да ли ћете омогућити вишеструки избор одговора."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "У галерији медија сада се налазе две нове картице за аудио-поруке и приказе линкова."
   }
 }

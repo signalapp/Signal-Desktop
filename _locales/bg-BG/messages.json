@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "Няма гласове"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "Водеща"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "Закаченото съобщение не е открито"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "Анкетата не е намерена"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "Мултимедия и файлове"
+    "messageformat": "Мултимедия, линкове и файлове"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Добавете описание на групата…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "Гласово съобщение"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "Отваряне на линка в браузъра"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "Файлове"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "Линкове"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "Няма мултимедия"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "Снимките, видеоклиповете и GIF-овете, които изпращате и получавате, ще се показват тук"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "Няма аудио"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "Гласовите съобщения и аудиофайловете, които изпращате и получавате, ще се показват тук"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "Няма линкове"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Линковете, които изпращате и получавате, ще се показват тук"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "Няма файлове"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "Файловете, които изпращате и получавате, ще се показват тук"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Изберете качество на мултимедията"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "Име на профила"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "Избор на аватар"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "Работен"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "Фокус"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "Разрешени известия"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "Разрешени известия"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "Профилите ви ще бъдат синхронизирани между вашите устройства. Включването на даден профил за едно устройство ще го включи и на останалите."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "Нов профил"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "Изтриване на профил"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "История на редакциите"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "Времеви печат на копието"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Редакцията не можа да бъде изпратена. Проверете връзката си и опитайте отново"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "Анкетите на Signal са тук! Анкетите са лесен начин да видите какво наистина мисли груповият чат. Създайте анкета с различни опции за вечеря или за всякакви други важни избори. Всички в групата могат да гласуват и да виждат отговорите на другите, а вие можете да решите дали да разрешите гласуването за няколко опции."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "Мултимедийната галерия вече има два нови раздела за аудио съобщения и прегледи на линкове."
   }
 }

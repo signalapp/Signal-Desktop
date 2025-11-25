@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "ឈ្នះ"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "រកមិនឃើញសារដែលបានខ្ទាស់ទេ"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "រកមិនឃើញការស្ទង់មតិទេ"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "មេឌៀ និងឯកសារ"
+    "messageformat": "មេឌៀ តំណ និងឯកសារ"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "បញ្ចូលការពណ៌នាក្រុម…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "សារជាសំឡេង"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "សំឡេង"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "សំឡេង"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "ឯកសារ"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "តំណ"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "គ្មានមេឌៀ"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "រូបថត វីដេអូ និងរូបមានចលនាដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "គ្មានសំឡេង"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "សារជាសំឡេង និងឯកសារសំឡេងដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "គ្មានតំណ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "តំណដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "គ្មានឯកសារ"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ជ្រើសរើសគុណភាពមេឌៀ"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "ឈ្មោះប្រូហ្វាល់"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "ជ្រើសរើសរូបតំណាង"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "ធ្វើការ"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "ផ្ដោតអារម្មណ៍"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "ការជូនដំណឹងដែលត្រូវបានអនុញាត"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ប្រូហ្វាល់របស់អ្នកនឹងត្រូវបានធ្វើសមកាលកម្មនៅលើឧបករណ៍របស់អ្នក។ ការបើកប្រូហ្វាល់សម្រាប់ឧបករណ៍មួយនឹងបើកវាសម្រាប់ឧបករណ៍ផ្សេងទៀត។"
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ប្រូហ្វាល់ថ្មី"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "លុបប្រូហ្វាល់"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "កែប្រវត្តិ"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "ចម្លងត្រាពេលវេលា"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "មិនអាចផ្ញើសារកែនេះបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "នៅទីនេះមានការស្ទង់មតិ Signal! តើអ្នក និងមិត្តភក្តិរបស់អ្នកមានគំនិតដូចគ្នាឬទេ ឬអ្នកមានទស្សនៈផ្ទុយគ្នាទាំងស្រុង? ការស្ទង់មតិគឺជាវិធីងាយស្រួលមួយដើម្បីមើលថាតើសមាជិកក្នុងការជជែកជាក្រុមរបស់អ្នកគិតយ៉ាងណាដែរ។ បង្កើតការស្ទង់មតិជាមួយនឹងជម្រើសអាហារពេលល្ងាច គោលដៅវិស្សមកាល ចំណូលចិត្តតន្ត្រីជាច្រើនសម្រាប់ការធ្វើដំណើរតាមផ្លូវនាពេលខាងមុខ ឬជម្រើសសំខាន់ៗផ្សេងទៀត។ អ្នកគ្រប់គ្នានៅក្នុងក្រុមអាចបោះឆ្នោត និងមើលឃើញការឆ្លើយតបរបស់គ្នាទៅវិញទៅមក ហើយអ្នកអាចសម្រេចចិត្តថាតើគួរអនុញ្ញាតឱ្យមានការបោះឆ្នោតជាច្រើនឬអត់។"
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "ឥឡូវនេះ វិចិត្រសាលមេឌៀមានផ្ទាំងថ្មីពីរសម្រាប់សារជាសំឡេង និងការមើលតំណជាមុន។ ប្រសិនបើតំណមួយស្ថិតនៅក្នុងការជជែកជាក្រុម តើវាបញ្ចេញសំឡេងឬទេ?"
   }
 }

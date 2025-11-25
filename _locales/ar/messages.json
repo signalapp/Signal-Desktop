@@ -1136,6 +1136,12 @@
   "icu:PollVotesModal__noVotes": {
     "messageformat": "لا أصوات"
   },
+  "icu:PollVotesModal__winningOption": {
+    "messageformat": "فائز"
+  },
+  "icu:Toast--PinnedMessageNotFound": {
+    "messageformat": "تعذَّر العثور على الرسالة المُثبَّتة"
+  },
   "icu:Toast--PollNotFound": {
     "messageformat": "لم يتم العثور على الاستطلاع"
   },
@@ -4515,7 +4521,7 @@
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMediaList--title": {
-    "messageformat": "ملفات الوسائط والملفات"
+    "messageformat": "ملفات الوسائط والروابط والملفات"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -5009,6 +5015,48 @@
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "إضافة وصف للمجموعة…"
   },
+  "icu:AudioListItem__subtitle--voice-message": {
+    "messageformat": "رسالة صوتية"
+  },
+  "icu:AudioListItem__subtitle--audio": {
+    "messageformat": "الملفات الصوتية"
+  },
+  "icu:LinkPreviewItem__alt": {
+    "messageformat": "افتح الرابط في مُتصفِّح"
+  },
+  "icu:MediaGallery__tab__audio": {
+    "messageformat": "الملفات الصوتية"
+  },
+  "icu:MediaGallery__tab__files": {
+    "messageformat": "الملفات"
+  },
+  "icu:MediaGallery__tab__links": {
+    "messageformat": "الروابط"
+  },
+  "icu:MediaGallery__EmptyState__title--media": {
+    "messageformat": "لا يوجد ملف وسائط"
+  },
+  "icu:MediaGallery__EmptyState__description--media": {
+    "messageformat": "ستظهر الصور والفيديوهات والصور المتحركة التي تُرسلها وتستقبلها هنا."
+  },
+  "icu:MediaGallery__EmptyState__title--audio": {
+    "messageformat": "لا يوجد صوت"
+  },
+  "icu:MediaGallery__EmptyState__description--audio": {
+    "messageformat": "سَتظهر الرسائل الصوتية والملفات الصوتية التي تُرسلها وتستقبلها هنا"
+  },
+  "icu:MediaGallery__EmptyState__title--links": {
+    "messageformat": "لا توجد روابط"
+  },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "سَتظهر الروابط التي تُرسِلها وتستقبلها هنا"
+  },
+  "icu:MediaGallery__EmptyState__title--documents": {
+    "messageformat": "لا تُوجد ملفات"
+  },
+  "icu:MediaGallery__EmptyState__description--links": {
+    "messageformat": "سَتظهر الملفات التي تُرسِلها وتستقبلها هنا"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "تحديد جودة الوسائط"
   },
@@ -5429,9 +5477,6 @@
   "icu:NotificationProfiles--name-placeholder": {
     "messageformat": "اسم الحساب الشخصي"
   },
-  "icu:NotificationProfiles--avatar-title": {
-    "messageformat": "اختر صورة رمزية"
-  },
   "icu:NotificationProfiles--sample-name__work": {
     "messageformat": "العمل"
   },
@@ -5448,9 +5493,6 @@
     "messageformat": "فترة التركيز"
   },
   "icu:NotificationProfiles--allowed-title": {
-    "messageformat": "الإشعارات المسموح بها"
-  },
-  "icu:NotificationProfiles--allowed-modal-title": {
     "messageformat": "الإشعارات المسموح بها"
   },
   "icu:NotificationProfiles--allowed-description": {
@@ -5560,9 +5602,6 @@
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "ستتم مزامنة ملفاتك الشخصية عبر أجهزتك. تفعيل ملف شخصي لِجهاز ما سَيؤدي إلى تفعيله بالنسبة للأجهزة الأخرى."
-  },
-  "icu:NotificationProfiles--new": {
-    "messageformat": "ملف إشعارات جديد"
   },
   "icu:NotificationProfiles--delete": {
     "messageformat": "حذف ملف الإشعارات"
@@ -6714,6 +6753,9 @@
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "سجل التعديلات"
   },
+  "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
+    "messageformat": "نسخ السجل الزمني"
+  },
   "icu:ResendMessageEdit__body": {
     "messageformat": "تعذَّر إرسال هذا التعديل. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
@@ -7257,5 +7299,8 @@
   },
   "icu:WhatsNew__7.80-1": {
     "messageformat": "• استطلاعات سيجنال قد بدأت! هل أنت وأصدقاؤك متفقون تمامًا أم أن كلًا منكم له رأي مختلف؟ الاستطلاعات طريقة سهلة لِمعرفة رأي مجموعة الدردشة التي أنت جزءٌ منها. أنشِئ استطلاعًا يتضمن خيارات مختلفة للعشاء، أو وجهات للسفر، أو تفضيلات موسيقية لرحلة قادمة، أو أي اختيارات مهمة أخرى. يمكن للجميع في الدردشة الجماعية التصويت ورؤية أجوبة الآخرين، ويمكنك اختيار ما إذا كُنتَ تريد السماح بتصويتات متعددة أم لا."
+  },
+  "icu:WhatsNew__7.81-1": {
+    "messageformat": "يتضمَّن معرض الوسائط الآن علامتي تبويب جديدتين للرسائل الصوتية ومعاينات الروابط. إذا وقع رابط في الدردشة الجماعية، فهل سينتبه له أحد؟"
   }
 }
