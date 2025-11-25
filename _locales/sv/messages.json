@@ -1137,10 +1137,10 @@
     "messageformat": "Inga röster"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Vinnande"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Det fästa meddelandet hittades inte"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Omröstningen hittades inte"
@@ -5016,46 +5016,46 @@
     "messageformat": "Lägg till gruppbeskrivning …"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Röstmeddelande"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ljud"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Öppna länken i en webbläsare"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ljud"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Filer"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Länkar"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Inga media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foton, videor och GIF-filer som du skickar och tar emot visas här"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Inga ljudfiler"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Röstmeddelanden och ljudfiler som du skickar och tar emot visas här"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Inga länkar"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Länkar som du skickar och tar emot kommer att visas här"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Inga filer"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Filer som du skickar och tar emot kommer att visas här"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Välj mediekvalitet"
@@ -6754,7 +6754,7 @@
     "messageformat": "Redigeringshistorik"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopiera tidsstämpel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Denna redigering kunde inte skickas. Kontrollera din anslutning och försök igen"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal-omröstningar är här! Omröstningar är ett enkelt sätt att se vad din gruppchatt verkligen tycker. Skapa en omröstning med olika middagsalternativ eller andra viktiga val. Alla i gruppen kan rösta och se varandras svar, och du kan bestämma om du vill tillåta flera röster eller inte."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Mediegalleriet innehåller nu två nya flikar för ljudmeddelanden och länkförhandsvisningar."
   }
 }

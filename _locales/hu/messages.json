@@ -1137,10 +1137,10 @@
     "messageformat": "Nincs szavazat"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Nyertes"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "A rögzített üzenet nem található"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Nem található szavazás"
@@ -5016,46 +5016,46 @@
     "messageformat": "Csoportleírás hozzáadása…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Hangüzenet"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Hang"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Hivatkozás megnyitása egy böngészőben"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Hang"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Fájlok"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Hivatkozások"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Nincs médiafájl"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Itt jelennek meg a küldött és fogadott fotók, videók és GIF-ek"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Nincs hang"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott hangüzenetek és hangfájlok"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Nincs hivatkozás"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott hivatkozások"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Nincsenek fájlok"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Itt jelennek meg az általad küldött és fogadott fájlok"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Médiafájl minőségének kiválasztása"
@@ -6754,7 +6754,7 @@
     "messageformat": "Szerkesztési előzmények"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Időbélyegző másolása"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ezt a szerkesztést nem sikerült elküldeni. Ellenőrizd az internetkapcsolatot, és próbáld újra"
@@ -7301,6 +7301,6 @@
     "messageformat": "Megérkeztek a Signal szavazások! A szavazások egyszerű módjai annak, hogy megtudd, mit gondolnak valójában a csoportos csevegés résztvevői. Hozz létre egy szavazást különböző vacsoralehetőségekkel vagy bármilyen más fontos választási lehetőséggel. A csoport minden tagja szavazhat és láthatja a másik válaszait, és eldöntheted, hogy engedélyezed-e a többszörös szavazást."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "A médiagaléria mostantól két új lapot tartalmaz a hangüzenetek és a hivatkozások előnézetei számára. Ha egy hivatkozás egy csoportos csevegésbe kerül, akkor hangjelzés hallható?"
   }
 }

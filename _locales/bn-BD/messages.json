@@ -1137,10 +1137,10 @@
     "messageformat": "কোনো ভোট নেই"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "জয়ী হচ্ছেন"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "পিনকৃত মেসেজ পাওয়া যায়নি"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "জরিপ পাওয়া যায়নি"
@@ -5016,46 +5016,46 @@
     "messageformat": "গ্রুপের বিবরণ যোগ করুন…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "ভয়েস মেসেজ"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "শব্দ"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "একটি ব্রাউজারে লিংকটি খুলুন"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "শব্দ"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ফাইলসমূহ"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "লিংকসমূহ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "কোনো মিডিয়া নেই"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "আপনি যেসব ছবি, ভিডিও ও GIF পাঠান ও গ্রহণ করেন, সেগুলো এখানে দেখা যাবে"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "কোনো অডিও নেই"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "আপনি যেসব ভয়েস মেসেজ এবং অডিও ফাইল পাঠান ও গ্রহণ করেন, সেগুলো এখানে দেখা যাবে।"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "কোনো লিংক নেই"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "আপনার প্রেরিত ও গৃহীত ফাইলগুলো এখানে প্রদর্শিত হবে"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "কোনো ফাইল নেই"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "আপনার পাঠানো এবং পাওয়া ফাইলগুলো এখানে প্রদর্শিত হবে"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "মিডিয়ার মান নির্বাচন করুন"
@@ -6754,7 +6754,7 @@
     "messageformat": "এডিট করার ইতিহাস"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "টাইমস্ট্যাম্প কপি করুন"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "এই এডিটটি পাঠানো যায়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন"
@@ -7301,6 +7301,6 @@
     "messageformat": "চলে এলো Signal জরিপ! আপনার গ্রুপ চ্যাটের বন্ধুরা আসলে কী ভাবছেন তা বোঝার জন্য জরিপ একটি সহজ উপায়। একসাথে ডিনার করার জন্য নানাবিধ অপশন বা অন্য কোনো গুরুত্বপূর্ণ সিদ্ধান্তকে কেন্দ্র করে একটি জরিপ তৈরি করুন। এর মাধ্যমে গ্রুপের প্রত্যেকে ভোট দিতে পারবেন এবং একে অপরের প্রতিক্রিয়া দেখতে পারবেন এবং আপনি একাধিক ভোট দেওয়ার অনুমতি দেবেন কিনা সেই সিদ্ধান্ত নিতে পারবেন।"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "মিডিয়া গ্যালারিতে এখন অডিও মেসেজ ও লিংক প্রিভিউয়ের জন্য দুটি নতুন ট্যাব অন্তর্ভুক্ত করা হয়েছে।"
   }
 }

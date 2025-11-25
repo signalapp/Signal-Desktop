@@ -1137,10 +1137,10 @@
     "messageformat": "Nema glasova"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Pobjednička opcija"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Zakačena poruka nije pronađena"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anketa nije pronađena"
@@ -5016,46 +5016,46 @@
     "messageformat": "Dodajte opis grupe…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Glasovna poruka"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Zvuk"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Otvorite link u pregledniku"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Zvuk"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Datoteke"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Linkovi"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Nema medijskih zapisa"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Fotografije, videozapisi i GIF-ovi koje šaljete i primate prikazivat će se ovdje"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Nema zvučnih zapisa"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Glasovne poruke i audio datoteke koje šaljete i primate prikazivat će se ovdje"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Nema linkova"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Linkovi koje šaljete i primate će se ovdje pojaviti"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Nema datoteka"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Datoteke koje šaljete i primate će se ovdje pojaviti"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Odaberite kvalitet medija"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historija uređivanja"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopiraj vremensku oznaku"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ovo uređivanje nije bilo moguće poslati. Provjerite vezu i pokušajte ponovno"
@@ -7301,6 +7301,6 @@
     "messageformat": "Ankete Signala su stigle! Ankete su jednostavan način da vidite šta vaš grupni chat zaista misli. Napravite anketu s konkurentnim opcijama za večeru ili bilo kojim drugim važnim izborima. Svi u grupi mogu glasati i vidjeti odgovore jedni drugih, a vi možete odlučiti hoćete li dozvoliti višestruko glasanje ili ne."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Galerija medija sada uključuje dvije nove kartice za audio poruke i preglede linkova."
   }
 }

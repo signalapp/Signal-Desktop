@@ -1137,10 +1137,10 @@
     "messageformat": "ਕੋਈ ਵੋਟ ਨਹੀਂ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "ਜੇਤੂ"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "ਪਿੰਨ ਕੀਤਾ ਸੁਨੇਹਾ ਨਹੀਂ ਲੱਭਿਆ"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "ਪੋਲ ਨਹੀਂ ਲੱਭਿਆ"
@@ -5016,46 +5016,46 @@
     "messageformat": "ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਕਰੋੋੋ…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ਆਡੀਓ"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "ਲਿੰਕ ਨੂੰ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ਆਡੀਓ"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ਫ਼ਾਈਲਾਂ"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "ਲਿੰਕ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "ਕੋਈ ਮੀਡੀਆ ਨਹੀਂ ਹੈ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ੋਟੋਆਂ, ਵੀਡੀਓ ਅਤੇ GIFs ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ਕੋਈ ਆਡੀਓ ਨਹੀਂ ਹੈ"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਵੌਇਸ ਸੁਨੇਹਿਆਂ ਅਤੇ ਆਡੀਓ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "ਕੋਈ ਲਿੰਕ ਨਹੀਂ ਹਨ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਲਿੰਕ ਇੱਥੇ ਦਿਖਾਏ ਜਾਣਗੇ"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ਕੋਈ ਫਾਈਲਾਂ ਨਹੀਂ ਹਨ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ਮੀਡੀਆ ਕੁਆਲਿਟੀ ਚੁਣੋ"
@@ -6754,7 +6754,7 @@
     "messageformat": "ਸੋਧ ਦਾ ਇਤਿਹਾਸ"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ਟਾਈਮਸਟੈਂਪ ਕਾਪੀ ਕਰੋ"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ਇਹ ਸੋਧੇ ਗਏ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜ ਨਹੀਂ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal ਵਿੱਚ ਪੋਲ ਵਾਲਾ ਫੀਚਰ ਆ ਗਿਆ ਹੈ! ਪੋਲ ਇਹ ਦੇਖਣ ਦਾ ਇੱਕ ਆਸਾਨ ਤਰੀਕਾ ਹੈ ਕਿ ਤੁਹਾਡੀ ਗਰੁੱਪ ਚੈਟ ਅਸਲ ਵਿੱਚ ਕੀ ਸੋਚਦੀ ਹੈ। ਡਿਨਰ ਲਈ ਵੱਖ-ਵੱਖ ਪਕਵਾਨਾਂ ਲਈ ਜਾਂ ਕਿਸੇ ਹੋਰ ਜ਼ਰੂਰੀ ਚੀਜ਼ ਬਾਰੇ ਪਸੰਦ ਜਾਣਨ ਲਈ ਪੋਲ ਬਣਾਓ। ਗਰੁੱਪ ਵਿੱਚ ਹਰ ਕੋਈ ਵੋਟ ਕਰ ਸਕਦਾ ਹੈ ਅਤੇ ਇੱਕ-ਦੂਜੇ ਦੇ ਜਵਾਬ ਦੇਖ ਸਕਦਾ ਹੈ ਅਤੇ ਤੁਸੀਂ ਇਹ ਵੀ ਤੈਅ ਕਰ ਸਕਦੇ ਹੋ ਕਿ ਇੱਕ ਤੋਂ ਵੱਧ ਵਿਕਲਪ ਚੁਣਨ ਵਾਲਾ ਪੋਲ ਬਣਾਉਣਾ ਹੈ ਜਾਂ ਸਿਰਫ਼ ਇੱਕ ਵਿਕਲਪ ਚੁਣਨ ਵਾਲਾ।"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ਮੀਡੀਆ ਗੈਲਰੀ ਵਿੱਚ ਹੁਣ ਆਡੀਓ ਸੁਨੇਹਿਆਂ ਅਤੇ ਲਿੰਕ ਪ੍ਰੀਵਿਊ ਲਈ ਦੋ ਨਵੇਂ ਟੈਬ ਮੌਜੂਦ ਹਨ।"
   }
 }

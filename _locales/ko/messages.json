@@ -1137,10 +1137,10 @@
     "messageformat": "투표 없음"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "현재 최다 득표"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "고정된 메시지를 찾을 수 없습니다."
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "설문조사를 찾을 수 없습니다."
@@ -5016,46 +5016,46 @@
     "messageformat": "그룹 설명 추가…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "음성 메시지"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "오디오"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "브라우저에서 링크를 엽니다."
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "오디오"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "파일"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "링크"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "미디어 없음"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 사진, 동영상, GIF 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "오디오 파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 음성 메시지와 오디오 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "링크 없음"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "미디어 품질 선택"
@@ -6754,7 +6754,7 @@
     "messageformat": "수정 기록"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "타임스탬프 복사"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "이 수정 사항을 보낼 수 없습니다. 연결을 확인하고 다시 시도하세요."
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal 설문조사 기능이 추가되었습니다! 설문조사는 그룹의 의견을 모을 수 있는 간편한 방법입니다. 다양한 저녁 옵션이나 다른 중요한 선택지를 사용하여 설문조사를 만들어 보세요. 그룹의 모든 사용자가 설문조사에 참여할 수 있으며 서로의 의견을 확인할 수 있습니다. 또한, 설문조사를 만들 때 다중 옵션 선택 가능 여부도 선택할 수 있습니다."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "이제 미디어 갤러리가 오디오 메시지와 링크 미리 보기, 두 가지 새로운 탭을 포함합니다."
   }
 }

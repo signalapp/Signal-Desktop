@@ -1137,10 +1137,10 @@
     "messageformat": "بېلەت تاشلانمىدى"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "غەلىبە قىلىش"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "مىخلاپ قويغان ئۇچۇر تېپىلمىدى"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "راي سىناش تېپىلمىدى"
@@ -5016,46 +5016,46 @@
     "messageformat": "گۇرۇپپا تونۇشتۇرۇشى قوش…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "ئاۋازلىق ئۇچۇر"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ئۈن"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "ئۇلىنىشنى توربەتتىن ئېچىڭ"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ئۈن"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ھۆججەتلەر"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "ئۇلانمىلار"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "مېدىيا يوق"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان رەسىم، ۋىدېيو ۋە GIF بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ئۈن يوق"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئاۋازلىق ئۇچۇرلار ۋە ئۈن ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "ئۇلانمىلار يوق"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئۇلانمىلار بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ھۆججەتلەر يوق"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "مېدىيا سۈپىتىنى تاللاش"
@@ -6754,7 +6754,7 @@
     "messageformat": "تەھرىرلەش تارىخى"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ۋاقىت تامغىسىنى كۆچۈرۈش"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "بۇ تەھرىرلەشنى يوللىغىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal راي سىناقلىرى بۇ يەردە! سىز ۋە دوستلىرىڭىز ئۆخشاش كۆز-قاراشتىمۇ ياكى قارشى پىكىردىمۇ؟ راي سىناش بولسا گۇرۇپپىڭىزدىكىلەرنىڭ ھەقىقىي ئويلىغانلىرىنى بىلىشنىڭ ئاسان ئۇسۇلى. مۇھىم تېمىلار ياكى مۇھىم ئەمەس دەپ قارىغان، مەسىلەن: «چۈشتە نېمە يەيمىز»، دىگەندەك تېمىلار ئۈستىدە راي سىناش ئېلىپ بېرىڭ. گۇرۇپپا ئەزالىرىنىڭ ھەرقاندىقى بېلەت تاشلىيالايدۇ ۋە بىر-بىرىنىڭ ئىنكاسىنى كۆرەلەيدۇ، كۆپ بېلەتكە ئەگىشىش ياكى ئەگەشمەسلىك ئۆز ئختىيارلىقىڭىزدا."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "مېدىيا رەسىم ئامبىرى ھازىر ئاۋازلىق ئۇچۇرلار ۋە ئۇلىنىشلارنى ئالدىن كۆرۈش ئۈچۈن ئىككى يېڭى بەتكۈچنى ئۆز ئىچىگە ئالىدۇ. ئەگەر گۇرۇپپا پارىڭىغا بىر ئۇلانما يوللانسا، ئاۋاز چىقارامدۇ؟"
   }
 }

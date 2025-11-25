@@ -1137,10 +1137,10 @@
     "messageformat": "Sen votos"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Gañando"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Non se atopou a mensaxe fixada"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Enquisa non atopada"
@@ -5016,46 +5016,46 @@
     "messageformat": "Engadir descrición do grupo…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Mensaxe de voz"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Son"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Abre a ligazón nun navegador"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Son"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Ficheiros"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Ligazóns"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Sen ficheiros multimedia"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "As fotos, os vídeos e os GIF que envíes e recibas aparecerán aquí"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Sen son"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "As mensaxe de voz e os arquivos de son que envíes e recibas aparecerán aquí"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Sen ligazóns"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "As ligazóns que envíes e recibas aparecerán aquí"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Sen arquivos"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Os arquivos que envíes e recibas aparecerán aquí"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccionar calidade do contido multimedia"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historial de edicións"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Copiar rexistro de hora"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Esta edición non pode enviarse. Comproba a túa conexión e inténtao de novo"
@@ -7301,6 +7301,6 @@
     "messageformat": "Chegan as enquisas a Signal! Teus amigos e máis ti estades na mesma onda ou sodes máis \"enquisitos\"? Un xeito rápido e cómodo de descubrir a opinión do teu grupo. Crea unha enquisa como opcións para ir, destinos para as vacacións, preferencias musicais para a vosa próxima viaxe pola estrada ou calquera outra decisión importante. Cada persoa do grupo pode votar e ver os resultados. Ti elixes se permites varios votos por persoa ou só un."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "A galería multimedia agora inclúe dúas novas lapelas para as mensaxes de voz e as visualizacións das ligazóns."
   }
 }

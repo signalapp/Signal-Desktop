@@ -1137,10 +1137,10 @@
     "messageformat": "ยังไม่มีคะแนนโหวต"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "ชนะโหวต"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "ไม่พบข้อความที่ปักหมุดไว้"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "ไม่พบโพล"
@@ -5016,46 +5016,46 @@
     "messageformat": "เพิ่มคำอธิบายกลุ่ม…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "ข้อความเสียง"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "เสียง"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "เปิดลิงก์ในเบราว์เซอร์"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "เสียง"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ไฟล์"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "ลิงก์"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "ไม่มีสื่อ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "รูปภาพ วิดีโอ และ GIF ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ไม่มีไฟล์เสียง"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "ข้อความเสียงและไฟล์เสียงที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "ไม่มีลิงก์"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "ลิงก์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ไม่มีไฟล์"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ไฟล์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "เลือกคุณภาพสื่อ"
@@ -6754,7 +6754,7 @@
     "messageformat": "ประวัติการแก้ไข"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "คัดลอกข้อมูลเวลา"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ไม่สามารถส่งข้อความที่แก้ไขนี้ได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง"
@@ -7301,6 +7301,6 @@
     "messageformat": "แบบนี้ต้อง Signal โพล! หาคำตอบให้ทุกคำถามด้วยการสร้างโพลในแชทกลุ่ม ชวนเพื่อนคุณร่วมโหวตไม่ว่าจะเรื่องเล็กหรือใหญ่: มื้อนี้จะสั่งอะไรมาทาน ทริปหน้าจะนัดกันไปเที่ยวไหน ฯลฯ ทุกคนในกลุ่มจะสามารถโหวตและเห็นคำตอบของเพื่อนร่วมแชท นอกจากนี้ ผู้สร้างโพลยังเลือกได้อีกด้วยว่าจะให้สมาชิกลงคะแนนได้หลายคำตอบหรือไม่"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "เพิ่มสองแท็บใหม่ในหน้ารวมสื่อเพื่อแสดงข้อความเสียงและตัวอย่างลิงก์โดยเฉพาะ"
   }
 }

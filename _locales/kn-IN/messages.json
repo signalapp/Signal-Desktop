@@ -1137,10 +1137,10 @@
     "messageformat": "ಯಾವುದೇ ವೋಟ್‌ಗಳಿಲ್ಲ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "ಗೆಲ್ಲುವುದು"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್ ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "ಸಮೀಕ್ಷೆ ಕಂಡುಬಂದಿಲ್ಲ"
@@ -5016,46 +5016,46 @@
     "messageformat": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "ಧ್ವನಿ ಸಂದೇಶ"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ಆಡಿಯೊ"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಲಿಂಕ್ ತೆರೆಯಿರಿ"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ಆಡಿಯೊ"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ಫೈಲುಗಳು"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "ಲಿಂಕ್‌ಗಳು"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "ಮೀಡಿಯಾ ಇಲ್ಲ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಫೋಟೋಗಳು, ವೀಡಿಯೊಗಳು ಮತ್ತು GIF ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ಆಡಿಯೊ ಇಲ್ಲ"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಆಡಿಯೊ ಫೈಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "ಯಾವುದೇ ಲಿಂಕ್‌ಗಳಿಲ್ಲ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ಫೈಲುಗಳು ಇಲ್ಲ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ಮಾಧ್ಯಮ ಗುಣಮಟ್ಟವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
@@ -6754,7 +6754,7 @@
     "messageformat": "ಎಡಿಟ್‌ನ ಇತಿಹಾಸ"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ಟೈಂಸ್ಟಾಂಪ್ ನಕಲಿಸಿ"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ಈ ಎಡಿಟ್ ಅನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal ಸಮೀಕ್ಷೆಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಮತ್ತು ನಿಮ್ಮ ಸ್ನೇಹಿತರು ಒಂದೇ ನಿಲುವು ಹೊಂದಿದ್ದೀರಾ ಅಥವಾ ನೀವು ಸಮೀಕ್ಷೆ ಕುರಿತು ವಿರುದ್ಧ ನಿಲುವು ಹೊಂದಿದ್ದೀರಾ? ನಿಮ್ಮ ಗುಂಪು ಚಾಟ್ ನಿಜವಾಗಿಯೂ ಏನು ಭಾವಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ನೋಡಲು ಸಮೀಕ್ಷೆಗಳು ಸುಲಭವಾದ ವಿಧಾನವಾಗಿವೆ. ಸ್ಪರ್ಧಾತ್ಮಕ ರಾತ್ರಿ ಭೋಜನ ಆಯ್ಕೆಗಳು, ರಜಾದಿನದ ತಾಣಗಳು, ಮುಂಬರುವ ರೋಡ್ ಟ್ರಿಪ್‌ಗಾಗಿ ಸಂಗೀತದ ಆದ್ಯತೆಗಳು ಅಥವಾ ಯಾವುದೇ ಇತರ ಪ್ರಮುಖ ಆಯ್ಕೆಗಳೊಂದಿಗೆ ಸಮೀಕ್ಷೆಯನ್ನು ರಚಿಸಿ. ಗುಂಪಿನಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬರೂ ವೋಟ್ ಮಾಡಬಹುದು ಮತ್ತು ಪರಸ್ಪರರ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ನೋಡಬಹುದು ಮತ್ತು ಅನೇಕ ವೋಟ್‌ಗಳನ್ನು ಅನುಮತಿಸಬೇಕೇ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನೀವು ನಿರ್ಧರಿಸಬಹುದು."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ಮೀಡಿಯಾ ಗ್ಯಾಲರಿಯು ಈಗ ಆಡಿಯೊ ಸಂದೇಶಗಳು ಮತ್ತು ಲಿಂಕ್ ಪೂರ್ವನೋಟಗಳಿಗಾಗಿ ಎರಡು ಹೊಸ ಟ್ಯಾಬ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿದೆ. ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ಲಿಂಕ್ ಕಂಡುಬಂದರೆ, ಅದು ಸೌಂಡ್ ಮಾಡುತ್ತದೆಯೇ?"
   }
 }

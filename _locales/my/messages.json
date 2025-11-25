@@ -1137,10 +1137,10 @@
     "messageformat": "မဲပေးထားခြင်းမရှိပါ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "အနိုင်ရသည်"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "ပင်တွဲထားသော မက်ဆေ့ချ်ကိုမတွေ့ပါ"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "စစ်တမ်း မတွေ့ပါ"
@@ -5016,46 +5016,46 @@
     "messageformat": "အဖွဲ့ ဖော်ပြချက် ပေါင်းထည့်ရန်…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "အသံမက်ဆေ့(ချ်)"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "အော်ဒီယို"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "လင့်ခ်ကို Browser တွင်ဖွင့်ပါ"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "အသံ"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ဖိုင်များ"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "လင့်ခ်များ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "မီဒီယာမရှိပါ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော ဓာတ်ပုံများ၊ ဗီဒီယိုများနှင့် GIF များ ဤနေရာတွင် ပေါ်လာပါမည်"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "အသံမပါပါ"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော အသံမက်ဆေ့(ချ်)နှင့် အော်ဒီယို ဖိုင်များ ဤနေရာတွင် ပေါ်လာပါမည်"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "လင့်ခ်များမရှိပါ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော လင့်ခ်များ ဤနေရာတွင် ပေါ်လာပါမည်"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ဖိုင်များမရှိပါ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော ဖိုင်များ ဤနေရာတွင် ပေါ်လာပါမည်"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "မီဒီယာ အရည်အသွေး ရွေးချယ်ရန်"
@@ -6754,7 +6754,7 @@
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Timestamp ကူးရန်"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ထိုတည်းဖြတ်မှုကို ပေးပို့၍ မရနိုင်ပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal စစ်တမ်းများ ဤနေရာတွင်ရှိသည်။ စစ်တမ်းများသည် သင့်အဖွဲ့ချက်(တ်)အတွင်း အမှန်တကယ်ထင်မြင်ယူဆချက်ကို သိရန် လွယ်ကူသောနည်းလမ်းတစ်ခုဖြစ်သည်။ ညစာအတွက် မတူညီသောရွေးချယ်စရာများ သို့မဟုတ် အခြားအရေးကြီးသော ရွေးချယ်စရာများဖြင့် စစ်တမ်းတစ်ခုဖန်တီးပါ။ အဖွဲ့ရှိလူတိုင်းသည် မဲပေးနိုင်ပြီး အချင်းချင်း၏ တုံ့ပြန်မှုများကို ကြည့်ရှုနိုင်ကာ တစ်ခုထက်ပိုသော မဲပေးခွင့်ပြုမပြု သင် ဆုံးဖြတ်နိုင်သည်။"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ယခုအခါ မီဒီယာပြခန်းတွင် အော်ဒီယို မက်ဆေ့ချ်များနှင့် လင့်ခ်ကြိုတင်ကြည့်ရှုမှုများအတွက် တက်ဘ်အသစ်နှစ်ခု ပါဝင်သည်။"
   }
 }

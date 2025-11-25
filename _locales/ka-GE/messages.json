@@ -1137,10 +1137,10 @@
     "messageformat": "ხმები არ მიუღია"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "იმარჯვებს"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "აპინული წერილის მოძებნა ვერ მოხერხდა"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "გამოკითხვა ვერ მოიძებნა"
@@ -5019,43 +5019,43 @@
     "messageformat": "Voice Message"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "აუდიო"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "გახსენი ბმული ბრაუზერში"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "აუდიო"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ფაილები"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "ბმულები"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "მედია-ფაილები ვერ მოიძებნა"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "შენი გაგზავნილი ფოტოები, ვიდეოები და GIF-ები აქ გამოჩნდება"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "აუდიო ვერ მოიძებნა"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "ხმოვანი შეტყობინებები და აუდიო ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "ბმულები ვერ მოიძებნა"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "ბმულები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "ფაილები ვერ მოიძებნა"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "მედია-ფაილის ხარისხის არჩევა"
@@ -6754,7 +6754,7 @@
     "messageformat": "რედაქტირების ისტორია"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "დროის აღმნიშვნელის დაკოპირება"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "ამ რედაქტირების გაგზავნა ვერ მოხერხდა. შეამოწმე ინტერნეტ კავშირი და თავიდან სცადე"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal-ის გამოკითხვები უკვე აქაა! შენ და შენი მეგობრები ერთ ტალღაზე ხართ, თუ განსხვავებული პოზიციები გაქვთ? გამოკითხვა მარტივი გზაა იმის გასაგებად, რა აზრზეა შენი ჯგუფის ჩატი. შექმენი გამოკითხვა სადილის ვარიანტებით, მოგზაურობის მიმართულებებით, მომავალი მზგავრობისთვის მუსიკის პრეფერენციებით და ნებისმიერი სხვა მნიშვნელოვანი გადაწყვეტილებისთვის. ჯგუფში ყველას შეუძლია ხმის მიცემა და დანარჩენების პასუხები ნახოს, ასევე შეგიძლია გადაწყვიტო, დაუშვებ თუ არა მრავალჯერად ხმებს."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "მედია ფაილების გალერეა წერილებისა და ბმულის წინასწარი ნახვისთვის უკვე ორ ახალ ჩანართს შეიცავს. ახლა ჯგუფის ჩატში ბმულებს უფრო მარტივად იპოვი."
   }
 }

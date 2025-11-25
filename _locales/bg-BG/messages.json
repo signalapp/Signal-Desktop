@@ -1137,10 +1137,10 @@
     "messageformat": "Няма гласове"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Водеща"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Закаченото съобщение не е открито"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Анкетата не е намерена"
@@ -5016,46 +5016,46 @@
     "messageformat": "Добавете описание на групата…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Гласово съобщение"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Отваряне на линка в браузъра"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Файлове"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Линкове"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Няма мултимедия"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Снимките, видеоклиповете и GIF-овете, които изпращате и получавате, ще се показват тук"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Няма аудио"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Гласовите съобщения и аудиофайловете, които изпращате и получавате, ще се показват тук"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Няма линкове"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Линковете, които изпращате и получавате, ще се показват тук"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Няма файлове"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Файловете, които изпращате и получавате, ще се показват тук"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Изберете качество на мултимедията"
@@ -6754,7 +6754,7 @@
     "messageformat": "История на редакциите"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Времеви печат на копието"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Редакцията не можа да бъде изпратена. Проверете връзката си и опитайте отново"
@@ -7301,6 +7301,6 @@
     "messageformat": "Анкетите на Signal са тук! Анкетите са лесен начин да видите какво наистина мисли груповият чат. Създайте анкета с различни опции за вечеря или за всякакви други важни избори. Всички в групата могат да гласуват и да виждат отговорите на другите, а вие можете да решите дали да разрешите гласуването за няколко опции."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Мултимедийната галерия вече има два нови раздела за аудио съобщения и прегледи на линкове."
   }
 }

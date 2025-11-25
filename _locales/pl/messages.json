@@ -1137,10 +1137,10 @@
     "messageformat": "Brak głosów"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Zwycięska opcja"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Nie znaleziono przypiętej wiadomości"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Nie znaleziono ankiety"
@@ -1245,7 +1245,7 @@
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} to ten sam użytkownik. Historię wiadomości z obu czatów z tą osobą znajdziesz tutaj."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "Historia wiadomości na czacie, który macie Ty i {conversationTitle}, oraz na czacie z numerem tej osoby ({obsoleteConversationNumber}) została połączona."
+    "messageformat": "Historia wiadomości, które wymieniacie Ty i {conversationTitle}, oraz tych na czacie z numerem {obsoleteConversationNumber} została połączona."
   },
   "icu:ConversationMerge--notification--no-title": {
     "messageformat": "Historia wiadomości na czacie, który macie Ty i {conversationTitle}, oraz na innym czacie z tą osobą została połączona."
@@ -1752,10 +1752,10 @@
     "messageformat": "{count, plural, one {Odrzucić {count,number} prośbę?} few {Odrzucić {count,number} prośby?} many {Odrzucić {count,number} próśb?} other {Odrzucić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {Do rozmowy zostanie dodana {count,number} osoba.} few {Do rozmowy zostaną dodane {count,number} osoby.} many {Do rozmowy zostanie dodanych {count,number} osób.} other {Do rozmowy zostanie dodane {count,number} osoby.}}"
+    "messageformat": "{count, plural, one {Do połączenia zostanie dodana {count,number} osoba.} few {Do połączenia zostaną dodane {count,number} osoby.} many {Do połączenia zostanie dodanych {count,number} osób.} other {Do połączenia zostanie dodane {count,number} osoby.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {Do rozmowy nie zostanie dodana {count,number} osoba.} few {Do rozmowy nie zostaną dodane {count,number} osoby.} many {Do rozmowy nie zostanie dodanych {count,number} osób.} other {Do rozmowy nie zostanie dodane {count,number} osoby.}}"
+    "messageformat": "{count, plural, one {{count,number} osoba nie zostanie dodana do połączenia.} few {{count,number} osoby nie zostaną dodane do połączenia.} many {{count,number} osób nie zostanie dodanych do połączenia.} other {{count,number} osoby nie zostanie dodane do połączenia.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} prośba o przyjęcie do rozmowy} few {{count,number} prośby o przyjęcie do rozmowy} many {{count,number} próśb o przyjęcie do rozmowy} other {{count,number} prośby o przyjęcie do rozmowy}}"
@@ -3186,7 +3186,7 @@
     "messageformat": "Kontynuuj"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Czy chcesz dalej należeć do tej grupy oraz udostępnić jej swoje imię i zdjęcie? <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
+    "messageformat": "Kontynuować czat z tą grupą i udostępnić jej Twoje imię oraz zdjęcie? <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
     "messageformat": "Czy Ty i {firstName} dalej będziecie się ze sobą komunikować na tym czacie i czy udostępnić tej osobie Twoje imię i zdjęcie? <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
@@ -5016,46 +5016,46 @@
     "messageformat": "Dodaj opis grupy…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Wiadomość głosowa"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Otwórz link w przeglądarce"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Pliki"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Linki"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Brak multimediów"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Tutaj pojawią się zdjęcia, wideo i GIF-y, które wyślesz lub otrzymasz"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Brak plików audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Tutaj pojawią się wiadomości głosowe i pliki audio, które wyślesz lub otrzymasz"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Brak linków"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Tutaj pojawią się linki, które wyślesz lub otrzymasz"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Brak plików"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Tutaj pojawią się pliki, które wyślesz lub otrzymasz"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Wybierz jakość multimediów"
@@ -5181,7 +5181,7 @@
     "messageformat": "Usuwanie nazwy użytkownika"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "Spowoduje to usunięcie Twojej nazwy użytkownika i dezaktywację kodu QR oraz linku. Ktoś inny będzie mógł użyć nazwy „{username}”. Chcesz kontynuować?"
+    "messageformat": "Spowoduje to usunięcie Twojej nazwy użytkownika i dezaktywację kodu QR oraz linku. Ktoś inny będzie mógł ustawić dla siebie nazwę „{username}”. Chcesz kontynuować?"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Usuń"
@@ -6135,7 +6135,7 @@
     "messageformat": "Wysyłasz prośbę o aktywację płatności."
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} przyjmuje od teraz płatności."
+    "messageformat": "{sender} przyjmuje teraz płatności."
   },
   "icu:payment-event-activated-you-label": {
     "messageformat": "Aktywowano płatności."
@@ -6754,7 +6754,7 @@
     "messageformat": "Historia edycji"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Skopiuj znacznik czasu"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Nie udało się wysłać edytowanej wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie"
@@ -7301,6 +7301,6 @@
     "messageformat": "Przedstawiamy ankiety Signal. Czy w Waszej grupie panuje jednomyślność? Sprawdźmy, jak odpowiadali ankietowani. Ankiety to łatwy sposób na zbadanie nastrojów w czacie grupowym. Spytaj, dokąd Twoi znajomi chcieliby pójść na pizzę bądź wyjechać na długi weekend. Poznaj ich gusta muzyczne lub dowiedz się, czy wakacje wolą spędzić w górach, czy nad morzem. Ankiety pomogą Wam podjąć każdą decyzję. Wszyscy w grupie mogą głosować i wyświetlać odpowiedzi innych, a Ty możesz zdecydować, czy zezwolić na udzielanie wielu odpowiedzi."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Dodaliśmy do galerii multimediów dwie nowe zakładki: jedną na wiadomości zawierające audio, a drugą na linki. Od teraz wszystkie linki do rickrolla wysłane w grupie będą w jednym miejscu."
   }
 }

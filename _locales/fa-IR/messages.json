@@ -1137,10 +1137,10 @@
     "messageformat": "بدون رأی"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "گزینه پیشتاز"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "پیام سنجاق‌شده یافت نشد"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "نظرسنجی یافت نشد"
@@ -5016,46 +5016,46 @@
     "messageformat": "افزودن توصیف گروه..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "پیام صوتی"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "صوت"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "باز کردن پیوند در مرورگر"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "صوت"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "فایل‌ها"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "پیوندها"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "رسانه‌ای موجود نیست"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "عکس‌ها، ویدیوها و GIFهایی که ارسال و دریافت می‌کنید اینجا ظاهر خواهند شد"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "هیچ فایل صوتی وجود ندارد"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "پیام‌های صوتی و فایل‌های صوتی که ارسال و دریافت می‌کنید اینجا ظاهر خواهند شد"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "بدون پیوند"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "پیوندهای ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "فایلی وجود ندارد"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "فایل‌های ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "انتخاب کیفیت رسانه"
@@ -6754,7 +6754,7 @@
     "messageformat": "تاریخچه ویرایش‌ها"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "کپی کردن برچسب زمان"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "این ویرایش ارسال نشد. اتصال خود را بررسی و دوباره امتحان کنید"
@@ -7301,6 +7301,6 @@
     "messageformat": "نظرسنجی‌های سیگنال اینجاست! نظرسنجی‌ها راهی آسان برای دیدن نظرات واقعی اعضای گروه هستند. یک نظرسنجی با گزینه‌های مختلف برای شام یا هر انتخاب مهم دیگری ایجاد کنید. همه افراد گروه می‌توانند رأی بدهند و پاسخ‌های یکدیگر را ببینند و شما می‌توانید تصمیم بگیرید که آیا اجازه رأی‌دهی چندگانه را بدهید یا خیر."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "گالری رسانه اکنون شامل دو زبانه جدید برای پیام‌های صوتی و پیش‌نمایش‌های پیوندها است."
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "Ei ääniä"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Voittaja"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Kiinnitettyä viestiä ei löytynyt"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Kyselyä ei löytynyt"
@@ -5016,46 +5016,46 @@
     "messageformat": "Lisää ryhmän kuvaus…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Ääniviesti"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ääni"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Avaa linkki selaimessa"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ääni"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Tiedostot"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Linkit"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Ei mediatiedostoja"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Lähettämäsi ja vastaanottamasi kuvat, videot ja GIF-tiedostot näkyvät täällä"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Ei ääntä"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Lähettämäsi ääniviestit ja -tiedostot näytetään täällä"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Ei linkkejä"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Lähettämäsi ja vastaanottamasi linkit näkyvät täällä"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Ei tiedostoja"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Lähettämäsi ja vastaanottamasi tiedostot näkyvät täällä"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Valitse median laatu"
@@ -6754,7 +6754,7 @@
     "messageformat": "Muokkaushistoria"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopioi aikaleima"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Muokkausta ei voitu lähettää. Tarkasta verkkoyhteys ja yritä uudelleen"
@@ -7301,6 +7301,6 @@
     "messageformat": "★ Signalissa voi nyt tehdä kyselyitä! Kyselyillä saat helposti selville, mitä mieltä ryhmäkeskustelussa aidosti ollaan. Luo kysely, jossa on erilaisia illallisvaihtoehtoja tai muita tärkeitä valintoja. Kaikki ryhmän jäsenet voivat äänestää ja nähdä toistensa vastaukset, ja voitte päättää, sallitteko useita ääniä vai ette."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Mediagalleria sisältää nyt kaksi uutta välilehteä ääniviesteille ja linkkien esikatseluille."
   }
 }

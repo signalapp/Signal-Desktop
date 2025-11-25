@@ -1137,10 +1137,10 @@
     "messageformat": "வாக்குகள் இல்லை"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "வெற்றி"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "பின் செய்யப்பட்ட மெசேஜ் கிடைக்கவில்லை"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "வாக்கெடுப்பு கிடைக்கவில்லை"
@@ -5016,46 +5016,46 @@
     "messageformat": "குழு விளக்கத்தைச் சேர்க்கவும்…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "குரல் செய்தி"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ஒலி"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "இணைப்பை உலாவியில் திறக்கவும்"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ஒலி"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "கோப்பு"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "இணைப்புகள்"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "ஊடகங்கள்இல்லை"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "நீங்கள் அனுப்பக்கூடிய மற்றும் பெறக்கூடிய படங்கள், காணொளிகள் மற்றும் GIFகள் இங்கே தோன்றும்"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ஆடியோ இல்லை"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "நீங்கள் அனுப்பக்கூடிய மற்றும் பெறக்கூடிய வாய்ஸ் மெசேஜ்கள் மற்றும் ஆடியோ கோப்புகள் இங்கே தோன்றும்"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "இணைப்புகள் இல்லை"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "நீங்கள் அனுப்பக்கூடிய மற்றும் பெறக்கூடிய இணைப்புகள் இங்கே தோன்றும்"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "கோப்புகள் இல்லை"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "நீங்கள் அனுப்பக்கூடிய மற்றும் பெறக்கூடிய இணைப்புகள் இங்கே தோன்றும்"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "தேர்ந்தெடு மீடியா தரம்"
@@ -6754,7 +6754,7 @@
     "messageformat": "திருத்தங்களின் வரலாறு"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "நேர முத்திரையை நகலெடுக்கவும்"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "இந்த திருத்தத்தை அனுப்ப முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்"
@@ -7301,6 +7301,6 @@
     "messageformat": "★ சிக்னல் வாக்கெடுப்பு இங்கு உள்ளது! உங்கள் குழு அரட்டையில் உண்மையில் என்ன நிகழ வேண்டும் என்பதைப் பார்ப்பதற்கு வாக்கெடுப்புகள் எளிதான வழியாகும். போட்டியிடும் இரவு உணவு விருப்பங்கள், விடுமுறை இடங்கள், வரவிருக்கும் சாலைப் பயணத்திற்கான இசை விருப்பத்தேர்வுகள் அல்லது வேறு ஏதேனும் முக்கியமான தேர்வுகளுடன் வாக்கெடுப்பை உருவாக்குங்கள். குழுவில் உள்ள அனைவரும் வாக்களிக்கலாம் மற்றும் அனைவரின் பதில்களையும் பார்க்கலாம், மேலும் பல வாக்குகளை அனுமதிக்கலாமா வேண்டாமா என்பதை நீங்கள் தீர்மானிக்கலாம்."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ஊடக கேலரியில் இப்போது ஆடியோ மெசேஜ்கள் மற்றும் இணைப்பு முன்னோட்டங்களுக்கான இரண்டு புதிய டேப்கள் உள்ளன. குழு அரட்டையில் இணைப்பு கிடைக்கப்பெற்றால், அது ஒலி எழுப்புமா?"
   }
 }

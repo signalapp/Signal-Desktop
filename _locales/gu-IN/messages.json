@@ -1137,10 +1137,10 @@
     "messageformat": "કોઈ મત નથી"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "વિજેતા"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "પિન કરેલો મેસેજ મળ્યો નથી"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "મતદાન મળ્યું નથી"
@@ -5016,46 +5016,46 @@
     "messageformat": "ગ્રુપ ડિસ્ક્રિપ્શન ઉમેરો"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "વોઇસ મેસેજ"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ઓડિયો"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "બ્રાઉઝરમાં લિંક ખોલો"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ઓડિયો"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ફાઇલો"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "લિંક"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "કોઈ મીડિયા નથી"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "તમે મોકલો છો અને મેળવો છો તે ફોટા, વીડિયો અને GIF અહીં દેખાશે"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "કોઈ ઓડિયો નથી"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "વોઇસ મેસેજ અને ઓડિયો ફાઇલો જે તમે મોકલો છો અને મેળવો છો તે અહીં દેખાશે"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "કોઈ લિંક નથી"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી લિંક અહીં દેખાશે"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "કોઈ ફાઈલો નથી"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી ફાઈલો અહીં દેખાશે"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "મીડિયા ગુણવત્તા પસંદ કરો"
@@ -6754,7 +6754,7 @@
     "messageformat": "ફેરફારોની હિસ્ટ્રી"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ટાઇમસ્ટેમ્પ કોપિ કરો"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "આ ફેરફાર મોકલી શકાયો ન હતો. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો"
@@ -7301,6 +7301,6 @@
     "messageformat": "પ્રસ્તુત છે Signal મતદાન! મતદાન એ તમારા ગ્રૂપ ચેટ ખરેખર શું વિચારે છે તે જોવાની એક સરળ રીત છે. સ્પર્ધાત્મક રાત્રિભોજન વિકલ્પો, વેકેશન સ્થળો, આગામી રોડ ટ્રીપ માટે મ્યુઝિકની પસંદગીઓ અથવા અન્ય કોઈ પણ મહત્ત્વપૂર્ણ પસંદગીઓ સાથે એક મતદાન બનાવો. ગ્રૂપમાં દરેક વ્યક્તિ મતદાન કરી શકે છે અને એકબીજાના પ્રતિભાવો જોઈ શકે છે અને તમે નક્કી કરી શકો છો કે બહુવિધ મત આપવા કે નહીં."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "મીડિયા ગેલેરીમાં હવે ઓડિયો મેસેજ અને લિંક પ્રિવ્યૂ માટે બે નવા ટેબનો સમાવેશ થાય છે."
   }
 }

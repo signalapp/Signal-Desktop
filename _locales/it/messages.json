@@ -1137,10 +1137,10 @@
     "messageformat": "Nessun voto"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Opzione più votata"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Messaggio fissato non trovato"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondaggio non trovato"
@@ -5016,46 +5016,46 @@
     "messageformat": "Aggiungi descrizione gruppo…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Messaggio vocale"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Apri il link in un browser"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "File"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Link"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Nessun file multimediale"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foto, video e GIF che invii e ricevi verranno mostrati qui"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Nessun audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "I messaggi vocali e file audio che invii e ricevi verranno mostrati qui"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Nessun link"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Qui vedrai i link che invii e ricevi"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Nessun file"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Qui vedrai i file che invii e ricevi"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleziona qualità media"
@@ -6754,7 +6754,7 @@
     "messageformat": "Cronologia delle modifiche"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Copia data e ora"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Impossibile inviare questa modifica. Controlla la tua connessione e riprova"
@@ -7301,6 +7301,6 @@
     "messageformat": "Sono arrivati i sondaggi su Signal! Siete davvero tutti allineati su cosa fare questo sabato sera? Vincerà il sushi o la carbonara? I sondaggi sono il modo più semplice per… beh, fare un sondaggio tra le persone in un gruppo. Creane uno inserendo tutte le opzioni che vuoi e per qualsiasi ragione: una cena fuori, piani per il weekend, vacanze o il fatidico \"cosa facciamo a capodanno\". Chiunque sia nel gruppo potrà votare e vedere i voti delle altre persone. Inoltre, potrai decidere se consentire alle persone di scegliere più opzioni."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "La galleria multimediale ora include due nuove schermate per i messaggi vocali e le anteprime dei link. E tu quanti link hai visto in anteprima, non al cinema, ma sul tuo telefono?"
   }
 }

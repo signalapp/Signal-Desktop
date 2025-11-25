@@ -1137,10 +1137,10 @@
     "messageformat": "Geen stemmen"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Meeste stemmen"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Vastgezet bericht niet gevonden"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Peiling niet gevonden"
@@ -5016,46 +5016,46 @@
     "messageformat": "Voeg een groepsomschrijving toe…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Spraakbericht"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Link openen in een browser"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Documenten"
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Links"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Geen media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foto's, video's en GIF's die je verstuurt en ontvangt worden hier weergegeven"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Geen audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Spraakberichten en audiobestanden die je verstuurt en ontvangt worden hier weergegeven"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Geen links"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Links die je verstuurt en ontvangt worden hier weergegeven"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Geen documenten"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Documenten die je verstuurt en ontvangt worden hier weergegeven"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Mediakwaliteit kiezen"
@@ -6754,7 +6754,7 @@
     "messageformat": "Bewerkingsgeschiedenis"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Tijdstempel kopiëren"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Deze bewerking kan niet worden verzonden. Controleer je internetverbinding en probeer het opnieuw"
@@ -7301,6 +7301,6 @@
     "messageformat": "★ Je kunt in Signal nu peilingen houden! Een peiling is een makkelijke manier om te zien wat je groepschat ergens van vindt. Maak een peiling voor de leukste restaurantopties, vakantiebestemmingen, muziekvoorkeuren voor een aanstaande roadtrip of andere belangrijke keuzes. Iedereen in de groep kan stemmen en elkaars antwoorden zien, en je kunt zelf bepalen of je meerdere stemmen wilt toestaan of niet."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "De mediagalerij bevat nu twee nieuwe tabbladen voor spraakberichten en linkvoorbeelden."
   }
 }

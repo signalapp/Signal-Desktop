@@ -1137,10 +1137,10 @@
     "messageformat": "Walang boto"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Panalong option"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Hindi matagpuan ang pinned message"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Walang makitang poll"
@@ -5016,46 +5016,46 @@
     "messageformat": "Mag-add ng group description…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Voice na Mensahe"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Buksan ang link sa browser"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Mga file"
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Links"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Walang media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Lalabas dito ang Photos, Videos, at GIFs na ipinapadala at natatanggap mo"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Walang Audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Lalabas dito ang Voice Messages at Audio Files na ipinapadala at natatanggap mo"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Walang Links"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Lalabas dito ang links na ipinapadala at natatanggap mo"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Walang Files"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Lalabas dito ang files na ipinapadala at natatanggap mo"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pumili ng media quality"
@@ -7301,6 +7301,6 @@
     "messageformat": "Narito na ang Signal polls! Ang polls ay madaling paraan para makita kung ano ang nasa isip ng group chat mo. Gumawa ng poll ng iba't-ibang dinner options o iba pang importanteng pagpipilian. Ang lahat ng nasa group ay makakaboto at makikita rin nila ang sagot ng isa't-isa, at pwede kang mamili kung papayagan mo o hindi ang maramihang pagboto."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Ang media gallery ay may kasama nang dalawang bagong tabs para sa audio messages at link previews."
   }
 }

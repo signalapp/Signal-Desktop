@@ -1137,10 +1137,10 @@
     "messageformat": "Žádné hlasy"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Vítězná volba"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Připnutá zpráva nebyla nalezena"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anketa nebyla nalezena"
@@ -5016,46 +5016,46 @@
     "messageformat": "Přidejte popisek skupiny…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Hlasová zpráva"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Otevřít odkaz v prohlížeči"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Soubory"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Odkazy"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Žádná média"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Fotky, videa a GIF obrázky, které odešlete nebo obdržíte, se zobrazí zde"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Žádné audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Hlasové zprávy a zvukové soubory, které odešlete nebo obdržíte, se zobrazí zde"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Žádné odkazy"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Odkazy, které odešlete nebo obdržíte, se zobrazí zde"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Žádné soubory"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Soubory, které odešlete nebo obdržíte, se zobrazí zde"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vyberte kvalitu médií"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historie úprav"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopírovat časové razítko"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Tuto úpravu se nepodařilo odeslat. Zkontrolujte své připojení a zkuste to znovu"
@@ -7301,6 +7301,6 @@
     "messageformat": "Ankety Signal jsou tady! Ankety představují snadný způsob, jak zjistit, co si vaše chatovací skupina skutečně myslí. Vytvořte anketu s různými možnostmi večeře nebo jakoukoli jinou důležitou volbou. Každý ve skupině může hlasovat a vidět odpovědi ostatních, a vy se můžete rozhodnout, zda povolíte hlasování pro více možností."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Galerie médií nyní obsahuje dvě nové záložky pro zvukové zprávy a náhledy odkazů."
   }
 }

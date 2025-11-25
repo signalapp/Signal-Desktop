@@ -1137,10 +1137,10 @@
     "messageformat": "Səs yoxdur"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Qazanmaq"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Sancaqlanan mesaj tapılmadı"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Səsvermə anketi tapılmadı"
@@ -5016,46 +5016,46 @@
     "messageformat": "Qrup açıqlaması əlavə edin..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Səsyazmalı mesaj"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Səs"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Keçidi brauzerdə aç"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Səs"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Fayllar"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Keçidlər"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Media yoxdur"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Göndərdiyiniz və aldığınız fotolar, videolar və GIF-lər burada görünəcək"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Səsli fayl yoxdur"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Göndərdiyiniz və aldığınız səsli mesajlar və səsli fayllar burada görünəcək"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Keçid yoxdur"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Heç bir fayl yoxdur"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Media keyfiyyətini seçin"
@@ -6754,7 +6754,7 @@
     "messageformat": "Redaktə tarixçəsi"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Vaxt möhürünü kopyala"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bu redaktəni göndərmək mümkün olmadı. Bağlantınızı yoxlayıb yenidən cəhd edin"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal səsvermələri buradadır! Dostlarınızla eyni fikirdəsiniz, yoxsa zidd fikirlər də var? Səsvermələr qrup çatlarınızdakı düşüncələri öyrənməyin asan yoludur. Bir-biri ilə yarışan yemək seçimləri, tətil yerləri, növbəti səyahət üçün musiqi seçimləri, yaxud da istənilən başqa vacib seçimlər üçün səsvermə yaradın. Qrupdakı hər kəs səsvermədə iştirak edə və digərlərinin cavablarını görə bilər, sizə isə səs çoxluğunu qəbul edib-etməmək haqqında qərar qalır."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Artıq media qalereya səsli mesajlar və keçidə önbaxışlar üçün iki yeni tab-vərəqəni əhatə edir. Qrup çatına keçidin düşməsi nə anlama gəlir?"
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "Нет голосов"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Вариант-победитель"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Прикреплённое сообщение не найдено"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Опрос не найден"
@@ -5016,46 +5016,46 @@
     "messageformat": "Добавить описание группы…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Голосовое сообщение"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Откройте ссылку в браузере"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Файлы"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Ссылки"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Нет медиафайлов"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Фото, видео и GIF-файлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Нет аудиофайлов"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Голосовые сообщения и аудиофайлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Ссылок нет"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Нет файлов"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Выбрать качество медиа"
@@ -6754,7 +6754,7 @@
     "messageformat": "История изменений"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Копировать отметку времени"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Не удалось отправить изменённое сообщение. Проверьте ваше подключение к интернету и попробуйте ещё раз"
@@ -7301,6 +7301,6 @@
     "messageformat": "Опросы Signal уже здесь! Вы на одной волне с друзьями или у вас противоположные мнения? Опросы — это простой способ узнать, что на самом деле думают участники вашего группового чата. Создайте опрос по различным вариантам ужина, направлениям для отдыха, музыкальным предпочтениям для предстоящей поездки или другим важным вопросам. Все участники группы могут голосовать и видеть ответы друг друга, а вы сами решаете, можно ли будет выбрать несколько вариантов."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "В галерее медиафайлов теперь появились две новые вкладки для аудио-сообщений и просмотра ссылок. Если ссылка появляется в групповом чате, будет ли она звучать?"
   }
 }

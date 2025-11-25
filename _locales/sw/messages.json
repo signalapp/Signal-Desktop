@@ -1137,10 +1137,10 @@
     "messageformat": "Hakuna kura"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Kushinda"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Ujumbe uliobandikwa haujapatikana"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Kura ya maoni haijapatikana"
@@ -5016,46 +5016,46 @@
     "messageformat": "Ongeza maelezo ya kikundi..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Ujumbe wa Sauti"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Sauti"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Fungua kiungo kwenye kivinjari"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Sauti"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Faili"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Viungo"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Hakuna media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Picha, Video na GIFs unazotuma na kupokea zitaonekana hapa"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Hakuna sauti"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Ujumbe wa Sauti na Faili za Sauti unazotuma na kupokea vitaonekana hapa"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Hakuna Viungo"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Viungo unavyotuma na kupokea vitaonekana hapa"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Hakuna Faili"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Sauti unazotuma na kupokea zitaonekana hapa"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chagua ubora wa media"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historia ya uhariri"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Nakili mhuri wa muda"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Uhariri huu umeshindwa kutumwa. Angalia muunganisho wako wa mtandao kisha ujaribu tena"
@@ -7301,6 +7301,6 @@
     "messageformat": "Hii hapa kura ya maoni ya Signal! Je, wewe na marafiki zako mko sawa au mpo mbali kabisa kimtazamo? Kura za maoni ni njia rahisi ya kujua vile gumzo lenu la kikundi hufikiri hasa. Unda kura ya maoni yenye chaguo za chakula cha usiku, maeneo ya likizo, mapendeleo ya muziki kwa safari yenu ya barabarani ijayo au maamuzi mengine yoyote muhimu. Kila mtu kwenye kikundi anaweza kupiga kura na kuona majibu ya wengine na mnaweza kuamua kama mtaruhusu mtu kupiga kura zaidi ya mara moja au la."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Matunzio ya picha na video sasa yanajumuisha vichupo vipya viwili kwa ujumbe wa sauti na matoleo hakikisho la viungo. Ikiwa kiungo kitatumwa kwenye gumzo la kundi, je, hutoa sauti?"
   }
 }

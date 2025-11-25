@@ -1137,10 +1137,10 @@
     "messageformat": "لا أصوات"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "فائز"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "تعذَّر العثور على الرسالة المُثبَّتة"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "لم يتم العثور على الاستطلاع"
@@ -5016,46 +5016,46 @@
     "messageformat": "إضافة وصف للمجموعة…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "رسالة صوتية"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "الملفات الصوتية"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "افتح الرابط في مُتصفِّح"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "الملفات الصوتية"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "الملفات"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "الروابط"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "لا يوجد ملف وسائط"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "ستظهر الصور والفيديوهات والصور المتحركة التي تُرسلها وتستقبلها هنا."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "لا يوجد صوت"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "سَتظهر الرسائل الصوتية والملفات الصوتية التي تُرسلها وتستقبلها هنا"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "لا توجد روابط"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "سَتظهر الروابط التي تُرسِلها وتستقبلها هنا"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "لا تُوجد ملفات"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "سَتظهر الملفات التي تُرسِلها وتستقبلها هنا"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "تحديد جودة الوسائط"
@@ -6754,7 +6754,7 @@
     "messageformat": "سجل التعديلات"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "نسخ السجل الزمني"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "تعذَّر إرسال هذا التعديل. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
@@ -7301,6 +7301,6 @@
     "messageformat": "• استطلاعات سيجنال قد بدأت! هل أنت وأصدقاؤك متفقون تمامًا أم أن كلًا منكم له رأي مختلف؟ الاستطلاعات طريقة سهلة لِمعرفة رأي مجموعة الدردشة التي أنت جزءٌ منها. أنشِئ استطلاعًا يتضمن خيارات مختلفة للعشاء، أو وجهات للسفر، أو تفضيلات موسيقية لرحلة قادمة، أو أي اختيارات مهمة أخرى. يمكن للجميع في الدردشة الجماعية التصويت ورؤية أجوبة الآخرين، ويمكنك اختيار ما إذا كُنتَ تريد السماح بتصويتات متعددة أم لا."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "يتضمَّن معرض الوسائط الآن علامتي تبويب جديدتين للرسائل الصوتية ومعاينات الروابط. إذا وقع رابط في الدردشة الجماعية، فهل سينتبه له أحد؟"
   }
 }

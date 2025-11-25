@@ -1137,10 +1137,10 @@
     "messageformat": "Vastuseid pole"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Võitja"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Kinnitatud sõnumit ei leitud"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Küsitlust ei leitud"
@@ -5016,46 +5016,46 @@
     "messageformat": "Lisa grupi kirjeldus…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Häälsõnum"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Ava link brauseris"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Failid"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Lingid"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Meedia puudub"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud fotod, videod ja GIF-id"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Heli puudub"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud häälsõnumid ja helifailid"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Linke ei ole"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud lingid"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Faile ei ole"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud failid"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vali meedia kvaliteet"
@@ -6754,7 +6754,7 @@
     "messageformat": "Muutmiste ajalugu"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopeeri ajatempel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Seda muudatust ei saanud saata. Kontrolli oma ühendust ja proovi uuesti."
@@ -7301,6 +7301,6 @@
     "messageformat": "Signali küsitlused on kohal! Küsitlused on lihtne viis näha, mida su grupivestluse osalejad tegelikult arvavad. Loo küsitlus erinevate õhtusöögivõimaluste, puhkusepaikade, muusikaeelistustega eelolevaks autotripiks, või mõne muu olulise otsuse tegemiseks. Kõik grupi liikmed saavad hääletada ja üksteise vastuseid näha ning on sinu valik, kas lubad mitut häält või mitte."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Meediagaleriis on nüüd kaks uut vahekaarti häälsõnumite ja linkide eelvaadete jaoks."
   }
 }

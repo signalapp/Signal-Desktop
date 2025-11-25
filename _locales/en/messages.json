@@ -6718,7 +6718,7 @@
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Links that you send and receive will appear here",
-    "description": "Description of the empty state view of media gallery for links tab"
+    "description": "(Deleted 2025/11/25) Description of the empty state view of media gallery for links tab"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "No Files",
@@ -6730,7 +6730,7 @@
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Files that you send and receive will appear here",
-    "description": "Description of the empty state view of media gallery for files tab"
+    "description": "(Deleted 2025/11/25) Description of the empty state view of media gallery for files tab"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",

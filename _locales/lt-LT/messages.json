@@ -1137,10 +1137,10 @@
     "messageformat": "Balsų nėra"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Laimėjimo galimybė"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Prisegta žinutė nerasta"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Apklausa nerasta"
@@ -5016,46 +5016,46 @@
     "messageformat": "Pridėk grupės aprašymą…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Balso žinutė"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Garso įrašas"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Atverti nuorodą naršyklėje"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Garso įrašas"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Failai"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Nuorodos"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Nėra medijos"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuotraukos, vaizdo įrašai ir GIF failai"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Garso įrašų nėra"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos balso žinutės ir garso failai"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Nuorodų nėra"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Failų nėra"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pasirinkti medijos kokybę"
@@ -6754,7 +6754,7 @@
     "messageformat": "Redagavimo istorija"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopijuoti laiko žymą"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Šio redagavimo nepavyko išsiųsti. Patikrinkite ryšį ir bandykite vėl"
@@ -7301,6 +7301,6 @@
     "messageformat": "„Signal“ apklausos jau čia! Tai paprastas būdas sužinoti, ką iš tikrųjų mano jūsų grupės pokalbių dalyviai. Sukurkite apklausą su skirtingais vakarienės variantais ar kitais svarbiais pasirinkimais. Visi grupės nariai gali balsuoti ir matyti vieni kitų atsakymus, o jūs galite nuspręsti, ar leisti balsuoti kelis kartus."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Įrašų galerijoje nuo šiol yra du nauji skirtukai garso žinutėms ir nuorodų peržiūrai."
   }
 }

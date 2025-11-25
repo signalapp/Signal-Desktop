@@ -1137,10 +1137,10 @@
     "messageformat": "کوئی ووٹس نہیں ہیں"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "جیتنا"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "پِن شدہ میسج نہیں ملا"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "پول نہیں ملے"
@@ -5016,46 +5016,46 @@
     "messageformat": "گروپ کی تفصیل شامل کریں ..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "آواز کے ذریعے پیغام"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "آڈیو"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "لنک کو براؤزر میں کھولیں"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "آڈیو"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "فائلز"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "لنکس"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "کوئی میڈیا نہیں ہے"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "وہ تصاویر، ویڈیوز اور GIFs جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "کوئی آڈیو نہیں ہے"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "وائس میسجز اور آڈیو فائلز جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "کوئی لنکس نہیں ہیں"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "وہ لنکس جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "کوئی فائلز نہیں ہیں"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "وہ فائلز جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گی"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "میڈیا کے معیار کو منتخب کریں"
@@ -6754,7 +6754,7 @@
     "messageformat": "ترمیم کی ہسٹری"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ٹائم اسٹیمپ کاپی کریں"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "یہ ترمیم نہیں بھیجی جا سکتی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "میڈیا گیلری میں آڈیو میسجز اور لنک کے پیش منظروں کے لیے اب دو نئی ٹیبز شامل ہیں۔اگر گروپ چیٹ میں لنک پوسٹ ہو تو اس کی آواز آتی ہے یا نہیں؟"
   }
 }

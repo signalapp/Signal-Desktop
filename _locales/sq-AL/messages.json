@@ -1137,10 +1137,10 @@
     "messageformat": "Asnjë votë"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Fitues"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Mesazhi i fiksuar nuk u gjet"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondazhi nuk u gjet"
@@ -5016,46 +5016,46 @@
     "messageformat": "Shtoni përshkrim grupi…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Mesazh Zanor"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Hap lidhjen në një shfletues"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Kartela"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Lidhjet"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "S\\’ka media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Fotot, videot dhe GIF-et që dërgon dhe merr do të shfaqen këtu"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Nuk ka audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Mesazhet zanore dhe skedarët audio që dërgon dhe merr do të shfaqen këtu"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Nuk ka lidhje"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Lidhjet që dërgon dhe merr do të shfaqen këtu"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Nuk ka skedarë"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Skedarët që dërgon dhe merr do të shfaqen këtu"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Përzgjidhni cilësi media"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historiku i përpunimeve"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopjo vulën kohore"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Ky ndryshim nuk mund të dërgohej. Kontrollo lidhjen e internetit dhe riprovo"
@@ -7301,6 +7301,6 @@
     "messageformat": "Sondazhet e Signal janë këtu! A jeni ti dhe miqtë tuaj në të njëjtën linjë mendimesh, apo jeni të kundërt me njëri-tjetrin? Sondazhet janë një rrugë e lehtë për të parë se çfarë mendon vërtet grupi juaj i bisedave. Krijo një sondazh me opsione konkurruese për darkë, destinacione pushimesh, preferenca muzikore për një udhëtim të ardhshëm me makinë ose çdo zgjedhje tjetër të rëndësishme. Të gjithë në grup mund të votojnë dhe të shohin përgjigjet e njëri-tjetrit, dhe ti mund të vendosësh nëse do të lejosh apo jo vota të shumëfishta."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Galeria e mediave tani përfshin dy skeda të reja për mesazhet audio dhe pamjet paraprake të lidhjeve. Nëse lidhje bie në një bisedë në grup, a lëshon tingull?"
   }
 }

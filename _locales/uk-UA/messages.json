@@ -1137,10 +1137,10 @@
     "messageformat": "Голосів немає"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Найпопулярніша відповідь"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Закріплене повідомлення не знайдено"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Опитування не знайдено"
@@ -5016,46 +5016,46 @@
     "messageformat": "Додайте опис групи…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Голосове повідомлення"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудіо"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Відкрити посилання в браузері"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудіо"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Файли"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Посилання"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Медіафайлів немає"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Тут будуть надіслані й отримані фото, відеофайли й GIF"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Аудіофайлів немає"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Тут будуть надіслані й отримані голосові повідомлення й аудіофайли"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Посилань немає"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Тут будуть ваші надіслані й отримані посилання"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Файлів немає"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Тут будуть ваші надіслані й отримані файли"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Оберіть якість медіафайлів"
@@ -6754,7 +6754,7 @@
     "messageformat": "Попередній текст"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Скопіювати часову позначку"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Відредаговане повідомлення не вдалося надіслати. Перевірте з'єднання з мережею і спробуйте знову"
@@ -7301,6 +7301,6 @@
     "messageformat": "Тепер у Signal є опитування! Приймайте групові рішення без сварок і надто палких дискусій. Опитування — це простий спосіб дізнатися думку групи. Створіть опитування, щоб визначитися з вечерею, відпусткою, плейлистом для довгої дороги чи іншими важливими питаннями. Голосувати й бачити відповіді можуть усі в групі, а ще ви можете дозволити вибирати по кілька відповідей."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "У галереї медіафайлів тепер є вкладки для голосових повідомлень і посилань. Тепер буде простіше знайти той самий сайт, яким друг ділився пів року тому."
   }
 }

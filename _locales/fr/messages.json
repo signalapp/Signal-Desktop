@@ -1137,10 +1137,10 @@
     "messageformat": "Aucun vote"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Option ayant reçu le plus de votes"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Message épinglé introuvable"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Sondage introuvable"
@@ -5016,46 +5016,46 @@
     "messageformat": "Présentez le groupe en quelques mots…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Message vocal"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Ouvrir le lien dans un navigateur"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Fichiers"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Liens"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Aucun média"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Les photos, vidéos et GIF que vous envoyez et recevez s'afficheront ici."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Aucun fichier audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Les messages vocaux et fichiers audio que vous envoyez et recevez s'afficheront ici."
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Aucun lien"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Les liens que vous envoyez et recevez s'afficheront ici."
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Aucun fichier"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Les fichiers que vous envoyez et recevez s'afficheront ici."
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historique des modifications"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Copier l'horodatage"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Impossible d'envoyer cette modification. Veuillez vérifier votre connexion et réessayer."
@@ -7301,6 +7301,6 @@
     "messageformat": "• Un vent de démocratie souffle sur Signal avec l'arrivée des sondages ! Plutôt restaurant chinois ou pizzeria ? Vacances à la mer ou à la montagne ? Et cette AG, au fait, on l'organise à quelle date ? Faites voter vos amis et prenez ensemble les décisions qui vous tiennent à cœur. Tous les membres du groupe peuvent voter et voir les réponses des autres participants. Et vous pouvez même autoriser plusieurs réponses par personne."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Deux nouveaux onglets font leur entrée dans la galerie multimédias : les messages vocaux et les aperçus de liens. Plus besoin de faire défiler la conversation pour retrouver le dernier vocal de votre meilleure amie ou ce \"lien-à-consulter-absolument\" avant la prochaine réunion !"
   }
 }

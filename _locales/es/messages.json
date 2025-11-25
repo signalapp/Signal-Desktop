@@ -114,7 +114,7 @@
     "messageformat": "Continue with plaintext key"
   },
   "icu:mainMenuFile": {
-    "messageformat": "A&rchivo"
+    "messageformat": "&Archivo"
   },
   "icu:mainMenuCreateStickers": {
     "messageformat": "Crear/subir paquete de stickers"
@@ -129,7 +129,7 @@
     "messageformat": "Ve&ntana"
   },
   "icu:mainMenuHelp": {
-    "messageformat": "&Ayuda"
+    "messageformat": "A&yuda"
   },
   "icu:mainMenuSettings": {
     "messageformat": "Ajustes…"
@@ -1137,10 +1137,10 @@
     "messageformat": "Sin votos"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Opción ganadora"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "No se ha encontrado el mensaje fijado"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "No se ha encontrado la encuesta"
@@ -3036,7 +3036,7 @@
     "messageformat": "Consejos de seguridad"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Ten cuidado al aceptar solicitudes de mensajes de personas que no conoces. Presta atención a lo siguiente:"
+    "messageformat": "Ten cuidado al aceptar solicitudes de mensajes de personas que no conoces. Aquí hay algunas recomendaciones a tener en cuenta:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Cuentas y nombres falsos"
@@ -5016,46 +5016,46 @@
     "messageformat": "Añadir descripción del grupo…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Mensaje de voz"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Abre el enlace en un navegador"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Documentos"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Enlaces"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "No hay archivos multimedia"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Aquí se mostrarán las fotos, vídeos y GIF que envíes y recibas."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "No hay archivos de audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Aquí se mostrarán los mensajes de voz y archivos de audio que envíes y recibas."
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "No hay enlaces"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Aquí se mostrarán los enlaces que envíes y recibas."
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "No hay documentos"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Aquí se mostrarán los documentos que envíes y recibas."
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccionar calidad de fotos y vídeos"
@@ -5889,7 +5889,7 @@
     "messageformat": "Seguridad de la pantalla"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Evita las capturas de pantalla de Signal en este dispositivo para mayor privacidad."
+    "messageformat": "Bloquea las capturas de pantalla de Signal en este dispositivo para mayor privacidad."
   },
   "icu:Preferences__content-protection__modal--title": {
     "messageformat": "¿Desactivar la seguridad de la pantalla?"
@@ -6754,7 +6754,7 @@
     "messageformat": "Historial de cambios"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Copiar marca de tiempo"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "No se ha podido enviar este mensaje editado. Comprueba tu conexión e inténtalo de nuevo."
@@ -7301,6 +7301,6 @@
     "messageformat": "¡Llegaron las encuestas de Signal! ¿Tu grupo va alineado o se vuelve \"en-cuesta arriba\" llegar a un acuerdo? Las encuestas son una forma sencilla de ver qué prefiere cada persona del grupo. Crea una encuesta con distintas opciones para decidir qué cenar, a dónde ir de vacaciones, qué lista de reproducción poner en el próximo viaje o cualquier otra decisión importante. Todas las personas del grupo pueden votar y ver las respuestas, y podrás decidir si se permite votar por más de una opción."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Ahora, la galería de archivos multimedia incluye dos nuevas pestañas: mensajes de audio y vistas previas de enlaces. Ideal para encontrar ese enlace que se perdió entre memes, fotos y buenos días."
   }
 }

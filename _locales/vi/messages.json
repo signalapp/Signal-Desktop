@@ -1137,10 +1137,10 @@
     "messageformat": "Không có bình chọn"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Lựa chọn chiếm ưu thế"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Không tìm thấy tin nhắn ghim"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Không tìm thấy câu hỏi"
@@ -5016,46 +5016,46 @@
     "messageformat": "Thêm miêu tả nhóm…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Tin nhắn Thoại"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Âm thanh"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Mở đường dẫn trong trình duyệt"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Âm thanh"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Tệp"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Đường dẫn"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Không có đa phương tiện"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Ảnh, Video và hình GIF bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Không có tệp Âm thanh"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Tin nhắn Thoại và Tệp Âm thanh bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Không có đường dẫn"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Đường dẫn bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Không có tập tin"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Tập tin bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
@@ -6754,7 +6754,7 @@
     "messageformat": "Lịch sử chỉnh sửa"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Sao chép dấu thời gian"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Không thể gửi chỉnh sửa này. Kiểm tra kết nối của bạn và thử lại"
@@ -7301,6 +7301,6 @@
     "messageformat": "Ra mắt tính năng Hỏi ý kiến! Tính năng này giúp bạn biết các ý kiến của người trong nhóm của mình. Bạn sẽ có thể tạo một cuộc Hỏi ý kiến với các lựa chọn khác nhau, thành viên nhóm có thể bỏ phiếu và xem phản hồi của nhau, và bạn có thể quyết định có cho phép có nhiều bình chọn hay không."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Thư viện đa phương tiện giờ đây có hai tab mới dành cho tin nhắn âm thanh và nội dung xem trước đường dẫn."
   }
 }

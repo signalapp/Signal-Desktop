@@ -1137,10 +1137,10 @@
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "ឈ្នះ"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "រកមិនឃើញសារដែលបានខ្ទាស់ទេ"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "រកមិនឃើញការស្ទង់មតិទេ"
@@ -5016,46 +5016,46 @@
     "messageformat": "បញ្ចូលការពណ៌នាក្រុម…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "សារជាសំឡេង"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "សំឡេង"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "សំឡេង"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ឯកសារ"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "តំណ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "គ្មានមេឌៀ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "រូបថត វីដេអូ និងរូបមានចលនាដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "គ្មានសំឡេង"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "សារជាសំឡេង និងឯកសារសំឡេងដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "គ្មានតំណ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "តំណដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "គ្មានឯកសារ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ជ្រើសរើសគុណភាពមេឌៀ"
@@ -6754,7 +6754,7 @@
     "messageformat": "កែប្រវត្តិ"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ចម្លងត្រាពេលវេលា"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "មិនអាចផ្ញើសារកែនេះបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
@@ -7301,6 +7301,6 @@
     "messageformat": "នៅទីនេះមានការស្ទង់មតិ Signal! តើអ្នក និងមិត្តភក្តិរបស់អ្នកមានគំនិតដូចគ្នាឬទេ ឬអ្នកមានទស្សនៈផ្ទុយគ្នាទាំងស្រុង? ការស្ទង់មតិគឺជាវិធីងាយស្រួលមួយដើម្បីមើលថាតើសមាជិកក្នុងការជជែកជាក្រុមរបស់អ្នកគិតយ៉ាងណាដែរ។ បង្កើតការស្ទង់មតិជាមួយនឹងជម្រើសអាហារពេលល្ងាច គោលដៅវិស្សមកាល ចំណូលចិត្តតន្ត្រីជាច្រើនសម្រាប់ការធ្វើដំណើរតាមផ្លូវនាពេលខាងមុខ ឬជម្រើសសំខាន់ៗផ្សេងទៀត។ អ្នកគ្រប់គ្នានៅក្នុងក្រុមអាចបោះឆ្នោត និងមើលឃើញការឆ្លើយតបរបស់គ្នាទៅវិញទៅមក ហើយអ្នកអាចសម្រេចចិត្តថាតើគួរអនុញ្ញាតឱ្យមានការបោះឆ្នោតជាច្រើនឬអត់។"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ឥឡូវនេះ វិចិត្រសាលមេឌៀមានផ្ទាំងថ្មីពីរសម្រាប់សារជាសំឡេង និងការមើលតំណជាមុន។ ប្រសិនបើតំណមួយស្ថិតនៅក្នុងការជជែកជាក្រុម តើវាបញ្ចេញសំឡេងឬទេ?"
   }
 }

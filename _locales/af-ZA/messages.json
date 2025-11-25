@@ -1137,10 +1137,10 @@
     "messageformat": "Geen stemme nie"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Wen"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Gemerkte boodskap nie gevind nie"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Meningsopname nie gevind nie"
@@ -5016,46 +5016,46 @@
     "messageformat": "Voeg groepbeskrywing toe…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Stemboodskap"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Klank"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Maak die skakel in 'n blaaier oop"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Klank"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Lêers"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Skakels"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Geen media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foto's, video's en GIF's wat jy stuur en ontvang, sal hier verskyn"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Geen oudio nie"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Stemboodskappe en oudiolêers wat jy stuur en ontvang, sal hier verskyn"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Geen skakels nie"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Skakels wat jy stuur en ontvang, sal hier verskyn"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Geen lêers nie"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Kies mediakwaliteit"
@@ -6754,7 +6754,7 @@
     "messageformat": "Wysigingsgeskiedenis"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopieer tydstempel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Hierdie wysiging kon nie gestuur word nie. Gaan jou verbinding na en probeer weer"
@@ -7301,6 +7301,6 @@
     "messageformat": "Nou is daar Signal-meningsopnames! Meningsopnames is 'n maklike manier om te sien wat jou groepklets werklik dink. Skep 'n meningsopname met kompeterende aandete-opsies of enige ander belangrike keuses. Almal in die groep kan stem en mekaar se reaksies sien, en jy kan besluit of jy veelvuldige stemme wil toelaat of nie."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Die mediagalery bevat nou twee nuwe navigasie-ikone vir oudioboodskappe en skakelvoorskoue."
   }
 }

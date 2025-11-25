@@ -1137,10 +1137,10 @@
     "messageformat": "Níl Aon Vótaí Ann"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Ag buachan"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Níor aimsíodh an teachtaireacht phionnáilte"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Níor aimsíodh an suirbhé"
@@ -5016,46 +5016,46 @@
     "messageformat": "Cuir cur síos ar an ngrúpa leis…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Glórphost"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Fuaim"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Oscail an nasc i mbrabhsálaí"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Fuaim"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Comhaid"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Naisc"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Níl aon mheán ann"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Taispeánfar anseo grianghraif, físeáin agus GIFanna a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Níl aon fhuaim ann"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Taispeánfar anseo glórphoist agus comhaid fuaime a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Níl aon nasc ann"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Taispeánfar anseo naisc a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Níl aon chomhad ann"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Roghnaigh caighdeán na meán"
@@ -6754,7 +6754,7 @@
     "messageformat": "Stair eagarthóireachta"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Cóipeáil an stampa ama"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Níorbh fhéidir an eagarthóireacht sin a sheoladh. Seiceáil do nasc agus triail arís"
@@ -7301,6 +7301,6 @@
     "messageformat": "Tá suirbhéanna Signal anseo! Is bealach éasca iad suirbhéanna le tuairimí do ghrúpchomhrá a nochtadh i ndáiríre. Cruthaigh suirbhé ina bhfuil roghanna difriúla dinnéir nó cinn eile atá tábhachtach. Beidh vóta ag gach duine sa ghrúpa agus feicfidh siad freagairtí na ndaoine eile, agus beidh tú in ann vóta aonair nó ilvótaí a shocrú."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Tá dhá tháb nua i ngailearaí na meán le haghaidh teachtaireachtaí gutha agus réamhamhairc ar naisc."
   }
 }

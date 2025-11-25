@@ -1137,10 +1137,10 @@
     "messageformat": "Ingen stemmer"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Vindende"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Fastgjort besked blev ikke fundet"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Afstemning ikke fundet"
@@ -5016,46 +5016,46 @@
     "messageformat": "Tilføj gruppebeskrivelse…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Talebesked"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Lyd"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Åbn linket i en browser"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Lyd"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Filer"
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Links"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Ingen mediefiler"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Billeder, videoer og GIF'er, som du sender og modtager, vises her"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Ingen lyd"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Talebeskeder og lydfiler, som du sender og modtager vises her"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Ingen links"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Links, som du sender og modtager, vises her"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Ingen filer"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Filer, som du sender og modtager, vises her"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vælg mediekvalitet"
@@ -6754,7 +6754,7 @@
     "messageformat": "Redigeringshistorik"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopiér tidsstempel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Redigeret besked kunne ikke sendes. Tjek din forbindelse, og prøv igen"
@@ -7301,6 +7301,6 @@
     "messageformat": "Så er Signal-afstemninger landet! Er du og dine venner på samme bølgelængde, eller skal I lige afstemme jeres meninger først? Afstemninger er en nem måde at finde ud af, hvad din gruppechat virkelig mener. Opret en afstemning om restaurantmuligheder, feriedestinationer, musikvalg til næste roadtrip eller andre vigtige beslutninger. Alle gruppemedlemmer kan stemme og se svarene, og du bestemmer, om flere stemmer er tilladt."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Mediegalleriet indeholder nu to nye faner til lydmeddelelser og linkforhåndsvisninger. Hvis et link sendes i en gruppechat, afgiver det så en lyd?"
   }
 }

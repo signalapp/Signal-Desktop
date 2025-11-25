@@ -1137,10 +1137,10 @@
     "messageformat": "शून्य मते"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "विजयी"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "पिन केलेला संदेश सापडला नाही"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "पोल सापडला नाही"
@@ -5016,46 +5016,46 @@
     "messageformat": "ग्रुप वर्णन जोडा(...)"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "व्हॉईस संदेश"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "ऑडिओ"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "ब्राऊझरमध्ये लिंक उघडा"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "ऑडिओ"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "फाईल"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "लिंक्स"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "कुठलीही मिडिया नाही"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "आपण जे फोटो, व्हिडिओ आणि GIF पाठवाल किंवा प्राप्त कराल ते येथे दृश्यमान होतील"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "ऑडिओ नाही"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "आपण जे ध्वनी संदेश आणि ऑडिओ फाईल पाठवाल आणि प्राप्त कराल त्या या ठिकाणी दृश्यमान होतील"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "एकही लिंक नाही"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "तुम्ही पाठवलेल्या आणि तुम्हाला मिळालेल्या लिंक्स येथे दिसतील"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "कोणत्याही फाइल्स नाहीत"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "तुम्ही पाठवलेल्या आणि तुम्हाला मिळालेल्या फाईल्स येथे दिसतील"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "मिडिया दर्जा निवडा"
@@ -6754,7 +6754,7 @@
     "messageformat": "संपादनाचा इतिहास"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "टाईमस्टँप कॉपी करा"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "हे संपादन पाठवले जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal पोल्स आले आहेत! तुमचे आणि तुमच्या मित्रांचे पोल जुळतात, की एकमेकांपासून पार दुसऱ्या टोकाला जातात? तुमच्या ग्रूपमधील चॅटचा विचार नेमका काय आहे हे जाणून घेण्याचा पोल हा सोपा मार्ग आहे. जेवायचे वेगवेगळे पर्याय, सुट्यांची ठिकाणे, उद्याच्या रोड ट्रिपसाठी संगीत प्राधान्ये, किंवा इतर महत्त्वाच्या निवडी करण्यासाठी पोल तयार करा. ग्रूपमधील प्रत्येक जण मत देऊ शकतो, एकमेकांचे प्रतिसाद पाहू शकतो, आणि एकापेक्षा अनेक मते देता येतील का हे तुम्ही ठरवू शकता."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "मीडिया गॅलरीमध्ये आता ऑडिओ संदेशासाठी आणि लिंक पूर्वावलोकनासाठी दोन नवीन टॅब दिसतात. जर एखादी लिंक ग्रुप चॅटमध्ये पडली तर ती आवाज करते का?"
   }
 }

@@ -1137,10 +1137,10 @@
     "messageformat": "אין הצבעות"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "אפשרות מנצחת"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "הודעה מוצמדת לא נמצאה"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "סקר לא נמצא"
@@ -5016,46 +5016,46 @@
     "messageformat": "הוסף תיאור קבוצה…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "הודעה קולית"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "שמע"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "פתיחת קישור בדפדפן"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "שמע"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "קבצים"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "קישורים"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "אין מדיה"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "תמונות, סרטונים וגיפים ששלחת וקיבלת יופיעו כאן"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "אין שמע"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "הודעות קוליות וקבצי שמע ששלחת וקיבלת יופיעו כאן"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "אין קישורים"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "קבצים ששלחת וקיבלת יופיעו כאן"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "אין קבצים"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "קבצים ששלחת וקיבלת יופיעו כאן"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "בחר איכות מדיה"
@@ -6754,7 +6754,7 @@
     "messageformat": "היסטוריית עריכות"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "העתקת חותמת זמן"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "לא הצלחנו לשלוח את העריכה. כדאי לבדוק את החיבור שלך ולנסות שוב"
@@ -7301,6 +7301,6 @@
     "messageformat": "הסקרים של Signal הגיעו! סקרים הם דרך קלה לראות מה חברי הצ׳אט הקבוצתי שלך באמת חושבים. אפשר ליצור סקר עם אפשרויות לארוחת ערב או כל בחירה חשובה אחרת. כל מי שבקבוצה יכול להצביע ולראות את התשובות של האחרים, ויש לך אפשרות להחליט אם לאפשר הצבעה לכמה אפשרויות שונות או לא."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "גלריית המדיה כוללת כעת שתי כרטיסיות חדשות להודעות שמע ולתצוגות מקדימות של קישורים."
   }
 }

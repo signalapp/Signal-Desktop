@@ -1137,10 +1137,10 @@
     "messageformat": "Oy yok"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Kazanan"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Sabitlenmiş mesaj bulunamadı"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Anket bulunamadı"
@@ -5016,46 +5016,46 @@
     "messageformat": "Grup açıklaması ekle"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Sesli İleti"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ses"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Bağlantıyı bir tarayıcıda aç"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ses"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Dosyalar"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Bağlantılar"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Medya Yok"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Gönderdiğin ve aldığın Fotoğraflar, Videolar ve GIF'ler burada görünür"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Ses Dosyası Yok"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Gönderdiğin ve aldığın Sesli Mesajlar ve Ses Dosyaları burada görünür"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Bağlantı Yok"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Gönderdiğin ve aldığın bağlantılar burada görünür"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Dosya Yok"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Gönderdiğin ve aldığın dosyalar burada görünür"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "İçerik kalitesini seç"
@@ -6754,7 +6754,7 @@
     "messageformat": "Düzenleme geçmişi"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Zaman damgasını kopyala"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Bu düzenleme gönderilemedi. Bağlantını kontrol edip tekrar dene"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal anketleri burada! Sen ve arkadaşların aynı fikirde misiniz, yoksa ters kutuplar mısınız? Anketler, grup sohbetinde herkesin gerçekte ne düşündüğünü görmenin kolay bir yoludur. Farklı akşam yemeği seçenekleri veya başka önemli konular için bir anket oluşturabilirsin. Gruptaki herkes oylayabilir ve birbirinin yanıtlarını görebilir, birden fazla oy kullanmaya izin verip vermeyeceğine sen karar verirsin."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Medya galerisi artık sesli mesajlar ve bağlantı ön izlemeleri için iki yeni sekme içeriyor. Bundan böyle medyanda yeni sekmelere göz atmaya başlayabilirsin!"
   }
 }

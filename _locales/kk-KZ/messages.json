@@ -1137,10 +1137,10 @@
     "messageformat": "Дауыстар жоқ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Жеңімпаз нұсқасы"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Бекітілген хабар табылмады"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Сауалнама табылмады"
@@ -5016,46 +5016,46 @@
     "messageformat": "Топ сипаттамасын қосу..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Дауыстық хат"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Сілтемені браузерде ашу"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Аудио"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Файлдар"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Сілтемелер"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Мультимедиа файлы жоқ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Сіз жіберген және алған фотосуреттер, бейнелер және GIF файлдары осы жерде пайда болады"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Аудио жоқ"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Сіз жіберген және алған дауыстық хабарлар мен аудиолар осы жерде пайда болады"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Сілтемелер жоқ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Сіз жіберген және алған сілтемелер осы жерде пайда болады"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Файлдар жоқ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Сіз жіберген және алған файлдар осы жерде пайда болады"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Мультимедиа сапасын таңдау"
@@ -6754,7 +6754,7 @@
     "messageformat": "Өзгертулер тарихы"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Уақыт белгісін көшіру"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Бұл өңдеу жіберілмеді. Байланысты тексеріп, қайталап көріңіз"
@@ -7301,6 +7301,6 @@
     "messageformat": "Signal сауалнамалары дайын! Достарыңызбен ойларыңыз бір жерден шыға ма әлде қайшы келе ме? Сауалнамалар – топтық чаттағы адамдардың шын мәнінде не ойлайтынын білудің оңай жолы. Алдағы сапарға қатысты кешкі ас мәзірлерін, демалыс бағыттарын, музыкалық жинақты немесе басқа да маңызды таңдауларды салыстыру үшін сауалнама жасаңыз. Сауалнамада топтағы барлық адам дауыс бере алады және бір-бірінің жауаптарын көре алады. Бірнеше дауыс беруге болатынын не болмайтынын өзіңіз шеше аласыз."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Мультимедиа галереясында аудио хабарларға және сілтеменің алғы нұсқасына арналған екі жаңа қойынды бар. Сілтеме топтық чатқа түссе, оның дауысы шыға ма?"
   }
 }

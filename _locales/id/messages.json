@@ -1137,10 +1137,10 @@
     "messageformat": "Belum ada suara"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Menang"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Pesan tersemat tak ditemukan"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Polling tidak ditemukan"
@@ -5016,46 +5016,46 @@
     "messageformat": "Tambahkan deskripsi grup…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Pesan Suara"
   },
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Buka tautan di browser"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "File"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Tautan"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Tidak Ada Media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foto, Video, dan GIF yang Anda kirim dan terima akan muncul di sini"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Tidak Ada Audio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Pesan Suara dan File Audio yang Anda kirim dan terima akan muncul di sini"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Tidak Ada Tautan"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Tautan yang Anda kirim dan terima akan ditampilkan di sini"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Tidak Ada File"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "File yang Anda kirim dan terima akan muncul di sini"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualitas media"
@@ -6754,7 +6754,7 @@
     "messageformat": "Riwayat pengeditan"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Salin stempel waktu"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Editan ini tidak dapat dikirim. Periksa koneksi Anda dan coba lagi"
@@ -7301,6 +7301,6 @@
     "messageformat": "Fitur polling telah tersedia di Signal! Ingin tahu apakah Anda dan teman Anda punya pendapat sama atau berbeda? Polling adalah cara mudah untuk mengadakan jajak pendapat di chat grup. Misalnya, Anda bisa membuat polling untuk opsi makan malam, destinasi wisata, preferensi musik untuk rencana road trip, atau berbagai pilihan penting lainnya. Semua orang di grup dapat memilih dan melihat tanggapan satu sama lain. Anda juga dapat menentukan apakah anggota bisa memilih beberapa opsi atau satu opsi saja."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Galeri media sekarang memiliki dua tab baru untuk pesan audio dan pratinjau tautan."
   }
 }
