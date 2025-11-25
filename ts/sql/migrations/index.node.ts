@@ -130,6 +130,7 @@ import updateToSchemaVersion1510 from './1510-chat-folders-normalize-all-chats.s
 import updateToSchemaVersion1520 from './1520-poll-votes-unread.std.js';
 import updateToSchemaVersion1530 from './1530-update-expiring-index.std.js';
 import updateToSchemaVersion1540 from './1540-partial-expiring-index.std.js';
+import updateToSchemaVersion1541 from './1541-cleanup-polls.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1618,6 +1619,8 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1520, update: updateToSchemaVersion1520 },
   { version: 1530, update: updateToSchemaVersion1530 },
   { version: 1540, update: updateToSchemaVersion1540 },
+  // 1561, 1551, and 1541 all refer to the same migration
+  { version: 1541, update: updateToSchemaVersion1541 },
 ];
 
 export class DBVersionFromFutureError extends Error {
