@@ -168,6 +168,7 @@ export namespace AxoDialog {
           size="sm"
           variant="borderless-secondary"
           symbol="chevron-[start]"
+          onClick={props.onClick}
           aria-label={props['aria-label']}
           onClick={props.onClick}
         />
@@ -378,6 +379,7 @@ export namespace AxoDialog {
         onClick={props.onClick}
         size="md"
         width="grow"
+        onClick={props.onClick}
       >
         {props.children}
       </AxoButton.Root>

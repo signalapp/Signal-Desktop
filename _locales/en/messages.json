@@ -9938,6 +9938,118 @@
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges",
     "description": "Help text below the toggle in donation thank you modal"
   },
+  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close",
+    "description": "Call Quality Survey Dialog > Dialog Close Button (Accessibility Label)"
+  },
+  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
+    "messageformat": "Back",
+    "description": "Call Quality Survey Dialog > Dialog Back Button (Accessibility Label)"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
+    "messageformat": "How was your call?",
+    "description": "Call Quality Survey Dialog > How was your call? > Page Title"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
+    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored.",
+    "description": "Call Quality Survey Dialog > How was your call? > Page Description"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
+    "messageformat": "Had issues",
+    "description": "Call Quality Survey Dialog > How was your call? > Response > Had Issues"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
+    "messageformat": "Great",
+    "description": "Call Quality Survey Dialog > How was your call? > Response > Great"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
+    "messageformat": "What issues did you have?",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Page Title"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
+    "messageformat": "Select all that apply",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Issues list > Heading"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO": {
+    "messageformat": "Audio issue",
+    "description": "Call Quality Survey Dialog > Select issues > AUDIO"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
+    "messageformat": "Audio stuttering",
+    "description": "Call Quality Survey Dialog > Select issues > AUDIO_STUTTERING"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
+    "messageformat": "I heard echo",
+    "description": "Call Quality Survey Dialog > Select issues > AUDIO_LOCAL_ECHO"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
+    "messageformat": "Others heard echo",
+    "description": "Call Quality Survey Dialog > Select issues > AUDIO_REMOTE_ECHO"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
+    "messageformat": "Audio cut out",
+    "description": "Call Quality Survey Dialog > Select issues > AUDIO_DROP"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO": {
+    "messageformat": "Video issue",
+    "description": "Call Quality Survey Dialog > Select issues > VIDEO"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
+    "messageformat": "Camera didn't work",
+    "description": "Call Quality Survey Dialog > Select issues > VIDEO_NO_CAMERA"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
+    "messageformat": "Poor video quality",
+    "description": "Call Quality Survey Dialog > Select issues > VIDEO_LOW_QUALITY"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
+    "messageformat": "Low resolution",
+    "description": "Call Quality Survey Dialog > Select issues > VIDEO_LOW_RESOLUTION"
+  },
+  "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
+    "messageformat": "Call dropped",
+    "description": "Call Quality Survey Dialog > Select issues > CALL_DROPPED"
+  },
+  "icu:CallQualitySurvey__Issue--OTHER": {
+    "messageformat": "Something else",
+    "description": "Call Quality Survey Dialog > Select issues > OTHER"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
+    "messageformat": "Issues description",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Accessibility Label"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
+    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal.",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Help Text"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
+    "messageformat": "Continue",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Continue Button"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
+    "messageformat": "Help us improve",
+    "description": "Call Quality Survey Dialog > Help us improve > Page Title"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
+    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting.",
+    "description": "Call Quality Survey Dialog > Help us improve > Page Description"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
+    "messageformat": "Share debug log",
+    "description": "Call Quality Survey Dialog > Help us improve > Share debug log > Label"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
+    "messageformat": "View",
+    "description": "Call Quality Survey Dialog > Help us improve > Share debug log > View Button"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
+    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents.",
+    "description": "Call Quality Survey Dialog > Help us improve > Share debug log > Help Text"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
+    "messageformat": "Submit",
+    "description": "Call Quality Survey Dialog > Help us improve > Submit Button"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes",

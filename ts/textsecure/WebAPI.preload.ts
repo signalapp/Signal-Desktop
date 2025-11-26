@@ -738,6 +738,7 @@ const CHAT_CALLS = {
   backupMediaBatch: 'v1/archives/media/batch',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
+  callQualitySurvey: 'v1/call_quality_survey',
   redeemReceipt: 'v1/donation/redeem-receipt',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
@@ -3334,6 +3335,19 @@ export async function callLinkCreateAuth(
     responseType: 'json',
     jsonData: { createCallLinkCredentialRequest: requestBase64 },
     zodSchema: callLinkCreateAuthResponseSchema,
+  });
+}
+
+export async function submitCallQualitySurvey(
+  survey: Proto.ISubmitCallQualitySurveyRequest
+): Promise<void> {
+  const data = Proto.SubmitCallQualitySurveyRequest.encode(survey).finish();
+  await _ajax({
+    call: 'callQualitySurvey',
+    contentType: 'application/x-protobuf',
+    data,
+    host: 'chatService',
+    httpType: 'PUT',
   });
 }
 
