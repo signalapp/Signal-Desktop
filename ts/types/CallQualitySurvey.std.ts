@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CallEndedReason } from '@signalapp/ringrtc';
+import type { CallEndReason } from '@signalapp/ringrtc';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace CallQualitySurvey {
@@ -36,7 +36,7 @@ export namespace CallQualitySurvey {
     endTimestamp: number;
     callType: CallType;
     success: boolean;
-    callEndReason: CallEndedReason;
+    callEndReason: CallEndReason;
     rttMedian: number | null;
     jitterMedian: number | null;
     packetLossFraction: number | null;

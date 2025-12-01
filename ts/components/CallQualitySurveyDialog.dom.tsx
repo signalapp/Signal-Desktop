@@ -231,6 +231,7 @@ export function CallQualitySurveyDialog(
               </p>
               <div className={tw('my-1.5 flex items-center gap-3')}>
                 <AxoCheckbox.Root
+                  variant="square"
                   id={debugLogCheckboxId}
                   checked={shareDebugLog}
                   onCheckedChange={setShareDebugLog}
