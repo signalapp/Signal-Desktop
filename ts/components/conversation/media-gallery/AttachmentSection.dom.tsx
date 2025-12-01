@@ -74,9 +74,17 @@ export function AttachmentSection({
   switch (verified.type) {
     case 'media':
       return (
-        <section className={tw('ps-5')}>
+        <section className={tw('@container ps-5')}>
           <h2 className={tw('ps-1 pt-4 pb-2 type-body-medium')}>{header}</h2>
-          <div className={tw('flex flex-row flex-wrap gap-1 pb-1')}>
+          <div
+            className={tw(
+              'grid gap-1',
+              '@min-[560px]:grid-cols-[repeat(5,_minmax(100px,_120px))]',
+              '@min-[455px]:grid-cols-[repeat(4,_minmax(100px,_120px))]',
+              'grid-cols-[repeat(3,_minmax(100px,_120px))]',
+              'pb-1'
+            )}
+          >
             {verified.entries.map(mediaItem => {
               return (
                 <Fragment key={getMediaItemKey(mediaItem)}>
