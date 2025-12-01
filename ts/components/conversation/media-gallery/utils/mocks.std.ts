@@ -132,7 +132,7 @@ function createRandomFiles(
   timeWindow: number,
   fileExtensions: Array<string>
 ): Array<MediaItemType> {
-  return range(random(5, 10)).map(() =>
+  return range(random(5, 20)).map(() =>
     createRandomFile(
       type,
       startTime,

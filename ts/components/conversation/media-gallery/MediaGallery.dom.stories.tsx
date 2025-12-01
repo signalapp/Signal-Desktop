@@ -50,10 +50,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 export function Populated(): JSX.Element {
-  const documents = createRandomDocuments(Date.now() - days(5), days(5)).slice(
-    0,
-    10
-  );
+  const documents = createRandomDocuments(Date.now() - days(5), days(5));
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 

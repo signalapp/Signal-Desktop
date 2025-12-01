@@ -180,8 +180,8 @@ function MediaSection({
   });
 
   return (
-    <div className={tw('flex max-w-[660px] min-w-[360px] grow flex-col')}>
-      {sections}
+    <div className={tw('grow', 'mx-auto', 'max-w-[660px] min-w-[360px]')}>
+      <div className={tw('flex flex-col')}>{sections}</div>
     </div>
   );
 }
@@ -363,7 +363,6 @@ export function MediaGallery({
               <div
                 className={tw(
                   'grow',
-                  'flex flex-col justify-center-safe',
                   'overflow-x-hidden overflow-y-auto',
                   'p-5'
                 )}
