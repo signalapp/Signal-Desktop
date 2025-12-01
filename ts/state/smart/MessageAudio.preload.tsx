@@ -3,6 +3,7 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
+import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import { MessageAudio } from '../../components/conversation/MessageAudio.dom.js';
 import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio.dom.js';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
@@ -24,7 +25,7 @@ import {
 const log = createLogger('MessageAudio');
 
 export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
-  renderingContext: string;
+  renderingContext: RenderingContextType;
 };
 
 export const SmartMessageAudio = memo(function SmartMessageAudio({
