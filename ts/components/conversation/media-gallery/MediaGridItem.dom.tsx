@@ -82,7 +82,10 @@ export function MediaGridItem(props: Props): JSX.Element {
     <button
       type="button"
       className={tw(
-        'relative size-30 overflow-hidden rounded-md',
+        'relative',
+        'shrink grow',
+        'aspect-square',
+        'overflow-hidden rounded-md',
         'flex items-center justify-center'
       )}
       onClick={handleClick}
