@@ -230,7 +230,10 @@ function isValidMonth(value: number): boolean {
 
 const CARD_EXPIRATION_MAX_YEARS_IN_FUTURE = 50;
 
-export function parseCardExpiration(input: string): CardExpirationResult {
+export function parseCardExpiration(
+  input: string,
+  currentDate = new Date()
+): CardExpirationResult {
   // Trim whitespace and check if empty
   const trimmed = input.trim();
   if (trimmed === '') {
@@ -299,7 +302,6 @@ export function parseCardExpiration(input: string): CardExpirationResult {
     return { error: CardExpirationError.MONTH_OUT_OF_RANGE };
   }
 
-  const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
 
