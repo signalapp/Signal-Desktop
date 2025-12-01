@@ -46,6 +46,7 @@ import type {
 } from './ReactionViewer.dom.js';
 import { ReactionViewer } from './ReactionViewer.dom.js';
 import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
+import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
 import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
@@ -178,7 +179,7 @@ export enum MessageInteractivity {
 }
 
 export type AudioAttachmentProps = {
-  renderingContext: string;
+  renderingContext: RenderingContextType;
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
   theme: ThemeType | undefined;
@@ -239,7 +240,7 @@ function ReactionEmoji(props: { emojiVariantValue: string }) {
 
 export type PropsData = {
   id: string;
-  renderingContext: string;
+  renderingContext: RenderingContextType;
   contactNameColor?: ContactNameColorType;
   conversationColor: ConversationColorType;
   conversationTitle: string;

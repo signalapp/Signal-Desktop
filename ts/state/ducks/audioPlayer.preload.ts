@@ -27,6 +27,7 @@ import { isAudio } from '../../util/Attachment.std.js';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.js';
 import { assertDev } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
+import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import { Sound, SoundType } from '../../util/Sound.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 
@@ -47,7 +48,7 @@ type AudioPlayerContentDraft = ReadonlyDeep<{
 /** A voice note consecutive playback */
 export type AudioPlayerContentVoiceNote = ReadonlyDeep<{
   conversationId: string;
-  context: string;
+  context: RenderingContextType;
   current: VoiceNoteForPlayback;
   // playing because it followed a message
   // false on the first of a consecutive group
@@ -214,6 +215,14 @@ function messageAudioEnded(): ThunkAction<
       return;
     }
 
+    // No consecutive playback in All Media view
+    if (content.context === 'AllMedia') {
+      dispatch({
+        type: 'audioPlayer/MESSAGE_AUDIO_ENDED',
+      });
+      return;
+    }
+
     const { conversationId, context, current } = content;
 
     const next = await getNextVoiceNote({
@@ -314,7 +323,7 @@ function loadVoiceNoteAudio({
 }: {
   voiceNoteData: VoiceNoteAndConsecutiveForPlayback;
   position: number;
-  context: string;
+  context: RenderingContextType;
   playbackRate: number;
 }): SetMessageAudioAction {
   const { conversationId, voiceNote } = voiceNoteData;
