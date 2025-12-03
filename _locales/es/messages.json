@@ -81,7 +81,7 @@
     "messageformat": "No se puede abrir Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "Para solucionar el problema, consulta la guía de recuperación en la página de asistencia o ponte en contacto con el equipo de asistencia de Signal.\n\nSi necesitas usar Signal de inmediato, puedes eliminar tus datos y volver a vincular este dispositivo de escritorio. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
+    "messageformat": "Para solucionar el problema, consulta la guía de recuperación en la página de asistencia o ponte en contacto con el equipo de Asistencia de Signal.\n\nSi necesitas usar Signal de inmediato, puedes eliminar tus datos y volver a vincular este dispositivo de escritorio. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
   },
   "icu:databaseError": {
     "messageformat": "Error en la base de datos"
@@ -546,7 +546,7 @@
     "messageformat": "Registro de depuración enviado"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Se ha completado la carga del registro de depuración. Cuando contactes con el equipo de asistencia, copia la URL que se muestra más abajo y envíala junto con una descripción del problema que has tenido y los pasos para reproducirlo."
+    "messageformat": "Se ha completado la carga del registro de depuración. Cuando contactes con el equipo de Asistencia, copia la URL que se muestra más abajo y envíala junto con una descripción del problema que has tenido y los pasos para reproducirlo."
   },
   "icu:debugLogLogIsIncomplete": {
     "messageformat": "… para ver el registro de depuración completo, haz clic en Guardar"
@@ -2178,7 +2178,7 @@
     "messageformat": "Historias"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Nombre de perfil, alias o número"
+    "messageformat": "Nombre, alias o número"
   },
   "icu:noContactsFound": {
     "messageformat": "No se han encontrado contactos"
@@ -3129,7 +3129,7 @@
     "messageformat": "Denunciar"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "¿Denunciar como spam?"
+    "messageformat": "¿Denunciar spam?"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
     "messageformat": "Se notificará a Signal que esta persona podría estar enviando spam. Signal no puede ver el contenido de ningún chat."
@@ -3237,7 +3237,7 @@
     "messageformat": "Este es el único chat oficial de Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Mantente al día con las novedades y las notas de la versión."
+    "messageformat": "Mantente al día con las novedades y las notas de las nuevas versiones."
   },
   "icu:member-of-1-group": {
     "messageformat": "Está en \"{group}\""
@@ -3591,7 +3591,7 @@
     "messageformat": "Se ha producido un error"
   },
   "icu:ErrorModal--description": {
-    "messageformat": "Inténtalo de nuevo o contacta con nuestro equipo de asistencia."
+    "messageformat": "Inténtalo de nuevo o contacta con nuestro equipo de Asistencia."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
     "messageformat": "Se ha producido un error inesperado"
@@ -5787,7 +5787,7 @@
     "messageformat": "Tu número de teléfono será visible para las personas y los grupos a los que les envíes mensajes."
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Tu número de teléfono no será visible para nadie a menos que lo tenga guardado en los contactos de su teléfono."
+    "messageformat": "Tu número de teléfono no será visible para nadie a menos que lo tenga guardado en su teléfono."
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
     "messageformat": "Tu número de teléfono no será visible para nadie."
@@ -5946,7 +5946,7 @@
     "messageformat": "Reinicia Signal para instalar la actualización."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "Signal Desktop no se ha actualizado, pero hay una nueva versión disponible. Ve a {downloadUrl} e instala la nueva versión manualmente. Luego, puedes contactar con el equipo de asistencia o enviar un informe sobre este problema."
+    "messageformat": "Signal Desktop no se ha actualizado, pero hay una nueva versión disponible. Ve a {downloadUrl} e instala la nueva versión manualmente. Luego, puedes contactar con el equipo de Asistencia o enviar un informe sobre este problema."
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "No se puede cerrar Signal.",

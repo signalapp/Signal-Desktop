@@ -5028,7 +5028,7 @@
     "messageformat": "Audio`"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Fail-fail"
+    "messageformat": "Fail"
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Pautan"
@@ -7298,7 +7298,7 @@
     "messageformat": "Penambahbaikan format salin/tampal. Terima kasih, <brianHarder></brianHarder>!"
   },
   "icu:WhatsNew__7.80-1": {
-    "messageformat": "Undian Signal sudah tiba! Undian ialah cara mudah untuk mengetahui pendapat sebenar kumpulan sembang anda. Cipta undian dengan pelbagai pilihan makan malam atau pilihan penting yang lain. Semua orang dalam kumpulan boleh mengundi dan melihat jawapan satu sama lain, dan anda boleh menentukan sama ada membenarkan undian berbilang atau tidak."
+    "messageformat": "Undian Signal kini tersedia! Undian ialah cara mudah untuk mengetahui pendapat sebenar dalam kumpulan sembang anda. Cipta undian dengan pilihan makan malam yang berbeza atau apa-apa pilihan penting yang lain. Semua ahli kumpulan boleh mengundi dan melihat jawapan satu sama lain, dan anda boleh menentukan sama ada mahu membenarkan undian berbilang atau tidak."
   },
   "icu:WhatsNew__7.81-1": {
     "messageformat": "Galeri media kini termasuk dua tab baharu untuk mesej audio dan pratonton pautan."

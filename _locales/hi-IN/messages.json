@@ -6585,7 +6585,7 @@
     "messageformat": "कोई URL टाइप या पेस्ट करें"
   },
   "icu:StoryCreator__link-preview-empty": {
-    "messageformat": "अपनी स्टोरी के व्यूअर्स के लिए कोई लिंक जोड़ें"
+    "messageformat": "अपनी स्टोरी देखने वालों के लिए लिंक जोड़ें"
   },
   "icu:Stories__failed-send--full": {
     "messageformat": "स्टोरी भेजने में विफल"
@@ -6594,37 +6594,37 @@
     "messageformat": "स्टोरी सभी प्राप्तकर्ताओं को नहीं भेजी जा सकी"
   },
   "icu:TextAttachment__placeholder": {
-    "messageformat": "टेक्स्ट शामिल करें"
+    "messageformat": "टेक्स्ट जोड़ें"
   },
   "icu:TextAttachment__preview__link": {
-    "messageformat": "लिंक विज़िट करें"
+    "messageformat": "लिंक पर जाएं"
   },
   "icu:Quote__story": {
     "messageformat": "स्टोरी"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} की एक स्टोरी पर प्रतिक्रिया दी"
+    "messageformat": "{name} की एक स्टोरी पर रिएक्ट करें"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "आपकी स्टोरी पर प्रतिक्रिया दी"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "किसी स्टोरी पर प्रतिक्रिया दी"
+    "messageformat": "किसी स्टोरी पर रिएक्ट किया"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "आपकी स्टोरी पर {emoji} की प्रतिक्रिया दी"
+    "messageformat": "आपकी स्टोरी पर {emoji} रिएक्ट किया"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "आपने {name} की एक स्टोरी पर {emoji} की प्रतिक्रिया दी"
+    "messageformat": "आपने {name} की स्टोरी पर {emoji} का रिएक्शन दिया"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "आपने एक स्टोरी पर {emoji} की प्रतिक्रिया दी"
+    "messageformat": "आपने एक स्टोरी पर {emoji} कै रिएक्शन दिया"
   },
   "icu:Quote__story-unavailable": {
-    "messageformat": "मौजूद नहीं"
+    "messageformat": "अब उपलब्ध नहीं है"
   },
   "icu:ContextMenu--button": {
-    "messageformat": "संदर्भ मेनू"
+    "messageformat": "कॉन्टेक्स्ट मेन्यू"
   },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "यूज़रनेम"
@@ -7249,31 +7249,31 @@
     "messageformat": "इसे अपने मोबाइल डिवाइस पर यहां जाकर ऐडजस्ट किया जा सकता है: सेटिंग → Signal को डोनेट करें → बैज"
   },
   "icu:WhatsNew__bugfixes": {
-    "messageformat": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
+    "messageformat": "इस वर्ज़न में बग ठीक करने के साथ-साथ कई छोटे-छोटे बदलाव किए गए हैं, जिससे Signal की परफ़ॉर्मेंस और बेहतर हो सके।",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
-    "messageformat": "अतिरिक्त छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए आपका धन्यवाद।",
+    "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "आपके ऐप को आराम से चलाते रहने के लिए कुछ बग फ़िक्स किए गए हैं। आगे और भी रोचक बदलाव होने हैं!",
+    "messageformat": "बेहतर परफ़ॉर्मेंस के लिए कुछ बग ठीक किए गए हैं। जल्द ही और भी दिलचस्प बदलाव देखने को मिलेंगे!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
-    "messageformat": "ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। हमेशा की तरह टेक्स्ट, कॉल, और वीडियो चैटिंग करते रहें।",
+    "messageformat": "कुछ सुधार किए गए हैं और बग ठीक किए गए हैं। साथ ही, परफ़ॉर्मेंस को और बेहतर बनाया गया है। Signal पर पहले की तरह मैसेज, कॉल, और वीडियो चैट करते रहें।",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
-    "messageformat": "आपके लिए ऐप को आराम से चलाते रहने के लिए कुछ मुश्किल बग फ़िक्स करना और प्रदर्शन संबंधी अन्य सुधार करना। ",
+    "messageformat": "बग ठीक करने और परफ़ॉर्मेंस को बेहतर बनाने के लिए हम लगातार काम कर रहे हैं, ताकि ऐप आपके लिए सही तरीके से चलता रहे। ",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
-    "messageformat": "अतिरिक्त छोटे-छोटे ट्वीक, बग फ़िक्स, और भविष्य के लिए विशेष योजनाएँ।",
+    "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और आने वाले समय के लिए बेहतर तैयारियां की गई हैं।",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
-    "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
+    "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.76": {
@@ -7286,7 +7286,7 @@
     "messageformat": "इस अपडेट में उस समस्या का समाधान भी शामिल है, जिसके चलते मैसेज में इमोजी कैरेक्टर शामिल होने पर लिंक के प्रीव्यू जनरेट नहीं हो पा रहे थे। धन्यवाद, <elias6></elias6>"
   },
   "icu:WhatsNew__7.78-1": {
-    "messageformat": "इस अपडेट से स्क्रीन रीडर का इस्तेमाल करने वाले लोगों के लिए सुविधा बेहतर हो गई है। अब किसी चैट में नए मैसेज आने पर बार-बार टाइमस्टैंप की घोषणा नहीं होगी।"
+    "messageformat": "इस अपडेट से स्क्रीन रीडर का इस्तेमाल करने वाले लोगों को सुविधा होगी। अब किसी चैट में नए मैसेज आने पर बार-बार टाइमस्टैंप नहीं पढ़े जाएंगे।"
   },
   "icu:WhatsNew__7.78-2": {
     "messageformat": "हमने एक गड़बड़ी भी ठीक की है जिसकी वजह से Windows पर कभी-कभी नोटिफ़िकेशन नहीं दिखते थे।"
