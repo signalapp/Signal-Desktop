@@ -20,7 +20,7 @@ import { strictAssert } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
 import { explodePromise } from '../../util/explodePromise.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
-import type { WindowsNotificationData } from '../../services/notifications.preload.js';
+import type { WindowsNotificationData } from '../../types/notifications.std.js';
 import { finish3dsValidation } from '../../services/donations.preload.js';
 import { AggregatedStats } from '../../textsecure/WebsocketResources.preload.js';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.preload.js';

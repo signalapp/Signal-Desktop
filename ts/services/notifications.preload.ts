@@ -53,13 +53,6 @@ export type NotificationClickData = Readonly<{
   messageId: string | undefined;
   storyId: string | undefined;
 }>;
-export type WindowsNotificationData = {
-  avatarPath?: string;
-  body: string;
-  heading: string;
-  token: string;
-  type: NotificationType;
-};
 
 // The keys and values don't match here. This is because the values correspond to old
 //   setting names. In the future, we may wish to migrate these to match.
@@ -229,6 +222,9 @@ class NotificationService extends EventEmitter {
         } else if (type === NotificationType.IsPresenting) {
           window.reduxActions?.calling?.cancelPresenting();
         } else if (type === NotificationType.IncomingCall) {
+          window.IPC.showWindow();
+        } else if (type === NotificationType.MinimizedToTray) {
+          // Unused since the notification is shown by main process instead
           window.IPC.showWindow();
         } else {
           throw missingCaseError(type);
