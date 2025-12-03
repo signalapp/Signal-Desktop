@@ -1083,7 +1083,7 @@
     "messageformat": "답장"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "반응"
+    "messageformat": "반응하기"
   },
   "icu:MessageContextMenu__download": {
     "messageformat": "다운로드"
@@ -1096,6 +1096,9 @@
   },
   "icu:MessageContextMenu__info": {
     "messageformat": "정보"
+  },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Pin message"
   },
   "icu:Poll__end-poll": {
     "messageformat": "설문조사 종료"
@@ -1137,10 +1140,10 @@
     "messageformat": "투표 없음"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "현재 최다 득표"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "고정된 메시지를 찾을 수 없습니다."
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "설문조사를 찾을 수 없습니다."
@@ -1202,6 +1205,60 @@
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "나가기 전에 이 그룹에 대한 새 관리자를 한 명 이상 선택해야 합니다."
   },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "You pinned a message"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Pin message for..."
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Close"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hours"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 days"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 days"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Forever"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Pin"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Go to pin {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "More actions"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Unpin message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "See all messages"
+  },
   "icu:sessionEnded": {
     "messageformat": "보안 세션 초기화"
   },
@@ -1212,7 +1269,7 @@
     "messageformat": "자세히 알아보기"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal은 종단간 암호화를 사용하며, 대화 세션을 때때로 새로 고침해야 할 수도 있습니다. 이는 대화 보안에 영향을 미치지는 않지만, 이로 인해 연락처로부터 메시지를 수신하지 못할 수도 있습니다. 이때 상대방에게 메시지 재발송을 요청할 수 있습니다."
+    "messageformat": "Signal은 엔드투엔드 암호화를 사용하며, 대화 세션을 주기적으로 새로 고침할 수 있습니다. 이 과정은 보안에 영향을 주지 않지만, 간혹 메시지가 수신되지 않을 수 있습니다. 이런 경우 상대방에게 메시지 재전송을 요청해 주세요."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "지원에 문의"
@@ -1230,10 +1287,10 @@
     "messageformat": "전달 문제"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "{sender} 님이 보낸 메시지, 스티커, 반응, 수신 확인, 미디어를 받지 못했습니다. 사용자에게 직접 보내거나 그룹에 보내려고 했을 수 있습니다."
+    "messageformat": "{sender} 님이 보낸 메시지, 스티커, 반응, 수신 확인 또는 미디어가 전달되지 못했습니다. 나에게 직접 보내거나 그룹 대화에서 보내려 했던 것으로 보여요."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "이 대화에서 {sender} 님이 보낸 메시지, 스티커, 반응, 수신 확인 또는 미디어를 받지 못했습니다."
+    "messageformat": "이 대화에서 {sender} 님이 보낸 메시지, 스티커, 반응, 수신 확인 또는 미디어가 전달되지 못했습니다."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} 님이 전화번호를 변경했습니다."
@@ -1719,7 +1776,7 @@
     "messageformat": "표시 중단"
   },
   "icu:calling__button--react": {
-    "messageformat": "반응"
+    "messageformat": "반응하기"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다."
@@ -1986,7 +2043,7 @@
     "messageformat": "{group} 내 {sender} 님"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} 님이 다음에 {emoji} 이모지로 반응함: {message}"
+    "messageformat": "{sender} 님이 \"{message}\" 메시지에 {emoji} 이모지로 반응했어요"
   },
   "icu:notificationPollVoteMessage": {
     "messageformat": "{sender} 님이 \"{pollQuestion}\" 설문조사에 투표했습니다."
@@ -2604,7 +2661,7 @@
     "messageformat": "깃발"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "반응 사용자 정의"
+    "messageformat": "반응 맞춤 설정하기"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "스티커 검색"
@@ -2724,13 +2781,13 @@
     "messageformat": "취소"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "{emoji} 이모지로 반응했습니다."
+    "messageformat": "{emoji} 이모지로 반응했어요"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} 님이 {emoji} 이모지로 반응했습니다."
+    "messageformat": "{title} 님이 {emoji} 이모지로 반응했어요"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 반응했습니다.}}"
+    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 반응했어요}}"
   },
   "icu:Message__role-description": {
     "messageformat": "메시지"
@@ -4887,7 +4944,7 @@
     "messageformat": "색상 삭제하기"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, other {사용자 정의 색상은 {num,number} 대화에서 사용됩니다. 모든 대화에서 삭제하시겠습니까?}}"
+    "messageformat": "{num, plural, other {이 색상은 {num,number} 대화에서 사용됩니다. 모든 대화에서 삭제하시겠습니까?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "대화창 색상"
@@ -4911,7 +4968,7 @@
     "messageformat": "모든 대화창 색상을 덮어쓰시겠습니까?"
   },
   "icu:ChatColorPicker__custom-color--label": {
-    "messageformat": "사용자 정의 색상 편집기 표시"
+    "messageformat": "맞춤 색상 편집기 표시"
   },
   "icu:ChatColorPicker__sampleBubble1": {
     "messageformat": "다음은 대화창 색상의 미리 보기입니다."
@@ -4971,7 +5028,7 @@
     "messageformat": "사용자 지정 시간"
   },
   "icu:DisappearingTimeDialog__body": {
-    "messageformat": "사라지는 메시지 위해 사용자 지정 시간을 설정하세요."
+    "messageformat": "사라지는 메시지의 시간 제한을 직접 설정하세요."
   },
   "icu:DisappearingTimeDialog__set": {
     "messageformat": "설정"
@@ -5016,46 +5073,55 @@
     "messageformat": "그룹 설명 추가…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "음성 메시지"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "오디오"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "브라우저에서 링크를 엽니다."
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Show message in conversation"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "오디오"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "파일"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "링크"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "미디어 없음"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 사진, 동영상, GIF 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "오디오 파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 음성 메시지와 오디오 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "링크 없음"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
+  "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Links that you send and receive will appear here"
   },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
+  },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "파일 없음"
+  },
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Files that you send and receive will appear here"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "미디어 품질 선택"
@@ -5217,28 +5283,28 @@
     "messageformat": "프로필 사진 수정하기"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "프로필과 프로필 변경 사항이 사용자가 메시지를 보내는 사람과 연락처, 그룹에 표시됩니다."
+    "messageformat": "프로필과 프로필 변경 사항은 메시지를 주고받는 상대와 연락처, 그룹에 표시됩니다."
   },
   "icu:ProfileEditor--info--pnp": {
     "messageformat": "사용자 이름과 QR 코드, 링크가 프로필에 표시되지 않습니다. 믿을 수 있는 사람과만 공유하세요."
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "이제 나에게 메시지를 보낼 때 선택적 사용자 이름을 사용할 수 있으므로 다른 사람과 전화번호를 공유할 필요가 없습니다."
+    "messageformat": "이제 별도의 사용자 이름으로 메시지를 받을 수 있어 다른 사람과 전화번호를 공유하지 않아도 됩니다."
   },
   "icu:Bio--speak-freely": {
-    "messageformat": "자유롭게 말하다"
+    "messageformat": "자유롭게 이야기해요"
   },
   "icu:Bio--encrypted": {
-    "messageformat": "암호화됨"
+    "messageformat": "프라이버시가 중요해요"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "대화해도 됨"
+    "messageformat": "대화 가능해요"
   },
   "icu:Bio--coffee-lover": {
-    "messageformat": "커피 애호가"
+    "messageformat": "커피 없인 못 살아요"
   },
   "icu:Bio--taking-break": {
-    "messageformat": "쉬는 중"
+    "messageformat": "휴식 모드"
   },
   "icu:ProfileEditorModal--profile": {
     "messageformat": "프로필"
@@ -5395,6 +5461,90 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "알림 콘텐츠"
+  },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Export chat history"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Export chat history?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continue"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Waiting for input"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "export your chat history"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to export your chat history."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to export your chat history."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporting chat history"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "This may take a few minutes"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Export complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Show in Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "An error occurred and your chat history could not be exported."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Can’t export chat history"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "달 아이콘"
@@ -5711,6 +5861,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "확인"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "show your backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your backup key."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "View backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your backup key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "백업 키 텍스트 상자"
   },
@@ -5752,6 +5914,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "백업 키 복사됨"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verify your identity to enable backups."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to enable backups."
   },
   "icu:Preferences__view-key": {
     "messageformat": "키 보기"
@@ -5898,7 +6072,7 @@
     "messageformat": "이 옵션을 비활성화하면 Microsoft Windows가 Signal의 스크린샷을 캡처하여 개인정보 보호가 보장되지 않는 기능에 사용할 수 있습니다."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "사용 안 함"
+    "messageformat": "비활성화하기"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} 버전으로 업데이트할 수 있습니다."
@@ -5985,7 +6159,7 @@
     "messageformat": "보내지 않음"
   },
   "icu:CustomizingPreferredReactions__title": {
-    "messageformat": "반응 사용자 지정"
+    "messageformat": "반응 맞춤 설정하기"
   },
   "icu:CustomizingPreferredReactions__subtitle": {
     "messageformat": "클릭하여 이모지 바꾸기"
@@ -6324,10 +6498,10 @@
     "messageformat": "모든 Signal 커넥션"
   },
   "icu:StoriesSettings__mine__exclude--label": {
-    "messageformat": "다음을 제외한 모든 사용자…"
+    "messageformat": "일부를 제외한 모든 사용자"
   },
   "icu:StoriesSettings__mine__only--label": {
-    "messageformat": "다음 사용자와만 공유…"
+    "messageformat": "일부 사용자와만 공유"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "스토리를 볼 수 있는 사람을 선택하세요. 이미 전송한 스토리에는 변경 내용이 적용되지 않습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
@@ -6369,7 +6543,7 @@
     "messageformat": "그룹 스토리"
   },
   "icu:SendStoryModal__only-share-with": {
-    "messageformat": "다음 사용자와만 공유"
+    "messageformat": "일부 사용자와만 공유"
   },
   "icu:SendStoryModal__excluded": {
     "messageformat": "{count, plural, other {{count,number}명 제외}}"
@@ -6483,10 +6657,10 @@
     "messageformat": "답장"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "스토리에 반응했습니다."
+    "messageformat": "스토리에 반응했어요"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "스토리에 반응했습니다."
+    "messageformat": "스토리에 반응했어요"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "더 이상 이 그룹의 멤버가 아니므로 이 스토리에 답장할 수 없습니다."
@@ -6603,22 +6777,22 @@
     "messageformat": "스토리"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} 님의 스토리에 반응했습니다."
+    "messageformat": "{name} 님의 스토리에 반응했어요"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "내 스토리에 반응함"
+    "messageformat": "내 스토리에 반응했어요"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "스토리에 반응했습니다."
+    "messageformat": "스토리에 반응했어요"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "내 스토리에 {emoji} 이모지로 반응했습니다."
+    "messageformat": "내 스토리에 {emoji} 이모지로 반응했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 반응했습니다."
+    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 반응했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "스토리에 {emoji} 이모지로 반응했습니다."
+    "messageformat": "스토리에 {emoji} 이모지로 반응했어요"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "더는 사용할 수 없음"
@@ -6630,7 +6804,7 @@
     "messageformat": "사용자 이름"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "사용자 이름은 항상 숫자와 짝지어 쓰입니다."
+    "messageformat": "모든 사용자 이름에는 고유 번호가 부여됩니다."
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "자세히 알아보기"
@@ -6639,7 +6813,7 @@
     "messageformat": "이 번호는 무엇인가요?"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "이 일련번호는 사용자 이름을 비공개로 유지하여 원치 않는 메시지를 피할 수 있도록 도와줍니다. 대화를 원하는 사용자 및 그룹과만 사용자 이름을 공유하세요. 사용자 이름을 변경하면 새로운 일련번호가 부여됩니다."
+    "messageformat": "이 일련번호는 사용자 이름을 비공개로 보호해 원치 않는 메시지를 차단하는 데 도움이 됩니다. 사용자 이름은 신뢰하는 사용자나 그룹과만 공유해 주세요. 사용자 이름을 변경하면 새로운 일련번호가 생성됩니다."
   },
   "icu:EditUsernameModalBody__change-confirmation": {
     "messageformat": "사용자 이름을 변경하면 기존 QR 코드와 링크가 초기화됩니다. 계속할까요?"
@@ -6694,7 +6868,7 @@
     "messageformat": "새로운 연락 방법"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "전화번호 개인 정보 보호"
+    "messageformat": "전화번호 보호"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
     "messageformat": "이 대화에 내 전화번호가 더 이상 표시되지 않습니다. 내 전화번호를 연락처에 저장한 친구는 계속 내 전화번호를 볼 수 있습니다."
@@ -6703,13 +6877,13 @@
     "messageformat": "사용자 이름"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "이제 나에게 메시지를 보낼 때 선택적 사용자 이름을 사용할 수 있으므로 다른 사람과 전화번호를 공유할 필요가 없습니다. 사용자 이름은 프로필에 표시되지 않습니다."
+    "messageformat": "이제 별도의 사용자 이름으로 메시지를 받을 수 있어 다른 사람과 전화번호를 공유하지 않아도 됩니다. 사용자 이름은 프로필에 표시되지 않습니다."
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
     "messageformat": "QR 코드와 링크"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "사용자 이름에는 나와 빠르게 대화를 시작하도록 친구와 공유할 수 있는 고유한 QR 코드와 링크가 있습니다."
+    "messageformat": "사용자 이름에는 고유한 QR 코드와 링크가 함께 제공됩니다. 해당 코드나 링크를 친구와 공유하여 바로 대화를 시작해 보세요."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "사용자 이름 설정"
@@ -6721,7 +6895,7 @@
     "messageformat": "새로운 연락 방법"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "전화번호 개인 정보 보호와 선택적 사용자 이름 및 링크를 소개합니다."
+    "messageformat": "전화번호 보호와 사용자 이름, 그리고 링크 기능이 추가됐어요."
   },
   "icu:UsernameMegaphone__learn-more": {
     "messageformat": "더 알아보기"
@@ -6754,7 +6928,7 @@
     "messageformat": "수정 기록"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "타임스탬프 복사"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "이 수정 사항을 보낼 수 없습니다. 연결을 확인하고 다시 시도하세요."
@@ -7069,7 +7243,7 @@
     "messageformat": "문제가 있나요? <contactSupportLink>지원팀에 문의하세요</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "사용자 정의 금액 입력"
+    "messageformat": "직접 금액 입력하기"
   },
   "icu:DonateFlow__credit-or-debit-card": {
     "messageformat": "신용 또는 직불 카드"
@@ -7276,15 +7450,6 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "맞춤 알림 프로필을 설정해 프로필별로 알림을 받을 사람과 그룹을 선택하세요."
-  },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "이제 고유 폴더로 대화를 정리하여 간편하게 사용자 지정하고 재정렬할 수 있습니다. 대화 폴더를 사용하여 즐겨 찾는 사용자에게서 온 읽지 않은 메시지를 표시하거나, 1대1, 그룹 등 대화 유형별로 필터링하거나, '개인'이나 '직장' 같은 개별 폴더를 만들어 나와 관련 있는 메시지를 빠르게 확인해 보세요."
-  },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "이번 업데이트에서는 메시지에 이모티콘 문자가 포함된 경우 링크 미리 보기가 생성되지 않던 문제도 수정되었습니다. <elias6></elias6> 님, 감사합니다."
-  },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "접근성을 개선했습니다."
   },
@@ -7301,6 +7466,6 @@
     "messageformat": "Signal 설문조사 기능이 추가되었습니다! 설문조사는 그룹의 의견을 모을 수 있는 간편한 방법입니다. 다양한 저녁 옵션이나 다른 중요한 선택지를 사용하여 설문조사를 만들어 보세요. 그룹의 모든 사용자가 설문조사에 참여할 수 있으며 서로의 의견을 확인할 수 있습니다. 또한, 설문조사를 만들 때 다중 옵션 선택 가능 여부도 선택할 수 있습니다."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "이제 미디어 갤러리가 오디오 메시지와 링크 미리 보기, 두 가지 새로운 탭을 포함합니다."
   }
 }

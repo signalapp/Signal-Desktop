@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Pin message"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "Avslutt avstemningen"
   },
@@ -1137,10 +1140,10 @@
     "messageformat": "Ingen stemmer"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Vinner"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Fant ikke den festede meldingen"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Avstemningen ble ikke funnet"
@@ -1201,6 +1204,60 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "Før du forlater gruppen, må du velge minst én ny administrator."
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "You pinned a message"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Pin message for..."
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Close"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hours"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 days"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 days"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Forever"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Pin"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Go to pin {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "More actions"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Unpin message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "See all messages"
   },
   "icu:sessionEnded": {
     "messageformat": "Sikker økt er nullstilt"
@@ -5016,46 +5073,55 @@
     "messageformat": "Legg til gruppebeskrivelse…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Talemelding"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Lyd"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Åpne lenken i en nettleser"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Show message in conversation"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Lyd"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Filer"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Lenker"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Ingen mediefiler"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Bilder, videoer og GIF-er som du sender og mottar, vises her"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Ingen lydfiler"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Talemeldinger og lydfiler som du sender og mottar, vises her"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Ingen lenker"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
+  "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Links that you send and receive will appear here"
   },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "Lenker som du sender og mottar, vises her"
+  },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Ingen filer"
+  },
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Files that you send and receive will appear here"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Filer som du sender og mottar, vises her"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Velg mediekvalitet"
@@ -5396,6 +5462,90 @@
   "icu:Preferences--notification-content": {
     "messageformat": "Varslingsinnhold"
   },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Export chat history"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Export chat history?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continue"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Waiting for input"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "export your chat history"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to export your chat history."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to export your chat history."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporting chat history"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "This may take a few minutes"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Export complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Show in Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "An error occurred and your chat history could not be exported."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Can’t export chat history"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Måneikon"
   },
@@ -5711,6 +5861,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Ferdig"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "show your backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your backup key."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "View backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your backup key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Tekstboks for sikkerhetskode"
   },
@@ -5752,6 +5914,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Sikkerhetskoden ble kopiert"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verify your identity to enable backups."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to enable backups."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Se koden"
@@ -6754,7 +6928,7 @@
     "messageformat": "Redigeringshistorikk"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopier tidsstempel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Meldingen kan ikke redigeres. Sjekk internettilkoblingen og prøv igjen."
@@ -7276,15 +7450,6 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "Konfigurer dine egne varslingsprofiler for å velge hvilke personer og grupper du får varsler fra når den profilen er aktivert."
-  },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "Nå kan du plassere samtalene dine i unike mapper som er enkle å tilpasse og sortere. Du kan bruke samtalemapper til å se uleste meldinger fra favorittene dine, filtrere etter samtaletype (gruppe eller 1-til-1) og lage egne mapper for jobb og fritid, slik at du har full oversikt over de ulike samtalene du har på gang. Aktiver samtalemapper ved å gå til Innstillinger > Samtaler."
-  },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "I denne oppdateringen har vi også rettet opp i en feil som førte til at forhåndsvisninger av lenker ikke virket i meldinger som inneholder emojier. Takk, <elias6></elias6>!"
-  },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "I denne oppdateringen har vi gjort et par tilgjengelighetsforbedringer."
   },
@@ -7301,6 +7466,6 @@
     "messageformat": "Signal har nå avstemninger! Med avstemninger blir det lett å finne ut hva gruppechatten faktisk mener. Du kan f.eks. lage en avstemning med ulike middagsalternativer eller andre viktige avgjørelser. Alle i gruppen kan stemme og se hva de andre stemmer, og du kan bestemme om det er lov å stemme flere ganger."
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "Mediegalleriet har nå to nye faner: en for talemeldinger og en for forhåndsvisning av lenker."
   }
 }

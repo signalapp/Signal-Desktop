@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "ព័ត៌មាន"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Pin message"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "បញ្ចប់ការស្ទង់មតិ"
   },
@@ -1137,10 +1140,10 @@
     "messageformat": "គ្មានការបោះឆ្នោតទេ"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "ឈ្នះ"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "រកមិនឃើញសារដែលបានខ្ទាស់ទេ"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "រកមិនឃើញការស្ទង់មតិទេ"
@@ -1201,6 +1204,60 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "មុនពេលអ្នកចាកចេញ អ្នកត្រូវជ្រើសរើសអ្នកគ្រប់គ្រងថ្មីយ៉ាងហោចណាស់ម្នាក់សម្រាប់ក្រុមនេះ។"
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "You pinned a message"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Pin message for..."
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Close"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hours"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 days"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 days"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Forever"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Pin"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Go to pin {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "More actions"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Unpin message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "See all messages"
   },
   "icu:sessionEnded": {
     "messageformat": "កំណត់ការប្រើប្រាស់សុវត្ថិភាពឡើងវិញ"
@@ -5016,46 +5073,55 @@
     "messageformat": "បញ្ចូលការពណ៌នាក្រុម…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "សារជាសំឡេង"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "សំឡេង"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Show message in conversation"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "សំឡេង"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "ឯកសារ"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "តំណ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "គ្មានមេឌៀ"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "រូបថត វីដេអូ និងរូបមានចលនាដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "គ្មានសំឡេង"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "សារជាសំឡេង និងឯកសារសំឡេងដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "គ្មានតំណ"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
+  "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Links that you send and receive will appear here"
   },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "តំណដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
+  },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "គ្មានឯកសារ"
+  },
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Files that you send and receive will appear here"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ជ្រើសរើសគុណភាពមេឌៀ"
@@ -5396,6 +5462,90 @@
   "icu:Preferences--notification-content": {
     "messageformat": "ខ្លឹមសារ​ជូន​ដំណឹង"
   },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Export chat history"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Export chat history?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continue"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Waiting for input"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "export your chat history"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to export your chat history."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to export your chat history."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporting chat history"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "This may take a few minutes"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Export complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Show in Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "An error occurred and your chat history could not be exported."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Can’t export chat history"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "រូបព្រះចន្ទ"
   },
@@ -5711,6 +5861,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "រួចរាល់"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "show your backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your backup key."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "View backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your backup key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "ប្រអប់អក្សរសោបម្រុងទុក"
   },
@@ -5752,6 +5914,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "សោបម្រុងទុកត្រូវបានចម្លង"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verify your identity to enable backups."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to enable backups."
   },
   "icu:Preferences__view-key": {
     "messageformat": "មើលសោ"
@@ -6754,7 +6928,7 @@
     "messageformat": "កែប្រវត្តិ"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ចម្លងត្រាពេលវេលា"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "មិនអាចផ្ញើសារកែនេះបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
@@ -7276,15 +7450,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "រៀបចំប្រូហ្វាល់សម្រាប់ការជូនដំណឹងផ្ទាល់ខ្លួន ដើម្បីគ្រប់គ្រងថាតើអ្នកទទួលបានការជូនដំណឹងពីមនុស្ស និងក្រុមណាខ្លះ នៅពេលដែលប្រូហ្វាល់នោះត្រូវបានបើក។ បង្កើតប្រូហ្វាល់ “ការងារ” ដើម្បីដាក់មិត្តរួមការងាររបស់អ្នកដោយឡែក (លើកលែងតែមនុស្សពិសេសរបស់អ្នក) និងប្រូហ្វាល់ “ផ្ទាល់ខ្លួន” ដែលមិនមានចៅហ្វាយរបស់អ្នក។ អ្នកអាចប្តូរចុះឡើងនូវប្រូហ្វាល់សម្រាប់ការជូនដំណឹងនៅពេលណាក៏បាន ឬកំណត់កាលវិភាគបាន ដើម្បីឱ្យវាកើតឡើងដោយស្វ័យប្រវត្តិ។"
-  },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "ថតឯកសារជជែកជួយឱ្យអ្នកអាចរៀបចំទំនាក់ទំនងរបស់អ្នកបានយ៉ាងងាយស្រួល ដោយបែងចែកការជជែកជាប្រភេទដូចជា ការជជែកការងារ ជាក្រុម និងលក្ខណៈបុគ្គល។ បង្ហាញសារដែលមិនទាន់អានពីមនុស្សដែលអ្នកចូលចិត្ត ច្រោះតាមប្រភេទនៃការជជែក (មួយទល់មួយ និងជាក្រុម) ឬបង្កើតថតឯកសារដាច់ដោយឡែកដូចជា \"ផ្ទាល់ខ្លួន\" និង \"ការងារ\" ដើម្បីឱ្យអ្នកអាចមើលឃើញសារដែលពាក់ព័ន្ធជាមួយអ្នកបានយ៉ាងឆាប់រហ័ស។ បើកថតឯកសារជជែកនៅក្នុងការកំណត់ > ជជែក ដើម្បីចាប់ផ្តើម។"
-  },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "កំណែថ្មីនេះក៏រួមបញ្ចូលផងដែរនូវការកែបញ្ហាសម្រាប់បញ្ហាមួយដែលធ្វើឱ្យមិនអាចបង្កើតការមើលតំណជាមុនបាន នៅពេលដែលសារនោះរួមបញ្ចូលតួអក្សររូបអារម្មណ៍ផងដែរ។ អរគុណ <elias6></elias6>"
-  },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "កំណែថ្មីនេះបង្កើននូវភាពងាយស្រួលសម្រាប់អ្នកប្រើកម្មវិធីអានអេក្រង់ ដោយរំលងការប្រកាសអំពីត្រាពេលវេលាម្តងហើយម្តងទៀត នៅពេលដែលសារថ្មីមកដល់ក្នុងកម្រងសារ។"
   },
@@ -7301,6 +7466,6 @@
     "messageformat": "នៅទីនេះមានការស្ទង់មតិ Signal! តើអ្នក និងមិត្តភក្តិរបស់អ្នកមានគំនិតដូចគ្នាឬទេ ឬអ្នកមានទស្សនៈផ្ទុយគ្នាទាំងស្រុង? ការស្ទង់មតិគឺជាវិធីងាយស្រួលមួយដើម្បីមើលថាតើសមាជិកក្នុងការជជែកជាក្រុមរបស់អ្នកគិតយ៉ាងណាដែរ។ បង្កើតការស្ទង់មតិជាមួយនឹងជម្រើសអាហារពេលល្ងាច គោលដៅវិស្សមកាល ចំណូលចិត្តតន្ត្រីជាច្រើនសម្រាប់ការធ្វើដំណើរតាមផ្លូវនាពេលខាងមុខ ឬជម្រើសសំខាន់ៗផ្សេងទៀត។ អ្នកគ្រប់គ្នានៅក្នុងក្រុមអាចបោះឆ្នោត និងមើលឃើញការឆ្លើយតបរបស់គ្នាទៅវិញទៅមក ហើយអ្នកអាចសម្រេចចិត្តថាតើគួរអនុញ្ញាតឱ្យមានការបោះឆ្នោតជាច្រើនឬអត់។"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "ឥឡូវនេះ វិចិត្រសាលមេឌៀមានផ្ទាំងថ្មីពីរសម្រាប់សារជាសំឡេង និងការមើលតំណជាមុន។ ប្រសិនបើតំណមួយស្ថិតនៅក្នុងការជជែកជាក្រុម តើវាបញ្ចេញសំឡេងឬទេ?"
   }
 }

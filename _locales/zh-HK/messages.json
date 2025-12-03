@@ -1097,6 +1097,9 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "資訊"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Pin message"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "結束投票"
   },
@@ -1137,10 +1140,10 @@
     "messageformat": "沒有投票"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "勝出"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "找不到置頂訊息"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "找不到投票"
@@ -1201,6 +1204,60 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "在你離開之前，你必須為此群組選擇至少一位新管理員。"
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "You pinned a message"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Pin message for..."
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Close"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hours"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 days"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 days"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Forever"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Pin"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Go to pin {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "More actions"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Unpin message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Go to message"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "See all messages"
   },
   "icu:sessionEnded": {
     "messageformat": "安全對話重設"
@@ -5016,46 +5073,55 @@
     "messageformat": "新增群組描述..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "語音訊息"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "聲音"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "在瀏覽器中開啟連結"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Show message in conversation"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "聲音"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "檔案"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "連結"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "沒有多媒體"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "你傳送和接收的相片、影片和 GIF 檔會顯示在這裡"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "沒有音訊"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "你傳送和接收的語音訊息和音訊檔案會顯示在這裡"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "沒有連結"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
+  "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Links that you send and receive will appear here"
   },
+  "icu:MediaGallery__EmptyState__description--documents": {
+    "messageformat": "你傳送和接收的連結會顯示在這裡"
+  },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "沒有檔案"
+  },
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Files that you send and receive will appear here"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "你傳送和接收的檔案會顯示在這裡"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "選擇媒體的品質"
@@ -5396,6 +5462,90 @@
   "icu:Preferences--notification-content": {
     "messageformat": "通知內容"
   },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Export chat history"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Export chat history?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continue"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Waiting for input"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "export your chat history"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to export your chat history."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Export"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to export your chat history."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporting chat history"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "This may take a few minutes"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Export complete"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Show in Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Show in folder"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "An error occurred and your chat history could not be exported."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Couldn’t export chat history"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Can’t export chat history"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "月亮圖示"
   },
@@ -5711,6 +5861,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "完成"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "show your backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your backup key."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "View backup key"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your backup key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "備份金鑰文字框"
   },
@@ -5752,6 +5914,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "已複製備份金鑰"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verify your identity to enable backups."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Enable backups"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to enable backups."
   },
   "icu:Preferences__view-key": {
     "messageformat": "檢視金鑰"
@@ -6754,7 +6928,7 @@
     "messageformat": "編輯的歷史紀錄"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "複製時間戳記"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "無法傳送此編輯。請檢查你的網絡連線，然後再試一次"
@@ -7276,15 +7450,6 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "設定自訂的通知情景，以控制在啟用該情景時，將會收到來自哪些人和群組的通知。建立「工作」情景，讓非同事無法進入（你的心上人除外），而「休閒」情景則可撇除你的上司。你可以隨時切換通知情景，或設定排程讓其自動化。"
-  },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "聊天資料夾可讓你整理你的組織、將群組分類，並將個人區分於獨特資料夾中，以便你自訂和重新排列。顯示你喜愛對象的未讀訊息、按聊天類型（一對一和群組）篩選，或建立「個人」和「工作」等不同的資料夾，讓你可以立即看到與你相關的訊息。在「設定」 > 「聊天」中啟用聊天資料夾，即可開始使用。"
-  },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "此更新還包括一項錯誤修復，修正了當訊息中包含表情符號時，無法產生連結預覽的問題。謝謝<elias6></elias6>"
-  },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "此更新省略了在討論串收到新訊息時重覆的時間戳提示，提升螢幕閱讀器用戶的無障礙體驗。"
   },
@@ -7301,6 +7466,6 @@
     "messageformat": "Signal 投票登場！你和你的朋友站在同一陣線，還是截然相反？投票是一個簡單的方式，能了解群組聊天成員的真正想法。建立投票，內容可包括晚餐選擇、度假地點、自駕遊的音樂播放偏好，或任何重要的選擇。群組中的每個人都可以投票並查看彼此的回覆，而且你可以決定是否允許投多個選項。"
   },
   "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+    "messageformat": "媒體圖庫現新增兩個選項標籤，可分別顯示語音訊息和連結預覽。"
   }
 }
