@@ -6798,7 +6798,7 @@
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Links that you send and receive will appear here",
-    "description": "Description of the empty state view of media gallery for links tab"
+    "description": "(Deleted 2025/12/03) Description of the empty state view of media gallery for links tab"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "No Files",
@@ -6810,7 +6810,7 @@
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Files that you send and receive will appear here",
-    "description": "Description of the empty state view of media gallery for files tab"
+    "description": "(Deleted 2025/12/03) Description of the empty state view of media gallery for files tab"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",
@@ -9909,18 +9909,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "Set up custom notification profiles to control which people and groups you receive notifications from when that profile is enabled. Create a “Work” profile that keeps non-coworkers at bay (with an exception for your bae) and a “Downtime” profile that doesn't include your boss. You can switch between notification profiles whenever you want, or configure a schedule so it happens automatically.",
-    "description": "(Deleted 2025/10/23)  Release notes for 7.76 release"
-  },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "Chat folders let you organize your organizations, group your groups, and individualize your individuals into unique folders that are easy to customize and rearrange. Display unread messages from your favorite people, filter by chat type (1-on-1 and groups), or create separate folders like \"Personal\" and \"Work\" so you can quickly see the messages that are relevant to you. Enable chat folders in Settings > Chats to get started.",
-    "description": "(Deleted 2025/10/30)  Release notes for 7.77 release"
-  },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "This update also includes a bugfix for an issue that prevented link previews from being generated when the message also included emoji characters. Thanks, <elias6></elias6>",
-    "description": "(Deleted 2025/10/30)  Release notes for 7.77 release"
-  },
   "icu:WhatsNew__7.78-1": {
     "messageformat": "This update improves accessibility for screen reader users by skipping repeated timestamp announcements when new messages arrive in a thread.",
     "description": "(Deleted 2025/11/05)  Release notes for 7.78 release"
@@ -9943,6 +9931,6 @@
   },
   "icu:WhatsNew__7.81-1": {
     "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?",
-    "description": "Release notes for 7.81 release"
+    "description": "(Deleted 2025/12/03) Release notes for 7.81 release"
   }
 }
