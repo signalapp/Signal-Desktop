@@ -47,6 +47,7 @@ import { strictAssert } from '../ts/util/assert.std.js';
 import { drop } from '../ts/util/drop.std.js';
 import type { ThemeSettingType } from '../ts/types/StorageUIKeys.std.js';
 import { ThemeType } from '../ts/types/Util.std.js';
+import { NotificationType } from '../ts/types/notifications.std.js';
 import * as Errors from '../ts/types/errors.std.js';
 import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.std.js';
 import { createLogger } from '../ts/logging/log.std.js';
@@ -136,7 +137,10 @@ import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
 import { appRelaunch } from '../ts/util/relaunch.main.js';
-import { sendDummyKeystroke } from './WindowsNotifications.main.js';
+import {
+  sendDummyKeystroke,
+  show as showWindowsNotification,
+} from './WindowsNotifications.main.js';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
@@ -926,27 +930,43 @@ async function createWindow() {
       !windowState.shouldQuit() &&
       (usingTrayIcon || OS.isMacOS())
     ) {
-      if (usingTrayIcon) {
-        const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
-        if (shownTrayNotice) {
-          log.info('close: not showing tray notice');
-          return;
-        }
+      if (!usingTrayIcon) {
+        return;
+      }
 
-        ephemeralConfig.set('shown-tray-notice', true);
-        log.info('close: showing tray notice');
+      const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
+      if (shownTrayNotice) {
+        log.info('close: not showing tray notice');
+        return;
+      }
 
-        const n = new Notification({
-          title: getResolvedMessagesLocale().i18n(
+      ephemeralConfig.set('shown-tray-notice', true);
+      log.info('close: showing tray notice');
+
+      if (OS.isWindows()) {
+        showWindowsNotification({
+          type: NotificationType.MinimizedToTray,
+          token: 'unused',
+          heading: getResolvedMessagesLocale().i18n(
             'icu:minimizeToTrayNotification--title'
           ),
           body: getResolvedMessagesLocale().i18n(
             'icu:minimizeToTrayNotification--body'
           ),
         });
-
-        n.show();
+        return;
       }
+
+      const n = new Notification({
+        title: getResolvedMessagesLocale().i18n(
+          'icu:minimizeToTrayNotification--title'
+        ),
+        body: getResolvedMessagesLocale().i18n(
+          'icu:minimizeToTrayNotification--body'
+        ),
+      });
+
+      n.show();
       return;
     }
 
