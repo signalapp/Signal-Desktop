@@ -276,7 +276,7 @@ export function MediaGallery({
               loadingRef.current = true;
             }
           } else if (tabViewRef.current === TabViews.Audio) {
-            if (!haveOldestMedia) {
+            if (!haveOldestAudio) {
               loadMore(conversationId, 'audio');
               loadingRef.current = true;
             }
@@ -306,6 +306,7 @@ export function MediaGallery({
     conversationId,
     haveOldestDocument,
     haveOldestMedia,
+    haveOldestAudio,
     haveOldestLink,
     loading,
     loadMore,
