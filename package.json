@@ -137,7 +137,7 @@
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.60.4",
+    "@signalapp/ringrtc": "2.60.5",
     "@signalapp/sqlcipher": "2.4.4",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",
