@@ -4119,6 +4119,23 @@ export class ConversationModel {
       expireTimer = this.get('expireTimer');
     }
 
+    if (storyId && isGroup(this.attributes)) {
+      const story = await getMessageById(storyId);
+      strictAssert(story, 'story being replied to must exist');
+      strictAssert(
+        story.expireTimer != null && story.expireTimer > 0,
+        'story missing expireTimer'
+      );
+      strictAssert(
+        story.expirationStartTimestamp != null &&
+          story.expirationStartTimestamp > 0,
+        'story missing expirationStartTimestamp'
+      );
+
+      expireTimer = story.expireTimer;
+      expirationStartTimestamp = story.expirationStartTimestamp;
+    }
+
     const recipientMaybeConversations = map(
       this.getRecipients({
         isStoryReply: storyId !== undefined,
