@@ -260,8 +260,8 @@ import {
 import {
   getPinnedMessagesForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
-  createPinnedMessage,
-  deletePinnedMessage,
+  appendPinnedMessage,
+  deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
 } from './server/pinnedMessages.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
@@ -735,8 +735,8 @@ export const DataWriter: ServerWritableInterface = {
   markChatFolderDeleted,
   deleteExpiredChatFolders,
 
-  createPinnedMessage,
-  deletePinnedMessage,
+  appendPinnedMessage,
+  deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
 
   removeAll,
@@ -988,6 +988,9 @@ export function setupTests(db: WritableDB): void {
   const silentLogger = {
     ...consoleLogger,
     info: noop,
+    child() {
+      return silentLogger;
+    },
   };
   logger = silentLogger;
 
@@ -3395,7 +3398,7 @@ function getUnreadByConversationAndMarkRead(
         conversationId = ${conversationId} AND
         ${storyReplyFilter} AND
         type IN ('incoming', 'poll-terminate') AND
-        hasExpireTimer IS 1 AND 
+        hasExpireTimer IS 1 AND
         received_at <= ${readMessageReceivedAt}
     `;
 

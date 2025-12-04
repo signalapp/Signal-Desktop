@@ -185,6 +185,12 @@ export type ProcessedReaction = {
   targetTimestamp?: number;
 };
 
+export type ProcessedPinMessage = Readonly<{
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+  pinDuration: DurationInSeconds | null;
+}>;
+
 export type ProcessedPollCreate = {
   question?: string;
   options?: Array<string>;
@@ -218,6 +224,11 @@ export type ProcessedGiftBadge = {
   state: GiftBadgeStates;
 };
 
+export type ProcessedUnpinMessage = Readonly<{
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+}>;
+
 export type ProcessedStoryContext = {
   authorAci: AciString | undefined;
   sentTimestamp: number;
@@ -243,6 +254,7 @@ export type ProcessedDataMessage = {
   isStory?: boolean;
   isViewOnce: boolean;
   reaction?: ProcessedReaction;
+  pinMessage?: ProcessedPinMessage;
   pollCreate?: ProcessedPollCreate;
   pollVote?: ProcessedPollVote;
   pollTerminate?: ProcessedPollTerminate;
@@ -251,6 +263,7 @@ export type ProcessedDataMessage = {
   groupCallUpdate?: ProcessedGroupCallUpdate;
   storyContext?: ProcessedStoryContext;
   giftBadge?: ProcessedGiftBadge;
+  unpinMessage?: ProcessedUnpinMessage;
   canReplyToStory?: boolean;
 };
 

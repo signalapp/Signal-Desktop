@@ -197,7 +197,7 @@ export type SentEventData = Readonly<{
   envelopeId: string;
   destinationE164?: string;
   destinationServiceId?: ServiceIdString;
-  timestamp?: number;
+  timestamp: number;
   serverTimestamp: number;
   device: number | undefined;
   unidentifiedStatus: ProcessedSent['unidentifiedStatus'];

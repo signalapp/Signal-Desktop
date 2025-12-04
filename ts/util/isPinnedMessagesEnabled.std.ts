@@ -9,7 +9,7 @@ import {
   isMockEnvironment,
 } from '../environment.std.js';
 
-export function isPinnedMessagesEnabled(): boolean {
+function isDevEnv(): boolean {
   const env = getEnvironment();
 
   if (
@@ -21,4 +21,12 @@ export function isPinnedMessagesEnabled(): boolean {
   }
 
   return false;
+}
+
+export function isPinnedMessagesReceiveEnabled(): boolean {
+  return isDevEnv();
+}
+
+export function isPinnedMessagesSendEnabled(): boolean {
+  return isDevEnv();
 }

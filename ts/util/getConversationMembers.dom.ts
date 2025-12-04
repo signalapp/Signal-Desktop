@@ -8,6 +8,7 @@ import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 
 const { compact } = lodash;
 
+// TODO(DESKTOP-9497): This will not include `ourAci` in 1:1 chats
 export function getConversationMembers(
   conversationAttrs: ConversationAttributesType,
   options: { includePendingMembers?: boolean } = {}

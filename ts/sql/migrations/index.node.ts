@@ -133,6 +133,7 @@ import updateToSchemaVersion1540 from './1540-partial-expiring-index.std.js';
 import updateToSchemaVersion1550 from './1550-has-link-preview.std.js';
 import updateToSchemaVersion1560 from './1560-pinned-messages.std.js';
 import updateToSchemaVersion1561 from './1561-cleanup-polls.std.js';
+import updateToSchemaVersion1570 from './1570-pinned-messages-updates.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1625,6 +1626,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1560, update: updateToSchemaVersion1560 },
   // 1561, 1551, and 1541 all refer to the same migration
   { version: 1561, update: updateToSchemaVersion1561 },
+  { version: 1570, update: updateToSchemaVersion1570 },
 ];
 
 export class DBVersionFromFutureError extends Error {
