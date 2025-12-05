@@ -180,17 +180,14 @@ async function cleanupStoryReplies(
   }
 
   if (isGroupConversation) {
-    // Cleanup all group replies
-    await Promise.all(
-      replies.map(reply => {
-        const replyMessageModel = window.MessageCache.register(
-          new MessageModel(reply)
-        );
-        return eraseMessageContents(replyMessageModel);
-      })
+    // Delete all group replies
+    await DataWriter.removeMessages(
+      replies.map(reply => reply.id),
+      { cleanupMessages }
     );
   } else {
-    // Refresh the storyReplyContext data for 1:1 conversations
+    // Clean out the storyReplyContext data for 1:1 conversations; these remain in the
+    // 1:1 timeline with a "story not found" message
     await Promise.all(
       replies.map(async reply => {
         const model = window.MessageCache.register(new MessageModel(reply));
