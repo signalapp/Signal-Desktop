@@ -488,7 +488,7 @@ export type StoryReadType = Readonly<{
 export type ReactionResultType = Pick<
   ReactionType,
   'targetAuthorAci' | 'targetTimestamp' | 'messageId'
-> & { rowid: number };
+>;
 
 export type PollVoteReadResultType = {
   id: string;

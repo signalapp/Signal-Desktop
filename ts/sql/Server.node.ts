@@ -3504,46 +3504,30 @@ function getUnreadReactionsAndMarkRead(
     storyId?: string;
   }
 ): Array<ReactionResultType> {
-  return db.transaction(() => {
-    const unreadMessages: Array<ReactionResultType> = db
-      .prepare(
-        `
-        SELECT reactions.rowid, targetAuthorAci, targetTimestamp, messageId
-        FROM reactions
-        INDEXED BY reactions_unread
-        JOIN messages on messages.id IS reactions.messageId
-        WHERE
-          reactions.conversationId IS $conversationId AND
-          reactions.unread > 0 AND
-          messages.received_at <= $readMessageReceivedAt AND
-          messages.storyId IS $storyId
-        ORDER BY messageReceivedAt DESC;
+  return db
+    .prepare(
       `
-      )
-      .all({
-        conversationId,
-        readMessageReceivedAt,
-        storyId: storyId || null,
-      });
-
-    const idsToUpdate = unreadMessages.map(item => item.rowid);
-    batchMultiVarQuery(
-      db,
-      idsToUpdate,
-      (ids: ReadonlyArray<number>, persistent: boolean): void => {
-        db.prepare(
-          `
-        UPDATE reactions
+        UPDATE reactions 
+        INDEXED BY reactions_unread
         SET unread = 0
-        WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
-        `,
-          { persistent }
-        ).run(ids);
-      }
-    );
-
-    return unreadMessages;
-  })();
+        WHERE
+          conversationId = $conversationId AND
+          unread >= 1 AND
+          EXISTS (
+            SELECT 1
+            FROM messages
+            WHERE messages.id = reactions.messageId
+              AND messages.received_at <= $readMessageReceivedAt
+              AND messages.storyId IS $storyId
+          )
+        RETURNING targetAuthorAci, targetTimestamp, messageId;
+      `
+    )
+    .all({
+      conversationId,
+      readMessageReceivedAt,
+      storyId: storyId || null,
+    });
 }
 
 function markReactionAsRead(
