@@ -133,7 +133,7 @@ export class MainSQL {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #onResponse = new Map<number, ResponseEntry<any>>();
 
-  #shouldTimeQueries = false;
+  #shouldLogQueryTime: (queryName: string) => boolean;
   #shouldTrackQueryStats = false;
 
   #queryStats?: {
@@ -150,6 +150,11 @@ export class MainSQL {
       exitPromises.push(onExit);
     }
     this.#onExit = Promise.all(exitPromises);
+
+    const timeQueryEnvVar = process.env.TIME_QUERIES;
+    this.#shouldLogQueryTime = (queryName: string) => {
+      return timeQueryEnvVar === queryName || timeQueryEnvVar === '1';
+    };
   }
 
   public async initialize({
@@ -161,8 +166,6 @@ export class MainSQL {
     if (this.#isReady || this.#onReady) {
       throw new Error('Already initialized');
     }
-
-    this.#shouldTimeQueries = Boolean(process.env.TIME_QUERIES);
 
     this.#logger = logger;
 
@@ -461,7 +464,7 @@ export class MainSQL {
       currentStats.max = Math.max(currentStats.max, duration);
     }
 
-    if (this.#shouldTimeQueries && !app.isPackaged) {
+    if (this.#shouldLogQueryTime(method) && !app.isPackaged) {
       const twoDecimals = this.#roundDuration(duration);
       this.#logger?.info(`MainSQL query: ${method}, duration=${twoDecimals}ms`);
     }
