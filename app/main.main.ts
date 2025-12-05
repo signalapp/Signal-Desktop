@@ -363,6 +363,21 @@ async function getResolvedThemeSetting(
   return ThemeType[theme];
 }
 
+type HourCycleSettingType = 'system' | '12' | '24';
+
+async function getHourCycleSetting(): Promise<HourCycleSettingType> {
+  const value = ephemeralConfig.get('hour-cycle-preference');
+  if (value === '12' || value === '24' || value === 'system') {
+    log.info('got fast hour-cycle-preference value', value);
+    return value;
+  }
+
+  // Default to 'system' if setting doesn't exist or is invalid
+  ephemeralConfig.set('hour-cycle-preference', 'system');
+  log.info('initializing hour-cycle-preference setting', 'system');
+  return 'system';
+}
+
 type GetBackgroundColorOptionsType = GetThemeSettingOptionsType &
   Readonly<{
     signalColors?: boolean;
@@ -473,16 +488,28 @@ function getResolvedMessagesLocale(): LocaleType {
   return resolvedTranslationsLocale;
 }
 
-function getHourCyclePreference(): HourCyclePreference {
-  if (process.platform !== 'darwin') {
-    return HourCyclePreference.UnknownPreference;
-  }
-  if (systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')) {
-    return HourCyclePreference.Prefer24;
-  }
-  if (systemPreferences.getUserDefault('AppleICUForce12HourTime', 'boolean')) {
+async function getHourCyclePreference(): Promise<HourCyclePreference> {
+  const userSetting = await getHourCycleSetting();
+  if (userSetting === '12') {
     return HourCyclePreference.Prefer12;
   }
+  if (userSetting === '24') {
+    return HourCyclePreference.Prefer24;
+  }
+
+  if (OS.isMacOS()) {
+    if (
+      systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')
+    ) {
+      return HourCyclePreference.Prefer24;
+    }
+    if (
+      systemPreferences.getUserDefault('AppleICUForce12HourTime', 'boolean')
+    ) {
+      return HourCyclePreference.Prefer12;
+    }
+  }
+
   return HourCyclePreference.UnknownPreference;
 }
 
@@ -2082,7 +2109,7 @@ app.on('ready', async () => {
 
     localeOverride = await getLocaleOverrideSetting();
 
-    const hourCyclePreference = getHourCyclePreference();
+    const hourCyclePreference = await getHourCyclePreference();
     log.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
 
     log.info('app.ready: preferred system locales:', preferredSystemLocales);

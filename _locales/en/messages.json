@@ -3012,6 +3012,22 @@
     "messageformat": "System",
     "description": "Label text for system theme"
   },
+  "icu:Preferences--time-format": {
+    "messageformat": "Time format",
+    "description": "Header for time format settings"
+  },
+  "icu:timeFormatSystem": {
+    "messageformat": "System",
+    "description": "Label text for system locale based time format"
+  },
+  "icu:timeFormat12Hour": {
+    "messageformat": "12-hour",
+    "description": "Label text for 12-hour time format"
+  },
+  "icu:timeFormat24Hour": {
+    "messageformat": "24-hour",
+    "description": "Label text for 24-hour time format"
+  },
   "icu:noteToSelf": {
     "messageformat": "Note to Self",
     "description": "Name for the conversation with your own phone number"

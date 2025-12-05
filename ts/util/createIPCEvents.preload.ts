@@ -30,6 +30,7 @@ import { fromWebSafeBase64 } from './webSafeBase64.std.js';
 import { showConfirmationDialog } from './showConfirmationDialog.dom.js';
 import type {
   EphemeralSettings,
+  HourCycleSettingType,
   SettingsValuesType,
   ThemeType,
 } from './preload.preload.js';
@@ -92,6 +93,7 @@ type ValuesWithGetters = Omit<
   | 'contentProtection'
   | 'systemTraySetting'
   | 'themeSetting'
+  | 'hourCyclePreference'
   | 'zoomFactor'
 >;
 
@@ -126,6 +128,7 @@ export type IPCEventsGettersType = {
   getContentProtection: () => Promise<boolean>;
   getSystemTraySetting: () => Promise<SystemTraySetting>;
   getThemeSetting: () => Promise<ThemeType>;
+  getHourCyclePreference: () => Promise<HourCycleSettingType>;
   getZoomFactor: () => Promise<ZoomFactorType>;
   // Events
   onZoomFactorChange: (callback: ZoomFactorChangeCallback) => void;
@@ -235,6 +238,13 @@ export function createIPCEvents(
     },
     setThemeSetting: async (value: ThemeType) => {
       await setEphemeralSetting('themeSetting', value);
+    },
+    getHourCyclePreference: async () => {
+      return (await getEphemeralSetting('hourCyclePreference')) ?? 'system';
+    },
+    setHourCyclePreference: async (value: HourCycleSettingType) => {
+      await setEphemeralSetting('hourCyclePreference', value);
+      window.SignalContext.restartApp();
     },
 
     // From IPCEventsCallbacksType

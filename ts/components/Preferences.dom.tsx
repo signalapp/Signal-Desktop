@@ -77,6 +77,7 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util.std.js';
+import type { HourCycleSettingType } from '../util/preload.preload.js';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
@@ -162,6 +163,7 @@ export type PropsDataType = {
   selectedSpeaker?: AudioDevice;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
+  hourCyclePreference: HourCycleSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
   whoCanFindMe: PhoneNumberDiscoverability;
   whoCanSeeMe: PhoneNumberSharingMode;
@@ -320,6 +322,7 @@ type PropsFunctionType = {
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
+  onHourCycleChange: SelectChangeHandlerType<HourCycleSettingType>;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
@@ -486,6 +489,7 @@ export function Preferences({
   onSpellCheckChange,
   onTextFormattingChange,
   onThemeChange,
+  onHourCycleChange,
   onToggleNavTabsCollapse,
   onUniversalExpireTimerChange,
   onWhoCanSeeMeChange,
@@ -526,6 +530,7 @@ export function Preferences({
   localeOverride,
   theme,
   themeSetting,
+  hourCyclePreference,
   universalExpireTimer = DurationInSeconds.ZERO,
   validateBackup,
   whoCanFindMe,
@@ -539,6 +544,7 @@ export function Preferences({
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
+  const hourCycleSelectId = useId();
   const zoomSelectId = useId();
   const languageId = useId();
 
@@ -1035,6 +1041,36 @@ export function Preferences({
             {i18n('icu:Preferences__LanguageModal__Restart__Description')}
           </ConfirmationDialog>
         )}
+        <Control
+          icon
+          left={
+            <label htmlFor={hourCycleSelectId}>
+              {i18n('icu:Preferences--time-format')}
+            </label>
+          }
+          right={
+            <Select
+              id={hourCycleSelectId}
+              disabled={hourCyclePreference === undefined}
+              onChange={onHourCycleChange}
+              options={[
+                {
+                  text: i18n('icu:timeFormatSystem'),
+                  value: 'system',
+                },
+                {
+                  text: i18n('icu:timeFormat12Hour'),
+                  value: '12',
+                },
+                {
+                  text: i18n('icu:timeFormat24Hour'),
+                  value: '24',
+                },
+              ]}
+              value={hourCyclePreference}
+            />
+          }
+        />
         <Control
           icon
           left={
