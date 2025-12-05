@@ -3848,6 +3848,7 @@ export class ConversationModel {
     return buildGroupLink(this.attributes);
   }
 
+  // TODO(DESKTOP-9497): This will not include `ourAci` in 1:1 chats
   getMembers(
     options: { includePendingMembers?: boolean } = {}
   ): Array<ConversationModel> {
@@ -5258,6 +5259,7 @@ export class ConversationModel {
     await DataWriter.updateConversation(this.attributes);
   }
 
+  // TODO(DESKTOP-9497): This will return false for `ourAci` in 1:1 chats
   hasMember(serviceId: ServiceIdString): boolean {
     const members = this.getMembers();
 

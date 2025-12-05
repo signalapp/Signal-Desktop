@@ -162,6 +162,7 @@ import * as Deletes from './messageModifiers/Deletes.preload.js';
 import * as Edits from './messageModifiers/Edits.preload.js';
 import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.js';
 import * as MessageRequests from './messageModifiers/MessageRequests.preload.js';
+import * as PinnedMessages from './messageModifiers/PinnedMessages.preload.js';
 import * as Polls from './messageModifiers/Polls.preload.js';
 import * as Reactions from './messageModifiers/Reactions.preload.js';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.preload.js';
@@ -281,6 +282,7 @@ import {
 } from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.std.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -2373,6 +2375,13 @@ export async function startApp(): Promise<void> {
   async function onMessageReceived(event: MessageEvent): Promise<void> {
     const { data, confirm } = event;
 
+    const { conversation: fromConversation } =
+      window.ConversationController.maybeMergeContacts({
+        e164: data.source,
+        aci: data.sourceAci,
+        reason: 'onMessageReceived',
+      });
+
     const messageDescriptor = getMessageDescriptor({
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destinationE164: data.source,
@@ -2447,13 +2456,6 @@ export async function startApp(): Promise<void> {
         reaction.targetTimestamp,
         'Reaction without targetTimestamp'
       );
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:reaction',
-        });
-      strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
@@ -2471,6 +2473,23 @@ export async function startApp(): Promise<void> {
       };
 
       await Reactions.onReaction(attributes);
+      return;
+    }
+
+    if (data.message.pinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping PinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
+      await PinnedMessages.onPinnedMessageAdd({
+        targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.pinMessage.targetAuthorAci,
+        pinDuration: data.message.pinMessage.pinDuration,
+        pinnedByAci: data.sourceAci,
+        receivedAtTimestamp: data.receivedAtDate,
+      });
+      confirm();
       return;
     }
 
@@ -2497,14 +2516,6 @@ export async function startApp(): Promise<void> {
         validatedVote.targetAuthorAci,
         'DataMessage.PollVote.targetAuthorAci'
       );
-
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:pollVote',
-        });
-      strictAssert(fromConversation, 'PollVote without fromConversation');
 
       log.info('Queuing incoming poll vote for', pollVote.targetTimestamp);
       const attributes: PollVoteAttributesType = {
@@ -2542,14 +2553,6 @@ export async function startApp(): Promise<void> {
         return;
       }
 
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:pollTerminate',
-        });
-      strictAssert(fromConversation, 'PollTerminate without fromConversation');
-
       log.info(
         'Queuing incoming poll termination for',
         pollTerminate.targetTimestamp
@@ -2579,13 +2582,6 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:delete',
-        });
-      strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
         envelopeId: data.envelopeId,
@@ -2603,13 +2599,6 @@ export async function startApp(): Promise<void> {
       const { editedMessageTimestamp } = data.message;
 
       strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          aci: data.sourceAci,
-          e164: data.source,
-          reason: 'onMessageReceived:edit',
-        });
-      strictAssert(fromConversation, 'Edit missing fromConversation');
 
       log.info('Queuing incoming edit for', {
         editedMessageTimestamp,
@@ -2628,6 +2617,21 @@ export async function startApp(): Promise<void> {
 
       drop(Edits.onEdit(editAttributes));
 
+      return;
+    }
+
+    if (data.message.unpinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping UnpinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
+      await PinnedMessages.onPinnedMessageRemove({
+        targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
+        unpinnedByAci: data.sourceAci,
+      });
+      confirm();
       return;
     }
 
@@ -2715,7 +2719,7 @@ export async function startApp(): Promise<void> {
     descriptor: MessageDescriptor
   ) {
     const now = Date.now();
-    const timestamp = data.timestamp || now;
+    const { timestamp } = data;
     const logId = `createSentMessage(${timestamp})`;
 
     const ourId = window.ConversationController.getOurConversationIdOrThrow();
@@ -2893,8 +2897,9 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = itemStorage.user.getNumber();
+    strictAssert(source, 'Missing user number');
     const sourceServiceId = itemStorage.user.getAci();
-    strictAssert(source && sourceServiceId, 'Missing user number and uuid');
+    strictAssert(sourceServiceId, 'Missing user aci');
 
     // Make sure destination conversation is created before we hit getMessageDescriptor
     if (
@@ -2974,6 +2979,19 @@ export async function startApp(): Promise<void> {
         timestamp,
       };
       await Reactions.onReaction(attributes);
+      return;
+    }
+
+    if (data.message.pinMessage != null) {
+      strictAssert(data.timestamp != null, 'Missing sent timestamp');
+      await PinnedMessages.onPinnedMessageAdd({
+        targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.pinMessage.targetAuthorAci,
+        pinDuration: data.message.pinMessage.pinDuration,
+        pinnedByAci: sourceServiceId,
+        receivedAtTimestamp: data.receivedAtDate,
+      });
+      confirm();
       return;
     }
 
@@ -3105,6 +3123,16 @@ export async function startApp(): Promise<void> {
       };
 
       drop(Edits.onEdit(editAttributes));
+      return;
+    }
+
+    if (data.message.unpinMessage != null) {
+      await PinnedMessages.onPinnedMessageRemove({
+        targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
+        unpinnedByAci: sourceServiceId,
+      });
+      confirm();
       return;
     }
 

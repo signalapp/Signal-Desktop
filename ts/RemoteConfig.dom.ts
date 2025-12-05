@@ -63,6 +63,7 @@ const ScalarKeys = [
   'global.messageQueueTimeInSeconds',
   'global.nicknames.max',
   'global.nicknames.min',
+  'global.pinned_message_limit',
   'global.textAttachmentLimitBytes',
 ] as const;
 

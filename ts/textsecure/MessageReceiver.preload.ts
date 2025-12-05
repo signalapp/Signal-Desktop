@@ -2101,12 +2101,14 @@ export default class MessageReceiver
       log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
     }
 
+    strictAssert(timestamp, 'Missing sent timestamp');
+
     const ev = new SentEvent(
       {
         envelopeId: envelope.id,
         destinationE164: dropNull(destinationE164),
         destinationServiceId,
-        timestamp: timestamp?.toNumber(),
+        timestamp: timestamp.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
         unidentifiedStatus,

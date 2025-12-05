@@ -17,7 +17,6 @@ import {
   deliveryReceiptBatcher,
 } from '../util/deliveryReceipt.preload.js';
 import { getSenderIdentifier } from '../util/getSenderIdentifier.dom.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { upgradeMessageSchema } from '../util/migrations.preload.js';
 import { getOwn } from '../util/getOwn.std.js';
 import {
@@ -184,10 +183,7 @@ export async function handleDataMessage(
             return;
           }
 
-          const updatedAt: number =
-            data && isNormalNumber(data.timestamp)
-              ? data.timestamp
-              : Date.now();
+          const updatedAt: number = data?.timestamp ?? Date.now();
 
           const previousSendState = getOwn(
             sendStateByConversationId,

@@ -7,7 +7,10 @@ import lodash from 'lodash';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import { dropNull, shallowDropNull } from '../util/dropNull.std.js';
-import { fromAciUuidBytesOrString } from '../util/ServiceId.node.js';
+import {
+  fromAciUuidBytes,
+  fromAciUuidBytesOrString,
+} from '../util/ServiceId.node.js';
 import { getTimestampFromLong } from '../util/timestampLongUtils.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { deriveGroupFields } from '../groups.preload.js';
@@ -28,6 +31,8 @@ import type {
   ProcessedDelete,
   ProcessedGiftBadge,
   ProcessedStoryContext,
+  ProcessedPinMessage,
+  ProcessedUnpinMessage,
 } from './Types.d.ts';
 import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
 import {
@@ -317,6 +322,34 @@ export function processReaction(
   };
 }
 
+export function processPinMessage(
+  pinMessage?: Proto.DataMessage.IPinMessage | null
+): ProcessedPinMessage | undefined {
+  if (pinMessage == null) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = pinMessage.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'Missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(pinMessage.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'Missing targetAuthorAciBinary');
+
+  let pinDuration: DurationInSeconds | null;
+  if (pinMessage.pinDurationForever) {
+    pinDuration = null;
+  } else {
+    strictAssert(pinMessage.pinDurationSeconds, 'Missing pinDurationSeconds');
+    pinDuration = DurationInSeconds.fromSeconds(pinMessage.pinDurationSeconds);
+  }
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
+    pinDuration,
+  };
+}
+
 export function processPollCreate(
   pollCreate?: Proto.DataMessage.IPollCreate | null
 ): ProcessedPollCreate | undefined {
@@ -402,6 +435,25 @@ export function processGiftBadge(
   };
 }
 
+export function processUnpinMessage(
+  unpinMessage?: Proto.DataMessage.IUnpinMessage | null
+): ProcessedUnpinMessage | undefined {
+  if (unpinMessage == null) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = unpinMessage.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'Missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(unpinMessage.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'Missing targetAuthorAciBinary');
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
+  };
+}
+
 export function processDataMessage(
   message: Proto.IDataMessage,
   envelopeTimestamp: number,
@@ -462,6 +514,7 @@ export function processDataMessage(
     requiredProtocolVersion: dropNull(message.requiredProtocolVersion),
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
+    pinMessage: processPinMessage(message.pinMessage),
     pollCreate: processPollCreate(message.pollCreate),
     pollVote: processPollVote(message.pollVote),
     pollTerminate: processPollTerminate(message.pollTerminate),
@@ -470,6 +523,7 @@ export function processDataMessage(
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: processStoryContext(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),
+    unpinMessage: processUnpinMessage(message.unpinMessage),
   };
 
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);

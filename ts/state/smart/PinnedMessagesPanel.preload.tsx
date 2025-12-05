@@ -4,7 +4,6 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import type { AciString } from '@signalapp/mock-server/src/types.js';
 import { getIntl } from '../selectors/user.std.js';
 import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
@@ -17,8 +16,6 @@ import type {
   PinnedMessageId,
 } from '../../types/PinnedMessage.std.js';
 import type { StateType } from '../reducer.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { isAciString } from '../../util/isAciString.std.js';
 
 export type SmartPinnedMessagesPanelProps = Readonly<{
   conversationId: string;
@@ -41,8 +38,6 @@ const mockSelectPinnedMessages: StateSelector<ReadonlyArray<PinnedMessage>> =
         conversations.messagesByConversation[selectedConversationId]
           ?.messageIds ?? [];
 
-      const ourAci = itemStorage.user.getCheckedAci();
-
       return messageIds
         .map(messageId => {
           return conversations.messagesLookup[messageId] ?? null;
@@ -52,24 +47,10 @@ const mockSelectPinnedMessages: StateSelector<ReadonlyArray<PinnedMessage>> =
         })
         .slice(-10)
         .map((message, messageIndex): PinnedMessage => {
-          let messageSenderAci: AciString;
-          if (message.type === 'outgoing') {
-            messageSenderAci = ourAci;
-          } else {
-            strictAssert(
-              isAciString(message.sourceServiceId),
-              'sourceServiceId must be aci string for incoming message'
-            );
-            messageSenderAci = message.sourceServiceId;
-          }
-
           return {
             id: messageIndex as PinnedMessageId,
             conversationId: selectedConversationId,
             messageId: message.id,
-            messageSentAt: message.sent_at,
-            messageSenderAci,
-            pinnedByAci: ourAci,
             pinnedAt: Date.now(),
             expiresAt: null,
           };

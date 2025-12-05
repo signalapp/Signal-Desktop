@@ -70,6 +70,7 @@ import type {
   PinnedMessageId,
   PinnedMessageParams,
 } from '../types/PinnedMessage.std.js';
+import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -1334,10 +1335,11 @@ type WritableInterface = {
     messageQueueTime: number
   ) => ReadonlyArray<ChatFolderId>;
 
-  createPinnedMessage: (
+  appendPinnedMessage: (
+    pinnedMessagesLimit: number,
     pinnedMessageParams: PinnedMessageParams
-  ) => PinnedMessage;
-  deletePinnedMessage: (pinnedMessageId: PinnedMessageId) => void;
+  ) => AppendPinnedMessageResult;
+  deletePinnedMessageByMessageId: (messageId: string) => PinnedMessageId | null;
   deleteAllExpiredPinnedMessagesBefore: (
     beforeTimestamp: number
   ) => ReadonlyArray<PinnedMessageId>;

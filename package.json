@@ -49,7 +49,7 @@
     "test": "run-s test-node test-electron test-lint-intl test-eslint",
     "test-electron": "node ts/scripts/test-electron.node.js",
     "test-release": "node ts/scripts/test-release.node.js",
-    "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --file test/setup-test-node.js --recursive ts/test-node",
+    "test-node": "cross-env NODE_ENV=test LANG=en-us electron-mocha --timeout 10000 --file test/setup-test-node.js --recursive ts/test-node",
     "test-mock": "node ts/scripts/mocha-separator.node.js --require ts/test-mock/setup-ci.node.js -- ts/test-mock/**/*_test.node.js",
     "test-mock-docker": "mocha --require ts/test-mock/setup-ci.node.js ts/test-mock/**/*_test.docker.node.js",
     "test-eslint": "mocha .eslint/rules/**/*.test.js --ignore-leaks",
