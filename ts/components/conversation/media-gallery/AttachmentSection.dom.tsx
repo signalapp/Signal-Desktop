@@ -74,7 +74,7 @@ export function AttachmentSection({
   switch (verified.type) {
     case 'media':
       return (
-        <section className={tw('@container ps-5')}>
+        <section className={tw('@container px-5')}>
           <h2 className={tw('ps-1 pt-4 pb-2 type-body-medium')}>{header}</h2>
           <div
             className={tw(

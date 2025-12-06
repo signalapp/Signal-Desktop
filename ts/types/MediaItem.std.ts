@@ -8,6 +8,8 @@ import type { AttachmentForUIType } from './Attachment.std.js';
 import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
 import type { ServiceIdString } from './ServiceId.std.js';
 
+export type MediaTabType = 'media' | 'audio' | 'links' | 'documents';
+
 export type MediaItemMessageType = Readonly<{
   id: string;
   type: MessageAttributesType['type'];

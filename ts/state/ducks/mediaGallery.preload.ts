@@ -28,6 +28,7 @@ import type {
   MessageExpiredActionType,
 } from './conversations.preload.js';
 import type {
+  MediaTabType,
   MediaItemMessageType,
   MediaItemType,
   LinkPreviewMediaItemType,
@@ -47,16 +48,17 @@ const { orderBy } = lodash;
 const log = createLogger('mediaGallery');
 
 export type MediaGalleryStateType = ReadonlyDeep<{
+  tab: MediaTabType;
   conversationId: string | undefined;
-  haveOldestDocument: boolean;
   haveOldestMedia: boolean;
   haveOldestAudio: boolean;
   haveOldestLink: boolean;
+  haveOldestDocument: boolean;
   loading: boolean;
   media: ReadonlyArray<MediaItemType>;
   audio: ReadonlyArray<MediaItemType>;
-  documents: ReadonlyArray<MediaItemType>;
   links: ReadonlyArray<LinkPreviewMediaItemType>;
+  documents: ReadonlyArray<MediaItemType>;
 }>;
 
 const FETCH_CHUNK_COUNT = 50;
@@ -64,15 +66,16 @@ const FETCH_CHUNK_COUNT = 50;
 const INITIAL_LOAD = 'mediaGallery/INITIAL_LOAD';
 const LOAD_MORE = 'mediaGallery/LOAD_MORE';
 const SET_LOADING = 'mediaGallery/SET_LOADING';
+const SET_TAB = 'mediaGallery/SET_TAB';
 
 type InitialLoadActionType = ReadonlyDeep<{
   type: typeof INITIAL_LOAD;
   payload: {
     conversationId: string;
-    documents: ReadonlyArray<MediaItemType>;
     media: ReadonlyArray<MediaItemType>;
     audio: ReadonlyArray<MediaItemType>;
     links: ReadonlyArray<LinkPreviewMediaItemType>;
+    documents: ReadonlyArray<MediaItemType>;
   };
 }>;
 type LoadMoreActionType = ReadonlyDeep<{
@@ -81,14 +84,20 @@ type LoadMoreActionType = ReadonlyDeep<{
     conversationId: string;
     media: ReadonlyArray<MediaItemType>;
     audio: ReadonlyArray<MediaItemType>;
-    documents: ReadonlyArray<MediaItemType>;
     links: ReadonlyArray<LinkPreviewMediaItemType>;
+    documents: ReadonlyArray<MediaItemType>;
   };
 }>;
 type SetLoadingActionType = ReadonlyDeep<{
   type: typeof SET_LOADING;
   payload: {
     loading: boolean;
+  };
+}>;
+type SetTabActionType = ReadonlyDeep<{
+  type: typeof SET_TAB;
+  payload: {
+    tab: MediaGalleryStateType['tab'];
   };
 }>;
 
@@ -100,6 +109,7 @@ type MediaGalleryActionType = ReadonlyDeep<
   | MessageDeletedActionType
   | MessageExpiredActionType
   | SetLoadingActionType
+  | SetTabActionType
 >;
 
 function _sortItems<
@@ -223,7 +233,7 @@ function initialLoad(
 
 function loadMore(
   conversationId: string,
-  type: 'media' | 'audio' | 'documents' | 'links'
+  type: MediaTabType
 ): ThunkAction<
   void,
   RootStateType,
@@ -316,9 +326,19 @@ function loadMore(
   };
 }
 
+function setTab(tab: MediaGalleryStateType['tab']): SetTabActionType {
+  return {
+    type: SET_TAB,
+    payload: {
+      tab,
+    },
+  };
+}
+
 export const actions = {
   initialLoad,
   loadMore,
+  setTab,
 };
 
 export const useMediaGalleryActions = (): BoundActionCreatorsMapObject<
@@ -327,6 +347,7 @@ export const useMediaGalleryActions = (): BoundActionCreatorsMapObject<
 
 export function getEmptyState(): MediaGalleryStateType {
   return {
+    tab: 'media',
     conversationId: undefined,
     haveOldestDocument: false,
     haveOldestMedia: false,
@@ -357,7 +378,7 @@ export function reducer(
     const { payload } = action;
 
     return {
-      ...state,
+      tab: 'media',
       loading: false,
       conversationId: payload.conversationId,
       haveOldestMedia: payload.media.length === 0,
@@ -388,6 +409,15 @@ export function reducer(
       audio: _sortItems(audio.concat(state.audio)),
       links: _sortItems(links.concat(state.links)),
       documents: _sortItems(documents.concat(state.documents)),
+    };
+  }
+
+  if (action.type === SET_TAB) {
+    const { tab } = action.payload;
+
+    return {
+      ...state,
+      tab,
     };
   }
 

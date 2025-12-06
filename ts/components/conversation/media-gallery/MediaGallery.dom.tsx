@@ -1,13 +1,20 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { Fragment, useEffect, useRef, useCallback } from 'react';
+import React, {
+  Fragment,
+  useEffect,
+  useRef,
+  useCallback,
+  useState,
+} from 'react';
 
 import moment from 'moment';
 
 import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
+  MediaTabType,
   LinkPreviewMediaItemType,
   MediaItemType,
   GenericMediaItemType,
@@ -15,12 +22,10 @@ import type {
 import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.preload.js';
 import { AttachmentSection } from './AttachmentSection.dom.js';
 import { EmptyState } from './EmptyState.dom.js';
-import { Tabs } from '../../Tabs.dom.js';
-import { TabViews } from './types/TabViews.std.js';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
-import { usePrevious } from '../../../hooks/usePrevious.std.js';
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver.std.js';
 import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 
@@ -33,14 +38,12 @@ export type Props = {
   haveOldestDocument: boolean;
   loading: boolean;
   initialLoad: (id: string) => unknown;
-  loadMore: (
-    id: string,
-    type: 'media' | 'audio' | 'documents' | 'links'
-  ) => unknown;
+  loadMore: (id: string, type: MediaTabType) => unknown;
   media: ReadonlyArray<MediaItemType>;
   audio: ReadonlyArray<MediaItemType>;
-  documents: ReadonlyArray<MediaItemType>;
   links: ReadonlyArray<LinkPreviewMediaItemType>;
+  documents: ReadonlyArray<MediaItemType>;
+  tab: MediaTabType;
   saveAttachment: SaveAttachmentActionCreatorType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
   cancelAttachmentDownload: (options: { messageId: string }) => void;
@@ -50,7 +53,6 @@ export type Props = {
     messageId: string;
   }) => void;
 
-  renderMiniPlayer: () => JSX.Element;
   renderMediaItem: (props: {
     onItemClick: (event: ItemClickEvent) => unknown;
     mediaItem: GenericMediaItemType;
@@ -81,7 +83,7 @@ function MediaSection({
   | 'playAudio'
   | 'renderMediaItem'
 > & {
-  tab: TabViews;
+  tab: MediaTabType;
   mediaItems: ReadonlyArray<GenericMediaItemType>;
 }): JSX.Element {
   const onItemClick = useCallback(
@@ -194,25 +196,29 @@ export function MediaGallery({
   haveOldestDocument,
   i18n,
   initialLoad,
-  loading,
+  loading: reduxLoading,
   loadMore,
   media,
   audio,
   links,
   documents,
+  tab,
   saveAttachment,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   playAudio,
   showLightbox,
   renderMediaItem,
-  renderMiniPlayer,
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
-  const scrollObserverRef = useRef<HTMLDivElement | null>(null);
-  const intersectionObserver = useRef<IntersectionObserver | null>(null);
-  const loadingRef = useRef<boolean>(false);
-  const tabViewRef = useRef<TabViews>(TabViews.Media);
+  const [loading, setLoading] = useState(reduxLoading);
+
+  // Reset local state when redux finishes loading
+  useEffect(() => {
+    if (reduxLoading === false) {
+      setLoading(false);
+    }
+  }, [reduxLoading]);
 
   useEffect(() => {
     focusRef.current?.focus();
@@ -232,7 +238,6 @@ export function MediaGallery({
       return;
     }
     initialLoad(conversationId);
-    loadingRef.current = true;
   }, [
     conversationId,
     haveOldestMedia,
@@ -246,63 +251,42 @@ export function MediaGallery({
     documents.length,
   ]);
 
-  const previousLoading = usePrevious(loading, loading);
-  if (previousLoading && !loading) {
-    loadingRef.current = false;
-  }
-
+  const [setObserverRef, observerEntry] = useIntersectionObserver();
   useEffect(() => {
-    if (loading || !scrollObserverRef.current) {
+    if (loading) {
       return;
     }
 
-    intersectionObserver.current?.disconnect();
-    intersectionObserver.current = null;
+    if (!observerEntry?.isIntersecting) {
+      return;
+    }
 
-    intersectionObserver.current = new IntersectionObserver(
-      (entries: ReadonlyArray<IntersectionObserverEntry>) => {
-        if (loadingRef.current) {
-          return;
-        }
-
-        const entry = entries.find(
-          item => item.target === scrollObserverRef.current
-        );
-
-        if (entry && entry.intersectionRatio > 0) {
-          if (tabViewRef.current === TabViews.Media) {
-            if (!haveOldestMedia) {
-              loadMore(conversationId, 'media');
-              loadingRef.current = true;
-            }
-          } else if (tabViewRef.current === TabViews.Audio) {
-            if (!haveOldestAudio) {
-              loadMore(conversationId, 'audio');
-              loadingRef.current = true;
-            }
-          } else if (tabViewRef.current === TabViews.Documents) {
-            if (!haveOldestDocument) {
-              loadMore(conversationId, 'documents');
-              loadingRef.current = true;
-            }
-          } else if (tabViewRef.current === TabViews.Links) {
-            if (!haveOldestLink) {
-              loadMore(conversationId, 'links');
-              loadingRef.current = true;
-            }
-          } else {
-            throw missingCaseError(tabViewRef.current);
-          }
-        }
+    if (tab === 'media') {
+      if (haveOldestMedia) {
+        return;
       }
-    );
-    intersectionObserver.current.observe(scrollObserverRef.current);
-
-    return () => {
-      intersectionObserver.current?.disconnect();
-      intersectionObserver.current = null;
-    };
+      loadMore(conversationId, 'media');
+    } else if (tab === 'audio') {
+      if (haveOldestAudio) {
+        return;
+      }
+      loadMore(conversationId, 'audio');
+    } else if (tab === 'documents') {
+      if (haveOldestDocument) {
+        return;
+      }
+      loadMore(conversationId, 'documents');
+    } else if (tab === 'links') {
+      if (haveOldestLink) {
+        return;
+      }
+      loadMore(conversationId, 'links');
+    } else {
+      throw missingCaseError(tab);
+    }
+    setLoading(true);
   }, [
+    observerEntry,
     conversationId,
     haveOldestDocument,
     haveOldestMedia,
@@ -310,7 +294,22 @@ export function MediaGallery({
     haveOldestLink,
     loading,
     loadMore,
+    tab,
   ]);
+
+  let mediaItems: ReadonlyArray<GenericMediaItemType>;
+
+  if (tab === 'media') {
+    mediaItems = media;
+  } else if (tab === 'audio') {
+    mediaItems = audio;
+  } else if (tab === 'documents') {
+    mediaItems = documents;
+  } else if (tab === 'links') {
+    mediaItems = links;
+  } else {
+    throw new Error(`Unexpected select tab: ${tab}`);
+  }
 
   return (
     <div
@@ -318,74 +317,21 @@ export function MediaGallery({
       tabIndex={-1}
       ref={focusRef}
     >
-      <Tabs
-        initialSelectedTab={TabViews.Media}
-        tabs={[
-          {
-            id: TabViews.Media,
-            label: i18n('icu:media'),
-          },
-          {
-            id: TabViews.Audio,
-            label: i18n('icu:MediaGallery__tab__audio'),
-          },
-          {
-            id: TabViews.Links,
-            label: i18n('icu:MediaGallery__tab__links'),
-          },
-          {
-            id: TabViews.Documents,
-            label: i18n('icu:MediaGallery__tab__files'),
-          },
-        ]}
-      >
-        {({ selectedTab }) => {
-          let mediaItems: ReadonlyArray<GenericMediaItemType>;
-
-          if (selectedTab === TabViews.Media) {
-            tabViewRef.current = TabViews.Media;
-            mediaItems = media;
-          } else if (selectedTab === TabViews.Audio) {
-            tabViewRef.current = TabViews.Audio;
-            mediaItems = audio;
-          } else if (selectedTab === TabViews.Documents) {
-            tabViewRef.current = TabViews.Documents;
-            mediaItems = documents;
-          } else if (selectedTab === TabViews.Links) {
-            tabViewRef.current = TabViews.Links;
-            mediaItems = links;
-          } else {
-            throw new Error(`Unexpected select tab: ${selectedTab}`);
-          }
-
-          return (
-            <>
-              {renderMiniPlayer()}
-              <div
-                className={tw(
-                  'grow',
-                  'overflow-x-hidden overflow-y-auto',
-                  'p-5'
-                )}
-              >
-                <MediaSection
-                  i18n={i18n}
-                  loading={loading}
-                  tab={tabViewRef.current}
-                  mediaItems={mediaItems}
-                  saveAttachment={saveAttachment}
-                  showLightbox={showLightbox}
-                  kickOffAttachmentDownload={kickOffAttachmentDownload}
-                  cancelAttachmentDownload={cancelAttachmentDownload}
-                  playAudio={playAudio}
-                  renderMediaItem={renderMediaItem}
-                />
-                <div ref={scrollObserverRef} className={tw('h-px')} />
-              </div>
-            </>
-          );
-        }}
-      </Tabs>
+      <div className={tw('grow overflow-y-auto')}>
+        <MediaSection
+          i18n={i18n}
+          loading={loading}
+          tab={tab}
+          mediaItems={mediaItems}
+          saveAttachment={saveAttachment}
+          showLightbox={showLightbox}
+          kickOffAttachmentDownload={kickOffAttachmentDownload}
+          cancelAttachmentDownload={cancelAttachmentDownload}
+          playAudio={playAudio}
+          renderMediaItem={renderMediaItem}
+        />
+        <div ref={setObserverRef} className={tw('h-px')} />
+      </div>
     </div>
   );
 }

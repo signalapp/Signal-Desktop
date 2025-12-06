@@ -63,7 +63,6 @@ import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { reduce } from '../../util/iterables.std.js';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
 import type { PanelRenderType } from '../../types/Panels.std.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import { getHasStoriesSelector } from './stories2.dom.js';
@@ -1437,13 +1436,6 @@ export const getWasPanelAnimated = createSelector(
   (conversations): boolean => {
     return conversations.targetedConversationPanels.wasAnimated;
   }
-);
-
-export const getConversationTitle = createSelector(
-  getIntl,
-  getActivePanel,
-  (i18n, panel): string | undefined =>
-    getConversationTitleForPanelType(i18n, panel?.type)
 );
 
 // Note that this doesn't take into account max edit count. See canEditMessage.

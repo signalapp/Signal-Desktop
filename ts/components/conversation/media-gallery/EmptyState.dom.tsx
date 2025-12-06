@@ -4,13 +4,13 @@
 import React from 'react';
 
 import type { LocalizerType } from '../../../types/Util.std.js';
+import type { MediaTabType } from '../../../types/MediaItem.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { TabViews } from './types/TabViews.std.js';
 
 export type Props = {
   i18n: LocalizerType;
-  tab: TabViews;
+  tab: MediaTabType;
 };
 
 export function EmptyState({ i18n, tab }: Props): JSX.Element {
@@ -18,21 +18,21 @@ export function EmptyState({ i18n, tab }: Props): JSX.Element {
   let description: string;
 
   switch (tab) {
-    case TabViews.Media:
+    case 'media':
       title = i18n('icu:MediaGallery__EmptyState__title--media');
       description = i18n('icu:MediaGallery__EmptyState__description--media');
       break;
-    case TabViews.Audio:
+    case 'audio':
       title = i18n('icu:MediaGallery__EmptyState__title--audio');
       description = i18n('icu:MediaGallery__EmptyState__description--audio');
       break;
-    case TabViews.Documents:
+    case 'documents':
       title = i18n('icu:MediaGallery__EmptyState__title--documents');
       description = i18n(
         'icu:MediaGallery__EmptyState__description--documents-2'
       );
       break;
-    case TabViews.Links:
+    case 'links':
       title = i18n('icu:MediaGallery__EmptyState__title--links');
       description = i18n('icu:MediaGallery__EmptyState__description--links-2');
       break;

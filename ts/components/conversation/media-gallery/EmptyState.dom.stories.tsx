@@ -5,7 +5,6 @@ import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import type { Props } from './EmptyState.dom.js';
 import { EmptyState } from './EmptyState.dom.js';
-import { TabViews } from './types/TabViews.std.js';
 
 const { i18n } = window.SignalContext;
 
@@ -14,12 +13,12 @@ export default {
   argTypes: {
     tab: {
       control: { type: 'select' },
-      options: [TabViews.Media, TabViews.Documents, TabViews.Links],
+      options: ['media', 'audio', 'links', 'documents'],
     },
   },
   args: {
     i18n,
-    tab: TabViews.Media,
+    tab: 'media',
   },
 } satisfies Meta<Props>;
 
@@ -28,13 +27,17 @@ export function Default(args: Props): JSX.Element {
 }
 
 export function Media(args: Props): JSX.Element {
-  return <EmptyState {...args} tab={TabViews.Media} />;
+  return <EmptyState {...args} tab="media" />;
 }
 
-export function Documents(args: Props): JSX.Element {
-  return <EmptyState {...args} tab={TabViews.Documents} />;
+export function Audio(args: Props): JSX.Element {
+  return <EmptyState {...args} tab="audio" />;
 }
 
 export function Links(args: Props): JSX.Element {
-  return <EmptyState {...args} tab={TabViews.Links} />;
+  return <EmptyState {...args} tab="links" />;
+}
+
+export function Documents(args: Props): JSX.Element {
+  return <EmptyState {...args} tab="documents" />;
 }

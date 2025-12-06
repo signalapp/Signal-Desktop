@@ -1912,35 +1912,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
-    "line": "  const loadingRef = useRef<boolean>(false);",
+    "path": "ts/components/conversation/pinned-messages/PinnedMessagesPanel.dom.tsx",
+    "line": "  const containerElementRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2024-09-03T00:45:23.978Z",
-    "reasonDetail": "A boolean to help us avoid making too many 'load more' requests"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
-    "line": "  const intersectionObserver = useRef<IntersectionObserver | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-09-03T00:45:23.978Z",
-    "reasonDetail": "A non-modifying reference to IntersectionObserver"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
-    "line": "  const scrollObserverRef = useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-09-03T00:45:23.978Z",
-    "reasonDetail": "A non-modifying reference to the DOM"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/media-gallery/MediaGallery.dom.tsx",
-    "line": "  const tabViewRef = useRef<TabViews>(TabViews.Media);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-09-03T00:45:23.978Z",
-    "reasonDetail": "Because we need the current tab value outside the callback"
+    "updated": "2025-11-20T18:33:59.075Z"
   },
   {
     "rule": "React-useRef",
@@ -1949,13 +1924,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-11-06T20:28:00.760Z",
     "reasonDetail": "Ref for timer"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/pinned-messages/PinnedMessagesPanel.dom.tsx",
-    "line": "  const containerElementRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-11-20T18:33:59.075Z"
   },
   {
     "rule": "React-useRef",

@@ -17,6 +17,7 @@ import { createLogger } from '../../logging/log.std.js';
 import { PanelType } from '../../types/Panels.std.js';
 import { toLogFormat } from '../../types/errors.std.js';
 import { SmartAllMedia } from './AllMedia.preload.js';
+import { SmartAllMediaHeader } from './AllMediaHeader.preload.js';
 import { SmartChatColorPicker } from './ChatColorPicker.preload.js';
 import { SmartContactDetail } from './ContactDetail.preload.js';
 import { SmartConversationDetails } from './ConversationDetails.preload.js';
@@ -39,6 +40,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
+import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -288,6 +290,19 @@ const PanelContainer = forwardRef<
   const { popPanelForConversation } = useConversationsActions();
   const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
 
+  let info: JSX.Element | undefined;
+  if (panel.type === PanelType.AllMedia) {
+    info = <SmartAllMediaHeader />;
+  } else if (conversationTitle != null) {
+    info = (
+      <div className="ConversationPanel__header__info">
+        <div className="ConversationPanel__header__info__title">
+          {conversationTitle}
+        </div>
+      </div>
+    );
+  }
+
   const focusRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!isActive) {
@@ -315,18 +330,14 @@ const PanelContainer = forwardRef<
           onClick={popPanelForConversation}
           type="button"
         />
-        {conversationTitle && (
-          <div className="ConversationPanel__header__info">
-            <div className="ConversationPanel__header__info__title">
-              {conversationTitle}
-            </div>
-          </div>
-        )}
+        {info}
       </div>
+      <SmartMiniPlayer shouldFlow />
       <div
         className={classNames(
           'ConversationPanel__body',
           panel.type !== PanelType.PinnedMessages &&
+            panel.type !== PanelType.AllMedia &&
             'ConversationPanel__body--padding'
         )}
         ref={focusRef}

@@ -16,7 +16,7 @@ export function getConversationTitleForPanelType(
   }
 
   if (panelType === PanelType.AllMedia) {
-    return i18n('icu:allMedia');
+    return undefined;
   }
 
   if (panelType === PanelType.ChatColorEditor) {
@@ -24,11 +24,11 @@ export function getConversationTitleForPanelType(
   }
 
   if (panelType === PanelType.ContactDetails) {
-    return '';
+    return undefined;
   }
 
   if (panelType === PanelType.ConversationDetails) {
-    return '';
+    return undefined;
   }
 
   if (panelType === PanelType.GroupInvites) {
@@ -52,7 +52,7 @@ export function getConversationTitleForPanelType(
   }
 
   if (panelType === PanelType.StickerManager) {
-    return '';
+    return undefined;
   }
 
   if (
