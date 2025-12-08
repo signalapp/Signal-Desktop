@@ -3,7 +3,7 @@
 
 import { createSelector } from 'reselect';
 
-import { innerIsBucketValueEnabled } from '../../RemoteConfig.dom.js';
+import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.js';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.js';
 import type { StateType } from '../reducer.preload.js';
 import type { ItemsStateType } from '../ducks/items.preload.js';
@@ -70,7 +70,7 @@ export const isRemoteConfigBucketEnabled = (
   aci: AciString | undefined
 ): boolean => {
   const flagValue = config[name]?.value;
-  return innerIsBucketValueEnabled(name, flagValue, e164, aci);
+  return isCountryPpmCsvBucketEnabled(name, flagValue, e164, aci);
 };
 
 export const getRemoteConfig = createSelector(

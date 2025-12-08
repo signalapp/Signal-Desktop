@@ -6,13 +6,16 @@ import * as sinon from 'sinon';
 import { EventEmitter } from 'node:events';
 import { v4 as uuid } from 'uuid';
 
-import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher.preload.js';
+import { ReleaseNoteAndMegaphoneFetcher } from '../../services/releaseNoteAndMegaphoneFetcher.preload.js';
 import * as durations from '../../util/durations/index.std.js';
 import { generateAci } from '../../types/ServiceId.std.js';
 import { saveNewMessageBatcher } from '../../util/messageBatcher.preload.js';
 import type { CIType } from '../../CI.preload.js';
 import type { ConversationModel } from '../../models/conversations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+
+const { getAllMegaphones } = DataReader;
 
 const waitUntil = (
   condition: () => boolean,
@@ -34,7 +37,7 @@ const waitUntil = (
   });
 };
 
-describe('ReleaseNotesFetcher', () => {
+describe('ReleaseNoteAndMegaphoneFetcher', () => {
   const NEXT_FETCH_TIME_STORAGE_KEY = 'releaseNotesNextFetchTime';
   const PREVIOUS_MANIFEST_HASH_STORAGE_KEY = 'releaseNotesPreviousManifestHash';
   const VERSION_WATERMARK_STORAGE_KEY = 'releaseNotesVersionWatermark';
@@ -60,6 +63,26 @@ describe('ReleaseNotesFetcher', () => {
       ctaId: string;
       link: string;
     }>;
+    manifestMegaphones?: Array<{
+      uuid: string;
+      priority: number;
+      desktopMinVersion: string;
+      dontShowBeforeEpochSeconds: number;
+      dontShowAfterEpochSeconds: number;
+      showForNumberOfDays: number;
+      conditionalId: string;
+      primaryCtaId: string;
+      secondaryCtaId: string;
+      secondaryCtaData: object;
+    }>;
+    megaphone?: {
+      uuid: string;
+      title: string;
+      body: string;
+      image?: string;
+      primaryCtaTest?: string;
+      secondaryCtaText?: string;
+    };
     releaseNote?: {
       uuid: string;
       title: string;
@@ -74,9 +97,10 @@ describe('ReleaseNotesFetcher', () => {
     now?: number;
   };
 
-  let sandbox = sinon.createSandbox();
+  let sandbox: sinon.SinonSandbox;
   let clock: sinon.SinonFakeTimers | undefined;
   let originalSignalCI: CIType | undefined;
+  let fakeMegaphoneUuid: string;
 
   async function setupTest(options: TestSetupOptions = {}) {
     sandbox = sinon.createSandbox();
@@ -95,6 +119,8 @@ describe('ReleaseNotesFetcher', () => {
       isOnline = true,
       manifestHash = 'abc123',
       manifestAnnouncements,
+      manifestMegaphones,
+      megaphone,
       releaseNote,
       conversationIsBlocked = false,
       now = 1621500000000,
@@ -102,6 +128,7 @@ describe('ReleaseNotesFetcher', () => {
 
     const events = new EventEmitter();
     const fakeNoteUuid = uuid();
+    fakeMegaphoneUuid = uuid();
 
     // Create fake conversation
     const fakeConversation = {
@@ -126,6 +153,16 @@ describe('ReleaseNotesFetcher', () => {
     // Stub server methods
     const serverStubs = {
       isOnline: sandbox.stub().returns(isOnline),
+      getMegaphone: sandbox.stub().resolves(
+        megaphone || {
+          uuid: fakeMegaphoneUuid,
+          title: 'megaphone',
+          body: 'cats',
+          image: 'https://signal.org/axolotl.png',
+          primaryCtaTest: 'donate',
+          secondaryCtaText: 'snooze',
+        }
+      ),
       getReleaseNotesManifestHash: sandbox.stub().resolves(manifestHash),
       getReleaseNotesManifest: sandbox.stub().resolves({
         announcements: manifestAnnouncements || [
@@ -134,6 +171,24 @@ describe('ReleaseNotesFetcher', () => {
             desktopMinVersion: noteVersion,
             ctaId: 'test-cta',
             link: 'https://signal.org',
+          },
+        ],
+        megaphones: manifestMegaphones || [
+          {
+            uuid: fakeMegaphoneUuid,
+            priority: 100,
+            desktopMinVersion: noteVersion,
+            dontShowBeforeEpochSeconds: Math.floor(
+              (Date.now() - 1 * durations.DAY) / 1000
+            ),
+            dontShowAfterEpochSeconds: Math.floor(
+              (Date.now() + 30 * durations.DAY) / 1000
+            ),
+            showForNumberOfDays: 30,
+            conditionalId: 'standard_donate',
+            primaryCtaId: 'donate',
+            secondaryCtaId: 'snooze',
+            secondaryCtaData: { snoozeDurationDays: [5, 7, 100] },
           },
         ],
       }),
@@ -172,7 +227,11 @@ describe('ReleaseNotesFetcher', () => {
 
     // Helper to run fetcher and wait for completion
     const runFetcherAndWaitForCompletion = async () => {
-      await ReleaseNotesFetcher.init(serverStubs, events, isNewVersion);
+      await ReleaseNoteAndMegaphoneFetcher.init(
+        serverStubs,
+        events,
+        isNewVersion
+      );
 
       // Wait for SignalCI.handleEvent to be called
       const signalCI = window.SignalCI as unknown as {
@@ -246,9 +305,15 @@ describe('ReleaseNotesFetcher', () => {
     };
   }
 
+  beforeEach(async () => {
+    await DataWriter.removeAll();
+    await itemStorage.user.setAciAndDeviceId(generateAci(), 1);
+    await itemStorage.user.setNumber('+14155550111');
+  });
+
   afterEach(async () => {
     // Reset static state
-    ReleaseNotesFetcher.initComplete = false;
+    ReleaseNoteAndMegaphoneFetcher.initComplete = false;
 
     // Restore all stubs and timers
     sandbox.restore();
@@ -369,6 +434,136 @@ describe('ReleaseNotesFetcher', () => {
       sinon.assert.called(window.MessageCache.register as sinon.SinonStub);
 
       assert.strictEqual(getCurrentWatermark(), 'v1.37.0');
+    });
+
+    it('processes megaphones', async () => {
+      const myMegaphone = {
+        uuid: uuid(),
+        priority: 100,
+        desktopMinVersion: 'v1.37.0',
+        dontShowBeforeEpochSeconds: Math.floor(
+          (Date.now() - 1 * durations.DAY) / 1000
+        ),
+        dontShowAfterEpochSeconds: Math.floor(
+          (Date.now() + 30 * durations.DAY) / 1000
+        ),
+        showForNumberOfDays: 30,
+        conditionalId: 'standard_donate',
+        primaryCtaId: 'donate',
+        secondaryCtaId: 'snooze',
+        secondaryCtaData: { snoozeDurationDays: [5, 7, 100] },
+      };
+      const manifestMegaphones = [myMegaphone];
+
+      const { setupStorage, runFetcherAndWaitForCompletion, serverStubs } =
+        await setupTest({
+          storedPreviousManifestHash: 'old-hash',
+          manifestHash: 'new-hash-123',
+          currentVersion: 'v1.37.0',
+          noteVersion: 'v1.37.0',
+          storedVersionWatermark: 'v1.36.0',
+          isNewVersion: true,
+          manifestMegaphones,
+          megaphone: {
+            uuid: myMegaphone.uuid,
+            title: 'megaphone',
+            body: 'cats',
+            image: 'https://signal.org/axolotl.png',
+            primaryCtaTest: 'donate',
+            secondaryCtaText: 'snooze',
+          },
+        });
+
+      await setupStorage();
+      await runFetcherAndWaitForCompletion();
+
+      sinon.assert.calledOnce(serverStubs.getMegaphone);
+      sinon.assert.calledOnce(serverStubs.getReleaseNoteImageAttachment);
+
+      const dbMegaphones = await getAllMegaphones();
+      const dbMegaphone = dbMegaphones[0];
+      assert.strictEqual(dbMegaphones.length, 1);
+      assert.strictEqual(dbMegaphone.id, myMegaphone.uuid);
+      assert.strictEqual(
+        dbMegaphone.dontShowBeforeEpochMs,
+        myMegaphone.dontShowBeforeEpochSeconds * 1000
+      );
+      assert.strictEqual(
+        dbMegaphone.dontShowAfterEpochMs,
+        myMegaphone.dontShowAfterEpochSeconds * 1000
+      );
+    });
+
+    it('only processes megaphones with matching countries value', async () => {
+      const baseMegaphone = {
+        priority: 100,
+        desktopMinVersion: 'v1.37.0',
+        dontShowBeforeEpochSeconds: Math.floor(
+          (Date.now() - 1 * durations.DAY) / 1000
+        ),
+        dontShowAfterEpochSeconds: Math.floor(
+          (Date.now() + 30 * durations.DAY) / 1000
+        ),
+        showForNumberOfDays: 30,
+        conditionalId: 'standard_donate',
+        primaryCtaId: 'donate',
+        secondaryCtaId: 'snooze',
+        secondaryCtaData: { snoozeDurationDays: [5, 7, 100] },
+      };
+      const megaphoneForMyCountry = {
+        ...baseMegaphone,
+        uuid: uuid(),
+        countries: '1:1000000',
+      };
+      const megaphoneForDifferentCountry = {
+        ...baseMegaphone,
+        uuid: uuid(),
+        countries: '20:1000000,212:1000000,213:1000000,216:1000000',
+      };
+      const megaphoneForMyCountryBucketZeroPPM = {
+        ...baseMegaphone,
+        uuid: uuid(),
+        countries: '1:0',
+      };
+      const wildcardMegaphone = {
+        ...baseMegaphone,
+        uuid: uuid(),
+        countries: '*:1000000',
+      };
+      const manifestMegaphones = [
+        megaphoneForDifferentCountry,
+        megaphoneForMyCountry,
+        megaphoneForMyCountryBucketZeroPPM,
+        wildcardMegaphone,
+      ];
+
+      const { setupStorage, runFetcherAndWaitForCompletion, serverStubs } =
+        await setupTest({
+          storedPreviousManifestHash: 'old-hash',
+          manifestHash: 'new-hash-123',
+          currentVersion: 'v1.37.0',
+          noteVersion: 'v1.37.0',
+          storedVersionWatermark: 'v1.36.0',
+          isNewVersion: true,
+          manifestMegaphones,
+          megaphone: {
+            uuid: megaphoneForMyCountry.uuid,
+            title: 'megaphone',
+            body: 'cats',
+            primaryCtaTest: 'donate',
+            secondaryCtaText: 'snooze',
+          },
+        });
+
+      await setupStorage();
+      await runFetcherAndWaitForCompletion();
+
+      sinon.assert.calledTwice(serverStubs.getMegaphone);
+
+      const dbMegaphones = await getAllMegaphones();
+      assert.strictEqual(dbMegaphones.length, 2);
+      assert.strictEqual(dbMegaphones[0].id, megaphoneForMyCountry.uuid);
+      assert.strictEqual(dbMegaphones[1].id, wildcardMegaphone.uuid);
     });
   });
 });

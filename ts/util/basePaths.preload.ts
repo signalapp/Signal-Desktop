@@ -9,6 +9,7 @@ import {
   getBadgesPath,
   getAvatarsPath,
   getDownloadsPath,
+  getMegaphonesPath,
 } from '../windows/main/attachments.preload.js';
 
 const userDataPath = window.SignalContext.getPath('userData');
@@ -20,3 +21,4 @@ export const TEMP_PATH = getTempPath(userDataPath);
 export const BADGES_PATH = getBadgesPath(userDataPath);
 export const AVATARS_PATH = getAvatarsPath(userDataPath);
 export const DOWNLOADS_PATH = getDownloadsPath(userDataPath);
+export const MEGAPHONES_PATH = getMegaphonesPath(userDataPath);

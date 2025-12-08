@@ -264,6 +264,15 @@ import {
   deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
 } from './server/pinnedMessages.std.js';
+import {
+  getAllMegaphones,
+  createMegaphone,
+  updateMegaphone,
+  deleteMegaphone,
+  internalDeleteAllMegaphones,
+  getAllMegaphoneImageLocalPaths,
+  hasMegaphone,
+} from './server/megaphones.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -478,6 +487,9 @@ export const DataReader: ServerReadableInterface = {
   hasAllChatsChatFolder,
   getOldestDeletedChatFolder,
 
+  getAllMegaphones,
+  hasMegaphone,
+
   getPinnedMessagesForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
 
@@ -509,6 +521,7 @@ export const DataReader: ServerReadableInterface = {
 
   getAllBadges,
   getAllBadgeImageFileLocalPaths,
+  getAllMegaphoneImageLocalPaths,
   getAllStoryDistributionsWithMembers,
   getStoryDistributionWithMembers,
   _getAllStoryDistributions,
@@ -734,6 +747,11 @@ export const DataWriter: ServerWritableInterface = {
   updateChatFolderDeletedAtTimestampMsFromSync,
   markChatFolderDeleted,
   deleteExpiredChatFolders,
+
+  createMegaphone,
+  updateMegaphone,
+  deleteMegaphone,
+  internalDeleteAllMegaphones,
 
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
@@ -8185,6 +8203,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM items;
       DELETE FROM jobs;
       DELETE FROM kyberPreKeys;
+      DELETE FROM megaphones;
       DELETE FROM message_attachments;
       DELETE FROM messages_fts;
       DELETE FROM messages;

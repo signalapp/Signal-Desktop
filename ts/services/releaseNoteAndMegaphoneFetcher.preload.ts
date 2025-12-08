@@ -14,6 +14,7 @@ import { drop } from '../util/drop.std.js';
 import {
   writeNewAttachmentData,
   processNewAttachment,
+  writeNewMegaphoneImageFileData,
 } from '../util/migrations.preload.js';
 import { strictAssert } from '../util/assert.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
@@ -28,27 +29,37 @@ import type {
   ReleaseNotesManifestResponseType,
   ReleaseNoteResponseType,
   isOnline as doIsOnline,
+  getMegaphone as doGetMegaphone,
   getReleaseNote as doGetReleaseNote,
   getReleaseNoteHash as doGetReleaseNoteHash,
   getReleaseNoteImageAttachment as doGetReleaseNoteImageAttachment,
   getReleaseNotesManifest as doGetReleaseNotesManifest,
   getReleaseNotesManifestHash as doGetReleaseNotesManifestHash,
+  MegaphoneResponseType,
 } from '../textsecure/WebAPI.preload.js';
 import type { WithRequiredProperties } from '../types/Util.std.js';
 import { MessageModel } from '../models/messages.preload.js';
 import { stringToMIMEType } from '../types/MIME.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import {
+  isRemoteMegaphoneEnabled,
+  type RemoteMegaphoneType,
+} from '../types/Megaphone.std.js';
+import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
+import type { AciString } from '../types/ServiceId.std.js';
 
 const { last } = lodash;
 
-const log = createLogger('releaseNotesFetcher');
+const log = createLogger('releaseNoteAndMegaphoneFetcher');
 
-const FETCH_INTERVAL = 3 * durations.DAY;
+const FETCH_INTERVAL = 1 * durations.DAY;
 const ERROR_RETRY_DELAY = 3 * durations.HOUR;
 const NEXT_FETCH_TIME_STORAGE_KEY = 'releaseNotesNextFetchTime';
 const PREVIOUS_MANIFEST_HASH_STORAGE_KEY = 'releaseNotesPreviousManifestHash';
 const VERSION_WATERMARK_STORAGE_KEY = 'releaseNotesVersionWatermark';
+const BUCKET_VALUE_HASH_SALT = 'ReleaseNoteAndMegaphoneFetcher';
 
 type MinimalEventsType = {
   on(event: 'timetravel', callback: () => void): void;
@@ -74,8 +85,19 @@ const STYLE_MAPPING: Record<string, BodyRange.Style> = {
   mono: BodyRange.Style.MONOSPACE,
 };
 
+type ManifestMegaphoneType = WithRequiredProperties<
+  ReleaseNotesManifestResponseType['megaphones'][0],
+  'desktopMinVersion'
+>;
+
+type LocaleMegaphoneType = MegaphoneResponseType & {
+  imagePath: string | null;
+  localeFetched: string;
+};
+
 export type ServerType = Readonly<{
   isOnline: typeof doIsOnline;
+  getMegaphone: typeof doGetMegaphone;
   getReleaseNote: typeof doGetReleaseNote;
   getReleaseNoteHash: typeof doGetReleaseNoteHash;
   getReleaseNoteImageAttachment: typeof doGetReleaseNoteImageAttachment;
@@ -83,7 +105,7 @@ export type ServerType = Readonly<{
   getReleaseNotesManifestHash: typeof doGetReleaseNotesManifestHash;
 }>;
 
-export class ReleaseNotesFetcher {
+export class ReleaseNoteAndMegaphoneFetcher {
   static initComplete = false;
   #timeout: NodeJS.Timeout | undefined;
   #isRunning = false;
@@ -120,16 +142,160 @@ export class ReleaseNotesFetcher {
     return currentVersion;
   }
 
-  async #getReleaseNote(
-    note: ManifestReleaseNoteType
-  ): Promise<ReleaseNoteType | undefined> {
-    const { uuid, ctaId, link } = note;
+  #getLocales(): ReadonlyArray<string> {
     const globalLocale = new Intl.Locale(window.SignalContext.getI18nLocale());
-    const localesToTry = [
+    return [
       globalLocale.toString(),
       globalLocale.language.toString(),
       'en',
     ].map(locale => locale.toLocaleLowerCase().replace('-', '_'));
+  }
+
+  async #maybeGetLocaleMegaphone(
+    uuid: string,
+    locales: ReadonlyArray<string>
+  ): Promise<LocaleMegaphoneType | undefined> {
+    for (const locale of locales) {
+      // megaphones share URL with release notes
+      // eslint-disable-next-line no-await-in-loop
+      const hash = await this.#server.getReleaseNoteHash({
+        uuid,
+        locale,
+      });
+      if (hash === undefined) {
+        continue;
+      }
+
+      // eslint-disable-next-line no-await-in-loop
+      const localeMegaphone = await this.#server.getMegaphone({ uuid, locale });
+      if (localeMegaphone == null) {
+        log.warn(
+          `processMegaphones could not fetch locale megaphone for ${uuid}, skipping`
+        );
+        continue;
+      }
+
+      // Fetch image and save locally
+      let imagePath: string | null;
+      if (localeMegaphone.image) {
+        const { imageData: rawAttachmentData } =
+          // eslint-disable-next-line no-await-in-loop
+          await this.#server.getReleaseNoteImageAttachment(
+            localeMegaphone.image
+          );
+        // eslint-disable-next-line no-await-in-loop
+        imagePath = await writeNewMegaphoneImageFileData(rawAttachmentData);
+      } else {
+        imagePath = null;
+      }
+
+      return {
+        ...localeMegaphone,
+        imagePath,
+        localeFetched: locale,
+      };
+    }
+
+    return undefined;
+  }
+
+  static isCountryCodeMatch({
+    countryPpmCsv,
+    e164,
+    aci,
+  }: {
+    countryPpmCsv: string | undefined;
+    e164: string | undefined;
+    aci: AciString | undefined;
+  }): boolean {
+    if (!countryPpmCsv) {
+      return true;
+    }
+
+    // Megaphone per country config uses the RemoteConfig country PPM CSV format
+    return isCountryPpmCsvBucketEnabled(
+      BUCKET_VALUE_HASH_SALT,
+      countryPpmCsv,
+      e164,
+      aci
+    );
+  }
+
+  async #processMegaphones(
+    megaphones: ReadonlyArray<ManifestMegaphoneType>
+  ): Promise<void> {
+    const nowSeconds = Math.round(Date.now() / 1000);
+    const ourE164 = itemStorage.user.getNumber();
+    const ourAci = itemStorage.user.getAci();
+    const locales = this.#getLocales();
+
+    for (const megaphone of megaphones) {
+      const { uuid } = megaphone;
+      if (
+        nowSeconds > megaphone.dontShowAfterEpochSeconds ||
+        !ReleaseNoteAndMegaphoneFetcher.isCountryCodeMatch({
+          countryPpmCsv: megaphone.countries,
+          e164: ourE164,
+          aci: ourAci,
+        }) ||
+        // eslint-disable-next-line no-await-in-loop
+        (await DataReader.hasMegaphone(uuid))
+      ) {
+        continue;
+      }
+
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const localeDetail = await this.#maybeGetLocaleMegaphone(uuid, locales);
+        if (localeDetail == null) {
+          log.warn(
+            `processMegaphones: could not fetch locale megaphone for ${uuid}, skipping`
+          );
+          continue;
+        }
+
+        // Create the megaphone
+        log.info(`processMegaphones: saving megaphone ${uuid}`);
+        const hydratedMegaphone: RemoteMegaphoneType = {
+          id: uuid,
+          desktopMinVersion: megaphone.desktopMinVersion,
+          priority: megaphone.priority,
+          dontShowBeforeEpochMs: megaphone.dontShowBeforeEpochSeconds * 1000,
+          dontShowAfterEpochMs: megaphone.dontShowAfterEpochSeconds * 1000,
+          showForNumberOfDays: megaphone.showForNumberOfDays,
+          primaryCtaId: megaphone.primaryCtaId ?? null,
+          secondaryCtaId: megaphone.secondaryCtaId ?? null,
+          primaryCtaData: megaphone.primaryCtaData ?? null,
+          secondaryCtaData: megaphone.secondaryCtaData ?? null,
+          conditionalId: megaphone.conditionalId ?? null,
+          title: localeDetail.title,
+          body: localeDetail.body,
+          primaryCtaText: localeDetail.primaryCtaText ?? null,
+          secondaryCtaText: localeDetail.secondaryCtaText ?? null,
+          imagePath: localeDetail.imagePath,
+          localeFetched: localeDetail.localeFetched,
+          shownAt: null,
+          snoozedAt: null,
+          snoozeCount: 0,
+          isFinished: false,
+        };
+        // eslint-disable-next-line no-await-in-loop
+        await DataWriter.createMegaphone(hydratedMegaphone);
+      } catch (error) {
+        // Don't add it, we'll try again later
+        log.warn(
+          `processMegaphones: failed for ${uuid}`,
+          Errors.toLogFormat(error)
+        );
+      }
+    }
+  }
+
+  async #getReleaseNote(
+    note: ManifestReleaseNoteType
+  ): Promise<ReleaseNoteType | undefined> {
+    const { uuid, ctaId, link } = note;
+    const localesToTry = this.#getLocales();
 
     for (const localeToTry of localesToTry) {
       try {
@@ -369,6 +535,17 @@ export class ReleaseNotesFetcher {
         );
         const manifest = await this.#server.getReleaseNotesManifest();
         const currentVersion = window.getVersion();
+
+        if (isRemoteMegaphoneEnabled()) {
+          // Remote megaphones can be saved prior to desktopMinVersion.
+          // Saved megaphones are periodically checked to see if we should show them.
+          const validMegaphones = manifest.megaphones.filter(
+            (megaphone): megaphone is ManifestMegaphoneType =>
+              megaphone.desktopMinVersion != null
+          );
+          await this.#processMegaphones(validMegaphones);
+        }
+
         const validNotes = manifest.announcements.filter(
           (note): note is ManifestReleaseNoteType =>
             note.desktopMinVersion != null &&
@@ -420,13 +597,13 @@ export class ReleaseNotesFetcher {
     events: MinimalEventsType,
     isNewVersion: boolean
   ): Promise<void> {
-    if (ReleaseNotesFetcher.initComplete) {
+    if (ReleaseNoteAndMegaphoneFetcher.initComplete) {
       return;
     }
 
-    ReleaseNotesFetcher.initComplete = true;
+    ReleaseNoteAndMegaphoneFetcher.initComplete = true;
 
-    const listener = new ReleaseNotesFetcher(server);
+    const listener = new ReleaseNoteAndMegaphoneFetcher(server);
 
     if (isNewVersion) {
       await listener.#scheduleForNextRun({ isNewVersion });

@@ -13,6 +13,7 @@ import {
   getAbsoluteAttachmentPath,
   getAbsoluteDownloadsPath,
   getAbsoluteDraftPath,
+  getAbsoluteMegaphoneImageFilePath,
 } from '../util/migrations.preload.js';
 import {
   getDownloadsPath,
@@ -23,13 +24,13 @@ import {
 import { generateAci } from '../types/ServiceId.std.js';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
+import type { RemoteMegaphoneId } from '../types/Megaphone.std.js';
 
 const { emptyDir, ensureFile } = fsExtra;
 
-function getAbsolutePath(
-  path: string,
-  type: 'attachment' | 'download' | 'draft'
-) {
+type TestAttachmentTypes = 'attachment' | 'download' | 'draft' | 'megaphone';
+
+function getAbsolutePath(path: string, type: TestAttachmentTypes) {
   switch (type) {
     case 'attachment':
       return getAbsoluteAttachmentPath(path);
@@ -37,29 +38,25 @@ function getAbsolutePath(
       return getAbsoluteDownloadsPath(path);
     case 'draft':
       return getAbsoluteDraftPath(path);
+    case 'megaphone':
+      return getAbsoluteMegaphoneImageFilePath(path);
     default:
       throw missingCaseError(type);
   }
 }
 
-async function writeFile(
-  path: string,
-  type: 'attachment' | 'download' | 'draft'
-) {
+async function writeFile(path: string, type: TestAttachmentTypes) {
   await ensureFile(getAbsolutePath(path, type));
 }
 
-async function writeFiles(
-  num: number,
-  type: 'attachment' | 'download' | 'draft'
-) {
+async function writeFiles(num: number, type: TestAttachmentTypes) {
   for (let i = 0; i < num; i += 1) {
     // eslint-disable-next-line no-await-in-loop
     await writeFile(`${type}${i}`, type);
   }
 }
 
-function listFiles(type: 'attachment' | 'download' | 'draft'): Array<string> {
+function listFiles(type: TestAttachmentTypes): Array<string> {
   return readdirSync(dirname(getAbsolutePath('fakename', type)));
 }
 
@@ -418,5 +415,39 @@ describe('cleanupOrphanedAttachments', () => {
 
       assert.strictEqual(attachmentFilesLeftOnDisk.length, 0);
     });
+  });
+
+  it('does not delete megaphone image paths', async () => {
+    // Write 2 files so 1 is orphaned
+    await writeFiles(2, 'megaphone');
+
+    await DataWriter.createMegaphone({
+      id: generateUuid() as RemoteMegaphoneId,
+      desktopMinVersion: '1.0.0',
+      priority: 1,
+      dontShowBeforeEpochMs: 0,
+      dontShowAfterEpochMs: Date.now() + 9001,
+      showForNumberOfDays: 7,
+      primaryCtaId: null,
+      secondaryCtaId: null,
+      primaryCtaData: null,
+      secondaryCtaData: null,
+      conditionalId: null,
+      title: 'a',
+      body: 'b',
+      primaryCtaText: null,
+      secondaryCtaText: null,
+      imagePath: 'megaphone0',
+      localeFetched: 'en',
+      shownAt: null,
+      snoozedAt: null,
+      snoozeCount: 0,
+      isFinished: false,
+    });
+
+    await DataWriter.cleanupOrphanedAttachments({ _block: true });
+
+    // Only the file associated with the megaphone is retained
+    assert.sameDeepMembers(listFiles('megaphone'), ['megaphone0']);
   });
 });

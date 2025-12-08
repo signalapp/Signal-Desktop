@@ -112,6 +112,11 @@ import type {
 import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
 import type { JobCancelReason } from '../jobs/types.std.js';
+import {
+  RemoteMegaphoneSecondaryCtaDataSchema,
+  RemoteMegaphoneUnknownCtaDataSchema,
+  type RemoteMegaphoneId,
+} from '../types/Megaphone.std.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -1375,10 +1380,16 @@ export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
 >;
 
-export type GetReleaseNoteOptionsType = Readonly<{
-  uuid: string;
-  locale: string;
-}>;
+export const megaphoneSchema = z.object({
+  uuid: z.string(),
+  image: z.string().optional(),
+  title: z.string(),
+  body: z.string(),
+  primaryCtaText: z.string().optional(),
+  secondaryCtaText: z.string().optional(),
+});
+
+export type MegaphoneResponseType = z.infer<typeof megaphoneSchema>;
 
 export const releaseNoteSchema = z.object({
   uuid: z.string(),
@@ -1418,6 +1429,22 @@ export const releaseNotesManifestSchema = z.object({
       desktopMinVersion: z.string().optional(),
       link: z.string().optional(),
       ctaId: z.string().optional(),
+    })
+    .array(),
+  megaphones: z
+    .object({
+      uuid: z.intersection(z.string(), z.custom<RemoteMegaphoneId>()),
+      priority: z.number(),
+      countries: z.string().optional(),
+      desktopMinVersion: z.string().optional(),
+      dontShowBeforeEpochSeconds: z.number(),
+      dontShowAfterEpochSeconds: z.number(),
+      showForNumberOfDays: z.number().nonnegative(),
+      conditionalId: z.string().optional(),
+      primaryCtaId: z.string().optional(),
+      primaryCtaData: RemoteMegaphoneUnknownCtaDataSchema.optional(),
+      secondaryCtaId: z.string().optional(),
+      secondaryCtaData: RemoteMegaphoneSecondaryCtaDataSchema.optional(),
     })
     .array(),
 });
@@ -2109,6 +2136,24 @@ export async function redeemReceipt(
   });
 }
 
+// Megaphones have the same path format as release notes, but different response schema.
+export async function getMegaphone({
+  uuid,
+  locale,
+}: {
+  uuid: string;
+  locale: string;
+}): Promise<MegaphoneResponseType> {
+  return _ajax({
+    call: 'releaseNotes',
+    host: 'resources',
+    httpType: 'GET',
+    responseType: 'json',
+    urlParameters: `/${uuid}/${locale}.json`,
+    zodSchema: megaphoneSchema,
+  });
+}
+
 export async function getReleaseNoteHash({
   uuid,
   locale,
@@ -2132,6 +2177,7 @@ export async function getReleaseNoteHash({
 
   return etag;
 }
+
 export async function getReleaseNote({
   uuid,
   locale,

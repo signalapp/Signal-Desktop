@@ -71,6 +71,10 @@ import type {
   PinnedMessageParams,
 } from '../types/PinnedMessage.std.js';
 import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.js';
+import type {
+  RemoteMegaphoneId,
+  RemoteMegaphoneType,
+} from '../types/Megaphone.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -971,6 +975,9 @@ type ReadableInterface = {
   hasAllChatsChatFolder: () => boolean;
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
+  getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
+  hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
+
   getPinnedMessagesForConversation: (
     conversationId: string
   ) => ReadonlyArray<PinnedMessage>;
@@ -1335,6 +1342,11 @@ type WritableInterface = {
     messageQueueTime: number
   ) => ReadonlyArray<ChatFolderId>;
 
+  createMegaphone: (megaphone: RemoteMegaphoneType) => void;
+  updateMegaphone: (megaphone: RemoteMegaphoneType) => void;
+  deleteMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
+  internalDeleteAllMegaphones: () => number;
+
   appendPinnedMessage: (
     pinnedMessagesLimit: number,
     pinnedMessageParams: PinnedMessageParams
@@ -1430,6 +1442,7 @@ export type ServerReadableDirectInterface = ReadableInterface & {
   getKnownConversationAttachments: () => Array<string>;
 
   getAllBadgeImageFileLocalPaths: () => Set<string>;
+  getAllMegaphoneImageLocalPaths: () => Set<string>;
 };
 export type ServerReadableInterface =
   AddReadonlyDB<ServerReadableDirectInterface>;

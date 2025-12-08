@@ -279,12 +279,12 @@ export function isBucketValueEnabled(
   e164: string | undefined,
   aci: AciString | undefined
 ): boolean {
-  return innerIsBucketValueEnabled(name, getValue(name), e164, aci);
+  return isCountryPpmCsvBucketEnabled(name, getValue(name), e164, aci);
 }
 
-export function innerIsBucketValueEnabled(
-  name: ConfigKeyType,
-  flagValue: unknown,
+export function isCountryPpmCsvBucketEnabled(
+  name: string,
+  countryPpmCsv: unknown,
   e164: string | undefined,
   aci: AciString | undefined
 ): boolean {
@@ -297,11 +297,15 @@ export function innerIsBucketValueEnabled(
     return false;
   }
 
-  if (typeof flagValue !== 'string') {
+  if (typeof countryPpmCsv !== 'string') {
     return false;
   }
 
-  const remoteConfigValue = getCountryCodeValue(countryCode, flagValue, name);
+  const remoteConfigValue = getCountryCodeValue(
+    countryCode,
+    countryPpmCsv,
+    name
+  );
   if (remoteConfigValue == null) {
     return false;
   }
@@ -312,16 +316,16 @@ export function innerIsBucketValueEnabled(
 
 export function getCountryCodeValue(
   countryCode: number,
-  flagValue: string,
-  flagName: string
+  countryPpmCsv: string,
+  logTag: string
 ): number | undefined {
-  const logId = `getCountryCodeValue/${flagName}`;
-  if (flagValue.length === 0) {
+  const logId = `getCountryCodeValue/${logTag}`;
+  if (countryPpmCsv.length === 0) {
     return undefined;
   }
 
   const countryCodeString = countryCode.toString();
-  const items = flagValue.split(',');
+  const items = countryPpmCsv.split(',');
 
   let wildcard: number | undefined;
   for (const item of items) {
@@ -345,9 +349,9 @@ export function getCountryCodeValue(
   return wildcard;
 }
 
-export function getBucketValue(aci: AciString, flagName: string): number {
+export function getBucketValue(aci: AciString, hashSalt: string): number {
   const hashInput = Bytes.concatenate([
-    Bytes.fromString(`${flagName}.`),
+    Bytes.fromString(`${hashSalt}.`),
     uuidToBytes(aci),
   ]);
   const hashResult = window.SignalContext.crypto.hash(

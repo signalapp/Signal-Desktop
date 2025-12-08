@@ -325,6 +325,7 @@ type PropsFunctionType = {
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
+  internalDeleteAllMegaphones: () => Promise<number>;
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
@@ -535,6 +536,7 @@ export function Preferences({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
 }: PropsType): JSX.Element {
   const storiesId = useId();
@@ -2283,6 +2285,7 @@ export function Preferences({
             internalAddDonationReceipt={internalAddDonationReceipt}
             saveAttachmentToDisk={saveAttachmentToDisk}
             generateDonationReceiptBlob={generateDonationReceiptBlob}
+            internalDeleteAllMegaphones={internalDeleteAllMegaphones}
             __dangerouslyRunAbitraryReadOnlySqlQuery={
               __dangerouslyRunAbitraryReadOnlySqlQuery
             }

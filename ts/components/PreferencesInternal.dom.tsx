@@ -33,6 +33,7 @@ export function PreferencesInternal({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
 }: {
   i18n: LocalizerType;
@@ -53,6 +54,7 @@ export function PreferencesInternal({
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
+  internalDeleteAllMegaphones: () => Promise<number>;
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
@@ -71,6 +73,10 @@ export function PreferencesInternal({
   const [isValidationPending, setIsValidationPending] = useState(false);
   const [validationResult, setValidationResult] = useState<
     BackupValidationResultType | undefined
+  >();
+
+  const [deleteAllMegaphonesResult, setDeleteAllMegaphonesResult] = useState<
+    number | undefined
   >();
 
   const [readOnlySqlInput, setReadOnlySqlInput] = useState('');
@@ -509,6 +515,42 @@ export function PreferencesInternal({
             />
           )}
         </FlowingSettingsControl>
+      </SettingsRow>
+
+      <SettingsRow title="Megaphones">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            Delete local records of remote megaphones
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <AxoButton.Root
+              variant="destructive"
+              size="lg"
+              onClick={async () => {
+                const result = await internalDeleteAllMegaphones();
+                setDeleteAllMegaphonesResult(result);
+              }}
+            >
+              Delete
+            </AxoButton.Root>
+          </div>
+        </FlowingSettingsControl>
+        {deleteAllMegaphonesResult != null && (
+          <AutoSizeTextArea
+            i18n={i18n}
+            value={`Deleted: ${deleteAllMegaphonesResult}`}
+            onChange={() => null}
+            readOnly
+            placeholder=""
+            moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+          />
+        )}
       </SettingsRow>
     </div>
   );

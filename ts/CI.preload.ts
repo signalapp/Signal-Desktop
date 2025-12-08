@@ -53,7 +53,7 @@ export type CIType = {
   uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
-  resetReleaseNotesFetcher(): void;
+  resetReleaseNoteAndMegaphoneFetcher(): void;
   forceUnprocessed: boolean;
   setMediaPermissions(): Promise<void>;
 };
@@ -239,7 +239,7 @@ export function getCI({
     return window.getSocketStatus();
   }
 
-  async function resetReleaseNotesFetcher() {
+  async function resetReleaseNoteAndMegaphoneFetcher() {
     await Promise.all([
       itemStorage.put('releaseNotesVersionWatermark', '7.0.0-alpha.1'),
       itemStorage.put('releaseNotesPreviousManifestHash', ''),
@@ -270,7 +270,7 @@ export function getCI({
     unlink,
     getPendingEventCount,
     print,
-    resetReleaseNotesFetcher,
+    resetReleaseNoteAndMegaphoneFetcher,
     forceUnprocessed,
     setMediaPermissions,
   };

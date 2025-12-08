@@ -49,6 +49,7 @@ import {
   TEMP_PATH,
   AVATARS_PATH,
   DOWNLOADS_PATH,
+  MEGAPHONES_PATH,
 } from './basePaths.preload.js';
 
 const logger = createLogger('migrations');
@@ -133,6 +134,11 @@ export const writeNewBadgeImageFileData = createWriterForNew(
   BADGES_PATH,
   '.svg'
 );
+
+export const getAbsoluteMegaphoneImageFilePath =
+  createAbsolutePathGetter(MEGAPHONES_PATH);
+export const writeNewMegaphoneImageFileData =
+  createWriterForNew(MEGAPHONES_PATH);
 
 export const getAbsoluteTempPath = createAbsolutePathGetter(TEMP_PATH);
 const writeNewTempData = createEncryptedWriterForNew(TEMP_PATH);

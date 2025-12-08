@@ -135,6 +135,7 @@ import updateToSchemaVersion1560 from './1560-pinned-messages.std.js';
 import updateToSchemaVersion1561 from './1561-cleanup-polls.std.js';
 import updateToSchemaVersion1570 from './1570-pinned-messages-updates.std.js';
 import updateToSchemaVersion1580 from './1580-expired-group-replies.std.js';
+import updateToSchemaVersion1590 from './1590-megaphones.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1629,6 +1630,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1561, update: updateToSchemaVersion1561 },
   { version: 1570, update: updateToSchemaVersion1570 },
   { version: 1580, update: updateToSchemaVersion1580 },
+  { version: 1590, update: updateToSchemaVersion1590 },
 ];
 
 export class DBVersionFromFutureError extends Error {

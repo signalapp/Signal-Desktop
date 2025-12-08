@@ -632,6 +632,9 @@ export default {
       action('generateDonationReceiptBlob')();
       return new Blob();
     },
+    internalDeleteAllMegaphones: async () => {
+      return Promise.resolve(0);
+    },
     __dangerouslyRunAbitraryReadOnlySqlQuery: async () => {
       return Promise.resolve([]);
     },

@@ -138,7 +138,7 @@ export class App extends EventEmitter {
     return this.#waitForEvent('receipts');
   }
 
-  public async waitForReleaseNotesFetcher(): Promise<void> {
+  public async waitForReleaseNoteAndMegaphoneFetcher(): Promise<void> {
     return this.#waitForEvent('release_notes_fetcher_complete');
   }
 
