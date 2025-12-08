@@ -908,6 +908,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -948,6 +949,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1005,6 +1007,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1044,6 +1047,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1084,6 +1088,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1122,6 +1127,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxAttachmentSizeInKib: 100 * MEBIBYTE,
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
+        messageReceivedAtMs: null,
         dependencies: {
           deleteAttachmentData,
           deleteDownloadData,
@@ -1179,6 +1185,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           maxAttachmentSizeInKib: 100 * MEBIBYTE,
           maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
           messageExpiresAt: null,
+          messageReceivedAtMs: null,
           dependencies: {
             deleteAttachmentData,
             deleteDownloadData,
