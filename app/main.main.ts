@@ -522,9 +522,8 @@ async function handleUrl(rawTarget: string) {
     return;
   }
 
-  const { protocol, hostname } = parsedUrl;
-  const isDevServer =
-    process.env.SIGNAL_ENABLE_HTTP && hostname === 'localhost';
+  const { protocol } = parsedUrl;
+  const isDevServer = process.env.SIGNAL_ENABLE_HTTP;
 
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
