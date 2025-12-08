@@ -10,6 +10,9 @@ import type {
 } from '../useFunEmojiSearch.dom.js';
 import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.js';
 import { removeDiacritics } from '../../../util/removeDiacritics.std.js';
+import { createLogger } from '../../../logging/log.std.js';
+
+const log = createLogger('fun/data/emojis');
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
@@ -485,6 +488,14 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
   addParent(parent, rawEmoji.sort_order);
 }
 
+export function getEmojiDebugLabel(input: string): string {
+  return Array.from(input.slice(0, 12), char => {
+    const num = char.codePointAt(0) ?? 0;
+    const hex = num.toString(16).toUpperCase().padStart(4, '0');
+    return `U+${hex}`;
+  }).join(' ');
+}
+
 export function isEmojiParentKey(input: string): input is EmojiParentKey {
   return EMOJI_INDEX.parentByKey.has(input as EmojiParentKey);
 }
@@ -731,7 +742,11 @@ export function getEmojifyData(input: string): EmojifyData {
     const value = match[0];
 
     // Only consider safe emojis as matches
-    if (isSafeEmojifyEmoji(value)) {
+    if (!isSafeEmojifyEmoji(value)) {
+      log.warn(
+        `Expected a valid emoji variant value, got ${getEmojiDebugLabel(value)}`
+      );
+    } else {
       const { index } = match;
       hasEmojis = true;
       // Track if we skipped over any text

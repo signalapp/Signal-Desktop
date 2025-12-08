@@ -8,12 +8,15 @@ import classNames from 'classnames';
 import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../types/Util.std.js';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
-import { strictAssert } from '../util/assert.std.js';
 import {
+  getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from './fun/data/emojis.std.js';
+import { createLogger } from '../logging/log.std.js';
+
+const log = createLogger('ReactionPickerPicker');
 
 export enum ReactionPickerPickerStyle {
   Picker,
@@ -32,10 +35,13 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
   { emoji, onClick, isSelected, title },
   ref
 ) {
-  strictAssert(
-    isEmojiVariantValue(emoji),
-    'Expected a valid emoji variant value'
-  );
+  if (!isEmojiVariantValue(emoji)) {
+    log.error(
+      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(emoji)}`
+    );
+    return null;
+  }
+
   const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
 

@@ -39,11 +39,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { isAciString } from '../util/isAciString.std.js';
 import { MentionBlot } from '../quill/mentions/blot.dom.js';
-import {
-  matchEmojiImage,
-  matchEmojiBlot,
-  matchEmojiText,
-} from '../quill/emoji/matchers.dom.js';
+import { matchEmojiBlot, matchEmojiText } from '../quill/emoji/matchers.dom.js';
 import { matchMention } from '../quill/mentions/matchers.std.js';
 import { MemberRepository } from '../quill/memberRepository.std.js';
 import {
@@ -802,8 +798,6 @@ export function CompositionInput(props: Props): React.ReactElement {
                 [Node.TEXT_NODE, matchNewline],
                 ['br', matchBreak],
                 [Node.ELEMENT_NODE, matchNewline],
-                ['IMG', matchEmojiImage],
-                ['SPAN', matchEmojiImage],
                 ['IMG', matchEmojiBlot],
                 ['SPAN', matchEmojiBlot],
                 ['STRONG', matchBold],
