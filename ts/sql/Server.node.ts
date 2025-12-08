@@ -3764,13 +3764,13 @@ function getRecentStoryReplies(
       (
         ${timeFilter}
       )
-      ORDER BY received_at DESC, sent_at DESC
   `;
 
   const template = sqlFragment`
     SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
     UNION ALL
     SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
+    ORDER BY received_at DESC, sent_at DESC
   `;
 
   const [query, params] = sql`${template} LIMIT ${limit}`;
