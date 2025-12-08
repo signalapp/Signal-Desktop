@@ -104,6 +104,10 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.js';
 import { itemStorage } from './Storage.preload.js';
 import { accountManager } from './AccountManager.preload.js';
+import type {
+  SendPinMessageType,
+  SendUnpinMessageType,
+} from '../types/PinnedMessage.std.js';
 
 const log = createLogger('SendMessage');
 
@@ -195,61 +199,48 @@ export const singleProtoJobDataSchema = z.object({
 
 export type SingleProtoJobData = z.infer<typeof singleProtoJobDataSchema>;
 
-export type MessageOptionsType = {
+export type SharedMessageOptionsType = Readonly<{
+  // required
+  timestamp: number;
+  // optional
   attachments?: ReadonlyArray<Proto.IAttachmentPointer>;
   body?: string;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
+  deletedForEveryoneTimestamp?: number;
   expireTimer?: DurationInSeconds;
-  expireTimerVersion: number | undefined;
   flags?: number;
-  group?: {
-    id: string;
-    type: number;
-  };
+  groupCallUpdate?: GroupCallUpdateType;
   groupV2?: GroupV2InfoType;
-  needsSync?: boolean;
-  preview?: ReadonlyArray<OutgoingLinkPreviewType>;
-  profileKey?: Uint8Array;
-  quote?: OutgoingQuoteType;
-  recipients: ReadonlyArray<ServiceIdString>;
-  sticker?: OutgoingStickerType;
-  reaction?: ReactionType;
+  pinMessage?: SendPinMessageType;
   pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
   pollTerminate?: Readonly<{
     targetTimestamp: number;
   }>;
-  deletedForEveryoneTimestamp?: number;
-  targetTimestampForEdit?: number;
-  timestamp: number;
-  groupCallUpdate?: GroupCallUpdateType;
-  storyContext?: StoryContextType;
-};
-export type GroupSendOptionsType = {
-  attachments?: ReadonlyArray<Proto.IAttachmentPointer>;
-  bodyRanges?: ReadonlyArray<RawBodyRange>;
-  contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
-  deletedForEveryoneTimestamp?: number;
-  targetTimestampForEdit?: number;
-  expireTimer?: DurationInSeconds;
-  flags?: number;
-  groupCallUpdate?: GroupCallUpdateType;
-  groupV2?: GroupV2InfoType;
-  messageText?: string;
   preview?: ReadonlyArray<OutgoingLinkPreviewType>;
   profileKey?: Uint8Array;
   quote?: OutgoingQuoteType;
   reaction?: ReactionType;
   sticker?: OutgoingStickerType;
   storyContext?: StoryContextType;
-  timestamp: number;
-  pollVote?: OutgoingPollVote;
-  pollCreate?: PollCreateType;
-  pollTerminate?: Readonly<{
-    targetTimestamp: number;
-  }>;
-};
+  targetTimestampForEdit?: number;
+  unpinMessage?: SendUnpinMessageType;
+}>;
+
+export type MessageOptionsType = Readonly<
+  SharedMessageOptionsType & {
+    // Not needed for group messages, lives in group state
+    expireTimerVersion?: number | undefined;
+    recipients: ReadonlyArray<ServiceIdString>;
+  }
+>;
+
+export type GroupMessageOptionsType = Readonly<
+  SharedMessageOptionsType & {
+    groupV2: GroupV2InfoType;
+  }
+>;
 
 export type PollVoteBuildOptions = Required<
   Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollVote'>
@@ -276,14 +267,7 @@ class Message {
 
   flags?: number;
 
-  group?: {
-    id: string;
-    type: number;
-  };
-
   groupV2?: GroupV2InfoType;
-
-  needsSync?: boolean;
 
   preview?: ReadonlyArray<OutgoingLinkPreviewType>;
 
@@ -302,6 +286,9 @@ class Message {
   pollTerminate?: Readonly<{
     targetTimestamp: number;
   }>;
+
+  pinMessage?: SendPinMessageType;
+  unpinMessage?: SendUnpinMessageType;
 
   timestamp: number;
 
@@ -323,9 +310,7 @@ class Message {
     this.expireTimer = options.expireTimer;
     this.expireTimerVersion = options.expireTimerVersion;
     this.flags = options.flags;
-    this.group = options.group;
     this.groupV2 = options.groupV2;
-    this.needsSync = options.needsSync;
     this.preview = options.preview;
     this.profileKey = options.profileKey;
     this.quote = options.quote;
@@ -340,12 +325,14 @@ class Message {
     this.storyContext = options.storyContext;
     // Polls
     this.pollVote = options.pollVote;
+    this.pinMessage = options.pinMessage;
+    this.unpinMessage = options.unpinMessage;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
     }
 
-    if (!this.group && !this.groupV2 && this.recipients.length !== 1) {
+    if (!this.groupV2 && this.recipients.length !== 1) {
       throw new Error('Invalid recipient list for non-group');
     }
 
@@ -370,28 +357,14 @@ class Message {
       }
     }
     if (this.isEndSession()) {
-      if (
-        this.body != null ||
-        this.group != null ||
-        this.attachments.length !== 0
-      ) {
+      if (this.body != null || this.attachments.length !== 0) {
         throw new Error('Invalid end session message');
       }
-    } else {
-      if (
-        typeof this.timestamp !== 'number' ||
-        (this.body && typeof this.body !== 'string')
-      ) {
-        throw new Error('Invalid message body');
-      }
-      if (this.group) {
-        if (
-          typeof this.group.id !== 'string' ||
-          typeof this.group.type !== 'number'
-        ) {
-          throw new Error('Invalid group context');
-        }
-      }
+    } else if (
+      typeof this.timestamp !== 'number' ||
+      (this.body && typeof this.body !== 'string')
+    ) {
+      throw new Error('Invalid message body');
     }
   }
 
@@ -680,6 +653,35 @@ class Message {
       create.options = this.pollCreate.options.slice();
       proto.pollCreate = create;
       proto.requiredProtocolVersion = Proto.DataMessage.ProtocolVersion.POLLS;
+    }
+
+    if (this.pinMessage != null) {
+      const { targetAuthorAci, targetSentTimestamp, pinDurationSeconds } =
+        this.pinMessage;
+
+      const pinMessage = new Proto.DataMessage.PinMessage({
+        targetAuthorAciBinary: toAciObject(targetAuthorAci).getRawUuidBytes(),
+        targetSentTimestamp: Long.fromNumber(targetSentTimestamp),
+      });
+
+      if (pinDurationSeconds != null) {
+        pinMessage.pinDurationSeconds = pinDurationSeconds;
+      } else {
+        pinMessage.pinDurationForever = true;
+      }
+
+      proto.pinMessage = pinMessage;
+    }
+
+    if (this.unpinMessage != null) {
+      const { targetAuthorAci, targetSentTimestamp } = this.unpinMessage;
+
+      const unpinMessage = new Proto.DataMessage.UnpinMessage({
+        targetAuthorAciBinary: toAciObject(targetAuthorAci).getRawUuidBytes(),
+        targetSentTimestamp: Long.fromNumber(targetSentTimestamp),
+      });
+
+      proto.unpinMessage = unpinMessage;
     }
 
     this.dataMessage = proto;
@@ -1107,7 +1109,7 @@ export class MessageSender {
   }
 
   getAttrsFromGroupOptions(
-    options: Readonly<GroupSendOptionsType>
+    options: Readonly<GroupMessageOptionsType>
   ): MessageOptionsType {
     const {
       attachments,
@@ -1118,7 +1120,7 @@ export class MessageSender {
       flags,
       groupCallUpdate,
       groupV2,
-      messageText,
+      body,
       preview,
       profileKey,
       quote,
@@ -1156,7 +1158,7 @@ export class MessageSender {
     return {
       attachments,
       bodyRanges,
-      body: messageText,
+      body,
       contact,
       deletedForEveryoneTimestamp,
       expireTimer,
@@ -1389,70 +1391,28 @@ export class MessageSender {
   // You might wonder why this takes a groupId. models/messages.resend() can send a group
   //   message to just one person.
   async sendMessageToServiceId({
-    attachments,
-    bodyRanges,
-    contact,
+    messageOptions,
     contentHint,
-    deletedForEveryoneTimestamp,
-    expireTimer,
-    expireTimerVersion,
     groupId,
     serviceId,
-    messageText,
     options,
-    preview,
-    profileKey,
-    quote,
-    reaction,
-    sticker,
-    storyContext,
     story,
-    targetTimestampForEdit,
-    timestamp,
     urgent,
     includePniSignatureMessage,
   }: Readonly<{
-    attachments: ReadonlyArray<Proto.IAttachmentPointer> | undefined;
-    bodyRanges?: ReadonlyArray<RawBodyRange>;
-    contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
-    contentHint: number;
-    deletedForEveryoneTimestamp: number | undefined;
-    expireTimer: DurationInSeconds | undefined;
-    expireTimerVersion: number | undefined;
-    groupId: string | undefined;
     serviceId: ServiceIdString;
-    messageText: string | undefined;
+    groupId: string | undefined;
+    messageOptions: Omit<MessageOptionsType, 'recipients'>;
+    contentHint: number;
     options?: SendOptionsType;
-    preview?: ReadonlyArray<OutgoingLinkPreviewType> | undefined;
-    profileKey?: Uint8Array;
-    quote?: OutgoingQuoteType;
-    reaction?: ReactionType;
-    sticker?: OutgoingStickerType;
-    storyContext?: StoryContextType;
     story?: boolean;
-    targetTimestampForEdit?: number;
-    timestamp: number;
     urgent: boolean;
     includePniSignatureMessage?: boolean;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
       messageOptions: {
-        attachments,
-        bodyRanges,
-        body: messageText,
-        contact,
-        deletedForEveryoneTimestamp,
-        expireTimer,
-        expireTimerVersion,
-        preview,
-        profileKey,
-        quote,
-        reaction,
+        ...messageOptions,
         recipients: [serviceId],
-        sticker,
-        storyContext,
-        targetTimestampForEdit,
-        timestamp,
       },
       contentHint,
       groupId,

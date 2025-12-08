@@ -199,15 +199,13 @@ export async function sendDeleteForEveryone(
               sender.sendMessageToServiceId({
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 serviceId: conversation.getSendTarget()!,
-                messageText: undefined,
-                attachments: [],
-                deletedForEveryoneTimestamp: targetTimestamp,
-                timestamp,
-                expireTimer: undefined,
-                expireTimerVersion: undefined,
+                messageOptions: {
+                  deletedForEveryoneTimestamp: targetTimestamp,
+                  timestamp,
+                  profileKey,
+                },
                 contentHint,
                 groupId: undefined,
-                profileKey,
                 options: sendOptions,
                 urgent: true,
                 story,
@@ -226,7 +224,8 @@ export async function sendDeleteForEveryone(
           const groupV2Info = conversation.getGroupV2Info({
             members: recipients,
           });
-          if (groupV2Info && isNumber(revision)) {
+          strictAssert(groupV2Info, 'Missing groupV2Info');
+          if (isNumber(revision)) {
             groupV2Info.revision = revision;
           }
 

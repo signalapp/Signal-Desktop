@@ -3,7 +3,7 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 import * as Errors from '../../types/errors.std.js';
-import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.dom.js';
+import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.js';
 import { getSendOptions } from '../../util/getSendOptions.preload.js';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
 import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
@@ -19,8 +19,6 @@ import {
   SendStatus,
   type SendStateByConversationId,
 } from '../../messages/MessageSendState.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
 import type { MessagePollVoteType } from '../../types/Polls.dom.js';
 import type { ConversationModel } from '../../models/conversations.preload.js';
 import type {
@@ -29,6 +27,7 @@ import type {
 } from '../conversationJobQueue.preload.js';
 import * as pollVoteUtil from '../../polls/util.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
 
 export async function sendPollVote(
   conversation: ConversationModel,
@@ -122,11 +121,15 @@ export async function sendPollVote(
     const currentOptionIndexes = [...currentPendingVote.optionIndexes];
     const currentTimestamp = currentPendingVote.timestamp;
 
-    const { recipientServiceIdsWithoutMe, untrustedServiceIds } = getRecipients(
-      jobLog,
-      currentPendingVote,
-      conversation
+    const unsentConversationIds = Array.from(
+      pollVoteUtil.getUnsentConversationIds(currentPendingVote)
     );
+    const { recipientServiceIdsWithoutMe, untrustedServiceIds } =
+      getSendRecipientLists({
+        log: jobLog,
+        conversationIds: unsentConversationIds,
+        conversation,
+      });
 
     if (untrustedServiceIds.length) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
@@ -145,9 +148,6 @@ export async function sendPollVote(
       ? await ourProfileKeyService.get()
       : undefined;
 
-    const unsentConversationIds = Array.from(
-      pollVoteUtil.getUnsentConversationIds(currentPendingVote)
-    );
     const ephemeral = new MessageModel({
       ...generateMessageId(incrementMessageCounter()),
       type: 'outgoing',
@@ -213,14 +213,14 @@ export async function sendPollVote(
           const groupV2Info = conversation.getGroupV2Info({
             members: recipientServiceIdsWithoutMe,
           });
-          if (groupV2Info && revision != null) {
-            groupV2Info.revision = revision;
-          }
-
           strictAssert(
             groupV2Info,
             'could not get group info from conversation'
           );
+
+          if (revision != null) {
+            groupV2Info.revision = revision;
+          }
 
           const contentMessage = await messaging.getPollVoteContentMessage({
             groupV2: groupV2Info,
@@ -337,71 +337,4 @@ export async function sendPollVote(
   } finally {
     await window.MessageCache.saveMessage(pollMessage.attributes);
   }
-}
-
-function getRecipients(
-  log: LoggerType,
-  pendingVote: MessagePollVoteType,
-  conversation: ConversationModel
-): {
-  allRecipientServiceIds: Array<ServiceIdString>;
-  recipientServiceIdsWithoutMe: Array<ServiceIdString>;
-  untrustedServiceIds: Array<ServiceIdString>;
-} {
-  const allRecipientServiceIds: Array<ServiceIdString> = [];
-  const recipientServiceIdsWithoutMe: Array<ServiceIdString> = [];
-  const untrustedServiceIds: Array<ServiceIdString> = [];
-
-  const currentConversationRecipients = conversation.getMemberConversationIds();
-
-  // Only send to recipients who haven't received this vote yet
-  for (const conversationId of pollVoteUtil.getUnsentConversationIds(
-    pendingVote
-  )) {
-    const recipient = window.ConversationController.get(conversationId);
-    if (!recipient) {
-      continue;
-    }
-
-    const recipientIdentifier = recipient.getSendTarget();
-    const isRecipientMe = isMe(recipient.attributes);
-
-    if (
-      !recipientIdentifier ||
-      (!currentConversationRecipients.has(conversationId) && !isRecipientMe)
-    ) {
-      continue;
-    }
-
-    if (recipient.isUntrusted()) {
-      const serviceId = recipient.getServiceId();
-      if (!serviceId) {
-        log.error(
-          `sendPollVote/getRecipients: Recipient ${recipient.idForLogging()} is untrusted but has no serviceId`
-        );
-        continue;
-      }
-      untrustedServiceIds.push(serviceId);
-      continue;
-    }
-
-    if (recipient.isUnregistered()) {
-      continue;
-    }
-
-    if (recipient.isBlocked()) {
-      continue;
-    }
-
-    allRecipientServiceIds.push(recipientIdentifier);
-    if (!isRecipientMe) {
-      recipientServiceIdsWithoutMe.push(recipientIdentifier);
-    }
-  }
-
-  return {
-    allRecipientServiceIds,
-    recipientServiceIdsWithoutMe,
-    untrustedServiceIds,
-  };
 }

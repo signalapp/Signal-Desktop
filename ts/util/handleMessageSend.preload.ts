@@ -31,8 +31,10 @@ export const sendTypesEnum = z.enum([
   'expirationTimerUpdate', // non-urgent
   'groupChange', // non-urgent
   'reaction',
+  'pinMessage',
   'pollTerminate',
   'pollVote', // non-urgent
+  'unpinMessage',
   'typing', // excluded from send log; non-urgent
 
   // Responding to incoming messages, all non-urgent

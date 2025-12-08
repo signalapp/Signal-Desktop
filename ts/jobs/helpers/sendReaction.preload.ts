@@ -17,7 +17,6 @@ import { isSent, SendStatus } from '../../messages/MessageSendState.std.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { isIncoming } from '../../messages/helpers.std.js';
 import {
-  isMe,
   isDirectConversation,
   isGroupV2,
 } from '../../util/whatTypeOfConversation.dom.js';
@@ -26,7 +25,7 @@ import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
 import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
 import { canReact, isStory } from '../../state/selectors/message.preload.js';
 import { findAndFormatContact } from '../../util/findAndFormatContact.preload.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
+import type { AciString } from '../../types/ServiceId.std.js';
 import { isAciString } from '../../util/isAciString.std.js';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
@@ -38,11 +37,11 @@ import type {
 } from '../conversationJobQueue.preload.js';
 import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
-import type { LoggerType } from '../../types/Logging.std.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
 import { hydrateStoryContext } from '../../util/hydrateStoryContext.preload.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
 
 const { isNumber } = lodash;
 
@@ -123,11 +122,18 @@ export async function sendReaction(
     }
 
     const expireTimer = messageConversation.get('expireTimer');
+    const unsentConversationIds = Array.from(
+      reactionUtil.getUnsentConversationIds(pendingReaction)
+    );
     const {
       allRecipientServiceIds,
       recipientServiceIdsWithoutMe,
       untrustedServiceIds,
-    } = getRecipients(log, pendingReaction, conversation);
+    } = getSendRecipientLists({
+      log,
+      conversationIds: unsentConversationIds,
+      conversation,
+    });
 
     if (untrustedServiceIds.length) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
@@ -242,19 +248,15 @@ export async function sendReaction(
         log.info('sending direct reaction message');
         promise = messaging.sendMessageToServiceId({
           serviceId: recipientServiceIdsWithoutMe[0],
-          messageText: undefined,
-          attachments: [],
-          quote: undefined,
-          preview: [],
-          sticker: undefined,
-          reaction: reactionForSend,
-          deletedForEveryoneTimestamp: undefined,
-          timestamp: pendingReaction.timestamp,
-          expireTimer,
-          expireTimerVersion: conversation.getExpireTimerVersion(),
-          contentHint: ContentHint.Resendable,
+          messageOptions: {
+            reaction: reactionForSend,
+            timestamp: pendingReaction.timestamp,
+            expireTimer,
+            expireTimerVersion: conversation.getExpireTimerVersion(),
+            profileKey,
+          },
           groupId: undefined,
-          profileKey,
+          contentHint: ContentHint.Resendable,
           options: sendOptions,
           urgent: true,
           includePniSignatureMessage: true,
@@ -272,7 +274,8 @@ export async function sendReaction(
             const groupV2Info = conversation.getGroupV2Info({
               members: recipientServiceIdsWithoutMe,
             });
-            if (groupV2Info && isNumber(revision)) {
+            strictAssert(groupV2Info, 'Missing groupV2Info');
+            if (isNumber(revision)) {
               groupV2Info.revision = revision;
             }
 
@@ -392,68 +395,6 @@ const setReactions = (
     message.set({ reactions: undefined });
   }
 };
-
-function getRecipients(
-  log: LoggerType,
-  reaction: Readonly<MessageReactionType>,
-  conversation: ConversationModel
-): {
-  allRecipientServiceIds: Array<ServiceIdString>;
-  recipientServiceIdsWithoutMe: Array<ServiceIdString>;
-  untrustedServiceIds: Array<ServiceIdString>;
-} {
-  const allRecipientServiceIds: Array<ServiceIdString> = [];
-  const recipientServiceIdsWithoutMe: Array<ServiceIdString> = [];
-  const untrustedServiceIds: Array<ServiceIdString> = [];
-
-  const currentConversationRecipients = conversation.getMemberConversationIds();
-
-  for (const id of reactionUtil.getUnsentConversationIds(reaction)) {
-    const recipient = window.ConversationController.get(id);
-    if (!recipient) {
-      continue;
-    }
-
-    const recipientIdentifier = recipient.getSendTarget();
-    const isRecipientMe = isMe(recipient.attributes);
-
-    if (
-      !recipientIdentifier ||
-      (!currentConversationRecipients.has(id) && !isRecipientMe)
-    ) {
-      continue;
-    }
-
-    if (recipient.isUntrusted()) {
-      const serviceId = recipient.getServiceId();
-      if (!serviceId) {
-        log.error(
-          `getRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
-        );
-        continue;
-      }
-      untrustedServiceIds.push(serviceId);
-      continue;
-    }
-    if (recipient.isUnregistered()) {
-      continue;
-    }
-    if (recipient.isBlocked()) {
-      continue;
-    }
-
-    allRecipientServiceIds.push(recipientIdentifier);
-    if (!isRecipientMe) {
-      recipientServiceIdsWithoutMe.push(recipientIdentifier);
-    }
-  }
-
-  return {
-    allRecipientServiceIds,
-    recipientServiceIdsWithoutMe,
-    untrustedServiceIds,
-  };
-}
 
 function markReactionFailed(
   message: MessageModel,
