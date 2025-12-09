@@ -613,7 +613,7 @@ export async function handleDataMessage(
 
       const isSupported = !isUnsupportedMessage(message.attributes);
       if (!isSupported) {
-        await eraseMessageContents(message);
+        await eraseMessageContents(message, 'unsupported-message');
       }
 
       if (isSupported) {
@@ -735,7 +735,7 @@ export async function handleDataMessage(
         }
 
         if (isTapToView(message.attributes) && type === 'outgoing') {
-          await eraseMessageContents(message);
+          await eraseMessageContents(message, 'view-once-viewed');
         }
 
         if (
@@ -749,7 +749,7 @@ export async function handleDataMessage(
           message.set({
             isTapToViewInvalid: true,
           });
-          await eraseMessageContents(message);
+          await eraseMessageContents(message, 'view-once-invalid');
         }
       }
 

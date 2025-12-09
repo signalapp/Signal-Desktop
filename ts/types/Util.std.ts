@@ -115,3 +115,19 @@ export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
 
 export type WithOptionalProperties<T, P extends keyof T> = Omit<T, P> &
   Partial<Pick<T, P>>;
+
+// Check that two const arrays do not have overlapping values
+export type ErrorIfOverlapping<
+  T1 extends ReadonlyArray<unknown>,
+  T2 extends ReadonlyArray<unknown>,
+> = T1[number] & T2[number] extends never
+  ? void
+  : 'Error: Arrays have overlapping values';
+
+// Check that T has all the fields (and only those fields) from K
+export type ExactKeys<T, K extends ReadonlyArray<string>> =
+  Exclude<keyof T, K[number]> extends never
+    ? Exclude<K[number], keyof T> extends never
+      ? T
+      : 'Error: Array has fields not present in object type'
+    : 'Error: Object type has keys not present in array';
