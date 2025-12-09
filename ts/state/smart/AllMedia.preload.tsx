@@ -17,17 +17,12 @@ import {
   MediaItem,
   type PropsType as MediaItemPropsType,
 } from './MediaItem.preload.js';
-import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 
 const log = createLogger('AllMedia');
 
 export type PropsType = {
   conversationId: string;
 };
-
-function renderMiniPlayer(): JSX.Element {
-  return <SmartMiniPlayer shouldFlow />;
-}
 
 function renderMediaItem(props: MediaItemPropsType): JSX.Element {
   return <MediaItem {...props} />;
@@ -46,6 +41,7 @@ export const SmartAllMedia = memo(function SmartAllMedia({
     haveOldestLink,
     haveOldestDocument,
     loading,
+    tab,
   } = useSelector(getMediaGalleryState);
   const { initialLoad, loadMore } = useMediaGalleryActions();
   const {
@@ -109,13 +105,13 @@ export const SmartAllMedia = memo(function SmartAllMedia({
       audio={audio}
       links={links}
       documents={documents}
+      tab={tab}
       showLightbox={showLightbox}
       playAudio={playAudio}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       cancelAttachmentDownload={cancelAttachmentDownload}
       saveAttachment={saveAttachment}
       renderMediaItem={renderMediaItem}
-      renderMiniPlayer={renderMiniPlayer}
     />
   );
 });
