@@ -345,7 +345,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? inboxHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = inboxHelper;
       break;
     }
@@ -354,7 +354,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? searchHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = searchHelper;
       break;
     }
@@ -363,7 +363,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? archiveHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = archiveHelper;
       break;
     }
@@ -372,7 +372,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? composeHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = composeHelper;
       break;
     }
@@ -385,7 +385,7 @@ export function LeftPane({
           ? findByUsernameHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = findByUsernameHelper;
       break;
     }
@@ -398,7 +398,7 @@ export function LeftPane({
           ? findByPhoneNumberHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = findByPhoneNumberHelper;
       break;
     }
@@ -411,7 +411,7 @@ export function LeftPane({
           ? chooseGroupMembersHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = chooseGroupMembersHelper;
       break;
     }
@@ -424,7 +424,7 @@ export function LeftPane({
           ? setGroupMetadataHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = setGroupMetadataHelper;
       break;
     }
