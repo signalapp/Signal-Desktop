@@ -2328,5 +2328,12 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useDocumentKeyDown.dom.ts",
+    "line": "  const listenerRef = useRef(listener);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-12-09T15:37:49.757Z"
   }
 ]

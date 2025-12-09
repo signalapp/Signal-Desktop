@@ -23,10 +23,7 @@ import type {
 } from './Message.dom.js';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.js';
-import {
-  useKeyboardShortcutsConditionally,
-  useToggleReactionPicker,
-} from '../../hooks/useKeyboardShortcuts.dom.js';
+import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts.dom.js';
 import { PanelType } from '../../types/Panels.std.js';
 import type {
   DeleteMessagesPropsType,
@@ -40,6 +37,7 @@ import { isNotNil } from '../../util/isNotNil.std.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
 import { PinMessageDialog } from './pinned-messages/PinMessageDialog.dom.js';
+import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
@@ -283,10 +281,11 @@ export function TimelineMessage(props: Props): JSX.Element {
     handleReact || noop
   );
 
-  useKeyboardShortcutsConditionally(
-    Boolean(isTargeted),
-    toggleReactionPickerKeyboard
-  );
+  useDocumentKeyDown(event => {
+    if (isTargeted) {
+      toggleReactionPickerKeyboard(event);
+    }
+  });
 
   const groupedReactions = useGroupedAndOrderedReactions(
     props.reactions,

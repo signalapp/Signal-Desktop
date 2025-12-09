@@ -342,23 +342,3 @@ export function useKeyboardShortcuts(
     };
   }, [eventHandlers]);
 }
-
-export function useKeyboardShortcutsConditionally(
-  condition: boolean,
-  ...eventHandlers: Array<KeyboardShortcutHandlerType>
-): void {
-  useEffect(() => {
-    if (!condition) {
-      return;
-    }
-
-    function handleKeydown(ev: KeyboardEvent): void {
-      eventHandlers.some(eventHandler => eventHandler(ev));
-    }
-
-    document.addEventListener('keydown', handleKeydown);
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, [condition, eventHandlers]);
-}
