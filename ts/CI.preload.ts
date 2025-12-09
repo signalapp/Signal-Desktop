@@ -262,6 +262,9 @@ export function getCI({
   }
 
   // Tracker for maximum received audio level in a 1:1 call
+  // We get and reset because:
+  // (a) updates are frequent (every 200ms) and
+  // (b) current test use cases want "max since I last asked"
   function getAndResetMaxAudioLevel(): number | undefined {
     const level = maxAudioLevel;
     maxAudioLevel = undefined;
