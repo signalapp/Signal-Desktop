@@ -52,6 +52,7 @@ import {
   deleteAllBadges,
   deleteAllDownloads,
   deleteAllDraftAttachments,
+  deleteAllMegaphones,
   deleteAllStickers,
   deleteStaleDownloads,
   getAllAttachments,
@@ -296,6 +297,11 @@ async function cleanupOrphanedAttachments({
   await deleteAllBadges({
     userDataPath,
     pathsToKeep: await sql.sqlRead('getAllBadgeImageFileLocalPaths'),
+  });
+
+  await deleteAllMegaphones({
+    userDataPath,
+    pathsToKeep: await sql.sqlRead('getAllMegaphoneImageLocalPaths'),
   });
 
   const allStickers = await getAllStickers(userDataPath);

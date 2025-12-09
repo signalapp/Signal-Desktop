@@ -130,6 +130,7 @@ import {
   connect as connectWebAPI,
   getConfig,
   getHasSubscription,
+  getMegaphone,
   getReleaseNote,
   getReleaseNoteHash,
   getReleaseNoteImageAttachment,
@@ -259,7 +260,7 @@ import {
 } from './services/allLoaders.preload.js';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope.dom.js';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.std.js';
-import { ReleaseNotesFetcher } from './services/releaseNotesFetcher.preload.js';
+import { ReleaseNoteAndMegaphoneFetcher } from './services/releaseNoteAndMegaphoneFetcher.preload.js';
 import { BuildExpirationService } from './services/buildExpiration.preload.js';
 import {
   maybeQueueDeviceNameFetch,
@@ -2052,9 +2053,10 @@ export async function startApp(): Promise<void> {
     drop(usernameIntegrity.start());
 
     drop(
-      ReleaseNotesFetcher.init(
+      ReleaseNoteAndMegaphoneFetcher.init(
         {
           isOnline,
+          getMegaphone,
           getReleaseNote,
           getReleaseNoteHash,
           getReleaseNoteImageAttachment,

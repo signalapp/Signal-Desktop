@@ -76,7 +76,7 @@ import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab } from '../../types/Nav.std.js';
 import { SmartToastManager } from './ToastManager.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
-import { DataReader } from '../../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
 import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
@@ -752,6 +752,10 @@ export function SmartPreferences(): JSX.Element | null {
     }
   );
 
+  const internalDeleteAllMegaphones = useCallback(() => {
+    return DataWriter.internalDeleteAllMegaphones();
+  }, []);
+
   const __dangerouslyRunAbitraryReadOnlySqlQuery = useCallback(
     (readOnlySqlQuery: string) => {
       return DataReader.__dangerouslyRunAbitraryReadOnlySqlQuery(
@@ -961,6 +965,7 @@ export function SmartPreferences(): JSX.Element | null {
           internalAddDonationReceipt={internalAddDonationReceipt}
           saveAttachmentToDisk={saveAttachmentToDisk}
           generateDonationReceiptBlob={generateDonationReceiptBlob}
+          internalDeleteAllMegaphones={internalDeleteAllMegaphones}
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery
           }

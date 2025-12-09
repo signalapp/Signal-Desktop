@@ -34,6 +34,7 @@ const TEMP_PATH = 'temp';
 const UPDATE_CACHE_PATH = 'update-cache';
 const DRAFT_PATH = 'drafts.noindex';
 const DOWNLOADS_PATH = 'downloads.noindex';
+const MEGAPHONES_PATH = 'megaphones.noindex';
 
 const CACHED_PATHS = new Map<string, string>();
 
@@ -67,6 +68,7 @@ export const getAvatarsPath = createPathGetter(AVATAR_PATH);
 export const getBadgesPath = createPathGetter(BADGES_PATH);
 export const getDraftPath = createPathGetter(DRAFT_PATH);
 export const getDownloadsPath = createPathGetter(DOWNLOADS_PATH);
+export const getMegaphonesPath = createPathGetter(MEGAPHONES_PATH);
 export const getPath = createPathGetter(PATH);
 export const getStickersPath = createPathGetter(STICKER_PATH);
 export const getTempPath = createPathGetter(TEMP_PATH);
@@ -122,6 +124,12 @@ const getAllBadgeImageFiles = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
   return getAllFiles(getBadgesPath(userDataPath));
+};
+
+const getAllMegaphoneImageFiles = (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  return getAllFiles(getMegaphonesPath(userDataPath));
 };
 
 export const getAllStickers = (
@@ -239,6 +247,27 @@ export const deleteAllBadges = async ({
   }
 
   log.info(`deleteAllBadges: deleted ${filesDeleted} files`);
+};
+
+export const deleteAllMegaphones = async ({
+  userDataPath,
+  pathsToKeep,
+}: {
+  userDataPath: string;
+  pathsToKeep: Set<string>;
+}): Promise<void> => {
+  const deleteFromDisk = createDeleter(getMegaphonesPath(userDataPath));
+
+  let filesDeleted = 0;
+  for (const file of await getAllMegaphoneImageFiles(userDataPath)) {
+    if (!pathsToKeep.has(file)) {
+      // eslint-disable-next-line no-await-in-loop
+      await deleteFromDisk(file);
+      filesDeleted += 1;
+    }
+  }
+
+  log.error(`deleteAllMegaphones: deleted ${filesDeleted} files`);
 };
 
 export const deleteAllDraftAttachments = async ({
