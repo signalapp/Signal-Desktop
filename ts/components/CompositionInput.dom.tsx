@@ -104,6 +104,7 @@ Quill.register(
 
 export type InputApi = {
   focus: () => void;
+  hasFocus: () => boolean;
   insertEmoji: (emojiSelection: FunEmojiSelection) => void;
   setContents: (
     text: string,
@@ -273,7 +274,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   };
 
-  const focus = () => {
+  const focus = React.useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -281,34 +282,37 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     quill.focus();
-  };
+  }, []);
 
-  const insertEmoji = (emojiSelection: FunEmojiSelection) => {
-    const quill = quillRef.current;
+  const insertEmoji = React.useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const quill = quillRef.current;
 
-    if (quill === undefined) {
-      return;
-    }
+      if (quill === undefined) {
+        return;
+      }
 
-    const range = quill.getSelection();
+      const range = quill.getSelection();
 
-    const insertionRange = range || lastSelectionRange;
-    if (insertionRange == null) {
-      return;
-    }
+      const insertionRange = range || lastSelectionRange;
+      if (insertionRange == null) {
+        return;
+      }
 
-    const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
+      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
 
-    const delta = new Delta()
-      .retain(insertionRange.index)
-      .delete(insertionRange.length)
-      .insert({ emoji: { value: emojiVariant.value } });
+      const delta = new Delta()
+        .retain(insertionRange.index)
+        .delete(insertionRange.length)
+        .insert({ emoji: { value: emojiVariant.value } });
 
-    quill.updateContents(delta, 'user');
-    quill.setSelection(insertionRange.index + 1, 0, 'user');
-  };
+      quill.updateContents(delta, 'user');
+      quill.setSelection(insertionRange.index + 1, 0, 'user');
+    },
+    [lastSelectionRange]
+  );
 
-  const reset = () => {
+  const reset = React.useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -319,29 +323,32 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.setText('');
 
     quill.history.clear();
-  };
+  }, []);
 
-  const setContents = (
-    text: string,
-    bodyRanges?: HydratedBodyRangesType,
-    cursorToEnd?: boolean
-  ) => {
-    const quill = quillRef.current;
+  const setContents = React.useCallback(
+    (
+      text: string,
+      bodyRanges?: HydratedBodyRangesType,
+      cursorToEnd?: boolean
+    ) => {
+      const quill = quillRef.current;
 
-    if (quill === undefined) {
-      return;
-    }
+      if (quill === undefined) {
+        return;
+      }
 
-    const delta = generateDelta(text || '', bodyRanges || []);
+      const delta = generateDelta(text || '', bodyRanges || []);
 
-    canSendRef.current = true;
-    quill.setContents(delta);
-    if (cursorToEnd) {
-      quill.setSelection(quill.getLength(), 0);
-    }
-  };
+      canSendRef.current = true;
+      quill.setContents(delta);
+      if (cursorToEnd) {
+        quill.setSelection(quill.getLength(), 0);
+      }
+    },
+    []
+  );
 
-  const submit = () => {
+  const submit = React.useCallback(() => {
     const timestamp = Date.now();
     const quill = quillRef.current;
 
@@ -365,17 +372,22 @@ export function CompositionInput(props: Props): React.ReactElement {
     if (!didSend) {
       canSendRef.current = true;
     }
-  };
+  }, [onSubmit]);
 
-  if (inputApi) {
-    inputApi.current = {
+  const hasFocus = React.useCallback(() => {
+    return quillRef.current?.hasFocus() ?? false;
+  }, []);
+
+  React.useImperativeHandle(inputApi, () => {
+    return {
       focus,
+      hasFocus,
       insertEmoji,
       setContents,
       reset,
       submit,
     };
-  }
+  }, [focus, hasFocus, insertEmoji, reset, setContents, submit]);
 
   React.useEffect(() => {
     propsRef.current = props;

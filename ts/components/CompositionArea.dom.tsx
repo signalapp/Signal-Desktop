@@ -52,7 +52,6 @@ import { Quote } from './conversation/Quote.dom.js';
 import {
   useAttachFileShortcut,
   useEditLastMessageSent,
-  useKeyboardShortcutsConditionally,
 } from '../hooks/useKeyboardShortcuts.dom.js';
 import { MediaEditor } from './MediaEditor.dom.js';
 import { isImageTypeSupported } from '../util/GoogleChrome.std.js';
@@ -82,6 +81,7 @@ import { AxoButton } from '../axo/AxoButton.dom.js';
 import { tw } from '../axo/tw.dom.js';
 import { isPollSendEnabled, type PollCreateType } from '../types/Polls.dom.js';
 import { PollCreateModal } from './PollCreateModal.dom.js';
+import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -479,15 +479,15 @@ export const CompositionArea = memo(function CompositionArea({
     setMessageToEdit,
   ]);
 
-  const [hasFocus, setHasFocus] = useState(false);
-
   const attachFileShortcut = useAttachFileShortcut(launchFilePicker);
   const editLastMessageSent = useEditLastMessageSent(maybeEditMessage);
-  useKeyboardShortcutsConditionally(
-    hasFocus,
-    attachFileShortcut,
-    editLastMessageSent
-  );
+  useDocumentKeyDown(event => {
+    const hasFocus = inputApiRef.current?.hasFocus() ?? false;
+    if (hasFocus) {
+      attachFileShortcut(event);
+      editLastMessageSent(event);
+    }
+  });
 
   // Focus input on first mount
   const previousFocusCounter = usePrevious<number | undefined>(
@@ -497,14 +497,12 @@ export const CompositionArea = memo(function CompositionArea({
   useEffect(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
-      setHasFocus(true);
     }
   }, []);
   // Focus input whenever explicitly requested
   useEffect(() => {
     if (focusCounter !== previousFocusCounter && inputApiRef.current) {
       inputApiRef.current.focus();
-      setHasFocus(true);
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 
@@ -1162,8 +1160,6 @@ export const CompositionArea = memo(function CompositionArea({
             large={large}
             linkPreviewLoading={linkPreviewLoading}
             linkPreviewResult={linkPreviewResult}
-            onBlur={() => setHasFocus(false)}
-            onFocus={() => setHasFocus(true)}
             onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}
             onEditorStateChange={onEditorStateChange}
