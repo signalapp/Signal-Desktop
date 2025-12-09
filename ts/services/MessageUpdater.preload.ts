@@ -94,7 +94,7 @@ export async function markViewOnceMessageViewed(
     message.set(markViewed(message.attributes));
   }
 
-  await eraseMessageContents(message);
+  await eraseMessageContents(message, 'view-once-viewed');
 
   if (!fromSync) {
     const senderE164 = getSource(message.attributes);

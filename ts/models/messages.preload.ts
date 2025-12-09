@@ -35,6 +35,10 @@ export class MessageModel {
 
     window.MessageCache._updateCaches(this);
   }
+  public resetAllAttributes(attributes: MessageAttributesType): void {
+    this.#_attributes = { ...attributes };
+    window.MessageCache._updateCaches(this);
+  }
 
   public get attributes(): Readonly<MessageAttributesType> {
     return this.#_attributes;

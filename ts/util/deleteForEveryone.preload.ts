@@ -8,9 +8,9 @@ import { isMe } from './whatTypeOfConversation.dom.js';
 import { getAuthorId } from '../messages/sources.preload.js';
 import { isStory } from '../state/selectors/message.preload.js';
 import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.std.js';
-import { drop } from './drop.std.js';
 import { eraseMessageContents } from './cleanup.preload.js';
 import { notificationService } from '../services/notifications.preload.js';
+import { DataWriter } from '../sql/Client.preload.js';
 
 const log = createLogger('deleteForEveryone');
 
@@ -19,8 +19,7 @@ export async function deleteForEveryone(
   doe: Pick<
     DeleteAttributesType,
     'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
-  >,
-  shouldPersist = true
+  >
 ): Promise<void> {
   if (isDeletionByMe(message, doe)) {
     const conversation = window.ConversationController.get(
@@ -36,7 +35,7 @@ export async function deleteForEveryone(
       return;
     }
 
-    await handleDeleteForEveryone(message, doe, shouldPersist);
+    await handleDeleteForEveryone(message, doe);
     return;
   }
 
@@ -51,7 +50,7 @@ export async function deleteForEveryone(
     return;
   }
 
-  await handleDeleteForEveryone(message, doe, shouldPersist);
+  await handleDeleteForEveryone(message, doe);
 }
 
 function isDeletionByMe(
@@ -71,8 +70,7 @@ export async function handleDeleteForEveryone(
   del: Pick<
     DeleteAttributesType,
     'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
-  >,
-  shouldPersist = true
+  >
 ): Promise<void> {
   if (message.deletingForEveryone || message.get('deletedForEveryone')) {
     return;
@@ -94,18 +92,21 @@ export async function handleDeleteForEveryone(
     notificationService.removeBy({ messageId: message.get('id') });
 
     // Erase the contents of this message
-    await eraseMessageContents(
-      message,
-      { deletedForEveryone: true, reactions: [] },
-      shouldPersist
-    );
+    await eraseMessageContents(message, 'delete-for-everyone', {
+      deletedForEveryone: true,
+      reactions: [],
+    });
 
-    // Update the conversation's last message in case this was the last message
-    drop(
-      window.ConversationController.get(
-        message.attributes.conversationId
-      )?.updateLastMessage()
-    );
+    // We delete the message first, before re-saving it -- this causes any foreign key ON
+    // DELETE CASCADE and messages_on_delete triggers to run, which is important
+    await DataWriter.removeMessage(message.attributes.id, {
+      cleanupMessages: async () => {
+        // We don't actually want to remove this message up from in-memory caches
+      },
+    });
+    await window.MessageCache.saveMessage(message.attributes, {
+      forceSave: true,
+    });
   } finally {
     // eslint-disable-next-line no-param-reassign
     message.deletingForEveryone = undefined;

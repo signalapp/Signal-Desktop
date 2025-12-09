@@ -3,6 +3,7 @@
 
 import PQueue from 'p-queue';
 import { batch } from 'react-redux';
+import { pick } from 'lodash';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { MessageModel } from '../models/messages.preload.js';
@@ -30,6 +31,7 @@ import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.js';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.js';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.js';
+import { messageAttrsToPreserveAfterErase } from '../types/Message.std.js';
 
 const log = createLogger('cleanup');
 
@@ -40,11 +42,16 @@ export async function postSaveUpdates(): Promise<void> {
 
 export async function eraseMessageContents(
   message: MessageModel,
-  additionalProperties = {},
-  shouldPersist = true
+  reason:
+    | 'view-once-viewed'
+    | 'view-once-invalid'
+    | 'view-once-expired'
+    | 'unsupported-message'
+    | 'delete-for-everyone',
+  additionalProperties = {}
 ): Promise<void> {
   log.info(
-    `Erasing data for message ${getMessageIdForLogging(message.attributes)}`
+    `Erasing data for message ${getMessageIdForLogging(message.attributes)}: ${reason}`
   );
 
   // Note: There are cases where we want to re-erase a given message. For example, when
@@ -59,27 +66,22 @@ export async function eraseMessageContents(
     );
   }
 
-  message.set({
-    attachments: [],
-    body: '',
-    bodyRanges: undefined,
-    contact: [],
-    editHistory: undefined,
-    hasUnreadPollVotes: undefined,
+  const preservedAttributes = pick(
+    message.attributes,
+    ...messageAttrsToPreserveAfterErase
+  );
+
+  message.resetAllAttributes({
+    ...preservedAttributes,
     isErased: true,
-    preview: [],
-    poll: undefined,
-    quote: undefined,
-    sticker: undefined,
     ...additionalProperties,
   });
+
   window.ConversationController.get(
     message.attributes.conversationId
   )?.debouncedUpdateLastMessage();
 
-  if (shouldPersist) {
-    await window.MessageCache.saveMessage(message.attributes);
-  }
+  await window.MessageCache.saveMessage(message.attributes);
 
   await DataWriter.deleteSentProtoByMessageId(message.id);
 }

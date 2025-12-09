@@ -43,7 +43,7 @@ async function eraseTapToViewMessages() {
         // We do this to update the UI, if this message is being displayed somewhere
         window.reduxActions.conversations.messageExpired(message.id);
 
-        await eraseMessageContents(message);
+        await eraseMessageContents(message, 'view-once-expired');
       })
     );
   } catch (error) {

@@ -74,7 +74,7 @@ export async function hydrateStoryContext(
     );
     const newMessageAttributes: Partial<MessageAttributesType> = {
       storyReplyContext: {
-        ...context,
+        authorAci: context?.authorAci,
         attachment: undefined,
         // No messageId = referenced story not found
         messageId: '',
