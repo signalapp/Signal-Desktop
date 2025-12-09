@@ -225,6 +225,13 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
           '.module-ongoing-call__direct-call-speaking-indicator > .CallingAudioIndicator--with-content'
         )
       ).toBeVisible({ timeout: 15000 });
+
+      // Wait a second to let the audio play
+      await new Promise(f => setTimeout(f, 2000));
+
+      expect(
+        await window2.evaluate('window.SignalCI?.getAndResetMaxAudioLevel()')
+      ).toBeGreaterThanOrEqual(0.25);
     } finally {
       await bootstrap2.screenshotWindow(window2, 'callee');
       // hang up after we detect audio (or fail to)
@@ -244,6 +251,101 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       await window2.locator('.NavTabs__Item--Settings').click();
       await window2.locator('.Preferences__button--calls').click();
       await bootstrap2.screenshotWindow(window2, 'callee');
+    }
+  });
+
+  it('mute consistency regression', async () => {
+    const theRaven = join(FIXTURES, 'the_raven.wav');
+
+    const window1 = await app1.getWindow();
+
+    const window2 = await app2.getWindow();
+
+    // First call: Neither muted, window2 ends call
+
+    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
+
+    // Only wait for 3 seconds to make sure that this succeeded properly rather
+    // than timing out after ~10 seconds and using a direct connection
+    await window2
+      .locator('.IncomingCallBar__button--accept-audio')
+      .click({ timeout: 3000 });
+
+    try {
+      await setInputAndOutput(window1, 'input_source_a', 'output_sink_a');
+
+      await setInputAndOutput(window2, 'input_source_b', 'output_sink_b');
+    } finally {
+      // hang up
+      await window2.locator('.CallControls__JoinLeaveButton--hangup').click();
+
+      await awaitNoCall(window1);
+      await awaitNoCall(window2);
+    }
+
+    // Second call
+    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
+
+    // window1 mutes after placing call but before window 2 answers
+    await window1.getByLabel('Mute mic').click();
+
+    // Only wait for 3 seconds to make sure that this succeeded properly rather
+    // than timing out after ~10 seconds and using a direct connection
+    await window2
+      .locator('.IncomingCallBar__button--accept-audio')
+      .click({ timeout: 3000 });
+
+    // Wait a few hundred ms for initial comfort noise to subside
+    await new Promise(f => setTimeout(f, 600));
+    // We haven't played any audio into the virtual mic yet, so it's safe to
+    // ignore anything this early / to assume it's comfort noise
+    await window2.evaluate('window.SignalCI?.getAndResetMaxAudioLevel()');
+
+    try {
+      await setInputAndOutput(window1, 'input_source_a', 'output_sink_a');
+
+      await setInputAndOutput(window2, 'input_source_b', 'output_sink_b');
+
+      execFile(
+        VIRTUAL_AUDIO,
+        [
+          '--play',
+          '--input-source',
+          'input_source_a',
+          '--output-sink',
+          'output_sink_a',
+          '--input-file',
+          theRaven,
+        ],
+        (error, stdout, stderr) => {
+          if (error) {
+            throw error;
+          }
+          debug(stdout);
+          debug(stderr);
+        }
+      );
+
+      // Wait a second
+      await new Promise(f => setTimeout(f, 2000));
+
+      // Make sure we got no audio
+      expect(
+        await window2.evaluate('window.SignalCI?.getAndResetMaxAudioLevel()')
+      ).toBeCloseTo(0);
+    } finally {
+      await window2.locator('.CallControls__JoinLeaveButton--hangup').click();
+
+      await execFilePromise(VIRTUAL_AUDIO, [
+        '--stop',
+        '--input-source',
+        'input_source_a',
+        '--output-sink',
+        'output_source_a',
+      ]);
+
+      await awaitNoCall(window1);
+      await awaitNoCall(window2);
     }
   });
 });

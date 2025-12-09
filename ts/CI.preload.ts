@@ -56,6 +56,8 @@ export type CIType = {
   resetReleaseNoteAndMegaphoneFetcher(): void;
   forceUnprocessed: boolean;
   setMediaPermissions(): Promise<void>;
+  maybeUpdateMaxAudioLevel: (level: number) => void;
+  getAndResetMaxAudioLevel: () => number | undefined;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -251,6 +253,21 @@ export function getCI({
     await window.IPC.setMediaPermissions(true);
   }
 
+  let maxAudioLevel: number | undefined;
+
+  function maybeUpdateMaxAudioLevel(level: number) {
+    if (maxAudioLevel === undefined || maxAudioLevel < level) {
+      maxAudioLevel = level;
+    }
+  }
+
+  // Tracker for maximum received audio level in a 1:1 call
+  function getAndResetMaxAudioLevel(): number | undefined {
+    const level = maxAudioLevel;
+    maxAudioLevel = undefined;
+    return level;
+  }
+
   return {
     deviceName,
     getConversationId,
@@ -273,5 +290,7 @@ export function getCI({
     resetReleaseNoteAndMegaphoneFetcher,
     forceUnprocessed,
     setMediaPermissions,
+    maybeUpdateMaxAudioLevel,
+    getAndResetMaxAudioLevel,
   };
 }
