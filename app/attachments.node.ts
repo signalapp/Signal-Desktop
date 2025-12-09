@@ -267,7 +267,9 @@ export const deleteAllMegaphones = async ({
     }
   }
 
-  log.error(`deleteAllMegaphones: deleted ${filesDeleted} files`);
+  if (filesDeleted > 0) {
+    log.error(`deleteAllMegaphones: deleted ${filesDeleted} files`);
+  }
 };
 
 export const deleteAllDraftAttachments = async ({
