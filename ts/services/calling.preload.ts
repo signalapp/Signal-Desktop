@@ -3666,6 +3666,7 @@ export class CallingClass {
 
     // eslint-disable-next-line no-param-reassign
     call.handleAudioLevels = () => {
+      window.SignalCI?.maybeUpdateMaxAudioLevel(call.remoteAudioLevel);
       reduxInterface.directCallAudioLevelsChange({
         conversationId,
         localAudioLevel: call.outgoingAudioLevel,
