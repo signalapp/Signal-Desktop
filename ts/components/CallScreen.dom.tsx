@@ -88,11 +88,12 @@ import {
   useCallReactionBursts,
 } from './CallReactionBurst.dom.js';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
+import { assertDev } from '../util/assert.std.js';
 import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
 import type { CallingImageDataCache } from './CallManager.dom.js';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
 import {
+  getEmojiDebugLabel,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
@@ -104,8 +105,11 @@ import {
   BeforeNavigateResponse,
   beforeNavigateService,
 } from '../services/BeforeNavigate.std.js';
+import { createLogger } from '../logging/log.std.js';
 
 const { isEqual, noop } = lodash;
+
+const log = createLogger('CallScreen');
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -1300,7 +1304,13 @@ function useReactionsToast(props: UseReactionsToastType): void {
 
       const key = `reactions-${timestamp}-${demuxId}`;
 
-      strictAssert(isEmojiVariantValue(value), 'Expected a valid emoji value');
+      if (!isEmojiVariantValue(value)) {
+        log.error(
+          `Expected a valid emoji value, got ${getEmojiDebugLabel(value)}`
+        );
+        return;
+      }
+
       const emojiVariantKey = getEmojiVariantKeyByValue(value);
       const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
 

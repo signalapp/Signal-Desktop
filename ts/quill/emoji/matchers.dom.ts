@@ -5,27 +5,7 @@ import { Delta } from '@signalapp/quill-cjs';
 
 import { insertEmojiOps } from '../util.dom.js';
 import type { Matcher } from '../util.dom.js';
-import {
-  FUN_INLINE_EMOJI_CLASS,
-  FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji.dom.js';
-
-export const matchEmojiImage: Matcher = (
-  node,
-  delta,
-  _scroll,
-  attributes
-): Delta => {
-  if (
-    node.classList.contains(FUN_INLINE_EMOJI_CLASS) ||
-    (node.classList.contains(FUN_STATIC_EMOJI_CLASS) &&
-      node.dataset.emoji == null)
-  ) {
-    const value = node.getAttribute('aria-label');
-    return new Delta().insert({ emoji: { value } }, attributes);
-  }
-  return delta;
-};
+import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.js';
 
 export const matchEmojiBlot: Matcher = (
   node,
@@ -33,11 +13,9 @@ export const matchEmojiBlot: Matcher = (
   _scroll,
   attributes
 ): Delta => {
-  if (
-    node.classList.contains(FUN_STATIC_EMOJI_CLASS) &&
-    node.dataset.emoji != null
-  ) {
-    const { emoji: value, source } = node.dataset;
+  const value = getFunEmojiElementValue(node);
+  if (value != null) {
+    const { source } = node.dataset;
     return new Delta().insert({ emoji: { value, source } }, attributes);
   }
   return delta;

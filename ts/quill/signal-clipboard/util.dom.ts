@@ -1,10 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  FUN_INLINE_EMOJI_CLASS,
-  FUN_STATIC_EMOJI_CLASS,
-} from '../../components/fun/FunEmoji.dom.js';
+import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.js';
 
 const QUILL_EMBED_GUARD = '\uFEFF';
 
@@ -61,6 +58,10 @@ export function createEventHandler({
   };
 }
 
+function isHTMLElement(node: Node): node is HTMLElement {
+  return node.nodeType === Node.ELEMENT_NODE;
+}
+
 function getStringFromNode(
   node: Node,
   parent?: Node,
@@ -72,20 +73,14 @@ function getStringFromNode(
     }
     return node.textContent || '';
   }
-  if (node.nodeType !== Node.ELEMENT_NODE) {
+  if (!isHTMLElement(node)) {
     return '';
   }
+  const element = node;
 
-  const element = node as Element;
-  if (
-    element.classList.contains(FUN_STATIC_EMOJI_CLASS) ||
-    element.classList.contains(FUN_INLINE_EMOJI_CLASS)
-  ) {
-    return (
-      element.ariaLabel ||
-      element.attributes.getNamedItem('data-emoji-value')?.value ||
-      ''
-    );
+  const emojiValue = getFunEmojiElementValue(element);
+  if (emojiValue != null) {
+    return emojiValue;
   }
 
   // Sometimes we need to add multiple newlines to represent nested divs, and other times

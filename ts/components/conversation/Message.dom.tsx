@@ -108,7 +108,7 @@ import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
 import { getKeyFromCallLink } from '../../util/callLinks.std.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
+import { assertDev } from '../../util/assert.std.js';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.js';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.js';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.js';
@@ -116,6 +116,7 @@ import { FileThumbnail } from '../FileThumbnail.dom.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import {
   type EmojifyData,
+  getEmojiDebugLabel,
   getEmojifyData,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
@@ -219,10 +220,13 @@ export type GiftBadgeType =
     };
 
 function ReactionEmoji(props: { emojiVariantValue: string }) {
-  strictAssert(
-    isEmojiVariantValue(props.emojiVariantValue),
-    'Expected a valid emoji variant value'
-  );
+  if (!isEmojiVariantValue(props.emojiVariantValue)) {
+    log.error(
+      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(props.emojiVariantValue)}`
+    );
+    return null;
+  }
+
   const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
   const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
