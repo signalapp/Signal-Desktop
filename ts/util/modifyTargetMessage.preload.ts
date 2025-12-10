@@ -355,7 +355,7 @@ export async function modifyTargetMessage(
   const deletes = Deletes.forMessage(message.attributes);
   await Promise.all(
     deletes.map(async del => {
-      await deleteForEveryone(message, del);
+      await deleteForEveryone(message, del, { shouldPersist: !isFirstRun });
       changed = true;
     })
   );
